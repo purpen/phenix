@@ -1,0 +1,99 @@
+{%extends 'layout/board.html'%}
+{% block title %}更新资料-悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#select-filter').select2();
+	$('#select-filter-two').select2();
+	$('#select-filter-three').select2();
+	
+	sher.build_profile_page();
+	
+	{% if error_message %}
+		sher.show_error_note('{{ error_message }}');
+	{% endif %}
+{% endblock %}
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">更新个人资料</h2>
+			<div class="ui segment">
+				<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
+					<input name="_id" type="hidden" value="{{ user_id }}" />
+					<h3 class="ui dividing header">用户名</h3>
+					<div class="inline field">
+						<input type="text" name="nickname" value="{{ user.nickname }}" />
+					</div>
+					
+					<h3 class="ui dividing header">详细资料</h3>
+					<div class="two fields">
+						<div class="field">
+							<label>真实姓名：</label>
+							<input type="text" name="realname" value="{{ profile.realname }}" />
+						</div>
+						<div class="field">
+							<label>性别：</label>
+							<div class="ui selection dropdown">
+								<input type="hidden" name="parent_id">
+							    <div class="default text">请选择</div>
+							    <i class="dropdown icon"></i>
+							    <div class="menu">
+							        <div data-value="1" class="{%if user.sex == 1%}active{%endif%}> item">男</div>
+							        <div data-value="2" class="{%if user.sex == 2%}active{%endif%}> item">女</div>
+							    </div>
+							</div>
+						</div>
+					</div>
+			
+					<div class="two fields">
+						<div class="field">
+							<label>职业：</label>
+							<input type="text" name="job" value="{{ profile.job }}" />
+						</div>
+						<div class="field">
+							<label>城市：</label>
+							<input type="text" name="city" value="{{ user.city }}" />
+						</div>
+					</div>
+			
+					<div class="two fields">
+						<div class="field">
+							<label>民族：</label>
+							<input type="text" name="nation" value="{{ profile.nation }}" />
+						</div>
+						<div class="field">
+							<label>籍贯：</label>
+							<input type="text" name="born_place" value="{{ profile.born_place }}" />
+						</div>
+					</div>
+			
+			
+					
+			
+					<div class="field">
+						<label>个人关键词：</label>
+						<textarea class="form-control" rows="2" name="tags">{% for t in user.tags %}{{ t }},{% endfor %}</textarea>
+						<div class="description">每个词之间使用,隔开!</div>
+					</div>
+					
+					<div class="field">
+						<label>个人评价：</label>
+						<textarea rows="5" name="summary">{{ user.summary }}</textarea>
+					</div>
+			
+					<input type="submit" class="ui blue submit button" value="确认修改" />
+					
+				</form>
+			</div>
+			
+		</div>
+	
+	</div>
+</div>
+{% endblock %}

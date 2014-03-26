@@ -1,0 +1,66 @@
+{%extends 'layout/board.html'%}
+{% block title %}上传照片-悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	var uploader = new qq.FineUploader({
+		element: document.getElementById('bootstrapped-fine-uploader'),
+		request: {
+			endpoint: '{{app_url_action_base}}/uploader/photo'
+		},
+		multiple: true,
+		validation: {
+			allowedExtensions: ['jpeg', 'jpg'],
+			sizeLimit: 3145728 // 3M = 3 * 1024 kB = 3 * 1024 * 1024 bytes
+		},
+		text: {
+            uploadButton: '<a class="btn btn-inverse btn-upload" href="javascript:void(0);">Upload the Photo</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		classes: {
+			success: 'alert alert-success',
+            fail: 'alert alert-warning'
+		},
+		callbacks: {
+			onComplete: function(id, fileName, result) {
+				if (result.success) {
+					$('.qq-upload-list').children().eq(id).fadeOut();
+					
+					var html_content = '';
+					for(var i=0; i< result.stuffs.length;i++){
+						html_content = '<p><img src="'+result.stuffs[i].photo_url+'" /></p>';
+					}
+					$('#photo-list').append(html_content);
+				}
+			}
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="container">
+	{% include "block/sub_menu.html" %}
+	<div class="list-group clearfix">		
+		<form action="./" method="post" class="form ajax-form">
+			<h3>上传照片 <small>已上传 {{ visitor.photo_count }} 照片</small></h3>
+			<p class="text-muted"><label class="badge mr-5">提示</label>上传最多10张2M、JPG照片，请认真挑选哦 :)</p>
+			<div class="upload-photo">
+				{% if visitor.photo_count < 10 %}
+				<div id="bootstrapped-fine-uploader"></div>
+				{% else %}
+				<p>非常抱歉，您的照片已超过 10 张，需更上传更多，请联系管理员！</p>
+				{% endif %}
+			</div>
+			<div id="photo-list" class="text-center">
+				
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

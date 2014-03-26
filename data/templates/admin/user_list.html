@@ -1,0 +1,46 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui basic buttons">
+			<a href="" class="ui button">全部</a>
+			<a href="" class="ui button">已激活</a>
+			<a href="" class="ui button">未激活</a>
+		</div>
+	
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/user">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<div class="ui divider"></div>
+	
+	<table class="ui large table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>头像</th>
+				<th>用户名</th>
+				<th>状 态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+{% endblock %}

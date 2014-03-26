@@ -1,0 +1,47 @@
+{%extends 'layout/board.html'%}
+{% block title %}搜索{{q}}-悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#select-filter').select2();
+	$('#select-filter-two').select2();
+	$('#select-filter-three').select2();
+	$('#select-filter-four').select2();
+{% endblock %}
+{% block content %}
+<div class="container">
+	{% include "block/sub_menu.html" %}
+	<div class="row list-group mt-20 clearfix">
+		<div class="col-md-12 mb-30">
+			<h4>
+				{% if q %}
+					{% search_list var:'list' search_word:q index_name:index_name page:page sort_field:sort %}
+					搜索 “{{ q }}” , 获得约 {{ list.total_rows }} 条结果
+				{% else %}  
+					你没有输入足够的关键词，请输入要搜索的短语或一句话.
+				{% endif %}
+			</h4>
+		</div>
+		<div class="search-result clearfix">
+			{% for user in list.rows %}
+			<div class="col-md-4 ubox-list">
+				<a href="{{ user.home_url }}" target="_blank" class="{{ user.sex_text }}">
+					<img src="{{ user.mid_avatar_url }}" class="avatar" />
+				</a>
+				<h5><a href="{{ user.home_url }}" target="_blank">{{ user.nickname }}</a> | {{ user.city }}</h5>
+				<p>{{ user.profile.job }}</p>
+				<p>年龄：{{ user.age_text }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		
+		{% if list.rows %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		{% endif %}
+		
+	</div>
+</div>
+{% endblock %}

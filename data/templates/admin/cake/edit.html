@@ -1,0 +1,63 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#cake-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '公告内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '请别超过140个字符'
+				}
+			]
+		}
+	});
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui basic buttons">
+			<a href="{{ app_url_admin_base }}/cake" class="ui icon button">全部列表</a>
+		</div>
+		<a href="{{ app_url_admin_base }}/cake/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增公告</a>
+		
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/cake">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<div class="ui divider"></div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增公告</h4>
+		{% else %}
+		<h4>编辑公告</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/cake/save" method="post" id="cake-form">
+			<input type="hidden" name="_id" value="{{ cake._id }}" />
+			<div class="field">
+			  	<label>内容：</label>
+				<textarea rows="3" name="content">{{ cake.content }}</textarea>
+				<div class="ui pointing top label">
+					限制140个字符之内!
+				</div>
+			</div>
+			
+			<button type="submit" class="ui blue button">确认保存</button>
+			<button type="button" class="ui button">取消</button>
+		</form>
+	</div>
+{% endblock %}

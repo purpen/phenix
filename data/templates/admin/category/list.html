@@ -1,0 +1,60 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui basic buttons">
+			<a href="{{ app_url_admin_base }}/category" class="ui {{css_all_category}} icon button">全部列表</a>
+			<a href="{{ app_url_admin_base }}/category?only_open=1" class="ui {{css_open_category}} button">公开列表</a>
+			<a href="{{ app_url_admin_base }}/category?only_open=-1" class="ui {{css_hide_category}} button">隐藏列表</a>
+		</div>
+		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增分类</a>
+		
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<div class="ui divider"></div>
+	
+	{% category_list var:'list' page:page only_open:only_open %}
+	<table class="ui large table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>分类名称/标识</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for cat in list.rows %}
+			<tr id="{{ cat._id }}">
+				<td><input type="checkbox" name="id[]" value="{{ cat._id }}" class="form-control" /></td>
+				<td>{{ cat.title }} / {{ cat.name }}</td>
+				<td>{% if cat.is_open == 1 %}<span class="ui green label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="{{ app_url_admin_base }}/category/edit?id={{ cat._id }}" class="item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/category/delete?id={{ cat._id }}" class="item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	{% endif %}
+	
+{% endblock %}

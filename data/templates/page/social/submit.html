@@ -1,0 +1,39 @@
+{%extends 'layout/sns.html'%}
+{% block title %}提交创意-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row submit-header">
+			<div class="ten wide column text-column">
+				<div class="ui header">
+					提交你的创意
+					<div class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实</div>
+				</div>
+				<a href="{{ app_url_social }}/submit?step=1" class="ui large icon labeled green button"><i class="pencil icon"></i>提交创意</a>
+			</div>
+			<div class="six wide column image-column">
+				<img src="{{ app_url_packaged }}/images/idea-light.jpg" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="eleven wide column">
+				<h2>提交流程</h2>
+			</div>
+			<div class="five wide column">
+				<h2>Q&A</h2>
+				<div class="ui segment">
+					太火鸟是个什么鸟？
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

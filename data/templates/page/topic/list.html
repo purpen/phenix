@@ -1,0 +1,101 @@
+{%extends 'layout/sns.html'%}
+{% block title %}创新想法-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				{% include "block/social/sub_menu.html" %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="eleven wide column">
+				<div class="ui celled list">
+					{% topic_list var:'list' page:page category_id:category_id %}
+					{% for topic in list.rows %}
+					<div class="item">
+				      	<img class="ui avatar image" src="/images/avatar_default.jpg" />
+				      	<div class="content">
+				          	<h2 class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title }}</a>
+							</h2>
+							
+				          	{{ topic.description }}
+							
+							{% if topic.asset_count %}
+								<!--展示图片-->
+								<div class="ui small images">
+									{% asset_list var:'assets' parent_id:topic._id %}
+									{% for asset in assets.rows %}
+								  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
+									{% endfor %}
+								</div>
+							{% endif %}
+							
+							<div class="ui divided horizontal list">
+							  	<div class="item">产品资讯</div>
+							  	<div class="item"><a href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a></div>
+							  	<div class="item">{{ topic.created_on|date 'y-m-d H:i' }}</div>
+								<div class="item">回复（{{ topic.comment_count }}）</div>
+							</div>
+							
+				      	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+						
+				{% if list.rows %}
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				{% endif %}
+			</div>
+			
+			<div class="five wide column">
+				<h4 class="ui top attached header">
+					公告
+				</h4>
+				<div class="ui segment attached">
+					{% cake_list var:'cake' size:1 %}
+					{% if cake%}
+						<p>{{ cake.content }}</p>
+					{% endif %}
+				</div>
+				
+				<h4 class="ui top attached header">
+					编辑推荐
+				</h4>
+				<div class="ui segment attached">
+					{% topic_list var:'stick_list' size:5 stick:1 %}
+					<div class="ui celled list">
+						{% for topic in stick_list.rows %}
+						<div class="item">
+				          	<h2 class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title }}</a>
+							</h2>
+						
+				          	{{ topic.description }}
+						
+							<div class="ui divided horizontal list">
+							  	<div class="item">产品资讯</div>
+							  	<div class="item"><a href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a></div>
+							  	<div class="item">{{ topic.created_on|date 'y-m-d H:i' }}</div>
+								<div class="item">回复（{{ topic.comment_count }}）</div>
+							</div>
+					  	</div>
+						{% endfor %}
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

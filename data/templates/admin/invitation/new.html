@@ -1,0 +1,43 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<a href="{{ app_url_admin_base }}/invitation" class="ui labeled icon button"><i class="list layout icon"></i>全部列表</a>
+		<a href="{{ app_url_admin_base }}/invitation" class="ui button">已使用</a>
+		<a href="{{ app_url_admin_base }}/invitation/edit" class="ui right labeled icon green button"><i class="add icon"></i>增发</a>
+	
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/invitation/gen" class="ui form segment" method="post">
+		<h4 class="ui header">增发邀请码</h4>
+		<div class="inline field">
+		  	<label>用户#ID#：</label>
+			<input type="text" name="user_id" />
+			<div class="ui pointing left label">
+				请填写增发对象的用户ID!
+			</div>
+		</div>
+		<div class="inline field">
+		  	<label>增发数量：</label>
+			<input type="text" name="quantity"  value="5" />
+			<div class="ui pointing left label">
+				每一次增发的邀请码数量
+			</div>
+		</div>
+		
+		<input type="submit" class="ui blue button" value="确认保存" />
+		<input type="reset" class="ui button" value="重置" />
+		
+	</form>
+{% endblock %}

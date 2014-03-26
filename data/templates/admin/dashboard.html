@@ -1,0 +1,29 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui segment">
+		<div class="ui grid">
+		  	<div class="twelve wide column">
+				<div class="ui buttons">
+					<a href="" class="small ui button">全部</a>
+					<a href="" class="small ui button">活跃会员</a>
+				</div>
+			</div>
+			<div class="four wide column">
+				<form class="ui form" method="get" action="">
+					<div class="two fields">
+						<div class="field">
+						    <input name="search"  type="text" placeholder="Search" class="tiny ui input" />
+						</div>
+						<div class="field">
+							<input type="submit" class="tiny ui green button" value="搜索" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

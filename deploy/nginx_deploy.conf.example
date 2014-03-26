@@ -1,0 +1,94 @@
+server {
+        listen       80;
+        #edit this!
+        server_name  www.rayshe.com rayshe.com;
+        charset utf-8;
+        index  app;
+        root /Users/xiaoyi/Project/sher/dev_root/web;
+        location  /app {
+            fastcgi_split_path_info ^(/app)(.*)$;
+            fastcgi_intercept_errors on;
+            include fastcgi_params;
+        }
+		
+		
+		location /search {
+	        rewrite ^/search[/]?$ /app/site/search last;
+	        rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;
+	        rewrite ^/search/([^/]+)/p(\d+).html$ /app/site/search?q=$1&page=$2 last;
+	    }
+
+	    location /tag {
+	        rewrite /tag(\/*)$ /tags/ last;
+	        rewrite /tag/([^/]+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/search/tag?q=$1&page=$2&sort=$3 last;
+	        rewrite /tag/([^/]+)[/]?$ /app/site/search/tag?q=$1 last;
+	    }
+		
+		location /my {
+	        rewrite ^/my/like/p(\d+).*$ /app/site/my/like?page=$1 last;
+			rewrite ^/my/love/p(\d+).*$ /app/site/my/love?page=$1 last;
+			rewrite ^/my/fans/p(\d+).*$ /app/site/my/fans?page=$1 last;
+			rewrite ^/my/comment/p(\d+).*$ /app/site/my/comment?page=$1 last;
+			rewrite ^/my/follow/p(\d+).*$ /app/site/my/follow?page=$1 last;
+	        rewrite ^/my(.*)$ /app/site/my$1 last;
+	    }
+	
+		location /he_list {
+			rewrite ^/he_list/p(\d+).*$ /app/site/index/he_list?page=$1 last;
+			rewrite ^/he_list(.*)$ /app/site/index/he_list$1 last;
+		}
+		
+		location /she_list {
+			rewrite ^/she_list/p(\d+).*$ /app/site/index/she_list?page=$1 last;
+			rewrite ^/she_list(.*)$ /app/site/index/she_list$1 last;
+		}
+
+	    location /user {
+		  rewrite ^/user/(\d+)[/]?$ /app/site/user?user_id=$1 last;
+	      rewrite ^/user/(\d+)/like[/]?$ /app/site/user/like?user_id=$1 last;
+	      rewrite ^/user/(\d+)/like/p(\d+).*$ /app/site/user/like?user_id=$1&page=$2 last;
+		  rewrite ^/user/(\d+)/follow[/]?$ /app/site/user/follow?user_id=$1 last;
+	      rewrite ^/user/(\d+)/follow/p(\d+).*$ /app/site/user/follow?user_id=$1&page=$2 last;
+	      rewrite ^/user/(\d+)/fans[/]?$ /app/site/user/fans?user_id=$1 last;
+	      rewrite ^/user/(\d+)/fans/p(\d+).*$ /app/site/user/fans?user_id=$1&page=$2 last;
+	    }
+
+		location /js {
+	        expires 30d;
+	        rewrite ^/js/bundle_(.*)_jquery.js$ /js/bundle.jquery.js last;
+	        rewrite ^/js/bundle_(.*)_lgk.js$ /js/bundle.lgk.js last;
+	    }
+	    location /css {
+	        rewrite ^/css/bundle_(.*)_common.css$ /css/bundle.common.css last;
+	    }
+	    location /images {
+	        expires 30d;
+	    }
+	
+		location /about {
+	        rewrite ^/about[/]?$ /app/site/index/about last;
+	    }
+		
+		location /contact {
+	        rewrite ^/contact[/]?$ /app/site/index/contact last;
+	    }
+		
+	    location /__file_result__/ {
+	        internal;
+	        alias /;
+	    }
+}
+
+server {
+    listen       80;
+    server_name  img.rayshe.com;
+	charset utf-8;
+	index  index.html;
+	root /storage/uploads;
+	
+    access_log  off;
+	
+    client_max_body_size 60m;
+    
+	expires 30d;
+}

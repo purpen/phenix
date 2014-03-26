@@ -1,0 +1,14 @@
+<taconite>
+	{% if mode == 'message' %}
+	<replace select="#popup_ajax_box">
+		<span id="popup_ajax_box" class="alert alert-success mr-30">私信已发送成功。</span>
+	</replace>
+	{% endif %}
+	
+	{% if mode == 'match' %}
+	<replace select="#popup_match_box">
+		<span id="popup_match_box" class="alert alert-success mr-30">红线已牵，缘分天注定。</span>
+	</replace>
+	{% endif %}
+	
+</taconite>

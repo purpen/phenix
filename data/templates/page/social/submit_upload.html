@@ -1,0 +1,149 @@
+{%extends 'layout/sns.html'%}
+{% block title %}提交创意-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			params: {'parent_id': '{{ product._id }}' },
+        	endpoint: '{{ app_url_upload_product }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui green labeled icon button" href="javascript:void(0);"><i class="upload icon"></i>上传图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+	    deleteFile: {
+	        enabled: true,
+	        endpoint: '/my/delete/endpoint'
+	    },
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			var html_content = '<div class="item"><div class="image">';
+			for(var i=0; i< result.data.length;i++){
+				// cover_id 默认值为第一个附件
+				alert(result.data[i].asset_id);
+				if(!$('#cover_id').val()){
+					$('#cover_id').val(result.data[i].asset_id);
+				}
+				html_content += '<img src="'+result.data[i].fileurl+'" />';
+			}
+			html_content += '</div>';
+			
+			$('#asset-list').append(html_content);
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui steps">
+				  	<div class="ui disabled step">
+				      	基本信息
+				  	</div>
+				  	<div class="ui disabled step">
+				      	详情描述
+				  	</div>
+				  	<div class="ui active step">
+				      	上传图片 & 视频
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="eleven wide column">
+				<form action="{{ app_url_social }}/submit" class="ui form" method="post" id="product-upload-form">
+					<input type="hidden" name="step" value="2" />
+					<input type="hidden" name="parent_id" value="{{ product._id }}" />
+					<input type="hidden" name="cover_id" value="{{ product.cover_id }}" id="cover_id" />
+					<div class="field">
+						<label>上传图片</label>
+					  	<div class="upload-box">
+							<div id="phenix-uploader"></div>
+						</div>
+						<div id="asset-list" class="ui four items">
+							
+						</div>
+					</div>
+					<div class="field">
+						<label>视频链接</label>
+					  	<input type="text" name="title" placeholder="http://" />
+					</div>
+					
+					
+					<div class="ui grid">
+					  	<h3 class="ui left floated header">
+							<a href="{{ app_url_social }}/submit?step=2" class="ui large icon black button">
+								上一步<i class="back icon"></i>
+							</a>
+					  	</h3>
+						
+					  	<h3 class="ui right floated header">
+							<a href="{{ app_url_social }}/submit?step=2" class="ui right large green button">
+								完成
+							</a>
+							
+					  	</h3>
+					</div>
+					
+				</form>
+			</div>
+			<div class="five wide column">
+				<h2>Q&A</h2>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/template" id="qq-template">
+        <div class="qq-uploader-selector qq-uploader">
+            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                <span>Drop files here to upload</span>
+            </div>
+            <div class="qq-upload-button-selector qq-upload-button">
+                <div>Upload a file</div>
+            </div>
+            <span class="qq-drop-processing-selector qq-drop-processing">
+                <span>Processing dropped files...</span>
+                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+            </span>
+            <ul class="qq-upload-list-selector qq-upload-list">
+                <li>
+                  <div class="qq-progress-bar-container-selector">
+                      <div class="qq-progress-bar-selector qq-progress-bar"></div>
+                  </div>
+                  <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                  <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+                  <span class="qq-upload-file-selector qq-upload-file"></span>
+                  <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                  <span class="qq-upload-size-selector qq-upload-size"></span>
+                  <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
+                  <a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
+                  <a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
+                  <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+              </li>
+            </ul>
+        </div>
+    </script>
+{% endblock %}

@@ -1,0 +1,19 @@
+<taconite>
+{% if is_error %}
+	<eval>
+		phenix.show_error_note('{{ note }}');
+	</eval>
+{% else %}
+	<eval>
+		
+	</eval>
+{% endif %}
+{% if target %}
+<val select="#target_id" value="{{ target._id }}" />
+{% endif %}
+{% if redirect_url %}
+	<eval>
+		phenix.redirect('{{ redirect_url }}',500);
+	</eval>
+{% endif %}
+</taconite>

@@ -1,0 +1,76 @@
+{%extends 'layout/board.html'%}
+{% block title %}邀请好友-悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('.copy-code').zclip({
+        path : '/js/ZeroClipboard.swf',
+        copy : function(){
+			return $(this).attr('name');
+       	},
+		afterCopy:function(){
+			$(this).addClass('btn-success').text('复制成功');
+		}
+    });
+{% endblock %}
+{% block content %}
+<div class="container">
+	{% include "block/sub_menu.html" %}
+	<div class="list-group clearfix">
+		<h3>邀请好友 </h3>
+		<div class="row">
+			<div class="col-md-6">
+				<h5>剩余 <b>{{ free_invites_cnt }}</b> 个未使用</h5>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<td>邀请码</td>
+							<td>状态</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for code in free_invites %}
+						<tr>
+							<td>{{ code._id }}</td>
+							<td>未使用</td>
+							<td>
+								<div class="zclip-box">
+									<button class="btn btn-default copy-code" name="{{ app_url_domain }}/?l={{ code._id }}" >开始复制</button>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-6">
+				<h5>已使用 <b>{{ used_invites_cnt }}</b> 个</h5>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<td>邀请码</td>
+							<td>状态</td>
+							<td>被邀请人</td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for code in used_invites %}
+						<tr>
+							<td>{{ code._id }}</td>
+							<td>{% if code.used_by %}已使用{% else %}未使用{% endif %}</td>
+							<td><a href="{{ code.invited_user.home_url }}" target="_blank">{{ code.invited_user.nickname }}</a></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		
+		
+	</div>
+</div>
+{% endblock %}

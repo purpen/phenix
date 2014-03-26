@@ -1,0 +1,18 @@
+---
+app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+#if in production mode,uncomment and change it to 'prod'
+#app.mode: 'dev'
+app.mongodb_rs: true
+app.mongodb_host: '192.168.8.3'
+app.keychains.private: 'xxxxOOOOxxxx'
+
+
+app.url.thumb: 'http://img.rayshe.com/%s'
+
+# 附件存储目录
+app.storage.sher: 
+    class: 'Doggy_Storage_Provider_FileSystem' 
+    options: 
+        root: '/www/rayshe/web/uploads' 
+        root_url: '/uploads' 
+        hash_dir: false

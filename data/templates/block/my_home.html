@@ -1,0 +1,79 @@
+<div class="col-md-8">
+	<h3 class="block-title">{{ user.sex_title }}的照片</h3>
+	<div id="photo-list" class="text-center">
+		{% stuff_list var:'photo' page:1 size:10 user_id:user.id %}
+		{% for p in photo.rows %}
+		<p class="photo-item" id="{{ p._id }}">
+			<img src="{{ p.thumb_big_view_url }}" /><br />
+			{% if user.id == visitor.id%}
+			<a class="confirm-request pull-right" href="{{ app_url_my }}/delete_photo?stuff_id={{ p._id }}">&times;</a>
+			{% endif %}
+		</p>
+		{% else %}
+		<p>
+			还没有秀出靓照，让大家认识你。<a href="{{ app_url_action_base }}/my/photo" title="上传照片">上传照片  »</a>
+		</p>
+		{% endfor %}
+	</div>
+</div>
+
+<div class="col-md-4">
+	{% if user.id == visitor.id %}
+		{% if user.visit.new_user_viewed == 1 %}
+			{% if user.marital == 11 %}
+				{% user_list var:'users' page:1 size:10 marital:11 sex:reverse_sex last_login:user.last_login%}
+				{% if users.rows %}
+					<h3 class="block-title">新单身的{% if visitor.sex == 1 %}她{% else %}他{% endif%}</h3>
+					<div class="row">
+						{% for u in users.rows %}
+						<div class="col-md-12 ubox-list">
+							<a href="{{ app_url_action_base }}/my/update_before_redirect?field=new_user_viewed&url={{ u.home_url }}" class="{{ u.sex_text }}">
+								<img src="{{ u.mid_avatar_url }}" class="avatar" />
+							</a>
+							<h5><a href="{{ app_url_action_base }}/my/update_before_redirect?field=new_user_viewed&url={{ u.home_url }}">{{ u.nickname }}</a> | {{ u.city }}</h5>
+							<p>{{ u.profile.job }}</p>
+							<p>年龄：{{ u.age_text }}</p>
+						</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<script type="text/javascript">
+						$.get('{{ app_url_action_base }}/my/ajax_update_visit?field=new_user_viewed');
+					</script>
+				{% endif %}
+				
+			{% endif %}
+		{% endif %}
+	{% endif %}
+	
+	<h3 class="block-title">朋友评价</h3>
+	<div class="comment-list">
+		{% comment_list var:'comments' page:1 size:10 target_user_id:user.id %}
+		{% for comment in comments.rows %}
+		<blockquote>
+	    	<p>{{ comment.content }}</p>
+	    	<small><a href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a> <cite>{{ comment.user.city }}</cite></small>
+	    </blockquote>
+		{% else %}
+		<p>
+			{{user.sex_title}}的朋友，快来爆料吧！
+		</p>
+		{% endfor %}
+	</div>
+	
+	{% if visitor.id != user.id %}
+	<div class="comment-box clearfix">
+		<a class="close pull-right" href="javascript:void(0);">&times;</a>
+		<form class="form" action="{{app_url_action_base}}/comment/do_save" method="post" id="comment-form">
+			<input type="hidden" name="target_user_id" value="{{ user.id }}" />
+			<div class="form-group">
+				<label>{{visitor.nickname}} 说：</label>
+				<textarea class="form-control comment-textarea" rows="5" name="content" placeholder="随便说些"></textarea>
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-default" value="确认提交" />
+			</div>
+		</form>
+	</div>
+	{% endif %}
+</div>

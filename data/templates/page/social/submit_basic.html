@@ -1,0 +1,112 @@
+{%extends 'layout/sns.html'%}
+{% block title %}提交创意-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#product-basic-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '标题最多30个字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui steps">
+				  	<div class="ui active step">
+				      	基本信息
+				  	</div>
+				  	<div class="ui disabled step">
+				      	详情描述
+				  	</div>
+				  	<div class="ui disabled step">
+				      	上传图片 & 视频
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="eleven wide column">
+				<form action="{{ app_url_social }}/save" class="ui form" method="post" id="product-basic-form">
+					<input type="hidden" name="step" value="1" />
+					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+					<div class="field">
+						<label>创意名称</label>
+					  	<input type="text" name="title" value="{{ product.title }}" />
+					</div>
+					<div class="field">
+						<label>创意描述</label>
+					  	<textarea name="summary">{{ product.summary }}</textarea>
+						<div class="description">请详细的描述</div>
+					</div>
+					<div class="field">
+						<label>类别</label>
+						<input type="hidden" name="category_id" value="{{ product.category_id }}" />
+						<a class="ui black label">
+							设计资讯
+						</a>
+						<a class="ui green label">
+						  	消费电子
+						</a>
+					</div>
+					
+					
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms">
+				          	<label>授权</label>
+				        </div>
+					</div>
+					
+				  	<h3 class="ui right floated header">
+						<div class="ui right large icon labeled red submit button">
+							下一步<i class="play icon"></i>
+						</div>
+				  	</h3>
+					
+				</form>
+			</div>
+			<div class="five wide column">
+				<h2>Q&A</h2>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

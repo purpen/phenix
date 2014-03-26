@@ -1,0 +1,30 @@
+<div class="row sub-nav">
+	<div class="col-md-8">
+		<ul class="nav-sher clearfix">
+			<li>
+				<a href="{{ app_url_user }}/{{visitor.id}}" class="{{ css_home }}">个人主页</a>
+			</li>
+			<li><a href="{{ app_url_base }}/she_list" class="{{ css_she_list }}">她单身</a></li>
+			<li><a href="{{ app_url_base }}/he_list" class="{{ css_he_list }}">他单身</a></li>
+		</ul>
+	</div>
+	<div class="col-md-4">
+		<div class="btn-group pull-right">
+	    	<button class="btn btn-default">我</button>
+	    	<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	    		<span class="caret"></span>
+	    	</button>
+	    	<ul class="dropdown-menu">
+				<li><a href="{{ app_url_action_base }}/my/avatar">更新头像</a></li>
+				<li><a href="{{ app_url_action_base }}/my/profile">完善个人资料</a></li>
+				<li><a href="{{ app_url_action_base }}/my/photo">上传照片</a></li>
+				<li class="divider"></li>
+				<li><a href="{{ app_url_action_base }}/my/invite">邀请好友</a></li>
+				<li class="divider"></li>
+	    		<li><a href="{{app_url_logout}}">退出</a></li>
+	    	</ul>
+	    </div>
+	</div>
+</div>
+<!--alert box-->
+<div id="alert-box"></div>

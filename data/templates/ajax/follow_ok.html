@@ -1,0 +1,10 @@
+<taconite>
+	<replace select="#user_{{id}}_ship">
+		{% if domode == 'create'%}
+		<a href="{{app_url_my}}/ajax_cancel_follow?id={{ user.id }}" class="btn btn-follow ajax-request" id="user_{{ id }}_ship">已关注</a>
+		{% endif %}
+		{% if domode == 'cancel'%}
+		<a href="{{app_url_my}}/ajax_follow?id={{ user.id }}" class="btn btn-follow ajax-request" id="user_{{ id }}_ship">关注</a>
+		{% endif %}
+	</replace>
+</taconite>

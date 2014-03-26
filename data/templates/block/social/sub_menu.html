@@ -1,0 +1,37 @@
+<div class="ui secondary pointing menu">
+  	<div class="menu">
+      	<a class="{{ css_page_fever }} item" href="{{ app_url_fever }}">
+          	创意投票
+			<i class="dropdown icon"></i>
+      	</a>
+      	<a class="{{ css_page_topic }} item" href="{{ app_url_topic }}">
+          	话题
+			<i class="dropdown icon"></i>
+      	</a>
+      	<div class="right menu">
+          	<div class="ui dropdown item">
+              	按最新排序 <i class="icon dropdown"></i>
+              	<div class="menu">
+                  	<a class="item"><i class="edit icon"></i>按投票排序</a>
+                  	<a class="item"><i class="globe icon"></i>选择语言</a>
+              	</div>
+          	</div>
+			{% if css_page_fever %}
+          	<div class="item">
+              	<a class="ui large green button" href="{{ app_url_social }}/submit">
+					<i class="add icon"></i>提交投票
+				</a>
+          	</div>
+			{% endif %}
+			
+			{% if css_page_topic %}
+          	<div class="item">
+              	<a class="ui large green button" href="{{ app_url_action_base }}/topic/submit">
+					<i class="add icon"></i>发布想法
+				</a>
+          	</div>
+			{% endif %}
+			
+      	</div>
+  	</div>
+</div>

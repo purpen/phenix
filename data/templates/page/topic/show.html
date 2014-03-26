@@ -1,0 +1,82 @@
+{%extends 'layout/sns.html'%}
+{% block title %}发布想法-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			
+			<div class="eleven wide column">
+				<div class="ui segment">
+					<div class="ui top attached label">
+						<div class="ui breadcrumb">
+						  	<a class="section">社区首页</a>
+						  	<i class="right arrow icon divider"></i>
+						  	<a class="section">话题</a>
+						  	<i class="right arrow icon divider"></i>
+						  	<div class="active section">{{ topic.title }}</div>
+						</div>
+					</div>
+					<h2 class="ui header">
+						{{ topic.title }}
+						<div class="sub header">{{ topic.user.nickname }} 分享于{{ topic.created_on|date 'Y-m-d H:i' }} 浏览数：{{ topic.view_count }}</div>
+					</h2>
+					<p>{{ topic.description }}</p>
+				</div>
+			</div>
+			<div class="five wide column">
+				<div class="ui segment">
+					<div class="ui header">
+					  	<img class="ui circular image" src="/images/avatar_default.jpg">
+					  	<div class="content">
+					      	{{ topic.user.nickname }}
+					      	<div class="sub header">{{ topic.user.city }} {{ topic.user.profile.job}}</div>
+					  	</div>
+					</div>
+					
+				</div>
+				
+				<h4 class="ui top attached header">
+					他的新帖
+				</h4>
+				<div class="ui segment attached">
+					{% topic_list var:'user_list' size:5 sort:'latest' user_id:topic.user._id %}
+					<div class="ui list">
+						{% for topic in user_list.rows %}
+						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="item"> <i class="right triangle icon"></i>{{ topic.title }}</a>
+						{% endfor %}
+					</div>
+				</div>
+				
+				<h4 class="ui top attached header">
+					社区新帖
+				</h4>
+				<div class="ui segment attached">
+					{% topic_list var:'stick_list' size:5 sort:'latest' %}
+					<div class="ui list">
+						{% for topic in stick_list.rows %}
+						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="item"> <i class="right triangle icon"></i>{{ topic.title }}</a>
+						{% endfor %}
+					</div>
+				</div>
+				
+				<div class="ui two column grid">
+					<div class="ui column">
+						<a href="{{ app_url_topic }}/edit?id={{ topic._id }}"><i class="pencil icon"></i>编辑</a>
+					</div>
+					<div class="ui column">
+						<a href=""><i class="delete icon"></i>删除</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

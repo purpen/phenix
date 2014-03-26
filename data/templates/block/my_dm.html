@@ -1,0 +1,23 @@
+{% message_list var:'msg' user_id:visitor._id page:page size:size %}
+<div class="col-md-12 clearfix">
+	<h4>我的私信 <small class="">共{{msg.total_rows}}条私信，其中{{user.message_count|default 0}}条未读</small></h4>
+</div>
+
+{%if msg.rows%}
+<div class="col-md-12 mt-20 clearfix">
+	{%for e in msg.rows%}
+	<div class="media" id="dm_{{e._id}}">
+		<a href="{{e.latest.from_user.home_url}}" class="pull-left">
+			<img src="{{e.latest.from_user.mid_avatar_url}}" width="50" height="50" />
+	    </a>
+		<div class="media-body">
+			<h5 class="media-heading"><a href="{{e.latest.from_user.home_url}}">{%if visitor._id == e.latest.from_user._id%}我{%else%}{{e.latest.from_user.nickname}}{%endif%}</a> 发送给 <a href="{{e.latest.to_user.home_url}}">{%if visitor._id == e.latest.to_user._id%}我{%else%} {{e.latest.to_user.nickname}} {%endif%}</a> <small class="ml-10">({{e.latest.created_on|relative_datetime}})</small></h5>
+			<p class="mt-10">{{e.latest.content}}</p>
+		</div>
+		<div class="pull-right">
+			<a href="{{ app_url_my }}/message_detail?mid={{e._id}}" class="orange">共{{e.total_count}}条对话</a>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endif %}

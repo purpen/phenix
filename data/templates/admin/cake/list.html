@@ -1,0 +1,54 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui basic buttons">
+			<a href="{{ app_url_admin_base }}/cake" class="ui icon button">全部列表</a>
+		</div>
+		<a href="{{ app_url_admin_base }}/cake/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增公告</a>
+		
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/cake">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	{% cake_list var:'list' page:page %}
+	<table class="ui large table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>公告内容</th>
+				<th>更新时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for cake in list.rows %}
+			<tr id="{{ cake._id }}">
+				<td></td>
+				<td>{{ cake.content }}</td>
+				<td>{{ cake.updated_on|date 'y-m-d H:i' }}</td>
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="{{ app_url_admin_base }}/cake/edit?id={{ cake._id }}" class="item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/cake/delete?id={{ cake._id }}" class="item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	{% endif %}
+{% endblock %}

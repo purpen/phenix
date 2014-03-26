@@ -1,0 +1,27 @@
+{% follow_list var:'list' page:page user_id:user_id size:20 myfans:1 %}
+<div class="col-md-12 clearfix">
+	<h4>{{ user.sex_title }}的粉丝</h4>
+</div>
+{% if list.rows %}
+<div class="user-list clearfix">
+	{% for u in list.rows %}
+	<div class="col-md-4 ubox-list">
+		<a href="{{ u.fans.home_url }}" class="{{ u.fans.sex_text }}">
+			<img src="{{ u.fans.mid_avatar_url }}" class="avatar img-rounded" />
+		</a>
+		<h5><a href="{{ u.fans.home_url }}">{{ u.fans.nickname }}</a> | {{ u.fans.city }}</h5>
+		<p>{{ u.fans.profile.job }}</p>
+		<p>年龄：{{ u.fans.age_text }}</p>
+	</div>
+	{% endfor %}
+</div>
+{% else %}
+<div class="col-md-12 clearfix">
+	<p class="mt-20 text-center">{{ user.sex_title }}还没有粉丝哦，赶快活跃起来吧？</p>
+</div>
+{%endif%}
+
+{% if list.rows %}
+{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+{%include 'block/pager.html'%}
+{% endif %}

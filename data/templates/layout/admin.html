@@ -1,0 +1,29 @@
+{% extends 'layout/base.html' %}
+{% block title %}后台管理-{% endblock %}
+{% block layout_css %}{% endblock %}
+{% block page_css %}{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block page_js %}{% endblock %}
+{% block layout_jquery %}{% endblock %}
+{% block jquery %}{% endblock %}
+
+{% block layout_header %}
+	{% include "block/mini_header.html" %}
+{% endblock %}
+
+{% block layout_content %}
+<div id="bd">
+	<div class="ui responsive grid">
+	  	<div class="three wide column">
+	    	{% include "block/sitebar_admin.html" %}
+	  	</div>
+	  	<div class="thirteen wide column">
+			{% block content %}{% endblock %}
+	  	</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block layout_footer %}
+	{% include "block/footer.html" %}
+{% endblock %}

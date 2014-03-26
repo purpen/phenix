@@ -1,0 +1,153 @@
+{%extends 'layout/base.html'%}
+{% block title %}首页-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	body {
+		background-color: #fff;
+	}
+	.welcome {
+		color:#222;
+		background:url("/images/welcome-top-bg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		margin-bottom: 50px;
+		padding-top: 20px;
+	}
+	.welcome .taihuoniao {
+		margin-right: 10%;
+		float:right;
+	}
+	.welcome .text-yellow {
+		color: #ff7544;
+	}
+	.welcome .text-light-yellow {
+		color: #fe8c64;
+	}
+	.welcome .working {
+		margin-top: 50px;
+		color:#666;
+		line-height: 22px;
+	}
+	.welcome-footer {
+		margin-top: 220px;
+	}
+	.rcode {
+		margin-bottom: 50px;
+	}
+	.rcode p {
+		padding-left: 15px;
+		color: #666;
+	}
+	.ui.image {
+		background-color: rgba(0, 0, 0, 0.0);
+	}
+</style>
+{% endblock %}
+
+{% block page_js %}
+{% endblock %}
+
+{% block jquery %}
+	$('#subscribe-form').form({
+		email: {
+			identifier  : 'email',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '邮件地址不能为空'
+				},
+				{
+					type   : 'email',
+					prompt : '邮件地址格式不对'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.show_ok_message(data.message, event.target);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+
+{% block content %}
+<div class="welcome">
+	<div class="ui middle aligned responsive grid">
+		
+		<div class="row">
+			<div class="eight wide column">
+				<div class="taihuoniao">
+					<div class="ui circular rotate left reveal image">
+						<img class="visible content" src="{{ app_url_images }}/bird-logo.png" />
+					  	<img class="hidden content" src="{{ app_url_images }}/bird-slogan.png" />
+					</div>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<div class="working">
+					“WOW” “WOW” “WOW”<br />
+					并不是所有的网站都能让你发出“WOW~”的一声<br />
+					为此我们筹备了很久，<br />
+					关乎创意、玩转艺术、拥抱科技、触摸梦想<br />
+					在这个桃花开得让人心跳的季节，太火鸟，载梦而飞！<br />
+					等着惊呼吧！<br /><br />
+					留下您的邮箱，我们将会在开启的第一时间通知您哦！<br /><br /><br />
+					
+					“WOW” “WOW” “WOW”<br />
+					Not all of the websites can let you send out of "WOW ~"<br />
+					We prepare it for a long time. About creativity，Art，Technology And Dream, TAIHUONIAO will let the dream fly in this blooming season.<br />
+					Just wait to exclaim for it!<br /><br />
+					
+					Leave your email address,We will inform you the open at the first time.<br />
+				</div>
+				
+				<form class="ui form" action="{{ app_url_action_base }}/subscribe" method="post" id="subscribe-form">
+					<div class="ui grid">
+						<div class="ten wide column">
+							<div class="field">
+								<input name="email" type="text" placeholder="请输入你的邮件地址" id="email" /> 
+							</div>
+						</div>
+						<div class="six wide column">
+							<div class="ui black submit button" >Notify Me</div>
+						</div>
+					</div>
+				
+				</form>
+				
+				<div class="rcode">
+					<div class="ui grid">
+						<div class="four wide column">
+							<img src="/images/rcode-webpage.jpg" class="ui image" />
+							<p>Webpage</p>
+						</div>
+						<div class="four wide column">
+							<img src="/images/rcode-wechat.jpg" class="ui image" />
+							<p>Wechat</p>
+						</div>
+						<div class="four wide column">
+							<img src="/images/rcode-weibo.jpg" class="ui image" />
+							<p>Weibo</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+---
+app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+#if in production mode,uncomment and change it to 'prod'
+#app.mode: 'dev'

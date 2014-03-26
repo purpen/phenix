@@ -1,0 +1,4 @@
+app.version.sher: 'v0.10b14021702'
+app.version.jquery_bundle_version: '{$app.version.sher}'
+app.version.sher_bundle_version: '{$app.version.sher}'
+app.version.css_bundle_version: '{$app.version.sher}'

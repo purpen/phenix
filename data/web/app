@@ -1,0 +1,12 @@
+<?php
+//deployed on: Tue Mar 25 18:47:12 2014
+define('DOGGY_VERSION','v1.3.9-dev');
+define('DOGGY_APP_ROOT','/Users/xiaoyi/Project/firebird/dev_root');
+define('DOGGY_APP_CLASS_PATH','/Users/xiaoyi/Project/firebird/vendor:/Users/xiaoyi/Project/firebird/src');
+require '/Users/xiaoyi/Project/doggy/src/Doggy.php';
+@require '/Users/xiaoyi/Project/firebird/dev_root/var/doggy_app.rc';
+if (Doggy_Config::get('app.vendor.doggyx_class_path')) {
+    Doggy::addClassPath(Doggy_Config::get('app.vendor.doggyx_class_path'));
+}
+Doggy_Dispatcher_Server::run();
+?>

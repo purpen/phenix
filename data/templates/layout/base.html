@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		{%block meta%}
+			<meta name="title" content="悦伊-所谓伊人，在水一方" />
+			<meta name="keywords" content="悦伊，社区"/>
+			<meta name="description" content="悦伊，社区" />
+		{%endblock%}
+		<title>{% block title %}{% endblock %}太火鸟-人生是一场大设计</title>
+		<link rel="shortcut icon" href="/favicon.ico" />
+		{% if css_use_bundle %}
+			<link rel="stylesheet" href="{{ app_url_css }}/bootstrap.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_css }}/todc-bootstrap.min.css" type="text/css" />
+			<link rel="stylesheet" type="text/css" href="{{app_url_css}}/bundle_{{ css_bundle_version }}_common.css" />
+		{% else %}
+			
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_css }}/fineuploader-3.5.0.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.css" type="text/css" />
+		{% endif %}
+		{% block layout_css %}{% endblock %}
+		{% block page_css %}{% endblock %}
+		{% if js_use_bundle %}
+			<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_js }}/bootstrap.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_js }}/jquery.vegas.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_js }}/jquery.livequery.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_js }}/jquery.zclip.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_js }}/bundle_{{ js_jquery_bundle_version }}_jquery.js"></script>
+			<script type="text/javascript" src="{{ app_url_js }}/bundle_{{ js_sher_bundle_version }}_sher.js"></script>
+		{% else %}
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.1.0.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/semantic.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.form.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fineuploader-3.5.0.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/phenix.js"></script>
+		{% endif %}
+
+		{% block layout_js %}{% endblock %}
+		{% block page_js %}{% endblock %}
+
+		<script type="text/javascript">
+		<!--
+		$(function(){
+    		phenix.initial();
+			var views = {
+				domain: '{{ app_url_domain }}',
+        		css: '{{ app_url_css}}',
+        		js: '{{ app_url_js}}',
+        		images: '{{ app_url_images}}',
+				app_url_action_base: '{{ app_url_action_base }}'
+			};
+    		{% block layout_jquery %}{% endblock %}
+    		{% block jquery %}{% endblock %}
+		});
+		//-->
+		</script>
+	</head>
+	
+	<body>
+	    {% block layout_header %}{% endblock %}
+	    {% block layout_content %}
+	        {% block content %}{% endblock %}
+	    {% endblock %}
+		{% block layout_footer %}
+		{% endblock %}
+	</body>
+</html>

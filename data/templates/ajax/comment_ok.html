@@ -1,0 +1,11 @@
+<taconite>
+	<append select=".comment-list">
+		<blockquote>
+	    	<p>{{ comment.content }}</p>
+	    	<small><a href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a> <cite>{{ comment.user.city }}</cite></small>
+	    </blockquote>
+	</append>
+	<eval>
+		$('.comment-textarea').val('');
+	</eval>
+</taconite>

@@ -1,0 +1,93 @@
+---
+app.domain.base: 'http://taihuoniao.me'
+app.domain.static: 'http://taihuoniao.me'
+app.domain.app: '{$app.domain.base}'
+
+app.url.domain:         '{$app.domain.base}'
+app.url.action_base:    '{$app.domain.app}/app/site'
+app.url.admin_base:    '{$app.domain.app}/app/admin'
+
+
+app.url.js:     '{$app.domain.static}/js'
+app.url.css:    '{$app.domain.static}/css'
+app.url.images: '{$app.domain.static}/images'
+app.url.bundle: '{$app.domain.base}/bundle'
+app.url.packaged: '{$app.domain.static}/packaged'
+
+#首页
+app.url.welcome: '{$app.url.action_base}/index/welcome'
+app.url.index:	'{$app.url.domain}'
+#tag,分类,搜索
+app.url.tags: '/tags'
+app.url.tag: '/tag'
+
+#预售
+app.url.sale: '{$app.url.action_base}/sale'
+app.url.sale.view: '{$app.url.stuff}/%s'
+
+#商店
+app.url.shop: '{$app.url.action_base}/shop'
+app.url.shop.view: '{$app.url.action_base}/shop/view/%s'
+
+#社区
+app.url.social: '{$app.url.action_base}/social'
+app.url.topic: '{$app.url.action_base}/topic'
+app.url.topic.view: '{$app.url.action_base}/topic/show/%s'
+
+#社区创意投票
+app.url.fever: '{$app.url.action_base}/fever'
+app.url.fever.view: '{$app.url.action_base}/fever/show/%s'
+
+
+#上传
+app.url.upload: '{$app.url.action_base}/uploader'
+app.url.upload.product: '{$app.url.upload}/product'
+app.url.upload.topic: '{$app.url.upload}/topic'
+
+#个人中心
+app.url.my:				'{$app.url.action_base}/my'
+app.url.my.message:		'{$app.url.action_base}/my/message'
+
+#个人主页
+app.url.user:			'{$app.url.domain}/user'
+app.url.user.love:		'{$app.url.domain}/user/%s/love'
+app.url.user.album:		'{$app.url.domain}/user/%s/album'
+app.url.user.view:	'{$app.url.user}/%s'
+
+#评论
+app.url.comment:		'{$app.url.action_base}/comment'
+
+#登录,登出,注册,忘记密码,输入邀请码
+app.url.auth:		'{$app.url.action_base}/auth'
+app.url.login: 		'{$app.url.action_base}/auth/login'
+app.url.logout: 	'{$app.url.action_base}/auth/logout'
+app.url.register: 	'{$app.url.action_base}/auth/signup'
+app.url.forget: 	'{$app.url.action_base}/auth/forget'
+app.url.invite: 	'{$app.url.action_base}/auth/invite'
+
+#管理面板
+app.url.admin:		'{$app.url.action_base}/admin'
+app.url.admin.report: '{$app.url.action_base}/admin/report'
+app.url.admin.reply: '{$app.url.action_base}/admin/reply'
+
+# 附件图片查看地址
+app.url.thumb: 		'/uploads/%s'
+app.url.asset_view: '/app/site/asset/view?id=%s'
+
+# 搜索
+app.url.search: 	'{$app.url.domain}/search'
+app.url.search_tag: '{$app.url.domain}/search/search_tag?q='
+
+# 默认的缩略图url
+app.url.default_thumb_small: '{$app.url.images}/pic_50x50.gif'
+app.url.default_thumb_middle: '{$app.url.images}/pic_180x180.gif'
+app.url.default_thumb_big: '{$app.url.images}/pic_580x580.gif'
+app.url.default_thumb_middle_height: 180
+
+# 图片分享
+app.url.share: '{$app.url.domain}/share'
+app.url.stuff: '{$app.url.domain}/idea'
+app.url.stuff.view: '{$app.url.stuff}/%s'
+
+# guide
+app.url.guide: '{$app.url.action_base}/guide'

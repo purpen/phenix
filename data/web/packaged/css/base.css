@@ -1,0 +1,143 @@
+.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+.clearfix {display: inline-table; +display:inline-block;}
+
+.ui.page.grid {
+    margin: 0;
+    padding: 0 2%;
+}
+.ui.responsive.grid {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    min-width: 320px;
+}
+@media only screen and (max-width: 1000px) {
+	.ui.responsive.grid {
+	    padding: 0 5.55%;
+	}
+	.ui.responsive.grid > .column, .ui.responsive.grid > .row > .column {
+	}
+}
+@media only screen and (min-width: 1000px) {
+	.ui.responsive.grid {
+	    padding: 0 8%;
+	}
+	.ui.responsive.grid > .column, .ui.responsive.grid > .row > .column {
+	}
+}
+@media only screen and (min-width: 1500px) {
+	.ui.responsive.grid {
+	    padding: 0 13%;
+	}
+	.ui.responsive.grid > .column, .ui.responsive.grid > .row > .column {
+	}
+}
+@media only screen and (min-width: 1750px) {
+	.ui.responsive.grid {
+	    padding: 0 18%;
+	}
+	.ui.responsive.grid > .column, .ui.responsive.grid > .row > .column {
+	}
+}
+@media only screen and (min-width: 2000px) {
+	.ui.responsive.grid {
+	    padding: 0 23%;
+	}
+	.ui.responsive.grid > .column, .ui.responsive.grid > .row > .column {
+	}
+}
+
+.ui.items > .row > .item, .ui.items > .item {
+	width: 280px;
+}
+
+
+.ui.form .description {
+    color: #9DA6AB;
+    font-size: 0.8em;
+    margin-top: 0.2em;
+}
+
+body {
+    background: #f8f8f8;
+    color: #555555;
+    min-width: 320px;
+	margin: 0;
+}
+header.main {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-bottom: 1px solid #DCDDDE;
+	width: 100%;
+	padding: 0;
+}
+header.main .ui.column {
+    font-size: medium;
+    position: relative;
+	height: 100px;
+	margin: 0;
+}
+header.main .logo {
+    display: block;
+    float: left;
+    height: 80px;
+    margin: 10px 0 0;
+    position: relative;
+    width: 200px;
+}
+header.main .ui.pointing.icon.menu {
+    float: left;
+    margin: 0;
+}
+header.main .secondary.user.menu {
+    float: right;
+    margin: 28px 0 0;
+    position: relative;
+}
+#bd {
+	padding-top:20px;
+}
+#login-info {
+	padding-top:5px;
+}
+#auth-menu {
+	padding-top:35px;
+}
+#auth-menu a {
+	color: #FFFFFF;
+    font-size: 22px;
+    text-decoration: none;
+}
+.text-white {
+	color: #FFFFFF;
+}
+.log-in .forgot {
+	display: block;
+	float: right;
+	font-size: 0.875em;
+}
+
+/*底部*/
+#ft {
+	margin-top: 60px;
+}
+
+
+/*社区*/
+.submit-header {
+	background-color: #fff;
+	min-height: 300px;
+}
+.submit-header > .text-column {
+	padding: 85px;
+}
+.submit-header > .image-column {
+	padding-top: 50px;
+}
+
+.upload-box {
+	border: 2px dashed #9DA6AB;
+    border-radius: 3px;
+    padding: 20px;
+}
+
+
+

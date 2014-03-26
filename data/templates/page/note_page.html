@@ -1,0 +1,31 @@
+{%extends 'layout/board.html'%}
+{% block title %}悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+    {% if redirect_url %}
+        phenix.redirect('{{ redirect_url }}',{{ delay_time|default 1500 }});
+    {% else %}
+        setTimeout("window.history.back(-1)",{{ delay_time|default 1500 }});
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="system">
+	<div class="ui responsive grid">
+		<div class="ui column">
+			<div class="ui error icon message">
+			  	<i class="remove icon"></i>
+			  	<div class="content">
+			      	<div class="header">
+			          	{{ note }}
+			      	</div>
+			      	<p>2秒内将自动返回至上一页！</p>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

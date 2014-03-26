@@ -1,0 +1,117 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#category-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分类标识不能为空'
+				}
+			]
+		},
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分类名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true
+	});
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui basic buttons">
+			<a href="{{ app_url_admin_base }}/category" class="ui {{css_all_category}} icon button">全部列表</a>
+			<a href="{{ app_url_admin_base }}/category?only_open=1" class="ui {{css_open_category}} button">公开列表</a>
+			<a href="{{ app_url_admin_base }}/category?only_open=-1" class="ui {{css_hide_category}} button">隐藏列表</a>
+		</div>
+		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增分类</a>
+		
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<div class="ui divider"></div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增分类</h4>
+		{% else %}
+		<h4>编辑分类</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/category/save" class="ajax-form" method="post" id="category-form">
+			<input type="hidden" name="_id" value="{{ category._id }}" id="target_id" />
+			<div class="inline field">
+			  	<label for="name">标识：</label>
+				<input type="text" name="name" value="{{ category.name }}" />
+			</div>
+			<div class="inline field">
+			  	<label for="title">名称：</label>
+				<input type="text" name="title" value="{{ category.title }}" />
+			</div>
+			
+			<div class="inline field">
+				<label for="parent_id">所属父级：</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="parent_id">
+				    <div class="default text">请选择</div>
+				    <i class="dropdown icon"></i>
+				    <div class="menu">
+				        <div data-value="1" class="item">Male</div>
+				        <div data-value="2" class="item">Female</div>
+				    </div>
+				</div>
+			</div>
+			<div class="inline fields">
+			    <div class="field">
+					<label for="is_open">是否公开：</label>
+			      	<div class="ui radio checkbox">
+			        	<input type="radio" name="is_open" value="1" {% if category.is_open == 1 %}checked="checked"{% endif %} />
+						<label></label> 
+			      	</div>
+			      	<label> 公开</label>
+			    </div>
+			    <div class="field">
+			      	<div class="ui radio checkbox">
+			        	<input type="radio" name="is_open" value="-1" {% if category.is_open < 1 %}checked="checked"{% endif %} /> 
+			        	<label></label>
+			      	</div>
+			      	<label> 隐藏</label>
+			    </div>
+			</div>
+			<div class="inline field">
+			  	<label for="order_by">排序：</label>
+				<input type="text" class="form-control" name="order_by" value="{{ category.order_by }}" />
+				<div class="ui pointing left label">
+					数字越小，越靠前!
+				</div>
+			</div>
+			<div class="inline field">
+			  	<label for="tags">分类标签：</label>
+				<textarea rows="3" name="tags">{{ category.tags_s }}</textarea>
+				<div class="ui pointing top label">
+					分类标签，含：近义词、同类词、英文词!
+				</div>
+			</div>
+			
+			<button type="submit" class="ui blue button">确认保存</button>
+			<button type="button" class="ui button">取消</button>
+		</form>
+	</div>
+{% endblock %}

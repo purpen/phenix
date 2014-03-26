@@ -1,0 +1,35 @@
+{%if pager%}
+<div class="ui pagination menu">
+    {% if pager.show_prev %}
+    <a class="icon item" href="{{pager.prev_url}}"><i class="icon left arrow"></i></a>
+    {% else %}
+	<div class="icon disabled item"><i class="icon left arrow"></i></div>
+    {% endif %}
+
+    {%for p in pager.pages%}
+    {% if p.prefix_text %}
+	<div class="item">{{ p.prefix_text }}</div>
+	{% endif %}
+	<a class="{{p.css}} item" href="{{p.url}}">{{p.page_index}}</a>
+
+    {% if p.suffix_text %}
+	<div class="item">{{ p.suffix_text }}</div>	
+	{% endif %}
+
+    {%endfor%}
+
+    {% if pager.show_next %}
+	<a class="icon item" href="{{pager.next_url}}"><i class="icon right arrow"></i></a>
+    {% else %}
+	<div class="icon disabled item">
+    	<i class="icon right arrow"></i>
+	</div >
+    {% endif %}
+
+    {% if pager.total_rows %}
+	<div class="item">
+    	共有{{ pager.total_rows }}条记录
+	</div>
+    {% endif %}
+</div>
+{%endif%}

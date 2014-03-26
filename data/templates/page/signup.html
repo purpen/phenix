@@ -1,0 +1,63 @@
+{%extends 'layout/base.html'%}
+{% block title %}现在注册-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	body {
+		background-color: #b9d133;
+		background-image: none;
+	}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block jquery %}
+	phenix.build_auth_page();
+{% endblock %}
+
+{% block layout_content %}
+{% include "block/auth_header.html" %}
+<div id="bd">
+	{% block content %}
+	<div class="ui page grid">
+		<div class="six wide column">
+			<div class="ui gird segment">
+				<div class="ui header">
+					<h2>加入太火鸟社区</h2>
+					<p>上传、预售、发现、分享激动人心的创意产品</p>
+				</div>
+				<form action="{{ app_url_action_base }}/auth/do_register" class="ui form" method="post" id="register-form">
+					<input type="hidden" name="t" value="{{ login_token }}" />
+					<div class="field">
+						<input name="invite_code" type="text" maxChars="24" class="form-control input-lg" value="{{ l }}"  remote="{{ app_url_action_base }}/auth/ajax_check_invite_code" id="invite_code" placeholder="邀请码" />
+					</div>
+					<div class="field">
+						<input type="text" class="form-control input-lg" name="account" placeholder="邮箱账号" />
+					</div>
+					<div class="field">
+						<input type="password" class="form-control input-lg" name="password" id="password" placeholder="密码" />
+					</div>
+					<div class="field">
+						<input type="password" class="form-control input-lg" name="password_confirm" placeholder="确认密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms">
+				          	<label>太火鸟服务协议</label>
+				        </div>
+					</div>
+
+					<div class="inline field">
+				    	<div class="ui blue submit button" >确认注册</div>
+						<label class="text-white">已有账号？<a href="{{ app_url_login }}" title="立即登录" >立即登录</a></label>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="ten wide column">
+			
+		</div>
+	</div>
+	{% endblock %}	
+</div>
+{% endblock %}

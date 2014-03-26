@@ -1,0 +1,120 @@
+{%extends 'layout/board.html'%}
+{% block title %}设置头像-悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	var uploader = new qq.FineUploader({
+		element: document.getElementById('bootstrapped-fine-uploader'),
+		request: {
+			endpoint: '{{app_url_action_base}}/uploader/avatar'
+		},
+		multiple: false,
+		validation: {
+			allowedExtensions: ['jpeg', 'jpg'],
+			sizeLimit: 2097152 // 2M = 2 * 1024 kB = 2 * 1024 * 1024 bytes
+		},
+		text: {
+            uploadButton: '<a class="btn btn-inverse btn-upload">Upload the Photo</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		fileTemplate: '<li class="col-md-6">' +
+            '<div class="qq-progress-bar"></div>' +
+            '<span class="qq-upload-spinner"></span>' +
+            '<span class="qq-upload-finished"></span>' +
+            '<span class="qq-upload-file"></span>' +
+            '<span class="qq-upload-size"></span>' +
+            '<a class="qq-upload-cancel" href="#">{cancelButtonText}</a>' +
+            '<a class="qq-upload-retry" href="#">{retryButtonText}</a>' +
+            '<a class="qq-upload-delete" href="#">{deleteButtonText}</a>' +
+            '<span class="qq-upload-status-text">{statusText}</span>' +
+            '</li>',
+		classes: {
+			success: 'alert alert-success hide',
+            fail: 'alert alert-error'
+		},
+		callbacks: {
+			onComplete: function(id, fileName, result) {
+				if (result.success) {
+					wps_width  = result.width;
+					wps_height = result.height;
+					
+					if (wps_width > 480){
+						var imghtml =  '<img id="avatar-photo" src="'+result.file_url+'" style="width: 480px;">';
+					} else {
+						var imghtml = '<img id="avatar-photo" src="'+result.file_url+'" >';
+					}
+					$('#select-area').html(imghtml);
+					
+					sher.hook_imgarea_select();
+					
+					// 更新附件Id
+					$('#avatar_id').val(result.id.$id);
+					$('#avatar-crop-buttons').removeClass('hide');
+					$('.close').removeClass('hide');
+				}
+			}
+		}
+	});
+	
+	
+	
+{% endblock %}
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">设置头像</h2>
+			<div class="ui segment">
+				<form action="{{app_url_action_base}}/uploader/crop_avatar" method="post" class="form ajax-form">
+					<h2 class="ui dividing header">
+					  	<i class="photo icon"></i>
+					  	<div class="content">
+					      	选择图片
+					      	<div class="sub header">设置一个宽度大于400px、JPG头像，让小伙伴们迅速认识你 :)</div>
+					  	</div>
+					</h2>
+					
+					<div class="ui two column grid">
+						<div class="row">
+							<div class="column">
+								<div id="bootstrapped-fine-uploader"></div>
+							</div>
+							<div class="column">
+								<div id="avatar-preview" class="clearfix">
+									<div id="select-area" class="pull-left"></div>
+									<div class="preview-box pull-left">
+										<div class="form-group ml-20 hide" id="avatar-crop-buttons">
+											<h4>您可以移动选区，选择最佳的角度秀自己！</h4>
+											<input type="hidden" name="avatar_id" id="avatar_id" />
+											<input type="hidden" name="x1" id="x1" />
+											<input type="hidden" name="x2" id="x2" />
+											<input type="hidden" name="y1" id="y1" />
+											<input type="hidden" name="y2" id="y2" />
+											<input type="hidden" name="w" id="w" />
+											<input type="hidden" name="h" id="h" />
+					
+											<div id="crop-avatar-box" class="row mb-15"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<input type="submit" class="ui blue submit button" value="确认头像" />
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

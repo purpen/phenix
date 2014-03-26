@@ -1,0 +1,25 @@
+---
+# app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+#if in production mode,uncomment and change it to 'prod'
+#app.mode: 'dev'
+# app.dt:
+  # cache: 'MemFile'
+  # cache_dir: '/tmp/lgk'
+
+app.domain.base: 'http://taihuoniao.me'
+#if in production mode,uncomment and change it to 'prod'
+app.mode: 'dev'
+app.url.upload_url: '{$app.domain.app}/uploader'
+
+app.js.use_bundle: 0
+app.css.use_bundle: 0
+
+app.mongodb_host: '127.0.0.1'
+app.mongodb_rs: false
+        
+app.cache.memcached.default:
+  servers:
+    - 
+      host: '127.0.0.1'
+      port: 11211
+      weight: 1

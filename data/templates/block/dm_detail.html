@@ -1,0 +1,32 @@
+<div class="col-md-12 clearfix">
+	<h4>我与 {{msg.to_user.nickname}} 对话 <small class="pull-right"><a href="{{ app_url_my }}/dm_list" >返回私信列表</a></small></h4>
+	<form id="site_message_frm" method="post" action="{{ app_url_action_base }}/message/ajax_send_message" class="form mt-10 mb-20">
+		<input type="hidden" name="_id" value="{{mid}}"/>
+		<input type="hidden" name="popup_mode" value="0" />
+		<input type="hidden" name="to" value="{{msg.to_user.nickname}}"/>
+		<div class="form-group">
+			<textarea class="form-control" name="content" rows="2"></textarea>
+		</div>
+		<div class="form-group">
+			<input class="btn btn-success" type="submit" value="确认发送" />
+		</div>
+	</form>
+	
+	{% for e in msg.mailbox %}
+	<div class="media" id="dm_{{e.r_id}}">
+		<a href="{{e.from_user.home_url}}" class="pull-left">
+			<img src="{{e.from_user.mid_avatar_url}}" width="50" height="50" />
+	    </a>
+		<div class="media-body">
+			<h5 class="media-heading"><a href="{{e.from_user.home_url}}">{%if visitor._id == e.from_user._id%}我{%else%}{{e.from_user.nickname}}{%endif%}</a> 发送给 <a href="{{e.to_user.home_url}}">{%if visitor._id == e.to_user._id%}我{%else%} {{e.to_user.nickname}} {%endif%}</a> <small class="ml-10">({{e.created_on|relative_datetime}})</small></h5>
+			<p class="mt-10">{{e.content}}</p>
+		</div>
+		<div class="pull-right">
+			{%if e.from_user._id == visitor._id%}
+				<a href="{{ app_url_action_base }}/message/ajax_delete_message?mid={{msg._id}}&r_id={{e.r_id}}" class="btn-delete confirm-request">x</a>
+			{%endif%}
+		</div>
+	</div>
+	{% endfor %}
+	
+</div>

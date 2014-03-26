@@ -1,0 +1,60 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<a href="{{ app_url_admin_base }}/invitation" class="ui labeled icon button"><i class="list layout icon"></i>全部列表</a>
+		<a href="{{ app_url_admin_base }}/invitation" class="ui button">已使用</a>
+		<a href="{{ app_url_admin_base }}/invitation/edit" class="ui right labeled icon green button"><i class="add icon"></i>增发</a>
+	
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<div class="ui text menu">
+	  	<div class="header item">选择：</div>
+	  	<a class="active item">全选</a>
+	  	<a class="item">不选</a>
+	  	<a class="item">反选</a>
+	</div>
+			
+	<div class="ui divider"></div>
+	
+	<table class="ui large table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>邀请码</th>
+				<th>所属用户</th>
+				<th>状 态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for code in invites %}
+			<tr>
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ code._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ code._id }}</td>
+				<td>{{ code.user.nickname}}</td>
+				<td>{% if code.used_by %}<span class="ui label">已使用</span>{% else %}<span class="ui green label">未使用</span>{% endif %}</td>
+				<td>
+					
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

@@ -1,0 +1,23 @@
+{%extends 'layout/board.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#select-filter').select2();
+	$('#select-filter-two').select2();
+	$('#select-filter-three').select2();
+	$('#select-filter-four').select2();
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row list-group mt-20 clearfix">
+		<div class="col-md-12">
+			<h4>联系我们</h4>
+			<p class="mt-20">悦伊是一个针对创意圈妹纸的靠谱找对象社区，全部通过朋友间邀请加入，请尊重朋友，也尊重自己。</p>
+			<p>如发现任何违背悦伊的事情，请一定毫不留情地告诉我们：rayshelove#163.com。</p>
+			<br />
+		</div>
+	</div>
+</div>
+{% endblock %}

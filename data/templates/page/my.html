@@ -1,0 +1,146 @@
+{%extends 'layout/board.html'%}
+{% block title %}悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	$('#message-form').validate({
+        rules:{
+           content:{
+               required:true,
+               maxlength:140
+           }
+        },
+        messages: {
+        	content:{
+				required:'内容不能为空',
+				maxlength:'请别超过140个字符'
+			}
+        },
+        submitHandler: function(form) {
+            $(form).ajaxSubmit();
+        }
+    });
+
+	$('#match-form').validate({
+        rules:{
+		    to:{
+		    	required:true
+		    },
+            content:{
+               	required:true,
+               	maxlength:140
+            }
+        },
+        messages: {
+			to:{
+				required:'发送给谁不能空',
+			},
+        	content:{
+				required:'内容不能为空',
+				maxlength:'请别超过140个字符'
+			}
+        },
+        submitHandler: function(form) {
+            $(form).ajaxSubmit();
+        }
+    });
+
+	$('#comment-form').validate({
+        rules:{
+           content:{
+               required:true,
+               maxlength:140
+           }
+        },
+        messages: {
+        	content:{
+				required:'内容不能为空',
+				maxlength:'请别超过140个字符'
+			}
+        },
+        submitHandler: function(form) {
+            $(form).ajaxSubmit();
+        }
+    });
+	
+
+{% endblock %}
+{% block content %}
+<div class="container">
+	{% include "block/sub_menu.html" %}
+	<div class="list-group clearfix">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="user-box clearfix">
+					<div class="user-header">
+						<img src="{{ user.big_avatar_url }}" class="avatar"/>
+						<p class="text-center">
+							{% if user.id == visitor.id %}<a href="{{ app_url_my }}/dm_list" class="mr-10">私信 <small class="private-info">{% if user.counter.message_count > 0 %}{{ user.counter.message_count }}{% endif %}</small></a> | {% endif %}<a href="{{ user.view_follow_url }}" class="ml-10 mr-10">关注者 <small class="private-info">{{ user.follow_count }}</small></a> | <a href="{{ user.view_fans_url }}" class="ml-10">被关注 <small class="private-info">{{ user.fans_count }}</small></a> 
+						</p>
+					</div>
+					<div class="user-info">
+						<div class="info-item">
+							<label>昵称：</label> <label class="private-info big-name">{{ user.nickname }}</label> <strong class="ml-15 ft6">{{ user.marital_text }}:</strong> <img src="{{ app_url_images }}/{{ user.marital_icon }}" class="ml-5" />
+						</div>
+						<div class="info-item">
+							<label>年龄：</label> <label class="private-info">{{ user.age_text }}</label>
+						</div>
+						<div class="info-item">
+							<label>民族：</label> {{ profile.nation }} <label class="ml-10">籍贯：</label> <label class="private-info">{{ profile.born_place }}</label> <label class="ml-10">现居：</label> <label class="private-info">{{ user.city }}</label>
+						</div>
+						<div class="info-item">
+							<label>职业：</label> <label class="private-info">{{ profile.job }}</label>
+						</div>
+						<div class="info-item">
+							<h4 class="ft6">关于我的关键词</h4> 
+							{% for t in user.tags %}
+							<a href="{{app_url_base}}/tag/{{ t }}" class="tag">{{ t }}</a>
+							{% endfor %}
+						</div>
+						<div class="info-item mt-15">
+							<p><strong class="ft6">自我宣言:</strong> {{ user.summary }}</p>
+						</div>
+						
+						<div class="done-box">
+							<div class="btn-group dobtns">
+								<a href="#message-modal" class="btn btn-message" data-toggle="modal" role="button">私信</a>
+								<a href="{{app_url_my}}/ajax_follow?id={{ user.id }}" class="btn btn-follow ajax-request {% if visitor.id == user.id %}disabled{%endif%}" id="user_{{ user.id }}_ship">关注</a>
+								<a href="#match-modal" class="btn btn-match" data-toggle="modal" role="button">我来做红娘</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			{% if css_tab_home %}
+				{% include "block/my_home.html" %}
+			{% endif %}
+			
+			{% if css_tab_fans %}
+			    {% include "block/my_fans.html" %}
+			{% endif %}
+			
+			{% if css_tab_follow %}
+			    {% include "block/my_follow.html" %}
+			{% endif %}
+			
+			{% if css_tab_message %}
+			    {% include "block/my_dm.html" %}
+			{% endif %}
+			
+			{% if css_tab_message_detail %}
+			    {% include "block/dm_detail.html" %}
+			{% endif %}
+			
+			
+		</div>
+	</div>
+	{% include "block/message.html" %}
+	{% include "block/match.html" %}
+</div>
+{% endblock %}

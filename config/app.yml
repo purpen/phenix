@@ -1,0 +1,146 @@
+---
+app.id: 'sher'
+app.version: ''
+app.modules.boot: 'sher'
+
+app.modules.sher: 
+  state: 'on'
+  namespace: 'Sher_App'
+  index_action: 'Index'
+  
+app.modules.admin: 
+  state: 'on'
+  namespace: 'Sher_Admin'
+  index_action: 'Console'
+  
+app.modules.Wap: 
+  state: 'on'
+  namespace: 'Sher_Wap'
+  index_action: 'Index'
+  
+app.modules.Api: 
+  state: 'on'
+  namespace: 'Sher_Api'
+  index_action: 'Data'
+  
+app.dispatcher.routes:
+app.dispatcher.result.map:
+  redirect: 'Doggy_Dispatcher_Result_Redirect'
+  json: 'Doggy_Dispatcher_Result_Json'
+  file: 'Doggy_Dispatcher_Result_File'
+  raw: 'Doggy_Dispatcher_Result_Raw'
+  jquery: 'Doggy_Dispatcher_Result_JQuery'
+  dt: 'DoggyX_View_HtmlPage'
+  html: 'DoggyX_View_HtmlPage'
+  taconite: 'DoggyX_View_TaconitePage'
+  rss: 'DoggyX_View_RssPage'
+  mongofs: 'DoggyX_View_MongoFs'
+
+app.dispatcher.interceptors.run:
+  - Doggy_Dispatcher_Interceptor_Parameters
+  - Doggy_Dispatcher_Interceptor_UploadSupport
+  - Sher_Core_Interceptor_XSession
+  - DoggyX_Interceptor_BeforeInvoke
+
+app.session.ttl: 1800
+app.session.service: 'Sher_Core_Session_Service'
+app.session.engine: 'DoggyX_Session_Engine_Mongo'
+app.session.online_ttl: 600
+app.session.engine.options:
+   # mongodb session optional:
+   'collection': 'session'
+app.session.sid: 'sher_sid'
+#auth cookie:
+app.session.auth_sid: 'sher_asid'
+
+app.mongodb_host: 'mongodb://127.0.0.1'
+app.mongodb_rs: false
+# mongodb
+app.mongo.default:
+  host: '127.0.0.1'
+  db: 'firebird'
+  replicaSet: false
+
+app.dt.extension_lib.sher_app:
+  tags:
+    'category_list':'Sher_Core_ViewTag_CategoryList'
+    'topic_list':'Sher_App_ViewTag_TopicList'
+    'product_list':'Sher_App_ViewTag_ProductList'
+    'asset_list':'Sher_App_ViewTag_AssetList'
+    'stuff_list':'Sher_App_ViewTag_StuffList'
+    'comment_list':'Sher_App_ViewTag_CommentList'
+    'search_list':'Sher_App_ViewTag_SearchList'
+    'follow_list':'Sher_App_ViewTag_FollowList'
+    'user_list':'Sher_App_ViewTag_UserList'
+    'tags_list':'Sher_App_ViewTag_TagsList'
+    'cake_list':'Sher_App_ViewTag_CakeList'
+    'message_list':'Sher_App_ViewTag_MessageList'
+    'pager':'Sher_App_ViewTag_Pager'
+  filters: []
+
+app.js.use_bundle: false
+app.css.use_bundle: false
+
+#邀请注册的开关
+app.url.invite.trigger:1
+# passport
+app.db.passport: 'mysql://root:root@localhost/passport?charset=utf8'
+app.db.default: 'mysql://root:root@localhost/passport?charset=utf8'
+
+# SinaWeibo API
+app.sinaweibo.app_key: '3866118033'
+app.sinaweibo.app_secret: '8143ca07fec3a2223ce1413099e5288b'
+
+#passport/sso section
+app.passport.version: 'v1'
+app.passport.auth_ttl: 180
+app.passport.v1.avatar_url: 'http://login.chinavisual.com/avatar/%s/%s/2/%s'
+app.passport.v1.sso_handle: '{$app.domain.app}/app/action/auth/sso_auth_v1'
+app.passport.v1.login: 'http://login.chinavisual.com/passport.app/passport/sso/AuthLogin?hash=%s&salt=%s&url=%s&app_id=%s&meta=1'
+app.passport.v1.register: 'http://login.chinavisual.com/passport.app/passport/sso/AuthRegister?hash=%s&salt=%s&url=%s&app_id=%s&meta=1'
+app.passport.v1.logout: 'http://login.chinavisual.com/passport.app/passport/sso/AuthLogout?url=%s'
+app.passport.v1.profile: 'http://login.chinavisual.com/'
+
+app.keychains.private: 'xxxxOOOOxxxx'
+app.email.from:
+  address: 'no-reply@chinavisual.com'
+  name: '系统邮件服务'
+
+# 关注最大数
+app.follow.max: 2000
+
+# 附件存储目录
+app.storage.sher:
+    class:'Doggy_Storage_Provider_FileSystem'
+    options:
+        root:"/Users/xiaoyi/Project/firebird/data/web/uploads"
+        root_url:'/uploads'
+        hash_dir:false
+
+# 图片缩络图
+app.asset.thumbnails:
+	mini: 100
+	tiny: 100
+	small: 160
+	medium: 280
+	large: 380
+	big: 630
+	huge: 780
+	massive: 1024
+	
+app.asset.user_avatar:
+  big: 290
+  small: 100
+  little: 30
+
+# 产品尺寸标准
+app.asset.product:
+	mini: 100
+	tiny: 100
+	small: 160
+	medium: 280
+	large: 380
+	big: 630
+	huge: 780
+	massive: 1024
+

@@ -1,0 +1,35 @@
+{%extends 'layout/board.html'%}
+{% block title %}悦伊-所谓伊人，在水一方{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+<div class="container">
+	{% include "block/sub_menu.html" %}
+	<div class="row list-group mt-20 clearfix">
+		{% user_list var:'list' page:page only_ok:only_ok marital:marital sex:sex %}
+		<div class="user-list clearfix">
+			{% for u in list.rows %}
+			<div class="col-md-4 ubox-list">
+				<a href="{{ u.home_url }}" class="{{ u.sex_text }}">
+					<img src="{{ u.mid_avatar_url }}" class="avatar" />
+				</a>
+				<h5><a href="{{ u.home_url }}">{{ u.nickname }}</a> | {{ u.city }}</h5>
+				<p>{{ u.profile.job }}</p>
+				<p>年龄：{{ u.age_text }}</p>
+			</div>
+			{% endfor %}
+		</div>
+		
+		{% if list.rows %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+

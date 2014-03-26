@@ -1,0 +1,28 @@
+<!-- 牵姻缘 -->
+<div id="match-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="ajax-result-box" aria-hidden="true">
+	<div class='modal-header'>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">我来做红娘</h4>
+	</div>
+	<form action="{{app_url_my}}/ajax_match" method="post" id="match-form">
+		<input type="hidden" name="user_id" value="{{ user.id }}" />
+		<input type="hidden" name="user_name" value="{{ user.nickname }}" />
+		<div class='modal-body'>
+			<div class="modal-body-content">
+				<div class="form-group">
+					<label class="control-label">发送给:</label>
+					<input type="text" class="form-control" name="to" placeholder="输入用户昵称" />
+				</div>
+				<div class="form-group">
+					<textarea name="content" class="form-control" rows="3">@{{ user.nickname }} 很不错，非常适合你，可以多多关注。</textarea>
+					<span class="help-block">这一步很神圣也很伟大~~~</span>
+				</div>
+			</div>
+		</div>
+		<div class='modal-footer'>
+			<span id="popup_match_box"></span>
+			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+			<button type="submit" class="btn btn-success">确定发送</button>
+		</div>
+	</form>
+</div>

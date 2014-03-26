@@ -1,0 +1,22 @@
+{% extends 'layout/base.html' %}
+{% block title%}{% endblock %}
+{% block layout_css %}{% endblock %}
+{% block page_css %}{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block page_js %}{% endblock %}
+{% block layout_jquery %}{% endblock %}
+{% block jquery %}{% endblock %}
+
+{% block layout_header %}
+	{% include "block/header.html" %}
+{% endblock %}
+
+{% block layout_content %}
+<div id="bd">
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block layout_footer %}
+	{% include "block/footer.html" %}
+{% endblock %}

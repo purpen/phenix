@@ -1,0 +1,10 @@
+---
+# app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+#if in production mode,uncomment and change it to 'prod'
+#app.mode: 'dev'
+# app.dt:
+  # cache: 'MemFile'
+  # cache_dir: '/tmp/lgk'
+
+# app.email.smtp.host: '192.168.8.9'
+# app.keychains.private: 'xxxxOOOOxxxx'

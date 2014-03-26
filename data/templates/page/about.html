@@ -1,0 +1,30 @@
+{%extends 'layout/board.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#select-filter').select2();
+	$('#select-filter-two').select2();
+	$('#select-filter-three').select2();
+	$('#select-filter-four').select2();
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row list-group mt-20 clearfix">
+		<div class="col-md-12">
+			<h4>关于我们</h4>
+			<p class="mt-20">悦伊 <a href="http://www.rayshe.com">(RayShe.com)</a> 是一个针对创意圈妹纸的靠谱找对象社区，单纯的为了帮助创意圈的妹纸们解决找对象的问题，追求身份真实、信息安全。</p>
+			<br />
+
+			<p>悦伊用户必须由熟人推荐才能加入，最大可能让对象都是靠谱的；</p>
+			<p>悦伊用户必须使用手机认证，确保每一个用户身份的真实性。</p>
+			<p>悦伊的妹纸均为创意圈从业者，有良好的教育背景，有较高的审美品位。</p>
+
+			<p class="mt-20">我们相信，只有靠谱的人，才配的上靠谱的妹纸；只有靠谱的妹纸，才需要靠谱的人。</p>
+			
+			<p class="mt-20">悦伊--所谓伊人，在水一方。</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

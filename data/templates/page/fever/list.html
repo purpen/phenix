@@ -1,0 +1,42 @@
+{%extends 'layout/sns.html'%}
+{% block title %}社区-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				{% include "block/social/sub_menu.html" %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="ui items">
+				{% product_list var:'list' page:page category_id:category_id %}
+				{% for product in list.rows %}
+			  	<div class="item">
+			      	<div class="image">
+						<a href="{{ product.view_url }}" title="{{ product.title }}">
+			          		<img src="/images/default-image-280px.jpg" />
+						</a>
+			      	</div>
+			      	<div class="content">
+			          	<div class="name">{{ product.title }}</div>
+			          	<p class="description">免费在线观看高清视频教程的网站。</p>
+			          	<div class="extra">
+			              	199 喜欢
+			          	</div>
+			      	</div>
+			  	</div>
+				{% endfor %}
+			</div>
+		</div>
+		
+	</div><!--end responsive grid-->
+</div>
+{% endblock %}
