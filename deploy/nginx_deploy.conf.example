@@ -1,10 +1,11 @@
 server {
         listen       80;
         #edit this!
-        server_name  www.rayshe.com rayshe.com;
+        server_name  www.taihuoniao.com taihuoniao.com;
         charset utf-8;
         index  app;
-        root /Users/xiaoyi/Project/sher/dev_root/web;
+        root /www/phenix/web;
+		
         location  /app {
             fastcgi_split_path_info ^(/app)(.*)$;
             fastcgi_intercept_errors on;
@@ -32,16 +33,6 @@ server {
 			rewrite ^/my/follow/p(\d+).*$ /app/site/my/follow?page=$1 last;
 	        rewrite ^/my(.*)$ /app/site/my$1 last;
 	    }
-	
-		location /he_list {
-			rewrite ^/he_list/p(\d+).*$ /app/site/index/he_list?page=$1 last;
-			rewrite ^/he_list(.*)$ /app/site/index/he_list$1 last;
-		}
-		
-		location /she_list {
-			rewrite ^/she_list/p(\d+).*$ /app/site/index/she_list?page=$1 last;
-			rewrite ^/she_list(.*)$ /app/site/index/she_list$1 last;
-		}
 
 	    location /user {
 		  rewrite ^/user/(\d+)[/]?$ /app/site/user?user_id=$1 last;
@@ -61,6 +52,7 @@ server {
 	    location /css {
 	        rewrite ^/css/bundle_(.*)_common.css$ /css/bundle.common.css last;
 	    }
+		
 	    location /images {
 	        expires 30d;
 	    }
@@ -81,10 +73,10 @@ server {
 
 server {
     listen       80;
-    server_name  img.rayshe.com;
+    server_name  img.taihuoniao.com;
 	charset utf-8;
 	index  index.html;
-	root /storage/uploads;
+	root /data/uploads;
 	
     access_log  off;
 	
