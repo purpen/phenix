@@ -9,14 +9,34 @@
 		{%endblock%}
 		<title>{% block title %}{% endblock %}太火鸟-人生是场大设计</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
+		<style type="text/css">
+			/*******************************
+			          Flat Icon
+			*******************************/
+			@font-face {
+			  font-family: 'Flat Icons';
+			  src: url(http://taihuoniao.me/fonts/flat.icons.eot);
+			  src:
+			    url(http://taihuoniao.me/fonts/flat.icons.eot?#iefix) format('embedded-opentype'),
+			    url(http://taihuoniao.me/fonts/flat.icons.svg#basic.icons) format('svg'),
+			    url(http://taihuoniao.me/fonts/flat.icons.woff) format('woff'),
+			    url(http://taihuoniao.me/fonts/flat.icons.ttf) format('truetype')
+			  ;
+
+			  font-style: normal;
+			  font-weight: normal;
+			  font-variant: normal;
+			  text-decoration: inherit;
+			  text-transform: none;
+			}
+		</style>
+		
 		{% if css_use_bundle %}
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_css }}/fineuploader-3.5.0.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.css" type="text/css" />
 		{% else %}
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_css }}/fineuploader-3.5.0.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.css" type="text/css" />
 		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
@@ -27,13 +47,15 @@
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fineuploader-3.5.0.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/phenix.js"></script>
 		{% else %}
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.1.0.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/semantic.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.form.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fineuploader-3.5.0.min.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/phenix.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed}}/javascript/jquery-2.1.0.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/semantic.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.form.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.taconite.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.livequery.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.fineuploader-3.5.0.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/phenix.js"></script>
 		{% endif %}
-
+		
 		{% block layout_js %}{% endblock %}
 		{% block page_js %}{% endblock %}
 

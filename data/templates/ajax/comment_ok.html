@@ -1,10 +1,24 @@
 <taconite>
-	<append select=".comment-list">
-		<blockquote>
-	    	<p>{{ comment.content }}</p>
-	    	<small><a href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a> <cite>{{ comment.user.city }}</cite></small>
-	    </blockquote>
-	</append>
+	<prepend select=".ui.threaded.minimal.comments">
+		<div class="comment">
+			<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
+				<img src="/images/avatar_default.jpg" />
+			</a>
+			<div class="content">
+				<a class="author">{{ comment.user.nickname }}</a>
+				<div class="metadata">
+					<div class="date">{{ comment.created_on }}</div>
+				</div>
+				<div class="text">
+					{{ comment.content }}
+				</div>
+				<div class="actions">
+					<a class="reply">回复</a>
+					<a class="delete">删除</a>
+				</div>
+			</div>
+		</div>
+	</prepend>
 	<eval>
 		$('.comment-textarea').val('');
 	</eval>

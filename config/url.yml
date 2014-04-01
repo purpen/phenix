@@ -1,6 +1,6 @@
 ---
 app.domain.base: 'http://taihuoniao.me'
-app.domain.static: 'http://taihuoniao.me'
+app.domain.static: 'http://static.taihuoniao.me'
 app.domain.app: '{$app.domain.base}'
 
 app.url.domain:         '{$app.domain.base}'
@@ -8,11 +8,16 @@ app.url.action_base:    '{$app.domain.app}/app/site'
 app.url.admin_base:    '{$app.domain.app}/app/admin'
 
 
-app.url.js:     '{$app.domain.static}/js'
-app.url.css:    '{$app.domain.static}/css'
-app.url.images: '{$app.domain.static}/images'
-app.url.bundle: '{$app.domain.base}/bundle'
+app.url.static: '{$app.domain.static}'
 app.url.packaged: '{$app.domain.static}/packaged'
+app.url.uncompressed: '{$app.domain.static}/uncompressed'
+
+app.url.js:     '{$app.url.packaged}/js'
+app.url.css:    '{$app.url.packaged}/css'
+app.url.images: '{$app.url.packaged}/images'
+
+app.url.bundle: '{$app.domain.base}/bundle'
+
 
 #首页
 app.url.welcome: '{$app.url.action_base}/index/welcome'
@@ -31,8 +36,9 @@ app.url.shop.view: '{$app.url.action_base}/shop/view/%s'
 
 #社区
 app.url.social: '{$app.url.action_base}/social'
-app.url.topic: '{$app.url.action_base}/topic'
-app.url.topic.view: '{$app.url.action_base}/topic/show/%s'
+app.url.topic: '{$app.url.domain}/topic'
+app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
+app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 
 #社区创意投票
 app.url.fever: '{$app.url.action_base}/fever'

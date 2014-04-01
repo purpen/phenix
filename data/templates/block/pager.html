@@ -1,9 +1,9 @@
 {%if pager%}
 <div class="ui pagination menu">
     {% if pager.show_prev %}
-    <a class="icon item" href="{{pager.prev_url}}"><i class="icon left arrow"></i></a>
+    <a class="icon prev item" href="{{pager.prev_url}}"><i class="flat icon arrowleft"></i></a>
     {% else %}
-	<div class="icon disabled item"><i class="icon left arrow"></i></div>
+	<div class="icon disabled prev item"><i class="flat icon arrowleft"></i></div>
     {% endif %}
 
     {%for p in pager.pages%}
@@ -19,10 +19,10 @@
     {%endfor%}
 
     {% if pager.show_next %}
-	<a class="icon item" href="{{pager.next_url}}"><i class="icon right arrow"></i></a>
+	<a class="icon next item" href="{{pager.next_url}}"><i class="flat icon arrowright"></i></a>
     {% else %}
-	<div class="icon disabled item">
-    	<i class="icon right arrow"></i>
+	<div class="icon disabled next item">
+    	<i class="flat icon arrowright"></i>
 	</div >
     {% endif %}
 

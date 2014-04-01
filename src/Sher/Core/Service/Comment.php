@@ -1,13 +1,19 @@
 <?php
+/**
+ * 评论Service
+ * @author purpen
+ */
 class Sher_Core_Service_Comment extends Sher_Core_Service_Base {
     protected static $instance;
+	
     protected $sort_fields = array(
-        'time' => array('updated_on' => -1),
-        );
+        'time' => array('created_on' => -1),
+    );
+	
     /**
      * current service instance
      *
-     * @return XB_Core_Service_Comment
+     * @return Sher_Core_Service_Comment
      */
     public static function instance() {
         if (is_null(self::$instance)) {
@@ -15,6 +21,7 @@ class Sher_Core_Service_Comment extends Sher_Core_Service_Base {
         }
         return self::$instance;
     }
+	
     /**
      * 获取评论列表
      */
@@ -22,6 +29,14 @@ class Sher_Core_Service_Comment extends Sher_Core_Service_Base {
         $model = new Sher_Core_Model_Comment();
         return $this->query_list($model,$query,$option);
     }
-
+	
+    /**
+     * 获取最有价值评论列表（love_count排序）
+     */
+    public function get_comment_lovest_list($query = array(), $option = array()){
+        $model = new Sher_Core_Model_Comment();
+        return $this->query_list($model,$query,$option);
+    }
+	
 }
 ?>

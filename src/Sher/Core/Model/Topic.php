@@ -16,7 +16,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     protected $schema = array(
 	    'user_id' => null,
 		# 类别支持多选
-		'category_id' => array(),
+		'category_id' => 0,
 		
 	    'title' => '',
         'description' => '',
@@ -40,12 +40,16 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		# 收藏数
         'favorite_count' => 0, 
 		# 喜欢数
-        'like_count' => 0,
+        'love_count' => 0,
 		# 回应数 
     	'comment_count' => 0,
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+		# 置顶标识
+		'top'   => 0,
+		# 精华标识
+		'fine'  => 0,
 		
     	'deleted' => 0,
 		# 是否审核，默认已审核
@@ -59,13 +63,14 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','deleted','published');
+	protected $int_fields = array('user_id','category_id','deleted','published');
 	
-	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'like_count', 'comment_count');
+	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	
 	protected $joins = array(
-	    'user' =>   array('user_id' => 'Sher_Core_Model_User'),
-	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset')
+	    'user'      =>  array('user_id'   => 'Sher_Core_Model_User'),
+		'last_user' =>  array('last_user' => 'Sher_Core_Model_User'),
+		'category'  =>  array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
@@ -105,6 +110,52 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         return $this->update_set($id, array('stick' => $value));
     }
 	
+    /**
+     * 取消主题编辑推荐
+     */
+	public function mark_cancel_stick($id){
+		return $this->update_set($id, array('stick' => 0));
+	}
+	
+    /**
+     * 标记主题 置顶
+     */
+	public function mark_as_top($id){
+		return $this->update_set($id, array('top' => 1));
+	}
+	
+    /**
+     * 标记主题 取消置顶
+     */
+	public function mark_cancel_top($id){
+		return $this->update_set($id, array('top' => 0));
+	}
+	
+    /**
+     * 标记主题 精华
+     */
+	public function mark_as_fine($id){
+		return $this->update_set($id, array('fine' => 1));
+	}
+	
+    /**
+     * 标记主题 取消精华
+     */
+	public function mark_cancel_fine($id){
+		return $this->update_set($id, array('fine' => 0));
+	}
+	
+	/**
+	 * 更新最后的回复者,并且comment_count+1
+	 */
+	public function update_last_reply($id, $user_id, $time){
+		$query = array('_id'=> (int)$id);
+		$new_data = array(
+			'$set' => array('last_reply_time'=>$time, 'last_user'=>$user_id),
+			'$inc' => array('comment_count'=>1),
+		);
+		return self::$_db->update($this->collection,$query,$new_data,false,false,true);
+	}
 	
 	/**
 	 * 更新标签
@@ -112,7 +163,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	public function update_tag($topic_id, $new_tag, $filed_name='like_tags'){
 		$query = array();
 	    $update = array();
-	    $query['_id'] = new MongoId($topic_id);
+	    $query['_id'] = (int)$topic_id;
 	    $update['$addToSet'][$filed_name] = array('$each'=>$new_tag);
 	    return $this->update($query, $update,false,true);
 	}
@@ -150,26 +201,25 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		}
 		return $this->dec($topic_id, $count_name);
 	}
-
+	
 	/**
-	 * 处理text_index 只有一个操作，所以不建新的类，在这里补充一下
+	 * 删除后事件
 	 */
-	public function remove_all_links($topic_id) {
-		if(empty($topic_id)){
-			return false;
-		}
-		$query['_id'] = new MongoId($topic_id);
-		$this->remove($query);
-
-		//删除索引
-		$textindex = new Sher_Core_Model_TextIndex();
-		$textindex->remove(array('target_id'=>$topic_id));
-		unset($textindex);
-
-		//删除asset
+	public function mock_after_remove($id) {
+		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id'=>$topic_id));
+		$asset->remove_and_file(array('parent_id' => $id));
 		unset($asset);
+		
+		// 删除Comment
+		$comment = new Sher_Core_Model_Comment();
+		$comment->remove(array('target_id' => $id));
+		unset($asset);
+		
+		// 删除TextIndex
+		$textindex = new Sher_Core_Model_TextIndex();
+		$textindex->remove(array('target_id' => $id));
+		unset($textindex);
 		
 		return true;
 	}

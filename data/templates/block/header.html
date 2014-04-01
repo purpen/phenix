@@ -1,38 +1,49 @@
 <header class="main ui responsive grid">
-	<div class="ui column">
-		<a href="{{ app_url_domain }}" title="首页" class="logo">
-			<img src="{{ app_url_packaged }}/images/logo-home.png" />
-		</a>
-		<div class="ui labeled icon text red menu">
-			<a href="{{ app_url_domain }}" class="{{ css_page_home }} main item"><i class="home icon"></i>首页</a>
-			<a href="{{ app_url_sale }}" class="main {{ css_page_sale }} item"><i class="time icon"></i>预售</a>
-			<a href="{{ app_url_shop }}" class="main {{ css_page_shop }} item"><i class="cart icon"></i>商店</a>
-			<a href="{{ app_url_social }}" class="main {{ css_page_social }} item"><i class="user icon"></i>社区</a>
-		</div>
-		<div class="ui secondary user menu login-user">
-			{% if visitor %}
-			<div class="ui top right pointing dropdown link item">
-				{{ visitor.nickname }}
-				<i class="down icon triangle "></i>
-				<div class="menu">
-				    <a class="item" href="/account">
-				      	<i class="icon settings"></i> 账户设置
-					</a>
-				    <a class="item" href="/tian-shawn">
-				      	<i class="profile icon"></i> 个人资料
-					</a>
-				    <a class="item" href="/help">
-				      	<i class="icon question circle"></i> 帮助
-					</a>
-				  	<a title="Log out of Quirky" class="item" href="/logout">
-				    	<i class="icon circle"></i> 安全退出
-					</a>
-				</div>
-			</div>
-			{% else %}
-				<a href="{{ app_url_login }}" class="item">登录</a>
-				<a href="{{ app_url_register }}" class="ui red button">注册</a>
-			{% endif %}
-		</div>
+	
+	<a href="{{ app_url_domain }}" title="首页" class="logo">
+		<img src="{{ app_url_packaged }}/images/logo-home.png" />
+	</a>
+	<div class="ui labeled icon text magenta main-nav menu">
+		<a href="{{ app_url_domain }}" class="{{ css_page_home }} item"><i class="flat home icon"></i>首页</a>
+		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item"><i class="flat roundtime icon"></i>预售</a>
+		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item"><i class="flat shopping icon"></i>商店</a>
+		<a href="{{ app_url_social }}" class="{{ css_page_social }} item"><i class="flat talk icon"></i>发现</a>
 	</div>
+	
+	<form class="search item" method="post" action="{{ app_url_domain }}/search">
+   	 	<div class="ui icon input">
+			<input name="query" type="text" />
+			<i class="flat search icon link"></i>
+		</div>
+	</form>
+	
+	
+	<div class="ui login-user">
+		{% if visitor %}
+			<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+				<img src="/images/avatar_default.jpg" />
+			</a>
+			<div class="ui top right pointing dropdown icon user-setting button">
+			  	{{ visitor.nickname }} <i class="flat arrowbottom icon"></i>
+			  	<div class="menu">
+				    <a class="item" href="{{ app_url_domain }}/account">
+				      	<i class="flat icon settings"></i> 账户设置
+					</a>
+				    <a class="item" href="{{ app_url_domain }}/tian-shawn">
+				      	<i class="flat idprofile icon"></i> 查看个人资料
+					</a>
+				    <a class="item" href="{{ app_url_domain }}/help">
+				      	<i class="flat help icon"></i> 帮助
+					</a>
+				  	<a title="Log out of Quirky" class="item" href="{{ app_url_domain }}/logout">
+				    	<i class="flat icon outcoming"></i> 安全退出
+					</a>
+			  	</div>
+			</div>
+		{% else %}
+			<a href="{{ app_url_login }}" class="item">登录</a>
+			<a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
+		{% endif %}
+	</div>
+	
 </header>

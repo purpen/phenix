@@ -7,7 +7,10 @@ class Sher_Core_Service_Topic extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
-        'hot'=>array('created_on'=>-1),
+        'update'=>array('updated_on'=>-1),
+		'comment'=>array('comment_count'=>-1),
+		'favorite'=>array('favorite_count'=>-1),
+		'love'=>array('love_count'=>-1),
 	);
 
     protected static $instance;

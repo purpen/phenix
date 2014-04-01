@@ -49,7 +49,7 @@
         	endpoint: '{{ app_url_upload_topic }}'
       	},
 		text: {
-            uploadButton: '<a class="ui green labeled icon button" href="javascript:void(0);"><i class="upload icon"></i>上传图片</a>'
+            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -57,10 +57,6 @@
 					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
 					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
 					'</div>',
-	    deleteFile: {
-	        enabled: true,
-	        endpoint: '/my/delete/endpoint'
-	    },
 		validation: {
 	        allowedExtensions: ['jpeg', 'jpg'],
 	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
@@ -72,16 +68,27 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			var html_content = [];
-			for(var i=0; i< result.data.length;i++){	
-				html_content.push('<div class="item"><div class="image">');
-				html_content.push('<img src="'+result.data[i].fileurl+'" />');
-				html_content.push('<input type="hidden" class="asset_id_list" name="asset[]" value="'+result.data[i].asset_id+'" />');
-				html_content.push('</div>');
-			}
-			
-			$('#asset-list').append(html_content.join(''));
+			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
 		}
+	});
+	
+	// 选择分类
+	$('body').on('click', '.ui.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#topic-category').val(id);
+		}
+		
+        return false;
 	});
 	
 {% endblock %}
@@ -89,8 +96,11 @@
 {% block content %}
 <div class="social">
 	<div class="ui responsive grid">
+		
+		
 		<div class="row">
 			<div class="eleven wide column">
+				<h3>发表话题</h3>
 				<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
 					<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
 					<div class="field">
@@ -105,9 +115,11 @@
 					
 					<div class="field">
 						<label>类别</label>
-						<input type="hidden" name="category_id" value="{{ topic.category_id }}" />
-						<a class="ui black label">设计资讯</a>
-						<a class="ui green label">消费电子</a>
+						<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+						{% category_list var:'category' only_open:1 domain:domain current:topic.category_id %}
+						{% for cat in category.rows %}
+						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+						{% endfor %}
 					</div>
 					
 					<div class="field">
@@ -117,12 +129,28 @@
 					</div>
 					
 					<div class="field">
-						<label>上传图片</label>
-					  	<div class="upload-box">
-							<div id="phenix-uploader"></div>
-						</div>
+						<label>添加图片</label>
+						<div id="phenix-uploader"></div>
+						
 						<div id="asset-list" class="ui four items">
-							
+							{% if mode == 'edit' %}
+								{% asset_list var:'assets' parent_id:topic._id %}
+								{% for asset in assets.rows %}
+								<div class="thumb item">
+									<div class="image">
+										<img src="{{ asset.thumbnails.mini.view_url }}" />
+										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+									</div>
+									<div class="buttons">
+										<div class="ui large links">
+											<a href="" class="ui link"><i class="flat edit icon"></i></a>
+											<a href="" class="ui link"><i class="flat cancel-1 icon"></i></a>
+											<a href="" class="ui link"><i class="flat edit icon"></i></a>
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							{% endif %}
 						</div>
 					</div>
 					
@@ -133,9 +161,8 @@
 					</div>
 					
 				  	<h3 class="ui right floated header">
-						<div class="ui blue submit button">
-							确认提交
-						</div>
+						<div class="ui gray button">取消</div>
+						<div class="ui magenta submit button">确认提交</div>
 				  	</h3>
 					
 				</form>

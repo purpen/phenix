@@ -67,7 +67,6 @@ app.dt.extension_lib.sher_app:
     'topic_list':'Sher_App_ViewTag_TopicList'
     'product_list':'Sher_App_ViewTag_ProductList'
     'asset_list':'Sher_App_ViewTag_AssetList'
-    'stuff_list':'Sher_App_ViewTag_StuffList'
     'comment_list':'Sher_App_ViewTag_CommentList'
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
@@ -113,7 +112,7 @@ app.follow.max: 2000
 app.storage.sher:
     class:'Doggy_Storage_Provider_FileSystem'
     options:
-        root:"/Users/xiaoyi/Project/firebird/data/web/uploads"
+        root:"/Users/xiaoyi/Project/phenix/data/web/uploads"
         root_url:'/uploads'
         hash_dir:false
 

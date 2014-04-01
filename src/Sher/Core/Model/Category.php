@@ -7,10 +7,6 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
     protected $collection = "category";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
-	
-    const DOMAIN_COMMUNITY = 1;
-    const DOMAIN_SHOP = 2;
-	
 	const IS_HIDED = -1; 
 	const IS_OPENED = 1;
 	
@@ -24,7 +20,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域
-		'domain' => self::DOMAIN_COMMUNITY,
+		'domain' => Sher_Core_Util_Constant::TYPE_TOPIC,
 		# 是否公开
 		'is_open' => self::IS_OPENED,
 		# 内容数量

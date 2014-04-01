@@ -1,0 +1,15 @@
+<taconite>
+	<replace select="#favorite_{{ id }}">
+		{% if mode == 'create'%}
+		<a class="ui green labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_cancel_favorite?id={{ id }}" id="favorite_{{ id }}">
+			<i class="flat icon minus-2"></i> 取消收藏
+		</a>
+		{% endif %}
+		
+		{% if mode == 'cancel'%}
+		<a class="ui green labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_favorite?id={{ id }}" id="favorite_{{ id }}">
+			<i class="flat icon add"></i> 收藏
+		</a>
+		{% endif %}
+	</replace>
+</taconite>

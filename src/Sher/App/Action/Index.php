@@ -46,7 +46,12 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
     }
 	
 	
-	
+	/**
+	 * Icon List
+	 */
+	public function flat() {
+		return $this->to_html_page('page/flat.html');
+	}
 	
 	/**
 	 * 帮助中心

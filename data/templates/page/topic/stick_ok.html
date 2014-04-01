@@ -1,0 +1,17 @@
+<taconite>
+	<replace select="#stick_{{ id }}">
+		{% if mode == 'create'%}
+	  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ id }}" id="stick_{{ id }}">
+	      	<i class="flat vertical4 icon"></i>
+	      	推荐
+	  	</a>
+		{% endif %}
+		
+		{% if mode == 'cancel'%}
+	  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_stick?id={{ id }}" id="stick_{{ id }}">
+	      	<i class="flat vertical4 icon"></i>
+	      	推荐
+	  	</a>
+		{% endif %}
+	</replace>
+</taconite>

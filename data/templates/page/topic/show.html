@@ -1,46 +1,214 @@
 {%extends 'layout/sns.html'%}
-{% block title %}发布想法-{% endblock %}
+{% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	
+	phenix.hook_comment_page();
+	phenix.bind_share_list();
 {% endblock %}
 
 {% block content %}
 <div class="social">
 	<div class="ui responsive grid">
 		<div class="row">
-			
-			<div class="eleven wide column">
-				<div class="ui segment">
-					<div class="ui top attached label">
-						<div class="ui breadcrumb">
-						  	<a class="section">社区首页</a>
-						  	<i class="right arrow icon divider"></i>
-						  	<a class="section">话题</a>
-						  	<i class="right arrow icon divider"></i>
-						  	<div class="active section">{{ topic.title }}</div>
-						</div>
-					</div>
-					<h2 class="ui header">
-						{{ topic.title }}
-						<div class="sub header">{{ topic.user.nickname }} 分享于{{ topic.created_on|date 'Y-m-d H:i' }} 浏览数：{{ topic.view_count }}</div>
-					</h2>
-					<p>{{ topic.description }}</p>
+			<div class="ui column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_topic }}">话题</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<div class="active section">{{ topic.title }}</div>
 				</div>
 			</div>
-			<div class="five wide column">
-				<div class="ui segment">
-					<div class="ui header">
-					  	<img class="ui circular image" src="/images/avatar_default.jpg">
-					  	<div class="content">
-					      	{{ topic.user.nickname }}
-					      	<div class="sub header">{{ topic.user.city }} {{ topic.user.profile.job}}</div>
-					  	</div>
+		</div>
+		
+		<div class="row topic-view">
+			<div class="eleven wide column">
+				
+				<div class="ui segment attached">
+					
+					<a class="dot-irecommend" href="#comment">
+						<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+						<span class="dot-irecommend-suffix"></span>
+					</a>
+					
+					<h3 class="ui header">
+						{{ topic.title }}
+					</h3>
+
+					<div class="ui divided horizontal list">
+					  	<div class="small item">产品资讯</div>
+					  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> 发表于{{ topic.created_on|date 'y-m-d H:i' }}</div>
+						<div class="small item">浏览数：{{ topic.view_count }}</div>
 					</div>
 					
+					<div class="ui content">
+						<p>
+							{{ topic.description }}
+						</p>
+					</div>
+					
+				</div>
+				<div class="ui bottom attached footer">
+					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_favorite?id={{ topic._id }}" id="favorite_{{ topic._id }}">
+						<i class="flat emptystar icon"></i> 收藏
+					</a>
+					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
+						<i class="flat bigheart icon"></i> 赞
+					</a>
+					
+					<div class="phenix-share">
+						<label>分享到：</label>
+						<a href="" id="sina-share" title="新浪微博" class="ui red icon button">
+							<i class="flat icon weibo2"></i>
+						</a>
+						<a href="" id="tencent-share" title="腾讯微博" class="ui blue icon button">
+							<i class="flat icon qqweibo"></i>
+						</a>
+						<a href="" id="douban-share" title="豆瓣" class="ui green icon button">
+							<i class="flat icon douban"></i>
+						</a>
+						<a href="" id="renren-share" title="人人网" class="ui blue icon button">
+							<i class="flat icon renren2"></i>
+						</a>
+						<a href="" id="kaixin001-share" title="开心网" class="ui red icon button">
+							<i class="flat icon kaixin"></i>
+						</a>
+		
+					</div>
+					
+				</div>
+				
+				
+				<a name="comment"></a>
+				<h3 class="ui top attached header">回应</h3>
+				<div class="ui segment attached">
+					<div class="ui grid" id="post-comment">
+						<div class="ui column">
+							<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
+							<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+								<input type="hidden" name="target_id" value="{{ topic._id }}" />
+								<input type="hidden" name="type" value="2" />
+								<div class="field">
+									<textarea name="content" class="comment-textarea"></textarea>
+								</div>
+								<input type="submit" class="ui small magenta button" value="添加评论" />
+							</form>
+						</div>
+					</div>
+					
+					
+					<div class="ui threaded minimal comments">
+						{% comment_list var:'comments' page:page target_id:topic._id %}
+						{% for comment in comments.rows %}
+						<div class="comment" id="{{ comment._id }}">
+							<a class="avatar">
+								<img src="/images/avatar_default.jpg" />
+							</a>
+							<div class="content">
+								<a class="author">{{ comment.user.nickname }}</a>
+								<div class="metadata">
+									<div class="date">{{ comment.created_on }}</div>
+									<div class="laud">
+										<a class="ui link ajax-request" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
+											<i class="flat icon heart64"></i>
+										</a>
+									</div>
+								</div>
+								<div class="text">
+									{{ comment.content }}
+								</div>
+								<div class="actions">
+									<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+									<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+								</div>
+								<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+									<input type="hidden" name="type" value="2" />
+									<input type="hidden" name="comment_id" value="{{ comment._id }}" />
+									<input type="hidden" name="target_id" value="{{ topic._id }}" />
+									<div class="field">
+										<textarea name="content" class="reply-content"></textarea>
+									</div>
+									<div class="ui button magenta submit labeled icon">
+										<i class="flat icon edit"></i> 回复
+									</div>
+								</form>
+							</div>
+							
+							
+							{% if comment.reply %}
+							<div class="comments">
+								{% for reply in comment.reply %}
+									<div class="comment">
+										<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+											<img src="/images/avatar_default.jpg" />
+										</a>
+										<div class="content">
+											<a class="author">{{ reply.user.nickname }}</a>
+											<div class="metadata">
+												<div class="date">{{ reply.replied_on }}</div>
+											</div>
+											<div class="text">
+												{{ reply.content }}
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+							{% endif %}
+							
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				{% if comments.rows %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+				{% endif %}
+			</div>
+			<div class="five wide column">
+				<a href="{{ app_url_action_base }}/topic/submit" class="fluid ui magenta icon button">
+					<i class="flat add icon"></i> 发表话题
+				</a>
+				<div class="ui fluid four magenta labeled icon item menu">
+				  	<a class="item" href="{{ app_url_topic }}/edit?id={{ topic._id }}">
+				      	<i class="flat edit icon"></i>
+				      	编辑
+				  	</a>
+				  	<a class="item confirm-request" href="{{ app_url_topic }}/deleted?id={{ topic._id }}">
+				      	<i class="flat waste icon"></i>
+				      	删除
+				  	</a>
+					{% if topic.stick %}
+				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
+				      	<i class="flat stick icon"></i>
+				      	推荐
+				  	</a>
+					{% else %}
+				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
+				      	<i class="flat stick icon"></i>
+				      	推荐
+				  	</a>
+					{% endif %}
+					
+					{% if topic.top %}
+				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_top?id={{ topic._id }}" id="top_{{ topic._id }}">
+				      	<i class="flat pin icon"></i>
+				      	取消置顶
+				  	</a>
+					{% else %}
+				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_top?id={{ topic._id }}" id="top_{{ topic._id }}">
+				      	<i class="flat pin icon"></i>
+				      	置顶
+				  	</a>
+					{% endif %}
 				</div>
 				
 				<h4 class="ui top attached header">
@@ -50,7 +218,9 @@
 					{% topic_list var:'user_list' size:5 sort:'latest' user_id:topic.user._id %}
 					<div class="ui list">
 						{% for topic in user_list.rows %}
-						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="item"> <i class="right triangle icon"></i>{{ topic.title }}</a>
+						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui item link"> 
+							{{ topic.title|truncate, 16, '' }}
+						</a>
 						{% endfor %}
 					</div>
 				</div>
@@ -62,19 +232,13 @@
 					{% topic_list var:'stick_list' size:5 sort:'latest' %}
 					<div class="ui list">
 						{% for topic in stick_list.rows %}
-						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="item"> <i class="right triangle icon"></i>{{ topic.title }}</a>
+						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui item link"> 
+							{{ topic.title|truncate, 16, '' }}
+						</a>
 						{% endfor %}
 					</div>
 				</div>
 				
-				<div class="ui two column grid">
-					<div class="ui column">
-						<a href="{{ app_url_topic }}/edit?id={{ topic._id }}"><i class="pencil icon"></i>编辑</a>
-					</div>
-					<div class="ui column">
-						<a href=""><i class="delete icon"></i>删除</a>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

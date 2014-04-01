@@ -1,0 +1,23 @@
+<taconite>
+	<append select="#{{ comment_id }}">
+		<div class="comments">
+			<div class="comment">
+				<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+					<img src="/images/avatar_default.jpg" />
+				</a>
+				<div class="content">
+					<a class="author">{{ reply.user.nickname }}</a>
+					<div class="metadata">
+						<div class="date">{{ reply.replied_on }}</div>
+					</div>
+					<div class="text">
+						{{ reply.content }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</append>
+	<eval>
+		$('.reply-textarea').val('');
+	</eval>
+</taconite>

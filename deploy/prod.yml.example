@@ -7,6 +7,12 @@ app.mongodb_host: '192.168.8.3'
 app.keychains.private: 'xxxxOOOOxxxx'
 
 
+
+#社区
+app.url.social: '{$app.url.domain}/social'
+app.url.topic: '{$app.url.domain}/topic-%s-%s-%s-%s.html'
+app.url.topic.view: '{$app.url.domain}/topic/show-%s-%s.html'
+
 app.url.thumb: 'http://img.rayshe.com/%s'
 
 # 附件存储目录

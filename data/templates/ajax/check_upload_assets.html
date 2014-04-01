@@ -1,0 +1,19 @@
+<taconite>
+	<append select="#asset-list">
+		{% for asset in asset_list %}
+		<div class="thumb item">
+			<div class="image">
+				<img src="{{ asset.thumbnails.mini.view_url }}" />
+				<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+			</div>
+			<div class="buttons">
+				<div class="ui large links">
+					<a href="" class="ui link"><i class="flat edit icon"></i></a>
+					<a href="" class="ui link"><i class="flat cancel-1 icon"></i></a>
+					<a href="" class="ui link"><i class="flat edit icon"></i></a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</append>
+</taconite>

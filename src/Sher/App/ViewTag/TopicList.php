@@ -19,9 +19,11 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         $size = 10;
 		
         $user_id = 0;
-        $deleted = 0;
-		$stick = 0;
-		$sort = 'latest';
+		
+		$category_id = 0;
+		$type = 0;
+		$time = 0;
+		$sort = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -37,11 +39,60 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-        
-        $query['published'] = 1;
-        $query['deleted'] = $deleted?1:0;
      	
         $options['sort_field'] = $sort;
+		
+		if ($category_id) {
+			$query['category_id'] = (int)$category_id;
+		}
+		
+		// 类别
+		if ($type == 1){
+			// 推荐
+			$query['stick'] = 1;
+		}elseif ($type == 2){
+			$query['fine']  = 1;
+		}else{
+			//为0
+		}
+		
+		// 时间
+		$day = 24 * 60 * 60;
+		switch ($time) {
+			case 0:
+				break;
+			case 1:
+				$query['created_on'] = array('$gte'=> time() - $day);
+				break;
+			case 2:
+				$query['created_on'] = array('$gte'=> time() - 7*$day);
+				break;
+			case 3:
+				$query['created_on'] = array('$gte'=> time() - 30*$day);
+				break;
+			case 4:
+				$query['created_on'] = array('$gte'=> time() - 365*$day);
+				break;
+		}
+		
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'update';
+				break;
+			case 2:
+				$options['sort_field'] = 'comment';
+				break;
+			case 3:
+				$options['sort_field'] = 'favorite';
+				break;
+			case 4:
+				$options['sort_field'] = 'love';
+				break;
+		}
 		
         if ($user_id) {
             if(is_array($user_id)){
@@ -49,14 +100,6 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
             }else{
                 $query['user_id'] = (int)$user_id;
             }
-        }
-		// 推荐
-		if ($stick) {
-			$query['stick'] = (int)$stick;
-		}
-		
-        if ($sort == 'hot') {
-            $query['like_count'] = array('$gte'=>10);
         }
 		
         $service = Sher_Core_Service_Topic::instance();

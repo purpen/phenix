@@ -40,29 +40,34 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'account'  => null,
 		'password' => null,
 		'nickname' => null,
-		'phone' => null,
+		'phone'    => null,
 		
 		'invitation' => null,
-        'state' =>  self::STATE_PENDING,
+        'state'      =>  self::STATE_PENDING,
 		
-        'role_id' => self::ROLE_USER,
+        'role_id'    => self::ROLE_USER,
 		'permission' => array(),
 		
-        'last_login' => 0,
+        'last_login'    => 0,
 		'current_login' => 0,
-	    'online_alive' => 0,
+	    'online_alive'  => 0,
 		
         // counter
 		# 关注数
-        'follow_count' => 0,
-		'fans_count' => 0,
+        'follow_count'  => 0,
+		# 粉丝数
+		'fans_count'    => 0,
 		# 图片数量
-        'photo_count' => 0,
-		# 喜欢数
-		'love_count' => 0,
+        'photo_count'   => 0,
+		# 喜欢数量
+		'love_count'    => 0,
+		# 主题数量
+		'topic_count'   => 0,
+		# 产品数量
+		'product_count' => 0,
 		
 		// 初次登录导向
-		'first_login' => 1,
+		'first_login'   => 1,
 		'avatar' => array(),
 		'digged' => 0,
 		
@@ -120,7 +125,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
     protected $joins = array();
-    
+	
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count');
+	
+	
     //~ some event handles
     /**
 	 * 保存之前,处理标签中的逗号,空格等
@@ -357,25 +365,39 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     public function active_account($id){
     	return $this->update_set((int)$id,array('state' => self::STATE_OK));
     }
-
-    public function inc_counter($counter_name,$user_id=null) {
+	
+	/**
+	 * 更新用户的计数
+	 */
+    public function inc_counter($field_name, $user_id=null) {
         if (is_null($user_id)) {
             $user_id = $this->id;
         }
-        if (empty($user_id)) {
-            return;
+        if (empty($user_id) || !in_array($field_name, $this->counter_fields)) {
+            return false;
         }
-        return $this->inc(array('_id' => (int)$user_id),$counter_name);
+        return $this->inc(array('_id' => (int)$user_id), $field_name);
     }
 	
-    public function dec_counter($counter_name,$user_id = null) {
+	/**
+	 * 更新用户的计数
+	 */
+    public function dec_counter($field_name, $user_id=null, $force=false) {
         if (is_null($user_id)) {
             $user_id = $this->id;
         }
-        if (empty($user_id)) {
+        if (empty($user_id) || !in_array($field_name, $this->counter_fields)) {
             return;
         }
-        return $this->dec(array('_id' => (int)$user_id),$counter_name);
+		
+		if(!$force){
+			$user = $this->find_by_id((int)$user_id);
+			if(!isset($user[$field_name]) || $user[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+        return $this->dec(array('_id' => (int)$user_id), $field_name);
     }
 	
 	/**

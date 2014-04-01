@@ -32,12 +32,33 @@ class Sher_Core_Helper_Url {
 		return $avatar_default;
 	}
 	
+	/**
+	 * 帖子列表访问地址
+	 */
+    public static function topic_list_url($category_id=null, $type=null, $time=null, $page=null) {
+        if (!is_null($category_id)) {
+            $category_id = 'c'.$category_id;
+        }
+		
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		
+        return self::build_url_path('app.url.topic', $category_id, $type, $time).$page;
+    }
+	
+	/**
+	 * 帖子列表访问地址,优化URL格式
+	 */
+	public static function topic_advance_list_url($category_id, $type, $time, $sort,$page=1) {
+		return  sprintf(Doggy_Config::$vars['app.url.topic.list'], $category_id, $type, $time, $sort, $page);
+	}
 	
 	/**
 	 * 帖子查看地址
 	 */
-    public static function topic_view_url($topic_id){
-    	return  sprintf(Doggy_Config::$vars['app.url.topic.view'], $topic_id);
+    public static function topic_view_url($topic_id,$page=1){
+    	return  sprintf(Doggy_Config::$vars['app.url.topic.view'], $topic_id, $page);
     }
 	
 	/**

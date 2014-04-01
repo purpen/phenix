@@ -1,0 +1,14 @@
+<taconite>
+	<replace select="#laud_{{ id }}">
+		{% if mode == 'create'%}
+		<a class="ui link ajax-request" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
+			<i class="flat red icon heart"></i>
+		</a>
+		{% endif %}
+		{% if mode == 'cancel'%}
+		<a class="ui link ajax-request" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
+			<i class="flat icon heart64"></i>
+		</a>
+		{% endif %}
+	</replace>
+</taconite>

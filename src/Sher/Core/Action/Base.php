@@ -40,6 +40,18 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 		return $this->to_raw_json($result);
 	}
 	
+	/**
+	 * 显示ajax delete信息
+	 */
+    public function ajax_delete($note, $is_error=false, $url=null) {
+        if (!empty($url)) {
+            $this->stash['redirect_url'] = $url;
+        }
+        $this->stash['note'] = $note;
+        $this->stash['is_error'] = $is_error;
+        return $this->to_taconite_page('ajax/delete.html');
+    }
+	
     /**
      * alias ajax_note
      */

@@ -196,7 +196,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
         }
 		
 		try{
-			$photos = array();
+			$new_assets = array();
 			for($i=0; $i<count($this->asset); $i++){
 				Doggy_Log_Helper::debug("Upload asset[$i] start.");
 			
@@ -228,7 +228,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 					
 					$asset->update_thumbnails($result,'mini',$asset->_id);
 					
-					$photos[] = $result;
+					$new_assets[] = $result['asset_id'];
 				}
 			}
 		} catch (Sher_Core_Model_Exception $e) {
@@ -236,7 +236,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			return $this->ajax_json("上传图片失败：".$e->getMessage(), true);
 		}
 		
-		return $this->ajax_json('上传图片成功！', false, null, $photos);
+		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
 	}
 	
 	
@@ -246,18 +246,14 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
      * @return void
      */
     public function check_upload_assets() {
-        if (empty($this->stash['stuffs'])) {
+		$assets_ids = $this->stash['assets'];
+        if (empty($assets_ids)) {
             $result['error_message'] = '没有上传的图片';
             $result['code'] = 401;
-            return $this->ajax_response('ajax/check_upload_assets.html',$result);
+            return $this->ajax_response('ajax/check_upload_assets.html', $result);
         }
-		$stuffs = array();
-        $stuffs_ids = $this->stash['stuffs'];
-        $model = new Sher_Core_Model_Stuff();
-		for($i=0;$i<count($stuffs_ids);$i++){
-			$stuffs[] = $model->extend_load($stuffs_ids[$i]);
-		}
-        $this->stash['stuffs'] = $stuffs;
+        $model = new Sher_Core_Model_Asset();
+		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
 		
         return $this->to_taconite_page('ajax/check_upload_assets.html');
     }

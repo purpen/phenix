@@ -1,9 +1,15 @@
 <?php
+/**
+ * 分页标签
+ * @author purpen
+ */
 class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
     protected $argstring;
+	
     public function __construct($argstring, $parser, $pos = 0) {
         $this->argstring = $argstring;
     }
+	
     public function render($context, $stream) {
         $total_page=0;
         $current_page=1;
@@ -24,6 +30,7 @@ class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
 
         $current_page = max(min($total_page,$current_page),1);
         $offset = $current_page % $pager_size;
+		
         //first-index
         if ( $offset == 1) {
             $pager_start = max($current_page-1,1);
@@ -48,7 +55,7 @@ class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
         for ($i=0; $i < $pager_size && $page_index<=$pager_end;$i++) {
             $page['page_index'] = $page_index;
             $page['css'] = $current_page == $page_index ? $current_css:'';
-            $page['url'] = str_replace('#p#',$page_index,$url);
+            $page['url'] = str_replace('#p#', $page_index, $url);
             $pages[] = $page;
             $page_index++;
         }
@@ -59,7 +66,7 @@ class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
                 'css'=>'',
                 'suffix_text'=> $more_text,
                 'url'=>str_replace('#p#',1,$url),
-                ));
+            ));
         }
         if ($pager_end!=$total_page) {
             array_push($pages,array(
@@ -67,7 +74,7 @@ class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
                 'css'=>'',
                 'prefix_text'=> $more_text,
                 'url'=> str_replace('#p#',$total_page,$url),
-                ));
+            ));
         }
 
         $prev_page = max($current_page-1,1);
@@ -88,8 +95,8 @@ class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
         $pager['total_rows'] = $total_rows;
         $pager['current_page'] = $current_page;
         $pager['total_page'] = $total_page;
-        $pager['prev_url'] = str_replace('#p#',$prev_page,$url);
-        $pager['next_url'] = str_replace('#p#',$next_page,$url);
+        $pager['prev_url'] = str_replace('#p#', $prev_page, $url);
+        $pager['next_url'] = str_replace('#p#', $next_page, $url);
         
         if($is_prepage){
         	//若符合预载条件，则补充参数endmid

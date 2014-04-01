@@ -1,6 +1,9 @@
 {%extends 'layout/sns.html'%}
 {% block title %}创新想法-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
@@ -18,47 +21,176 @@
 		</div>
 		<div class="row">
 			<div class="eleven wide column">
-				<div class="ui celled list">
-					{% topic_list var:'list' page:page category_id:category_id %}
-					{% for topic in list.rows %}
-					<div class="item">
-				      	<img class="ui avatar image" src="/images/avatar_default.jpg" />
-				      	<div class="content">
-				          	<h2 class="header">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title }}</a>
-							</h2>
-							
-				          	{{ topic.description }}
-							
-							{% if topic.asset_count %}
-								<!--展示图片-->
-								<div class="ui small images">
-									{% asset_list var:'assets' parent_id:topic._id %}
-									{% for asset in assets.rows %}
-								  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
-									{% endfor %}
-								</div>
-							{% endif %}
-							
+				<div class="ui top attached novpad header">
+					<div class="ui grid">
+						<div class="fourteen wide column">
 							<div class="ui divided horizontal list">
-							  	<div class="item">产品资讯</div>
-							  	<div class="item"><a href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a></div>
-							  	<div class="item">{{ topic.created_on|date 'y-m-d H:i' }}</div>
-								<div class="item">回复（{{ topic.comment_count }}）</div>
+								{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
+								{% for cat in category.rows %}
+							  	<a class="ui {{ cat.active }} item link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+								{% endfor %}
 							</div>
-							
-				      	</div>
-				  	</div>
-					{% endfor %}
+						</div>
+						<div class="right aligned two wide column">
+							<a class="ui showbox link" href="#advanced-filter-topic">
+								<i class="flat bullet3 icon"></i>
+							</a>
+						</div>
+					</div>
+					
 				</div>
+				
+				<div class="ui segment attached">
+					
+					<div class="ui grid hide" id="advanced-filter-topic">
+						<div class="row">
+							<div class="sixteen wide column">
+								<div class="ui horizontal list">
+									<label class="item">类别：</label>
+								  	<a class="ui {{ css_type_stick }} item link" href="{{ links.stick_url }}">推荐</a>
+								  	<a class="ui {{ css_type_fine }} item link" href="{{ links.fine_url }}">精华</a>
+								</div>
+							</div>
+							<div class="sixteen wide column">
+								<div class="ui horizontal list"> 
+									<label class="item">时间：</label>
+								  	<a class="ui {{ css_time_all }} item link" href="{{ links.time_all_url }}">全部</a>
+								  	<a class="ui {{ css_time_day }} item link" href="{{ links.time_day_url }}">一天之内</a>
+								  	<a class="ui {{ css_time_week }} item link" href="{{ links.time_week_url }}">一周之内</a>
+									<a class="ui {{ css_time_mouth }} item link" href="{{ links.time_mouth_url }}">一个月内</a>
+									<a class="ui {{ css_time_year }} item link" href="{{ links.time_year_url }}">近一年内</a>
+								</div>
+							</div>
+							<div class="sixteen wide column">
+								<div class="ui horizontal list">
+									<label class="item">排序：</label>
+								  	<a class="ui {{ css_sort_default }} item link" href="{{ links.sort_default_url }}">默认</a>
+								  	<a class="ui {{ css_sort_update }} item link" href="{{ links.sort_updated_url }}">发帖时间</a>
+								  	<a class="ui {{ css_sort_comment }} item link" href="{{ links.sort_comment_url }}">回复最多</a>
+									<a class="ui {{ css_sort_favorite }} item link" href="{{ links.sort_favorite_url }}">收藏最多</a>
+									<a class="ui {{ css_sort_love }} item link" href="{{ links.sort_laud_url }}">最赞主题</a>
+								</div>
+							</div>
+							<div class="ui horizontal divider">
+								<i class="flat circlearrowbottom icon"></i>
+							</div>
+						</div>
+					</div>
+					
+					<div class="ui divided topic-list list">
+						{% for dig in dig_list %}
+							<div class="item">
+								<div class="ui grid">
+									<div class="two wide column">
+										<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+								      		<img src="/images/avatar_default.jpg" />
+										</a>
+									</div>
+									<div class="twelve wide column">
+								      	<div class="content">
+								          	<h3 class="link header">
+												[置顶] <a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui link">{{ dig.title }}</a>
+											</h3>
+							
+											{% if dig.asset_count %}
+												<!--展示图片-->
+												<div class="ui small images">
+													{% asset_list var:'assets' parent_id:dig._id %}
+													{% for asset in assets.rows %}
+												  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
+													{% endfor %}
+												</div>
+											{% endif %}
+											<div class="ui divided horizontal list">
+											  	<div class="small item">
+													<a href="{{ dig.category.view_url }}" class="ui link">
+														{{ dig.category.title }}
+													</a>
+												</div>
+											  	<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a> {{ dig.created_on|relative_time }}</div>
+												{% if topic.last_user %}
+												<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.last_user.nickname }}</a> {{ dig.last_reply_time|relative_time }}回复</div>
+												{% endif %}
+											</div>
+							
+								      	</div>
+									</div>
+									<div class="right aligned two wide column comment-counter">
+										<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+											<span class="dot-irecommend-count">{{ dig.comment_count }}</span> 
+											<span class="dot-irecommend-suffix"></span>
+										</a>
+							      	</div>
+								</div>
+						  	</div>
+						{% endfor %}
 						
+						{% topic_list var:'list' category_id:category_id type:type time:time sort:sort page:page %}
+						{% for topic in list.rows %}
+						<div class="item">
+							<div class="ui grid">
+								<div class="two wide column">
+									<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+							      		<img src="/images/avatar_default.jpg" />
+									</a>
+								</div>
+								<div class="twelve wide column">
+							      	<div class="content">
+							          	<h3 class="link header">
+											<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+										</h3>
+							
+										{% if topic.asset_count %}
+											<!--展示图片-->
+											<div class="ui small images">
+												{% asset_list var:'assets' parent_id:topic._id %}
+												{% for asset in assets.rows %}
+											  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
+												{% endfor %}
+											</div>
+										{% endif %}
+										<div class="ui divided horizontal list">
+										  	<div class="small item">
+												<a href="{{ topic.category.view_url }}" class="ui link">
+													{{ topic.category.title }}
+												</a>
+											</div>
+										  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_time }}</div>
+											{% if topic.last_user %}
+											<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ topic.last_user.nickname }}</a> {{ topic.last_reply_time|relative_time}}回复</div>
+											{% endif %}
+										</div>
+							
+							      	</div>
+								</div>
+								<div class="right aligned two wide column comment-counter">
+									<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+										<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+										<span class="dot-irecommend-suffix"></span>
+									</a>
+						      	</div>
+							</div>
+					  	</div>
+						{% endfor %}
+					</div>
+					
+				</div>
+				
 				{% if list.rows %}
+				<div class="ui pagination">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{%include 'block/pager.html'%}
+				</div>
 				{% endif %}
+				
 			</div>
 			
 			<div class="five wide column">
+				
+				<a href="{{ app_url_action_base }}/topic/submit" class="fluid ui magenta icon button">
+					<i class="flat add icon"></i> 发表话题
+				</a>
+				
 				<h4 class="ui top attached header">
 					公告
 				</h4>
@@ -74,21 +206,24 @@
 				</h4>
 				<div class="ui segment attached">
 					{% topic_list var:'stick_list' size:5 stick:1 %}
-					<div class="ui celled list">
+					<div class="ui divided list">
 						{% for topic in stick_list.rows %}
 						<div class="item">
-				          	<h2 class="header">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title }}</a>
-							</h2>
-						
-				          	{{ topic.description }}
-						
+				          	<h4 class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">
+									{{ topic.title|truncate, 16, '' }}
+								</a>
+							</h4>
+							<p>
+				          		{{ topic.description|truncate 32 }}
+							</p>
 							<div class="ui divided horizontal list">
-							  	<div class="item">产品资讯</div>
-							  	<div class="item"><a href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a></div>
-							  	<div class="item">{{ topic.created_on|date 'y-m-d H:i' }}</div>
-								<div class="item">回复（{{ topic.comment_count }}）</div>
+							  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_date }} 发布</div>
+							  	<div class="small item">
+									回复（{{ topic.comment_count }}）
+								</div>
 							</div>
+							
 					  	</div>
 						{% endfor %}
 					</div>
