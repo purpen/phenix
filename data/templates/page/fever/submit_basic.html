@@ -41,6 +41,26 @@
 			});
 		}
 	});
+	
+	// 选择分类
+	$('body').on('click', '.ui.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#product-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#product-category').val(id);
+		}
+		
+        return false;
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -77,13 +97,11 @@
 					</div>
 					<div class="field">
 						<label>类别</label>
-						<input type="hidden" name="category_id" value="{{ product.category_id }}" />
-						<a class="ui black label">
-							设计资讯
-						</a>
-						<a class="ui green label">
-						  	消费电子
-						</a>
+						<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
+						{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
+						{% for cat in category.rows %}
+						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+						{% endfor %}
 					</div>
 					
 					
@@ -95,8 +113,8 @@
 					</div>
 					
 				  	<h3 class="ui right floated header">
-						<div class="ui right large icon labeled red submit button">
-							下一步<i class="play icon"></i>
+						<div class="ui right large icon labeled magenta submit button">
+							下一步<i class="flat play icon"></i>
 						</div>
 				  	</h3>
 					

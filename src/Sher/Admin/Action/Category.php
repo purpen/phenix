@@ -82,8 +82,10 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 			return $this->ajax_note('分类保存失败:'.$e->getMessage(), true);
 		}
 		
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/category';
 		
-		return $this->ajax_notification('分类保存成功.');
+		
+		return $this->ajax_notification('分类保存成功.', false, $redirect_url);
 	}
 	
 	/**

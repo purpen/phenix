@@ -1,0 +1,86 @@
+{%extends 'layout/sns.html'%}
+{% block title %}提交创意-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#product-content-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui steps">
+				  	<div class="ui disabled step">
+				      	基本信息
+				  	</div>
+				  	<div class="ui active step">
+				      	详情描述
+				  	</div>
+				  	<div class="ui disabled step">
+				      	上传图片 & 视频
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="eleven wide column">
+				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-content-form">
+					<input type="hidden" name="step" value="2" />
+					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+					<div class="field">
+						<label>创意详细说明</label>
+					  	<textarea name="content">{{ product.content }}</textarea>
+					</div>
+					
+				  	<h3 class="ui right floated header">
+						<div class="ui right large icon labeled magenta submit button">
+							下一步<i class="flat play icon"></i>
+						</div>
+				  	</h3>
+					
+				</form>
+			</div>
+			<div class="five wide column">
+				<h2>Q&A</h2>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

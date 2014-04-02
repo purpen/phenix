@@ -63,7 +63,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     protected $required_fields = array('filepath');
 	
-    protected $int_fields = array('size','width','height','state');
+    protected $int_fields = array('parent_id', 'size','width','height','state');
 	
     protected function extra_extend_model_row(&$row) {
 		$this->extend_asset_view_url($row);

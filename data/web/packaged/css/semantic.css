@@ -4164,63 +4164,6 @@ body > .ui.grid {
   font-size: 1.1em;
 }
 
-
-/*******************************
-          Basic Icon
-*******************************/
-
-@font-face {
-  font-family: 'Icomoon';
-  src: url(http://taihuoniao.me/packaged/fonts/icomoon.eot);
-  src: url(http://taihuoniao.me/packaged/fonts/icomoon.eot?#iefix) format('embedded-opentype'), url(http://taihuoniao.me/packaged/fonts/icomoon.svg#icomoon) format('svg'), url(http://taihuoniao.me/packaged/fonts/icomoon.woff) format('woff'), url(http://taihuoniao.me/packaged/fonts/icomoon.ttf) format('truetype');
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-decoration: inherit;
-  text-transform: none;
-}
-
-i.icomoon.icon {
-  display: inline-block;
-  opacity: 0.75;
-  margin: 0em 0.25em 0em 0em;
-  width: 1.23em;
-  height: 1em;
-  font-family: 'Icomoon';
-  font-style: normal;
-  line-height: 1;
-  font-weight: normal;
-  text-decoration: inherit;
-  text-align: center;
-  speak: none;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-}
-
-i.icomoon.icon.add:before {
-  content: '\2795';
-}
-i.icomoon.icon.niao:before {
-	content: "\e600";
-}
-i.icomoon.icon.wx:before {
-	content: "\e603";
-}
-i.icomoon.icon.weibo:before {
-	content: "\e604";
-}
-i.icomoon.icon.sina_weibo:before {
-	content: "\e605";
-}
-i.icomoon.icon.qq:before {
-	content: "\e606";
-}
-
 /*
  * # Semantic - basic.Icon (Basic)
  * http://github.com/jlukic/semantic-ui/
@@ -5365,7 +5308,6 @@ i.massive.basic.icon {
   min-height: 1em;
   outline: none;
   border: none;
-  background-color: #FAFAFA;
   color: #808080;
   margin: 0em;
   padding: 0.8em 1.5em;
@@ -5376,12 +5318,7 @@ i.massive.basic.icon {
   font-style: normal;
   text-align: center;
   text-decoration: none;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.05)));
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
   border-radius: 0.25em;
-  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08) inset;
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.08) inset;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -9224,6 +9161,14 @@ img.ui.image {
   width: 2em;
   height: 2em;
   border-radius: 500rem;
+}
+
+.ui.mini.avatar.images .image,
+.ui.mini.avatar.images img,
+.ui.mini.avatar.image img,
+.ui.mini.avatar.image {
+  width: 4em;
+  height: 4em;
 }
 
 /*-------------------

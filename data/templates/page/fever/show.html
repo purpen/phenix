@@ -1,0 +1,123 @@
+{%extends 'layout/sns.html'%}
+{% block title %}{{ product.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	phenix.hook_comment_page();
+	phenix.bind_share_list();
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_fever }}">创意投票</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<div class="active section">{{ product.title }}</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row fever-view">
+			<div class="eight wide column">
+				
+			</div>
+			<div class="eight wide column">
+				<h3 class="ui header">
+					{{ product.title }}
+					<p class="sub header">{{ product.user.nickname }}<p>
+				</h3>
+				{{ product.summary }}
+				<div class="ui clearing divider"></div>
+				
+				<div class="vote timer">
+					<a href="ui icon button">
+						<i class="flat diggood icon"></i>
+					</a>
+					<a href="ui icon button">
+						<i class="flat digbad icon"></i>
+					</a>
+				</div>
+				
+				<div class="ui clearing divider"></div>
+				<div class="vote people">
+					<div class="avatars">
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+							<img src="/images/avatar_default.jpg" />
+						</a>
+					</div>
+					<div class="ui rules segment">
+						<div class="left floated column">
+							{{ product.vote_count }}人已投票
+						</div>
+						<div class="right floated column">
+							<a href="" class="ul link">投票及评分规则</a>
+						</div>
+					</div>
+				</div>
+				<div class="ui clearing divider"></div>
+				<div class="vote highlight">
+					创意亮点<br />
+					<label class="ui green label">节能</label> <label class="ui green label">环保</label> <label class="ui green label">超级便利</label>
+					
+					<p>
+						关于投票成功与失败：<br />
+						这个项目必须在2014年05月08日 10：42之前得到用户100个投票才能进入专家评估环节，否则视为失败。
+					</p>
+				</div>
+				
+				<a href="{{ app_url_fever }}/edit?id={{ product._id }}" class="ui button">编辑</a>
+				
+			</div>
+		</div>
+		
+		<div class="row fever-view">
+			<div class="ui column">
+				<div class="ui fluid three item attached menu">
+				  	<a class="item">创意介绍</a>
+				  	<a class="item">评论 ({{ product.comment_count }})</a>
+				  	<a class="item">投票者（{{ product.vote_count }}）</a>
+				</div>
+				
+				<div class="ui segment bottom attached">
+					{{ product.summary }}
+				</div>
+				
+				
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+{% endblock %}

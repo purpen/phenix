@@ -1,0 +1,144 @@
+{%extends 'layout/sns.html'%}
+{% block title %}提交创意-{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#product-upload-form').form({}, {
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			params: {'parent_id': '{{ product._id }}' },
+        	endpoint: '{{ app_url_upload_product }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui steps">
+				  	<div class="ui disabled step">
+				      	基本信息
+				  	</div>
+				  	<div class="ui disabled step">
+				      	详情描述
+				  	</div>
+				  	<div class="ui active step">
+				      	上传图片 & 视频
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="eleven wide column">
+				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-upload-form">
+					<input type="hidden" name="step" value="3" />
+					<input type="hidden" name="_id" value="{{ product._id }}" />
+					<input type="hidden" name="cover_id" value="{{ product.cover_id }}" id="cover_id" />
+					<div class="field">
+						<label>添加图片</label>
+					  	<div id="phenix-uploader"></div>
+						
+						<div id="asset-list" class="ui four items">
+							{% if mode == 'edit' %}
+								{% asset_list var:'assets' parent_id:product._id %}
+								{% for asset in assets.rows %}
+								<div class="thumb item">
+									<div class="image">
+										<img src="{{ asset.thumbnails.mini.view_url }}" />
+										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+									</div>
+									<div class="buttons">
+										<div class="ui large links">
+											<a href="" class="ui link" title="插入">
+												<i class="flat sqinarrowtop icon"></i>
+											</a>
+											<a href="" class="ui link" title="删除">
+												<i class="flat waste icon"></i>
+											</a>
+											<a href="{{ app_url_fever }}/update_cover" class="ui link" title="设置封面图">
+												<i class="flat flag icon"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+					<div class="field">
+						<label>视频链接</label>
+					  	<input type="text" name="meta[]" placeholder="http://" />
+					</div>
+					
+					<div class="ui grid">
+						<div class="left floated eight wide column">
+							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large icon gray button">
+								上一步<i class="flat back icon"></i>
+							</a>
+						</div>
+						<div class="right floated aligned eight wide column">
+							<div class="ui large magenta submit button">
+								完成
+							</div>
+						</div>
+					</div>
+					
+				</form>
+			</div>
+			<div class="five wide column">
+				<h2>Q&A</h2>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

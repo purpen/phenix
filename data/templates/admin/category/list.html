@@ -6,18 +6,20 @@
 
 {% block content %}
 	<div class="ui tool-box">
-		<div class="ui basic buttons">
+		<div class="ui magenta buttons">
 			<a href="{{ app_url_admin_base }}/category" class="ui {{css_all_category}} icon button">全部列表</a>
 			<a href="{{ app_url_admin_base }}/category?only_open=1" class="ui {{css_open_category}} button">公开列表</a>
 			<a href="{{ app_url_admin_base }}/category?only_open=-1" class="ui {{css_hide_category}} button">隐藏列表</a>
 		</div>
-		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增分类</a>
+		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon magenta button">
+			<i class="flat add icon"></i>新增分类
+		</a>
 		
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
 			<div class="inline field">
 				<div class="ui icon input">
 	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="search icon"></i>
+	          		<i class="flat search icon"></i>
 				</div>
 	        </div>
 		</form>
@@ -32,6 +34,7 @@
 				<th></th>
 				<th>分类名称/标识</th>
 				<th>状态</th>
+				<th>所属域</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -41,10 +44,11 @@
 				<td><input type="checkbox" name="id[]" value="{{ cat._id }}" class="form-control" /></td>
 				<td>{{ cat.title }} / {{ cat.name }}</td>
 				<td>{% if cat.is_open == 1 %}<span class="ui green label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
+				<td>{% if cat.domain == 1%}产品{% endif %} {% if cat.domain == 2%}社区{% endif %}</td>
 				<td>
 					<div class="ui divided horizontal list">
-						<a href="{{ app_url_admin_base }}/category/edit?id={{ cat._id }}" class="item">编辑</a> 
-						<a href="{{ app_url_admin_base }}/category/delete?id={{ cat._id }}" class="item confirm-request">删除</a>
+						<a href="{{ app_url_admin_base }}/category/edit?id={{ cat._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/category/delete?id={{ cat._id }}" class="ui link item confirm-request">删除</a>
 					</div>
 				</td>
 			</tr>

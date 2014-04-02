@@ -50,6 +50,9 @@
 	width: 280px;
 }
 
+.ui.form .reply-content {
+	min-height: 2em;
+}
 
 .ui.form .description {
     color: #9DA6AB;
@@ -57,12 +60,33 @@
     margin-top: 0.2em;
 }
 
+.ui.signup.button {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1em;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out 0s;
+	border: 1px solid #FF3366;
+    border-radius: 3px;
+    color: #FF3366;
+}
+
+.ui.signup.button:hover {
+    background: none repeat scroll 0 0 #F42156;
+    color: #FFFFFF;
+}
+
+
 body {
     background: #f8f8f8;
     color: #555555;
     min-width: 320px;
 	margin: 0;
 }
+.hide {
+	display:none;
+}
+
 header.main {
     background: none repeat scroll 0 0 #FFFFFF;
     border-bottom: 1px solid #DCDDDE;
@@ -92,6 +116,38 @@ header.main .secondary.user.menu {
     margin: 28px 0 0;
     position: relative;
 }
+header.main .ui.main-nav {
+	margin: 0 auto;
+}
+header.main .ui.main-nav > .item {
+	padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1.6em;
+	border-top: 2px solid #fff;
+	margin: 0 0.5em;
+}
+header.main .ui.main-nav > .active.item {
+	padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1.6em;
+	border-top: 2px solid #D95C5C;
+}
+
+.ui.top.attached.header {
+    border-radius: 0.1125em 0.1125em 0 0;
+    margin-bottom: 0;
+}
+
+
+/* 发布评论 */
+#post-comment {
+	margin-top: -1rem;
+}
+#post-comment .ui.avatar {
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
 #bd {
 	padding-top:20px;
 }

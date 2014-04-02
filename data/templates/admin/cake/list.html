@@ -5,16 +5,18 @@
 {% endblock %}
 {% block content %}
 	<div class="ui tool-box">
-		<div class="ui basic buttons">
-			<a href="{{ app_url_admin_base }}/cake" class="ui icon button">全部列表</a>
+		<div class="ui magenta buttons">
+			<a href="{{ app_url_admin_base }}/cake" class="ui button">全部列表</a>
 		</div>
-		<a href="{{ app_url_admin_base }}/cake/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增公告</a>
+		<a href="{{ app_url_admin_base }}/cake/edit" class="ui right labeled icon magenta button">
+			<i class="flat add icon"></i>新增公告
+		</a>
 		
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/cake">
 			<div class="inline field">
 				<div class="ui icon input">
 	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="search icon"></i>
+	          		<i class="flat search icon"></i>
 				</div>
 	        </div>
 		</form>
@@ -38,8 +40,8 @@
 				<td>{{ cake.updated_on|date 'y-m-d H:i' }}</td>
 				<td>
 					<div class="ui divided horizontal list">
-						<a href="{{ app_url_admin_base }}/cake/edit?id={{ cake._id }}" class="item">编辑</a> 
-						<a href="{{ app_url_admin_base }}/cake/delete?id={{ cake._id }}" class="item confirm-request">删除</a>
+						<a href="{{ app_url_admin_base }}/cake/edit?id={{ cake._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/cake/delete?id={{ cake._id }}" class="ui link item confirm-request">删除</a>
 					</div>
 				</td>
 			</tr>

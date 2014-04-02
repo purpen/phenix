@@ -63,7 +63,7 @@ feature.formdata = window.FormData !== undefined;
  */
 $.fn.ajaxSubmit = function(options) {
     /*jshint scripturl:true */
-
+	
     // fast fail if nothing selected (http://dev.jquery.com/ticket/2752)
     if (!this.length) {
         log('ajaxSubmit: skipping submit process - no element selected');

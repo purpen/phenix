@@ -5,14 +5,8 @@
   	<a class="{{ css_page_topic }} item" href="{{ app_url_topic }}">
 		社区
   	</a>
-	{% if css_page_fever %}
-  	<div class="item">
-      	<a class="ui large green button" href="{{ app_url_social }}/submit">
-			<i class="flat add icon"></i>提交投票
-		</a>
-  	</div>
-	{% endif %}
   	<div class="right menu">
+		{% if css_page_topic %}
 		<div class="stat-list">
 		  	<span class="item">今日：0</span>
 		  	<span class="item">昨日：0</span>
@@ -20,5 +14,11 @@
 			<span class="item">会员：0</span>
 			<span class="item">欢迎新会员：0</span>
 		</div>
+		{% endif %}
+		{% if css_page_fever %}
+		<div class="stat-list">
+		  	<span class="item">150个创意</span>
+		</div>
+		{% endif %}
   	</div>
 </div>

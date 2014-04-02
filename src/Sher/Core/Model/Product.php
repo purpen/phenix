@@ -6,6 +6,7 @@
 class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
     protected $collection = "product";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
 	# 产品周期stage
     const STAGE_VOTE     = 1;
@@ -48,8 +49,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 封面图
  		'cover_id' => '',
+		'asset' => array(),
+		# 附件图片数
+		'asset_count' => 0,
+		
 		# 类别支持多选
-		'category_id' => array(),
+		'category_id' => 0,
 		
 		# 上传者
 	    'user_id' => null,
@@ -69,7 +74,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 收藏数
         'favorite_count' => 0, 
 		# 喜欢数
-        'like_count' => 0,
+        'love_count' => 0,
 		# 回应数 
     	'comment_count' => 0,
 		# 赞成数
@@ -95,7 +100,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     );
 
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','state','published','deleted');
+	protected $int_fields = array('user_id','category_id','state','published','deleted');
+	
+	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','vote_favor_count','vote_oppose_count');
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -108,14 +115,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = $this->gen_view_url($row);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
-
-		if (isset($row['asset'])) {
-	        $row['thumb_small_view_url'] = $row['asset']['thumb_small_url'];
-	        $row['thumb_big_view_url'] = $row['asset']['thumb_big_url'];
-		}else{
-	        $row['thumb_small_view_url'] = Doggy_Config::$vars['app.url.default_thumb_small'];
-	        $row['thumb_big_view_url'] = Doggy_Config::$vars['app.url.default_thumb_big'];
-		}
+		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
+		
 	}
 	
 	/**
@@ -134,7 +135,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
 				break;
 			default:
-				$view_url = '';
+				$view_url = Sher_Core_Helper_Url::vote_view_url($row['_id']);
 				break;
 		}
 		
@@ -149,7 +150,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
 	    }
 		// 新建数据,补全默认值
-		if (!$this->is_saved()){
+		if ($this->is_saved()){
 			$data['sku'] = $this->gen_product_sku();
 			
 			// 添加随机数
@@ -160,6 +161,15 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 设置封面图
+	 */
+	public function mark_set_cover($id, $cover_id){
+		return $this->update_set($id, array('cover_id'=>$cover_id));
+	}
+	
+	
+	
+	/**
 	 * 生成产品的SKU
 	 */
 	protected function gen_product_sku($prefix='91'){
@@ -167,7 +177,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$sku .= substr(time(), 4);
 		$sku .= $this->rand_number_str(2);
 		
-		return $sku;
+		return (int)$sku;
 	}
 	
 	/**
@@ -180,6 +190,41 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $string .= $chars{$pos};
         }
         return $string;
+	}
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$product = $this->find_by_id((int)$id);
+			if(!isset($product[$field_name]) || $product[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name);
 	}
 	
 	

@@ -42,7 +42,7 @@ app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 
 #社区创意投票
 app.url.fever: '{$app.url.action_base}/fever'
-app.url.fever.view: '{$app.url.action_base}/fever/show/%s'
+app.url.fever.view: '{$app.url.action_base}/fever/view/%s'
 
 
 #上传
@@ -72,9 +72,9 @@ app.url.forget: 	'{$app.url.action_base}/auth/forget'
 app.url.invite: 	'{$app.url.action_base}/auth/invite'
 
 #管理面板
-app.url.admin:		'{$app.url.action_base}/admin'
-app.url.admin.report: '{$app.url.action_base}/admin/report'
-app.url.admin.reply: '{$app.url.action_base}/admin/reply'
+app.url.admin:		'{$app.url.admin_base}'
+app.url.admin.report: '{$app.url.admin_base}/report'
+app.url.admin.reply: '{$app.url.admin_base}/reply'
 
 # 附件图片查看地址
 app.url.thumb: 		'/uploads/%s'

@@ -24,23 +24,29 @@
 			]
 		}
 	}, {
-		inline: true
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
 	});
 {% endblock %}
 {% block content %}
 	<div class="ui tool-box">
-		<div class="ui basic buttons">
+		<div class="ui magenta buttons">
 			<a href="{{ app_url_admin_base }}/category" class="ui {{css_all_category}} icon button">全部列表</a>
 			<a href="{{ app_url_admin_base }}/category?only_open=1" class="ui {{css_open_category}} button">公开列表</a>
 			<a href="{{ app_url_admin_base }}/category?only_open=-1" class="ui {{css_hide_category}} button">隐藏列表</a>
 		</div>
-		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon green button"><i class="add icon"></i>新增分类</a>
+		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon magenta button">
+			<i class="flat add icon"></i>新增分类
+		</a>
 		
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
 			<div class="inline field">
 				<div class="ui icon input">
 	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="search icon"></i>
+	          		<i class="flat search icon"></i>
 				</div>
 	        </div>
 		</form>
@@ -67,14 +73,14 @@
 			</div>
 			
 			<div class="inline field">
-				<label for="parent_id">所属父级：</label>
+				<label for="domain">所属域：</label>
 				<div class="ui selection dropdown">
-					<input type="hidden" name="parent_id" />
+					<input type="hidden" name="domain" value="{{ category.domain }}" />
 				    <div class="default text">请选择</div>
-				    <i class="dropdown icon"></i>
+				    <i class="flat arrowbottom icon"></i>
 				    <div class="menu">
-				        <div data-value="1" class="item">产品</div>
-				        <div data-value="2" class="item">社区</div>
+				        <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">产品</div>
+				        <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区</div>
 				    </div>
 				</div>
 			</div>
@@ -110,8 +116,8 @@
 				</div>
 			</div>
 			
-			<button type="submit" class="ui blue button">确认保存</button>
-			<button type="button" class="ui button">取消</button>
+			<input type="submit" class="ui magenta button" value="确认保存">
+			<input type="button" class="ui gray button" value="取消">
 		</form>
 	</div>
 {% endblock %}
