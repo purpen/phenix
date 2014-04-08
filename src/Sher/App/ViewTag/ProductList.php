@@ -18,8 +18,12 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
 		
+		$category_id = 0;
         $user_id = 0;
         $deleted = 0;
+		$stage = 0;
+		$only_approved = 0;
+		
 		$sort = 'latest';
 		
         $var = 'list';
@@ -36,9 +40,6 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-        
-        $query['published'] = 1;
-        $query['deleted'] = $deleted?1:0;
      	
         $options['sort_field'] = $sort;
 		
@@ -49,6 +50,18 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
                 $query['user_id'] = (int)$user_id;
             }
         }
+		
+		if ($category_id) {
+			$query['category_id'] = (int)$category_id;
+		}
+		
+		if ($stage) {
+			$query['stage'] = (int)$stage;
+		}
+		
+		if ($only_approved) {
+			$query['approved'] = 1;
+		}
 		
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;

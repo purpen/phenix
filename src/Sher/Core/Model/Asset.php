@@ -7,8 +7,6 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     protected $collection = "asset";
 
-	const ASSET_DOAMIN = "sher";
-
     const STATE_FAIL = 0;		//处理失败
     const STATE_PENDING = 1;
     const STATE_OK = 2;
@@ -130,14 +128,19 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	protected function after_save() {
 		$file = $this->getFile();
 	    $path = $this->filepath;
+		
 		Doggy_Log_Helper::debug("Path: $path, File: $file.");
 		if(!is_null($file) && !is_null($path)){
 			try{
-				Sher_Core_Util_Asset::storeAsset(self::ASSET_DOAMIN, $path, $file);
+				Sher_Core_Util_Asset::storeAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file);
 			}catch(Sher_Core_Util_Exception $e){
 				Doggy_Log_Helper::error('Save asset file failed. ' . $e->getMessage());
 				throw new Cms_Core_Model_Exception('Save asset file failed. ' . $e->getMessage());
 			}
+			
+			// 生成其他缩略图放入任务队列
+			
+			Sher_Core_Jobs_Queue::maker_thumb((string)$this->data['_id']);
 		}
     }
 	
@@ -151,7 +154,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		$rows = $this->find($query);
 		foreach($rows as $row){
 			$file_path = $row['filepath'];
-			Sher_Core_Util_Asset::deleteAsset(self::ASSET_DOAMIN, $file_path);
+			Sher_Core_Util_Asset::deleteAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $file_path);
 			$this->remove($row['_id']);
 		}
 		return true;
@@ -166,7 +169,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
             return null;
         }
         $file_path = $row['filepath'];
-		Sher_Core_Util_Asset::deleteAsset(self::ASSET_DOAMIN, $file_path);
+		Sher_Core_Util_Asset::deleteAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $file_path);
 		
         return $this->remove($id);
     }

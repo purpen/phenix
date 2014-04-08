@@ -1,0 +1,17 @@
+{
+	"name": "purpen/phenix",
+	"type": "library",
+	"description": "Redis backed library for creating background jobs and processing them later. Based on resque for Ruby.",
+	"keywords": ["job", "background", "redis", "resque"],
+	"homepage": "http://www.taihuoniao.com/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "purpen",
+			"email": "purpen.w@gmail.com"
+		}
+	],
+    "require": {
+        "chrisboulton/php-resque": "1.2.x"
+    }
+}

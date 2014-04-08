@@ -83,7 +83,7 @@
 		</div>
 		<div class="row">
 			<div class="eleven wide column">
-				<form action="{{ app_url_social }}/save" class="ui form" method="post" id="product-basic-form">
+				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-basic-form">
 					<input type="hidden" name="step" value="1" />
 					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
 					<div class="field">
@@ -103,7 +103,10 @@
 						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
 						{% endfor %}
 					</div>
-					
+					<div class="field">
+						<label>创意亮点</label>
+					  	<input type="text" name="tags" value="{{ product.tags_s }}" />
+					</div>
 					
 					<div class="inline field">
 						<div class="ui checkbox">

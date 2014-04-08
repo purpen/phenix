@@ -30,7 +30,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	/**
 	 * 社区列表
 	 */
-	public function get_list() {
+	public function get_list() {		
 		return $this->to_html_page('page/social/list.html');
 	}
 	

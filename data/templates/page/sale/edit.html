@@ -1,11 +1,27 @@
-{%extends 'layout/sns.html'%}
-{% block title %}提交创意-{% endblock %}
+{%extends 'layout/board.html'%}
+{% block title %}预售-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	.ui.ok.button {
+		margin-top: 1.7em;
+	}
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#product-upload-form').form({}, {
+	$('#product-sale-form').form({
+		hot_price: {
+			identifier  : 'hot_price',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '预售价格不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
 			$(this).ajaxSubmit({
@@ -27,6 +43,7 @@
 		}
 	});
 	
+
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -56,33 +73,77 @@
 			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
 		}
 	});
-
 {% endblock %}
 
 {% block content %}
-<div class="social">
+<div class="home">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
-				<div class="ui steps">
-				  	<div class="ui disabled step">
-				      	基本信息
-				  	</div>
-				  	<div class="ui disabled step">
-				      	详情描述
-				  	</div>
-				  	<div class="ui active step">
-				      	上传图片 & 视频
-				  	</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
 			<div class="eleven wide column">
-				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-upload-form">
-					<input type="hidden" name="step" value="3" />
-					<input type="hidden" name="_id" value="{{ product._id }}" />
-					<input type="hidden" name="cover_id" value="{{ product.cover_id }}" id="cover_id" />
+				<form action="{{ app_url_sale }}/save" class="ui form" method="post" id="product-sale-form">
+					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+					<div class="field">
+						<label>产品名称</label>
+					  	<input type="text" name="title" value="{{ product.title }}" />
+					</div>
+					<div class="field">
+						<label>产品简述</label>
+					  	<textarea name="summary">{{ product.summary }}</textarea>
+						<div class="description">请详细的描述</div>
+					</div>
+					
+					<div class="field">
+						<label>产品型号/数量 <a href="#ajax-request" class="ui link"><i class="flat add icon"></i></a></label>
+					</div>
+					<div class="three fields">
+						<div class="field">
+						  	<label>产品型号：</label>
+							<input type="text" name="mode[]" />
+						</div>
+						<div class="field">
+						  	<label>产品数量：</label>
+							<input type="text" name="quantity[]" />
+						</div>
+						<div class="field">
+							<div class="ui active small magenta ok button">确定</div>
+						</div>
+					</div>
+					
+					<div class="three fields">
+						<div class="field">
+						  	<label>成本价：</label>
+							<input type="text" name="cost_price" value="{{ product.cost_price }}" />
+						</div>
+						<div class="field">
+						  	<label>市场价：</label>
+							<input type="text" name="market_price" value="{{ product.market_price }}" />
+						</div>
+						<div class="field">
+					  		<label>预售价：</label>
+							<input type="text" name="hot_price"  value="{{ product.hot_price }}" />
+						</div>
+					</div>
+					
+					<div class="field">
+						<label>产品亮点</label>
+					  	<input type="text" name="tags" value="{{ product.tags_s }}" />
+					</div>
+					
+					<div class="field">
+						<label>类别</label>
+						<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
+						{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
+						{% for cat in category.rows %}
+						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+						{% endfor %}
+					</div>
+					
+					<div class="field">
+						<label>产品详细说明</label>
+					  	<textarea name="content">{{ product.content }}</textarea>
+					</div>
+					
+					
 					<div class="field">
 						<label>添加图片</label>
 					  	<div id="phenix-uploader"></div>
@@ -114,20 +175,14 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="field">
-						<label>视频链接</label>
-					  	<input type="text" name="meta[]" placeholder="http://" />
-					</div>
 					
 					<div class="ui grid">
-						<div class="left floated eight wide column">
-							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large icon gray button">
-								上一步<i class="flat back icon"></i>
-							</a>
-						</div>
 						<div class="right floated aligned eight wide column">
 							<div class="ui large magenta submit button">
-								完成
+								确认提交
+							</div>
+							<div class="ui large magenta submit button">
+								发布上线
 							</div>
 						</div>
 					</div>

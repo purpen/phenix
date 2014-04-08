@@ -52,7 +52,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = & $model->extend_load($id);
+		$product = $model->extend_load($id);
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的创意不存在或已被删除！', $redirect_url);
@@ -60,6 +60,16 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
+		
+		// 非投票状态的产品，跳转至对应的链接
+		if($product['stage'] != Sher_Core_Model_Product::STAGE_VOTE){
+			return $this->to_redirect($product['view_url']);
+		}
+		
+		// 未审核的产品，仅允许本人及管理员查看
+		if(!$product['approved'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的创意等待审核中！', $redirect_url);
+		}
 		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){
@@ -69,12 +79,153 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::vote_view_url($id,'#p#');
 		
-		$this->stash['product'] = &$product;
+		$this->stash['product'] = $product;
 		
 		
 		return $this->to_html_page('page/fever/show.html');
 	}
 	
+	/**
+	 * 投票赞成
+	 */
+	public function ajax_favor(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('访问的创意不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Vote();
+			// 验证是否投票过
+			if ($model->check_voted($this->visitor->id, $id)){
+				return $this->ajax_notification('你已经投票成功！', true);
+			}
+			$data = array(
+				'user_id'   => $this->visitor->id,
+				'target_id' => $id,
+			);
+			$ok = $model->apply_and_save($data);
+			if (!$ok) {
+				return $this->ajax_notification('投票失败，请重试！', true);
+			}
+			
+			// 获取产品信息
+			$product = new Sher_Core_Model_Product();
+			$this->stash['product'] = $product->extend_load($id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_notification('操作失败！', true);
+		}
+		
+		return $this->to_taconite_page('ajax/vote_ok.html');
+	}
+	
+	/**
+	 * 投票反对，及反对理由
+	 */
+	public function ajax_oppose(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('访问的创意不存在！', true);
+		}
+		$reason = $this->stash['r'];
+		
+		try{
+			$model = new Sher_Core_Model_Vote();
+			// 验证是否投票过
+			if ($model->check_voted($this->visitor->id, $id)){
+				return $this->ajax_notification('你已经投票成功！', true);
+			}
+			$data = array(
+				'user_id'   => $this->visitor->id,
+				'target_id' => $id,
+				'ticket' => Sher_Core_Model_Vote::TICKET_OPPOSE,
+				'reason' => $reason,
+			);
+			$ok = $model->apply_and_save($data);
+			if (!$ok) {
+				return $this->ajax_notification('投票失败，请重试！', true);
+			}
+			
+			// 获取产品信息
+			$product = new Sher_Core_Model_Product();
+			$this->stash['product'] = $product->extend_load($id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_notification('操作失败！', true);
+		}
+		
+		return $this->to_taconite_page('ajax/vote_ok.html');
+	}
+	
+	/**
+	 * 专家评估评分
+	 */
+	public function expert_point(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('访问的创意不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Assess();
+			$score = array(
+				'usability' => $this->stash['usability'],
+				# 外观设计
+				'design' => $this->stash['design'],
+				# 创意性
+				'creativity' => $this->stash['creativity'],
+				# 功能性
+				'content' => $this->stash['content'],
+			);
+			
+			$data = array(
+				'user_id'   => $this->visitor->id,
+				'target_id' => $id,
+				'score' => $score,
+			);
+			$ok = $model->apply_and_save($data);
+			if (!$ok) {
+				return $this->ajax_notification('投票失败，请重试！', true);
+			}
+			
+			// 获取产品信息
+			$product = new Sher_Core_Model_Product();
+			$this->stash['product'] = $product->extend_load($id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_notification('操作失败！', true);
+		}
+		
+		return $this->to_taconite_page('ajax/point_ok.html');
+	}
+	
+	
+	/**
+	 * 通过审核
+	 */
+	public function ajax_approved(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('访问的创意不存在！', true);
+		}
+		if (!$this->visitor->can_admin()){
+			return $this->ajax_notification('抱歉，你没有相应权限！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$model->mark_as_approved($id);
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_notification('操作失败！', true);
+		}
+		
+		return $this->ajax_notification('审核成功！', false);
+	}
 	
 	/**
 	 * 提交创意
@@ -99,7 +250,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				break;
 			default:
 				$step_tab = 'step_default';
-				$tpl_name = 'submit.html';
+				$tpl_name = 'submit_basic.html';
 		}
 		$this->set_target_css_state($step_tab);
 		
@@ -111,6 +262,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_html_page('page/fever/'.$tpl_name);
 	}
+	
 	
 	/**
 	 * 编辑创意
@@ -300,6 +452,28 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$model->mark_set_cover($id, $cover_id);
 		
 		return $this->ajax_notification('设置成功！', false);
+	}
+	
+	/**
+	 * 删除主题
+	 */
+	public function deleted(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('创意不存在！', true);
+		}
+		
+		try{
+			
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		// 删除成功后返回URL
+		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.fever'];
+		
+		return $this->to_taconite_page('ajax/delete.html');
 	}
 	
 }

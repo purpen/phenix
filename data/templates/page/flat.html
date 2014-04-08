@@ -1,7 +1,102 @@
 {%extends 'layout/board.html'%}
 {% block page_css %}
 <style type="text/css">
-	
+ul li {
+    float: left;
+    margin-right: 10px;
+}
+.notesite {
+    cursor: default;
+    display: inline-block;
+    font-size: 70px;
+    height: 1em;
+    position: relative;
+    width: 1em;
+}
+.notesite > .percent {
+    font-size: 25px;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 20px;
+    width: 100%;
+    z-index: 2;
+}
+.notesite > .percent .dec {
+    font-size: 15px;
+}
+.notesite > #slice {
+    clip: rect(0px, 1em, 1em, 0.5em);
+    height: 1em;
+    position: absolute;
+    width: 1em;
+}
+.notesite > #slice.gt50 {
+    clip: rect(auto, auto, auto, auto);
+}
+.notesite > #slice > .pie {
+    border: 0.1em solid #444444;
+    border-radius: 0.5em;
+    clip: rect(0em, 0.5em, 1em, 0em);
+    height: 0.8em;
+    position: absolute;
+    width: 0.8em;
+}
+li.design .notesite > #slice > .pie {
+    border-color: #DF6C4F;
+}
+li.creativity .notesite > #slice > .pie {
+    border-color: #3C948B;
+}
+li.usability .notesite > #slice > .pie {
+    border-color: #ECD06F;
+}
+li.content .notesite > #slice > .pie {
+    border-color: #1A99AA;
+}
+.notesite > #slice > .pie.fill {
+    transform: rotate(180deg) !important;
+}
+.notesite.fill > .percent {
+    display: none;
+}
+.notesite:after {
+    background: none repeat scroll 0 0 #F8F8F8;
+    border-radius: 0.5em;
+    content: "";
+    display: block;
+    height: 0.8em;
+    left: 0.1em;
+    position: absolute;
+    top: 0.1em;
+    width: 0.8em;
+    z-index: 1;
+}
+.notesite:before {
+    border-radius: 0.5em;
+    content: "";
+    display: block;
+    height: 1em;
+    opacity: 0.5;
+    position: absolute;
+    width: 1em;
+    z-index: 0;
+}
+li.design .notesite:before {
+    background: none repeat scroll 0 0 #DF6C4F;
+}
+li.creativity .notesite:before {
+    background: none repeat scroll 0 0 #3C948B;
+}
+li.usability .notesite:before {
+    background: none repeat scroll 0 0 #ECD06F;
+}
+li.content .notesite:before {
+    background: none repeat scroll 0 0 #1A99AA;
+}
+li.total .notesite:before {
+    background: none repeat scroll 0 0 #CFD1D0;
+}
 	
 </style>
 {% endblock %}
@@ -14,6 +109,72 @@
 <div class="home">
 	<div class="ui responsive grid">
 		<div class="row">
+			
+			<div class="ui column">
+				<h4>Rate Icons</h4>
+				
+				<ul >
+					<li class="design">
+						<div data-note="7.67" id="note_0" class="notesite">
+							<div class="percent">
+								<span class="int">7</span>
+								<span class="dec">.67</span>
+							</div>
+							<div class="gt50" id="slice">
+								<div class="pie" style="transform: rotate(276.12deg);"></div>
+								<div class="pie fill"></div>
+							</div>
+						</div>
+					</li>
+					<li class="usability">
+						<div data-note="6.78" id="note_2" class="notesite">
+							<div class="percent">
+								<span class="int">6</span>
+								<span class="dec">.78</span>
+							</div>
+							<div class="gt50" id="slice">
+								<div class="pie" style="transform: rotate(244.08deg);"></div>
+								<div class="pie fill" style="transform: rotate(244.08deg);"></div>
+							</div>
+						</div>
+					</li>
+					<li class="creativity">
+						<div data-note="7.43" id="note_1" class="notesite">
+							<div class="percent">
+								<span class="int">7</span>
+								<span class="dec">.43</span>
+							</div>
+							<div class="gt50" id="slice">
+								<div class="pie" style="transform: rotate(266.76deg);"></div>
+								<div class="pie fill" style="transform: rotate(266.76deg);"></div>
+							</div>
+						</div>
+					</li>
+					<li class="content">
+						<div data-note="6.99" id="note_3" class="notesite">
+							<div class="percent">
+								<span class="int">6</span>
+								<span class="dec">.99</span>
+							</div>
+							<div class="gt50" id="slice">
+								<div class="pie" style="transform: rotate(251.64deg);"></div>
+								<div class="pie fill" style="transform: rotate(251.64deg);"></div>
+							</div>
+						</div>
+					</li>
+					
+				</ul>
+				
+				
+				
+				
+			</div>
+		</div>
+		
+		
+		
+		<div class="row">
+			
 			<div class="ui column">
 				<h4>Flat Icons</h4>
 				<a href="" class="blue ui icon button">

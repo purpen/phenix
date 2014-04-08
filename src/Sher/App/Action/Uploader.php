@@ -154,8 +154,9 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
 				$asset->setFile($file);
-			
+				
 				$image_info = Sher_Core_Util_Image::image_info($file);
+				
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
 		        $image_info['filename'] = basename($filename);
@@ -169,18 +170,21 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			
 		        if ($ok) {
 					// 生成缩图
-					$req_size = Doggy_Config::$vars['app.asset.product'];
-					$result = Sher_Core_Util_Image::make_photo($image_info['filepath'], $req_size['mini']);
+					$req_size = Doggy_Config::$vars['app.asset.thumbnails'];
+					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $req_size['small']);
 					$result['asset_id'] = (string)$asset->_id;
 					
-					$asset->update_thumbnails($result,'mini',$asset->_id);
+					$asset->update_thumbnails($result, 'small', $asset->_id);
 					
 					$new_assets[] = $result['asset_id'];
 				}
 			}
 		} catch (Sher_Core_Model_Exception $e) {
-			Doggy_Log_Helper::warn("上传图片失败：".$e->getMessage());
-			return $this->ajax_json("上传图片失败：".$e->getMessage(), true);
+			Doggy_Log_Helper::warn("保存图片失败：".$e->getMessage());
+			return $this->ajax_json("保存图片失败：".$e->getMessage(), true);
+		} catch (Sher_Core_Util_Exception $e) {
+			Doggy_Log_Helper::warn("处理图片失败：".$e->getMessage());
+			return $this->ajax_json("处理图片失败：".$e->getMessage(), true);
 		}
 		
 		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
@@ -223,10 +227,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		        if ($ok) {
 					// 生成缩图
 					$thumbnails = Doggy_Config::$vars['app.asset.thumbnails'];
-					$result = Sher_Core_Util_Image::make_photo($image_info['filepath'], $thumbnails['mini']);
+					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $thumbnails['small']);
 					$result['asset_id'] = (string)$asset->_id;
 					
-					$asset->update_thumbnails($result,'mini',$asset->_id);
+					$asset->update_thumbnails($result, 'small', $asset->_id);
 					
 					$new_assets[] = $result['asset_id'];
 				}

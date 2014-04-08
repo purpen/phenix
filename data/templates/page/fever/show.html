@@ -2,7 +2,137 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	.vote.timer .button {
+		padding-left: 4em;
+		padding-right: 4em;
+	}
+
+	ul li {
+	    float: left;
+	    margin-right: 10px;
+		list-style: none inside none;
+	}
+	.notesite {
+	    cursor: default;
+	    display: inline-block;
+	    font-size: 70px;
+	    height: 1em;
+	    position: relative;
+	    width: 1em;
+	}
+	.notesite > .percent {
+	    font-size: 25px;
+	    left: 0;
+	    position: absolute;
+	    text-align: center;
+	    top: 20px;
+	    width: 100%;
+	    z-index: 2;
+	}
+	.notesite > .percent .dec {
+	    font-size: 15px;
+	}
+	.notesite > #slice {
+	    clip: rect(0px, 1em, 1em, 0.5em);
+	    height: 1em;
+	    position: absolute;
+	    width: 1em;
+	}
+	.notesite > #slice.gt50 {
+	    clip: rect(auto, auto, auto, auto);
+	}
+	.notesite > #slice > .pie {
+	    border: 0.1em solid #444444;
+	    border-radius: 0.5em;
+	    clip: rect(0em, 0.5em, 1em, 0em);
+	    height: 0.8em;
+	    position: absolute;
+	    width: 0.8em;
+	}
+	.design .notesite > #slice > .pie {
+	    border-color: #DF6C4F;
+	}
+	.creativity .notesite > #slice > .pie {
+	    border-color: #3C948B;
+	}
+	.usability .notesite > #slice > .pie {
+	    border-color: #ECD06F;
+	}
+	.content .notesite > #slice > .pie {
+	    border-color: #1A99AA;
+	}
+	.notesite > #slice > .pie.fill {
+	    transform: rotate(180deg) !important;
+	}
+	.notesite.fill > .percent {
+	    display: none;
+	}
+	.notesite:after {
+	    background: none repeat scroll 0 0 #F8F8F8;
+	    border-radius: 0.5em;
+	    content: "";
+	    display: block;
+	    height: 0.8em;
+	    left: 0.1em;
+	    position: absolute;
+	    top: 0.1em;
+	    width: 0.8em;
+	    z-index: 1;
+	}
+	.notesite:before {
+	    border-radius: 0.5em;
+	    content: "";
+	    display: block;
+	    height: 1em;
+	    opacity: 0.5;
+	    position: absolute;
+	    width: 1em;
+	    z-index: 0;
+	}
+	.design .notesite:before {
+	    background: none repeat scroll 0 0 #DF6C4F;
+	}
+	.creativity .notesite:before {
+	    background: none repeat scroll 0 0 #3C948B;
+	}
+	.usability .notesite:before {
+	    background: none repeat scroll 0 0 #ECD06F;
+	}
+	.content .notesite:before {
+	    background: none repeat scroll 0 0 #1A99AA;
+	}
+	.total .notesite:before {
+	    background: none repeat scroll 0 0 #CFD1D0;
+	}
 	
+	.expert-assess {
+		
+	}
+	.assess-point {
+		clear:both;
+	}
+	
+	.ui.point .button {
+		background-color: #666666;
+	    color: #FFFFFF;
+	    cursor: pointer;
+	    display: inline-block;
+	    line-height: 16px;
+	    margin-top: 3px;
+		opacity: 0.8;
+	    padding: 5px 10px;
+		transition: all 0.25s ease 0s;
+	}
+	.ui.green.point .button {
+		background-color: #58CB73;
+	}
+	.ui.green.point .button:hover {
+		background-color: #58CB73;
+		opacity: 1;
+	}
+	.ui.point .two.button {
+		padding: 5px 6px;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -10,13 +140,26 @@
 {% block jquery %}
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
+	
+	var score = {};
+	$('.ui.point > .button').click(function(){
+		var point = $(this).attr('data-value');
+		
+		score.id = {{ product._id }};
+		score.design = $('#score_design').val();
+		score.usability = $('#score_usability').val();
+		score.creativity = $('#score_creativity').val();
+		score.content = $('#score_content').val();
+		
+		$.get('{{ app_url_fever }}/expert_point', score);
+	});
 {% endblock %}
 
 {% block content %}
 <div class="social">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
+			<div class="twelve wide column">
 				<div class="ui medium breadcrumb">
 				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
 				  	<i class="flat arrowright icon divider"></i>
@@ -25,11 +168,29 @@
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
 			</div>
+			<div class="right aligned four wide column">
+				<div class="ui tiny black buttons">
+					<div class="ui top right pointing dropdown icon button">
+					  	管理操作 <i class="flat arrowbottom icon"></i>
+					  	<div class="menu">
+				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
+								<i class="flat edit icon"></i>编辑创意
+							</a>
+				          	<a class="item ajax-request" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
+								<i class="flat correct icon"></i>通过审核
+							</a>
+				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
+								<i class="flat waste icon"></i>删除创意
+							</a>
+					  	</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<div class="row fever-view">
 			<div class="eight wide column">
-				
+				<img src="{{ product.cover.thumbnails.huge.view_url }}" />
 			</div>
 			<div class="eight wide column">
 				<h3 class="ui header">
@@ -39,52 +200,148 @@
 				{{ product.summary }}
 				<div class="ui clearing divider"></div>
 				
-				<div class="vote timer">
-					<a href="ui icon button">
-						<i class="flat diggood icon"></i>
-					</a>
-					<a href="ui icon button">
-						<i class="flat digbad icon"></i>
-					</a>
+				{% if product.expert_assess %}
+				<div class="ui middle aligned grid">
+					<div class="eleven wide column">
+						<div class="ui horizontal list">
+							<div class="design item">
+								<div data-note="{{ product.score.design }}" id="note_0" class="notesite">
+									<div class="percent">
+										<span class="int">{{ product.score.design_int }}</span>
+										<span class="dec">.{{ product.score.design_dec }}</span>
+									</div>
+									<div class="gt50" id="slice">
+										<div class="pie" style="transform: rotate({{ product.score.design_deg }}deg);"></div>
+										<div class="pie fill" style="transform: rotate({{ product.score.design_deg }}deg);"></div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="usability item">
+								<div data-note="{{ product.score.usability }}" id="note_2" class="notesite">
+									<div class="percent">
+										<span class="int">{{ product.score.usability_int }}</span>
+										<span class="dec">.{{ product.score.usability_dec }}</span>
+									</div>
+									<div class="gt50" id="slice">
+										<div class="pie" style="transform: rotate({{ product.score.usability_deg }}deg);"></div>
+										<div class="pie fill" style="transform: rotate({{ product.score.usability_deg }}deg);"></div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="creativity item">
+								<div data-note="{{ product.score.creativity }}" id="note_1" class="notesite">
+									<div class="percent">
+										<span class="int">{{ product.score.creativity_int }}</span>
+										<span class="dec">.{{ product.score.creativity_dec }}</span>
+									</div>
+									<div class="gt50" id="slice">
+										<div class="pie" style="transform: rotate({{ product.score.creativity_deg }}deg);"></div>
+										<div class="pie fill" style="transform: rotate({{ product.score.creativity_deg }}deg);"></div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="content item">
+								<div data-note="{{ product.score.content }}" id="note_3" class="notesite">
+									<div class="percent">
+										<span class="int">{{ product.score.content_int }}</span>
+										<span class="dec">.{{ product.score.content_dec }}</span>
+									</div>
+									<div class="gt50" id="slice">
+										<div class="pie" style="transform: rotate({{ product.score.content_deg }}deg);"></div>
+										<div class="pie fill" style="transform: rotate({{ product.score.content_deg }}deg);"></div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						<div class="ui horizontal list-legend list">
+					        <div class="design item">设计</div>
+					        <div class="usability item">可用</div>
+					        <div class="creativity item">创意</div>
+					        <div class="content item">功能</div>
+					        <div class="total bold item">平均分</div>
+						</div>
+						
+					</div>
+					<div class="five wide column">
+						<input type="hidden" name="design" id="score_design" value="7" />
+						<input type="hidden" name="usability" id="score_usability" value="8" />
+						<input type="hidden" name="creativity" id="score_creativity" value="9" />
+						<input type="hidden" name="content" id="score_content" value="10" />
+						
+						<div class="ui fluid active green button">评分</div>
+						
+						<div class="ui point title">设计评分</div>
+						<div class="ui green point">
+							<label class="button" data-value="1">1</label>
+							<label class="button" data-value="2">2</label>
+							<label class="button" data-value="3">3</label>
+							<label class="button" data-value="4">4</label>
+							<label class="button" data-value="5">5</label>
+							<label class="button" data-value="6">6</label>
+							<label class="button" data-value="7">7</label>
+							<label class="button" data-value="8">8</label>
+							<label class="button" data-value="9">9</label>
+							<label class="two button" data-value="10">10</label>
+						</div>
+						
+					</div>
 				</div>
-				
+				{% else %}
+				<div class="vote timer">
+					<div class="ui divided horizontal list">
+					  	<div class="item">10天</div>
+					  	<div class="item">21小时</div>
+					  	<div class="item">58分</div>
+						<div class="item">
+							<label>58</label>秒
+						</div>
+					</div>
+					
+					<div class="ui buttons" id="product-vote-box">
+						<a href="{{ app_url_fever }}/ajax_favor?id={{ product._id }}" class="ui active green icon button ajax-request">
+							<i class="flat diggood icon"></i>
+						</a>
+						
+						<div class="ui icon dropdown button">
+						  	<i class="flat digbad icon"></i>
+						  	<div class="menu">
+								<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax-request">
+									没有兴趣
+								</a>
+								<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax-request">
+									有类似的产品和创意
+								</a>
+								<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax-request">
+									不是一个消费产品
+								</a>
+						  	</div>
+						</div>
+					</div>
+				</div>
 				<div class="ui clearing divider"></div>
 				<div class="vote people">
-					<div class="avatars">
+					<div class="avatars" id="product-vote-people">
 						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
 							<img src="/images/avatar_default.jpg" />
 						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
-						<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-							<img src="/images/avatar_default.jpg" />
-						</a>
+						
 					</div>
 					<div class="ui rules segment">
 						<div class="left floated column">
-							{{ product.vote_count }}人已投票
+							<span id="product-vote-count">{{ product.vote_count }}</span>人已投票
 						</div>
 						<div class="right floated column">
-							<a href="" class="ul link">投票及评分规则</a>
+							<a href="{{ app_url_helper }}/rule" class="ul link">投票及评分规则</a>
 						</div>
 					</div>
 				</div>
+				{% endif %}
+				
+				
 				<div class="ui clearing divider"></div>
 				<div class="vote highlight">
 					创意亮点<br />
@@ -96,7 +353,7 @@
 					</p>
 				</div>
 				
-				<a href="{{ app_url_fever }}/edit?id={{ product._id }}" class="ui button">编辑</a>
+				
 				
 			</div>
 		</div>

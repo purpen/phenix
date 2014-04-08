@@ -22,7 +22,7 @@ app.modules.Api:
   state: 'on'
   namespace: 'Sher_Api'
   index_action: 'Data'
-  
+
 app.dispatcher.routes:
 app.dispatcher.result.map:
   redirect: 'Doggy_Dispatcher_Result_Redirect'
@@ -60,6 +60,9 @@ app.mongo.default:
   host: '127.0.0.1'
   db: 'firebird'
   replicaSet: false
+  
+# redisdb
+app.redis_host: 'localhost:6379'
 
 app.dt.extension_lib.sher_app:
   tags:
@@ -108,6 +111,14 @@ app.email.from:
 # 关注最大数
 app.follow.max: 2000
 
+# 投票时间段设置，默认：15天
+app.vote.interval: 15
+app.vote.lowest: 10
+
+# 预售时间段设置，默认：15天
+app.presale.interval: 15
+app.presale.lowest: 10
+
 # 附件存储目录
 app.storage.sher:
     class:'Doggy_Storage_Provider_FileSystem'
@@ -118,28 +129,17 @@ app.storage.sher:
 
 # 图片缩络图
 app.asset.thumbnails:
-	mini: 100
-	tiny: 100
-	small: 160
-	medium: 280
-	large: 380
-	big: 630
-	huge: 780
-	massive: 1024
+	mini: 100x75
+	tiny: 160x120
+	small: 200x150
+	medium: 280x210
+	large: 380x285
+	big: 640x405
+	huge: 780x585
+	massive: 1024x768
 	
 app.asset.user_avatar:
   big: 290
   small: 100
   little: 30
-
-# 产品尺寸标准
-app.asset.product:
-	mini: 100
-	tiny: 100
-	small: 160
-	medium: 280
-	large: 380
-	big: 630
-	huge: 780
-	massive: 1024
 

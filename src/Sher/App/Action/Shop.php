@@ -33,7 +33,49 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		return $this->to_html_page('page/shop/index.html');
 	}
 	
-	
+	/**
+	 * 查看详情
+	 */
+	public function view() {
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.fever'];
+		if(empty($id)){
+			return $this->show_message_page('访问的产品不存在！', $redirect_url);
+		}
+		
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->extend_load($id);
+		
+		if(empty($product) || $product['deleted']){
+			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
+		}
+		
+		// 增加pv++
+		$model->inc_counter('view_count', 1, $id);
+		
+		// 非预售状态的产品，跳转至对应的链接
+		if($product['stage'] != Sher_Core_Model_Product::STAGE_SHOP){
+			return $this->to_redirect($product['view_url']);
+		}
+		
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
+		}
+		
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+		
+		$this->stash['product'] = $product;
+		
+		
+		return $this->to_html_page('page/shop/show.html');
+	}
 	
 }
 ?>

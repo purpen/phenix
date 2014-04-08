@@ -2,7 +2,9 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.content p.asset img {
+		width: 100%;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -51,6 +53,13 @@
 						<p>
 							{{ topic.description }}
 						</p>
+						
+						{% asset_list var:'assets' parent_id:topic._id size:20 %}
+						{% for asset in assets.rows %}
+					  	<p class="asset">
+							<img src="{{ asset.thumbnails.big.view_url }}" />
+						</p>
+						{% endfor %}
 					</div>
 					
 				</div>

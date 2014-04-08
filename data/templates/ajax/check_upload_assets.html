@@ -1,19 +1,25 @@
 <taconite>
-	<append select="#asset-list">
+	<prepend select="#asset-list"><![CDATA[
 		{% for asset in asset_list %}
 		<div class="thumb item">
 			<div class="image">
-				<img src="{{ asset.thumbnails.mini.view_url }}" />
+				<img src="{{ asset.thumbnails.small.view_url }}" />
 				<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 			</div>
 			<div class="buttons">
 				<div class="ui large links">
-					<a href="" class="ui link"><i class="flat edit icon"></i></a>
-					<a href="" class="ui link"><i class="flat cancel-1 icon"></i></a>
-					<a href="" class="ui link"><i class="flat edit icon"></i></a>
+					<a href="" class="ui link" title="插入">
+						<i class="flat sqinarrowtop icon"></i>
+					</a>
+					<a href="" class="ui link" title="删除">
+						<i class="flat waste icon"></i>
+					</a>
+					<a href="{{ app_url_fever }}/update_cover?id={{ id }}&cover_id={{ id }}" class="ui link ajax-request" title="设置封面图">
+						<i class="flat flag icon"></i>
+					</a>
 				</div>
 			</div>
 		</div>
 		{% endfor %}
-	</append>
+	]]></prepend>
 </taconite>

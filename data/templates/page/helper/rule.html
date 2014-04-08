@@ -1,0 +1,42 @@
+{%extends 'layout/sns.html'%}
+{% block title %}帮助中心-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.vote.timer .button {
+		padding-left: 4em;
+		padding-right: 4em;
+	}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	phenix.hook_comment_page();
+	phenix.bind_share_list();
+{% endblock %}
+
+{% block content %}
+<div class="helper">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="twelve wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_helper }}">帮助中心</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<div class="active section">投票规则</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="sixteen wide column">
+				<h1>投票规则演示</h1>
+			</div>
+			
+		</div>
+				
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{%extends 'layout/sns.html'%}
+{% block title %}{{ product.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.vote.timer .button {
+		padding-left: 4em;
+		padding-right: 4em;
+	}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	phenix.hook_comment_page();
+	phenix.bind_share_list();
+{% endblock %}
+
+{% block content %}
+<div class="shop">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="twelve wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<div class="active section">{{ product.title }}</div>
+				</div>
+			</div>
+			<div class="right aligned four wide column">
+				<div class="ui tiny black buttons">
+					<div class="ui top right pointing dropdown icon button">
+					  	管理操作 <i class="flat arrowbottom icon"></i>
+					  	<div class="menu">
+				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
+								<i class="flat edit icon"></i>编辑创意
+							</a>
+				          	<a class="item ajax-request" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
+								<i class="flat correct icon"></i>通过审核
+							</a>
+				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
+								<i class="flat waste icon"></i>删除创意
+							</a>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row fever-view">
+			<div class="eight wide column">
+				<img src="{{ product.cover.thumbnails.huge.view_url }}" />
+			</div>
+			<div class="eight wide column">
+				<h3 class="ui header">
+					{{ product.title }}
+					<p class="sub header">{{ product.user.nickname }}<p>
+				</h3>
+				{{ product.summary }}
+				<div class="ui clearing divider"></div>
+				
+				<div class="ui clearing divider"></div>
+				<div class="vote highlight">
+					创意亮点<br />
+					<label class="ui green label">节能</label> <label class="ui green label">环保</label> <label class="ui green label">超级便利</label>
+					
+					<p>
+						关于投票成功与失败：<br />
+						这个项目必须在2014年05月08日 10：42之前得到用户100个投票才能进入专家评估环节，否则视为失败。
+					</p>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+		
+		<div class="row fever-view">
+			<div class="ui column">
+				<div class="ui fluid three item attached menu">
+				  	<a class="item">创意介绍</a>
+				  	<a class="item">评论 ({{ product.comment_count }})</a>
+				  	<a class="item">投票者（{{ product.vote_count }}）</a>
+				</div>
+				
+				<div class="ui segment bottom attached">
+					{{ product.summary }}
+				</div>
+				
+				
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+{% endblock %}

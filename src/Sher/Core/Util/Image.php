@@ -1,87 +1,116 @@
 <?php
 /**
  * 图片处理工具类
+ * @author purpen
  */
 class Sher_Core_Util_Image {
     
     const THUMB_CROP_RESIZE = 1;
-    const THUMB_RESIZE =2 ;
+    const THUMB_RESIZE = 2 ;
     const THUMB_CROP = 3;
     
-    const COLORSPACE_RGB = imagick::COLORSPACE_RGB;
-    const COLORSPACE_GRAY = imagick::COLORSPACE_GRAY;
-    const COLORSPACE_CMYK = imagick::COLORSPACE_CMYK;
-    const COLORSPACE_SRGB = imagick::COLORSPACE_SRGB;
-    const COLORSPACE_HSB = imagick::COLORSPACE_HSB;
-    const COLORSPACE_HSL = imagick::COLORSPACE_HSL;
-    const COLORSPACE_HWB = imagick::COLORSPACE_HWB;
-    const COLORSPACE_REC601LUMA = imagick::COLORSPACE_REC601LUMA;
-    const COLORSPACE_REC709LUMA = imagick::COLORSPACE_REC709LUMA;
-    const COLORSPACE_LOG = imagick::COLORSPACE_LOG;
-    const COLORSPACE_CMY = imagick::COLORSPACE_CMY;
-    
-    
-    /**
-     * Generate an image file thumbnial
-     *
-     * @param string $file 
-     * @param string $width 
-     * @param string $height 
-     * @param string $thumb_type 
-     * @return string thumbnial bytes
-     */
-    public static function make_thumb_file($file,$width,$height,$thumb_type=self::THUMB_RESIZE) {
-        if (!is_file($file)) {
-            return null;
-        }
-        try {
-            $im = new Imagick($file);
-            return self::_make_thumb($im,$width,$height,$thumb_type);
-        } catch (ImagickException $e) {
-            return null;
-        }
-    }
-    /**
-     * Generate an image thumbnial
-     *
-     * @param string $bytes Image bytes data
-     * @param string $width 
-     * @param string $height 
-     * @param string $thumb_type 
-     * @return string thumbnial bytes
-     */
-    public static function make_thumb_bytes($bytes,$width,$height,$thumb_type=self::THUMB_RESIZE) {
-        $im = new Imagick();
-        $im->readImageBlob($bytes);
-        try {
-            return self::_make_thumb($im,$width,$height,$thumb_type);
-        } catch (ImagickException $e) {
-            return null;
-        }
-    }
-    
-    protected static function _make_thumb($im,$width,$height,$thumb_type){
-        
-        $im->setImageFormat('png');
-        $im->setImageColorspace(self::COLORSPACE_RGB);
-        
-		switch ($thumb_type) {
-		    case self::THUMB_RESIZE:
-              $im->thumbnailImage($width,$height,true);
-		      break;
-		    case self::THUMB_CROP:
-		      $im->cropImage($width,$height,0,0);
-		      break;
-		    case self::THUMB_CROP_RESIZE:
-		    default:
-                $im->cropThumbnailImage($width,$height);
-  		      break;
-  		    
-		}		
-        // $im->setImageCompressionQuality(60);
-        $bytes = $im->getImageBlob();
-        $im->destroy();
-        return $bytes;
+	/**
+	 * 生成缩图片
+	 */
+	public static function maker_thumb($path, $sizes, $domain=null, $mode=1){
+		if (is_null($domain)){
+			$domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		}
+		
+		// 所需尺寸
+		if (!is_array($sizes)){
+			$size_t = preg_split('/[,，x]+/u', $sizes);
+			$width  = $size_t[0];
+			$height = $size_t[1];
+		}else{
+			$width  = $sizes['width'];
+			$height = $sizes['height'];
+		}
+		
+		switch($mode){
+			// 裁剪后等比例缩小
+			case self::THUMB_CROP_RESIZE:
+				return self::maker_crop_resize($path, $width, $height, $domain);
+			// 等比例缩小
+			case self::THUMB_RESIZE:
+				return self::maker_resize($path, $width, $height, $domain);
+			// 直接裁切
+			case self::THUMB_CROP:
+				return self::maker_crop($path, $width, $height, $domain);
+			default:
+				return self::maker_crop_resize($path, $width, $height, $domain);
+		}
+	}
+	
+	/**
+	 * 裁剪后等比例缩小
+	 */
+	public static function maker_crop_resize($path, $width, $height, $domain){
+		try{
+			$local_path = Sher_Core_Util_Asset::getAssetPath(Sher_Core_Util_Constant::ASSET_DOAMIN, $path);
+			
+			Doggy_Log_Helper::debug("get [$local_path] info ...");
+			$gmagick = new Gmagick($local_path);
+			
+			$result = array();
+			// 等宽比例缩小
+			$ori_width  = $gmagick->getimagewidth();
+			$ori_height = $gmagick->getimageheight();
+			
+			$ori_scale = $ori_width/$ori_height;
+			$scale = $width/$height;
+			
+			// 宽度比例大
+			if ($ori_scale > $scale){
+				$scale_width  = $ori_width*$height/$ori_height;
+				$scale_height = $height;
+			}else{
+				$scale_width  = $width;
+				$scale_height = $width*$ori_height/$ori_width;
+			}
+			
+			Doggy_Log_Helper::debug("maker_crop_resize -- scale[${scale_width}x${scale_height}] ...");
+			
+			// 第一步：等比例缩小
+			$gmagick->setCompressionQuality(90);
+			$gmagick->scaleimage($scale_width, $scale_height);
+			
+			// 第二步：裁剪为所需尺寸
+			$gmagick->cropimage($width, $height, 0, 0);
+			
+			// 第三步：生成新图片
+			$bytes = $gmagick->getImageBlob();
+			
+			$result['width']    = $width;
+			$result['height']   = $height;
+			$result['filepath'] = self::genPath($path, $domain);
+			
+			Doggy_Log_Helper::debug("maker_crop_resize -- store ...");
+			
+			Sher_Core_Util_Asset::storeData(Sher_Core_Util_Constant::ASSET_DOAMIN, $result['filepath'], $bytes);
+			
+			$gmagick->destroy();
+			
+		}catch(Exception $e){
+			Doggy_Log_Helper::warn("处理图片失败：".$e->getMessage());
+			throw new Sher_Core_Util_Exception("处理图片失败：".$e->getMessage());
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * 裁剪图片
+	 */
+	public static function maker_crop($path, $width, $height, $domain){
+		
+	}
+	
+	/**
+	 * 等比例缩小图片
+	 */
+	public static function maker_resize($path, $width, $height, $domain){
+		
 	}
 	
 	/**
@@ -94,14 +123,14 @@ class Sher_Core_Util_Image {
 	    if (!is_file($file)) {
             return null;
         }
-        $im = new Gmagick($file);
+        $gm = new Gmagick($file);
 		
 		$info = array();
-		$info['width'] = $im->getimagewidth();
-		$info['height'] = $im->getimageheight();
-		$info['format'] = $im->getimageformat();
+		$info['width'] = $gm->getimagewidth();
+		$info['height'] = $gm->getimageheight();
+		$info['format'] = $gm->getimageformat();
 		
-        $im->destroy();
+        $gm->destroy();
 		
         return $info;
 	}

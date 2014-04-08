@@ -55,7 +55,7 @@
 				</div>
 			</div>
 			<div class="right aligned five wide column">
-		      	<a class="ui magenta button" href="{{ app_url_social }}/submit">
+		      	<a class="ui magenta button" href="{{ app_url_fever }}/submit">
 					<i class="flat add icon"></i> 提交创意
 				</a>
 			</div>
@@ -64,12 +64,12 @@
 		<div class="row">
 			<div class="ui column">
 				<div class="ui four items">
-					{% product_list var:'list' page:page category_id:category_id %}
+					{% product_list var:'list' page:page category_id:category_id stage:1 only_approved:1 %}
 					{% for product in list.rows %}
 				  	<div class="blue item">
 				      	<div class="image">
 							<a href="{{ product.view_url }}" title="{{ product.title }}">
-				          		<img src="/images/default-image-280px.jpg" />
+				          		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
 							</a>
 				      	</div>
 				      	<div class="content">

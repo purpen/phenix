@@ -8,8 +8,7 @@
 	</div>
 </footer>
 
-<div class="container">
-	{% if css_use_bundle %}
+{% if css_use_bundle %}
 	<script type="text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(
@@ -31,5 +30,4 @@
 		document.documentElement.firstChild.appendChild(ga);
 	})();
 	</script>
-	{% endif %}
-</div>
+{% endif %}
