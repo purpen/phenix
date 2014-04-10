@@ -10,7 +10,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	);
 	
 	protected $page_tab = 'page_user';
-	protected $page_html = 'page/my.html';
+	protected $page_html = 'page/user/index.html';
 	
 	protected $exclude_method_list = array();
 	
@@ -31,6 +31,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	    }
 		return $this->vcenter();
 	}
+	
 	/**
 	 * 用户个人主页
 	 */
@@ -45,6 +46,13 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['reverse_sex'] = ($this->stash['user']['sex'] == Sher_Core_Model_User::SEX_MALE) ? Sher_Core_Model_User::SEX_FEMALE : Sher_Core_Model_User::SEX_MALE;
 		
 		return $this->display_tab_page('tab_home');
+	}
+	
+	/**
+	 * 查看个人资料
+	 */
+	public function profile(){
+		
 	}
 	
 	/**

@@ -189,33 +189,43 @@ class Sher_Core_Util_Image {
 		// 裁剪所选尺寸
 		$gmagick->cropimage($w,$h,$x1,$y1);
 		
+		$avatars = Doggy_Config::$vars['app.asset.avatars'];
+		
 		// 生成大头像
-		$result['big_avatar'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage(290,290, Gmagick::FILTER_LANCZOS, 1);
+		$result['big'] = self::genPath($path, 'avatar');
+		$gmagick->resizeimage($avatars['big'], $avatars['big'], Gmagick::FILTER_LANCZOS, 1);
 		$gmagick->setCompressionQuality(95);
 		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['big_avatar'], $bytes);
+		Sher_Core_Util_Asset::storeData('sher', $result['big'], $bytes);
 		
 		// 生成中头像
-		$result['mid_avatar'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage(100,100, Gmagick::FILTER_LANCZOS, 1);
+		$result['medium'] = self::genPath($path, 'avatar');
+		$gmagick->resizeimage($avatars['medium'],$avatars['medium'], Gmagick::FILTER_LANCZOS, 1);
 		$gmagick->setCompressionQuality(95);
 		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['mid_avatar'], $bytes);
+		Sher_Core_Util_Asset::storeData('sher', $result['medium'], $bytes);
 		
 		// 生成小头像
-		$result['sml_avatar'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage(30,30, Gmagick::FILTER_LANCZOS, 1);
+		$result['small'] = self::genPath($path, 'avatar');
+		$gmagick->resizeimage($avatars['small'], $avatars['small'], Gmagick::FILTER_LANCZOS, 1);
 		$gmagick->setCompressionQuality(95);
 		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['sml_avatar'], $bytes);
+		Sher_Core_Util_Asset::storeData('sher', $result['small'], $bytes);
+		
+		// 生成mini头像
+		$result['mini'] = self::genPath($path, 'avatar');
+		$gmagick->resizeimage($avatars['mini'], $avatars['mini'], Gmagick::FILTER_LANCZOS, 1);
+		$gmagick->setCompressionQuality(95);
+		$bytes = $gmagick->getImageBlob();
+		Sher_Core_Util_Asset::storeData('sher', $result['mini'], $bytes);
 		
 		$gmagick->destroy();
 		
 		// 添加图片URL
-		$result['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['big_avatar']);
-		$result['mid_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['mid_avatar']);
-		$result['sml_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['sml_avatar']);
+		$result['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['big']);
+		$result['medium_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['medium']);
+		$result['small_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['small']);
+		$result['mini_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['mini']);
 		
 		return $result;
 	}

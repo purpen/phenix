@@ -16,7 +16,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		'view_page' => null,
 	);
 	protected $page_tab = 'page_my';
-	protected $page_html = 'page/my.html';
+	protected $page_html = 'page/my/my.html';
 	
 	public function _init() {
 		$this->stash['user_id'] = $this->visitor->id;
@@ -37,7 +37,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function avatar(){
 		$this->set_target_css_state('user_avatar');
-		return $this->to_html_page("page/avatar.html");
+		return $this->to_html_page("page/my/avatar.html");
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	public function profile(){
 		$this->stash['profile'] = $this->visitor->profile;
 		
-		if($this->stash['first_login'] == 1){
+		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
 		}
 		
@@ -80,7 +80,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		
 		$this->set_target_css_state('user_profile');
 		
-		return $this->to_html_page("page/profile.html");
+		return $this->to_html_page("page/my/profile.html");
 	}
 	
 	/**
@@ -116,7 +116,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         $this->stash['used_invites_cnt'] = count($my_used_invites);
         $this->stash['used_invites'] = $my_used_invites;
 		
-		return $this->to_html_page("page/invite.html");
+		return $this->to_html_page("page/my/invite.html");
 	}
 
 	/**
@@ -296,7 +296,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         $this->stash['user'] = &$this->stash['visitor'];
         
 		
-        return $this->to_html_page('page/profile.html');
+        return $this->to_html_page('page/my/profile.html');
     }
 	/**
 	 * 更新个人资料
@@ -304,27 +304,16 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     public function save_profile() {
 		$user_info = array();
 		$user_info['_id'] = $this->visitor->id;
+		$user_info['nickname'] = $this->stash['nickname'];
 		
 		$profile = array();
         $profile['realname'] = $this->stash['realname'];
         $profile['job'] = $this->stash['job'];
-		$profile['nation'] = $this->stash['nation'];
-		$profile['born_place'] = $this->stash['born_place'];
-		
 		
 		$user_info['profile'] = $profile;
         
-		$user_info['nickname'] = $this->stash['nickname'];
-		$user_info['marital'] = (int)$this->stash['marital'];
 		$user_info['sex'] = (int)$this->stash['sex'];
 		$user_info['city'] = $this->stash['city'];
-		$user_info['height'] = (int)$this->stash['height'];
-		$user_info['weight'] = (int)$this->stash['weight'];
-		$user_info['age'] = array(
-			'year' => (int)$this->stash['year'],
-			'mouth' => (int)$this->stash['mouth'],
-			'day' => (int)$this->stash['day'],
-		);
 		$user_info['tags'] = $this->stash['tags'];
 		$user_info['summary'] = $this->stash['summary'];
 		
@@ -332,10 +321,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		
 		
 		$criteria = array('_id'=>$this->visitor->id);
+		
         //更新基本信息
         $this->visitor->save($user_info);
         
-        return $this->ajax_notification('您的个人资料修改成功.');
+        return $this->ajax_notification('你的个人资料更新成功！');
     }
 
 	/**

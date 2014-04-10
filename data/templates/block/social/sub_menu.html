@@ -1,24 +1,34 @@
-<div class="ui magenta secondary pointing menu">
-  	<a class="{{ css_page_fever }} item" href="{{ app_url_fever }}">
-      	创意投票
-  	</a>
-  	<a class="{{ css_page_topic }} item" href="{{ app_url_topic }}">
-		社区
-  	</a>
-  	<div class="right menu">
-		{% if css_page_topic %}
-		<div class="stat-list">
-		  	<span class="item">今日：0</span>
-		  	<span class="item">昨日：0</span>
-		  	<span class="item">帖子：0</span>
-			<span class="item">会员：0</span>
-			<span class="item">欢迎新会员：0</span>
+<div class="masthead segment">
+	<div class="masthead-cover">
+		<div class="ui responsive bottom aligned grid">
+			<div class="six wide column">
+				<div class="introduction">
+					{% if css_page_fever %}
+					<h1 class="ui header">
+						提交你的创意
+					</h1>
+					<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
+					{% endif %}
+					
+					{% if css_page_topic %}
+					<h1 class="ui header">
+						发现最有兴趣的创意
+					</h1>
+					<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
+					{% endif %}
+				</div>
+			</div>
+			<div class="ten right aligned wide column">
+				
+				<div class="ui tabular menu">
+				  	<a class="{{ css_page_fever }} item" href="{{ app_url_fever }}">
+				      	<span>创意投票</span>
+				  	</a>
+				  	<a class="{{ css_page_topic }} item" href="{{ app_url_topic }}">
+						社区话题
+				  	</a>
+				</div>
+			</div>
 		</div>
-		{% endif %}
-		{% if css_page_fever %}
-		<div class="stat-list">
-		  	<span class="item">150个创意</span>
-		</div>
-		{% endif %}
-  	</div>
+	</div>
 </div>

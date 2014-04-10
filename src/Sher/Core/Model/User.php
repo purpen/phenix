@@ -171,14 +171,16 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $id = $row['id'] = $row['_id'];
 		# 用户头像
 		if(!empty($row['avatar'])){
-			$row['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['big_avatar']);
-			$row['mid_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['mid_avatar']);
-			$row['sml_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['sml_avatar']);
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['big']);
+			$row['medium_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['medium']);
+			$row['small_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['small']);
+			$row['mini_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['mini']);			
 		}else{
 			// 用户默认头像
 			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('big', $row['sex']);
-			$row['mid_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('mid', $row['sex']);
-			$row['sml_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('sml', $row['sex']);
+			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('medium', $row['sex']);
+			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('small', $row['sex']);
+			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('mini', $row['sex']);	
 		}
 		
 		if($row['sex'] == self::SEX_FEMALE){

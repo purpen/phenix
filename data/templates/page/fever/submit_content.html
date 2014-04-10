@@ -1,22 +1,47 @@
 {%extends 'layout/sns.html'%}
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
+<style class="text/css">
+
+
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	$('.editor').each(function() {
+	    var $this = $(this);
+		var params = {
+            'placeholder': $(this).attr('placeholder')
+        };
+
+	    $this.wrap('<div class="editable-wrapper"/>');
+	    var $w = $(this).parent();
+	    $w.prepend('<div class="editable" data-placeholder="'+$this.attr('placeholder')+'">' + $this.val()+'</div>');
+	    $this.hide();
+		
+	    var editor = new MediumEditor('.editable', params);
+	});
+	
 	$('#product-content-form').form({
 		content: {
 			identifier  : 'content',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标题不能为空'
+					prompt : '详细内容不能为空'
 				}
 			]
 		}
 	}, {
 		inline : true,
+		beforeValid: function(){
+			$('.editable-wrapper').each(function(){
+		        $(this)
+					.find('textarea')
+					.val($(this).find('.editable').html());
+		    });
+		},
 		onSuccess: function(event){
 			event.preventDefault();
 			$(this).ajaxSubmit({
@@ -37,7 +62,6 @@
 			});
 		}
 	});
-	
 {% endblock %}
 
 {% block content %}
@@ -63,17 +87,26 @@
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-content-form">
 					<input type="hidden" name="step" value="2" />
 					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+					
+					
 					<div class="field">
 						<label>创意详细说明</label>
-					  	<textarea name="content">{{ product.content }}</textarea>
+						<textarea name="content" class="editor" placeholder="详细内容">{{ product.content }}</textarea>
 					</div>
 					
-				  	<h3 class="ui right floated header">
-						<div class="ui right large icon labeled magenta submit button">
-							下一步<i class="flat play icon"></i>
+					<div class="ui grid">
+						<div class="left floated eight wide column">
+							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large labeled icon gray button">
+								上一步<i class="flat play_back icon"></i>
+							</a>
 						</div>
-				  	</h3>
-					
+						<div class="right floated aligned eight wide column">
+							<div class="ui right large icon labeled magenta submit button">
+								下一步<i class="flat play icon"></i>
+							</div>
+						</div>
+					</div>
+										
 				</form>
 			</div>
 			<div class="five wide column">

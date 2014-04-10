@@ -2,7 +2,41 @@
 {% block title %}创新想法-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+.ui.social.page {
+	margin-top: 2em;
+}
+.masthead {
+    background: url("{{ app_url_packaged }}/images/002.jpg") repeat fixed 0 0 #FF3366;
+    border-bottom: medium none;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+	min-height: 140px;
+}
+.masthead-cover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.masthead .ui.grid > .column {
+    margin-bottom: 0;
+	margin-top: 0;
+}
+.masthead .introduction {
+    padding: 2.5em 0;
+}
+.masthead .ui.tabular.menu {
+    border-bottom: medium none;
 	
+}
+.masthead .ui.tabular.menu .item {
+	color: rgba(255, 255, 255, 0.7);
+    font-size: 1.325rem;
+}
+.masthead .ui.tabular.menu .active.item {
+	background-color: #F8F8F8;
+	color: rgba(0, 0, 0, 0.7);
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -13,10 +47,11 @@
 
 {% block content %}
 <div class="social">
+	{% include "block/social/sub_menu.html" %}
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui column">
-				{% include "block/social/sub_menu.html" %}
+				
 			</div>
 		</div>
 		<div class="row">

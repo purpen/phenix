@@ -78,8 +78,10 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 			
 				if ($categories[$i]['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
 					$categories[$i]['view_url'] = Sher_Core_Helper_Url::topic_list_url($categories[$i]['_id']);
+				} else if ($categories[$i]['domain'] == Sher_Core_Util_Constant::TYPE_PRODUCT){
+					$categories[$i]['view_url'] = Sher_Core_Helper_Url::vote_list_url($categories[$i]['_id']);
 				}
-        	
+        		
 	        	if(empty($current)){
 	        		continue;
 	        	}

@@ -62,7 +62,7 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	 * @return string
 	 */
 	protected function custom_authorize_info_page() {
-	    return $this->to_redirect(Doggy_Config::$vars['app.url.welcome']);
+	    return $this->to_redirect(Doggy_Config::$vars['app.url.login']);
 	}
 	
 }

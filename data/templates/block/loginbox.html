@@ -1,0 +1,56 @@
+<div class="ui small loginbox modal">
+  	<i class="flat cross icon"></i>
+  	<div class="content">
+		<form action="{{ app_url_action_base }}/auth/ajax_login" class="ui form auth-form" method="post" id="loginbox-form">
+		  	<div class="ui header">
+		    	登录太火鸟
+		  	</div>
+	    	<div class="ui login-modal middle aligned relaxed grid">
+				<div class="eight wide column">
+					<div class="field">
+						<label>邮箱</label>
+					  	<input type="text" name="account" />
+					</div>
+					<div class="field">
+						<label>密码</label>
+					  	<input type="password" name="password" id="password" />
+					</div>
+					
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label>自动登录</label>
+				        </div>
+		
+						<a href="" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+					</div>
+
+					<div class="field ">
+						<div class="fluid ui active magenta submit button" >登录</div>
+					</div>
+					
+				</div>
+				
+				<div class="ui vertical divider">Or</div>
+				
+				<div class="right floated six wide column">
+					
+					<div class="field">
+						<a href="" class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
+							<i class="flat sina_weibo_plane icon"></i> 用微博账号
+						</a>
+					</div>
+					<div class="field">
+						<a href="" class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
+							<i class="flat tt_weibo_plane icon"></i> 用QQ账号
+						</a>
+					</div>
+				</div>
+			</div>
+			
+		</form>
+  	</div>
+  	<div class="actions">
+    	<label>没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册" class="ui link" >立即注册</a></label>
+  	</div>
+</div>

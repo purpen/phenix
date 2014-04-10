@@ -1,6 +1,9 @@
 {%extends 'layout/sns.html'%}
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
@@ -43,7 +46,7 @@
 	});
 	
 	// 选择分类
-	$('body').on('click', '.ui.category.button', function(){
+	$('body').on('click', '.category.button', function(){
 		var id = $(this).attr('data-value');
 		if ($(this).hasClass('active')){
 			$(this)
@@ -52,7 +55,7 @@
 			$('#product-category').val('');
 		}else{
 			$(this)
-				.siblings('.ui.category.button').removeClass('active')
+				.siblings('.category.button').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
@@ -100,7 +103,10 @@
 						<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
 						{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
 						{% for cat in category.rows %}
-						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+						<a class="ui {{ cat.active }} magenta category icon button" data-value="{{ cat._id }}">
+							<i class="flat {{ cat.name }} icon"></i> 
+							{{ cat.title }}
+						</a>
 						{% endfor %}
 					</div>
 					<div class="field">
@@ -124,7 +130,8 @@
 				</form>
 			</div>
 			<div class="five wide column">
-				<h2>Q&A</h2>
+				<h2 class="ui header">Q&A</h2>
+				
 				
 			</div>
 		</div>

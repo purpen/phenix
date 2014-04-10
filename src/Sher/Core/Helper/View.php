@@ -47,11 +47,6 @@ class Sher_Core_Helper_View {
         $stash['site_menu_admin_trash'] = Sher_Core_Helper_Url::build_url_path('app.url.admin','trash');
 		$stash['site_menu_admin_category'] = Sher_Core_Helper_Url::build_url_path('app.url.admin','category');
 
-        $stash['site_menu_admin_report_unsolved'] = Sher_Core_Helper_Url::build_url_path('app.url.admin','report','state','unsolved');
-        $stash['site_menu_admin_report_solved'] = Sher_Core_Helper_Url::build_url_path('app.url.admin','report','state','solved');
-        $stash['site_menu_admin_reply_unsolved'] = Sher_Core_Helper_Url::build_url_path('app.url.admin','reply','state','unsolved');
-        $stash['site_menu_admin_reply_solved'] = Sher_Core_Helper_Url::build_url_path('app.url.admin','reply','state','solved');
-
     }
 
 }

@@ -407,6 +407,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page('page/topic/submit.html');
 	}
 	
+	
+	
 	/**
 	 * 保存主题信息
 	 */
@@ -473,6 +475,62 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
+	
+	/**
+	 * 保存产品话题信息
+	 */
+	public function ajax_save(){
+		// 验证数据
+		$target_id = $this->stash['target_id'];
+		if(empty($this->stash['title']) || empty($this->stash['description'])){
+			return $this->ajax_json('标题和内容不能为空！', true);
+		}
+		$id = (int)$this->stash['_id'];
+		$mode = 'create';
+		
+		$data = array();
+		
+		$data['_id'] = $id;
+		$data['title'] = $this->stash['title'];
+		$data['description'] = $this->stash['description'];
+		$data['target_id'] = (int)$this->stash['target_id'];
+		
+		// 产品话题分类Id
+		$data['category_id'] = (int) Doggy_Config::$vars['app.product.topic_category_id'];
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = (int)$this->visitor->id;
+				
+				$ok = $model->apply_and_save($data);
+				$topic = $model->get_data();
+				
+				$id = $topic['_id'];
+				
+				// 更新用户主题数量
+				$this->visitor->inc_counter('topic_count', $data['user_id']);
+				
+			}else{
+				$mode = 'edit';
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+			$this->stash['topic'] = &DoggyX_Model_Mapper::load_model($id,'Sher_Core_Model_Topic');
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
+			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+		}
+		
+		return $this->to_taconite_page('ajax/product_topic.html');
+	}
+	
 	
 	/**
 	 * 批量更新附件所属

@@ -88,6 +88,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 回应数 
     	'comment_count' => 0,
+		# 话题数
+		'topic_count' => 0,
 		# 赞成数
 		'vote_favor_count' => 0,
 		# 反对数
@@ -139,7 +141,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected $required_fields = array('user_id','title');
 	protected $int_fields = array('user_id','category_id','state','published','deleted');
 	
-	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','vote_favor_count','vote_oppose_count');
+	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -195,6 +197,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$row['score']['content_int'] = $this->explode_point($row['score']['content'], 0);
 			$row['score']['content_dec'] = $this->explode_point($row['score']['content'], 1);
 		}
+		
+		// HTML 实体转换为字符
+		$row['content'] = htmlspecialchars_decode($row['content']);
 	}
 	
 	/**
@@ -355,6 +360,43 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		return $this->dec($id, $field_name);
 	}
 	
+	/**
+	 * 删除某附件
+	 */
+	public function delete_asset($id, $asset_id){
+		// 从附件数组中删除
+		$criteria = $this->_build_query($id);
+		self::$_db->pull($this->collection, $criteria, 'asset', $asset_id);
+		
+		$this->dec_counter('asset_count', $id);
+		
+		// 删除Asset
+		$asset = new Sher_Core_Model_Asset();
+		$asset->delete_file($asset_id);
+		unset($asset);
+	}
+	
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id) {
+		// 删除Asset
+		$asset = new Sher_Core_Model_Asset();
+		$asset->remove_and_file(array('parent_id' => $id));
+		unset($asset);
+		
+		// 删除Comment
+		$comment = new Sher_Core_Model_Comment();
+		$comment->remove(array('target_id' => $id));
+		unset($asset);
+		
+		// 删除TextIndex
+		$textindex = new Sher_Core_Model_TextIndex();
+		$textindex->remove(array('target_id' => $id));
+		unset($textindex);
+		
+		return true;
+	}
 	
 }
 ?>

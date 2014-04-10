@@ -4,7 +4,7 @@
 		<img src="{{ app_url_packaged }}/images/logo-home.png" />
 	</a>
 	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="{{ app_url_domain }}" class="{{ css_page_home }} item"><i class="flat home icon"></i>首页</a>
+		<a href="{{ app_url_domain }}" class="{{ css_page_home }} item"><i class="flat home2 icon"></i>首页</a>
 		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item"><i class="flat roundtime icon"></i>预售</a>
 		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item"><i class="flat shopping icon"></i>商店</a>
 		<a href="{{ app_url_social }}" class="{{ css_page_social }} item"><i class="flat talk icon"></i>发现</a>
@@ -21,15 +21,15 @@
 	<div class="ui login-user">
 		{% if visitor %}
 			<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-				<img src="/images/avatar_default.jpg" />
+				<img src="{{ visitor.small_avatar_url }}" />
 			</a>
 			<div class="ui top right pointing dropdown icon user-setting button">
 			  	{{ visitor.nickname }} <i class="flat arrowbottom icon"></i>
 			  	<div class="menu">
-				    <a class="item" href="{{ app_url_domain }}/account">
+				    <a class="item" href="{{ app_url_my }}/profile">
 				      	<i class="flat icon settings"></i> 账户设置
 					</a>
-				    <a class="item" href="{{ app_url_domain }}/tian-shawn">
+				    <a class="item" href="{{ app_url_user }}/profile">
 				      	<i class="flat idprofile icon"></i> 查看个人资料
 					</a>
 				    <a class="item" href="{{ app_url_domain }}/help">
@@ -39,13 +39,13 @@
 				      	<i class="flat bird icon"></i> 管理后台
 					</a>
 					
-				  	<a title="Log out of Quirky" class="item" href="{{ app_url_domain }}/logout">
+				  	<a class="item" href="{{ app_url_logout }}">
 				    	<i class="flat icon outcoming"></i> 安全退出
 					</a>
 			  	</div>
 			</div>
 		{% else %}
-			<a href="{{ app_url_login }}" class="item">登录</a>
+			<a href="{{ app_url_login }}" class="ui link login">登录</a>
 			<a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
 		{% endif %}
 	</div>

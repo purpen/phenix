@@ -76,6 +76,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		}
 		return true;
 	}
+	
 	/**
 	 * 更新标签
 	 */
@@ -88,7 +89,40 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	    return $this->update($query, $update,false,true);
 	}
 	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
 	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$result = $this->find_by_id((int)$id);
+			if(!isset($result[$field_name]) || $result[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name);
+	}
 	
 	
 }

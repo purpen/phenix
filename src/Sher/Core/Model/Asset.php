@@ -10,17 +10,18 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     const STATE_FAIL = 0;		//处理失败
     const STATE_PENDING = 1;
     const STATE_OK = 2;
-
+	
+	# 照片
+    const TYPE_PHOTO = 1;
+	
+    # 用户头像
+    const TYPE_AVATAR = 4;
+	
 	# 产品图片
 	const TYPE_PRODUCT = 10;
 	
 	# 主体图片
 	const TYPE_TOPIC   = 50;
-	
-	# 照片
-    const TYPE_PHOTO = 1;
-    # 用户头像
-    const TYPE_AVATAR = 4;
 
     protected $schema = array(
     	'parent_id' => '',

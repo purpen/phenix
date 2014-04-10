@@ -17,6 +17,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	    'user_id' => null,
 		# 类别支持多选
 		'category_id' => 0,
+		# 所属产品
+		'target_id' => 0,
 		
 	    'title' => '',
         'description' => '',
@@ -86,6 +88,25 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		
 	    parent::before_save($data);
 	}
+	
+	/**
+	 * 保存之后，更新相关count
+	 */
+    protected function after_save() {
+		$category_id = $this->data['category_id'];
+		if (!empty($category_id)) {
+			$category = new Sher_Core_Model_Category();
+			$category->inc_counter('total_count', 1, $category_id);
+			unset($category);
+		}
+		
+		$target_id   = $this->data['target_id'];
+		if (!empty($target_id)) {
+			$product = new Sher_Core_Model_Product();
+			$product->inc_counter('topic_count', 1, $target_id);
+			unset($product);
+		}
+    }
 	
 	/**
 	 * 扩展Model数据

@@ -71,6 +71,7 @@ app.dt.extension_lib.sher_app:
     'product_list':'Sher_App_ViewTag_ProductList'
     'asset_list':'Sher_App_ViewTag_AssetList'
     'comment_list':'Sher_App_ViewTag_CommentList'
+    'vote_list':'Sher_Core_ViewTag_VoteList'
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
     'user_list':'Sher_App_ViewTag_UserList'
@@ -108,6 +109,9 @@ app.email.from:
   address: 'no-reply@chinavisual.com'
   name: '系统邮件服务'
 
+# 产品话题类别
+app.product.topic_category_id: 22
+
 # 关注最大数
 app.follow.max: 2000
 
@@ -138,8 +142,9 @@ app.asset.thumbnails:
 	huge: 780x585
 	massive: 1024x768
 	
-app.asset.user_avatar:
-  big: 290
+app.asset.avatars:
+  big: 360
+  medium: 180
   small: 100
-  little: 30
+  mini: 50
 

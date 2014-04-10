@@ -3,8 +3,60 @@
 {% block page_css %}
 <style type="text/css">
 	body {
-		background-color: #b9d133;
+		background: url("{{ app_url_packaged }}/images/novo-bg.png");
 	}
+	.ui.header.logo {
+		background-color: #F2F2F2;
+	    padding: 0;
+	    text-align: center;
+	}
+	
+	.ui.log-in {
+		max-width: 505px;
+		margin: 70px auto 0;
+	}
+	.ui.log-in .ui.checkbox {
+	    font-size: 0.825em;
+	}
+	.ui.log-in .field {
+		margin: 0 0 1.5em;
+	}
+	.ui.log-in > .ui.segment {
+		padding: 1em 2em;
+	}
+	.ui.log-in .sign-up {
+		color:rgba(255,255,255,0.5);
+		font-size: 0.825em;
+		text-align: center;
+	}
+	.ui.log-in .sign-up a {
+		color:rgba(255,255,255,0.6);
+	}
+	.ui.log-in .sign-up a:hover {
+		color:rgba(255,255,255,0.8);
+	}
+	.ui.log-in .submit.button{
+		margin-top:1.2em;
+	}
+	.ui.icon.btns .btn > .icon, .ui.icon.btn > .icon {
+	    margin: 0;
+	    opacity: 0.9;
+	    vertical-align: top;
+	}
+	.ui.btn > .icon {
+	    line-height: 1;
+	    margin-right: 0.6em;
+	    transition: opacity 0.1s ease 0s;
+	}
+	
+	.ui.log-in .ui.qq.btn {
+	    float: right;
+	    width: 98%;
+	}
+	.ui.log-in .ui.weibo.btn {
+	    width: 98%;
+	}
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -15,41 +67,56 @@
 {% endblock %}
 
 {% block layout_content %}
-{% include "block/auth_header.html" %}
 <div id="bd">
 	{% block content %}
-	<div class="ui page grid">
-		<div class="six wide column">
-			<div class="ui gird segment log-in">
-				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
-					<input type="hidden" name="t" value="{{ login_token }}" />
-					<div class="ui header">
-						<h2>现在登录</h2>
-					</div>
-					<div class="field">
-					  	<input type="text" name="account" placeholder="邮箱账号" />
-					</div>
-					<div class="field">
-					  	<input type="password" name="password" id="password" placeholder="密码" />
-					</div>
-					<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms">
-				          	<label>下次自动登录</label>
-				        </div>
-						
-						<a href="" title="忘记密码？" class="forgot">忘记密码？</a>
-					</div>
+	<div class="ui responsive grid">
+		<div class="ui column">
+			<div class="ui log-in">
+				<div class="ui top attached header logo">
+					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+				</div>
+				<div class="ui bottom attached segment">
 				
-					<div class="inline field">
-						<div class="ui blue submit button" >立即登录</div>
-						<label>没有账号？<a href="{{ app_url_register }}" title="立即注册" >立即注册</a></label>
-					</div>
-				</form>
+					<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
+						<input type="hidden" name="t" value="{{ login_token }}" />
+						<div class="center aligned ui header">登录太火鸟</div>
+						<div class="two fields">
+							<div class="field">
+								<a href="" class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
+									<i class="flat sina_weibo_plane icon"></i> 用微博账号
+								</a>
+							</div>
+							<div class="field">
+								<a href="" class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
+									<i class="flat tt_weibo_plane icon"></i> 用QQ账号
+								</a>
+							</div>
+						</div>
+						
+						<div class="field">
+						  	<input type="text" name="account" placeholder="邮箱账号" />
+						</div>
+						<div class="field">
+						  	<input type="password" name="password" id="password" placeholder="密码" />
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+					          	<input type="checkbox" name="terms" checked="checked">
+					          	<label>自动登录</label>
+					        </div>
+						
+							<a href="" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+						</div>
+				
+						<div class="field ">
+							<div class="fluid ui big active magenta submit button" >登录</div>
+						</div>
+					</form>
+				</div>
+				<div class="sign-up">
+					<label>没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册" class="ui link" >立即注册</a></label>
+				</div>
 			</div>
-		</div>
-		<div class="ten wide column">
-			
 		</div>
 	</div>
 	{% endblock %}

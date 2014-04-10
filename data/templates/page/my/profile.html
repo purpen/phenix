@@ -5,15 +5,28 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#select-filter').select2();
-	$('#select-filter-two').select2();
-	$('#select-filter-three').select2();
-	
-	sher.build_profile_page();
-	
-	{% if error_message %}
-		sher.show_error_note('{{ error_message }}');
-	{% endif %}
+    /* 个人资料表单验证 */
+	$('#profile-form').form({
+		nickname: {
+			identifier  : 'nickname',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '邮件格式不对,请输入您注册时填写的邮件'
+				},
+				{
+					type   : 'maxLength[24]',
+					prompt : '登录密码为必须24位以上字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit();
+		}
+	});
 {% endblock %}
 {% block content %}
 <div class="account profile">
@@ -26,23 +39,25 @@
 			<div class="ui segment">
 				<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
 					<input name="_id" type="hidden" value="{{ user_id }}" />
-					<h3 class="ui dividing header">用户名</h3>
-					<div class="inline field">
-						<input type="text" name="nickname" value="{{ user.nickname }}" />
+					<h3 class="ui dividing header">用户名(昵称)</h3>
+					<div class="three fields">
+						<div class="field">
+							<input type="text" name="nickname" value="{{ user.nickname }}" />
+						</div>
 					</div>
 					
 					<h3 class="ui dividing header">详细资料</h3>
 					<div class="two fields">
 						<div class="field">
-							<label>真实姓名：</label>
+							<label>姓名：</label>
 							<input type="text" name="realname" value="{{ profile.realname }}" />
 						</div>
 						<div class="field">
 							<label>性别：</label>
 							<div class="ui selection dropdown">
-								<input type="hidden" name="parent_id">
+								<input type="hidden" name="sex" />
 							    <div class="default text">请选择</div>
-							    <i class="dropdown icon"></i>
+							    <i class="flat arrowbottom icon"></i>
 							    <div class="menu">
 							        <div data-value="1" class="{%if user.sex == 1%}active{%endif%}> item">男</div>
 							        <div data-value="2" class="{%if user.sex == 2%}active{%endif%}> item">女</div>
@@ -61,21 +76,7 @@
 							<input type="text" name="city" value="{{ user.city }}" />
 						</div>
 					</div>
-			
-					<div class="two fields">
-						<div class="field">
-							<label>民族：</label>
-							<input type="text" name="nation" value="{{ profile.nation }}" />
-						</div>
-						<div class="field">
-							<label>籍贯：</label>
-							<input type="text" name="born_place" value="{{ profile.born_place }}" />
-						</div>
-					</div>
-			
-			
 					
-			
 					<div class="field">
 						<label>个人关键词：</label>
 						<textarea class="form-control" rows="2" name="tags">{% for t in user.tags %}{{ t }},{% endfor %}</textarea>
@@ -86,8 +87,8 @@
 						<label>个人评价：</label>
 						<textarea rows="5" name="summary">{{ user.summary }}</textarea>
 					</div>
-			
-					<input type="submit" class="ui blue submit button" value="确认修改" />
+					
+					<input type="submit" class="ui magenta button" value="确认修改" />
 					
 				</form>
 			</div>

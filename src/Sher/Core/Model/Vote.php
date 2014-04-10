@@ -18,7 +18,9 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base  {
 		'reason' => 0,
     );
 	
-    protected $joins = array();
+    protected $joins = array(
+    	'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+    );
 	
     protected $required_fields = array('user_id', 'target_id', 'ticket');
     protected $int_fields = array('user_id', 'target_id', 'ticket', 'reason');

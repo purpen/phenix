@@ -34,7 +34,7 @@
         	endpoint: '{{ app_url_upload_product }}'
       	},
 		text: {
-            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui magenta labeled icon upload button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -53,10 +53,26 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+			$.get('{{ app_url_upload }}/check_upload_assets', {'id': '{{ product._id }}', 'assets': result.data });
 		}
 	});
-
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			$.get($(this).attr('href'), function(result){
+				if (result.success){
+					$('#asset-list .ajax-cover.active').removeClass('active');
+					$this.addClass('active');
+				}else{
+					phenix.show_error_message(result.message);
+				}
+			},'json');
+			
+			return false;
+		});
+	});
 {% endblock %}
 
 {% block content %}
@@ -82,7 +98,6 @@
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-upload-form">
 					<input type="hidden" name="step" value="3" />
 					<input type="hidden" name="_id" value="{{ product._id }}" />
-					<input type="hidden" name="cover_id" value="{{ product.cover_id }}" id="cover_id" />
 					<div class="field">
 						<label>添加图片</label>
 					  	<div id="phenix-uploader"></div>
@@ -91,20 +106,21 @@
 							{% if mode == 'edit' %}
 								{% asset_list var:'assets' parent_id:product._id size:20 %}
 								{% for asset in assets.rows %}
-								<div class="thumb item">
+								<div class="thumb item" id="{{ asset._id }}">
 									<div class="image">
 										<img src="{{ asset.thumbnails.small.view_url }}" />
 										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 									</div>
 									<div class="buttons">
 										<div class="ui large links">
-											<a href="" class="ui link" title="插入">
+											<a href="" class="ui link pop" title="" data-content="插入缩略图至详情介绍" data-variation="inverted">
 												<i class="flat sqinarrowtop icon"></i>
 											</a>
-											<a href="" class="ui link" title="删除">
+											<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax-request pop" data-content="删除此缩略图？" data-variation="inverted">
 												<i class="flat waste icon"></i>
 											</a>
-											<a href="{{ app_url_fever }}/update_cover?id={{ product._id }}&cover_id={{ asset._id }}" class="ui link ajax-request" title="设置封面图">
+											
+											<a href="{{ app_url_fever }}/update_cover?id={{ product._id }}&cover_id={{ asset._id }}" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted">
 												<i class="flat flag icon"></i>
 											</a>
 										</div>
@@ -121,8 +137,8 @@
 					
 					<div class="ui grid">
 						<div class="left floated eight wide column">
-							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large icon gray button">
-								上一步<i class="flat back icon"></i>
+							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large labeled icon gray button">
+								上一步<i class="flat play_back icon"></i>
 							</a>
 						</div>
 						<div class="right floated aligned eight wide column">

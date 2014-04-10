@@ -1,22 +1,24 @@
 <taconite>
 	<prepend select="#asset-list"><![CDATA[
 		{% for asset in asset_list %}
-		<div class="thumb item">
+		<div class="thumb item" id="{{ asset._id }}">
 			<div class="image">
 				<img src="{{ asset.thumbnails.small.view_url }}" />
 				<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 			</div>
 			<div class="buttons">
 				<div class="ui large links">
-					<a href="" class="ui link" title="插入">
+					<a href="" class="ui link pop" title="" data-content="插入缩略图至详情介绍" data-variation="inverted">
 						<i class="flat sqinarrowtop icon"></i>
 					</a>
-					<a href="" class="ui link" title="删除">
+					<a href="{{ app_url_fever }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax-request pop" data-content="删除此缩略图？" data-variation="inverted">
 						<i class="flat waste icon"></i>
 					</a>
-					<a href="{{ app_url_fever }}/update_cover?id={{ id }}&cover_id={{ id }}" class="ui link ajax-request" title="设置封面图">
+					
+					<a href="{{ app_url_fever }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted">
 						<i class="flat flag icon"></i>
 					</a>
+					
 				</div>
 			</div>
 		</div>

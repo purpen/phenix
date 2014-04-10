@@ -11,8 +11,6 @@ class Sher_App_Action_Base extends Sher_Core_Action_Authorize {
 	
 	/* 默认模板 */
 	protected $page_html = 'page/index.html';
-	
-	protected $admin_method_list = '*';
 
 }
 ?>

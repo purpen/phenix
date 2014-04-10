@@ -1,7 +1,7 @@
 {%extends 'layout/board.html'%}
+{% block title %}{{ user.nickname }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
 	
 </style>
 {% endblock %}
@@ -9,25 +9,17 @@
 {% endblock %}
 {% block jquery %}
 	
-	$('.ui.blue.button').click(function(){
-		$('.ui.modal').modal('show');
-		return false;
-	});
-	
 {% endblock %}
+
 {% block content %}
-<div class="helper">
+<div class="user center">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui column">
-				<h4>帮助中心</h4>
-				
-				<a href="" class="ui blue button">显示弹出框</a>
-				
-				
 				
 			</div>
 		</div>
+		
 	</div>
 </div>
 {% endblock %}

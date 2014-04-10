@@ -12,6 +12,8 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'logout', 'do_login', 'do_register', 'ajax_check_invite_code');
+	
 	/**
 	 * 入口
 	 */
@@ -54,7 +56,46 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $service->stop_visitor_session();
 		return $this->display_note_page('您已成功的退出登录,稍候将跳转到主页.', Doggy_Config::$vars['app.url.index']);
 	}
-
+	
+	/**
+	 * ajax弹出框登录
+	 */
+	public function ajax_login(){
+        if (empty($this->stash['account']) || empty($this->stash['password'])) {
+            return $this->ajax_json('数据错误,请重新登录',true,Doggy_Config::$vars['app.url.login']);
+        }
+		
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('account'=>$this->stash['account']));
+        if (empty($result)) {
+            return $this->ajax_json('帐号不存在!');
+        }
+        if ($result['password'] != sha1($this->stash['password'])) {
+            return $this->ajax_json('登录账号和密码不匹配',true);
+        }
+        $user_id = (int) $result['_id'];
+		$nickname = $result['nickname'];
+        $user_state = $result['state'];
+        
+        if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
+            return $this->ajax_json('此帐号涉嫌违规已经被禁用!',true,'/');
+        }
+		
+		Sher_Core_Helper_Auth::create_user_session($user_id);
+		
+        // export some attributes to browse client.
+		$login_user_data = $user->extend_load($user_id);
+		
+		$visitor = array();
+		$visitor['is_login'] = true;
+		$visitor['id'] = $user_id;
+        foreach (array('account','nickname','last_login','current_login','visit','is_admin') as $k) {
+            $visitor[$k] = isset($login_user_data[$k])?$login_user_data[$k]:null;
+        }
+		
+		return $this->ajax_json('欢迎回来.', false, null, $visitor);
+	}
+	
 	/**
 	 * 执行用户登录流程
 	 */

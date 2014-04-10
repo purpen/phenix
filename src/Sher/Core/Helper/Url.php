@@ -17,16 +17,19 @@ class Sher_Core_Helper_Url {
 	 */
 	public static function avatar_default_url($type='big',$sex=2){
 		$avatar_default = '';
-		$prefix = ($sex == 2) ? 'female' : 'male';
+		$static_domain = Doggy_Config::$vars['app.domain.static'];
 		switch ($type) {
 		    case 'big':
-		        $avatar_default = "/images/avatar_${prefix}_big.jpg";
+		        $avatar_default = $static_domain."/images/avatar_default_big.jpg";
 		        break;
-		    case 'mid':
-		        $avatar_default = "/images/avatar_${prefix}_mid.jpg";
+		    case 'medium':
+		        $avatar_default = $static_domain."/images/avatar_default_medium.jpg";
 		        break;
-		    case 'sml':
-		        $avatar_default = "/images/avatar_${prefix}_sml.jpg";
+		    case 'small':
+		        $avatar_default = $static_domain."/images/avatar_default_small.jpg";
+		        break;
+		    case 'mini':
+		        $avatar_default = $static_domain."/images/avatar_default_mini.jpg";
 		        break;
 		}
 		return $avatar_default;
@@ -60,6 +63,29 @@ class Sher_Core_Helper_Url {
     public static function topic_view_url($topic_id,$page=1){
     	return  sprintf(Doggy_Config::$vars['app.url.topic.view'], $topic_id, $page);
     }
+	
+	
+	/**
+	 * 投票列表访问地址
+	 */
+    public static function vote_list_url($category_id=null, $type=null, $sort=null, $page=null) {
+        if (!is_null($category_id)) {
+            $category_id = 'c'.$category_id;
+        }
+		
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		
+        return self::build_url_path('app.url.fever', $category_id, $type, $sort).$page;
+    }
+	
+	/**
+	 * 投票列表访问地址,优化URL格式
+	 */
+	public static function vote_advance_list_url($category_id, $type, $sort, $page=1) {
+		return  sprintf(Doggy_Config::$vars['app.url.fever.list'], $category_id, $type, $sort, $page);
+	}
 	
 	/**
 	 * 产品投票查看地址

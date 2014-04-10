@@ -41,8 +41,9 @@ app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 
 #社区创意投票
-app.url.fever: '{$app.url.action_base}/fever'
-app.url.fever.view: '{$app.url.action_base}/fever/view/%s'
+app.url.fever: '{$app.url.domain}/fever'
+app.url.fever.list: '{$app.url.domain}/fever/list-c%s-t%s-s%s-p%s.html'
+app.url.fever.view: '{$app.url.domain}/fever/view/%s'
 
 
 #上传
@@ -51,14 +52,14 @@ app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
 
 #个人中心
-app.url.my:				'{$app.url.action_base}/my'
-app.url.my.message:		'{$app.url.action_base}/my/message'
+app.url.my:				'{$app.url.domain}/my'
+app.url.my.message:		'{$app.url.domain}/my/message'
 
 #个人主页
 app.url.user:			'{$app.url.domain}/user'
 app.url.user.love:		'{$app.url.domain}/user/%s/love'
 app.url.user.album:		'{$app.url.domain}/user/%s/album'
-app.url.user.view:	'{$app.url.user}/%s'
+app.url.user.view:		'{$app.url.user}/%s'
 
 #评论
 app.url.comment:		'{$app.url.action_base}/comment'

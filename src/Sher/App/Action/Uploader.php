@@ -36,11 +36,6 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
         $file = $this->asset[0]['path'];
         $file_name = $this->asset[0]['name'];
         $size = $this->asset[0]['size'];
-        
-        $avatar = Doggy_Config::$vars['app.asset.user_avatar'];
-        $big_size = $avatar['big'];
-        $small_size = $avatar['small'];
-		$little_size = $avatar['little'];
 		
         $image_info = Sher_Core_Util_Image::image_info($file);
 
@@ -111,16 +106,17 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			return $this->ajax_note('获取数据错误,请重新提交',true);
 		}
 		
-		$result = Sher_Core_Util_Image::make_crop_avatar($row['filepath'],$w,$h,$x1,$y1);
+		$result = Sher_Core_Util_Image::make_crop_avatar($row['filepath'], $w, $h, $x1, $y1);
 		if(empty($result)){
 			return $this->ajax_note('生成数据错误,请重新提交',true);
 		}
 		
 		// 更新用户头像
 		$this->visitor->update_avatar(array(
-			'big_avatar' => $result['big_avatar'],
-			'mid_avatar' => $result['mid_avatar'],
-			'sml_avatar' => $result['sml_avatar']
+			'big' => $result['big'],
+			'medium' => $result['medium'],
+			'small' => $result['small'],
+			'mini' => $result['mini']
 		));
 		
 		$this->stash['avatar'] = $result;

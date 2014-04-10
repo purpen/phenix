@@ -48,11 +48,16 @@
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/phenix.js"></script>
 		{% else %}
 			<script type="text/javascript" src="{{ app_url_uncompressed}}/javascript/jquery-2.1.0.js"></script>
-			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/semantic.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/semantic.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.form.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.taconite.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.livequery.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.fineuploader-3.5.0.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/medium-editor.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.countdown.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.address.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.bar.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.imgareaselect.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/phenix.js"></script>
 		{% endif %}
 		
@@ -62,14 +67,18 @@
 		<script type="text/javascript">
 		<!--
 		$(function(){
-    		phenix.initial();
-			var views = {
+			phenix.url = {
 				domain: '{{ app_url_domain }}',
         		css: '{{ app_url_css}}',
         		js: '{{ app_url_js}}',
         		images: '{{ app_url_images}}',
 				app_url_action_base: '{{ app_url_action_base }}'
 			};
+			
+			phenix.visitor = {{ visitor_json }};
+			
+    		phenix.initial();
+			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}
 		});

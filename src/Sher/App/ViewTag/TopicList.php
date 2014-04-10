@@ -19,6 +19,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         $size = 10;
 		
         $user_id = 0;
+		$target_id = 0;
 		
 		$category_id = 0;
 		$type = 0;
@@ -44,6 +45,10 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		
 		if ($category_id) {
 			$query['category_id'] = (int)$category_id;
+		}
+		
+		if ($target_id) {
+			$query['target_id'] = (int)$target_id;
 		}
 		
 		// 类别

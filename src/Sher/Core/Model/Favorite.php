@@ -1,6 +1,6 @@
 <?php
 /**
- * 收藏Model
+ * 收藏/喜欢 Model
  * @author purpen
  */
 class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
@@ -11,12 +11,17 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_PRODUCT = 1;
 	const TYPE_TOPIC = 2;
 	
+	// event
+	const EVENT_FAVORITE = 1;
+	const EVENT_LOVE = 2;
+	
     protected $schema = array(
-    	'user_id'=>null,
+    	'user_id' => null,
     	'target_id' => null,
 		'tags' => array(),
         'private'=> 0,
-        'type' => self::TYPE_TOPIC,
+        'type'   => self::TYPE_TOPIC,
+		'event'  => self::EVENT_FAVORITE,
     );
 	
     protected $joins = array(
@@ -24,16 +29,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id','private','type');
+    protected $int_fields = array('user_id','target_id','private','type');
 	
 	
     protected function before_save(&$data) {
-        if (isset($data['user_id'])) {
-            $data['user_id'] = (int) $data['user_id'];
-        }
-        if (isset($data['target_id'])) {
-            $data['target_id'] = (string) $data['target_id'];
-        }
         if (isset($data['tags']) && !is_array($data['tags'])) {
             $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',strip_tags($data['tags']))));
         }
@@ -62,19 +61,21 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     /**
      * 添加到收藏
      */
-    public function add_favorite($user_id, $target_id, $fav_info=array()) {
-        $query['target_id'] = (string) $target_id;
-		$query['user_id'] = (int) $user_id;
+    public function add_favorite($user_id, $target_id, $info=array()) {
+        $info['target_id'] = (int) $target_id;
+		$info['user_id']   = (int) $user_id;
+		$info['event']     = self::EVENT_FAVORITE;
 		
-        return $this->update($query, $fav_info, true);
+        return $this->apply_and_save($info);
     }
 
     /**
      * 检测是否收藏
      */
     public function check_favorite($user_id, $target_id){
-        $query['target_id'] = (string) $target_id;
+        $query['target_id'] = (int) $target_id;
 		$query['user_id'] = (int) $user_id;
+		$query['event'] = self::EVENT_FAVORITE;
 		
         $result = $this->count($query);
 		
@@ -90,6 +91,31 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		
         return $this->remove($query);
     }
+	
+	
+    /**
+     * 添加到喜欢、赞
+     */
+    public function add_love($user_id, $target_id, $info=array()) {		
+        $info['target_id'] = (int) $target_id;
+		$info['user_id']   = (int) $user_id;
+		$info['event']     = self::EVENT_LOVE;
+		
+        return $this->apply_and_save($info);
+    }
+	
+    /**
+     * 检测是否喜欢
+     */
+	public function check_loved($user_id, $target_id){
+        $query['target_id'] = (int) $target_id;
+		$query['user_id'] = (int) $user_id;
+		$query['event'] = self::EVENT_LOVE;
+		
+        $result = $this->count($query);
+		
+        return $result>0?true:false;
+	}
 	
 }
 ?>
