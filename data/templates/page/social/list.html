@@ -1,14 +1,14 @@
 {%extends 'layout/sns.html'%}
 {% block title %}社区-{% endblock %}
 {% block page_css %}
-<style type="text/css">
-	.social-guide {
-		padding-top: 4rem;
+<style class="text/css">
+	.ui.tophead {
+	    background: url("http://static.taihuoniao.me/packaged/images/bg_red.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+	    height: 350px;
 	}
-	.social-guide .button {
-		padding: 0.8em 4em;
+	.masthead .ui.grid > .ui.social-guide {
+	    margin-top: 9em;
 	}
-	
 </style>
 {% endblock %}
 {% block js %}
@@ -16,27 +16,35 @@
 {% block jquery %}
 {% endblock %}
 
-{% block content %}
-<div class="social">
-	<div class="ui responsive grid">
-		<div class="center aligned ui column social-guide">
-			<h1 class="ui header">
-				提交你的创意
-				<div class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</div>
-			</h1>
+{% block tophead %}
+<div class="ui tophead">
+	<div class="masthead segment">
+		<div class="masthead-cover">
+			<div class="ui responsive grid">
+				<div class="center aligned ui column social-guide">
+					<h1 class="ui header">
+						提交你的创意
+						<div class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</div>
+					</h1>
 			
-			<div class="ui buttons">
-				<a href="{{ app_url_fever }}" class="ui large magenta active button">
-					创意投票
-				</a>
-				<a href="{{ app_url_topic }}" class="ui large magenta button">
-					社区话题
-				</a>
+					<div class="ui buttons">
+						<a href="{{ app_url_fever }}" class="ui large magenta active button">
+							创意投票
+						</a>
+						<a href="{{ app_url_topic }}" class="ui large magenta button">
+							社区话题
+						</a>
+					</div>
+				</div>
+		
 			</div>
 		</div>
-		
-		
-		
 	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="social">
+	
 </div>
 {% endblock %}

@@ -1,0 +1,109 @@
+{%extends 'layout/sns.html'%}
+{% block title %}创新想法-{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	phenix.hook_product_topic();
+{% endblock %}
+
+{% block content %}
+<div class="ui social show">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_topic }}">话题</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	<a class="ui section link" href="{{ subject_category.view_url }}">{{ subject_category.title }}</a>
+				  	<i class="flat arrowright icon divider"></i>
+				  	{{ product.title }}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="eleven wide column">
+				<div class="ui segment attached">
+					
+					<div class="ui divided topic-list list">
+						{% topic_list var:'list' page:page target_id:id %}
+						{% for topic in list.rows %}
+							{% include 'block/topic_item.html' %}
+						{% endfor %}
+					</div>
+					
+					<a name="newtopic"></a>
+				</div>
+				
+				
+				{% if list.rows %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+				{% endif %}
+				
+				
+				<h3 class="ui header">发表新话题</h3>
+				
+				<form class="ui reply form" action="{{ app_url_topic }}/ajax_save" method="post" id="topic-form">
+					<input type="hidden" name="_id" />
+					<input type="hidden" name="target_id" value="{{ id }}" />
+					<input type="hidden" name="type" value="1" />
+	
+					<div class="field">
+						<input type="text" name="title" class="topic-title" />
+					</div>
+					<div class="field">
+						<textarea name="description" class="topic-description"></textarea>
+					</div>
+					<input type="submit" class="ui small magenta button" value="确认" />
+				</form>
+				
+				
+			</div>
+			
+			<div class="five wide column">
+				<h4 class="ui top attached header">
+					所属产品
+				</h4>
+				<div class="ui items">
+					{% include "block/product_item.html" %}
+				</div>
+				
+				
+				<h4 class="ui top attached header">
+					编辑推荐
+				</h4>
+				<div class="ui segment attached">
+					{% topic_list var:'stick_list' size:5 stick:1 %}
+					<div class="ui divided list">
+						{% for topic in stick_list.rows %}
+						<div class="item">
+				          	<h4 class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">
+									{{ topic.title|truncate, 16, '' }}
+								</a>
+							</h4>
+							<p>
+				          		{{ topic.description|truncate 32 }}
+							</p>
+							<div class="ui divided horizontal list">
+							  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_date }} 发布</div>
+							  	<div class="small item">
+									回复（{{ topic.comment_count }}）
+								</div>
+							</div>
+							
+					  	</div>
+						{% endfor %}
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

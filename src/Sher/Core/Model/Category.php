@@ -40,6 +40,12 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+		
+		if ($row['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
+			$row['view_url'] = Sher_Core_Helper_Url::topic_list_url($row['_id']);
+		} else if ($row['domain'] == Sher_Core_Util_Constant::TYPE_PRODUCT){
+			$row['view_url'] = Sher_Core_Helper_Url::vote_list_url($row['_id']);
+		}
 	}
 	
 	/**

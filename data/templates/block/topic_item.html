@@ -1,0 +1,44 @@
+<div class="item">
+	<div class="ui grid">
+		<div class="two wide column">
+			<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+	      		<img src="{{ topic.user.small_avatar_url }}" />
+			</a>
+		</div>
+		<div class="twelve wide column">
+	      	<div class="content">
+	          	<h3 class="link header">
+					<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+				</h3>
+
+				{% if topic.asset_count %}
+					<!--展示图片-->
+					<div class="ui small images">
+						{% asset_list var:'assets' parent_id:topic._id %}
+						{% for asset in assets.rows %}
+					  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
+						{% endfor %}
+					</div>
+				{% endif %}
+				<div class="ui divided horizontal list">
+				  	<div class="small item">
+						<a href="{{ topic.category.view_url }}" class="ui link">
+							{{ topic.category.title }}
+						</a>
+					</div>
+				  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_time }}</div>
+					{% if topic.last_user %}
+					<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ topic.last_user.nickname }}</a> {{ topic.last_reply_time|relative_time}}回复</div>
+					{% endif %}
+				</div>
+
+	      	</div>
+		</div>
+		<div class="right aligned two wide column comment-counter">
+			<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+				<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+				<span class="dot-irecommend-suffix"></span>
+			</a>
+      	</div>
+	</div>
+</div>

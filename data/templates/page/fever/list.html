@@ -1,176 +1,6 @@
 {%extends 'layout/sns.html'%}
 {% block title %}社区-{% endblock %}
-{% block page_css %}
-<style class="text/css">
-.item img {
-    display: block;
-    transition: transform 0.25s ease-in-out 0s;
-}
-.item:hover img {
-    transform: scale(1.2);
-}
-.ui.items .item > .image {
-	overflow: hidden;
-}
-.item .hover {
-	background-color: rgba(0, 0, 0, 0.1);
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-	border-radius: 0.33em;
-	text-align: center;
-	
-	opacity: 0;
-	
-    -webkit-transition:
-      opacity 0.25s ease,
-      background-color 0.25s ease,
-      color 0.25s ease,
-      background 0.25s ease,
-      box-shadow 0.25s ease
-    ;
-    -moz-transition:
-      opacity 0.25s ease,
-      background-color 0.25s ease,
-      color 0.25s ease,
-      background 0.25s ease,
-      box-shadow 0.25s ease
-    ;
-    -o-transition:
-      opacity 0.25s ease,
-      background-color 0.25s ease,
-      color 0.25s ease,
-      background 0.25s ease,
-      box-shadow 0.25s ease
-    ;
-    -ms-transition:
-      opacity 0.25s ease,
-      background-color 0.25s ease,
-      color 0.25s ease,
-      background 0.25s ease,
-      box-shadow 0.25s ease
-    ;
-    transition:
-      opacity 0.25s ease,
-      background-color 0.25s ease,
-      color 0.25s ease,
-      background 0.25s ease,
-      box-shadow 0.25s ease
-    ;
-}
 
-.item:hover .hover {
-	background-color: rgba(0, 0, 0, 0.5);
-	opacity: 1;
-}
-
-.item .circular.ui.icon.button {
-    border-color: rgba(255, 255, 255, 0.9);
-    color: rgba(255, 255, 255, 0.9);
-    margin-top: 30%;
-}
-
-.item:hover .circular.ui.icon.button:hover {
-    background-color: rgba(255, 255, 255, 1);
-	color:#ff3366;
-}
-
-.masthead {
-    background: url("{{ app_url_packaged }}/images/bg_red.jpg") repeat fixed 0 0 #FF3366;
-    border-bottom: medium none;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 0;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-	min-height: 140px;
-}
-.masthead-cover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-.masthead .ui.grid > .column {
-    margin-bottom: 0;
-	margin-top: 0;
-}
-.masthead .introduction {
-    padding: 2.5em 0;
-}
-.masthead .ui.tabular.menu {
-    border-bottom: medium none;
-	
-}
-.masthead .ui.tabular.menu .item {
-	color: rgba(255, 255, 255, 0.7);
-    font-size: 1.325rem;
-}
-.masthead .ui.tabular.menu .active.item {
-	background-color: #F8F8F8;
-	color: rgba(0, 0, 0, 0.7);
-}
-
-.masthead-9:before {
-    animation-duration: 80s;
-    animation-fill-mode: both;
-    animation-iteration-count: infinite;
-    animation-name: masthead;
-    animation-timing-function: linear;
-    background: none repeat fixed 0 0 #00B5AD;
-    content: "";
-    height: 500%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    transform-origin: 50% 50% 0;
-    width: 500%;
-    z-index: 1;
-}
-
-@-moz-keyframes masthead {
-0% {
-    background-position: 0 0;
-}
-50% {
-    background-position: -50% -100%;
-}
-100% {
-    background-position: -100% -200%;
-}
-}
-@-moz-keyframes masthead {
-0% {
-    background-position: 0 0;
-}
-50% {
-    background-position: -50% -100%;
-}
-100% {
-    background-position: -100% -200%;
-}
-}
-
-.vote > .ui.timer.list {
-    text-align: center;
-}
-.vote > .ui.timer.list > .item {
-    padding: 0.2em 1em;
-    line-height: 1em;
-}
-.vote > .ui.timer.list > .item.green {
-    color:#58CB73;
-}
-.vote > .ui.timer.list > .item > .number {
-    margin-bottom: 0.4em;
-    font-size: 1.2em;
-}
-.vote > .ui.timer.list > .item > .unit {
-    font-size: 0.875em;
-}
-
-</style>
-{% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
@@ -182,16 +12,15 @@
 	});
 {% endblock %}
 
-{% block content %}
-<div class="fever">
+{% block tophead %}
+<div class="ui tophead">
 	{% include "block/social/sub_menu.html" %}
-	
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="ui fever">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui column">
-				
-			</div>
-		</div>
 		<div class="row">
 			<div class="twelve wide column">
 				<div class="ui top attached novpad header">
@@ -246,7 +75,7 @@
 		
 		<div class="row">
 			<div class="ui column">
-				<div class="ui four items">
+				<div class="ui four items votelist">
 					{% product_list var:'list' page:page category_id:category_id stage:1 only_approved:1 %}
 					{% for product in list.rows %}
 				  	<div class="item">

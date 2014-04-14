@@ -1,63 +1,5 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/auth.html'%}
 {% block title %}现在注册-{% endblock %}
-{% block page_css %}
-<style type="text/css">
-	body {
-		background: url("{{ app_url_packaged }}/images/novo-bg.png");
-	}
-	.ui.header.logo {
-		background-color: #F2F2F2;
-	    padding: 0;
-	    text-align: center;
-	}
-
-	.ui.log-in {
-		max-width: 505px;
-		margin: 40px auto 0;
-	}
-	.ui.log-in .ui.checkbox {
-	    font-size: 0.825em;
-	}
-	.ui.log-in .field {
-		margin: 0 0 1.5em;
-	}
-	.ui.log-in > .ui.segment {
-		padding: 1em 2em;
-	}
-	.ui.log-in .sign-up {
-		color:rgba(255,255,255,0.5);
-		font-size: 0.825em;
-		text-align: center;
-	}
-	.ui.log-in .sign-up a {
-		color:rgba(255,255,255,0.6);
-	}
-	.ui.log-in .sign-up a:hover {
-		color:rgba(255,255,255,0.8);
-	}
-	.ui.log-in .submit.button{
-		margin-top:1.2em;
-	}
-	.ui.icon.btns .btn > .icon, .ui.icon.btn > .icon {
-	    margin: 0;
-	    opacity: 0.9;
-	    vertical-align: top;
-	}
-	.ui.btn > .icon {
-	    line-height: 1;
-	    margin-right: 0.6em;
-	    transition: opacity 0.1s ease 0s;
-	}
-
-	.ui.log-in .ui.qq.btn {
-	    float: right;
-	    width: 98%;
-	}
-	.ui.log-in .ui.weibo.btn {
-	    width: 98%;
-	}
-</style>
-{% endblock %}
 {% block js %}
 {% endblock %}
 
@@ -65,65 +7,61 @@
 	phenix.build_auth_page();
 {% endblock %}
 
-{% block layout_content %}
-<div id="bd">
-	{% block content %}
-	<div class="ui responsive grid">
-		<div class="ui column">
-			<div class="ui log-in">
-				<div class="ui top attached header logo">
-					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
-				</div>
-				<div class="ui bottom attached segment">
-					<form action="{{ app_url_action_base }}/auth/do_register" class="ui form" method="post" id="register-form">
-						<input type="hidden" name="t" value="{{ login_token }}" />
-						<div class="center aligned ui header">
-							注册太火鸟
-						</div>
-						
-						<div class="two fields">
-							<div class="field">
-								<a href="" class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
-									<i class="flat sina_weibo_plane icon"></i> 用微博账号
-								</a>
-							</div>
-							<div class="field">
-								<a href="" class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
-									<i class="flat tt_weibo_plane icon"></i> 用QQ账号
-								</a>
-							</div>
-						</div>
-						
+{% block content %}
+<div class="ui responsive grid">
+	<div class="ui column">
+		<div class="ui log-in signup">
+			<div class="ui top attached header logo">
+				<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+			</div>
+			<div class="ui bottom attached segment">
+				<form action="{{ app_url_action_base }}/auth/do_register" class="ui form" method="post" id="register-form">
+					<input type="hidden" name="t" value="{{ login_token }}" />
+					<div class="center aligned ui header">
+						注册太火鸟
+					</div>
+					
+					<div class="two fields">
 						<div class="field">
-							<input name="invite_code" type="text" maxChars="24" class="form-control input-lg" value="{{ l }}"  remote="{{ app_url_action_base }}/auth/ajax_check_invite_code" id="invite_code" placeholder="邀请码" />
+							<a href="" class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
+								<i class="flat sina_weibo_plane icon"></i> 用微博账号
+							</a>
 						</div>
 						<div class="field">
-							<input type="text" class="form-control input-lg" name="account" placeholder="邮箱账号" />
+							<a href="" class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
+								<i class="flat tt_weibo_plane icon"></i> 用QQ账号
+							</a>
 						</div>
-						<div class="field">
-							<input type="password" class="form-control input-lg" name="password" id="password" placeholder="密码" />
-						</div>
-						<div class="field">
-							<input type="password" class="form-control input-lg" name="password_confirm" placeholder="确认密码" />
-						</div>
-						<div class="inline field">
-							<div class="ui checkbox">
-					          	<input type="checkbox" name="terms" checked="checked">
-					          	<label>太火鸟服务协议</label>
-					        </div>
-						</div>
+					</div>
+					
+					<div class="field">
+						<input name="invite_code" type="text" maxChars="24" class="form-control input-lg" value="{{ l }}"  remote="{{ app_url_action_base }}/auth/ajax_check_invite_code" id="invite_code" placeholder="邀请码" />
+					</div>
+					<div class="field">
+						<input type="text" class="form-control input-lg" name="account" placeholder="邮箱账号" />
+					</div>
+					<div class="field">
+						<input type="password" class="form-control input-lg" name="password" id="password" placeholder="密码" />
+					</div>
+					<div class="field">
+						<input type="password" class="form-control input-lg" name="password_confirm" placeholder="确认密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label>太火鸟服务协议</label>
+				        </div>
+					</div>
 
-						<div class="field">
-					    	<div class="fluid ui big active magenta submit button" >确认注册</div>
-						</div>
-					</form>
-				</div>
-				<div class="sign-up">
-					<label>已有账号？<a href="{{ app_url_login }}" title="立即登录" class="ui link">立即登录</a></label>
-				</div>
+					<div class="field">
+				    	<div class="fluid ui big active magenta submit button" >确认注册</div>
+					</div>
+				</form>
+			</div>
+			<div class="sign-up">
+				<label>已有账号？<a href="{{ app_url_login }}" title="立即登录" class="ui link">立即登录</a></label>
 			</div>
 		</div>
 	</div>
-	{% endblock %}	
 </div>
 {% endblock %}

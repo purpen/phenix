@@ -39,6 +39,7 @@ app.url.social: '{$app.url.action_base}/social'
 app.url.topic: '{$app.url.domain}/topic'
 app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
+app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
 #社区创意投票
 app.url.fever: '{$app.url.domain}/fever'

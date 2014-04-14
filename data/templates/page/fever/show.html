@@ -2,11 +2,6 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.social.page {
-		margin-top: 2em;
-	}
-	
-
 	ul li {
 	    float: left;
 	    margin-right: 10px;
@@ -185,6 +180,7 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+
 	phenix.hook_product_topic();
 	phenix.bind_share_list();
 	
@@ -215,7 +211,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="fever">
+<div class="ui fever show">
 	<div class="ui responsive grid">
 		<div class="middle aligned row">
 			<div class="twelve wide column">
@@ -425,40 +421,55 @@
 		
 		<div class="row fever-view">
 			<div class="ui column">
-				<div class="ui fluid three magenta item attached product menu">
+				<div class="ui three magenta item product menu">
 				  	<a class="item" data-tab="content">创意介绍</a>
 				  	<a class="item" data-tab="talk">话题 ({{ product.topic_count }})</a>
 				  	<a class="item" data-tab="people">投票者（{{ product.vote_count }}）</a>
 				</div>
 				
 				<div class="ui active tab bottom attached segment" data-tab="content">
-					{{ product.content }}
+					<div class="ui grid">
+						<div class="ui two wide column"></div>
+						<div class="ui twelve wide column">
+							{{ product.content }}
+						</div>
+						<div class="ui two wide column"></div>
+					</div>
 				</div>
 				
-				
 				<div class="ui bottom attached tab segment" data-tab="talk">
-					{% include "block/product_topic.html" %}
+					<div class="ui grid">
+						<div class="ui two wide column"></div>
+						<div class="ui twelve wide column">
+							{% include "block/product_topic.html" %}
+						</div>
+						<div class="ui two wide column"></div>
+					</div>
 				</div>
 				
 				<div class="ui bottom attached tab segment" data-tab="people">
-					<h3 class="ui header">投票者</h3>
-					<!--最新投票者列表-->
-					<div class="avatars" id="product-vote-people">
-						{% vote_list var:'votelist' target_id:product._id size:8 %}
-					    <div class="ui horizontal list">
-							{% for vote in votelist.rows  %}
-							<div class="item">
-								<a class="ui small avatar image" href="{{ vote.user.home_url }}" title="{{ vote.user.nickname }}">
-									<img src="{{ vote.user.small_avatar_url }}" />
-								</a>
-								<div class="content">
-									<div class="header">{{ vote.user.nickname }}</div>
-									{{ vote.user.city }} {{ vote.user.job }}
-								</div>
-							</div>
-							{% endfor %}
-						</div>
+					<div class="ui grid">
+						<div class="ui two wide column"></div>
+						<div class="ui twelve wide column">
 						
+							<h3 class="ui header">投票者</h3>
+							<!--最新投票者列表-->
+							<div class="avatars" id="product-vote-people">
+								{% vote_list var:'votelist' target_id:product._id size:8 %}
+							    <div class="ui horizontal list">
+									{% for vote in votelist.rows  %}
+									<div class="item">
+										<a class="ui small avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted">
+											<img src="{{ vote.user.small_avatar_url }}" />
+										</a>
+									</div>
+									{% endfor %}
+								</div>
+						
+							</div>
+						
+						</div>
+						<div class="ui two wide column"></div>
 					</div>
 				</div>
 				

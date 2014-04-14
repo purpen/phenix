@@ -1,59 +1,21 @@
 {%extends 'layout/sns.html'%}
 {% block title %}创新想法-{% endblock %}
-{% block page_css %}
-<style type="text/css">
-.ui.social.page {
-	margin-top: 2em;
-}
-.masthead {
-    background: url("{{ app_url_packaged }}/images/002.jpg") repeat fixed 0 0 #FF3366;
-    border-bottom: medium none;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 0;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-	min-height: 140px;
-}
-.masthead-cover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-.masthead .ui.grid > .column {
-    margin-bottom: 0;
-	margin-top: 0;
-}
-.masthead .introduction {
-    padding: 2.5em 0;
-}
-.masthead .ui.tabular.menu {
-    border-bottom: medium none;
-	
-}
-.masthead .ui.tabular.menu .item {
-	color: rgba(255, 255, 255, 0.7);
-    font-size: 1.325rem;
-}
-.masthead .ui.tabular.menu .active.item {
-	background-color: #F8F8F8;
-	color: rgba(0, 0, 0, 0.7);
-}
-</style>
-{% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
 	
 {% endblock %}
 
-{% block content %}
-<div class="social">
+
+{% block tophead %}
+<div class="ui tophead">
 	{% include "block/social/sub_menu.html" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui column">
-				
-			</div>
-		</div>
 		<div class="row">
 			<div class="eleven wide column">
 				<div class="ui top attached novpad header">
@@ -117,8 +79,8 @@
 							<div class="item">
 								<div class="ui grid">
 									<div class="two wide column">
-										<a class="ui small avatar image" href="{{ topic.user.home_url }}">
-								      		<img src="/images/avatar_default.jpg" />
+										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
+								      		<img src="{{ dig.user.small_avatar_url }}" />
 										</a>
 									</div>
 									<div class="twelve wide column">
@@ -160,53 +122,18 @@
 						  	</div>
 						{% endfor %}
 						
-						{% topic_list var:'list' category_id:category_id type:type time:time sort:sort page:page %}
-						{% for topic in list.rows %}
-						<div class="item">
-							<div class="ui grid">
-								<div class="two wide column">
-									<a class="ui small avatar image" href="{{ topic.user.home_url }}">
-							      		<img src="/images/avatar_default.jpg" />
-									</a>
-								</div>
-								<div class="twelve wide column">
-							      	<div class="content">
-							          	<h3 class="link header">
-											<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-										</h3>
-							
-										{% if topic.asset_count %}
-											<!--展示图片-->
-											<div class="ui small images">
-												{% asset_list var:'assets' parent_id:topic._id %}
-												{% for asset in assets.rows %}
-											  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
-												{% endfor %}
-											</div>
-										{% endif %}
-										<div class="ui divided horizontal list">
-										  	<div class="small item">
-												<a href="{{ topic.category.view_url }}" class="ui link">
-													{{ topic.category.title }}
-												</a>
-											</div>
-										  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_time }}</div>
-											{% if topic.last_user %}
-											<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ topic.last_user.nickname }}</a> {{ topic.last_reply_time|relative_time}}回复</div>
-											{% endif %}
-										</div>
-							
-							      	</div>
-								</div>
-								<div class="right aligned two wide column comment-counter">
-									<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-										<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
-										<span class="dot-irecommend-suffix"></span>
-									</a>
-						      	</div>
-							</div>
-					  	</div>
-						{% endfor %}
+						{% if !subject_category %}
+							{% topic_list var:'list' category_id:category_id type:type time:time sort:sort page:page %}
+							{% for topic in list.rows %}
+								{% include 'block/topic_item.html' %}
+							{% endfor %}
+						{% else %}
+							<!--产品话题专区-->
+							{% product_list var:'list' page:page only_subject:1 %}
+							{% for product in list.rows %}
+								{% include "block/product_subject_item.html" %}
+							{% endfor %}
+						{% endif %}
 					</div>
 					
 				</div>
@@ -214,7 +141,7 @@
 				{% if list.rows %}
 				<div class="ui pagination">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
+					{% include 'block/pager.html' %}
 				</div>
 				{% endif %}
 				

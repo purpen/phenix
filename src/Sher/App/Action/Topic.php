@@ -53,13 +53,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	        }
 		}
 		
+		// 获取列表
 		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
 		$time = $this->stash['time'];
 		$sort = $this->stash['sort'];
 		$page = $this->stash['page'];
 		
-		$pager_url = Sher_Core_Helper_Url::topic_list_url($category_id);
+		$pager_url = Sher_Core_Helper_Url::topic_list_url($category_id, $type, $time, $sort).'p#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -67,6 +68,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['dig_list'] = $diglist;
 		
 		$this->gen_advanced_links($category_id, $type, $time, $sort, $page);
+		
+		
+		$subject_cateory_id = Doggy_Config::$vars['app.product.topic_category_id'];
+		if ($category_id == $subject_cateory_id){
+			$category = new Sher_Core_Model_Category();
+			$this->stash['subject_category'] = $category->extend_load($subject_cateory_id);
+		}else{
+			$this->stash['subject_category'] = array();
+		}
 		
 		return $this->to_html_page('page/topic/list.html');
 	}
@@ -150,6 +160,27 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
+	 * 某产品的话题
+	 */
+	public function subject(){
+		$id = (int)$this->stash['id'];
+		
+		// 获取产品专区话题列表
+		$category_id = Doggy_Config::$vars['app.product.topic_category_id'];
+		$category = new Sher_Core_Model_Category();
+		$this->stash['subject_category'] = $category->extend_load($category_id);
+		
+		$product = new Sher_Core_Model_Product();
+		$this->stash['product'] = & $product->extend_load($id);
+		
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::product_subject_url($id, '#p#');
+		
+		return $this->to_html_page('page/topic/subject_list.html');
+	}
+	
+	
+	/**
 	 * 显示主题详情帖
 	 */
 	public function view(){
@@ -163,6 +194,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(isset($this->stash['referer'])){
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
+		$tpl = 'page/topic/show.html';
 		
 		$model = new Sher_Core_Model_Topic();
 		$topic = & $model->extend_load($id);
@@ -179,14 +211,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
 	    }
 		
+		$this->stash['topic'] = &$topic;
+		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
 		
+		// 判定是否产品话题
+		if (isset($topic['target_id']) && !empty($topic['target_id'])){
+			$product = new Sher_Core_Model_Product();
+			$this->stash['product'] = & $product->extend_load($topic['target_id']);
+			$tpl = 'page/topic/subject_show.html';
+		}
 		
-		
-		$this->stash['topic'] = &$topic;
-		
-		return $this->to_html_page('page/topic/show.html');
+		return $this->to_html_page($tpl);
 	}
 	
 	/**

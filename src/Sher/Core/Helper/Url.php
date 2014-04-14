@@ -17,7 +17,7 @@ class Sher_Core_Helper_Url {
 	 */
 	public static function avatar_default_url($type='big',$sex=2){
 		$avatar_default = '';
-		$static_domain = Doggy_Config::$vars['app.domain.static'];
+		$static_domain = Doggy_Config::$vars['app.url.packaged'];
 		switch ($type) {
 		    case 'big':
 		        $avatar_default = $static_domain."/images/avatar_default_big.jpg";
@@ -38,7 +38,7 @@ class Sher_Core_Helper_Url {
 	/**
 	 * 帖子列表访问地址
 	 */
-    public static function topic_list_url($category_id=null, $type=null, $time=null, $page=null) {
+    public static function topic_list_url($category_id=null, $type=null, $time=null, $sort=null, $page=null) {
         if (!is_null($category_id)) {
             $category_id = 'c'.$category_id;
         }
@@ -47,7 +47,7 @@ class Sher_Core_Helper_Url {
             $page = "p${page}.html";
         }
 		
-        return self::build_url_path('app.url.topic', $category_id, $type, $time).$page;
+        return self::build_url_path('app.url.topic', $category_id, $type, $time, $sort).$page;
     }
 	
 	/**
@@ -61,9 +61,15 @@ class Sher_Core_Helper_Url {
 	 * 帖子查看地址
 	 */
     public static function topic_view_url($topic_id,$page=1){
-    	return  sprintf(Doggy_Config::$vars['app.url.topic.view'], $topic_id, $page);
+    	return sprintf(Doggy_Config::$vars['app.url.topic.view'], $topic_id, $page);
     }
 	
+	/**
+	 * 产品话题查看地址
+	 */
+	public static function product_subject_url($product_id, $page=1){
+		return sprintf(Doggy_Config::$vars['app.url.product.subject'], $product_id, $page);
+	}
 	
 	/**
 	 * 投票列表访问地址

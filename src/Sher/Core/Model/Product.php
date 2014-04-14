@@ -131,6 +131,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 状态
 		'state' => 0,
 		
+		# 推荐（编辑推荐、推荐至首页）
+		'stick' => 0,
+		
     	# 删除标识
     	'deleted' => 0,
 		
@@ -145,7 +148,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
-	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset')
+	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
+		'category' => array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
@@ -153,6 +157,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = $this->gen_view_url($row);
+		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
 		
@@ -259,6 +264,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	public function mark_set_cover($id, $cover_id){
 		return $this->update_set($id, array('cover_id'=>$cover_id));
+	}
+	
+    /**
+     * 标记为推荐
+     */
+    public function mark_as_stick($id) {
+        return $this->update_set($id, array('stick' => 1));
+    }
+	
+    /**
+     * 取消推荐
+     */
+	public function mark_cancel_stick($id){
+		return $this->update_set($id, array('stick' => 0));
 	}
 	
 	/**

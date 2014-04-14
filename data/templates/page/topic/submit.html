@@ -91,6 +91,23 @@
         return false;
 	});
 	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			$.get($(this).attr('href'), function(result){
+				if (result.success){
+					$('#asset-list .ajax-cover.active').removeClass('active');
+					$this.addClass('active');
+				}else{
+					phenix.show_error_message(result.message);
+				}
+			},'json');
+			
+			return false;
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}

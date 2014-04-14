@@ -24,6 +24,13 @@
 		}
 	}, {
 		inline : true,
+		beforeValid: function(){
+			$('.editable-wrapper').each(function(){
+		        $(this)
+					.find('textarea')
+					.val($(this).find('.editable').html());
+		    });
+		},
 		onSuccess: function(event){
 			event.preventDefault();
 			$(this).ajaxSubmit({
@@ -64,39 +71,87 @@
         return false;
 	});
 	
+	$('.editor').each(function() {
+	    var $this = $(this);
+		var params = {
+            'placeholder': $(this).attr('placeholder')
+        };
+
+	    $this.wrap('<div class="editable-wrapper"/>');
+	    var $w = $(this).parent();
+	    $w.prepend('<div class="editable" data-placeholder="'+$this.attr('placeholder')+'">' + $this.val()+'</div>');
+	    $this.hide();
+		
+	    var editor = new MediumEditor('.editable', params);
+	});
+	
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			params: {'parent_id': '{{ product._id }}' },
+        	endpoint: '{{ app_url_upload_product }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui magenta labeled icon upload button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_upload }}/check_upload_assets', {'id': '{{ product._id }}', 'assets': result.data });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			$.get($(this).attr('href'), function(result){
+				if (result.success){
+					$('#asset-list .ajax-cover.active').removeClass('active');
+					$this.addClass('active');
+				}else{
+					phenix.show_error_message(result.message);
+				}
+			},'json');
+			
+			return false;
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
-<div class="social">
+<div class="ui social show">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
-				<div class="ui steps">
-				  	<div class="ui active step">
-				      	基本信息
-				  	</div>
-				  	<div class="ui disabled step">
-				      	详情描述
-				  	</div>
-				  	<div class="ui disabled step">
-				      	上传图片 & 视频
-				  	</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
 			<div class="eleven wide column">
+				<h3>提交创意</h3>
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-basic-form">
 					<input type="hidden" name="step" value="1" />
 					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
 					<div class="field">
-						<label>创意名称</label>
+						<label>标题</label>
 					  	<input type="text" name="title" value="{{ product.title }}" />
+						<div class="description">给你的创意起个名字</div>
 					</div>
 					<div class="field">
-						<label>创意描述</label>
+						<label>创意简介</label>
 					  	<textarea name="summary">{{ product.summary }}</textarea>
-						<div class="description">请详细的描述</div>
+						<div class="description">给你30秒的时间，你该如何描述你的创意</div>
 					</div>
 					<div class="field">
 						<label>类别</label>
@@ -110,8 +165,74 @@
 						{% endfor %}
 					</div>
 					<div class="field">
-						<label>创意亮点</label>
+						<label>标签</label>
 					  	<input type="text" name="tags" value="{{ product.tags_s }}" />
+					</div>
+					
+					<div class="field">
+						<label>创意详细说明</label>
+						<textarea name="content" class="editor" placeholder="详细内容">
+							{% if product.content %}
+							{{ product.content }}
+							{% else %}
+							<h3>关于我</h3>
+
+							<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
+
+
+							<h3>产品要解决什么问题</h3>
+
+							<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+
+
+							<h3>产品怎样去解决问题</h3>
+
+							<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
+							{% endif %}
+						</textarea>
+					</div>
+					
+					<div class="field">
+						<label>添加图片</label>
+					  	<div id="phenix-uploader"></div>
+						
+						<div id="asset-list" class="ui four items">
+							{% if mode == 'edit' %}
+								{% asset_list var:'assets' parent_id:product._id size:20 %}
+								{% for asset in assets.rows %}
+								<div class="thumb item" id="{{ asset._id }}">
+									<div class="image">
+										<img src="{{ asset.thumbnails.small.view_url }}" />
+										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+									</div>
+									<div class="buttons">
+										<div class="ui large links">
+											<a href="" class="ui link pop" title="" data-content="插入缩略图至详情介绍" data-variation="inverted">
+												<i class="flat sqinarrowtop icon"></i>
+											</a>
+											<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax-request pop" data-content="删除此缩略图？" data-variation="inverted">
+												<i class="flat waste icon"></i>
+											</a>
+											
+											<a href="{{ app_url_fever }}/update_cover?id={{ product._id }}&cover_id={{ asset._id }}" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted">
+												<i class="flat flag icon"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+					<div class="field">
+						<label>添加视频</label>
+						{% if product.video %}
+							{% for v in product.video %}
+						  	<input type="text" name="video[]" placeholder="http://" value="{{ v }}" />
+							{% endfor %}
+						{% else %}
+							<input type="text" name="video[]" placeholder="http://" />
+						{% endif %}
 					</div>
 					
 					<div class="inline field">
@@ -121,11 +242,19 @@
 				        </div>
 					</div>
 					
-				  	<h3 class="ui right floated header">
-						<div class="ui right large icon labeled magenta submit button">
-							下一步<i class="flat play icon"></i>
+					<div class="ui grid">
+						<div class="left floated eight wide column">
+							
 						</div>
-				  	</h3>
+						<div class="right floated aligned eight wide column">
+							<div class="ui large gray button">
+								取消
+							</div>
+							<div class="ui large magenta submit button">
+								确认提交
+							</div>
+						</div>
+					</div>
 					
 				</form>
 			</div>

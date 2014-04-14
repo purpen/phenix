@@ -24,6 +24,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$stage = 0;
 		$only_approved = 0;
 		
+		// 是否有话题
+		$only_subject = 0;
+		
 		$sort = 'latest';
 		
         $var = 'list';
@@ -61,6 +64,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		if ($only_approved) {
 			$query['approved'] = 1;
+		}
+		
+		if ($only_subject){
+			$query['topic_count'] = array('$gt'=>0);
 		}
 		
         $service = Sher_Core_Service_Product::instance();
