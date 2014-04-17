@@ -34,7 +34,7 @@
 		<div class="row">
 			<div class="ui column">
 				<div class="user-head">
-					<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+					<img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
 					<h2 class="ui header">
 						{{ user.nickname }}
 					</h2>
@@ -108,7 +108,7 @@
 						<!--我支持的产品-->
 						{% support_list var:'list' page:page user_id:user._id %}
 						{% for event in list.rows %}
-					  		{% include 'block/sell_product_item.html' %}
+					  		{% include 'block/timeline_product_item.html' %}
 						{% endfor %}
 					</div>
 				{% endif %}
@@ -128,7 +128,7 @@
 						<!--我喜欢的产品-->
 						{% like_list var:'list' page:page user_id:user._id %}
 						{% for event in list.rows %}
-					  		{% include 'block/sell_product_item.html' %}
+					  		{% include 'block/timeline_product_item.html' %}
 						{% endfor %}
 					</div>
 				{% endif %}

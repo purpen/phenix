@@ -78,7 +78,7 @@
 				<div class="ui four items votelist">
 					{% product_list var:'list' page:page category_id:category_id stage:1 only_approved:1 %}
 					{% for product in list.rows %}
-						{% include "block/vote_product_item.html" %}
+						{% include "block/product_item.html" %}
 					{% endfor %}
 				</div>
 			</div>

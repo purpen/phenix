@@ -27,6 +27,18 @@
 		padding-left: 4em;
 		padding-right: 4em;
 	}
+	.ui.inventor {
+		background-color:rgba(255,51,102,1);
+		color: #fff;
+	}
+	.inventor .inventor-info {
+	    margin: 1em auto;
+	    text-align: center;
+	}
+	.inventor .inventor-info .summary {
+		margin: 1em auto;
+		line-height: 24px;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -56,7 +68,7 @@
 			<div class="eight wide cover column">
 				<img src="{{ product.cover.thumbnails.big.view_url }}" id="main-cover" />
 				<div class="ui small cover-thumb images">
-					{% asset_list var:'assets' parent_id:product._id size:6 %}
+					{% asset_list var:'assets' parent_id:product._id size:5 %}
 					{% for asset in assets.rows %}
 					<a href="" data-url="{{ asset.thumbnails.big.view_url }}">
 						<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" />
@@ -140,7 +152,7 @@
 				<div class="ui sixteen wide center aligned submenu column">
 					<div class="ui magenta product buttons">
 					  	<a class="ui active item button" data-tab="content">产品详情</a>
-					  	<a class="ui item button" data-tab="talk">设计师（{{ product.topic_count }}）</a>
+					  	<a class="ui item button" data-tab="inventor">设计师（{{ product.topic_count }}）</a>
 					  	<a class="ui item button" data-tab="people">用户评价（{{ product.comment_count }}）</a>
 					</div>
 				</div>
@@ -158,12 +170,31 @@
 					</div>
 				</div>
 		
-				<div class="ui tab segment" data-tab="talk">
+				<div class="ui tab inventor" data-tab="inventor">
 					<div class="ui grid">
-						<div class="ui eleven wide column">
-							{% include "block/product_topic.html" %}
+						<div class="two wide column"></div>
+						<div class="twelve wide column">
+							<div class="inventor-info">
+								<img src="{{ product.user.big_avatar_url }}" class="ui big avatar image" />
+								<h2 class="ui header">
+									{{ product.user.nickname }}
+								</h2>
+								<p>
+									<i class="flat locator icon"></i> {{ product.user.city }} {{ product.user.profile.job }}
+								</p>
+								<div class="actions">
+									<a href="" class="ui small white button">
+										关注 
+									</a>
+									<a href="" class="ui small white button">
+										私信 
+									</a>
+								</div>
+								<div class="summary">
+									{{ product.user.summary }}
+								</div>
+							</div>
 						</div>
-						<div class="ui five wide column"></div>
 					</div>
 				</div>
 		

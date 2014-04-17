@@ -89,6 +89,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['summary'] = $this->stash['summary'];
+		$data['content'] = $this->stash['content'];
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
 		
