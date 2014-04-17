@@ -5,18 +5,27 @@
 {% endblock %}
 {% block content %}
 	<div class="ui tool-box">
-		<a href="{{ app_url_admin_base }}/product" class="ui {% if stage == 0 %}active {% endif %}magenta labeled icon button">
-			<i class="flat bullet2 icon"></i>全部列表
+		<div class="ui magenta selection dropdown">
+		  	全部列表 <i class="flat arrowbottom icon"></i>
+		  	<div class="menu">
+				<a href="{{ app_url_admin_base }}/product" class="{% if stage == 0 %}active {% endif %} item">
+					全部列表
+				</a>
+				<a href="{{ app_url_admin_base }}/product?stage=1" class="{% if stage == 1 %}active {% endif %}item">
+					投票列表
+				</a>
+				<a href="{{ app_url_admin_base }}/product?stage=5" class="{% if stage == 5 %}active {% endif %}item">
+					预售列表
+				</a>
+				<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active {% endif %}item">
+					热售列表
+				</a>
+		  	</div>
+		</div>
+		<a href="{{ app_url_admin_base }}/product/edit" class="ui magenta button">
+			发布商品
 		</a>
-		<a href="{{ app_url_admin_base }}/product?stage=1" class="ui {% if stage == 1 %}active {% endif %}magenta button">
-			投票列表
-		</a>
-		<a href="{{ app_url_admin_base }}/product?stage=5" class="ui {% if stage == 5 %}active {% endif %}magenta button">
-			预售列表
-		</a>
-		<a href="{{ app_url_admin_base }}/product?stage=9" class="ui {% if stage == 9 %}active {% endif %}magenta button">
-			热售列表
-		</a>
+		
 		
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
 			<div class="inline field">
@@ -74,6 +83,7 @@
 				<td>
 					<div class="ui divided horizontal list">
 						<a href="{{ product.view_url }}" class="ui link item">查看</a>
+						<a href="{{ app_url_admin_base }}/product/edit?id={{ product._id }}" class="ui link item">编辑</a>
 						{% if product.stage == 1 %}
 							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax-request">通过审核</a>
 							{% if product.approved == 1%}

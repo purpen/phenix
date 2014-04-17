@@ -48,10 +48,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     protected function extra_extend_model_row(&$row) {
         switch ($row['type']) {
             case self::TYPE_PRODUCT:
-                $row['product'] = &Sher_Core_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Product');
+                $row['product'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Product');
                 break;
             case self::TYPE_TOPIC:
-                $row['topic'] = &Sher_Core_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Topic');
+                $row['topic'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Topic');
                 break;
         }
 		

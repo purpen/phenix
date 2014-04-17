@@ -69,6 +69,8 @@ app.dt.extension_lib.sher_app:
     'category_list':'Sher_Core_ViewTag_CategoryList'
     'topic_list':'Sher_App_ViewTag_TopicList'
     'product_list':'Sher_App_ViewTag_ProductList'
+    'like_list':'Sher_App_ViewTag_LikeList'
+    'support_list':'Sher_App_ViewTag_SupportList'
     'asset_list':'Sher_App_ViewTag_AssetList'
     'comment_list':'Sher_App_ViewTag_CommentList'
     'vote_list':'Sher_Core_ViewTag_VoteList'
@@ -136,7 +138,7 @@ app.asset.thumbnails:
 	mini: 100x75
 	tiny: 160x120
 	small: 200x150
-	medium: 280x210
+	medium: 280x300
 	large: 380x285
 	big: 640x405
 	huge: 780x585

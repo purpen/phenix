@@ -132,10 +132,6 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		if (!$this->visitor->id) {
             return $this->ajax_json('Session已过期，请重新登录！', true);
         }
-		// 验证所属
-		if (!isset($this->stash['parent_id']) || empty($this->stash['parent_id'])) {
-			return $this->ajax_json('请先保存基本信息后，再上传图片!', true);
-		}
 		
 		try{
 			$new_assets = array();
@@ -257,6 +253,26 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
         return $this->to_taconite_page('ajax/check_upload_assets.html');
     }
+	
+	/**
+	 * 设置创意的封面图
+	 */
+	public function update_cover() {
+		$id = (int)$this->stash['id'];
+		$cover_id = $this->stash['cover_id'];
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->extend_load($id);
+		
+		// 限制设置权限
+		if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
+			return $this->ajax_notification('抱歉，你没有编辑权限！', true);
+		}
+		
+		$model->mark_set_cover($id, $cover_id);
+		
+		return $this->ajax_json('设置成功！', false);
+	}
 
 }
 ?>

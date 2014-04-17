@@ -55,7 +55,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$ok = $model->apply_and_save($row);
 		if($ok){
 			$comment_id = $model->id;
-			$this->stash['comment'] = &DoggyX_Model_Mapper::load_model($comment_id,'Sher_Core_Model_Comment');
+			$this->stash['comment'] = &$model->extend_load($comment_id);
 		}
 		
 		return $this->to_taconite_page('ajax/comment_ok.html');

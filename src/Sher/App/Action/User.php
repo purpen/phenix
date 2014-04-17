@@ -23,7 +23,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
     }
 
 	/**
-	 * 
+	 * 用户
 	 */
 	public function execute(){
 		if (empty($this->stash['user'])) {
@@ -43,10 +43,39 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		}
 		$this->set_target_css_state('home');
 		$this->stash['profile'] = $this->stash['user']['profile'];
-		$this->stash['reverse_sex'] = ($this->stash['user']['sex'] == Sher_Core_Model_User::SEX_MALE) ? Sher_Core_Model_User::SEX_FEMALE : Sher_Core_Model_User::SEX_MALE;
 		
-		return $this->display_tab_page('tab_home');
+		return $this->display_tab_page('tab_all');
 	}
+	
+	/**
+	 * 支持的产品(包括：投票、预定)
+	 */
+	public function support(){
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_support_list_url($this->stash['user_id'], '#p#');
+		
+		return $this->display_tab_page('tab_support');
+	}
+	
+	/**
+	 * 喜欢的产品
+	 */
+	public function like(){
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_like_list_url($this->stash['user_id'], '#p#');
+		
+		return $this->display_tab_page('tab_like');
+	}
+	
+	/**
+	 * 发起的产品
+	 */
+	public function submitted(){
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_submitted_list_url($this->stash['user_id'], '#p#');
+		
+		return $this->display_tab_page('tab_submitted');
+	}
+	
+	
+	
 	
 	/**
 	 * 查看个人资料
@@ -54,6 +83,8 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	public function profile(){
 		
 	}
+	
+	
 	
 	/**
 	 * 我的粉丝

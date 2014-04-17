@@ -1,6 +1,9 @@
 {%extends 'layout/board.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
@@ -13,32 +16,11 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui column">
-				<div class="ui votelist four items">
+				<div class="ui four items">
 					{% product_list var:'list' page:page category_id:category_id stage:9 %}
 					{% for product in list.rows %}
-				  	<div class="item">
-				      	<div class="image">
-							<a href="{{ product.view_url }}" title="{{ product.title }}">
-				          		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
-							</a>
-				      	</div>
-				      	<div class="content">
-				          	<div class="name">
-								<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
-									{{ product.title }}
-								</a>
-							</div>
-				          	<div class="description">
-								{{ product.user.nickname }} {{ product.user.city }}
-								<div class="ui divider"></div>
-							</div>
-							
-				          	<div class="extra">
-				              	{{ product.love_count }}0喜欢
-				          	</div>
-				      	</div>
-				  	</div>
-					{% endfor %}
+				  		{% include "block/product_item.html" %}
+				    {% endfor %}
 				</div>
 			</div>
 		</div>

@@ -2,7 +2,24 @@
 {% block title %}{{ user.nickname }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.user-head {
+	text-align: center;
+	background:url('{{ app_url_packaged }}/images/user_home_bg.jpg') no-repeat ;
+	min-height: 380px;
+	padding-top: 1.5em;
+	color: #fff;
+}
+.user-head .summary {
+	font-size: 0.875em;
+}
+.user-head > .ui.avatar {
+	border: 3px solid #FFFFFF;
+}
+
+.user.center .submenu > .ui.buttons > .button {
+	padding: 0.8em 3em;
+}
+
 </style>
 {% endblock %}
 {% block js %}
@@ -16,10 +33,122 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui column">
-				
+				<div class="user-head">
+					<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+					<h2 class="ui header">
+						{{ user.nickname }}
+					</h2>
+					<p>
+						<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
+					</p>
+					<p class="summary">{{ user.summary }}</p>
+					<a href="" class="ui small white button">
+						关注 
+					</a>
+					<a href="" class="ui small white button">
+						私信 
+					</a>
+					
+				</div>
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="ui sixteen wide center aligned submenu column">
+				<div class="ui magenta buttons">
+					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} button">全部</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} button">支持的产品</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/submitted" class="ui {{ css_tab_submitted }} button">发起的产品</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/like" class="ui {{ css_tab_like }} button">喜欢的产品</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			
+			{% if css_tab_all %}
+			<div class="ui eleven wide column">
+				<h3 class="ui header">他的动态</h3>
+				<div class="ui three items">
+					{% support_list var:'list' page:page user_id:user._id %}
+					{% for event in list.rows %}
+				  		{% include 'block/timeline_product_item.html' %}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="ui five wide column">
+				<h3 class="ui header">支持他</h3>
+				<form class="ui form">
+					<div class="field">
+						<input type="text" placeholder="鼓励一下" />
+					</div>
+				</form>
+				
+				<h3 class="ui header">关注他</h3>
+				<div class="ui social">
+					<a href="" title="新浪微博" class="ui small red icon button">
+						<i class="flat sina_weibo_plane icon"></i>
+					</a>
+					<a href="" title="腾讯微博" class="ui small blue icon button">
+						<i class="flat tt_weibo_plane icon"></i>
+					</a>
+					<a href="" title="豆瓣" class="ui small green icon button">
+						<i class="flat icon douban_plane"></i>
+					</a>
+				</div>
+			</div>
+			
+			{% endif %}
+			<div class="ui sixteen wide column">
+				
+				
+				
+				{% if css_tab_support %}
+					<div class="ui four parents">
+						<!--我支持的产品-->
+						{% support_list var:'list' page:page user_id:user._id %}
+						{% for event in list.rows %}
+					  		{% include 'block/sell_product_item.html' %}
+						{% endfor %}
+					</div>
+				{% endif %}
+				
+				{% if css_tab_submitted %}
+					<div class="ui four items">
+						<!--我提交的产品-->
+						{% product_list var:'list' page:page user_id:user._id %}
+						{% for product in list.rows %}
+					  		{% include 'block/product_item.html' %}
+						{% endfor %}
+					</div>
+				{% endif %}
+				
+				{% if css_tab_like %}
+					<div class="ui four parents">
+						<!--我喜欢的产品-->
+						{% like_list var:'list' page:page user_id:user._id %}
+						{% for event in list.rows %}
+					  		{% include 'block/sell_product_item.html' %}
+						{% endfor %}
+					</div>
+				{% endif %}
+				
+			</div>
+			
+			
+		</div>
+		
+		{% if list.rows %}
+		<div class="row">
+			<div class="ui two wide column"></div>
+			<div class="ui twelve wide column">
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+			</div>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

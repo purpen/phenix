@@ -1,37 +1,36 @@
 <div class="magenta item">
   	<div class="image">
-		<a href="{{ product.view_url }}" title="{{ product.title }}">
-      		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
+		<a href="{{ event.product.view_url }}" title="{{ event.product.title }}">
+      		<img src="{{ event.product.cover.thumbnails.medium.view_url }}" />
 		</a>
   	</div>
   	<div class="content">
       	<div class="name">
-			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
-				{{ product.title|truncate, 16, '' }}
+			<a href="{{ event.product.view_url }}" title="{{ event.product.title }}" class="ui link">
+				{{ event.product.title|truncate, 16, '' }}
 			</a>
 		</div>
       	<div class="description">
-			{{ product.user.nickname }} {{ product.user.city }}
+			{{ event.product.user.nickname }} {{ event.product.user.city }}
           	<div class="extra">
-              	{{ product.love_count }} 喜欢
+              	{{ event.product.love_count }} 喜欢
           	</div>
 		</div>
 		
 		<div class="ui divider"></div>
-		
-		{% if product.stage == 1 %}
+		{% if event.product.stage == 1 %}
 		<div class="sell vote clearfix">
-			<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
+			<div class="ui divided horizontal timer list" data-countdown="{{ event.product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
 			<span class="count">
-				{{ product.vote_count }} 人投票
+				{{ event.product.vote_count }} 人投票
 			</span>
 		</div>
 		{% endif %}
 		
-		{% if product.stage == 5 %}
+		{% if event.product.stage == 5 %}
 		<div class="sell clearfix">
 			<span class="price">
-				￥{{ product.hot_price }}
+				￥{{ event.product.hot_price }}
 			</span>
 			<a href="" class="ui small active magenta cart button">
 				<i class="flat shoppingin icon"></i>现在预订
@@ -39,10 +38,10 @@
 		</div>
 		{% endif %}
 		
-		{% if product.stage == 9 %}
+		{% if event.product.stage == 9 %}
 		<div class="sell clearfix">
 			<span class="price">
-				￥{{ product.market_price }}
+				￥{{ event.product.market_price }}
 			</span>
 			<a href="" class="ui small active magenta cart button">
 				<i class="flat shoppingin icon"></i>加入购物车

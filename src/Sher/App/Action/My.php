@@ -1,6 +1,7 @@
 <?php
 /**
- * 我的灵感库,其他关联操作等
+ * 我的个人中心
+ * @author purpen
  */
 class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
@@ -15,6 +16,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		'id' => null,
 		'view_page' => null,
 	);
+	
 	protected $page_tab = 'page_my';
 	protected $page_html = 'page/my/my.html';
 	
@@ -29,7 +31,17 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     }
 	
 	public function execute(){
-		return false;
+		return $this->account();
+	}
+	
+	/**
+	 * 账户设置
+	 */
+	public function account(){
+		$this->stash['profile'] = $this->visitor->profile;
+		
+		$this->set_target_css_state('user_account');
+		return $this->to_html_page("page/my/account.html");
 	}
 	
 	/**
@@ -50,34 +62,6 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
 		}
 		
-		$age = $this->visitor->age;
-		$years = array();
-		$mouths = array();
-		$days = array();
-		
-		for($i=1970;$i<1997;$i++){
-			$years[] = $i;
-		}
-		$this->stash['years'] = $years;
-		
-		for($m=1;$m<=12;$m++){
-			if ($m < 10){
-				$mouths[] = '0'.$m;
-			}else{
-				$mouths[] = $m;
-			}
-		}
-		$this->stash['mouths'] = $mouths;
-		
-		for($d=1;$d<=31;$d++){
-			if($d < 10){
-				$days[] = '0'.$d;
-			}else{
-				$days[] = $d;
-			}
-		}
-		$this->stash['days'] = $days;
-		
 		$this->set_target_css_state('user_profile');
 		
 		return $this->to_html_page("page/my/profile.html");
@@ -90,6 +74,31 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['profile'] = $this->visitor->profile;
 		
 		return $this->to_html_page("page/photo.html");
+	}
+	
+	
+	/**
+	 * 收货地址管理
+	 */
+	public function shipping(){
+		$this->set_target_css_state('user_shipping');
+		return $this->to_html_page("page/my/shipping.html");
+	}
+	
+	/**
+	 * 订单列表管理
+	 */
+	public function orders(){
+		$this->set_target_css_state('user_orders');
+		return $this->to_html_page("page/my/orders.html");
+	}
+	
+	/**
+	 * 账户余额，赠送优惠券等
+	 */
+	public function balance(){
+		$this->set_target_css_state('user_balance');
+		return $this->to_html_page("page/my/balance.html");
 	}
 	
 	/**
@@ -289,6 +298,20 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 	
 	/**
+	 * 更新账户信息
+	 */
+    public function save_account() {
+		$user_info = array();
+		$user_info['_id'] = $this->visitor->id;
+		$user_info['nickname'] = $this->stash['nickname'];
+		
+        //更新基本信息
+        $this->visitor->save($user_info);
+        
+        return $this->ajax_notification('更新成功！');
+    }
+	
+	/**
 	 * 编辑个人资料
 	 */
     public function edit_profile() {
@@ -304,11 +327,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     public function save_profile() {
 		$user_info = array();
 		$user_info['_id'] = $this->visitor->id;
-		$user_info['nickname'] = $this->stash['nickname'];
 		
 		$profile = array();
         $profile['realname'] = $this->stash['realname'];
         $profile['job'] = $this->stash['job'];
+		$profile['phone'] = $this->stash['phone'];
 		
 		$user_info['profile'] = $profile;
         
@@ -316,6 +339,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$user_info['city'] = $this->stash['city'];
 		$user_info['tags'] = $this->stash['tags'];
 		$user_info['summary'] = $this->stash['summary'];
+		$user_info['email'] = $this->stash['email'];
 		
 		$user_info['first_login'] = 0;
 		
@@ -325,7 +349,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         //更新基本信息
         $this->visitor->save($user_info);
         
-        return $this->ajax_notification('你的个人资料更新成功！');
+        return $this->ajax_notification('个人资料更新成功！');
     }
 
 	/**

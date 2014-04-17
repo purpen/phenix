@@ -189,7 +189,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
-			$model = new Sher_Core_Model_Vote();
+			$model = new Sher_Core_Model_Support();
 			// 验证是否投票过
 			if ($model->check_voted($this->visitor->id, $id)){
 				return $this->ajax_notification('你已经投票成功！', true);
@@ -226,7 +226,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$reason = $this->stash['r'];
 		
 		try{
-			$model = new Sher_Core_Model_Vote();
+			$model = new Sher_Core_Model_Support();
 			// 验证是否投票过
 			if ($model->check_voted($this->visitor->id, $id)){
 				return $this->ajax_notification('你已经投票成功！', true);
@@ -234,7 +234,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$data = array(
 				'user_id'   => $this->visitor->id,
 				'target_id' => $id,
-				'ticket' => Sher_Core_Model_Vote::TICKET_OPPOSE,
+				'ticket' => Sher_Core_Model_Support::TICKET_OPPOSE,
 				'reason' => $reason,
 			);
 			$ok = $model->apply_and_save($data);
@@ -552,26 +552,6 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$next_url = Sher_Core_Helper_Url::vote_view_url($id);
 		
 		return $this->ajax_json('保存成功.', false, $next_url);
-	}
-	
-	/**
-	 * 设置创意的封面图
-	 */
-	public function update_cover() {
-		$id = (int)$this->stash['id'];
-		$cover_id = $this->stash['cover_id'];
-		
-		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load($id);
-		
-		// 限制设置权限
-		if (!$this->visitor->can_admin() || $product['user_id'] != $this->visitor->id){
-			return $this->ajax_notification('抱歉，你没有编辑权限！', true);
-		}
-		
-		$model->mark_set_cover($id, $cover_id);
-		
-		return $this->ajax_json('设置成功！', false);
 	}
 	
 	/**

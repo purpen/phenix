@@ -94,15 +94,29 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		$data['cost_price'] = $this->stash['cost_price'];
 		$data['market_price'] = $this->stash['market_price'];
+		
+		// 预售价格
 		$data['hot_price'] = $this->stash['hot_price'];
 		
 		$data['mode'] = $this->stash['mode'];
 		$data['quantity'] = $this->stash['quantity'];
 		
+		// 产品阶段
+		$data['stage'] = (int) $this->stash['stage'];
+		
+		// 封面图
+		$data['cover_id'] = $this->stash['cover_id'];
+		
 		try{
 			$model = new Sher_Core_Model_Product();
-			
-			$ok = $model->apply_and_update($data);
+			if(empty($id)){
+				$mode = 'create';
+				$data['user_id'] = (int)$this->visitor->id;
+				$ok = $model->apply_and_save($data);
+			}else{
+				$mode = 'edit';
+				$ok = $model->apply_and_update($data);
+			}
 			
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
@@ -110,12 +124,26 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			
 		}catch(Sher_Core_Model_Exception $e){
 			
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$view_url = Sher_Core_Helper_Url::sale_view_url($id);
+		return $this->ajax_json('保存成功.');
+	}
+	
+	/**
+	 * 发布或编辑产品信息
+	 */
+	public function edit(){
+		$id = (int)$this->stash['id'];
+		$model = new Sher_Core_Model_Product();
+		$mode = 'create';
+		if(!empty($id)){
+			$mode = 'edit';
+			$this->stash['product'] = $model->load($id);
+		}
+		$this->stash['mode'] = $mode;
 		
-		return $this->ajax_json('保存成功.', false, $view_url);
+		return $this->to_html_page('admin/product/edit.html');
 	}
 	
 }

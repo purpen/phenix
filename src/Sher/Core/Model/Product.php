@@ -171,6 +171,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$row['stage_label'] = ''; // 未知
 		}
 		
+		// HTML 实体转换为字符
+		$row['content'] = htmlspecialchars_decode($row['content']);
+		
 		$this->expert_assess($row);
 	}
 	
@@ -202,9 +205,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$row['score']['content_int'] = $this->explode_point($row['score']['content'], 0);
 			$row['score']['content_dec'] = $this->explode_point($row['score']['content'], 1);
 		}
-		
-		// HTML 实体转换为字符
-		$row['content'] = htmlspecialchars_decode($row['content']);
 	}
 	
 	/**

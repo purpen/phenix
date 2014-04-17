@@ -40,7 +40,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'account'  => null,
 		'password' => null,
 		'nickname' => null,
-		'phone'    => null,
+		'email'    => null,
 		
 		'invitation' => null,
         'state'      =>  self::STATE_PENDING,
@@ -79,6 +79,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
         'profile' => array(
             'realname' => null,
+			'phone'    => null,
 			// 民族
 			'nation' => null,
 			// 籍贯

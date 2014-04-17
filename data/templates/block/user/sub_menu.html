@@ -1,11 +1,20 @@
-<div class="ui pointing vertical fluid menu">
+<div class="ui pointing vertical fluid navigation menu">
+	<a href="{{ app_url_action_base }}/my/account" class="{{ css_user_account }} item">
+		<i class="flat settings icon"></i> 账户设置
+	</a>
 	<a href="{{ app_url_action_base }}/my/profile" class="{{ css_user_profile }} item">
-		<i class="flat settings icon"></i>完善个人资料
+		<i class="flat settings icon"></i> 个人资料
 	</a>
-	<a href="{{ app_url_action_base }}/my/avatar" class="{{ css_user_avatar }} item">
-		设置头像
+	<a href="{{ app_url_action_base }}/my/shipping" class="{{ css_user_shipping }} item">
+		<i class="flat gift icon"></i> 收货地址
 	</a>
-	<a href="{{ app_url_action_base }}/my/invite" class="item">
-		邀请好友
+	<a href="{{ app_url_action_base }}/my/orders" class="{{ css_user_orders }} item">
+		<i class="flat groceryshop icon"></i> 我的订单
+	</a>
+	<a href="{{ app_url_action_base }}/my/balance" class="{{ css_user_balance }} item">
+		<i class="flat dollarmoney2 icon"></i> 账户余额
+	</a>
+	<a href="{{ app_url_action_base }}/my/invite" class="{{ css_user_invite }} item">
+		<i class="flat groupchat icon"></i> 邀请好友
 	</a>
 </div>

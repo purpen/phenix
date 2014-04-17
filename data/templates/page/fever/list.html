@@ -78,32 +78,7 @@
 				<div class="ui four items votelist">
 					{% product_list var:'list' page:page category_id:category_id stage:1 only_approved:1 %}
 					{% for product in list.rows %}
-				  	<div class="item">
-				      	<div class="image">
-							<a href="{{ product.view_url }}" title="{{ product.title }}">
-				          		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
-							</a>
-				      	</div>
-				      	<div class="content">
-				          	<div class="name">
-								<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
-									{{ product.title|truncate, 14, '' }}
-								</a>
-							</div>
-				          	<div class="description">
-								{{ product.user.nickname }} {{ product.user.city }}
-								<div class="ui divider"></div>
-							</div>
-							<div class="vote">
-								<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}">
-								</div>
-							</div>
-							
-				          	<div class="extra">
-				              	{{ product.love_count }} 喜欢
-				          	</div>
-				      	</div>
-				  	</div>
+						{% include "block/vote_product_item.html" %}
 					{% endfor %}
 				</div>
 			</div>

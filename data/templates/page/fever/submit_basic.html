@@ -71,10 +71,12 @@
         return false;
 	});
 	
+	var params = {}, editor;
 	$('.editor').each(function() {
 	    var $this = $(this);
 		var params = {
-            'placeholder': $(this).attr('placeholder')
+            'placeholder': $(this).attr('placeholder'),
+			cleanPastedHTML: true
         };
 
 	    $this.wrap('<div class="editable-wrapper"/>');
@@ -82,7 +84,14 @@
 	    $w.prepend('<div class="editable" data-placeholder="'+$this.attr('placeholder')+'">' + $this.val()+'</div>');
 	    $this.hide();
 		
-	    var editor = new MediumEditor('.editable', params);
+		editor = new MediumEditor('.editable');
+	});
+	
+	$('#asset-list .ajax-insert').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			return false;
+		});
 	});
 	
 	$('#phenix-uploader').fineUploader({
@@ -171,7 +180,7 @@
 					
 					<div class="field">
 						<label>创意详细说明</label>
-						<textarea name="content" class="editor" placeholder="详细内容">
+						<textarea name="content" class="editor" placeholder="详细内容" id="text-content">
 							{% if product.content %}
 							{{ product.content }}
 							{% else %}
@@ -207,7 +216,7 @@
 									</div>
 									<div class="buttons">
 										<div class="ui large links">
-											<a href="" class="ui link pop" title="" data-content="插入缩略图至详情介绍" data-variation="inverted">
+											<a href="javascript:void(0);" class="ui link ajax-insert pop" data-content="插入缩略图至详情介绍" data-variation="inverted" data-image="{{ asset.thumbnails.big.view_url }}">
 												<i class="flat sqinarrowtop icon"></i>
 											</a>
 											<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax-request pop" data-content="删除此缩略图？" data-variation="inverted">

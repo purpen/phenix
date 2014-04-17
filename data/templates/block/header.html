@@ -21,15 +21,15 @@
 	<div class="ui login-user">
 		{% if visitor %}
 			<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-				<img src="{{ visitor.small_avatar_url }}" />
+				<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" />
 			</a>
 			<div class="ui top right pointing dropdown icon user-setting button">
 			  	{{ visitor.nickname }} <i class="flat arrowbottom icon"></i>
 			  	<div class="menu">
-				    <a class="item" href="{{ app_url_my }}/profile">
+				    <a class="item" href="{{ app_url_my }}/account">
 				      	<i class="flat icon settings"></i> 账户设置
 					</a>
-				    <a class="item" href="{{ app_url_user }}/profile">
+				    <a class="item" href="{{ app_url_my }}/profile">
 				      	<i class="flat idprofile icon"></i> 查看个人资料
 					</a>
 				    <a class="item" href="{{ app_url_domain }}/help">

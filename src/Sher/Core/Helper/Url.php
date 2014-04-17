@@ -114,6 +114,59 @@ class Sher_Core_Helper_Url {
     	return  sprintf(Doggy_Config::$vars['app.url.shop.view'], $id);
     }
 	
+    /**
+     * 他人喜欢的列表地址
+     */
+    public static function user_like_list_url($user_id, $page=null) {
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		return self::build_url_path('app.url.user',$user_id,'like').$page;
+    }
+	
+    /**
+     * 他人发起的列表地址
+     */
+    public static function user_submitted_list_url($user_id, $page=null) {
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		return self::build_url_path('app.url.user',$user_id,'submitted').$page;
+    }
+	
+    /**
+     * 他人支持的列表地址
+     */
+    public static function user_support_list_url($user_id, $page=null) {
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		return self::build_url_path('app.url.user',$user_id,'support').$page;
+    }
+	
+	
+    /**
+     * 他人关注的列表地址
+     */
+    public static function user_follow_list_url($user_id, $page=null) {
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		return self::build_url_path('app.url.user',$user_id,'follow').$page;
+    }
+	
+    
+    
+    /**
+     * 他人粉丝的列表地址
+     */
+    public static function user_fans_list_url($user_id, $page=null) {
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+        return self::build_url_path('app.url.user',$user_id,'fans').$page;
+    }
+	
 	/**
 	 * 管理申请列表
 	 */
@@ -134,25 +187,7 @@ class Sher_Core_Helper_Url {
         return self::build_url_path('app.url.admin.report','state',$state).$page;
     }
     
-    /**
-     * 他人关注的列表地址
-     */
-    public static function user_follow_list_url($user_id, $page=null) {
-        if (!empty($page)) {
-            $page = "p${page}.html";
-        }
-		return self::build_url_path('app.url.user',$user_id,'follow').$page;
-    }
     
-    /**
-     * 他人粉丝的列表地址
-     */
-    public static function user_fans_list_url($user_id, $page=null) {
-        if (!empty($page)) {
-            $page = "p${page}.html";
-        }
-        return self::build_url_path('app.url.user',$user_id,'fans').$page;
-    }
 
 	/**
 	 * 我分享的图片地址

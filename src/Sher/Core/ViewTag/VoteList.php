@@ -42,7 +42,7 @@ class Sher_Core_ViewTag_VoteList extends Doggy_Dt_Tag {
 			$query['target_id'] = (int)$target_id;
 		}
 		
-        $service = Sher_Core_Service_Vote::instance();
+        $service = Sher_Core_Service_Support::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		

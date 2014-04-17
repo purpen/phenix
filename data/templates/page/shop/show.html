@@ -2,6 +2,27 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	.fever-view .wide.cover.column {
+		padding-right: 0;
+	}
+	.product.designer > .column {
+		margin-bottom: 0rem;
+		margin-top: 0rem;
+	}
+	.product .attributes {
+		
+	}
+	.product .attributes .letter-spacing-two {
+		letter-spacing: 2em;
+	}
+	.product .attributes .price {
+		font-size: 1.5em;
+		color: #F42156;
+	}
+	
+	.cover-thumb {
+		text-align: center;
+	}
 	.vote.timer .button {
 		padding-left: 4em;
 		padding-right: 4em;
@@ -13,10 +34,11 @@
 {% block jquery %}
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
+	
 {% endblock %}
 
 {% block content %}
-<div class="shop">
+<div class="ui shop show">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="twelve wide column">
@@ -28,66 +50,147 @@
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
 			</div>
-			<div class="right aligned four wide column">
-				<div class="ui tiny black buttons">
-					<div class="ui top right pointing dropdown icon button">
-					  	管理操作 <i class="flat arrowbottom icon"></i>
-					  	<div class="menu">
-				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-								<i class="flat edit icon"></i>编辑创意
-							</a>
-				          	<a class="item ajax-request" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
-								<i class="flat correct icon"></i>通过审核
-							</a>
-				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-								<i class="flat waste icon"></i>删除创意
-							</a>
-					  	</div>
+		</div>
+		
+		<div class="row product fever-view">
+			<div class="eight wide cover column">
+				<img src="{{ product.cover.thumbnails.big.view_url }}" id="main-cover" />
+				<div class="ui small cover-thumb images">
+					{% asset_list var:'assets' parent_id:product._id size:6 %}
+					{% for asset in assets.rows %}
+					<a href="" data-url="{{ asset.thumbnails.big.view_url }}">
+						<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" />
+					</a>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="eight wide column">
+				<h3 class="ui header">
+					{{ product.title }}
+				</h3>
+				<div class="ui two column product designer grid">
+					<div class="left floated column">
+						<a href="{{ product.user.home_url }}" class="ui link" title="设计师">
+							{{ product.user.nickname }}
+						</a>
+					</div>
+					<div class="right floated aligned column">
+						<a href="{{ app_url_fever }}/ajax_laud?id={{ product._id }}" class="ui laud ajax-request link" id="laud_{{ product._id }}">
+							{{ product.love_count }} <i class="flat heart icon"></i>
+						</a>
+					</div>
+				</div>
+				
+				<div class="ui clearing divider"></div>
+				
+				<div class="attributes">
+					<p class="item">
+						<label><span class="letter-spacing-two">价</span>格：</label>
+						<label class="price">{{ product.market_price }}</label> 元
+					</p>
+					<p class="item">
+						<label>产品评价：</label>
+						<label>{{ product.comment_count }}</label>条
+					</p>
+				</div>
+				
+				<div class="ui clearing divider"></div>
+				
+				<div class="buy">
+					<a href="" class="ui active magenta button">
+						<i class="flat shoppingin icon"></i>加入购物车
+					</a>
+					<a href="" class="ui gray button">
+						<i class="flat add icon"></i>收藏
+					</a>
+				</div>
+				
+				<div class="ui clearing divider"></div>
+				
+				<div class="ui segment">
+					<div class="ui green header">
+						Share & earn $15.00, easy!
+						<p class="sub header">
+							邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券； 
+						</p>
+					</div>
+					<div class="phenix-share">
+						<a href="" id="sina-share" title="新浪微博" class="ui red icon button">
+							<i class="flat sina_weibo_plane icon"></i>
+						</a>
+						<a href="" id="tencent-share" title="腾讯微博" class="ui blue icon button">
+							<i class="flat tt_weibo_plane icon"></i>
+						</a>
+						<a href="" id="douban-share" title="豆瓣" class="ui green icon button">
+							<i class="flat icon douban_plane"></i>
+						</a>
+						<a href="" id="renren-share" title="人人网" class="ui blue icon button">
+							<i class="flat icon renren_plane"></i>
+						</a>
+						<a href="" id="kaixin001-share" title="开心网" class="ui red icon button">
+							<i class="flat icon kaixin_plane"></i>
+						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="row fever-view">
-			<div class="eight wide column">
-				<img src="{{ product.cover.thumbnails.huge.view_url }}" />
-			</div>
-			<div class="eight wide column">
-				<h3 class="ui header">
-					{{ product.title }}
-					<p class="sub header">{{ product.user.nickname }}<p>
-				</h3>
-				{{ product.summary }}
-				<div class="ui clearing divider"></div>
-				
-				<div class="ui clearing divider"></div>
-				<div class="vote highlight">
-					创意亮点<br />
-					<label class="ui green label">节能</label> <label class="ui green label">环保</label> <label class="ui green label">超级便利</label>
-					
-					<p>
-						关于投票成功与失败：<br />
-						这个项目必须在2014年05月08日 10：42之前得到用户100个投票才能进入专家评估环节，否则视为失败。
-					</p>
+		<div class="row">
+			<div class="ui column">
+				<div class="ui sixteen wide center aligned submenu column">
+					<div class="ui magenta product buttons">
+					  	<a class="ui active item button" data-tab="content">产品详情</a>
+					  	<a class="ui item button" data-tab="talk">设计师（{{ product.topic_count }}）</a>
+					  	<a class="ui item button" data-tab="people">用户评价（{{ product.comment_count }}）</a>
+					</div>
 				</div>
-				
-				
-				
 			</div>
 		</div>
 		
-		<div class="row fever-view">
+		<div class="row">
 			<div class="ui column">
-				<div class="ui fluid three item attached menu">
-				  	<a class="item">创意介绍</a>
-				  	<a class="item">评论 ({{ product.comment_count }})</a>
-				  	<a class="item">投票者（{{ product.vote_count }}）</a>
-				</div>
 				
-				<div class="ui segment bottom attached">
-					{{ product.summary }}
+				<div class="ui active tab segment" data-tab="content">
+					<div class="ui grid">
+						<div class="ui eleven wide column product-content">
+							{{ product.content }}
+						</div>
+					</div>
 				</div>
+		
+				<div class="ui tab segment" data-tab="talk">
+					<div class="ui grid">
+						<div class="ui eleven wide column">
+							{% include "block/product_topic.html" %}
+						</div>
+						<div class="ui five wide column"></div>
+					</div>
+				</div>
+		
+				<div class="ui tab segment" data-tab="people">
+					<div class="ui grid">
+						<div class="ui two wide column"></div>
+						<div class="ui twelve wide column">
+							<h3 class="ui header">预定者</h3>
+							<!--最新投票者列表-->
+							<div class="avatars" id="product-vote-people">
+								{% vote_list var:'votelist' target_id:product._id size:8 %}
+							    <div class="ui horizontal list">
+									{% for vote in votelist.rows  %}
+									<div class="item">
+										<a class="ui small avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted">
+											<img src="{{ vote.user.small_avatar_url }}" />
+										</a>
+									</div>
+									{% endfor %}
+								</div>
 				
+							</div>
+				
+						</div>
+						<div class="ui two wide column"></div>
+					</div>
+				</div>
 				
 			</div>
 		</div>

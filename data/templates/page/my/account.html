@@ -1,0 +1,79 @@
+{%extends 'layout/board.html'%}
+{% block title %}账户设置-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+.account .avatar {
+	min-height: 25em;
+}
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+    /* 个人资料表单验证 */
+	$('#profile-form').form({
+		nickname: {
+			identifier  : 'nickname',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '邮件格式不对,请输入您注册时填写的邮件'
+				},
+				{
+					type   : 'maxLength[24]',
+					prompt : '登录密码为必须24位以上字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">账户设置</h2>
+			<div class="ui segment">
+				<form action="{{app_url_action_base}}/my/save_account" method="post" class="ui fluid form" id="profile-form">
+					<input name="_id" type="hidden" value="{{ user_id }}" />
+					
+					<h3 class="ui dividing header">用户名(昵称)</h3>
+					<div class="three fields">
+						<div class="field">
+							<input type="text" name="nickname" value="{{ user.nickname }}" />
+						</div>
+					</div>
+					
+					<h3 class="ui dividing header">修改密码</h3>
+					<div class="field">
+						<label>当前密码</label>
+						<input type="text" name="current_password" />
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>修改密码</label>
+							<input type="text" name="password" />
+						</div>
+						<div class="field">
+							<label>确认密码</label>
+							<input type="text" name="repeat_password" />
+						</div>
+					</div>
+					
+					<input type="submit" class="ui active magenta button" value="确认修改" />
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

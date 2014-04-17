@@ -6,6 +6,22 @@
 		padding-left: 4em;
 		padding-right: 4em;
 	}
+	.submenu > .ui.buttons > .button {
+		padding: 0.8em 3em;
+	}
+	.product-content {
+		line-height: 28px;
+	}
+	
+	.ui.headslides {
+		height: 500px;
+	    margin-bottom: 1em;
+	    overflow: hidden;
+	}
+	.ui.headslides img {
+		width: 100%;
+	}
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -13,105 +29,204 @@
 {% block jquery %}
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
+	
 {% endblock %}
 
 {% block content %}
-<div class="ui sale">
+<div class="ui sale show">
+	<div class="ui headslides">
+		
+		<img src="{{ product.cover.thumbnails.huge.view_url }}" />
+		
+	</div>
+	
 	<div class="ui responsive grid">
+		
+		<div class="middle aligned two column row">
+			<div class="column">
+				产品价格： 300元 ,{{ product.vote_count }} 人已投票
+			</div>
+			<div class="column">
+				<a href="" class="ui magenta button">
+					<i class="flat add icon"></i>关注
+				</a>
+				<a href="" class="ui magenta button">
+					<i class="flat heart icon"></i>喜欢
+				</a>
+				{% include "block/share.html" %}
+			</div>
+			<div class="ui clearing divider"></div>
+		</div>
+		
+		
+		<div class="two column schedule row">
+			<div class="column">
+				<div class="ui active magenta progress">
+				  	<div class="bar" style="width: 70%;"></div>
+					<div class="percent">70%</div>
+				</div>
+				<div class="ui three column grid">
+					<div class="column">
+						<label class="title">剩余天数</label>
+						<label class="count"><b>5</b>天</label>
+					</div>
+					<div class="center aligned column">
+						<label class="title">预定人数</label>
+						<label class="count"><b>580</b>人</label>
+					</div>
+					<div class="right aligned column">
+						<label class="title">喜欢人数</label>
+						<label class="count"><b>5204</b>人</label>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui magenta header">
+					这个产品必须在<b>2014年06月09日09:52</b>之前预售达到<b>10000件</b>产品的目标才算成功，否则已经预售的订单将取消。
+				  	<div class="sub header">
+				  	  	订单取消时，您的支持金额将自动退款至<a href="" class="ui link">【账户余额】</a>中。您可以支持其他产品，或在此<a href="" class="ui link">【申请取现】</a>至您的支付宝或其他付款账户。
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="three column row">
+			<div class="center aligned column">
+				<div class="ui segment level">
+					<h3 class="ui header">5折优惠</h3>
+					
+					<div class="content">
+						<p class="time">
+							2014年4月15日 -- 2014年5月13日
+						</p>
+						<p class="time">
+							下单预定产品
+						</p>
+						<div class="price">
+							￥ 160.00
+						</div>
+					</div>
+					
+					<div class="actions">
+						<div class="ui disabled active gray button">
+							已结束
+						</div>
+						<p class="small">已有30位预定者</p>
+					</div>
+				</div>
+			</div>
+			<div class="center aligned column">
+				<div class="ui active segment level">
+					<h3 class="ui header">6折优惠</h3>
+					
+					<div class="content">
+						<p class="time">
+							2014年4月15日 -- 2014年5月13日
+						</p>
+						<p class="time">
+							下单预定产品
+						</p>
+						<div class="price">
+							￥ 200.00
+						</div>
+					</div>
+					
+					<div class="actions">
+						<div class="ui white button">
+							现在预定
+						</div>
+						<p class="small">已有30位预定者</p>
+					</div>
+				</div>
+			</div>
+			<div class="center aligned column">
+				<div class="ui segment level">
+					<h3 class="ui header">7折优惠</h3>
+					
+					<div class="content">
+						<p class="time">
+							2014年4月15日 -- 2014年5月13日
+						</p>
+						<p class="time">
+							下单预定产品
+						</p>
+						<div class="price">
+							￥ 240.00
+						</div>
+					</div>
+					
+					<div class="actions">
+						<div class="ui gray button">
+							即将开启
+						</div>
+						<p class="small">已有30位预定者</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="row">
-			<div class="twelve wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
-				  	<i class="flat arrowright icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_sale }}">预售</a>
-				  	<i class="flat arrowright icon divider"></i>
-				  	<div class="active section">{{ product.title }}</div>
-				</div>
-			</div>
-			<div class="right aligned four wide column">
-				<div class="ui tiny black buttons">
-					<div class="ui top right pointing dropdown icon button">
-					  	管理操作 <i class="flat arrowbottom icon"></i>
-					  	<div class="menu">
-				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-								<i class="flat edit icon"></i>编辑创意
-							</a>
-				          	<a class="item ajax-request" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
-								<i class="flat correct icon"></i>通过审核
-							</a>
-				          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-								<i class="flat waste icon"></i>删除创意
-							</a>
-					  	</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row fever-view">
-			<div class="eight wide column">
-				<img src="{{ product.cover.thumbnails.huge.view_url }}" />
-			</div>
-			<div class="eight wide column">
-				<h3 class="ui header">
-					{{ product.title }}
-					<p class="sub header">{{ product.user.nickname }}<p>
-				</h3>
-				{{ product.summary }}
-				<div class="ui clearing divider"></div>
-				
-				<div class="preorder timer">
-					
-					<div class="ui buttons">
-						<a href="{{ app_url_fever }}/ajax_favor?id={{ product._id }}" class="ui active orange icon button">
-							<i class="flat shopping2 icon"></i>  现在预定
-						</a>
-					</div>
-				</div>
-				
-				<div class="ui clearing divider"></div>
-				<div class="vote people">
-					<div class="ui rules segment">
-						<div class="left floated column">
-							{{ product.vote_count }}人已投票
-						</div>
-						<div class="right floated column">
-							<a href="" class="ul link">投票及评分规则</a>
-						</div>
-					</div>
-				</div>
-				<div class="ui clearing divider"></div>
-				<div class="vote highlight">
-					创意亮点<br />
-					<label class="ui green label">节能</label> <label class="ui green label">环保</label> <label class="ui green label">超级便利</label>
-					
-					<p>
-						关于投票成功与失败：<br />
-						这个项目必须在2014年05月08日 10：42之前得到用户100个投票才能进入专家评估环节，否则视为失败。
-					</p>
-				</div>
-				
-				
-				
-			</div>
-		</div>
-		
-		<div class="row fever-view">
 			<div class="ui column">
-				<div class="ui fluid three item attached menu">
-				  	<a class="item">创意介绍</a>
-				  	<a class="item">评论 ({{ product.comment_count }})</a>
-				  	<a class="item">投票者（{{ product.vote_count }}）</a>
+				<div class="ui sixteen wide center aligned submenu column">
+					<div class="ui magenta product buttons">
+					  	<a class="ui item button" data-tab="content">产品介绍</a>
+					  	<a class="ui item button" data-tab="talk">话题（{{ product.topic_count }}）</a>
+					  	<a class="ui item button" data-tab="people">预定者（{{ product.vote_count }}）</a>
+					</div>
 				</div>
-				
-				<div class="ui segment bottom attached">
-					{{ product.summary }}
-				</div>
-				
-				
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="ui column">
+				
+				<div class="ui active tab segment" data-tab="content">
+					<div class="ui grid">
+						<div class="ui eleven wide column product-content">
+							{{ product.content }}
+						</div>
+						<div class="ui five wide column">
+							<h3 class="ui header">设计师</h3>
+						</div>
+					</div>
+				</div>
+		
+				<div class="ui tab segment" data-tab="talk">
+					<div class="ui grid">
+						<div class="ui eleven wide column">
+							{% include "block/product_topic.html" %}
+						</div>
+						<div class="ui five wide column"></div>
+					</div>
+				</div>
+		
+				<div class="ui tab segment" data-tab="people">
+					<div class="ui grid">
+						<div class="ui two wide column"></div>
+						<div class="ui twelve wide column">
+							<h3 class="ui header">预定者</h3>
+							<!--最新投票者列表-->
+							<div class="avatars" id="product-vote-people">
+								{% vote_list var:'votelist' target_id:product._id size:8 %}
+							    <div class="ui horizontal list">
+									{% for vote in votelist.rows  %}
+									<div class="item">
+										<a class="ui small avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted">
+											<img src="{{ vote.user.small_avatar_url }}" />
+										</a>
+									</div>
+									{% endfor %}
+								</div>
+				
+							</div>
+				
+						</div>
+						<div class="ui two wide column"></div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
 		
 	</div>
 </div>

@@ -1,5 +1,5 @@
-{%extends 'layout/board.html'%}
-{% block title %}预售-{% endblock %}
+{%extends 'layout/admin.html'%}
+{% block title %}编辑产品-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.ui.ok.button {
@@ -10,7 +10,20 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#product-sale-form').form({
+	$('#product-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '标题最多30个字符'
+				}
+			]
+		},
 		market_price: {
 			identifier  : 'market_price',
 			rules: [
@@ -43,7 +56,25 @@
 		}
 	});
 	
-
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#product-category').val('');
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#product-category').val(id);
+		}
+		
+        return false;
+	});
+	
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -70,127 +101,210 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data, 'ref': 'admin'});
 		}
 	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			var cover_id = $(this).attr('name');
+			$('#product_cover_id').val(cover_id);
+			
+			$('#asset-list .ajax-cover.active')
+				.removeClass('active');
+			$(this).addClass('active');
+			
+			return false;
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
 <div class="admin">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="eleven wide column">
-				<form action="{{ app_url_admin_base }}/product/save" class="ui form" method="post" id="product-sale-form">
-					<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
-					<div class="field">
-						<label>产品名称</label>
-					  	<input type="text" name="title" value="{{ product.title }}" />
-					</div>
-					<div class="field">
-						<label>产品简述</label>
-					  	<textarea name="summary">{{ product.summary }}</textarea>
-						<div class="description">请详细的描述</div>
-					</div>
-					
-					<div class="field">
-						<label>产品型号/数量 <a href="#ajax-request" class="ui link"><i class="flat add icon"></i></a></label>
-					</div>
-					<div class="three fields">
-						<div class="field">
-						  	<label>产品型号：</label>
-							<input type="text" name="mode[]" />
+	<div class="ui tool-box">
+		<a href="{{ app_url_admin_base }}/product" class="ui magenta button">
+			<i class="flat arrowleft icon"></i>返回列表
+		</a>
+		<a href="{{ app_url_admin_base }}/product/edit" class="ui magenta button">
+			<i class="flat add icon"></i>发布商品
+		</a>
+		
+		
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="flat search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/product/save" class="ui form" method="post" id="product-form">
+		<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">基本信息</h3>
+			<div class="field">
+				<label>产品名称</label>
+			  	<input type="text" name="title" value="{{ product.title }}" />
+			</div>
+			<div class="field">
+				<label>产品简述</label>
+			  	<textarea name="summary" class="small">{{ product.summary }}</textarea>
+				<div class="description">请详细的描述</div>
+			</div>
+			
+			<div class="field">
+				<label>产品标签</label>
+			  	<input type="text" name="tags" value="{{ product.tags_s }}" />
+			</div>
+		
+			<div class="field">
+				<label>类别</label>
+				<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
+				{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
+				{% for cat in category.rows %}
+				<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+				{% endfor %}
+			</div>
+			
+		</div>
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">投票设置</h3>
+			<div class="two fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<input type="text" name="voted_start_time" value="{{ product.voted_start_time }}" />
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<input type="text" name="voted_finish_time" value="{{ product.voted_finish_time }}" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">预售设置</h3>
+			<div class="field">
+		  		<label>预售价格：</label>
+				<input type="text" name="hot_price"  value="{{ product.hot_price }}" />
+			</div>
+			<div class="two fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<input type="text" name="presale_start_time" value="{{ product.presale_start_time }}" />
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time }}" />
+				</div>
+			</div>
+		</div>
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">销售设置</h3>
+			<div class="two fields">
+				<div class="field">
+				  	<label>成本价格：</label>
+					<input type="text" name="cost_price" value="{{ product.cost_price }}" />
+				</div>
+				<div class="field">
+				  	<label>市场价格：</label>
+					<input type="text" name="market_price" value="{{ product.market_price }}" />
+				</div>
+			</div>
+			
+			<div class="field">
+				<label>产品型号/数量 <a href="#ajax-request" class="ui link"><i class="flat add icon"></i></a></label>
+			</div>
+			<div class="three fields">
+				<div class="field">
+				  	<label>产品型号：</label>
+					<input type="text" name="mode[]" />
+				</div>
+				<div class="field">
+				  	<label>产品数量：</label>
+					<input type="text" name="quantity[]" />
+				</div>
+				<div class="field">
+					<div class="ui active small magenta ok button">确定</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="field">
+			<label>产品详细说明</label>
+		  	<textarea name="content">{{ product.content }}</textarea>
+		</div>
+		
+		
+		<div class="field">
+			<label>添加图片</label>
+			<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
+		  	<div id="phenix-uploader"></div>
+			
+			<div id="asset-list" class="ui four items">
+				{% if mode == 'edit' %}
+					{% asset_list var:'assets' parent_id:product._id size:20 %}
+					{% for asset in assets.rows %}
+					<div class="thumb item">
+						<div class="image">
+							<img src="{{ asset.thumbnails.small.view_url }}" />
+							<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 						</div>
-						<div class="field">
-						  	<label>产品数量：</label>
-							<input type="text" name="quantity[]" />
-						</div>
-						<div class="field">
-							<div class="ui active small magenta ok button">确定</div>
-						</div>
-					</div>
-					
-					<div class="three fields">
-						<div class="field">
-						  	<label>成本价：</label>
-							<input type="text" name="cost_price" value="{{ product.cost_price }}" />
-						</div>
-						<div class="field">
-						  	<label>市场价：</label>
-							<input type="text" name="market_price" value="{{ product.market_price }}" />
-						</div>
-						<div class="field">
-					  		<label>预售价：</label>
-							<input type="text" name="hot_price"  value="{{ product.hot_price }}" />
-						</div>
-					</div>
-					
-					<div class="field">
-						<label>产品亮点</label>
-					  	<input type="text" name="tags" value="{{ product.tags_s }}" />
-					</div>
-					
-					<div class="field">
-						<label>类别</label>
-						<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
-						{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
-						{% for cat in category.rows %}
-						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
-						{% endfor %}
-					</div>
-					
-					<div class="field">
-						<label>产品详细说明</label>
-					  	<textarea name="content">{{ product.content }}</textarea>
-					</div>
-					
-					
-					<div class="field">
-						<label>添加图片</label>
-					  	<div id="phenix-uploader"></div>
-						
-						<div id="asset-list" class="ui four items">
-							{% if mode == 'edit' %}
-								{% asset_list var:'assets' parent_id:product._id size:20 %}
-								{% for asset in assets.rows %}
-								<div class="thumb item">
-									<div class="image">
-										<img src="{{ asset.thumbnails.small.view_url }}" />
-										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-									</div>
-									<div class="buttons">
-										<div class="ui large links">
-											<a href="" class="ui link" title="插入">
-												<i class="flat sqinarrowtop icon"></i>
-											</a>
-											<a href="" class="ui link" title="删除">
-												<i class="flat waste icon"></i>
-											</a>
-											<a href="{{ app_url_fever }}/update_cover?id={{ product._id }}&cover_id={{ asset._id }}" class="ui link ajax-request" title="设置封面图">
-												<i class="flat flag icon"></i>
-											</a>
-										</div>
-									</div>
-								</div>
-								{% endfor %}
-							{% endif %}
-						</div>
-					</div>
-					
-					<div class="ui grid">
-						<div class="right floated aligned eight wide column">
-							<div class="ui large magenta submit button">
-								确认提交
+						<div class="buttons">
+							<div class="ui large links">
+								<a href="" class="ui link" title="插入">
+									<i class="flat sqinarrowtop icon"></i>
+								</a>
+								<a href="" class="ui link" title="删除">
+									<i class="flat waste icon"></i>
+								</a>
+								<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == product.cover_id %}active{%endif%}" title="设置封面图" name="{{ asset._id }}">
+									<i class="flat flag icon"></i>
+								</a>
 							</div>
 						</div>
 					</div>
-					
-				</form>
-			</div>
-			<div class="five wide column">
-				<h2>Q&A</h2>
-				
+					{% endfor %}
+				{% endif %}
 			</div>
 		</div>
-	</div>
+		
+		<div class="grouped inline fields">
+			<label>产品阶段</label>
+			<div class="field">
+				<div class="ui radio checkbox">
+					<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
+					<label>投票</label>
+				</div>
+				<div class="ui radio checkbox">
+					<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
+					<label>预售</label>
+				</div>
+				<div class="ui radio checkbox">
+					<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
+					<label>销售</label>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="ui grid">
+			<div class="right floated aligned eight wide column">
+				<div class="ui gray submit button">
+					取消
+				</div>
+				<div class="ui magenta submit button">
+					确认提交
+				</div>
+			</div>
+		</div>
+		
+	</form>
 </div>
 {% endblock %}

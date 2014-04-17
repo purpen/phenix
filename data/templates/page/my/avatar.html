@@ -1,63 +1,16 @@
 {%extends 'layout/board.html'%}
-{% block title %}设置头像-悦伊-所谓伊人，在水一方{% endblock %}
+{% block title %}设置头像-{% endblock %}
 {% block page_css %}
 <style class="text/css">
 .account .avatar {
 	min-height: 25em;
 }
+
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#phenix-uploader').fineUploader({
-      	request: {
-			endpoint: '{{app_url_action_base}}/uploader/avatar'
-      	},
-		text: {
-            uploadButton: '<a class="ui magenta labeled icon upload button" href="javascript:void(0);"><i class="flat add icon"></i>选择照片</a>'
-		},
-		template: '<div class="qq-uploader">' +
-					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
-					'<div class="qq-upload-button">{uploadButtonText}</div>' +
-					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
-					'</div>',
-		validation: {
-	        allowedExtensions: ['jpeg', 'jpg'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
-	    }
-    }).on('complete', function (event, id, name, result) {
-		$('.qq-upload-list').children().eq(id).fadeOut();
-		
-		if (result.success) {
-			wps_width  = result.width;
-			wps_height = result.height;
-			
-			if (wps_width > 480){
-				var imghtml =  '<img id="avatar-photo" src="'+result.file_url+'" style="width: 480px;">';
-			} else {
-				var imghtml = '<img id="avatar-photo" src="'+result.file_url+'" >';
-			}
-			$('#select-area').html(imghtml);
-			// 显示裁切头像
-			$('.ui.crop.button').removeClass('hide');
-			
-			phenix.hook_imgarea_select();
-			
-			// 更新附件Id
-			$('#avatar_id').val(result.id.$id);
-			$('#avatar-crop-buttons').removeClass('hide');
-			$('.close').removeClass('hide');
-		}
-	});
-	
-	$('#avatar-form').form({}, {
-		onSuccess: function(event){
-			event.preventDefault();
-			$(this).ajaxSubmit();
-		}
-	});
 	
 {% endblock %}
 {% block content %}
