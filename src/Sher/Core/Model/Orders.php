@@ -15,16 +15,24 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
     protected $schema = array(
 		
+		## 订单明细项
+		#
+		# product_id, size, quantity
+		# price, discount, true_price
+		# 
+		'items' => array(),
+		
 		## 订单金额
 		
 		'pay_money'   => 0,
 		'total_money' => 0,
 		'card_money'  => 0,
 		'coin_money'  => 0,
-		'freight'     => 0,
 		
-		## 折扣
+		# 物流费用
+		'freight'  => 0,
 		
+		# 折扣
 		'discount' => 0,
 		
 		## 用户
@@ -36,7 +44,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'city' => null,
 		'area' => null,
 		'address' => null,
-		'zip' => null,
+		'zip'   => null,
 		'phone' => null,
 		
 		## 发票信息
@@ -50,14 +58,22 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		## 支付信息
 		
 		'is_payed' => 0,
-		'pay_date' => 0,
-		'cancel_date' => 0,
+		'payed_date' => 0,
 		'pay_away' => 0,
+		
+		# 取消订单标识及时间
+		'is_canceled' => 0,
+		'canceled_date' => 0,
 		
 		## 物流信息
 		
 		'transfer' => '',
 		'transfer_time' => '',
+		
+		## 快递单号，发货时间
+		
+		'express_no' => '',
+		'sended_date' => 0,
 		
 		## 备注
 		
@@ -76,6 +92,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		## 订单状态
 		'status' => 0,
+		
+		## 时间（完成）
+		'finished_date' => 0,
+		
     );
 
 	protected $required_fields = array('user_id');
