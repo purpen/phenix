@@ -11,9 +11,9 @@ class Sher_Core_Util_Cart extends Doggy_Object {
     
     const LIFE_TIME = 864000; // 10day
     
-    public $com_item = null;
-    public $com_list = null;
-    public $comlist_count = null;
+    public $com_item = 0;
+    public $com_list = array();
+    public $comlist_count = 0;
     
     public function __construct(){
     	$this->com_item = 0;
@@ -32,6 +32,8 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         
         $value = $this->buildData();
 		
+		Doggy_Log_Helper::warn("Set the cart to cookie: [$value]");
+		
         $this->setCookie($value, $ttl);
     }
 	
@@ -43,9 +45,15 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      */
     public function get(){
         $data = $this->getCookie();
-		
         $this->parseData($data);
     }
+	
+	/**
+	 * 获取购物车产品列表
+	 */
+	public function getItems(){
+		return $this->com_list;
+	}
 	
     /**
      * 清空购物车
@@ -129,7 +137,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
             for($i=0; $i<count($result); $i++){
                 $item = $result[$i];
                 list($com_sku, $com_size, $com_num) = explode(",", $item);
-                if(!empty($com_sku) && !empty($com_size) && !empty($com_num)){
+                if(!empty($com_sku) && !empty($com_num)){
                 	$this->addItem($com_sku, $com_size);
                 	$this->setItemQuantity($com_sku, $com_size, $com_num);
                 }
@@ -151,17 +159,20 @@ class Sher_Core_Util_Cart extends Doggy_Object {
             for($i=0; $i<$this->com_item; $i++){
                 if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['size'] == $com_size){
                     $this->com_list[$i]['quantity']++;
+					// 更新单品小计
+					$this->com_list[$i]['subtotal'] = $this->com_list[$i]['quantity'] * $this->com_list[$i]['sale_price'];
                     $com_has_exist = 1;
-                }   
+                }
             }
         }
         
         if($com_has_exist != 1){
             $product = new Sher_Core_Model_Product();
-            $row = $product->load($com_sku);
+            $row = $product->extend_load((int)$com_sku);
             if(!empty($row)){
+				$count = 1;
             	$true_price = $row['sale_price'];
-                $this->com_list[] = array('sku'=>$com_sku,'size'=>$com_size,'quantity'=>1,'price'=>$true_price,'sale_price'=>$row['sale_price'],'title'=>$row['title'],'cover'=>$row['cover']);
+                $this->com_list[] = array('sku'=>$com_sku,'size'=>$com_size,'quantity'=>$count,'price'=>$true_price,'sale_price'=>$row['sale_price'],'title'=>$row['title'],'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price']);
                 $this->com_item++;
             }
             unset($product);
@@ -234,6 +245,9 @@ class Sher_Core_Util_Cart extends Doggy_Object {
                     }else{
                     	$this->com_list[$i]['quantity'] = $com_count;
                     }
+					
+					// 更新单品小计
+					$this->com_list[$i]['subtotal'] = $this->com_list[$i]['quantity'] * $this->com_list[$i]['sale_price'];
                 }   
             }
     	}

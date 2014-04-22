@@ -1,13 +1,94 @@
 {%extends 'layout/board.html'%}
-{% block title %}我的订单-{% endblock %}
+{% block title %}我的收货地址-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-
+	.ui.addbooks.items {
+		
+	}
+	
+	.ui.addbooks.items > .item > .create {
+		padding: 4.5em 0;
+	}
+	.ui.addbooks.items > .item > .content {
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	.ui.addbooks.items > .editing.item > .content {
+		background-color: #fff;
+	}
+	.ui.addbooks.items > .item > .content > .description {
+		font-size: 1em;
+		min-height: 3.5em;
+	}
+	.ui.addbooks.items > .item > .content > .actions {
+		text-align: center;
+	}
+	.ui.addbooks.items > .item:hover > .content {
+		border-top: 1px solid rgba(255, 51, 102, 0.2);
+	}
+	.ui.addbooks.items > .item:hover > .content > .actions > .gray.button {
+		border-color: #FFFFFF;
+		color: #FFFFFF;
+	}
+	.ui.addbooks.items > .item > .content > .actions > .gray.button:hover {
+		background-color: #FFFFFF;
+		color: #FF3366;
+	}
+	
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	$('#addbook-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '收货人姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '联系电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '联系电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮政编码不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
 	
 {% endblock %}
 {% block content %}
@@ -17,10 +98,47 @@
 			{% include "block/user/sub_menu.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">订单列表</h2>
-			<div class="ui segment">
-				
+			<h2 class="ui header">管理收货地址</h2>
+			<div class="ui divider"></div>
+			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
+			<div class="ui three addbooks items">
+				<div class="item" id="create-new-address">
+					<div class="create content">
+						<div class="actions">
+							<a href="{{ app_url_my }}/edit_address" class="ui small gray labeled icon ajax-request button">
+								<i class="flat add icon"></i>添加新地址
+							</a>
+						</div>
+					</div>
+				</div>
+				{% for address in addresses.rows %}
+			  	<div class="{% if address.is_default %}active {% endif %}item" id="{{ address._id }}">
+			      	<div class="content">
+						<h5 class="ui header">
+							<i class="flat locator icon"></i> {{ address.name }} {{ address.phone }}
+						</h5>
+						
+						<div class="ui divider"></div>
+			          	<div class="description">
+							{{ address.address }} ({{ address.zip }})
+						</div>
+						<div class="ui divider"></div>
+						
+						<div class="actions">
+							<a href="{{ app_url_my }}/edit_address?id={{ address._id }}" class="ui small gray ajax-request button">
+								编辑
+							</a>
+							
+							<a href="{{ app_url_my }}/remove_address?id={{ address._id }}" class="ui small gray confirm-request button">
+								删除
+							</a>
+						</div>
+			      	</div>
+			  	</div>
+				{% endfor %}
 			</div>
+		
+			<div id="edit-form-box" class="ui addbooks items"><div>
 		</div>
 	</div>
 </div>

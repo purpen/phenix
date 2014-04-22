@@ -86,6 +86,104 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 	
 	/**
+	 * 编辑地址
+	 */
+	public function edit_address(){
+		$id = $this->stash['id'];
+		
+		$addbook = array();
+		if (!empty($id)){
+			$model = new Sher_Core_Model_AddBooks();
+			$addbook = $model->extend_load($id);
+		}
+		
+		$this->stash['addbook'] = $addbook;
+		
+		$this->stash['action'] = 'edit_address';
+		
+		return $this->to_taconite_page('page/my/ajax_address.html');
+	}
+	
+    /**
+     * 修改配送地址
+     */
+	public function ajax_address(){
+		$model = new Sher_Core_Model_AddBooks();
+		
+		$id = $this->stash['_id'];
+		
+		$data = array();
+		$mode = 'create';
+		
+		$data['name'] = $this->stash['name'];
+		$data['phone'] = $this->stash['phone'];
+		$data['province'] = $this->stash['province'];
+		$data['city']  = $this->stash['city'];
+		$data['address'] = $this->stash['address'];
+		$data['zip']  = $this->stash['zip'];
+		
+		try{
+			if(empty($id)){
+				$data['user_id'] = $this->visitor->id;
+				
+				$ok = $model->apply_and_save($data);
+				 
+				$data = $model->get_data();
+				$id = $data['_id'];
+			}else{
+				$mode = 'edit';
+				
+				$data['_id'] = $id;
+				
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('新地址保存失败,请重新提交', true);
+			}
+			
+			$this->stash['id'] = $id;
+			$this->stash['address'] = $model->extend_load($id);
+			$this->stash['mode'] = $mode;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn('新地址保存失败:'.$e->getMessage());
+			
+			return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
+		}
+		
+		$this->stash['action'] = 'save_address';
+		
+		return $this->to_taconite_page('page/my/ajax_address.html');
+	}
+	
+    /**
+     * 修改配送地址
+     */
+	public function remove_address(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('地址不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_AddBooks();
+			$addbook = $model->load($id);
+			
+			// 仅管理员或本人具有删除权限
+			if ($this->visitor->can_admin() || $addbook['user_id'] == $this->visitor->id){
+				$model->remove($id);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+	
+	
+	/**
 	 * 订单列表管理
 	 */
 	public function orders(){

@@ -10,9 +10,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	# 3 days
 	const WAIT_TIME = 3;
 	
-	# 默认运费
-	private $_fees = 0;
-	
     protected $schema = array(
 		
 		## 订单明细项
@@ -21,6 +18,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		# price, discount, true_price
 		# 
 		'items' => array(),
+		'items_count' => 0,
 		
 		## 订单金额
 		
@@ -38,28 +36,21 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		## 用户
 		
 		'user_id' => null,
-		'name' => null,
-		'email' => null,
-		'province' => null,
-		'city' => null,
-		'area' => null,
-		'address' => null,
-		'zip'   => null,
-		'phone' => null,
+		
+		## 收货地址
+		'addbook_id' => null,
 		
 		## 发票信息
-		
-		'is_invoiced' => 0,
 		'invoice_type' => 0,
 		'invoice_caty' => 0,
 		'invoice_title' => '',
 		'invoice_content' => '',
 		
 		## 支付信息
+		'payment_method' => 0,
 		
 		'is_payed' => 0,
 		'payed_date' => 0,
-		'pay_away' => 0,
 		
 		# 取消订单标识及时间
 		'is_canceled' => 0,
@@ -99,11 +90,78 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     );
 
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id');
+	protected $int_fields = array('user_id','invoice_type');
 
 	protected $joins = array(
-	    'user' =>   array('user_id' => 'Sher_Core_Model_User')
+	    'user' => array('user_id' => 'Sher_Core_Model_User'),
+		'addbook' => array('addbook_id' => 'Sher_Core_Model_AddBooks'),
 	);
+	
+	protected function extra_extend_model_row(&$row) {
+		$row['status_label'] = $this->get_order_status_label($row['status']);
+		$row['payment_method'] = $this->find_payment_methods($row['payment_method']);
+	}
+	
+	/**
+	 * 保存之前
+	 */
+	protected function before_save(&$data) {
+		
+		$this->validate_order_items($data);
+		
+	    parent::before_save($data);
+	}
+	
+	/**
+	 * 过滤items
+	 */
+	protected function validate_order_items(&$data){
+		$item_fields = array(
+			'product_id', 'size', 'quantity', 'price', 'sale_price'
+		);
+		
+		$new_items = array();
+		for($i=0; $i<count($data['items']); $i++){
+	        foreach ($item_fields as $f) {
+	            if (isset($data['items'][$i][$f])) {
+	                $new_items[$i][$f] = $data['items'][$i][$f];
+	            }
+	        }
+		}
+		
+		$data['items'] = $new_items;
+	}
+	
+	/**
+	 * 订单状态标签
+	 */
+	protected function get_order_status_label($status){
+		switch($status){
+			case Sher_Core_Util_Constant::ORDER_EXPIRED:
+				$status_label = '已过期订单';
+				break;
+			case Sher_Core_Util_Constant::ORDER_CANCELED:
+				$status_label = '已取消订单';
+				break;
+			case Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT:
+				$status_label = '等待付款';
+				break;
+			case Sher_Core_Util_Constant::ORDER_WAIT_CHECK:
+				$status_label = '等待审核';
+				break;
+			case Sher_Core_Util_Constant::ORDER_READY_GOODS:
+				$status_label = '正在配货';
+				break;
+			case Sher_Core_Util_Constant::ORDER_SENDED_GOODS:
+				$status_label = '已发货';
+				break;
+			case Sher_Core_Util_Constant::ORDER_PUBLISHED:
+				$status_label = '已完成';
+				break;
+		}
+		
+		return $status_label;
+	}
 	
     /**
      * 付款方式
@@ -111,10 +169,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      * @var array
      */
     private $payment_methods = array(
-        'a'=>array(
-            'name'=>'在线支付',
-            'summary'=>'支付宝作为诚信中立的第三方机构，充分保障货款安全及买卖双方利益,支持各大银行网上支付。'
-        )
+        array(
+			'id' => 'a',
+            'name' => '在线支付',
+            'summary' => '支付宝作为诚信中立的第三方机构，充分保障货款安全及买卖双方利益,支持各大银行网上支付。'
+        ),
     );
 	
     /**
@@ -123,10 +182,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      * @var array
      */
     private $transfer_methods = array(
-        'a'=>array(
-            'name'=>'普通快递',
-            'freight'=>0
-        )
+        array(
+			'id' => 'a',
+            'name' => '免费配送',
+            'freight'=> 0,
+        ),
     );
 	
     /**
@@ -135,26 +195,37 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      * @var array
      */
     private $transfer_time = array(
-        'a'=>'任意时间',
-        'b'=>'星期一至星期五',
-        'c'=>'星期六、日'
+		array(
+			'id' => 'a',
+			'title' => '任意时间',
+		),
+		array(
+			'id' => 'b',
+			'title' => '星期一至星期五',
+		),
+		array(
+			'id' => 'c',
+			'title' => '星期六、日',
+		),
     );
 	
     /**
      * 发票的内容类型
      */
     private $invoice_caty = array(
-        'd'=>'明细',
-        'o'=>'办公用品',
-        's'=>'数码'
+		array(
+			'id' => 'd',
+			'title' => '明细',
+		),
+		array(
+			'id' => 'o',
+			'title' => '办公用品',
+		),
+		array(
+			'id' => 's',
+			'title' => '数码配件',
+		),
     );
-	
-    /**
-     * 获取快递费用
-     */
-	public function validate_express_fees($city, $overweight=false){
-		
-	}
 	
     /**
      * 重新计算订单的金额
@@ -172,6 +243,84 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
     }
 	
+    /**
+     * 返回对应的抬头类型
+     * 
+     * @param $key
+     * @return mixed
+     */
+    public function find_invoice_category($key=null){
+        if(is_null($key)){
+            return $this->invoice_caty;
+        }
+		
+		for($i=0;$i<count($this->invoice_caty);$i++){
+			if ($this->invoice_caty[$i]['id'] == $key){
+				return $this->invoice_caty[$i];
+			}
+		}
+		
+		return null;
+    }
+	
+    /**
+     * 返回对应的付款方式
+     * 
+     * @return mixed
+     */
+    public function find_payment_methods($key=null){
+        if(is_null($key)){
+            return $this->payment_methods;
+        }
+		
+		for($i=0;$i<count($this->payment_methods);$i++){
+			if ($this->payment_methods[$i]['id'] == $key){
+				return $this->payment_methods[$i];
+			}
+		}
+		
+		return null;
+    }
+	
+    /**
+     * 返回对应的送货方式
+     * 
+     * @param string $key
+     * @return mixed
+     */
+    public function find_transfer_methods($key=null){
+        if(is_null($key)){
+            return $this->transfer_methods;
+        }
+		
+		for($i=0;$i<count($this->transfer_methods);$i++){
+			if ($this->transfer_methods[$i]['id'] == $key){
+				return $this->transfer_methods[$i];
+			}
+		}
+		
+		return null;
+    }
+	
+    /**
+     * 返回对应的送货时间
+     * 
+     * @param string $key
+     * @return mixed
+     */
+    public function find_transfer_time($key=null){
+        if(is_null($key)){
+            return $this->transfer_time;
+        }
+		
+		for($i=0;$i<count($this->transfer_time);$i++){
+			if ($this->transfer_time[$i]['id'] == $key){
+				return $this->transfer_time[$i];
+			}
+		}
+		
+        return null;
+    }
 	
 }
 ?>

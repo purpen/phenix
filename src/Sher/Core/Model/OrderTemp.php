@@ -7,18 +7,15 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
 
     protected $collection = "ordertemp";
 	
-	# 过期时间， 10小时
-	const EXPIRE_TIME = 36000;
-	
     protected $schema = array(
-		'user_id' => null,
-		'data'  => array(),
+		'user_id' => 0,
+		'dict' => array(),
 		'expired'  => 0,
     );
 	
     protected $joins = array();
 	
-    protected $required_fields = array('user_id', 'expired', 'data');
+    protected $required_fields = array('user_id', 'expired');
     protected $int_fields = array('user_id', 'expired');
 	
 	/**
@@ -27,6 +24,8 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
     protected function extra_extend_model_row(&$row) {
     	
     }
+	
+	
 	
     /**
      * 验证是否存在某个订单的临时信息

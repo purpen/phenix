@@ -1,0 +1,273 @@
+{%extends 'layout/board.html'%}
+{% block title %}购物车-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.cart.list {
+		
+	}
+	.ui.cart.list > .item .content > .attribute {
+		color: rgba(0,0,0, 0.35);
+		font-size: 0.875em;
+	}
+	.ui.cart.list > .item .quantity > .button {
+		background-color: rgba(255, 255, 255, 0.85);
+	    color: rgba(0, 0, 0, 0.35);
+	    padding: 0.325em;
+	}
+	.ui.cart.list > .item .quantity > .button:hover {
+		background-color: #666;
+	    color: #fff;
+		border-color: #666;
+	}
+	.ui.cart.list > .item .quantity > input {
+		width: 40%;
+		text-align: center;
+	}
+	.ui.cross.button {
+		background-color: rgba(255, 255, 255, 0.85);
+	    color: rgba(0, 0, 0, 0.35);
+	}
+	
+	.ui.steps .step {
+		color: #666;
+	}
+	.ui.steps .step span.number {
+	    border: 1px solid #666;
+	    border-radius: 4em;
+	    display: block;
+	    font-size: 2em;
+	    height: 2em;
+	    line-height: 2em;
+	    text-align: center;
+	    width: 2em;
+		margin: 0 auto 0.5em;
+		position: relative;
+	}
+	.ui.step, .ui.steps .step {
+		margin-left: 5em;
+		margin-right: 5em;
+	}
+	.ui.step .number:after {
+		background-color: #666666;
+	    border: medium none;
+	    content: "";
+	    height: 1px;
+	    position: absolute;
+	    right: -5em;
+	    top: 50%;
+	    width: 5em;
+	    z-index: 2;
+	}
+	.ui.step .number:before {
+		background-color: #666666;
+	    border: medium none;
+	    content: "";
+	    height: 1px;
+	    position: absolute;
+	    right: 2em;
+	    top: 50%;
+	    width: 5em;
+	    z-index: 2;
+	}
+	
+	.ui.steps > .ui.step:first-child > .number:before {
+		 height: 0px;
+	}
+	.ui.steps > .ui.step:last-child > .number:after {
+		height: 0px;
+	}
+	
+	.ui.steps .active.step {
+		color: #FF3366;
+	}
+	.ui.steps .active.step span.number {
+		border: 1px solid #FF3366;
+	}
+	.ui.active.step .number:before,
+	.ui.active.step .number:after {
+	    background-color: #FF3366;
+	}
+	
+	.ui.help {
+		color: #9DA6AB;
+	}
+	.ui.indent {
+		font-size: 0.875em;
+		text-indent: 2.2em;
+	}
+	
+	.actions {
+		
+	}
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	var update_cart = function(pid, data){
+		$('#cart_items_count').text(data.items_count);
+		$('#cart_total_money').text(data.total_money);
+	};
+
+	$('.inc_qty.button').bind('click', function(){
+		var inc_url = '{{ app_url_shopping }}/inc_qty',
+			pid = $(this).data('pid'),
+			qty_value = parseInt($('#product_'+pid+'_qty').val());
+			
+		// 添加1个数量
+		qty_value += 1;
+		
+		$.getJSON(inc_url, {id: pid, n: qty_value}, function(result){
+			if (result.success){
+				$('#product_'+pid+'_qty').val(qty_value);
+				$('#product_'+pid+'_subttotal').text(result.data.product.subtotal+'元');
+				
+				update_cart(pid, result.data);
+			}else{
+				phenix.show_error_note(result.message, 5000);
+			}
+		});
+		
+	});
+	
+	$('.dec_qty.button').bind('click', function(){
+		var dec_url = '{{ app_url_shopping }}/dec_qty', 
+			pid = $(this).data('pid'),
+			qty_value = parseInt($('#product_'+pid+'_qty').val());
+			
+		// 减少1个数量,验证是否为0
+		qty_value  -= 1;
+		
+		$.getJSON(dec_url, {id: pid, n: qty_value}, function(result){
+			if (result.success){
+				if (qty_value <= 0){
+					$('#product_'+pid).remove();
+				}else{
+					$('#product_'+pid+'_qty').val(qty_value);
+					$('#product_'+pid+'_subttotal').text(result.data.product.subtotal+'元');
+				}
+				
+				update_cart(pid, result.data);
+			}else{
+				phenix.show_error_note(result.message, 5000);
+			}
+		});
+		
+	});
+	
+	$('.checkout.btn').bind('click', function(){
+		var checkout = '{{ app_url_shopping }}/checkout';
+		phenix.redirect(checkout, 0);
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="cart">
+	<div class="ui responsive grid">
+		{% if products %}
+		<div class="row">
+			<div class="ui center aligned column">
+				<div class="ui steps">
+				  	<div class="ui active step">
+				      	<span class="number">1</span>
+						<span class="title">我的购物车</span>
+				  	</div>
+				  	<div class="ui step">
+				      	<span class="middle number">2</span>
+						<span class="title">填写核对订单信息</span>
+				  	</div>
+				  	<div class="ui step">
+				    	<span class="number">3</span>
+						<span class="title">支付订单</span>
+				  	</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui column">
+				<h3 class="ui header">我的购物车</h3>
+				<div class="ui grid">
+					<div class="two wide column"></div>
+					<div class="left aligned six wide column">
+						产品信息
+					</div>
+					<div class="center aligned one wide column">
+						单价
+					</div>
+					<div class="center aligned three wide column">
+						购买数量
+					</div>
+					<div class="center aligned three wide column">
+						小计
+					</div>
+					<div class="center aligned one wide column"></div>
+				</div>
+				
+				<div class="ui celled cart list form">
+					{% for product in products %}
+				  	<div class="item" id="product_{{ product.sku }}">
+						<div class="ui middle aligned grid">
+							<div class="two wide column">
+								<a href="{{ product.view_url }}" class="ui cover image">
+						      		<img src="{{ product.cover }}">
+								</a>
+							</div>
+							<div class="six wide column">
+						      	<div class="content">
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+									</div>
+						          	<p class="attribute">编号：{{ product.sku }}</p>
+						      	</div>
+							</div>
+							<div class="center aligned one wide column">
+								{{ product.sale_price }}元
+							</div>
+							<div class="center aligned three wide quantity column">
+								<button class="ui mini gray dec_qty icon button" data-pid="{{ product.sku }}">
+									<i class="flat subtract icon"></i>
+								</button>
+								<input type="text" name="product_{{ product.sku }}_qty" id="product_{{ product.sku }}_qty" value="{{ product.quantity }}" />
+								<button class="ui mini gray inc_qty icon button" data-pid="{{ product.sku }}">
+									<i class="flat add icon"></i>
+								</button>
+							</div>
+							<div class="center aligned three wide column">
+								<div id="product_{{ product.sku }}_subttotal" data-money="{{ product.subtotal }}">
+									{{ product.subtotal }}元
+								</div>
+							</div>
+							<div class="center aligned one wide column">
+								<button class="circular ui active magenta cross icon button" data-pid="{{ product.sku }}">
+									<i class="flat cross icon"></i>
+								</button>
+							</div>
+						</div>
+				  	</div>
+					{% endfor %}
+				</div>
+				
+				<div class="ui grid">
+					<div class="left floated eight wide column">
+						<a href="{{ app_url_shop }}" class="ui green button">继续购物</a>
+					</div>
+					<div class="right aligned floated eight wide column">
+						<p><b id="cart_items_count">{{ items_count }}</b>件产品，总计： <b id="cart_total_money">{{ total_money }}</b>元</p>
+						<button class="ui active magenta btn-4 btn-4c icon-arrow-right checkout btn">去结算</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% else %}
+		<div class="row">
+			<div class="ui column">
+				<p>您还没找到喜欢的产品吗？<a href="{{ app_url_shop }}" class="ui link">赶快去选购吧</a></p>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

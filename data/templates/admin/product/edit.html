@@ -207,7 +207,7 @@
 		
 		<div class="ui segment">
 			<h3 class="ui dividing header">销售设置</h3>
-			<div class="two fields">
+			<div class="three fields">
 				<div class="field">
 				  	<label>成本价格：</label>
 					<input type="text" name="cost_price" value="{{ product.cost_price }}" />
@@ -215,6 +215,10 @@
 				<div class="field">
 				  	<label>市场价格：</label>
 					<input type="text" name="market_price" value="{{ product.market_price }}" />
+				</div>
+				<div class="field">
+				  	<label>销售价格：</label>
+					<input type="text" name="sale_price" value="{{ product.sale_price }}" />
 				</div>
 			</div>
 			
@@ -296,7 +300,7 @@
 		
 		<div class="ui grid">
 			<div class="right floated aligned eight wide column">
-				<div class="ui gray submit button">
+				<div class="ui gray cancel button">
 					取消
 				</div>
 				<div class="ui magenta submit button">

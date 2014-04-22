@@ -1,0 +1,142 @@
+{%extends 'layout/board.html'%}
+{% block title %}支付订单-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.cart.list {
+		
+	}
+	.ui.cart.list > .item .content > .attribute {
+		color: rgba(0,0,0, 0.35);
+		font-size: 0.875em;
+	}
+	.ui.cart.list > .item .quantity > .button {
+		background-color: rgba(255, 255, 255, 0.85);
+	    color: rgba(0, 0, 0, 0.35);
+	    padding: 0.325em;
+	}
+	.ui.cart.list > .item .quantity > .button:hover {
+		background-color: #666;
+	    color: #fff;
+		border-color: #666;
+	}
+	.ui.cart.list > .item .quantity > input {
+		width: 40%;
+		text-align: center;
+	}
+	.ui.cross.button {
+		background-color: rgba(255, 255, 255, 0.85);
+	    color: rgba(0, 0, 0, 0.35);
+	}
+	
+	.ui.steps .step {
+		color: #666;
+	}
+	.ui.steps .step span.number {
+	    border: 1px solid #666;
+	    border-radius: 4em;
+	    display: block;
+	    font-size: 2em;
+	    height: 2em;
+	    line-height: 2em;
+	    text-align: center;
+	    width: 2em;
+		margin: 0 auto 0.5em;
+		position: relative;
+	}
+	.ui.step, .ui.steps .step {
+		margin-left: 5em;
+		margin-right: 5em;
+	}
+	.ui.step .number:after {
+		background-color: #666666;
+	    border: medium none;
+	    content: "";
+	    height: 1px;
+	    position: absolute;
+	    right: -5em;
+	    top: 50%;
+	    width: 5em;
+	    z-index: 2;
+	}
+	.ui.step .number:before {
+		background-color: #666666;
+	    border: medium none;
+	    content: "";
+	    height: 1px;
+	    position: absolute;
+	    right: 2em;
+	    top: 50%;
+	    width: 5em;
+	    z-index: 2;
+	}
+	
+	.ui.steps > .ui.step:first-child > .number:before {
+		 height: 0px;
+	}
+	.ui.steps > .ui.step:last-child > .number:after {
+		height: 0px;
+	}
+	
+	.ui.steps .active.step {
+		color: #FF3366;
+	}
+	.ui.steps .active.step span.number {
+		border: 1px solid #FF3366;
+	}
+	.ui.active.step .number:before,
+	.ui.active.step .number:after {
+	    background-color: #FF3366;
+	}
+	
+	.ui.help {
+		color: #9DA6AB;
+	}
+	.ui.indent {
+		font-size: 0.875em;
+		text-indent: 2.2em;
+	}
+	
+	.actions {
+		
+	}
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="cart">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui center aligned column">
+				<div class="ui steps">
+				  	<div class="ui active step">
+				      	<span class="number">1</span>
+						<span class="title">我的购物车</span>
+				  	</div>
+				  	<div class="ui active step">
+				      	<span class="middle number">2</span>
+						<span class="title">填写核对订单信息</span>
+				  	</div>
+				  	<div class="ui active step">
+				    	<span class="number">3</span>
+						<span class="title">支付订单</span>
+				  	</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui column">
+				<h3 class="ui header">订单已提交成功，请尽快付款。</h3>
+				<p>你的订单号: <span class="pri_red">{{ order._id }}</span> 应付金额: <span class="pri_red">{{ order.pay_money }}</span>元  支付方式：<span class="pri_org">{{ payment_method.name }}</span></p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

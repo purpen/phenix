@@ -1,0 +1,428 @@
+{%extends 'layout/board.html'%}
+{% block title %}填写订单信息-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.cart.list {
+		
+	}
+	.ui.cart.list > .item .content > .attribute {
+		color: rgba(0,0,0, 0.35);
+		font-size: 0.875em;
+	}
+	.ui.cart.list > .item .quantity > .button {
+		background-color: rgba(255, 255, 255, 0.85);
+	    color: rgba(0, 0, 0, 0.35);
+	    padding: 0.325em;
+	}
+	.ui.cart.list > .item .quantity > .button:hover {
+		background-color: #666;
+	    color: #fff;
+		border-color: #666;
+	}
+	.ui.cart.list > .item .quantity > input {
+		width: 40%;
+		text-align: center;
+	}
+	.ui.cross.button {
+		background-color: rgba(255, 255, 255, 0.85);
+	    color: rgba(0, 0, 0, 0.35);
+	}
+	
+	.ui.steps .step {
+		color: #666;
+	}
+	.ui.steps .step span.number {
+	    border: 1px solid #666;
+	    border-radius: 4em;
+	    display: block;
+	    font-size: 2em;
+	    height: 2em;
+	    line-height: 2em;
+	    text-align: center;
+	    width: 2em;
+		margin: 0 auto 0.5em;
+		position: relative;
+	}
+	.ui.step, .ui.steps .step {
+		margin-left: 5em;
+		margin-right: 5em;
+	}
+	.ui.step .number:after {
+		background-color: #666666;
+	    border: medium none;
+	    content: "";
+	    height: 1px;
+	    position: absolute;
+	    right: -5em;
+	    top: 50%;
+	    width: 5em;
+	    z-index: 2;
+	}
+	.ui.step .number:before {
+		background-color: #666666;
+	    border: medium none;
+	    content: "";
+	    height: 1px;
+	    position: absolute;
+	    right: 2em;
+	    top: 50%;
+	    width: 5em;
+	    z-index: 2;
+	}
+	
+	.ui.steps > .ui.step:first-child > .number:before {
+		 height: 0px;
+	}
+	.ui.steps > .ui.step:last-child > .number:after {
+		height: 0px;
+	}
+	
+	.ui.steps .active.step {
+		color: #FF3366;
+	}
+	.ui.steps .active.step span.number {
+		border: 1px solid #FF3366;
+	}
+	.ui.active.step .number:before,
+	.ui.active.step .number:after {
+	    background-color: #FF3366;
+	}
+	
+	.ui.help {
+		color: #9DA6AB;
+	}
+	.ui.indent {
+		font-size: 0.875em;
+		text-indent: 2.2em;
+	}
+	
+	.actions {
+		
+	}
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示地址框
+	$('.ui.addbook.button').click(function(){
+		$('.ui.addbook.modal').modal('show');
+	});
+	
+	$('#addbook-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '收货人姓名不能为空'
+				}
+			]
+		},
+		phone: {
+			identifier  : 'password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系电话不能为空'
+				},
+				{
+					type   : 'length[11]',
+					prompt : '联系电话必须11位字符'
+				}
+			]
+		},
+		address: {
+			identifier  : 'address',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '地址区域不能为空'
+				}
+			]
+		},
+		zip: {
+			identifier  : 'zip',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '邮政编码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(result.message, event.target);
+					}else{
+						$('.ui.addbook.modal').modal('hide');
+						
+						
+					}
+					
+				}
+			});
+		}
+	});
+	
+	$('#checkout-form').form({
+		addbook_id: {
+			identifier  : 'addbook_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '收货地址不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(result.message, event.target);
+					}else{						
+						phenix.redirect(result.redirect_url, 0);
+					}
+				}
+			});
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="cart">
+	<form action="{{ app_url_shopping }}/confirm" method="post" id="checkout-form" class="ui form">
+		<input type="hidden" name="rrid" value="{{ order_info._id }}" />
+		<div class="ui responsive grid">
+			{% if order_info %}
+			<div class="row">
+				<div class="ui center aligned column">
+					<div class="ui steps">
+					  	<div class="ui active step">
+					      	<span class="number">1</span>
+							<span class="title">我的购物车</span>
+					  	</div>
+					  	<div class="ui active step">
+					      	<span class="middle number">2</span>
+							<span class="title">填写核对订单信息</span>
+					  	</div>
+					  	<div class="ui step">
+					    	<span class="number">3</span>
+							<span class="title">支付订单</span>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		
+		
+			<div class="row">
+				<div class="ui column">
+					<h3 class="ui header">收货地址</h3>
+					<input type="hidden" name="addbook_id" value="{{ data.addbook_id }}" />
+					<div class="ui divider"></div>
+					{% addbooks_list var:'addresses' user_id:visitor.id size:8 %}
+					<div class="ui horizontal selection divided list">
+						{% for address in addresses.rows %}
+					  	<div class="{% if address._id == data.addbook_id %}active {% endif %}item">
+					      	<i class="flat locator icon"></i>
+					      	<div class="content">
+					          	<a class="header">{{ address.name }} {{ address.phone }}</a>
+					          	<div class="description">{{ address.address }} ({{ address.zip }})</div>
+					      	</div>
+							<div class="actions">
+								<a href="" class="ui small magenta icon button">
+									<i class="flat edit icon"></i>
+								</a>
+							</div>
+					  	</div>
+						{% endfor %}
+					</div>
+					 
+					<div class="ui divider"></div>
+					<button class="ui magenta addbook button">
+						<i class="flat add icon"></i> 添加新地址
+					</button>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="ui column">
+					<h3 class="ui header">支付方式</h3>
+					<div class="ui divider"></div>
+					
+					<div class="grouped inline fields">
+						{% for pm in payment_methods %}
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="payment_method" value="{{ pm.id }}" {% if data.payment_method == pm.id %}checked="checked"{% endif %} />
+								<label>{{ pm.name }}</label>
+							</div>
+							<p class="ui help indent">{{ pm.summary }}</p>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="ui column">
+					<h3 class="ui header">配送方式</h3>
+					<div class="ui divider"></div>
+					<div class="grouped inline fields">
+						{% for tm in transfer_methods %}
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="transfer" value="{{ tm.id }}" {% if data.transfer == tm.id %}checked="checked"{% endif %} />
+								<label>{{ tm.name }} {% if tm.freight %} ({{ tm.freight }}元){% endif %}</label>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="ui column">
+					<h3 class="ui header">送货时间</h3>
+					<div class="ui divider"></div>
+					<div class="grouped inline fields">
+						{% for tt in transfer_times %}
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="transfer_time" value="{{ tt.id }}" {% if data.transfer_time == tt.id %}checked="checked"{% endif %}>
+								<label>{{ tt.title }}</label>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="ui column">
+					<h3 class="ui header">发票信息</h3>
+					<div class="ui divider"></div>
+					<div class="grouped inline fields">
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="invoice_type" value="0" {% if data.invoice_type == 0 %}checked="checked"{% endif %}>
+								<label>无</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui radio checkbox">
+								<input type="radio" name="invoice_type" value="1" {% if data.transfer_time == 1 %}checked="checked"{% endif %}>
+								<label>普通发票</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="ui column">
+					<h3 class="ui header">商品清单</h3>
+					<div class="ui grid">
+						<div class="left aligned eight wide column">
+							产品名称
+						</div>
+						<div class="center aligned two wide column">
+							单价
+						</div>
+						<div class="center aligned three wide column">
+							购买数量
+						</div>
+						<div class="right aligned three wide column">
+							小计
+						</div>
+					</div>
+				
+					<div class="ui celled cart list form">
+						{% for product in data.items %}
+					  	<div class="item" id="product_{{ product.sku }}">
+							<div class="ui middle aligned grid">
+								<div class="eight wide column">
+							      	<div class="content">
+							          	<div class="header">
+											<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+										</div>
+							          	<p class="attribute">编号：{{ product.sku }}</p>
+							      	</div>
+								</div>
+								<div class="center aligned two wide column">
+									{{ product.sale_price }}元
+								</div>
+								<div class="center aligned three wide quantity column">
+									{{ product.quantity }}
+								</div>
+								<div class="right aligned three wide column">
+									<div id="product_{{ product.sku }}_subttotal" data-money="{{ product.subtotal }}">
+										{{ product.subtotal }}元
+									</div>
+								</div>
+							</div>
+					  	</div>
+						{% endfor %}
+					</div>
+				
+				
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="left floated eight wide column">
+					<a href="{{ app_url_cart }}" class="ui green button">返回购物车</a>
+				</div>
+				
+				<div class="right aligned floated eight wide column">
+					<p><b id="cart_items_count">{{ data.items_count }}</b>件产品，金额合计： <b id="order_total_money">{{ data.total_money }}</b>元</p>
+					
+					<p>优惠：<b id="order_coin_money">-{{ data.coin_money }}</b>元</p>
+					<p>运费：<b id="order_freight_money">{{ data.freight }}</b>元</p>
+					
+					<p>应付金额：<b id="order_pay_money">{{ pay_money }}</b>元</p>
+					
+					<input type="submit" class="ui active magenta button" value="立即下单" />
+				</div>
+			</div>
+			
+			{% else %}
+			<div class="row">
+				<div class="ui column">
+					<p>还没有购物，请选择喜欢的。</p>
+					<div class="left floated eight wide column">
+						<a href="{{ app_url_shop }}" class="ui green button">继续购物</a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</form>
+</div>
+
+{% include "block/shopping/address.html" %}
+
+{% endblock %}

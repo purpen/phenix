@@ -19,6 +19,10 @@
 	
 	
 	<div class="ui login-user">
+		<a href="{{ app_url_cart }}" class="ui magenta cart link">
+			<i class="flat shopping2 icon"></i>
+		</a>
+		
 		{% if visitor %}
 			<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
 				<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" />

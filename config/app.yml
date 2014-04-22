@@ -74,6 +74,8 @@ app.dt.extension_lib.sher_app:
     'asset_list':'Sher_App_ViewTag_AssetList'
     'comment_list':'Sher_App_ViewTag_CommentList'
     'vote_list':'Sher_Core_ViewTag_VoteList'
+    'addbooks_list':'Sher_Core_ViewTag_AddBooksList'
+    'order_list':'Sher_Core_ViewTag_OrderList'
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
     'user_list':'Sher_App_ViewTag_UserList'
@@ -135,7 +137,7 @@ app.storage.sher:
 
 # 图片缩络图
 app.asset.thumbnails:
-	mini: 100x75
+	mini: 100x100
 	tiny: 160x120
 	small: 200x150
 	medium: 280x300
@@ -149,4 +151,7 @@ app.asset.avatars:
   medium: 180
   small: 100
   mini: 50
+  
+app.word.filter:
+  seword: tmd|sex|色情|妈的|奶奶的|日你|TNND|她娘的
 

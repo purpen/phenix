@@ -9,8 +9,9 @@ class Sher_Core_Model_Areas extends Sher_Core_Model_Base  {
 	
     protected $schema = array(
     	'parent_id' => null,
-		'name'  => null,
-		'type' => 1,
+		'name'   => null,
+		'type'   => 1,
+		'city'   => array(),
 		'state'  => 1,
     );
 	

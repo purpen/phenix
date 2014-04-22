@@ -17,10 +17,66 @@
 			{% include "block/user/sub_menu.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">订单列表</h2>
-			<div class="ui segment">
-				
-			</div>
+			<h2 class="ui header">我的订单</h2>
+			<div class="ui divider"></div>
+			{% order_list var:'list' user_id:user.id size:8 %}
+			{% for order in list.rows %}
+				<table class="ui celled table segment">
+				<thead>
+				  	<tr>
+						<th colspan="4">
+							订单号：{{ order._id }} {{ order.addbook.name }} 下单时间：{{ order.created_on|date }}
+						</th>
+				  	</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="ui divided list">
+								{% for item in order.items %}
+									<div class="item">
+										<a href="{{ item.product.view_url }}" class="ui cover image">
+								      		<img src="{{ item.product.cover }}">
+										</a>
+								      	<div class="content">
+								          	<div class="header">
+												<a href="{{ item.product.view_url }}" class="ui link">{{ item.product.title }}</a>
+											</div>
+								          	<p class="attribute">编号：{{ item.sku }}</p>
+								      	</div>
+									</div>
+								{% endfor %}
+							</div>
+						</td>
+						<td>
+							<p>
+								订单金额：{{ order.pay_money }}元
+							</p>
+							<p>
+								（运费：{{ order.freight }}元）
+							</p>
+						</td>
+						<td>
+							<p>
+								{{ order.status_label }}
+							</p>
+							<p>
+								{{ order.payment_method.name }}
+							</p>
+						</td>
+						<td>
+							{% if !order.is_payed %}
+							<a href="" class="ui magenta button">点击付款</a><br />
+							{% endif %}
+						
+							{% if order.status < 5 %}
+							<a href="" class="ui link">取消</a>
+							{% endif %}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			{% endfor %}
 		</div>
 	</div>
 </div>

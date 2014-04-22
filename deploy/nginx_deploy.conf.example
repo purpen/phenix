@@ -35,6 +35,11 @@ server {
           rewrite ^/fever(.*)$ /app/site/fever$1 last;
         }
 		
+        location /shopping {
+          rewrite ^/shopping[/]?$ /app/site/shopping last;
+          rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
+        }
+		
 		location /search {
 	        rewrite ^/search[/]?$ /app/site/search last;
 	        rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;

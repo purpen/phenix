@@ -47,6 +47,10 @@ app.url.fever.list: '{$app.url.domain}/fever/list-c%s-t%s-s%s-p%s.html'
 app.url.fever.view: '{$app.url.domain}/fever/view/%s'
 
 
+# 购物及支付
+app.url.shopping: '{$app.url.domain}/shopping'
+app.url.cart: '{$app.url.shopping}/cart'
+
 #上传
 app.url.upload: '{$app.url.action_base}/uploader'
 app.url.upload.product: '{$app.url.upload}/product'

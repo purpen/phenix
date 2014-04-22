@@ -95,6 +95,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		$data['cost_price'] = $this->stash['cost_price'];
 		$data['market_price'] = $this->stash['market_price'];
+		$data['sale_price'] = $this->stash['sale_price'];
 		
 		// 预售价格
 		$data['hot_price'] = $this->stash['hot_price'];
