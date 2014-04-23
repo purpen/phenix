@@ -24,3 +24,8 @@ app.cache.memcached.default:
       host: '127.0.0.1'
       port: 11211
       weight: 1
+
+# 支付宝
+app.alipay.partner: '2088702162489557'
+app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
+app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'

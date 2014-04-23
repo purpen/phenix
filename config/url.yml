@@ -66,6 +66,9 @@ app.url.user.love:		'{$app.url.domain}/user/%s/love'
 app.url.user.album:		'{$app.url.domain}/user/%s/album'
 app.url.user.view:		'{$app.url.user}/%s'
 
+#在线支付
+app.url.alipay: '{$app.url.action_base}/alipay'
+
 #评论
 app.url.comment:		'{$app.url.action_base}/comment'
 

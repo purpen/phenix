@@ -319,9 +319,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->extend_load($rid);
 		
-		$pm_key = $order_info['payment_method'];
-		$this->stash['payment_method'] = $model->find_payment_methods($pm_key);
-		
 		// 成功提交订单后，发送提醒邮件<异步进程处理>
 		
 		$this->stash['order'] = $order_info;

@@ -18,6 +18,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
 		
+		// 获取单个产品
+		$product_id = 0;
+		
 		$category_id = 0;
         $user_id = 0;
         $deleted = 0;
@@ -45,6 +48,13 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $query = array();
      	
         $options['sort_field'] = $sort;
+		
+		// 获取单个产品
+		if ($product_id) {
+			$result = DoggyX_Model_Mapper::load_model((int)$product_id, 'Sher_Core_Model_Product');
+			$context->set($var, $result);
+			return;
+		}
 		
         if ($user_id) {
             if(is_array($user_id)){

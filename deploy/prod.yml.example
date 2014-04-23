@@ -22,3 +22,8 @@ app.storage.sher:
         root: '/www/rayshe/web/uploads' 
         root_url: '/uploads' 
         hash_dir: false
+		
+# 支付宝
+app.alipay.partner: '2088702162489557'
+app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
+app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'

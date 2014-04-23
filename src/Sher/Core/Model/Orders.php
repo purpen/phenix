@@ -66,6 +66,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'express_no' => '',
 		'sended_date' => 0,
 		
+		## 第三方交易号
+		'trade_no' => 0,
+		
 		## 备注
 		
 		'summary' => '',
@@ -99,7 +102,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
 	protected function extra_extend_model_row(&$row) {
 		$row['status_label'] = $this->get_order_status_label($row['status']);
-		$row['payment_method'] = $this->find_payment_methods($row['payment_method']);
+		if ($row['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT && $row['payment_method'] == 'a'){
+			$row['pay_url'] = Doggy_Config::$vars['app.url.alipay'];
+		}
+		
+		$row['payment'] = $this->find_payment_methods($row['payment_method']);
 	}
 	
 	/**
@@ -117,7 +124,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 */
 	protected function validate_order_items(&$data){
 		$item_fields = array(
-			'product_id', 'size', 'quantity', 'price', 'sale_price'
+			'sku', 'size', 'quantity', 'price', 'sale_price'
 		);
 		
 		$new_items = array();
