@@ -32,7 +32,7 @@ app.url.sale.view: '{$app.url.sale}/view/%s'
 
 #商店
 app.url.shop: '{$app.url.action_base}/shop'
-app.url.shop.view: '{$app.url.action_base}/shop/view/%s'
+app.url.shop.view: '{$app.url.action_base}/shop/view?sku=%s'
 
 #社区
 app.url.social: '{$app.url.action_base}/social'
@@ -55,6 +55,7 @@ app.url.cart: '{$app.url.shopping}/cart'
 app.url.upload: '{$app.url.action_base}/uploader'
 app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
+app.url.upload.pictures: '{$app.url.upload}/pictures'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'

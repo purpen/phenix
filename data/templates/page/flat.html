@@ -97,13 +97,20 @@ li.content .notesite:before {
 li.total .notesite:before {
     background: none repeat scroll 0 0 #CFD1D0;
 }
-	
+
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
-{% block jquery %}
-
+{% block jquery %}	
+	$('#text-content').editable({inlineMode: false});
+	
+	$('.insert.button').bind('click', function(){
+		document.execCommand('insertHTML', false, '<p><img src="/uploads/product/140417/534fa3255771dbfe72fefb5d.jpg"></p>');
+		return false;
+	});
+	
+	
 {% endblock %}
 {% block content %}
 <div class="home">
@@ -111,6 +118,32 @@ li.total .notesite:before {
 		<div class="row">
 			
 			<div class="ui column">
+				<form class="ui form">
+					<div class="field">
+						<textarea name="content" class="editor" placeholder="详细内容" id="text-content">
+							{% if product.content %}
+							{{ product.content }}
+							{% else %}
+							<h3>关于我</h3>
+
+							<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
+
+
+							<h3>产品要解决什么问题</h3>
+
+							<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+
+
+							<h3>产品怎样去解决问题</h3>
+
+							<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
+							{% endif %}
+						</textarea>
+					</div>
+				</form>
+				<a href="" class="ui insert button">插入</a>
+				
+				
 				<h4>Rate Icons</h4>
 				
 				<ul >

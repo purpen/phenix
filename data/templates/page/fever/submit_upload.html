@@ -76,23 +76,28 @@
 {% endblock %}
 
 {% block content %}
-<div class="social">
+<div class="ui social show">
 	<div class="ui responsive grid">
+		
 		<div class="row">
-			<div class="ui column">
-				<div class="ui steps">
-				  	<div class="ui disabled step">
-				      	基本信息
-				  	</div>
-				  	<div class="ui disabled step">
-				      	详情描述
+			<div class="ui center aligned column">
+				<div class="ui three steps">
+				  	<div class="ui active step">
+				      	<span class="number">1</span>
+						<span class="title">基本信息</span>
 				  	</div>
 				  	<div class="ui active step">
-				      	上传图片 & 视频
+				      	<span class="middle number">2</span>
+						<span class="title">填写详细内容</span>
+				  	</div>
+				  	<div class="ui active step">
+				    	<span class="number">3</span>
+						<span class="title">上传图片&视频</span>
 				  	</div>
 				</div>
 			</div>
 		</div>
+		
 		<div class="row">
 			<div class="eleven wide column">
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-upload-form">

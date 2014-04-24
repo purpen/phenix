@@ -34,7 +34,7 @@
 						<th colspan="4">
 							<div class="ui horizontal bulleted list">
 							  	<div class="item">
-							      	订单号：{{ order._id }}
+							      	订单号：{{ order.rid }}
 							  	</div>
 							  	<div class="item">
 							      	{{ order.addbook.name }} 
@@ -51,7 +51,7 @@
 						<td>
 							<div class="ui divided order products list">
 								{% for item in order.items %}
-									{% product_list var:'product' product_id:item.sku %}
+									{% product_list var:'product' sku:item.sku %}
 									<div class="item">
 										<a href="{{ product.view_url }}" class="ui cover image">
 								      		<img src="{{ product.cover.thumbnails.mini.view_url }}" />

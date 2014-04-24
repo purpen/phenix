@@ -326,15 +326,38 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function submit(){
 		$row = array();
+		
 		$step = (int)$this->stash['step'];
+		$id = $this->stash['id'];
+		
 		switch ($step) {
 			case 1:
+				$step_tab = 'step_one';
 				$tpl_name = 'submit_basic.html';
 				break;
+			case 2:
+				$step_tab = 'step_two';
+				$this->stash['mode'] = 'edit';
+				$tpl_name = 'submit_content.html';
+				break;
+			case 3:
+				$step_tab = 'step_three';
+				$this->stash['mode'] = 'edit';
+				$tpl_name = 'submit_upload.html';	
+				break;
 			default:
+				$step_tab = 'step_default';
 				$tpl_name = 'submit.html';
 				break;
 		}
+		
+		$this->set_target_css_state($step_tab);
+		
+		$product = new Sher_Core_Model_Product();
+		if(!empty($id)){
+			$row = $product->extend_load((int)$id);
+		}
+		$this->stash['product'] = $row;
 		
 		return $this->to_html_page('page/fever/'.$tpl_name);
 	}
@@ -370,63 +393,21 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存产品创意信息
 	 */
 	public function save(){
-		// 验证数据
-		if(empty($this->stash['title'])){
-			return $this->ajax_json('创意名称不能为空！', true);
+		$step = (int)$this->stash['step'];
+		
+		Doggy_Log_Helper::debug("Start save step[$step].");
+		
+		switch ($step){
+			case 1:
+				return $this->save_basic();
+			case 2:
+				return $this->save_content();
+			case 3:
+				Doggy_Log_Helper::debug("Start save step[$step] upload.");
+				return $this->save_upload();
+			default:
+				break;
 		}
-		
-		$id = (int)$this->stash['_id'];
-		
-		// 分步骤保存信息
-		$data = array();
-		$data['_id'] = $id;
-		$data['title'] = $this->stash['title'];
-		$data['summary'] = $this->stash['summary'];
-		$data['category_id'] = $this->stash['category_id'];
-		$data['tags'] = $this->stash['tags'];
-		$data['content'] = $this->stash['content'];
-		$data['video'] = $this->stash['video'];
-		
-		// 检查是否有附件
-		if(isset($this->stash['asset'])){
-			$data['asset'] = $this->stash['asset'];
-			$data['asset_count'] = count($data['asset']);
-		}else{
-			$data['asset'] = array();
-			$data['asset_count'] = 0;
-		}
-		
-		try{
-			$model = new Sher_Core_Model_Product();
-			
-			// 新建记录
-			if(empty($id)){
-				$data['user_id'] = (int)$this->visitor->id;
-				
-				$ok = $model->apply_and_save($data);
-				
-				$product = $model->get_data();
-				$id = $product['_id'];
-				
-				// 更新用户主题数量
-				$this->visitor->inc_counter('product_count', $data['user_id']);
-				
-			}else{
-				$ok = $model->apply_and_update($data);
-			}
-			
-			if(!$ok){
-				return $this->ajax_json('保存失败,请重新提交', true);
-			}
-			
-		}catch(Sher_Core_Model_Exception $e){
-			
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
-		}
-		
-		$next_url = Sher_Core_Helper_Url::vote_view_url($id);
-		
-		return $this->ajax_json('保存成功.', false, $next_url);
 	}
 	
 	/**

@@ -22,13 +22,22 @@
 			    url(http://taihuoniao.me/fonts/flat.icons.woff) format('woff'),
 			    url(http://taihuoniao.me/fonts/flat.icons.ttf) format('truetype')
 			  ;
-
+			  
 			  font-style: normal;
 			  font-weight: normal;
 			  font-variant: normal;
 			  text-decoration: inherit;
 			  text-transform: none;
 			}
+			
+			@font-face {
+			  font-family: 'FontAwesome';
+			  src: url('http://taihuoniao.me/fonts/fontawesome-webfont.eot?v=4.0.3');
+			  src: url('http://taihuoniao.me/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), url('http://taihuoniao.me/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), url('http://taihuoniao.me/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype'), url('http://taihuoniao.me/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg');
+			  font-weight: normal;
+			  font-style: normal;
+			}
+			
 		</style>
 		
 		{% if css_use_bundle %}
@@ -53,7 +62,7 @@
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.taconite.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.livequery.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.fineuploader-3.5.0.js"></script>
-			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/medium-editor.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/froala_editor.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.countdown.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.address.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.bar.js"></script>
@@ -87,6 +96,7 @@
 	</head>
 	
 	<body>
+		{% block layout_promo %}{% endblock %}
 	    {% block layout_header %}{% endblock %}
 	    {% block layout_content %}
 	        {% block content %}{% endblock %}

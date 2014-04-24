@@ -9,18 +9,20 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('.editor').each(function() {
-	    var $this = $(this);
-		var params = {
-            'placeholder': $(this).attr('placeholder')
-        };
-
-	    $this.wrap('<div class="editable-wrapper"/>');
-	    var $w = $(this).parent();
-	    $w.prepend('<div class="editable" data-placeholder="'+$this.attr('placeholder')+'">' + $this.val()+'</div>');
-	    $this.hide();
-		
-	    var editor = new MediumEditor('.editable', params);
+	$('#editor').editable({
+		inlineMode: false,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageParams: {parent_id: "{{ product._id }}"},
+		insertImageCallback: function (imageURL) {
+		    alert('insert images');
+		},
+		afterRemoveImageCallback: function () {
+		    // Do something great.
+		},
+		contentChangedCallback: function () {
+		    $("#editor").val($("#editor").editable("getHTML"));
+		}
 	});
 	
 	$('#product-content-form').form({
@@ -65,23 +67,28 @@
 {% endblock %}
 
 {% block content %}
-<div class="social">
+<div class="ui social show">
 	<div class="ui responsive grid">
+		
 		<div class="row">
-			<div class="ui column">
-				<div class="ui steps">
-				  	<div class="ui disabled step">
-				      	基本信息
+			<div class="ui center aligned column">
+				<div class="ui three steps">
+				  	<div class="ui active step">
+				      	<span class="number">1</span>
+						<span class="title">基本信息</span>
 				  	</div>
 				  	<div class="ui active step">
-				      	详情描述
+				      	<span class="middle number">2</span>
+						<span class="title">填写详细内容</span>
 				  	</div>
-				  	<div class="ui disabled step">
-				      	上传图片 & 视频
+				  	<div class="ui step">
+				    	<span class="number">3</span>
+						<span class="title">上传图片&视频</span>
 				  	</div>
 				</div>
 			</div>
 		</div>
+		
 		<div class="row">
 			<div class="eleven wide column">
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-content-form">
@@ -91,23 +98,23 @@
 					
 					<div class="field">
 						<label>创意详细说明</label>
-						<textarea name="content" class="editor" placeholder="详细内容">
+						<textarea name="content" placeholder="详细内容" id="editor">
 							{% if product.content %}
-							{{ product.content }}
+								{{ product.content }}
 							{% else %}
-							<h3>关于我</h3>
+								<h3>关于我</h3>
 
-							<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
-
-
-							<h3>产品要解决什么问题</h3>
-
-							<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+								<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
 
 
-							<h3>产品怎样去解决问题</h3>
+								<h3>产品要解决什么问题</h3>
 
-							<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
+								<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+
+
+								<h3>产品怎样去解决问题</h3>
+
+								<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
 							{% endif %}
 						</textarea>
 					</div>

@@ -11,7 +11,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	const WAIT_TIME = 3;
 	
     protected $schema = array(
-		
+		# 订单编号
+		'rid' => 0,
 		## 订单明细项
 		#
 		# product_id, size, quantity
@@ -92,7 +93,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
     );
 
-	protected $required_fields = array('user_id');
+	protected $required_fields = array('rid', 'user_id');
 	protected $int_fields = array('user_id','invoice_type');
 
 	protected $joins = array(
@@ -120,18 +121,36 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 通过rid查找
+	 */
+	public function find_by_rid($rid){
+		$row = $this->first(array('rid'=>$rid));
+        if (!empty($row)) {
+            $row = $this->extended_model_row($row);
+        }
+		
+		return $row;
+	}
+	
+	/**
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array(
-			'sku', 'size', 'quantity', 'price', 'sale_price'
-		);
+		$item_fields = array('sku', 'size', 'quantity', 'price', 'sale_price');
+		$int_fields = array('sku', 'quantity');
+		$float_fields = array('price', 'sale_price');
 		
 		$new_items = array();
 		for($i=0; $i<count($data['items']); $i++){
 	        foreach ($item_fields as $f) {
 	            if (isset($data['items'][$i][$f])) {
-	                $new_items[$i][$f] = $data['items'][$i][$f];
+					if (in_array($f, $int_fields)){
+						$new_items[$i][$f] = (int)$data['items'][$i][$f];
+					}elseif(in_array($f, $float_fields)){
+						$new_items[$i][$f] = floatval($data['items'][$i][$f]);
+					}else{
+						$new_items[$i][$f] = $data['items'][$i][$f];
+					}
 	            }
 	        }
 		}
@@ -240,13 +259,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      * @return string
      */
     public function recalculate_order_amount($order_id){
-		
-    }
-	
-    /**
-     * 添加订单明细信息
-     */
-    public function add_order_detail($user_id,$product_id,$sale_price,$price,$quantity=1,$size=null){
 		
     }
 	

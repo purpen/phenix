@@ -6,9 +6,11 @@
 class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
+		'sku' => 0,
 		'id' => 0,
+		'rrid' => 0,
 		'n'=>1, // 数量
-		's' => 0, // 型号
+		's' => 1, // 型号
 		'page' => 1,
 	);
 	
@@ -38,6 +40,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $total_money = $cart->getTotalAmount();
         $items_count = $cart->getItemCount();
 		
+		if ($items_count > 0){
+			$this->set_target_css_state('basket');
+		}
+		
 		$this->stash['products'] = $products;
 		$this->stash['total_money'] = $total_money;
 		$this->stash['items_count'] = $items_count;
@@ -49,23 +55,31 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 加入购物车
 	 */
 	public function buy(){
-		$id = $this->stash['id'];
+		$sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
 		$sizes = $this->stash['s'];
 		
 		// 验证数据
-		if (empty($id) || empty($quantity)){
+		if (empty($sku) || empty($quantity)){
 			
 		}
 		
-		Doggy_Log_Helper::warn("Add to cart [$id][$sizes][$quantity]");
+		Doggy_Log_Helper::warn("Add to cart [$sku][$sizes][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->addItem($id, $sizes);
-		$cart->setItemQuantity($id, $sizes, $quantity);
+		$cart->addItem($sku, $sizes);
+		$cart->setItemQuantity($sku, $sizes, $quantity);
 		
         //重置到cookie
         $cart->set();
+		
+		$total_money = $cart->getTotalAmount();
+		$items_count = $cart->getItemCount();
+		
+		$this->stash['total_money'] = $total_money;
+		$this->stash['items_count'] = $items_count;
+		
+		$this->stash['action'] = 'add';
 		
 		return $this->to_taconite_page('ajax/cart_ok.html');
 	}
@@ -74,12 +88,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 增加购物车产品数量
 	 */
 	public function inc_qty(){
-		$com_sku = $this->stash['id'];
+		$com_sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
 		$com_size = $this->stash['s'];
 		
 		// 验证数据
-		if (empty($id) || empty($quantity)){
+		if (empty($com_sku) || empty($quantity)){
 			
 		}
 		
@@ -100,12 +114,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 减少购物车产品数量
 	 */
 	public function dec_qty(){
-		$com_sku = $this->stash['id'];
+		$com_sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
 		$com_size = $this->stash['s'];
 		
 		// 验证数据
-		if (empty($id) || empty($quantity)){
+		if (empty($com_sku) || empty($quantity)){
 			
 		}
 		
@@ -126,7 +140,25 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 从购物车中删除产品
 	 */
 	public function remove(){
+		$com_sku = $this->stash['sku'];
+		$com_size = $this->stash['s'];
 		
+		$cart = new Sher_Core_Util_Cart();
+		
+		Doggy_Log_Helper::warn("Remove before from the cart [$com_sku]");
+		
+		$cart->delItem($com_sku, $com_size);
+		
+		// 重置cookie
+		$cart->set();
+		
+		// 获取购物车信息
+		$this->stash['total_money'] = $cart->getTotalAmount();
+		$this->stash['items_count'] = $cart->getItemCount();
+		
+		$this->stash['action'] = 'delete';
+		
+		return $this->to_taconite_page('ajax/cart_ok.html');
 	}
 	
 	/**
@@ -220,11 +252,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 确认订单并提交
 	 */
 	public function confirm(){
-		$rrid = $this->stash['rrid'];
+		$rrid = (int)$this->stash['rrid'];
 		if(empty($rrid)){
 			// 没有临时订单编号，为非法操作
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
+		
+		Doggy_Log_Helper::debug("Submit Order [$rrid]");
 		
 		//验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
@@ -246,6 +280,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
+		
+		// 获取订单编号
+		$order_info['rid'] = $result['rid'];
 		
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $this->stash['payment_method'];
@@ -287,9 +324,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			if (!$ok) {
 				return 	$this->ajax_json('订单处理失败，请重试！', true);
 			}
+			
 			$data = $orders->get_data();
 			
-			$rid = $data['_id'];
+			$rid = $data['rid'];
+			
+			Doggy_Log_Helper::debug("Save Order [ $rid ] is OK!");
 			
 			// 清空购物车
 			$cart->clearCookie();
@@ -317,7 +357,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
 		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->extend_load($rid);
+		$order_info = $model->find_by_rid($rid);
 		
 		// 成功提交订单后，发送提醒邮件<异步进程处理>
 		

@@ -20,6 +20,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		// 获取单个产品
 		$product_id = 0;
+		$sku = 0;
 		
 		$category_id = 0;
         $user_id = 0;
@@ -52,6 +53,14 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		// 获取单个产品
 		if ($product_id) {
 			$result = DoggyX_Model_Mapper::load_model((int)$product_id, 'Sher_Core_Model_Product');
+			$context->set($var, $result);
+			return;
+		}
+		// 获取单个产品
+		if ($sku) {
+            $product = new Sher_Core_Model_Product();
+            $result = $product->find_by_sku($sku);
+			
 			$context->set($var, $result);
 			return;
 		}

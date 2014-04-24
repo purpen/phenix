@@ -107,9 +107,30 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
         return $this->to_taconite_page('ajax/ok_remove.html');
     }
     
+	/**
+	 * 获取购物车内容
+	 */
+	public function basket(){
+		if (!isset($this->stash['total_money']) &&  !isset($this->stash['items_count'])){
+			
+			$cart = new Sher_Core_Util_Cart();
+		
+	        $total_money = $cart->getTotalAmount();
+	        $items_count = $cart->getItemCount();
+		
+			if ($items_count > 0){
+				$this->set_target_css_state('basket');
+			}
+			$this->stash['total_money'] = $total_money;
+			$this->stash['items_count'] = $items_count;
+		}
+	}
 
     protected function before_to_view() {
         parent::before_to_view();
+		// 预置购物车
+		$this->basket();
+		
         Sher_Core_Helper_View::setup_deploy_information($this->stash);
         Sher_Core_Helper_View::setup_site_menu($this->stash);
     }

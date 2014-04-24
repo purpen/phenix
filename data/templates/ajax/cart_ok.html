@@ -1,5 +1,42 @@
 <taconite>
+	{% if action == 'delete' %}
+		<remove select="#product_{{ sku }}" />
+	{% endif %}
+	
+	{% if items_count == 0 %}
+	<replace select="#cart-body-content">
+		<div class="ui column" id="cart-body-content">
+			<h3 class="ui header">我的购物车</h3>
+			<div class="ui message">
+				您还没找到喜欢的产品吗？<a href="{{ app_url_shop }}" class="ui link">赶快去选购吧</a>
+			</div>
+		</div>
+	</replace>
+	{% endif %}
+	
 	<eval>
-		phenix.show_ok_note('已成功加入购物车', 2000);
+		{% if action == 'add' %}
+			phenix.show_ok_note('已成功加入购物车', 1000);
+		{% endif %}
+		
+		// 更新购物篮
+		{% if items_count %}
+			$('#shopping-basket')
+				.addClass('active')
+				.find('.ui.label')
+				.removeClass('hide')
+				.text({{ items_count }});
+		{% else %}
+			$('#shopping-basket')
+				.removeClass('active')
+				.find('.ui.label')
+				.addClass('hide')
+				.text({{ items_count }});
+		{% endif %}
+		
+		// 更新购物车
+		$('#cart_items_count').text({{ items_count }});
+		$('#cart_total_money').text({{ total_money }});
+		
 	</eval>
 </taconite>

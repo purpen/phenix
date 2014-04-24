@@ -124,6 +124,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		return $this->to_taconite_page('ajax/crop_avatar.html');
 	}
 	
+	
+	
 	/**
 	 * 上传产品图片
 	 */
@@ -235,6 +237,66 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
 	}
 	
+	
+	/**
+	 * 编辑器图片
+	 */
+	public function pictures() {
+		// 验证用户
+		if (!$this->visitor->id) {
+            return $this->ajax_json('Session已过期，请重新登录！', true);
+        }
+		
+		try{
+			$new_assets = array();
+			for($i=0; $i<count($this->asset); $i++){
+				Doggy_Log_Helper::debug("Upload asset[$i] start.");
+			
+				$file = $this->asset[$i]['path'];
+		        $filename = $this->asset[$i]['name'];
+		        $size = $this->asset[$i]['size'];
+			
+				# 保存附件
+				$asset = new Sher_Core_Model_Asset();
+				//create new one
+				$asset->setFile($file);
+				
+				$image_info = Sher_Core_Util_Image::image_info($file);
+				
+				$image_info['size'] = $size;
+		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
+		        $image_info['filename'] = basename($filename);
+				$image_info['filepath'] = Sher_Core_Util_Image::genPath($filename, Sher_Core_Util_Constant::STROAGE_PRODUCT);
+		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		        $image_info['parent_id'] = (int)$this->stash['parent_id'];
+				
+				$image_info['user_id'] = $this->visitor->id;
+				
+				$ok = $asset->apply_and_save($image_info);
+			
+				Doggy_Log_Helper::debug("Create asset[$i] ok.");
+			
+		        if ($ok) {
+					// 生成缩图
+					$req_size = Doggy_Config::$vars['app.asset.thumbnails'];
+					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $req_size['big']);
+					$result['asset_id'] = (string)$asset->_id;
+					
+					$asset->update_thumbnails($result, 'big', $asset->_id);
+					
+					$new_assets['link'] = Sher_Core_Helper_Url::asset_view_url($result['filepath']);
+				}
+			}
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::warn("保存图片失败：".$e->getMessage());
+			return $this->ajax_json("保存图片失败：".$e->getMessage(), true);
+		} catch (Sher_Core_Util_Exception $e) {
+			Doggy_Log_Helper::warn("处理图片失败：".$e->getMessage());
+			return $this->ajax_json("处理图片失败：".$e->getMessage(), true);
+		}
+		
+		return $this->to_raw_json($new_assets);
+	}
 	
 	/**
      * 检查指定附件的状态并返回附件列表到上传队列中

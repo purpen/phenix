@@ -24,6 +24,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_TOPIC   = 50;
 
     protected $schema = array(
+		'user_id' => '',
     	'parent_id' => '',
 		
 		## 原图信息

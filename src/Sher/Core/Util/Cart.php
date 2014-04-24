@@ -61,9 +61,9 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      * @return void
      */
     public function emptyCart(){
-        unset($this->com_item);
-        unset($this->com_list);
-        unset($this->comlist_count);
+		$this->com_item = 0;
+		$this->com_list = array();
+		$this->comlist_count = 0;
         
         $this->clearCookie();
     }
@@ -168,11 +168,11 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         
         if($com_has_exist != 1){
             $product = new Sher_Core_Model_Product();
-            $row = $product->extend_load((int)$com_sku);
+            $row = $product->find_by_sku($com_sku);
             if(!empty($row)){
 				$count = 1;
             	$true_price = $row['sale_price'];
-                $this->com_list[] = array('sku'=>$com_sku,'size'=>$com_size,'quantity'=>$count,'price'=>$true_price,'sale_price'=>$row['sale_price'],'title'=>$row['title'],'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price']);
+                $this->com_list[] = array('sku'=>$com_sku,'size'=>$com_size,'quantity'=>(int)$count,'price'=>$true_price,'sale_price'=>$row['sale_price'],'title'=>$row['title'],'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price']);
                 $this->com_item++;
             }
             unset($product);
@@ -191,6 +191,8 @@ class Sher_Core_Util_Cart extends Doggy_Object {
     		return;
     	}
 		
+		Doggy_Log_Helper::debug("Remove from the cart [$com_sku][$com_size]");
+		
         for($i=0; $i<$this->com_item; $i++){
             if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['size'] == $com_size){
             	$this->com_item--;
@@ -200,9 +202,9 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 		
         //检测购物车是否为空
         if($this->com_item <= 0){
-            unset($this->com_item);
-            unset($this->com_list);
-            unset($this->comlist_count);
+			$this->com_item = 0;
+			$this->com_list = array();
+			$this->comlist_count = 0;
             
             $this->clearCookie();
         }
@@ -243,7 +245,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
                     	$this->com_item--;
                     	unset($this->com_list[$i]);
                     }else{
-                    	$this->com_list[$i]['quantity'] = $com_count;
+                    	$this->com_list[$i]['quantity'] = (int)$com_count;
                     }
 					
 					// 更新单品小计
@@ -254,9 +256,9 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 		
     	//检测购物车是否为空
     	if($this->com_item <= 0){
-    		unset($this->com_item);
-    		unset($this->com_list);
-    		unset($this->comlist_count);
+			$this->com_item = 0;
+			$this->com_list = array();
+			$this->comlist_count = 0;
     		
     		$this->clearCookie();
     	}
@@ -284,6 +286,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         for($i=0; $i<$this->com_item; $i++){
             $this->comlist_count += $this->com_list[$i]['quantity'];
         }
+		Doggy_Log_Helper::warn("Cart item count: ".$this->comlist_count);
 		
         return $this->comlist_count;
     }

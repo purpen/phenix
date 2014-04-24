@@ -178,6 +178,36 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
+	    }
+		// 新建数据,补全默认值
+		if ($this->is_saved()){
+			$data['sku'] = $this->gen_product_sku($data['_id'], '1');
+			
+			// 添加随机数
+			$data['random'] = Sher_Core_Helper_Util::gen_random();
+		}
+		
+	    parent::before_save($data);
+	}
+	
+	/**
+	 * 通过sku查找
+	 */
+	public function find_by_sku($sku){
+		$row = $this->first(array('sku'=>(int)$sku));
+        if (!empty($row)) {
+            $row = $this->extended_model_row($row);
+        }
+		
+		return $row;
+	}
+	
+	/**
 	 * 是否进入专家评估阶段
 	 */
 	protected function expert_assess(&$row){
@@ -225,13 +255,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$stage = isset($row['stage']) ? $row['stage'] : 0;
 		switch($stage) {
 			case self::STAGE_VOTE:
-				$view_url = Sher_Core_Helper_Url::vote_view_url($row['_id']);
+				$view_url = Sher_Core_Helper_Url::vote_view_url($row['sku']);
 				break;
 			case self::STAGE_PRESALE:
-				$view_url = Sher_Core_Helper_Url::sale_view_url($row['_id']);
+				$view_url = Sher_Core_Helper_Url::sale_view_url($row['sku']);
 				break;
 			case self::STAGE_SHOP:
-				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
+				$view_url = Sher_Core_Helper_Url::shop_view_url($row['sku']);
 				break;
 			default:
 				$view_url = Doggy_Config::$vars['app.url.fever'];
@@ -239,24 +269,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}
 		
 		return $view_url;
-	}
-	
-	/**
-	 * 保存之前,处理标签中的逗号,空格等
-	 */
-	protected function before_save(&$data) {
-	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
-	    }
-		// 新建数据,补全默认值
-		if ($this->is_saved()){
-			$data['sku'] = $this->gen_product_sku();
-			
-			// 添加随机数
-			$data['random'] = Sher_Core_Helper_Util::gen_random();
-		}
-		
-	    parent::before_save($data);
 	}
 	
 	/**
@@ -322,12 +334,23 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
 	
 	/**
-	 * 生成产品的SKU
+	 * 生成产品的SKU, SKU十位数字符
 	 */
-	protected function gen_product_sku($prefix='91'){
+	protected function gen_product_sku($id, $prefix='1'){
+		
 		$sku  = $prefix;
-		$sku .= substr(time(), 4);
-		$sku .= $this->rand_number_str(2);
+		
+		// $sku .= $this->rand_number_str(2);
+		$len = strlen((string)$id);
+		if ($len <= 5) {
+			$sku .= date('md');
+			$sku .= sprintf("%05d", $id);
+		}else{
+			$sku .= substr(date('md'), 0, 9 - $len);
+			$sku .= $id; 
+		}
+		
+		Doggy_Log_Helper::debug("Gen to product [$sku]");
 		
 		return (int)$sku;
 	}

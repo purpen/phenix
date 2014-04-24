@@ -6,6 +6,7 @@
 class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	
 	public $stash = array(
+		'id' => 0,
 		'page' => 1,
 		'size' => 20,
 		'stage' => 0,
