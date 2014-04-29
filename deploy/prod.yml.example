@@ -6,6 +6,7 @@ app.mongodb_rs: true
 app.mongodb_host: '192.168.8.3'
 app.keychains.private: 'xxxxOOOOxxxx'
 
+app.url.upload_url: '{$app.domain.app}/uploader'
 app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
 
 #社区
