@@ -74,7 +74,23 @@ server {
 	      rewrite ^/user/(\d+)/fans[/]?$ /app/site/user/fans?user_id=$1 last;
 	      rewrite ^/user/(\d+)/fans/p(\d+).*$ /app/site/user/fans?user_id=$1&page=$2 last;
 	    }
-
+		
+		location /login {
+	        rewrite ^/login[/]?$ /app/site/auth/login last;
+	    }
+		
+		location /signup {
+	        rewrite ^/signup[/]?$ /app/site/auth/signup last;
+	    }
+		
+		location /about {
+	        rewrite ^/about[/]?$ /app/site/index/about last;
+	    }
+		
+		location /contact {
+	        rewrite ^/contact[/]?$ /app/site/index/contact last;
+	    }
+		
 		location /js {
 	        expires 30d;
 	        rewrite ^/js/bundle_(.*)_jquery.js$ /js/bundle.jquery.js last;
@@ -88,13 +104,7 @@ server {
 	        expires 30d;
 	    }
 	
-		location /about {
-	        rewrite ^/about[/]?$ /app/site/index/about last;
-	    }
 		
-		location /contact {
-	        rewrite ^/contact[/]?$ /app/site/index/contact last;
-	    }
 		
 	    location /__file_result__/ {
 	        internal;
