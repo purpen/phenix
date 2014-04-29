@@ -17,7 +17,7 @@ class Sher_Core_Service_Search extends Sher_Core_Service_Base {
         $this->scws = scws_new();
         $this->scws->set_charset('utf8');
 		$this->scws->add_dict(ini_get("scws.default.fpath").'/dict.utf8.xdb', SCWS_XDICT_XDB);
-        $rayshe_dict = ini_get("scws.default.fpath").'/dict.rayshe.txt';
+        $rayshe_dict = ini_get("scws.default.fpath").'/dict.phenix.txt';
         if (is_file($rayshe_dict)) {
             $this->scws->add_dict($rayshe_dict, SCWS_XDICT_TXT);
         }

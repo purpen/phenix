@@ -131,8 +131,8 @@ app.presale.lowest: 10
 app.storage.sher:
     class:'Doggy_Storage_Provider_FileSystem'
     options:
-        root:"/Users/xiaoyi/Project/phenix/data/web/uploads"
-        root_url:'/uploads'
+        root:"/Users/xiaoyi/data/uploads"
+        root_url:'http://img.taihuoniao.me'
         hash_dir:false
 
 # 图片缩络图

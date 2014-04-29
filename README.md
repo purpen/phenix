@@ -18,3 +18,7 @@ event.preventDefault();
 #Q:ID起点从10000起。
 
 #Q:resque任务处理。
+
+scws文档
+
+http://www.xunsearch.com/scws/docs.php
