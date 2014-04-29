@@ -50,7 +50,7 @@
 		{% block page_css %}{% endblock %}
 		{% if js_use_bundle %}
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.min.{{ js_jquery_bundle_version }}.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.base.min.{{ js_jquery_bundle_version }}.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.jquery.min.{{ js_jquery_bundle_version }}.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.phenix.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
