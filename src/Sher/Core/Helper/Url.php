@@ -101,10 +101,40 @@ class Sher_Core_Helper_Url {
     }
 	
 	/**
-	 * 产品众筹查看地址
+	 * 产品预售查看地址
+	 */
+    public static function sale_list_url($category_id=null, $type=null, $sort=null, $page=null) {
+        if (!is_null($category_id)) {
+            $category_id = 'c'.$category_id;
+        }
+		
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		
+        return self::build_url_path('app.url.sale', $category_id, $type, $sort).$page;
+    }
+	
+	/**
+	 * 产品预售查看地址
 	 */
     public static function sale_view_url($id){
     	return  sprintf(Doggy_Config::$vars['app.url.sale.view'], $id);
+    }
+	
+	/**
+	 * 产品销售查看地址
+	 */
+    public static function shop_list_url($category_id=null, $type=null, $sort=null, $page=null) {
+        if (!is_null($category_id)) {
+            $category_id = 'c'.$category_id;
+        }
+		
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		
+        return self::build_url_path('app.url.shop', $category_id, $type, $sort).$page;
     }
 	
 	/**

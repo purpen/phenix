@@ -28,10 +28,12 @@ app.url.tag: '/tag'
 
 #预售
 app.url.sale: '{$app.url.action_base}/sale'
+app.url.sale.list: '{$app.url.action_base}/sale'
 app.url.sale.view: '{$app.url.sale}/view/%s'
 
 #商店
 app.url.shop: '{$app.url.action_base}/shop'
+app.url.shop.list: '{$app.url.action_base}/shop'
 app.url.shop.view: '{$app.url.action_base}/shop/view?sku=%s'
 
 #社区
@@ -50,6 +52,7 @@ app.url.fever.view: '{$app.url.domain}/fever/view/%s'
 # 购物及支付
 app.url.shopping: '{$app.url.domain}/shopping'
 app.url.cart: '{$app.url.shopping}/cart'
+app.url.cart.buy: '{$app.url.shopping}/buy'
 
 #上传
 app.url.upload: '{$app.url.action_base}/uploader'

@@ -83,6 +83,8 @@
 							</p>
 						</td>
 						<td>
+							<a href="" class="ui link">订单详情</a>
+							
 							{% if !order.is_payed %}
 							<a href="{{ order.pay_url }}?rid={{ order._id }}" class="ui magenta button">点击付款</a>
 							{% endif %}

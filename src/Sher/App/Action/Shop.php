@@ -19,6 +19,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
+		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
     }
 	
 	/**
@@ -51,10 +52,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$query = array(
-			'sku' => $sku
-		);
-		$product = $model->first($query);
+		$product = $model->find_by_sku($sku);
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);

@@ -94,15 +94,17 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 				'medium'  => array(
 					'view_url' => Doggy_Config::$vars['app.url.default_thumb_middle'],
 				),
-				'large'   => array(),
+				'large'   => array(
+					'view_url' => Doggy_Config::$vars['app.url.default_thumb_large'],
+				),
 				'big'     => array(
 					'view_url' => Doggy_Config::$vars['app.url.default_thumb_big'],
 				),
 				'huge'    => array(
-					'view_url' => Doggy_Config::$vars['app.url.default_thumb_big'],
+					'view_url' => Doggy_Config::$vars['app.url.default_thumb_huge'],
 				),
 				'massive' => array(
-					'view_url' => Doggy_Config::$vars['app.url.default_thumb_big'],
+					'view_url' => Doggy_Config::$vars['app.url.default_thumb_massive'],
 				),
 			);
 		}

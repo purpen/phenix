@@ -21,6 +21,8 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
         $pid = 0;
 		$only_open = 0;
 		$domain = 0;
+		$stage = 9;
+		
 		$show_all = 0;
 		$current = 0;
 		
@@ -79,7 +81,17 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 				if ($categories[$i]['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
 					$categories[$i]['view_url'] = Sher_Core_Helper_Url::topic_list_url($categories[$i]['_id']);
 				} else if ($categories[$i]['domain'] == Sher_Core_Util_Constant::TYPE_PRODUCT){
-					$categories[$i]['view_url'] = Sher_Core_Helper_Url::vote_list_url($categories[$i]['_id']);
+					switch($stage){
+						case Sher_Core_Model_Product::STAGE_VOTE:
+							$categories[$i]['view_url'] = Sher_Core_Helper_Url::vote_list_url($categories[$i]['_id']);
+							break;
+						case Sher_Core_Model_Product::STAGE_PRESALE:
+							$categories[$i]['view_url'] = Sher_Core_Helper_Url::sale_list_url($categories[$i]['_id']);
+							break;
+						case Sher_Core_Model_Product::STAGE_SHOP:
+							$categories[$i]['view_url'] = Sher_Core_Helper_Url::shop_list_url($categories[$i]['_id']);
+							break;
+					}
 				}
         		
 	        	if(empty($current)){

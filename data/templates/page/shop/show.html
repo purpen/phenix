@@ -47,6 +47,12 @@
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
 	
+	
+	$('.ui.cart.btn').click(function(){
+		$.get($(this).attr('href'));
+		return false;
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -109,10 +115,11 @@
 				<div class="ui clearing divider"></div>
 				
 				<div class="buy">
-					<a href="" class="ui active magenta button">
-						<i class="flat shoppingin icon"></i>加入购物车
+					<a href="{{ app_url_cart_buy }}?sku={{ product.sku }}" class="ui active cart magenta btn-4 btn-4c icon-arrow-right btn">
+						<i class="flat shoppingin icon"></i> 加入购物车
 					</a>
-					<a href="" class="ui gray button">
+				
+					<a href="{{ app_url_topic }}/ajax_favorite?id={{ product._id }}" class="ui gray btn-4 btn-4c icon-arrow-right btn">
 						<i class="flat add icon"></i>收藏
 					</a>
 				</div>
