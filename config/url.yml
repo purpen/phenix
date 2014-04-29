@@ -22,22 +22,24 @@ app.url.bundle: '{$app.domain.base}/bundle'
 #首页
 app.url.welcome: '{$app.url.action_base}/index/welcome'
 app.url.index:	'{$app.url.domain}'
+
 #tag,分类,搜索
 app.url.tags: '/tags'
 app.url.tag: '/tag'
 
 #预售
 app.url.sale: '{$app.url.action_base}/sale'
-app.url.sale.list: '{$app.url.action_base}/sale'
+app.url.sale.list: '{$app.url.sale}'
 app.url.sale.view: '{$app.url.sale}/view/%s'
 
 #商店
 app.url.shop: '{$app.url.action_base}/shop'
-app.url.shop.list: '{$app.url.action_base}/shop'
-app.url.shop.view: '{$app.url.action_base}/shop/view?sku=%s'
+app.url.shop.list: '{$app.url.shop}'
+app.url.shop.view: '{$app.url.shop}/view?sku=%s'
 
 #社区
 app.url.social: '{$app.url.action_base}/social'
+
 app.url.topic: '{$app.url.domain}/topic'
 app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'

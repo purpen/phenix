@@ -12,6 +12,18 @@ server {
             include fastcgi_params;
         }
 		
+		location /sale {
+            rewrite ^/sale(.*)$ /app/site/sale$1 last;
+        }
+		
+		location /shop {
+            rewrite ^/shop(.*)$ /app/site/shop$1 last;
+        }
+		
+		location /social {
+            rewrite ^/social(.*)$ /app/site/social$1 last;
+        }
+		
         location /topic {
           rewrite ^/topic[/]?$ /app/site/topic last;
           rewrite ^/topic/c(\d+)[/]?$ /app/site/topic?category_id=$1 last;
@@ -75,13 +87,10 @@ server {
 	      rewrite ^/user/(\d+)/fans/p(\d+).*$ /app/site/user/fans?user_id=$1&page=$2 last;
 	    }
 		
-		location /login {
-	        rewrite ^/login[/]?$ /app/site/auth/login last;
-	    }
-		
-		location /signup {
-	        rewrite ^/signup[/]?$ /app/site/auth/signup last;
-	    }
+		location /auth {
+            rewrite ^/auth/(login|signup|forget)[/]?$ /app/site/auth/$1 last;
+            rewrite ^/auth(.*)$ /app/site/auth$1 last;
+        }
 		
 		location /about {
 	        rewrite ^/about[/]?$ /app/site/index/about last;

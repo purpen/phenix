@@ -36,7 +36,7 @@ function create_init_user(){
 		$ok = $user->create($data);
 		
 		if ($ok){
-			echo "Create the user is Ok!\n";
+			echo "Create the user is ok!\n";
 		}
 	
 		$new_data = $user->get_data();
@@ -55,11 +55,39 @@ function add_invitation($user_id){
 			$invitation = new Sher_Core_Model_Invitation();
 			$invitation->generate_for_user($user_id, 5);
 		
-			echo "Add the invitation is Ok!\n";
+			echo "Add the invitation is ok!\n";
 		}
 	}catch(Sher_Core_Model_Exception $e){
 		echo "Add the invitation failed: ".$e->getMessage();
 	}
+}
+
+// 创建分类
+function create_category(){
+	$categories = array(
+		array('title'=>'创意话题','name'=>'fever','domain'=>2),
+		array('title'=>'灵感欣赏','name'=>'idea','domain'=>2),
+		array('title'=>'活动','name'=>'event','domain'=>2),
+		
+		array('title'=>'健康','name'=>'health','domain'=>1),
+		array('title'=>'电子','name'=>'electronic','domain'=>1),
+		array('title'=>'厨房','name'=>'kitchen','domain'=>1),
+		array('title'=>'家居','name'=>'home','domain'=>1),
+		array('title'=>'娱乐','name'=>'entertainment','domain'=>1),
+		array('title'=>'亲子','name'=>'parenting','domain'=>1),
+		array('title'=>'旅行','name'=>'travel','domain'=>1),
+	);
+	
+	try{
+		$model = new Sher_Core_Model_Category();
+		foreach ($categories as $cate){
+			$model->create($cate);
+		}
+	}catch(Sher_Core_Model_Exception $e){
+		echo "Create the category failed: ".$e->getMessage();
+	}
+	
+	echo "Create the category is ok! \n";
 }
 
 echo "Install ... \n";
@@ -67,6 +95,8 @@ echo "Install ... \n";
 $user_id = create_init_user();
 
 add_invitation($user_id);
+
+create_category();
 
 echo "Install is OK! \n";
 ?>

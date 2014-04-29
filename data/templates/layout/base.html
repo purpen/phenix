@@ -41,7 +41,7 @@
 		</style>
 		
 		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
 		{% endif %}
@@ -50,9 +50,9 @@
 		{% block page_css %}{% endblock %}
 		{% if js_use_bundle %}
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.base.min.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.jquery.min.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.phenix.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.min.{{ js_jquery_bundle_version }}.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.jquery.min.{{ js_jquery_bundle_version }}.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.phenix.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
 			<script type="text/javascript" src="{{ app_url_uncompressed}}/javascript/jquery-2.1.0.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/semantic.min.js"></script>

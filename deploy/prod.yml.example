@@ -22,8 +22,8 @@ app.url.thumb: 'http://img.rayshe.com/%s'
 app.storage.sher: 
     class: 'Doggy_Storage_Provider_FileSystem' 
     options: 
-        root: '/www/rayshe/web/uploads' 
-        root_url: '/uploads' 
+        root: '/data/storage/uploads' 
+        root_url: '/uploads'
         hash_dir: false
 		
 # 支付宝
