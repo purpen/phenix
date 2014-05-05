@@ -48,7 +48,7 @@ app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 #社区创意投票
 app.url.fever: '{$app.url.domain}/fever'
 app.url.fever.list: '{$app.url.domain}/fever/list-c%s-t%s-s%s-p%s.html'
-app.url.fever.view: '{$app.url.domain}/fever/view/%s'
+app.url.fever.view: '{$app.url.domain}/fever/view?sku=%s'
 
 # 购物及支付
 app.url.shopping: '{$app.url.domain}/shopping'

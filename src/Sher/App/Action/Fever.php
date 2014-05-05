@@ -99,7 +99,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 查看详情
 	 */
 	public function view() {
-		$id = (int)$this->stash['id'];
+		$sku = (int)$this->stash['sku'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
 		if(empty($id)){
@@ -111,11 +111,13 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load($id);
+		$product = $model->find_by_sku($sku);
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的创意不存在或已被删除！', $redirect_url);
 		}
+		
+		$id = $product['_id'];
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
