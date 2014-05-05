@@ -4,7 +4,7 @@ class Sher_Core_Helper_Util {
 	 * 发送注册验证码
 	 */
 	public static function send_register_mms($phone,$code) {
-		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【悦伊】";
+		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
 		return self::send_mms($phone, $message);
 	}
 	

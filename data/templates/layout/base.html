@@ -65,6 +65,8 @@
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.address.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.bar.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.imgareaselect.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.easing.1.3.js"></script>
+			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/sly.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/phenix.js"></script>
 		{% endif %}
 		
@@ -73,7 +75,7 @@
 
 		<script type="text/javascript">
 		<!--
-		$(function(){
+		$(function(e){
 			phenix.url = {
 				domain: '{{ app_url_domain }}',
         		css: '{{ app_url_css}}',

@@ -1,33 +1,285 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}首页-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	*, *:after, *:before {
+		box-sizing:border-box;
+		-moz-box-sizing:border-box; /* Firefox */
+		-webkit-box-sizing:border-box; /* Safari */
+	}
+	.hero {
+	    color: #FFFFFF;
+	    overflow: hidden;
+	    position: relative;
+	}
+	.hero #frame {
+	    height: 100%;
+	    padding-bottom: 150px;
+	}
+	.hero .slidee {
+	    height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	.hero .slidee li {
+	    display: inline-block;
+	    height: 100%;
+	    min-width: 1024px;
+		float: left;
+	}
+	.hero .slidee li > div {
+	    height: 100%;
+	    min-width: 1024px;
+	}
+	.container {
+	    margin: 0 auto;
+	    max-width: 1920px;
+	}
+	.slide-1, .slide-2, .slide-3, .slide-4, .slide-5, .slide-6, .slide-7, .slide-8 {
+	    background-repeat: no-repeat;
+	    background-size: cover;
+	    height: 100%;
+	}
+	.hero-main {
+	    float: none;
+	    font-size: 0;
+	    height: 100%;
+	    padding-top: 90px;
+	}
+	.verticalize {
+	    display: inline-block;
+	    text-align: left;
+	    vertical-align: middle;
+	}
+	.hero-main .verticalize {
+	    padding-left: 100px;
+	    text-align: left;
+	}
+	.hero-main .verticalize > span {
+	    font-size: 24px;
+	}
+	.hero-main h1 {
+	    font-family: lovelo,sans-serif;
+	    font-size: 130px;
+	    margin-bottom: 32px;
+	    margin-left: -9px;
+	    margin-top: 32px;
+	    text-transform: uppercase;
+	}
+	.hero-main h1 {
+	    font-size: 100px;
+	}
+	.hero-main aside {
+	    display: none;
+	    font-size: 18px;
+	    font-weight: 400;
+	}
+	.verticalize-container:before {
+	    content: "";
+	    display: inline-block;
+	    height: 100%;
+	    margin-right: -0.25em;
+	    vertical-align: middle;
+	}
+	
+	.nav-categories {
+	    bottom: 0;
+	    color: #000000;
+	    font-size: 0;
+	    height: 200px;
+	    min-width: 1024px;
+	    padding: 52px 50px 0;
+	    position: absolute;
+	    text-align: justify;
+	    width: 100%;
+	}
+	.nav-categories {
+	    height: 150px;
+	    padding-top: 34px;
+	}
+	.nav-categories {
+	    background-color: #FFFFFF;
+	}
+	.nav-categories .category {
+	    display: inline-block;
+	    font-size: 10px;
+	    letter-spacing: 1.2px;
+	    position: relative;
+	    text-align: center;
+	    text-transform: uppercase;
+	    width: 96px;
+	}
+	.nav-categories .category a {
+	    color: #929292;
+	    display: block;
+	    outline: 0 none;
+	}
+	
+	.hero .next, .hero .prev {
+	    bottom: 220px;
+	    color: #FFFFFF;
+	    font-size: 58px;
+	    position: absolute;
+	}
+	.hero .next {
+	    right: 130px;
+	}
+	.hero .prev {
+	    right: 50px;
+	}
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#fetch-verify-code').click(function(){
-		var phone = $('#phone').val();
-		var invite_code = $('#invite_code').val();
-		if(phone && invite_code){
-			$(this).addClass('disabled').text('正在发送');
-			$this = $('#fetch-verify-code');
-			$.getJSON('/app/site/index/verify_code',{'phone': phone},function(result){
-				if(result.errorCode == 200){
-					$this.removeClass('disabled').text('获取验证码');
-				}
-			});
-		}else{
-			alert('请首先正确填写邀请码与手机号码！');
-		}
+	var a=e(window).height(),s=e(window).width();
+	e(".hero").height(a);
+	e(".hero .slidee li").width(s);
+	
+	var $frame = $('#frame');
+	var $wrap = $frame.parent();
+	
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'forceCentered',
+		itemSelector: '.hero .slidee li',
+		smart:1,
+		
+		activateMiddle:1,
+		activateOn:"click",
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 350000,
+		pauseOnHover:1,
+		
+		
+		prev:".hero .prev",
+		next:".hero .next",
+		
+		// Dragging
+		mouseDragging:1,
+		touchDragging:1,
+		elasticBounds:1,
+		releaseSwing:1,
+		
+		// Mixed options
+		startAt:0,
+		speed:1200,
+		easing:"easeOutExpo",
+		keyboardNavBy:"items"
+		
 	});
 	
+	$(window).resize(function(e) {
+		var e=$(window).width();
+		if (e > 1009){
+			$(".hero .slidee li").width(e);
+		}
+		
+		$frame.sly('reload');
+	});
+	  
+{% endblock %}
+
+{% block layout_header %}
+	{% include "block/header.html" %}
 {% endblock %}
 
 {% block content %}
+<article class="hero">
+	<section id="frame">
+		<ul class="slidee">
+			
+			<li class="business slide-1" style="background-image: url('{{ app_url_domain }}/images/feature/photography.jpg'); background-color: rgb(65, 178, 224);">
+				<div class="hero-main verticalize-container">
+                    <div class="verticalize">
+                        <span>We build premium WordPress themes for your</span>
+                        <h1>数码电子</h1>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
+                        <aside>Trusted by <span>51.196</span> Customers.</aside>
+                    </div>
+                </div>
+			</li>
+			
+			<li class="restaurant slide-2" style="background-image: url('{{ app_url_domain }}/images/feature/restaurant.jpg'); background-color: rgb(65, 178, 224);">
+				<div class="hero-main verticalize-container">
+                    <div class="verticalize">
+                        <span>We build premium WordPress themes for your</span>
+                        <h1>创意家居</h1>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
+                        <aside>Trusted by <span>51.196</span> Customers.</aside>
+                    </div>
+                </div>
+			</li>
+			
+			<li class="education slide-3" style="background-image: url('{{ app_url_domain }}/images/feature/education.jpg'); background-color: rgb(65, 178, 224);">
+				<div class="hero-main verticalize-container">
+                    <div class="verticalize">
+                        <span>We build premium WordPress themes for your</span>
+                        <h1>亲子教育</h1>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
+                        <aside>Trusted by <span>51.196</span> Customers.</aside>
+                    </div>
+                </div>
+			</li>
+			
+		</ul>
+	</section>
+	<a class="prev" href="#">
+		<i class="flat thinlinearrowright icon"></i>
+	</a>
+	<a class="next" href="#">
+		<i class="flat thinlinearrowleft icon"></i>
+	</a>
+	<ul class="nav-categories">
+        <div class="container">
+            <li class="category business">
+				<a href="http://www.themeskingdom.com/theme-category/business/">
+					<i class="icon-business"></i>Business
+				</a>
+			</li>
+            <li class="category education">
+				<a href="http://www.themeskingdom.com/theme-category/education/">
+					<i class="icon-education"></i>Education
+				</a>
+			</li>
+            <li class="category restaurant">
+				<a href="http://www.themeskingdom.com/theme-category/restaurant/">
+					<i class="icon-restaurant"></i>Restaurant
+				</a>
+			</li>
+            <li class="category photography">
+				<a href="http://www.themeskingdom.com/theme-category/photography/">
+					<i class="icon-photography"></i>Photography
+				</a>
+			</li>
+            <li class="category health">
+				<a href="http://www.themeskingdom.com/theme-category/health/">
+					<i class="icon-health"></i>Health
+				</a>
+			</li>
+        </div>
+    </ul>
+	
+</article>
+
 <div class="home">
 	<div class="ui responsive grid">
 		<div class="ui column">
-			首页
+			<h1>首页</h1>
+			
+			<h1>首页</h1>
+			
+			<h1>首页</h1>
+			
+			<h1>首页</h1>
+			
+			<h1>首页</h1>
 		</div>
 	</div>
 </div>
