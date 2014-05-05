@@ -102,7 +102,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$sku = (int)$this->stash['sku'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
-		if(empty($id)){
+		if(empty($sku)){
 			return $this->show_message_page('访问的创意不存在！', $redirect_url);
 		}
 		
