@@ -6,6 +6,9 @@ app.mongodb_rs: true
 app.mongodb_host: '192.168.8.3'
 app.keychains.private: 'xxxxOOOOxxxx'
 
+# 产品话题类别
+app.product.topic_category_id: 1
+
 app.url.action_base:    '{$app.domain.app}'
 
 app.url.upload_url: '{$app.domain.app}/uploader'

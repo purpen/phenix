@@ -1,5 +1,10 @@
 {%extends 'layout/sns.html'%}
 {% block title %}创新想法-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
@@ -25,15 +30,18 @@
 		
 		<div class="row">
 			<div class="eleven wide column">
-				<div class="ui segment attached">
-					
+				{% topic_list var:'list' page:page target_id:id %}
+				
+				<div class="ui segment">
+					{% if list.rows %}
 					<div class="ui divided topic-list list">
-						{% topic_list var:'list' page:page target_id:id %}
 						{% for topic in list.rows %}
 							{% include 'block/topic_item.html' %}
 						{% endfor %}
 					</div>
-					
+					{% else %}
+					<h3 class="ui header">还没新话题，现在发起？</h3>
+					{% endif %}
 					<a name="newtopic"></a>
 				</div>
 				
@@ -46,7 +54,7 @@
 				{% endif %}
 				
 				
-				<h3 class="ui header">发表新话题</h3>
+				<h3 class="ui header">发表话题</h3>
 				
 				<form class="ui reply form" action="{{ app_url_topic }}/ajax_save" method="post" id="topic-form">
 					<input type="hidden" name="_id" />
@@ -59,7 +67,10 @@
 					<div class="field">
 						<textarea name="description" class="topic-description"></textarea>
 					</div>
-					<input type="submit" class="ui small magenta button" value="确认" />
+					<div class="right aligned column">
+						<input type="submit" class="ui active small twopad magenta button" value="提交" />
+					</div>
+					
 				</form>
 				
 				
@@ -69,7 +80,7 @@
 				<h4 class="ui top attached header">
 					所属产品
 				</h4>
-				<div class="ui items">
+				<div class="ui fluid items">
 					{% include "block/product_item.html" %}
 				</div>
 				

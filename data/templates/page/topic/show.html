@@ -5,8 +5,20 @@
 	.ui.social.page {
 		margin-top: 2em;
 	}
+	.ui.marginnotop.header {
+		margin: 0 0 1rem;
+	}
+	.ui.content {
+		margin-top: 2em;
+		line-height: 1.5em;
+	}
+	.ui.content p.asset {
+		text-align: center;
+	}
 	.ui.content p.asset img {
-		width: 100%;
+		max-width: 700px;
+	    min-width: 320px;
+	    width: 100%;
 	}
 </style>
 {% endblock %}
@@ -35,14 +47,14 @@
 		<div class="row topic-view">
 			<div class="eleven wide column">
 				
-				<div class="ui segment top attached">
+				<div class="ui twopad segment top attached">
 					
 					<a class="dot-irecommend" href="#comment">
 						<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
 						<span class="dot-irecommend-suffix"></span>
 					</a>
 					
-					<h3 class="ui header">
+					<h3 class="ui marginnotop header">
 						{{ topic.title }}
 					</h3>
 

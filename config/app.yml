@@ -116,7 +116,7 @@ app.email.from:
   name: '系统邮件服务'
 
 # 产品话题类别
-app.product.topic_category_id: 1
+app.product.topic_category_id: 34
 
 # 关注最大数
 app.follow.max: 2000
@@ -144,7 +144,7 @@ app.asset.thumbnails:
 	small: 200x150
 	medium: 280x300
 	large: 380x285
-	big: 640x405
+	big: 700x
 	huge: 780x585
 	massive: 1024x768
 	
