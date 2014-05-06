@@ -9,17 +9,16 @@
 {% block jquery %}{% endblock %}
 
 {% block layout_header %}
-<header class="main ui responsive grid">
+<header class="main ui fixed responsive grid">
 	{% include "block/header.html" %}
 </header>
 {% endblock %}
 
 {% block layout_content %}
-<div id="bd">
-    {% block content %}{% endblock %}
-</div>
+	{% block content %}{% endblock %}
 {% endblock %}
 
 {% block layout_footer %}
 	{% include "block/footer.html" %}
 {% endblock %}
+

@@ -6,7 +6,7 @@
 class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
     protected $collection = "product";
-	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
 	
 	# 产品周期stage
     const STAGE_VOTE     = 1;
@@ -14,7 +14,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_SHOP     = 9;
 
     protected $schema = array(
-		'sku'     => null,
+		'_id'     => null,
 		# 产品名称
 	    'title'   => '',
 		# 简述
@@ -177,6 +177,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$this->expert_assess($row);
 	}
 	
+	// 添加自定义ID
+    protected function before_insert(&$data) {
+        $data['_id'] = $this->gen_product_sku();
+    }
+	
 	/**
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
@@ -184,10 +189,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
 	    }
+		
 		// 新建数据,补全默认值
 		if ($this->is_saved()){
-			$data['sku'] = $this->gen_product_sku($data['_id'], '1');
-			
 			// 添加随机数
 			$data['random'] = Sher_Core_Helper_Util::gen_random();
 		}
@@ -255,13 +259,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$stage = isset($row['stage']) ? $row['stage'] : 0;
 		switch($stage) {
 			case self::STAGE_VOTE:
-				$view_url = Sher_Core_Helper_Url::vote_view_url($row['sku']);
+				$view_url = Sher_Core_Helper_Url::vote_view_url($row['_id']);
 				break;
 			case self::STAGE_PRESALE:
-				$view_url = Sher_Core_Helper_Url::sale_view_url($row['sku']);
+				$view_url = Sher_Core_Helper_Url::sale_view_url($row['_id']);
 				break;
 			case self::STAGE_SHOP:
-				$view_url = Sher_Core_Helper_Url::shop_view_url($row['sku']);
+				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
 				break;
 			default:
 				$view_url = Doggy_Config::$vars['app.url.fever'];
@@ -336,18 +340,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 生成产品的SKU, SKU十位数字符
 	 */
-	protected function gen_product_sku($id, $prefix='1'){
+	protected function gen_product_sku($prefix='1'){
+		$name = Doggy_Config::$vars['app.serialno.name'];
 		
 		$sku  = $prefix;
+		$val = $this->next_seq_id($name);
 		
-		// $sku .= $this->rand_number_str(2);
-		$len = strlen((string)$id);
+		$len = strlen((string)$val);
 		if ($len <= 5) {
 			$sku .= date('md');
-			$sku .= sprintf("%05d", $id);
+			$sku .= sprintf("%05d", $val);
 		}else{
 			$sku .= substr(date('md'), 0, 9 - $len);
-			$sku .= $id; 
+			$sku .= $val; 
 		}
 		
 		Doggy_Log_Helper::debug("Gen to product [$sku]");

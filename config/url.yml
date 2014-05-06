@@ -30,12 +30,12 @@ app.url.tag: '/tag'
 #预售
 app.url.sale: '{$app.url.domain}/sale'
 app.url.sale.list: '{$app.url.sale}'
-app.url.sale.view: '{$app.url.sale}/view/%s'
+app.url.sale.view: '{$app.url.sale}/%s.html'
 
 #商店
 app.url.shop: '{$app.url.domain}/shop'
 app.url.shop.list: '{$app.url.shop}'
-app.url.shop.view: '{$app.url.shop}/view?sku=%s'
+app.url.shop.view: '{$app.url.shop}/%s.html'
 
 #社区
 app.url.social: '{$app.url.domain}/social'
@@ -47,8 +47,8 @@ app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
 #社区创意投票
 app.url.fever: '{$app.url.domain}/fever'
-app.url.fever.list: '{$app.url.domain}/fever/list-c%s-t%s-s%s-p%s.html'
-app.url.fever.view: '{$app.url.domain}/fever/view?sku=%s'
+app.url.fever.list: '{$app.url.fever}/list-c%s-t%s-s%s-p%s.html'
+app.url.fever.view: '{$app.url.fever}/%s.html'
 
 # 购物及支付
 app.url.shopping: '{$app.url.domain}/shopping'

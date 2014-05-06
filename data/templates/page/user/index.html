@@ -42,13 +42,14 @@
 						<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
 					</p>
 					<p class="summary">{{ user.summary }}</p>
+					{% if user._id != visitor.id %}
 					<a href="" class="ui small white button">
 						关注 
 					</a>
 					<a href="" class="ui small white button">
 						私信 
 					</a>
-					
+					{% endif %}
 				</div>
 			</div>
 		</div>

@@ -93,7 +93,7 @@
 			<div class="eleven wide column">
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-content-form">
 					<input type="hidden" name="step" value="2" />
-					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+					<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
 					
 					
 					<div class="field">
@@ -123,7 +123,7 @@
 					
 					<div class="ui grid">
 						<div class="left floated eight wide column">
-							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large labeled icon gray button">
+							<a href="{{ app_url_fever }}/submit?step=1&id={{ product.sku }}" class="ui large labeled icon gray button">
 								上一步<i class="flat play_back icon"></i>
 							</a>
 						</div>

@@ -68,10 +68,10 @@
 				</div>
 				<div class="ui bottom attached footer">
 					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_favorite?id={{ topic._id }}" id="favorite_{{ topic._id }}">
-						<i class="flat emptystar icon"></i> 收藏
+						<i class="flat star-empty icon"></i> 收藏
 					</a>
 					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
-						<i class="flat bigheart icon"></i> 赞
+						<i class="flat heart-empty icon"></i> 赞
 					</a>
 					
 					{%include 'block/share.html'%}
@@ -102,8 +102,8 @@
 						{% comment_list var:'comments' page:page target_id:topic._id %}
 						{% for comment in comments.rows %}
 						<div class="comment" id="{{ comment._id }}">
-							<a class="avatar">
-								<img src="/images/avatar_default.jpg" />
+							<a class="avatar" href="{{ comment.user.home_url }}">
+								<img src="{{ comment.user.small_avatar_url }}" />
 							</a>
 							<div class="content">
 								<a class="author">{{ comment.user.nickname }}</a>
@@ -141,7 +141,7 @@
 								{% for reply in comment.reply %}
 									<div class="comment">
 										<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-											<img src="/images/avatar_default.jpg" />
+											<img src="{{ reply.user.small_avatar_url }}" />
 										</a>
 										<div class="content">
 											<a class="author">{{ reply.user.nickname }}</a>

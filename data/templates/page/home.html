@@ -1,4 +1,4 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}首页-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -181,10 +181,6 @@
 		$frame.sly('reload');
 	});
 	  
-{% endblock %}
-
-{% block layout_header %}
-	{% include "block/header.html" %}
 {% endblock %}
 
 {% block content %}

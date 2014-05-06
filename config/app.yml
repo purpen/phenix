@@ -52,6 +52,8 @@ app.session.engine.options:
 app.session.sid: 'sher_sid'
 #auth cookie:
 app.session.auth_sid: 'sher_asid'
+# 序列编号表
+app.serialno.name: 'serialno'
 
 app.mongodb_host: 'mongodb://127.0.0.1'
 app.mongodb_rs: false

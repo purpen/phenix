@@ -101,7 +101,7 @@
 				<h3>提交创意</h3>
 				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-basic-form">
 					<input type="hidden" name="step" value="1" />
-					<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+					<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
 					<div class="field">
 						<label>标题</label>
 					  	<input type="text" name="title" value="{{ product.title }}" />
