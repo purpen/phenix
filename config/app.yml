@@ -116,7 +116,7 @@ app.email.from:
   name: '系统邮件服务'
 
 # 产品话题类别
-app.product.topic_category_id: 22
+app.product.topic_category_id: 1
 
 # 关注最大数
 app.follow.max: 2000
