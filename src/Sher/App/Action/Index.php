@@ -45,11 +45,30 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         return $this->to_html_page('page/home.html');
     }
 	
+	/**
+	 * 测试
+	 */
+	public function test(){
+		$config = array(
+		    'appkey' => '21781655',
+		    'secretKey' => '0b36c8be771fae402ba28bd59b75d589'
+		);
+		$topClient = new \TaobaoTopClient\TopClient($config);
+		print 'hi taobao';
+		$shopGetRequest = $topClient->getRequest('ShopGetRequest');
+		$shopGetRequest->setNick('视觉中国锐店');
+		$shopGetRequest->setFields('sid,cid,nick,title,desc,bulletin,created,shop_score,all_count ');
+		
+		$sessionKey = 'frbird';
+		$shopData = $topClient->execute($shopGetRequest, $sessionKey);
+		
+		print_r($shopData);
+	}
 	
 	/**
 	 * Icon List
 	 */
-	public function flat() {
+	public function flat() {		
 		return $this->to_html_page('page/flat.html');
 	}
 	
