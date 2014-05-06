@@ -6,6 +6,9 @@
 	position:relative;
 	display:inline-block;
 }
+.qq-upload-button {
+	height: 60px;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -25,7 +28,7 @@
 					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
 					'</div>',
 		validation: {
-	        allowedExtensions: ['jpeg', 'jpg'],
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
 	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
@@ -106,7 +109,7 @@
 			{% include "block/user/sub_menu.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">更新个人资料</h2>
+			<h2 class="ui header">设置个人资料</h2>
 			<div class="ui segment">
 				<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
 					<input name="_id" type="hidden" value="{{ user_id }}" />
@@ -135,7 +138,7 @@
 								</div>
 								
 								<div class="ui active magenta crop button hide">
-									确认头像
+									确认
 								</div>
 							</div>
 							

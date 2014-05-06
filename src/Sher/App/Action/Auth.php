@@ -27,9 +27,15 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * @return void
 	 */
 	public function login(){
-       $this->gen_login_token();
-		$this->set_target_css_state('login_box','item_active');
-		return $this->to_html_page('page/login.html');
+		// 已登录用户，跳过登录
+		if (!$this->visitor->id){
+	       	$this->gen_login_token();
+			$this->set_target_css_state('login_box','item_active');
+			return $this->to_html_page('page/login.html');
+		}
+		$next_url = Sher_Core_Helper_Url::user_home_url($this->visitor->id);
+		
+       	return $this->to_redirect($next_url);
 	}
 	
 	/**
@@ -53,7 +59,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	public function logout(){
         $service = DoggyX_Session_Service::instance();
         $service->revoke_auth_cookie();
+		
         $service->stop_visitor_session();
+		
 		return $this->display_note_page('您已成功的退出登录,稍候将跳转到主页.', Doggy_Config::$vars['app.url.index']);
 	}
 	

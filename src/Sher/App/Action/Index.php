@@ -35,6 +35,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	public function welcome(){
 		return $this->to_html_page('page/welcome.html');
 	}
+	
     /**
      * 首页
      * @return string
