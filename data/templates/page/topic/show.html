@@ -53,9 +53,7 @@
 					</div>
 					
 					<div class="ui content">
-						<p>
-							{{ topic.description }}
-						</p>
+						{{ topic.description }}
 						
 						{% asset_list var:'assets' parent_id:topic._id size:20 %}
 						{% for asset in assets.rows %}

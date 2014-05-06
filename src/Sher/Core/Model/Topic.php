@@ -122,6 +122,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	        $row['thumb_small_view_url'] = Doggy_Config::$vars['app.url.default_thumb_small'];
 	        $row['thumb_big_view_url'] = Doggy_Config::$vars['app.url.default_thumb_big'];
 		}
+		
+		$row['description'] = htmlspecialchars_decode($row['description']);
 	}
 	
     /**

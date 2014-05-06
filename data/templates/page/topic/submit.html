@@ -5,6 +5,14 @@
 {% block page_js %}
 {% endblock %}
 {% block jquery %}
+	$('#editor').editable({
+		inlineMode: false,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "undo", "redo"],
+		contentChangedCallback: function () {
+		    $("#editor").val($("#editor").editable("getHTML"));
+		}
+	});
+	
 	$('#topic-form').form({
 		title: {
 			identifier  : 'title',
@@ -16,6 +24,15 @@
 				{
 					type   : 'maxLength[30]',
 					prompt : '标题最多30个字符'
+				}
+			]
+		},
+		description: {
+			identifier  : 'description',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '详细内容不能为空'
 				}
 			]
 		}
@@ -128,7 +145,7 @@
 					<div class="field">
 						<label for="description">描述</label>
 						
-					  	<textarea name="description">{{ topic.description }}</textarea>
+					  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
 						<div class="description">请详细的描述</div>
 					</div>
 					
@@ -188,12 +205,7 @@
 			</div>
 			<div class="five wide column">
 				<h2>Q&A</h2>
-				<a href="" class="ui small circular magenta icon button">
-					<i class="flat picture icon"></i>
-				</a>
-				<a href="" class="ui small circular magenta icon button">
-					<i class="flat clapper icon"></i>
-				</a>
+				
 			</div>
 		</div>
 	</div>
