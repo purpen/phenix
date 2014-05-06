@@ -510,7 +510,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data = array();
 		$data['_id'] = $id;
-		$data['meta'] = $this->stash['meta'];
+		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -519,6 +519,8 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$data['asset'] = array();
 			$data['asset_count'] = 0;
 		}
+		
+		$data['video'] = $this->stash['video'];
 		
 		try{
 			Doggy_Log_Helper::debug("Start save  product[$id] 's upload files.");
@@ -579,11 +581,19 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	public function delete_asset(){
 		$id = $this->stash['id'];
 		$asset_id = $this->stash['asset_id'];
-		if (empty($id) || empty($asset_id)){
+		if (empty($asset_id)){
 			return $this->ajax_note('附件不存在！', true);
 		}
-		$model = new Sher_Core_Model_Product();
-		$model->delete_asset($id, $asset_id);
+		
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Product();
+			$model->delete_asset($id, $asset_id);
+		}else{
+			// 仅仅删除附件
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_file($id);
+		}
+		
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}

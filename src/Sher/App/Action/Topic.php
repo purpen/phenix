@@ -622,5 +622,20 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 	
+	
+	/**
+	 * 删除某个附件
+	 */
+	public function delete_asset(){
+		$id = $this->stash['id'];
+		$asset_id = $this->stash['asset_id'];
+		if (empty($id) || empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		$model = new Sher_Core_Model_Topic();
+		$model->delete_asset($id, $asset_id);
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
+	}
 }
 ?>

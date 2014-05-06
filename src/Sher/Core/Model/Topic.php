@@ -245,5 +245,20 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		return true;
 	}
 
+	/**
+	 * 删除某附件
+	 */
+	public function delete_asset($id, $asset_id){
+		// 从附件数组中删除
+		$criteria = $this->_build_query($id);
+		self::$_db->pull($this->collection, $criteria, 'asset', $asset_id);
+		
+		$this->dec_counter('asset_count', $id);
+		
+		// 删除Asset
+		$asset = new Sher_Core_Model_Asset();
+		$asset->delete_file($asset_id);
+		unset($asset);
+	}
 }
 ?>

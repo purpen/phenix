@@ -16,7 +16,7 @@
 					<div class="ui small images">
 						{% asset_list var:'assets' parent_id:product._id %}
 						{% for asset in assets.rows %}
-					  	<img class="ui image" src="{{ asset.thumbnails.mini.view_url }}" />
+					  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 						{% endfor %}
 					</div>
 				{% endif %}
