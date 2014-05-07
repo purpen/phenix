@@ -174,6 +174,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		// HTML 实体转换为字符
 		$row['content'] = htmlspecialchars_decode($row['content']);
 		
+		// 去除 html/php标签
+		$row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+		
 		$this->expert_assess($row);
 	}
 	

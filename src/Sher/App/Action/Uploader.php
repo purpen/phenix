@@ -165,10 +165,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		        if ($ok) {
 					// 生成缩图
 					$req_size = Doggy_Config::$vars['app.asset.thumbnails'];
-					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $req_size['small']);
+					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $req_size['tiny']);
 					$result['asset_id'] = (string)$asset->_id;
 					
-					$asset->update_thumbnails($result, 'small', $asset->_id);
+					$asset->update_thumbnails($result, 'tiny', $asset->_id);
 					
 					$new_assets[] = $result['asset_id'];
 				}
@@ -221,10 +221,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		        if ($ok) {
 					// 生成缩图
 					$thumbnails = Doggy_Config::$vars['app.asset.thumbnails'];
-					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $thumbnails['small']);
+					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $thumbnails['tiny']);
 					$result['asset_id'] = (string)$asset->_id;
 					
-					$asset->update_thumbnails($result, 'small', $asset->_id);
+					$asset->update_thumbnails($result, 'tiny', $asset->_id);
 					
 					$new_assets[] = $result['asset_id'];
 				}
@@ -249,6 +249,9 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
 		try{
 			$new_assets = array();
+			if (empty($this->asset)){
+				 return $this->ajax_json('请选择上传图片！', true);
+			}
 			for($i=0; $i<count($this->asset); $i++){
 				Doggy_Log_Helper::debug("Upload asset[$i] start.");
 			
@@ -266,25 +269,30 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
 		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::genPath($filename, Sher_Core_Util_Constant::STROAGE_PRODUCT);
-		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+				$image_info['filepath'] = Sher_Core_Util_Image::genPath($filename, Sher_Core_Util_Constant::STROAGE_ASSET);
+		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
 		        $image_info['parent_id'] = (int)$this->stash['parent_id'];
 				
 				$image_info['user_id'] = $this->visitor->id;
 				
 				$ok = $asset->apply_and_save($image_info);
-			
+				
 				Doggy_Log_Helper::debug("Create asset[$i] ok.");
 			
 		        if ($ok) {
 					// 生成缩图
+					$domain = Sher_Core_Util_Constant::STROAGE_ASSET;
+					
 					$req_size = Doggy_Config::$vars['app.asset.thumbnails'];
-					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $req_size['big']);
+					$result = Sher_Core_Util_Image::maker_thumb($image_info['filepath'], $req_size['huge'], $domain, 2);
 					$result['asset_id'] = (string)$asset->_id;
 					
-					$asset->update_thumbnails($result, 'big', $asset->_id);
+					$asset->update_thumbnails($result, 'huge', $asset->_id);
 					
 					$new_assets['link'] = Sher_Core_Helper_Url::asset_view_url($result['filepath']);
+					
+					// 单独生成tiny 
+					// Sher_Core_Jobs_Queue::maker_thumb((string)$asset->_id, 'tiny');
 				}
 			}
 		} catch (Sher_Core_Model_Exception $e) {

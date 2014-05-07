@@ -139,13 +139,13 @@ app.storage.sher:
 
 # 图片缩络图
 app.asset.thumbnails:
-	mini: 100x100
+	mini: 160x160
 	tiny: 160x120
-	small: 200x150
-	medium: 280x300
-	large: 380x285
-	big: 700x
-	huge: 780x585
+	small: 320x240
+	medium: 280x200
+	large: 580x400
+	big: 580x580
+	huge: 700x
 	massive: 1024x768
 	
 app.asset.avatars:

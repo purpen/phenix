@@ -20,8 +20,8 @@ class Sher_Core_Util_Image {
 		// 所需尺寸
 		if (!is_array($sizes)){
 			$size_t = preg_split('/[,，x]+/u', $sizes);
-			$width  = $size_t[0];
-			$height = $size_t[1];
+			$width  = !empty($size_t[0]) ? $size_t[0] : 0;
+			$height = !empty($size_t[1]) ? $size_t[1] : 0;
 		}else{
 			$width  = $sizes['width'];
 			$height = $sizes['height'];
@@ -110,7 +110,52 @@ class Sher_Core_Util_Image {
 	 * 等比例缩小图片
 	 */
 	public static function maker_resize($path, $width, $height, $domain){
+		try{
+			$local_path = Sher_Core_Util_Asset::getAssetPath(Sher_Core_Util_Constant::ASSET_DOAMIN, $path);
+			
+			Doggy_Log_Helper::debug("get [$local_path] info ...");
+			$gmagick = new Gmagick($local_path);
+			
+			$result = array();
+			// 等宽比例缩小
+			$ori_width  = $gmagick->getimagewidth();
+			$ori_height = $gmagick->getimageheight();
+			
+			// 等宽缩小
+			if ($height == 0) {
+				$height = $width*$ori_height/$ori_width;
+			}
+			
+			// 等高缩小
+			if ($width == 0){
+				$width = $height*$ori_width/$ori_height;
+			}
+			
+			Doggy_Log_Helper::debug("maker_resize -- scale[${width}x${height}] ...");
+			
+			// 第一步：等比例缩小
+			$gmagick->setCompressionQuality(90);
+			$gmagick->scaleimage($width, $height);
+			
+			// 第二步：生成新图片
+			$bytes = $gmagick->getImageBlob();
+			
+			$result['width']    = $width;
+			$result['height']   = $height;
+			$result['filepath'] = self::genPath($path, $domain);
+			
+			Doggy_Log_Helper::debug("maker_resize -- store ...");
+			
+			Sher_Core_Util_Asset::storeData(Sher_Core_Util_Constant::ASSET_DOAMIN, $result['filepath'], $bytes);
+			
+			$gmagick->destroy();
+			
+		}catch(Exception $e){
+			Doggy_Log_Helper::warn("处理图片失败：".$e->getMessage());
+			throw new Sher_Core_Util_Exception("处理图片失败：".$e->getMessage());
+		}
 		
+		return $result;
 	}
 	
 	/**

@@ -88,7 +88,9 @@
 								          	<h3 class="link header">
 												[置顶] <a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui link">{{ dig.title }}</a>
 											</h3>
-							
+											<div class="description">
+												{{ dig.strip_description|truncate 70 }}
+											</div>
 											{% if dig.asset_count %}
 												<!--展示图片-->
 												<div class="ui small images">

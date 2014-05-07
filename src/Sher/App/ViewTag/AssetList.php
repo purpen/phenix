@@ -19,6 +19,7 @@ class Sher_App_ViewTag_AssetList extends Doggy_Dt_Tag {
         $size = 10;
 		
         $parent_id = 0;
+		$asset_type = 0;
 		$sort = 'latest';
 		
         $var = 'list';
@@ -37,6 +38,9 @@ class Sher_App_ViewTag_AssetList extends Doggy_Dt_Tag {
 		
 		if($parent_id){
 			$query['parent_id'] = $parent_id;
+		}
+		if($asset_type){
+			$query['asset_type'] = (int)$asset_type;
 		}
 		
         $service = Sher_Core_Service_Asset::instance();

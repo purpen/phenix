@@ -13,6 +13,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 照片
     const TYPE_PHOTO = 1;
+	# 普通附件，编辑器图片
+	const TYPE_ASSET = 2;
 	
     # 用户头像
     const TYPE_AVATAR = 4;
@@ -63,7 +65,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     protected $required_fields = array('filepath');
 	
-    protected $int_fields = array('parent_id', 'size','width','height','state');
+    protected $int_fields = array('parent_id', 'size','width','height','asset_type','state');
 	
     protected function extra_extend_model_row(&$row) {
 		$this->extend_asset_view_url($row);
@@ -143,8 +145,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 			}
 			
 			// 生成其他缩略图放入任务队列
-			
-			Sher_Core_Jobs_Queue::maker_thumb((string)$this->data['_id']);
+			$args = array(
+				'asset_type' => $this->asset_type
+			);
+			Sher_Core_Jobs_Queue::maker_thumb((string)$this->data['_id'], $args);
 		}
     }
 	

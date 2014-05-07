@@ -22,6 +22,7 @@ class Sher_Core_Jobs_Image extends Doggy_Object {
 		$asset_id = $this->args['asset_id'];
 		$type = $this->args['type'];
 		$sizes = $this->args['sizes'];
+		$mode  = $this->args['mode'];
 		
 		Doggy_Log_Helper::debug("Maker [$asset_id] image thumb Jobs failed.");
 		
@@ -33,7 +34,23 @@ class Sher_Core_Jobs_Image extends Doggy_Object {
 			return false;
 		}
 		
-		$result = Sher_Core_Util_Image::maker_thumb($asset['filepath'], $sizes);
+		$asset_type = $asset['asset_type'];
+		switch($asset_type){
+			case Sher_Core_Model_Asset::TYPE_PRODUCT:
+				$domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+				break;
+			case Sher_Core_Model_Asset::TYPE_AVATAR:
+				$domain = Sher_Core_Util_Constant::STROAGE_AVATAR;
+				break;
+			case Sher_Core_Model_Asset::TYPE_TOPIC:
+				$domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
+				break;
+			default:
+				$domain = Sher_Core_Util_Constant::STROAGE_ASSET;
+				break;
+		}
+		
+		$result = Sher_Core_Util_Image::maker_thumb($asset['filepath'], $sizes, $domain, $mode);
 		if (empty($result)){
 			Doggy_Log_Helper::warn("Maker image thumb Jobs failed: crop image result is null.");
 			return false;

@@ -10,7 +10,9 @@
 	          	<h3 class="link header">
 					<a href="{{ product.subject_view_url }}" title="{{ product.title }}" class="ui link">{{ product.title }}</a>
 				</h3>
-
+				<div class="description">
+					{{ product.strip_summary|truncate 70 }}
+				</div>
 				{% if product.asset_count %}
 					<!--展示图片-->
 					<div class="ui small images">

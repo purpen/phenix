@@ -13,7 +13,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_PRODUCT = 'product';
 	const STROAGE_AVATAR  = 'avatar';
 	const STROAGE_TOPIC   = 'topic';
-	
+	const STROAGE_ASSET   = 'asset';
 	
 	
 	/**
