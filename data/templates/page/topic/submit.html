@@ -190,9 +190,16 @@
 						</div>
 					</div>
 					
+					
 					<div class="field">
 						<label for="video_url">视频链接</label>
-					  	<input type="text" name="video_url" value="{{ topic.video_url }}" />
+						{% if topic.video_url %}
+							{% for video in topic.video_url %}
+						  	<input type="text" name="video_url[]" placeholder="http://" value="{{ video }}" />
+							{% endfor %}
+						{% else %}
+							<input type="text" name="video_url[]" placeholder="http://" />
+						{% endif %}
 						<div class="description">支持优酷、土豆等视频链接</div>
 					</div>
 					
