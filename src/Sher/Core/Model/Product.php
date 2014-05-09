@@ -15,6 +15,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
     protected $schema = array(
 		'_id'     => null,
+		# taobao sku
+		'taobao_iid' => null,
 		# 产品名称
 	    'title'   => '',
 		# 简述

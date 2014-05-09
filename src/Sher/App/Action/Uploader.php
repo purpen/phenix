@@ -55,7 +55,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		);
 		
         //create new one
-		$asset->setFile($file);
+		$asset->set_file($file);
 		
         $image_type = Doggy_Util_File::mime_content_type($file_name);
 		$image_info['size'] = $size;
@@ -147,7 +147,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				# 保存附件
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
-				$asset->setFile($file);
+				$asset->set_file($file);
 				
 				$image_info = Sher_Core_Util_Image::image_info($file);
 				
@@ -205,7 +205,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				# 保存附件
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
-				$asset->setFile($file);
+				$asset->set_file($file);
 				
 				$image_info = Sher_Core_Util_Image::image_info($file);
 				$image_info['size'] = $size;
@@ -262,7 +262,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				# 保存附件
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
-				$asset->setFile($file);
+				$asset->set_file($file);
 				
 				$image_info = Sher_Core_Util_Image::image_info($file);
 				

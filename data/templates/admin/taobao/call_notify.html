@@ -1,0 +1,39 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui magenta selection dropdown">
+		  	全部列表 <i class="flat arrowbottom icon"></i>
+		  	<div class="menu">
+				<a href="{{ app_url_admin_base }}/taobao" class="{% if stage == 0 %}active {% endif %} item">
+					全部列表
+				</a>
+		  	</div>
+		</div>
+		
+	</div>
+	
+	<div class="ui segment">
+		{% if top_session %}
+		<div class="ui success message">
+			{{ msg }} 
+		</div>
+		
+		<div class="ui header">
+			当前Session: {{ top_session }}
+		</div>
+		{% else %}
+		<div class="ui error message">
+			{{ msg }} 
+		</div>
+		
+		<a href="{{ app_url_admin }}/taobao/get_session_key" class="ui green button">
+			重试获取
+		</a>
+		{% endif %}
+		
+    </div>
+{% endblock %}

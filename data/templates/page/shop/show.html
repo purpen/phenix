@@ -104,7 +104,7 @@
 				<div class="attributes">
 					<p class="item">
 						<label><span class="letter-spacing-two">价</span>格：</label>
-						<label class="price">{{ product.market_price }}</label> 元
+						<label class="price">{{ product.sale_price }}</label> 元
 					</p>
 					<p class="item">
 						<label>产品评价：</label>
@@ -115,7 +115,7 @@
 				<div class="ui clearing divider"></div>
 				
 				<div class="buy">
-					<a href="{{ app_url_cart_buy }}?sku={{ product.sku }}" class="ui active cart magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_cart_buy }}?sku={{ product._id }}" class="ui active cart magenta btn-4 btn-4c icon-arrow-right btn">
 						<i class="flat shoppingin icon"></i> 加入购物车
 					</a>
 				

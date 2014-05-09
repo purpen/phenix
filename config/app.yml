@@ -116,6 +116,7 @@ app.email.from:
   name: '系统邮件服务'
 
 # 产品话题类别
+app.system.user_id: 1
 app.product.topic_category_id: 34
 
 # 关注最大数

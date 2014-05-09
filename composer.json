@@ -14,6 +14,6 @@
     "require": {
         "chrisboulton/php-resque": "1.2.x",
 		"elvis-bi/taobao-top-client": "*",
-		"qiniu/php-sdk": "6.1.x"
+		"purpen/qiniu": "1.0.2"
     }
 }

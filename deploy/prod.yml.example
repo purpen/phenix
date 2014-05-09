@@ -2,9 +2,13 @@
 app.db.default: 'mysql://root:@localhost/test?charset=utf8'
 #if in production mode,uncomment and change it to 'prod'
 #app.mode: 'dev'
+
 app.mongodb_rs: true
 app.mongodb_host: '192.168.8.3'
 app.keychains.private: 'xxxxOOOOxxxx'
+
+# redisdb
+app.redis_host: 'localhost:6379'
 
 # 产品话题类别
 app.product.topic_category_id: 1
@@ -33,3 +37,9 @@ app.storage.sher:
 app.alipay.partner: '2088702162489557'
 app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
 app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'
+
+# 淘宝
+app.taobao.key: '21781655'
+app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
+
+

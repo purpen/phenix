@@ -1,0 +1,23 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui magenta selection dropdown">
+		  	全部列表 <i class="flat arrowbottom icon"></i>
+		  	<div class="menu">
+				<a href="{{ app_url_admin_base }}/taobao" class="{% if stage == 0 %}active {% endif %} item">
+					全部列表
+				</a>
+		  	</div>
+		</div>
+		
+	</div>
+	
+	<div class="ui segment">
+		<a href="" class="ui button">开始同步</a>
+    </div>	
+	
+{% endblock %}

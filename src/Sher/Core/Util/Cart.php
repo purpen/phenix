@@ -168,7 +168,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         
         if($com_has_exist != 1){
             $product = new Sher_Core_Model_Product();
-            $row = $product->find_by_sku($com_sku);
+            $row = $product->extend_load((int)$com_sku);
             if(!empty($row)){
 				$count = 1;
             	$true_price = $row['sale_price'];

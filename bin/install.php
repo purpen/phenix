@@ -19,6 +19,31 @@ require $cfg_doggy_bootstrap;
 
 set_time_limit(0);
 
+// 创建系统账户
+function create_system_user(){
+	echo "Create system user ...\n";
+	try{
+		$user = new Sher_Core_Model_User();
+		$data = array(
+			'account'  => 'admin@taihuoniao.com',
+			'password' => sha1('thn2014'),
+			'nickname' => '太火鸟',
+		
+			'state' => Sher_Core_Model_User::STATE_OK,
+			'role_id'  => Sher_Core_Model_User::ROLE_ADMIN,
+		);
+		
+		$ok = $user->create($data);
+		
+		if ($ok){
+			echo "Create system user is ok!\n";
+		}
+		
+	}catch(Sher_Core_Model_Exception $e){
+		echo "Create system user failed: ".$e->getMessage();
+	}
+}
+
 // 创建初始账号
 function create_init_user(){
 	echo "Create the user ...\n";
@@ -47,6 +72,8 @@ function create_init_user(){
 	
 	return $new_data['_id'];
 }
+
+
 
 // 添加邀请码
 function add_invitation($user_id){
@@ -91,6 +118,8 @@ function create_category(){
 }
 
 echo "Install ... \n";
+
+create_system_user();
 
 $user_id = create_init_user();
 

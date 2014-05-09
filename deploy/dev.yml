@@ -18,6 +18,9 @@ app.css.use_bundle: 0
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
         
+# redisdb
+app.redis_host: 'localhost:6379'
+
 app.cache.memcached.default:
   servers:
     - 
@@ -29,3 +32,9 @@ app.cache.memcached.default:
 app.alipay.partner: '2088702162489557'
 app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
 app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'
+
+
+# 淘宝
+app.taobao.key: '21781655'
+app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
+

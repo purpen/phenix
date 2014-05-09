@@ -66,14 +66,14 @@
 					  	<label></label>
 					</div>
 					<div class="ui image">
-						<img src="{{ product.cover.thumbnails.mini.view_url }}" />
+						<img src="{{ product.cover.thumbnails.tiny.view_url }}" />
 					</div>
 				</td>
 				<td>
 		          	<div class="header">
 						<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
 					</div>
-		          	<p class="attribute">编号：{{ product.sku }}</p>
+		          	<p class="attribute">编号：{{ product._id }}</p>
 				</td>
 				<td>
 					<label class="ui green label">{{ product.stage_label }}</label>

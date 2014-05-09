@@ -8,6 +8,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	public $stash = array(
 		'id'=>'',
 		'sku'=>'',
+		'type' => 0,
+		'category_id' => 0,
+		'sort' => 0,
 		'topic_id'=>'',
 		'page'=>1,
 	);
@@ -33,6 +36,15 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 商店列表
 	 */
 	public function get_list() {
+		$category_id = (int)$this->stash['category_id'];
+		$type = (int)$this->stash['type'];
+		$sort = (int)$this->stash['sort'];
+		$page = (int)$this->stash['page'];
+		
+		$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id,$type,$sort,'#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
 		return $this->to_html_page('page/shop/index.html');
 	}
 	
@@ -40,10 +52,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 查看产品详情
 	 */
 	public function view() {
-		$sku = (int)$this->stash['sku'];
+		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
-		if(empty($sku)){
+		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
 		
@@ -52,13 +64,11 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = $model->find_by_sku($sku);
+		$product = $model->extend_load((int)$id);
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
 		}
-		
-		$id = $product['_id'];
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);

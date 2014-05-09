@@ -6,6 +6,9 @@
 class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     protected $collection = "asset";
+	
+	private $file = null;
+	private $file_content = null;
 
     const STATE_FAIL = 0;		//处理失败
     const STATE_PENDING = 1;
@@ -129,16 +132,32 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 
+	 */
+    protected function before_save(&$data) {
+		
+    }
+	
+	/**
 	 * 生成记录后，写文件进磁盘
 	 */
 	protected function after_save() {
-		$file = $this->getFile();
+		$file = $this->file();
+		$file_content = $this->file_content();
 	    $path = $this->filepath;
 		
 		Doggy_Log_Helper::debug("Path: $path, File: $file.");
-		if(!is_null($file) && !is_null($path)){
+		
+		if(!is_null($path)){
 			try{
-				Sher_Core_Util_Asset::storeAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file);
+				if (!is_null($file)) {
+					Sher_Core_Util_Asset::storeAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file);
+				}
+				
+				if (!is_null($file_content)) {
+					Sher_Core_Util_Asset::storeData(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file_content);
+				}
+				
 			}catch(Sher_Core_Util_Exception $e){
 				Doggy_Log_Helper::error('Save asset file failed. ' . $e->getMessage());
 				throw new Cms_Core_Model_Exception('Save asset file failed. ' . $e->getMessage());
@@ -148,6 +167,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 			$args = array(
 				'asset_type' => $this->asset_type
 			);
+			
 			Sher_Core_Jobs_Queue::maker_thumb((string)$this->data['_id'], $args);
 		}
     }
@@ -185,12 +205,23 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	/**
 	 * 存储临时文件路径
 	 */
-	public function setFile($file){
+	public function set_file($file){
 		$this->file = $file;
 	}
 	
-	public function getFile(){
+	public function file(){
 		return $this->file;
+	}
+	
+	/**
+	 * 存储临时文件内容
+	 */
+	public function set_file_content($c){
+		$this->file_content = $c;
+	}
+	
+	public function file_content(){
+		return $this->file_content;
 	}
 	
 	

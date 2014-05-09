@@ -50,20 +50,17 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 测试
 	 */
 	public function test(){
-		$config = array(
-		    'appkey' => '21781655',
-		    'secretKey' => '0b36c8be771fae402ba28bd59b75d589'
-		);
-		$topClient = new \TaobaoTopClient\TopClient($config);
-		print 'hi taobao';
-		$shopGetRequest = $topClient->getRequest('ShopGetRequest');
-		$shopGetRequest->setNick('视觉中国锐店');
-		$shopGetRequest->setFields('sid,cid,nick,title,desc,bulletin,created,shop_score,all_count ');
+		$pic_url = 'http://img02.taobaocdn.com/bao/uploaded/i2/T1jUulFvhdXXXXXXXX_!!0-item_pic.jpg';
 		
-		$sessionKey = 'frbird';
-		$shopData = $topClient->execute($shopGetRequest, $sessionKey);
-		
-		print_r($shopData);
+		Sher_Core_Jobs_Queue::fetcher_image($pic_url, array('target_id'=>1050800016));
+	}
+	
+	/**
+	 * 测试
+	 */
+	public function test_get(){
+		$redis = new Sher_Core_Cache_Redis();		
+		echo $redis->get('test');
 	}
 	
 	/**

@@ -6,6 +6,20 @@
 class Sher_Core_Jobs_Queue extends Doggy_Object {
 	
 	/**
+	 * 根据图片Url抓取图片
+	 */
+	public static function fetcher_image($img_url, $args=array()){
+		if (!empty($img_url) && isset($args['target_id'])){
+			
+			Resque::setBackend(Doggy_Config::$vars['app.redis_host']);
+			
+			$args['img_url'] = $img_url;
+			
+			Resque::enqueue('fetcher_image', 'Sher_Core_Jobs_Fetcher', $args);
+		}
+	}
+	
+	/**
 	 * 生成缩略图任务
 	 */
 	public static function maker_thumb($asset_id, $args=array()){

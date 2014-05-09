@@ -42,10 +42,10 @@
 		{% if product.stage == 9 %}
 		<div class="sell clearfix">
 			<span class="price">
-				￥{{ product.market_price }}
+				￥{{ product.sale_price }}
 			</span>
 			
-			<a href="{{ app_url_shopping }}/buy?sku={{ product.sku }}" class="ui small active magenta cart button">
+			<a href="{{ app_url_shopping }}/buy?sku={{ product._id }}" class="ui small active magenta cart button">
 				<i class="flat shoppingin icon"></i>加入购物车
 			</a>
 		</div>
