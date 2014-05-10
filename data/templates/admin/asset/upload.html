@@ -34,7 +34,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			//$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
 		}
 	});
 	

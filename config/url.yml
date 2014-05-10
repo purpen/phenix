@@ -63,6 +63,8 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 
 #七牛
 app.url.qiniu.upload: 'http://up.qiniu.com'
+app.url.qiniu.frbird: 'http://frbird.qiniudn.com'
+app.url.qiniu.frstatic: 'http://frstatic.qiniudn.com'
 app.url.qiniu.callback: '{$app.url.action_base}/asset'
 
 #个人中心
