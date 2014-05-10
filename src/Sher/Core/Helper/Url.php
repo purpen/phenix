@@ -3,7 +3,15 @@
  * 构造访问地址
  */
 class Sher_Core_Helper_Url {
-
+	
+	/**
+	 * 云存储 附件URL
+	 */
+	public static function asset_qiniu_view_url($key){
+		$asset_url = Doggy_Config::$vars['app.url.qiniu.frbird'].'/'.$key;
+		return $asset_url;
+	}
+	
 	/**
 	 * 附件的URL
 	 */

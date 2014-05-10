@@ -31,8 +31,23 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 		$asset_info = $this->stash;
 		
 		$ok = $asset->apply_and_save($asset_info);
+        if ($ok) {
+            $asset_id = $asset->id;
+            
+			$result['id'] = $asset_id;
+            $result['code'] = 200;
+			$result['success'] = true;
+			
+			$result['file_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath);
+			$result['width'] = $asset_info['width'];
+			$result['height'] = $asset_info['height'];
+        } else {
+            $result['code'] = 500;
+			$result['success'] = false;
+            $result['message'] = 'Unknown error';
+        }
 		
-		return $this->to_json(200);
+        return $this->to_raw_json($result);
 	}
 	
 	
