@@ -11,7 +11,8 @@ event.preventDefault();
 #Q:resque任务处理。
 
 
-
+# 同步静态文件
+qrsync -skipsym ~/qiniu/conf.json
 
 
 

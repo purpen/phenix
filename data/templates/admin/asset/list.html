@@ -1,0 +1,116 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block jquery %}
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {},
+        	endpoint: '{{ app_url_upload_pictures }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			//$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+	<div class="ui tool-box">
+		<a href="{{ app_url_admin_base }}/asset" class="ui magenta button">
+			<i class="flat bullet2 icon"></i> 全部列表
+		</a>
+		<a href="{{ app_url_admin_base }}/asset/delete" class="ui magenta button">
+			<i class="flat cross icon"></i> 删除
+		</a>
+	
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="flat search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+			
+	<div class="ui divider"></div>
+	
+	<div class="field">
+		<h3>上传图片</h3>
+		<div id="phenix-uploader"></div>
+		
+		<div id="asset-list">
+			
+		</div>
+	</div>
+	
+	{% asset_list var:'list' page:page %}
+	<table class="ui large table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>文件名</th>
+				<th>最后更新时间</th>
+				<th>文件大小</th>
+				<th>所属目标</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for asset in list.rows %}
+			<tr id="{{ asset._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ asset._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ asset.filename|truncate 20 }}</td>
+				<td>{{ asset.created_on|date 'Y-m-d H:i:s' }}</td>
+				<td>
+					{{ asset.size }}
+				</td>
+				<td>
+					
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}

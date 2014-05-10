@@ -16,7 +16,7 @@ class Sher_App_ViewTag_AssetList extends Doggy_Dt_Tag {
      */
     public function render($context, $stream) {
         $page = 1;
-        $size = 10;
+        $size = 20;
 		
         $parent_id = 0;
 		$asset_type = 0;

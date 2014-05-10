@@ -39,11 +39,6 @@ class Sher_Core_Jobs_Queue extends Doggy_Object {
 		foreach($thumbnails as $key => $value){
 			$args['mode'] = 1;
 			
-			if ($key == 'tiny') {
-				// 上传时已预先生成，跳过；
-				continue;
-			}
-			
 			if ($key == 'huge'){
 				if ($asset_type == Sher_Core_Model_Asset::TYPE_ASSET){
 					// 上传时已预先生成，跳过；

@@ -23,6 +23,11 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
      */
     public function user_list() {
     	$this->set_target_css_state('page_user');
+		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/user?page=#p#';
+		
+		$this->stash['pager_url'] = $pager_url;
+		
         return $this->to_html_page('admin/user_list.html');
     }
 	

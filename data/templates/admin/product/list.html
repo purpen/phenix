@@ -57,7 +57,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% product_list var:'list' page:page category_id:category_id stage:stage only_approved:approved  %}
+			{% product_list var:'list' page:page category_id:category_id stage:stage only_approved:approved size:20  %}
 			{% for product in list.rows %}
 			<tr>
 				<td>
@@ -66,12 +66,14 @@
 					  	<label></label>
 					</div>
 					<div class="ui image">
-						<img src="{{ product.cover.thumbnails.tiny.view_url }}" />
+						<img src="{{ product.cover.thumbnails.mini.view_url }}" width="100" />
 					</div>
 				</td>
 				<td>
 		          	<div class="header">
-						<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+						<a href="{{ product.view_url }}" class="ui link" title="{{ product.title }}">
+							{{ product.title|truncate 16 '' }}
+						</a>
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
 				</td>
@@ -113,4 +115,11 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
 {% endblock %}

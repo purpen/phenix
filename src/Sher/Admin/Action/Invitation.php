@@ -31,6 +31,10 @@ class Sher_Admin_Action_Invitation extends Sher_Admin_Action_Base implements Dog
         
         $this->stash['invites'] = $invites;
 		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/invitation?page=#p#';
+		
+		$this->stash['pager_url'] = $pager_url;
+		
 		return $this->to_html_page('admin/invitation/list.html');
 	}
 	

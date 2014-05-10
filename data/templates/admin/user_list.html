@@ -6,9 +6,9 @@
 {% block content %}
 	<div class="ui tool-box">
 		<div class="ui basic buttons">
-			<a href="" class="ui button">全部</a>
-			<a href="" class="ui button">已激活</a>
-			<a href="" class="ui button">未激活</a>
+			<a href="{{ app.url.admin }}/user" class="ui button">全部</a>
+			<a href="{{ app.url.admin }}/user?only_ok=1" class="ui button">已激活</a>
+			<a href="{{ app.url.admin }}/user?only_pending=1" class="ui button">未激活</a>
 		</div>
 	
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/user">
@@ -22,25 +22,54 @@
 	</div>
 	
 	<div class="ui divider"></div>
-	
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending page:page %}
 	<table class="ui large table segment">
 		<thead>
 			<tr>
 				<th></th>
 				<th>头像</th>
 				<th>用户名</th>
-				<th>状 态</th>
+				<th>注册时间</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
+			{% for user in list.rows %}
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ user._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<a href="{{ user.home_url }}" target="_blank">
+						<img src="{{ user.mini_avatar_url }}" >
+					</a>
+				</td>
+				<td>
+					{{ user.nickname }}
+					<p>{{ user.account }}</p>
+				</td>
+				<td>
+					{{ user.created_on|date 'y-m-d H:i'}}
+				</td>
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="" class="ui link item">激活</a>
+						<a href="" class="ui link item">禁用</a>
+					</div>
+				</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
 {% endblock %}

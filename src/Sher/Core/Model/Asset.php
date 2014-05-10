@@ -68,7 +68,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     protected $required_fields = array('filepath');
 	
-    protected $int_fields = array('parent_id', 'size','width','height','asset_type','state');
+    protected $int_fields = array('user_id', 'parent_id','size','width','height','asset_type','state');
 	
     protected function extra_extend_model_row(&$row) {
 		$this->extend_asset_view_url($row);
@@ -144,6 +144,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	protected function after_save() {
 		$file = $this->file();
 		$file_content = $this->file_content();
+		
 	    $path = $this->filepath;
 		
 		Doggy_Log_Helper::debug("Path: $path, File: $file.");
@@ -160,7 +161,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 				
 			}catch(Sher_Core_Util_Exception $e){
 				Doggy_Log_Helper::error('Save asset file failed. ' . $e->getMessage());
-				throw new Cms_Core_Model_Exception('Save asset file failed. ' . $e->getMessage());
+				throw new Sher_Core_Model_Exception('Save asset file failed. ' . $e->getMessage());
 			}
 			
 			// 生成其他缩略图放入任务队列
@@ -168,7 +169,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 				'asset_type' => $this->asset_type
 			);
 			
-			Sher_Core_Jobs_Queue::maker_thumb((string)$this->data['_id'], $args);
+			// Sher_Core_Jobs_Queue::maker_thumb((string)$this->data['_id'], $args);
 		}
     }
 	

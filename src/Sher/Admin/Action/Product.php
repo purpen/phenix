@@ -23,6 +23,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     public function get_list() {
     	$this->set_target_css_state('page_product');
 		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product?page=#p#';
+		
+		$this->stash['pager_url'] = $pager_url;
+		
         return $this->to_html_page('admin/product/list.html');
     }
 	

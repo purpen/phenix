@@ -9,6 +9,37 @@ class Sher_Core_Util_Image {
     const THUMB_RESIZE = 2 ;
     const THUMB_CROP = 3;
     
+	
+	/**
+	 * Qiniu upload token
+	 */
+	public static function qiniu_token() {
+		$key = Doggy_Config::$vars['app.qiniu.key'];
+		$secret = Doggy_Config::$vars['app.qiniu.secret'];
+		
+		$year = date('y');
+		
+        $policy = array(
+                'scope'        => Doggy_Config::$vars['app.qiniu.bucket'],
+                'deadline'     => time() + 3600,
+				'saveKey'      => '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)',
+                'callbackUrl'  => Doggy_Config::$vars['app.url.qiniu.callback'],
+				'callbackBody' => 'filepath=$(key)&filename=$(fname)&size=$(fsize)&width=$(imageInfo.width)&height=$(imageInfo.height)&mime=$(mimeType)&hash=$(etag)&user_id=$(x:user_id)&parent_id=$(x:parent_id)&asset_type=$(x:asset_type)',
+                'returnUrl'    => null,
+                'returnBody'   => null,
+                'asyncOps'     => null,
+                'endUser'      => null
+        );
+
+        foreach ($policy as $k => $v) {
+            if ($v === null) unset($policy[$k]);
+        }
+		$mac = new \Qiniu\Mac($key, $secret);
+        $token = $mac->signWithData(json_encode($policy));
+		
+		return $token;
+	}
+	
 	/**
 	 * 生成缩图片
 	 */

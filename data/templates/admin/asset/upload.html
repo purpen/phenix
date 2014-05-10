@@ -1,0 +1,77 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block jquery %}
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	var up = $('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }} },
+        	endpoint: '{{ app_url_qiniu_upload }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			//$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+		}
+	});
+	
+{% endblock %}
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui magenta buttons">
+			<a href="{{ app_url_admin_base }}/asset" class="ui button">
+				<i class="flat bullet2 icon"></i> 全部列表
+			</a>
+			<a href="{{ app_url_admin_base }}/asset/upload" class="ui button">
+				<i class="flat cloudupload2 icon"></i> 上传图片
+			</a>
+			<a href="{{ app_url_admin_base }}/asset/delete" class="ui button">
+				<i class="flat cross icon"></i> 删除
+			</a>
+		</div>
+	
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="flat search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+			
+	<div class="ui divider"></div>
+	
+	<div class="field">
+		<h3>上传图片</h3>
+		<div id="phenix-uploader"></div>
+		
+		<div id="asset-list">
+			
+		</div>
+	</div>
+	
+{% endblock %}

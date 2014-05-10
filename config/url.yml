@@ -61,6 +61,10 @@ app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
 
+#七牛
+app.url.qiniu.upload: 'http://up.qiniu.com'
+app.url.qiniu.callback: '{$app.url.action_base}/asset'
+
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
 app.url.my.message:		'{$app.url.domain}/my/message'

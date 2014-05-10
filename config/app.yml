@@ -100,6 +100,11 @@ app.db.default: 'mysql://root:root@localhost/passport?charset=utf8'
 app.sinaweibo.app_key: '3866118033'
 app.sinaweibo.app_secret: '8143ca07fec3a2223ce1413099e5288b'
 
+# Qiniu API
+app.qiniu.key: 'ERh7qjVSy0v42bQ0fftrFeKYZG39XbzRlaJO4NFy'
+app.qiniu.secret: 'r-NUrKsnRBEwTQxbLONVrK9tPuncXyHmcq4BkSc7'
+app.qiniu.bucket: 'frbird'
+
 #passport/sso section
 app.passport.version: 'v1'
 app.passport.auth_ttl: 180
