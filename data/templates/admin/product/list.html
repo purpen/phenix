@@ -36,21 +36,20 @@
 	        </div>
 		</form>
 	</div>
-	
-	<div class="ui text menu">
-	  	<div class="header item">选择：</div>
-	  	<a class="active item">全选</a>
-	  	<a class="item">不选</a>
-	  	<a class="item">反选</a>
-	</div>
 			
 	<div class="ui divider"></div>
 	
-	<table class="ui large table segment">
+	<table class="ui small table segment">
 		<thead>
 			<tr>
-				<th></th>
-				<th>产品名称</th>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th class="six wide">产品名称</th>
 				<th>所属阶段</th>
 				<th>审核状态</th>
 				<th>管理操作</th>
@@ -65,14 +64,16 @@
 					  	<input name="ids[]" type="checkbox" value="{{ product._id }}" />
 					  	<label></label>
 					</div>
+				</td>
+				<td>
 					<div class="ui image">
-						<img src="{{ product.cover.thumbnails.mini.view_url }}" width="100" />
+						<img src="{{ product.cover.thumbnails.mini.view_url }}" width="80px" />
 					</div>
 				</td>
 				<td>
 		          	<div class="header">
 						<a href="{{ product.view_url }}" class="ui link" title="{{ product.title }}">
-							{{ product.title|truncate 16 '' }}
+							{{ product.title }}
 						</a>
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
