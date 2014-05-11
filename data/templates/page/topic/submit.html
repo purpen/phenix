@@ -59,11 +59,17 @@
 		}
 	});
 	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
-			params: {'parent_id': '{{ product._id }}' },
-        	endpoint: '{{ app_url_upload_topic }}'
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
+        	endpoint: '{{ app_url_qiniu_upload }}'
       	},
 		text: {
             uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
@@ -85,7 +91,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
+			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data.ids});
 		}
 	});
 	
