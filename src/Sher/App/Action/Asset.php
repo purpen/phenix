@@ -31,23 +31,27 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 		$asset_info = $this->stash;
 		
 		$ok = $asset->apply_and_save($asset_info);
+		$result = array();
         if ($ok) {
-            $asset_id = $asset->id;
+			$asset_id = (string)$asset->id;
             
-			$result['id'] = $asset_id;
-            $result['code'] = 200;
-			$result['success'] = true;
+            $result['data'] = array(
+            	'id' => $asset_id,
+				'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hu.jpg'),
+				'width'  => $asset_info['width'],
+				'height' => $asset_info['height']
+            );
 			
-			$result['file_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath);
-			$result['width'] = $asset_info['width'];
-			$result['height'] = $asset_info['height'];
+			$result['assets'][] = $asset_id;
+			
+			$is_error = false;
+			$msg = '上传图片成功！';
         } else {
-            $result['code'] = 500;
-			$result['success'] = false;
-            $result['message'] = 'Unknown error';
+			$is_error = true;
+			$msg = 'Unknown error';
         }
 		
-        return $this->to_raw_json($result);
+		return $this->ajax_json($msg, $is_error, null, $result);
 	}
 	
 	
