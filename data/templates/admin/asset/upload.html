@@ -41,17 +41,15 @@
 {% endblock %}
 {% block content %}
 	<div class="ui tool-box">
-		<div class="ui magenta buttons">
-			<a href="{{ app_url_admin_base }}/asset" class="ui button">
-				<i class="flat bullet2 icon"></i> 全部列表
-			</a>
-			<a href="{{ app_url_admin_base }}/asset/upload" class="ui button">
-				<i class="flat cloudupload2 icon"></i> 上传图片
-			</a>
-			<a href="{{ app_url_admin_base }}/asset/delete" class="ui button">
-				<i class="flat cross icon"></i> 删除
-			</a>
-		</div>
+		<a href="{{ app_url_admin_base }}/asset" class="ui small magenta button">
+			<i class="flat bullet2 icon"></i> 全部列表
+		</a>
+		<a href="{{ app_url_admin_base }}/asset/upload" class="ui small magenta button">
+			<i class="flat cloudupload2 icon"></i> 添加图片
+		</a>
+		<a href="{{ app_url_admin_base }}/asset/delete" class="ui small magenta button">
+			<i class="flat cross icon"></i> 删除
+		</a>
 	
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
 			<div class="inline field">
@@ -66,12 +64,10 @@
 	<div class="ui divider"></div>
 	
 	<div class="field">
-		<h3>上传图片</h3>
+		<h3>添加图片</h3>
 		<div id="phenix-uploader"></div>
 		
-		<div id="asset-list">
-			
-		</div>
+		<div id="asset-list"></div>
 	</div>
 	
 {% endblock %}

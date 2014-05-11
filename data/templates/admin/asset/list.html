@@ -40,10 +40,13 @@
 
 {% block content %}
 	<div class="ui tool-box">
-		<a href="{{ app_url_admin_base }}/asset" class="ui magenta button">
+		<a href="{{ app_url_admin_base }}/asset" class="ui small magenta button">
 			<i class="flat bullet2 icon"></i> 全部列表
 		</a>
-		<a href="{{ app_url_admin_base }}/asset/delete" class="ui magenta button">
+		<a href="{{ app_url_admin_base }}/asset/upload" class="ui small magenta button">
+			<i class="flat cloudupload2 icon"></i> 添加图片
+		</a>
+		<a href="{{ app_url_admin_base }}/asset/delete" class="ui small magenta button">
 			<i class="flat cross icon"></i> 删除
 		</a>
 	
@@ -59,17 +62,8 @@
 			
 	<div class="ui divider"></div>
 	
-	<div class="field">
-		<h3>上传图片</h3>
-		<div id="phenix-uploader"></div>
-		
-		<div id="asset-list">
-			
-		</div>
-	</div>
-	
 	{% asset_list var:'list' page:page %}
-	<table class="ui large table segment">
+	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th>
@@ -78,7 +72,8 @@
 					  	<label></label>
 					</div>
 				</th>
-				<th>文件名</th>
+				<th>缩略图</th>
+				<th class="six wide">文件名</th>
 				<th>最后更新时间</th>
 				<th>文件大小</th>
 				<th>所属目标</th>
@@ -92,13 +87,16 @@
 					  	<input name="ids[]" type="checkbox" value="{{ asset._id }}" />
 					  	<label></label>
 					</div>
-					<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" />
 				</td>
-				
-				<td>{{ asset.filename|truncate 20 }}</td>
+				<td>
+					<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" width="80px" />
+				</td>
+				<td>
+					{{ asset.filepath }}
+				</td>
 				<td>{{ asset.created_on|date 'Y-m-d H:i:s' }}</td>
 				<td>
-					{{ asset.size }}
+					{{ asset.size|filesize }}
 				</td>
 				<td>
 					

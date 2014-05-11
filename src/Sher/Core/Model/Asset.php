@@ -90,9 +90,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	protected function extend_asset_view_url(&$row){
 		if (isset($row['thumbnails']) && is_array($row['thumbnails'])) {
 			foreach($row['thumbnails'] as $key => $value){
-				if (isset($row['thumbnails'][$key]['filepath'])){
-					$row['thumbnails'][$key]['view_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($row['filepath'], $this->thumbnails_styles[$key]);
-				}
+				$row['thumbnails'][$key]['view_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($row['filepath'], $this->thumbnails_styles[$key]);
 			}
 		} else {
 			// 设置默认值

@@ -145,7 +145,7 @@ app.storage.sher:
 
 # 图片缩络图
 app.asset.thumbnails:
-	mini: 160x160
+	mini: 120x120
 	tiny: 160x120
 	small: 280x200
 	medium: 320x240
