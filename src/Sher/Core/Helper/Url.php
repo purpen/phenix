@@ -7,8 +7,11 @@ class Sher_Core_Helper_Url {
 	/**
 	 * 云存储 附件URL
 	 */
-	public static function asset_qiniu_view_url($key){
+	public static function asset_qiniu_view_url($key,$style=null){
 		$asset_url = Doggy_Config::$vars['app.url.qiniu.frbird'].'/'.$key;
+		if (!is_null($style)){
+			$asset_url .= '-'.$style;
+		}
 		return $asset_url;
 	}
 	

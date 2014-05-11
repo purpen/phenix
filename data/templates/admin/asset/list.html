@@ -92,7 +92,9 @@
 					  	<input name="ids[]" type="checkbox" value="{{ asset._id }}" />
 					  	<label></label>
 					</div>
+					<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" />
 				</td>
+				
 				<td>{{ asset.filename|truncate 20 }}</td>
 				<td>{{ asset.created_on|date 'Y-m-d H:i:s' }}</td>
 				<td>
