@@ -338,11 +338,25 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			case 2:
 				$step_tab = 'step_two';
 				$this->stash['mode'] = 'edit';
+				
+				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+				$this->stash['pid'] = new MongoId();
+		
+				$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
+				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+				
 				$tpl_name = 'submit_content.html';
 				break;
 			case 3:
 				$step_tab = 'step_three';
 				$this->stash['mode'] = 'edit';
+				
+				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+				$this->stash['pid'] = new MongoId();
+		
+				$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
+				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+				
 				$tpl_name = 'submit_upload.html';	
 				break;
 			default:

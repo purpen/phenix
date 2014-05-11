@@ -68,7 +68,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}' },
         	endpoint: '{{ app_url_qiniu_upload }}'
       	},
 		text: {
@@ -158,7 +158,7 @@
 					<div class="field">
 						<label>类别</label>
 						<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
-						{% category_list var:'category' only_open:1 domain:domain current:topic.category_id %}
+						{% category_list var:'category' only_open:1 domain:2 current:topic.category_id %}
 						{% for cat in category.rows %}
 						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
 						{% endfor %}

@@ -9,11 +9,16 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
 	$('#editor').editable({
 		inlineMode: false,
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
-		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageParams: {parent_id: "{{ product._id }}"},
+		imageUploadURL: "{{ app_url_qiniu_upload }}",
+		imageParams: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
 		defaultImageWidth: 700,
 		maxImageSize: 1024 * 1024 * 3, // 3M
 		insertImageCallback: function (imageURL) {
