@@ -35,14 +35,14 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
         if ($ok) {
 			$asset_id = (string)$asset->id;
             
-            $result['data'] = array(
+            $result['asset'] = array(
             	'id' => $asset_id,
 				'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hu.jpg'),
 				'width'  => $asset_info['width'],
 				'height' => $asset_info['height']
             );
 			
-			$result['assets'][] = $asset_id;
+			$result['ids'][] = $asset_id;
 			
 			$is_error = false;
 			$msg = '上传图片成功！';

@@ -5,36 +5,6 @@
 {% endblock %}
 
 {% block jquery %}
-	$('#phenix-uploader').fineUploader({
-		debug: true,
-      	request: {
-			inputName:'file',
-			params: {},
-        	endpoint: '{{ app_url_upload_pictures }}'
-      	},
-		text: {
-            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
-		},
-		template: '<div class="qq-uploader">' +
-					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
-					'<div class="qq-upload-button">{uploadButtonText}</div>' +
-					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
-					'</div>',
-		validation: {
-	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
-	    }
-    }).on('complete', function (event, id, name, result) {
-		if(result.is_error){
-			$('#product-upload-form').addClass('error');
-			phenix.show_error_message(result.message, $('#product-upload-form'));
-		}else{
-			$('.qq-upload-list').children().eq(id).fadeOut();
-			
-			//$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data});
-		}
-	});
 	
 {% endblock %}
 
