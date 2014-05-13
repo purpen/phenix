@@ -70,7 +70,7 @@ class Sher_Core_Util_Image {
 		$fs_id = new MongoId();
         $ext = Doggy_Util_File::getFileExtension($fileName);
 		
-        $path = "${prefix}/".date('ymd')."/${fs_id}.$ext";
+        $path = "${prefix}/".date('ymd')."/${fs_id}";
 		
 		return $path;
     }

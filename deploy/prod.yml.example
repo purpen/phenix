@@ -42,4 +42,14 @@ app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'
 app.taobao.key: '21781655'
 app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
 
+# 七牛存储（生产环境使用云存储）
+app.url.qiniu.upload: 'http://up.qiniu.com'
+
+app.url.upload: '{$app.url.qiniu.upload}'
+app.url.upload.product: '{$app.url.upload}'
+app.url.upload.topic: '{$app.url.upload}'
+app.url.upload.pictures: '{$app.url.upload}'
+app.url.upload.avatar: '{$app.url.upload}'
+
+
 

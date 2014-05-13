@@ -165,11 +165,14 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		if(!is_null($path)){
 			try{
 				if (!is_null($file)) {
-					Sher_Core_Util_Asset::storeAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file);
+					// Sher_Core_Util_Asset::storeAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file);
+					// 云存储方式
+					Sher_Core_Util_Asset::store_asset_cloud($path, $file);
 				}
 				
 				if (!is_null($file_content)) {
-					Sher_Core_Util_Asset::storeData(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file_content);
+					// Sher_Core_Util_Asset::storeData(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file_content);
+					Sher_Core_Util_Asset::store_data_cloud($path, $file_content);
 				}
 				
 			}catch(Sher_Core_Util_Exception $e){
