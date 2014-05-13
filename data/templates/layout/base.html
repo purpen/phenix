@@ -2,10 +2,12 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link href="frbird.qiniudn.com" rel="dns-prefetch">
+		<link href="frstatic.qiniudn.com" rel="dns-prefetch">
 		{%block meta%}
-			<meta name="title" content="太火鸟-人生是场大设计" />
-			<meta name="keywords" content="太火鸟，社区"/>
-			<meta name="description" content="太火鸟，社区" />
+		<meta name="title" content="太火鸟-人生是场大设计" />
+		<meta name="keywords" content="太火鸟,原创产品,产品预售,产品预订,创意产品,创意交易,孵化社区,创意众筹,社会化社区"/>
+		<meta name="description" content="中国最顶尖的原创产品社会化电商平台，利用众筹到众包方式，整合创意产品社区与电子商务服务为一体，让社区参与产品开发整个过程，帮设计师成就梦想，助消费者品味生活！" />
 		{%endblock%}
 		<title>{% block title %}{% endblock %}太火鸟-人生是场大设计</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
@@ -42,7 +44,7 @@
 		</style>
 		
 		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/bird.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
 		{% endif %}
@@ -53,9 +55,9 @@
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.base.min.{{ js_jquery_bundle_version }}.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.jquery.min.{{ js_jquery_bundle_version }}.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.phenix.min.{{ js_jquery_bundle_version }}.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.bird.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
-			<script type="text/javascript" src="{{ app_url_uncompressed}}/javascript/jquery-2.1.0.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bundle.base.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.form.js"></script>
 			<script type="text/javascript" src="{{ app_url_uncompressed }}/javascript/jquery.taconite.js"></script>
