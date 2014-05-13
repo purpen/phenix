@@ -14,9 +14,15 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
 	$('#phenix-uploader').fineUploader({
       	request: {
-			endpoint: '{{app_url_action_base}}/uploader/avatar'
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ user._id }}' },
+        	endpoint: '{{ app_url_qiniu_upload }}'
       	},
 		text: {
             uploadButton: '<a class="ui magenta labeled icon upload button" href="javascript:void(0);"><i class="flat add icon"></i>选择照片</a>'
@@ -35,17 +41,17 @@
 		$('.qq-upload-list').children().eq(id).fadeOut();
 		
 		if (result.success) {
-			wps_width  = result.width;
-			wps_height = result.height;
+			wps_width  = result.asset.width;
+			wps_height = result.asset.height;
 			
 			if (wps_width > 480){
-				var imghtml =  '<img id="avatar-photo" src="'+result.file_url+'" style="width: 480px;">';
+				var imghtml =  '<img id="avatar-photo" src="'+result.asset.file_url+'" style="width: 480px;">';
 			} else {
-				var imghtml = '<img id="avatar-photo" src="'+result.file_url+'" >';
+				var imghtml = '<img id="avatar-photo" src="'+result.asset.file_url+'" >';
 			}
 			
 			// 更新附件Id
-			$('#avatar_id').val(result.id.$id);
+			$('#avatar_id').val(result.asset.id);
 			
 			$('#avatar-preview')
 				.removeClass('hide')
@@ -56,7 +62,6 @@
 			$('.ui.crop.button').removeClass('hide');
 			
 			phenix.hook_imgarea_select();
-			
 		}
 	});
 	

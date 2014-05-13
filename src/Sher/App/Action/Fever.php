@@ -339,11 +339,12 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				$step_tab = 'step_two';
 				$this->stash['mode'] = 'edit';
 				
-				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+				$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
 				$this->stash['pid'] = new MongoId();
 		
-				$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
-				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+				$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
 				
 				$tpl_name = 'submit_content.html';
 				break;
@@ -354,7 +355,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 				$this->stash['pid'] = new MongoId();
 		
-				$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
+				$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 				
 				$tpl_name = 'submit_upload.html';	
@@ -375,7 +376,6 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_html_page('page/fever/'.$tpl_name);
 	}
-	
 	
 	/**
 	 * 编辑创意
@@ -405,7 +405,6 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_html_page('page/fever/submit_basic.html');
 	}
-	
 	
 	/**
 	 * 保存产品创意信息

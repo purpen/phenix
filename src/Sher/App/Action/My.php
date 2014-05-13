@@ -62,6 +62,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
 		}
 		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_AVATAR;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_AVATAR;
+		
 		$this->set_target_css_state('user_profile');
 		
 		return $this->to_html_page("page/my/profile.html");

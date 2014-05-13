@@ -65,7 +65,8 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.qiniu.upload: 'http://up.qiniu.com'
 app.url.qiniu.frbird: 'http://frbird.qiniudn.com'
 app.url.qiniu.frstatic: 'http://frstatic.qiniudn.com'
-app.url.qiniu.callback: '{$app.url.action_base}/asset'
+app.url.qiniu.assets: '{$app.url.action_base}/asset'
+app.url.qiniu.onelink: '{$app.url.action_base}/asset/onelink'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'

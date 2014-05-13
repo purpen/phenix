@@ -50,9 +50,40 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 测试
 	 */
 	public function test(){
-		$pic_url = 'http://img02.taobaocdn.com/bao/uploaded/i2/T1jUulFvhdXXXXXXXX_!!0-item_pic.jpg';
+		$accessKey = Doggy_Config::$vars['app.qiniu.key'];
+		$secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+		$id = new MongoId();
+		$qkey = 'asset/140512/'.$id;
+
+		$bucket = "frbird";
+		$key = 'topic/140512/53709e9e5771db9401ba0c60-1';
+		$fops = 'avthumb/imageMogr2/crop/!290x290a50a50|saveas/'.\Qiniu\Util::uriEncode($bucket.':'.$qkey);
+		$notifyURL = "";
+		$force = 0;
+
+		$encodedBucket = urlencode($bucket);
+		$encodedKey = urlencode($key);
+		$encodedFops = urlencode($fops);
+		$encodedNotifyURL = urlencode($notifyURL);
+
+		$apiHost = "http://api.qiniu.com";
+		$apiPath = "/pfop/";
+		$requestBody = "bucket=$encodedBucket&key=$encodedKey&fops=$encodedFops&notifyURL=$encodedNotifyURL";
+		if ($force !== 0) {
+		    $requestBody .= "&force=1";
+		}
 		
-		Sher_Core_Jobs_Queue::fetcher_image($pic_url, array('target_id'=>1050800016));
+		$client = \Qiniu\Qiniu::create(array(
+		    'access_key' => $accessKey,
+		    'secret_key' => $secretKey,
+		    'bucket'     => $bucket
+		));
+		// $uri, $key, $host = null
+		$result = $client->crop($apiPath, $qkey, $apiHost, $requestBody);
+		
+		var_dump($result);
+		
+		return $this->to_html_page('page/test.html');
 	}
 	
 	/**
