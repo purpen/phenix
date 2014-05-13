@@ -39,7 +39,7 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	    if ($this->admin_method_list === '*' || in_array($invoke_method,$this->admin_method_list)) {
 	        if (!$login_user->is_admin()) {
 	            $handle = true;
-	            return $this->custom_authorize_info_page();
+	            return $this->deny();
 	        }
 	        return;
 	    }
@@ -54,6 +54,14 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	    // most login-user
 		
 	    return;
+	}
+	
+	/**
+	 * 拒绝权限
+	 */
+	protected function deny() {
+        $this->stash['note'] = '抱歉，权限不足！';	
+		return $this->to_html_page('page/note_page.html');
 	}
 	
 	/**
