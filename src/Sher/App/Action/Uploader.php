@@ -80,15 +80,14 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				'height' => $image_info['height']
             );
 			
-            $result['code'] = 200;
-			$result['success'] = true;
+			$is_error = false;
+			$msg = '上传图片成功！';
         } else {
-            $result['code'] = 500;
-			$result['success'] = false;
-            $result['message'] = 'Unknown error';
+			$is_error = true;
+			$msg = 'Unkown Error！';
         }
 		
-        return $this->to_raw_json($result);
+		return $this->ajax_json($msg, $is_error, null, $result);
     }
 	
 	/**

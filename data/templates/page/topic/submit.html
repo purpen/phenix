@@ -92,7 +92,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data.ids});
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids});
 		}
 	});
 	
