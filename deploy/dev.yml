@@ -12,7 +12,7 @@ app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
 app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
 
-app.url.packaged: '{$app.url.qiniu.frstatic}'
+app.url.packaged: '{$app.domain.static}/packaged'
 
 app.js.use_bundle: 0
 app.css.use_bundle: 0

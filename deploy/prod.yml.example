@@ -7,6 +7,11 @@ app.mongodb_rs: true
 app.mongodb_host: '192.168.8.3'
 app.keychains.private: 'xxxxOOOOxxxx'
 
+app.url.packaged: '{$app.url.qiniu.frstatic}'
+
+app.js.use_bundle: 1
+app.css.use_bundle: 1
+
 # redisdb
 app.redis_host: 'localhost:6379'
 
