@@ -102,7 +102,9 @@
 									<textarea name="content" class="comment-textarea" ></textarea>
 									<div id="comment"></div>
 								</div>
-								<input type="submit" class="ui small magenta button" value="添加评论" />
+								<div class="right aligned column">
+									<input type="submit" class="ui small magenta button" value="添加评论" />
+								</div>
 							</form>
 						</div>
 					</div>
@@ -179,7 +181,7 @@
 				{% endif %}
 			</div>
 			<div class="five wide column">
-				<a href="{{ app_url_action_base }}/topic/submit" class="fluid ui magenta icon button">
+				<a href="{{ app_url_action_base }}/topic/submit" class="fluid active ui magenta icon button">
 					<i class="flat add icon"></i> 发表话题
 				</a>
 				<div class="ui fluid four magenta labeled icon item menu">

@@ -3,7 +3,7 @@
 		<div class="comments">
 			<div class="comment">
 				<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-					<img src="/images/avatar_default.jpg" />
+					<img src="{{ reply.user.small_avatar_url }}" />
 				</a>
 				<div class="content">
 					<a class="author">{{ reply.user.nickname }}</a>
@@ -18,6 +18,6 @@
 		</div>
 	</append>
 	<eval>
-		$('.reply-textarea').val('');
+		$('.reply-content').val('');
 	</eval>
 </taconite>

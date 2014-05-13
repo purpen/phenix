@@ -7,6 +7,7 @@
 {% block jquery %}
 	$('#editor').editable({
 		inlineMode: false,
+		language: 'zh_cn',
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "undo", "redo"],
 		contentChangedCallback: function () {
 		    $("#editor").val($("#editor").editable("getHTML"));

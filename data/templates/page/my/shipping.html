@@ -2,9 +2,6 @@
 {% block title %}我的收货地址-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-	.ui.addbooks.items {
-		
-	}
 	
 	.ui.addbooks.items > .item > .create {
 		padding: 4.5em 0;
@@ -32,6 +29,10 @@
 	.ui.addbooks.items > .item > .content > .actions > .gray.button:hover {
 		background-color: #FFFFFF;
 		color: #FF3366;
+	}
+	
+	.ui.addbooks.items > .editing.item {
+		width: 100%;
 	}
 	
 </style>
@@ -90,6 +91,26 @@
 		});
 	});
 	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('.ui.cancel.button').livequery(function(){
+		$(this).click(function(){
+			$('#edit-form-box').empty();
+		});
+	});
+	
 {% endblock %}
 {% block content %}
 <div class="account profile">
@@ -105,12 +126,13 @@
 				<div class="item" id="create-new-address">
 					<div class="create content">
 						<div class="actions">
-							<a href="{{ app_url_my }}/edit_address" class="ui small gray labeled icon ajax-request button">
+							<a href="{{ app_url_address }}/edit_address" class="ui small gray labeled icon ajax-request button">
 								<i class="flat add icon"></i>添加新地址
 							</a>
 						</div>
 					</div>
 				</div>
+				
 				{% for address in addresses.rows %}
 			  	<div class="{% if address.is_default %}active {% endif %}item" id="{{ address._id }}">
 			      	<div class="content">
@@ -120,16 +142,16 @@
 						
 						<div class="ui divider"></div>
 			          	<div class="description">
-							{{ address.address }} ({{ address.zip }})
+							{{ address.area_province.city }} {{ address.area_district.city }} {{ address.address }} ({{ address.zip }})
 						</div>
 						<div class="ui divider"></div>
 						
 						<div class="actions">
-							<a href="{{ app_url_my }}/edit_address?id={{ address._id }}" class="ui small gray ajax-request button">
+							<a href="{{ app_url_address }}/edit_address?id={{ address._id }}" class="ui small gray ajax-request button">
 								编辑
 							</a>
 							
-							<a href="{{ app_url_my }}/remove_address?id={{ address._id }}" class="ui small gray confirm-request button">
+							<a href="{{ app_url_address }}/remove_address?id={{ address._id }}" class="ui small gray confirm-request button">
 								删除
 							</a>
 						</div>
@@ -138,7 +160,7 @@
 				{% endfor %}
 			</div>
 		
-			<div id="edit-form-box" class="ui addbooks items"><div>
+			<div id="edit-form-box"><div>
 		</div>
 	</div>
 </div>

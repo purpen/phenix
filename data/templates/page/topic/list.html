@@ -74,55 +74,58 @@
 						</div>
 					</div>
 					
+					
 					<div class="ui divided topic-list list">
-						{% for dig in dig_list %}
-							<div class="item">
-								<div class="ui grid">
-									<div class="two wide column">
-										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
-								      		<img src="{{ dig.user.small_avatar_url }}" />
-										</a>
-									</div>
-									<div class="twelve wide column">
-								      	<div class="content">
-								          	<h3 class="link header">
-												[置顶] <a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui link">{{ dig.title }}</a>
-											</h3>
-											<div class="description">
-												{{ dig.strip_description|truncate 70 }}
-											</div>
-											{% if dig.asset_count %}
-												<!--展示图片-->
-												<div class="ui small images">
-													{% asset_list var:'assets' parent_id:dig._id %}
-													{% for asset in assets.rows %}
-												  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
-													{% endfor %}
+						{% if dig_list %}
+							{% for dig in dig_list %}
+								<div class="item">
+									<div class="ui grid">
+										<div class="two wide column">
+											<a class="ui small avatar image" href="{{ dig.user.home_url }}">
+									      		<img src="{{ dig.user.small_avatar_url }}" />
+											</a>
+										</div>
+										<div class="twelve wide column">
+									      	<div class="content">
+									          	<h3 class="link header">
+													[置顶] <a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui link">{{ dig.title }}</a>
+												</h3>
+												<div class="description">
+													{{ dig.strip_description|truncate 70 }}
 												</div>
-											{% endif %}
-											<div class="ui divided horizontal list">
-											  	<div class="small item">
-													<a href="{{ dig.category.view_url }}" class="ui link">
-														{{ dig.category.title }}
-													</a>
-												</div>
-											  	<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a> {{ dig.created_on|relative_time }}</div>
-												{% if topic.last_user %}
-												<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.last_user.nickname }}</a> {{ dig.last_reply_time|relative_time }}回复</div>
+												{% if dig.asset_count %}
+													<!--展示图片-->
+													<div class="ui small images">
+														{% asset_list var:'assets' parent_id:dig._id %}
+														{% for asset in assets.rows %}
+													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+														{% endfor %}
+													</div>
 												{% endif %}
-											</div>
+												<div class="ui divided horizontal list">
+												  	<div class="small item">
+														<a href="{{ dig.category.view_url }}" class="ui link">
+															{{ dig.category.title }}
+														</a>
+													</div>
+												  	<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a> {{ dig.created_on|relative_time }}</div>
+													{% if topic.last_user %}
+													<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.last_user.nickname }}</a> {{ dig.last_reply_time|relative_time }}回复</div>
+													{% endif %}
+												</div>
 							
+									      	</div>
+										</div>
+										<div class="right aligned two wide column comment-counter">
+											<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+												<span class="dot-irecommend-count">{{ dig.comment_count }}</span> 
+												<span class="dot-irecommend-suffix"></span>
+											</a>
 								      	</div>
 									</div>
-									<div class="right aligned two wide column comment-counter">
-										<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-											<span class="dot-irecommend-count">{{ dig.comment_count }}</span> 
-											<span class="dot-irecommend-suffix"></span>
-										</a>
-							      	</div>
-								</div>
-						  	</div>
-						{% endfor %}
+							  	</div>
+							{% endfor %}
+						{% endif %}
 						
 						{% if !subject_category %}
 							{% topic_list var:'list' category_id:category_id type:type time:time sort:sort page:page %}
@@ -151,7 +154,7 @@
 			
 			<div class="five wide column">
 				
-				<a href="{{ app_url_action_base }}/topic/submit" class="fluid ui magenta icon button">
+				<a href="{{ app_url_action_base }}/topic/submit" class="fluid active ui magenta icon button">
 					<i class="flat add icon"></i> 发表话题
 				</a>
 				
@@ -179,7 +182,7 @@
 								</a>
 							</h4>
 							<p>
-				          		{{ topic.description|truncate 32 }}
+				          		{{ topic.strip_description|truncate 32 }}
 							</p>
 							<div class="ui divided horizontal list">
 							  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_date }} 发布</div>

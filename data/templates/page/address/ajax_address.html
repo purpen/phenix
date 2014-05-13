@@ -1,0 +1,106 @@
+<taconite>
+	{% if action == 'edit_address' %}
+	<replaceContent select="#edit-form-box">
+		<form action="{{ app_url_address }}/ajax_address" class="ui form segment" method="post" id="addbook-form">
+		  	<input type="hidden" name="_id" value="{{ addbook._id }}" />
+			<div class="field">
+				<label>收货人姓名</label>
+		  		<input type="text" name="name" value="{{ addbook.name }}" />
+			</div>
+
+			<div class="field">
+				<label>联系电话</label>
+			  	<input type="text" name="phone" placeholder="11位手机号码" value="{{ addbook.phone }}" />
+			</div>
+
+			<div class="field">
+				<label>地址</label>
+				<div class="ui selection province dropdown">
+					<input type="hidden" name="province" value="{{ addbook.province }}" />
+					
+				    <div class="default text">省份/自治区</div>
+				    <i class="flat arrowbottom icon"></i>
+				    <div class="menu">
+						{% for province in provinces %}
+				        <div data-value="{{ province._id }}" class="{% if province._id == addbook.province %}active{%endif%} item">{{ province.city }}</div>
+						{% endfor %}
+				    </div>
+				</div>
+				
+				<div class="ui selection district dropdown" id="district-menu">
+					<input type="hidden" name="city" value="{{ addbook.city }}" />
+				    <div class="default text">地区区域</div>
+				    <i class="flat arrowbottom icon"></i>
+				    <div class="menu">
+						{% for district in districts %}
+				        <div data-value="{{ district._id }}" class="{% if district._id == addbook.city %}active{%endif%} item">{{ district.city }}</div>
+						{% endfor %}
+				    </div>
+				</div>
+			</div>
+			
+			<div class="field">
+				<textarea name="address" class="small">{{ addbook.address }}</textarea>
+			</div>
+
+			<div class="field">
+				<label>邮政编码</label>
+			  	<input type="text" name="zip" value="{{ addbook.zip }}" />
+			</div>
+
+			<div class="field">
+				<div class="ui active magenta submit button">确定</div>
+		        <div class="ui gray cancel button">取消</div>
+			</div>
+
+		</form>
+	</replaceContent>
+	{% endif %}
+	
+	{% if action == 'save_address' %}
+	
+		{% if mode == 'edit' %}
+		<replace select="#{{ id }}">
+		{% endif %}
+	
+		{% if mode == 'create' %}
+		<after select="#create-new-address">
+		{% endif %}
+		  	<div class="{% if address.is_default %}active {% endif %}item" id="{{ address._id }}">
+		      	<div class="content">
+					<h5 class="ui header">
+						<i class="flat locator icon"></i> {{ address.name }} {{ address.phone }}
+					</h5>
+				
+					<div class="ui divider"></div>
+		          	<div class="description">
+						{{ address.address }} ({{ address.zip }})
+					</div>
+					<div class="ui divider"></div>
+				
+					<div class="actions">
+						<a href="{{ app_url_my }}/edit_address?id={{ address._id }}" class="ui small gray ajax-request button">
+							编辑
+						</a>
+					
+						<a href="{{ app_url_my }}/remove_address?id={{ address._id }}" class="ui small gray confirm-request button">
+							删除
+						</a>
+					</div>
+		      	</div>
+		  	</div>
+	
+		{% if mode == 'edit' %}
+		</replace>
+		{% endif %}
+	
+		{% if mode == 'create' %}
+		</after>
+		{% endif %}
+	
+		<eval>
+			$('#edit-form-box').empty();
+			$('.ui.selection.dropdown').dropdown();
+		</eval>
+	{% endif %}
+</taconite>

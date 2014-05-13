@@ -76,6 +76,7 @@ See http://gsgd.co.uk/sandbox/jquery/easing/
 ### sly轮换图
 See http://darsa.in/sly
 
-
+### 导入初始数据
+mongorestore -d firebird -c areas ~/Project/phenix/install/china_city.bson
 
  

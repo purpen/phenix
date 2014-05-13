@@ -62,19 +62,19 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
      * 添加到收藏
      */
     public function add_favorite($user_id, $target_id, $info=array()) {
-        $info['target_id'] = (int) $target_id;
-		$info['user_id']   = (int) $user_id;
+		$info['user_id']   = (int)$user_id;
+        $info['target_id'] = (int)$target_id;
 		$info['event']     = self::EVENT_FAVORITE;
 		
         return $this->apply_and_save($info);
     }
-
+	
     /**
      * 检测是否收藏
      */
     public function check_favorite($user_id, $target_id){
-        $query['target_id'] = (int) $target_id;
-		$query['user_id'] = (int) $user_id;
+		$query['user_id'] = (int)$user_id;
+        $query['target_id'] = (int)$target_id;
 		$query['event'] = self::EVENT_FAVORITE;
 		
         $result = $this->count($query);
@@ -86,22 +86,11 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
      * 删除收藏(只允许移除本人的收藏)
      */
     public function remove_favorite($user_id, $target_id){
-        $query['target_id'] = $target_id;
-        $query['user_id'] = (int) $user_id;
+		$query['user_id'] = (int)$user_id;
+        $query['target_id'] = (int)$target_id;
+		$query['event'] = self::EVENT_FAVORITE;
 		
         return $this->remove($query);
-    }
-	
-	
-    /**
-     * 添加到喜欢、赞
-     */
-    public function add_love($user_id, $target_id, $info=array()) {		
-        $info['target_id'] = (int) $target_id;
-		$info['user_id']   = (int) $user_id;
-		$info['event']     = self::EVENT_LOVE;
-		
-        return $this->apply_and_save($info);
     }
 	
     /**
@@ -115,6 +104,28 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         $result = $this->count($query);
 		
         return $result>0?true:false;
+	}
+	
+    /**
+     * 添加到喜欢、赞
+     */
+    public function add_love($user_id, $target_id, $info=array()) {		
+		$info['user_id']   = (int) $user_id;
+        $info['target_id'] = (int) $target_id;
+		$info['event']     = self::EVENT_LOVE;
+		
+        return $this->apply_and_save($info);
+    }
+	
+	/**
+	 * 取消喜欢
+	 */
+	public function cancel_love($user_id, $target_id){
+		$query['user_id'] = (int)$user_id;
+        $query['target_id'] = (int)$target_id;
+		$info['event']  = self::EVENT_LOVE;
+		
+        return $this->remove($query);
 	}
 	
 }

@@ -159,6 +159,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$fav_info = array(
 				'type' => Sher_Core_Model_Favorite::TYPE_PRODUCT,
 			);
+			
 			// 验证是否赞过
 			if (!$model->check_loved($this->visitor->id, $id)){
 				$ok = $model->add_love($this->visitor->id, $id, $fav_info);
@@ -173,11 +174,50 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_notification('操作失败！', true);
 		}
 		
+		$this->stash['mode'] = 'create';
 		$this->stash['domain']  = 'fever';
 		$this->stash['product'] = $product->extend_load($id); 
 		
 		return $this->to_taconite_page('ajax/laud_ok.html');
 	}
+	
+	/**
+	 * 取消喜欢
+	 */
+	public function ajax_cancel_laud(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('访问的创意不存在！', true);
+		}
+		
+		try{
+			$product = new Sher_Core_Model_Product();
+			
+			$model = new Sher_Core_Model_Favorite();
+			$fav_info = array(
+				'type' => Sher_Core_Model_Favorite::TYPE_PRODUCT,
+			);
+			// 验证是否赞过
+			if ($model->check_loved($this->visitor->id, $id)){
+				Doggy_Log_Helper::debug('Cancel laud id '.$id);
+				$ok = $model->cancel_love($this->visitor->id, $id, $fav_info);
+				
+				if ($ok) {
+					$product->dec_counter('love_count', $id);
+				}
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_notification('操作失败！', true);
+		}
+		
+		$this->stash['mode'] = 'cancel';
+		$this->stash['domain']  = 'fever';
+		$this->stash['product'] = $product->extend_load($id);
+		
+		return $this->to_taconite_page('ajax/laud_ok.html');
+	}
+	
 	
 	/**
 	 * 投票赞成
@@ -396,7 +436,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		// 限制修改权限
-		if (!$this->visitor->can_admin() || $product['user_id'] != $this->visitor->id){
+		if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
 		
