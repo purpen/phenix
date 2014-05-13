@@ -52,7 +52,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'current_login' => 0,
 	    'online_alive'  => 0,
 		
-        // counter
+        ## counter
 		# 关注数
         'follow_count'  => 0,
 		# 粉丝数
@@ -66,12 +66,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		# 产品数量
 		'product_count' => 0,
 		
-		// 初次登录导向
+		## 初次登录导向
 		'first_login'   => 1,
+		
+		## 头像设置
 		'avatar' => array(),
+		
 		'digged' => 0,
 		
-		// 个人偏好设置
+		## 个人偏好设置
 		'setting' => array(
 			'_' => null,
 			'layout' => null,
@@ -172,10 +175,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $id = $row['id'] = $row['_id'];
 		# 用户头像
 		if(!empty($row['avatar'])){
-			$row['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['big']);
-			$row['medium_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['medium']);
-			$row['small_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['small']);
-			$row['mini_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($row['avatar']['mini']);			
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['big'], 'avb.jpg');
+			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['medium'], 'avm.jpg');
+			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['small'], 'avs.jpg');
+			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['mini'], 'avn.jpg');		
 		}else{
 			// 用户默认头像
 			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('big', $row['sex']);
@@ -410,8 +413,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		if (is_null($user_id)) {
             $user_id = $this->id;
         }
-        if (empty($user_id)) {
-            throw new Sher_Core_Model_Exception('user_id is NULL');
+        if (empty($user_id) || empty($avatar)) {
+            throw new Sher_Core_Model_Exception('user_id or avatar is NULL');
         }
 		
         $this->update_set((int) $user_id,array('avatar'=>$avatar));

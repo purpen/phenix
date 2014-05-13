@@ -37,7 +37,7 @@ class Sher_Core_Jobs_Fetcher extends Doggy_Object {
 			$image_info['size'] = strlen($img_data);
 	        $image_info['mime'] = Doggy_Util_File::mime_content_type($pic_name);
 	        $image_info['filename'] = $pic_name;
-			$image_info['filepath'] = Sher_Core_Util_Image::genPath($pic_name, Sher_Core_Util_Constant::STROAGE_PRODUCT);
+			$image_info['filepath'] = Sher_Core_Util_Image::gen_path($pic_name, Sher_Core_Util_Constant::STROAGE_PRODUCT);
 	        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 	        $image_info['parent_id'] = (int)$target_id;
 			

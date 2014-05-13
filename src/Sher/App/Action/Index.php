@@ -53,14 +53,16 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$accessKey = Doggy_Config::$vars['app.qiniu.key'];
 		$secretKey = Doggy_Config::$vars['app.qiniu.secret'];
 		$id = new MongoId();
-		$qkey = 'asset/140512/'.$id;
-
+		$qkey = 'avatar/140513/'.$id;
 		$bucket = "frbird";
+		$key = 'avatar/140513/5371839a5771dba901ba0c76-1';
+		
+		/*
 		$key = 'topic/140512/53709e9e5771db9401ba0c60-1';
 		$fops = 'avthumb/imageMogr2/crop/!290x290a50a50|saveas/'.\Qiniu\Util::uriEncode($bucket.':'.$qkey);
 		$notifyURL = "";
 		$force = 0;
-
+		
 		$encodedBucket = urlencode($bucket);
 		$encodedKey = urlencode($key);
 		$encodedFops = urlencode($fops);
@@ -72,16 +74,46 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		if ($force !== 0) {
 		    $requestBody .= "&force=1";
 		}
+		// $uri, $key, $host = null
+		$result = $client->crop($apiPath, $qkey, $apiHost, $requestBody);
+		*/
 		
 		$client = \Qiniu\Qiniu::create(array(
 		    'access_key' => $accessKey,
 		    'secret_key' => $secretKey,
 		    'bucket'     => $bucket
 		));
-		// $uri, $key, $host = null
-		$result = $client->crop($apiPath, $qkey, $apiHost, $requestBody);
 		
-		var_dump($result);
+		$width = 320;
+		$height = 480;
+		$scale_width = 480;
+		$scale_height = 0;
+		
+		$x1 = 50;
+		$y1 = 50;
+		$w = 290;
+		$h = 290;
+		
+		if ($width > 480){
+			$scale_height = ceil($scale_width*$height/$width);
+			$fops = array(
+			    "thumbnail" => "${scale_width}x${scale_height}",
+			    "crop"   => "!${w}x${h}a${x1}a${y1}",
+			    "quality"   => 85
+			);
+		} else {
+			$fops = array(
+			    "crop"   => "!${w}x${h}a${x1}a${y1}",
+			    "quality"  => 85
+			);
+		}
+		
+		$img_url = $client->imageMogr($key, $fops);
+		$this->stash['img_url'] = $img_url;
+		
+		$res = $client->upload(@file_get_contents($img_url), $qkey);
+		
+		// print_r($res);
 		
 		return $this->to_html_page('page/test.html');
 	}

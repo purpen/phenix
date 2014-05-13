@@ -65,6 +65,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 附件类型
 	protected $thumbnails = array('mini','tiny','small','medium','large','big','huge','massive');
+	
 	protected $thumbnails_styles = array(
 		'mini' => 'mi.jpg', 
 		'tiny' => 'ti.jpg', 
@@ -81,6 +82,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     protected $int_fields = array('user_id', 'parent_id','size','width','height','asset_type','state');
 	
     protected function extra_extend_model_row(&$row) {
+		if (!empty($row['filepath'])){
+			$row['fileurl'] = Sher_Core_Helper_Url::asset_qiniu_view_url($row['filepath']);
+		}
+		
 		$this->extend_asset_view_url($row);
     }
 	

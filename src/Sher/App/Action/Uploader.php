@@ -61,7 +61,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$image_info['size'] = $size;
         $image_info['mime'] = Doggy_Util_File::mime_content_type($file_name);
         $image_info['filename'] = basename($file_name);
-		$image_info['filepath'] = Sher_Core_Util_Image::genPath($file_name,'avatar');
+		$image_info['filepath'] = Sher_Core_Util_Image::gen_path($file_name,'avatar');
         $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_AVATAR;
         $image_info['parent_id'] = $this->visitor->id;
 		
@@ -101,30 +101,34 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$result = array();
 		
 		$asset = new Sher_Core_Model_Asset();
-		$row = $asset->find_by_id($avatar_id);
+		$row = $asset->extend_load($avatar_id);
 		if (empty($row)){
 			return $this->ajax_note('获取数据错误,请重新提交',true);
 		}
 		
-		$result = Sher_Core_Util_Image::make_crop_avatar($row['filepath'], $w, $h, $x1, $y1);
-		if(empty($result)){
+		$qkey = Sher_Core_Util_Image::crop_avatar_cloud($row, $w, $h, $x1, $y1);
+		if(empty($qkey)){
 			return $this->ajax_note('生成数据错误,请重新提交',true);
 		}
 		
 		// 更新用户头像
 		$this->visitor->update_avatar(array(
-			'big' => $result['big'],
-			'medium' => $result['medium'],
-			'small' => $result['small'],
-			'mini' => $result['mini']
+			'big' => $qkey,
+			'medium' => $qkey,
+			'small' => $qkey,
+			'mini' => $qkey
 		));
 		
-		$this->stash['avatar'] = $result;
+		$avatar = array();
+		$avatar['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avb.jpg');
+		$avatar['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avm.jpg');
+		$avatar['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avs.jpg');
+		$avatar['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avn.jpg');
+		
+		$this->stash['avatar'] = $avatar;
 		
 		return $this->to_taconite_page('ajax/crop_avatar.html');
 	}
-	
-	
 	
 	/**
 	 * 上传产品图片
@@ -154,7 +158,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
 		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::genPath($filename, Sher_Core_Util_Constant::STROAGE_PRODUCT);
+				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, Sher_Core_Util_Constant::STROAGE_PRODUCT);
 		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		        $image_info['parent_id'] = (int)$this->stash['parent_id'];
 			
@@ -211,7 +215,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
 		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::genPath($filename, Sher_Core_Util_Constant::STROAGE_TOPIC);
+				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, Sher_Core_Util_Constant::STROAGE_TOPIC);
 		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
 			
 				$ok = $asset->apply_and_save($image_info);
@@ -269,7 +273,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
 		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::genPath($filename, Sher_Core_Util_Constant::STROAGE_ASSET);
+				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, Sher_Core_Util_Constant::STROAGE_ASSET);
 		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
 		        $image_info['parent_id'] = (int)$this->stash['parent_id'];
 				

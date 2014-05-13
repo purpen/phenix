@@ -47,6 +47,142 @@ class Sher_Core_Util_Image {
 	}
 	
 	/**
+     * 生成附件的保存路径 (Qiniu云存储Key)
+     *
+     * @param int $fs_id
+     * @param int $fileName
+     */
+    public static function gen_path_cloud($prefix=Sher_Core_Util_Constant::STROAGE_AVATAR){
+		$fs_id = new MongoId();
+		
+        $path = "${prefix}/".date('ymd')."/${fs_id}";
+		
+		return $path;
+    }
+	
+	/**
+     * 生成附件的保存路径 (本地存储路径)
+     *
+     * @param int $fs_id
+     * @param int $fileName
+     */
+    public static function gen_path($fileName, $prefix=Sher_Core_Util_Constant::STROAGE_PRODUCT){
+		$fs_id = new MongoId();
+        $ext = Doggy_Util_File::getFileExtension($fileName);
+		
+        $path = "${prefix}/".date('ymd')."/${fs_id}.$ext";
+		
+		return $path;
+    }
+	
+	/**
+	 * 裁切头像 （Qiniu云存储方式）
+	 */
+	public static function crop_avatar_cloud($asset, $w=300, $h=300, $x1=0, $y1=0, $scale_width=480){
+		$accessKey = Doggy_Config::$vars['app.qiniu.key'];
+		$secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+		$bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+		// 新截图文件Key
+		$qkey = self::gen_path_cloud();
+		
+		$key = $asset['filepath'];
+		$fileurl = $asset['fileurl'];
+		$width = $asset['width'];
+		$height = $asset['height'];
+		
+		$scale_height = 0;
+		if ($width > $scale_width){
+			$scale_height = ceil($scale_width*$height/$width);
+			$fops = array(
+			    "thumbnail" => "${scale_width}x${scale_height}",
+			    "crop" => "!${w}x${h}a${x1}a${y1}",
+			    "quality" => 95
+			);
+		} else {
+			$fops = array(
+			    "crop" => "!${w}x${h}a${x1}a${y1}",
+			    "quality" => 95
+			);
+		}
+		
+		$client = \Qiniu\Qiniu::create(array(
+		    'access_key' => $accessKey,
+		    'secret_key' => $secretKey,
+		    'bucket'     => $bucket
+		));
+		// 处理图片
+		$img_url = $client->imageMogr($key, $fops);
+		// 存储新图片
+		$res = $client->upload(@file_get_contents($img_url), $qkey);
+		if (empty($res['error'])){
+			return $qkey;
+		}
+		
+		return false;
+	}
+	
+	
+	/**
+	 * 裁切头像 （本地存储方式）
+	 */
+	public static function make_crop_avatar($path,$w,$h,$x1,$y1,$scale_width=480) {
+		$local_path = Sher_Core_Util_Asset::getAssetPath('sher',$path);
+		$gmagick = new Gmagick($local_path);
+		
+		$result = array();
+		// 等宽比例缩小
+		$width = $gmagick->getimagewidth();
+		$height = $gmagick->getimageheight();
+		if ($width > $scale_width){
+			$scale_height = $scale_width*$height/$width;
+			$gmagick->scaleimage($scale_width, $scale_height);
+		}
+		
+		// 裁剪所选尺寸
+		$gmagick->cropimage($w,$h,$x1,$y1);
+		
+		$avatars = Doggy_Config::$vars['app.asset.avatars'];
+		
+		// 生成大头像
+		$result['big'] = self::gen_path($path, 'avatar');
+		$gmagick->resizeimage($avatars['big'], $avatars['big'], Gmagick::FILTER_LANCZOS, 1);
+		$gmagick->setCompressionQuality(95);
+		$bytes = $gmagick->getImageBlob();
+		Sher_Core_Util_Asset::storeData('sher', $result['big'], $bytes);
+		
+		// 生成中头像
+		$result['medium'] = self::gen_path($path, 'avatar');
+		$gmagick->resizeimage($avatars['medium'],$avatars['medium'], Gmagick::FILTER_LANCZOS, 1);
+		$gmagick->setCompressionQuality(95);
+		$bytes = $gmagick->getImageBlob();
+		Sher_Core_Util_Asset::storeData('sher', $result['medium'], $bytes);
+		
+		// 生成小头像
+		$result['small'] = self::gen_path($path, 'avatar');
+		$gmagick->resizeimage($avatars['small'], $avatars['small'], Gmagick::FILTER_LANCZOS, 1);
+		$gmagick->setCompressionQuality(95);
+		$bytes = $gmagick->getImageBlob();
+		Sher_Core_Util_Asset::storeData('sher', $result['small'], $bytes);
+		
+		// 生成mini头像
+		$result['mini'] = self::gen_path($path, 'avatar');
+		$gmagick->resizeimage($avatars['mini'], $avatars['mini'], Gmagick::FILTER_LANCZOS, 1);
+		$gmagick->setCompressionQuality(95);
+		$bytes = $gmagick->getImageBlob();
+		Sher_Core_Util_Asset::storeData('sher', $result['mini'], $bytes);
+		
+		$gmagick->destroy();
+		
+		// 添加图片URL
+		$result['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['big']);
+		$result['medium_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['medium']);
+		$result['small_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['small']);
+		$result['mini_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['mini']);
+		
+		return $result;
+	}
+	
+	/**
 	 * 生成缩图片
 	 */
 	public static function maker_thumb($path, $sizes, $domain=null, $mode=1){
@@ -120,7 +256,7 @@ class Sher_Core_Util_Image {
 			
 			$result['width']    = $width;
 			$result['height']   = $height;
-			$result['filepath'] = self::genPath($path, $domain);
+			$result['filepath'] = self::gen_path($path, $domain);
 			
 			Doggy_Log_Helper::debug("maker_crop_resize -- store ...");
 			
@@ -179,7 +315,7 @@ class Sher_Core_Util_Image {
 			
 			$result['width']    = $width;
 			$result['height']   = $height;
-			$result['filepath'] = self::genPath($path, $domain);
+			$result['filepath'] = self::gen_path($path, $domain);
 			
 			Doggy_Log_Helper::debug("maker_resize -- store ...");
 			
@@ -241,7 +377,7 @@ class Sher_Core_Util_Image {
 		}
 		$bytes = $gmagick->getImageBlob();
 		
-		$result['filepath'] = self::genPath($path, Sher_Core_Util_Constant::STROAGE_PRODUCT);
+		$result['filepath'] = self::gen_path($path, Sher_Core_Util_Constant::STROAGE_PRODUCT);
 		Sher_Core_Util_Asset::storeData('sher', $result['filepath'], $bytes);
 		
 		$gmagick->destroy();
@@ -251,80 +387,5 @@ class Sher_Core_Util_Image {
 		return $result;
 	}
 	
-	
-	/**
-	 * 裁切头像
-	 */
-	public static function make_crop_avatar($path,$w,$h,$x1,$y1,$scale_width=480) {
-		$local_path = Sher_Core_Util_Asset::getAssetPath('sher',$path);
-		$gmagick = new Gmagick($local_path);
-		
-		$result = array();
-		// 等宽比例缩小
-		$width = $gmagick->getimagewidth();
-		$height = $gmagick->getimageheight();
-		if ($width > $scale_width){
-			$scale_height = $scale_width*$height/$width;
-			$gmagick->scaleimage($scale_width, $scale_height);
-		}
-		
-		// 裁剪所选尺寸
-		$gmagick->cropimage($w,$h,$x1,$y1);
-		
-		$avatars = Doggy_Config::$vars['app.asset.avatars'];
-		
-		// 生成大头像
-		$result['big'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage($avatars['big'], $avatars['big'], Gmagick::FILTER_LANCZOS, 1);
-		$gmagick->setCompressionQuality(95);
-		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['big'], $bytes);
-		
-		// 生成中头像
-		$result['medium'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage($avatars['medium'],$avatars['medium'], Gmagick::FILTER_LANCZOS, 1);
-		$gmagick->setCompressionQuality(95);
-		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['medium'], $bytes);
-		
-		// 生成小头像
-		$result['small'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage($avatars['small'], $avatars['small'], Gmagick::FILTER_LANCZOS, 1);
-		$gmagick->setCompressionQuality(95);
-		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['small'], $bytes);
-		
-		// 生成mini头像
-		$result['mini'] = self::genPath($path, 'avatar');
-		$gmagick->resizeimage($avatars['mini'], $avatars['mini'], Gmagick::FILTER_LANCZOS, 1);
-		$gmagick->setCompressionQuality(95);
-		$bytes = $gmagick->getImageBlob();
-		Sher_Core_Util_Asset::storeData('sher', $result['mini'], $bytes);
-		
-		$gmagick->destroy();
-		
-		// 添加图片URL
-		$result['big_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['big']);
-		$result['medium_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['medium']);
-		$result['small_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['small']);
-		$result['mini_avatar_url'] = Sher_Core_Helper_Url::asset_view_url($result['mini']);
-		
-		return $result;
-	}
-	
-	/**
-     * 生成附件的保存路径
-     *
-     * @param int $fs_id
-     * @param int $fileName
-     */
-    public static function genPath($fileName, $prefix=Sher_Core_Util_Constant::STROAGE_PRODUCT){
-		$fs_id = new MongoId();
-        $ext = Doggy_Util_File::getFileExtension($fileName);
-		
-        $path = "${prefix}/".date('ymd')."/${fs_id}.$ext";
-		
-		return $path;
-    }
 }
 ?>

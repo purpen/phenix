@@ -24,6 +24,17 @@ class Sher_Core_Helper_Url {
 	}
 	
 	/**
+	 * 用户头像
+	 */
+	public static function avatar_cloud_view_url($key, $style=null){
+		$avatar_url = Doggy_Config::$vars['app.url.qiniu.frbird'].'/'.$key;
+		if (!is_null($style)){
+			$avatar_url .= '-'.$style;
+		}
+		return $avatar_url;
+	}
+	
+	/**
 	 * 用户默认头像
 	 */
 	public static function avatar_default_url($type='big',$sex=2){
