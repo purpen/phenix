@@ -63,7 +63,7 @@ app.url.qiniu.upload: 'http://up.qiniu.com'
 app.url.qiniu.frbird: 'http://frbird.qiniudn.com'
 app.url.qiniu.frstatic: 'http://frstatic.qiniudn.com'
 app.url.qiniu.assets: '{$app.url.action_base}/asset'
-app.url.qiniu.onelink: '{$app.url.action_base}/asset/onelink'
+app.url.qiniu.onelink: '{$app.url.action_base}/asset/qiniu_onelink'
 
 # 本地存储
 app.url.upload: '{$app.url.qiniu.upload}'
