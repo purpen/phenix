@@ -141,6 +141,11 @@ app.vote.lowest: 10
 app.presale.interval: 15
 app.presale.lowest: 10
 
+# 微信token
+app.wechat.token: '537308f80c28aab11a8b590f'
+app.wechat.app_id: 'wx7a0958989126cd98'
+app.wechat.app_secret: '2c4a3cb375393caf461aee17976f87f2'
+
 # 附件存储目录
 app.storage.sher:
     class:'Doggy_Storage_Provider_FileSystem'
