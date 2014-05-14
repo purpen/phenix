@@ -1,6 +1,6 @@
 ---
 app.id: 'sher'
-app.version: ''
+app.version: '1.0'
 app.modules.boot: 'sher'
 
 app.modules.sher: 
@@ -13,12 +13,17 @@ app.modules.admin:
   namespace: 'Sher_Admin'
   index_action: 'Console'
   
-app.modules.Wap: 
+app.modules.wap: 
   state: 'on'
   namespace: 'Sher_Wap'
   index_action: 'Index'
   
-app.modules.Api: 
+app.modules.wechat: 
+  state: 'on'
+  namespace: 'Sher_Wechat'
+  index_action: 'Index'
+  
+app.modules.api: 
   state: 'on'
   namespace: 'Sher_Api'
   index_action: 'Data'
@@ -52,6 +57,7 @@ app.session.engine.options:
 app.session.sid: 'sher_sid'
 #auth cookie:
 app.session.auth_sid: 'sher_asid'
+
 # 序列编号表
 app.serialno.name: 'serialno'
 
