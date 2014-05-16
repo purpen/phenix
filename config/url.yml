@@ -95,6 +95,8 @@ app.url.register: 	'{$app.url.action_base}/auth/signup'
 app.url.forget: 	'{$app.url.action_base}/auth/forget'
 app.url.invite: 	'{$app.url.action_base}/auth/invite'
 
+app.url.qq.login: '{$app.url.action_base}/qq'
+
 #管理面板
 app.url.admin:		'{$app.url.admin_base}'
 app.url.admin.report: '{$app.url.admin_base}/report'

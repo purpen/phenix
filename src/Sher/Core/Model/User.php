@@ -59,6 +59,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'sina_uid' => null,
         'sina_access_token' => null,
 		
+		# qq open
+		'qq_uid' => null,
+		'qq_access_token' => null,
+		
         'last_login'    => 0,
 		'current_login' => 0,
 	    'online_alive'  => 0,
@@ -368,6 +372,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 */
 	public function update_weibo_accesstoken($id, $accesstoken){
 		return $this->update_set((int)$id, array('sina_access_token' => $accesstoken));
+	}
+	
+	/**
+	 * 更新QQ用户授权access token
+	 */
+	public function update_qq_accesstoken($id, $accesstoken){
+		return $this->update_set((int)$id, array('qq_access_token' => $accesstoken));
 	}
 	
 	/**
