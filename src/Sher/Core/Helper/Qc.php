@@ -27,13 +27,13 @@ class Sher_Core_Helper_Qc extends Sher_Core_Helper_QcOauth {
         //如果access_token和openid为空，则从session里去取，适用于demo展示情形
         if($access_token === "" || $openid === ""){
             $this->keysArr = array(
-                "oauth_consumer_key" => (int)$this->app_key,
+                "oauth_consumer_key" => (int)Doggy_Config::$vars['app.qq.app_id'],
                 "access_token" => $this->recorder->read("access_token"),
                 "openid" => $this->recorder->read("openid")
             );
         }else{
             $this->keysArr = array(
-                "oauth_consumer_key" => (int)$this->app_key,
+                "oauth_consumer_key" => (int)Doggy_Config::$vars['app.qq.app_id'],
                 "access_token" => $access_token,
                 "openid" => $openid
             );

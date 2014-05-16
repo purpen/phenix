@@ -105,7 +105,6 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 			
 			// 第一步，检测是否已经注册
 			$app_id = Doggy_Config::$vars['app.qq.app_id'];
-			$app_key = Doggy_Config::$vars['app.qq.app_key'];
 			$app_callback = Doggy_Config::$vars['app.qq.callback_url'];
 			$app_scope = Doggy_Config::$vars['app.qq.scope'];
 			
@@ -117,12 +116,14 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 			$result = $user->first(array('qq_uid' => $uid));
 			if (empty($result)) {
 				// 第二步，未注册过用户实现自动注册及登录
+				$qc_api = new Sher_Core_Helper_Qc($access_token, $uid);
+				
 				$attr = array(
 					'access_token' => $access_token,
-					'oauth_consumer_key' => $app_key,
+					'oauth_consumer_key' => $app_id,
 					'openid' => $uid,
 				);
-				$qq_info = $qc->get_user_info($attr);
+				$qq_info = $qc_api->get_user_info($attr);
 				
 				Doggy_Log_Helper::error('QQ Login get user info:'.json_encode($qq_info));
 				
