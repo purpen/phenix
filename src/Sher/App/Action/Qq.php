@@ -49,7 +49,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	        );
 		
 	        //------构造请求access_token的url
-	        $token_url = $qc->urlUtils->combineURL(self::GET_ACCESS_TOKEN_URL, $keysArr);
+	        $token_url = $qc->urlUtils->combineURL(Sher_Core_Helper_QcOauth::GET_ACCESS_TOKEN_URL, $keysArr);
 	        $response = $qc->urlUtils->get_contents($token_url);
 		
 			// 验证是否出错信息

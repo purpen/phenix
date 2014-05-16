@@ -105,6 +105,10 @@ server {
             rewrite ^/sina(.*)$ /app/site/sina$1 last;
         }
 		
+		location /qq {
+            rewrite ^/qq(.*)$ /app/site/qq$1 last;
+        }
+		
 		location /about {
 	        rewrite ^/about[/]?$ /app/site/index/about last;
 	    }
