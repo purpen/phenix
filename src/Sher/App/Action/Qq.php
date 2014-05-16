@@ -114,10 +114,15 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 			$uid = $qc->get_openid($access_token);
 			Doggy_Log_Helper::error('QQ Login get openid:'.$uid);
 			
-			$result = $user->first(array('qq_uid' => (int)$uid));
+			$result = $user->first(array('qq_uid' => $uid));
 			if (empty($result)) {
 				// 第二步，未注册过用户实现自动注册及登录
-				$qq_info = $qc->get_user_info();//根据ID获取用户等基本信息
+				$attr = array(
+					'access_token' => $access_token,
+					'oauth_consumer_key' => $app_key,
+					'openid' => $uid,
+				);
+				$qq_info = $qc->get_user_info($attr);
 				
 				Doggy_Log_Helper::error('QQ Login get user info:'.json_encode($qq_info));
 				
