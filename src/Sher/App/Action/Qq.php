@@ -37,6 +37,8 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 		$app_scope = Doggy_Config::$vars['app.qq.scope'];
 		
 		try{
+			Doggy_Log_Helper::error('QQ Login get code:'.$code);
+			
 			$qc = new Sher_Core_Helper_Qc();
 		
 	        //-------请求参数列表
@@ -51,7 +53,9 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	        //------构造请求access_token的url
 	        $token_url = $qc->urlUtils->combineURL(Sher_Core_Helper_QcOauth::GET_ACCESS_TOKEN_URL, $keysArr);
 	        $response = $qc->urlUtils->get_contents($token_url);
-		
+			
+			Doggy_Log_Helper::error('QQ Login get response:'.$response);
+			
 			// 验证是否出错信息
 	        if(strpos($response, "callback") !== false) {
 	            $lpos = strpos($response, "(");
