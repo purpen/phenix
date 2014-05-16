@@ -111,7 +111,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 			
 			$qc = new Sher_Core_Helper_Qc();
 			Doggy_Log_Helper::error('QQ Login get openid!');
-			$uid = $qc->get_openid();
+			$uid = $qc->get_openid($access_token);
 			Doggy_Log_Helper::error('QQ Login get openid:'.$uid);
 			
 			$result = $user->first(array('qq_uid' => (int)$uid));
