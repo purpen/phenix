@@ -16,3 +16,4 @@ qrsync -skipsym ~/qiniu/conf.json
 
 
 
+http://open.weibo.com/apps/3156984431/info/advanced

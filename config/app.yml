@@ -102,28 +102,15 @@ app.url.invite.trigger:1
 app.db.passport: 'mysql://root:root@localhost/passport?charset=utf8'
 app.db.default: 'mysql://root:root@localhost/passport?charset=utf8'
 
-# SinaWeibo API
-app.sinaweibo.app_key: '3866118033'
-app.sinaweibo.app_secret: '8143ca07fec3a2223ce1413099e5288b'
-
 # Qiniu API
 app.qiniu.key: 'ERh7qjVSy0v42bQ0fftrFeKYZG39XbzRlaJO4NFy'
 app.qiniu.secret: 'r-NUrKsnRBEwTQxbLONVrK9tPuncXyHmcq4BkSc7'
 app.qiniu.bucket: 'frbird'
 
-#passport/sso section
-app.passport.version: 'v1'
-app.passport.auth_ttl: 180
-app.passport.v1.avatar_url: 'http://login.chinavisual.com/avatar/%s/%s/2/%s'
-app.passport.v1.sso_handle: '{$app.domain.app}/app/action/auth/sso_auth_v1'
-app.passport.v1.login: 'http://login.chinavisual.com/passport.app/passport/sso/AuthLogin?hash=%s&salt=%s&url=%s&app_id=%s&meta=1'
-app.passport.v1.register: 'http://login.chinavisual.com/passport.app/passport/sso/AuthRegister?hash=%s&salt=%s&url=%s&app_id=%s&meta=1'
-app.passport.v1.logout: 'http://login.chinavisual.com/passport.app/passport/sso/AuthLogout?url=%s'
-app.passport.v1.profile: 'http://login.chinavisual.com/'
 
 app.keychains.private: 'xxxxOOOOxxxx'
 app.email.from:
-  address: 'no-reply@chinavisual.com'
+  address: 'no-reply@taihuoniao.com'
   name: '系统邮件服务'
 
 # 产品话题类别
@@ -143,8 +130,8 @@ app.presale.lowest: 10
 
 # 微信token
 app.wechat.token: '537308f80c28aab11a8b590f'
-app.wechat.app_id: 'wx7a0958989126cd98'
-app.wechat.app_secret: '2c4a3cb375393caf461aee17976f87f2'
+app.wechat.app_id: 'wx4cf88d6bf30430db'
+app.wechat.app_secret: '795ff8ca3d4a57ae645e4d217c193988'
 
 # 附件存储目录
 app.storage.sher:

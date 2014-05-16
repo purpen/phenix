@@ -31,10 +31,20 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		if (!$this->visitor->id){
 	       	$this->gen_login_token();
 			$this->set_target_css_state('login_box','item_active');
+			
+			// 获取微博登录的Url
+			$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+			$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+			$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+			
+			$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+			$weibo_auth_url = $oa->getAuthorizeURL($callback);
+			
+			$this->stash['weibo_auth_url'] = $weibo_auth_url;
+			
 			return $this->to_html_page('page/login.html');
 		}
 		$next_url = Sher_Core_Helper_Url::user_home_url($this->visitor->id);
-		
        	return $this->to_redirect($next_url);
 	}
 	

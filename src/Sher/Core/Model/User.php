@@ -17,13 +17,19 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     
     // 保密性别
     const SEX_HIDE = '未知';
-	const SEX_MALE = 1;
-	const SEX_FEMALE = 2;
+	const SEX_MALE = 'm';
+	const SEX_FEMALE = 'f';
 
     // 婚姻状况
 	const MARR_SINGLE = 11;
 	const MARR_LOVE = 12;
 	const MARR_TWO = 22;
+	
+	// 来源站点
+	const FROM_LOCAL = 1;
+	const FROM_WEIBO = 2;
+	const FROM_QQ = 3;
+	const FROM_ALIPAY = 4;
 	
     protected $roles = array(
         'user' => self::ROLE_USER,
@@ -40,6 +46,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'account'  => null,
 		'password' => null,
 		'nickname' => null,
+		
 		'email'    => null,
 		
 		'invitation' => null,
@@ -47,6 +54,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
         'role_id'    => self::ROLE_USER,
 		'permission' => array(),
+		
+        # sina weibo
+        'sina_uid' => null,
+        'sina_access_token' => null,
 		
         'last_login'    => 0,
 		'current_login' => 0,
@@ -94,19 +105,19 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'address' => null,
             'zip' => null,
             'im_qq' => null,
+			// 身高
+			'height' => null,
+			// 体重
+			'weight' => null,
+			// 婚姻状况
+			'marital' => self::MARR_SINGLE,
+			// 出生年月日
+			'age'  => array(),
         ),
-		// 身高
-		'height' => null,
-		// 体重
-		'weight' => null,
 		// 所在城市
 		'city' => null,
 		// 性别
 		'sex' => self::SEX_HIDE,
-		// 婚姻状况
-		'marital' => self::MARR_SINGLE,
-		// 出生年月日
-		'age'  => array(),
 		// 个人关键词
 		'tags' => array(),
 		// 个人介绍
@@ -125,6 +136,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'visit' => array(
 			'new_user_viewed' => 0,
 		),
+		# 来源站点
+		'from_site' => SELF::FROM_LOCAL,
     );
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
@@ -185,28 +198,6 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('medium', $row['sex']);
 			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('small', $row['sex']);
 			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('mini', $row['sex']);	
-		}
-		
-		if($row['sex'] == self::SEX_FEMALE){
-			$row['sex_text'] = 'female';
-			$row['sex_title'] = '她';
-		}elseif($row['sex'] == self::SEX_MALE){
-			$row['sex_text'] = 'male';
-			$row['sex_title'] = '他';
-		}else{
-			$row['sex_text'] = '';
-			$row['sex_title'] = '它';
-		}
-		
-		if($row['marital'] == self::MARR_SINGLE){
-			$row['marital_text'] = '单身';
-			$row['marital_icon'] = 'icon-single.jpg';
-		}elseif($row['marital'] == self::MARR_LOVE){
-			$row['marital_text'] = '热恋';
-			$row['marital_icon'] = 'icon-love.jpg';
-		}else{
-			$row['marital_text'] = '已婚';
-			$row['marital_icon'] = 'icon-married.jpg';
 		}
 		
 		// calculate age
@@ -369,8 +360,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 解封/激活帐号
      */
     public function active_account($id){
-    	return $this->update_set((int)$id,array('state' => self::STATE_OK));
+    	return $this->update_set((int)$id, array('state' => self::STATE_OK));
     }
+	
+	/**
+	 * 更新微博用户授权access token
+	 */
+	public function update_weibo_accesstoken($id, $accesstoken){
+		return $this->update_set((int)$id, array('sina_access_token' => $accesstoken));
+	}
 	
 	/**
 	 * 更新用户的计数

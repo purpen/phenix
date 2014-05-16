@@ -4,7 +4,6 @@
  */
 class Sher_Core_Util_Constant extends Doggy_Object {
 	
-	
 	const ASSET_DOAMIN = "sher";
 	
 	/**
@@ -31,6 +30,12 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	 * DigList推荐Id
 	 */
 	const DIG_TOPIC_TOP = 'dig_topic_top';  // 全部置顶主题列表
+	
+	
+	/**
+	 * 微博账户自动创建时默认设置密码
+	 */
+	const WEIBO_AUTO_PASSWORD = 'weibo#2014';
 	
 	
 	

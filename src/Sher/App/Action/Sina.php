@@ -1,0 +1,148 @@
+<?php
+/**
+ * Sina用户验证等
+ * @author purpen
+ */
+class Sher_App_Action_Sina extends Sher_App_Action_Base {
+	
+	public $stash = array(
+		'email' => '',
+		'account' => '',
+		'nickname' => '',
+		'code' => '',
+		
+	);
+	
+	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
+	
+	/**
+	 * 微博登录
+	 */
+	public function execute(){
+		
+	}
+	
+	/**
+	 * 授权回调地址
+	 */
+	public function authorize(){
+		$code = $this->stash['code'];
+		
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+		
+		$keys = array();
+		$keys['code'] = $code;
+		$keys['redirect_uri'] = $callback;
+		
+		try{
+			$o = new Sher_Core_Helper_SaeTOAuthV2($akey , $skey);
+			$token = $o->getAccessToken('code', $keys);
+			// { "access_token":"SlAV32hkKG", "remind_in ":3600, "expires_in":3600 }
+			if ($token) {
+				return $this->login($token);
+			} else {
+				return $this->display_note_page('授权失败');
+			}
+		} catch (Sher_Core_Helper_OAuthException $e) {
+            Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+			$login_url = Doggy_Config::$vars['app.url.login'];
+            return $this->display_note_page("注册失败:".$e->getMessage(), $login_url);
+		}
+	}
+	
+	/**
+	 * 取消授权回调地址
+	 * source：应用appkey
+     * uid ：取消授权的用户
+     * auth_end ：取消授权的时间
+	 */
+	public function revoked(){
+		$source = $this->stash['source'];
+		$uid = $this->stash['uid'];
+		$auth_end = $this->stash['auth_end'];
+		
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$next_url = Doggy_Config::$vars['app.url.domain'];
+		// 验证是否有此应用
+		if ($source != $akey){
+			return $this->display_note_page('无效应用！', $next_url);
+		}
+		// 验证是否有此用户
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('sina_uid' => (int)$uid));
+		if (empty($result)) {
+			return $this->display_note_page('系统无此用户！', $next_url);
+		}
+		
+		$user_id = $result['_id'];
+		// 取消access_token
+		$user->update_weibo_accesstoken($user_id, '');
+		
+		return $this->display_note_page('授权已取消！', $next_url);
+	}
+	
+	/**
+	 * 微博账号实现登录
+	 */
+	protected function login($token) {
+        try {
+			$user = new Sher_Core_Model_User();
+			$user_info = array();
+			
+			// 第一步，检测是否已经注册
+			$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+			$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+			
+			$c = new Sher_Core_Helper_SaeTClientV2($akey, $skey, $token['access_token']);
+			$uid_get = $c->get_uid();
+			$uid = $uid_get['uid'];
+			
+			$result = $user->first(array('sina_uid' => (int)$uid));
+			if (empty($result)) {
+				// 第二步，未注册过用户实现自动注册及登录
+				$weibo_info = $c->show_user_by_id($uid);//根据ID获取用户等基本信息
+				
+				$user_info['sina_uid'] = $weibo_info['id'];
+				$user_info['sina_access_token'] = $token['access_token'];
+		
+				// 自动创建账户信息
+				$user_info['account'] = $weibo_info['idstr'];
+				$user_info['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
+				$user_info['state'] = Sher_Core_Model_User::STATE_OK;
+		
+				$user_info['nickname'] = $weibo_info['screen_name'];
+				$user_info['summary'] = $weibo_info['description'];
+				$user_info['sex'] = $weibo_info['gender'];
+				$user_info['city'] = $weibo_info['location'];
+				$user_info['from_site'] = Sher_Core_Model_User::FROM_WEIBO;
+			
+			
+	            $ok = $user->create($user_info);
+				if($ok){
+					$user_id = $user->id;
+				}
+			} else {
+				$user_id = $result['_id'];
+				
+				// 重新更新access_token
+				$user->update_weibo_accesstoken($user_id, $token['access_token']);
+			}
+			
+			// 实现自动登录
+			Sher_Core_Helper_Auth::create_user_session($user_id);
+			
+        } catch (Sher_Core_Model_Exception $e) {
+            Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+            return $this->ajax_json("注册失败:".$e->getMessage(), true);
+        }
+		
+		$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+		
+		return $this->to_redirect($user_profile_url);
+	}
+	
+}
+?>
