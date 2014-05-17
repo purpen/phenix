@@ -2,13 +2,13 @@
 	<replace select="#favorite_{{ id }}">
 		{% if mode == 'create'%}
 		<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_cancel_favorite?id={{ id }}" id="favorite_{{ id }}">
-			<i class="flat icon star"></i> 已收藏
+			<i class="flat icon collection"></i> 已收藏
 		</a>
 		{% endif %}
 		
 		{% if mode == 'cancel'%}
 		<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_favorite?id={{ id }}" id="favorite_{{ id }}">
-			<i class="flat icon add"></i> 收藏
+			<i class="flat icon collection"></i> 收藏
 		</a>
 		{% endif %}
 	</replace>

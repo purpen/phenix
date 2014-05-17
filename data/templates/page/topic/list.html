@@ -30,14 +30,14 @@
 						</div>
 						<div class="right aligned two wide column">
 							<a class="ui showbox link" href="#advanced-filter-topic">
-								<i class="flat bullet3 icon"></i>
+								<i class="flat sort icon"></i>
 							</a>
 						</div>
 					</div>
 					
 				</div>
 				
-				<div class="ui segment attached">
+				<div class="ui segment bottom attached">
 					
 					<div class="ui grid hide" id="advanced-filter-topic">
 						<div class="row">
@@ -161,7 +161,7 @@
 				<h4 class="ui top attached header">
 					公告
 				</h4>
-				<div class="ui segment attached">
+				<div class="ui segment bottom attached">
 					{% cake_list var:'cake' size:1 %}
 					{% if cake%}
 						<p>{{ cake.content }}</p>
@@ -171,12 +171,12 @@
 				<h4 class="ui top attached header">
 					编辑推荐
 				</h4>
-				<div class="ui segment attached">
+				<div class="ui segment bottom attached">
 					{% topic_list var:'stick_list' size:5 stick:1 %}
 					<div class="ui divided list">
 						{% for topic in stick_list.rows %}
 						<div class="item">
-				          	<h4 class="header">
+				          	<h4 class="ui header">
 								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">
 									{{ topic.title|truncate, 16, '' }}
 								</a>

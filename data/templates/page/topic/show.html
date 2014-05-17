@@ -78,10 +78,10 @@
 				</div>
 				<div class="ui bottom attached footer">
 					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_favorite?id={{ topic._id }}" id="favorite_{{ topic._id }}">
-						<i class="flat star-empty icon"></i> 收藏
+						<i class="flat collection icon"></i> 收藏
 					</a>
 					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
-						<i class="flat heart-empty icon"></i> 赞
+						<i class="flat like icon"></i> 赞
 					</a>
 					
 					{%include 'block/share.html'%}
@@ -186,33 +186,33 @@
 				</a>
 				<div class="ui fluid four magenta labeled icon item menu">
 				  	<a class="item" href="{{ app_url_topic }}/edit?id={{ topic._id }}">
-				      	<i class="flat edit icon"></i>
+				      	<i class="flat edit_edit icon"></i>
 				      	编辑
 				  	</a>
 				  	<a class="item confirm-request" href="{{ app_url_topic }}/deleted?id={{ topic._id }}">
-				      	<i class="flat waste icon"></i>
+				      	<i class="flat edit_delete icon"></i>
 				      	删除
 				  	</a>
 					{% if topic.stick %}
 				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
-				      	<i class="flat stick icon"></i>
+				      	<i class="flat edit_recommend icon"></i>
 				      	推荐
 				  	</a>
 					{% else %}
 				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
-				      	<i class="flat stick icon"></i>
+				      	<i class="flat edit_recommend icon"></i>
 				      	推荐
 				  	</a>
 					{% endif %}
 					
 					{% if topic.top %}
 				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_top?id={{ topic._id }}" id="top_{{ topic._id }}">
-				      	<i class="flat pin icon"></i>
+				      	<i class="flat edit_top icon"></i>
 				      	取消置顶
 				  	</a>
 					{% else %}
 				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_top?id={{ topic._id }}" id="top_{{ topic._id }}">
-				      	<i class="flat pin icon"></i>
+				      	<i class="flat edit_top icon"></i>
 				      	置顶
 				  	</a>
 					{% endif %}
@@ -221,7 +221,7 @@
 				<h4 class="ui top attached header">
 					他的新帖
 				</h4>
-				<div class="ui segment attached">
+				<div class="ui segment bottom attached">
 					{% topic_list var:'user_list' size:5 sort:'latest' user_id:topic.user._id %}
 					<div class="ui list">
 						{% for topic in user_list.rows %}
@@ -235,7 +235,7 @@
 				<h4 class="ui top attached header">
 					社区新帖
 				</h4>
-				<div class="ui segment attached">
+				<div class="ui segment bottom attached">
 					{% topic_list var:'stick_list' size:5 sort:'latest' %}
 					<div class="ui list">
 						{% for topic in stick_list.rows %}

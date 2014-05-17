@@ -3,12 +3,21 @@
 		太火鸟
 	</a>
 	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="{{ app_url_action_base }}/index/home" class="{{ css_page_home }} item"><i class="flat home2 icon"></i>首页</a>
-		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item"><i class="flat roundtime icon"></i>预售</a>
-		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item"><i class="flat shopping icon"></i>商店</a>
-		<a href="{{ app_url_fever }}" class="{{ css_page_social }} item"><i class="flat talk icon"></i>发现</a>
+		<a href="{{ app_url_action_base }}/index/home" class="{{ css_page_home }} item">
+			<i class="flat home icon"></i>首页
+		</a>
+		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item">
+			<i class="flat sale icon"></i>预售
+		</a>
+		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
+			<i class="flat shopping icon"></i>商店
+		</a>
+		<a href="{{ app_url_fever }}" class="{{ css_page_social }} item">
+			<i class="flat discover icon"></i>发现
+		</a>
 	</div>
 </div>
+
 <div class="four wide column">
 	<form class="search item" method="post" action="{{ app_url_domain }}/search">
    	 	<div class="ui icon input">
@@ -17,42 +26,43 @@
 		</div>
 	</form>
 </div>
+
 <div class="four right aligned wide column">
 	<div class="ui login-user">
         <a href="{{ app_url_cart }}" class="ui {{ css_basket }} basket button" id="shopping-basket">
-            <i class="flat shopping2 icon"></i>
+            <i class="flat shopping_cart icon"></i>
 			{% if items_count > 0 %}
             <div class="floating circular ui label">{{ items_count }}</div>
 			{% else %}
 			<div class="floating circular ui label hide"></div>
 			{% endif %}
         </a>
-
+		
 		{% if visitor %}
 			<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
 				<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" />
 			</a>
 			<div class="ui top right pointing dropdown icon user-setting button">
-			  	{{ visitor.nickname }} <i class="flat arrowbottom icon"></i>
+			  	{{ visitor.nickname }}
 			  	<div class="menu">
 				    <a class="item" href="{{ app_url_my }}/account">
-				      	<i class="flat icon settings"></i> 账户设置
+				      	<i class="flat account_settings icon"></i> 账户设置
 					</a>
 				    <a class="item" href="{{ app_url_my }}/profile">
-				      	<i class="flat idprofile icon"></i> 查看个人资料
+				      	<i class="flat profile icon"></i> 查看个人资料
 					</a>
 				    <a class="item" href="{{ app_url_my }}/orders">
-				      	<i class="flat basket-alt icon"></i> 我的订单
+				      	<i class="flat order icon"></i> 我的订单
 					</a>
 				    <a class="item" href="{{ app_url_domain }}/help">
-				      	<i class="flat help icon"></i> 帮助
+				      	<i class="flat help_infor icon"></i> 帮助
 					</a>
 				    <a class="item" href="{{ app_url_admin_base }}">
-				      	<i class="flat bird icon"></i> 管理后台
+				      	<i class="flat admin_backstage icon"></i> 管理后台
 					</a>
 			
 				  	<a class="item" href="{{ app_url_logout }}">
-				    	<i class="flat icon outcoming"></i> 退出
+				    	<i class="flat exit icon"></i> 退出
 					</a>
 			  	</div>
 			</div>
