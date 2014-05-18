@@ -120,12 +120,78 @@
 	    color: #FFFFFF;
 	    font-size: 58px;
 	    position: absolute;
-	}
-	.hero .next {
-	    right: 130px;
+		text-decoration: none;
 	}
 	.hero .prev {
+	    right: 130px;
+	}
+	.hero .next {
 	    right: 50px;
+	}
+	.hero .disabled {
+		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=35)";
+		filter: alpha(opacity=35);
+		opacity: 0.35;
+	}
+	
+	.ui.block {
+		padding-top: 1.5em;
+	}
+	.ui.big.block {
+		padding-top: 2.5em;
+		padding-bottom: 2.5em;
+	}
+	.ui.white.backgroud.block {
+		background-color: #fff;
+	}
+	.ui.mask {
+		background-color: rgba(0, 0, 0, 0.7);
+	    -webkit-transition: all 0.5s ease 0s;
+	    -moz-transition: all 0.5s ease 0s;
+	    -o-transition: all 0.5s ease 0s;
+	    -ms-transition: all 0.5s ease 0s;
+		transition: all 0.5s ease 0s;
+	    height: 100%;
+	    width: 100%;
+	}
+	.ui.mask:hover {
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+	.ui.grid > .row > .padded {
+		padding-top: 1.5em;
+		padding-bottom: 1.5em;
+	}
+	
+	.newest-product > .product-image {
+		background: url("http://static.taihuoniao.me/packaged/images/product-kouzi.jpg") no-repeat scroll center top / cover  #565960;
+	    color: #FFFFFF;
+	    padding: 280px 15% 50px;
+		text-align: center;
+	}
+	.newest-product > .ui.product-bright.grid > .column{
+		padding: 1.35em 0;
+	}
+	
+	.ui.helper-banner {
+		background: url("http://static.taihuoniao.me/packaged/images/help-banner.jpg") no-repeat scroll center top / cover  #565960;
+	    color: #FFFFFF;
+	    padding: 150px 15%;
+	}
+	.ui.helper-banner .actions {
+		margin-top: 1.75em;
+	}
+	.video {
+		background: url("http://static.taihuoniao.me/packaged/images/video.jpg") no-repeat scroll center top / cover  #565960;
+	    color: #FFFFFF;
+	}
+	.video-content {
+		padding: 150px 15%;
+	}
+	.ui.invite {
+		padding-bottom: 1.5em;
+	}
+	.ui.invite .ui.button {
+		padding: 0.8em 3em;
 	}
 </style>
 {% endblock %}
@@ -188,50 +254,32 @@
 	<section id="frame">
 		<ul class="slidee">
 			
-			<li class="business slide-1" style="background-image: url('{{ app_url_domain }}/images/feature/012.jpg'); background-color: rgb(65, 178, 224);">
+			<li class="business slide-1" style="background-image: url('{{ app_url_packaged }}/images/012.jpg'); background-color: rgb(255, 51, 102);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
-                        <span>We build premium WordPress themes for your</span>
-                        <h1>太火鸟即将上线</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
-                        <aside>Trusted by <span>51.196</span> Customers.</aside>
+                        <span>中国最顶尖的原创产品社会化电商平台</span>
+                        <h1>太火鸟梦想起航</h1>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_about }}">
+							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+						</a>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
+							<span>关注太火鸟</span><i class="icon-arrow-right-sharp"></i>
+						</a>
                     </div>
                 </div>
 			</li>
 			
-			<li class="business slide-1" style="background-image: url('{{ app_url_domain }}/images/feature/photography.jpg'); background-color: rgb(65, 178, 224);">
+			<li class="business slide-2" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(65, 178, 224);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
-                        <span>We build premium WordPress themes for your</span>
-                        <h1>数码电子</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
-                        <aside>Trusted by <span>51.196</span> Customers.</aside>
-                    </div>
-                </div>
-			</li>
-			
-			<li class="restaurant slide-2" style="background-image: url('{{ app_url_domain }}/images/feature/restaurant.jpg'); background-color: rgb(65, 178, 224);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-                        <span>We build premium WordPress themes for your</span>
-                        <h1>创意家居</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
-                        <aside>Trusted by <span>51.196</span> Customers.</aside>
-                    </div>
-                </div>
-			</li>
-			
-			<li class="education slide-3" style="background-image: url('{{ app_url_domain }}/images/feature/education.jpg'); background-color: rgb(65, 178, 224);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-                        <span>We build premium WordPress themes for your</span>
-                        <h1>亲子教育</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>Browse Category</span><i class="icon-arrow-right-sharp"></i></a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href=""><span>View All Themes</span><i class="icon-arrow-right-sharp"></i></a>
-                        <aside>Trusted by <span>51.196</span> Customers.</aside>
+                        <span>全球最小运动监测可穿戴式设备</span>
+                        <h1>Goccia</h1>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
+							<span>查看详情</span><i class="icon-arrow-right-sharp"></i>
+						</a>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
+							<span>预约订购</span><i class="icon-arrow-right-sharp"></i>
+						</a>
                     </div>
                 </div>
 			</li>
@@ -239,36 +287,24 @@
 		</ul>
 	</section>
 	<a class="prev" href="#">
-		<i class="flat thinlinearrowright icon"></i>
+		<i class="flat arrow_left icon"></i>
 	</a>
 	<a class="next" href="#">
-		<i class="flat thinlinearrowleft icon"></i>
+		<i class="flat arrow_right icon"></i>
 	</a>
+	
 	<ul class="nav-categories">
         <div class="container">
             <li class="category business">
-				<a href="http://www.themeskingdom.com/theme-category/business/">
-					<i class="icon-business"></i>Business
+				<a href="">
+					<i class="flat home icon"></i> 
+					All
 				</a>
 			</li>
             <li class="category education">
-				<a href="http://www.themeskingdom.com/theme-category/education/">
-					<i class="icon-education"></i>Education
-				</a>
-			</li>
-            <li class="category restaurant">
-				<a href="http://www.themeskingdom.com/theme-category/restaurant/">
-					<i class="icon-restaurant"></i>Restaurant
-				</a>
-			</li>
-            <li class="category photography">
-				<a href="http://www.themeskingdom.com/theme-category/photography/">
-					<i class="icon-photography"></i>Photography
-				</a>
-			</li>
-            <li class="category health">
-				<a href="http://www.themeskingdom.com/theme-category/health/">
-					<i class="icon-health"></i>Health
+				<a href="">
+					<i class="flat icon"></i>
+					新品
 				</a>
 			</li>
         </div>
@@ -276,19 +312,98 @@
 	
 </article>
 
-<div class="home">
-	<div class="ui responsive grid">
-		<div class="ui column">
-			<h1>首页</h1>
-			
-			<h1>首页</h1>
-			
-			<h1>首页</h1>
-			
-			<h1>首页</h1>
-			
-			<h1>首页</h1>
+<section class="ui white backgroud newest-product block">
+	<div class="product-image">
+		<h1 class="ui header">Goccia<br/>全球最小运动监测可穿戴式设备</h1>
+		<a href="" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+			了解更多
+		</a>
+	</div>
+	<div class="ui responsive product-bright grid">
+		<div class="five center aligned wide column">
+			<h3 class="ui header">光传输数据</h3>
+			<p>全球同类产品功耗最低&超炫视觉效果</p>
+			<img src="{{ app_url_packaged }}/images/kouzi-feat01.jpg" />
+		</div>
+		<div class="five center aligned wide column">
+			<h3 class="ui header">无线充电，新技术应用</h3>
+			<p>全球同类产品功耗最低&超炫视觉效果</p>
+			<img src="{{ app_url_packaged }}/images/kouzi-feat02.jpg" />
+		</div>
+		<div class="six center aligned wide column">
+			<h3 class="ui header">超酷用户体验</h3>
+			<p>DIY佩戴彰显个性；防水性能强多环境自由使用；</p>
+			<img src="{{ app_url_packaged }}/images/kouzi-feat03.png" />
 		</div>
 	</div>
-</div>
+</section>
+
+<section class="ui helper-banner block">
+	<div class="ui grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h2 class="ui header">
+					提交你的创意
+				</h2>
+				<p>把你天马行空的创意交给我们，我们一起将它变成现实。</p>
+				<div class="actions">
+					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+						提交创意
+					</a>
+					<a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						创意投票
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui white backgroud block">
+	<div class="ui responsive grid">
+		<div class="eight center aligned wide column">
+			<h3 class="ui header">商店</h3>
+			<p>数以万计的原创创意产品，满足你提升生活品质的需求。</p>
+			<img src="{{ app_url_packaged }}/images/home10.jpg" />
+		</div>
+		<div class="eight center aligned wide column">
+			<h3 class="ui header">社区话题</h3>
+			<p>会员与其他会员讨论关于产品创意的话题。</p>
+			<img src="{{ app_url_packaged }}/images/home11.jpg" />
+		</div>
+	</div>
+</section>
+
+<section class="ui video">
+	<div class="ui transparent mask">
+		<div class="ui grid">
+			<div class="center aligned column">
+				<div class="video-content">
+					<a href="" class="ui white circular fourem icon button">
+						<i class="flat play icon"></i>
+					</a>
+					<h3 class="ui header">人生是场大设计</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui white backgroud invite block">
+	<div class="ui responsive two column grid">
+		<div class="middle aligned row">
+			<div class="center aligned column">
+				<h3 class="ui header">提交创意，发现激动人心的产品</h3>
+				<p >想了解更多，查看<a href="{{ app_url_help }}" class="ui link">如何工作？</a></p>
+			</div>
+			<div class="column">
+				<a href="{{ app_url_register }}" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">现在加入</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
 {% endblock %}

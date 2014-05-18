@@ -1,11 +1,51 @@
-<footer class="ui responsive grid" id="ft">
-	<div class="sixteen wide column">
-		<div class="ui divided horizontal list">
-		  	<div class="item">关于我们</div>
-		  	<div class="item">Contact</div>
-		  	<div class="item">Support</div>
+<footer id="ft">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="four wide column">
+				<div class="ui list">
+				  	<h2 class="item"><b>关于太火鸟</b></h2>
+					<a href="{{ app_url_about }}" class="ui link item">关于我们</a>
+					<a href="" class="ui link item">联系我们</a>
+					<a href="" class="ui link item">加入我们</a>
+				</div>
+			</div>
+			<div class="four wide column">
+				<div class="ui list">
+				  	<h2 class="item"><b>服务</b></h2>
+					<a href="{{ app_url_helper }}" class="ui link item">如何工作</a>
+					<a href="" class="ui link item"> 投票规则</a>
+				</div>
+			</div>
+			<div class="four wide column">
+				<div class="ui list">
+				  	<h2 class="item"><b>帮助中心</b></h2>
+					<a href="" class="ui link item">常见问题</a>
+					<a href="" class="ui link item"> 服务协议</a>
+					<a href="" class="ui link item"> 创意提交规范</a>
+				</div>
+			</div>
+			<div class="four wide column">
+				<div class="ui list">
+				  	<h2 class="item"><b>关注我们</b></h2>
+				</div>
+				<a href="http://weibo.com/taihuoniao" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
+					<i class="flat icon_weibo icon"></i>
+				</a>
+				<a href="http://t.qq.com/taihuoniao" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
+					<i class="flat icon_qqweibo icon"></i>
+				</a>
+				<a href="" class="ui green circular share icon button" title="微信">
+					<i class="flat icon_weixin icon"></i>
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<p class="copyright">Copyright © 2014 Taihuoniao.com 版权所有.All rights reserved. 京ICP备14016844号</p>
+			</div>
 		</div>
 	</div>
+	
 	{% if css_use_bundle %}
 	<div class="ui tongji hide">
 		<script>

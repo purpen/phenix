@@ -397,11 +397,11 @@
 						<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
 						<div id="product-vote">
 							<a href="{{ app_url_fever }}/ajax_favor?id={{ product._id }}" class="ui active magenta button ajax-request">
-								<i class="flat diggood icon"></i>
+								<i class="flat support icon"></i>
 							</a>
 						
 							<div class="ui dropdown magenta button">
-							  	<i class="flat digbad icon"></i>
+							  	<i class="flat oppose icon"></i>
 							  	<div class="menu">
 									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax-request">
 										没有兴趣

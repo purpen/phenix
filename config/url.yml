@@ -118,6 +118,7 @@ app.url.default_thumb_middle_height: 180
 
 # 帮助中心
 app.url.helper: '{$app.url.action_base}/helper'
+app.url.about: '{$app.url.action_base}/about'
 
 # 图片分享
 app.url.share: '{$app.url.domain}/share'

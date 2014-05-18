@@ -134,27 +134,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 帮助中心
-	 */
-	public function help() {
-		return $this->to_html_page('page/help.html');
-	}
-	
-	/**
-	 * 关于我们
-	 */
-	public function about() {
-		return $this->to_html_page('page/about.html');
-	}
-	
-	/**
-	 * 联系我们
-	 */
-	public function contact() {
-		return $this->to_html_page('page/contact.html');
-	}
-	
-	/**
 	 * 显示列表
 	 */
 	protected function _display_user_list($sex=1){

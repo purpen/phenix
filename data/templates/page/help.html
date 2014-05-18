@@ -1,33 +1,318 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block page_css %}
 <style type="text/css">
-	
-	
+.helper-banner {
+	background: url("http://static.taihuoniao.me/packaged/images/help-banner.jpg") no-repeat scroll center top / cover  #565960;
+    color: #FFFFFF;
+    padding: 150px 15%;
+}
+
+.ui.block {
+	padding-top: 1.5em;
+}
+.ui.big.block {
+	padding-top: 2.5em;
+	padding-bottom: 2.5em;
+}
+.ui.grid > .row > .padded {
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+}
+.white.backgroud {
+	background-color: #fff;
+}
+.submit-idea {
+	line-height: 1.65em;
+    padding-top: 10em;
+    width: 85%;
+}
+.submit-idea > h1 {
+	color: #ff3366;
+}
+.submit-idea > p {
+	color: #999;
+}
+.expert-point {
+	padding-top: 7em;
+}
+
+ul.sidemenu {
+    position: fixed;
+    right: 30px;
+    top: 300px;
+}
+ul.sidemenu li {
+    display: block;
+    margin-bottom: 0;
+    text-align: right;
+}
+ul.sidemenu li a {
+	color: #FF3B6B;
+    display: inline-block;
+    line-height: 1.6em;
+    margin-right: 10px;
+    transition: all 0.5s ease 0s;
+}
+ul.sidemenu li a span {
+    display: inline-block;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.5s ease 0s;
+}
+ul.sidemenu li a:hover span {
+    opacity: 1;
+}
+.dots li a {
+    padding-left: 26px;
+    position: relative;
+}
+.dots li a i {
+    background: none repeat scroll 0 0 #FF3B6B;
+    border-radius: 100%;
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: 5px;
+    transform: scale(0.5);
+    transition: all 0.5s ease 0s;
+    width: 12px;
+}
+.dots li a:hover i {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #FF3B6B;
+    transform: scale(1);
+}
+.dots li.active a i {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #FF3B6B;
+    transform: scale(1);
+}
+.dots.dotsRight li a {
+    padding-left: 0;
+    padding-right: 26px;
+}
+.dots.dotsRight li a i {
+    left: auto;
+    right: 0;
+}
+.ui.red.circular.icon.button {
+    height: 3em;
+    width: 3em;
+}
+.ui.red.circular.icon.button > i.icon {
+    font-size: 1.5em;
+    line-height: 1.25em;
+}
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
 	
-	$('.ui.blue.button').click(function(){
-		$('.ui.modal').modal('show');
-		return false;
-	});
-	
 {% endblock %}
 {% block content %}
-<div class="helper">
-	<div class="ui responsive grid">
+
+<ul class="sidemenu dots dotsRight">
+    <li class="active">
+		<a ng-click="scrollTo('submitidea')" href="">
+			<span>提交创意</span><i></i>
+		</a>
+	</li>
+    <li class="">
+		<a ng-click="scrollTo('voteidea')" href="">
+			<span>创意投票</span><i></i>
+		</a>
+	</li>
+    <li>
+		<a ng-click="scrollTo('expertpoint')" href="">
+			<span>专家评分</span><i></i>
+		</a>
+	</li>
+    <li>
+		<a ng-click="scrollTo('presale')" href="">
+			<span>在线预售</span><i></i>
+		</a>
+	</li>
+    <li>
+		<a ng-click="scrollTo('hotsale')" href="">
+			<span>销售</span><i></i>
+		</a>
+	</li>
+</ul>
+
+<section class="helper-banner">
+	<div class="ui grid">
 		<div class="row">
-			<div class="ui column">
-				<h4>帮助中心</h4>
-				
-				<a href="" class="ui blue button">显示弹出框</a>
-				
-				
-				
+			<div class="fourteen wide column">
+				<h2 class="ui header">
+					提交你的创意
+				</h2>
+				<p>The next great Quircky invebtion could be at your fingertips! Submit your counsumer product idea and get one step clouse to seeing your product on store shelves.Hit us with your best shot.</p>
+				<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+					提交创意
+				</a>
+				<a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					现在加入
+				</a>
 			</div>
 		</div>
 	</div>
-</div>
+</section>
+
+<section class="ui center aligned grid">
+	<div class="row white backgroud">
+		<div class="column padded">
+			<div class="ui breadcrumb">
+			  	<a class="section">提交创意</a>
+			  	<i class="flat page_right icon divider"></i>
+			  	<a class="section">创意投票</a>
+			  	<i class="flat page_right icon divider"></i>
+			  	<a class="section">专家评分</a>
+			  	<i class="flat page_right icon divider"></i>
+			  	<a class="section">在线预售</a>
+			  	<i class="flat page_right icon divider"></i>
+				<a class="section">销售</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui block">
+	<div class="ui responsive grid">
+		<div class="eight wide column">
+			<div class="submit-idea">
+				<h1 class="ui header">提交创意</h1>
+				<p>登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</p>
+			</div>
+		</div>
+		<div class="eight wide column">
+			<img src="{{ app_url_packaged }}/images/1.png" class="ui image" />
+		</div>
+	</div>
+</section>
+
+<section class="ui big block white backgroud">
+	<div class="ui responsive grid">
+		<div class="eight wide column">
+			<img src="{{ app_url_packaged }}/images/2.png" class="ui image" />
+		</div>
+		<div class="eight wide column">
+			<div class="submit-idea">
+				<h1 class="ui header">创意投票</h1>
+				<p>提交的创意通过审核后，进行为期2个星期的投票。用户可以选择对提交的创意进行支持，不支持的投票选择你不支持的理由。</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big block">
+	<div class="ui responsive grid">
+		<div class="eight wide column">
+			<div class="submit-idea expert-point">
+				<h1 class="ui header">专家评分</h1>
+				<p>投票阶段获得100张选票的创意，进入专家评分的阶段，5位专家将在1周内对创意从设计、功能、外观、创意、4个方面给出评分。</p>
+			</div>
+		</div>
+		<div class="eight wide column">
+			<img src="{{ app_url_packaged }}/images/3.png" class="ui image" />
+		</div>
+	</div>
+</section>
+
+<section class="ui block white backgroud">
+	<div class="ui responsive grid">
+		<div class="eight wide column">
+			<img src="{{ app_url_packaged }}/images/4.png" class="ui image" />
+		</div>
+		<div class="eight wide column">
+			<div class="submit-idea">
+				<h1 class="ui header">在线预售</h1>
+				<p>重新编辑创意投票页面，添加相关的产品预售选项。在30-45天内筹集相应金额，用户选择不同的额度支持。</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui block">
+	<div class="ui responsive grid">
+		<div class="eight wide column">
+			<div class="submit-idea">
+				<h1 class="ui header">销售</h1>
+				<p>预售成功的产品将会进入批量生产，进入各大电商平台销售。将有机会成为爆款创意产品。</p>
+			</div>
+		</div>
+		<div class="eight wide column">
+			<div class="ui three items">
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/6.png" />
+					</div>
+					<div class="content">
+						<div class="description">
+							￥368
+							<div class="extra"><i class="flat like icon"></i></div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/7.png" />
+					</div>
+					<div class="content">
+						<div class="description">
+							￥368
+							<div class="extra"><i class="flat like icon"></i></div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/8.png" />
+					</div>
+					<div class="content">
+						<div class="description">
+							￥368
+							<div class="extra"><i class="flat like icon"></i></div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/9.png" />
+					</div>
+					<div class="content">
+						<div class="description">
+							￥368
+							<div class="extra"><i class="flat like icon"></i></div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/10.png" />
+					</div>
+					<div class="content">
+						<div class="description">
+							￥368
+							<div class="extra"><i class="flat like icon"></i></div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/12.png" />
+					</div>
+					<div class="content">
+						<div class="description">
+							￥368
+							<div class="extra"><i class="flat like icon"></i></div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+</section>
 {% endblock %}
