@@ -1,5 +1,145 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block page_css %}
+<style type="text/css">
+.about-banner {
+	background: url("http://static.taihuoniao.me/packaged/images/help-banner.jpg") no-repeat scroll center top / cover  #565960;
+    color: #FFFFFF;
+    padding: 140px 15% 50px;
+}
+.about-banner p {
+	line-height: 2em;
+}
+
+.ui.block {
+	padding-top: 1.5em;
+}
+.ui.big.block {
+	padding-top: 2.5em;
+	padding-bottom: 2.5em;
+}
+.ui.grid > .row > .padded {
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+}
+.white.backgroud {
+	background-color: #fff;
+}
+.magenta.backgroud {
+	background-color: #ff3366;
+	color: #fff;
+}
+.submit-idea {
+	line-height: 1.65em;
+    padding-top: 10em;
+    width: 85%;
+}
+.submit-idea > h1 {
+	color: #ff3366;
+}
+.submit-idea > p {
+	color: #999;
+}
+.expert-point {
+	padding-top: 7em;
+}
+.ui.world {
+	background: url("http://static.taihuoniao.me/packaged/images/world.jpg") no-repeat scroll center top / cover #003659;
+    color: #FFFFFF;
+}
+
+
+ul.sidemenu {
+    position: fixed;
+    right: 30px;
+    top: 300px;
+}
+ul.sidemenu li {
+    display: block;
+    margin-bottom: 0;
+    text-align: right;
+}
+ul.sidemenu li a {
+	color: #FF3B6B;
+    display: inline-block;
+    line-height: 1.6em;
+    margin-right: 10px;
+    transition: all 0.5s ease 0s;
+}
+ul.sidemenu li a span {
+    display: inline-block;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.5s ease 0s;
+}
+ul.sidemenu li a:hover span {
+    opacity: 1;
+}
+.dots li a {
+    padding-left: 26px;
+    position: relative;
+}
+.dots li a i {
+    background: none repeat scroll 0 0 #FF3B6B;
+    border-radius: 100%;
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: 5px;
+    transform: scale(0.5);
+    transition: all 0.5s ease 0s;
+    width: 12px;
+}
+.dots li a:hover i {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #FF3B6B;
+    transform: scale(1);
+}
+.dots li.active a i {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #FF3B6B;
+    transform: scale(1);
+}
+.dots.dotsRight li a {
+    padding-left: 0;
+    padding-right: 26px;
+}
+.dots.dotsRight li a i {
+    left: auto;
+    right: 0;
+}
+.ui.red.circular.icon.button {
+    height: 3em;
+    width: 3em;
+}
+.ui.red.circular.icon.button > i.icon {
+    font-size: 1.5em;
+    line-height: 1.25em;
+}
+.ui.principle i {
+	font-size: 58px;
+	color: #ff3366;
+	margin: 0;
+}
+.ui.world .ui.images > img {
+	border: 5px solid #fff;
+	margin: 0 0.5em 0.5em;
+}
+.ui.team .ui.images > img {
+    -webkit-transition: all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+    -o-transition: all 0.5s ease 0s;
+    -ms-transition: all 0.5s ease 0s;
+	transition: all 0.5s ease 0s;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+.ui.team .ui.images > img:hover {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+	filter: alpha(opacity=85);
+	opacity: 0.85;
+}
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
@@ -10,12 +150,131 @@
 	$('#select-filter-four').select2();
 {% endblock %}
 {% block content %}
-<div class="container">
-	<div class="row list-group mt-20 clearfix">
-		<div class="col-md-12">
-			<h4>关于我们</h4>
+<section class="about-banner">
+	<div class="ui center aligned grid">
+		<div class="row">
+			<div class="center aligned twelve wide column">
+				<h1 class="ui header">
+					关于太火鸟
+				</h1>
+				<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big white backgroud principle block">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">我们的原则</h3>
+				<p>建设一个店很容易。建立社区是很难的。 我们正在建立一个社会支持发明和创新。</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="four center aligned wide column">
+				<h3 class="ui header">信任</h3>
+				<i class="flat help_infor icon"></i>
+				<p>首先我们是一个致力于帮助创新，小企业的社区。</p>
+			</div>
+			<div class="four center aligned wide column">
+				<h3 class="ui header">安全</h3>
+				<i class="flat share icon"></i>
+				<p>安全交易和最好的客户服务确保一个安全的环境。</p>
+			</div>
+			<div class="four center aligned wide column">
+				<h3 class="ui header">质量</h3>
+				<i class="flat support icon"></i>
+				<p>产品和卖家进行审查，以确保最高的质量。</p>
+				
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big magenta backgroud block">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">太火鸟大事记</h3>
+				<p>我们正在建立一个社会支持发明和创新。</p>
+			</div>
+		</div>
+		<div class="row">
 			
 		</div>
 	</div>
-</div>
+</section>
+
+<section class="ui big world block">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">活动瞬间</h3>
+				<p>一些图片从我们已经参加了与其他厂商在世界各地的事件。</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<div class="ui medium images">
+					<img src="{{ app_url_packaged }}/images/event-01.jpg" />
+					<img src="{{ app_url_packaged }}/images/event-02.jpg" />
+					<img src="{{ app_url_packaged }}/images/event-01.jpg" />
+					<img src="{{ app_url_packaged }}/images/event-02.jpg" />
+					<img src="{{ app_url_packaged }}/images/event-01.jpg" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big team block">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">我们团队</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned fourteen wide column">
+				<div class="ui medium images">
+					<img src="{{ app_url_packaged }}/images/people-01.jpg" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-02.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-03.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-04.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-05.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-06.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-07.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+					<img src="{{ app_url_packaged }}/images/people-08.jpg" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>Byheart</i>" data-variation="inverted" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big media block">
+	<div class="ui responsive center aligned grid">
+		<div class="row only-one">
+			<div class="center aligned column">
+				<h3 class="ui header">媒体报道</h3>
+			</div>
+		</div>
+	</div>
+	<div class="ui responsive grid">
+		<div class="row only-one">
+			<div class="four wide column">
+				<a href="http://cn.technode.com/post/2014-05-15/taihuoniao/" target="_blank" class="ui magenta link">
+					太火鸟:在创新产品中淘金 获真格基金领投200万美元投资
+				</a>
+				<p><i>- 动点科技</i></p>
+			</div>
+			<div class="four wide column">
+				<a href="http://v.youku.com/v_show/id_XNjY2NDkzMjEy.html" target="_blank" class="ui magenta link">
+					视频: 马年第一神曲爆搞笑《我赚钱鸟之马年太火鸟》
+				</a>
+				<p><i>- 优酷土豆</i></p>
+			</div>
+		</div>
+	</div>
+</section>
 {% endblock %}
