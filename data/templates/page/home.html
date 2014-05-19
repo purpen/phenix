@@ -7,7 +7,6 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
-	
 </style>
 {% endblock %}
 {% block js %}
@@ -61,7 +60,15 @@
 		
 		$frame.sly('reload');
 	});
-	  
+	 
+	// 显示视频框
+	$('.ui.video').bind('click', function(){
+		$('.ui.videobox.modal').modal('show');
+	});
+	
+	// 分享按钮
+	phenix.bind_share_list();
+	
 {% endblock %}
 
 {% block content %}
@@ -196,6 +203,7 @@
 				<i class="flat play icon"></i>
 				<div class="video-content">
 					<h3 class="ui header">人生是场大设计</h3>
+					<p>【致离经叛道的自己】亿万漂泊者的心声，太火鸟！</p>
 				</div>
 			</div>
 		</div>
@@ -216,7 +224,6 @@
 	</div>
 </section>
 
-
-
+{% include "block/video/bird-second.html" %}
 
 {% endblock %}
