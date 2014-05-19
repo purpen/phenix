@@ -3,23 +3,23 @@
 		{% if domain == 'fever'%}
 			{% if mode == 'create'%}
 				<a href="{{ app_url_fever }}/ajax_cancel_laud?id={{ id }}" class="ui active laud ajax-request link" id="laud_{{ id }}">
-					{{ product.love_count }} <i class="flat heart icon"></i>
+					{{ product.love_count }} <i class="flat like icon"></i>
 				</a>
 			{% endif %}
 			{% if mode == 'cancel'%}
 				<a href="{{ app_url_fever }}/ajax_laud?id={{ id }}" class="ui active laud ajax-request link" id="laud_{{ id }}">
-					{{ product.love_count }} <i class="flat heart icon"></i>
+					{{ product.love_count }} <i class="flat like icon"></i>
 				</a>
 			{% endif %}
 		{% else %}
 			{% if mode == 'create'%}
 				<a class="ui link ajax-request" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
-					<i class="flat red icon heart"></i>
+					<i class="flat red icon like"></i>
 				</a>
 			{% endif %}
 			{% if mode == 'cancel'%}
 				<a class="ui link ajax-request" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
-					<i class="flat icon heart64"></i>
+					<i class="flat icon like"></i>
 				</a>
 			{% endif %}
 		{% endif %}

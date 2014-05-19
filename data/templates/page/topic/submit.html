@@ -1,13 +1,21 @@
 {%extends 'layout/board.html'%}
 {% block title %}发布想法-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+
+</style>
 {% endblock %}
+
 {% block page_js %}
 {% endblock %}
 {% block jquery %}
+	$('.ui.accordion').accordion();
+	
 	$('#editor').editable({
 		inlineMode: false,
 		language: 'zh_cn',
+		borderColor: '#666',
+		editorClass: 'bird',
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "undo", "redo"],
 		contentChangedCallback: function () {
 		    $("#editor").val($("#editor").editable("getHTML"));
@@ -132,28 +140,20 @@
 		});
 	});
 	
+	
 {% endblock %}
 
 {% block content %}
-<div class="social">
+<div class="ui social">
 	<div class="ui responsive grid">
-		
-		
 		<div class="row">
 			<div class="eleven wide column">
-				<h3>发表话题</h3>
+				<h1 class="ui header">发表话题</h1>
 				<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
 					<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
 					<div class="field">
 						<label for="title">标题</label>
 					  	<input type="text" name="title" value="{{ topic.title }}" />
-					</div>
-					
-					<div class="field">
-						<label for="description">描述</label>
-						
-					  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
-						<div class="description">请详细的描述</div>
 					</div>
 					
 					<div class="field">
@@ -169,6 +169,13 @@
 						<label>标签</label>
 					  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
 						<div class="description">标签之间使用，逗号隔开</div>
+					</div>
+					
+					<div class="field">
+						<label for="description">描述</label>
+						
+					  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
+						<div class="description">请详细的描述</div>
 					</div>
 					
 					<div class="field">
@@ -197,7 +204,6 @@
 						</div>
 					</div>
 					
-					
 					<div class="field">
 						<label for="video_url">视频链接</label>
 						{% if topic.video_url %}
@@ -210,8 +216,8 @@
 						<div class="description">支持优酷、土豆等视频链接</div>
 					</div>
 					
-					<div class="ui grid">
-						<div class="right floated aligned eight wide column">
+					<div class="ui right floated aligned grid">
+						<div class="column">
 							<div class="ui gray button">取消</div>
 							<div class="ui magenta submit button">确认提交</div>
 						</div>
@@ -220,8 +226,30 @@
 				</form>
 			</div>
 			<div class="five wide column">
-				<h2>Q&A</h2>
-				
+				<h3 class="ui header">Q&A</h3>
+				<div class="ui basic accordion">
+				  	<div class="title">
+				    	<i class="flat page_right icon"></i>
+				    	如何提交创意？
+				  	</div>
+				  	<div class="content">
+				    	<p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+				  	</div>
+				  	<div class="title">
+				    	<i class="flat page_right icon"></i>
+				    	创意如何通过审核？
+				  	</div>
+				  	<div class="content">
+				    	<p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+				  	</div>
+				  	<div class="title">
+				    	<i class="flat page_right icon"></i>
+				    	创意评分规则？
+				  	</div>
+				  	<div class="content">
+				    	<p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+				  	</div>
+				</div>
 			</div>
 		</div>
 	</div>

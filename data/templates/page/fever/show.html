@@ -197,18 +197,6 @@
 		margin: 0;
 	}
 	
-	.product-detail {
-		padding: 2em 0;
-	}
-	.ui.product.buttons > .item.button {
-		padding: 1.2em 4em;
-	}
-	#product-vote-people > .ui.list > .item  > .content {
-		display: block;
-	    line-height: 1.5em;
-	    margin-top: 0.5em;
-	    text-align: center;
-	}
 </style>
 {% endblock %}
 {% block js %}
@@ -252,9 +240,9 @@
 				<div class="twelve wide column">
 					<div class="ui medium breadcrumb">
 					  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
-					  	<i class="flat arrowright icon divider"></i>
+					  	<i class="flat page_right icon divider"></i>
 					  	<a class="ui section link" href="{{ app_url_fever }}">创意投票</a>
-					  	<i class="flat arrowright icon divider"></i>
+					  	<i class="flat page_right icon divider"></i>
 					  	<div class="active section">{{ product.title }}</div>
 					</div>
 				</div>
@@ -296,7 +284,7 @@
 					<div class="product designer">
 						<a href="{{ product.user.home_url }}" class="ui link">{{ product.user.nickname }}</a>
 						<a href="{{ app_url_fever }}/ajax_laud?id={{ product._id }}" class="ui laud ajax-request link" id="laud_{{ product._id }}">
-							{{ product.love_count }} <i class="flat heart icon"></i>
+							{{ product.love_count }} <i class="flat like icon"></i>
 						</a>
 					</div>
 				
@@ -472,29 +460,26 @@
 			</div>
 			
 			<div class="ui active tab" data-tab="content">
-				<div class="ui grid">
-					<div class="ui two wide column"></div>
-					<div class="ui twelve wide column">
-						{{ product.content }}
+				<div class="ui center aligned grid">
+					<div class="twelve wide column">
+						<div class="product-content-box">
+							{{ product.content }}
+						</div>
 					</div>
-					<div class="ui two wide column"></div>
 				</div>
 			</div>
 			
 			<div class="ui bottom attached tab" data-tab="talk">
-				<div class="ui grid">
-					<div class="ui two wide column"></div>
-					<div class="ui twelve wide column">
+				<div class="ui center aligned grid">
+					<div class="twelve wide column">
 						{% include "block/product_topic.html" %}
 					</div>
-					<div class="ui two wide column"></div>
 				</div>
 			</div>
 			
 			<div class="ui bottom attached tab" data-tab="people">
-				<div class="ui grid">
-					<div class="ui two wide column"></div>
-					<div class="ui twelve wide column">
+				<div class="ui center aligned grid">
+					<div class="twelve wide column">
 						<!--最新投票者列表-->
 						<div class="avatars" id="product-vote-people">
 							{% vote_list var:'votelist' target_id:product._id size:8 %}
@@ -514,9 +499,7 @@
 							</div>
 				
 						</div>
-				
 					</div>
-					<div class="ui two wide column"></div>
 				</div>
 			</div>
 			
