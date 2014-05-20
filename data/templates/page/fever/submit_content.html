@@ -13,6 +13,9 @@
 	$('#editor').editable({
 		inlineMode: false,
 		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		height: 500,
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageParams: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
@@ -129,13 +132,13 @@
 					
 					<div class="ui grid">
 						<div class="left floated eight wide column">
-							<a href="{{ app_url_fever }}/submit?step=1&id={{ product.sku }}" class="ui large labeled icon gray button">
-								上一步<i class="flat play_back icon"></i>
+							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large labeled icon gray button">
+								上一步<i class="flat back icon"></i>
 							</a>
 						</div>
 						<div class="right floated aligned eight wide column">
 							<div class="ui right large icon labeled magenta submit button">
-								下一步<i class="flat play icon"></i>
+								下一步<i class="flat play_01 icon"></i>
 							</div>
 						</div>
 					</div>

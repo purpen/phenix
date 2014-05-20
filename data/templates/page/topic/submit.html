@@ -14,8 +14,9 @@
 	$('#editor').editable({
 		inlineMode: false,
 		language: 'zh_cn',
-		borderColor: '#666',
+		borderColor: '#999',
 		editorClass: 'bird',
+		height: 300,
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "undo", "redo"],
 		contentChangedCallback: function () {
 		    $("#editor").val($("#editor").editable("getHTML"));
@@ -157,15 +158,6 @@
 					</div>
 					
 					<div class="field">
-						<label>类别</label>
-						<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
-						{% category_list var:'category' only_open:1 domain:2 current:topic.category_id %}
-						{% for cat in category.rows %}
-						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
-						{% endfor %}
-					</div>
-					
-					<div class="field">
 						<label>标签</label>
 					  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
 						<div class="description">标签之间使用，逗号隔开</div>
@@ -176,6 +168,15 @@
 						
 					  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
 						<div class="description">请详细的描述</div>
+					</div>
+					
+					<div class="field">
+						<label>类别</label>
+						<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+						{% category_list var:'category' only_open:1 domain:2 current:topic.category_id %}
+						{% for cat in category.rows %}
+						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+						{% endfor %}
 					</div>
 					
 					<div class="field">
