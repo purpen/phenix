@@ -1,13 +1,13 @@
 <taconite>
 	<replace select="#laud_{{ id }}">
 		{% if mode == 'create'%}
-		<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
+		<a class="ui magenta labeled icon button ajax" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
 			<i class="flat icon like"></i> {{ topic.love_count }} 已赞
 		</a>
 		{% endif %}
 		
 		{% if mode == 'cancel'%}
-		<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
+		<a class="ui magenta labeled icon button ajax" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
 			<i class="flat like icon"></i> 赞
 		</a>
 		{% endif %}

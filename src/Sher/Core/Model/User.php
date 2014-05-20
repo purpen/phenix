@@ -190,7 +190,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
-		# 用户头像
+		// 显示名称
+		$row['screen_name'] = !empty($row['nickname']) ? $row['nickname'] : '火鸟人';
+		
+		// 用户头像
 		if(!empty($row['avatar'])){
 			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['big'], 'avb.jpg');
 			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['medium'], 'avm.jpg');

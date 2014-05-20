@@ -1,5 +1,5 @@
 {%extends 'layout/board.html'%}
-{% block title %}{{ user.nickname }}-{% endblock %}
+{% block title %}{{ user.screen_name }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .user-head {
@@ -25,6 +25,36 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
 	
 {% endblock %}
 
@@ -43,12 +73,17 @@
 					</p>
 					<p class="summary">{{ user.summary }}</p>
 					{% if user._id != visitor.id %}
-					<a href="" class="ui small white button">
+					{% if !is_ship %}
+					<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
 						关注 
 					</a>
-					<a href="" class="ui small white button">
-						私信 
-					</a>
+					{% else %}
+					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+					{% endif %}
+					
+					<button class="ui small white letter button">
+						私信
+					</button>
 					{% endif %}
 				</div>
 			</div>
@@ -88,13 +123,13 @@
 				<h3 class="ui header">关注他</h3>
 				<div class="ui social">
 					<a href="" title="新浪微博" class="ui small red icon button">
-						<i class="flat sina_weibo_plane icon"></i>
+						<i class="flat icon_weibo icon"></i>
 					</a>
 					<a href="" title="腾讯微博" class="ui small blue icon button">
-						<i class="flat tt_weibo_plane icon"></i>
+						<i class="flat icon_qqweibo icon"></i>
 					</a>
 					<a href="" title="豆瓣" class="ui small green icon button">
-						<i class="flat icon douban_plane"></i>
+						<i class="flat icon icon_douban"></i>
 					</a>
 				</div>
 			</div>
@@ -152,4 +187,7 @@
 		{% endif %}
 	</div>
 </div>
+
+{% include "block/message.html" %}
+
 {% endblock %}

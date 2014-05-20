@@ -83,17 +83,18 @@ server {
 	    }
 
 	    location /user {
-		  rewrite ^/user/(\d+)[/]?$ /app/site/user?user_id=$1 last;
-	      rewrite ^/user/(\d+)/like[/]?$ /app/site/user/like?user_id=$1 last;
-	      rewrite ^/user/(\d+)/like/p(\d+).*$ /app/site/user/like?user_id=$1&page=$2 last;
-	      rewrite ^/user/(\d+)/support[/]?$ /app/site/user/support?user_id=$1 last;
-	      rewrite ^/user/(\d+)/support/p(\d+).*$ /app/site/user/support?user_id=$1&page=$2 last;
-	      rewrite ^/user/(\d+)/submitted[/]?$ /app/site/user/submitted?user_id=$1 last;
-	      rewrite ^/user/(\d+)/submitted/p(\d+).*$ /app/site/user/submitted?user_id=$1&page=$2 last;
-		  rewrite ^/user/(\d+)/follow[/]?$ /app/site/user/follow?user_id=$1 last;
-	      rewrite ^/user/(\d+)/follow/p(\d+).*$ /app/site/user/follow?user_id=$1&page=$2 last;
-	      rewrite ^/user/(\d+)/fans[/]?$ /app/site/user/fans?user_id=$1 last;
-	      rewrite ^/user/(\d+)/fans/p(\d+).*$ /app/site/user/fans?user_id=$1&page=$2 last;
+		  rewrite ^/user/(\d+)[/]?$ /app/site/user?id=$1 last;
+	      rewrite ^/user/(\d+)/like[/]?$ /app/site/user/like?id=$1 last;
+	      rewrite ^/user/(\d+)/like/p(\d+).*$ /app/site/user/like?id=$1&page=$2 last;
+	      rewrite ^/user/(\d+)/support[/]?$ /app/site/user/support?id=$1 last;
+	      rewrite ^/user/(\d+)/support/p(\d+).*$ /app/site/user/support?id=$1&page=$2 last;
+	      rewrite ^/user/(\d+)/submitted[/]?$ /app/site/user/submitted?id=$1 last;
+	      rewrite ^/user/(\d+)/submitted/p(\d+).*$ /app/site/user/submitted?id=$1&page=$2 last;
+		  rewrite ^/user/(\d+)/follow[/]?$ /app/site/user/follow?id=$1 last;
+	      rewrite ^/user/(\d+)/follow/p(\d+).*$ /app/site/user/follow?id=$1&page=$2 last;
+	      rewrite ^/user/(\d+)/fans[/]?$ /app/site/user/fans?id=$1 last;
+	      rewrite ^/user/(\d+)/fans/p(\d+).*$ /app/site/user/fans?id=$1&page=$2 last;
+		  rewrite ^/user(.*)$ /app/site/user$1 last;
 	    }
 		
 		location /auth {

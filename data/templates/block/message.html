@@ -1,23 +1,25 @@
 <!-- 发私信 -->
-<div id="message-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="ajax-result-box" aria-hidden="true">
-	<div class='modal-header'>
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">发私信</h4>
+<div class="ui small letter modal">
+  	<i class="flat close icon"></i>
+	<div class="header">
+		发私信
 	</div>
-	<form action="{{app_url_my}}/ajax_message" method="post" id="message-form">
-		<input type="hidden" name="to" value="{{ user.id }}" />
-		<div class='modal-body'>
-			<div class="modal-body-content">
-				<div class="form-group">
-					<textarea name="content" class="form-control" rows="3"></textarea>
-					<span class="help-block">请认真表达你的心意~~~</span>
-				</div>
+  	<div class="content">
+		<form action="{{ app_url_user }}/ajax_message" class="ui form" method="post" id="message-form">
+			<div class="field">
+				<label>发给：</label>
+				<input type="text" name="nickname" value="{{ user.screen_name }}" disabled="disabled" />
+				<input type="hidden" name="to" value="{{ user._id }}" />
 			</div>
-		</div>
-		<div class='modal-footer'>
-			<span id="popup_ajax_box"></span>
-			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-			<button type="submit" class="btn btn-success">确定发送</button>
-		</div>
-	</form>
+			<div class="field">
+				<label>内容：</label>
+				<textarea name="content" rows="3"></textarea>
+			</div>
+			
+			<div class="right aligned field ">
+				<div class="ui gray cancel button">取消</div>
+				<div class="ui active magenta submit button" >发送</div>
+			</div>
+		</form>
+  	</div>
 </div>

@@ -256,7 +256,7 @@
 									<i class="flat edit icon"></i>编辑创意
 								</a>
 								{% if visitor.is_admin %}
-					          	<a class="item ajax-request" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
+					          	<a class="item ajax" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
 									<i class="flat correct icon"></i>通过审核
 								</a>
 								{% endif %}
@@ -283,7 +283,7 @@
 					</h3>
 					<div class="product designer">
 						<a href="{{ product.user.home_url }}" class="ui link">{{ product.user.nickname }}</a>
-						<a href="{{ app_url_fever }}/ajax_laud?id={{ product._id }}" class="ui laud ajax-request link" id="laud_{{ product._id }}">
+						<a href="{{ app_url_fever }}/ajax_laud?id={{ product._id }}" class="ui laud ajax link" id="laud_{{ product._id }}">
 							{{ product.love_count }} <i class="flat like icon"></i>
 						</a>
 					</div>
@@ -384,20 +384,20 @@
 					<div class="vote-box">
 						<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
 						<div id="product-vote">
-							<a href="{{ app_url_fever }}/ajax_favor?id={{ product._id }}" class="ui active magenta button ajax-request">
+							<a href="{{ app_url_fever }}/ajax_favor?id={{ product._id }}" class="ui active magenta button ajax">
 								<i class="flat support icon"></i>
 							</a>
 						
 							<div class="ui dropdown magenta button">
 							  	<i class="flat oppose icon"></i>
 							  	<div class="menu">
-									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax-request">
+									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax">
 										没有兴趣
 									</a>
-									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax-request">
+									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax">
 										有类似的产品和创意
 									</a>
-									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax-request">
+									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax">
 										不是一个消费产品
 									</a>
 							  	</div>

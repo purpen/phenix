@@ -77,10 +77,10 @@
 					
 				</div>
 				<div class="ui bottom attached footer">
-					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_favorite?id={{ topic._id }}" id="favorite_{{ topic._id }}">
+					<a class="ui magenta labeled icon button ajax" href="{{ app_url_topic }}/ajax_favorite?id={{ topic._id }}" id="favorite_{{ topic._id }}">
 						<i class="flat collection icon"></i> 收藏
 					</a>
-					<a class="ui magenta labeled icon button ajax-request" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
+					<a class="ui magenta labeled icon button ajax" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
 						<i class="flat like icon"></i> 赞
 					</a>
 					
@@ -122,7 +122,7 @@
 								<div class="metadata">
 									<div class="date">{{ comment.created_on }}</div>
 									<div class="laud">
-										<a class="ui link ajax-request" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
+										<a class="ui link ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
 											<i class="flat icon heart64"></i>
 										</a>
 									</div>
@@ -194,24 +194,24 @@
 				      	删除
 				  	</a>
 					{% if topic.stick %}
-				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
+				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
 				      	<i class="flat edit_recommend icon"></i>
 				      	推荐
 				  	</a>
 					{% else %}
-				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
+				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
 				      	<i class="flat edit_recommend icon"></i>
 				      	推荐
 				  	</a>
 					{% endif %}
 					
 					{% if topic.top %}
-				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_top?id={{ topic._id }}" id="top_{{ topic._id }}">
+				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_top?id={{ topic._id }}" id="top_{{ topic._id }}">
 				      	<i class="flat edit_top icon"></i>
 				      	取消置顶
 				  	</a>
 					{% else %}
-				  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_top?id={{ topic._id }}" id="top_{{ topic._id }}">
+				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_top?id={{ topic._id }}" id="top_{{ topic._id }}">
 				      	<i class="flat edit_top icon"></i>
 				      	置顶
 				  	</a>

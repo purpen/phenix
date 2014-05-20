@@ -110,7 +110,7 @@ class Sher_Core_Session_Service extends DoggyX_Session_Service {
         $action->visitor = $this->login_user;
         $action->stash['visitor'] = $login_user_data;
         // export some attributes to browse client.
-        foreach (array('id','is_login','account','nickname','sex','last_login','current_login','visit','is_admin') as $k) {
+        foreach (array('id','is_login','account','screen_name','nickname','sex','last_login','current_login','visit','is_admin') as $k) {
             $exported_data[$k] = isset($login_user_data[$k])?$login_user_data[$k]:null;
         }
         $action->stash['visitor_json'] = json_encode($exported_data);

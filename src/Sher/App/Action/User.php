@@ -5,6 +5,7 @@
 class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
+		'id'=>'',
 		'user_id'=>'',
 		'page'=>1,
 	);
@@ -15,7 +16,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	protected $exclude_method_list = array();
 	
 	public function _init() {
-        $user_id = $this->stash['user_id'];
+        $user_id = $this->stash['id'];
         $this->stash['user'] = null;
         if (!empty($user_id)) {
             $this->stash['user'] = &DoggyX_Model_Mapper::load_model((int)$user_id,'Sher_Core_Model_User');
@@ -36,13 +37,22 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 用户个人主页
 	 */
 	public function vcenter(){
+		$this->set_target_css_state('home');
+		$follow_id = $this->stash['id'];
+		
 		// 首次登录，需先完成资料
 		if($this->stash['visitor']['first_login'] == 1){
 			$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile?first_login=1';
 			return $this->to_redirect($user_profile_url);
 		}
-		$this->set_target_css_state('home');
+		
 		$this->stash['profile'] = $this->stash['user']['profile'];
+		
+		// 验证关注关系
+		$ship = new Sher_Core_Model_Follow();
+		$is_ship = $ship->has_exist_ship($this->visitor->id, $follow_id);
+		
+		$this->stash['is_ship'] = $is_ship;
 		
 		return $this->display_tab_page('tab_all');
 	}
@@ -111,12 +121,140 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function follow(){
 		$page = $this->stash['page'];
+		
 		$this->set_target_css_state('home');
 		$this->stash['profile'] = $this->stash['user']['profile'];
 		
         $this->stash['pager_url'] = Sher_Core_Helper_Url::user_follow_list_url($this->stash['user_id'],'#p#');
 		
         return $this->display_tab_page('tab_follow');
+	}
+	
+	/**
+	 * 关注某人
+	 * 
+	 * @return string
+	 */
+	public function ajax_follow(){
+		$user_id = $this->visitor->id;
+		$follow_id = $this->stash['id'];
+		
+		if(empty($follow_id) || empty($user_id)){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+		}
+		if($follow_id == $user_id){
+			return $this->ajax_note('请求失败,自己无法关注自己', true);
+		}
+		// 验证是否超过最大关注数
+		if($this->visitor->follow_count >= Sher_Core_Model_Follow::MAX_FOLLOW){
+			return $this->ajax_note("请求失败,关注人数不能超过".Sher_Core_Model_Follow::MAX_FOLLOW."个", true);
+		}
+		
+		$ship = new Sher_Core_Model_Follow();
+		// 添加关注
+		$is_both = false;
+		if(!$ship->has_exist_ship($user_id,$follow_id)){
+			$data['user_id'] = (int)$user_id;
+			$data['follow_id'] = (int)$follow_id;
+			
+		    // 验证关注者是否关注了自己
+            if($ship->has_exist_ship($follow_id,$user_id)){
+            	$data['type'] = Sher_Core_Model_Follow::BOTH_TYPE;
+            	$is_both = true;
+            }
+			$ship->create($data);
+            
+			// 更新关注数、粉丝数
+			$this->visitor->inc_counter('fans_count', $follow_id);
+			$this->visitor->inc_counter('follow_count', $user_id);
+			unset($user);
+			
+			// 更新新粉丝数
+			$this->visitor->update_counter_byinc($follow_id, 'fans_count');
+			
+			// 更新粉丝相互关注状态
+			if($is_both){
+				$some_data['type'] = Sher_Core_Model_Follow::BOTH_TYPE;
+                $update['user_id'] = (int)$follow_id;
+                $update['follow_id'] = (int)$user_id;
+				
+                $ship->update_set($update,$some_data);
+			}
+		}
+		
+		$this->stash['domode'] = 'create';
+		
+		return $this->to_taconite_page('ajax/follow_ok.html');
+	}
+	
+	/**
+	 * 取消关注某人
+	 * 
+	 * @return string
+	 */
+	public function ajax_cancel_follow(){
+		$user_id = $this->visitor->id;
+        $follow_id = $this->stash['id'];
+        
+        if(empty($follow_id) || empty($user_id)){
+            return $this->ajax_note('请求失败,缺少必要参数',true);
+        }
+		
+        $ship = new Sher_Core_Model_Follow();
+        // 取消关注
+        if($ship->has_exist_ship($user_id,$follow_id)){
+	        $query['user_id'] = (int)$user_id;
+	        $query['follow_id'] = (int)$follow_id;
+
+	        $ship->remove($query);
+			
+	        // 更新关注数、粉丝数
+	        $this->visitor->dec_counter('fans_count', $follow_id);
+	        $this->visitor->dec_counter('follow_count', $user_id);
+
+	        // 更新粉丝相互关注状态
+	        $some_data['type'] = Sher_Core_Model_Follow::ONE_TYPE;
+	        $update['user_id'] = (int)$follow_id;
+	        $update['follow_id'] = (int)$user_id;
+			
+	        $ship->update_set($update,$some_data);
+        }
+		
+        $this->stash['domode'] = 'cancel';
+		
+        return $this->to_taconite_page('ajax/follow_ok.html');
+	}
+	
+	/**
+	 * 发送私信
+	 * 
+	 * @return string
+	 */
+	public function ajax_message(){
+		$to = $this->stash["to"];
+        $content = $this->stash["content"];
+		if(empty($to)){
+            return $this->ajax_notification("你没有选择发送的用户",true);
+        }
+        if(empty($content)){
+            return $this->ajax_notification("你没有输入私信内容",true);
+        }
+		try {
+            $user = new Sher_Core_Model_User();
+            $res = $user->find_by_id((int)$to);
+            if(!$res) {
+                return $this->ajax_notification('发送的用户ID:'.$to.'不存在', true);
+            }
+			
+			$msg = new Sher_Core_Model_Message();
+            $_id = $msg->send_site_message($content, $this->visitor->id, $to);
+        } catch (Doggy_Model_ValidateException $e) {
+            return $this->ajax_notification('发送私信失败:'.$e->getMessage(),true);
+        }
+		
+		$this->stash['mode'] = 'message';
+		
+		return $this->to_taconite_page('ajax/send_ok.html');
 	}
 	
 	

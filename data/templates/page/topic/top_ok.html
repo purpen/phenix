@@ -1,13 +1,13 @@
 <taconite>
 	<replace select="#top_{{ id }}">
 		{% if mode == 'create'%}
-	  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_cancel_top?id={{ id }}" id="top_{{ id }}">
+	  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_top?id={{ id }}" id="top_{{ id }}">
 	      	<i class="flat pin-outline icon"></i> 取消置顶
 	  	</a>
 		{% endif %}
 		
 		{% if mode == 'cancel'%}
-	  	<a class="item ajax-request" href="{{ app_url_topic }}/ajax_top?id={{ id }}" id="top_{{ id }}">
+	  	<a class="item ajax" href="{{ app_url_topic }}/ajax_top?id={{ id }}" id="top_{{ id }}">
 	      	<i class="flat pin-outline icon"></i>
 	      	置顶
 	  	</a>

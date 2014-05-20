@@ -93,7 +93,7 @@
 						<a href="{{ product.view_url }}" class="ui link item" target="_blank">查看</a>
 						<a href="{{ app_url_admin_base }}/product/edit?id={{ product._id }}" class="ui link item">编辑</a>
 						{% if product.stage == 1 %}
-							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax-request">通过审核</a>
+							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax">通过审核</a>
 							{% if product.approved == 1%}
 							<a href="{{ app_url_admin_base }}/product/update_presale?id={{ product._id }}" class="ui link item">预售设置</a>
 							{% endif %}

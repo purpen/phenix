@@ -46,10 +46,10 @@ class Sher_App_ViewTag_FollowList extends Doggy_Dt_Tag {
         $options['size'] = $size;
         
         $service = Sher_Core_Service_User::instance();
-        $result = $service->get_follow_list($query,$options);
-        $context->set($var,$result);
+        $result = $service->get_follow_list($query, $options);
+        $context->set($var, $result);
         if ($include_pager) {
-            $context->set($pager_var,$result['pager']);
+            $context->set($pager_var, $result['pager']);
         }
     }
 }

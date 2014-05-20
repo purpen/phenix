@@ -107,7 +107,7 @@
 						<div class="done-box">
 							<div class="btn-group dobtns">
 								<a href="#message-modal" class="btn btn-message" data-toggle="modal" role="button">私信</a>
-								<a href="{{app_url_my}}/ajax_follow?id={{ user.id }}" class="btn btn-follow ajax-request {% if visitor.id == user.id %}disabled{%endif%}" id="user_{{ user.id }}_ship">关注</a>
+								<a href="{{app_url_my}}/ajax_follow?id={{ user.id }}" class="btn btn-follow ajax {% if visitor.id == user.id %}disabled{%endif%}" id="user_{{ user.id }}_ship">关注</a>
 								<a href="#match-modal" class="btn btn-match" data-toggle="modal" role="button">我来做红娘</a>
 							</div>
 						</div>
