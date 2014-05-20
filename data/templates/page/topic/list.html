@@ -80,7 +80,7 @@
 							{% for dig in dig_list %}
 								<div class="item">
 									<div class="ui grid">
-										<div class="two wide column">
+										<div class="two wide hide-on-mobile column">
 											<a class="ui small avatar image" href="{{ dig.user.home_url }}">
 									      		<img src="{{ dig.user.small_avatar_url }}" />
 											</a>
@@ -116,7 +116,7 @@
 							
 									      	</div>
 										</div>
-										<div class="right aligned two wide column comment-counter">
+										<div class="right aligned two wide hide-on-mobile column comment-counter">
 											<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
 												<span class="dot-irecommend-count">{{ dig.comment_count }}</span> 
 												<span class="dot-irecommend-suffix"></span>
