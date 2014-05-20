@@ -7,6 +7,7 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -72,11 +73,11 @@
 {% endblock %}
 
 {% block content %}
-<article class="hero">
+<article class="hero ui hide-on-mobile">
 	<section id="frame">
 		<ul class="slidee">
 			
-			<li class="business slide-1" style="background-image: url('{{ app_url_packaged }}/images/012.jpg'); background-color: rgb(255, 51, 102);">
+			<li class="business slide-1" style="background-image: url('{{ app_url_packaged }}/images/firebird.jpg'); background-color: rgb(255, 51, 102);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
                         <span>中国最顶尖的原创产品社会化电商平台</span>
@@ -91,7 +92,7 @@
                 </div>
 			</li>
 			
-			<li class="business slide-2" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(65, 178, 224);">
+			<li class="business slide-2" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(238, 220, 108);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
                         <span>全球最小运动监测可穿戴式设备</span>
@@ -143,17 +144,17 @@
 		<div class="five center aligned wide column">
 			<h3 class="ui header">光传输数据</h3>
 			<p>全球同类产品功耗最低&超炫视觉效果</p>
-			<img src="{{ app_url_packaged }}/images/kouzi-feat01.jpg" />
+			<img src="{{ app_url_packaged }}/images/kouzi-feat01.jpg" class="ui image" />
 		</div>
 		<div class="five center aligned wide column">
 			<h3 class="ui header">无线充电，新技术应用</h3>
 			<p>全球同类产品功耗最低&超炫视觉效果</p>
-			<img src="{{ app_url_packaged }}/images/kouzi-feat02.jpg" />
+			<img src="{{ app_url_packaged }}/images/kouzi-feat02.jpg" class="ui image" />
 		</div>
 		<div class="six center aligned wide column">
 			<h3 class="ui header">超酷用户体验</h3>
 			<p>DIY佩戴彰显个性；防水性能强多环境自由使用；</p>
-			<img src="{{ app_url_packaged }}/images/kouzi-feat03.png" />
+			<img src="{{ app_url_packaged }}/images/kouzi-feat03.png" class="ui image" />
 		</div>
 	</div>
 </section>
@@ -184,12 +185,12 @@
 		<div class="eight center aligned wide column">
 			<h3 class="ui header">商店</h3>
 			<p>数以万计的原创创意产品，满足你提升生活品质的需求。</p>
-			<img src="{{ app_url_packaged }}/images/home10.jpg" />
+			<img src="{{ app_url_packaged }}/images/home10.jpg" class="ui image" />
 		</div>
 		<div class="eight center aligned wide column">
 			<h3 class="ui header">社区话题</h3>
 			<p>会员与其他会员讨论关于产品创意的话题。</p>
-			<img src="{{ app_url_packaged }}/images/home11.jpg" />
+			<img src="{{ app_url_packaged }}/images/home11.jpg" class="ui image" />
 		</div>
 	</div>
 </section>

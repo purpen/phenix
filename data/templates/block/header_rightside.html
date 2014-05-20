@@ -1,0 +1,51 @@
+<form class="active search item" method="post" action="{{ app_url_domain }}/search">
+ 	<div class="ui icon input">
+		<input name="query" type="text" value="{{ query }}" />
+		<i class="flat search icon"></i>
+	</div>
+</form>
+
+<a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
+
+<div class="ui secondary user menu">
+	<a href="{{ app_url_cart }}" class="ui {{ css_basket }} basket magenta button" id="shopping-basket">
+	    <i class="flat shopping_cart icon"></i>
+		{% if items_count > 0 %}
+	    <div class="floating circular ui label">{{ items_count }}</div>
+		{% else %}
+		<div class="floating circular ui label hide"></div>
+		{% endif %}
+	</a>
+	{% if visitor %}
+		<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+			<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" />
+		</a>
+		<div class="ui top right pointing dropdown icon user-setting button">
+		  	{{ visitor.screen_name }}
+		  	<div class="menu">
+			    <a class="item" href="{{ app_url_my }}/account">
+			      	<i class="flat account_settings icon"></i> 账户设置
+				</a>
+			    <a class="item" href="{{ app_url_my }}/profile">
+			      	<i class="flat profile icon"></i> 查看个人资料
+				</a>
+			    <a class="item" href="{{ app_url_my }}/orders">
+			      	<i class="flat order icon"></i> 我的订单
+				</a>
+			    <a class="item" href="{{ app_url_domain }}/help">
+			      	<i class="flat help_infor icon"></i> 帮助
+				</a>
+			    <a class="item" href="{{ app_url_admin_base }}">
+			      	<i class="flat admin_backstage icon"></i> 管理后台
+				</a>
+		
+			  	<a class="item" href="{{ app_url_logout }}">
+			    	<i class="flat exit icon"></i> 退出
+				</a>
+		  	</div>
+		</div>
+	{% else %}
+		<a href="{{ app_url_login }}" class="ui magenta login button">登录</a>
+		<a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
+	{% endif %}
+</div>
