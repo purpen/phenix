@@ -105,6 +105,11 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 				// 第二步，未注册过用户实现自动注册及登录
 				$weibo_info = $c->show_user_by_id($uid);//根据ID获取用户等基本信息
 				
+				// 连接出错
+				if (isset($weibo_info['error']) && !empty($weibo_info['error'])){
+					return $this->display_note_page('授权失败');
+				}
+				
 				$user_info['sina_uid'] = $weibo_info['id'];
 				$user_info['sina_access_token'] = $token['access_token'];
 		
