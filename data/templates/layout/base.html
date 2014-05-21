@@ -41,7 +41,14 @@
 			  font-weight: normal;
 			  font-style: normal;
 			}
-			
+		</style>
+		
+		{% if css_use_bundle %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/bird.min.{{ css_bundle_version }}.css" type="text/css" />
+		{% else %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
+		{% endif %}
+		<style type="text/css">
 			@media only screen and (max-width: 767px) {
 				
 			}
@@ -78,15 +85,7 @@
 			@media only screen and (min-width: 1024px) and (max-width: 1055px) {
 				
 			}
-			
 		</style>
-		
-		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/bird.min.{{ css_bundle_version }}.css" type="text/css" />
-		{% else %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
-		{% endif %}
-		
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
 		{% if js_use_bundle %}
