@@ -171,6 +171,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 				}
 				
 				if (!is_null($file_content)) {
+					Doggy_Log_Helper::debug("File content length: ".strlen($file_content));
 					// Sher_Core_Util_Asset::storeData(Sher_Core_Util_Constant::ASSET_DOAMIN, $path, $file_content);
 					Sher_Core_Util_Asset::store_data_cloud($path, $file_content);
 				}

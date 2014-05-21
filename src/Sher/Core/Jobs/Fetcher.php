@@ -17,8 +17,11 @@ class Sher_Core_Jobs_Fetcher extends Doggy_Object {
 		$target_id = $this->args['target_id'];
 		
 		if (empty($img_url) || empty($target_id)) {
+			Doggy_Log_Helper::warn("Start fetcher taobao image： img_url or targer_id is NUll!!!");
 			return false;
 		}
+		
+		Doggy_Log_Helper::warn("Start fetcher taobao image：".$img_url);
 		
 		// 获取图片路径信息
 		$pathinfo = pathinfo($img_url);

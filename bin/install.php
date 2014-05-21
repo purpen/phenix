@@ -15,6 +15,7 @@ define('DOGGY_APP_ROOT', $cfg_app_deploy_root);
 define('DOGGY_APP_CLASS_PATH', $cfg_app_class_path);
 
 require $cfg_doggy_bootstrap;
+@require 'autoload.php';
 @require $cfg_app_rc;
 
 set_time_limit(0);
@@ -121,11 +122,16 @@ echo "Install ... \n";
 
 create_system_user();
 
-$user_id = create_init_user();
+// $user_id = create_init_user();
 
-add_invitation($user_id);
+// add_invitation($user_id);
 
-create_category();
+// create_category();
+
+$pic_url = 'http://img30.360buyimg.com/popWaterMark/g4/M01/00/04/rBEGFlNwLkgIAAAAAAJnJ2VjT6MAABaNAFbrHEAAmc_167.jpg';
+$img_data = @file_get_contents($pic_url);
+var_dump(strlen($img_data));
+Sher_Core_Jobs_Queue::fetcher_image($pic_url, array('target_id'=>1051300353));
 
 echo "Install is OK! \n";
 ?>

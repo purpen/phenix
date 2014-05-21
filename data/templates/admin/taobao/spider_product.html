@@ -18,6 +18,13 @@
 	
 	<div class="ui segment">
 		<a href="" class="ui button">开始同步</a>
-    </div>	
+		
+		{% if error_message %}
+		<div class="ui danger message">
+			<i class="flat close icon"></i>
+			{{ error_message }}
+		</div>
+		{% endif%}
+    </div>
 	
 {% endblock %}

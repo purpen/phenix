@@ -116,7 +116,10 @@ class Sher_Admin_Action_Taobao extends Sher_Admin_Action_Base {
 				
 				$result = $topClient->execute($request, $session_key);
 				
-				if(empty($request)){
+				// 出错或为空时跳出循环
+				if(empty($result) || !empty($result['msg'])){
+					$this->stash['error_message'] = $result['msg'];
+					Doggy_Log_Helper::debug("Sprider taobao, get result:".$result['msg']);
 					break;
 				}
 				
@@ -129,6 +132,8 @@ class Sher_Admin_Action_Taobao extends Sher_Admin_Action_Base {
 				
 				if ($ok && $counter < $total_results){
 					$page += 1;
+				} else {
+					break;
 				}
 			}
 			
@@ -172,6 +177,8 @@ class Sher_Admin_Action_Taobao extends Sher_Admin_Action_Base {
 				
 				// 抓取主图
 				$pic_url = $products[$i]['pic_url'];
+				
+				Doggy_Log_Helper::warn("Start add fetcher taobao image queue：".$pic_url);
 				
 				Sher_Core_Jobs_Queue::fetcher_image($pic_url, array('target_id'=>$new_data['_id']));
 				

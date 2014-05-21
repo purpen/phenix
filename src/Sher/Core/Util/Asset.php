@@ -65,6 +65,8 @@ class Sher_Core_Util_Asset extends Doggy_Object {
 			);
 		}
 		
+		Doggy_Log_Helper::debug("Store file content result: ".json_encode($data));
+		
 		return $data;
 	}
 	
