@@ -14,7 +14,12 @@ if(empty($QUEUE)) {
 	die("Set QUEUE env var containing the list of queues to work.\n");
 }
 
-require_once 'init.php';
+$config_file =  dirname(__FILE__).'/init.php';
+if (!file_exists($config_file)) {
+    die("Can't find config file: $config_file\n");
+}
+
+require_once $config_file;
 require_once $cfg_resque_src.'lib/Resque.php';
 require_once $cfg_resque_src.'lib/Resque/Worker.php';
 
