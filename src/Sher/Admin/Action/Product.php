@@ -150,6 +150,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		$this->stash['mode'] = $mode;
 		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		
 		return $this->to_html_page('admin/product/edit.html');
 	}
 	

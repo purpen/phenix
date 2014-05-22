@@ -130,7 +130,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 预售产品是否发布
     	'published' => 0,
 		
-		# 状态
+		# 状态，商品是否上线
 		'state' => 0,
 		
 		# 推荐（编辑推荐、推荐至首页）

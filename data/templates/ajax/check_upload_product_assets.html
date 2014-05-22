@@ -9,15 +9,15 @@
 			<div class="buttons">
 				<div class="ui large links">
 					<a href="{{ app_url_fever }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-						<i class="flat waste icon"></i>
+						<i class="flat edit_delete icon"></i>
 					</a>
 					{% if ref != 'admin' %}
 					<a href="{{ app_url_upload }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted">
-						<i class="flat flag icon"></i>
+						<i class="flat edit_recommend icon"></i>
 					</a>
 					{% else %}
 					<a href="{{ app_url_upload }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" name="{{ asset._id }}">
-						<i class="flat flag icon"></i>
+						<i class="flat edit_recommend icon"></i>
 					</a>
 					{% endif %}
 				</div>

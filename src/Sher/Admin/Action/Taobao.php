@@ -178,7 +178,7 @@ class Sher_Admin_Action_Taobao extends Sher_Admin_Action_Base {
 				// 抓取主图
 				$pic_url = $products[$i]['pic_url'];
 				
-				Doggy_Log_Helper::warn("Start add fetcher taobao image queue：".$pic_url);
+				Doggy_Log_Helper::warn("Start add fetcher taobao image url [".$pic_url."] -> queue!!");
 				
 				Sher_Core_Jobs_Queue::fetcher_image($pic_url, array('target_id'=>$new_data['_id']));
 				

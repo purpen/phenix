@@ -62,14 +62,15 @@
 					<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" width="80px" />
 				</td>
 				<td>
-					{{ asset.filepath }}
+					ID: {{ asset._id }}<br />
+					Key: {{ asset.filepath }}
 				</td>
 				<td>{{ asset.created_on|date 'Y-m-d H:i:s' }}</td>
 				<td>
 					{{ asset.size|filesize }}
 				</td>
 				<td>
-					
+					{% if asset.asset_type == 10 %}产品：{% endif %}{{ asset.parent_id }}
 				</td>
 			</tr>
 			{% endfor %}
