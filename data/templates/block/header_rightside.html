@@ -17,11 +17,10 @@
 		{% endif %}
 	</a>
 	{% if visitor %}
-		<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-			<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" />
-		</a>
-		<div class="ui top right pointing dropdown icon user-setting button">
-		  	{{ visitor.screen_name }}
+		<div class="ui floating dropdown icon user-setting button">
+			<a class="ui link" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+		  		<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" class="ui avatar image" /> {{ visitor.screen_name }}
+			</a>
 		  	<div class="menu">
 			    <a class="item" href="{{ app_url_my }}/account">
 			      	<i class="flat account_settings icon"></i> 账户设置
