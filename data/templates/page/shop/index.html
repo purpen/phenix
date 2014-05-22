@@ -2,7 +2,7 @@
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	 
 </style>
 {% endblock %}
 {% block js %}
@@ -17,35 +17,37 @@
 {% block content %}
 <div class="shop list">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui column">
-				<div class="ui segment">
-					<div class="ui divided horizontal list">
-						{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
-						{% for cat in category.rows %}
-					  	<a class="ui {{ cat.active }} item link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-						{% endfor %}
-					</div>
+		<div class="center aligned row">
+			<div class="column">
+				<div class="ui magenta buttons">
+					{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
+					{% for cat in category.rows %}
+				  		<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="ui column">
+			{% product_list var:'list' page:page category_id:category_id stage:9 state:1 size:16 %}
+			<div class="column">
+				{% if list.rows %}
 				<div class="ui four items">
-					{% product_list var:'list' page:page category_id:category_id stage:9 state:1 size:16 %}
 					{% for product in list.rows %}
 				  		{% include "block/product_item.html" %}
 				    {% endfor %}
 				</div>
 				
-				{% if list.rows %}
 				<div class="ui pagination grid">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{%include 'block/pager.html'%}
 				</div>
-				{% endif %}
 			</div>
+			{% else %}
+			<div class="center aligned column">
+				没有更多鸟~~
+			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
