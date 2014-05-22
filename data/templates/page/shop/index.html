@@ -29,9 +29,9 @@
 		</div>
 		
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id stage:9 state:1 size:16 %}
+			{% product_list var:'list' page:page category_id:category_id stage:9 only_onsale:1 size:16 %}
+			{% if list.rows %}
 			<div class="column">
-				{% if list.rows %}
 				<div class="ui four items">
 					{% for product in list.rows %}
 				  		{% include "block/product_item.html" %}
