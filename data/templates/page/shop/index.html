@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="home">
+<div class="shop list">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui column">
-				<div class="ui squ segment">
+				<div class="ui segment">
 					<div class="ui divided horizontal list">
 						{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
 						{% for cat in category.rows %}

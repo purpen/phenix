@@ -1,4 +1,4 @@
-<form class="active search item" method="post" action="{{ app_url_domain }}/search">
+<form class="search item" method="post" action="{{ app_url_domain }}/search">
  	<div class="ui icon input">
 		<input name="query" type="text" value="{{ query }}" />
 		<i class="flat search icon"></i>
@@ -8,12 +8,12 @@
 <a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
 
 <div class="ui secondary user menu">
-	<a href="{{ app_url_cart }}" class="ui {{ css_basket }} basket magenta button" id="shopping-basket">
+	<a href="{{ app_url_cart }}" class="ui basket magenta icon button" id="shopping-basket">
 	    <i class="flat shopping_cart icon"></i>
 		{% if items_count > 0 %}
-	    <div class="floating circular ui label">{{ items_count }}</div>
+	    <div class="floating circular ui magenta label">{{ items_count }}</div>
 		{% else %}
-		<div class="floating circular ui label hide"></div>
+		<div class="floating circular ui magenta label hide"></div>
 		{% endif %}
 	</a>
 	{% if visitor %}

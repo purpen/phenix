@@ -1,8 +1,20 @@
-<div class="magenta item">
+<div class="magenta item" id="product-{{ product._id }}">
   	<div class="image">
 		<a href="{{ product.view_url }}" title="{{ product.title }}">
       		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
 		</a>
+		<div class="image-extra">
+			<div class="extra-content">
+				<div class="inner-extra">
+					<a class="single-image ajax link-icon" href="{{ app_url_shopping }}/buy?sku={{ product._id }}" title="加入购物车">
+						<span class="curtain"></span>
+					</a>
+					<a class="single-image plus-icon" href="{{ product.view_url }}">
+						<span class="curtain"></span>
+					</a>
+				</div>
+			</div>
+		</div>
   	</div>
   	<div class="content">
       	<div class="name">
@@ -10,14 +22,18 @@
 				{{ product.title|truncate, 16, '' }}
 			</a>
 		</div>
-      	<div class="description">
-			{{ product.user.nickname }}
+		{% if product.stage == 9 %}
+		<div class="sell clearfix">
+			<span class="price">
+				￥{{ product.sale_price }}
+			</span>
           	<div class="extra">
-              	{{ product.love_count }} 喜欢
+              	<a href="" class="ui link">
+					{{ product.love_count }} <i class="flat like icon"></i>
+				</a>
           	</div>
 		</div>
-		
-		<div class="ui divider"></div>
+		{% endif %}
 		
 		{% if product.stage == 1 %}
 		<div class="sell vote clearfix">
@@ -34,21 +50,18 @@
 				￥{{ product.hot_price }}
 			</span>
 			<a href="" class="ui small active magenta cart button">
-				<i class="flat shoppingin icon"></i>现在预订
+				<i class="flat order icon"></i>现在预订
 			</a>
 		</div>
 		{% endif %}
 		
-		{% if product.stage == 9 %}
-		<div class="sell clearfix">
-			<span class="price">
-				￥{{ product.sale_price }}
-			</span>
-			
-			<a href="{{ app_url_shopping }}/buy?sku={{ product._id }}" class="ui small active magenta cart button">
-				<i class="flat shoppingin icon"></i>加入购物车
-			</a>
+		<div class="ui divider"></div>
+		
+		<div class="designer">
+			<img class="ui avatar image" src="{{ product.user.small_avatar_url }}" />
+			{{ product.user.nickname|default '太火鸟' }}
 		</div>
-		{% endif %}
+		
   	</div>
+	<div class="ui success message"></div>
 </div>

@@ -16,19 +16,24 @@
 	
 	<eval>
 		{% if action == 'add' %}
-			phenix.show_ok_note('已成功加入购物车', 1000);
+			$('#product-{{ sku }} .ui.message')
+				.html('已成功加入购物车')
+				.fadeTo(300, 1.0);
+			
+			var timer = setTimeout(function(){
+				$('#product-{{ sku }} .ui.message').fadeTo(300, 0);
+			}, 1000);	
+			
 		{% endif %}
 		
 		// 更新购物篮
 		{% if items_count %}
 			$('#shopping-basket')
-				.addClass('active')
 				.find('.ui.label')
 				.removeClass('hide')
 				.text({{ items_count }});
 		{% else %}
 			$('#shopping-basket')
-				.removeClass('active')
 				.find('.ui.label')
 				.addClass('hide')
 				.text({{ items_count }});
