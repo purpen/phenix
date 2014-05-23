@@ -88,12 +88,12 @@ app.url.alipay: '{$app.url.action_base}/alipay'
 app.url.comment:		'{$app.url.action_base}/comment'
 
 #登录,登出,注册,忘记密码,输入邀请码
-app.url.auth:		'{$app.url.action_base}/auth'
-app.url.login: 		'{$app.url.action_base}/auth/login'
-app.url.logout: 	'{$app.url.action_base}/auth/logout'
-app.url.register: 	'{$app.url.action_base}/auth/signup'
-app.url.forget: 	'{$app.url.action_base}/auth/forget'
-app.url.invite: 	'{$app.url.action_base}/auth/invite'
+app.url.auth:		'{$app.url.domain}/auth'
+app.url.login: 		'{$app.url.auth}/login'
+app.url.logout: 	'{$app.url.auth}/logout'
+app.url.register: 	'{$app.url.auth}/signup'
+app.url.forget: 	'{$app.url.auth}/forget'
+app.url.invite: 	'{$app.url.auth}/invite'
 
 app.url.qq.login: '{$app.url.action_base}/qq'
 

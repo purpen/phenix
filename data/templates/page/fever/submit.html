@@ -2,10 +2,10 @@
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-.ui.tophead {
-    background: url("http://static.taihuoniao.me/packaged/images/002.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
-    height: 350px;
-}
+	.ui.tophead {
+	    background: url("{{ app_url_packaged }}/images/submit-bg.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0.4);
+	    height: 350px;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -46,13 +46,79 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="eleven wide column">
-				<h2>提交流程</h2>
+				<div class="ui segment">
+					<h2 class="ui header">提交流程</h2>
+					<div class="submit-help">
+						<div class="ui header">
+						  	<i class="flat brain icon"></i>
+						  	<div class="content">
+						      	提交创意
+						      	<div class="sub header">登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</div>
+						  	</div>
+						</div>
+					
+						<div class="ui header">
+						  	<i class="flat support icon"></i>
+						  	<div class="content">
+						      	投票
+						      	<div class="sub header">提交的创意通过审核后，进入为期2个星期的投票。用户可以选择对提交的创意进行支持，不支持的投票选择你不支持的理由。</div>
+						  	</div>
+						</div>
+					
+						<div class="ui header">
+						  	<i class="flat certificate icon"></i>
+						  	<div class="content">
+						      	专家评分
+						      	<div class="sub header">投票阶段获得100张选票的创意，进入专家评分的阶段，5位专家将在1周内对创意从设计、外观、功能、创意4个方面给出评分。</div>
+						  	</div>
+						</div>
+					
+						<div class="ui header">
+						  	<i class="flat sale icon"></i>
+						  	<div class="content">
+						      	预售产品
+						      	<div class="sub header">重新编辑创意投票的页面，添加相关的产品预售选项。在30-45天内筹集相应的金额，用户选择不同的额度支持。</div>
+						  	</div>
+						</div>
+
+
+						<div class="ui header">
+						  	<i class="flat sell icon"></i>
+						  	<div class="content">
+						      	销售产品
+						      	<div class="sub header">预售成功的产品将会进入批量生产，进入各大电商平台销售。将有机会成为爆款创意产品。</div>
+						  	</div>
+						</div>
+					
+					</div>
+				</div>
 			</div>
 			<div class="five wide column">
-				<h2>Q&A</h2>
 				<div class="ui segment">
-					太火鸟是个什么鸟？
-					
+					<h3 class="ui header">常见问题</h3>
+					<div class="ui basic accordion">
+					  	<div class="title">
+					    	<i class="flat page_right icon"></i>
+					    	如何提交创意？
+					  	</div>
+					  	<div class="content">
+					    	<p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+					  	</div>
+					  	<div class="title">
+					    	<i class="flat page_right icon"></i>
+					    	创意如何通过审核？
+					  	</div>
+					  	<div class="content">
+					    	<p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+					  	</div>
+					  	<div class="title">
+					    	<i class="flat page_right icon"></i>
+					    	创意评分规则？
+					  	</div>
+					  	<div class="content">
+					    	<p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+					  	</div>
+					</div>
 				</div>
 			</div>
 		</div>
