@@ -108,7 +108,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 				// 连接出错
 				if (isset($weibo_info['error']) && !empty($weibo_info['error'])){
 					Doggy_Log_Helper::warn('Failed to login of weibo user:'.$weibo_info['error']);
-					return $this->display_note_page('授权失败');
+					return $this->display_note_page('微博登录应用正在审核中，请耐心等待！');
 				}
 				
 				$user_info['sina_uid'] = $weibo_info['id'];
