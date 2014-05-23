@@ -1,0 +1,509 @@
+{%extends 'layout/column.html'%}
+{% block title %}国际大奖 Goccia 全球最小的运动可穿戴-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	*, *:after, *:before {
+		box-sizing:border-box;
+		-moz-box-sizing:border-box; /* Firefox */
+		-webkit-box-sizing:border-box; /* Safari */
+	}
+	.goccia.page{
+		margin-top: 5em;
+	}
+	.goccia-product {
+	    background: url("{{ app_url_packaged }}/images/g-banner.jpg") no-repeat scroll center top / cover #565960;
+	    color: #222;
+	}
+	.goccia-product > .ui.grid > .row > .column {
+		padding: 60px 0 0 70px;
+	}
+	.trendy {
+	    background: url("{{ app_url_packaged }}/images/g-light.jpg") no-repeat scroll center top / cover #565960;
+	    color: #002f5c;
+		padding: 15% 0;
+	}
+	.trendy .content {
+		text-align: right;
+		width: 65%;
+	}
+	.pendant {
+	    background: url("{{ app_url_packaged }}/images/g-pendant.jpg") no-repeat scroll center top / cover #565960;
+	    color: #222;
+		padding: 10% 24% 15%;
+	}
+	.away {
+	    background: url("{{ app_url_packaged }}/images/g-away.jpg") no-repeat scroll center top / cover #565960;
+	    color: #222;
+		padding: 15% 0;
+	}
+	.away .content {
+		width: 35%;
+	}
+	
+	.simple {
+		background: url("http://static.taihuoniao.me/images/g-simple.jpg") no-repeat scroll center top / cover #565960;
+	    color: #FFFFFF;
+	    padding: 2% 0 27% 12%;
+	}
+	
+	.free {
+		background: url("http://static.taihuoniao.me/images/g-fashion.jpg") no-repeat scroll center top / cover #565960;
+	    color: #FFFFFF;
+	    padding: 20% 0 5%;
+	}
+	.free .content {
+		width: 45%;
+	}
+	.sport {
+		background: url("http://static.taihuoniao.me/images/g-sport.jpg") no-repeat scroll center top / cover #565960;
+	    color: #FFFFFF;
+	    padding: 20% 10% 5%;
+	}
+	.sport .content {
+		padding-left: 70%;
+	}
+	.life {
+		background: url("http://static.taihuoniao.me/images/g-life.jpg") no-repeat scroll center top / cover #565960;
+	    color: #FFFFFF;
+	    padding: 20% 0;
+	}
+	
+	.ui.att.block {
+		background-color: #f9f9f9;
+		padding: 2% 0;
+	}
+	.ui.att.block h2 {
+		margin-bottom: 0.25em;
+	}
+	.ui.att.block .ui.images > .ui.image {
+		background-color: #F9F9F9;
+		width: 20%;
+	}
+	.ui.dream.block,
+	.ui.share.block {
+		padding: 2.5% 0;
+	}
+	.ui.preorder * {
+	    transition: all 0.25s ease 0s;
+	}
+	.ui.preorder > .ui.grid > .row > .column {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.ui.preorder > .ui.grid > .row > .column:hover > .ui.level,
+	.ui.preorder > .ui.grid > .row > .active.column > .ui.level {
+		background-color: #ff3b6b;
+		color: #fff;
+		transform: scale(1.05);
+		z-index: 11;
+	}
+	.ui.preorder > .ui.grid > .row > .column:hover .gray.button,
+	.ui.preorder > .ui.grid > .row > .active.column .gray.button {
+		background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	    border-color: #FFFFFF;
+	    color: #FFFFFF;
+	}
+	.ui.preorder > .ui.grid > .row > .column:hover .gray.button:hover,
+	.ui.preorder > .ui.grid > .row > .active.column .gray.button.active {
+		background: #ffffff;
+	    border-color: #FFFFFF;
+	    color: #FF3b6b;
+	}
+	.ui.preorder > .ui.grid > .row > .column:hover .ui.level > .header,
+	.ui.preorder > .ui.grid > .row > .active.column .ui.level > .header {
+		 border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+	}
+	.ui.preorder .column:hover .time, .ui.preorder .column:hover .price,
+	.ui.preorder .active.column .time, .ui.preorder .active.column .price {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+	}
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示视频框
+	$('.ui.video').bind('click', function(){
+		$('.ui.videobox.modal').modal('show');
+	});
+	
+	// 分享按钮
+	phenix.bind_share_list();
+	
+{% endblock %}
+
+{% block content %}
+<div class="goccia page">
+	<section class="ui white backgroud block">
+		<div class="ui middle aligned responsive two column grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui header">
+						国际大奖 Goccia 全球最小的运动可穿戴
+					</h3>
+				</div>
+				<div class="right aligned column">
+					<div class="ui divided horizontal list">
+					  	<div class="item">功能</div>
+					  	<div class="item">参数</div>
+					  	<div class="item">话题</div>
+						<div class="item">支持者</div>
+						<div class="item">分享</div>
+					</div>
+					<a href="" class="ui active magenta button">现在预订</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui white backgroud goccia-product block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="column">
+					
+					<h1 class="ui black header">
+						Goccia<br/><small>全球最小的运动可穿戴</small>
+					</h1>
+					
+					<a href="" class="ui black btn-4 btn-4c icon-arrow-right btn">
+						现在预订
+					</a>
+					<a href="" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						注册赢大奖
+					</a>
+					
+					<h3>荣获美国IDEA设计大奖</h3>
+					
+					<ul class="ui list">
+						<li>量化运动量</li>
+						<li>检测睡眠质量</li>
+						<li>培养健康生活方式</li>
+						<li>时尚科技配饰</li>
+					</ul>         
+					             
+				</div>
+			</div>
+		</div>
+		
+	</section>
+	
+	<section class="ui video">
+		<div class="ui mask">
+			<i class="flat play icon"></i>
+			<div class="ui responsive center aligned grid">
+				<div class="column">
+					<div class="video-content">
+						<h3 class="ui header">Goccia</h3>
+						<p>全球最小的运动监测可穿戴设备</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui trendy block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="content">
+						<h1 class="ui header">
+							Trendy
+						</h1>
+						<p>尖端技术，引领时尚</p>
+						<p>彩光连接传输，只需贴近对准摄像头</p>
+						<p>便可迅捷的传输数据。尖端技术应用</p>
+						<p>安全无辐射，新智阶层必备 彰显您的与众不同</p>
+						<p>比蓝牙功耗降低95% 模块体积缩小97%</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	<section class="ui pendant block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="column">
+					<h1 class="ui black header">
+						Waterproof
+					</h1>
+					<p><b>100%防水，运动随心</b></p>
+					<p>防水等级IPｘ7 可以充分满足游泳爱好者的需求</p>
+					<p>让您随心所欲的享受水中运动</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui away block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="right aligned column">
+					<div class="content">
+						<h1 class="ui black header">
+							Enjoy
+						</h1>
+						<p><b>多种佩戴，乐趣无限</b></p>
+						<p>腕带式、夹子式、项链式、钥匙扣胸针、徽章</p>
+						<p>袖口式等 变换佩戴方式惊喜无限，乐趣无限</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui simple block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="content">
+						<h1 class="ui white header">
+							Simple
+						</h1>
+						<p><b>随身 随型 随心 随性</b></p>
+						<p>极简操作，只需（简单一步）平放到桌面</p>
+						<p>便即刻从8个LED灯上了解到您的运动进度</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui free block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="right aligned column">
+					<div class="content">
+						<h1 class="ui white header">
+							Free
+						</h1>
+						<p><b>极速无线充电，完美续航</b></p>
+						<p>5分钟即可充满，每次充满可连续使用10天</p>
+						<p>扫除您的充电困扰，随时佩戴</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui sport block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="content">
+						<h1 class="ui white header">
+							培养健康生活方式
+						</h1>
+						<p>养成个人健康生活方式</p>
+						<p>激励持续运动保持快乐，平衡生活</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui att block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="content">
+						<h2 class="ui white header">
+							产品标配
+						</h2>
+						<small>Configuration</small>
+						<div class="ui images">
+							<div class="ui image">
+								<img src="{{ app_url_packaged }}/images/g-att01.jpg" />
+								<h3>配件01</h3>
+							</div>
+							<div class="ui image">
+								<img src="{{ app_url_packaged }}/images/g-att02.jpg" />
+								<h3>配件01</h3>
+							</div>
+							<div class="ui image">
+								<img src="{{ app_url_packaged }}/images/g-att03.jpg" />
+								<h3>配件01</h3>
+							</div>
+							<div class="ui image">
+								<img src="{{ app_url_packaged }}/images/g-att04.jpg" />
+								<h3>配件01</h3>
+							</div>
+							<div class="ui image">
+								<img src="{{ app_url_packaged }}/images/g-att05.jpg" />
+								<h3>配件01</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui life block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="content">
+						<h1 class="ui white header">
+							CHANGE FEEL ENJOY
+						</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui white backgroud big preorder block">
+		<div class="ui responsive grid">
+			<div class="four column row">
+				<div class="center aligned active column">
+					<div class="ui segment level">
+						<h3 class="ui header">5折优惠</h3>
+					
+						<div class="content">
+							<p class="time">
+								2014年4月15日 -- 2014年5月13日
+							</p>
+							<p class="time">
+								下单预定产品
+							</p>
+							<div class="price">
+								￥ 160.00
+							</div>
+						</div>
+					
+						<div class="actions">
+							<div class="ui white button">
+								现在预定
+							</div>
+							<p class="small">已有30位预定者</p>
+						</div>
+					</div>
+				</div>
+				<div class="center aligned column">
+					<div class="ui segment level">
+						<h3 class="ui header">6折优惠</h3>
+					
+						<div class="content">
+							<p class="time">
+								2014年4月15日 -- 2014年5月13日
+							</p>
+							<p class="time">
+								下单预定产品
+							</p>
+							<div class="price">
+								￥ 200.00
+							</div>
+						</div>
+					
+						<div class="actions">
+							<div class="ui gray button">
+								现在预定
+							</div>
+							<p class="small">已有30位预定者</p>
+						</div>
+					</div>
+				</div>
+				<div class="center aligned column">
+					<div class="ui segment level">
+						<h3 class="ui header">7折优惠</h3>
+					
+						<div class="content">
+							<p class="time">
+								2014年4月15日 -- 2014年5月13日
+							</p>
+							<p class="time">
+								下单预定产品
+							</p>
+							<div class="price">
+								￥ 240.00
+							</div>
+						</div>
+					
+						<div class="actions">
+							<div class="ui gray button">
+								现在预定
+							</div>
+							<p class="small">已有30位预定者</p>
+						</div>
+					</div>
+				</div>
+				<div class="center aligned column">
+					<div class="ui segment level">
+						<h3 class="ui header">7折优惠</h3>
+					
+						<div class="content">
+							<p class="time">
+								2014年4月15日 -- 2014年5月13日
+							</p>
+							<p class="time">
+								下单预定产品
+							</p>
+							<div class="price">
+								￥ 240.00
+							</div>
+						</div>
+					
+						<div class="actions">
+							<div class="ui gray button">
+								现在预定
+							</div>
+							<p class="small">已有30位预定者</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui white backgroud dream block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui danger message">
+						<i class="flat close icon"></i>
+						<p>这个项目必须在2014年06月09日 09:52之前预售达到10000件产品的目标才算成功，否则已经预售的订单将取消。</p>
+						<p>订单取消时，您的支持金额将自动退款至【账户余额】中。您可以支持其他项目，或在此【申请取现】至您的支付宝或其他付款账户。  </p>
+						<p>预计回报发放时间: 项目预购成功后的30天内。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui white backgroud share big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">分享</h3>
+					<a href="" id="sina-share" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
+						<i class="flat icon_weibo icon"></i>
+					</a>
+					<a href="" class="ui green circular share icon button" title="微信">
+						<i class="flat icon_weixin icon"></i>
+					</a>
+					<a href="" id="tencent-share" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
+						<i class="flat icon_qqweibo icon"></i>
+					</a>
+					<a href="" class="ui douban circular share icon button" title="豆瓣">
+						<i class="flat icon_douban icon"></i>
+					</a>
+					<a href="" class="ui qzone circular share icon button" title="QQ空间">
+						<i class="flat icon_qzone icon"></i>
+					</a>
+					<a href="" class="ui pengyou circular share icon button" title="朋友">
+						<i class="flat icon_qqpengyou icon"></i>
+					</a>
+					<a href="" class="ui renren circular share icon button" title="人人">
+						<i class="flat icon_renren icon"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</div>
+
+{% endblock %}

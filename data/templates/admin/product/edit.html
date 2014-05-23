@@ -10,6 +10,31 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	var file_count = 1;	
+	$('#editor').editable({
+		inlineMode: false,
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		height: 500,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageParams: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
+		defaultImageWidth: 700,
+		maxImageSize: 1024 * 1024 * 3, // 3M
+		insertImageCallback: function (imageURL) {
+			file_count++;
+			// 重置参数
+			$('#editor').editable("option", "imageParams", {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' });
+		},
+		afterRemoveImageCallback: function () {
+		    // Do something great.
+		},
+		contentChangedCallback: function () {
+		    $("#editor").val($("#editor").editable("getHTML"));
+		}
+	});
+	
 	$('#product-form').form({
 		title: {
 			identifier  : 'title',
@@ -134,7 +159,7 @@
 <div class="admin">
 	<div class="ui tool-box">
 		<a href="{{ app_url_admin_base }}/product" class="ui magenta button">
-			<i class="flat arrowleft icon"></i>返回列表
+			<i class="flat page_left icon"></i>返回列表
 		</a>
 		<a href="{{ app_url_admin_base }}/product/edit" class="ui magenta button">
 			<i class="flat add icon"></i>发布商品
@@ -250,12 +275,6 @@
 		</div>
 		
 		<div class="field">
-			<label>产品详细说明</label>
-		  	<textarea name="content">{{ product.content }}</textarea>
-		</div>
-		
-		
-		<div class="field">
 			<label>添加图片</label>
 			<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
 		  	<div id="phenix-uploader"></div>
@@ -285,27 +304,40 @@
 			</div>
 		</div>
 		
-		<div class="grouped inline fields">
-			<label>产品阶段</label>
-			<div class="field">
-				<div class="ui radio checkbox">
-					<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
-					<label>投票</label>
+		<div class="field">
+			<label>产品详细说明</label>
+			<textarea name="content" placeholder="详细内容" id="editor">
+				{{ product.content }}
+			</textarea>
+		</div>
+		
+		<div class="ui segment">
+			<div class="grouped inline fields">
+				<label>产品阶段</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
+						<label>投票</label>
+					</div>
 				</div>
-				<div class="ui radio checkbox">
-					<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
-					<label>预售</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
+						<label>预售</label>
+					</div>
 				</div>
-				<div class="ui radio checkbox">
-					<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
-					<label>销售</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
+						<label>销售 <small>直接商店销售</small></label>
+					</div>
 				</div>
 			</div>
 		</div>
 		
 		
-		<div class="ui grid">
-			<div class="right floated aligned eight wide column">
+		<div class="ui right aligned grid">
+			<div class="column">
 				<div class="ui gray cancel button">
 					取消
 				</div>

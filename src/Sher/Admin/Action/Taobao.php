@@ -163,6 +163,8 @@ class Sher_Admin_Action_Taobao extends Sher_Admin_Action_Base {
 			$data['sale_price'] = (float)$products[$i]['price'];
 			
 			$data['stage'] = Sher_Core_Model_Product::STAGE_SHOP;
+			$data['approved'] = 1;
+			$data['published'] = 0;
 			$data['state'] = 0;
 			
 			$model = new Sher_Core_Model_Product();

@@ -1,0 +1,15 @@
+<taconite>
+{% if is_error %}
+	<eval>
+		phenix.show_error_note('{{ note }}', 5000, '#alert-message');
+	</eval>
+{% else %}
+	<eval>
+		phenix.show_ok_note('{{ note }}', 2000, '#alert-message');
+		
+		$('input.checkbox:checked').each(function(){
+			$(this).attr({'checked': false});
+		});
+	</eval>
+{% endif %}
+</taconite>

@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'verify_code', 'contact');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'goccia', 'verify_code', 'contact');
 	
 	protected $admin_method_list = array();
 	
@@ -47,6 +47,12 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         return $this->to_html_page('page/home.html');
     }
 	
+	/**
+	 * Goccia单品
+	 */
+	public function goccia(){
+		return $this->to_html_page('page/goccia.html');
+	}
 	
 	/**
 	 * 显示列表

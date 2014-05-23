@@ -88,7 +88,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		}
 		
 		if ($only_onsale) {
-			$query['state'] = 1;
+			$query['published'] = 1;
 		}
 		
 		if ($only_subject){
@@ -99,7 +99,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $options['page'] = $page;
         $options['size'] = $size;
 		
-        $result = $service->get_product_list($query,$options);
+        $result = $service->get_product_list($query, $options);
 		
         $context->set($var,$result);
         if ($include_pager) {

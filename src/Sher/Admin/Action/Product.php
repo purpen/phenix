@@ -116,6 +116,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		try{
 			$model = new Sher_Core_Model_Product();
+			
+			// 后台上传产品，默认通过审核
+			$data['approved'] = 1;
 			if(empty($id)){
 				$mode = 'create';
 				$data['user_id'] = (int)$this->visitor->id;
@@ -158,6 +161,30 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		return $this->to_html_page('admin/product/edit.html');
 	}
+	
+	/**
+	 * 更新发布上线
+	 */
+	public function update_onsale(){
+		$ids = (int)$this->stash['id'];
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		if(!is_array($ids)){
+			$model->mark_as_published($ids);
+		}else{
+			foreach($ids as $id){
+				$model->mark_as_published($id);
+			}
+		}
+		
+		$this->stash['note'] = '发布上线成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+	}
+	
 	
 }
 ?>

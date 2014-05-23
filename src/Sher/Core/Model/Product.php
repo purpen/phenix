@@ -124,17 +124,18 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 投票申请是否审核
 		'approved' => 0,
+		
 		# 投票是否成功
 		'succeed' => 0,
 		
-		# 预售产品是否发布
+		# 预售，销售产品是否发布
     	'published' => 0,
-		
-		# 状态，商品是否上线
-		'state' => 0,
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+		
+		# 状态
+		'state' => 0,
 		
     	# 删除标识
     	'deleted' => 0,
@@ -297,21 +298,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     /**
      * 取消推荐
      */
-	public function mark_cancel_stick($id){
+	public function mark_cancel_stick($id) {
 		return $this->update_set($id, array('stick' => 0));
 	}
 	
 	/**
 	 * 更新产品的状态阶段
 	 */
-	public function mark_as_stage($id, $stage){
-		return $this->update_set($id, array('stage'=>$stage));
+	public function mark_as_stage($id, $stage) {
+		return $this->update_set($id, array('stage' => $stage));
+	}
+	
+	/**
+	 * 更新产品发布上线
+	 */
+	public function mark_as_published($id, $published=1) {
+		return $this->update_set($id, array('published' => $published));
 	}
 	
 	/**
 	 * 通过审核后，自动设置投票起止日期
 	 */
-	public function mark_as_approved($id){
+	public function mark_as_approved($id) {
 		return $this->update_vote_date($id);
 	}
 	
