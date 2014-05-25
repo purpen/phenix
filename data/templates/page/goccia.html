@@ -10,6 +10,50 @@
 	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 	.clearfix {display: inline-table; +display:inline-block;}
 	
+	@media only screen and (max-width: 767px) {
+		.ui.two.column.grid > .row > .column, .ui.two.column.grid > .column, .ui.grid > .two.column.row > .column,
+		.ui.four.column.grid > .row > .column, .ui.four.column.grid > .column, .ui.grid > .four.column.row > .column {
+			margin-bottom: 1.5em;
+		}
+		.goccia-product .ui.btn {
+			display: block;
+			width: 60%;
+		}
+		.goccia-product .ui.vantage {
+			width: 100% !important;
+		}
+		.goccia.page .ui.thin.block .content {
+		    padding: 30% 0 4%;
+		}
+		.goccia.page .trendy,
+		.goccia.page .pendant,
+		.goccia.page .away,
+		.goccia.page .simple,
+		.goccia.page .free,
+		.goccia.page .sport {
+			padding: 5% 0;
+		}
+		.goccia.page .trendy .content,
+		.goccia.page .pendant .content,
+		.goccia.page .away .content,
+		.goccia.page .simple .content, 
+		.goccia.page .free .content,
+		.goccia.page .sport .content {
+		    padding: 1%;
+		    width: 100%;
+			color: #fff;
+		}
+		.goccia.page .trendy .content {
+			color: #002F5C;
+		}
+		.goccia.page .pendant .content {
+			color: #222;
+		}
+		
+		.ui.att.block .ui.images .ui.header {
+			font-size: 0.875rem;
+		}
+	}
 	
 </style>
 {% endblock %}
@@ -109,8 +153,8 @@
 {% block content %}
 <div class="goccia page">
 	<section class="ui white backgroud title block">
-		<div class="ui middle aligned responsive two column grid">
-			<div class="row">
+		<div class="ui middle aligned responsive grid">
+			<div class="computer only two column row">
 				<div class="column">
 					<h3 class="ui header">
 						国际大奖 Goccia 全球最小的运动可穿戴
@@ -127,14 +171,33 @@
 					<a href="#preorder" class="ui active magenta button">现在预订</a>
 				</div>
 			</div>
+			
+			<div class="tablet only two column row">
+				<div class="column">
+					<h3 class="ui header">
+						国际大奖 Goccia 全球最小的运动可穿戴
+					</h3>
+				</div>
+				<div class="right aligned column">
+					<a href="#preorder" class="ui active magenta button">现在预订</a>
+				</div>
+			</div>
+			
+			
+			<div class="mobile only row">
+				<div class="column">
+					<h3 class="ui black header">
+						Goccia 全球最小的运动可穿戴
+					</h3>
+				</div>
+			</div>
 		</div>
 	</section>
 	
 	<section class="ui white backgroud goccia-product block">
 		<div class="ui middle aligned responsive grid">
-			<div class="row">
+			<div class="computer tablet only row">
 				<div class="column">
-					
 					<h1 class="ui black header">
 						Goccia 国内首发
 					</h1>
@@ -167,6 +230,30 @@
 					</div>     
 				</div>
 			</div>
+			
+			<div class="mobile only row">
+				<div class="column">
+					<h3 class="ui black header">
+						Goccia 国内首发
+						<p class="sub header">全球最小的运动可穿戴</p>
+					</h3>
+					
+					<a class="ui black btn-4 btn-4c icon-arrow-right btn" href="#preorder">
+						现在预订
+					</a>
+					<a class="ui magenta btn-4 btn-4c icon-arrow-right gift btn" href="{{ app_url_register }}">
+						注册赢大奖
+					</a>
+					
+					<ui class="ui bulleted list">
+						<li class="item">量化运动量</li>
+						<li class="item">检测睡眠质量</li>
+						<li class="item">培养健康生活方式</li>
+						<li class="item">时尚科技配饰</li>
+					</ui>
+					
+				</div>
+			</div>
 		</div>
 		
 	</section>
@@ -186,13 +273,13 @@
 	</section>
 	
 	<section class="ui white backgroud features block">
-		<div class="ui responsive two column grid">
+		<div class="ui responsive relaxed two column grid">
 			<div class="row">
 				<div class="column">
-					<div class="ui feat-list clearfix">
+					<div class="ui three items">
 						<div class="item">
 							<img src="{{ app_url_packaged }}/images/g-f-01.png" class="ui image" />
-							<small>世界最小 极致体积<br />直径17.9毫米<br/>厚度7.2毫米</small>
+							<small>世界最小 极致体积,直径17.9毫米,厚度7.2毫米</small>
 						</div>
 						<div class="item">
 							<img src="{{ app_url_packaged }}/images/g-f-02.png" class="ui image" />
@@ -202,9 +289,7 @@
 							<img src="{{ app_url_packaged }}/images/g-f-03.png" class="ui image" />
 							<small>白天运动模式及夜间睡眠模式自动切换</small>
 						</div>
-					</div>
-					
-					<div class="ui feat-list clearfix">
+						
 						<div class="item">
 							<img src="{{ app_url_packaged }}/images/g-f-04.png" class="ui image" />
 							<small>100%防水，游泳时也可戴着goccia</small>
@@ -217,9 +302,7 @@
 							<img src="{{ app_url_packaged }}/images/g-f-06.png" class="ui image" />
 							<small>极致重量只有3克</small>
 						</div>
-					</div>
-					
-					<div class="ui feat-list clearfix">
+						
 						<div class="item">
 							<img src="{{ app_url_packaged }}/images/g-f-07.png" class="ui image" />
 							<small>每次充电可使用10天</small>
@@ -232,11 +315,12 @@
 							<img src="{{ app_url_packaged }}/images/g-f-09.png" class="ui image" />
 							<small>配合ios app 随时查看运动状况睡眠质量及改进建议</small>
 						</div>
+						
 					</div>
 					
 				</div>
 				<div class="column">
-					<h1 class="ui header">
+					<h1 class="ui hide-on-mobile header">
 						主要特点
 						<small>Key features</small>
 					</h1>
@@ -288,9 +372,11 @@
 						</h1>
 						<p class="subheader">尖端技术，引领时尚</p>
 						<p>彩光连接传输，只需贴近对准摄像头</p>
-						<p>便可迅捷的传输数据。尖端技术应用</p>
-						<p>安全无辐射，新智阶层必备 彰显您的与众不同</p>
-						<p>比蓝牙功耗降低95% 模块体积缩小97%</p>
+						<div class="hide-on-mobile">
+							<p>便可迅捷的传输数据。尖端技术应用</p>
+							<p>安全无辐射，新智阶层必备 彰显您的与众不同</p>
+							<p>比蓝牙功耗降低95% 模块体积缩小97%</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -302,12 +388,14 @@
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="column">
-					<h1 class="ui black header">
-						Waterproof
-					</h1>
-					<p class="subheader">100%防水，运动随心</p>
-					<p>防水等级IPｘ7 可以充分满足游泳爱好者的需求</p>
-					<p>让您随心所欲的享受水中运动</p>
+					<div class="content">
+						<h1 class="ui black header">
+							Waterproof
+						</h1>
+						<p class="subheader">100%防水，运动随心</p>
+						<p>防水等级IPｘ7 可以充分满足游泳爱好者的需求</p>
+						<p>让您随心所欲的享受水中运动</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -318,12 +406,11 @@
 			<div class="row">
 				<div class="right aligned column">
 					<div class="content">
-						<h1 class="ui black header">
+						<h1 class="ui header">
 							Enjoy
 						</h1>
 						<p class="subheader">多种佩戴，乐趣无限</p>
-						<p>腕带式、夹子式、项链式、钥匙扣胸针、徽章</p>
-						<p>袖口式等 变换佩戴方式惊喜无限，乐趣无限</p>
+						<p>腕带式、夹子式、项链式、钥匙扣胸针、徽章、袖口式等 变换佩戴方式惊喜无限，乐趣无限</p>
 					</div>
 				</div>
 			</div>
@@ -431,8 +518,8 @@
 	</section>
 	
 	<section class="ui white backgroud big preorder block">
-		<div class="ui responsive grid">
-			<div class="four column row">
+		<div class="ui responsive four column grid">
+			<div class="row">
 				<div class="center aligned active column">
 					<div class="ui segment level">
 						<h3 class="ui header">Goccia 1台 <small>(限量10台)</small></h3>

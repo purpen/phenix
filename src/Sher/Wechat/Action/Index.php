@@ -71,17 +71,25 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					"0" => array(
 						'Title' => 'Goccia全球最小的运动可穿戴',
 						'Description'=>'Goccia全球最小的运动可穿戴国内首发,现在预订就有机会赢取大奖',
-						'PicUrl'=>'http://frstatic.qiniudn.com/images/g-banner.jpg',
+						'PicUrl'=>'http://frstatic.qiniudn.com/images/wx-banner.jpg',
 						'Url'=>'http://www.taihuoniao.com/goccia'
 					)
 				);
 				break;
 			case 'MENU_KEY_SHOP_STAR':
+				$result = array(
+					"0" => array(
+						'Title' => 'Goccia全球最小的运动可穿戴',
+						'Description'=>'Goccia全球最小的运动可穿戴国内首发,现在预订就有机会赢取大奖',
+						'PicUrl'=>'http://frstatic.qiniudn.com/images/wx-banner.jpg',
+						'Url'=>'http://www.taihuoniao.com/goccia'
+					)
+				);
 				break;
 			default:
 				break;
 		}
-		Doggy_Log_Helper::warn("Handle event result[$result]!");
+		Doggy_Log_Helper::warn("Handle event result[".json_encode($result)."]!");
 		
 		return $result;
 	}
