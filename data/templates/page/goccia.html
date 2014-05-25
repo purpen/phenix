@@ -7,6 +7,40 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
+	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+	.clearfix {display: inline-table; +display:inline-block;}
+	
+	.features {
+		padding: 2% 0;
+	}
+	.ui.feat-list {
+		width: 100%;
+	}
+	.ui.feat-list .item {
+		float: left;
+		width: 114px;
+		margin-right: 10%;
+	}
+	.ui.feat-list .item img {
+		border: 1px solid rgba(0,0,0,0.3);
+	}
+	.ui.feat-list .item small {
+		display: inline-block;
+	    font-size: 0.8em;
+	    font-weight: bold;
+	    text-align: center;
+		margin-top: 0.5em;
+	}
+	.ui.header > small {
+		display: block;
+	    font-size: 0.5em;
+	    font-weight: normal;
+	    text-transform: uppercase;
+	}
+	.ui.used.header {
+		margin-top: 10%;
+	}
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -168,6 +202,82 @@
 			</div>
 		</div>
 		
+	</section>
+	
+	<section class="ui features block">
+		<div class="ui responsive two column grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui feat-list clearfix">
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-01.png" class="ui image" />
+							<small>世界最小 极致体积<br />直径17.9毫米<br/>厚度7.2毫米</small>
+						</div>
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-02.png" class="ui image" />
+							<small>极致创新 使用光与智能手机通信安全无辐射</small>
+						</div>
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-03.png" class="ui image" />
+							<small>白天运动模式及夜间睡眠模式自动切换</small>
+						</div>
+					</div>
+					
+					<div class="ui feat-list clearfix">
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-04.png" class="ui image" />
+							<small>100%防水，游泳时也可戴着goccia</small>
+						</div>
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-05.png" class="ui image" />
+							<small>极速无线充电25分钟充满</small>
+						</div>
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-06.png" class="ui image" />
+							<small>极致重量只有3克</small>
+						</div>
+					</div>
+					
+					<div class="ui feat-list clearfix">
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-07.png" class="ui image" />
+							<small>每次充电可使用10天</small>
+						</div>
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-08.png" class="ui image" />
+							<small>多种配件戴在哪里都精彩</small>
+						</div>
+						<div class="item">
+							<img src="{{ app_url_packaged }}/images/g-f-09.png" class="ui image" />
+							<small>配合ios app 随时查看运动状况睡眠质量及改进建议</small>
+						</div>
+					</div>
+					
+				</div>
+				<div class="column">
+					<h1 class="ui header">
+						主要特点
+						<small>Key features</small>
+					</h1>
+					
+					<h3 class="ui used header">
+						如何使用Goccia?
+					</h3>
+					<ul class="ui list">
+						<li>在App Store下载Goccia App，注册后登录;</li>
+					  	<li>工作模式：有电时Goccia即处于工作状态，无需开关机。用户睡觉时，Goccia会自动检测到并进入睡眠模式。使用十分简便;</li>
+					  	<li>数据同步：将Goccia置于iPhone上，正面向下对准摄像头，数据自动开始同步;</li>
+					</ul>
+					
+					<ul class="ui list">
+						<li>Goccia具有防水功能，用户可在沐浴游泳时佩戴;</li>
+					  	<li>Goccia不含磁性物质或放射性物质;</li>
+					  	<li>长时间浸在盐水或经化学处理的水中以及不当摔碰会导致失去防水性;</li>
+					  	<li>Goccia不可食用，请置于婴儿接触不到的位置;</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</section>
 	
 	<section class="ui trendy block">
