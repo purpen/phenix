@@ -52,6 +52,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 				break;
 			default:
 				$weObj->text("help info")->reply();
+				break;
 		}
 		return $this->to_raw('It is ok!');
 	}
@@ -75,9 +76,11 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			$weObj->text("你好，太火鸟欢迎你！")->reply();
 		}
 		$key = $event['key'];
+		Doggy_Log_Helper::warn("Handle event[$key]!");
 		switch($key){
 			case 'MENU_KEY_SHOP_NEWEST':
-				$weObj->text("新品推荐")->reply();
+				Doggy_Log_Helper::warn("Handle event to start MENU_KEY_SHOP_NEWEST!");
+				$result = $weObj->text("新品推荐")->reply(array(), true);
 				break;
 			case 'MENU_KEY_SHOP_STAR':
 				$weObj->text("明星产品")->reply();
@@ -85,6 +88,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			default:
 				$weObj->text("help info")->reply();
 		}
+		Doggy_Log_Helper::warn("Handle event result[$result]!");
+		return $this->to_raw($result);
 	}
 	
     /**
