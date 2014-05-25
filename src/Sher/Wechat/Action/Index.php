@@ -42,54 +42,48 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
-				$weObj->text("hello, I'm wechat")->reply();
-				exit;
+				$result = $weObj->text("hello, I'm wechat")->reply(array(), true);
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
-				return $this->handle_event($event);
+				$data = $this->handle_event($event); 
+				$result = $weObj->news($data)->reply(array(), true);
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
 				break;
 			default:
-				$weObj->text("help info")->reply();
+				$result = $weObj->text("help info")->reply(array(), true);
 				break;
 		}
-		return $this->to_raw('It is ok!');
+		return $this->to_raw($result);
 	}
 	
 	/**
 	 * 消息事件
 	 */
 	protected function handle_event($event){
-		$options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
-			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
-			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
-			'partnerid'=>'', //财付通商户身份标识
-			'partnerkey'=>'', //财付通商户权限密钥Key
-			'paysignkey'=>'' //商户签名密钥Key
-		);
-		
-		$weObj = new Sher_Core_Util_Wechat($options);
-		
-		if (!$event){
-			$weObj->text("你好，太火鸟欢迎你！")->reply();
-		}
 		$key = $event['key'];
 		Doggy_Log_Helper::warn("Handle event[$key]!");
+		$result = array();
 		switch($key){
 			case 'MENU_KEY_SHOP_NEWEST':
 				Doggy_Log_Helper::warn("Handle event to start MENU_KEY_SHOP_NEWEST!");
-				$result = $weObj->text("新品推荐")->reply(array(), true);
+				$result = array(
+					"0" => array(
+						'Title' => 'Goccia全球最小的运动可穿戴',
+						'Description'=>'Goccia全球最小的运动可穿戴国内首发,现在预订就有机会赢取大奖',
+						'PicUrl'=>'http://frstatic.qiniudn.com/images/g-banner.jpg',
+						'Url'=>'http://www.taihuoniao.com/goccia'
+					)
+				);
 				break;
 			case 'MENU_KEY_SHOP_STAR':
-				$weObj->text("明星产品")->reply();
 				break;
 			default:
-				$weObj->text("help info")->reply();
+				break;
 		}
 		Doggy_Log_Helper::warn("Handle event result[$result]!");
-		return $this->to_raw($result);
+		
+		return $result;
 	}
 	
     /**
