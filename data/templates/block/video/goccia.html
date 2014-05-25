@@ -1,0 +1,16 @@
+<div class="ui medium videobox modal">
+  	<i class="flat close icon"></i>
+  	<div class="content">
+		<div id="youkuplayer" style="width: 100%; height: 500px;">
+			<object width="100%" height="100%" id="youku-player" data="http://player.youku.com/player.php/sid/XNzE2ODY0NDM2/v.swf" type="application/x-shockwave-flash">
+				<param value="true" name="allowFullScreen">
+				<param value="always" name="allowScriptAccess">
+				<param value="http://player.youku.com/player.php/sid/XNzE2ODY0NDM2/v.swf" name="movie">
+				<param value="imglogo=&amp;paid=0&amp;partnerId=31cc1eceae589704&amp;isAutoPlay=true&amp;isShowRelatedVideo=false" name="flashvars">
+			</object>
+		</div>
+  	</div>
+  	<div class="actions">
+    	分享视频：{% include "block/circle-share.html" %}
+  	</div>
+</div>

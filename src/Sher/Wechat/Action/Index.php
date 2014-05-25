@@ -22,8 +22,33 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	 * 微信入口
 	 */
 	public function execute(){
-		return $this->to_html_page("page/wechat/index.html");
+		$options = array(
+			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
+			'partnerid'=>'', //财付通商户身份标识
+			'partnerkey'=>'', //财付通商户权限密钥Key
+			'paysignkey'=>'' //商户签名密钥Key
+		);
+		
+		$weObj = new Sher_Core_Util_Wechat($options);
+		$weObj->valid();
+		$type = $weObj->getRev()->getRevType();
+		
+		switch($type) {
+			case Wechat::MSGTYPE_TEXT:
+				$weObj->text("hello, I'm wechat")->reply();
+					exit;
+					break;
+				case Wechat::MSGTYPE_EVENT:
+					break;
+				case Wechat::MSGTYPE_IMAGE:
+					break;
+				default:
+					$weObj->text("help info")->reply();
+		}
 	}
+	
 	
     /**
      * 验证Token
@@ -40,64 +65,85 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		
 		return $this->to_raw('Erorr: not match!');
     }
-	
 	/**
-	 * 验证签名
+	 * 微信自定义菜单
 	 */
-	private function check_signature() {		
-		$signature = $this->stash['signature'];
-		$timestamp = $this->stash['timestamp'];
-		$nonce = $this->stash['nonce'];
-        		
-		$token = Doggy_Config::get('app.wechat.token');
-		$tmpArr = array($token, $timestamp, $nonce);
-		sort($tmpArr, SORT_STRING);
-		$tmpStr = implode( $tmpArr );
-		$tmpStr = sha1( $tmpStr );
+	public function menu(){
+		$options = array(
+			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
+			'partnerid'=>'', //财付通商户身份标识
+			'partnerkey'=>'', //财付通商户权限密钥Key
+			'paysignkey'=>'' //商户签名密钥Key
+		);
 		
-		if( $tmpStr == $signature ){
-			return true;
+		$we = new Sher_Core_Util_Wechat($options);
+		// 设置菜单
+		$newmenu =  array(
+			"button"=>
+				array(
+					array(
+						'type'=>'click',
+						'name'=>'创意市集',
+						'key'=>'MENU_KEY_SHOP',
+						'sub_button' => array(
+							array(
+						   	 	"type" => "click",
+						   	 	"name" => "新品推荐",
+						   	 	"key" => "MENU_KEY_SHOP_NEWEST"
+							),
+							array(
+						   	 	"type" => "click",
+						   	 	"name" => "明星产品",
+						   	 	"key" => "MENU_KEY_SHOP_STAR"
+							)
+						)
+					),
+					array(
+						'type'=>'click',
+						'name'=>'互动社区',
+						'key'=>'MENU_KEY_Social',
+						'sub_button' => array(
+							array(
+						   	 	"type" => "click",
+						   	 	"name" => "微社区",
+						   	 	"key" => "MENU_KEY_SOCIAL_WEIS"
+							),
+							array(
+						   	 	"type" => "click",
+						   	 	"name" => "联系我们",
+						   	 	"key" => "MENU_KEY_SOCIAL_CONTACT"
+							)
+						)
+					)
+				)
+		);
+		$result = $we->createMenu($newmenu);
+		
+		if($result){
+			return $this->to_raw('设置菜单成功！');
 		}else{
-			return false;
+			return $this->to_raw('设置菜单失败！');
 		}
 	}
 	
-    public function responseMsg() {
-		//get post data, May be due to the different environments
-		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-
-      	//extract post data
-		if (!empty($postStr)){
-                
-              	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-                $fromUsername = $postObj->FromUserName;
-                $toUsername = $postObj->ToUserName;
-                $keyword = trim($postObj->Content);
-                $time = time();
-                $textTpl = "<xml>
-							<ToUserName><![CDATA[%s]]></ToUserName>
-							<FromUserName><![CDATA[%s]]></FromUserName>
-							<CreateTime>%s</CreateTime>
-							<MsgType><![CDATA[%s]]></MsgType>
-							<Content><![CDATA[%s]]></Content>
-							<FuncFlag>0</FuncFlag>
-							</xml>";             
-				if(!empty( $keyword ))
-                {
-              		$msgType = "text";
-                	$contentStr = "Welcome to wechat world!";
-                	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                	echo $resultStr;
-                }else{
-                	echo "Input something...";
-                }
-
-        }else {
-        	echo "";
-        	exit;
-        }
-    }
-	
+	public function get_menu(){
+		$options = array(
+			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
+			'partnerid'=>'', //财付通商户身份标识
+			'partnerkey'=>'', //财付通商户权限密钥Key
+			'paysignkey'=>'' //商户签名密钥Key
+		);
+		
+		$we = new Sher_Core_Util_Wechat($options);
+		
+		$menu = $we->getMenu();
+		
+		print_r($menu);
+	}
 	
 	
 }

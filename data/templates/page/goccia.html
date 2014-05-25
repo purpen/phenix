@@ -10,44 +10,6 @@
 	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 	.clearfix {display: inline-table; +display:inline-block;}
 	
-	.ui.goccia.video {
-		background: url("{{ app_url_packaged }}/images/goccia-video.jpg") no-repeat scroll center top / cover  #565960;
-	    color: #FFFFFF;
-	}
-	.ui.goccia.video .video-content {
-		padding: 11em 0 5em;
-	}
-	
-	.ui.features {
-		padding: 2% 0;
-	}
-	.ui.features .ui.feat-list {
-		width: 100%;
-	}
-	.ui.features .ui.feat-list .item {
-		float: left;
-		width: 114px;
-		margin-right: 10%;
-	}
-	.ui.features .ui.feat-list .item img {
-		border: 1px solid rgba(0,0,0,0.3);
-	}
-	.ui.features .ui.feat-list .item small {
-		display: inline-block;
-	    font-size: 0.8em;
-	    font-weight: bold;
-	    text-align: center;
-		margin-top: 0.5em;
-	}
-	.ui.features .ui.header > small {
-		display: block;
-	    font-size: 0.5em;
-	    font-weight: normal;
-	    text-transform: uppercase;
-	}
-	.ui.features .ui.used.header {
-		margin-top: 10%;
-	}
 	
 </style>
 {% endblock %}
@@ -189,22 +151,19 @@
 					
 					<h3 class="ui prize header">荣获美国IDEA设计大奖</h3>
 					
-					<div class="ui vantage">
-					  	<a class="title ui black btn">
+					<div class="ui vantage clearfix">
+					  	<div class="ui black title">
 					      	量化运动量
-					  	</a>
-					  	
-					  	<a class="title ui black btn">
+						</div>
+					  	<div class="ui black title">
 					      	检测睡眠质量
-					  	</a>
-					  	
-					  	<a class="title ui black btn">
+						</div>
+					  	<div class="ui black title">
 					      	培养健康生活方式
-					  	</a>
-					  	
-					  	<a class="title ui black btn">
+						</div>
+					  	<div class="ui black title">
 					      	时尚科技配饰
-					  	</a>
+						</div>
 					</div>     
 				</div>
 			</div>
@@ -219,14 +178,14 @@
 				<div class="column">
 					<div class="video-content">
 						<h3 class="ui header">Goccia</h3>
-						<p>全球最小的运动可穿戴Goccia 国内首发！</p>
+						<p class="subheader">全球最小的运动可穿戴Goccia 国内首发！</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="ui features block">
+	<section class="ui white backgroud features block">
 		<div class="ui responsive two column grid">
 			<div class="row">
 				<div class="column">
@@ -302,6 +261,23 @@
 		</div>
 	</section>
 	
+	<section class="ui thin block">
+		<div class="ui middle aligned responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="content">
+						<h1 class="ui header">
+							Smart
+						</h1>
+						<p class="subheader">精致灵动，乐享至简</p>
+						<p>厚7.2mm     直径17.9mm     重3克   由金属铝和Corning  Gorilla</p>
+						<p>玻璃精心打造而成  赢得时尚群体欢迎</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
 	<section class="ui trendy block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
@@ -310,7 +286,7 @@
 						<h1 class="ui header">
 							Trendy
 						</h1>
-						<p>尖端技术，引领时尚</p>
+						<p class="subheader">尖端技术，引领时尚</p>
 						<p>彩光连接传输，只需贴近对准摄像头</p>
 						<p>便可迅捷的传输数据。尖端技术应用</p>
 						<p>安全无辐射，新智阶层必备 彰显您的与众不同</p>
@@ -329,7 +305,7 @@
 					<h1 class="ui black header">
 						Waterproof
 					</h1>
-					<p><b>100%防水，运动随心</b></p>
+					<p class="subheader">100%防水，运动随心</p>
 					<p>防水等级IPｘ7 可以充分满足游泳爱好者的需求</p>
 					<p>让您随心所欲的享受水中运动</p>
 				</div>
@@ -345,7 +321,7 @@
 						<h1 class="ui black header">
 							Enjoy
 						</h1>
-						<p><b>多种佩戴，乐趣无限</b></p>
+						<p class="subheader">多种佩戴，乐趣无限</p>
 						<p>腕带式、夹子式、项链式、钥匙扣胸针、徽章</p>
 						<p>袖口式等 变换佩戴方式惊喜无限，乐趣无限</p>
 					</div>
@@ -362,7 +338,7 @@
 						<h1 class="ui white header">
 							Simple
 						</h1>
-						<p><b>随身 随型 随心 随性</b></p>
+						<p class="subheader">随身 随型 随心 随性</p>
 						<p>极简操作，只需（简单一步）平放到桌面</p>
 						<p>便即刻从8个LED灯上了解到您的运动进度</p>
 					</div>
@@ -379,7 +355,7 @@
 						<h1 class="ui white header">
 							Free
 						</h1>
-						<p><b>极速无线充电，完美续航</b></p>
+						<p class="subheader">极速无线充电，完美续航</p>
 						<p>5分钟即可充满，每次充满可连续使用10天</p>
 						<p>扫除您的充电困扰，随时佩戴</p>
 					</div>
@@ -408,32 +384,30 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<div class="content">
-						<h2 class="ui white header">
-							产品标配
-						</h2>
-						<small>Configuration</small>
-						<div class="ui images">
-							<div class="ui image">
-								<img src="{{ app_url_packaged }}/images/g-att01.jpg" />
-								<h3>配件01</h3>
-							</div>
-							<div class="ui image">
-								<img src="{{ app_url_packaged }}/images/g-att02.jpg" />
-								<h3>配件01</h3>
-							</div>
-							<div class="ui image">
-								<img src="{{ app_url_packaged }}/images/g-att03.jpg" />
-								<h3>配件01</h3>
-							</div>
-							<div class="ui image">
-								<img src="{{ app_url_packaged }}/images/g-att04.jpg" />
-								<h3>配件01</h3>
-							</div>
-							<div class="ui image">
-								<img src="{{ app_url_packaged }}/images/g-att05.jpg" />
-								<h3>配件01</h3>
-							</div>
+					<h2 class="ui white header">
+						产品标配
+					</h2>
+					<small>Configuration</small>
+					<div class="ui images">
+						<div class="ui image">
+							<img src="{{ app_url_packaged }}/images/g-att011.jpg" />
+							<h3 class="ui header">Goccia</h3>
+						</div>
+						<div class="ui image">
+							<img src="{{ app_url_packaged }}/images/g-att022.jpg" />
+							<h3 class="ui header">皮质腕带</h3>
+						</div>
+						<div class="ui image">
+							<img src="{{ app_url_packaged }}/images/g-att033.jpg" />
+							<h3 class="ui header">充电底座</h3>
+						</div>
+						<div class="ui image">
+							<img src="{{ app_url_packaged }}/images/g-att044.jpg" />
+							<h3 class="ui header">夹子</h3>
+						</div>
+						<div class="ui image">
+							<img src="{{ app_url_packaged }}/images/g-att055.jpg" />
+							<h3 class="ui header">环扣</h3>
 						</div>
 					</div>
 				</div>
@@ -486,7 +460,7 @@
 					
 						<div class="content">
 							<p class="time">
-								感谢您对Goccia的倾心支持！您是首批支持我们的朋友，因此我们将这个近千元的Goccia以488元的优惠的价格提供给您
+								感谢您对Goccia的倾心支持！您是首批支持我们的朋友，因此我们将这个近千元Goccia以488元的价格提供给您
 							</p>
 							<div class="price">
 								￥ 488.00

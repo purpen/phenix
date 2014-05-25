@@ -129,9 +129,9 @@ app.presale.interval: 15
 app.presale.lowest: 10
 
 # 微信token
-app.wechat.token: '537308f80c28aab11a8b590f'
-app.wechat.app_id: 'wx4cf88d6bf30430db'
-app.wechat.app_secret: '795ff8ca3d4a57ae645e4d217c193988'
+app.wechat.token: '5382021d5771db562c1ce1de'
+app.wechat.app_id: 'wx75a9ffb78f202fb3'
+app.wechat.app_secret: 'f80ae853ef243f66284ad13781cb69de'
 
 # 附件存储目录
 app.storage.sher:
