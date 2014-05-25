@@ -110,111 +110,124 @@
 {% block content %}
 <div class="account profile">
 	<div class="ui responsive grid">
-		<div class="four wide column">
-			{% include "block/user/sub_menu.html" %}
-		</div>
-		<div class="twelve wide column">
-			<h2 class="ui header">设置个人资料</h2>
-			<div class="ui segment">
-				<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
-					<input name="_id" type="hidden" value="{{ user_id }}" />
-					<h3 class="ui dividing header">设置头像</h3>
-					<div class="ui grid">
-						<div class="row">
-							<div class="three wide column">
-								<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
-							</div>
-							<div class="thirteen wide avatar column">
-						      	<p>设置一个宽度大于400px、JPG头像，让小伙伴们迅速认识你.</p>
-								<div id="phenix-uploader"></div>
-								
-								<div id="avatar-preview" class="ui hide">
-									<div id="select-area"></div>
-								</div>
-								
-								<div class="ui hide" id="avatar-crop-buttons">
-									<input type="hidden" name="avatar_id" id="avatar_id" />
-									<input type="hidden" name="x1" id="x1" />
-									<input type="hidden" name="x2" id="x2" />
-									<input type="hidden" name="y1" id="y1" />
-									<input type="hidden" name="y2" id="y2" />
-									<input type="hidden" name="w" id="w" />
-									<input type="hidden" name="h" id="h" />
-								</div>
-								
-								<div class="ui active magenta crop button hide">
-									确认
-								</div>
-							</div>
-							
-						</div>
-					</div>
-					
-					<h3 class="ui dividing header">详细资料</h3>
-					<div class="two fields">
-						<div class="field">
-							<label>姓名：</label>
-							<input type="text" name="realname" value="{{ profile.realname }}" />
-						</div>
-						<div class="field">
-							<label>性别：</label>
-							<div class="ui selection dropdown">
-								<input type="hidden" name="sex" />
-							    <div class="default text">请选择</div>
-							    <i class="flat arrowbottom icon"></i>
-							    <div class="menu">
-							        <div data-value="1" class="{%if user.sex == 1%}active{%endif%}> item">男</div>
-							        <div data-value="2" class="{%if user.sex == 2%}active{%endif%}> item">女</div>
-							    </div>
-							</div>
-						</div>
-					</div>
-			
-					<div class="two fields">
-						<div class="field">
-							<label>职业：</label>
-							<input type="text" name="job" value="{{ profile.job }}" />
-						</div>
-						<div class="field">
-							<label>城市：</label>
-							<input type="text" name="city" value="{{ user.city }}" />
-						</div>
-					</div>
-					
-					<div class="two fields">
-						<div class="field">
-							<label>Email：</label>
-							<input type="text" name="email" value="{{ user.email }}" />
-						</div>
-						<div class="field">
-							<label>电话：</label>
-							<input type="text" name="phone" value="{{ user.profile.phone }}" />
-						</div>
-					</div>
-					
-					<div class="field">
-						<label>地址：</label>
-						<input type="text" name="address" value="{{ profile.address }}" />
-					</div>
-					
-					<div class="field">
-						<label>个人关键词：</label>
-						<textarea class="small" rows="2" name="tags">{% for t in user.tags %}{{ t }},{% endfor %}</textarea>
-						<div class="description">每个词之间使用,隔开!</div>
-					</div>
-					
-					<div class="field">
-						<label>个人评价：</label>
-						<textarea name="summary">{{ user.summary }}</textarea>
-					</div>
-					
-					<input type="submit" class="ui active magenta button" value="确认修改" />
-					
-				</form>
+		
+		{% if visitor.first_login %}
+		<div class="row">
+			<div class="column">
+				<div class="ui danger message">
+					<i class="flat close icon"></i>
+					全球最小的可穿戴设备Goccia国内首发，2万大奖免费送，<a href="{{ app_url_goccia }}" target="_blank" class="ui link">查看活动详情</a>
+				</div>
 			</div>
-			
 		</div>
-	
+		{% endif %}
+		
+		<div class="row">
+			<div class="four wide column">
+				{% include "block/user/sub_menu.html" %}
+			</div>
+			<div class="twelve wide column">
+				<h2 class="ui header">设置个人资料</h2>
+				<div class="ui segment">
+					<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
+						<input name="_id" type="hidden" value="{{ user_id }}" />
+						<h3 class="ui dividing header">设置头像</h3>
+						<div class="ui grid">
+							<div class="row">
+								<div class="three wide column">
+									<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+								</div>
+								<div class="thirteen wide avatar column">
+							      	<p>设置一个宽度大于400px、JPG头像，让小伙伴们迅速认识你.</p>
+									<div id="phenix-uploader"></div>
+								
+									<div id="avatar-preview" class="ui hide">
+										<div id="select-area"></div>
+									</div>
+								
+									<div class="ui hide" id="avatar-crop-buttons">
+										<input type="hidden" name="avatar_id" id="avatar_id" />
+										<input type="hidden" name="x1" id="x1" />
+										<input type="hidden" name="x2" id="x2" />
+										<input type="hidden" name="y1" id="y1" />
+										<input type="hidden" name="y2" id="y2" />
+										<input type="hidden" name="w" id="w" />
+										<input type="hidden" name="h" id="h" />
+									</div>
+								
+									<div class="ui active magenta crop button hide">
+										确认
+									</div>
+								</div>
+							
+							</div>
+						</div>
+					
+						<h3 class="ui dividing header">详细资料</h3>
+						<div class="two fields">
+							<div class="field">
+								<label>姓名：</label>
+								<input type="text" name="realname" value="{{ profile.realname }}" />
+							</div>
+							<div class="field">
+								<label>性别：</label>
+								<div class="ui selection dropdown">
+									<input type="hidden" name="sex" />
+								    <div class="default text">请选择</div>
+								    <i class="flat arrowbottom icon"></i>
+								    <div class="menu">
+								        <div data-value="1" class="{%if user.sex == 1%}active{%endif%}> item">男</div>
+								        <div data-value="2" class="{%if user.sex == 2%}active{%endif%}> item">女</div>
+								    </div>
+								</div>
+							</div>
+						</div>
+			
+						<div class="two fields">
+							<div class="field">
+								<label>职业：</label>
+								<input type="text" name="job" value="{{ profile.job }}" />
+							</div>
+							<div class="field">
+								<label>城市：</label>
+								<input type="text" name="city" value="{{ user.city }}" />
+							</div>
+						</div>
+					
+						<div class="two fields">
+							<div class="field">
+								<label>Email：</label>
+								<input type="text" name="email" value="{{ user.email }}" />
+							</div>
+							<div class="field">
+								<label>电话：</label>
+								<input type="text" name="phone" value="{{ user.profile.phone }}" />
+							</div>
+						</div>
+					
+						<div class="field">
+							<label>地址：</label>
+							<input type="text" name="address" value="{{ profile.address }}" />
+						</div>
+					
+						<div class="field">
+							<label>个人关键词：</label>
+							<textarea class="small" rows="2" name="tags">{% for t in user.tags %}{{ t }},{% endfor %}</textarea>
+							<div class="description">每个词之间使用,隔开!</div>
+						</div>
+					
+						<div class="field">
+							<label>个人评价：</label>
+							<textarea name="summary">{{ user.summary }}</textarea>
+						</div>
+					
+						<input type="submit" class="ui active magenta button" value="确认修改" />
+					
+					</form>
+				</div>
+			
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

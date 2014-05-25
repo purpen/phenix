@@ -1,4 +1,4 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/board.html'%}
 {% block title %}国际大奖 Goccia 全球最小的运动可穿戴-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -7,117 +7,6 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
-	.goccia.page{
-		margin-top: 5em;
-	}
-	.goccia-product {
-	    background: url("{{ app_url_packaged }}/images/g-banner.jpg") no-repeat scroll center top / cover #565960;
-	    color: #222;
-	}
-	.goccia-product > .ui.grid > .row > .column {
-		padding: 60px 0 0 70px;
-	}
-	.trendy {
-	    background: url("{{ app_url_packaged }}/images/g-light.jpg") no-repeat scroll center top / cover #565960;
-	    color: #002f5c;
-		padding: 15% 0;
-	}
-	.trendy .content {
-		text-align: right;
-		width: 65%;
-	}
-	.pendant {
-	    background: url("{{ app_url_packaged }}/images/g-pendant.jpg") no-repeat scroll center top / cover #565960;
-	    color: #222;
-		padding: 10% 24% 15%;
-	}
-	.away {
-	    background: url("{{ app_url_packaged }}/images/g-away.jpg") no-repeat scroll center top / cover #565960;
-	    color: #222;
-		padding: 15% 0;
-	}
-	.away .content {
-		width: 35%;
-	}
-	
-	.simple {
-		background: url("http://static.taihuoniao.me/images/g-simple.jpg") no-repeat scroll center top / cover #565960;
-	    color: #FFFFFF;
-	    padding: 2% 0 27% 12%;
-	}
-	
-	.free {
-		background: url("http://static.taihuoniao.me/images/g-fashion.jpg") no-repeat scroll center top / cover #565960;
-	    color: #FFFFFF;
-	    padding: 20% 0 5%;
-	}
-	.free .content {
-		width: 45%;
-	}
-	.sport {
-		background: url("http://static.taihuoniao.me/images/g-sport.jpg") no-repeat scroll center top / cover #565960;
-	    color: #FFFFFF;
-	    padding: 20% 10% 5%;
-	}
-	.sport .content {
-		padding-left: 70%;
-	}
-	.life {
-		background: url("http://static.taihuoniao.me/images/g-life.jpg") no-repeat scroll center top / cover #565960;
-	    color: #FFFFFF;
-	    padding: 20% 0;
-	}
-	
-	.ui.att.block {
-		background-color: #f9f9f9;
-		padding: 2% 0;
-	}
-	.ui.att.block h2 {
-		margin-bottom: 0.25em;
-	}
-	.ui.att.block .ui.images > .ui.image {
-		background-color: #F9F9F9;
-		width: 20%;
-	}
-	.ui.dream.block,
-	.ui.share.block {
-		padding: 2.5% 0;
-	}
-	.ui.preorder * {
-	    transition: all 0.25s ease 0s;
-	}
-	.ui.preorder > .ui.grid > .row > .column {
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.ui.preorder > .ui.grid > .row > .column:hover > .ui.level,
-	.ui.preorder > .ui.grid > .row > .active.column > .ui.level {
-		background-color: #ff3b6b;
-		color: #fff;
-		transform: scale(1.05);
-		z-index: 11;
-	}
-	.ui.preorder > .ui.grid > .row > .column:hover .gray.button,
-	.ui.preorder > .ui.grid > .row > .active.column .gray.button {
-		background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-	    border-color: #FFFFFF;
-	    color: #FFFFFF;
-	}
-	.ui.preorder > .ui.grid > .row > .column:hover .gray.button:hover,
-	.ui.preorder > .ui.grid > .row > .active.column .gray.button.active {
-		background: #ffffff;
-	    border-color: #FFFFFF;
-	    color: #FF3b6b;
-	}
-	.ui.preorder > .ui.grid > .row > .column:hover .ui.level > .header,
-	.ui.preorder > .ui.grid > .row > .active.column .ui.level > .header {
-		 border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-	}
-	.ui.preorder .column:hover .time, .ui.preorder .column:hover .price,
-	.ui.preorder .active.column .time, .ui.preorder .active.column .price {
-		border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-	}
-	
 </style>
 {% endblock %}
 {% block js %}
@@ -131,11 +20,91 @@
 	// 分享按钮
 	phenix.bind_share_list();
 	
+	$('.ui.gift.btn').click(function(){
+		// 显示注册框
+		$('.ui.registerbox.modal').modal('show');
+		return false;
+	});
+	
+    /*注册表单验证*/
+	$('#register-form').form({
+		account: {
+			identifier  : 'account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '账户邮件不能为空'
+				},
+				{
+					type   : 'email',
+					prompt : '账户邮件格式不对'
+				}
+			]
+		},
+		nickname: {
+			identifier  : 'nickname',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '昵称不能为空'
+				}
+			]
+		},
+		password: {
+			identifier  : 'password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入正确的登录密码'
+				},
+				{
+					type   : 'length[6]',
+					prompt : '登录密码必须6位以上字符'
+				}
+			]
+		},
+		password_confirm: {
+			identifier  : 'password_confirm',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入正确的确认密码'
+				},
+				{
+					type   : 'match[password]',
+					prompt : '两次输入密码不一致'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.show_ok_note('注册成功，感谢支持太火鸟！', 3000, event.target);
+					}
+					
+				}
+			});
+		}
+	});
+	
 {% endblock %}
 
 {% block content %}
 <div class="goccia page">
-	<section class="ui white backgroud block">
+	<section class="ui white backgroud title block">
 		<div class="ui middle aligned responsive two column grid">
 			<div class="row">
 				<div class="column">
@@ -151,7 +120,7 @@
 						<div class="item">支持者</div>
 						<div class="item">分享</div>
 					</div>
-					<a href="" class="ui active magenta button">现在预订</a>
+					<a href="#preorder" class="ui active magenta button">现在预订</a>
 				</div>
 			</div>
 		</div>
@@ -163,43 +132,42 @@
 				<div class="column">
 					
 					<h1 class="ui black header">
-						Goccia<br/><small>全球最小的运动可穿戴</small>
+						Goccia 国内首发
 					</h1>
+					<h2 class="ui black header">
+						全球最小的运动可穿戴
+					</h2>
 					
-					<a href="" class="ui black btn-4 btn-4c icon-arrow-right btn">
+					<a class="ui black btn-4 btn-4c icon-arrow-right btn" href="#preorder">
 						现在预订
 					</a>
-					<a href="" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					<a class="ui magenta btn-4 btn-4c icon-arrow-right gift btn" href="{{ app_url_register }}">
 						注册赢大奖
 					</a>
 					
-					<h3>荣获美国IDEA设计大奖</h3>
+					<h3 class="ui prize header">荣获美国IDEA设计大奖</h3>
 					
-					<ul class="ui list">
-						<li>量化运动量</li>
-						<li>检测睡眠质量</li>
-						<li>培养健康生活方式</li>
-						<li>时尚科技配饰</li>
-					</ul>         
-					             
+					<div class="ui vantage">
+					  	<a class="title ui black btn">
+					      	量化运动量
+					  	</a>
+					  	
+					  	<a class="title ui black btn">
+					      	检测睡眠质量
+					  	</a>
+					  	
+					  	<a class="title ui black btn">
+					      	培养健康生活方式
+					  	</a>
+					  	
+					  	<a class="title ui black btn">
+					      	时尚科技配饰
+					  	</a>
+					</div>     
 				</div>
 			</div>
 		</div>
 		
-	</section>
-	
-	<section class="ui video">
-		<div class="ui mask">
-			<i class="flat play icon"></i>
-			<div class="ui responsive center aligned grid">
-				<div class="column">
-					<div class="video-content">
-						<h3 class="ui header">Goccia</h3>
-						<p>全球最小的运动监测可穿戴设备</p>
-					</div>
-				</div>
-			</div>
-		</div>
 	</section>
 	
 	<section class="ui trendy block">
@@ -349,6 +317,7 @@
 						<h1 class="ui white header">
 							CHANGE FEEL ENJOY
 						</h1>
+						<a name="preorder"></a>
 					</div>
 				</div>
 			</div>
@@ -360,17 +329,14 @@
 			<div class="four column row">
 				<div class="center aligned active column">
 					<div class="ui segment level">
-						<h3 class="ui header">5折优惠</h3>
+						<h3 class="ui header">Goccia 1台 <small>(限量10台)</small></h3>
 					
 						<div class="content">
 							<p class="time">
-								2014年4月15日 -- 2014年5月13日
-							</p>
-							<p class="time">
-								下单预定产品
+								感谢您对Goccia的倾心支持！428元完全不能够承担我们的成本。仅提供前10位支持我们的最幸运朋友
 							</p>
 							<div class="price">
-								￥ 160.00
+								￥ 428.00
 							</div>
 						</div>
 					
@@ -378,23 +344,20 @@
 							<div class="ui white button">
 								现在预定
 							</div>
-							<p class="small">已有30位预定者</p>
+							<p class="small">已有0位预购</p>
 						</div>
 					</div>
 				</div>
 				<div class="center aligned column">
 					<div class="ui segment level">
-						<h3 class="ui header">6折优惠</h3>
+						<h3 class="ui header">Goccia 1台 <small>(限量300台)</small></h3>
 					
 						<div class="content">
 							<p class="time">
-								2014年4月15日 -- 2014年5月13日
-							</p>
-							<p class="time">
-								下单预定产品
+								感谢您对Goccia的倾心支持！您是首批支持我们的朋友，因此我们将这个近千元的Goccia以488元的优惠的价格提供给您
 							</p>
 							<div class="price">
-								￥ 200.00
+								￥ 488.00
 							</div>
 						</div>
 					
@@ -402,23 +365,20 @@
 							<div class="ui gray button">
 								现在预定
 							</div>
-							<p class="small">已有30位预定者</p>
+							<p class="small">已有0位预购</p>
 						</div>
 					</div>
 				</div>
 				<div class="center aligned column">
 					<div class="ui segment level">
-						<h3 class="ui header">7折优惠</h3>
+						<h3 class="ui header">Goccia 1台 <small>(限量100台)</small></h3>
 					
 						<div class="content">
 							<p class="time">
-								2014年4月15日 -- 2014年5月13日
-							</p>
-							<p class="time">
-								下单预定产品
+								感谢您对Goccia的倾心支持！568元依然是一个超低的价格，喜欢的朋友一定不要错过
 							</p>
 							<div class="price">
-								￥ 240.00
+								￥ 568.00
 							</div>
 						</div>
 					
@@ -426,23 +386,20 @@
 							<div class="ui gray button">
 								现在预定
 							</div>
-							<p class="small">已有30位预定者</p>
+							<p class="small">已有30位预购</p>
 						</div>
 					</div>
 				</div>
 				<div class="center aligned column">
 					<div class="ui segment level">
-						<h3 class="ui header">7折优惠</h3>
+						<h3 class="ui header">Goccia 2台 <small>(限量100台)</small></h3>
 					
 						<div class="content">
 							<p class="time">
-								2014年4月15日 -- 2014年5月13日
-							</p>
-							<p class="time">
-								下单预定产品
+								感谢您对Goccia的倾心支持！这款单价近千元的Goccia，将以928两个的优惠价格提供给您
 							</p>
 							<div class="price">
-								￥ 240.00
+								￥ 928.00
 							</div>
 						</div>
 					
@@ -450,23 +407,8 @@
 							<div class="ui gray button">
 								现在预定
 							</div>
-							<p class="small">已有30位预定者</p>
+							<p class="small">已有0位预购</p>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	
-	<section class="ui white backgroud dream block">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="center aligned column">
-					<div class="ui danger message">
-						<i class="flat close icon"></i>
-						<p>这个项目必须在2014年06月09日 09:52之前预售达到10000件产品的目标才算成功，否则已经预售的订单将取消。</p>
-						<p>订单取消时，您的支持金额将自动退款至【账户余额】中。您可以支持其他项目，或在此【申请取现】至您的支付宝或其他付款账户。  </p>
-						<p>预计回报发放时间: 项目预购成功后的30天内。</p>
 					</div>
 				</div>
 			</div>
@@ -493,17 +435,11 @@
 					<a href="" class="ui qzone circular share icon button" title="QQ空间">
 						<i class="flat icon_qzone icon"></i>
 					</a>
-					<a href="" class="ui pengyou circular share icon button" title="朋友">
-						<i class="flat icon_qqpengyou icon"></i>
-					</a>
-					<a href="" class="ui renren circular share icon button" title="人人">
-						<i class="flat icon_renren icon"></i>
-					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 	
 </div>
-
+{% include "block/registerbox.html" %}
 {% endblock %}

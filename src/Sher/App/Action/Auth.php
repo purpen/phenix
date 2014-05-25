@@ -166,7 +166,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
         }
 		
-	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['invite_code'])) {
+	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['nickname'])) {
             return $this->ajax_note('数据错误,请重试', true);
         }
 		
@@ -177,9 +177,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		}
 		
 		// 验证邀请码
+		/*
 		if (!$this->_invitation_is_ok()) {
 			return $this->ajax_json('邀请码不存在或已被使用！', true);
-		}
+		}*/
 		
 		// 验证验证码是否有效
 		/*
@@ -198,16 +199,16 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$user = new Sher_Core_Model_User();
             $ok = $user->create(array(
                 'account' => $this->stash['account'],
+				'nickname' => $this->stash['nickname'],
 				'password' => sha1($this->stash['password']),
-                'state' => Sher_Core_Model_User::STATE_OK,
-				'invitation' => $this->stash['invite_code'],
+                'state' => Sher_Core_Model_User::STATE_OK
             ));
 			
 			if($ok){
 				$user_id = $user->id;
 
 				// 设置邀请码已使用
-				$this->mark_invitation_used($user_id);
+				// $this->mark_invitation_used($user_id);
 
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}

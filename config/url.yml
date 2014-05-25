@@ -28,7 +28,7 @@ app.url.tags: '/tags'
 app.url.tag: '/tag'
 
 # 预售
-app.url.sale: '{$app.url.domain}/sale'
+app.url.sale: '{$app.url.domain}/goccia'
 app.url.sale.list: '{$app.url.sale}'
 app.url.sale.view: '{$app.url.sale}/%s.html'
 
@@ -131,3 +131,8 @@ app.url.stuff.view: '{$app.url.stuff}/%s'
 
 # guide
 app.url.guide: '{$app.url.action_base}/guide'
+
+# 单品页面
+app.url.goccia: '{$app.url.domain}/goccia'
+app.url.goccia.rule: '{$app.url.domain}/activity'
+
