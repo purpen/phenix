@@ -60,6 +60,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	 * 消息事件
 	 */
 	protected function handle_event($event){
+		$options = array(
+			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
+			'partnerid'=>'', //财付通商户身份标识
+			'partnerkey'=>'', //财付通商户权限密钥Key
+			'paysignkey'=>'' //商户签名密钥Key
+		);
+		
+		$weObj = new Sher_Core_Util_Wechat($options);
+		
 		if (!$event){
 			$weObj->text("你好，太火鸟欢迎你！")->reply();
 		}
