@@ -22,6 +22,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	 * 微信入口
 	 */
 	public function execute(){
+		Doggy_Log_Helper::warn("Get wexin request!");
+		
 		$options = array(
 			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
 			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
@@ -35,18 +37,21 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
+		
+		Doggy_Log_Helper::warn("Get wexin tyep[$type], event[".$event['key']."]!");
+		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$weObj->text("hello, I'm wechat")->reply();
-					exit;
-					break;
-				case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
-					return $this->handle_event($event);
-					break;
-				case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
-					break;
-				default:
-					$weObj->text("help info")->reply();
+				exit;
+				break;
+			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
+				return $this->handle_event($event);
+				break;
+			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
+				break;
+			default:
+				$weObj->text("help info")->reply();
 		}
 		return $this->to_raw('It is ok!');
 	}

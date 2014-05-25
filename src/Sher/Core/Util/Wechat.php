@@ -524,7 +524,7 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	{
 		if (empty($msg)) 
 			$msg = $this->_msg;
-		$xmldata=  $this->xml_encode($msg);
+		$xmldata =  $this->xml_encode($msg);
 		$this->log($xmldata);
 		if ($return)
 			return $xmldata;
