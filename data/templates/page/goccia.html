@@ -10,34 +10,42 @@
 	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 	.clearfix {display: inline-table; +display:inline-block;}
 	
-	.features {
+	.ui.goccia.video {
+		background: url("{{ app_url_packaged }}/images/goccia-video.jpg") no-repeat scroll center top / cover  #565960;
+	    color: #FFFFFF;
+	}
+	.ui.goccia.video .video-content {
+		padding: 11em 0 5em;
+	}
+	
+	.ui.features {
 		padding: 2% 0;
 	}
-	.ui.feat-list {
+	.ui.features .ui.feat-list {
 		width: 100%;
 	}
-	.ui.feat-list .item {
+	.ui.features .ui.feat-list .item {
 		float: left;
 		width: 114px;
 		margin-right: 10%;
 	}
-	.ui.feat-list .item img {
+	.ui.features .ui.feat-list .item img {
 		border: 1px solid rgba(0,0,0,0.3);
 	}
-	.ui.feat-list .item small {
+	.ui.features .ui.feat-list .item small {
 		display: inline-block;
 	    font-size: 0.8em;
 	    font-weight: bold;
 	    text-align: center;
 		margin-top: 0.5em;
 	}
-	.ui.header > small {
+	.ui.features .ui.header > small {
 		display: block;
 	    font-size: 0.5em;
 	    font-weight: normal;
 	    text-transform: uppercase;
 	}
-	.ui.used.header {
+	.ui.features .ui.used.header {
 		margin-top: 10%;
 	}
 	
@@ -202,6 +210,20 @@
 			</div>
 		</div>
 		
+	</section>
+	
+	<section class="ui goccia video">
+		<div class="ui mask">
+			<i class="flat play icon"></i>
+			<div class="ui responsive center aligned grid">
+				<div class="column">
+					<div class="video-content">
+						<h3 class="ui header">Goccia</h3>
+						<p>全球最小的运动可穿戴Goccia 国内首发！</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 	
 	<section class="ui features block">
@@ -551,5 +573,6 @@
 	</section>
 	
 </div>
+{% include "block/video/goccia.html" %}
 {% include "block/registerbox.html" %}
 {% endblock %}
