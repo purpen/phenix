@@ -16,7 +16,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/wechat/index.html';
 	
-	protected $exclude_method_list = array('execute', 'verify');
+	protected $exclude_method_list = array('execute', 'verify', 'menu');
 
 	/**
 	 * 微信入口
@@ -32,23 +32,44 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		);
 		
 		$weObj = new Sher_Core_Util_Wechat($options);
-		$weObj->valid();
+		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
-		
+		$event = $weObj->getRev()->getRevEvent();
 		switch($type) {
-			case Wechat::MSGTYPE_TEXT:
+			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$weObj->text("hello, I'm wechat")->reply();
 					exit;
 					break;
-				case Wechat::MSGTYPE_EVENT:
+				case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
+					return $this->handle_event($event);
 					break;
-				case Wechat::MSGTYPE_IMAGE:
+				case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
 					break;
 				default:
 					$weObj->text("help info")->reply();
 		}
+		return $this->to_raw('It is ok!');
 	}
 	
+	/**
+	 * 消息事件
+	 */
+	protected function handle_event($event){
+		if (!$event){
+			$weObj->text("你好，太火鸟欢迎你！")->reply();
+		}
+		$key = $event['key'];
+		switch($key){
+			case 'MENU_KEY_SHOP_NEWEST':
+				$weObj->text("新品推荐")->reply();
+				break;
+			case 'MENU_KEY_SHOP_STAR':
+				$weObj->text("明星产品")->reply();
+				break;
+			default:
+				$weObj->text("help info")->reply();
+		}
+	}
 	
     /**
      * 验证Token

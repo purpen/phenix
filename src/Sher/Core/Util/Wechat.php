@@ -1272,3 +1272,5 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		return $this->getSignature($arrdata);
 	}
 }
+
+?>
