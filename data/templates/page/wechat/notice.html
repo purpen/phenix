@@ -2,7 +2,9 @@
 {% block title %}首页-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.wechat {
+		margin-bottom: 3em;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -12,11 +14,47 @@
 {% endblock %}
 
 {% block content %}
-<div class="home">
-	<div class="ui responsive grid">
-		<div class="ui column">
-			<h1>首页</h1>
-			
+<div class="wechat">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">微信活动规则说明</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">第一步：关注“太火鸟”</h3>
+				<img src="{{ app_url_packaged }}/images/g-s-01.jpg" />
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">第二步：进入活动页面：点击左下角创意市集—参与活动或回复“go”</h3>
+				<img src="{{ app_url_packaged }}/images/g-s-02.jpg" />
+				<img src="{{ app_url_packaged }}/images/g-s-03.jpg" />
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">第三步：注册官方网站
+</h3>
+				<img src="{{ app_url_packaged }}/images/g-s-04.jpg" />
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">第四步：点击右上角标签，分享到朋友圈</h3>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h3 class="ui header">第五步：截图发送到官方微信（备注：截图的同时需要把您的手机号发送给我们，方便我们联系您哦:）</h3>
+			</div>
 		</div>
 	</div>
 </div>
