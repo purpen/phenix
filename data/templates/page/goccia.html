@@ -60,14 +60,36 @@
 	$('.ui.video').bind('click', function(){
 		$('.ui.videobox.modal').modal('show');
 	});
+	$('.ui.gift.btn').click(function(){
+		// 显示注册框
+		$('.ui.registerbox.modal').modal('show');
+		return false;
+	});
 	
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/wx-banner.jpg';
 	phenix.bind_share_list(pic_url);
 	
-	$('.ui.gift.btn').click(function(){
-		// 显示注册框
-		$('.ui.registerbox.modal').modal('show');
+	// 特殊活动按钮分享
+	var link = encodeURIComponent(document.location),title = encodeURIComponent('@太火鸟 是一个创新产品孵化加速器，网站http://www.taihuoniao.com/将在6月底正式启动，届时会推出10款原创智能创新产品。本次官网试运营推出产品Goccia—全球最小可穿戴设备，斩获2014年美国IDEA设计大奖，国内首发，现在预订，抄底价428，参与活动还可免单，小伙伴们快来抢！');
+	var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+	
+	var getParamsOfShareWindow = function(width, height) {
+		return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+	}
+	
+	$('#sina-share-activty').click(function() {
+		var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+		var params = getParamsOfShareWindow(607, 523);
+		window.open(url, windowName, params);
+		return false;
+	});
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/goccia'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
 		return false;
 	});
 	
@@ -137,7 +159,8 @@
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, 3000, event.target);
 					}else{
-						phenix.show_ok_note('注册成功，感谢支持太火鸟！', 2000, event.target);
+						$('.signup-box').addClass('hide');
+						$('.activity-box').removeClass('hide');
 					}
 					
 				}
