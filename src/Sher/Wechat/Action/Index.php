@@ -108,12 +108,23 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			case 'MENU_KEY_SHOP_STAR':
 				$result = $this->newest();
 				break;
+			case 'MENU_KEY_SOCIAL_CONTACT':
+				$result = $this->contact();
+				break;
 			default:
 				break;
 		}
 		Doggy_Log_Helper::warn("Handle event result[".json_encode($result)."]!");
 		
 		return $result;
+	}
+	
+	/**
+	 * 联系我们
+	 */
+	protected function contact(){
+		$contact = '如果您有独特的产品实物，如果您有待实现的设计草图，甚至，您只有一个新奇的创意点子，如果您愿意跟我们聊聊，zhangting@taihuoniao.com;如果您对我们的产品有浓厚的兴趣，如果您想批量购买，联系这里liuhui@taihuoniao.com ，有优惠！如果您的产品与我们的平台调性很搭，如果您觉得我们一起传播效果更佳，那还等什么，来吧！wangxinyu@taihuoniao.com';
+		return $contact;
 	}
 	
 	/**
@@ -183,9 +194,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 						'key'=>'MENU_KEY_Social',
 						'sub_button' => array(
 							array(
-						   	 	"type" => "click",
+						   	 	"type" => "view",
 						   	 	"name" => "微社区",
-						   	 	"key" => "MENU_KEY_SOCIAL_WEIS"
+								"url":"http://www.taihuoniao.com/fever"
 							),
 							array(
 						   	 	"type" => "click",
