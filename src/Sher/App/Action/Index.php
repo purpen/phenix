@@ -56,13 +56,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * Goccia单品活动
-	 */
-	public function activity(){
-		return $this->to_html_page('page/goccia-activity.html');
-	}
-	
-	/**
 	 * 显示列表
 	 */
 	protected function _display_user_list($sex=1){
