@@ -173,6 +173,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		$we = new Sher_Core_Util_Wechat($options);
 			
 		// 设置菜单
+		/*
+		array(
+	   	 	"type" => "click",
+	   	 	"name" => "参与活动",
+	   	 	"key" => "MENU_KEY_SHOP_NEWEST"
+		),
+		array(
+	   	 	"type" => "click",
+	   	 	"name" => "明星产品",
+	   	 	"key" => "MENU_KEY_SHOP_STAR"
+		),*/
 		$newmenu =  array(
 			"button"=>
 				array(
@@ -181,17 +192,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 						'name'=>'创意市集',
 						'key'=>'MENU_KEY_SHOP',
 						'sub_button' => array(
-							/*
-							array(
-						   	 	"type" => "click",
-						   	 	"name" => "参与活动",
-						   	 	"key" => "MENU_KEY_SHOP_NEWEST"
-							),
-							array(
-						   	 	"type" => "click",
-						   	 	"name" => "明星产品",
-						   	 	"key" => "MENU_KEY_SHOP_STAR"
-							),*/
 							array(
 						   	 	"type" => "view",
 						   	 	"name" => "活动说明",
@@ -200,7 +200,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 							array(
 						   	 	"type" => "click",
 						   	 	"name" => "参与活动",
-								"url" => "MENU_KEY_SHOP_NEWEST"
+								"key" => "MENU_KEY_SHOP_NEWEST"
 							),
 							array(
 						   	 	"type" => "view",
