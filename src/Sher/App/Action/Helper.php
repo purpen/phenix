@@ -8,7 +8,7 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute','rule','question','standard','agreement','law');
 
 	/**
 	 * 默认入口
@@ -59,7 +59,7 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 常见问题
+	 * 法律声明
 	 */
 	public function law() {
 		$this->set_target_css_state('page_law');
