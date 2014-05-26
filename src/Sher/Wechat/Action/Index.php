@@ -34,7 +34,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		);
 		
 		$weObj = new Sher_Core_Util_Wechat($options);
-		$weObj->valid();
+		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
 		
