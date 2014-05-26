@@ -58,7 +58,11 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					$result = $weObj->text($welcome)->reply(array(), true);
 				}else{
 					$data = $this->handle_event($event);
-					$result = $weObj->news($data)->reply(array(), true);
+					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){
+						$result = $weObj->text($data)->reply(array(), true);
+					}else{
+						$result = $weObj->news($data)->reply(array(), true);
+					}
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
