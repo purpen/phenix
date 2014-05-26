@@ -38,15 +38,20 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
 		
-		Doggy_Log_Helper::warn("Get wexin tyep[$type], event[".$event['key']."]!");
+		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$result = $weObj->text("hello, I'm wechat")->reply(array(), true);
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
-				$data = $this->handle_event($event); 
-				$result = $weObj->news($data)->reply(array(), true);
+				$data = $this->handle_event($event);
+				if (!isset($event['key']) || empty($event['key'])){
+					$welcome = $this->welcome();
+					$result = $weObj->text($welcome)->reply(array(), true);
+				}else{
+					$result = $weObj->news($data)->reply(array(), true);
+				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
 				break;
@@ -55,6 +60,16 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 				break;
 		}
 		return $this->to_raw($result);
+	}
+	
+	/**
+	 * 订阅自动回复
+	 */
+	protected function welcome(){
+		$welcome = '您好，欢迎关注太火鸟！
+太火鸟是一个创新产品孵化加速器兼原创产品社会化电商平台，将于6月底正式启动，届时会推出10款原创智能创新产品，期待您的持续关注。了解更多，请猛戳：<a href="http://www.taihuoniao.com">www.taihuoniao.com</a>；参与Goccia抽奖活动，请回复：go。';
+		
+		return $welcome;
 	}
 	
 	/**
