@@ -42,14 +42,20 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
-				$result = $weObj->text("hello, I'm wechat")->reply(array(), true);
+				$revcontent = $weObj->getRev()->getRevContent();
+				if (!empty($revcontent)){
+					$result = $this->handle_text($revcontent);
+				}else{ // 默认欢迎语
+					$welcome = $this->welcome();
+					$result = $weObj->text($welcome)->reply(array(), true);
+				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
-				$data = $this->handle_event($event);
-				if (!isset($event['key']) || empty($event['key'])){
+				if (!isset($event['key']) || empty($event['key'])){  // 默认欢迎语
 					$welcome = $this->welcome();
 					$result = $weObj->text($welcome)->reply(array(), true);
 				}else{
+					$data = $this->handle_event($event);
 					$result = $weObj->news($data)->reply(array(), true);
 				}
 				break;
@@ -59,7 +65,49 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 				$result = $weObj->text("help info")->reply(array(), true);
 				break;
 		}
+		
 		return $this->to_raw($result);
+	}
+	
+	/**
+	 * 处理文本回复
+	 */
+	protected function handle_text($content){
+		// 转换为小写
+		$content = strtolower($content);
+		$result = array();
+		switch($content){
+			case 'go':
+				$result = $this->newest();
+				break;
+			default:
+				$result = $this->newest();
+				break;
+		}
+		return $result;
+	}
+	
+	/**
+	 * 消息事件
+	 */
+	protected function handle_event($event){
+		$key = $event['key'];
+		Doggy_Log_Helper::warn("Handle event[$key]!");
+		$result = array();
+		switch($key){
+			case 'MENU_KEY_SHOP_NEWEST':
+				Doggy_Log_Helper::warn("Handle event to start MENU_KEY_SHOP_NEWEST!");
+				$result = $this->newest();
+				break;
+			case 'MENU_KEY_SHOP_STAR':
+				$result = $this->newest();
+				break;
+			default:
+				break;
+		}
+		Doggy_Log_Helper::warn("Handle event result[".json_encode($result)."]!");
+		
+		return $result;
 	}
 	
 	/**
@@ -73,57 +121,21 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	}
 	
 	/**
-	 * 消息事件
+	 * 最新产品列表
 	 */
-	protected function handle_event($event){
-		$key = $event['key'];
-		Doggy_Log_Helper::warn("Handle event[$key]!");
-		$result = array();
-		switch($key){
-			case 'MENU_KEY_SHOP_NEWEST':
-				Doggy_Log_Helper::warn("Handle event to start MENU_KEY_SHOP_NEWEST!");
-				$result = array(
-					"0" => array(
-						'Title' => 'Goccia全球最小的运动可穿戴',
-						'Description'=>'Goccia全球最小的运动可穿戴国内首发,现在预订就有机会赢取大奖',
-						'PicUrl'=>'http://frstatic.qiniudn.com/images/wx-banner.jpg',
-						'Url'=>'http://www.taihuoniao.com/goccia'
-					)
-				);
-				break;
-			case 'MENU_KEY_SHOP_STAR':
-				$result = array(
-					"0" => array(
-						'Title' => 'Goccia全球最小的运动可穿戴',
-						'Description'=>'Goccia全球最小的运动可穿戴国内首发,现在预订就有机会赢取大奖',
-						'PicUrl'=>'http://frstatic.qiniudn.com/images/wx-banner.jpg',
-						'Url'=>'http://www.taihuoniao.com/goccia'
-					)
-				);
-				break;
-			default:
-				break;
-		}
-		Doggy_Log_Helper::warn("Handle event result[".json_encode($result)."]!");
+	protected function newest(){
+		$result = array(
+			"0" => array(
+				'Title' => 'Goccia全球最小的运动可穿戴',
+				'Description'=>'Goccia全球最小的运动可穿戴国内首发,现在预订就有机会赢取大奖',
+				'PicUrl'=>'http://frstatic.qiniudn.com/images/wx-banner.jpg',
+				'Url'=>'http://www.taihuoniao.com/goccia'
+			)
+		);
 		
 		return $result;
 	}
 	
-    /**
-     * 验证Token
-	 *
-     * @return string
-     */
-    public function verify() {
-        $echoStr = $this->stash["echostr"];
-		
-        //valid signature , option
-        if($this->check_signature()){
-			return $this->to_raw($echoStr);
-        }
-		
-		return $this->to_raw('Erorr: not match!');
-    }
 	/**
 	 * 微信自定义菜单
 	 */
@@ -203,6 +215,22 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		
 		print_r($menu);
 	}
+	
+    /**
+     * 验证Token
+	 *
+     * @return string
+     */
+    public function verify() {
+        $echoStr = $this->stash["echostr"];
+		
+        //valid signature , option
+        if($this->check_signature()){
+			return $this->to_raw($echoStr);
+        }
+		
+		return $this->to_raw('Erorr: not match!');
+    }
 	
 	
 }
