@@ -45,7 +45,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 				$revcontent = $weObj->getRev()->getRevContent();
 				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				if (!empty($revcontent)){
-					$result = $this->handle_text($revcontent);
+					$data = $this->handle_text($revcontent);
+					$result = $weObj->news($data)->reply(array(), true);
 				}else{ // 默认欢迎语
 					$welcome = $this->welcome();
 					$result = $weObj->text($welcome)->reply(array(), true);
