@@ -232,13 +232,17 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		
 		$user_info['first_login'] = 0;
 		
+		$redirect_url = Sher_Core_Helper_Url::user_home_url($this->visitor->id);
 		
-		$criteria = array('_id'=>$this->visitor->id);
-		
-        //更新基本信息
-        $this->visitor->save($user_info);
+		try {
+	        //更新基本信息
+	        $ok = $this->visitor->save($user_info);
+		} catch (Sher_Core_Model_Exception $e) {
+            Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
+            return $this->ajax_note("更新失败:".$e->getMessage(), true);
+        }
         
-        return $this->ajax_notification('个人资料更新成功！');
+        return $this->ajax_note('个人资料更新成功！', false, $redirect_url);
     }
 
 	/**

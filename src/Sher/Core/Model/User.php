@@ -165,10 +165,21 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     protected function after_save() {
     }
 	
+	/**
+	 * 验证用户信息
+	 */
     protected function validate() {
-		if(!$this->is_saved() && !$this->_check_account()){
-			throw new Sher_Core_Model_Exception('账户邮件已被占用，请更换或重试！');
+		// 新建记录
+		if(!$this->is_saved()){
+			if (!$this->_check_account()){
+				throw new Sher_Core_Model_Exception('账户邮件已被占用，请更换或重试！');
+			}
+			
+			if (!$this->_check_name()){
+				throw new Sher_Core_Model_Exception('昵称已被占用，请更换或重试！');
+			}
 		}
+		
         return true;
     }
 	
@@ -181,6 +192,21 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			return false;
 		}
 		$row = $this->first(array('account' => $account));
+		if(!empty($row)){
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 检查昵称是否唯一
+	 */
+	protected function _check_name() {
+		$nickname = $this->data['nickname'];
+		if(empty($nickname)){
+			return false;
+		}
+		$row = $this->first(array('nickname' => $nickname));
 		if(!empty($row)){
 			return false;
 		}
