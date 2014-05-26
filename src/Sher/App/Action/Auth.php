@@ -197,19 +197,27 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		
         try {
 			$user = new Sher_Core_Model_User();
-            $ok = $user->create(array(
+			
+			$user_info = array(
                 'account' => $this->stash['account'],
 				'nickname' => $this->stash['nickname'],
 				'password' => sha1($this->stash['password']),
                 'state' => Sher_Core_Model_User::STATE_OK
-            ));
+            );
+			
+			$profile = $user->get_profile();
+			$profile['phone'] = $this->stash['phone'];
+			
+			$user_info['profile'] = $profile;
+			
+            $ok = $user->create($user_info);
 			
 			if($ok){
 				$user_id = $user->id;
-
+				
 				// 设置邀请码已使用
 				// $this->mark_invitation_used($user_id);
-
+				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
 			

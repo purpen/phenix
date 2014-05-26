@@ -12,7 +12,9 @@
 	<div class="ui column">
 		<div class="ui log-in signup">
 			<div class="ui top attached header logo">
-				<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+				<a href="{{ app_url_domain }}" title="返回首页">
+					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+				</a>
 			</div>
 			<div class="ui bottom attached segment">
 				<form action="{{ app_url_action_base }}/auth/do_register" class="ui form" method="post" id="register-form">
@@ -38,6 +40,9 @@
 					</div>
 					<div class="field">
 						<input name="nickname" type="text" class="form-control input-lg" placeholder="昵称" />
+					</div>
+					<div class="field">
+						<input name="phone" type="text" class="form-control input-lg" placeholder="填写手机号，方便信息核实" />
 					</div>
 					<div class="field">
 						<input type="password" class="form-control input-lg" name="password" id="password" placeholder="密码" />

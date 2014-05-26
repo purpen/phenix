@@ -170,7 +170,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 */
     protected function validate() {
 		// 新建记录
-		if(!$this->is_saved()){
+		if($this->insert_mode){
 			if (!$this->_check_account()){
 				throw new Sher_Core_Model_Exception('账户邮件已被占用，请更换或重试！');
 			}
@@ -191,6 +191,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		if(empty($account)){
 			return false;
 		}
+		Doggy_Log_Helper::debug("Validate user account[$account]!");
 		$row = $this->first(array('account' => $account));
 		if(!empty($row)){
 			return false;
@@ -206,11 +207,42 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		if(empty($nickname)){
 			return false;
 		}
+		Doggy_Log_Helper::debug("Validate user name[$nickname]!");
 		$row = $this->first(array('nickname' => $nickname));
 		if(!empty($row)){
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 获取默认profile
+	 */
+	public function get_profile(){
+		$default_profile = array(
+            'realname' => null,
+			'phone'    => null,
+			// 民族
+			'nation' => null,
+			// 籍贯
+			'born_place' => null,
+            'card' => null,
+            // 用户工作类型
+            'job'  => null,
+            'school' => null,
+            'address' => null,
+            'zip' => null,
+            'im_qq' => null,
+			// 身高
+			'height' => null,
+			// 体重
+			'weight' => null,
+			// 婚姻状况
+			'marital' => self::MARR_SINGLE,
+			// 出生年月日
+			'age'  => array(),
+        );
+		return $default_profile;
 	}
 
 

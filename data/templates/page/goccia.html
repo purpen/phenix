@@ -134,9 +134,9 @@
 					
 					if(data.is_error){
 						$(event.target).addClass('error');
-						phenix.show_error_message(data.message, event.target);
+						phenix.show_error_note(data.message, 3000, event.target);
 					}else{
-						phenix.show_ok_note('注册成功，感谢支持太火鸟！', 3000, event.target);
+						phenix.show_ok_note('注册成功，感谢支持太火鸟！', 2000, event.target);
 					}
 					
 				}
