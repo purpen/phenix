@@ -135,8 +135,8 @@ app.presale.lowest: 10
 
 # 微信订阅号token
 app.wechat.token: '5382ebad0c28aab443bfe3c7'
-app.wechat.app_id: 'wx75a9ffb78f202fb3'
-app.wechat.app_secret: 'f80ae853ef243f66284ad13781cb69de'
+app.wechat.app_id: 'wx4cf88d6bf30430db'
+app.wechat.app_secret: '795ff8ca3d4a57ae645e4d217c193988'
 
 
 # 附件存储目录
