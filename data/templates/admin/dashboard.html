@@ -4,26 +4,28 @@
 {% block js %}
 {% endblock %}
 {% block content %}
-	<div class="ui segment">
-		<div class="ui grid">
-		  	<div class="twelve wide column">
-				<div class="ui buttons">
-					<a href="" class="small ui button">全部</a>
-					<a href="" class="small ui button">活跃会员</a>
-				</div>
-			</div>
-			<div class="four wide column">
-				<form class="ui form" method="get" action="">
-					<div class="two fields">
-						<div class="field">
-						    <input name="search"  type="text" placeholder="Search" class="tiny ui input" />
-						</div>
-						<div class="field">
-							<input type="submit" class="tiny ui green button" value="搜索" />
-						</div>
-					</div>
-				</form>
-			</div>
+	<div class="ui tool-box">
+		<div class="ui green labeled icon top left pointing dropdown button">
+		  	<i class="flat sort icon"></i>
+		  	<span class="text">全部列表</span>
+		  	<div class="menu">
+				<a href="{{ app_url_admin_base }}/product" class="ui item">
+					全部列表
+				</a>
+				<a href="{{ app_url_admin_base }}/product?stage=1" class="ui {% if stage == 1 %}active{%endif%} item">
+					投票列表
+				</a>
+				<a href="{{ app_url_admin_base }}/product?stage=5" class="ui {% if stage == 5 %}active{%endif%} item">
+					预售列表
+				</a>
+				<a href="{{ app_url_admin_base }}/product?stage=9" class="ui {% if stage == 9 %}active{%endif%} item">
+					热售列表
+				</a>
+		  	</div>
 		</div>
 	</div>
+			
+	<div class="ui divider"></div>
+	
+	
 {% endblock %}
