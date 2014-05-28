@@ -6,7 +6,7 @@
 class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
-        'latest' => array('created_on' => 1),
+        'latest' => array('created_on' => -1),
         'hot' => array('created_on' => -1),
 	);
 

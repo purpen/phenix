@@ -91,7 +91,7 @@
 			$('#product-category').val('');
 		}else{
 			$(this)
-				.siblings('.category.button').removeClass('active')
+				.siblings('.ajax-cover.button').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
@@ -132,7 +132,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets', {'id': '{{ product._id }}', 'assets': result.data.ids });
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets', {'id': '{{ product._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
 		}
 	});
 	
@@ -140,15 +140,12 @@
 	$('#asset-list .ajax-cover').livequery(function(){
 		$(this).click(function(){
 			$this = $(this);
-			$.get($(this).attr('href'), function(result){
-				if (result.success){
-					$('#asset-list .ajax-cover.active').removeClass('active');
-					$this.addClass('active');
-				}else{
-					phenix.show_error_message(result.message);
-				}
-			},'json');
+			var id = $(this).attr('data-value');
 			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#product_cover_id').val(id);
 			return false;
 		});
 	});
@@ -199,7 +196,7 @@
 			<div class="field">
 				<label>类别</label>
 				<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
-				{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
+				{% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
 				{% for cat in category.rows %}
 				<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
 				{% endfor %}
@@ -290,10 +287,10 @@
 						</div>
 						<div class="buttons">
 							<div class="ui large links">
-								<a href="" class="ui link" title="删除">
-									<i class="flat waste icon"></i>
+								<a href="{{ app_url_fever }}/delete_asset?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+									<i class="flat edit_delete icon"></i>
 								</a>
-								<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == product.cover_id %}active{%endif%}" title="设置封面图" name="{{ asset._id }}">
+								<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == product.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 									<i class="flat edit_recommend icon"></i>
 								</a>
 							</div>

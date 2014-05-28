@@ -48,7 +48,7 @@ class Sher_Core_Service_Base {
         else {
             $cnt = $model->count($query);
         }
-        
+		
         if (!$cnt) {
             return $result;
         }

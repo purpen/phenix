@@ -181,33 +181,33 @@
 				</a>
 				<div class="ui fluid four magenta labeled icon item menu">
 				  	<a class="item" href="{{ app_url_topic }}/edit?id={{ topic._id }}">
-				      	<i class="flat edit icon"></i>
+				      	<i class="flat edit_edit icon"></i>
 				      	编辑
 				  	</a>
 				  	<a class="item confirm-request" href="{{ app_url_topic }}/deleted?id={{ topic._id }}">
-				      	<i class="flat waste icon"></i>
+				      	<i class="flat edit_delete icon"></i>
 				      	删除
 				  	</a>
 					{% if topic.stick %}
 				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
-				      	<i class="flat stick icon"></i>
+				      	<i class="flat edit_recommend icon"></i>
 				      	推荐
 				  	</a>
 					{% else %}
 				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
-				      	<i class="flat stick icon"></i>
+				      	<i class="flat edit_recommend icon"></i>
 				      	推荐
 				  	</a>
 					{% endif %}
 					
 					{% if topic.top %}
 				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_top?id={{ topic._id }}" id="top_{{ topic._id }}">
-				      	<i class="flat pin icon"></i>
+				      	<i class="flat edit_top icon"></i>
 				      	取消置顶
 				  	</a>
 					{% else %}
 				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_top?id={{ topic._id }}" id="top_{{ topic._id }}">
-				      	<i class="flat pin icon"></i>
+				      	<i class="flat edit_top icon"></i>
 				      	置顶
 				  	</a>
 					{% endif %}

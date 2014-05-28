@@ -1,4 +1,4 @@
-{% extends 'layout/base.html' %}
+{% extends 'layout/board.html' %}
 {% block title %}后台管理-{% endblock %}
 {% block layout_css %}{% endblock %}
 {% block page_css %}{% endblock %}
@@ -8,7 +8,9 @@
 {% block jquery %}{% endblock %}
 
 {% block layout_header %}
-	{% include "block/mini_header.html" %}
+<header class="main ui responsive grid">
+	{% include "block/header.html" %}
+</header>
 {% endblock %}
 
 {% block layout_content %}

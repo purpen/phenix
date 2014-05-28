@@ -3,8 +3,10 @@
 {% endblock %}
 
 {% block jquery %}
-	var selected_ids = [];
-	$('.ui.publish-onsale').bind('click', function(){
+	// 发布上架
+	$('.item.publish-onsale').bind('click', function(){
+		var selected_ids = [];
+		
 		$('input.checkbox:checked').each(function(){
 			var v = $(this).val();
 			selected_ids.push(v);
@@ -15,46 +17,70 @@
 		}
 		
 		var url = $(this).attr('href');
-		$.get(url, {id: selected_ids});
+		$.get(url, {id: selected_ids.join(',')});
 		
 		return false;
 	});
+	
+	// 删除产品
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的产品');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+	
 {% endblock %}
 	
 {% block content %}
 	<div class="ui tool-box">
-		<div class="ui magenta selection dropdown">
-		  	全部列表
+		<div class="ui green labeled icon top left pointing dropdown button">
+		  	<i class="flat sort icon"></i>
+		  	<span class="text">全部列表</span>
 		  	<div class="menu">
-				<a href="{{ app_url_admin_base }}/product" class="ui link item">
+				<a href="{{ app_url_admin_base }}/product" class="ui item">
 					全部列表
 				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=1" class="ui link item">
+				<a href="{{ app_url_admin_base }}/product?stage=1" class="ui {% if stage == 1 %}active{%endif%} item">
 					投票列表
 				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=5" class="ui link item">
+				<a href="{{ app_url_admin_base }}/product?stage=5" class="ui {% if stage == 5 %}active{%endif%} item">
 					预售列表
 				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=9" class="ui link item">
+				<a href="{{ app_url_admin_base }}/product?stage=9" class="ui {% if stage == 9 %}active{%endif%} item">
 					热售列表
 				</a>
 		  	</div>
 		</div>
 		
-		<div class="ui magenta selection dropdown">
-		  	操作
+		<div class="ui green labeled icon top left pointing dropdown button">
+		  	<i class="flat add icon"></i>
+		  	<span class="text">操作</span>
 		  	<div class="menu">
-				<a href="{{ app_url_admin_base }}/product/update_onsale" class="item ui publish-onsale link">
-					发布上线
+		    	<a href="{{ app_url_admin_base }}/product/update_onsale" class="item publish-onsale">
+					<i class="flat sure icon"></i> 发布上线
+				</a>
+				
+				<a href="{{ app_url_admin_base }}/product/edit" class="item">
+					<i class="flat add icon"></i> 新增产品
+				</a>
+				
+				<a href="{{ app_url_admin }}/product/deleted" class="item ajax-delete">
+					<i class="flat close icon"></i> 删除
 				</a>
 		  	</div>
 		</div>
-		
-		
-		<a href="{{ app_url_admin_base }}/product/edit" class="ui magenta button">
-			<i class="flat add icon"></i>发布商品
-		</a>
-		
 		
 		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
 			<div class="inline field">
@@ -73,24 +99,24 @@
 			<tr>
 				<th>
 					<div class="ui checkbox">
-					  	<input name="ids[]" type="checkbox" />
+					  	<input name="ids" type="checkbox" />
 					  	<label></label>
 					</div>
 				</th>
 				<th>缩略图</th>
 				<th class="six wide">产品名称</th>
 				<th>所属阶段</th>
-				<th>审核状态</th>
+				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% product_list var:'list' page:page category_id:category_id stage:stage size:20  %}
 			{% for product in list.rows %}
-			<tr>
+			<tr id="{{ product._id }}">
 				<td>
 					<div class="ui checkbox">
-					  	<input name="ids[]" type="checkbox" value="{{ product._id }}" class="checkbox" />
+					  	<input name="ids" type="checkbox" value="{{ product._id }}" class="checkbox" />
 					  	<label></label>
 					</div>
 				</td>
@@ -106,19 +132,30 @@
 						</a>
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
+					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
 				</td>
 				<td>
 					<label class="ui green label">{{ product.stage_label }}</label>
 				</td>
-				<td>
-					{% if product.approved %}
-						<label class="ui green label">已审核</label>
-					{% else %}
-						<label class="ui orange label">待审核</label>
+				<td>					
+					{% if product.stage == 5 %}
+						{% if product.approved %}
+							<label class="ui green label">已审核</label>
+						{% else %}
+							<label class="ui orange label">待审核</label>
+						{% endif %}
+					{% endif %}
+					
+					{% if product.stage == 9 %}
+						{% if product.published %}
+							<label class="ui green label">已上架</label>
+						{% else %}
+							<label class="ui orange label">仓库中</label>
+						{% endif %}
 					{% endif %}
 				</td>
 				<td>
-					<div class="ui divided horizontal list">
+					<div class="ui divided horizontal small list">
 						<a href="{{ app_url_admin_base }}/product/edit?id={{ product._id }}" class="ui link item">编辑</a>
 						{% if product.stage == 1 %}
 							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax">通过审核</a>
@@ -135,7 +172,7 @@
 							
 						{% endif %}
 						
-			          	<a href="{{ app_url_fever }}/deleted?id={{ product._id }}" class="ui confirm-request link item">
+			          	<a href="{{ app_url_admin }}/product/deleted?id={{ product._id }}" class="ui confirm-request link item">
 							删除
 						</a>
 					</div>

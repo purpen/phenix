@@ -5,6 +5,7 @@
 class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dispatcher_Action_Interface_UploadSupport  {
     public $stash = array(
     	'parent_id' => 0,
+		'ref' => 0,
     );
     
     private $asset = array();
@@ -313,15 +314,21 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
      */
     public function check_upload_product_assets() {
 		$assets_ids = $this->stash['assets'];
+		$tpl = 'ajax/check_upload_product_assets.html';
         if (empty($assets_ids)) {
             $result['error_message'] = '没有上传的图片';
             $result['code'] = 401;
-            return $this->ajax_response('ajax/check_upload_product_assets.html', $result);
+            return $this->ajax_response($tpl, $result);
         }
         $model = new Sher_Core_Model_Asset();
 		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
 		
-        return $this->to_taconite_page('ajax/check_upload_product_assets.html');
+		// 先上传再保存信息的情况
+		if (isset($this->stash['ref'])){
+			$tpl = 'ajax/check_product_onestep.html';
+		}
+		
+        return $this->to_taconite_page($tpl);
     }
 	
 	

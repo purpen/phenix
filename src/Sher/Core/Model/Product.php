@@ -146,6 +146,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
 	protected $required_fields = array('user_id','title');
 	protected $int_fields = array('user_id','category_id','state','published','deleted');
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price');
 	
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
 	
@@ -186,6 +187,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	// 添加自定义ID
     protected function before_insert(&$data) {
         $data['_id'] = $this->gen_product_sku();
+		Doggy_Log_Helper::warn("Create new product ".$data['_id']);
+		
+		parent::before_insert($data);
     }
 	
 	/**
@@ -204,6 +208,18 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 	    parent::before_save($data);
 	}
+	
+	/**
+	 * 保存之后事件
+	 */
+    protected function after_save() {
+		$category_id = $this->data['category_id'];
+		if (!empty($category_id)) {
+			$category = new Sher_Core_Model_Category();
+			$category->inc_counter('total_count', 1, $category_id);
+			unset($category);
+		}
+    }
 	
 	/**
 	 * 通过sku查找
@@ -313,7 +329,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 更新产品发布上线
 	 */
 	public function mark_as_published($id, $published=1) {
-		return $this->update_set($id, array('published' => $published));
+		return $this->update_set((int)$id, array('published' => $published));
 	}
 	
 	/**

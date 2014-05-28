@@ -5,7 +5,7 @@
 	</eval>
 {% else %}
 	<eval>
-		phenix.show_ok_note('{{ note }}', 2000, '#alert-message');
+		phenix.show_ok_note('{{ note }}', 20000000, '#alert-message');
 		
 		$('input.checkbox:checked').each(function(){
 			$(this).attr({'checked': false});

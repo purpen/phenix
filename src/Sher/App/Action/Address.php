@@ -138,6 +138,8 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
 		
+		$this->stash['ids'] = array($id);
+		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 	

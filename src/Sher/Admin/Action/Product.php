@@ -23,9 +23,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     public function get_list() {
     	$this->set_target_css_state('page_product');
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product?page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product?stage=%d&page=#p#';
 		
-		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
 		
         return $this->to_html_page('admin/product/list.html');
     }
@@ -91,7 +92,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		// 分步骤保存信息
 		$data = array();
-		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
@@ -113,6 +113,14 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];
+		// 检查是否有附件
+		if(isset($this->stash['asset'])){
+			$data['asset'] = $this->stash['asset'];
+			$data['asset_count'] = count($data['asset']);
+		}else{
+			$data['asset'] = array();
+			$data['asset_count'] = 0;
+		}
 		
 		try{
 			$model = new Sher_Core_Model_Product();
@@ -121,10 +129,15 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			$data['approved'] = 1;
 			if(empty($id)){
 				$mode = 'create';
+				
 				$data['user_id'] = (int)$this->visitor->id;
 				$ok = $model->apply_and_save($data);
+				
+				$id = (int)$model->id;
 			}else{
 				$mode = 'edit';
+				
+				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
 			}
 			
@@ -132,12 +145,32 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
+			// 上传成功后，更新所属的附件
+			if(isset($data['asset']) && !empty($data['asset'])){
+				$this->update_batch_assets($data['asset'], $id);
+			}
 		}catch(Sher_Core_Model_Exception $e){
-			
+			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		return $this->ajax_json('保存成功.');
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product';
+		
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+	}
+	
+	/**
+	 * 批量更新附件所属
+	 */
+	protected function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$model->update_set($id, array('parent_id' => $parent_id));
+			}
+			unset($model);
+		}
 	}
 	
 	/**
@@ -172,12 +205,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		if(!is_array($ids)){
-			$model->mark_as_published($ids);
-		}else{
-			foreach($ids as $id){
-				$model->mark_as_published($id);
-			}
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+			$model->mark_as_published($id);
 		}
 		
 		$this->stash['note'] = '发布上线成功！';
@@ -185,6 +216,41 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		return $this->to_taconite_page('ajax/published_ok.html');
 	}
 	
-	
+	/**
+	 * 删除产品
+	 */
+	public function deleted(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			
+			foreach($ids as $id){
+				$product = $model->load((int)$id);
+				
+				if (!empty($product)){
+					$model->remove((int)$id);
+				
+					// 删除关联对象
+					$model->mock_after_remove($id);
+				
+					// 更新用户主题数量
+					$this->visitor->dec_counter('product_count', $product['user_id']);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
 }
 ?>

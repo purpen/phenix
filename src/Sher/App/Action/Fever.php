@@ -624,6 +624,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 删除成功后返回URL
 		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.fever'];
+		$this->stash['ids'] = array($id);
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
