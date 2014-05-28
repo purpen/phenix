@@ -10,10 +10,36 @@
 		.ui.four.column.grid > .row > .column, .ui.four.column.grid > .column, .ui.grid > .four.column.row > .column {
 			margin-bottom: 1.5em;
 		}
+		.ui.responsive.grid {
+		    padding: 0;
+		}
+		.ui.responsive.four.grid {
+			padding: 0 4.55%;
+		}
+		.ui.white.goccia-product.block {
+		    background: url("{{ app_url_packaged }}/images/g-mb-banner.jpg") no-repeat scroll center top / cover #565960;
+			padding: 0 0 35%;
+		}
+		.goccia.page .ui.goccia.video {
+			background: url("{{ app_url_packaged }}/images/g-mb-video.jpg") no-repeat scroll center top / cover  #565960;
+		}
+		.goccia.page .ui.thin.block,
+		.goccia.page .trendy,
+		.goccia.page .pendant,
+		.goccia.page .away,
+		.goccia.page .simple,
+		.goccia.page .free,
+		.goccia.page .sport,
+		.goccia.page .life {
+			background: none;
+		}
+		
+		.goccia-product > .ui.grid > .row > .column {
+		    padding: 2% 0 0 6%;
+		}
 		.goccia-product .ui.btn {
-			display: block;
-			width: 60%;
-			padding: 1em 0;
+			padding: 0.5em 0;
+			width: 28%;
 		}
 		.goccia-product .ui.vantage {
 			width: 100% !important;
@@ -48,6 +74,10 @@
 		
 		.ui.att.block .ui.images .ui.header {
 			font-size: 0.875rem;
+		}
+		
+		.goccia.page .ui.share.block {
+		    padding: 2.5% 0 10.5%;
 		}
 	}
 	
@@ -172,7 +202,8 @@
 
 {% block content %}
 <div class="goccia page">
-	<section class="ui white backgroud title block">
+	
+	<section class="ui white backgroud title computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="computer only two column row">
 				<div class="column">
@@ -254,24 +285,18 @@
 			<div class="mobile only row">
 				<div class="column">
 					<h3 class="ui black header">
-						Goccia 国内首发
+						Goccia 强势来袭
 						<p class="sub header">全球最小的运动可穿戴</p>
 					</h3>
 					
-					<a class="ui black btn-4 btn-4c icon-arrow-right btn" href="#preorder">
+					<a class="ui black btn-4 btn" href="#preorder">
 						现在预订
 					</a>
-					<a class="ui magenta btn-4 btn-4c icon-arrow-right gift btn" href="{{ app_url_register }}">
+					<a class="ui magenta btn-4 gift btn" href="{{ app_url_register }}">
 						注册赢大奖
 					</a>
 					
-					<ui class="ui bulleted list">
-						<li class="item">量化运动量</li>
-						<li class="item">检测睡眠质量</li>
-						<li class="item">培养健康生活方式</li>
-						<li class="item">时尚科技配饰</li>
-					</ui>
-					
+					<h3 class="ui prize small hide-on-mobile header">荣获美国IDEA设计大奖</h3>
 				</div>
 			</div>
 		</div>
@@ -284,15 +309,35 @@
 			<div class="ui responsive center aligned grid">
 				<div class="column">
 					<div class="video-content">
-						<h3 class="ui header">Goccia</h3>
-						<p class="subheader">全球最小的运动可穿戴Goccia 强势来袭！</p>
+						<h3 class="ui header">Goccia 强势来袭！</h3>
+						<p class="subheader">全球最小的运动可穿戴Goccia</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="ui white backgroud features block">
+	<div class="ui responsive mobile only grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="ui images">
+					<img src="{{ app_url_packaged }}/images/g-mb-01.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-02.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-03.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-04.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-05.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-06.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-07.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-08.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-09.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-11.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/g-mb-12.jpg" class="ui image" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<section class="ui white backgroud features computer tablet only block">
 		<div class="ui responsive relaxed two column grid">
 			<div class="row">
 				<div class="column">
@@ -365,7 +410,7 @@
 		</div>
 	</section>
 	
-	<section class="ui thin block">
+	<section class="ui thin computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="center aligned column">
@@ -382,7 +427,7 @@
 		</div>
 	</section>
 	
-	<section class="ui trendy block">
+	<section class="ui trendy computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="center aligned column">
@@ -404,7 +449,7 @@
 	</section>
 	
 	
-	<section class="ui pendant block">
+	<section class="ui pendant computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="column">
@@ -421,7 +466,7 @@
 		</div>
 	</section>
 	
-	<section class="ui away block">
+	<section class="ui away computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="right aligned column">
@@ -437,7 +482,7 @@
 		</div>
 	</section>
 	
-	<section class="ui simple block">
+	<section class="ui simple computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="column">
@@ -454,7 +499,7 @@
 		</div>
 	</section>
 	
-	<section class="ui free block">
+	<section class="ui free computer tablet only block">
 		<div class="ui middle aligned responsive grid">
 			<div class="row">
 				<div class="right aligned column">
@@ -471,7 +516,7 @@
 		</div>
 	</section>
 	
-	<section class="ui sport block">
+	<section class="ui sport computer tablet only block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
@@ -487,7 +532,7 @@
 		</div>
 	</section>
 	
-	<section class="ui att block">
+	<section class="ui att computer tablet only block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
@@ -522,7 +567,7 @@
 		</div>
 	</section>
 	
-	<section class="ui life block">
+	<section class="ui life computer tablet only block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
