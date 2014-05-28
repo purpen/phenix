@@ -149,7 +149,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			"0" => array(
 				'Title' => 'Goccia全球最小的运动可穿戴',
 				'Description'=>'Goccia全球最小的运动可穿戴强势来袭,现在预订就有机会赢取大奖',
-				'PicUrl'=>'http://frstatic.qiniudn.com/images/goccia-weixin-cover.jpg',
+				'PicUrl'=>'http://frstatic.qiniudn.com/images/g-weixin-cover.jpg',
 				'Url'=>'http://www.taihuoniao.com/goccia'
 			)
 		);
