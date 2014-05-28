@@ -2,7 +2,13 @@
   	<i class="flat close icon"></i>
   	<div class="content">
 		<div id="youkuplayer" style="width: 100%; height: 500px;">
-			<embed width="100%" height="100%" align="middle" allowscriptaccess="always" quality="high" allowfullscreen="true" src="http://player.youku.com/player.php/sid/XNzE2ODY0NDM2/v.swf" type="application/x-shockwave-flash">
+			<object width="100%" height="100%" id="youku-player" data="http://player.youku.com/player.php/sid/XNzE2ODY0NDM2/v.swf" type="application/x-shockwave-flash">
+				<param value="true" name="allowFullScreen">
+				<param value="always" name="allowScriptAccess">
+				<param value="http://player.youku.com/player.php/sid/XNzE2ODY0NDM2/v.swf" name="movie">
+				<param value="imglogo=&amp;paid=0&amp;partnerId=31cc1eceae589704&amp;isAutoPlay=true&amp;isShowRelatedVideo=false" name="flashvars">
+				<embed width="100%" height="100%" align="middle" allowscriptaccess="always" quality="high" allowfullscreen="true" src="http://player.youku.com/player.php/sid/XNzE2ODY0NDM2/v.swf" type="application/x-shockwave-flash">
+			</object>
 		</div>
   	</div>
 </div>
