@@ -51,6 +51,9 @@
 		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
+		<!--[if lt IE 9]>
+		<script src="http://frstatic.qiniudn.com/javascript/html5shiv.min.js"></script>
+		<![endif]-->
 		{% if js_use_bundle %}
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
