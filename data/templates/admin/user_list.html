@@ -17,10 +17,10 @@
 			<a href="{{ app_url_admin }}/user?time=mouth" class="ui {{ css_mouth }} button">最近一月</a>
 		</div>
 		
-		<form class="ui small right floated column form" method="get" action="{{ app_url_admin_base }}/user">
+		<form class="ui small right floated column form" method="post" action="{{ app_url_admin_base }}/user">
 			<div class="inline field">
 				<div class="ui icon input">
-	          		<input placeholder="Search ..." type="text" name="search" />
+	          		<input placeholder="Search ..." type="text" name="q" />
 	          		<i class="flat search icon"></i>
 				</div>
 	        </div>
@@ -28,7 +28,7 @@
 	</div>
 	
 	<div class="ui divider"></div>
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending page:page start_time:start_time end_time:end_time %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending page:page start_time:start_time end_time:end_time search_passport:q %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>

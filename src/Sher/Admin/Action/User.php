@@ -9,6 +9,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 20,
 		'time' => '',
+		'q' => '',
 		'state' => 0,
 	);
 	

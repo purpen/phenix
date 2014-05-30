@@ -34,7 +34,6 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		// 用户推荐
 		$last_login = 0;
 		
-        
         $search_id = 0;
         $search_passport = 0;
         $user_id = 0;
