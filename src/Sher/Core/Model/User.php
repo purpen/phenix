@@ -50,7 +50,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'email'    => null,
 		
 		'invitation' => null,
-        'state'      =>  self::STATE_PENDING,
+        'state'      => self::STATE_PENDING,
 		
         'role_id'    => self::ROLE_USER,
 		'permission' => array(),

@@ -1,8 +1,10 @@
 <?php
 class Sher_Core_Service_User extends Sher_Core_Service_Base {
     protected $sort_fields = array(
-        'time' => array('created_on' => -1),
+        'time' => array('last_login' => -1),
 		'latest' => array('created_on' => -1),
+		'popular' => array('fans_count' => -1),
+		'digged' => array('digged' => -1),
     );
 
     protected static $instance;

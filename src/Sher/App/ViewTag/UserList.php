@@ -23,6 +23,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $only_dead = 0;
         $only_active = 0;
 		
+		// 某时间段内
+		$start_time = 0;
+		$end_time = 0;
+		
 		// 婚姻
 		$marital = 0;
 		// 性别
@@ -35,7 +39,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $search_passport = 0;
         $user_id = 0;
         
-        $sort = 'time';
+        $sort = 'latest';
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -47,7 +51,9 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $size = (int)$size;
         
         $query = array();
-        
+		
+        $options['sort_field'] = $sort;
+		
 		if ($marital) {
 			$query['marital'] = $marital;
 		}
@@ -74,6 +80,14 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         if ($only_system) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_SYSTEM;
         }
+		
+		// 获取某个时段内
+		if ($start_time) {
+			$query['created_on'] = array(
+				'$gt' => $start_time,
+				'$lt' => $end_time,
+			);
+		}
         
         //90天未登录的用户为休眠用户
         if ($only_dead) {
@@ -102,22 +116,6 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 			);
         }
 		
-        //排序方式
-        switch ($sort) {
-        	case 'time':
-        		$options['sort'] = array('last_login'=>-1);
-        		break;
-        	case 'popular':
-        		$options['sort'] = array('fans_count'=>-1);
-        		break;
-			case 'digged':
-				$options['sort'] = array('digged'=>-1);
-				break;
-			default:
-				$options['sort'] = array('fans_count'=>-1);
-				break;
-        }
-		
         $options['page'] = $page;
         $options['size'] = $size;
 		
@@ -125,7 +123,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
             $result = DoggyX_Model_Mapper::load_model((int)$user_id,'Sher_Core_Model_User');
         } else {
             $service = Sher_Core_Service_User::instance();
-            $result = $service->get_user_list($query,$options);
+            $result = $service->get_user_list($query, $options);
         }
         $context->set($var,$result);
 		
