@@ -8,7 +8,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-		'time' => 0,
+		'time' => '',
 		'state' => 0,
 	);
 	
