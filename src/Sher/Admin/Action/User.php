@@ -6,11 +6,12 @@
 class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	
 	public $stash = array(
+		'id' => 0,
 		'page' => 1,
 		'size' => 20,
+		'state' => 0,
 		'time' => '',
 		'q' => '',
-		'state' => 0,
 	);
 	
 	/**
@@ -67,6 +68,32 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		
         return $this->to_html_page('admin/user_list.html');
     }
+	
+	/**
+	 * 升级管理员
+	 */
+	public function upgrade() {
+		$id = $this->stash['id'];
+		// 仅系统管理员具有权限
+		if (!$this->visitor->can_system()){
+			
+		}
+		
+	}
+	
+	/**
+	 * 手动激活用户
+	 */
+	public function activtion() {
+		
+	}
+	
+	/**
+	 * 禁用用户
+	 */
+	public function disabled() {
+		
+	}
 	
 }
 ?>

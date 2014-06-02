@@ -85,8 +85,11 @@
 				</td>
 				<td>
 					<div class="ui small divided horizontal list">
-						<a href="" class="ui link item">激活</a>
-						<a href="" class="ui link item">禁用</a>
+						{% if visitor.role_id == 3 %}
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}" class="ui link ajax item">升级管理员</a>
+						{% endif %}
+						<a href="{{ app_url_admin }}/user/activtion?id={{ user._id }}" class="ui link ajax item">激活</a>
+						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link ajax item">禁用</a>
 					</div>
 				</td>
 			</tr>

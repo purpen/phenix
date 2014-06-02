@@ -141,7 +141,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $user_state = $result['state'];
         
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
-            return $this->ajax_json('此帐号涉嫌违规已经被禁用!',true,'/');
+            return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
         }
 		
         Sher_Core_Helper_Auth::create_user_session($user_id);
@@ -211,7 +211,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$user_info['profile'] = $profile;
 			
             $ok = $user->create($user_info);
-			
 			if($ok){
 				$user_id = $user->id;
 				

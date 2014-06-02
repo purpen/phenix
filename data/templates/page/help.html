@@ -1,7 +1,7 @@
 {%extends 'layout/column.html'%}
 {% block page_css %}
 <style type="text/css">
-
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -10,208 +10,209 @@
 	
 {% endblock %}
 {% block content %}
-
-<ul class="sidemenu dots dotsRight">
-    <li class="active">
-		<a ng-click="scrollTo('submitidea')" href="">
-			<span>提交创意</span><i></i>
-		</a>
-	</li>
-    <li class="">
-		<a ng-click="scrollTo('voteidea')" href="">
-			<span>创意投票</span><i></i>
-		</a>
-	</li>
-    <li>
-		<a ng-click="scrollTo('expertpoint')" href="">
-			<span>专家评分</span><i></i>
-		</a>
-	</li>
-    <li>
-		<a ng-click="scrollTo('presale')" href="">
-			<span>在线预售</span><i></i>
-		</a>
-	</li>
-    <li>
-		<a ng-click="scrollTo('hotsale')" href="">
-			<span>销售</span><i></i>
-		</a>
-	</li>
-</ul>
-
-<section class="ui helper-banner">
-	<div class="ui grid">
-		<div class="row">
-			<div class="fourteen wide column">
-				<h2 class="ui header">
-					提交你的创意
-				</h2>
-				<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。.</p>
-				<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-					提交创意
-				</a>
-				<a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-					现在加入
-				</a>
+<div class="helper page">
+	<ul class="ui hide sidemenu dots dotsRight">
+	    <li class="active">
+			<a ng-click="scrollTo('submitidea')" href="">
+				<span>提交创意</span><i></i>
+			</a>
+		</li>
+	    <li class="">
+			<a ng-click="scrollTo('voteidea')" href="">
+				<span>创意投票</span><i></i>
+			</a>
+		</li>
+	    <li>
+			<a ng-click="scrollTo('expertpoint')" href="">
+				<span>专家评分</span><i></i>
+			</a>
+		</li>
+	    <li>
+			<a ng-click="scrollTo('presale')" href="">
+				<span>在线预售</span><i></i>
+			</a>
+		</li>
+	    <li>
+			<a ng-click="scrollTo('hotsale')" href="">
+				<span>销售</span><i></i>
+			</a>
+		</li>
+	</ul>
+	
+	<section class="ui helper-banner">
+		<div class="ui grid">
+			<div class="row">
+				<div class="fourteen wide column">
+					<h2 class="ui header">
+						提交你的创意
+					</h2>
+					<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。.</p>
+					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+						提交创意
+					</a>
+					<a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						现在加入
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
-<section class="ui center aligned grid">
-	<div class="row white backgroud">
-		<div class="column padded">
-			<div class="ui breadcrumb">
-			  	<a class="section">提交创意</a>
-			  	<i class="flat page_right icon divider"></i>
-			  	<a class="section">创意投票</a>
-			  	<i class="flat page_right icon divider"></i>
-			  	<a class="section">专家评分</a>
-			  	<i class="flat page_right icon divider"></i>
-			  	<a class="section">在线预售</a>
-			  	<i class="flat page_right icon divider"></i>
-				<a class="section">销售</a>
+	<section class="ui center aligned grid">
+		<div class="row white backgroud">
+			<div class="column padded">
+				<div class="ui breadcrumb">
+				  	<a class="section">提交创意</a>
+				  	<i class="flat page_right icon divider"></i>
+				  	<a class="section">创意投票</a>
+				  	<i class="flat page_right icon divider"></i>
+				  	<a class="section">专家评分</a>
+				  	<i class="flat page_right icon divider"></i>
+				  	<a class="section">在线预售</a>
+				  	<i class="flat page_right icon divider"></i>
+					<a class="section">销售</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
-<section class="ui block">
-	<div class="ui responsive grid">
-		<div class="eight wide column">
-			<div class="submit-idea">
-				<h1 class="ui header">提交创意</h1>
-				<p>登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</p>
+	<section class="ui block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">提交创意</h1>
+					<p>登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</p>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/1.png" class="ui image" />
 			</div>
 		</div>
-		<div class="eight wide column">
-			<img src="{{ app_url_packaged }}/images/1.png" class="ui image" />
-		</div>
-	</div>
-</section>
+	</section>
 
-<section class="ui big block white backgroud">
-	<div class="ui responsive grid">
-		<div class="eight wide column">
-			<img src="{{ app_url_packaged }}/images/2.png" class="ui image" />
-		</div>
-		<div class="eight wide column">
-			<div class="submit-idea">
-				<h1 class="ui header">创意投票</h1>
-				<p>提交的创意通过审核后，进行为期2个星期的投票。用户可以选择对提交的创意进行支持，不支持的投票选择你不支持的理由。</p>
+	<section class="ui big block white backgroud">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/2.png" class="ui image" />
+			</div>
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">创意投票</h1>
+					<p>提交的创意通过审核后，进行为期2个星期的投票。用户可以选择对提交的创意进行支持，不支持的投票选择你不支持的理由。</p>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
-<section class="ui big block">
-	<div class="ui responsive grid">
-		<div class="eight wide column">
-			<div class="submit-idea expert-point">
-				<h1 class="ui header">专家评分</h1>
-				<p>投票阶段获得100张选票的创意，进入专家评分的阶段，5位专家将在1周内对创意从设计、功能、外观、创意、4个方面给出评分。</p>
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="submit-idea expert-point">
+					<h1 class="ui header">专家评分</h1>
+					<p>投票阶段获得100张选票的创意，进入专家评分的阶段，5位专家将在1周内对创意从设计、功能、外观、创意、4个方面给出评分。</p>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/3.png" class="ui image" />
 			</div>
 		</div>
-		<div class="eight wide column">
-			<img src="{{ app_url_packaged }}/images/3.png" class="ui image" />
-		</div>
-	</div>
-</section>
+	</section>
 
-<section class="ui block white backgroud">
-	<div class="ui responsive grid">
-		<div class="eight wide column">
-			<img src="{{ app_url_packaged }}/images/4.png" class="ui image" />
-		</div>
-		<div class="eight wide column">
-			<div class="submit-idea">
-				<h1 class="ui header">在线预售</h1>
-				<p>重新编辑创意投票页面，添加相关的产品预售选项。在30-45天内筹集相应金额，用户选择不同的额度支持。</p>
+	<section class="ui block white backgroud">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/4.png" class="ui image" />
+			</div>
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">在线预售</h1>
+					<p>重新编辑创意投票页面，添加相关的产品预售选项。在30-45天内筹集相应金额，用户选择不同的额度支持。</p>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
-<section class="ui block">
-	<div class="ui responsive grid">
-		<div class="eight wide column">
-			<div class="submit-idea">
-				<h1 class="ui header">销售</h1>
-				<p>预售成功的产品将会进入批量生产，进入各大电商平台销售。将有机会成为爆款创意产品。</p>
+	<section class="ui block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">销售</h1>
+					<p>预售成功的产品将会进入批量生产，进入各大电商平台销售。将有机会成为爆款创意产品。</p>
+				</div>
 			</div>
-		</div>
-		<div class="eight wide column">
-			<div class="ui three items">
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/6.png" />
-					</div>
-					<div class="content">
-						<div class="description">
-							￥368
-							<div class="extra"><i class="flat like icon"></i></div>
+			<div class="eight wide column">
+				<div class="ui three items">
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/6.png" />
+						</div>
+						<div class="content">
+							<div class="description">
+								￥368
+								<div class="extra"><i class="flat like icon"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/7.png" />
-					</div>
-					<div class="content">
-						<div class="description">
-							￥368
-							<div class="extra"><i class="flat like icon"></i></div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/7.png" />
+						</div>
+						<div class="content">
+							<div class="description">
+								￥368
+								<div class="extra"><i class="flat like icon"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/8.png" />
-					</div>
-					<div class="content">
-						<div class="description">
-							￥368
-							<div class="extra"><i class="flat like icon"></i></div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/8.png" />
+						</div>
+						<div class="content">
+							<div class="description">
+								￥368
+								<div class="extra"><i class="flat like icon"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/9.png" />
-					</div>
-					<div class="content">
-						<div class="description">
-							￥368
-							<div class="extra"><i class="flat like icon"></i></div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/9.png" />
+						</div>
+						<div class="content">
+							<div class="description">
+								￥368
+								<div class="extra"><i class="flat like icon"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/10.png" />
-					</div>
-					<div class="content">
-						<div class="description">
-							￥368
-							<div class="extra"><i class="flat like icon"></i></div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/10.png" />
+						</div>
+						<div class="content">
+							<div class="description">
+								￥368
+								<div class="extra"><i class="flat like icon"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/12.png" />
-					</div>
-					<div class="content">
-						<div class="description">
-							￥368
-							<div class="extra"><i class="flat like icon"></i></div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/12.png" />
+						</div>
+						<div class="content">
+							<div class="description">
+								￥368
+								<div class="extra"><i class="flat like icon"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
 				
-			</div>
+				</div>
 			
+			</div>
 		</div>
-	</div>
-</section>
+	</section>
+</div>
 {% endblock %}

@@ -114,13 +114,16 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 		if (!isset($this->stash['total_money']) &&  !isset($this->stash['items_count'])){
 			
 			$cart = new Sher_Core_Util_Cart();
-		
+			
+			$products = $cart->getItems();
 	        $total_money = $cart->getTotalAmount();
 	        $items_count = $cart->getItemCount();
 		
 			if ($items_count > 0){
 				$this->set_target_css_state('basket');
 			}
+			
+			$this->stash['basket_products'] = $products;
 			$this->stash['total_money'] = $total_money;
 			$this->stash['items_count'] = $items_count;
 		}
