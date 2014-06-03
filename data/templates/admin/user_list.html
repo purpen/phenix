@@ -1,20 +1,59 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
+<style type="text/css">
+	
+</style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block content %}
 	<div class="ui tool-box">
 		<div class="ui small magenta buttons">
-			<a href="{{ app_url_admin }}/user" class="ui {{ css_all }} button">全部</a>
-			<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="ui {{ css_ok }} button">已激活</a>
-			<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="ui {{ css_pending }} button">未激活</a>
+			<div class="ui button">
+				{% if state == 0 %}
+					全部列表
+				{% endif %}
+				{% if state == 2 %}
+					已激活列表
+				{% endif %}
+				{% if state == 1 %}
+					未激活列表
+				{% endif %}
+			</div>
+			<div class="ui floating dropdown icon button">
+				<i class="flat add icon"></i>
+				<div class="menu">
+					<a href="{{ app_url_admin }}/user" class="item">全部列表</a>
+					<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活列表</a>
+					<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活列表</a>
+		    	</div>
+		  	</div>
 		</div>
 		
 		<div class="ui small magenta buttons">
-			<a href="{{ app_url_admin }}/user?time=yesterday" class="ui {{ css_yesterday }} button">昨天</a>
-			<a href="{{ app_url_admin }}/user?time=week" class="ui {{ css_week }} button">一周之内</a>
-			<a href="{{ app_url_admin }}/user?time=mouth" class="ui {{ css_mouth }} button">最近一月</a>
+			<div class="ui button">
+				{% if time == '' %}
+					全部时间
+				{% endif %}
+				{% if time == 'yesterday' %}
+					昨天
+				{% endif %}
+				{% if time == 'week' %}
+					最近一周
+				{% endif %}
+				{% if time == 'mouth' %}
+					最近一月
+				{% endif %}
+			</div>
+			<div class="ui floating dropdown icon button">
+				<i class="flat add icon"></i>
+				<div class="menu">
+					<a href="{{ app_url_admin }}/user?time=" class="item">全部时间</a>
+					<a href="{{ app_url_admin }}/user?time=yesterday" class="{{ css_yesterday }} item">昨天</a>
+					<a href="{{ app_url_admin }}/user?time=week" class="{{ css_week }} item">最近一周</a>
+					<a href="{{ app_url_admin }}/user?time=mouth" class="{{ css_mouth }} item">最近一月</a>
+		    	</div>
+		  	</div>
 		</div>
 		
 		<form class="ui small right floated column form" method="post" action="{{ app_url_admin_base }}/user">
@@ -101,6 +140,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 	

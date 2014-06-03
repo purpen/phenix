@@ -44,6 +44,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$this->set_target_css_state('basket');
 		}
 		
+		$this->stash['basket_products'] = $products;
 		$this->stash['products'] = $products;
 		$this->stash['total_money'] = $total_money;
 		$this->stash['items_count'] = $items_count;

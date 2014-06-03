@@ -8,7 +8,7 @@
 <a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
 
 <div class="ui secondary user menu">
-	<div class="ui top right pointing dropdown icon basket magenta button">
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta label">{{ items_count }}</label>
 		{% else %}
@@ -17,6 +17,7 @@
 	  	<i class="flat shopping_cart icon"></i>
 		
 	  	<div class="menu">
+			{% if items_count > 0 %}
 			<div class="item">
 				<table class="ui basic basket table">
 					<thead>
@@ -64,6 +65,11 @@
 			    	去结算
 				</a>
 			</div>
+			{% else %}
+			<div class="item">
+				购物车中还没有商品，赶紧选购吧！
+			</div>
+			{% endif %}
 	  	</div>
 	</div>
 	
