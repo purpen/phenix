@@ -247,19 +247,17 @@
 					</div>
 				</div>
 				<div class="right aligned four wide column">
-					{% if visitor %}
+					{% if visitor.is_admin %}
 					<div class="ui tiny black buttons">
 						<div class="ui top right pointing dropdown icon button">
 						  	管理操作 <i class="flat arrowbottom icon"></i>
 						  	<div class="menu">
-					          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-									<i class="flat edit icon"></i>编辑创意
-								</a>
-								{% if visitor.is_admin %}
 					          	<a class="item ajax" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
 									<i class="flat correct icon"></i>通过审核
 								</a>
-								{% endif %}
+					          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
+									<i class="flat edit icon"></i>编辑创意
+								</a>
 					          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
 									<i class="flat waste icon"></i>删除创意
 								</a>
