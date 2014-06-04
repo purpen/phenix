@@ -210,9 +210,14 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 						)
 					),
 					array(
-						'type'=>'click',
-						'name'=>'互动社区',
-						'key'=>'MENU_KEY_Social',
+						'type' => 'view',
+						'name' => '太火鸟微店',
+						"url" => "http://wd.koudai.com/?userid=164729694",
+					),
+					array(
+						'type' => 'click',
+						'name' => '互动社区',
+						'key' => 'MENU_KEY_Social',
 						'sub_button' => array(
 							array(
 						   	 	"type" => "view",
