@@ -106,8 +106,13 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		}
 		
         if($search_id) {
-            $query['_id'] = (int)$search_id;
+            // $query['_id'] = (int)$search_id;
+			$query['$or'] = array(
+				array('_id' => (int)$search_id),
+				array('profile.phone' => $search_id),
+			);
         }
+		
         if($search_passport) {
 			$query['$or'] = array(
 				array('passport' => $search_passport),

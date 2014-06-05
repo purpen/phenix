@@ -30,6 +30,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		
 		$state = $this->stash['state'];
 		$time = $this->stash['time'];
+		$q = $this->stash['q'];
 		
 		// 某个状态下
 		if ($state == 2){
@@ -40,6 +41,13 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 			$this->set_target_css_state('pending');
 		}else{
 			$this->set_target_css_state('all');
+		}
+		
+		// 是否为数字
+		if (is_numeric($q)){
+			$this->stash['search_id'] = $q;
+		} else {
+			$this->stash['search_passport'] = $q;
 		}
 		
 		// 某时间段内
