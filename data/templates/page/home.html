@@ -66,36 +66,6 @@
 		$('.ui.videobox.modal').modal('show');
 	});
 	
-	//判断浏览器版本JS
-	var mmbrowser = {
-	    versions: function () {
-	        var u = navigator.userAgent, app = navigator.appVersion;
-	        return {
-	            trident: u.indexOf('Trident') > -1, //IE内核
-	            presto: u.indexOf('Presto') > -1, //opera内核
-	            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-	            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-	            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
-	            ios: !!u.match(/(i[^;]+\;(U;)? CPU.+Mac OS X)/), //ios终端
-	            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-	            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
-	            iPad: u.indexOf('iPad') > -1, //是否iPad
-	            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-	        };
-	    } (),
-	    language: (navigator.browserLanguage || navigator.language).toLowerCase()
-	};
-	
-	var video_html = "";
-	if (mmbrowser.versions.ios){
-		 video_html += '<video width="100%" height="100%" poster="{{ app_url_packaged }}/images/video.jpg" autobuffer src="' + 'http://v.youku.com/player/getRealM3U8/vid/XNzA5ODI1Mjk2/type//video.m3u8"></video>';
-	} else {
-		video_html += '<video id="vv" width="100%" height="50%" poster="{{ app_url_packaged }}/images/video.jpg" controls="" autoplay="" name="media"><source src="http://v.youku.com/player/getRealM3U8/vid/XNzA5ODI1Mjk2/type//video.m3u8"></video>'; 
-	}   
-	
-	// 显示移动终端视频
-	$('#video-mobile').html(video_html);
-	
 	// 分享按钮
 	phenix.bind_share_list();
 	
@@ -257,7 +227,14 @@
 
 <section class="ui video center aligned tablet mobile only grid">
 	<div class="column ui mask">
-		<div id="video-mobile"></div>
+		<div id="youkuplayer"></div>
+		<script type="text/javascript" src="http://player.youku.com/jsapi">
+		player = new YKU.Player('youkuplayer',{
+			styleid: '1',
+			client_id: '4128f4a10a97103a',
+			vid: 'XNzA5ODI1Mjk2'
+		});
+		</script>
 	</div>
 </section>
 
