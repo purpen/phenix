@@ -94,15 +94,20 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	// 显示视频框
-	$('.ui.video').bind('click', function(){
-		$('.ui.videobox.modal').modal('show');
-	});
+	
 	$('.ui.gift.btn').click(function(){
 		// 显示注册框
 		$('.ui.registerbox.modal').modal('show');
 		return false;
 	});
+	
+	// 显示视频框
+	$('.ui.computer.video').bind('click', function(){
+		$('.ui.videobox.modal').modal('show');
+	});
+	
+	// 显示移动终端视频
+	$('#video-mobile').html(phenix.build_mobile_video('XNzE2ODY0NDM2', '{{ app_url_packaged }}/images/g-mb-video.jpg'));
 	
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/wx-banner.jpg';
@@ -205,36 +210,6 @@
 			});
 		}
 	});
-	//判断浏览器版本JS
-	var browser = {
-	    versions: function () {
-	        var u = navigator.userAgent, app = navigator.appVersion;
-	        return {
-	            trident: u.indexOf('Trident') > -1, //IE内核
-	            presto: u.indexOf('Presto') > -1, //opera内核
-	            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-	            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-	            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
-	            ios: !!u.match(/(i[^;]+\;(U;)? CPU.+Mac OS X)/), //ios终端
-	            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-	            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
-	            iPad: u.indexOf('iPad') > -1, //是否iPad
-	            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-	        };
-	    } (),
-	    language: (navigator.browserLanguage || navigator.language).toLowerCase()
-	};
-	
-	var video_id = 'XNzE2ODY0NDM2';
-	var video_html="";
-
-	if (browser.versions.ios){
-		 video_html += '<video width="100%" height="100%" poster="http://frstatic.qiniudn.com/images/g-mb-video.jpg" autobuffer src="' + 'http://v.youku.com/player/getRealM3U8/vid/' + video_id + '/type//video.m3u8"></video>';
-	} else {
-		video_html+= '<video id="vv" width="100%" height="50%" poster="http://frstatic.qiniudn.com/images/g-mb-video.jpg" controls="" autoplay="" name="media"><source src="http://v.youku.com/player/getRealM3U8/vid/' + video_id + '/type//video.m3u8"></video>';    
-	}
-	
-	$('#video-mobile').html(video_html);
 	
 {% endblock %}
 
@@ -340,27 +315,19 @@
 		
 	</section>
 	
-	<section class="ui goccia video">
-		<div class="ui mask">
+	<section class="ui goccia video center aligned computer only grid">
+		<div class="column ui mask">
 			<i class="flat play icon"></i>
-			<div class="ui responsive center aligned computer only  grid">
-				<div class="column">
-					<div class="video-content">
-						<h3 class="ui header">Goccia 强势来袭！</h3>
-						<p class="subheader">全球最小的运动可穿戴Goccia</p>
-					</div>
-				</div>
+			<div class="video-content">
+				<h3 class="ui header">Goccia 强势来袭！</h3>
+				<p class="subheader">全球最小的运动可穿戴Goccia</p>
 			</div>
 		</div>
 	</section>
-	
-	<section class="ui goccia mm-video">
-		<div class="ui mask">
-			<div class="ui responsive center aligned tablet mobile only grid">
-				<div class="column">
-					<div class="video-content" id="video-mobile"></div>
-				</div>
-			</div>
+
+	<section class="ui video center aligned tablet mobile only grid">
+		<div class="column ui mask">
+			<div id="video-mobile"></div>
 		</div>
 	</section>
 	

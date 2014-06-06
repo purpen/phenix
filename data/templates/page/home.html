@@ -7,7 +7,6 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
-	
 </style>
 {% endblock %}
 {% block js %}
@@ -62,10 +61,12 @@
 		$frame.sly('reload');
 	});
 	 
-	// 显示视频框
-	$('.ui.video').bind('click', function(){
+	// 显示PC终端视频
+	$('.ui.computer.video').bind('click', function(){
 		$('.ui.videobox.modal').modal('show');
 	});
+	// 显示移动终端视频
+	$('#video-mobile').html(phenix.build_mobile_video('XNzA5ODI1Mjk2', '{{ app_url_packaged }}/images/video.jpg'));
 	
 	// 分享按钮
 	phenix.bind_share_list();
@@ -216,17 +217,19 @@
 	</div>
 </section>
 
-<section class="ui video">
-	<div class="ui mask">
+<section class="ui video center aligned computer only grid">
+	<div class="column ui mask">
 		<i class="flat play icon"></i>
-		<div class="ui responsive center aligned grid">
-			<div class="column">
-				<div class="video-content">
-					<h3 class="ui header">人生是场大设计</h3>
-					<p>【致离经叛道的自己】亿万漂泊者的心声，太火鸟！</p>
-				</div>
-			</div>
+		<div class="video-content">
+			<h3 class="ui header">人生是场大设计</h3>
+			<p>【致离经叛道的自己】亿万漂泊者的心声，太火鸟！</p>
 		</div>
+	</div>
+</section>
+
+<section class="ui video center aligned tablet mobile only grid">
+	<div class="column ui mask">
+		<div id="video-mobile"></div>
 	</div>
 </section>
 

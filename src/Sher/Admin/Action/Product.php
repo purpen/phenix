@@ -186,6 +186,16 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		$this->stash['mode'] = $mode;
 		
+		// 编辑器上传附件
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$this->stash['editor_pid'] = new MongoId();
+
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
+		
+		
+		// 产品图片上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 
