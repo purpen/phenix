@@ -33,7 +33,7 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 			$ok = $asset->apply_and_save($asset_info);
 			
 	        if ($ok) {
-				$asset_id = (string)$asset->id;
+				$asset_id = (string)$asset->_id;
 				
             	$result['ids'][] = $asset_id;
 				
@@ -72,7 +72,7 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 			$ok = $asset->apply_and_save($asset_info);
 			
 	        if ($ok) {
-				$asset_id = (string)$asset->id;
+				$asset_id = (string)$asset->_id;
 				$result['link'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hu.jpg');
 	        }
 		} catch (Sher_Core_Model_Exception $e) {
