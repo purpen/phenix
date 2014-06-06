@@ -4,7 +4,10 @@
  * @author purpen
  */
 class Sher_App_Action_Asset extends Sher_App_Action_Base {
-	public $stash = array();
+	public $stash = array(
+		'id' => 0,
+		'asset_id' => '',
+	);
 	
 	protected $exclude_method_list = array('execute', 'qiniu_assets', 'qiniu_onelink');
 
@@ -78,6 +81,28 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 		}
 		
 		return $this->to_raw_json($result);
+	}
+	
+	/**
+	 * 删除某个附件
+	 */
+	public function deleted(){
+		$id = $this->stash['id'];
+		$asset_id = $this->stash['asset_id'];
+		if (empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Product();
+			$model->delete_asset($id, $asset_id);
+		}else{
+			// 仅仅删除附件
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_file($asset_id);
+		}
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 	
 }

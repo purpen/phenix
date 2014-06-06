@@ -277,16 +277,16 @@
 			
 			<div id="asset-list" class="ui four items">
 				{% if mode == 'edit' %}
-					{% asset_list var:'assets' parent_id:product._id size:20 %}
+					{% asset_list var:'assets' parent_id:product._id asset_type:10 size:20 %}
 					{% for asset in assets.rows %}
-					<div class="thumb item">
+					<div class="thumb item" id="{{ asset._id }}">
 						<div class="image">
 							<img src="{{ asset.thumbnails.small.view_url }}" />
 							<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 						</div>
 						<div class="buttons">
 							<div class="ui large links">
-								<a href="{{ app_url_fever }}/delete_asset?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+								<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 									<i class="flat edit_delete icon"></i>
 								</a>
 								<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == product.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">

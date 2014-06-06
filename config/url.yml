@@ -58,6 +58,9 @@ app.url.cart.buy: '{$app.url.shopping}/buy'
 # 地址薄
 app.url.address: '{$app.url.action_base}/address'
 
+# 附件管理
+app.url.asset: '{$app.url.action_base}/asset'
+
 # 七牛存储
 app.url.qiniu.upload: 'http://up.qiniu.com'
 app.url.qiniu.frbird: 'http://frbird.qiniudn.com'

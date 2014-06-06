@@ -73,14 +73,6 @@
 		<div class="row product fever-view">
 			<div class="eight wide cover column">
 				<img src="{{ product.cover.thumbnails.big.view_url }}" id="main-cover" />
-				<div class="ui small cover-thumb images">
-					{% asset_list var:'assets' parent_id:product._id size:5 %}
-					{% for asset in assets.rows %}
-					<a href="" data-url="{{ asset.thumbnails.big.view_url }}">
-						<img src="{{ asset.thumbnails.mini.view_url }}" class="ui image" />
-					</a>
-					{% endfor %}
-				</div>
 			</div>
 			<div class="eight wide column">
 				<h3 class="ui header">
