@@ -1,5 +1,9 @@
 {%extends 'layout/column.html'%}
 {% block title %}首页-{% endblock %}
+{% block page_js %}
+<script type="text/javascript" src="http://player.youku.com/jsapi"></script>
+{% endblock %}
+
 {% block page_css %}
 <style type="text/css">
 	*, *:after, *:before {
@@ -64,6 +68,22 @@
 	// 显示PC终端视频
 	$('.ui.computer.video').bind('click', function(){
 		$('.ui.videobox.modal').modal('show');
+	});
+	
+	// 显示移动端视频
+	var player = new YKU.Player('video-mobile',{
+		styleid: '1',
+		client_id: '4128f4a10a97103a',
+		vid: 'XNzA5ODI1Mjk2',
+		events:{
+			onPlayStart: function(){ 
+				$('#video-mobile').css('visibility', 'visible');
+				$('.play.icon').fadeOut();
+			}
+		}
+	});
+	$('.ui.tablet.mobile.video').bind('click', function(){
+		player.playVideo();
 	});
 	
 	// 分享按钮
@@ -225,16 +245,10 @@
 	</div>
 </section>
 
-<section class="ui video center aligned tablet mobile only grid">
+<section class="ui video center aligned tablet mobile only bird grid">
 	<div class="column ui mask">
+		<i class="flat play icon"></i>
 		<div id="video-mobile" style="width:100%;height:400px"></div>
-		<script type="text/javascript" src="http://player.youku.com/jsapi">
-		player = new YKU.Player('video-mobile',{
-			styleid: '1',
-			client_id: '4128f4a10a97103a',
-			vid: 'XNzA5ODI1Mjk2'
-		});
-		</script>
 	</div>
 </section>
 

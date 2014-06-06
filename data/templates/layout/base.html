@@ -54,6 +54,17 @@
 		<!--[if lt IE 9]>
 		<script src="http://frstatic.qiniudn.com/javascript/html5shiv.min.js"></script>
 		<![endif]-->
+	</head>
+	
+	<body>
+		{% block layout_promo %}{% endblock %}
+	    {% block layout_header %}{% endblock %}
+	    {% block layout_content %}
+	        {% block content %}{% endblock %}
+	    {% endblock %}
+		{% block layout_footer %}
+		{% endblock %}
+		
 		{% if js_use_bundle %}
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
@@ -89,15 +100,5 @@
 		});
 		//-->
 		</script>
-	</head>
-	
-	<body>
-		{% block layout_promo %}{% endblock %}
-	    {% block layout_header %}{% endblock %}
-	    {% block layout_content %}
-	        {% block content %}{% endblock %}
-	    {% endblock %}
-		{% block layout_footer %}
-		{% endblock %}
 	</body>
 </html>

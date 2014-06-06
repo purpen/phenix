@@ -1,5 +1,8 @@
 {%extends 'layout/board.html'%}
 {% block title %}全球最小的可穿戴设备Goccia强势来袭，2万大奖免费送-{% endblock %}
+{% block page_js %}
+<script type="text/javascript" src="http://player.youku.com/jsapi"></script>
+{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
@@ -106,8 +109,21 @@
 		$('.ui.videobox.modal').modal('show');
 	});
 	
-	// 显示移动终端视频
-	$('#video-mobile').html(phenix.build_mobile_video('XNzE2ODY0NDM2', '{{ app_url_packaged }}/images/g-mb-video.jpg'));
+	// 显示移动端视频
+	var player = new YKU.Player('video-mobile',{
+		styleid: '1',
+		client_id: '4128f4a10a97103a',
+		vid: 'XNzE2ODY0NDM2',
+		events:{
+			onPlayStart: function(){ 
+				$('#video-mobile').css('visibility', 'visible');
+				$('.play.icon').fadeOut();
+			}
+		}
+	});
+	$('.ui.tablet.mobile.video').bind('click', function(){
+		player.playVideo();
+	});
 	
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/wx-banner.jpg';
@@ -325,9 +341,10 @@
 		</div>
 	</section>
 
-	<section class="ui video center aligned tablet mobile only grid">
+	<section class="ui goccia video center aligned tablet mobile only grid">
 		<div class="column ui mask">
-			<div id="video-mobile"></div>
+			<i class="flat play icon"></i>
+			<div id="video-mobile" style="width:100%;height:400px"></div>
 		</div>
 	</section>
 	
