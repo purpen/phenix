@@ -155,7 +155,7 @@ app.asset.thumbnails:
 	medium: 320x240
 	large: 580x400
 	big: 580x580
-	huge: 700x
+	huge: 900x
 	massive: 1024x768
 	
 app.asset.avatars:

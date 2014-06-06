@@ -65,8 +65,15 @@
 	$('.ui.computer.video').bind('click', function(){
 		$('.ui.videobox.modal').modal('show');
 	});
+	
+	var video_html = "";
+	if (browser.versions.ios){
+		 video_html += '<video width="100%" height="100%" poster="{{ app_url_packaged }}/images/video.jpg" autobuffer src="' + 'http://v.youku.com/player/getRealM3U8/vid/XNzA5ODI1Mjk2/type//video.m3u8"></video>';
+	} else {
+		video_html += '<video id="vv" width="100%" height="50%" poster="{{ app_url_packaged }}/images/video.jpg" controls="" autoplay="" name="media"><source src="http://v.youku.com/player/getRealM3U8/vid/XNzA5ODI1Mjk2/type//video.m3u8"></video>';    
+	
 	// 显示移动终端视频
-	$('#video-mobile').html(phenix.build_mobile_video('XNzA5ODI1Mjk2', '{{ app_url_packaged }}/images/video.jpg'));
+	$('#video-mobile').html(video_html);
 	
 	// 分享按钮
 	phenix.bind_share_list();
