@@ -8,7 +8,7 @@ class Sher_App_Action_Activity extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','goccia');
+	protected $exclude_method_list = array('execute','goccia','winners');
 
 	/**
 	 * 默认入口
