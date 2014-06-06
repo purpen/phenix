@@ -5,7 +5,6 @@
  */
 class Sher_App_Action_Asset extends Sher_App_Action_Base {
 	public $stash = array(
-		'id' => 0,
 		'asset_id' => '',
 	);
 	
