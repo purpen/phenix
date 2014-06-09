@@ -16,6 +16,10 @@ server {
             rewrite ^/home(.*)$ /app/site/index/home$1 last;
         }
 		
+		location /wxpay {
+            rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
+        }
+		
 		location /sale {
             rewrite ^/sale(.*)$ /app/site/sale$1 last;
             rewrite ^/sale/c(\d+)[/]?$ /app/site/sale?category_id=$1 last;
