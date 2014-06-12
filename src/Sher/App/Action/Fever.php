@@ -480,7 +480,6 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 分步骤保存信息
 		$data = array();
-		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['summary'] = $this->stash['summary'];
 		$data['category_id'] = $this->stash['category_id'];
@@ -502,6 +501,8 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->visitor->inc_counter('product_count', $data['user_id']);
 				
 			}else{
+				$data['_id'] = $id;
+				
 				$ok = $model->apply_and_update($data);
 			}
 			

@@ -1,5 +1,78 @@
 <?php
+/**
+ * 用户认证辅助方法
+ * @author purpen
+ */
 class Sher_Core_Helper_Auth {
+	/**
+	 * 新增微信用户
+	 * {
+	 *	    "subscribe": 1, 
+	 *	    "openid": "o6_bmjrPTlm6_2sgVt7hMZOPfL2M", 
+	 *	    "nickname": "Band", 
+	 *	    "sex": 1, 
+	 *	    "language": "zh_CN", 
+	 *	    "city": "广州", 
+	 *	    "province": "广东", 
+	 *	    "country": "中国", 
+	 *	    "headimgurl":    "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0", 
+	 *	   "subscribe_time": 1382694957
+	 *	}
+	 */
+	public static function create_weixin_user($open_id, $scene_id){
+		$options = array(
+			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
+			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
+			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
+			'partnerid'=>'',
+			'partnerkey'=>'',
+			'paysignkey'=>''
+		);
+		
+		// 检测是否存在用户
+		$user = new Sher_Core_Model_User();
+		$query = array(
+			'wx_open_id' => $open_id,
+		);
+		$result = $user->first($query);
+		// 已存在用户
+		if (!empty($result)) {
+			return $result['_id'];
+		}
+		
+		// 不存在该用户，根据open_id获取用户信息
+		$wx = new Sher_Core_Util_Wechat($options);
+		$wx_user = $wx->getUserInfo($open_id);
+		if (!$wx_user) {
+			Doggy_Log_Helper::warn('Weixin load user info is null: ['.$open_id.']!');
+			return false;
+		}
+		
+		// 自动注册用户
+		try {
+			$user_info = array(
+	            'account' => $wx_user['openid'],
+				'nickname' => $wx_user['nickname'],
+				'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
+				'wx_open_id' => $wx_user['openid'],
+				'sex' => $wx_user['sex'],
+	            'state' => Sher_Core_Model_User::STATE_OK,
+				'from_site' => Sher_Core_Model_User::FROM_WEIXIN,
+	        );
+			
+            $ok = $user->create($user_info);
+			if($ok){
+				return $user->id;
+			}
+			
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::warn('Weixin login and regsiter failed:'.$e->getMessage());
+			return false;
+		}
+		
+		return false;
+	}
+	
     /**
      * create a new authenticated session to the user
      *

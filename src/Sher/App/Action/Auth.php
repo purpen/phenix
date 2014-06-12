@@ -271,8 +271,5 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $invitation->mark_used($this->stash['invite_code'],$user_id);
     }
 	
-    protected function clear_auth_return_url() {
-        @setcookie('auth_return_url','',time()-259200,'/');
-    }
 }
 ?>

@@ -30,6 +30,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	const FROM_WEIBO = 2;
 	const FROM_QQ = 3;
 	const FROM_ALIPAY = 4;
+	const FROM_WEIXIN = 5;
 	
     protected $roles = array(
         'user' => self::ROLE_USER,
@@ -62,6 +63,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		# qq open
 		'qq_uid' => null,
 		'qq_access_token' => null,
+		
+		# weixin open
+		'wx_open_id' => null,
 		
         'last_login'    => 0,
 		'current_login' => 0,

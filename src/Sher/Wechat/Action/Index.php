@@ -78,7 +78,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	/**
 	 * 处理文本回复
 	 */
-	protected function handle_text($content){
+	protected function handle_text($content, $rev_data=array()){
 		Doggy_Log_Helper::warn("Handle wexin content[$content]!");
 		// 转换为小写
 		$content = strtolower($content);
@@ -86,6 +86,24 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		switch($content){
 			case 'go':
 				$result = $this->newest();
+				break;
+			case 'subscribe': // 扫描带参数二维码事件, 用户未关注时
+				$open_id = $rev_data['FromUserName'];
+				$scene_id = str_replace('qrscene_', '', $rev_data['EventKey']);
+				// 注册并实现登录
+				$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+				if ($user_id){
+					Sher_Core_Helper_Auth::create_user_session($user_id);
+				}
+				break;
+			case 'scan': // 扫描带参数二维码事件, 用户关注时
+				$open_id = $rev_data['FromUserName'];
+				$scene_id = $rev_data['EventKey'];
+				// 实现登录
+				$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+				if ($user_id){
+					Sher_Core_Helper_Auth::create_user_session($user_id);
+				}
 				break;
 			default:
 				$result = $this->newest();

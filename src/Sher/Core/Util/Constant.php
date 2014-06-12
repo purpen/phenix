@@ -42,6 +42,11 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	 */
 	const QQ_AUTO_PASSWORD = 'qq#2014';
 	
+	/**
+	 * 微信账户自动创建时默认设置密码
+	 */
+	const WX_AUTO_PASSWORD = 'wx#2014';
+	
 	
     /**
      * 已过期订单

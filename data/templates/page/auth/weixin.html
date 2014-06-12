@@ -1,0 +1,56 @@
+{%extends 'layout/auth.html'%}
+{% block title %}微信登录-{% endblock %}
+{% block page_js %}
+<script type="text/javascript">
+	var ajaxlock = false;
+	var ajaxhandle;
+	function synclogin(){
+		if (!ajaxlock) {
+			ajaxlock = true;
+			$.post('{{ app_url_action_base }}/weixin/login', {code:'{{ code }}'}, function(json){
+				console.log(json);
+				if (json.success) {
+					// 登录成功跳转
+					var redirect_url = json.redirect_url;
+					phenix.redirect(redirect_url);
+					
+					clearInterval(ajaxhandle);
+				}
+				ajaxlock = false;
+			}, 'json');
+		}
+	}
+</script>
+{% endblock %}
+
+{% block jquery %}
+	// ajaxhandle = setInterval("synclogin()", 5000);
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="center aligned column">
+		<div class="ui log-in">
+			<div class="ui top attached header logo">
+				<a href="{{ app_url_domain }}" title="返回首页">
+					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+				</a>
+			</div>
+			<div class="ui bottom attached segment">
+				<div class="center aligned ui header">微信里扫描以下二维码实现登陆</div>
+				<div id="content">
+					<img src="{{ qrimg }}" />
+				</div>
+				<p class="">微信提示: 验证成功后，本页面会自动刷新完成登录.</p>
+			</div>
+			<div class="sign-up">
+				<label>没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册" class="ui link" >立即注册</a></label>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+

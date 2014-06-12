@@ -21,6 +21,20 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 		$this->stash['css_'.$target] = $css_state;
 	}
 	
+	/**
+	 * 临时返回Url
+	 */
+	public function auth_return_url($default='/') {
+		return isset($_COOKIE['auth_return_url']) ? $_COOKIE['auth_return_url'] : $default;
+	}
+	
+	/**
+	 * 清空临时返回Url
+	 */
+    public function clear_auth_return_url() {
+        @setcookie('auth_return_url', '', time()-259200, '/');
+    }
+	
     /**
      * alias to_raw_json
      */

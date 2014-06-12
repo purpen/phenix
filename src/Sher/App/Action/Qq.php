@@ -16,7 +16,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
 	
 	/**
-	 * 微博登录
+	 * QQ登录
 	 */
 	public function execute(){
 		$qc = new Sher_Core_Helper_Qc();
@@ -96,7 +96,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 微博账号实现登录
+	 * QQ账号实现登录
 	 */
 	protected function login($access_token) {
         try {
