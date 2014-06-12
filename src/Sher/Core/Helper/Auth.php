@@ -37,7 +37,7 @@ class Sher_Core_Helper_Auth {
 		$result = $user->first($query);
 		// 已存在用户
 		if (!empty($result)) {
-			return $result['_id'];
+			return $result;
 		}
 		
 		// 不存在该用户，根据open_id获取用户信息
@@ -62,7 +62,7 @@ class Sher_Core_Helper_Auth {
 			
             $ok = $user->create($user_info);
 			if($ok){
-				return $user->id;
+				return $user->get_data();
 			}
 			
 		} catch (Sher_Core_Model_Exception $e) {

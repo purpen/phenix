@@ -155,12 +155,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		Doggy_Log_Helper::warn("Handle event subscribe [$scene_id]!");
 		
 		// 注册并实现登录
-		$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
-		if ($user_id){
-			Sher_Core_Helper_Auth::update_user_session($scene_id, $user_id);
-		}
+		$user = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+		if ($user){
+			$user_id = $user['_id'];
+			$nickname = $user['nickname'];
+			
+			Sher_Core_Helper_Auth::update_user_session($scene_id, $user['_id']);
+			
+			$subscribe = "微信通过验证！<br >您已授权从网页版登录到太火鸟，当前授权帐号信息：ID: ${user_id} <br >昵称：${nickname} 。<br >";
 		
-		return $this->welcome();
+			return $subscribe;
+		}
 	}
 	
 	/**
@@ -173,12 +178,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		Doggy_Log_Helper::warn("Handle event scan [$scene_id]!");
 		
 		// 实现登录
-		$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
-		if ($user_id){
+		$user = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+		if ($user){
+			$user_id = $user['_id'];
+			$nickname = $user['nickname'];
+			
 			Sher_Core_Helper_Auth::update_user_session($scene_id, $user_id);
-		}
+			
+			$welcome = "欢迎回来！<br >您在太火鸟的帐号信息：ID: ${user_id} <br >昵称：${nickname} 。<br >";
 		
-		return $this->welcome();
+			return $welcome;
+		}
 	}
 	
 	/**
