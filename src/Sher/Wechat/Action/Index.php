@@ -37,12 +37,12 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
+		$revcontent = $weObj->getRev()->getRevContent();
 		
 		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
-				$revcontent = $weObj->getRev()->getRevContent();
 				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				if (!empty($revcontent)){
 					$data = $this->handle_text($revcontent);
@@ -57,7 +57,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					$welcome = $this->welcome();
 					$result = $weObj->text($welcome)->reply(array(), true);
 				}else{
-					$data = $this->handle_event($event);
+					$data = $this->handle_event($event, $revcontent);
 					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){
 						$result = $weObj->text($data)->reply(array(), true);
 					}else{
@@ -87,24 +87,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			case 'go':
 				$result = $this->newest();
 				break;
-			case 'subscribe': // 扫描带参数二维码事件, 用户未关注时
-				$open_id = $rev_data['FromUserName'];
-				$scene_id = str_replace('qrscene_', '', $rev_data['EventKey']);
-				// 注册并实现登录
-				$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
-				if ($user_id){
-					Sher_Core_Helper_Auth::create_user_session($user_id);
-				}
-				break;
-			case 'scan': // 扫描带参数二维码事件, 用户关注时
-				$open_id = $rev_data['FromUserName'];
-				$scene_id = $rev_data['EventKey'];
-				// 实现登录
-				$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
-				if ($user_id){
-					Sher_Core_Helper_Auth::create_user_session($user_id);
-				}
-				break;
 			default:
 				$result = $this->newest();
 				break;
@@ -118,9 +100,12 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	/**
 	 * 消息事件
 	 */
-	protected function handle_event($event){
+	protected function handle_event($event, $rev_data=array()){
+		$event = $event['event'];
 		$key = $event['key'];
+		
 		Doggy_Log_Helper::warn("Handle event[$key]!");
+		
 		$result = array();
 		switch($key){
 			case 'MENU_KEY_SHOP_NEWEST':
@@ -136,9 +121,50 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			default:
 				break;
 		}
+		
+		// 扫描关注二维码
+		switch($event){
+			case 'subscribe':
+				$result = $this->handle_subscribe($rev_data);
+				break;
+			case 'scan':
+				$result = $this->handle_scan($rev_data);
+				break;
+		}
+		
 		Doggy_Log_Helper::warn("Handle event result[".json_encode($result)."]!");
 		
 		return $result;
+	}
+	
+	/**
+	 * 扫描带参数二维码事件, 用户未关注时
+	 */
+	protected function handle_subscribe($rev_data=array()){
+		$open_id = $rev_data['FromUserName'];
+		$scene_id = str_replace('qrscene_', '', $rev_data['EventKey']);
+		// 注册并实现登录
+		$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+		if ($user_id){
+			Sher_Core_Helper_Auth::update_user_session($scene_id, $user_id);
+		}
+		
+		return $this->welcome();
+	}
+	
+	/**
+	 * 扫描带参数二维码事件, 用户关注时
+	 */
+	protected function handle_scan($rev_data=array()){
+		$open_id = $rev_data['FromUserName'];
+		$scene_id = $rev_data['EventKey'];
+		// 实现登录
+		$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+		if ($user_id){
+			Sher_Core_Helper_Auth::update_user_session($scene_id, $user_id);
+		}
+		
+		return $this->welcome();
 	}
 	
 	/**

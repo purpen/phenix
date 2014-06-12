@@ -52,7 +52,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
         $sid = $service->session->id;
 		
 		if ($service->session->user_id && $service->session->serial_no == (int)$code){
-	        $redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($user_id));
+	        $redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($service->session->user_id));
 	        if (!empty($redirect_url)) {
 	            $this->clear_auth_return_url();
 	        }	

@@ -73,6 +73,32 @@ class Sher_Core_Helper_Auth {
 		return false;
 	}
 	
+	/**
+	 * 更新session
+	 */
+	public static function update_user_session($scene_id, $user_id) {
+		$session = new Sher_Core_Model_Session();
+		$query = array(
+			'serial_no' => (int)$scene_id,
+		);
+		$result = $session->first($query);
+		if (!empty($result)) {
+	        // default keep 30 days
+	        $ttl = Doggy_Config::get('app.session.auth_cookie_ttl',2592000);
+			$expiration = time() + $ttl;
+			
+	        $auth_token = new Sher_Core_Model_AuthToken();
+	        $auth_token->create(array('user_id' => (int)$user_id, 'ttl' => $expiration));
+	        $auth_sid = (string)$auth_token->id;
+			
+			
+			$session->user_id = (int)$user_id;
+			$session->is_login = true;
+			$session->auth_token = $auth_sid;
+			$session->save();
+		}
+	}
+	
     /**
      * create a new authenticated session to the user
      *
