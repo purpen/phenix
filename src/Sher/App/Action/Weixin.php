@@ -28,9 +28,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 				'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'], //填写高级调用功能的app id
 				'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'], //填写高级调用功能的密钥
 			);
-		
 			$wx = new Sher_Core_Util_Wechat($options);
-		
 			$result = $wx->getQRCode($scene_id);
 			if ($result){
 				$this->stash['qrimg'] = $wx->getQRUrl($result['ticket']);

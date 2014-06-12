@@ -619,7 +619,7 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 				return false;
 			}
 			$this->access_token = $json['access_token'];
-			$expire = $json['expires_in'] ? intval($json['expires_in'])-100 : 3600;
+			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
 			
 			// cache access_token
 			$redis->set('weixin_access_token', $json['access_token'], $expire);
