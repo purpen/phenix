@@ -2,7 +2,7 @@
 {% block title %}微信登录-{% endblock %}
 {% block page_js %}
 <script type="text/javascript">
-	var ajaxlock = false;
+	var ajaxlock = false, max_times = 0;
 	var ajaxhandle;
 	function synclogin(){
 		if (!ajaxlock) {
@@ -19,6 +19,12 @@
 				ajaxlock = false;
 			}, 'json');
 		}
+		// 最大重试 20 次
+		if (max_times > 20){
+			clearInterval(ajaxhandle);
+		}
+		
+		max_times += 1;
 	}
 </script>
 {% endblock %}

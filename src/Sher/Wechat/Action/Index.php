@@ -104,7 +104,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		$event = $event['event'];
 		$key = $event['key'];
 		
-		Doggy_Log_Helper::warn("Handle event[$key]!");
+		Doggy_Log_Helper::warn("Handle event key[$key]!");
 		
 		$result = array();
 		switch($key){
@@ -121,6 +121,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			default:
 				break;
 		}
+		
+		Doggy_Log_Helper::warn("Handle event[$event]!");
 		
 		// 扫描关注二维码
 		switch($event){
@@ -143,6 +145,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	protected function handle_subscribe($rev_data=array()){
 		$open_id = $rev_data['FromUserName'];
 		$scene_id = str_replace('qrscene_', '', $rev_data['EventKey']);
+		
+		Doggy_Log_Helper::warn("Handle event subscribe [$scene_id]!");
+		
 		// 注册并实现登录
 		$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
 		if ($user_id){
@@ -158,6 +163,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	protected function handle_scan($rev_data=array()){
 		$open_id = $rev_data['FromUserName'];
 		$scene_id = $rev_data['EventKey'];
+		
+		Doggy_Log_Helper::warn("Handle event scan [$scene_id]!");
+		
 		// 实现登录
 		$user_id = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
 		if ($user_id){
