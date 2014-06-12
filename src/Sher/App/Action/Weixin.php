@@ -27,9 +27,6 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 				'token'=>Doggy_Config::$vars['app.wechat.ser_token'], //填写你设定的key
 				'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'], //填写高级调用功能的app id
 				'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'], //填写高级调用功能的密钥
-				'partnerid'=>'', //财付通商户身份标识
-				'partnerkey'=>'', //财付通商户权限密钥Key
-				'paysignkey'=>'' //商户签名密钥Key
 			);
 		
 			$wx = new Sher_Core_Util_Wechat($options);
