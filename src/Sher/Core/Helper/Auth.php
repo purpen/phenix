@@ -77,6 +77,8 @@ class Sher_Core_Helper_Auth {
 	 * 更新session
 	 */
 	public static function update_user_session($scene_id, $user_id) {
+		Doggy_Log_Helper::warn('Update Weixin qrcode login, scene_id: ['.$scene_id.'], user_id: ['.$user_id.']');
+		
 		$session = new Sher_Core_Model_Session();
 		$query = array(
 			'serial_no' => (int)$scene_id,
@@ -84,7 +86,7 @@ class Sher_Core_Helper_Auth {
 		$result = $session->first($query);
 		if (!empty($result)) {
 	        // default keep 30 days
-	        $ttl = Doggy_Config::get('app.session.auth_cookie_ttl',2592000);
+	        $ttl = Doggy_Config::get('app.session.auth_cookie_ttl', 2592000);
 			$expiration = time() + $ttl;
 			
 	        $auth_token = new Sher_Core_Model_AuthToken();
@@ -92,10 +94,13 @@ class Sher_Core_Helper_Auth {
 	        $auth_sid = (string)$auth_token->id;
 			
 			
-			$session->user_id = (int)$user_id;
-			$session->is_login = true;
-			$session->auth_token = $auth_sid;
-			$session->save();
+			$result['user_id'] = (int)$user_id;
+			$result['is_login'] = true;
+			$result['auth_token'] = $auth_sid;
+			
+			Doggy_Log_Helper::warn('Update Weixin user session ['.json_encode($result).']');
+			
+			$session->save($result);
 		}
 	}
 	
