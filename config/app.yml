@@ -151,10 +151,10 @@ app.storage.sher:
 app.asset.thumbnails:
 	mini: 120x120
 	tiny: 160x120
-	small: 280x200
+	small: 280x210
 	medium: 320x240
-	large: 580x400
-	big: 580x580
+	large: 580x435
+	big: 700x525
 	huge: 900x
 	massive: 1024x768
 	
