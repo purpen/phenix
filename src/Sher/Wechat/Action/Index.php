@@ -63,7 +63,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
 						$result = $weObj->text($data)->reply(array(), true);
 					}else{
-						if ($event['event'] == 'subscribe'){ // 扫描二维码关注
+						if ($event['event'] == 'subscribe' || strtolower($event['event']) == 'scan'){ // 扫描二维码关注
 							$result = $weObj->text($data)->reply(array(), true);
 						} else {
 							$result = $weObj->news($data)->reply(array(), true);
@@ -162,7 +162,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			
 			Sher_Core_Helper_Auth::update_user_session($scene_id, $user['_id']);
 			
-			$subscribe = "微信通过验证！<br >您已授权从网页版登录到太火鸟，当前授权帐号信息：ID: ${user_id} <br >昵称：${nickname} 。<br >";
+			$subscribe = "微信通过验证！\n您已授权从网页版登录到太火鸟，当前授权帐号信息：ID: ${user_id} \n昵称：${nickname} 。\n";
 		
 			return $subscribe;
 		}
@@ -185,7 +185,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 			
 			Sher_Core_Helper_Auth::update_user_session($scene_id, $user_id);
 			
-			$welcome = "欢迎回来！<br >您在太火鸟的帐号信息：ID: ${user_id} <br >昵称：${nickname} 。<br >";
+			$welcome = "欢迎回来！\n您在太火鸟的帐号信息：ID: ${user_id}\n昵称：${nickname} 。\n";
 		
 			return $welcome;
 		}
