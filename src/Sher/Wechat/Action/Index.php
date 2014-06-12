@@ -40,6 +40,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		$revcontent = $weObj->getRev()->getRevContent();
 		
 		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."]!");
+		Doggy_Log_Helper::warn("Get  rev content [".json_encode($revcontent)."]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
@@ -58,10 +59,14 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					$result = $weObj->text($welcome)->reply(array(), true);
 				}else{
 					$data = $this->handle_event($event, $revcontent);
-					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){
+					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
 						$result = $weObj->text($data)->reply(array(), true);
 					}else{
-						$result = $weObj->news($data)->reply(array(), true);
+						if ($event['event'] == 'subscribe'){ // 扫描二维码关注
+							$result = $weObj->text($data)->reply(array(), true);
+						} else {
+							$result = $weObj->news($data)->reply(array(), true);
+						}
 					}
 				}
 				break;
@@ -122,8 +127,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 				break;
 		}
 		
-		Doggy_Log_Helper::warn("Handle event[$event]!");
-		
+		Doggy_Log_Helper::warn("Handle event [$event]!");
+		$event = strtolower($event);
 		// 扫描关注二维码
 		switch($event){
 			case 'subscribe':
