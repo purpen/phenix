@@ -37,13 +37,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
-		$revcontent = $weObj->getRev()->getRevContent();
 		
 		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."]!");
 		Doggy_Log_Helper::warn("Get  rev content [".json_encode($revcontent)."]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
+				$revcontent = $weObj->getRev()->getRevContent();
 				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				if (!empty($revcontent)){
 					$data = $this->handle_text($revcontent);
@@ -58,7 +58,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					$welcome = $this->welcome();
 					$result = $weObj->text($welcome)->reply(array(), true);
 				}else{
-					$data = $this->handle_event($event, $revcontent);
+					$rev_data = $weObj->getRev()->getRevData();
+					$data = $this->handle_event($event, $rev_data);
 					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
 						$result = $weObj->text($data)->reply(array(), true);
 					}else{
@@ -105,9 +106,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	/**
 	 * 消息事件
 	 */
-	protected function handle_event($event, $rev_data=array()){
-		$event = $event['event'];
-		$key = $event['key'];
+	protected function handle_event($evt, $rev_data=array()){
+		$event = $evt['event'];
+		$key = $evt['key'];
 		
 		Doggy_Log_Helper::warn("Handle event key[$key]!");
 		
