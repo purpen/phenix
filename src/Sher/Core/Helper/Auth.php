@@ -52,7 +52,7 @@ class Sher_Core_Helper_Auth {
 		try {
 			$user_info = array(
 	            'account' => $wx_user['openid'],
-				'nickname' => $wx_user['nickname'],
+				'nickname' => '微信用户['.$wx_user['nickname'].']',
 				'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
 				'wx_open_id' => $wx_user['openid'],
 				'sex' => $wx_user['sex'],
