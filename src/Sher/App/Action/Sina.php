@@ -142,7 +142,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 			
         } catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
-            return $this->ajax_json("注册失败:".$e->getMessage(), true);
+            return $this->display_note_page("注册失败:".$e->getMessage(), true);
         }
 		
 		$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
