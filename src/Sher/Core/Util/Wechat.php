@@ -1,7 +1,7 @@
 <?php
 /**
  *	微信公众平台PHP-SDK, 官方API部分
- *  @author  dodge <dodgepudding@gmail.com>
+ *  @author  purpen <purpen.w@gmail.com>
  *  @link https://github.com/dodgepudding/wechat-php-sdk
  *  @version 1.2
  *  usage:
