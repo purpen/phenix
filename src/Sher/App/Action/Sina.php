@@ -111,6 +111,14 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 					return $this->display_note_page('微博登录应用正在审核中，请耐心等待！');
 				}
 				
+				// 检查用户名是否唯一
+				$exist = $user->_check_name($weibo_info['screen_name']);
+				if ($exist) {
+					$user_info['nickname'] = $weibo_info['screen_name'];
+				} else {
+					$user_info['nickname'] = '微博用户['.$weibo_info['screen_name'].']';
+				}
+				
 				$user_info['sina_uid'] = $weibo_info['id'];
 				$user_info['sina_access_token'] = $token['access_token'];
 		
@@ -118,8 +126,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 				$user_info['account'] = $weibo_info['idstr'];
 				$user_info['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
 				$user_info['state'] = Sher_Core_Model_User::STATE_OK;
-		
-				$user_info['nickname'] = $weibo_info['screen_name'];
+				
 				$user_info['summary'] = $weibo_info['description'];
 				$user_info['sex'] = $weibo_info['gender'];
 				$user_info['city'] = $weibo_info['location'];

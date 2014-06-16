@@ -206,8 +206,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	/**
 	 * 检查昵称是否唯一
 	 */
-	protected function _check_name() {
-		$nickname = $this->data['nickname'];
+	public function _check_name($nickname=null) {
+		if (is_null($nickname)){
+			$nickname = $this->data['nickname'];
+		}
 		if(empty($nickname)){
 			return false;
 		}
