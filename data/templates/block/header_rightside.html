@@ -8,7 +8,7 @@
 <a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
 
 <div class="ui secondary user menu">
-	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}">
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta label">{{ items_count }}</label>
 		{% else %}
