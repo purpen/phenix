@@ -39,7 +39,7 @@ app.storage.sher:
         hash_dir: false
 		
 # 支付宝
-app.alipay.partner: '2088702162489557'
+app.alipay.partner: '2088411237666512'
 app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
 app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'
 
@@ -51,6 +51,10 @@ app.sinaweibo.callback_url: '{$app.url.action_base}/sina/authorize'
 # 淘宝
 app.taobao.key: '21781655'
 app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
+
+
+# 微信支付
+app.wechat.pay_sign_key: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
 
 # 七牛存储（生产环境使用云存储）
 app.url.qiniu.upload: 'http://up.qiniu.com'

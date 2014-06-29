@@ -62,8 +62,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'transfer' => '',
 		'transfer_time' => '',
 		
-		## 快递单号，发货时间
+		## 快递类型、快递单号，发货时间
 		
+		'express_caty' => '',
 		'express_no' => '',
 		'sended_date' => 0,
 		
@@ -86,9 +87,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'card_code' => '',
 		
 		## 订单状态
+		
 		'status' => 0,
 		
 		## 时间（完成）
+		
 		'finished_date' => 0,
 		
     );
@@ -102,12 +105,22 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	);
 	
 	protected function extra_extend_model_row(&$row) {
-		$row['status_label'] = $this->get_order_status_label($row['status']);
+		$row['view_url'] = Sher_Core_Helper_Url::order_view_url($row['rid']);
 		if ($row['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT && $row['payment_method'] == 'a'){
 			$row['pay_url'] = Doggy_Config::$vars['app.url.alipay'];
 		}
 		
+		$row['status_label'] = $this->get_order_status_label($row['status']);
 		$row['payment'] = $this->find_payment_methods($row['payment_method']);
+		// 快递公司
+		if (!empty($row['express_caty'])){
+			$row['express_company'] = $this->find_express_category($row['express_caty']);
+		}
+		// 设定送货时间
+		if (!empty($row['transfer_time'])){
+			$row['transfer_time_s'] = $this->find_transfer_time($row['transfer_time']);
+		}
+		
 	}
 	
 	/**
@@ -254,6 +267,24 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     );
 	
     /**
+     * 快递类型
+     */
+    private $express_caty = array(
+		array(
+			'id' => 's',
+			'title' => '申通快递',
+		),
+		array(
+			'id' => 'y',
+			'title' => '圆通快递',
+		),
+		array(
+			'id' => 'f',
+			'title' => '顺丰快递',
+		),
+    );
+	
+    /**
      * 重新计算订单的金额
      * 
      * @return string
@@ -276,6 +307,26 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		for($i=0;$i<count($this->invoice_caty);$i++){
 			if ($this->invoice_caty[$i]['id'] == $key){
 				return $this->invoice_caty[$i];
+			}
+		}
+		
+		return null;
+    }
+	
+    /**
+     * 返回对应的快递类型
+     * 
+     * @param $key
+     * @return mixed
+     */
+    public function find_express_category($key=null){
+        if(is_null($key)){
+            return $this->express_caty;
+        }
+		
+		for($i=0; $i<count($this->express_caty);$i++){
+			if ($this->express_caty[$i]['id'] == $key){
+				return $this->express_caty[$i];
 			}
 		}
 		
@@ -340,6 +391,92 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
         return null;
     }
+	
+    /**
+     * 设置订单的状态为已过期
+     */
+    public function setOrderExpired($id=null){
+    	$status = Sher_Core_Util_Constant::ORDER_EXPIRED;
+    	return $this->_updateOrderStatus($status, $id);
+    }
+	
+    /**
+     * 设置订单的状态为取消订单
+     */	
+    public function setOrderCanceled($id=null){
+    	$status = Sher_Core_Util_Constant::ORDER_CANCELED;
+    	return $this->_updateOrderStatus($status, $id);
+    }
+	
+    /**
+     * 设置订单的状态为等待付款
+     */
+    public function setWaitPayment($id=null){
+    	$status = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
+    	return $this->_updateOrderStatus($status, $id);
+    }
+	
+    /**
+     * 设置订单的状态为正在配货
+     */
+    public function setReadyGoods($id=null){
+    	$status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+        return $this->_updateOrderStatus($status, $id);
+    }
+	
+    /**
+     * 设置订单的状态为已完成状态
+     */
+    public function setOrderPublished($id=null){
+    	$status = Sher_Core_Util_Constant::ORDER_PUBLISHED;
+		return $this->_updateOrderStatus($status, $id);
+    }
+	
+    /**
+     * 更新订单的处理状态
+     */
+    protected function _updateOrderStatus($status, $id=null){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id)){
+            throw new Sher_Core_Model_Exception('Order id is Null');
+        }
+		
+		return $this->update_set($id, array('status' => (int)$status));
+    }
+	
+    /**
+     * 更新订单的支付状态
+     */
+    public function update_order_pay_status($id=null){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id)){
+            throw new Sher_Core_Model_Exception('Order id is Null');
+        }
+		
+		return $this->update_set($id, array('is_payed' => 1, 'payed_date' => time()));
+    }
+	
+	/**
+	 * 更新订单的已发货状态
+	 */
+	public function update_order_sended_status($id, $express_caty, $express_no){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id) || empty($express_caty) || empty($express_no)){
+            throw new Sher_Core_Model_Exception('Order_id, express_caty, express_no is Null');
+        }
+		
+		return $this->update_set($id, array(
+			'status' => (int)Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
+			'express_caty' => $express_caty, 
+			'express_no' => $express_no, 
+			'sended_date' => time()));
+	}
 	
 }
 ?>

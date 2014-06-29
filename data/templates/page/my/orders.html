@@ -2,13 +2,6 @@
 {% block title %}我的订单-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-	.ui.order.products.list > .item {
-		padding-left: 0;
-		padding-right: 0;
-	}
-	.ui.order.products.list > .item > .content {
-		margin-left: 0.5em;
-	}
 	
 </style>
 {% endblock %}
@@ -24,79 +17,108 @@
 			{% include "block/user/sub_menu.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我的订单</h2>
-			<div class="ui divider"></div>
-			{% order_list var:'list' user_id:user.id size:8 %}
+			
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="six wide column">
+						<h2 class="ui header">我的订单</h2>
+					</div>
+					<div class="right aligned ten wide column">
+						<div class="ui horizontal bulleted list">
+							<div class="item">
+								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭订单</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			{% order_list var:'list' user_id:user.id status:s size:10 %}
+			
 			{% for order in list.rows %}
-				<table class="ui celled table segment">
-				<thead>
-				  	<tr>
-						<th colspan="4">
-							<div class="ui horizontal bulleted list">
-							  	<div class="item">
-							      	订单号：{{ order.rid }}
-							  	</div>
-							  	<div class="item">
-							      	{{ order.addbook.name }} 
-							  	</div>
-							  	<div class="item">
-							      	下单时间：{{ order.created_on|date }}
-							  	</div>
-							</div>
-						</th>
-				  	</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<div class="ui divided order products list">
-								{% for item in order.items %}
-									{% product_list var:'product' sku:item.sku %}
-									<div class="item">
-										<a href="{{ product.view_url }}" class="ui cover image">
-								      		<img src="{{ product.cover.thumbnails.mini.view_url }}" />
-										</a>
-								      	<div class="content">
-								          	<div class="header">
-												<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
-											</div>
-								          	<p class="attribute">编号：{{ item.sku }}</p>
-								      	</div>
-									</div>
-								{% endfor %}
-							</div>
-						</td>
-						<td>
-							<p>
-								订单金额：{{ order.pay_money }}元
-							</p>
-							<p>
-								（运费：{{ order.freight }}元）
-							</p>
-						</td>
-						<td>
-							<p>
-								{{ order.status_label }}
-							</p>
-							<p>
-								{{ order.payment_method.name }}
-							</p>
-						</td>
-						<td>
-							<a href="" class="ui link">订单详情</a>
-							
-							{% if !order.is_payed %}
-							<a href="{{ order.pay_url }}?rid={{ order._id }}" class="ui magenta button">点击付款</a>
-							{% endif %}
+			<div class="ui top attached header">
+				<div class="ui horizontal bulleted list">
+				  	<div class="item">
+				      	订单号：{{ order.rid }}
+				  	</div>
+				  	<div class="item">
+				      	{{ order.addbook.name }} 
+				  	</div>
+				  	<div class="item">
+				      	下单时间：{{ order.created_on|date }}
+				  	</div>
+				</div>
+			</div>
+			<div class="middle aligned ui celled white grid">
+				<div class="row">
+					<div class="seven wide column">
+						<div class="ui divided order products list">
+							{% for item in order.items %}
+								{% product_list var:'product' product_id:item.sku %}
+								<div class="item">
+									<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+							      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+									</a>
+							      	<div class="content">
+							          	<div class="header">
+											<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+										</div>
+							          	<p class="attribute">编号：{{ item.sku }}</p>
+							      	</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="center aligned three wide column">
+						<p>
+							订单金额：{{ order.pay_money }} 元
+						</p>
+						<p>
+							<small>（运费：{{ order.freight }} 元）</small>
+						</p>
+						<p>
+							{{ order.payment.name }}
+						</p>
+					</div>
+					<div class="center aligned three wide column">
+						<p>
+							{{ order.status_label }}
+						</p>
 						
-							{% if order.status < 5 %}
-							<a href="" class="ui link">取消</a>
-							{% endif %}
-						</td>
-					</tr>
-				</tbody>
-			</table>
+						{% if !order.is_payed %}
+						<a href="{{ app_url_shopping }}/success?rid={{ order.rid }}" class="ui small magenta button">立即支付</a>
+						{% endif %}
+						
+					</div>
+					<div class="center aligned three wide column">
+						<p>
+							<a href="{{ order.view_url }}" class="ui link">订单详情 »</a>
+						</p>
+						
+						{% if order.status < 5 %}
+						<a href="" class="ui small gray button">取消</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<div class="ui segment">
+				<p>您还没有相关订单</p>
+			</div>
 			{% endfor %}
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>

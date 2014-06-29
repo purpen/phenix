@@ -1,0 +1,176 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	// 发布上架
+	$('.item.publish-onsale').bind('click', function(){
+		var selected_ids = [];
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择发布产品');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+	
+	// 删除产品
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的产品');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<div class="ui tool-box">
+		<div class="ui magenta labeled icon top left pointing dropdown button">
+		  	<i class="flat sort icon"></i>
+		  	<span class="text">
+				{% if !s %}全部订单{% endif %}
+				{% if s == 1 %}未支付订单{% endif %}
+				{% if s == 2 %}待发货订单{% endif %}
+				{% if s == 3 %}已发货订单{% endif %}
+				{% if s == 4 %}已完成订单{% endif %}
+			</span>
+		  	<div class="menu">
+				<a href="{{ app_url_admin_base }}/orders" class="ui item">
+					全部订单
+				</a>
+				<a href="{{ app_url_admin_base }}/orders?s=1" class="ui {% if s == 1 %}active{%endif%} item">
+					未支付订单
+				</a>
+				<a href="{{ app_url_admin_base }}/orders?s=2" class="ui {% if s == 2 %}active{%endif%} item">
+					待发货订单
+				</a>
+				<a href="{{ app_url_admin_base }}/orders?s=3" class="ui {% if s == 3 %}active{%endif%} item">
+					已发货订单
+				</a>
+				<a href="{{ app_url_admin_base }}/orders?s=4" class="ui {% if s == 4 %}active{%endif%} item">
+					已完成订单
+				</a>
+		  	</div>
+		</div>
+		
+		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
+			<div class="inline field">
+				<div class="ui icon input">
+	          		<input placeholder="Search..." type="text" name="search" />
+	          		<i class="flat search icon"></i>
+				</div>
+	        </div>
+		</form>
+	</div>
+	
+	{% order_list var:'list' user_id:user_id status:s size:10 %}
+	
+	{% for order in list.rows %}
+	<div class="ui top attached header">
+		<div class="ui horizontal bulleted list">
+		  	<div class="item">
+		      	订单号：{{ order.rid }}
+		  	</div>
+		  	<div class="item">
+		      	{{ order.addbook.name }} 
+		  	</div>
+		  	<div class="item">
+		      	下单时间：{{ order.created_on|date }}
+		  	</div>
+		</div>
+	</div>
+	<div class="middle aligned ui celled white grid">
+		<div class="row">
+			<div class="seven wide column">
+				<div class="ui divided order products list">
+					{% for item in order.items %}
+						{% product_list var:'product' product_id:item.sku %}
+						<div class="item">
+							<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+					      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+							</a>
+					      	<div class="content">
+					          	<div class="header">
+									<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+								</div>
+					          	<p class="attribute">编号：{{ item.sku }}</p>
+					      	</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="center aligned three wide column">
+				<p>
+					订单金额：{{ order.pay_money }} 元
+				</p>
+				<p>
+					<small>（运费：{{ order.freight }} 元）</small>
+				</p>
+				<p>
+					{{ order.payment.name }}
+				</p>
+			</div>
+			<div class="center aligned three wide column">
+				<p>
+					{% if order.status == 1 %}
+					<label class="ui orange label">{{ order.status_label }}</label>
+					{% endif %}
+					
+					{% if order.status == 10 %}
+					<label class="ui blue label">{{ order.status_label }}</label>
+					{% endif %}
+					
+					{% if order.status == 15 %}
+					<label class="ui magenta label">{{ order.status_label }}</label>
+					{% endif %}
+					
+					{% if order.status == 20 %}
+					<label class="ui green label">{{ order.status_label }}</label>
+					{% endif %}
+				</p>
+			</div>
+			<div class="center aligned three wide column">
+				<p>
+					<a href="{{ app_url_admin_base }}/orders/show?rid={{ order.rid }}" class="ui link">订单详情 »</a>
+				</p>
+				
+				{% if order.status < 5 %}
+				<a href="" class="ui small gray button">关闭</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	{% else %}
+	<div class="ui segment">
+		<p>还没有相关订单</p>
+	</div>
+	{% endfor %}
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{% include 'block/pager.html' %}
+	</div>
+	{% endif %}
+	
+{% endblock %}

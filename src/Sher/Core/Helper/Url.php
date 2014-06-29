@@ -166,6 +166,13 @@ class Sher_Core_Helper_Url {
     	return  sprintf(Doggy_Config::$vars['app.url.shop.view'], $id);
     }
 	
+	/**
+	 * 订单详情查看地址
+	 */
+    public static function order_view_url($rid){
+    	return  sprintf(Doggy_Config::$vars['app.url.my.order_view'], $rid);
+    }
+	
     /**
      * 他人喜欢的列表地址
      */

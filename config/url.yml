@@ -77,6 +77,8 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
 app.url.my.message:		'{$app.url.domain}/my/message'
+app.url.my.orders: '{$app.url.domain}/my/orders'
+app.url.my.order_view: '{$app.url.domain}/my/order_view?rid=%s'
 
 #个人主页
 app.url.user:			'{$app.url.domain}/user'

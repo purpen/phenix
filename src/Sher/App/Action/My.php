@@ -15,6 +15,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		'my_dashboard' => true,
 		'id' => null,
 		'view_page' => null,
+		's' => 0,
 	);
 	
 	protected $page_tab = 'page_my';
@@ -96,7 +97,41 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function orders(){
 		$this->set_target_css_state('user_orders');
+		$status = $this->stash['s'];
+		
+		switch($status){
+			case 1:
+				$this->set_target_css_state('nopayed');
+				break;
+			case 2: // 已关闭订单：取消的订单、过期的订单
+				$this->set_target_css_state('closed');
+				break;
+			default:
+				$this->set_target_css_state('all');
+				break;
+		}
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/orders?s=%s&page=#p#', $status);
+		
+		$this->stash['pager_url'] = $pager_url;
+		
 		return $this->to_html_page("page/my/orders.html");
+	}
+	
+	/**
+	 * 查看订单详情
+	 */
+	public function order_view(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		$this->stash['order_info'] = $order_info;
+		
+		return $this->to_html_page("page/my/order_view.html");
 	}
 	
 	/**

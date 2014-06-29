@@ -12,6 +12,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		'n'=>1, // 数量
 		's' => 1, // 型号
 		'page' => 1,
+		'payaway' => '', // 支付机构
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -350,10 +351,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	}
 	
 	/**
-	 * 下单成功，开始支付
+	 * 下单成功，选择支付方式，开始支付
 	 */
 	public function success(){
 		$rid = $this->stash['rid'];
+		$payaway = $this->stash['payaway'];
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
@@ -361,6 +363,18 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$order_info = $model->find_by_rid($rid);
 		
 		// 成功提交订单后，发送提醒邮件<异步进程处理>
+		
+		// 挑选支付机构
+		Doggy_Log_Helper::warn('Pay away:'.$payaway);
+		if (!empty($payaway)){
+			$pay_url = '';
+			switch($payaway){
+				case 'alipay':
+					$pay_url = Doggy_Config::$vars['app.url.alipay'].'?rid='.$rid;
+					break;
+			}
+			return $this->to_redirect($pay_url);
+		}
 		
 		$this->stash['order'] = $order_info;
 		

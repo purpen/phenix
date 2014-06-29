@@ -56,14 +56,13 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
      * @return string
      */
 	public function payment(){
-		print 'he';
 		$rid = $this->stash['rid'];
 		if (empty($rid)){
 			return $this->show_message_page('操作不当，订单号丢失！', true);
 		}
 		
 		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_id($rid);
+		$order_info = $model->find_by_rid($rid);
 		if (empty($order_info)){
 			return $this->show_message_page('抱歉，系统不存在该订单！', true);
 		}
@@ -74,8 +73,6 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->show_message_page('订单[$rid]已付款！', false);
 		}
 		
-		print_r($order_info);
-		
         // 支付类型
         $payment_type = "1";
 
@@ -83,14 +80,14 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
         $out_trade_no = $rid;
 
         // 订单名称，必填
-        $subject = '太火鸟创意商城';
+        $subject = '太火鸟商城'.$rid.'订单';
 
         // 付款金额，必填
         $total_fee = $order_info['pay_money'];
 
         // 订单描述
 		
-        $body = '人生是场大设计';
+        $body = '';
 		
         // 商品展示地址,需以http://开头的完整路径
         $show_url = Doggy_Config::$vars['app.url.shop'];
@@ -119,11 +116,9 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
 		);
 		
-		print_r($parameter);
-		
 		// 建立请求
 		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
-		//$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
+		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
 		echo $html_text;
 	}
     
@@ -133,7 +128,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function secrete_notify(){
 		// 计算得出通知验证结果
-		$alipayNotify = new Sher_Core_Util_AlipayNotify($alipay_config);
+		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
 		
 		if ($verify_result) {//验证成功
@@ -167,7 +162,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function direct_notify(){
 		// 计算得出通知验证结果
-		$alipayNotify = new Sher_Core_Util_AlipayNotify($alipay_config);
+		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
 		if($verify_result) { // 验证成功
 			// 商户订单号
@@ -181,7 +176,30 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 如果有做过处理，不执行商户的业务程序
+				$model = new Sher_Core_Model_Orders();
+				$order_info = $model->find_by_rid($out_trade_no);
+				if (empty($order_info)){
+					return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
+				}
+				$status = $order_info['status'];
+		
+				// 验证订单是否已经付款
+				if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+					$order_id = (string)$order_info['_id'];
+					
+					// 设置付款成功
+					$model->update_order_pay_status($order_id);
+					
+					// 设置正在配货中
+					$model->setReadyGoods($order_id);
+					
+				} else {
+					// do nothing
+				}
+				// 跳转订单详情
+				$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
 				
+				return $this->to_redirect($order_view_url);
 			}else{
 				echo "trade_status=".$_GET['trade_status'];
 			}

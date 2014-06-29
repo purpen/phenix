@@ -45,38 +45,84 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	
+	// 跳转支付
+	$('.ui.next-pay.button').click(function(){
+		
+	});
 {% endblock %}
 
 {% block content %}
 <div class="cart">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui center aligned column">
-				<div class="ui three steps">
-				  	<div class="ui active step">
-				      	<span class="number">1</span>
-						<span class="title">我的购物车</span>
-				  	</div>
-				  	<div class="ui active step">
-				      	<span class="middle number">2</span>
-						<span class="title">填写核对订单信息</span>
-				  	</div>
-				  	<div class="ui active step">
-				    	<span class="number">3</span>
-						<span class="title">支付订单</span>
-				  	</div>
+	<form id="ui pay form" method="post" action="#" target="_blank">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<div class="ui three steps">
+					  	<div class="ui active step">
+					      	<span class="number">1</span>
+							<span class="title">我的购物车</span>
+					  	</div>
+					  	<div class="ui active step">
+					      	<span class="middle number">2</span>
+							<span class="title">填写核对订单信息</span>
+					  	</div>
+					  	<div class="ui active step">
+					    	<span class="number">3</span>
+							<span class="title">支付订单</span>
+					  	</div>
+					</div>
 				</div>
 			</div>
-		</div>
 		
-		<div class="row">
-			<div class="ui column">
-				<h3 class="ui header">订单已提交成功，请尽快付款。</h3>
-				<p>你的订单号: <span class="pri_red">{{ order.rid }}</span> 应付金额: <span class="pri_red">{{ order.pay_money }}</span>元  支付方式：<span class="pri_org">{{ order.payment.name }}</span></p>
+			<div class="row">
+				<div class="ui column">
 				
+					<div class="ui segment">
+						<h3 class="ui header">订单已提交成功，请尽快付款。</h3>
+						<p>你的订单号: <span class="pri_red">{{ order.rid }}</span> 应付金额: <span class="pri_red">{{ order.pay_money }}</span>元  支付方式：<span class="pri_org">{{ order.payment.name }}</span></p>
+					</div>
+			
+					<h3 class="ui header">选择支付方式</h3>
+				
+					<div class="ui segment">
+				
+						<div class="ui grid">
+							<div class="four wide column">
+								<h3>支付平台</h3>
+								<p>手机等大额支付推荐使用支付宝快捷支付</p>
+							</div>
+							<div class="twelve wide column">
+							    <div class="ui horizontal list">
+								  	<div class="item">
+										<div class="ui radio checkbox">
+											<input type="radio" value="alipay" name="payaway"> 
+											<label><img alt="alipay" src="http://p.www.xiaomi.com/images/payOnline_zfb.gif"></label>
+										</div>
+								  	</div>
+								  	<div class="item">
+										<div class="ui radio checkbox">
+											<input type="radio" value="netpay" name="payaway"> 
+											<label><img alt="netpay" src="http://p.www.xiaomi.com/images/cft.gif"></label>
+										</div>
+								  	</div>
+								</div>
+							</div>
+						</div>
+				
+					</div>
+				
+					<div class="ui grid">
+						<div class="row">
+							<div class="right aligned column">
+								<input type="submit" class="ui active magenta next-pay button" value="下一步" />
+							</div>
+						</div>
+					</div>
+				
+				</div>
 			</div>
+		
 		</div>
-	</div>
+	</form>
 </div>
 {% endblock %}
