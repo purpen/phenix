@@ -8,31 +8,146 @@
 	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 	.clearfix {display: inline-table; +display:inline-block;}
 	
-	.ui.video {
+	.dm.page {
+		margin-top: -2em;
+	}
+	.ui.video.grid {
 		background: url("{{ app_url_packaged }}/images/product/dm-video.jpg") no-repeat scroll center top / cover #565960;
+	}
+	.ui.video.grid .content {
+		margin: 10% 15% 0%;
+		color: #fff;
 	}
 	.ui.banner {
 	    background: url("{{ app_url_packaged }}/images/product/dm-banner.jpg") no-repeat scroll center top / cover #565960;
 	    color: #222;
 	}
+	.ui.banner .content {
+		margin: 15.5% auto;
+	}
+	.ui.banner .content h3 {
+		visibility: hidden;
+	}
+	.ui.feature.grid {
+	    background: url("{{ app_url_packaged }}/images/product/dm-feature01.png") no-repeat scroll center top / cover #565960;
+	    color: #222;
+		padding: 6% 25% 10%;
+	}
+	.ui.feature.grid .content h2{
+		color: rgb(64,105,166);
+		margin: 10px 0px 0px;
+		font-size: 28px;
+	}
+	.ui.feature.grid .content span{
+		font-size: 18px;
+	}
+	.ui.feature.grid .content p{
+		width: 60%;
+		font-size: 14px;
+		padding: 10px 0;
+		font-weight: bold;
+		line-height: 20px;
+		border-top: 1px solid rgb(64,105,166);
+		border-bottom: 1px solid rgb(64,105,166);
+	}
+	.ui.feature01.grid {
+	    background: url("{{ app_url_packaged }}/images/product/dm-feature02.jpg") no-repeat scroll center top / cover #565960;
+	}
+	.ui.feature01.grid .content {
+		margin-left: 60%;
+		font-size: 14px;
+		line-height: 20px;
+	}
+	.ui.feature01.grid .content .one {
+		padding: 10px 0;
+		font-weight: bold;
+		color: rgb(64,105,166);
+		border-top: 1px solid rgb(64,105,166);
+		border-bottom: 1px solid rgb(64,105,166);
+	}
+	.ui.feature2.grid {
+	    background: url("{{ app_url_packaged }}/images/product/dm-feature2.jpg") no-repeat scroll center top / cover #565960;
+		padding: 6% 30%;
+	}
+	.ui.feature2.grid .content {
+		visibility: hidden;
+	}
 	
+	.ui.function.grid {
+		background: url("{{ app_url_packaged }}/images/product/010.png") no-repeat scroll right center rgb(255, 255, 255);
+		height: 270px;
+	}
+	.ui.function.grid .content {
+		padding-left: 15%;
+	}
+	.ui.function.grid .content h1,
+	.ui.function.grid .content p {
+		margin: 0px;
+	}
+	
+	.ui.f2.grid {
+		background: url("{{ app_url_packaged }}/images/product/11.png") no-repeat scroll left center rgb(255, 255, 255);
+		height: 270px;
+	}
+	.ui.f3.grid {
+		background: url("{{ app_url_packaged }}/images/product/12.png") no-repeat scroll right center rgb(255, 255, 255);
+		height: 274px;
+	}
+	.ui.f4.grid {
+		background: url("{{ app_url_packaged }}/images/product/13.png") no-repeat scroll left center rgb(255, 255, 255);
+		height: 270px;
+	}
+	.ui.f5.grid {
+		background: url("{{ app_url_packaged }}/images/product/14.png") no-repeat scroll right center rgb(255, 255, 255);
+		height: 270px;
+	}
+	.ui.f2.grid .content,
+	.ui.f4.grid .content {
+		padding-left: 45%;
+	}
+	
+	.ui.home.grid {
+		background: url("{{ app_url_packaged }}/images/product/15.png") no-repeat scroll center top / cover #565960;
+		color: #444;
+	}
+	.ui.home.grid .content {
+		margin: 18% 6% 2%;
+	}
+	.ui.home.grid .content h1,
+	.ui.home.grid .content p {
+		margin-bottom: 0rem;
+		margin-top: 0.25rem;
+	}
+	.ui.h2.grid {
+		background: url("{{ app_url_packaged }}/images/product/16.png") no-repeat scroll center top / cover #565960;
+	}
+	.ui.h2.grid .content {
+		margin: 15% 6% 5% 60%;
+	}
+	.ui.h3.grid {
+		background: url("{{ app_url_packaged }}/images/product/17.png") no-repeat scroll center top / cover #565960;
+	}
+	.ui.h3.grid .content {
+		margin: 20% 6% 5% 30%;
+	}
+	.ui.h4.grid {
+		background: url("{{ app_url_packaged }}/images/product/18.png") no-repeat scroll center top / cover #565960;
+	}
+	.ui.h4.grid .content {
+		margin: 15% 6% 5% 70%;
+	}
 	.ui.responsive.report.grid {
-		padding: 5% 10% 0;
+		padding: 4% 20%;
 	}
-	.ui.responsive.report .item {
-		float: left;
+	.ui.param.grid {
+		padding: 0;
 	}
-	
 	.ui.responsive.team.grid {
-		padding: 5% 10% 0;
+		padding: 2% 8%;
+		line-height: 20px;
 	}
-	
 	.ui.items > .item {
 	  	font-size: 0.875rem;
-	}
-	
-	.ui.responsive.param.grid {
-		padding: 5% 10%;
 	}
 	.ui.param .blue {
 		color: #48a6d1;
@@ -47,12 +162,11 @@
 	.ui.team .dark-blue.header {
 		color: #006699;
 	}
+	.ui.responsive.four.grid {
+		padding: 0 9%;
+	}
 	
 	@media only screen and (max-width: 767px) {
-		.ui.two.column.grid > .row > .column, .ui.two.column.grid > .column, .ui.grid > .two.column.row > .column,
-		.ui.four.column.grid > .row > .column, .ui.four.column.grid > .column, .ui.grid > .four.column.row > .column {
-			margin-bottom: 1.5em;
-		}
 		.ui.responsive.grid {
 		    padding: 0;
 		}
@@ -62,15 +176,31 @@
 		.ui.responsive.four.grid {
 			padding: 0 4.55%;
 		}
-		
 		.ui.video {
 			background: url("{{ app_url_packaged }}/images/product/dm-m-video.jpg") no-repeat scroll center top / cover #565960;
 		}
-		
+		.ui.video h3.ui.header {
+			font-size: 0.875rem;
+		}
+		.ui.video .play.icon:before {
+			font-size: 5rem;
+		}
+		.ui.video.grid .content {
+			margin: 10% 15% 0;
+			padding-top: 10%;
+		}
+		.ui.responsive.report.grid {
+			padding: 4% 8%;
+		}
+		.ui.responsive.team.grid {
+			padding: 5% 8%;
+		}
 		.ui.items > .item {
 			font-size: 0.675rem;
 		}
-		
+		.ui.two.items > .item {
+			width: 100%;
+		}
 		.dm.page .ui.share.block {
 		    padding: 2.5% 0 10.5%;
 		}
@@ -81,30 +211,8 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	// 显示视频框
-	$('.ui.computer.video').bind('click', function(){
-		$('.ui.videobox.modal').modal('show');
-	});
-	
-	// 显示移动端视频
-	var player = new YKU.Player('video-mobile',{
-		styleid: '1',
-		client_id: '4128f4a10a97103a',
-		vid: 'XNzE2ODY0NDM2',
-		events:{
-			onPlayStart: function(){ 
-				$('#video-mobile').css('visibility', 'visible');
-				$('.play.icon').fadeOut();
-			}
-		}
-	});
-	
-	$('.ui.tablet.mobile.video').bind('click', function(){
-		player.playVideo();
-	});
-	
 	// 分享按钮
-	var pic_url = '{{ app_url_packaged }}/images/wx-banner.jpg';
+	var pic_url = '{{ app_url_packaged }}/images/product/dm-m-banner.jpg';
 	phenix.bind_share_list(pic_url);
 	
 	// 生成二维码
@@ -114,14 +222,13 @@
 		$('.ui.qrcode.modal').modal('show');
 		return false;
 	});
-	
 {% endblock %}
 
 {% block content %}
 <div class="dm page">
-	<section class="ui white backgroud title computer tablet only block">
+	<section class="ui white backgroud title block">
 		<div class="ui middle aligned responsive grid">
-			<div class="computer only two column row">
+			<div class="two column row">
 				<div class="column">
 					<h3 class="ui header">
 						造梦者一代 世界首款革命性智能空气净化器
@@ -139,21 +246,158 @@
 		</div>
 	</section>
 	
-	<section class="ui video center aligned tablet mobile only grid">
-		<div class="column ui mask">
-			<i class="flat play icon"></i>
-			<div id="video-mobile" style="width:100%;height:400px"></div>
-		</div>
-	</section>
-	
 	<section class="ui responsive banner computer only grid">
 		<div class="column">
 			<div class="content">
 				<h3>造梦者一代</h3>
 				<h3>世界首款革命性</h3>
+				<h3>智能空气净化器</h3>
+				<h3>永久无需更换耗材</h3>
 			</div>
 		</div>
 	</section>
+	
+	<section class="ui responsive feature computer only grid">
+		<div class="column">
+			<div class="content">
+				<h2>特色1 <span>Feature</span></h2>
+				<h2>远程智能控制·省时省心</h2>
+				<p>出差在外，不在她身边，只要手机一按，造梦者帮您随时呵护</p>
+			</div>
+		</div>
+	</section>	
+	
+	<section class="ui responsive feature01 computer only grid">
+		<div class="column">
+			<div class="content">
+				<p class="one">下班回家的路上，只要手机一按，回家便能享受清新的空气</p>
+				<a href="https://itunes.apple.com/us/app/dream-maker/id810806125?ls=1&mt=8" class="ui link" target="_blank">
+					<img src="{{ app_url_packaged }}/images/product/ios.png">
+				</a>
+				<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.tw.dm&g_f=991653" class="ui link" target="_blank">
+					<img src="{{ app_url_packaged }}/images/product/android.png">
+				</a>
+				<p>
+					扫描机身二维码，或登录官网<a href="http://www.dm-maker.com/pcapp.html" class="ui link" target="_blank">http://www.dm-maker.com/pcapp.html</a>即可下载app，开启您的清新生活！
+				</p>
+				<img src="{{ app_url_packaged }}/images/product/wifi.png" alt="太火鸟 造梦者" />
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive feature2 computer only grid">
+		<div class="column">
+			<div class="content">
+				<h2>特色2 <span>Feature</span></h2>
+				<h2>永久无需更换耗材·一机永逸</h2>
+				<p>省钱免更换，冲洗晾干装置即可，可反复使用，无需更换</p>
+				<p>
+				   传统HEPA式净化器<br />
+ 				   4 个月换一次<br />
+				   一年换 3 次<br />
+				   一年耗材花费 600X3=1800 元<br />
+				   年耗材花费 1800X3=5400 元
+			    </p>
+			   	<p>
+					Dream Maker 静电式智能空气净化器
+					3年可省 5400元
+				</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive function computer only white background grid">
+		<div class="column">
+			<div class="content">
+				<img src="{{ app_url_packaged }}/images/product/dm-function01.png" class="ui image" />
+				<h1 class="ui header">静电除尘</h1>
+				<p>通过ESP静电技术收集PM2.5；</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive function f2 computer only white background grid">
+		<div class="column">
+			<div class="content">
+				<img src="{{ app_url_packaged }}/images/product/02.png" class="ui image" />
+				<h1 class="ui header">三重杀菌</h1>
+				<p>通过三重杀菌技术（6000V高压、光触媒、紫外线）</p>
+				<p>来灭杀各种有害病菌；</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive function f3 computer only white background grid">
+		<div class="column">
+			<div class="content">
+				<img src="{{ app_url_packaged }}/images/product/03.png" class="ui image" />
+				<h1 class="ui header">分解毒气</h1>
+				<p>通过RCD纳米技术分解甲醛，臭氧等有害气体，</p>
+				<p>还原甲醛 为二氧化碳和水分子，还原臭氧为氧气；</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive function f4 computer only white background grid">
+		<div class="column">
+			<div class="content">
+				<img src="{{ app_url_packaged }}/images/product/04.png" class="ui image" />
+				<h1 class="ui header">负离子净化</h1>
+				<p>负离子群技术，释放负离子清新空气改善睡眠质量；</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive function f5 computer only white background grid">
+		<div class="column">
+			<div class="content">
+				<img src="{{ app_url_packaged }}/images/product/05.png" class="ui image" />
+				<h1 class="ui header">高精度监测</h1>
+				<p>世界领先高精度传感器自动检测PM2.5、CO2、<br />温度、湿度， 并实时反馈到手机造梦者。</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive home computer only grid">
+		<div class="column">
+			<div class="content">
+				<h1 class="ui header">客厅</h1>
+				<p>减少污染 拥有舒适环境</p>
+				<p>吸附空气中的有害物质</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive home h2 computer only grid">
+		<div class="column">
+			<div class="content">
+				<h1 class="ui header">卧室</h1>
+				<p>改善睡眠 提高睡眠质量</p>
+				<p>吸附空气中的有害物质</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive home h3 computer only grid">
+		<div class="column">
+			<div class="content">
+				<h1 class="ui header">书房</h1>
+				<p>清新空气 增添阅读趣味</p>
+				<p>书香四溢，下笔如有神</p>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive home h4 computer only grid">
+		<div class="column">
+			<div class="content">
+				<h1 class="ui header">办公室</h1>
+				<p>清新空气 提高工作效率</p>
+				<p>有效消除空气中的异味和烟尘</p>
+			</div>
+		</div>
+	</section>
+		
 	
 	<section class="ui responsive mobile only grid">
 		<div class="row">
@@ -181,7 +425,7 @@
 		</div>
 	</section>
 	
-	<section class="ui report responsive mobile only white background grid">
+	<section class="ui report responsive white background grid">
 		<div class="center aligned row">
 			<div class="column">
 				<div class="ui two items">
@@ -194,21 +438,22 @@
 						<img src="{{ app_url_packaged }}/images/product/dm-m-report02.jpg"/>
 					</div>
 				</div>
-			</div>
-		</div>
-	</section>
-	
-	<section class="ui report responsive mobile only white background grid">
-		<div class="center aligned row">
-			<div class="column">
-				<h3 class="ui header">技术检测</h3>
-				<p>经国家室内环境与室内环保产品质量监督检测中心在30平方的密闭空间仓检测结果如下：</p>
 				
+				<div class="content">
+					<h3 class="ui header">技术检测</h3>
+					<p>经国家室内环境与室内环保产品质量监督检测中心在30平方的密闭空间仓检测结果如下：</p>
+					<div class="ui images">
+						<img src="{{ app_url_packaged }}/images/product/001.png" class="ui image" />
+						<img src="{{ app_url_packaged }}/images/product/002.png" class="ui image" />
+						<img src="{{ app_url_packaged }}/images/product/003.png" class="ui image" />
+						<img src="{{ app_url_packaged }}/images/product/004.png" class="ui image" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="ui event responsive grid">
+	<section class="ui event responsive white background grid">
 		<div class="center aligned row">
 			<div class="column">
 				<div class="ui three items">
@@ -414,21 +659,12 @@
 		</div>
 	</section>
 	
-	<section class="ui responsive mobile only grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui images">
-					<img src="{{ app_url_packaged }}/images/product/dm-m-team.jpg" class="ui image" />
-				</div>
-			</div>
-		</div>
-	</section>
-	
 	<section class="ui team responsive white background grid">
 		<div class="row">
 			<div class="column">
 				<div class="content">
 					<h3 class="ui dark-blue header">团队介绍</h3>
+					<img src="{{ app_url_packaged }}/images/product/dm-team.png" class="ui image" />
 					<p>Dream Maker的精英团队均来自德国，是最具创意与实力的团队，拥有无限梦想、激情与活力，作为根植于本土的第一代工业设计探索者，以自身独特的设计理念和创新体系，几乎囊括了国内工业设计界的所有荣誉，更多次在国际设计舞台上获得德国IF奖、德国红点奖等至高无上的设计殊荣。</p>
 					<p>[太火鸟]taihuoniao.com致力于帮助设计师和创意者实现商业价值，是中国顶尖的创新产品孵化器兼原创产品社会化电商平台。本次，太火鸟与Dream Maker强强联合，希望借助京东众筹，将中国最优秀的创新产品推向全国，推向世界，使消费者实现生活之美，真正做到设计为人民服务。让我们一起去发现、去支持、去分享，用创意和梦想改变世界。</p>
 					
@@ -456,7 +692,7 @@
 	<section class="ui white backgroud big preorder block">
 		<div class="ui responsive four column grid">
 			<div class="row">
-				<div class="center aligned active column">
+				<div class="center aligned column">
 					<div class="ui segment level">
 						<h3 class="ui header">造梦者 1台 <small>(限量10位)</small></h3>
 					
@@ -470,14 +706,14 @@
 						</div>
 					
 						<div class="actions">
-							<a class="ui gray button" href="http://z.jd.com/project/details/34.html" target="_blank">
-								 现在预定
-							</a>
-							<p class="small">已有0位预购</p>
+							<button class="ui gray disabled button">
+								 限额已满
+							</button>
+							<p class="small">已有10位预购</p>
 						</div>
 					</div>
 				</div>
-				<div class="center aligned column">
+				<div class="center aligned active column">
 					<div class="ui segment level">
 						<h3 class="ui header">造梦者 1台 <small>(限量700位)</small></h3>
 					
@@ -494,7 +730,7 @@
 							<a class="ui gray button" href="http://z.jd.com/project/details/34.html" target="_blank">
 								 现在预定
 							</a>
-							<p class="small">已有0位预购</p>
+							<p class="small">已有5位预购</p>
 						</div>
 					</div>
 				</div>
@@ -571,4 +807,5 @@
 	</section>
 	
 </div>
+{% include "block/qrcode.html" %}
 {% endblock %}
