@@ -190,6 +190,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $total_money = $cart->getTotalAmount();
         $items_count = $cart->getItemCount();
 		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
 		try{
 			
 			// 预生成临时订单
@@ -244,6 +248,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
 		}
+		
+		$this->stash['provinces'] = $provinces;
 		
 		$this->set_extra_params();
 		

@@ -1,0 +1,574 @@
+{%extends 'layout/board.html'%}
+{% block title %}造梦者一代 世界首款革命性智能空气净化器永久无需更换耗材-{% endblock %}
+{% block page_js %}
+<script type="text/javascript" src="http://player.youku.com/jsapi"></script>
+{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.clearfix:after{ content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+	.clearfix {display: inline-table; +display:inline-block;}
+	
+	.ui.video {
+		background: url("{{ app_url_packaged }}/images/product/dm-video.jpg") no-repeat scroll center top / cover #565960;
+	}
+	.ui.banner {
+	    background: url("{{ app_url_packaged }}/images/product/dm-banner.jpg") no-repeat scroll center top / cover #565960;
+	    color: #222;
+	}
+	
+	.ui.responsive.report.grid {
+		padding: 5% 10% 0;
+	}
+	.ui.responsive.report .item {
+		float: left;
+	}
+	
+	.ui.responsive.team.grid {
+		padding: 5% 10% 0;
+	}
+	
+	.ui.items > .item {
+	  	font-size: 0.875rem;
+	}
+	
+	.ui.responsive.param.grid {
+		padding: 5% 10%;
+	}
+	.ui.param .blue {
+		color: #48a6d1;
+	}
+	.ui.param .blue.background {
+		background-color: #48a6d1;
+		color: #fff;
+	}
+	.ui.param .center.aligned {
+		text-align: center;
+	}
+	.ui.team .dark-blue.header {
+		color: #006699;
+	}
+	
+	@media only screen and (max-width: 767px) {
+		.ui.two.column.grid > .row > .column, .ui.two.column.grid > .column, .ui.grid > .two.column.row > .column,
+		.ui.four.column.grid > .row > .column, .ui.four.column.grid > .column, .ui.grid > .four.column.row > .column {
+			margin-bottom: 1.5em;
+		}
+		.ui.responsive.grid {
+		    padding: 0;
+		}
+		.ui.grid > .column, .ui.grid > .row > .column {
+			padding: 0;
+		}
+		.ui.responsive.four.grid {
+			padding: 0 4.55%;
+		}
+		
+		.ui.video {
+			background: url("{{ app_url_packaged }}/images/product/dm-m-video.jpg") no-repeat scroll center top / cover #565960;
+		}
+		
+		.ui.items > .item {
+			font-size: 0.675rem;
+		}
+		
+		.dm.page .ui.share.block {
+		    padding: 2.5% 0 10.5%;
+		}
+	}
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示视频框
+	$('.ui.computer.video').bind('click', function(){
+		$('.ui.videobox.modal').modal('show');
+	});
+	
+	// 显示移动端视频
+	var player = new YKU.Player('video-mobile',{
+		styleid: '1',
+		client_id: '4128f4a10a97103a',
+		vid: 'XNzE2ODY0NDM2',
+		events:{
+			onPlayStart: function(){ 
+				$('#video-mobile').css('visibility', 'visible');
+				$('.play.icon').fadeOut();
+			}
+		}
+	});
+	
+	$('.ui.tablet.mobile.video').bind('click', function(){
+		player.playVideo();
+	});
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/wx-banner.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/dm'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="dm page">
+	<section class="ui white backgroud title computer tablet only block">
+		<div class="ui middle aligned responsive grid">
+			<div class="computer only two column row">
+				<div class="column">
+					<h3 class="ui header">
+						造梦者一代 世界首款革命性智能空气净化器
+					</h3>
+				</div>
+				<div class="right aligned column">
+					<div class="ui divided horizontal list">
+					  	<div class="item">功能</div>
+					  	<div class="item">参数</div>
+						<div class="item">分享</div>
+					</div>
+					<a href="#.preorder" class="ui active magenta button">现在预订</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui video center aligned tablet mobile only grid">
+		<div class="column ui mask">
+			<i class="flat play icon"></i>
+			<div id="video-mobile" style="width:100%;height:400px"></div>
+		</div>
+	</section>
+	
+	<section class="ui responsive banner computer only grid">
+		<div class="column">
+			<div class="content">
+				<h3>造梦者一代</h3>
+				<h3>世界首款革命性</h3>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive mobile only grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="ui images">
+					<img src="{{ app_url_packaged }}/images/product/dm-m-banner.jpg" class="ui image" />
+					
+					<img src="{{ app_url_packaged }}/images/product/dm-m-feature01.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-feature0102.jpg" class="ui image" />
+					
+					<img src="{{ app_url_packaged }}/images/product/dm-m-pollute.jpg" class="ui image" alt="环境污染" />
+					
+					<img src="{{ app_url_packaged }}/images/product/dm-m-function01.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-function02.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-function03.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-function04.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-function05.jpg" class="ui image" />
+					
+					<img src="{{ app_url_packaged }}/images/product/dm-m-home01.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-home02.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-home03.jpg" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/product/dm-m-home04.jpg" class="ui image" />
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui report responsive mobile only white background grid">
+		<div class="center aligned row">
+			<div class="column">
+				<div class="ui two items">
+					<div class="item">
+						<h3 class="ui header">国内权威质检</h3>
+						<img src="{{ app_url_packaged }}/images/product/dm-m-report01.jpg" />
+					</div>
+					<div class="item">
+						<h3 class="ui header">德国权威质检</h3>
+						<img src="{{ app_url_packaged }}/images/product/dm-m-report02.jpg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui report responsive mobile only white background grid">
+		<div class="center aligned row">
+			<div class="column">
+				<h3 class="ui header">技术检测</h3>
+				<p>经国家室内环境与室内环保产品质量监督检测中心在30平方的密闭空间仓检测结果如下：</p>
+				
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui event responsive grid">
+		<div class="center aligned row">
+			<div class="column">
+				<div class="ui three items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/product/dm-m-event01.jpg" class="ui image" />
+						<h3>钟南山院士听取造梦者成果汇报</h3>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/product/dm-m-event02.jpg" class="ui image" />
+						<h3>钟南山院士听取造梦者成果汇报</h3>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/product/dm-m-event03.jpg" class="ui image" />
+						<h3>钟南山院士听取造梦者成果汇报</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui param responsive white background grid">
+		<div class="row">
+			<div class="column">
+				<table class="ui padded celled table">
+					<tr>
+						<th class="four blue background wide">
+							产品型号
+						</th>
+						<th colspan="3" class="twelve wide">
+							DM46OSO1-i
+						</th>
+					</tr>
+					<tr>
+						<td class="four wide">
+							噪音
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">< 29db(静音档)<br /> ≤ 55db(最高速)</span>
+						</td>
+						<td class="four wide">
+							负离子
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							风量
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">460m³/h</span>
+						</td>
+						<td class="four wide">
+							ESP静电装置
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">10年</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							适用面积
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">35-45㎡</span>
+						</td>
+						<td class="four wide">
+							TPR装置
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">5年</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							除甲醛效率
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">90%（8h）</span>
+						</td>
+						<td class="four wide">
+							风速档位
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">20档变频调速</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							VOC净化效率
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">90%</span>
+						</td>
+						<td class="four wide">
+							智能模式
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							金属预过滤网
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							显示空气质量指标
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							ESP静电颗粒物净化
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							睡眠模式
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							UV杀毒功能
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							支持WiFi功能
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							光传媒净化
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							额定电压
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">DC12V</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							ESP高压杀菌
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							频率
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">50</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							甲醛净化
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							额定功率
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">30</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="four wide">
+							TVOC净化
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">√</span>
+						</td>
+						<td class="four wide">
+							产品尺寸
+						</td>
+						<td class="center aligned four wide">
+							<span class="blue">272*160*784</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui responsive mobile only grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui images">
+					<img src="{{ app_url_packaged }}/images/product/dm-m-team.jpg" class="ui image" />
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui team responsive white background grid">
+		<div class="row">
+			<div class="column">
+				<div class="content">
+					<h3 class="ui dark-blue header">团队介绍</h3>
+					<p>Dream Maker的精英团队均来自德国，是最具创意与实力的团队，拥有无限梦想、激情与活力，作为根植于本土的第一代工业设计探索者，以自身独特的设计理念和创新体系，几乎囊括了国内工业设计界的所有荣誉，更多次在国际设计舞台上获得德国IF奖、德国红点奖等至高无上的设计殊荣。</p>
+					<p>[太火鸟]taihuoniao.com致力于帮助设计师和创意者实现商业价值，是中国顶尖的创新产品孵化器兼原创产品社会化电商平台。本次，太火鸟与Dream Maker强强联合，希望借助京东众筹，将中国最优秀的创新产品推向全国，推向世界，使消费者实现生活之美，真正做到设计为人民服务。让我们一起去发现、去支持、去分享，用创意和梦想改变世界。</p>
+					
+					<h3 class="ui dark-blue header">为什么需要您的支持</h3>
+					<p>
+						Dream Maker造梦者一代[DM460S01-i]目前已经完成了设计和小批样品生产，但我们怀揣精益求精之心，迫切的希望它更加完美。我们非常想知道您的真实使用体验，希望能通过微信或微博给我们传一声消息。本次众筹所获得资金将用于Dream Maker造梦者的生产和更进一步的研发，以便更加才貌双全的Dream Maker造梦者与您相见。
+					</p>
+					
+					<h3 class="ui dark-blue header">我们的承诺</h3>
+					<p>
+						我们承诺：本次只会在京东众筹首发Dream Maker造梦者一代（DM460S01-i），我们希望寻找到真正的需求者来体验Dream Maker，给我提意见，以便以后能为大家提供更好的产品，希望Dream Maker造梦者二代、三代会更加符合大众的需求，更加完美。
+					</p>
+					<p>
+						我们承诺：京东众筹的支持者将以远低于市场的众筹价格获得Dream Maker造梦者一代智能空气净化器一台。
+					</p>
+					<p>
+						我们承诺：寄出给所有支持Dream Maker的都是正式量产的产品，一年内非人为因素所导致的产品损坏，均免费换新！
+					</p>	
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	<section class="ui white backgroud big preorder block">
+		<div class="ui responsive four column grid">
+			<div class="row">
+				<div class="center aligned active column">
+					<div class="ui segment level">
+						<h3 class="ui header">造梦者 1台 <small>(限量10位)</small></h3>
+					
+						<div class="content">
+							<p class="time">
+								首批支持我们的前10位朋友，我们会给您一个不可思议的超低价格,3399元即可获得一台Dream Maker造梦者智能空气净化器。
+							</p>
+							<div class="price">
+								￥ 3399
+							</div>
+						</div>
+					
+						<div class="actions">
+							<a class="ui gray button" href="http://z.jd.com/project/details/34.html" target="_blank">
+								 现在预定
+							</a>
+							<p class="small">已有0位预购</p>
+						</div>
+					</div>
+				</div>
+				<div class="center aligned column">
+					<div class="ui segment level">
+						<h3 class="ui header">造梦者 1台 <small>(限量700位)</small></h3>
+					
+						<div class="content">
+							<p class="time">
+								没赶上优惠? 没关系，限量700位支持者，可以以3999元超低价获得一台Dream Maker造梦者智能空气净化器。
+							</p>
+							<div class="price">
+								￥ 3999
+							</div>
+						</div>
+					
+						<div class="actions">
+							<a class="ui gray button" href="http://z.jd.com/project/details/34.html" target="_blank">
+								 现在预定
+							</a>
+							<p class="small">已有0位预购</p>
+						</div>
+					</div>
+				</div>
+				<div class="center aligned column">
+					<div class="ui segment level">
+						<h3 class="ui header">造梦者 1台 <small>(限量100位)</small></h3>
+					
+						<div class="content">
+							<p class="time">
+								优惠享不停 回馈再给力，限量100位支持者，可以以5599元超低价获得一台Dream Maker造梦者智能空气净化器。
+							</p>
+							<div class="price">
+								￥ 5599
+							</div>
+						</div>
+					
+						<div class="actions">
+							<a class="ui gray button" href="http://z.jd.com/project/details/34.html" target="_blank">
+								 现在预定
+							</a>
+							<p class="small">已有0位预购</p>
+						</div>
+					</div>
+				</div>
+				<div class="center aligned column">
+					<div class="ui segment level">
+						<h3 class="ui header">造梦者 两台 <small>(限量100位)</small></h3>
+					
+						<div class="content">
+							<p class="time">
+								清新的空气分享给你最爱的人！限量100位，优惠价7799元, 获得【两台】Dream Maker造梦者智能空气净化器！
+							</p>
+							<div class="price">
+								￥ 7799
+							</div>
+						</div>
+					
+						<div class="actions">
+							<a class="ui gray button" href="http://z.jd.com/project/details/34.html" target="_blank">
+								 现在预定
+							</a>
+							<p class="small">已有0位预购</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui white backgroud share big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">分享</h3>
+					<a href="" id="sina-share" class="ui weibo circular share icon button" title="新浪微博">
+						<i class="flat icon_weibo icon"></i>
+					</a>
+					<a href="javascript:void(0);" id="wechat-share" class="ui green circular share icon button" title="微信">
+						<i class="flat icon_weixin icon"></i>
+					</a>
+					<a href="javascript:void(0);" id="tencent-share" class="ui blue circular share icon button" title="腾讯微博">
+						<i class="flat icon_qqweibo icon"></i>
+					</a>
+					<a href="javascript:void(0);" class="ui douban circular share icon button" title="豆瓣">
+						<i class="flat icon_douban icon"></i>
+					</a>
+					<a href="javascript:void(0);" class="ui qzone circular share icon button" title="QQ空间">
+						<i class="flat icon_qzone icon"></i>
+					</a>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</div>
+{% endblock %}

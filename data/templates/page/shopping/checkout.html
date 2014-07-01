@@ -50,71 +50,69 @@
 		$('.ui.addbook.modal').modal('show');
 	});
 	
-	$('#addbook-form').form({
-		name: {
-			identifier  : 'name',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '收货人姓名不能为空'
-				}
-			]
-		},
-		phone: {
-			identifier  : 'password',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '联系电话不能为空'
-				},
-				{
-					type   : 'length[11]',
-					prompt : '联系电话必须11位字符'
-				}
-			]
-		},
-		address: {
-			identifier  : 'address',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '地址区域不能为空'
-				}
-			]
-		},
-		zip: {
-			identifier  : 'zip',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '邮政编码不能为空'
-				}
-			]
-		}
-	}, {
-		inline : true,
-		onSuccess: function(event){
-			event.preventDefault();
-			$(this).ajaxSubmit({
-				dataType: 'json',
-				beforeSubmit: function(){
-					phenix.before_submit();
-				},
-				success: function(result){
-					phenix.after_submit();
-					
-					if(result.is_error){
-						$(event.target).addClass('error');
-						phenix.show_error_message(result.message, event.target);
-					}else{
-						$('.ui.addbook.modal').modal('hide');
-						
-						
+	$('#addbook-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '收货人姓名不能为空'
 					}
-					
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '联系电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '联系电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮政编码不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
 				}
-			});
-		}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
 	});
 	
 	$('#checkout-form').form({
@@ -193,18 +191,16 @@
 					          	<div class="description">{{ address.address }} ({{ address.zip }})</div>
 					      	</div>
 							<div class="actions">
-								<a href="" class="ui small magenta icon button">
-									<i class="flat edit_edit icon"></i>
-								</a>
+								<a href="" class="ui small magenta link">编辑</a>
 							</div>
 					  	</div>
 						{% endfor %}
 					</div>
 					 
 					<div class="ui divider"></div>
-					<button class="ui magenta addbook button">
+					<a class="ui magenta addbook button" href="javascript:void(0);">
 						<i class="flat add icon"></i> 添加新地址
-					</button>
+					</a>
 				</div>
 			</div>
 		

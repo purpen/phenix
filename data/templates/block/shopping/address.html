@@ -1,7 +1,7 @@
 <div class="ui addbook modal">
-  	<i class="flat cross icon"></i>
+  	<i class="flat close icon"></i>
   	<div class="content">
-		<form action="{{ app_url_action_base }}/shopping/ajax_address" class="ui form" method="post" id="addbook-form">
+		<form action="{{ app_url_address }}/ajax_address" class="ui form" method="post" id="addbook-form">
 		  	<input type="hidden" name="_id" />
 			<div class="ui header">
 		    	使用新地址
@@ -24,21 +24,32 @@
 					
 					<div class="field">
 						<label>地址</label>
-						<select name="province" id="choose-province">
-							<option value="" >省份/自治区</option>
-							{% for  province  in provinces %}
-							<option value="{{ province._id }}" {% if province._id eq data.province %}selected="selected"{% endif %}>{{ province.name }}</option>
-							{% endfor %}
-						</select>
-						
-						<select name="city" id="choose-city">
-							<option value="" >省份/自治区</option>
-							{% for  city  in citys %}
-							<option value="{{ city._id }}" {% if city._id eq data.province %}selected="selected"{% endif %}>{{ city.name }}</option>
-							{% endfor %}
-						</select>
-						
-						<textarea name="address" class="small"></textarea>
+						<div class="ui selection province dropdown">
+							<input type="hidden" name="province" value="{{ addbook.province }}" />
+					
+						    <div class="default text">省份/自治区</div>
+						    <i class="flat arrowbottom icon"></i>
+						    <div class="menu">
+								{% for province in provinces %}
+						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+								{% endfor %}
+						    </div>
+						</div>
+				
+						<div class="ui selection district dropdown" id="district-menu">
+							<input type="hidden" name="city" value="{{ addbook.city }}" />
+						    <div class="default text">地区区域</div>
+						    <i class="flat arrowbottom icon"></i>
+						    <div class="menu">
+								{% for district in districts %}
+						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+								{% endfor %}
+						    </div>
+						</div>
+					</div>
+			
+					<div class="field">
+						<textarea name="address" class="small">{{ addbook.address }}</textarea>
 					</div>
 					
 					<div class="two fields">

@@ -56,6 +56,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * DM 单品
+	 */
+	public function dm(){
+		return $this->to_html_page('page/dm.html');
+	}
+	
+	/**
 	 * 显示列表
 	 */
 	protected function _display_user_list($sex=1){

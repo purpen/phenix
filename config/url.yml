@@ -28,7 +28,7 @@ app.url.tags: '/tags'
 app.url.tag: '/tag'
 
 # 预售
-app.url.sale: '{$app.url.domain}/goccia'
+app.url.sale: '{$app.url.domain}/dm'
 app.url.sale.list: '{$app.url.sale}'
 app.url.sale.view: '{$app.url.sale}/%s.html'
 
