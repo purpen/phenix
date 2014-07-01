@@ -167,6 +167,12 @@
 	}
 	
 	@media only screen and (max-width: 767px) {
+		.ui.two.column.grid > .row > .column, .ui.two.column.grid > .column, .ui.grid > .two.column.row > .column {
+			margin-bottom: 0.5em;
+		}
+		.ui.four.column.grid > .row > .column, .ui.four.column.grid > .column, .ui.grid > .four.column.row > .column {
+			margin-bottom: 1.5em;
+		}
 		.ui.responsive.grid {
 		    padding: 0;
 		}
@@ -228,7 +234,7 @@
 <div class="dm page">
 	<section class="ui white backgroud title block">
 		<div class="ui middle aligned responsive grid">
-			<div class="two column row">
+			<div class="two column computer tablet only row">
 				<div class="column">
 					<h3 class="ui header">
 						造梦者一代 世界首款革命性智能空气净化器
@@ -243,6 +249,23 @@
 					<a href="#.preorder" class="ui active magenta button">现在预订</a>
 				</div>
 			</div>
+			
+			<div class="two column mobile only row">
+				<div class="column">
+					<h3 class="ui header">
+						造梦者一代 世界首款革命性<br />智能空气净化器
+					</h3>
+				</div>
+				<div class="right aligned column">
+					<div class="ui divided horizontal list">
+					  	<div class="item">功能</div>
+					  	<div class="item">参数</div>
+						<div class="item">分享</div>
+					</div>
+					<a href="#.preorder" class="ui active magenta button">现在预订</a>
+				</div>
+			</div>
+			
 		</div>
 	</section>
 	
