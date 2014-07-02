@@ -11,8 +11,12 @@
 	.dm.page {
 		margin-top: -2em;
 	}
-	.ui.video.grid {
-		background: url("{{ app_url_packaged }}/images/product/dm-video.jpg") no-repeat scroll center top / cover #565960;
+	.ui.video.grid .video-cover {
+		background: url("{{ app_url_packaged }}/images/product/dm-video.jpg") no-repeat scroll center top / cover rgba(0, 0, 0, 0.7);
+	    height: 100%;
+	    position: absolute;
+	    width: 100%;
+	    z-index: 99;
 	}
 	.ui.video.grid .content {
 		margin: 10% 15% 0%;
@@ -182,8 +186,12 @@
 		.ui.responsive.four.grid {
 			padding: 0 4.55%;
 		}
-		.ui.video {
-			background: url("{{ app_url_packaged }}/images/product/dm-m-video.jpg") no-repeat scroll center top / cover #565960;
+		.ui.video.grid .video-cover {
+			background: url("{{ app_url_packaged }}/images/product/dm-m-video.jpg") no-repeat scroll center top / cover rgba(0, 0, 0, 0.7);
+		    height: 100%;
+		    position: absolute;
+		    width: 100%;
+		    z-index: 99;
 		}
 		.ui.video h3.ui.header {
 			font-size: 0.875rem;
@@ -217,6 +225,23 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	// 显示移动端视频
+	var player = new YKU.Player('video-content',{
+		styleid: '1',
+		client_id: '4128f4a10a97103a',
+		vid: 'XNzM0NzQ4NDQw',
+		events:{
+			onPlayStart: function(){ 
+				$('#video-content').css('visibility', 'visible');
+				$('.video-cover').fadeOut();
+			}
+		}
+	});
+	
+	$('.video-cover .play').bind('click', function(){
+		player.playVideo();
+	});
+	
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/product/dm-m-banner.jpg';
 	phenix.bind_share_list(pic_url);
@@ -266,6 +291,17 @@
 				</div>
 			</div>
 			
+		</div>
+	</section>
+
+	<section class="ui video center aligned grid">
+		<div class="column">
+			<div class="video-cover">
+				<div class="ui mask">
+					<i class="flat play icon"></i>
+				</div>
+			</div>
+			<div id="video-content" style="width:100%;height:400px"></div>
 		</div>
 	</section>
 	
