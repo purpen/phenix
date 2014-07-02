@@ -233,13 +233,13 @@
 		events:{
 			onPlayStart: function(){ 
 				$('#video-content').css('visibility', 'visible');
-				$('.video-cover').fadeOut();
 			}
 		}
 	});
 	
 	$('.video-cover').bind('click', function(){
 		player.playVideo();
+		$('.video-cover').fadeOut();
 	});
 	
 	// 分享按钮
