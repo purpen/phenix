@@ -161,6 +161,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = $this->gen_view_url($row);
+		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];

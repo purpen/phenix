@@ -54,6 +54,34 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	}
 	
 	/**
+	 * 立即购买
+	 */
+	public function now_buy(){
+		$sku = $this->stash['sku'];
+		$quantity = $this->stash['n'];
+		$sizes = $this->stash['s'];
+		
+		// 验证数据
+		if (empty($sku) || empty($quantity)){
+			return $this->show_message_page('操作异常，请重试！');
+		}
+		
+		Doggy_Log_Helper::warn("Add to cart [$sku][$sizes][$quantity]");
+		
+		$cart = new Sher_Core_Util_Cart();
+		$cart->addItem($sku, $sizes);
+		$cart->setItemQuantity($sku, $sizes, $quantity);
+		
+        //重置到cookie
+        $cart->set();
+		
+		// 跳转至确认订单
+		$checkout_url = Doggy_Config::$vars['app.url.shopping'].'/checkout';
+		
+		return $this->to_redirect($checkout_url);
+	}
+	
+	/**
 	 * 加入购物车
 	 */
 	public function buy(){

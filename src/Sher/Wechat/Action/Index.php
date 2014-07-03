@@ -1,39 +1,48 @@
 <?php
 /**
- * 微信店铺首页
+ * 微信（服务号）店铺首页
  * @author purpen
  */
-class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
+class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements DoggyX_Action_Initialize {
+	
 	public $stash = array(
-		'signature'=>'',
-		'timestamp'=>'',
-		'nonce'=>'',
-		'echostr'=>'',
-		'page'=>1,
-		'ref'=>'',
+		'signature' => '',
+		'timestamp' => '',
+		'nonce' => '',
+		'echostr' => '',
+		'page' => 1 ,
+		'ref' => '',
 	);
+	
+	// 配置微信参数
+	public $options = array();
 	
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/wechat/index.html';
 	
 	protected $exclude_method_list = array('execute', 'verify', 'menu');
-
+	
+	/**
+	 * 初始化
+	 */
+	public function _init() {
+		$this->options = array(
+			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
+			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
+			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
+			'partnerid'=>Doggy_Config::$vars['app.wechat.ser_partner_id'],
+			'partnerkey'=>Doggy_Config::$vars['app.wechat.ser_partner_key'],
+			'paysignkey'=>'' //商户签名密钥Key
+		);
+    }
+	
 	/**
 	 * 微信入口
 	 */
 	public function execute(){
 		Doggy_Log_Helper::warn("Get wexin request!");
 		
-		$options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
-			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
-			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
-			'partnerid'=>'', //财付通商户身份标识
-			'partnerkey'=>'', //财付通商户权限密钥Key
-			'paysignkey'=>'' //商户签名密钥Key
-		);
-		
-		$weObj = new Sher_Core_Util_Wechat($options);
+		$weObj = new Sher_Core_Util_Wechat($this->options);
 		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
@@ -226,71 +235,34 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 	}
 	
 	/**
-	 * 微信自定义菜单
+	 * 设置微信自定义菜单
 	 */
 	public function menu(){
-		$options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
-			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
-			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
-			'partnerid'=>'', //财付通商户身份标识
-			'partnerkey'=>'', //财付通商户权限密钥Key
-			'paysignkey'=>'' //商户签名密钥Key
-		);
-		
-		$we = new Sher_Core_Util_Wechat($options);
+		$we = new Sher_Core_Util_Wechat($this->options);
 			
 		// 设置菜单
-		/*
-		array(
-	   	 	"type" => "click",
-	   	 	"name" => "参与活动",
-	   	 	"key" => "MENU_KEY_SHOP_NEWEST"
-		),
-		array(
-	   	 	"type" => "click",
-	   	 	"name" => "明星产品",
-	   	 	"key" => "MENU_KEY_SHOP_STAR"
-		),*/
 		$newmenu =  array(
 			"button"=>
 				array(
 					array(
-						'type'=>'click',
-						'name'=>'创意市集',
-						'key'=>'MENU_KEY_SHOP',
-						'sub_button' => array(
-							array(
-						   	 	"type" => "view",
-						   	 	"name" => "活动说明",
-								"url" => "http://www.taihuoniao.com/wechat/notice"
-							),
-							array(
-						   	 	"type" => "click",
-						   	 	"name" => "参与活动",
-								"key" => "MENU_KEY_SHOP_NEWEST"
-							),
-							array(
-						   	 	"type" => "view",
-						   	 	"name" => "中奖名单",
-								"url" => "http://www.taihuoniao.com/activity/winners"
-							)
-						)
+						'type' => 'view',
+						'name' => '精选商品',
+						"url" => "http://www.taihuoniao.com/wechat/shop",
 					),
 					array(
 						'type' => 'view',
-						'name' => '太火鸟微店',
+						'name' => '享优惠',
 						"url" => "http://wd.koudai.com/?userid=164729694",
 					),
 					array(
 						'type' => 'click',
-						'name' => '互动社区',
+						'name' => '[我]',
 						'key' => 'MENU_KEY_Social',
 						'sub_button' => array(
 							array(
 						   	 	"type" => "view",
-						   	 	"name" => "微社区",
-								"url" => "http://www.taihuoniao.com/fever"
+						   	 	"name" => "我的订单",
+								"url" => "http://www.taihuoniao.com/my/orders"
 							),
 							array(
 						   	 	"type" => "click",
@@ -301,6 +273,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 					)
 				)
 		);
+		
 		$result = $we->createMenu($newmenu);
 		
 		if($result){
@@ -310,17 +283,11 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize {
 		}
 	}
 	
+	/**
+	 * 查看菜单
+	 */
 	public function get_menu(){
-		$options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.token'], //填写你设定的key
-			'appid'=>Doggy_Config::$vars['app.wechat.app_id'], //填写高级调用功能的app id
-			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'], //填写高级调用功能的密钥
-			'partnerid'=>'', //财付通商户身份标识
-			'partnerkey'=>'', //财付通商户权限密钥Key
-			'paysignkey'=>'' //商户签名密钥Key
-		);
-		
-		$we = new Sher_Core_Util_Wechat($options);
+		$we = new Sher_Core_Util_Wechat($this->options);
 		
 		$menu = $we->getMenu();
 		

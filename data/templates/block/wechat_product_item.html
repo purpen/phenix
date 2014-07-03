@@ -1,0 +1,24 @@
+<div class="magenta item" id="product-{{ product._id }}">
+  	<div class="image">
+		<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+      		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
+		</a>
+  	</div>
+  	<div class="content">
+      	<h3 class="ui dividing header">
+			<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+				{{ product.title|truncate, 16, '' }}
+			</a>
+		</h3>
+		{% if product.stage == 9 %}
+		<div class="sell clearfix">
+			<span class="price">
+				微信价：<span class="ui magenta text">￥{{ product.sale_price }}</span>
+			</span>
+          	<div class="extra">
+              	<small><i class="flat like icon"></i> {{ product.love_count }}人喜欢</small>
+          	</div>
+		</div>
+		{% endif %}
+  	</div>
+</div>
