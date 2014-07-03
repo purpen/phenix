@@ -143,7 +143,8 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
         //重置到cookie
         $cart->set();
 		
-		return $this->checkout();
+		$checkout_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
+		return $this->to_redirect($checkout_url);
 	}
 	
 	/**
