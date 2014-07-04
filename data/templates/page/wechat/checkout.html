@@ -80,13 +80,11 @@
 					alert('微信支付出现异常，请核对信息后重试！');
 				}
 		});
-	}
-	
-	
+	};
 	
 	$('.ui.wxpay.button').bind('click', function(){
 		// 更新订单
-		$.post('{{ app_url_wechat }}/shop/confirm', {rid: '{{ rid }}'}, function(res){
+		$.post('{{ app_url_domain }}/wxpay/confirm', {rid: '{{ rid }}'}, function(res){
 			if(res.success){
 				wechat_pay();
 			} else {
