@@ -53,25 +53,6 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	// 微信共享地址
-	var wechat_address = function() {
-		
-	}
-	
-	// 获取共享地址
-	WeixinJSBridge.invoke('editAddress', { 
-			"appId" : '{{ wxaddr_options.appId }}',
-			"scope" : "jsapi_address",
-			"signType" : "sha1",
-			"addrSign" : "{{ wxaddr_options.addrSign }}", 
-			"timeStamp" : "{{ wxaddr_options.timeStamp }}",
-			"nonceStr" : "{{ wxaddr_options.nonceStr }}",
-		}, function(res){
-			//若res 中所带的返回值丌为空,则表示用户选择该返回值作为收货地址。否则若返回空,则表示用户取消了这一次编辑收货地址。
-			alert('bird');
-			alert(res);
-			alert('bird2');
-		});
 
 	// 微信支付
 	var wechat_pay = function() {
@@ -126,7 +107,7 @@
 				<h3 class="ui dividing header"></h3>
 				<div class="ui pointing vertical fluid menu">
 					<div class="item">
-						<a href="" class="ui address">请填写收货地址</a>
+						<a href="{{ app_url_domain }}/wxpay/addr" class="ui address">请填写收货地址</a>
 					</div>
 				</div>
 				<h3 class="ui header">订单信息</h3>
