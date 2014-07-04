@@ -360,8 +360,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 		}
 		
 		$total_money = $cart->getTotalAmount();
-		$user_id = $this->visitor->id;
-		
+				
 		// 订单备注
 		
 		// 查询临时订单信息
@@ -372,6 +371,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 		}
 		// 临时订单Id
 		$rrid = $result['_id'];
+		$user_id = $result['user_id'];
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
