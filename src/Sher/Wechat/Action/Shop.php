@@ -162,9 +162,12 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			
 			return $this->to_redirect($oauth_url);
 		} else {
+			Doggy_Log_Helper::warn("wx oauth snsapi_base code[$code].");
+			
 			$wechat = new Sher_Core_Util_Wechat($this->options);
 			$json = $wechat->getOauthAccessToken($code);
 			
+			Doggy_Log_Helper::warn("wx oauth snsapi_base json: ".json_encode($json));
 			if (!$json){
 				return $this->show_message_page('获取用户授权失败，请重新确认');
 			}
@@ -173,6 +176,9 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			$access_token = $json['access_token'];
 			
 			$user = Sher_Core_Helper_Auth::create_weixin_user($openid);
+			
+			Doggy_Log_Helper::warn("wx oauth snsapi_base user: ".json_encode($user));
+			
 			if (!empty($user)){
 				$user_id = $user['_id'];
 				// set the cache access_token
