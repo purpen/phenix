@@ -153,6 +153,8 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	protected function wxoauth(){
 		$redirect_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
 		
+		Doggy_Log_Helper::warn("wx oauth snsapi_base.");
+		
 		$wechat = new Sher_Core_Util_Wechat($this->options);
 		$oauth_url = $wechat->getOauthRedirect($redirect_url,'wxbase','snsapi_base');
 		
@@ -163,10 +165,12 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 确认订单
 	 */
 	public function checkout(){
+		Doggy_Log_Helper::warn("wxoauth params: ".json_encode($this->stash));
 		$current_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
+		$user_id = 0;
 		// 微信用户自动登录
 		$wx_openid = $this->stash['openid'];
-		$user_id = 0;
+		Doggy_Log_Helper::warn("Wechat oauth openid:[$wx_openid]!");
 		if (!empty($wx_openid)){
 			$user = Sher_Core_Helper_Auth::create_weixin_user($wx_openid);
 			
