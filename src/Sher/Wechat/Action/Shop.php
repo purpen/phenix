@@ -151,7 +151,13 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 确认订单
 	 */
 	public function checkout(){
+		$current_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
 		$user_id = $this->visitor->id;
+		
+		
+		$wechat = new Sher_Core_Util_Wechat($this->options);
+		$oauth_url = $wechat->getOauthRedirect($current_url,'wxbase');
+		$this->stash['oauth_url'] = $oauth_url;
 		
 		//验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
@@ -206,7 +212,6 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			$pay_money = $total_money + $freight - $coin_money;
 			
 			// 设置微信参数
-			$wechat = new Sher_Core_Util_Wechat($this->options);
 			
 			$timestamp = time();
 			$noncestr = $wechat->generateNonceStr();
@@ -247,12 +252,22 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 				'paySign' => $wechat->getPaySign($package, $timestamp, $noncestr),
 			);
 			
+			// 微信共享地址参数
+			$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr);
+			$wxaddr_options = array(
+				'appId' => $this->options['appid'],
+				'addrSign' => $addrsign,
+				'timeStamp' => $timestamp,
+				'nonceStr' => $noncestr,
+			);
+			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
 		}
 		
 		$this->stash['pay_money'] = $pay_money;
 		$this->stash['wxoptions'] = $wxoptions;
+		$this->stash['wxaddr_options'] = $wxaddr_options;
 		
 		$this->stash['rid'] = $order_info['rid'];
 		$this->stash['data'] = $order_data;

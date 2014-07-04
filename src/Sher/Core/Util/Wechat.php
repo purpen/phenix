@@ -1256,11 +1256,15 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	 * @return Ambigous <boolean, string>
 	 */
 	public function getAddrSign($url, $timeStamp, $nonceStr, $user_token=''){
+		Doggy_Log_Helper::debug("Get wechat addrsign 1");
 		if (!$user_token) $user_token = $this->user_token;
 		if (!$user_token) {
 			$this->errMsg = 'no user access token found!';
+			Doggy_Log_Helper::warn("Get wechat addrsign:".$this->errMsg);
 			return false;
 		}
+		Doggy_Log_Helper::debug("Get wechat addrsign 2");
+		
 		$url = htmlspecialchars_decode($url);
 		$arrdata = array(
 				'appid'=>$this->appid,

@@ -53,6 +53,23 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	phenix.redirect('{{ oauth_url }}');
+	
+	// 微信共享地址
+	var wechat_address = function() {
+		WeixinJSBridge.invoke('editAddress', { 
+				"appId" : '{{ wxaddr_options.appId }}',
+				"scope" : "jsapi_address",
+				"signType" : "sha1",
+				"addrSign" : "{{ wxaddr_options.addrSign }}", 
+				"timeStamp" : "{{ wxaddr_options.timeStamp }}",
+				"nonceStr" : "{{ wxaddr_options.nonceStr }}",
+			}, function(res){
+				//若res 中所带的返回值丌为空,则表示用户选择该返回值作为收货地 址。否则若返回空,则表示用户取消了这一次编辑收货地址。
+				alert(res);
+			});
+	}
+
 	// 微信支付
 	var wechat_pay = function() {
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
@@ -67,7 +84,7 @@
 				// 返回 res.err_msg,取值
 				// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
 				// get_brand_wcpay_request:ok 发送成功
-				WeixinJSBridge.log(res.err_msg);				
+				WeixinJSBridge.log(res.err_msg);			
 				// 支付成功
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){
 					alert('支付成功！');
@@ -80,6 +97,11 @@
 				}
 		});
 	}
+	
+	// 获取共享地址
+	$('.ui.address').bind('click', function(){
+		wechat_address();
+	});
 	
 	$('.ui.wxpay.button').bind('click', function(){
 		// 更新订单
@@ -101,8 +123,12 @@
 			<div class="column">
 				<h3 class="ui inverted green header">确认订单</h3>
 				
-				<h3 class="ui dividing header">请填写收货地址</h3>
-				
+				<h3 class="ui dividing header"></h3>
+				<div class="ui pointing vertical fluid menu">
+					<div class="item">
+						<a href="" class="ui address">请填写收货地址</a>
+					</div>
+				</div>
 				<h3 class="ui header">订单信息</h3>
 				<div class="ui segment">
 					<div class="ui list">
