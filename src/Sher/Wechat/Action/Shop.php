@@ -155,6 +155,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	protected function wxoauth(){
 		$redirect_url = Doggy_Config::$vars['app.url.wechat'].'/shop/wxoauth';
 		$code = $this->stash['code'];
+		Doggy_Log_Helper::warn("wx oauth code[$code].");
 		if (!$code){
 			Doggy_Log_Helper::warn("wx oauth snsapi_base.");
 			$wechat = new Sher_Core_Util_Wechat($this->options);
