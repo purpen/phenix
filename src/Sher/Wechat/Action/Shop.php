@@ -35,7 +35,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
 			'partnerid'=>Doggy_Config::$vars['app.wechat.ser_partner_id'],
 			'partnerkey'=>Doggy_Config::$vars['app.wechat.ser_partner_key'],
-			'paysignkey'=>'' //商户签名密钥Key
+			'paysignkey'=>Doggy_Config::$vars['app.wechat.ser_paysignkey'] //商户签名密钥Key
 		);
     }
 	

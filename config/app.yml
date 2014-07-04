@@ -134,6 +134,7 @@ app.wechat.ser_app_id: 'wx75a9ffb78f202fb3'
 app.wechat.ser_app_secret: 'f80ae853ef243f66284ad13781cb69de'
 app.wechat.ser_partner_id: 1219487201
 app.wechat.ser_partner_key: 'ce07aae42df4fef11164b8f61d801b22'
+app.wechat.ser_paysignkey: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
 
 # 微信订阅号token
 app.wechat.token: '5382ebad0c28aab443bfe3c7'

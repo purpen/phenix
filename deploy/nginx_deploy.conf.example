@@ -22,6 +22,7 @@ server {
 		
 		location /wechat {
 			rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;
+			rewrite ^/wechat/(.*)$ /app/wechat/$1 last;
         }
 		
 		location /sale {
