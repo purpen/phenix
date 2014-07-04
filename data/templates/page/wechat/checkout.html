@@ -68,7 +68,8 @@
 				// 返回 res.err_msg,取值
 				// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
 				// get_brand_wcpay_request:ok 发送成功
-				WeixinJSBridge.log(res.err_msg);			
+				WeixinJSBridge.log(res.err_msg);
+				alert(res.err_msg);
 				// 支付成功
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){
 					alert('支付成功！');
