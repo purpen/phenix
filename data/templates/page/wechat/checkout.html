@@ -53,8 +53,6 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	phenix.redirect('{{ oauth_url }}');
-	
 	// 微信共享地址
 	var wechat_address = function() {
 		WeixinJSBridge.invoke('editAddress', { 

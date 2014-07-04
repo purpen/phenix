@@ -19,7 +19,7 @@ class Sher_Core_Helper_Auth {
 	 *	   "subscribe_time": 1382694957
 	 *	}
 	 */
-	public static function create_weixin_user($open_id, $scene_id){
+	public static function create_weixin_user($open_id, $scene_id=''){
 		$options = array(
 			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
 			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
