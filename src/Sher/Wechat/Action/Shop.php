@@ -202,6 +202,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			}
 			$order_info = $model->get_data();
 			
+			
 			$pay_money = $total_money + $freight - $coin_money;
 			
 			// 设置微信参数
@@ -251,8 +252,10 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 		}
 		
 		$this->stash['pay_money'] = $pay_money;
-		$this->stash['data'] = $order_data;
 		$this->stash['wxoptions'] = $wxoptions;
+		
+		$this->stash['rid'] = $order_info['rid'];
+		$this->stash['data'] = $order_data;
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
@@ -262,6 +265,93 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 		return $this->to_html_page('page/wechat/checkout.html');
 	}
 	
+	
+	/**
+	 * 支付时，生成实际订单
+	 */
+	public function confirm(){
+		$rid = $this->stash['rid'];
+		if(empty($rid)){
+			// 没有临时订单编号，为非法操作
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+		
+		Doggy_Log_Helper::debug("Submit Wechat Order [$rid]");
+		
+		//验证购物车，无购物不可以去结算
+		$cart = new Sher_Core_Util_Cart();
+		if (empty($cart->com_list)){
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+		
+		$total_money = $cart->getTotalAmount();
+		$user_id = $this->visitor->id;
+		
+		// 订单备注
+		
+		// 查询临时订单信息
+		$model = new Sher_Core_Model_OrderTemp();
+		$result = $model->first(array('rid'=>$rid));
+		if(empty($result)){
+			return $this->ajax_json("订单[$rid]信息不存在！", true);
+		}
+		// 临时订单Id
+		$rrid = $result['_id'];
+		
+		// 订单临时信息
+		$order_info = $result['dict'];
+		
+		// 获取订单编号
+		$order_info['rid'] = $result['rid'];
+		
+		// 获取快递费用
+		$freight = Sher_Core_Util_Shopping::getFees();
+		
+		// 优惠活动金额
+		$coin_money = 0.0;
+		
+		try{
+			$orders = new Sher_Core_Model_Orders();
+			
+			$order_info['user_id'] = (int)$user_id;
+			
+			// 商品金额
+			$order_info['total_money'] = $total_money;
+			
+			// 应付金额
+			$order_info['pay_money'] = $total_money + $freight - $coin_money;
+			
+			// 设置订单状态
+			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
+			
+			$ok = $orders->apply_and_save($order_info);
+			// 订单保存成功
+			if (!$ok) {
+				return 	$this->ajax_json('订单处理失败，请重试！', true);
+			}
+			
+			$data = $orders->get_data();
+			
+			$rid = $data['rid'];
+			
+			Doggy_Log_Helper::debug("Save Order [ $rid ] is OK!");
+			
+			// 清空购物车
+			$cart->clearCookie();
+			
+			// 删除临时订单数据
+			$model->remove($rrid);
+			
+			// 发送下订单成功通知
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
+		}
+		
+		$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+		
+		return $this->ajax_json('下订单成功！', false);
+	}
 	
 }
 ?>

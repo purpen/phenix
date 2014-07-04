@@ -53,12 +53,9 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	phenix.hook_comment_page();
-	phenix.bind_share_list();
-	
 	// 微信支付
-	$('.ui.wxpay.button').bind('click', function(){
-		//传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
+	var wechat_pay = function() {
+		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
 		WeixinJSBridge.invoke('getBrandWCPayRequest', { 
 			"appId" : "{{ wxoptions.appId }}", 
 			"timeStamp" : "{{ wxoptions.timeStamp }}",
@@ -70,11 +67,29 @@
 				// 返回 res.err_msg,取值
 				// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
 				// get_brand_wcpay_request:ok 发送成功
-				WeixinJSBridge.log(res.err_msg);
-				alert(res.err_msg);
-				alert(res.err_code+res.err_desc);
-				alert('bird');
-			});
+				WeixinJSBridge.log(res.err_msg);				
+				// 支付成功
+				if (res.err_msg == 'get_brand_wcpay_request:ok'){
+					alert('支付成功！');
+				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
+					alert('支付失败！');
+				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
+					alert('支付取消！');
+				} else {
+					alert('微信支付出现异常，请核对信息后重试！');
+				}
+		});
+	}
+	
+	$('.ui.wxpay.button').bind('click', function(){
+		// 更新订单
+		$.post('{{ app_url_wechat }}/shop/confirm', {rid: '{{ rid }}'}, function(res){
+			if(res.success){
+				wechat_pay();
+			} else {
+				alert(res.message);
+			}
+		},'json');
 	});
 	
 {% endblock %}

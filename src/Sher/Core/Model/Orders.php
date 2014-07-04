@@ -204,7 +204,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
     /**
      * 付款方式
-     * 
+     * array(
+	 *		'id' => 'w',
+     *      'name' => '微信支付',
+     *      'summary' => '微信支付快捷方便'
+     * )
      * @var array
      */
     private $payment_methods = array(
