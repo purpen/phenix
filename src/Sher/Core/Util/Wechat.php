@@ -1011,14 +1011,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		// $code = isset($_GET['code'])?$_GET['code']:'';
 		if (!$code) return false;
 		
-		// get the cache access_token
-		$redis = new Sher_Core_Cache_Redis();
-		$access_token = $redis->get('weixin_oauth_access_token');
-		if ($access_token){
-			$this->user_token = $access_token;
-			return array('access_token' => $access_token);
-		}
-		
 		$result = $this->http_get(self::OAUTH_TOKEN_PREFIX.self::OAUTH_TOKEN_URL.'appid='.$this->appid.'&secret='.$this->appsecret.'&code='.$code.'&grant_type=authorization_code');
 		if ($result)
 		{
@@ -1029,10 +1021,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 				return false;
 			}
 			$this->user_token = $json['access_token'];
-			
-			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
-			// cache access_token
-			$redis->set('weixin_oauth_access_token', $json['access_token'], $expire);
 			
 			return $json;
 		}

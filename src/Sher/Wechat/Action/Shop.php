@@ -18,7 +18,9 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 		's' => 1, // 型号
 		'page' => 1,
 		'payaway' => '', // 支付机构
+		
 		'openid' => '',
+		'code' => '',
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -151,14 +153,43 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 检查用户授权信息
 	 */
 	protected function wxoauth(){
-		$redirect_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
-		
-		Doggy_Log_Helper::warn("wx oauth snsapi_base.");
-		
-		$wechat = new Sher_Core_Util_Wechat($this->options);
-		$oauth_url = $wechat->getOauthRedirect($redirect_url,'wxbase','snsapi_base');
-		
-		return $this->to_redirect($oauth_url);
+		$redirect_url = Doggy_Config::$vars['app.url.wechat'].'/shop/wxoauth';
+		$code = $this->stash['code'];
+		if (!$code){
+			Doggy_Log_Helper::warn("wx oauth snsapi_base.");
+			$wechat = new Sher_Core_Util_Wechat($this->options);
+			$oauth_url = $wechat->getOauthRedirect($redirect_url,'wxbase','snsapi_base');
+			
+			return $this->to_redirect($oauth_url);
+		} else {
+			$wechat = new Sher_Core_Util_Wechat($this->options);
+			$json = $wechat->getOauthAccessToken($code);
+			
+			if (!$json){
+				return $this->show_message_page('获取用户授权失败，请重新确认');
+			}
+			
+			$openid = $json['openid'];
+			$access_token = $json['access_token'];
+			
+			$user = Sher_Core_Helper_Auth::create_weixin_user($openid);
+			if (!empty($user)){
+				$user_id = $user['_id'];
+				// set the cache access_token
+				$redis = new Sher_Core_Cache_Redis();
+				$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
+				
+				// cache access_token
+				$redis->set('weixin_'.$user_id.'_oauth_access', $json, $expire);
+				
+				$checkout_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?user_id='.$user_id.'&showwxpaytitle=1';
+			
+				return $this->to_redirect($checkout_url);
+				
+			} else {
+				return $this->show_message_page('用户授权失败，请重新确认');
+			}
+		}
 	}
 	
 	/**
@@ -166,23 +197,13 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 */
 	public function checkout(){
 		Doggy_Log_Helper::warn("wxoauth params: ".json_encode($this->stash));
-		$current_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
-		$user_id = 0;
-		// 微信用户自动登录
-		$wx_openid = $this->stash['openid'];
-		Doggy_Log_Helper::warn("Wechat oauth openid:[$wx_openid]!");
-		if (!empty($wx_openid)){
-			$user = Sher_Core_Helper_Auth::create_weixin_user($wx_openid);
-			
-			if (!empty($user)){
-				$user_id = $user['_id'];
-			}
-		}
-		// 用户，尝试重新获取
+		
+		$user_id = $this->stash['user_id'];
 		if (!$user_id){
 			Doggy_Log_Helper::warn("Wechat oauth fail!");
 		}
 		
+		$current_url = Doggy_Config::$vars['app.url.wechat'].'/shop/checkout?showwxpaytitle=1';
 		
 		//验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
@@ -237,6 +258,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			$pay_money = $total_money + $freight - $coin_money;
 			
 			// 设置微信参数
+			$wechat = new Sher_Core_Util_Wechat($this->options);
 			
 			$timestamp = time();
 			$noncestr = $wechat->generateNonceStr();
@@ -278,13 +300,19 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 			);
 			
 			// 微信共享地址参数
-			$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr);
 			$wxaddr_options = array(
 				'appId' => $this->options['appid'],
-				'addrSign' => $addrsign,
 				'timeStamp' => $timestamp,
 				'nonceStr' => $noncestr,
 			);
+			
+			$redis = new Sher_Core_Cache_Redis();
+			$access_json = $redis->get('weixin_'.$user_id.'_oauth_access');
+			if (!empty($access_json)){
+				$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr, $access_json['access_token']);
+				
+				$wxaddr_options['addrSign'] = $addrsign;
+			}
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
