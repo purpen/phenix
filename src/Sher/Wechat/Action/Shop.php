@@ -321,6 +321,8 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 				$wxaddr_options['addrSign'] = $addrsign;
 			}
 			
+			Doggy_Log_Helper::warn("Wechat addr options: ".json_encode($wxaddr_options));
+			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
 		}
