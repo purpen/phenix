@@ -56,6 +56,29 @@
 
 	// 获取共享地址
 	alert('debug address');
+	
+	WeixinJSBridge.invoke('editAddress', { 
+		"appId" : "{{ wxoptions.appId }}", 
+		"timeStamp" : "{{ wxoptions.timeStamp }}",
+		"nonceStr" : "{{ wxoptions.nonceStr }}",
+		"addrSign" : "{{ wxaddr_options.addrSign }}",
+		"signType" : "SHA1",
+		"scope" : "jsapi_address",
+		}, function(res){
+			// 返回 res.err_msg,取值
+			WeixinJSBridge.log(res.err_msg);
+			alert(res);
+			// 支付成功
+			if (res.err_msg == 'get_brand_wcpay_request:ok'){
+				alert('支付成功！');
+			} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
+				alert('支付失败！');
+			} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
+				alert('支付取消！');
+			} else {
+				alert('微信支付出现异常，请核对信息后重试！');
+			}
+	});
 		
 	// 微信支付
 	var wechat_pay = function() {
