@@ -336,7 +336,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 获取用户共享收货地址
 	 */
 	public function addr(){
-		$current_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/addr?code=123&state=cft';
+		$current_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/addr';
 		
 		$wechat = new Sher_Core_Util_Wechat($this->options);
 		
