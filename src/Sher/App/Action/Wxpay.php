@@ -132,7 +132,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$noncestr = $wechat->generateNonceStr();
 		
 		// 微信共享地址参数
-		$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr, $json['access_token']);
+		$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr);
 		$wxaddr_options = array(
 			'appId' => $this->options['appid'],
 			'timeStamp' => $timestamp,
