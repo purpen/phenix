@@ -91,8 +91,18 @@
 							addr_html.push('<p><b>送至：</b></p>');
 							addr_html.push('<p>'+ res.proviceFirstStageName +','+ res.addressCitySecondStageName +','+ res.addressCountiesThirdStageName +','+ res.addressDetailInfo +'</p>');
 							addr_html.push('<p>'+ res.userName+','+ res.telNumber +'</p>');
-							alert(addr_html.join(''));
-							$('#send-address').html(addr_html.join('')).show();
+							
+							$('#send-address')
+								.html(addr_html.join(''))
+								.show(function(){
+									$('#userName').val(res.userName);
+									$('#telNumber').val(res.telNumber);
+									$('#addressPostalCode').val(res.addressPostalCode);
+									$('#proviceFirstStageName').val(res.proviceFirstStageName);
+									$('#addressCitySecondStageName').val(res.addressCitySecondStageName);
+									$('#addressCountiesThirdStageName').val(res.addressCountiesThirdStageName);
+									$('#addressDetailInfo').val(res.addressDetailInfo);
+								});
 							
 							$('#choose-address').hide();
 						}else{
@@ -144,7 +154,21 @@
 	
 	$('.ui.wxpay.button').bind('click', function(){
 		// 更新订单
-		$.post('{{ app_url_domain }}/wxpay/confirm', {rid: '{{ rid }}'}, function(res){
+		// 获取地址
+		var userName = $('#userName').val(), 
+		    telNumber = $('#telNumber').val(),
+			addressPostalCode = $('#addressPostalCode').val(),
+			proviceFirstStageName = $('#proviceFirstStageName').val(),
+			addressCitySecondStageName = $('#addressCitySecondStageName').val(),
+			addressCountiesThirdStageName = $('#addressCountiesThirdStageName').val(),
+			addressDetailInfo = $('#addressDetailInfo').val();
+			
+		if (!username || !telnumber){
+			alert('请先确认收货地址！');
+			return false;
+		}
+		
+		$.post('{{ app_url_domain }}/wxpay/confirm', { rid: '{{ rid }}', name: username, phone: telnumber, zip: addressPostalCode, province: proviceFirstStageName, city: addressCitySecondStageName, area: addressCountiesThirdStageName, address: addressDetailInfo }, function(res){
 			if(res.success){
 				wechat_pay();
 			} else {
@@ -174,6 +198,13 @@
 						<div id="send-address"></div>
 						<i class="flat page_right icon"></i>
 					</div>
+					<input type="hidden" name="userName" id="userName" />
+					<input type="hidden" name="telNumber" id="telNumber" />
+					<input type="hidden" name="addressPostalCode" id="addressPostalCode" />
+					<input type="hidden" name="proviceFirstStageName" id="proviceFirstStageName" />
+					<input type="hidden" name="addressCitySecondStageName" id="addressCitySecondStageName" />
+					<input type="hidden" name="addressCountiesThirdStageName" id="addressCountiesThirdStageName" />
+					<input type="hidden" name="addressDetailInfo" id="addressDetailInfo" />
 				</div>
 				
 				<h3 class="ui header">订单信息</h3>
@@ -191,7 +222,7 @@
 									<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
 								</div>
 					          	<p class="attribute">价格：￥{{ product.sale_price }}</p>
-								<p class="attribute">数量：￥{{ product.quantity }}</p>
+								<p class="attribute">数量：{{ product.quantity }}</p>
 							</div>
 						</div>
 						{% endfor %}

@@ -264,7 +264,16 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function confirm(){
 		$rid = $this->stash['rid'];
-		if(empty($rid)){
+		// 收货地址
+		$name = $this->stash['name'];
+		$phone = $this->stash['phone'];
+		$zip = $this->stash['zip'];
+		$province = $this->stash['province'];
+		$city = $this->stash['city'];
+		$area = $this->stash['area'];
+		$address = $this->stash['address'];		
+		
+		if(empty($rid) || empty($name) || empty($phone) || empty($address)){
 			// 没有临时订单编号，为非法操作
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
@@ -296,6 +305,17 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
+		
+		// 设置发货地址
+		$order_info['express_info'] = array(
+			'name' => $name,
+			'phone' => $phone,
+			'zip' => $zip,
+			'province' => $province,
+			'city' => $city,
+			'area' => $area,
+			'address' => $address,
+		);
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -379,9 +399,6 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page('page/wechat/addr.html');
 	}
 	
-	
-	
-	
 	/**
 	 * 微信支付请求实例
 	 */
@@ -393,7 +410,10 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 微信支付回调URL
 	 */
 	public function direct_native(){
-		return $this->to_html_page('page/wechat/payment.html');
+		Doggy_Log_Helper::warn("Wechat order notice!");
+		
+		
+		return $this->to_raw('success');
 	}
 	
 	/**

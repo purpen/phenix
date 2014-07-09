@@ -40,6 +40,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		## 收货地址
 		'addbook_id' => null,
+		'express_info' => array(),
 		
 		## 发票信息
 		'invoice_type' => 0,
