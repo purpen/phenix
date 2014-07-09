@@ -108,7 +108,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			// set the cache access_token
 			$redis = new Sher_Core_Cache_Redis();
 			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
-			$redis->set('weixin_'.$user_id.'_oauth_access', $json, $expire);
+			$redis->set('weixin_'.$user_id.'_oauth_token', $json['access_token'], $expire);
 			// set code to cache
 			$redis->set('weixin_'.$user_id.'_code', $code, $expire);
 			
@@ -142,10 +142,9 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// get from cache
 		$redis = new Sher_Core_Cache_Redis();
-		$json = $redis->get('weixin_'.$user_id.'_oauth_access');
+		$user_token = $redis->get('weixin_'.$user_id.'_oauth_token');
 		
 		// 微信共享地址参数
-		$user_token = $json['access_token'];
 		Doggy_Log_Helper::warn("Wechat address user token: ".$user_token);
 		$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr, $user_token);
 		$addrsign = strtolower($addrsign);
