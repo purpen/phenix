@@ -5,25 +5,82 @@
 	
 </style>
 {% endblock %}
-{% block js %}
+{% block page_js %}
+<script type="text/javascript">
+	var oldTimeStamp;//记住timestamp，避免签名时的timestamp与传入的timestamp时不一致
+	var oldNonceStr; //记住nonceStr,避免签名时的nonceStr与传入的nonceStr不一致
+	
+	// 生成收货地址签名
+	function getAddrSign(){
+	    var app_id = ''; //公众号AppID
+	    var access_token =''; //用户授权凭证，请参照微信oauth2.0协议获取
+	    var url = window.location.href; //当前网页url
+	    var time_stamp = oldTimeStamp;
+	    var nonce_str = oldNonceStr;
+	    var keyvaluestring = "accesstoken="+access_token+"&appid="+app_id+"&noncestr="+nonce_str+"&timestamp="+time_stamp+"&url="+url;
+	    addrSign = CryptoJS.SHA1(keyvaluestring).toString();
+	    return addrSign;
+	}
+	
+	// 获取时间戳
+	function getTimeStamp(){
+	    var timestamp = new Date().getTime();
+	    var timestampstring = timestamp.toString();
+	    oldTimeStamp = timestampstring;
+	    return timestampstring;
+	}
+	
+	//获取随机字符串
+	function getNonceStr(){
+	    var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	    var maxPos = $chars.length;
+	    var noceStr = "";
+	    for (var i = 0; i < 32; i++) {
+	        noceStr += $chars.charAt(Math.floor(Math.random() * maxPos));
+	    }
+	    oldNonceStr = noceStr;
+	    return noceStr;
+	}
+
+	function getaddr(){
+		if (typeof WeixinJSBridge == 'undefined') {
+			// alert('WeixinJSBridge undefined');
+			setTimeout('getaddr()',10);
+			return false;
+		} else {
+			
+			WeixinJSBridge.invoke('editAddress', {
+					"appId" : '{{ wxaddr_options.appId }}',
+					"scope" : "jsapi_address",
+					"signType" : "sha1",
+					"addrSign" : "{{ wxaddr_options.addrSign }}", 
+					"timeStamp" : "{{ wxaddr_options.timeStamp }}",
+					"nonceStr" : "{{ wxaddr_options.nonceStr }}",
+				},function(res) {
+					if (res != '') {
+						//已选择地址
+						if(res.err_msg == 'edit_address:ok'){
+							//获取成功
+						}else{
+							setTimeout('getaddr()',100);
+							//获取失败
+							//alert(res.err_msg);
+							//alert(res.err_desc);
+	        			}
+	      		 	} else {
+	      			  //未选择地址
+					  window.location.href = '...';
+	      			}
+
+	    		});
+		}
+	}
+</script>
 {% endblock %}
+
 {% block jquery %}
 	alert('bird01');
-	// 获取共享地址
-	WeixinJSBridge.invoke('editAddress', { 
-			"appId" : '{{ wxaddr_options.appId }}',
-			"scope" : "jsapi_address",
-			"signType" : "sha1",
-			"addrSign" : "{{ wxaddr_options.addrSign }}", 
-			"timeStamp" : "{{ wxaddr_options.timeStamp }}",
-			"nonceStr" : "{{ wxaddr_options.nonceStr }}",
-		}, function(res){
-			//若res 中所带的返回值丌为空,则表示用户选择该返回值作为收货地址。否则若返回空,则表示用户取消了这一次编辑收货地址。
-			alert('bird');
-			alert(res);
-			alert('bird2');
-		});
-
+	getaddr();
 {% endblock %}
 
 {% block content %}

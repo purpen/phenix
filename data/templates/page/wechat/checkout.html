@@ -50,36 +50,48 @@
 	}
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
-{% block jquery %}
 
+{% block page_js %}
+<script type="text/javascript">
+	function getaddr(){
+		if (typeof WeixinJSBridge == 'undefined') {
+			// alert('WeixinJSBridge undefined');
+			setTimeout('getaddr()', 10);
+			return false;
+		} else {
+			WeixinJSBridge.invoke('editAddress', {
+					"appId" : '{{ wxaddr_options.appId }}',
+					"scope" : "jsapi_address",
+					"signType" : "sha1",
+					"addrSign" : "{{ wxaddr_options.addrSign }}", 
+					"timeStamp" : "{{ wxaddr_options.timeStamp }}",
+					"nonceStr" : "{{ wxaddr_options.nonceStr }}",
+				},function(res) {
+					if (res != '') {
+						alert(res);
+						//已选择地址
+						if(res.err_msg == 'edit_address:ok'){
+							//获取成功
+						}else{
+							setTimeout('getaddr()', 100);
+							//获取失败
+							//alert(res.err_msg);
+							//alert(res.err_desc);
+	        			}
+	      		 	} else {
+	      			  //未选择地址
+					  window.location.href = '...';
+	      			}
+	    		});
+		}
+	}
+</script>
+{% endblock %}
+
+{% block jquery %}
 	// 获取共享地址
 	alert('debug address');
 	
-	WeixinJSBridge.invoke('editAddress', { 
-		"appId" : "{{ wxoptions.appId }}", 
-		"timeStamp" : "{{ wxoptions.timeStamp }}",
-		"nonceStr" : "{{ wxoptions.nonceStr }}",
-		"addrSign" : "{{ wxaddr_options.addrSign }}",
-		"signType" : "SHA1",
-		"scope" : "jsapi_address",
-		}, function(res){
-			// 返回 res.err_msg,取值
-			WeixinJSBridge.log(res.err_msg);
-			alert(res);
-			// 支付成功
-			if (res.err_msg == 'get_brand_wcpay_request:ok'){
-				alert('支付成功！');
-			} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
-				alert('支付失败！');
-			} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
-				alert('支付取消！');
-			} else {
-				alert('微信支付出现异常，请核对信息后重试！');
-			}
-	});
-		
 	// 微信支付
 	var wechat_pay = function() {
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
@@ -120,6 +132,10 @@
 		},'json');
 	});
 	
+	$('.ui.address').bind('click', function() {
+		getaddr();
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -132,7 +148,7 @@
 				<h3 class="ui dividing header"></h3>
 				<div class="ui pointing vertical fluid menu">
 					<div class="item">
-						<a href="{{ app_url_domain }}/wxpay/addr" class="ui address">请填写收货地址</a>
+						<a href="javascript:void(0);" class="ui address">请填写收货地址</a>
 					</div>
 				</div>
 				<h3 class="ui header">订单信息</h3>
