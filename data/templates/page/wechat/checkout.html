@@ -56,7 +56,7 @@
 	function getaddr(){
 		if (typeof WeixinJSBridge == 'undefined') {
 			// alert('WeixinJSBridge undefined');
-			setTimeout('getaddr()', 10);
+			// setTimeout('getaddr()', 10);
 			return false;
 		} else {
 			WeixinJSBridge.invoke('editAddress', {
@@ -68,12 +68,12 @@
 					"nonceStr" : "{{ wxaddr_options.nonceStr }}",
 				},function(res) {
 					if (res != '') {
-						alert(res);
+						alert(res.err_msg);
 						//已选择地址
 						if(res.err_msg == 'edit_address:ok'){
 							//获取成功
 						}else{
-							setTimeout('getaddr()', 100);
+							// setTimeout('getaddr()', 100);
 							//获取失败
 							//alert(res.err_msg);
 							//alert(res.err_desc);
