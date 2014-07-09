@@ -146,8 +146,10 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 微信共享地址参数
 		$user_token = $json['access_token'];
+		Doggy_Log_Helper::warn("Wechat address user token: ".$user_token);
 		$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr, $user_token);
-		
+		$addrsign = strtolower($addrsign);
+		Doggy_Log_Helper::warn("Wechat address sign: ".$addrsign);
 		$wxaddr_options = array(
 			'appId' => $this->options['appid'],
 			'timeStamp' => $timestamp,
