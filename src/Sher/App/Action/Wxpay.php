@@ -121,9 +121,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	/**
 	 * 确认订单
 	 */
-	public function checkout(){
-		Doggy_Log_Helper::warn("wxoauth params: ".json_encode($this->stash));
-		
+	public function checkout(){		
 		$state = $this->stash['state'];
 		$code = $this->stash['code'];
 		$user_id = $this->stash['user_id'];

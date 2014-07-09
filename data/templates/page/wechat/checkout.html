@@ -48,6 +48,20 @@
 		float: left;
 		margin-right: 1em;
 	}
+	
+	.ui.vertical.address.menu .item {
+		padding: 0.83em 2.05em 0.83em 0.95em;
+		cursor: pointer;
+	}
+	.ui.vertical.address.menu .item p {
+		margin: 0.5em 0;
+	}
+	.ui.vertical.menu .item > i.icon {
+	    position: absolute;
+	    right: 5px;
+	    top: 45%;
+	}
+	
 </style>
 {% endblock %}
 
@@ -72,11 +86,20 @@
 						//已选择地址
 						if(res.err_msg == 'edit_address:ok'){
 							//获取成功
+							var addr_html = new Array();
+							
+							addr_html.push('<p><b>送至：</b></p>');
+							addr_html.push('<p>'+ res.proviceFirstStageName +','+ res.addressCitySecondStageName +','+ res.addressCountiesThirdStageName +','+ res.addressDetailInfo +'</p>');
+							addr_html.push('<p>'+ res.userName+','+ res.telNumber +'</p>');
+							$('#send-address').html(addr_html.join('')).show();
+							
+							$('#choose-address').hide();
 						}else{
 							// setTimeout('getaddr()', 100);
 							//获取失败
-							//alert(res.err_msg);
-							//alert(res.err_desc);
+							alert(res.err_msg);
+							$('#choose-address').show();
+							$('#send-address').hide();
 	        			}
 	      		 	} else {
 	      			  //未选择地址
@@ -146,11 +169,22 @@
 				<h3 class="ui inverted green header">确认订单</h3>
 				
 				<h3 class="ui dividing header"></h3>
-				<div class="ui pointing vertical fluid menu">
-					<div class="item">
-						<a href="javascript:void(0);" class="ui address">请填写收货地址</a>
+				<div class="ui vertical fluid address menu">
+					<div class="item ui address">
+						<div id="choose-address">确认收货地址</div>
+						<div id="send-address">
+							<p>
+								<b>送至：</b></p>
+							<p>
+								北京市，北京市，朝阳区，酒仙桥路 751时尚设计广场 极地A9栋218室</p>
+							<p>
+								田孝义，18610320751
+							</p>
+						</div>
+						<i class="flat page_right icon"></i>
 					</div>
 				</div>
+				
 				<h3 class="ui header">订单信息</h3>
 				<div class="ui segment">
 					<div class="ui list">
