@@ -16,6 +16,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		'openid' => '',
 		'code' => '',
+		'state' => '',
 	);
 	
 	// 配置微信参数
@@ -73,15 +74,48 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 检查用户授权信息
 	 */
 	public function wxoauth(){
-		$state = 'wxbase';
-		$scope = 'snsapi_base';
-		$redirect_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?showwxpaytitle=1';
+		$state = $this->stash['state'];
+		$code = $this->stash['code'];
 		
-		Doggy_Log_Helper::warn("wx oauth snsapi_base.");
 		$wechat = new Sher_Core_Util_Wechat($this->options);
-		$oauth_url = $wechat->getOauthRedirect($redirect_url, $state, $scope);
 		
-		return $this->to_redirect($oauth_url);
+		if (empty($code)){
+			Doggy_Log_Helper::warn("wx oauth snsapi_base.");
+			$redirect_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/wxoauth';
+			$oauth_url = $wechat->getOauthRedirect($redirect_url, 'wxbase', 'snsapi_base');
+			
+			return $this->to_redirect($oauth_url);
+		} else {
+			
+			$json = $wechat->getOauthAccessToken($code);
+			
+			Doggy_Log_Helper::warn("wx oauth snsapi_base json: ".json_encode($json));
+			if (!$json){
+				return $this->show_message_page('获取用户授权失败，请重新确认');
+			}
+			$user_token = $json['access_token'];
+			// 检查用户是否存在，不存在通过openid获取信息自动注册
+			$openid = $json['openid'];
+			$user = Sher_Core_Helper_Auth::create_weixin_user($openid);
+		
+			Doggy_Log_Helper::warn("wx oauth snsapi_base user: ".json_encode($user));
+		
+			if (empty($user)){
+				return $this->show_message_page('用户授权失败，请重新确认');
+			}
+			$user_id = $user['_id'];
+			
+			// set the cache access_token
+			$redis = new Sher_Core_Cache_Redis();
+			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
+			$redis->set('weixin_'.$user_id.'_oauth_access', $json, $expire);
+			// set code to cache
+			$redis->set('weixin_'.$user_id.'_code', $code, $expire);
+			
+			$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $code, $state);
+			
+			return $this->to_redirect($next_url);
+		}	
 	}
 	
 	/**
@@ -91,48 +125,29 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		Doggy_Log_Helper::warn("wxoauth params: ".json_encode($this->stash));
 		
 		$state = $this->stash['state'];
-		// 验证用户
 		$code = $this->stash['code'];
-		Doggy_Log_Helper::warn("wx oauth snsapi_base code[$code].");
+		$user_id = $this->stash['user_id'];
+		
+		if (!$user_id || empty($code)){
+			Doggy_Log_Helper::warn("Wechat oauth user_id,code fail!");
+		}
 		
 		$wechat = new Sher_Core_Util_Wechat($this->options);
-		$json = $wechat->getOauthAccessToken($code);
 		
-		Doggy_Log_Helper::warn("wx oauth snsapi_base json: ".json_encode($json));
-		if (!$json){
-			return $this->show_message_page('获取用户授权失败，请重新确认');
-		}
-		$user_token = $json['access_token'];
+		// 设置微信参数
+		$current_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $code, $state);
 		
-		// 检查用户是否存在，不存在通过openid获取信息自动注册
-		$openid = $json['openid'];
-		$user = Sher_Core_Helper_Auth::create_weixin_user($openid);
-		
-		Doggy_Log_Helper::warn("wx oauth snsapi_base user: ".json_encode($user));
-		
-		if (empty($user)){
-			return $this->show_message_page('用户授权失败，请重新确认');
-		}
-		
-		// set the cache access_token
-		$redis = new Sher_Core_Cache_Redis();
-		$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
-		$redis->set('weixin_'.$openid.'_oauth_access', $json, $expire);
-		
-		// 检查用户是否授权成功
-		$user_id = $user['_id'];
-		if (!$user_id){
-			Doggy_Log_Helper::warn("Wechat oauth fail!");
-		}
-		
-		$current_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%d&showwxpaytitle=1&code=%s&state=%s', $user_id, $code, $state);
-		
-		// 设置微信参数		
 		$timestamp = time();
 		$noncestr = $wechat->generateNonceStr();
 		
+		// get from cache
+		$redis = new Sher_Core_Cache_Redis();
+		$json = $redis->get('weixin_'.$user_id.'_oauth_access');
+		
 		// 微信共享地址参数
-		$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr);
+		$user_token = $json['access_token'];
+		$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr, $user_token);
+		
 		$wxaddr_options = array(
 			'appId' => $this->options['appid'],
 			'timeStamp' => $timestamp,
