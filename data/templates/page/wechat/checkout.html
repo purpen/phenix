@@ -91,13 +91,14 @@
 							addr_html.push('<p><b>送至：</b></p>');
 							addr_html.push('<p>'+ res.proviceFirstStageName +','+ res.addressCitySecondStageName +','+ res.addressCountiesThirdStageName +','+ res.addressDetailInfo +'</p>');
 							addr_html.push('<p>'+ res.userName+','+ res.telNumber +'</p>');
+							alert(addr_html.join(''));
 							$('#send-address').html(addr_html.join('')).show();
 							
 							$('#choose-address').hide();
 						}else{
 							// setTimeout('getaddr()', 100);
 							//获取失败
-							alert(res.err_msg);
+							// alert(res.err_msg);
 							$('#choose-address').show();
 							$('#send-address').hide();
 	        			}
@@ -112,9 +113,6 @@
 {% endblock %}
 
 {% block jquery %}
-	// 获取共享地址
-	alert('debug address');
-	
 	// 微信支付
 	var wechat_pay = function() {
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
@@ -155,6 +153,7 @@
 		},'json');
 	});
 	
+	// 获取共享地址
 	$('.ui.address').bind('click', function() {
 		getaddr();
 	});
@@ -172,15 +171,7 @@
 				<div class="ui vertical fluid address menu">
 					<div class="item ui address">
 						<div id="choose-address">确认收货地址</div>
-						<div id="send-address">
-							<p>
-								<b>送至：</b></p>
-							<p>
-								北京市，北京市，朝阳区，酒仙桥路 751时尚设计广场 极地A9栋218室</p>
-							<p>
-								田孝义，18610320751
-							</p>
-						</div>
+						<div id="send-address"></div>
 						<i class="flat page_right icon"></i>
 					</div>
 				</div>
