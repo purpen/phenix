@@ -263,6 +263,8 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 支付时，生成实际订单
 	 */
 	public function confirm(){
+		Doggy_Log_Helper::warn("Submit Wechat Order!");
+		
 		$rid = $this->stash['rid'];
 		// 收货地址
 		$name = $this->stash['name'];
@@ -278,7 +280,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
 		
-		Doggy_Log_Helper::debug("Submit Wechat Order [$rid]");
+		Doggy_Log_Helper::warn("Confirm Wechat Order [$rid]");
 		
 		//验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
@@ -359,6 +361,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
+			return $this->ajax_json('下订单失败！', true);
 		}
 		
 		$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
