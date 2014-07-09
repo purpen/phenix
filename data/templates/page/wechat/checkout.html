@@ -82,7 +82,7 @@
 					"nonceStr" : "{{ wxaddr_options.nonceStr }}",
 				},function(res) {
 					if (res != '') {
-						alert(res.err_msg);
+						// alert(res.err_msg);
 						//已选择地址
 						if(res.err_msg == 'edit_address:ok'){
 							//获取成功
@@ -163,7 +163,7 @@
 			addressCountiesThirdStageName = $('#addressCountiesThirdStageName').val(),
 			addressDetailInfo = $('#addressDetailInfo').val();
 			
-		if (!username || !telnumber){
+		if (!userName || !telNumber){
 			alert('请先确认收货地址！');
 			return false;
 		}
