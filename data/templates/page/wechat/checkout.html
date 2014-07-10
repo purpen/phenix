@@ -216,7 +216,7 @@
 						<div class="item" id="product_{{ product.sku }}">
 							<div class="mm-image">
 								<a href="{{ product.view_url }}" class="ui cover image">
-						      		<img src="{{ product.cover }}">
+						      		<img src="{{ product.cover }}" alt="{{ product.title }}" />
 								</a>
 							</div>
 							<div class="mm-content">
@@ -229,9 +229,12 @@
 						</div>
 						{% endfor %}
 						<div class="item">
-							配送方式 （快递：免运费）</div>
+							配送方式 （快递：免运费）
+						</div>
 					</div>
 				</div>
+				
+				<p>实付金额：￥{{ pay_money }}</p>
 				
 				<button class="ui weixin fluid wxpay button">微信支付</button>
 				
