@@ -121,7 +121,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			$user_id = $user['_id'];
 			
 			// 实现自动登录
-			Sher_Core_Helper_Auth::create_user_session($user_id);
+			// Sher_Core_Helper_Auth::create_user_session($user_id);
 			
 			// set the cache access_token
 			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
