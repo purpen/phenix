@@ -22,7 +22,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	// 配置微信参数
 	public $options = array();
 	
-	protected $exclude_method_list = array('execute','nowbuy', 'wxoauth', 'checkout', 'confirm','addr','payment','direct_native','warning', 'feedback');
+	protected $exclude_method_list = array('execute','nowbuy', 'wxoauth','payment','direct_native','warning', 'feedback');
 	
 	/**
 	 * 初始化参数
@@ -77,8 +77,22 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$state = $this->stash['state'];
 		$code = $this->stash['code'];
 		
-		$wechat = new Sher_Core_Util_Wechat($this->options);
+		$user_id = $this->visitor->id;
+		$reoauth = false;
+		if ($user_id){
+			$redis = new Sher_Core_Cache_Redis();
+			$user_token = $redis->get('weixin_'.$user_id.'_oauth_token');
+			$code = $redis->get('weixin_'.$user_id.'_code');
+			$state = $redis->get('weixin_'.$user_id.'_state');
+			
+			if (!empty($user_token) && !empty($code) && !empty($state)) {
+				$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $code, $state);
+				
+				return $this->to_redirect($next_url);
+			}
+		}
 		
+		$wechat = new Sher_Core_Util_Wechat($this->options);
 		if (empty($code)){
 			Doggy_Log_Helper::warn("wx oauth snsapi_base.");
 			$redirect_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/wxoauth';
@@ -103,14 +117,19 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			if (empty($user)){
 				return $this->show_message_page('用户授权失败，请重新确认');
 			}
+			
 			$user_id = $user['_id'];
 			
+			// 实现自动登录
+			Sher_Core_Helper_Auth::create_user_session($user_id);
+			
 			// set the cache access_token
-			$redis = new Sher_Core_Cache_Redis();
 			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
 			$redis->set('weixin_'.$user_id.'_oauth_token', $json['access_token'], $expire);
 			// set code to cache
 			$redis->set('weixin_'.$user_id.'_code', $code, $expire);
+			// set state to cache
+			$redis->set('weixin_'.$user_id.'_state', $state, $expire);
 			
 			$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $code, $state);
 			
