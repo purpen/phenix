@@ -480,13 +480,30 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 警告通知URL
 	 */
 	public function warning(){
-		return $this->to_html_page('page/wechat/warning.html');
+		Doggy_Log_Helper::warn("Wechat warning notice!");
+		$postData = $this->stash['postData'];
+		if (!empty($postData)) {
+			$receive = (array)simplexml_load_string($postData, 'SimpleXMLElement', LIBXML_NOCDATA);
+			$new_data = array(
+		    	'error_type' => $receive['ErrorType'],
+				'description'  => $receive['Description'],
+				'alarm_content' => $receive['AlarmContent'],
+				'timestamp' => $receive['TimeStamp'],
+				'app_signature' => $receive['AppSignature'],
+				'sign_method' => $receive['SignMethod'],
+			);
+			$model = new Sher_Core_Model_Warnings();
+			$model->create($new_data);
+		}
+		
+		return $this->to_raw('success');
 	}
 	
 	/**
 	 * 维权通知URL
 	 */
 	public function feedback(){
+		
 		return $this->to_html_page('page/wechat/feedback.html');
 	}
 	

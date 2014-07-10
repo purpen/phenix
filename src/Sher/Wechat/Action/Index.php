@@ -260,6 +260,11 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						'key' => 'MENU_KEY_Social',
 						'sub_button' => array(
 							array(
+						   	 	"type" => "click",
+						   	 	"name" => "维权",
+								"url" => "MENU_KEY_FEEDBACK"
+							),
+							array(
 						   	 	"type" => "view",
 						   	 	"name" => "我的订单",
 								"url" => "http://www.taihuoniao.com/my/orders"

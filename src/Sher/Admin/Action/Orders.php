@@ -88,7 +88,40 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
-			$model->update_order_sended_status($id, $express_caty, $express_no);
+			$ok = $model->update_order_sended_status($id, $express_caty, $express_no);
+			
+			// 微信订单，调用发货通知
+			if ($ok && $order_info['from_site'] == Sher_Core_Util_Constant::FROM_WEIXIN) {
+				// 获取openid
+				$user = new Sher_Core_Model_User();
+				$user_info = $user->load((int)$order_info['user_id']);
+				if (empty($user_info)){
+					return $this->show_message_page('订单['.$rid.']用户不存在！', true);
+				}
+				$openid = $user_info['wx_open_id'];
+				
+				$options = array(
+					'token' => Doggy_Config::$vars['app.wechat.ser_token'],
+					'appid' => Doggy_Config::$vars['app.wechat.ser_app_id'],
+					'appsecret' => Doggy_Config::$vars['app.wechat.ser_app_secret'],
+					'partnerid' => Doggy_Config::$vars['app.wechat.ser_partner_id'],
+					'partnerkey' => Doggy_Config::$vars['app.wechat.ser_partner_key'],
+					'paysignkey' => Doggy_Config::$vars['app.wechat.ser_paysignkey'],
+				);
+				$wechat = new Sher_Core_Util_Wechat($options);
+				
+				$transid = $order_info['trade_no'];
+				$out_trade_no =$order_info['rid'];
+				$status = 1;
+				
+				Doggy_Log_Helper::warn("Wechat order[$rid] send goods notice!");
+				
+				$result = $wechat->sendPayDeliverNotify($openid, $transid, $out_trade_no, $status);
+				if ($result){
+					Doggy_Log_Helper::warn("Wechat order[$rid] send goods failed: ".json_encode($result));
+					return $this->show_message_page('订单['.$rid.']更新失败！', true);
+				}
+			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->show_message_page('更新订单发货失败：'.$e->getMessage(), true);
 		}
