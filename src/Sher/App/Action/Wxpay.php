@@ -78,17 +78,22 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$code = $this->stash['code'];
 		
 		$user_id = $this->visitor->id;
-		$reoauth = false;
 		if ($user_id){
+			Doggy_Log_Helper::warn("wx oauth user_id[$user_id].");
 			$redis = new Sher_Core_Cache_Redis();
 			$user_token = $redis->get('weixin_'.$user_id.'_oauth_token');
 			$code = $redis->get('weixin_'.$user_id.'_code');
 			$state = $redis->get('weixin_'.$user_id.'_state');
 			
 			if (!empty($user_token) && !empty($code) && !empty($state)) {
+				Doggy_Log_Helper::warn("wx oauth user_token,code,state all.");
 				$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $code, $state);
 				
 				return $this->to_redirect($next_url);
+			} else {
+				// 同时清空
+				Doggy_Log_Helper::warn("wx oauth user_token,code,state set empty.");
+				$user_token = $code = $state = '';
 			}
 		}
 		
