@@ -56,16 +56,16 @@
 				<div class="ui segment">
 					<h4 class="ui dividing header">收货信息</h4>
 					<p>
-						<label>姓   名：</label> {{ order_info.addbook.name }}
+						<label>姓   名：</label> {{ order_info.express_info.name }}
 					</p>
 					<p>
-						<label>收货地址：</label> {{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }} {{ order_info.addbook.address }}
+						<label>收货地址：</label> {{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.area }} {{ order_info.express_info.address }}
 					</p>
 					<p>
-						<label>联系电话：</label> {{ order_info.addbook.phone }}
+						<label>联系电话：</label> {{ order_info.express_info.phone }}
 					</p>
 					<p>
-						<label>邮政编码：</label> {{ order_info.addbook.zip }}
+						<label>邮政编码：</label> {{ order_info.express_info.zip }}
 					</p>
 					
 					<h4 class="ui dividing header">送货时间</h4>
