@@ -262,7 +262,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 							array(
 						   	 	"type" => "click",
 						   	 	"name" => "维权",
-								"url" => "MENU_KEY_FEEDBACK"
+								"key" => "MENU_KEY_FEEDBACK"
 							),
 							array(
 						   	 	"type" => "view",
