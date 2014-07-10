@@ -88,7 +88,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			Doggy_Log_Helper::warn("wx oauth user_token[$cache_user_token],code[$cache_code],state[$cache_state] all.");
 			
-			if (!empty($user_token) && !empty($code) && !empty($state)) {
+			if (!empty($cache_user_token) && !empty($cache_code) && !empty($cache_state)) {
 				$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $cache_code, $cache_state);
 				
 				return $this->to_redirect($next_url);
