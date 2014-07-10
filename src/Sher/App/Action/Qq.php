@@ -137,7 +137,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 				
 				$user_info['nickname'] = $qq_info['nickname'];
 				$user_info['sex'] = $qq_info['gender'];
-				$user_info['from_site'] = Sher_Core_Model_User::FROM_QQ;
+				$user_info['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
 				
 	            $ok = $user->create($user_info);
 				if($ok){

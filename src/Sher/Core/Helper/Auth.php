@@ -57,7 +57,7 @@ class Sher_Core_Helper_Auth {
 				'wx_open_id' => $wx_user['openid'],
 				'sex' => $wx_user['sex'],
 	            'state' => Sher_Core_Model_User::STATE_OK,
-				'from_site' => Sher_Core_Model_User::FROM_WEIXIN,
+				'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
 	        );
 			
             $ok = $user->create($user_info);

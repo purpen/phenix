@@ -1,0 +1,99 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的订单-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+	
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="wechat show">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">我的订单</h3>
+				
+				<div class="ui segment">
+					<h4 class="ui dividing header">订单状态</h4>
+					
+					<p>订单号：{{ order_info.rid }}</p>
+					<p>支付方式：{{ order_info.payment.name }} <span class="ui magenta text">{{ order_info.status_label }}</span></p>
+					<p>下单时间：{{ order_info.created_on|date }}</p>
+					
+					<h4 class="ui dividing header">订单金额</h4>
+			
+					<p>优惠：<b id="order_coin_money" class="ui magenta text">{{ order_info.coin_money }}</b> 元</p>
+					<p>运费：<b id="order_freight_money" class="ui magenta text">{{ order_info.freight }}</b> 元</p>
+			
+					<p>实付金额：<b id="order_pay_money" class="ui magenta text">{{ order_info.pay_money }}</b> 元</p>
+				</div>
+				
+				<div class="ui segment">
+					<h4 class="ui dividing header">商品信息</h4>
+					<div class="ui divided order products list">
+						{% for item in order_info.items %}
+							{% product_list var:'product' product_id:item.sku %}
+							<div class="item">
+								<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+						      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+								</a>
+						      	<div class="content">
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+									</div>
+						          	<p class="attribute">编号：{{ item.sku }}</p>
+						      	</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				
+				<div class="ui segment">
+					<h4 class="ui dividing header">收货信息</h4>
+					<p>
+						<label>姓   名：</label> {{ order_info.addbook.name }}
+					</p>
+					<p>
+						<label>收货地址：</label> {{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }} {{ order_info.addbook.address }}
+					</p>
+					<p>
+						<label>联系电话：</label> {{ order_info.addbook.phone }}
+					</p>
+					<p>
+						<label>邮政编码：</label> {{ order_info.addbook.zip }}
+					</p>
+					
+					<h4 class="ui dividing header">送货时间</h4>
+					<p>{{ order_info.transfer_time_s.title }}</p>
+					
+					<h4 class="ui dividing header">发票信息</h4>
+					{% if order_info.invoice_type %}
+						<p>
+							<label>发票类型：</label> {{ order_info.invoice_caty }}
+						</p>
+						<p>
+							<label>发票抬头：</label> {{ order_info.invoice_title }}
+						</p>
+						<p>
+							<label>发票内容：</label> {{ order_info.invoice_content }}
+						</p>
+					{% else %}
+						<div class="item"><label>无需发票</label></div>
+					{% endif %}
+					
+					<h4 class="ui dividing header">备注</h4>
+					<p>{{ order_info.summary|default '无' }}</p>
+					
+				</div>
+				
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

@@ -130,7 +130,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 				$user_info['summary'] = $weibo_info['description'];
 				$user_info['sex'] = $weibo_info['gender'];
 				$user_info['city'] = $weibo_info['location'];
-				$user_info['from_site'] = Sher_Core_Model_User::FROM_WEIBO;
+				$user_info['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
 			
 			
 	            $ok = $user->create($user_info);

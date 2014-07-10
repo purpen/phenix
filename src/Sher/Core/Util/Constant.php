@@ -23,6 +23,14 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TYPE_TOPIC   = 2;
 	
 	
+	// 来源站点
+	const FROM_LOCAL = 1;
+	const FROM_WEIBO = 2;
+	const FROM_QQ = 3;
+	const FROM_ALIPAY = 4;
+	const FROM_WEIXIN = 5;
+	
+	
 	# 临时订单过期时间， 10小时
 	const EXPIRE_TIME = 36000;
 	

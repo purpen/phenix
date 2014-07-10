@@ -95,6 +95,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		'finished_date' => 0,
 		
+		# 来源站点
+		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
 
 	protected $required_fields = array('rid', 'user_id');
@@ -464,6 +466,38 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		return $this->update_set($id, array('is_payed' => 1, 'payed_date' => time()));
     }
+	
+	/**
+	 * 更新订单的支付信息
+	 * 支付状态，第三方交易号，状态
+	 */
+	public function update_order_payment_info($id=null, $trade_no=null, $status=null){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id)){
+            throw new Sher_Core_Model_Exception('Order id is Null');
+        }
+		// 状态值
+		if (is_null($status)){
+			$status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+		}
+		
+		// 支付标识
+		$updated = array(
+			'is_payed' => 1, 
+			'payed_date' => time()
+		);
+		
+		if ($trade_no) {
+			$updated['trade_no'] = $trade_no;
+		}
+		if ($status) {
+			$updated['status'] = (int)$status;
+		}
+		
+		return $this->update_set($id, $updated);
+	}
 	
 	/**
 	 * 更新订单的已发货状态

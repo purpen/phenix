@@ -319,6 +319,9 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			'address' => $address,
 		);
 		
+		// 来源微信订单
+		$order_info['from_site'] = Sher_Core_Util_Constant::FROM_WEIXIN;
+		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
 		
@@ -370,43 +373,19 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
-	 * 获取用户共享收货地址
+	 * 支付成功后的跳转
 	 */
-	public function addr(){
-		$current_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/addr';
-		
-		$wechat = new Sher_Core_Util_Wechat($this->options);
-		
-		$timestamp = time();
-		$noncestr = $wechat->generateNonceStr();
-		
-		$user_id = '469';
-		
-		// 微信共享地址参数
-		$wxaddr_options = array(
-			'appId' => $this->options['appid'],
-			'timeStamp' => $timestamp,
-			'nonceStr' => $noncestr,
-		);
-		
-		$redis = new Sher_Core_Cache_Redis();
-		$access_json = $redis->get('weixin_'.$user_id.'_oauth_access');
-		if (!empty($access_json)){
-			$addrsign = $wechat->getAddrSign($current_url, $timestamp, $noncestr, $access_json['access_token']);
-			
-			$wxaddr_options['addrSign'] = $addrsign;
+	public function show(){		
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
 		
-		$this->stash['wxaddr_options'] = $wxaddr_options;
+		$this->stash['order_info'] = $order_info;
 		
-		return $this->to_html_page('page/wechat/addr.html');
-	}
-	
-	/**
-	 * 微信支付请求实例
-	 */
-	public function payment(){
-		return $this->to_html_page('page/wechat/payment.html');
+		return $this->to_html_page("page/wechat/order_view.html");
 	}
 	
 	/**
@@ -415,8 +394,60 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	public function direct_native(){
 		Doggy_Log_Helper::warn("Wechat order notice!");
 		
+		$trade_mode  = $this->stash['trade_mode'];
+		$trade_state = $this->stash['trade_state'];
+		$notify_id = $this->stash['notify_id'];
+		$transaction_id = $this->stash['transaction_id'];
+		
+		$pay_info = $this->stash['pay_info'];
+		$total_fee = $this->stash['total_fee'];
+		
+		$out_trade_no = $this->stash['out_trade_no'];
+		$time_end = $this->stash['time_end'];
+		$transport_fee = $this->stash['transport_fee'];
+		$product_fee = $this->stash['product_fee'];
+		$discount = $this->stash['discount'];
+		
+		// 支付结果: 0—成功
+		if ($trade_state != 0) {
+			Doggy_Log_Helper::warn("Wechat order[$out_trade_no] pay failed: ".$pay_info);
+			return $this->to_raw('Trade failed!');
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($out_trade_no);
+		
+		// 验证订单状态
+		if (empty($order_info)) {
+			Doggy_Log_Helper::warn("Wechat order[$out_trade_no] isn't exist!!!");
+			return $this->to_raw('Not exist!');
+		}
+		$order_status = $order_info['status'];
+		
+		// 等待支付的有效订单，进行处理 
+		if ($order_status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT) {
+			Doggy_Log_Helper::warn("Wechat order[$out_trade_no] status[$order_status] updated!");
+			return $this->to_raw('Order updated!');
+		}
+		
+		$order_id = $order_info['_id'];
+		// 验证支付金额是否一致,单位为分
+		if ($total_fee != $order_info['pay_money']*100){
+			Doggy_Log_Helper::warn("Wechat order[$out_trade_no] total fee[$total_fee] not match!!!");
+			return $this->to_raw('Total fee not match!');
+		}
+		
+		// 更新支付状态
+		$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
 		
 		return $this->to_raw('success');
+	}
+	
+	/**
+	 * 微信支付请求实例
+	 */
+	public function payment(){
+		return $this->to_html_page('page/wechat/payment.html');
 	}
 	
 	/**

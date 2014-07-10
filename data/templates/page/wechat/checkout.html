@@ -123,6 +123,7 @@
 {% endblock %}
 
 {% block jquery %}
+	var rid = '{{ rid }}';
 	// 微信支付
 	var wechat_pay = function() {
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
@@ -141,7 +142,8 @@
 				alert(res.err_msg);
 				// 支付成功
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){
-					alert('支付成功！');
+					var view_url = '{{ app_url_domain }}/wxpay/show?rid='+rid;
+					phenix.redirect(view_url);
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
 				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
@@ -231,7 +233,7 @@
 					</div>
 				</div>
 				
-				<button class="ui magenta fluid wxpay button">微信支付</button>
+				<button class="ui weixin fluid wxpay button">微信支付</button>
 				
 			</div>
 		</div>

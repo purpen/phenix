@@ -145,7 +145,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'new_user_viewed' => 0,
 		),
 		# 来源站点
-		'from_site' => SELF::FROM_LOCAL,
+		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
