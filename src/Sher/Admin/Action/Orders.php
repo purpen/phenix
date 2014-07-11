@@ -117,7 +117,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				Doggy_Log_Helper::warn("Wechat order[$rid] send goods notice!");
 				
 				$result = $wechat->sendPayDeliverNotify($openid, $transid, $out_trade_no, $status);
-				if ($result){
+				if (!$result || $result['errcode'] != 0 || $result['errcode'] != 'ok'){
 					Doggy_Log_Helper::warn("Wechat order[$rid] send goods failed: ".json_encode($result));
 					return $this->show_message_page('订单['.$rid.']更新失败！', true);
 				}
