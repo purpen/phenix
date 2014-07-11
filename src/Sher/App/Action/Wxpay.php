@@ -503,8 +503,9 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 维权通知URL
 	 */
 	public function feedback(){
+		Doggy_Log_Helper::warn("Wechat feedback notice!");
 		
-		return $this->to_html_page('page/wechat/feedback.html');
+		return $this->to_raw('success');
 	}
 	
 }

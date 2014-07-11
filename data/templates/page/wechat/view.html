@@ -1,43 +1,11 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/wechat.html'%}
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.fever-view .wide.cover.column {
-		padding-right: 0;
-	}
-	.product.designer > .column {
-		margin-bottom: 0rem;
-		margin-top: 0rem;
-	}
-	.product .attributes {
-		
-	}
-	.product .attributes .letter-spacing-two {
-		letter-spacing: 2em;
-	}
-	.product .attributes .price {
-		font-size: 1.5em;
-		color: #F42156;
-	}
-	
-	.cover-thumb {
-		text-align: center;
-	}
-	.vote.timer .button {
-		padding-left: 4em;
-		padding-right: 4em;
-	}
-	.ui.inventor {
-		background-color:rgba(255,51,102,1);
-		color: #fff;
-	}
-	.inventor .inventor-info {
-	    margin: 1em auto;
-	    text-align: center;
-	}
-	.inventor .inventor-info .summary {
-		margin: 1em auto;
-		line-height: 24px;
+	.wechat.show {
+		margin-bottom: 1.5%;
+	    margin-top: 1.5%;
+	    padding: 1rem 0;
 	}
 </style>
 {% endblock %}
@@ -51,15 +19,23 @@
 
 {% block content %}
 <div class="wechat show">
-	<div class="ui responsive grid">		
+	<div class="ui responsive grid">
 		<div class="row">
-			<div class="eight wide cover column">
-				<img src="{{ product.cover.thumbnails.big.view_url }}" id="main-cover" />
+			<div class="column">
+				<div class="ui breadcrumb">
+				  	<a class="section" href="{{ app_url_wechat }}/shop">商品</a>
+				  	<div class="divider"> / </div>
+				  	<div class="active section">{{ product.title }}</div>
+				</div>
 			</div>
-			<div class="eight wide column">
-				<h3 class="ui dividing header">
+		</div>
+		<div class="row">
+			<div class="column">
+				<img src="{{ product.cover.thumbnails.big.view_url }}" class="ui image" />
+				
+				<h4 class="ui dividing header">
 					{{ product.title }}
-				</h3>
+				</h4>
 				
 				<div class="attributes">
 					<p class="item">
@@ -75,110 +51,27 @@
 				<div class="ui clearing divider"></div>
 				
 				<div class="buy">
-					<a href="{{ app_url_domain }}/wxpay/nowbuy?sku={{ product._id }}" class="ui active cart magenta button">
-						立即购买
+					<a href="{{ app_url_domain }}/wxpay/nowbuy?sku={{ product._id }}" class="ui magenta active cart button">
+						<i class="flat shopping_cart icon"></i>立即购买
 					</a>
-				
 					<a href="{{ app_url_topic }}/ajax_favorite?id={{ product._id }}" class="ui gray ajax button" id="favorite_{{ product._id }}">
-						收藏
+						<i class="flat collection icon"></i>收藏
 					</a>
-					
 				</div>
 				
 				<div class="ui clearing divider"></div>
 				
-				<div class="ui info message">
-					<i class="flat close icon"></i>
-					<div class="ui header">
-						分享赢好礼！So easy!
-						<p class="sub header">
-							邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券； 
-						</p>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="ui column">
-				<div class="ui sixteen wide center aligned submenu column">
-					<div class="ui magenta buttons">
-					  	<a class="ui active item button" data-tab="content">产品详情</a>
-					  	<a class="ui item button" data-tab="people">用户评价</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="ui column">
-				
-				<div class="ui active tab segment" data-tab="content">
+				<div class="ui segment">
 					<div class="ui center aligned grid">
-						<div class="ui twelve wide column product-content froala-element">
+						<div class="column product-content froala-element">
 							{{ product.content }}
 						</div>
 					</div>
 				</div>
-		
-				<div class="ui tab inventor" data-tab="inventor">
-					<div class="ui grid">
-						<div class="two wide column"></div>
-						<div class="twelve wide column">
-							<div class="inventor-info">
-								<img src="{{ product.user.big_avatar_url }}" class="ui big avatar image" />
-								<h2 class="ui header">
-									{{ product.user.nickname }}
-								</h2>
-								<p>
-									<i class="flat locator icon"></i> {{ product.user.city }} {{ product.user.profile.job }}
-								</p>
-								<div class="actions">
-									<a href="" class="ui small white button">
-										关注 
-									</a>
-									<a href="" class="ui small white button">
-										私信 
-									</a>
-								</div>
-								<div class="summary">
-									{{ product.user.summary }}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-				<div class="ui tab segment" data-tab="people">
-					<div class="ui grid">
-						<div class="ui two wide column"></div>
-						<div class="ui twelve wide column">
-							<h3 class="ui header">预定者</h3>
-							<!--最新投票者列表-->
-							<div class="avatars" id="product-vote-people">
-								{% vote_list var:'votelist' target_id:product._id size:8 %}
-							    <div class="ui horizontal list">
-									{% for vote in votelist.rows  %}
-									<div class="item">
-										<a class="ui small avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted">
-											<img src="{{ vote.user.small_avatar_url }}" />
-										</a>
-									</div>
-									{% endfor %}
-								</div>
-				
-							</div>
-				
-						</div>
-						<div class="ui two wide column"></div>
-					</div>
-				</div>
 				
 			</div>
 		</div>
-		
-		
+				
 	</div>
 </div>
 {% endblock %}

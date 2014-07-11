@@ -53,6 +53,10 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 精选商品列表
 	 */
 	public function featured(){
+		$this->set_target_css_state('list_featured');
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.wechat'].'/shop/featured?page=#p#';
+		$this->stash['sort'] = 'hot';
+		
 		return $this->get_list();
 	}
 	
@@ -60,6 +64,10 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 最新商品列表
 	 */
 	public function newest() {
+		$this->set_target_css_state('list_newest');
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.wechat'].'/shop/newest?page=#p#';
+		$this->stash['sort'] = 'latest';
+		
 		return $this->get_list();
 	}
 	
@@ -67,14 +75,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 商品列表
 	 */
 	public function get_list() {
-		$category_id = (int)$this->stash['category_id'];
-		$type = (int)$this->stash['type'];
-		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
-		
-		$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id,$type,$sort,'#p#');
-		
-		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('page/wechat/list.html');
 	}

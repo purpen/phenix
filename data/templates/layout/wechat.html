@@ -1,20 +1,110 @@
-{% extends 'layout/base.html' %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+		<link href="frbird.qiniudn.com" rel="dns-prefetch">
+		<link href="frstatic.qiniudn.com" rel="dns-prefetch">
+		{%block meta%}
+		<meta name="title" content="太火鸟-人生是场大设计" />
+		<meta name="keywords" content="太火鸟,原创产品,产品预售,产品预订,创意产品,创意交易,孵化社区,创意众筹,社会化社区"/>
+		<meta name="description" content="中国最顶尖的原创产品社会化电商平台，利用众筹到众包方式，整合创意产品社区与电子商务服务为一体，让社区参与产品开发整个过程，帮设计师成就梦想，助消费者品味生活！" />
+		{%endblock%}
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<style type="text/css">
+			/*******************************
+			          Flat Icon
+			*******************************/
+			@font-face {
+			  font-family: 'Flat Icons';
+			  src: url('{{ app_url_domain }}/fonts/flat.icons.eot');
+			  src:
+			    url('{{ app_url_domain }}/fonts/flat.icons.eot?#iefix') format('embedded-opentype'),
+			    url('{{ app_url_domain }}/fonts/flat.icons.svg#flat.icons') format('svg'),
+			    url('{{ app_url_domain }}/fonts/flat.icons.woff') format('woff'),
+			    url('{{ app_url_domain }}/fonts/flat.icons.ttf') format('truetype')
+			  ;
+			  font-style: normal;
+			  font-weight: normal;
+			  font-variant: normal;
+			  text-decoration: inherit;
+			  text-transform: none;
+			}
+			
+			@font-face {
+			  font-family: 'FontAwesome';
+			  src: url('{{ app_url_domain }}/fonts/fontawesome-webfont.eot');
+			  src: url('{{ app_url_domain }}/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'), url('{{ app_url_domain }}/fonts/fontawesome-webfont.woff') format('woff'), url('{{ app_url_domain }}/fonts/fontawesome-webfont.ttf') format('truetype'), url('{{ app_url_domain }}/fonts/fontawesome-webfont.svg?#fontawesomeregular') format('svg');
+			  font-weight: normal;
+			  font-style: normal;
+			}
+		</style>
+		
+		{% if css_use_bundle %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/bird.min.{{ css_bundle_version }}.css" type="text/css" />
+		{% else %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
+		{% endif %}
+		{% block layout_css %}{% endblock %}
+		{% block page_css %}{% endblock %}
+	</head>
+	
+	<body>
+		{% block layout_promo %}{% endblock %}
+	    {% block layout_header %}
+		<header class="wechat ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<img src="{{ app_url_images }}/logo-home.png" />
+				</div>
+			</div>
+		</header>
+		{% endblock %}
+		
+	    {% block layout_content %}
+	        {% block content %}{% endblock %}
+	    {% endblock %}
+		
+		{% block layout_footer %}
+			{% include "block/footer.html" %}
+		{% endblock %}
+		
+		{% if js_use_bundle %}
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.{{ js_jquery_bundle_version }}.js"></script>
+		{% else %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.js"></script>
+		{% endif %}
+		
+		{% block layout_js %}{% endblock %}
+		{% block page_js %}{% endblock %}
 
-{% block title%}{% endblock %}
-{% block layout_css %}{% endblock %}
-{% block page_css %}{% endblock %}
-{% block layout_js %}{% endblock %}
-{% block page_js %}{% endblock %}
-{% block layout_jquery %}{% endblock %}
-{% block jquery %}{% endblock %}
-
-{% block layout_content %}
-<div id="bd">
-	<div id="ajax-note"></div>
-    {% block content %}{% endblock %}
-</div>
-{% endblock %}
-
-{% block layout_footer %}
-	{% include "block/footer.html" %}
-{% endblock %}
+		<script type="text/javascript">
+		<!--
+		$(function(e){
+			phenix.url = {
+				domain: '{{ app_url_domain }}',
+        		css: '{{ app_url_css}}',
+        		js: '{{ app_url_js}}',
+        		images: '{{ app_url_images}}',
+				app_url_action_base: '{{ app_url_action_base }}'
+			};
+			
+			phenix.visitor = {{ visitor_json }};
+			
+    		phenix.initial();
+			
+    		{% block layout_jquery %}{% endblock %}
+    		{% block jquery %}{% endblock %}
+		});
+		//-->
+		</script>
+	</body>
+</html>

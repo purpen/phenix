@@ -1,8 +1,8 @@
-{%extends 'layout/board.html'%}
-{% block title %}商店-{% endblock %}
+{%extends 'layout/wechat.html'%}
+{% block title %}精选商品{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	 
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -18,7 +18,15 @@
 <div class="wechat list">
 	<div class="ui responsive grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id stage:9 only_onsale:1 size:16 %}
+			<div class="center aligned column">
+				<div class="ui magenta buttons">
+					<a href="{{ app_url_wechat }}/shop/featured" class="ui {{ css_list_featured }} button">精选商品</a>
+					<a href="{{ app_url_wechat }}/shop/newest" class="ui {{ css_list_newest }} button">最新商品</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			{% product_list var:'list' page:page sort:sort stage:9 only_onsale:1 size:10 %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui one items">
@@ -34,14 +42,10 @@
 			{% endif %}
 		</div>
 		
-		{% if list.total_page > 2 %}
-		<div class="row">
-			<div class="column">
-				<div class="ui pagination grid">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-			</div>
+		{% if list.total_page > 0 %}
+		<div class="ui pagination grid">
+			{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+			{%include 'block/pager.html'%}
 		</div>
 		{% endif %}
 		
