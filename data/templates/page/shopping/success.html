@@ -53,7 +53,8 @@
 
 {% block content %}
 <div class="cart">
-	<form id="ui pay form" method="post" action="#" target="_blank">
+	<form id="ui pay form" method="post" action="{{ app_url_shopping }}/success" target="_blank">
+		<input type="hidden" name="rid" value="{{ rid }}" />
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="ui center aligned column">
@@ -101,7 +102,7 @@
 								  	</div>
 								  	<div class="item">
 										<div class="ui radio checkbox">
-											<input type="radio" value="netpay" name="payaway"> 
+											<input type="radio" value="tenpay" name="payaway"> 
 											<label><img alt="netpay" src="http://p.www.xiaomi.com/images/cft.gif"></label>
 										</div>
 								  	</div>
