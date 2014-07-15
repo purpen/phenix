@@ -447,6 +447,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['mode'] = 'edit';
 		$this->stash['topic'] = $topic;
 		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
+		
 		return $this->to_html_page('page/topic/submit.html');
 	}
 	

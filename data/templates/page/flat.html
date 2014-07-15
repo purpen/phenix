@@ -100,24 +100,23 @@ li.total .notesite:before {
 
 @keyframes bo7{
 	0%{
-		width: 2em;
-	    height: 2em;
-	    line-height: 2em;
-		border-radius: 1em;
+		box-shadow: 0em 0em 1px #ff3366;
 	}
 	100%{
-		width: 4em;
-	    height: 4em;
-	    line-height: 4em;
-		border-radius: 2em;
+		box-shadow: 0 0 8px #ff3366;
 	}
 }
 
 .cic {
-    box-shadow: 0 0 8px #ff3366;
+	width: 4em;
+    height: 4em;
+    line-height: 4em;
     text-align: center;
-    
-	animation:bo7 5s linear infinite alternate;
+}
+.mark {
+	box-shadow: 0 0 8px #ff3366;
+	animation:bo7 5s linear infinite normal;
+	border-radius: 20em;
 }
 </style>
 {% endblock %}
@@ -139,7 +138,9 @@ li.total .notesite:before {
 		<div class="row">
 			<div class="column">
 				<div class="cic">
-					<i class="flat page_right icon"></i>
+					<div class="mark">
+						<i class="flat page_right icon"></i>
+					</div>
 				</div>
 			</div>
 		</div>
