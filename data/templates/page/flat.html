@@ -98,6 +98,27 @@ li.total .notesite:before {
     background: none repeat scroll 0 0 #CFD1D0;
 }
 
+@keyframes bo7{
+	0%{
+		width: 2em;
+	    height: 2em;
+	    line-height: 2em;
+		border-radius: 1em;
+	}
+	100%{
+		width: 4em;
+	    height: 4em;
+	    line-height: 4em;
+		border-radius: 2em;
+	}
+}
+
+.cic {
+    box-shadow: 0 0 8px #ff3366;
+    text-align: center;
+    
+	animation:bo7 5s linear infinite alternate;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -110,45 +131,21 @@ li.total .notesite:before {
 		return false;
 	});
 	
-	//判断浏览器版本JS
-	var browser = {
-	    versions: function () {
-	        var u = navigator.userAgent, app = navigator.appVersion;
-	        return {
-	            trident: u.indexOf('Trident') > -1, //IE内核
-	            presto: u.indexOf('Presto') > -1, //opera内核
-	            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-	            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-	            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
-	            ios: !!u.match(/(i[^;]+\;(U;)? CPU.+Mac OS X)/), //ios终端
-	            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-	            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
-	            iPad: u.indexOf('iPad') > -1, //是否iPad
-	            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-	        };
-	    } (),
-	    language: (navigator.browserLanguage || navigator.language).toLowerCase()
-	};
-	
-	var video_id = 'XNzE2ODY0NDM2';
-	var video_html="";
-
-	if (browser.versions.ios){
-		 video_html += '<video width="100%" height="100%" poster="{{ app_url_packaged }}/images/g-mb-video.jpg" autobuffer src="' + 'http://v.youku.com/player/getRealM3U8/vid/' + video_id + '/type//video.m3u8"></video>';
-	} else {
-		video_html+= '<video id="vv" width="100%" height="50%" poster="{{ app_url_packaged }}/images/g-mb-video.jpg" controls="" autoplay="" name="media"><source src="http://v.youku.com/player/getRealM3U8/vid/' + video_id + '/type//video.m3u8"></video>';    
-	}
-	$('#video-mobile').html(video_html);
 	
 {% endblock %}
 {% block content %}
 <div class="home">
 	<div class="ui responsive grid">
 		<div class="row">
-			
-			
-			
-			<div class="ui column">
+			<div class="column">
+				<div class="cic">
+					<i class="flat page_right icon"></i>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				
 				<form class="ui form">
 					<div class="field">
 						<textarea name="content" class="editor" placeholder="详细内容" id="text-content">
