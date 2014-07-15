@@ -67,8 +67,7 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
         $total_fee = $order_info['pay_money'];
 		
         // 订单描述
-        $body = '太火鸟'.$rid.'订单';
-		
+		$body = 'Taihuoniao '.$rid;
 		
 		/* 创建支付请求对象 */
 		$tenpay = new Sher_Core_Util_TenpayRequest();
@@ -93,33 +92,11 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 		$tenpay->setParameter("body", $body);
 		// 银行类型，默认为财付通
 		$tenpay->setParameter("bank_type", "DEFAULT");
-		// 币种
-		$tenpay->setParameter("fee_type", "1");
 		
 		// 系统可选参数
-		
-		// 签名方式，默认为MD5，可选RSA
 		$tenpay->setParameter("sign_type", "MD5");
-		// 接口版本号
-		$tenpay->setParameter("service_version", "1.0");
-		// 字符集
-		$tenpay->setParameter("input_charset", "utf-8");
-		// 密钥序号
-		$tenpay->setParameter("sign_key_index", "1");
 		
 		// 业务可选参数
-		
-		// 商品费用
-		$tenpay->setParameter("product_fee", $order_info['total_money']*100);
-		// 物流费用
-		$tenpay->setParameter("transport_fee", $order_info['freight']*100);
-		// 订单生成时间
-		$tenpay->setParameter("time_start", date("YmdHis", $order_info['created_on']));
-		// 订单失效时间
-		$tenpay->setParameter("time_expire", date("YmdHis", $order_info['created_on']+3*24*60*60));
-		
-		// 商品标记
-		$tenpay->setParameter("goods_tag", "frbird tenpay");
 		
 		// 请求的URL
 		$reqUrl = $tenpay->getRequestURL();
