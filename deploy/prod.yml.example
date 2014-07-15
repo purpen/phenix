@@ -1,14 +1,26 @@
 ---
+app.domain.base: 'http://www.taihuoniao.com'
 app.db.default: 'mysql://root:@localhost/test?charset=utf8'
 #if in production mode,uncomment and change it to 'prod'
-#app.mode: 'dev'
+app.mode: 'prod'
+deploy.root: '/www/phenix'
+app.log.default:
+  class: 'Doggy_Log_FileLog'
+  options:
+    output: '/var/log/frbird.log'
+    level: 'warn'
 
 app.mongodb_rs: true
-app.mongodb_host: '192.168.8.3'
+app.mongodb_host: '127.0.0.1'
 app.keychains.private: 'xxxxOOOOxxxx'
 
 app.url.packaged: '{$app.url.qiniu.frstatic}'
 
+#dt cache
+app.dt:
+  cache: 'MemFile'
+# cache: 'XCache'
+  cache_dir: '/dev/shm/dt'
 app.js.use_bundle: 1
 app.css.use_bundle: 1
 
@@ -21,12 +33,11 @@ app.product.topic_category_id: 1
 app.url.action_base:    '{$app.domain.app}'
 
 app.url.upload_url: '{$app.domain.app}/uploader'
-app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
+app.doggyx.class_path: '/opt/project/doggy-x'
 
 #社区
 app.url.social: '{$app.url.domain}/social'
-app.url.topic: '{$app.url.domain}/topic-%s-%s-%s-%s.html'
-app.url.topic.view: '{$app.url.domain}/topic/show-%s-%s.html'
+app.url.topic.view: '{$app.url.domain}/topic/view-%s-%s.html'
 
 app.url.thumb: 'http://img.rayshe.com/%s'
 
@@ -41,7 +52,7 @@ app.storage.sher:
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
-app.alipay.cacert: '/Users/xiaoyi/Project/phenix/vendor/cacert.pem'
+app.alipay.cacert: '/opt/project/phenix/vendor/cacert.pem'
 
 # SinaWeibo API
 app.sinaweibo.app_key: '3156984431'
