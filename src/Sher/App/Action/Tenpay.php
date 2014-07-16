@@ -93,7 +93,11 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 		$tenpay->setParameter("bank_type", "DEFAULT");
 		
 		// 用户ip
-		$tenpay->setParameter("spbill_create_ip", $_SERVER['REMOTE_ADDR']); // 客户端IP
+		// 用户终端IP，IPV4字串，15字节内
+		$reqeust = new Doggy_Dispatcher_Request_Http();
+		$spbill_create_ip = $reqeust->getClientIp();
+		
+		$tenpay->setParameter("spbill_create_ip", $spbill_create_ip); // 客户端IP
 		$tenpay->setParameter("fee_type", "1");
 		$tenpay->setParameter("subject", $body);
 		
