@@ -16,7 +16,7 @@
 				{% if topic.asset_count %}
 					<!--展示图片-->
 					<div class="ui small images">
-						{% asset_list var:'assets' parent_id:topic._id size:6 %}
+						{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:50 %}
 						{% for asset in assets.rows %}
 					  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 						{% endfor %}

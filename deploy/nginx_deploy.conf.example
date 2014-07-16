@@ -23,6 +23,8 @@ server {
           rewrite ^/admin(.*)$ /app/admin$1 last;
           rewrite ^/uploader(.*)$ /app/site/uploader$1 last;
           rewrite ^/favorite(.*)$ /app/site/favorite$1 last;
+		  rewrite ^/guide(.*)$ /app/site/guide$1 last;
+		  rewrite ^/helper(.*)$ /app/site/helper$1 last;
           rewrite ^/sina(.*)$ /app/site/sina$1 last;
           rewrite ^/qq(.*)$ /app/site/qq$1 last;
           rewrite ^/tenpay(.*)$ /app/site/tenpay$1 last;
