@@ -1,58 +1,72 @@
 server {
+    listen       80;
+    server_name  taihuoniao.com;
+    charset utf-8;
+    location / {
+        rewrite ^(.*)$ http://www.taihuoniao.com$1 last;
+    }
+}
+
+server {
         listen       80;
         #edit this!
-        server_name  www.taihuoniao.com taihuoniao.com;
+        server_name  www.taihuoniao.com;
         charset utf-8;
         index  app;
         root /www/phenix/web;
-		
-        location  /app {
-            fastcgi_split_path_info ^(/app)(.*)$;
-            fastcgi_intercept_errors on;
-            include fastcgi_params;
+
+        error_page  404              /404.html;
+        # url rewrite rules
+        location / {
+          rewrite ^/home(.*)$ /app/site/index/home$1 last;
+          rewrite ^/asset(.*)$ /app/site/asset$1 last;
+          rewrite ^/admin(.*)$ /app/admin$1 last;
+          rewrite ^/uploader(.*)$ /app/site/uploader$1 last;
+          rewrite ^/favorite(.*)$ /app/site/favorite$1 last;
+          rewrite ^/sina(.*)$ /app/site/sina$1 last;
+          rewrite ^/qq(.*)$ /app/site/qq$1 last;
+          rewrite ^/tenpay(.*)$ /app/site/tenpay$1 last;
+          rewrite ^/goccia(.*)$ /app/site/index/goccia$1 last;
+          rewrite ^/activity(.*)$ /app/site/activity$1 last;
+          rewrite ^/dm(.*)$ /app/site/index/dm$1 last;  
         }
-		
-		location /home {
-            rewrite ^/home(.*)$ /app/site/index/home$1 last;
-        }
-		
-		location /wxpay {
+        location /wxpay {
             rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
         }
-		
-		location /wechat {
-			rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;
-			rewrite ^/wechat/(.*)$ /app/wechat/$1 last;
+        location /wechat {
+          rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;
+          rewrite ^/wechat/(.*)$ /app/wechat/$1 last;
         }
-		
-		location /sale {
-            rewrite ^/sale(.*)$ /app/site/sale$1 last;
+        
+        location /sale {
             rewrite ^/sale/c(\d+)[/]?$ /app/site/sale?category_id=$1 last;
-  		  	rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/sale?category_id=$1&page=$2 last;
-  		  	rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/sale?category_id=$1&sort=$2&page=$3 last;
-			rewrite ^/sale/(\d+).html$ /app/site/sale/view?id=$1 last;
+
+            rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/sale?category_id=$1&page=$2 last;
+            rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/sale?category_id=$1&sort=$2&page=$3 last;
+            rewrite ^/sale/(\d+).html$ /app/site/sale/view?id=$1 last;
+            rewrite ^/sale(.*)$ /app/site/sale$1 last;
         }
 		
-		location /shop {
-            rewrite ^/shop(.*)$ /app/site/shop$1 last;
+	location /shop {
             rewrite ^/shop/c(\d+)[/]?$ /app/site/shop?category_id=$1 last;
-  		  	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop?category_id=$1&page=$2 last;
-  		  	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop?category_id=$1&sort=$2&page=$3 last;
-			rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
+  	    rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop?category_id=$1&page=$2 last;
+  	    rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop?category_id=$1&sort=$2&page=$3 last;
+            rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
+            rewrite ^/shop(.*)$ /app/site/shop$1 last;
         }
 		
-		location /social {
+	location /social {
             rewrite ^/social(.*)$ /app/site/social$1 last;
         }
-		
+
         location /topic {
           rewrite ^/topic[/]?$ /app/site/topic last;
           rewrite ^/topic/c(\d+)[/]?$ /app/site/topic?category_id=$1 last;
           rewrite ^/topic/c(\d+)/t(\d+)[/]?$ /app/site/topic?category_id=$1&type=$2 last;
-		  rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/site/topic?category_id=$1&page=$2 last;
-		  rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/site/topic?category_id=$1&type=$2&page=$3 last;
-		  rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
-		  rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
+          rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/site/topic?category_id=$1&page=$2 last;
+          rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/site/topic?category_id=$1&type=$2&page=$3 last;
+          rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
+          rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
           rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
           rewrite ^/topic(.*)$ /app/site/topic$1 last;
         }
@@ -61,11 +75,11 @@ server {
           rewrite ^/fever[/]?$ /app/site/fever last;
           rewrite ^/fever/c(\d+)[/]?$ /app/site/fever?category_id=$1 last;
           rewrite ^/fever/c(\d+)/t(\d+)[/]?$ /app/site/fever?category_id=$1&type=$2 last;
-		  rewrite ^/fever/c(\d+)/t(\d+)/p(\d+).*$ /app/site/fever?category_id=$1&type=$2&page=$3 last;
+          rewrite ^/fever/c(\d+)/t(\d+)/p(\d+).*$ /app/site/fever?category_id=$1&type=$2&page=$3 last;
 		  rewrite ^/fever/list-c(\d+)-t(\d+)-s(\d)-p(\d+).*$ /app/site/fever?category_id=$1&type=$2&sort=$3&page=$4 last;
-		  rewrite ^/fever/(\d+).html$ /app/site/fever/view?id=$1 last;
+         rewrite ^/fever/(\d+).html$ /app/site/fever/view?id=$1 last;
 		  rewrite ^/fever/view-(\d+).html$ /app/site/fever/view?id=$1 last;
-          rewrite ^/fever/view-(\d+)-(\d+).html$ /app/site/fever/view?sku=$1&page=$2 last;
+          rewrite ^/fever/view-(\d+)-(\d+).html$ /app/site/fever/view?id=$1&page=$2 last;
           rewrite ^/fever(.*)$ /app/site/fever$1 last;
         }
 		
@@ -73,95 +87,99 @@ server {
           rewrite ^/shopping[/]?$ /app/site/shopping last;
           rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
         }
-		
-		location /search {
-	        rewrite ^/search[/]?$ /app/site/search last;
-	        rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;
-	        rewrite ^/search/([^/]+)/p(\d+).html$ /app/site/search?q=$1&page=$2 last;
-	    }
 
-	    location /tag {
-	        rewrite /tag(\/*)$ /tags/ last;
-	        rewrite /tag/([^/]+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/search/tag?q=$1&page=$2&sort=$3 last;
-	        rewrite /tag/([^/]+)[/]?$ /app/site/search/tag?q=$1 last;
-	    }
-		
-		location /my {
-	        rewrite ^/my/like/p(\d+).*$ /app/site/my/like?page=$1 last;
-			rewrite ^/my/love/p(\d+).*$ /app/site/my/love?page=$1 last;
-			rewrite ^/my/fans/p(\d+).*$ /app/site/my/fans?page=$1 last;
-			rewrite ^/my/comment/p(\d+).*$ /app/site/my/comment?page=$1 last;
-			rewrite ^/my/follow/p(\d+).*$ /app/site/my/follow?page=$1 last;
-	        rewrite ^/my(.*)$ /app/site/my$1 last;
-	    }
+	location /search {
+	     rewrite ^/search[/]?$ /app/site/search last;
+	     rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;
+	     rewrite ^/search/([^/]+)/p(\d+).html$ /app/site/search?q=$1&page=$2 last;
+	}
 
-	    location /user {
-		  rewrite ^/user/(\d+)[/]?$ /app/site/user?id=$1 last;
+        location /tag {
+	    rewrite /tag(\/*)$ /tags/ last;
+	    rewrite /tag/([^/]+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/search/tag?q=$1&page=$2&sort=$3 last;
+	    rewrite /tag/([^/]+)[/]?$ /app/site/search/tag?q=$1 last;
+	}
+		
+	location /my {
+	    rewrite ^/my/like/p(\d+).*$ /app/site/my/like?page=$1 last;
+	    rewrite ^/my/love/p(\d+).*$ /app/site/my/love?page=$1 last;
+	    rewrite ^/my/fans/p(\d+).*$ /app/site/my/fans?page=$1 last;
+	    rewrite ^/my/comment/p(\d+).*$ /app/site/my/comment?page=$1 last;
+	    rewrite ^/my/follow/p(\d+).*$ /app/site/my/follow?page=$1 last;
+	    rewrite ^/my(.*)$ /app/site/my$1 last;
+	}
+        location /user {
+	      rewrite ^/user/(\d+)[/]?$ /app/site/user?id=$1 last;
 	      rewrite ^/user/(\d+)/like[/]?$ /app/site/user/like?id=$1 last;
 	      rewrite ^/user/(\d+)/like/p(\d+).*$ /app/site/user/like?id=$1&page=$2 last;
 	      rewrite ^/user/(\d+)/support[/]?$ /app/site/user/support?id=$1 last;
 	      rewrite ^/user/(\d+)/support/p(\d+).*$ /app/site/user/support?id=$1&page=$2 last;
 	      rewrite ^/user/(\d+)/submitted[/]?$ /app/site/user/submitted?id=$1 last;
 	      rewrite ^/user/(\d+)/submitted/p(\d+).*$ /app/site/user/submitted?id=$1&page=$2 last;
-		  rewrite ^/user/(\d+)/follow[/]?$ /app/site/user/follow?id=$1 last;
+	      rewrite ^/user/(\d+)/follow[/]?$ /app/site/user/follow?id=$1 last;
 	      rewrite ^/user/(\d+)/follow/p(\d+).*$ /app/site/user/follow?id=$1&page=$2 last;
 	      rewrite ^/user/(\d+)/fans[/]?$ /app/site/user/fans?id=$1 last;
 	      rewrite ^/user/(\d+)/fans/p(\d+).*$ /app/site/user/fans?id=$1&page=$2 last;
-		  rewrite ^/user(.*)$ /app/site/user$1 last;
-	    }
-		
-		location /auth {
-            rewrite ^/auth/(login|signup|forget)[/]?$ /app/site/auth/$1 last;
+              rewrite ^/user(.*)$ /app/site/user$1 last;
+	}
+        location /auth {
+	    rewrite ^/auth/(login|signup|forget)[/]?$ /app/site/auth/$1 last;
             rewrite ^/auth(.*)$ /app/site/auth$1 last;
-        }
+	}
 		
-		location /sina {
-            rewrite ^/sina(.*)$ /app/site/sina$1 last;
-        }
-		
-		location /qq {
-            rewrite ^/qq(.*)$ /app/site/qq$1 last;
-        }
-		
-		location /about {
+	location /about {
 	        rewrite ^/about[/]?$ /app/site/index/about last;
-	    }
+	}
 		
-		location /contact {
+	location /contact {
 	        rewrite ^/contact[/]?$ /app/site/index/contact last;
-	    }
+	}
 		
-		location /js {
-	        expires 30d;
-	        rewrite ^/js/bundle_(.*)_jquery.js$ /js/bundle.jquery.js last;
-	        rewrite ^/js/bundle_(.*)_lgk.js$ /js/bundle.lgk.js last;
-	    }
-	    location /css {
-	        rewrite ^/css/bundle_(.*)_common.css$ /css/bundle.common.css last;
-	    }
-		
-	    location /images {
-	        expires 30d;
-	    }
-	
-		
-		
-	    location /__file_result__/ {
+	location /__file_result__/ {
 	        internal;
 	        alias /;
-	    }
+	}
+
+        include phpbackend.conf;
 }
 
 server {
     listen       80;
-    server_name  img.taihuoniao.com;
-	charset utf-8;
-	index  index.html;
-	root /data/uploads;
+    server_name  i1.taihuoniao.com i2.taihuoniao.com i3.taihuoniao.com;
+    charset utf-8;
+    index  index.html;
+    root /data/storage/uploads;
 	
     access_log  off;
 	
     client_max_body_size 60m;
     
-	expires 30d;
+    expires 30d;
+}
+
+server {
+    listen       80;
+    server_name  static.taihuoniao.com;
+    charset utf-8;
+    index  index.html;
+    root /www/phenix/web/packaged;
+
+    access_log  off;
+    
+    location /javascript {
+         expires 30d;
+         rewrite ^/javascript/bundle.base.min.(.*).js$ /javascript/bundle.base.min.js last;
+         rewrite ^/javascript/bundle.jquery.min.(.*).js$ /javascript/bundle.jquery.min.js last;
+         rewrite ^/javascript/bundle.phenix.min.(.*).js$ /javascript/bundle.phenix.min.js last;
+    }
+
+    location /css {
+         expires 30d;
+         rewrite ^/css/semantic.min.(.*).css$ /css/semantic.min.css last;
+    }
+
+    location /images {
+         expires 30d;
+    }
+
 }

@@ -64,7 +64,8 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
         $out_trade_no = $rid;
 
         // 付款金额，必填
-        $total_fee = $order_info['pay_money'];
+        $total_fee = $order_info['pay_money']*100;
+		$total_money = $order_info['total_money']*100;
 		
         // 订单描述
 		$body = 'Taihuoniao '.$rid;
@@ -78,32 +79,51 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 		//----------------------------------------
 		// 设置支付参数 
 		//----------------------------------------
-		
-		// 总金额
-		$tenpay->setParameter("total_fee", $total_fee*100);
-		
-		// 用户ip
-		$tenpay->setParameter("spbill_create_ip", $_SERVER['REMOTE_ADDR']); // 客户端IP
-		// 支付成功后返回
-		$tenpay->setParameter("return_url", $this->tenpay_config['return_url']);
 		$tenpay->setParameter("partner", $this->tenpay_config['partner']);
 		$tenpay->setParameter("out_trade_no", $out_trade_no);
+		
+		// 商品价格（包含运费），以分为单位
+		$tenpay->setParameter("total_fee", "$total_fee");
+		// 支付成功后返回
+		$tenpay->setParameter("return_url", $this->tenpay_config['return_url']);
 		$tenpay->setParameter("notify_url", $this->tenpay_config['notify_url']);
+		
 		$tenpay->setParameter("body", $body);
 		// 银行类型，默认为财付通
 		$tenpay->setParameter("bank_type", "DEFAULT");
 		
+		// 用户ip
+		$tenpay->setParameter("spbill_create_ip", $_SERVER['REMOTE_ADDR']); // 客户端IP
+		$tenpay->setParameter("fee_type", "1");
+		$tenpay->setParameter("subject", $body);
+		
 		// 系统可选参数
 		$tenpay->setParameter("sign_type", "MD5");
+		$tenpay->setParameter("service_version", "1.0");
+		$tenpay->setParameter("input_charset", "utf-8");
+		$tenpay->setParameter("sign_key_index", "1");    	  //密钥序号
 		
 		// 业务可选参数
+		$tenpay->setParameter("attach", "");             	  //附件数据，原样返回就可以了
+		$tenpay->setParameter("product_fee", "$total_money");        	  //商品费用
+		$tenpay->setParameter("transport_fee", "0");      	  //物流费用
+		$tenpay->setParameter("time_start", date("YmdHis", $order_info['created_on']));  //订单生成时间
+		$tenpay->setParameter("time_expire", "");             //订单失效时间
+		$tenpay->setParameter("goods_tag", "Frbird Tenpay");               //商品标记
+		$tenpay->setParameter("trade_mode", "1"); //交易模式（1.即时到帐模式，2.中介担保模式，3.后台选择（卖家进入支付中心列表选择））
+		$tenpay->setParameter("transport_desc","");              //物流说明
+		$tenpay->setParameter("trans_type","1");              //交易类型
+		$tenpay->setParameter("agentid","");                  //平台ID
+		$tenpay->setParameter("agent_type","0");               //代理模式（0.无代理，1.表示卡易售模式，2.表示网店模式）
+		$tenpay->setParameter("seller_id", $this->tenpay_config['partner']);                //卖家的商户号
 		
 		// 请求的URL
 		$reqUrl = $tenpay->getRequestURL();
 		
 		Doggy_Log_Helper::warn('Tenpay requrl:'.$reqUrl);
 		
-		return $tenpay->doSend();
+		$html_text = $tenpay->buildRequestForm();
+		return $this->to_raw($html_text);
 	}
 	
 	/**

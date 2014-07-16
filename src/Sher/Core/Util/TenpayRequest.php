@@ -138,6 +138,32 @@ class Sher_Core_Util_TenpayRequest extends Doggy_Object {
 		exit;
 	}
 	
+    /**
+     * 建立请求，以表单HTML形式构造（默认）
+     * @param $para_temp 请求参数数组
+     * @param $method 提交方式。两个值可选：post、get
+     * @param $button_name 确认按钮显示文字
+     * @return 提交表单HTML文本
+     */
+	public function buildRequestForm() {
+		//待请求参数数组
+		$sHtml = '<form id="tenpaysubmit" action="'.$this->getGateUrl().'" method="post" >';
+		
+		$params = $this->getAllParameters();
+		foreach($params as $k => $v) {
+			$sHtml .= "<input type=\"hidden\" name=\"{$k}\" value=\"{$v}\" />\n";
+		}
+		
+		//submit按钮控件请不要含有name属性
+        //$sHtml = $sHtml."<input type='submit' value='".$button_name."'></form>";
+		// 去除确认按钮
+		$sHtml = $sHtml."</form>";
+		
+		$sHtml = $sHtml."<script>document.forms['tenpaysubmit'].submit();</script>";
+		
+		return $sHtml;
+	}
+	
 	/**
 	*创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
 	*/
