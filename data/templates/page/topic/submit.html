@@ -183,7 +183,7 @@
 						
 						<div id="asset-list" class="ui four items">
 							{% if mode == 'edit' %}
-								{% asset_list var:'assets' parent_id:topic._id %}
+								{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
 								{% for asset in assets.rows %}
 								<div class="thumb item" id="{{ asset._id }}">
 									<div class="image">

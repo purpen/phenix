@@ -67,7 +67,7 @@
 					<div class="ui content">
 						{{ topic.description }}
 						
-						{% asset_list var:'assets' parent_id:topic._id size:20 %}
+						{% asset_list var:'assets' parent_id:topic._id size:20 asset_type:50 %}
 						{% for asset in assets.rows %}
 					  	<p class="asset">
 							<img src="{{ asset.thumbnails.huge.view_url }}" />
