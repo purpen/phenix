@@ -112,7 +112,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
         $result = $service->get_topic_list($query,$options);
-        
+		
         $context->set($var,$result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

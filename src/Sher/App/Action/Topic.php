@@ -416,6 +416,17 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_taconite_page('page/topic/favorite_ok.html');
 	}
 	
+	/**
+	 * 编辑器参数
+	 */
+	protected function editor_params() {
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$this->stash['editor_pid'] = new MongoId();
+
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
+	}
 	
 	/**
 	 * 提交创意
@@ -427,6 +438,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
+		
+		$this->editor_params();
 		
 		return $this->to_html_page('page/topic/submit.html');
 	}

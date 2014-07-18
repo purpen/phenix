@@ -41,5 +41,12 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		return $this->to_html_page('page/guide/join.html');
 	}
 	
+	/**
+	 * 成功案例
+	 */
+	public function succase() {
+		return $this->to_html_page('page/guide/case.html');
+	}
+	
 }
 ?>

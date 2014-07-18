@@ -143,7 +143,7 @@
 					
 				</div>
 				
-				{% if list.rows %}
+				{% if list.total_page %}
 				<div class="ui pagination">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{% include 'block/pager.html' %}

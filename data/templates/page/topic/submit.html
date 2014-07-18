@@ -9,13 +9,28 @@
 {% block page_js %}
 {% endblock %}
 {% block jquery %}
+	
+	var file_count = 1;
 	$('#editor').editable({
 		inlineMode: false,
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'bird',
 		height: 300,
+		{% if !visitor.is_admin %}
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "undo", "redo"],
+		{% else %}
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
+		defaultImageWidth: 700,
+		maxImageSize: 1024 * 1024 * 3, // 3M
+		insertImageCallback: function (imageURL) {
+			file_count++;
+			// 重置参数
+			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' });
+		},
+		{% endif %}
 		contentChangedCallback: function () {
 		    $("#editor").val($("#editor").editable("getHTML"));
 		}
@@ -217,7 +232,7 @@
 					
 					<div class="ui right floated aligned grid">
 						<div class="column">
-							<div class="ui gray button">取消</div>
+							<div class="ui gray cancel button">取消</div>
 							<div class="ui magenta submit button">确认提交</div>
 						</div>
 					</div>

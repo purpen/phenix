@@ -97,7 +97,7 @@ app.js.use_bundle: false
 app.css.use_bundle: false
 
 #邀请注册的开关
-app.url.invite.trigger:1
+app.url.invite.trigger: 1
 # passport
 app.db.passport: 'mysql://root:root@localhost/passport?charset=utf8'
 app.db.default: 'mysql://root:root@localhost/passport?charset=utf8'
@@ -132,8 +132,8 @@ app.presale.lowest: 10
 app.wechat.ser_token: '5382021d5771db562c1ce1de'
 app.wechat.ser_app_id: 'wx75a9ffb78f202fb3'
 app.wechat.ser_app_secret: 'f80ae853ef243f66284ad13781cb69de'
-app.wechat.ser_partner_id: 1219487201
-app.wechat.ser_partner_key: 'ce07aae42df4fef11164b8f61d801b22'
+app.wechat.ser_partner_id: '1219487201'
+app.wechat.ser_partner_key: '8db453c4e80d0c28aa5b4664e22ea013'
 app.wechat.ser_paysignkey: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
 
 # 微信订阅号token
