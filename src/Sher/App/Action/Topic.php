@@ -465,6 +465,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
 		
+		$this->editor_params();
+		
 		return $this->to_html_page('page/topic/submit.html');
 	}
 	
