@@ -1,0 +1,83 @@
+{%extends 'layout/admin.html'%}
+{% block jquery %}
+	var file_count = 1;
+	$('#editor').editable({
+		inlineMode: false,
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		height: 300,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
+		defaultImageWidth: 700,
+		maxImageSize: 1024 * 1024 * 3, // 3M
+		insertImageCallback: function (imageURL) {
+			file_count++;
+			// 重置参数
+			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' });
+		},
+		contentChangedCallback: function () {
+		    $("#editor").val($("#editor").editable("getHTML"));
+		}
+	});
+{% endblock %}
+
+
+
+{% block content %}
+	<div class="ui tool-box">
+		<a href="{{ app_url_admin_base }}/try" class="ui labeled icon button"><i class="flat sort icon"></i>全部列表</a>
+		<a href="{{ app_url_admin_base }}/try/edit" class="ui right labeled icon green button"><i class="flat add icon"></i>新增</a>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/invitation/gen" class="ui form segment" method="post">
+		<h4 class="ui header">新增试用产品</h4>
+		<div class="inline field">
+		  	<label>关联产品：</label>
+			<input type="text" name="user_id" value="{{ topic.product_id }}" />
+			<div class="ui pointing left label">
+				请填写关联产品ID!
+			</div>
+		</div>
+		
+		<div class="inline field">
+		  	<label>试用数量：</label>
+			<input type="text" name="quantity"  value="20" />
+		</div>
+		
+		<div class="inline field">
+		  	<label>参与方式：</label>
+			<div class="ui radio checkbox">
+				<input type="radio" name="join_away" value="1" checked="checked" />
+				<label>免费参加</label>
+			</div>
+		</div>
+		
+		<div class="field">
+		  	<label>标题：</label>
+			<input type="text" name="title"  value="{{ try.title }}" />
+		</div>
+		
+		<div class="two fields">
+			<div class="field">
+			  	<label>开始时间：</label>
+				<input type="text" name="start_time"  value="{{ try.start_time }}" />
+			</div>
+			<div class="field">
+			  	<label>结束时间：</label>
+				<input type="text" name="end_time"  value="{{ try.end_time }}" />
+			</div>
+		</div>
+		
+		<div class="field">
+		  	<label>描述：</label>
+		  	<textarea name="content" placeholder="活动说明" id="editor">{{ try.content }}</textarea>
+			<div class="description">请详细的描述</div>
+		</div>
+		
+		<input type="submit" class="ui active magenta button" value="确认保存" />
+		<input type="reset" class="ui cancel button" value="重置" />
+		
+	</form>
+{% endblock %}

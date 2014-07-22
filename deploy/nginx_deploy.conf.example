@@ -25,6 +25,7 @@ server {
           rewrite ^/favorite(.*)$ /app/site/favorite$1 last;
 		  rewrite ^/guide(.*)$ /app/site/guide$1 last;
 		  rewrite ^/helper(.*)$ /app/site/helper$1 last;
+		  rewrite ^/comment(.*)$ /app/site/comment$1 last;
           rewrite ^/sina(.*)$ /app/site/sina$1 last;
           rewrite ^/qq(.*)$ /app/site/qq$1 last;
           rewrite ^/tenpay(.*)$ /app/site/tenpay$1 last;
@@ -32,6 +33,7 @@ server {
           rewrite ^/activity(.*)$ /app/site/activity$1 last;
           rewrite ^/dm(.*)$ /app/site/index/dm$1 last;  
         }
+		
         location /wxpay {
             rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
         }
