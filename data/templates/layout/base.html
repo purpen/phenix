@@ -6,13 +6,14 @@
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
 		<link href="frbird.qiniudn.com" rel="dns-prefetch">
 		<link href="frstatic.qiniudn.com" rel="dns-prefetch">
-		<meta property="wb:webmaster" content="81aee06b936cdcd8" />
-		<meta property="qc:admins" content="2554576457641105761176375" />
+		<meta property="wb:webmaster" content="81aee06b936cdcd8">
+		<meta property="qc:admins" content="2554576457641105761176375">
 		<meta name="baidu_union_verify" content="f533716307633cc500536ab620c726a2">
 		{%block meta%}
 		<meta name="title" content="太火鸟-人生是场大设计" />
 		<meta name="keywords" content="太火鸟,原创产品,产品预售,产品预订,创意产品,创意交易,孵化社区,创意众筹,社会化社区"/>
 		<meta name="description" content="中国最顶尖的原创产品社会化电商平台，利用众筹到众包方式，整合创意产品社区与电子商务服务为一体，让社区参与产品开发整个过程，帮设计师成就梦想，助消费者品味生活！" />
+		<meta content="太火鸟" name="author">
 		{%endblock%}
 		<title>{% block title %}{% endblock %}太火鸟</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
@@ -52,9 +53,6 @@
 		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
-		<!--[if lt IE 9]>
-		<script src="http://frstatic.qiniudn.com/javascript/html5shiv.min.js"></script>
-		<![endif]-->
 	</head>
 	
 	<body>
@@ -66,13 +64,22 @@
 		{% block layout_footer %}
 		{% endblock %}
 		
-		{% if js_use_bundle %}
+		
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-1.9.1.min.js"></script>
+			<script src="http://frstatic.qiniudn.com/javascript/html5shiv.min.js"></script>
+		<![endif]-->
+		<!--[if gte IE 9]>
 			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.{{ js_jquery_bundle_version }}.js"></script>
+		<![endif]-->
+		<!--[if !IE]> -->
+			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+		<!-- <![endif]-->
+		{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.js"></script>
