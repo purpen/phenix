@@ -1,15 +1,19 @@
-<header class="ui main menu clearfix">
-	<div class="ui responsive grid">
-		<div class="eight wide column">
-		  	<a href="/" class="ui link">
-				<i class="flat bird icon"></i> 太火鸟管理平台
-			</a>
+<header class="admin">
+	<div class="ui responsive two column grid">
+		<div class="middle aligned row">
+			<div class="column">
+			  	<img src="{{ app_url_packaged }}/images/mini-logo.png" />
+			</div>
+			<div class="right aligned column">
+				<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
+					<img src="{{ visitor.small_avatar_url }}" /> 
+				</a>
+				{{ visitor.nickname }}
+				<small class="space">|</small>
+				<a href="{{ app_url_logout }}" class="ui link">
+					退出
+				</a>
+			</div>
 		</div>
-		<div class="eight right aligned wide column">
-			<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-				<img src="{{ visitor.small_avatar_url }}" /> 
-			</a>
-			{{ visitor.nickname }}
-		</div>	
 	</div>
 </header>

@@ -6,8 +6,7 @@
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'bird',
-		height: 300,
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
 		defaultImageWidth: 700,
@@ -21,29 +20,57 @@
 		    $("#editor").val($("#editor").editable("getHTML"));
 		}
 	});
+	
+	$('#try-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '活动标题不能为空'
+				}
+			]
+		},
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '活动内容不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
 {% endblock %}
 
-
-
 {% block content %}
-	<div class="ui tool-box">
-		<a href="{{ app_url_admin_base }}/try" class="ui labeled icon button"><i class="flat sort icon"></i>全部列表</a>
-		<a href="{{ app_url_admin_base }}/try/edit" class="ui right labeled icon green button"><i class="flat add icon"></i>新增</a>
+	<h3 class="ui header">产品公测</h3>
+	<div class="ui secondary pointing magenta menu">
+	  	<a class="item" href="{{ app_url_admin_base }}/try">全部列表</a>
+		<a class="active item" href="{{ app_url_admin_base }}/try/edit">新增公测</a>
 	</div>
 	
-	<form action="{{ app_url_admin_base }}/invitation/gen" class="ui form segment" method="post">
-		<h4 class="ui header">新增试用产品</h4>
+	<form action="{{ app_url_admin_base }}/try/save" class="ui form segment" method="post" id="try-form">
+		<input type="hidden" name="_id" value="{{ try._id }}" />
+		<h3 class="ui dividing header">新增试用产品</h3>
 		<div class="inline field">
 		  	<label>关联产品：</label>
-			<input type="text" name="user_id" value="{{ topic.product_id }}" />
+			<input type="text" name="product_id" value="{{ try.product_id }}" />
 			<div class="ui pointing left label">
-				请填写关联产品ID!
+				填写关联产品ID!
 			</div>
 		</div>
 		
 		<div class="inline field">
 		  	<label>试用数量：</label>
-			<input type="text" name="quantity"  value="20" />
+			<input type="text" name="try_count"  value="20" />
 		</div>
 		
 		<div class="inline field">
@@ -55,7 +82,7 @@
 		</div>
 		
 		<div class="field">
-		  	<label>标题：</label>
+		  	<label>活动标题：</label>
 			<input type="text" name="title"  value="{{ try.title }}" />
 		</div>
 		
@@ -71,13 +98,16 @@
 		</div>
 		
 		<div class="field">
-		  	<label>描述：</label>
-		  	<textarea name="content" placeholder="活动说明" id="editor">{{ try.content }}</textarea>
-			<div class="description">请详细的描述</div>
+		  	<label>活动内容：</label>
+		  	<textarea name="content" id="editor">{{ try.content }}</textarea>
 		</div>
 		
-		<input type="submit" class="ui active magenta button" value="确认保存" />
-		<input type="reset" class="ui cancel button" value="重置" />
+		<div class="ui divider"></div>
+		
+		<div class="field">
+			<input type="submit" class="ui small active magenta button" value="确认保存" />
+			<input type="reset" class="ui small cancel gray button" value="取消" />
+		</div>
 		
 	</form>
 {% endblock %}

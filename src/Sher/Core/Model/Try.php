@@ -44,9 +44,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     	'product'  => array('product_id' => 'Sher_Core_Model_Product'),
     );
 	
-    protected $required_fields = array('user_id', 'phone', 'address');
+    protected $required_fields = array('user_id');
 	
-    protected $int_fields = array('user_id', 'phone', 'zip', 'province', 'city', 'is_default');
+    protected $int_fields = array('user_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count');
 	
 	/**
 	 * 扩展关联数据

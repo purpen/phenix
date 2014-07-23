@@ -63,6 +63,11 @@ app.sinaweibo.callback_url: '{$app.url.action_base}/sina/authorize'
 app.taobao.key: '21781655'
 app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
 
+# QQ API
+app.qq.app_id: '101092227'
+app.qq.app_key: 'ba61849a6ab90421e849c116f4f4dea4'
+app.qq.callback_url: '{$app.url.domain}/qq/authorize'
+app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 
 # 微信支付
 app.wechat.pay_sign_key: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'

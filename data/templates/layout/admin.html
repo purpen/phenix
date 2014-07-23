@@ -1,26 +1,43 @@
-{% extends 'layout/board.html' %}
-{% block title %}后台管理-{% endblock %}
-{% block layout_css %}{% endblock %}
-{% block page_css %}{% endblock %}
-{% block layout_js %}{% endblock %}
-{% block page_js %}{% endblock %}
-{% block layout_jquery %}{% endblock %}
+{% extends 'layout/base.html' %}
+{% block title %}管理控制台-{% endblock %}
+{% block layout_css %}
+	<style type="text/css">
+		header.admin {
+			background-color: #fff;
+			border-bottom: 1px solid #e4e5e7;
+		    border-top: 4px solid #ff3366;
+		    padding: 0.5em 0;
+		}
+		header.admin .space {
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+		#bd {
+			margin-bottom: 1em;
+		    margin-top: 1em;
+		    min-height: 26em;
+		}
+		h3.ui.header {
+			font-size: 1.1rem;
+			margin: 0.5em 0 1rem;
+		}
+	</style>
+{% endblock %}
+
 {% block jquery %}{% endblock %}
 
 {% block layout_header %}
-<header class="main ui responsive grid">
-	{% include "block/header.html" %}
-</header>
+	{% include "block/mini_header.html" %}
 {% endblock %}
 
 {% block layout_content %}
 <div id="bd">
-	<div class="ui responsive grid">
+	<div id="ajax-note"></div>
+	<div class="ui responsive  grid">
 	  	<div class="four wide column">
 	    	{% include "block/sitebar_admin.html" %}
 	  	</div>
 	  	<div class="twelve wide column">
-			<div id="alert-message"></div>
 			{% block content %}{% endblock %}
 	  	</div>
 	</div>
@@ -28,5 +45,5 @@
 {% endblock %}
 
 {% block layout_footer %}
-	{% include "block/footer.html" %}
+	{% include "block/mini_footer.html" %}
 {% endblock %}
