@@ -24,6 +24,7 @@
 			<tr>
 				<th>活动标题</th>
 				<th>试用数量</th>
+				<th>申请人数</th>
 				<th>活动时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -31,18 +32,41 @@
 		<tbody>
 			{% for t in list.rows %}
 			<tr id="{{ t._id }}">
-				<td>{{ t.title }}</td>
+				<td>
+					<a href="{{ t.view_url }}" target="_blank" class="ui link">{{ t.title |truncate 15 }}</a>
+					{% if t.state == 1 %}
+					<label class="ui green label" id="publish-{{ t._id }}-label">已发布</label>
+					{% endif %}
+					
+					{% if t.state == 0 %}
+					<label class="ui orange label" id="publish-{{ t._id }}-label">未发布</label>
+					{% endif %}
+				</td>
 				<td>{{ t.try_count }}</td>
+				<td>{{ t.apply_count|default 0 }}</td>
 				<td>{{ t.start_time }} -- {{ t.end_time }}</td>
 				<td>
 					<div class="ui small divided horizontal list">
-						<a href="{{ app_url_admin_base }}/try/edit?id={{ t._id }}" class="ui link item">编辑</a>
-						<a href="{{ app_url_admin_base }}/try/delete?id={{ t._id }}" class="ui link ajax item">删除</a>
+						{% if t.state %}
+						<a href="{{ app_url_admin_base }}/try/unpublish?id={{ t._id }}" class="ui magenta link ajax item" id="publish-{{ t._id }}-button">撤销发布</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/try/publish?id={{ t._id }}" class="ui magenta link ajax item" id="publish-{{ t._id }}-button">发布</a>
+						{% endif %}
+						<a href="{{ app_url_admin_base }}/try/edit?id={{ t._id }}" class="ui magenta link item">编辑</a>
+						<a href="{{ app_url_admin_base }}/try/delete?id={{ t._id }}" class="ui magenta link ajax item">删除</a>
 					</div>
 				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+	
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
 	
 {% endblock %}

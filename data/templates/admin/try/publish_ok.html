@@ -1,0 +1,19 @@
+<taconite>
+	{% if state == 1 %}
+	<replace select="#publish-{{ id }}-label">
+		<label class="ui green label" id="publish-{{ id }}-label">已发布</label>
+	</replace>
+	<replace select="#publish-{{ id }}-button">
+		<a href="{{ app_url_admin_base }}/try/unpublish?id={{ id }}" class="ui magenta link ajax item" id="publish-{{ id }}-button">撤销发布</a>
+	</replace>
+	{% endif %}
+	
+	{% if !state %}
+	<replace select="#publish-{{ id }}-label">
+		<label class="ui orange label" id="publish-{{ id }}-label">未发布</label>
+	</replace>
+	<replace select="#publish-{{ id }}-button">
+		<a href="{{ app_url_admin_base }}/try/publish?id={{ id }}" class="ui magenta link ajax item" id="publish-{{ id }}-button">发布</a>
+	</replace>
+	{% endif %}
+</taconite>

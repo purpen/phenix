@@ -1,295 +1,46 @@
 {%extends 'layout/board.html'%}
 {% block page_css %}
 <style type="text/css">
-ul li {
-    float: left;
-    margin-right: 10px;
+* {
+    box-sizing: border-box;
 }
-.notesite {
-    cursor: default;
-    display: inline-block;
-    font-size: 70px;
-    height: 1em;
-    position: relative;
-    width: 1em;
+*:before, *:after {
+    box-sizing: border-box;
 }
-.notesite > .percent {
-    font-size: 25px;
-    left: 0;
-    position: absolute;
-    text-align: center;
-    top: 20px;
-    width: 100%;
-    z-index: 2;
-}
-.notesite > .percent .dec {
-    font-size: 15px;
-}
-.notesite > #slice {
-    clip: rect(0px, 1em, 1em, 0.5em);
-    height: 1em;
-    position: absolute;
-    width: 1em;
-}
-.notesite > #slice.gt50 {
-    clip: rect(auto, auto, auto, auto);
-}
-.notesite > #slice > .pie {
-    border: 0.1em solid #444444;
-    border-radius: 0.5em;
-    clip: rect(0em, 0.5em, 1em, 0em);
-    height: 0.8em;
-    position: absolute;
-    width: 0.8em;
-}
-li.design .notesite > #slice > .pie {
-    border-color: #DF6C4F;
-}
-li.creativity .notesite > #slice > .pie {
-    border-color: #3C948B;
-}
-li.usability .notesite > #slice > .pie {
-    border-color: #ECD06F;
-}
-li.content .notesite > #slice > .pie {
-    border-color: #1A99AA;
-}
-.notesite > #slice > .pie.fill {
-    transform: rotate(180deg) !important;
-}
-.notesite.fill > .percent {
-    display: none;
-}
-.notesite:after {
-    background: none repeat scroll 0 0 #F8F8F8;
-    border-radius: 0.5em;
-    content: "";
-    display: block;
-    height: 0.8em;
-    left: 0.1em;
-    position: absolute;
-    top: 0.1em;
-    width: 0.8em;
-    z-index: 1;
-}
-.notesite:before {
-    border-radius: 0.5em;
-    content: "";
-    display: block;
-    height: 1em;
-    opacity: 0.5;
-    position: absolute;
-    width: 1em;
-    z-index: 0;
-}
-li.design .notesite:before {
-    background: none repeat scroll 0 0 #DF6C4F;
-}
-li.creativity .notesite:before {
-    background: none repeat scroll 0 0 #3C948B;
-}
-li.usability .notesite:before {
-    background: none repeat scroll 0 0 #ECD06F;
-}
-li.content .notesite:before {
-    background: none repeat scroll 0 0 #1A99AA;
-}
-li.total .notesite:before {
-    background: none repeat scroll 0 0 #CFD1D0;
-}
-
-@keyframes bo7{
-	0%{
-		box-shadow: 0em 0em 1px #ff3366;
-	}
-	100%{
-		box-shadow: 0 0 8px #ff3366;
-	}
-}
-
-.cic {
-	width: 4em;
-    height: 4em;
-    line-height: 4em;
-    text-align: center;
-}
-.mark {
-	box-shadow: 0 0 8px #ff3366;
-	animation:bo7 5s linear infinite normal;
-	border-radius: 20em;
+.home {
+	width: 70%;
+	 margin: 30px auto;
 }
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}	
-	$('#text-content').editable({inlineMode: false});	
+	$('#text-content').editable({
+		inlineMode:!1,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+	});	
 {% endblock %}
 {% block content %}
 <div class="home">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				
-				<form class="ui form">
-					<div class="field">
-						<textarea name="content" class="editor" placeholder="详细内容" id="text-content">
-							{% if product.content %}
-							{{ product.content }}
-							{% else %}
-							<h3>关于我</h3>
+	<textarea name="content" class="editor" placeholder="详细内容" id="text-content">
+		{% if product.content %}
+		{{ product.content }}
+		{% else %}
+		<h3>关于我</h3>
 
-							<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
+		<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
 
 
-							<h3>产品要解决什么问题</h3>
+		<h3>产品要解决什么问题</h3>
 
-							<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+		<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
 
 
-							<h3>产品怎样去解决问题</h3>
+		<h3>产品怎样去解决问题</h3>
 
-							<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
-							{% endif %}
-						</textarea>
-					</div>
-				</form>
-				<a href="" class="ui insert button">插入</a>
-				
-				<div class="ui info message">
-					<i class="flat close icon"></i>
-					视频
-				</div>
-				
-				<div class="video-content" id="video-mobile">
-					
-				</div>
-				
-				<h4>Rate Icons</h4>
-				
-				<ul >
-					<li class="design">
-						<div data-note="7.67" id="note_0" class="notesite">
-							<div class="percent">
-								<span class="int">7</span>
-								<span class="dec">.67</span>
-							</div>
-							<div class="gt50" id="slice">
-								<div class="pie" style="transform: rotate(276.12deg);"></div>
-								<div class="pie fill"></div>
-							</div>
-						</div>
-					</li>
-					<li class="usability">
-						<div data-note="6.78" id="note_2" class="notesite">
-							<div class="percent">
-								<span class="int">6</span>
-								<span class="dec">.78</span>
-							</div>
-							<div class="gt50" id="slice">
-								<div class="pie" style="transform: rotate(244.08deg);"></div>
-								<div class="pie fill" style="transform: rotate(244.08deg);"></div>
-							</div>
-						</div>
-					</li>
-					<li class="creativity">
-						<div data-note="7.43" id="note_1" class="notesite">
-							<div class="percent">
-								<span class="int">7</span>
-								<span class="dec">.43</span>
-							</div>
-							<div class="gt50" id="slice">
-								<div class="pie" style="transform: rotate(266.76deg);"></div>
-								<div class="pie fill" style="transform: rotate(266.76deg);"></div>
-							</div>
-						</div>
-					</li>
-					<li class="content">
-						<div data-note="6.99" id="note_3" class="notesite">
-							<div class="percent">
-								<span class="int">6</span>
-								<span class="dec">.99</span>
-							</div>
-							<div class="gt50" id="slice">
-								<div class="pie" style="transform: rotate(251.64deg);"></div>
-								<div class="pie fill" style="transform: rotate(251.64deg);"></div>
-							</div>
-						</div>
-					</li>
-					
-				</ul>
-				
-				
-				
-				
-			</div>
-		</div>
-		
-		
-		
-		<div class="row">
-			
-			<div class="ui column">
-				<h4>Flat Icons</h4>
-				<a href="" class="blue ui icon button">
-					<i class="flat icon add62"></i> 联系电话
-				</a>
-			
-				<a href="" class="circular large ui red icon button">
-					<i class="flat icon close"></i>
-				</a>
-				<a href="" class="circular ui red icon button">
-					<i class="flat icon icon_weibo"></i>
-				</a>
-				<a href="" class="circular ui green icon button">
-					12
-				</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="ui column">
-				<h4>Social Buttons</h4>
-				
-				<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-					创意投票
-				</a>
-				
-				<a href="{{ app_url_fever }}" class="ui gray btn-4 btn-4c icon-arrow-right btn">
-					社区话题
-				</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="ui column">
-				<h4>Buttons</h4>
-				<div class="mini active black ui button">
-				  迷你型按扭
-				</div>
-				<div class="tiny active green ui button">
-				  超小型按扭
-				</div>
-				<div class="small active red ui button">
-				  小型按扭
-				</div>
-				<div class="medium active blue ui button">
-				  普通按扭
-				</div>
-				<div class="large active purple ui button">
-				  大型按扭
-				</div>
-				<div class="big active teal ui button">
-				  超大型按扭
-				</div>
-				<div class="huge active orange ui button">
-				  巨大型按扭
-				</div>
-				<div class="massive active magenta ui labeled icon button">
-					<i class="flat icon bird"></i>
-				  	最大型太火鸟
-				</div>
-			</div>
-			
-		</div>
-	</div>
+		<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
+		{% endif %}
+	</textarea>
 </div>
 {% endblock %}

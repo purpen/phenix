@@ -1,20 +1,25 @@
 {%extends 'layout/admin.html'%}
 {% block jquery %}
 	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
 	$('#editor').editable({
 		inlineMode: false,
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'bird',
+		plainPaste: true,
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
+		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ try._id }}' },
 		defaultImageWidth: 700,
 		maxImageSize: 1024 * 1024 * 3, // 3M
 		insertImageCallback: function (imageURL) {
 			file_count++;
 			// 重置参数
-			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' });
+			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ try._id }}' });
 		},
 		contentChangedCallback: function () {
 		    $("#editor").val($("#editor").editable("getHTML"));
@@ -48,6 +53,54 @@
 		}
 	});
 	
+	// 封面图上传
+	$('#phenix-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ try._id }}' },
+        	endpoint: '{{ app_url_upload_dotry }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			$.get($(this).attr('href'), function(result){
+				if (result.success){
+					$('#asset-list .ajax-cover.active').removeClass('active');
+					$this.addClass('active');
+				}else{
+					phenix.show_error_message(result.message);
+				}
+			},'json');
+			
+			return false;
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -70,7 +123,7 @@
 		
 		<div class="inline field">
 		  	<label>试用数量：</label>
-			<input type="text" name="try_count"  value="20" />
+			<input type="text" name="try_count"  value="{{ try.try_count||default 20 }}" />
 		</div>
 		
 		<div class="inline field">
@@ -84,6 +137,40 @@
 		<div class="field">
 		  	<label>活动标题：</label>
 			<input type="text" name="title"  value="{{ try.title }}" />
+		</div>
+		
+		<div class="field">
+		  	<label>活动亮点：</label>
+			<input type="text" name="description"  value="{{ try.description }}" />
+		</div>
+		
+		<div class="field">
+			<label>封面图：</label>
+		  	<div id="phenix-uploader"></div>
+			<div id="asset-list" class="ui four items">
+				{% if mode == 'edit' %}
+					{% asset_list var:'assets' parent_id:try._id size:20 asset_type:30 %}
+					{% for asset in assets.rows %}
+					<div class="thumb item" id="{{ asset._id }}">
+						<div class="image">
+							<img src="{{ asset.thumbnails.small.view_url }}" />
+							<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+						</div>
+						<div class="buttons">
+							<div class="ui large links">
+								<a href="{{ app_url_fever }}/delete_asset?id={{ try._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+									<i class="edit_delete icon"></i>
+								</a>
+								
+								<a href="{{ app_url_action_base }}/uploader/update_cover?id={{ try._id }}&cover_id={{ asset._id }}&asset_domain={{ domain }}" class="ui link {%if try.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted">
+									<i class="edit_recommend icon"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				{% endif %}
+			</div>
 		</div>
 		
 		<div class="two fields">

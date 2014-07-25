@@ -1,0 +1,81 @@
+{%extends 'layout/column.html'%}
+{% block title %}产品公测-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+	.try .masthead {
+	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+	    height: 300px;
+		color: #fff;
+	}
+	.try .masthead .column {
+		padding-top: 40px;
+	}
+	.try .mainlist {
+		margin: 1em auto;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+
+
+<div class="ui try">
+	<div class="masthead">
+		<div class="masthead-cover">
+			<div class="ui responsive grid">
+				<div class="column">
+					<h1 class="ui header">
+						申请成为试用达人
+					</h1>
+					<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你.</p>
+					<div class="ui buttons">
+						<a href="http://taihuoniao.me/auth/signup" class="ui active green btn-4 btn-4c icon-arrow-right gift btn">
+							现在申请
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mainlist">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui three items">
+						{% try_list var:'list' page:page state:1 size:9 %}
+						{% for t in list.rows %}
+							<div class="item">
+								<div class="image">
+									<a href="{{ t.view_url }}" title="{{ t.title }}">
+							      		<img src="{{ t.cover.thumbnails.medium.view_url }}" alt="{{ t.title }}" />
+									</a>
+								</div>
+								<div class="content">
+									<h3 class="title">
+										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
+											{{ t.title|truncate, 16, '' }}
+										</a>
+									</h3>
+									<div class='description'></div>
+									<div class="name">
+										产品数量：{{ t.try_count }}个 申请人数：{{ t.apply_count }}人
+									</div>
+									<div class="ui divider"></div>
+									<div class="ui text result">
+										试用名单公布时间：
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div><!--end responsive grid-->
+	</div>
+</div>
+{% endblock %}

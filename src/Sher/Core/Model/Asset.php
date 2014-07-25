@@ -25,6 +25,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 产品图片
 	const TYPE_PRODUCT = 10;
 	
+	# 评测图片
+	const TYPE_TRY     = 30;
+	
 	# 主体图片
 	const TYPE_TOPIC   = 50;
 
@@ -59,6 +62,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 			'massive' => array(),
 		),
 		
+		'domain' => Sher_Core_Util_Constant::STROAGE_ASSET,
 		'asset_type' => self::TYPE_PRODUCT,
 		'state' => 1,
     );

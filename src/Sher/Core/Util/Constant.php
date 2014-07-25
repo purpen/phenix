@@ -12,8 +12,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_PRODUCT = 'product';
 	const STROAGE_AVATAR  = 'avatar';
 	const STROAGE_TOPIC   = 'topic';
+	const STROAGE_TRY     = 'try';
 	const STROAGE_ASSET   = 'asset';
-	
 	
 	/**
 	 * 类型的常量
@@ -21,7 +21,6 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TYPE_DEFAULT = 0;
 	const TYPE_PRODUCT = 1;
 	const TYPE_TOPIC   = 2;
-	
 	
 	// 来源站点
 	const FROM_LOCAL = 1;

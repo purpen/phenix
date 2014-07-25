@@ -8,6 +8,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+		'state' => 0,
 	);
 	
 	public function _init() {
@@ -49,13 +50,22 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 */
 	public function edit() {
 		$this->editor_params();
+		$this->stash['mode'] = 'create';
 		
 		$data = array();
 		if (!empty($this->stash['id'])){
 			$model = new Sher_Core_Model_Try();
-			$data = $model->load($this->stash['id']);
+			$data = $model->load((int)$this->stash['id']);
+			
+			$this->stash['mode'] = 'edit';
 		}
 		$this->stash['try'] = $data;
+		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TRY;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TRY;
 		
 		return $this->to_html_page('admin/try/edit.html');
 	}
@@ -75,12 +85,22 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 			$this->stash['user_id'] = (int)$this->visitor->id;
 			
 			$ok = $model->apply_and_save($this->stash);
+			
+			$data = $model->get_data();
+			$id = $data['_id'];
 		}else{
 			$ok = $model->apply_and_update($this->stash);
+			
+			$id = $this->stash['_id'];
 		}
 		
 		if(!$ok){
 			return $this->ajax_note('数据保存失败,请重新提交', true);
+		}
+		
+		// 上传成功后，更新所属的附件
+		if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
+			$model->update_batch_assets($this->stash['asset'], (int)$id);
 		}
 		
 		$next_url = Doggy_Config::$vars['app.url.admin_base'].'/try';
@@ -94,9 +114,44 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	public function delete() {
 		if(!empty($this->stash['id'])){
 			$model = new Sher_Core_Model_Try();
-			$model->remove($this->stash['id']);
+			$model->remove((int)$this->stash['id']);
 		}
+		
 		return $this->to_taconite_page('admin/del_ok.html');
+	}
+	
+	/**
+	 * 确认发布
+	 */
+	public function publish() {
+		return $this->update_state(Sher_Core_Model_Try::STATE_PUBLISH);
+	}
+	
+	/**
+	 * 确认撤销发布
+	 */
+	public function unpublish() {
+		return $this->update_state(Sher_Core_Model_Try::STATE_DRAFT);
+	}
+	
+	/**
+	 * 确认发布评测
+	 */
+	protected function update_state($state) {
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Try();
+			$model->mark_as_publish((int)$this->stash['id'], $state);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('请求操作失败，请检查后重试！', true);
+		}
+		
+		$this->stash['state'] = $state;
+		
+		return $this->to_taconite_page('admin/try/publish_ok.html');
 	}
 	
 	

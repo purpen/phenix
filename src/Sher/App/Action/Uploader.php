@@ -231,6 +231,62 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
 	}
 	
+	/**
+	 * 上传产品公测图片
+	 */
+	public function dotry() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_TRY;
+		$asset_type = Sher_Core_Model_Asset::TYPE_TRY;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+	
+	/**
+	 * 处理封面图的上传
+	 */
+	protected function handle_upload($asset_type, $asset_domain) {
+		// 验证用户
+		if (!$this->visitor->id) {
+            return $this->ajax_json('Session已过期，请重新登录！', true);
+        }
+		
+		try{
+			$new_assets = array();
+			for($i=0; $i<count($this->asset); $i++){
+				Doggy_Log_Helper::debug("Upload asset[$i] start.");
+			
+				$file = $this->asset[$i]['path'];
+		        $filename = $this->asset[$i]['name'];
+		        $size = $this->asset[$i]['size'];
+			
+				# 保存附件
+				$asset = new Sher_Core_Model_Asset();
+				//create new one
+				$asset->set_file($file);
+				
+				$image_info = Sher_Core_Util_Image::image_info($file);
+				$image_info['size'] = $size;
+		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
+		        $image_info['filename'] = basename($filename);
+				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, $asset_domain);
+				$image_info['domain'] = $asset_domain;
+		        $image_info['asset_type'] = $asset_type;
+			
+				$ok = $asset->apply_and_save($image_info);
+				
+				Doggy_Log_Helper::debug("Create asset[$i] ok.");
+				
+		        if ($ok) {					
+					$new_assets['ids'][] = (string)$asset->_id;
+				}
+			}
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::warn("上传图片失败：".$e->getMessage());
+			return $this->ajax_json("上传图片失败：".$e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
+	}
 	
 	/**
 	 * 编辑器图片
@@ -296,6 +352,9 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
      */
     public function check_upload_assets() {
 		$assets_ids = $this->stash['assets'];
+		$asset_type = $this->stash['asset_type'];
+		$asset_domain = $this->stash['asset_domain'];
+		
         if (empty($assets_ids)) {
             $result['error_message'] = '没有上传的图片';
             $result['code'] = 401;
@@ -330,27 +389,37 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
         return $this->to_taconite_page($tpl);
     }
-	
-	
+		
 	/**
 	 * 设置创意的封面图
 	 */
 	public function update_cover() {
 		$id = (int)$this->stash['id'];
 		$cover_id = $this->stash['cover_id'];
-		
-		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load((int)$id);
-		
-		// 限制设置权限
-		if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
-			return $this->ajax_notification('抱歉，你没有编辑权限！', true);
+		if (empty($id) || empty($cover_id)){
+			return $this->ajax_json('请求缺少参数！', true);
 		}
 		
-		$model->mark_set_cover($id, $cover_id);
+		$asset_domain = $this->stash['asset_domain'];
+		Doggy_Log_Helper::debug("Update cover asset domain[$asset_domain]!");
+		switch($asset_domain){
+			case Sher_Core_Util_Constant::STROAGE_TRY:
+				$model = new Sher_Core_Model_Try();		
+				$model->mark_set_cover($id, $cover_id);
+				break;
+			case Sher_Core_Util_Constant::STROAGE_PRODUCT:
+				$model = new Sher_Core_Model_Product();
+				$product = $model->extend_load((int)$id);
+				// 限制设置权限
+				if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
+					return $this->ajax_notification('抱歉，你没有编辑权限！', true);
+				}
+				$model->mark_set_cover($id, $cover_id);
+				break;
+		}
 		
 		return $this->ajax_json('设置成功！', false);
 	}
-
+	
 }
 ?>

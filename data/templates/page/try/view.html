@@ -1,0 +1,120 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ try.title }}-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+	.try .masthead {
+	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+	    height: 300px;
+		color: #fff;
+	}
+	.try .masthead .column {
+		padding-top: 40px;
+	}
+	.try .container {
+		margin: 1em auto;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui try">
+	<div class="masthead">
+		<div class="masthead-cover">
+			<div class="ui responsive grid">
+				<div class="column">
+					<h1 class="ui header">
+						{{ try.title }}
+					</h1>
+					<p>{{ try.description }}</p>
+					<div class="ui buttons">
+						<a href="http://taihuoniao.me/auth/signup" class="ui magenta btn-4 btn-4c icon-arrow-right gift btn">
+							申请使用
+						</a>
+						<a href="http://taihuoniao.me/auth/signup" class="ui black btn-4 btn-4c icon-arrow-right gift btn">
+							产品详情
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned submenu column">
+					<div class="ui magenta product buttons">
+						<div class="ui active item button" data-tab="content">评测介绍</div>
+						<div class="ui item button" data-tab="talk">讨论 ({{ try.comment_count||default 0 }})</div>
+						<div class="ui item button" data-tab="people">试用达人</div>
+						<div class="ui item button" data-tab="report">试用报告</div>
+					</div>
+				
+					<div class="ui segment">
+						<div class="ui active tab" data-tab="content">
+							<div class="ui center aligned grid">
+								<div class="column">
+									<div class="product-content-box">
+										{{ try.content }}
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="ui tab" data-tab="report">
+							<div class="ui center aligned grid">
+								<div class="twelve wide column">
+									<div class="product-content-box">
+										试用报告
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="ui bottom attached tab" data-tab="talk">
+							<div class="ui center aligned grid">
+								<div class="twelve wide column">
+									{% include "block/product_topic.html" %}
+								</div>
+							</div>
+						</div>
+					
+						<div class="ui bottom attached tab" data-tab="people">
+							<div class="ui center aligned grid">
+								<div class="column">
+									<div class="avatars" id="product-vote-people">
+										{% vote_list var:'votelist' target_id:product._id size:8 %}
+									    <div class="ui horizontal list">
+											{% for vote in votelist.rows  %}
+											<div class="item">
+												<a class="ui large avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.summary|truncate 38 }}" data-variation="inverted">
+													<img src="{{ vote.user.medium_avatar_url }}" alt="{{ vote.user.nickname }}" />
+												</a>
+												<div class="content">
+												      <div class="header">
+														  <a href="{{ vote.user.home_url }}" class="ui link" target="_blank">{{ vote.user.nickname }}</a>
+													  </div>
+												      {{ vote.user.city }}
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+				
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				
+				</div>
+			</div>
+		</div><!--end responsive grid-->
+	</div>
+</div>
+{% endblock %}
