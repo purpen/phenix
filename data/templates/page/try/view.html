@@ -4,7 +4,11 @@
 {% block page_css %}
 <style class="text/css">
 	.try .masthead {
+		{% if try.banner_id %}
+		background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% else %}
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% endif %}
 	    height: 300px;
 		color: #fff;
 	}
@@ -18,8 +22,11 @@
 {% endblock %}
 
 {% block jquery %}
-	
-	
+	$('.ui.applytry.btn').click(function(){
+		// 显示注册框
+		$('.ui.applytry.modal').modal('show');
+		return false;
+	});
 {% endblock %}
 
 {% block content %}
@@ -33,10 +40,10 @@
 					</h1>
 					<p>{{ try.description }}</p>
 					<div class="ui buttons">
-						<a href="http://taihuoniao.me/auth/signup" class="ui magenta btn-4 btn-4c icon-arrow-right gift btn">
+						<a href="{{ app_url_domain }}/try/apply" class="ui magenta btn-4 btn-4c icon-arrow-right applytry btn">
 							申请使用
 						</a>
-						<a href="http://taihuoniao.me/auth/signup" class="ui black btn-4 btn-4c icon-arrow-right gift btn">
+						<a href="{{ try.product.view_url }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">
 							产品详情
 						</a>
 					</div>
@@ -117,4 +124,5 @@
 		</div><!--end responsive grid-->
 	</div>
 </div>
+{% include "block/apply_try.html" %}
 {% endblock %}

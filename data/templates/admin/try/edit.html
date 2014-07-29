@@ -101,6 +101,23 @@
 		});
 	});
 	
+	// 设置Banner图
+	$('#asset-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			$.get($(this).attr('href'), function(result){
+				if (result.success){
+					$('#asset-list .ajax-banner.active').removeClass('active');
+					$this.addClass('active');
+				}else{
+					phenix.show_error_message(result.message);
+				}
+			},'json');
+			
+			return false;
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -164,6 +181,9 @@
 								
 								<a href="{{ app_url_action_base }}/uploader/update_cover?id={{ try._id }}&cover_id={{ asset._id }}&asset_domain={{ domain }}" class="ui link {%if try.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted">
 									<i class="edit_recommend icon"></i>
+								</a>
+								<a href="{{ app_url_action_base }}/uploader/update_banner?id={{ try._id }}&banner_id={{ asset._id }}&asset_domain={{ domain }}" class="ui link {%if try.banner_id == asset._id %}active {%endif%}ajax-banner pop" data-content="设置Banner图" data-variation="inverted">
+									<i class="edit_top icon"></i>
 								</a>
 							</div>
 						</div>

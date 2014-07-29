@@ -7,67 +7,36 @@
 {% block js %}
 {% endblock %}
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui small magenta buttons">
-			<div class="ui button">
-				{% if state == 0 %}
-					全部列表
-				{% endif %}
-				{% if state == 2 %}
-					已激活列表
-				{% endif %}
-				{% if state == 1 %}
-					未激活列表
-				{% endif %}
-			</div>
-			<div class="ui floating dropdown icon button">
-				<i class="flat add icon"></i>
-				<div class="menu">
-					<a href="{{ app_url_admin }}/user" class="item">全部列表</a>
-					<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活列表</a>
-					<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活列表</a>
-		    	</div>
-		  	</div>
-		</div>
-		
-		<div class="ui small magenta buttons">
-			<div class="ui button">
-				{% if time == '' %}
-					全部时间
-				{% endif %}
-				{% if time == 'yesterday' %}
-					昨天
-				{% endif %}
-				{% if time == 'week' %}
-					最近一周
-				{% endif %}
-				{% if time == 'mouth' %}
-					最近一月
-				{% endif %}
-			</div>
-			<div class="ui floating dropdown icon button">
-				<i class="flat add icon"></i>
-				<div class="menu">
-					<a href="{{ app_url_admin }}/user?time=" class="item">全部时间</a>
+	<h3 class="ui header">用户管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
+		<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活</a>
+		<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活</a>
+		<a class="{{ css_admin }} item" href="{{ app_url_admin }}/user?role=admin">管理员</a>
+		<a class="{{ css_editor }} item" href="{{ app_url_admin }}/user?role=editor">编辑人员</a>
+	  	<div class="right menu">
+	    	<div class="ui dropdown item">
+	      	  	筛选时间
+	      	  	<div class="menu">
+					<a href="{{ app_url_admin }}/user?time=" class="item">全部</a>
 					<a href="{{ app_url_admin }}/user?time=yesterday" class="{{ css_yesterday }} item">昨天</a>
 					<a href="{{ app_url_admin }}/user?time=week" class="{{ css_week }} item">最近一周</a>
 					<a href="{{ app_url_admin }}/user?time=mouth" class="{{ css_mouth }} item">最近一月</a>
-		    	</div>
-		  	</div>
-		</div>
-		
-		<form class="ui small right floated column form" method="post" action="{{ app_url_admin_base }}/user">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search ..." type="text" name="q" />
-	          		<i class="flat search icon"></i>
+	      	  	</div>
+	    	</div>
+	    </div>
+	</div>
+	<div class="ui nopad grid">
+		<div class="right floated five wide column">
+			<form action="{{ app_url_admin_base }}/user" class="ui form" method="post">
+				<div class="field">
+					<input placeholder="Search..." type="text" name="q" />
 				</div>
-	        </div>
-		</form>
+			</form>
+		</div>
 	</div>
 	
-	<div class="ui divider"></div>
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -80,7 +49,7 @@
 		</thead>
 		<tbody>
 			{% for user in list.rows %}
-			<tr>
+			<tr id="user_{{ user._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids[]" type="checkbox" value="{{ user._id }}" />
@@ -110,7 +79,7 @@
 					{{ user.created_on|date 'Y-m-d H:i'}}
 					<p>
 						{% if user.state == 2 %}
-						<label class="ui green label">已激活</label>
+						<label class="ui magenta label">已激活</label>
 						{% endif %}
 						
 						{% if user.state == 1 %}
@@ -124,10 +93,20 @@
 				</td>
 				<td>
 					<div class="ui small divided horizontal list">
-						{% if visitor.role_id == 3 %}
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}" class="ui link ajax item">升级管理员</a>
+						{% if visitor.can_admin == 9 %}
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=admin" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为管理员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为普通会员</a>
 						{% endif %}
+						
+						{% if visitor.role_id == 8 %}
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为普通会员</a>
+						{% endif %}
+						
+						{% if user.state != 2 %}
 						<a href="{{ app_url_admin }}/user/activtion?id={{ user._id }}" class="ui link ajax item">激活</a>
+						{% endif %}
 						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link ajax item">禁用</a>
 					</div>
 				</td>

@@ -32,6 +32,10 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		$time = $this->stash['time'];
 		$q = $this->stash['q'];
 		
+		if(empty($state) && empty($time) && empty($q) && empty($this->stash['role'])){
+			$this->set_target_css_state('all');
+		}
+		
 		// 某个状态下
 		if ($state == 2){
 			$this->stash['only_ok'] = 1;
@@ -39,15 +43,28 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		}elseif($state == 1){
 			$this->stash['only_pending'] = 1;
 			$this->set_target_css_state('pending');
-		}else{
-			$this->set_target_css_state('all');
 		}
 		
-		// 是否为数字
-		if (is_numeric($q)){
-			$this->stash['search_id'] = $q;
-		} else {
-			$this->stash['search_passport'] = $q;
+		if (isset($this->stash['role'])){
+			if ($this->stash['role'] == 'admin') {
+				$this->stash['only_admin'] = 1;
+				$this->set_target_css_state('admin');
+			} elseif ($this->stash['role'] == 'editor') {
+				$this->stash['only_editor'] = 1;
+				$this->set_target_css_state('editor');
+			} else {
+				$this->stash['only_user'] = 1;
+				$this->set_target_css_state('user');
+			}
+		}
+		
+		if (!empty($q)) {
+			// 是否为数字
+			if (is_numeric($q)){
+				$this->stash['search_id'] = $q;
+			} else {
+				$this->stash['search_passport'] = $q;
+			}
 		}
 		
 		// 某时间段内
@@ -78,15 +95,38 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
     }
 	
 	/**
-	 * 升级管理员
+	 * 改变用户角色
 	 */
 	public function upgrade() {
-		$id = $this->stash['id'];
-		// 仅系统管理员具有权限
-		if (!$this->visitor->can_system()){
-			
+		if(empty($this->stash['id']) || empty($this->stash['role'])){
+			return $this->ajax_notification('缺少请求参数！', true);
 		}
 		
+		$role = strtolower($this->stash['role']);
+		$msg = '';
+		
+		$model = new Sher_Core_Model_User();
+		switch($role) {
+			case 'user':
+				$model->change_user_role($this->stash['id'], $role);
+				$msg = '设为普通会员成功！';
+				break;
+			case 'editor':
+				$model->change_user_role($this->stash['id'], $role);
+				$msg = '设为编辑人员成功！';
+				break;
+			case 'admin':
+				// 仅系统管理员具有权限
+				if ($this->visitor->can_system()){
+					$model->change_user_role($this->stash['id'], $role);
+				} else {
+					return $this->ajax_notification('抱歉，你没有权限操作！', true);
+				}
+				$msg = '设为管理员成功！';
+				break;
+		}
+		
+		return $this->ajax_notification($msg);
 	}
 	
 	/**

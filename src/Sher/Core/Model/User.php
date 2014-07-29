@@ -4,14 +4,19 @@
  * 
  */
 class Sher_Core_Model_User extends Sher_Core_Model_Base {
+    protected $collection = 'user';
+    protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
+	
 	const STATE_BLOCKED  = -1;
     const STATE_DISABLED = 0;
     const STATE_PENDING = 1;
     const STATE_OK = 2;
-
+	
+	// 用户角色
     const ROLE_USER   = 1;
-    const ROLE_ADMIN  = 2;
-    const ROLE_SYSTEM = 3;
+	const ROLE_EDITOR = 5;
+    const ROLE_ADMIN  = 8;
+    const ROLE_SYSTEM = 9;
     
     const PERMIT_POST = 'p';
     
@@ -34,14 +39,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	
     protected $roles = array(
         'user' => self::ROLE_USER,
+		'editor' => self::ROLE_EDITOR,
         'admin' => self::ROLE_ADMIN,
         'system' => self::ROLE_SYSTEM,
     );
 	
     public static $TWEET_EVENTS = array('post','comment','like','love');
-
-    protected $collection = 'user';
-    protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
 		'account'  => null,
@@ -147,12 +150,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
+	
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
-    protected $joins = array();
-	
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count');
 	
+	protected $joins = array();
 	
     //~ some event handles
     /**
@@ -323,6 +326,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             || $this->data['role_id'] == self::ROLE_ADMIN
             || (!empty($this->data['permission']) && in_array(self::PERMIT_POST,$this->data['permission'])));
     }
+	
 	/**
 	 * 是否是第一次登录
 	 */
@@ -335,6 +339,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		}
 		return false;
 	}
+	
 	/**
 	 * 设置完成向导
 	 */
@@ -349,9 +354,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
                 'permission' => self::PERMIT_POST,
             )));
     }
+	
     public function revoke_post($user_id) {
         return self::$_db->pull($this->collection,array('_id' => (int)$user_id),'permission',self::PERMIT_POST);
     }
+	
     /**
      * 记录用户最后一次动作的心跳时间,用于判断用户是否属于在线状态
      *
@@ -367,6 +374,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $update['online_alive'] = is_null($time)?time():(int)$time;
         return $this->update_set($user_id,$update);
     }
+	
     /**
      * 修改用户的角色
      *
@@ -530,6 +538,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		}
 		$this->update_set((int)$user_id, array('counter.'.$field => $value));
 	}
+	
 	/**
 	 * 更新计数器，累加
 	 */

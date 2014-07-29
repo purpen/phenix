@@ -37,7 +37,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		# 活动发起人
 		'user_id' => 0,
  		# 关联的产品
-    	'product_id' => null,
+    	'product_id' => 0,
 		
 		# 试用数量
 		'try_count'  => 0,
@@ -62,13 +62,14 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     );
 	
     protected $joins = array(
-    	'product'  => array('product_id' => 'Sher_Core_Model_Product'),
+    	'product' => array('product_id' => 'Sher_Core_Model_Product'),
 		'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
+		'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
     );
 	
-    protected $required_fields = array('user_id');
+    protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count');
 	
 	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count');
 	/**
@@ -120,6 +121,13 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	 */
 	public function mark_set_cover($id, $cover_id){
 		return $this->update_set($id, array('cover_id'=>$cover_id));
+	}
+	
+	/**
+	 * 设置Banner
+	 */
+	public function mark_set_banner($id, $banner_id){
+		return $this->update_set($id, array('banner_id'=>$banner_id));
 	}
 	
     /**

@@ -2,13 +2,15 @@
 	<div class="ui responsive two column grid">
 		<div class="middle aligned row">
 			<div class="column">
-			  	<img src="{{ app_url_packaged }}/images/mini-logo.png" />
+				<a class="ui link" href="{{ visitor.home_url }}" title="回首页">
+					<img src="{{ app_url_packaged }}/images/mini-logo.png" />
+				</a>
 			</div>
 			<div class="right aligned column">
 				<a class="ui avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
 					<img src="{{ visitor.small_avatar_url }}" /> 
 				</a>
-				{{ visitor.nickname }}
+				<a class="ui link" href="{{ visitor.home_url }}" title="回个人主页">{{ visitor.nickname }}</a>
 				<small class="space">|</small>
 				<a href="{{ app_url_logout }}" class="ui link">
 					退出

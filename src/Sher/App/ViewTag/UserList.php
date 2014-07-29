@@ -18,6 +18,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         
         $only_system = 0;
         $only_admin = 0;
+		$only_editor = 0;
         $only_common_user = 0;
         
         $only_dead = 0;
@@ -72,6 +73,9 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         
         if ($only_common_user) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_USER;
+        }
+        if ($only_editor) {
+            $query['role_id'] = Sher_Core_Model_User::ROLE_EDITOR;
         }
         if ($only_admin) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_ADMIN;

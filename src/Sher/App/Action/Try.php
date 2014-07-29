@@ -48,7 +48,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_Try();
-		$try = & $model->extend_load($id);
+		$try = &$model->extend_load($id);
 		
 		if(empty($try)){
 			return $this->show_message_page('访问的公测产品不存在或已被删除！', $redirect_url);

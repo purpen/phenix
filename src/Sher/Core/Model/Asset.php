@@ -78,7 +78,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'large' => 'la.jpg', 
 		'big' => 'bi.jpg', 
 		'huge' => 'hu.jpg', 
-		'massive' => 'ma.jpg'
+		'massive' => 'ma.jpg',
 	);
 
     protected $required_fields = array('filepath');
@@ -126,6 +126,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 					'view_url' => Doggy_Config::$vars['app.url.default_thumb_huge'],
 				),
 				'massive' => array(
+					'view_url' => Doggy_Config::$vars['app.url.default_thumb_massive'],
+				),
+				'main' => array(
 					'view_url' => Doggy_Config::$vars['app.url.default_thumb_massive'],
 				),
 			);

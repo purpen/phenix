@@ -8,7 +8,6 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-		'state' => 0,
 	);
 	
 	public function _init() {
@@ -133,6 +132,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	public function unpublish() {
 		return $this->update_state(Sher_Core_Model_Try::STATE_DRAFT);
 	}
+	
+	
 	
 	/**
 	 * 确认发布评测

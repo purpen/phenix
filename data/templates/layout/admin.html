@@ -2,6 +2,9 @@
 {% block title %}管理控制台-{% endblock %}
 {% block layout_css %}
 	<style type="text/css">
+		.ui.responsive.grid {
+		    padding: 0 2%;
+		}
 		header.admin {
 			background-color: #fff;
 			border-bottom: 1px solid #e4e5e7;
@@ -21,9 +24,19 @@
 			font-size: 1.1rem;
 			margin: 0.5em 0 1rem;
 		}
+		.ui.sub.nav {
+			text-align: right;
+		}
+		.ui.nopad.grid .column {
+		    margin-bottom: 0rem;
+		    margin-top: 0rem;
+		}
+		.ui.nopad.grid .ui.form .field {
+		    margin-bottom: 0.25rem;
+		}
 	</style>
 {% endblock %}
-
+{% block page_css %}{% endblock %}
 {% block jquery %}{% endblock %}
 
 {% block layout_header %}
@@ -34,10 +47,10 @@
 <div id="bd">
 	<div id="ajax-note"></div>
 	<div class="ui responsive  grid">
-	  	<div class="four wide column">
+	  	<div class="three wide column">
 	    	{% include "block/sitebar_admin.html" %}
 	  	</div>
-	  	<div class="twelve wide column">
+	  	<div class="thirteen wide column">
 			{% block content %}{% endblock %}
 	  	</div>
 	</div>

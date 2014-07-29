@@ -1,9 +1,15 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
+<style class="text/css">
+	
+</style>
 {% endblock %}
-
+{% block jquery %}
+	
+{% endblock %}
 {% block content %}
 	<h3 class="ui header">产品公测</h3>
+	
 	<div class="ui secondary pointing magenta menu">
 	  	<a class="active item" href="{{ app_url_admin_base }}/try">全部列表</a>
 		<a class="item" href="{{ app_url_admin_base }}/try/edit">
@@ -11,17 +17,26 @@
 		</a>
 	  	<div class="right menu">
 	    	<div class="item">
-				<div class="ui icon input">
-					<input placeholder="Search..." type="text">
-					<i class="flat search link icon"></i>
-				</div>
+				
 	      	</div>
 	    </div>
 	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/try" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
 	{% try_list var:'list' page:page size:10 %}
-	<table class="ui table segment">
+	<table class="ui small table segment">
 		<thead>
 			<tr>
+				<th></th>
 				<th>活动标题</th>
 				<th>试用数量</th>
 				<th>申请人数</th>
@@ -33,18 +48,29 @@
 			{% for t in list.rows %}
 			<tr id="{{ t._id }}">
 				<td>
-					<a href="{{ t.view_url }}" target="_blank" class="ui link">{{ t.title |truncate 15 }}</a>
-					{% if t.state == 1 %}
-					<label class="ui green label" id="publish-{{ t._id }}-label">已发布</label>
-					{% endif %}
-					
-					{% if t.state == 0 %}
-					<label class="ui orange label" id="publish-{{ t._id }}-label">未发布</label>
-					{% endif %}
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ t._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<a href="{{ t.view_url }}" target="_blank" class="ui link" title="{{ t.title }}">{{ t.title |truncate 20 }}</a>
+					<p>ID: {{ t._id }}</p>
 				</td>
 				<td>{{ t.try_count }}</td>
 				<td>{{ t.apply_count|default 0 }}</td>
-				<td>{{ t.start_time }} -- {{ t.end_time }}</td>
+				<td>
+					<p>{{ t.start_time }} -- {{ t.end_time }}</p>
+					<p>
+						{% if t.state == 1 %}
+						<label class="ui green label" id="publish-{{ t._id }}-label">已发布</label>
+						{% endif %}
+					
+						{% if t.state == 0 %}
+						<label class="ui orange label" id="publish-{{ t._id }}-label">未发布</label>
+						{% endif %}
+					</p>
+				</td>
 				<td>
 					<div class="ui small divided horizontal list">
 						{% if t.state %}

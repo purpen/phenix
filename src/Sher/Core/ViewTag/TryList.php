@@ -23,7 +23,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
-		$sort_field = 'time';
+		$sort_field = 'latest';
 
         extract($this->resolve_args($context, $this->argstring, EXTR_IF_EXISTS));
 
@@ -40,6 +40,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Try::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_try_list($query,$options);
 		        

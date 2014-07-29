@@ -138,97 +138,20 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	 * 上传产品图片
 	 */
 	public function product() {
-		// 验证用户
-		if (!$this->visitor->id) {
-            return $this->ajax_json('Session已过期，请重新登录！', true);
-        }
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		
-		try{
-			$new_assets = array();
-			for($i=0; $i<count($this->asset); $i++){
-				Doggy_Log_Helper::debug("Upload asset[$i] start.");
-			
-				$file = $this->asset[$i]['path'];
-		        $filename = $this->asset[$i]['name'];
-		        $size = $this->asset[$i]['size'];
-			
-				# 保存附件
-				$asset = new Sher_Core_Model_Asset();
-				//create new one
-				$asset->set_file($file);
-				
-				$image_info = Sher_Core_Util_Image::image_info($file);
-				
-				$image_info['size'] = $size;
-		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
-		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, Sher_Core_Util_Constant::STROAGE_PRODUCT);
-		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
-		        $image_info['parent_id'] = (int)$this->stash['parent_id'];
-			
-				$ok = $asset->apply_and_save($image_info);
-			
-				Doggy_Log_Helper::debug("Create asset[$i] ok.");
-			
-		        if ($ok) {
-					$new_assets['ids'][] = (string)$asset->_id;
-				}
-			}
-		} catch (Sher_Core_Model_Exception $e) {
-			Doggy_Log_Helper::warn("保存图片失败：".$e->getMessage());
-			return $this->ajax_json("保存图片失败：".$e->getMessage(), true);
-		} catch (Sher_Core_Util_Exception $e) {
-			Doggy_Log_Helper::warn("处理图片失败：".$e->getMessage());
-			return $this->ajax_json("处理图片失败：".$e->getMessage(), true);
-		}
-		
-		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
+		return $this->handle_upload($asset_type, $asset_domain);
 	}
 	
 	/**
 	 * 上传帖子图片
 	 */
 	public function topic() {
-		// 验证用户
-		if (!$this->visitor->id) {
-            return $this->ajax_json('Session已过期，请重新登录！', true);
-        }
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
 		
-		try{
-			$new_assets = array();
-			for($i=0; $i<count($this->asset); $i++){
-				Doggy_Log_Helper::debug("Upload asset[$i] start.");
-			
-				$file = $this->asset[$i]['path'];
-		        $filename = $this->asset[$i]['name'];
-		        $size = $this->asset[$i]['size'];
-			
-				# 保存附件
-				$asset = new Sher_Core_Model_Asset();
-				//create new one
-				$asset->set_file($file);
-				
-				$image_info = Sher_Core_Util_Image::image_info($file);
-				$image_info['size'] = $size;
-		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
-		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, Sher_Core_Util_Constant::STROAGE_TOPIC);
-		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
-			
-				$ok = $asset->apply_and_save($image_info);
-				
-				Doggy_Log_Helper::debug("Create asset[$i] ok.");
-				
-		        if ($ok) {					
-					$new_assets['ids'][] = (string)$asset->_id;
-				}
-			}
-		} catch (Sher_Core_Model_Exception $e) {
-			Doggy_Log_Helper::warn("上传图片失败：".$e->getMessage());
-			return $this->ajax_json("上传图片失败：".$e->getMessage(), true);
-		}
-		
-		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
+		return $this->handle_upload($asset_type, $asset_domain);
 	}
 	
 	/**
@@ -242,7 +165,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
-	 * 处理封面图的上传
+	 * 处理图片的上传
 	 */
 	protected function handle_upload($asset_type, $asset_domain) {
 		// 验证用户
@@ -419,6 +342,28 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		}
 		
 		return $this->ajax_json('设置成功！', false);
+	}
+	
+	/**
+	 * 设置对象的Banner
+	 */
+	public function update_banner() {
+		$id = (int)$this->stash['id'];
+		$banner_id = $this->stash['banner_id'];
+		if (empty($id) || empty($banner_id)){
+			return $this->ajax_json('请求缺少参数！', true);
+		}
+		
+		$asset_domain = $this->stash['asset_domain'];
+		Doggy_Log_Helper::debug("Update banner asset domain[$asset_domain]!");
+		switch($asset_domain){
+			case Sher_Core_Util_Constant::STROAGE_TRY:
+				$model = new Sher_Core_Model_Try();		
+				$model->mark_set_banner($id, $banner_id);
+				break;
+		}
+		
+		return $this->ajax_json('设置成功！');
 	}
 	
 }
