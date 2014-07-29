@@ -1,95 +1,62 @@
-<div class="ui applytry modal transition">
+<div class="ui applytry small modal transition">
   	<i class="flat close icon"></i>
+	<div class="header">
+	    申请产品试用
+	</div>
   	<div class="content">
 		<form action="{{ app_url_action_base }}/auth/do_register" class="ui form" method="post" id="register-form">
 			<input type="hidden" name="t" value="{{ login_token }}" />
-		  	<div class="ui header">
-		    	注册太火鸟
-		  	</div>
-	    	<div class="ui login-modal two column grid">
-				<div class="column">
-					<div class="ui signup-box">
-						<div class="field">
-							<input type="text" class="form-control input-lg" name="account" placeholder="邮箱账号" />
-						</div>
-						<div class="field">
-							<input name="nickname" type="text" class="form-control input-lg" placeholder="昵称" />
-						</div>
-						<div class="field">
-							<input name="phone" type="text" class="form-control input-lg" placeholder="填写手机号，方便信息核实" />
-						</div>
-						<div class="field">
-							<input type="password" class="form-control input-lg" name="password" id="password" placeholder="密码" />
-						</div>
-						<div class="field">
-							<input type="password" class="form-control input-lg" name="password_confirm" placeholder="确认密码" />
-						</div>
-						<div class="inline field">
-							<div class="ui checkbox">
-					          	<input type="checkbox" name="terms" checked="checked">
-					          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
-					        </div>
-						</div>
-
-						<div class="field">
-					    	<div class="fluid ui big active magenta submit button" >确认注册</div>
-						</div>
-						
+			<div class="ui signup-box">
+				<div class="field">
+					<label>姓名</label>
+					<input type="text" name="name" value="" />
+				</div>
+				<div class="field">
+					<label>手机号</label>
+					<input type="text" name="phone" value="" placeholder="填写手机号，方便信息核实" />
+				</div>
+				<div class="field">
+					<label>详细地址</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+				
+					    <div class="default text">省份/自治区</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
 					</div>
-					
-					<div class="ui hide activity-box">
-						<div class="ui success message">
-							注册成功，分享至微博赢大奖！
-						</div>
-						<div class="ui middle aligned grid">
-							<div class="six wide column">
-								<h3>点击分享至微博：</h3>
-							</div>
-							<div class="six wide column">
-								<a href="" id="sina-share-activty" class="ui weibo circular share icon button" title="新浪微博">
-									<i class="flat icon_weibo icon"></i>
-								</a>
-							</div>
-						</div>
+			
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
 					</div>
 				</div>
-				
-				<div class="column">
-					<div class="ui segment">
-						<h2 class="ui magenta header">
-							2万大奖免费送
-						</h2>
-						<h3 class="ui header">
-							全球最小的可穿戴设备Goccia强势来袭
-							<p class="sub header">首次发售，限量五百套！428元超底价，只限前十！</p>
-						</h3>
-						<h3 class="ui header">
-							步骤：
-						</h3>
-						<div class="ui animated list">
-						  	<div class="item">
-						    	<i class="flat icon_weibo icon"></i>
-						    	<div class="content">
-						      		注册官方网站--分享至新浪微博--@太火鸟--获得免单资格
-						    	</div>
-						  	</div>
-						  	<div class="item">
-						    	<i class="flat icon_weixin icon"></i>
-						    	<div class="content">
-						      		注册官方网站--分享至微信朋友圈--截图发送官方微信--获得免单资格
-						    	</div>
-						  	</div>
-						</div>
-						
-						
-						<div class="right floated column">
-							<a href="{{ app_url_goccia_rule }}" class="ui active link" target="_blank">查看详情规则</a>
-						</div>
-						
-					</div>
+				<div class="field">
+					<input type="text" name="address" value="" />
+				</div>
+				<div class="field">
+					<label>申请理由</label>
+					<textarea name="content" class="small"></textarea>
+					<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
 				</div>
 			</div>
-			
 		</form>
   	</div>
+	<div class="right aligned actions">
+	    <div class="ui active gray cancel button">
+			取消
+	    </div>
+	    <div class="ui active magenta submit button">
+			确认注册
+	    </div>
+	</div>
 </div>

@@ -110,18 +110,6 @@
 {% block content %}
 <div class="account profile">
 	<div class="ui responsive grid">
-		
-		{% if visitor.first_login %}
-		<div class="row">
-			<div class="column">
-				<div class="ui danger message">
-					<i class="flat close icon"></i>
-					全球最小的可穿戴设备Goccia强势来袭，2万大奖免费送，<a href="{{ app_url_goccia }}" target="_blank" class="ui link">查看活动详情</a>
-				</div>
-			</div>
-		</div>
-		{% endif %}
-		
 		<div class="row">
 			<div class="four wide column">
 				{% include "block/user/sub_menu.html" %}
