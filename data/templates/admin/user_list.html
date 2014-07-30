@@ -93,7 +93,7 @@
 				</td>
 				<td>
 					<div class="ui small divided horizontal list">
-						{% if visitor.can_admin == 9 %}
+						{% if visitor.role_id == 9 %}
 						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=admin" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为管理员</a>
 						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
 						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为普通会员</a>
