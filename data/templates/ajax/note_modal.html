@@ -1,0 +1,21 @@
+<taconite>
+{% if is_error %}
+	<eval>
+		phenix.show_error_note('{{ note }}', 5000, '.ui.modal .ajax.result');
+	</eval>
+{% else %}
+	<eval>
+		phenix.show_ok_note('{{ note }}', 2000, '.ui.modal .ajax.result');
+		setTimeout(function(){
+			// 隐藏弹出框
+			$('.ui.modal').modal('hide');
+		}, 3000);
+	</eval>
+{% endif %}
+
+{% if redirect_url %}
+	<eval>
+		phenix.redirect('{{ redirect_url }}', 500);
+	</eval>
+{% endif %}
+</taconite>

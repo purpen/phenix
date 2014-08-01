@@ -37,7 +37,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		
         $search_id = 0;
         $search_passport = 0;
+		// 获取单个用户
         $user_id = 0;
+		// 批量获取用户
+		$user_ids = array();
         
         $sort = 'latest';
         $var = 'list';
@@ -49,7 +52,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $page = (int) $page;
         $page || $page = 1;
         $size = (int)$size;
-        
+		
         $query = array();
 		
         $options['sort_field'] = $sort;
@@ -129,10 +132,13 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		
         if ($user_id) {
             $result = DoggyX_Model_Mapper::load_model((int)$user_id,'Sher_Core_Model_User');
+        } elseif(!empty($user_ids)){
+        	$result = DoggyX_Model_Mapper::load_model_list($user_ids,'Sher_Core_Model_User');
         } else {
             $service = Sher_Core_Service_User::instance();
             $result = $service->get_user_list($query, $options);
         }
+		
         $context->set($var,$result);
 		
         if ($include_pager) {

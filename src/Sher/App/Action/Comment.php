@@ -9,6 +9,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		'user_id'=>'',
 		'target_id'=>'',
 		'page'=>1,
+		'next_page'=>1,
 	);
 	
 	protected $page_tab = 'page_user';
@@ -26,15 +27,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	/**
 	 * 评价列表
 	 */
-	public function get_list(){
-		
-	}
+	public function get_list(){}
 	
 	/**
 	 * ajax获取评论列表
 	 */
 	public function ajax_fetch_list(){
-		
+		$page = (int)$this->stash['page'];
+		$this->stash['next_page'] += $page;
+		return $this->to_taconite_page('ajax/comment_list.html');
 	}
 	
 	/**

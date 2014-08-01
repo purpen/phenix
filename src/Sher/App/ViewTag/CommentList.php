@@ -16,8 +16,9 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		
         $user_id = 0;
         $target_id = 0;
+		$type = 0;
 		
-        $sort = 'time';
+        $sort = 'earliest';
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -34,6 +35,9 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         }
 		if ($target_id) {
 			$query['target_id'] = (string)$target_id;
+		}
+		if ($type) {
+			$query['type'] = (int)$type;
 		}
 		
         $options['sort_field'] = $sort;

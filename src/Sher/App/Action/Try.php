@@ -7,8 +7,6 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 	
 	public $stash = array(
 		'id' => '',
-		'user_id' => '',
-		'target_id' => '',
 		'page' => 1,
 	);
 	
@@ -67,7 +65,47 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
 		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		$this->stash['provinces'] = $provinces;
+		
+		
 		return $this->to_html_page($tpl);
+	}
+	
+	/**
+	 * 提交申请
+	 */
+	public function ajax_apply(){
+		if (!isset($this->stash['target_id'])){
+			return $this->ajax_modal('缺少请求参数！', true);
+		}
+		
+		$target_id = $this->stash['target_id'];
+		$user_id = $this->visitor->id;
+		
+		// 检测是否已提交过申请
+		$model = new Sher_Core_Model_Apply();
+		if(!$model->check_reapply($user_id,$target_id)){
+			return $this->ajax_modal('你已提交过申请，无需重复提交！', true);
+		}
+		try{
+			if(empty($this->stash['_id'])){
+				if(isset($this->stash['id'])){
+					unset($this->stash['id']);
+				}
+				$this->stash['user_id'] = $user_id;
+				
+				$ok = $model->apply_and_save($this->stash);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
+			return $this->ajax_modal('提交失败，请重试！', true);
+		}
+		
+		return $this->ajax_modal('申请提交成功，等待审核.');
 	}
 	
 

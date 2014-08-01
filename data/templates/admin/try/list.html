@@ -58,7 +58,9 @@
 					<p>ID: {{ t._id }}</p>
 				</td>
 				<td>{{ t.try_count }}</td>
-				<td>{{ t.apply_count|default 0 }}</td>
+				<td>{{ t.apply_count|default 0 }} 人 / 
+					<a href="{{ app_url_admin_base }}/try/verify?id={{ t._id }}" class="ui magenta link">查看</a>
+				</td>
 				<td>
 					<p>{{ t.start_time }} -- {{ t.end_time }}</p>
 					<p>

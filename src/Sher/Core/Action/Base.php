@@ -66,6 +66,18 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
         return $this->to_taconite_page('ajax/delete.html');
     }
 	
+	/**
+	 * ajax_note for modal
+	 */
+	public function ajax_modal($msg, $is_error=false, $url=null) {
+        if (!empty($url)) {
+            $this->stash['redirect_url'] = $url;
+        }
+        $this->stash['note'] = $msg;
+        $this->stash['is_error'] = $is_error;
+        return $this->to_taconite_page('ajax/note_modal.html');
+	}
+	
     /**
      * alias ajax_note
      */

@@ -7,7 +7,8 @@ class Sher_Core_Service_Comment extends Sher_Core_Service_Base {
     protected static $instance;
 	
     protected $sort_fields = array(
-        'time' => array('created_on' => -1),
+        'latest' => array('created_on' => -1),
+		'earliest' => array('created_on' => 1),
     );
 	
     /**

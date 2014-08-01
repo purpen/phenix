@@ -170,7 +170,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 	
 	/**
-	 * 发送红娘私信
+	 * 发送私信
 	 */
 	public function ajax_match() {
 		$to = $this->stash["to"];

@@ -11,6 +11,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     
     const TYPE_USER = 1;
     const TYPE_TOPIC = 2;
+	const TYPE_TRY = 3;
+	
     
     protected $schema = array(
         'user_id' => 0,
@@ -44,6 +46,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				$model = new Sher_Core_Model_Topic();
 				$model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
 				break;
+			case self::TYPE_TRY:
+				$model = new Sher_Core_Model_Try();
+				$model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
+				break;
 			default:
 				break;
 		}
@@ -59,6 +65,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		switch($type){
 			case self::TYPE_TOPIC:
 				$model = new Sher_Core_Model_Topic();
+				$model->dec_counter('comment_count', (int)$target_id);
+				break;
+			case self::TYPE_TRY:
+				$model = new Sher_Core_Model_Try();
 				$model->dec_counter('comment_count', (int)$target_id);
 				break;
 			default:

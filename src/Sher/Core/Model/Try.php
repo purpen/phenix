@@ -43,8 +43,6 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'try_count'  => 0,
 		# 申请人数
 		'apply_count' => 0,
-		# 审核通过人数
-		'pass_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
 		
@@ -78,6 +76,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = sprintf(Doggy_Config::$vars['app.url.try.view'], $row['_id']);
 		
+		# 审核通过人数
+		$row['pass_count'] = count($row['pass_users']);
+		
 		if(isset($row['content'])){
 			// 转码
 			$row['content'] = htmlspecialchars_decode($row['content']);
@@ -85,7 +86,6 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 			// 去除 html/php标签
 			$row['strip_content'] = strip_tags($row['content']);
 		}
-		
 		
     }
 	
@@ -103,6 +103,23 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	}
 	
 	/**
+	 * 更新通过的用户
+	 */
+	public function update_pass_users($id, $user_id, $is_add=true){
+		if ($is_add) {
+			$new_data = array(
+				'$addToSet' => array('pass_users' => (int)$user_id),
+			);
+		} else {
+			$new_data = array(
+				'$pull' => array('pass_users' => (int)$user_id),
+			);
+		}
+		
+		return $this->update($id, $new_data);
+	}
+	
+	/**
 	 * 增加计数
 	 */
 	public function increase_counter($field_name, $inc=1, $id=null){
@@ -114,6 +131,26 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		}
 		
 		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($count_name,$id=null,$force=false){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$stuff = $this->find_by_id($id);
+			if(!isset($stuff[$count_name]) || $stuff[$count_name] <= 0){
+				return true;
+			}
+		}
+		return $this->dec($id, $count_name);
 	}
 	
 	/**
