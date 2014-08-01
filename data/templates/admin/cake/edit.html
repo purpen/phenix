@@ -21,25 +21,16 @@
 	});
 {% endblock %}
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui magenta buttons">
-			<a href="{{ app_url_admin_base }}/cake" class="ui icon button">全部列表</a>
-		</div>
-		<a href="{{ app_url_admin_base }}/cake/edit" class="ui right labeled icon magenta button">
-			<i class="flat add icon"></i>新增公告
-		</a>
-		
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/cake">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
-		</form>
-	</div>
+	<h3 class="ui header">公告管理</h3>
 	
-	<div class="ui divider"></div>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/cake" class="{{css_all_category}} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/cake/edit" class="active item">
+				+新增公告
+			</a>
+	    </div>
+	</div>
 	
 	<div class="ui form segment">
 		{% if mode == 'create' %}

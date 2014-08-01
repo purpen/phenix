@@ -17,6 +17,11 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	    'user_id' => null,
 		# 类别支持多选
 		'category_id' => 0,
+		# 分类父级
+		'fid' => 0,
+		# 分类组
+		'gid' => 0,
+		
 		# 所属产品
 		'target_id' => 0,
 		
@@ -65,7 +70,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','category_id','deleted','published');
+	protected $int_fields = array('user_id','category_id','fid','gid','deleted','published');
 	
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	
@@ -82,6 +87,16 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
 	    }
+		// 获取父级类及类组
+		if (isset($data['category_id'])){
+			$category = new Sher_Core_Model_Category();
+			$result = $category->find_by_id((int)$data['category_id']);
+			if (empty($result)){
+				throw new Sher_Core_Model_Exception('所选分类出错！');
+			}
+			$data['gid'] = $result['gid'];
+			$data['fid'] = $result['fid'];
+		}
 		
 		// 添加随机数
 		$data['random'] = Sher_Core_Helper_Util::gen_random();

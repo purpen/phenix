@@ -49,6 +49,12 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 			$this->stash['category'] = $category->extend_load((int)$this->stash['id']);
 			$mode = 'edit';
 		}
+		// 获取类组
+		$this->stash['groups'] = $category->find_groups();
+		
+		// 获取顶级分类
+		$this->stash['top_category'] = $category->find_top_category();
+		
 		$this->stash['mode'] = $mode;
 		return $this->to_html_page('admin/category/edit.html');
 	}

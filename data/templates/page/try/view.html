@@ -161,11 +161,22 @@
 						</div>
 					
 						<div class="ui tab" data-tab="report">
+							<div class="ui bottom aligned grid">
+								<div class="twelve wide column">
+									<h3 class="ui header">
+										评测报告
+									</h3>
+								</div>
+								
+								<!--通过审核的用户才能提交报告-->
+								<div class="four wide column">
+									<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta button">提交报告</a>
+								</div>
+								
+							</div>
 							<div class="ui center aligned grid">
 								<div class="twelve wide column">
-									<div class="product-content-box">
-										试用报告
-									</div>
+									
 								</div>
 							</div>
 						</div>

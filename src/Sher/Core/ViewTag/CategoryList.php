@@ -16,7 +16,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
      */
     public function render($context, $stream) {
         $page = 1;
-        $size = 10;
+        $size = 100;
 		
         $pid = 0;
 		$only_open = 0;
@@ -42,10 +42,8 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		if ($domain) {
 			$query['domain'] = (int)$domain;
 		}
-		
-		if ($pid) {
-			$query['pid'] = (int)$pid;
-		}
+		// 默认为0，顶级分类
+		$query['pid'] = (int)$pid;
 		
 		if ($only_open == Sher_Core_Model_Category::IS_OPENED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;

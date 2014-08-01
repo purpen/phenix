@@ -5,46 +5,54 @@
 {% endblock %}
 
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui magenta buttons">
-			<a href="{{ app_url_admin_base }}/category" class="ui {{css_all_category}} icon button">全部列表</a>
-			<a href="{{ app_url_admin_base }}/category?only_open=1" class="ui {{css_open_category}} button">公开列表</a>
-			<a href="{{ app_url_admin_base }}/category?only_open=-1" class="ui {{css_hide_category}} button">隐藏列表</a>
-		</div>
-		<a href="{{ app_url_admin_base }}/category/edit" class="ui right labeled icon magenta button">
-			<i class="flat add icon"></i>新增分类
-		</a>
-		
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
+	<h3 class="ui header">分类管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/category" class="{{css_all_category}} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/category?only_open=1" class="{{css_open_category}} item">公开列表</a>
+		<a href="{{ app_url_admin_base }}/category?only_open=-1" class="{{css_hide_category}} item">隐藏列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/category/edit" class="magenta item">
+				+新增分类
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/category" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
 		</form>
 	</div>
 	
-	<div class="ui divider"></div>
-	
-	{% category_list var:'list' page:page only_open:only_open size:30 %}
-	<table class="ui large table segment">
+	{% category_list var:'list' page:page only_open:only_open %}
+	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th></th>
 				<th>分类名称/标识</th>
 				<th>状态</th>
+				<th>所属组</th>
 				<th>所属域</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for cat in list.rows %}
-			<tr id="{{ cat._id }}">
-				<td><input type="checkbox" name="id[]" value="{{ cat._id }}" class="form-control" /></td>
+			<tr id="{{ cat._id }}" {% if cat.domain == 2%}class="positive"{% endif %} {% if cat.domain == 1%}class="negative"{% endif %}>
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ cat._id }}" />
+					  	<label></label>
+					</div>
+				</td>
 				<td>{{ cat.title }} / {{ cat.name }}</td>
-				<td>{% if cat.is_open == 1 %}<span class="ui green label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
-				<td>{% if cat.domain == 1%}产品{% endif %} {% if cat.domain == 2%}社区{% endif %}</td>
+				<td>{% if cat.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
+				<td>{{ cat.group.name }}</td>
+				<td>{% if cat.domain == 1%}产品类{% endif %} {% if cat.domain == 2%}社区类{% endif %}</td>
 				<td>
 					<div class="ui divided horizontal list">
 						<a href="{{ app_url_admin_base }}/category/edit?id={{ cat._id }}" class="ui link item">编辑</a> 
@@ -52,13 +60,29 @@
 					</div>
 				</td>
 			</tr>
+				{% category_list var:'children' page:1 only_open:only_open pid:cat._id %}
+				{% for child in children.rows %}
+				<tr id="{{ child._id }}" {% if cat.domain == 2%}class="positive"{% endif %} {% if cat.domain == 1%}class="negative"{% endif %}>
+					<td>
+						<div class="ui checkbox">
+						  	<input name="ids[]" type="checkbox" value="{{ child._id }}" />
+						  	<label></label>
+						</div>
+					</td>
+					<td>|----{{ child.title }} / {{ child.name }}</td>
+					<td>{% if child.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
+					<td>{{ child.group.name }}</td>
+					<td>{% if child.domain == 1%}产品类{% endif %} {% if child.domain == 2%}社区类{% endif %}</td>
+					<td>
+						<div class="ui divided horizontal list">
+							<a href="{{ app_url_admin_base }}/category/edit?id={{ child._id }}" class="ui link item">编辑</a> 
+							<a href="{{ app_url_admin_base }}/category/delete?id={{ child._id }}" class="ui link item confirm-request">删除</a>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
 			{% endfor %}
 		</tbody>
 	</table>
-	
-	{% if list.rows %}
-		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-		{%include 'block/pager.html'%}
-	{% endif %}
 	
 {% endblock %}

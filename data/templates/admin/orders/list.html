@@ -44,42 +44,34 @@
 {% endblock %}
 	
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui magenta labeled icon top left pointing dropdown button">
-		  	<i class="flat sort icon"></i>
-		  	<span class="text">
-				{% if !s %}全部订单{% endif %}
-				{% if s == 1 %}未支付订单{% endif %}
-				{% if s == 2 %}待发货订单{% endif %}
-				{% if s == 3 %}已发货订单{% endif %}
-				{% if s == 4 %}已完成订单{% endif %}
-			</span>
-		  	<div class="menu">
-				<a href="{{ app_url_admin_base }}/orders" class="ui item">
-					全部订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?s=1" class="ui {% if s == 1 %}active{%endif%} item">
-					未支付订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?s=2" class="ui {% if s == 2 %}active{%endif%} item">
-					待发货订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?s=3" class="ui {% if s == 3 %}active{%endif%} item">
-					已发货订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?s=4" class="ui {% if s == 4 %}active{%endif%} item">
-					已完成订单
-				</a>
-		  	</div>
-		</div>
-		
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
+	<h3 class="ui header">订单管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/orders" class="{% if !s %}active{%endif%} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=1" class="{% if s == 1 %}active{%endif%} item">
+			未支付
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=2" class="{% if s == 2 %}active{%endif%} item">
+			待发货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
+			已发货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=4" class="{% if s == 4 %}active{%endif%} item">
+			已完成
+		</a>
+	  	
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/orders" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search icon"></i>
+			</div>
 		</form>
 	</div>
 	
@@ -161,8 +153,8 @@
 		</div>
 	</div>
 	{% else %}
-	<div class="ui segment">
-		<p>还没有相关订单</p>
+	<div class="ui center aligned segment">
+		<p>没有相关订单</p>
 	</div>
 	{% endfor %}
 	

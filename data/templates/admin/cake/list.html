@@ -4,26 +4,19 @@
 {% block js %}
 {% endblock %}
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui magenta buttons">
-			<a href="{{ app_url_admin_base }}/cake" class="ui button">全部列表</a>
-		</div>
-		<a href="{{ app_url_admin_base }}/cake/edit" class="ui right labeled icon magenta button">
-			<i class="flat add icon"></i>新增公告
-		</a>
-		
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/cake">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
-		</form>
+	<h3 class="ui header">公告管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/cake" class="{{ css_all_cake }} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/cake/edit" class="magenta item">
+				+新增公告
+			</a>
+	    </div>
 	</div>
 	
 	{% cake_list var:'list' page:page %}
-	<table class="ui large table segment">
+	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th></th>
@@ -35,7 +28,12 @@
 		<tbody>
 			{% for cake in list.rows %}
 			<tr id="{{ cake._id }}">
-				<td></td>
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ cake._id }}" />
+					  	<label></label>
+					</div>
+				</td>
 				<td>{{ cake.content }}</td>
 				<td>{{ cake.updated_on|date 'y-m-d H:i' }}</td>
 				<td>
@@ -49,8 +47,10 @@
 		</tbody>
 	</table>
 	
-	{% if list.rows %}
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+	</div>
 	{% endif %}
 {% endblock %}

@@ -68,6 +68,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 上传者
 	    'user_id' => null,
+		# 设计者/团队
+		'designer_id' => 0,
 		
 		## 时间点
 		
@@ -145,13 +147,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     );
 
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','category_id','state','published','deleted');
+	protected $int_fields = array('user_id','designer_id','category_id','state','published','deleted');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price');
 	
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+		'designer' => array('designer_id'  => 'Sher_Core_Model_User'),
 	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 		'category' => array('category_id' => 'Sher_Core_Model_Category'),
 	);

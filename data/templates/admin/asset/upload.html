@@ -40,31 +40,24 @@
 	
 {% endblock %}
 {% block content %}
-	<div class="ui tool-box">
-		<a href="{{ app_url_admin_base }}/asset" class="ui small magenta button">
-			<i class="flat bullet2 icon"></i> 全部列表
-		</a>
-		<a href="{{ app_url_admin_base }}/asset/upload" class="ui small magenta button">
-			<i class="flat cloudupload2 icon"></i> 添加图片
-		</a>
-		<a href="{{ app_url_admin_base }}/asset/delete" class="ui small magenta button">
-			<i class="flat cross icon"></i> 删除
-		</a>
+	<h3 class="ui header">附件列表</h3>
 	
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/category">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
-		</form>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/asset" class="small magenta item">
+			全部列表
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/asset/upload" class="active item">
+				上传图片
+			</a>
+			<a href="{{ app_url_admin_base }}/asset/delete" class="item">
+				删除
+			</a>
+	    </div>
 	</div>
-			
-	<div class="ui divider"></div>
 	
 	<div class="field">
-		<h3>添加图片</h3>
+		<h3>选择图片</h3>
 		<div id="phenix-uploader"></div>
 		
 		<div id="asset-list" class="ui four items"></div>

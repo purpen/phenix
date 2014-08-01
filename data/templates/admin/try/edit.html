@@ -124,7 +124,11 @@
 	<h3 class="ui header">产品公测</h3>
 	<div class="ui secondary pointing magenta menu">
 	  	<a class="item" href="{{ app_url_admin_base }}/try">全部列表</a>
-		<a class="active item" href="{{ app_url_admin_base }}/try/edit">新增公测</a>
+	  	<div class="right menu">
+			<a class="active item" href="{{ app_url_admin_base }}/try/edit">
+				+新增公测
+			</a>
+	    </div>
 	</div>
 	
 	<form action="{{ app_url_admin_base }}/try/save" class="ui form segment" method="post" id="try-form">

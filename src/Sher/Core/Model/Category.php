@@ -11,8 +11,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	const IS_OPENED = 1;
 	
     protected $schema = array(
-		'name' => null,
-		'title' => null,
+		'name' => '',
+		'title' => '',
+		# 类组
+		'gid' => 0,
 		# 父级分类
 		'pid' => 0,
 		# 分类标签，含：近义词、同类词、英文词
@@ -29,7 +31,23 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'state' => 0,
     );
 	
-    protected $int_fields = array('order_by','domain','is_open','total_count','state');
+	// 类组
+	protected $groups = array(
+		array(
+			'id' => 1,
+			'name' => '官方专区',
+		),
+		array(
+			'id' => 2,
+			'name' => '产品专区',
+		),
+		array(
+			'id' => 3,
+			'name' => '我是鸟粉',
+		),
+	);
+	
+    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state');
 
 	protected $required_fields = array('name','title');
 	
@@ -39,7 +57,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
+		if (isset($row['gid'])) {
+			$row['group']  = $this->find_groups($row['gid']);
+		}
 		
 		if ($row['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
 			$row['view_url'] = Sher_Core_Helper_Url::topic_list_url($row['_id']);
@@ -49,9 +70,35 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 获取全部类组或某个
+	 */
+	public function find_groups($id=0){
+		if($id){
+			for($i=0;$i<count($this->groups);$i++){
+				if ($this->groups[$i]['id'] == $id){
+					return $this->groups[$i];
+				}
+			}
+		}
+		return $this->groups;
+	}
+	
+	/**
+	 * 获取顶级分类
+	 */
+	public function find_top_category($domain=0){
+		$query = array('pid' =>0 );
+		if ($domain){
+			$query['domain'] = (int)$domain;
+		}
+		
+		return $this->find($query);
+	}
+	
+	/**
 	 * 验证字段
 	 */
-    protected function validate() {
+    protected function validate(){
 		if(!$this->check_only_name()){
 			throw new Sher_Core_Model_Exception('分类标识已被占用！');
 		}
@@ -62,7 +109,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	/**
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
-	protected function before_save(&$data) {
+	protected function before_save(&$data){
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，、\s]+/u', $data['tags'])));
 	    }

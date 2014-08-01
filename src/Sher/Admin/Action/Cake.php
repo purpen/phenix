@@ -25,6 +25,7 @@ class Sher_Admin_Action_Cake extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 * 公告
 	 */
 	public function cake() {
+		$this->set_target_css_state('all_cake');
 		return $this->to_html_page('admin/cake/list.html');
 	}
 	

@@ -44,55 +44,45 @@
 {% endblock %}
 	
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui green labeled icon top left pointing dropdown button">
-		  	<i class="flat sort icon"></i>
-		  	<span class="text">全部列表</span>
-		  	<div class="menu">
-				<a href="{{ app_url_admin_base }}/product" class="ui item">
-					全部列表
-				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=1" class="ui {% if stage == 1 %}active{%endif%} item">
-					投票列表
-				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=5" class="ui {% if stage == 5 %}active{%endif%} item">
-					预售列表
-				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=9" class="ui {% if stage == 9 %}active{%endif%} item">
-					热售列表
-				</a>
-		  	</div>
-		</div>
-		
-		<div class="ui green labeled icon top left pointing dropdown button">
-		  	<i class="flat add icon"></i>
-		  	<span class="text">操作</span>
-		  	<div class="menu">
-		    	<a href="{{ app_url_admin_base }}/product/update_onsale" class="item publish-onsale">
-					<i class="flat sure icon"></i> 发布上线
-				</a>
-				
-				<a href="{{ app_url_admin_base }}/product/edit" class="item">
-					<i class="flat add icon"></i> 新增产品
-				</a>
-				
-				<a href="{{ app_url_admin }}/product/deleted" class="item ajax-delete">
-					<i class="flat close icon"></i> 删除
-				</a>
-		  	</div>
-		</div>
-		
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
+	<h3 class="ui header">产品管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/product" class="item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=1" class="{% if stage == 1 %}active{%endif%} item">
+			投票
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=5" class="{% if stage == 5 %}active{%endif%} item">
+			预售
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active{%endif%} item">
+			热售
+		</a>
+	  	<div class="right menu">
+	    	<a href="{{ app_url_admin_base }}/product/update_onsale" class="item publish-onsale">
+				发布上线
+			</a>
+			
+			<a href="{{ app_url_admin_base }}/product/edit" class="item">
+				新增产品
+			</a>
+			
+			<a href="{{ app_url_admin }}/product/deleted" class="item ajax-delete">
+				删除
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/product" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
 		</form>
 	</div>
-			
-	<div class="ui divider"></div>
 	
 	<table class="ui small table segment">
 		<thead>
