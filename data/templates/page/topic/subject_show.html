@@ -31,9 +31,9 @@
 		<div class="row">
 			<div class="ui column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">社区首页</a>
+				  	<a class="ui section link" href="{{ app_url_topic }}">社区</a>
 				  	<i class="flat page_right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}">话题</a>
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ topic.category._id }}">{{ topic.category.title }}</a>
 				  	<i class="flat page_right icon divider"></i>
 				  	<div class="active section">{{ topic.title }}</div>
 				</div>
@@ -55,7 +55,7 @@
 					</h3>
 
 					<div class="ui divided horizontal list">
-					  	<div class="small item">产品资讯</div>
+					  	<div class="small item">{{ topic.category.title }}</div>
 					  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> 发表于{{ topic.created_on|date 'y-m-d H:i' }}</div>
 						<div class="small item">浏览数：{{ topic.view_count }}</div>
 					</div>

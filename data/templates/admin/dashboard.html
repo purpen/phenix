@@ -1,31 +1,59 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
 {% endblock %}
-{% block js %}
-{% endblock %}
+
+
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui green labeled icon top left pointing dropdown button">
-		  	<i class="flat sort icon"></i>
-		  	<span class="text">全部列表</span>
-		  	<div class="menu">
-				<a href="{{ app_url_admin_base }}/product" class="ui item">
-					全部列表
-				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=1" class="ui {% if stage == 1 %}active{%endif%} item">
-					投票列表
-				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=5" class="ui {% if stage == 5 %}active{%endif%} item">
-					预售列表
-				</a>
-				<a href="{{ app_url_admin_base }}/product?stage=9" class="ui {% if stage == 9 %}active{%endif%} item">
-					热售列表
-				</a>
-		  	</div>
+	<div class="ui grid">
+		<div class="four column row">
+			<div class="column">
+				<div class="ui purple segment">
+					<h3 class="ui purple header">
+					  889
+					  <div class="sub header">注册用户</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui magenta segment">
+					<h3 class="ui magenta header">
+					  89
+					  <div class="sub header">创意产品</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui teal segment">
+					<h3 class="ui teal header">
+					  109
+					  <div class="sub header">社区帖子</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui orange segment">
+					<h3 class="ui orange header">
+					  389
+					  <div class="sub header">全部订单</div>
+					</h3>
+				</div>
+			</div>
 		</div>
+		
+		<div class="row">
+			<div class="ten wide column">
+				<div class="ui segment">
+					<h3 class="ui dividing header">最近10个订单</h3>
+					
+				</div>
+			</div>
+			<div class="six wide column">
+				<div class="ui segment">
+					<h3 class="ui dividing header">最近10个意见反馈</h3>
+					
+				</div>
+			</div>
+		</div>
+		
 	</div>
-			
-	<div class="ui divider"></div>
-	
-	
 {% endblock %}
