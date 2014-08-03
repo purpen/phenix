@@ -424,8 +424,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
 		$this->stash['editor_pid'] = new MongoId();
 
-		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_TOPIC;
 	}
 	
 	/**
@@ -500,6 +500,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$data['asset'] = array();
 			$data['asset_count'] = 0;
 		}
+		// 检测编辑器图片数
+		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
 		
 		try{
 			$model = new Sher_Core_Model_Topic();
@@ -527,6 +529,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
+			}
+			
+			// 保存成功后，更新编辑器图片
+			if($file_count && !empty($this->stash['file_id'])){
+				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){

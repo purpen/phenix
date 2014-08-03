@@ -16,6 +16,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 照片
     const TYPE_PHOTO = 1;
+	
 	# 普通附件，编辑器图片
 	const TYPE_ASSET = 2;
 	
@@ -28,14 +29,17 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 评测图片
 	const TYPE_TRY     = 30;
 	
-	# 主体图片
+	# 话题图片
 	const TYPE_TOPIC   = 50;
+	# 话题编辑器图片
+	const TYPE_EDITOR_TOPIC = 55;
 
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',
 		
 		## 原图信息
+		'file_id' => '',
     	'filepath' => '',
 		'filename' => '',
         'size' => 0,
@@ -207,7 +211,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		$rows = $this->find($query);
 		foreach($rows as $row){
 			$file_path = $row['filepath'];
-			Sher_Core_Util_Asset::deleteAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $file_path);
+			// 删除文件
+			Sher_Core_Util_Asset::delete_cloud_file($file_path);
+			
 			$this->remove($row['_id']);
 		}
 		return true;
@@ -222,10 +228,41 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
             return null;
         }
         $file_path = $row['filepath'];
-		Sher_Core_Util_Asset::deleteAsset(Sher_Core_Util_Constant::ASSET_DOAMIN, $file_path);
+		
+		// 删除文件
+		Sher_Core_Util_Asset::delete_cloud_file($file_path);
 		
         return $this->remove($id);
     }
+	
+	/**
+	 * 通过path删除附件记录
+	 */
+	public function delete_by_path($file_path){
+		if(empty($file_path)){
+			return false;
+		}
+		
+		// 截取首字符/
+		if (strpos($file_path, '/') == 0){
+			$file_path = substr($file_path, 1);
+		}
+		
+		$row = $this->first(array(
+			'filepath' => $file_path,
+		));
+		Doggy_Log_Helper::debug("Delete Path: $file_path");
+		if(empty($row)){
+			return false;
+		}
+		// 删除文件
+		$res = Sher_Core_Util_Asset::delete_cloud_file($file_path);
+		if (isset($res['error'])){
+			return false;
+		}
+		
+		return $this->remove($row['_id']);
+	}
 	
 	/**
 	 * 存储临时文件路径

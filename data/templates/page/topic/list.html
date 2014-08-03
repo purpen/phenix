@@ -18,28 +18,40 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="eleven wide column">
-				<div class="ui top attached novpad header">
-					<div class="ui grid">
-						<div class="fourteen wide column">
-							<div class="ui divided horizontal list">
-								{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
-								{% for cat in category.rows %}
-							  	<a class="ui {{ cat.active }} item link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+				
+				<div class="ui magenta tiered menu">
+				  	<div class="menu">
+						{% category_list var:'category' only_open:1 domain:domain show_all:1 current:category_id %}
+						{% for cat in category.rows %}
+					  	<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }}</a>
+						{% endfor %}
+				    	<div class="right menu">
+							<a class="ui showbox magenta item" href="#advanced-filter-topic">
+								<i class="list layout icon"></i>
+							</a>
+				    	</div>
+				  	</div>
+					{% if category_id %}
+						{% category_list var:'children' page:1 only_open:1 domain:domain pid:category_id %}
+						{% if children.total_rows %}
+					  	<div class="ui sub menu">
+							<div class="ui magenta labels">
+								{% for child in children.rows %}
+								<a class="ui label link" href="{{ child.view_url }}">
+									{{ child.title }}
+									{% if child.total_count %}
+									<div class="detail">{{ child.total_count }}</div>
+									{% endif %}
+								</a>
 								{% endfor %}
 							</div>
-						</div>
-						<div class="right aligned two wide column">
-							<a class="ui showbox link" href="#advanced-filter-topic">
-								<i class="flat sort icon"></i>
-							</a>
-						</div>
-					</div>
-					
+					  	</div>
+						{% endif %}
+					{% endif %}
 				</div>
 				
-				<div class="ui segment bottom attached">
-					
-					<div class="ui grid hide" id="advanced-filter-topic">
+				<div class="ui segment hide" id="advanced-filter-topic">
+					<div class="ui grid">
 						<div class="row">
 							<div class="sixteen wide column">
 								<div class="ui horizontal list">
@@ -68,12 +80,11 @@
 									<a class="ui {{ css_sort_love }} item link" href="{{ links.sort_laud_url }}">最赞主题</a>
 								</div>
 							</div>
-							<div class="ui horizontal divider">
-								<i class="flat circlearrowbottom icon"></i>
-							</div>
 						</div>
 					</div>
-					
+				</div>
+				
+				<div class="ui stacked segment">
 					
 					<div class="ui divided topic-list list">
 						{% if dig_list %}
@@ -96,21 +107,22 @@
 												{% if dig.asset_count %}
 													<!--展示图片-->
 													<div class="ui small images">
-														{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:50 %}
+														{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 %}
 														{% for asset in assets.rows %}
 													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 														{% endfor %}
 													</div>
 												{% endif %}
+												
 												<div class="ui divided horizontal list">
 												  	<div class="small item">
 														<a href="{{ dig.category.view_url }}" class="ui link">
 															{{ dig.category.title }}
 														</a>
 													</div>
-												  	<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a> {{ dig.created_on|relative_time }}</div>
+												  	<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a> <i class="time icon"></i>{{ dig.created_on|relative_time }}</div>
 													{% if topic.last_user %}
-													<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.last_user.nickname }}</a> {{ dig.last_reply_time|relative_time }}回复</div>
+													<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.last_user.nickname }}</a> <i class="time icon"></i>{{ dig.last_reply_time|relative_time }}回复</div>
 													{% endif %}
 												</div>
 							
@@ -154,8 +166,8 @@
 			
 			<div class="five wide column">
 				
-				<a href="{{ app_url_action_base }}/topic/submit" class="fluid active ui magenta icon button">
-					<i class="flat add icon"></i> 发表话题
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ category_id }}" class="fluid active ui magenta icon button">
+					<i class="add icon"></i> 发表话题
 				</a>
 				
 				<h4 class="ui top attached header">
@@ -185,7 +197,7 @@
 				          		{{ topic.strip_description|truncate 32 }}
 							</p>
 							<div class="ui divided horizontal list">
-							  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_date }} 发布</div>
+							  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a><i class="time icon"></i> {{ topic.created_on|relative_date }} 发布</div>
 							  	<div class="small item">
 									回复（{{ topic.comment_count }}）
 								</div>
@@ -195,6 +207,10 @@
 						{% endfor %}
 					</div>
 				</div>
+				
+				<h4 class="ui top attached header">
+					活跃用户
+				</h4>
 				
 			</div>
 		</div>

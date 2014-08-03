@@ -1,31 +1,23 @@
 <div class="masthead segment">
 	<div class="masthead-cover">
-		<div class="ui responsive bottom aligned head grid">
-			<div class="six wide column">
-				<div class="introduction">
-					{% if css_page_fever %}
-					<h1 class="ui header">
-						提交你的创意
-					</h1>
-					<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
-					{% endif %}
+		<div class="ui responsive head grid">
+			<div class="row">
+				<div class="column">
+					<div class="introduction">
+						{% if css_page_fever %}
+						<h1 class="ui header">
+							提交你的创意
+						</h1>
+						<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
+						{% endif %}
 					
-					{% if css_page_topic %}
-					<h1 class="ui header">
-						发现最有兴趣的创意
-					</h1>
-					<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
-					{% endif %}
-				</div>
-			</div>
-			<div class="ten right aligned wide column">
-				<div class="ui tabular menu">
-				  	<a class="{{ css_page_fever }} item" href="{{ app_url_fever }}">
-				      	<span>创意投票</span>
-				  	</a>
-				  	<a class="{{ css_page_topic }} item" href="{{ app_url_topic }}">
-						社区话题
-				  	</a>
+						{% if css_page_topic %}
+						<h1 class="ui header">
+							发现最有兴趣的创意
+						</h1>
+						<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
+						{% endif %}
+					</div>
 				</div>
 			</div>
 		</div>

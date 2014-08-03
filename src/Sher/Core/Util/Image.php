@@ -68,6 +68,7 @@ class Sher_Core_Util_Image {
      */
     public static function gen_path($fileName, $prefix=Sher_Core_Util_Constant::STROAGE_PRODUCT){
 		$fs_id = new MongoId();
+		
         $ext = Doggy_Util_File::getFileExtension($fileName);
 		
         $path = "${prefix}/".date('ymd')."/${fs_id}";

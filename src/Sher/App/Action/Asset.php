@@ -104,5 +104,27 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 	
+	/**
+	 * 从编辑器中删除附件
+	 */
+	public function delete_from_editor(){		
+		if (!isset($this->stash['file_url'])){
+			return $this->ajax_json('附件不存在或已被删除！', true);
+		}
+		$file_urls = parse_url($this->stash['file_url']);
+		$file_path = preg_replace('/-hu\.jpg/', '', $file_urls['path']);
+		
+		Doggy_Log_Helper::debug("Delete image path：".$file_path);
+		try{
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_by_path($file_path);
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Delete image path failed：".$e->getMessage());
+			return $this->ajax_json('删除图片失败：'.$e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('删除图片成功！');
+	}
+	
 }
 ?>

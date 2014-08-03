@@ -181,8 +181,8 @@
 				{% endif %}
 			</div>
 			<div class="five wide column">
-				<a href="{{ app_url_action_base }}/topic/submit" class="fluid active ui magenta icon button">
-					<i class="flat add icon"></i> 发表话题
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="fluid active ui magenta icon button">
+					<i class="add icon"></i> 发表话题
 				</a>
 				
 				{% if visitor.is_admin %}

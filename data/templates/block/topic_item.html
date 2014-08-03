@@ -13,10 +13,10 @@
 				<div class="description">
 					{{ topic.strip_description|truncate 70 }}
 				</div>
-				{% if topic.asset_count %}
+				{% if !topic.asset_count %}
+					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 %}
 					<!--展示图片-->
 					<div class="ui small images">
-						{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:50 %}
 						{% for asset in assets.rows %}
 					  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 						{% endfor %}
@@ -28,7 +28,7 @@
 							{{ topic.category.title }}
 						</a>
 					</div>
-				  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_time }}</div>
+				  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> <i class="time icon"></i>{{ topic.created_on|relative_time }}</div>
 					{% if topic.last_user %}
 					<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ topic.last_user.nickname }}</a> {{ topic.last_reply_time|relative_time}}回复</div>
 					{% endif %}

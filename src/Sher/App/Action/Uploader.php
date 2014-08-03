@@ -219,12 +219,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		if (!$this->visitor->id) {
             return $this->ajax_json('Session已过期，请重新登录！', true);
         }
-		
+		Doggy_Log_Helper::warn("保存图片失败：".json_encode($this->stash));
 		try{
 			$result = array();
 			if (empty($this->asset)){
 				 return $this->ajax_json('请选择上传图片！', true);
 			}
+			
+			$editor_domain = isset($this->stash['editor_domain']) ? $this->stash['editor_domain'] : Sher_Core_Util_Constant::STROAGE_ASSET;
+			$editor_asset_type = isset($this->stash['editor_asset_type']) ? $this->stash['editor_asset_type'] : Sher_Core_Model_Asset::TYPE_ASSET;
+			
 			for($i=0; $i<count($this->asset); $i++){
 				Doggy_Log_Helper::debug("Upload asset[$i] start.");
 			
@@ -241,9 +245,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
+				$image_info['file_id'] =  $this->stash['file_id'];
 		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, Sher_Core_Util_Constant::STROAGE_ASSET);
-		        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
+				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, $editor_domain);
+		        $image_info['asset_type'] = $editor_asset_type;
 		        $image_info['parent_id'] = (int)$this->stash['parent_id'];
 				
 				$image_info['user_id'] = $this->visitor->id;

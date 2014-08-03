@@ -70,6 +70,36 @@ class Sher_Core_Util_Asset extends Doggy_Object {
 		return $data;
 	}
 	
+	/**
+	 * 从云存储里删除图片
+	 */
+	public static function delete_cloud_file($key){
+		$accessKey = Doggy_Config::$vars['app.qiniu.key'];
+		$secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+		$bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+		
+		$client = \Qiniu\Qiniu::create(array(
+		    'access_key' => $accessKey,
+		    'secret_key' => $secretKey,
+		    'bucket'     => $bucket
+		));
+		
+		$res = $client->delete($key);
+		if ($res->ok()){
+			// 获取返回的数据
+			$data = $res->toArray();
+		} else {
+			$data = array(
+				'error' => $res->error,
+				'msg' => $res->debug
+			);
+		}
+		
+		Doggy_Log_Helper::debug("Delete file result: ".json_encode($data));
+		
+		return $data;
+	}
+	
     /**
      * 将文件存储到附件区域
      *

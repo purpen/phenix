@@ -16,21 +16,31 @@
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'bird',
-		height: 300,
-		{% if !visitor.is_admin %}
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "undo", "redo"],
-		{% else %}
+		minHeight: 300,
+		plainPaste: true,
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageUploadParams: {'file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
 		defaultImageWidth: 700,
 		maxImageSize: 1024 * 1024 * 3, // 3M
 		insertImageCallback: function (imageURL) {
+			// 记录插入图片数
+			$('#file_count').val(file_count);
+			
 			file_count++;
 			// 重置参数
 			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' });
 		},
-		{% endif %}
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+	    // Catch image removal from the editor.
+        afterRemoveImageCallback: function ($img) {
+          // Set the image source to the image delete params.
+          this.options.imageDeleteParams = {file_url: $img.attr('src')};
+
+          // Make the delete request.
+          this.deleteImage($img);
+        },
 		contentChangedCallback: function () {
 		    $("#editor").val($("#editor").editable("getHTML"));
 		}
@@ -95,7 +105,7 @@
         	endpoint: '{{ app_url_upload_topic }}'
       	},
 		text: {
-            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="add icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -161,10 +171,12 @@
 <div class="ui social">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="eleven wide column">
+			<div class="twelve wide column">
 				<h1 class="ui header">发表话题</h1>
 				<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
 					<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+					<input type="hidden" name="file_count" id="file_count" />
 					<div class="field">
 						<label for="title">标题</label>
 					  	<input type="text" name="title" value="{{ topic.title }}" />
@@ -193,7 +205,7 @@
 					</div>
 					
 					<div class="field">
-						<label>添加图片</label>
+						<label>上传图片</label>
 						<div id="phenix-uploader"></div>
 						
 						<div id="asset-list" class="ui four items">
@@ -239,7 +251,7 @@
 					
 				</form>
 			</div>
-			<div class="five wide column">
+			<div class="four wide column">
 				<h3 class="ui header">Q&A</h3>
 				<div class="ui basic accordion">
 				  	<div class="title">

@@ -95,7 +95,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 				throw new Sher_Core_Model_Exception('所选分类出错！');
 			}
 			$data['gid'] = $result['gid'];
-			$data['fid'] = $result['fid'];
+			$data['fid'] = $result['pid'];
 		}
 		
 		// 添加随机数
@@ -281,6 +281,18 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
 		$asset->delete_file($asset_id);
+		unset($asset);
+	}
+	
+	/**
+	 * 更新编辑器上传附件
+	 */
+	public function update_editor_asset($id, $file_id){
+		$criteria = array('file_id'=>$file_id);
+		
+		$asset = new Sher_Core_Model_Asset();
+		$ok = $asset->update_set($criteria, array('parent_id' => (int)$id), false, true, true);
+		
 		unset($asset);
 	}
 }

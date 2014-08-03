@@ -94,4 +94,9 @@ maximum-scale：允许用户缩放到的最大比例。
 minimum-scale：允许用户缩放到的最小比例。
 user-scalable：用户是否可以手动缩放
 
+
+### 部署修正
+1、分类增加类组及二级分类
+
+
  
