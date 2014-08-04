@@ -1,9 +1,9 @@
 {%if pager%}
 <div class="ui borderless pagination menu">
     {% if pager.show_prev %}
-    <a class="icon prev item" href="{{pager.prev_url}}"><i class="flat page_left icon"></i></a>
+    <a class="icon prev item" href="{{pager.prev_url}}"><i class="left arrow icon"></i></a>
     {% else %}
-	<div class="icon disabled prev item"><i class="flat page_left icon"></i></div>
+	<div class="icon disabled prev item"><i class="left arrow icon"></i></div>
     {% endif %}
 
     {%for p in pager.pages%}
@@ -19,10 +19,10 @@
     {%endfor%}
 
     {% if pager.show_next %}
-	<a class="icon next item" href="{{pager.next_url}}"><i class="flat icon page_right"></i></a>
+	<a class="icon next item" href="{{pager.next_url}}"><i class="right arrow icon"></i></a>
     {% else %}
 	<div class="icon disabled next item">
-    	<i class="flat icon page_right"></i>
+    	<i class="right arrow icon"></i>
 	</div >
     {% endif %}
 </div>
