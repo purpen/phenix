@@ -1,6 +1,32 @@
 {%extends 'layout/sns.html'%}
 {% block title %}创新想法-{% endblock %}
-{% block js %}
+{% block page_css %}
+<style type="text/css">
+	.ui.tophead {
+	    background: url("{{ app_url_packaged }}/images/lisawatch-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+	    color: #ffffff;
+	    height: 240px;
+	    text-align: center;
+	}
+	.masthead .introduction .actions {
+		margin-top: 1.5em;
+	}
+	
+	.topic .title {
+		margin: 0.5em 0;
+	}
+	.topic .content .attribute {
+		margin: 0 0 0.75em;
+		font-size: 0.925em;
+		color: rgba(0, 0, 0, 0.4);
+	}
+	.topic .content .attribute a {
+		color: rgba(0, 0, 0, 0.4);
+	}
+	.topic .content .description {
+		color: rgba(0, 0, 0, 0.7);
+	}
+</style>
 {% endblock %}
 {% block jquery %}
 	
@@ -16,40 +42,66 @@
 {% block content %}
 <div class="ui social">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="eleven wide column">
-				
-				<div class="ui magenta tiered menu">
-				  	<div class="menu">
-						{% category_list var:'category' only_open:1 domain:domain show_all:1 current:category_id %}
-						{% for cat in category.rows %}
-					  	<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }}</a>
-						{% endfor %}
-				    	<div class="right menu">
-							<a class="ui showbox magenta item" href="#advanced-filter-topic">
-								<i class="list layout icon"></i>
-							</a>
-				    	</div>
-				  	</div>
-					{% if category_id %}
-						{% category_list var:'children' page:1 only_open:1 domain:domain pid:category_id %}
-						{% if children.total_rows %}
-					  	<div class="ui sub menu">
-							<div class="ui magenta labels">
-								{% for child in children.rows %}
-								<a class="ui label link" href="{{ child.view_url }}">
-									{{ child.title }}
-									{% if child.total_count %}
-									<div class="detail">{{ child.total_count }}</div>
-									{% endif %}
-								</a>
-								{% endfor %}
-							</div>
-					  	</div>
-						{% endif %}
+		<div class="column">
+			<div class="ui magenta tiered menu">
+			  	<div class="menu">
+					{% if is_top %}
+						{% category_list var:'category' only_open:1 domain:domain show_all:1 current:cid %}
+					{% else %}
+						{% category_list var:'category' only_open:1 domain:domain show_all:1 current:pid %}
 					{% endif %}
-				</div>
-				
+					
+					{% for cat in category.rows %}
+				  	<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					{% endfor %}
+					
+					<a class="ui item" href="{{ app_url_try }}" target="_blank">产品公测</a>
+					
+			    	<div class="right menu">
+						<a class="ui showbox magenta item" href="#advanced-filter-topic">
+							<i class="list layout icon"></i>
+						</a>
+			    	</div>
+			  	</div>
+				{% if category_id %}
+					{% if is_top %}
+						{% category_list var:'children' page:1 only_open:1 domain:domain pid:cid %}
+					{% else %}
+						{% category_list var:'children' page:1 only_open:1 domain:domain pid:pid %}
+					{% endif %}
+					
+					{% if children.total_rows %}
+				  	<div class="ui sub menu">
+						<div class="ui labels">
+							{% for child in children.rows %}
+							{% if child._id == category_id %}
+							<a class="ui label magenta link" href="{{ child.view_url }}">
+								{{ child.title }}
+								{% if child.total_count %}
+								<div class="detail">{{ child.total_count }}</div>
+								{% endif %}
+							</a>
+							{% else %}
+							<a class="ui label black link" href="{{ child.view_url }}">
+								{{ child.title }}
+								{% if child.total_count %}
+								<div class="detail">{{ child.total_count }}</div>
+								{% endif %}
+							</a>
+							{% endif %}
+							{% endfor %}
+						</div>
+				  	</div>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui responsive grid">
+		
+		<div class="row">
+			<div class="column">
 				<div class="ui segment hide" id="advanced-filter-topic">
 					<div class="ui grid">
 						<div class="row">
@@ -85,6 +137,68 @@
 				</div>
 				
 				<div class="ui stacked segment">
+					<table class="ui basic sortable topic table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>回复数</th>
+							</tr>
+						</thead>
+						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
+						{% for topic in list.rows %}
+							<tr>
+								<td>
+									<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+							      		<img src="{{ topic.user.small_avatar_url }}" />
+									</a>
+								</td>
+								<td class="ten wide">
+						          	<h3 class="title">
+										<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+									</h3>
+							      	<div class="content">
+										<div class="attribute">
+											<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
+											<span class="author">
+												<a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a>  <i class="time icon"></i> 于 {{ topic.created_on|relative_time }} 发表
+											</span>
+										</div>
+										{% if !topic.asset_count %}
+											<div class="description">
+												{{ topic.strip_description|truncate 70 }}
+											</div>
+										{% else %}
+											{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 %}
+											<!--展示图片-->
+											<div class="ui small images">
+												{% for asset in assets.rows %}
+											  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+												{% endfor %}
+											</div>
+										{% endif %}
+							      	</div>
+								</td>
+								<td>
+									{% if topic.last_user %}
+									<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+								  		<img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" />
+									</a>
+									最后回复 {{ topic.last_reply_time|relative_time}}
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+										<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+										<span class="dot-irecommend-suffix"></span>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+						
+						
+					</table>
 					
 					<div class="ui divided topic-list list">
 						{% if dig_list %}
@@ -140,10 +254,7 @@
 						{% endif %}
 						
 						{% if !subject_category %}
-							{% topic_list var:'list' category_id:category_id type:type time:time sort:sort page:page %}
-							{% for topic in list.rows %}
-								{% include 'block/topic_item.html' %}
-							{% endfor %}
+							
 						{% else %}
 							<!--产品话题专区-->
 							{% product_list var:'list' page:page only_subject:1 %}
@@ -164,55 +275,7 @@
 				
 			</div>
 			
-			<div class="five wide column">
-				
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ category_id }}" class="fluid active ui magenta icon button">
-					<i class="add icon"></i> 发表话题
-				</a>
-				
-				<h4 class="ui top attached header">
-					公告
-				</h4>
-				<div class="ui segment bottom attached">
-					{% cake_list var:'cake' size:1 %}
-					{% if cake%}
-						<p>{{ cake.content }}</p>
-					{% endif %}
-				</div>
-				
-				<h4 class="ui top attached header">
-					编辑推荐
-				</h4>
-				<div class="ui segment bottom attached">
-					{% topic_list var:'stick_list' size:5 stick:1 %}
-					<div class="ui divided list">
-						{% for topic in stick_list.rows %}
-						<div class="item">
-				          	<h4 class="ui header">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">
-									{{ topic.title|truncate, 16, '' }}
-								</a>
-							</h4>
-							<p>
-				          		{{ topic.strip_description|truncate 32 }}
-							</p>
-							<div class="ui divided horizontal list">
-							  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a><i class="time icon"></i> {{ topic.created_on|relative_date }} 发布</div>
-							  	<div class="small item">
-									回复（{{ topic.comment_count }}）
-								</div>
-							</div>
-							
-					  	</div>
-						{% endfor %}
-					</div>
-				</div>
-				
-				<h4 class="ui top attached header">
-					活跃用户
-				</h4>
-				
-			</div>
+			
 		</div>
 	</div>
 </div>

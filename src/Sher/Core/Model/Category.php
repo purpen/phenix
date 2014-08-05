@@ -13,6 +13,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
     protected $schema = array(
 		'name' => '',
 		'title' => '',
+		'summary' => '',
 		# 类组
 		'gid' => 0,
 		# 父级分类

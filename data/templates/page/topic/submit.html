@@ -171,85 +171,120 @@
 <div class="ui social">
 	<div class="ui responsive grid">
 		<div class="row">
+			<div class="ui column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_topic }}">
+						<i class="basic icon community"></i>社区
+					</a>
+				  	<i class="flat page_right icon divider"></i>
+					{% if pid %}
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+				  	<i class="flat page_right icon divider"></i>
+					{% endif %}
+				  	<div class="active section">发表帖子</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
 			<div class="twelve wide column">
-				<h1 class="ui header">发表话题</h1>
-				<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
-					<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
-					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
-					<input type="hidden" name="file_count" id="file_count" />
-					<div class="field">
-						<label for="title">标题</label>
-					  	<input type="text" name="title" value="{{ topic.title }}" />
-					</div>
+				<h2 class="ui header">发表帖子</h2>
+				<div class="ui segment">
+					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
+						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+						<input type="hidden" name="file_count" id="file_count" />
 					
-					<div class="field">
-						<label>标签</label>
-					  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
-						<div class="description">标签之间使用，逗号隔开</div>
-					</div>
-					
-					<div class="field">
-						<label for="description">描述</label>
+						<div class="field">
+							<label>类别</label>
+							<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+							{% if pid %}
+								{% category_list var:'category' only_open:1 domain:2 pid:pid current:cid %}
+							{% else %}
+								{% category_list var:'category' only_open:1 domain:2 pid:cid current:cid %}
+							{% endif %}
 						
-					  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
-						<div class="description">请详细的描述</div>
-					</div>
+							{% for cat in category.rows %}
+							{% if cat.active %}
+							<a class="big ui {{ cat.active }} magenta icon labeled category button" data-value="{{ cat._id }}">
+								<i class="checkmark icon"></i>{{ cat.title }}
+							</a>
+							{% else %}
+							<a class="big ui gray category button" data-value="{{ cat._id }}">
+								{{ cat.title }}
+							</a>
+							{% endif %}
+							{% endfor %}
+						</div>
 					
-					<div class="field">
-						<label>类别</label>
-						<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
-						{% category_list var:'category' only_open:1 domain:2 current:topic.category_id %}
-						{% for cat in category.rows %}
-						<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
-						{% endfor %}
-					</div>
+						<div class="field">
+							<label for="title">标题</label>
+						  	<input type="text" name="title" value="{{ topic.title }}" />
+						</div>
 					
-					<div class="field">
-						<label>上传图片</label>
-						<div id="phenix-uploader"></div>
+						<div class="field">
+							<label for="description">描述</label>
 						
-						<div id="asset-list" class="ui four items">
-							{% if mode == 'edit' %}
-								{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
-								{% for asset in assets.rows %}
-								<div class="thumb item" id="{{ asset._id }}">
-									<div class="image">
-										<img src="{{ asset.thumbnails.mini.view_url }}" />
-										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-									</div>
-									<div class="buttons">
-										<div class="ui large links">
-											<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-												<i class="flat edit_delete icon"></i>
-											</a>
+						  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
+							<div class="description">请详细的描述</div>
+						</div>
+						
+						<div class="field">
+							<label>标签</label>
+						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
+							<div class="description">标签之间使用，逗号隔开</div>
+						</div>
+					
+						{% if visitor.can_admin %}
+						<div class="field">
+							<label>上传图片</label>
+							<div id="phenix-uploader"></div>
+						
+							<div id="asset-list" class="ui four items">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
+									{% for asset in assets.rows %}
+									<div class="thumb item" id="{{ asset._id }}">
+										<div class="image">
+											<img src="{{ asset.thumbnails.mini.view_url }}" />
+											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+										</div>
+										<div class="buttons">
+											<div class="ui large links">
+												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+													<i class="flat edit_delete icon"></i>
+												</a>
+											</div>
 										</div>
 									</div>
-								</div>
-								{% endfor %}
-							{% endif %}
+									{% endfor %}
+								{% endif %}
+							</div>
 						</div>
-					</div>
-					
-					<div class="field">
-						<label for="video_url">视频链接</label>
-						{% if topic.video_url %}
-							{% for video in topic.video_url %}
-						  	<input type="text" name="video_url[]" placeholder="http://" value="{{ video }}" />
-							{% endfor %}
-						{% else %}
-							<input type="text" name="video_url[]" placeholder="http://" />
 						{% endif %}
-						<div class="description">支持优酷、土豆等视频链接</div>
-					</div>
 					
-					<div class="ui right floated aligned grid">
-						<div class="column">
-							<div class="ui gray cancel button">取消</div>
-							<div class="ui magenta submit button">确认提交</div>
+						<div class="field">
+							<label for="video_url">视频链接</label>
+							{% if topic.video_url %}
+								{% for video in topic.video_url %}
+							  	<input type="text" name="video_url[]" placeholder="http://" value="{{ video }}" />
+								{% endfor %}
+							{% else %}
+								<input type="text" name="video_url[]" placeholder="http://" />
+							{% endif %}
+							<div class="description">支持优酷、土豆等视频链接</div>
 						</div>
-					</div>
 					
-				</form>
+						<div class="ui right floated aligned grid">
+							<div class="column">
+								<div class="ui gray cancel button">取消</div>
+								<div class="ui magenta submit button">确认提交</div>
+							</div>
+						</div>
+					
+					</form>
+				</div>
+				
 			</div>
 			<div class="four wide column">
 				<h3 class="ui header">Q&A</h3>

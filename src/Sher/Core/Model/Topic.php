@@ -19,8 +19,6 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		'category_id' => 0,
 		# 分类父级
 		'fid' => 0,
-		# 分类组
-		'gid' => 0,
 		
 		# 所属产品
 		'target_id' => 0,
@@ -94,7 +92,6 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 			if (empty($result)){
 				throw new Sher_Core_Model_Exception('所选分类出错！');
 			}
-			$data['gid'] = $result['gid'];
 			$data['fid'] = $result['pid'];
 		}
 		

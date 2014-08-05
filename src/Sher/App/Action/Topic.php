@@ -69,6 +69,22 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->gen_advanced_links($category_id, $type, $time, $sort, $page);
 		
+		// 是否为一级分类
+		$is_top = true;
+		// 获取当前分类信息
+		if ($category_id){
+			$category = new Sher_Core_Model_Category();
+			$current_category = $category->extend_load((int)$category_id);
+			// 存在父级分类，标识是二级分类
+			if ($current_category['pid']){
+				$this->stash['pid'] = $current_category['pid'];
+				$is_top = false;
+			}
+			$this->stash['current_category'] = $current_category;
+		}
+		
+		$this->stash['cid'] = $this->stash['category_id'];
+		$this->stash['is_top'] = $is_top;
 		
 		$subject_cateory_id = Doggy_Config::$vars['app.product.topic_category_id'];
 		if ($category_id == $subject_cateory_id){
@@ -432,6 +448,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 提交创意
 	 */
 	public function submit(){
+		$pid = isset($this->stash['pid']) ? $this->stash['pid'] : 0;
+		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
+		
 		$this->stash['mode'] = 'create';
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
@@ -440,6 +459,16 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
 		
 		$this->editor_params();
+		
+		$this->stash['pid'] = $pid;
+		$this->stash['cid'] = $cid;
+		
+		// 获取父级分类
+		if ($pid) {
+			$category = new Sher_Core_Model_Category();
+			$parent_category = $category->extend_load((int)$pid);
+			$this->stash['parent_category'] = $parent_category;
+		}
 		
 		return $this->to_html_page('page/topic/submit.html');
 	}
@@ -492,16 +521,16 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['category_id'] = $this->stash['category_id'];
 		$data['video_url'] = $this->stash['video_url'];
 		
+		// 检测编辑器图片数
+		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
+		$data['asset_count'] = $file_count;
+		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
-			$data['asset_count'] = count($data['asset']);
 		}else{
 			$data['asset'] = array();
-			$data['asset_count'] = 0;
 		}
-		// 检测编辑器图片数
-		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
 		
 		try{
 			$model = new Sher_Core_Model_Topic();

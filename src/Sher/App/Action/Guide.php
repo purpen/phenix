@@ -8,7 +8,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute','about','succase');
 
 	/**
 	 * 默认入口

@@ -5,7 +5,7 @@
 	      		<img src="{{ topic.user.small_avatar_url }}" />
 			</a>
 		</div>
-		<div class="twelve wide column">
+		<div class="ten wide column">
 	      	<div class="content">
 	          	<h3 class="link header">
 					<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
@@ -13,15 +13,6 @@
 				<div class="description">
 					{{ topic.strip_description|truncate 70 }}
 				</div>
-				{% if !topic.asset_count %}
-					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 %}
-					<!--展示图片-->
-					<div class="ui small images">
-						{% for asset in assets.rows %}
-					  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
-						{% endfor %}
-					</div>
-				{% endif %}
 				<div class="ui divided horizontal list">
 				  	<div class="small item">
 						<a href="{{ topic.category.view_url }}" class="ui link">
@@ -33,7 +24,15 @@
 					<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ topic.last_user.nickname }}</a> {{ topic.last_reply_time|relative_time}}回复</div>
 					{% endif %}
 				</div>
-
+				{% if !topic.asset_count %}
+					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 %}
+					<!--展示图片-->
+					<div class="ui small images">
+						{% for asset in assets.rows %}
+					  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+						{% endfor %}
+					</div>
+				{% endif %}
 	      	</div>
 		</div>
 		<div class="right aligned two wide hide-on-mobile column comment-counter">

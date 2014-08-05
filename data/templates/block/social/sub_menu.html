@@ -1,23 +1,38 @@
-<div class="masthead segment">
-	<div class="masthead-cover">
+<div class="masthead">
+	<div class="masthead-cover transparent">
 		<div class="ui responsive head grid">
 			<div class="row">
-				<div class="column">
+				<div class="twelve wide column">
 					<div class="introduction">
-						{% if css_page_fever %}
-						<h1 class="ui header">
-							提交你的创意
-						</h1>
-						<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
-						{% endif %}
-					
-						{% if css_page_topic %}
-						<h1 class="ui header">
-							发现最有兴趣的创意
-						</h1>
-						<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
-						{% endif %}
+						<h2 class="ui header">
+							{% if category_id %}
+						  	<div class="content">
+						    	{{ current_category.title }}
+						    	<div class="sub header">{{ current_category.summary }}</div>
+						  	</div>
+							{% else %}
+						  	<div class="content">
+						    	发现、支持、分享
+						    	<div class="sub header">让我们用创意和梦想去改变这个平凡无奇的世界</div>
+						  	</div>
+							{% endif %}
+						</h2>
+						
+						<div class="actions">
+							{% if pid %}
+							<a href="{{ app_url_action_base }}/topic/submit?pid={{ pid }}&cid={{ cid }}" class="ui white btn-4 btn-4c icon-arrow-right btn">
+								发表话题
+							</a>
+							{% else %}
+							<a href="{{ app_url_action_base }}/topic/submit?cid={{ cid }}" class="ui white btn-4 btn-4c icon-arrow-right btn">
+								发表话题
+							</a>
+							{% endif %}
+						</div>
 					</div>
+				</div>
+				<div class="four wide column">
+					
 				</div>
 			</div>
 		</div>
