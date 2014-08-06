@@ -1,0 +1,199 @@
+{%extends 'layout/sns.html'%}
+{% block title %}创新想法-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.tophead {
+	    background: url("{{ app_url_packaged }}/images/lisawatch-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+	    color: #ffffff;
+	    height: 240px;
+	    text-align: center;
+	}
+	.masthead .introduction .actions {
+		margin-top: 1.5em;
+	}
+	
+	.topic .title {
+		margin: 0.5em 0;
+	}
+	.topic .content .attribute {
+		margin: 0 0 0.75em;
+		font-size: 0.925em;
+		color: rgba(0, 0, 0, 0.4);
+	}
+	.topic .content .attribute a {
+		color: rgba(0, 0, 0, 0.4);
+	}
+	.topic .content .description {
+		color: rgba(0, 0, 0, 0.7);
+	}
+	
+	#topics .ui.items .item {
+		margin-bottom: 1em;
+	}
+	#topics .ui.items .box {
+		padding: 1em;
+	}
+	#topics .ui.items .box:hover .cate.icon {
+		border: 1px solid #fff;
+	    color: #fff;
+	}
+	#topics .ui.items .box .content {
+		border: 0px solid transparent;
+	}
+	#topics .ui.items .box:hover {
+		background-color: rgba(255,51,102, 1);
+		color: #fff;
+	}
+	#topics .ui.items .box:hover a,
+	#topics .ui.items .box:hover .sub.header,
+	#topics .ui.items .box:hover .count {
+		color: #fff;
+	}
+	#topics .ui.items .box .newadd {
+		font-weight: normal;
+	}
+	#topics .ui.items .box .cate.icon {
+		border: 1px solid #ff3366;
+	    border-radius: 3px;
+	    color: #ff3366;
+		float: left;
+		font-size: 1.5em;
+		padding: 0.25em;
+	}
+	#topics .ui.items .box .cate.icon i {
+		margin: 0;
+		font-size: 1.5em;
+	}
+	#topics .ui.items .box .ui.header {
+		display: inline-block;
+		margin: 0 0 1rem 1rem;
+	}
+	
+	#topics .ui.items .box .count {
+		color: rgba(0, 0, 0, 0.4);
+	    font-size: 0.75em;
+	    margin-top: 0.5em;
+	}
+	#topics .ui.table tr .dot-irecommend {
+		background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+		color: #5d6266;
+	}
+	#topics .ui.table tr:hover {
+		background-color: rgba(0, 0, 50, 0.02);
+	}
+	#topics .ui.table tr:hover a {
+		color: #ff3366;
+	}
+	#topics .ui.table tr:hover .dot-irecommend,
+	#topics .ui.table .dot-irecommend:hover {
+		background-color: #f42156;
+		color: #fff;
+	}
+	.ui.basic.table tbody tr:last-child {
+		border-bottom: 0px solid transparent;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+
+
+{% block tophead %}
+<div class="ui tophead">
+	<div class="masthead">
+		<div class="masthead-cover transparent">
+			<div class="ui responsive head grid">
+				<div class="row">
+					<div class="twelve wide column">
+						<div class="introduction">
+							<h2 class="ui header">
+							  	<div class="content">
+							    	发现、支持、分享
+							    	<div class="sub header">让我们用创意和梦想去改变这个平凡无奇的世界</div>
+							  	</div>
+							</h2>
+							<div class="actions">
+								<a href="{{ app_url_helper }}/topic" class="ui white btn-4 btn-4c icon-arrow-right btn">
+									查看帮助
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="ui social" id="topics">
+	<div class="ui responsive grid">
+		<div class="column">
+			{% category_list var:'category' only_open:1 domain:domain %}
+			{% for cat in category.rows %}
+				<div class="ui segment">
+					<h3 class="ui dividing header">
+						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</h3>
+					{% category_list var:'children' page:1 only_open:1 domain:domain pid:cat._id %}
+					<div class="ui three items">
+						{% for child in children.rows %}
+						<div class="item">
+							<div class="box">
+								<div class="cate icon">
+									<i class="flat s_{{ child.name }} icon"></i>
+								</div>
+								<div class="ui header">
+								  	<div class="content">
+										<a class="ui magenta link" href="{{ child.view_url }}">
+											{{ child.title }}
+											{% if child.total_count %}
+											<small class="newadd">({{ child.total_count }})</small>
+											{% endif %}
+										</a>
+								    	<div class="sub header">{{ child.summary }}</div>
+										<div class="count"><b>主题：{{ child.total_count }} , 回帖：{{ child.reply_count|default 0 }}</b></div>
+								  	</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					
+					<table class="ui basic table">
+						{% topic_list var:'list' category_id:cat._id is_top:1 time:time sort:sort page:1 size:5 %}
+						{% for topic in list.rows %}
+							<tr>
+								<td class="nine wide">
+						          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+								</td>
+								<td>
+									<a class="ui small link" href="{{ topic.user.home_url }}">
+							      		<img src="{{ topic.user.mini_avatar_url }}" class="ui avatar image" /> {{ topic.user.nickname }}
+									</a>
+								</td>
+								<td>
+									{% if topic.last_user %}
+									最后回复 {{ topic.last_reply_time|relative_time}}
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+										<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+										<span class="dot-irecommend-suffix"></span>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+					
+				</div>
+			{% endfor %}
+			
+		</div>
+	</div>
+	
+</div>
+{% endblock %}

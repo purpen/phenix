@@ -106,10 +106,14 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	 */
     protected function after_save() {
 		$category_id = $this->data['category_id'];
+		$fid = $this->data['fid'];
+		
+		$category = new Sher_Core_Model_Category();
 		if (!empty($category_id)) {
-			$category = new Sher_Core_Model_Category();
 			$category->inc_counter('total_count', 1, $category_id);
-			unset($category);
+		}
+		if (!empty($fid)) {
+			$category->inc_counter('total_count', 1, $fid);
 		}
 		
 		$target_id   = $this->data['target_id'];
@@ -195,7 +199,23 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 			'$set' => array('last_reply_time'=>$time, 'last_user'=>$user_id),
 			'$inc' => array('comment_count'=>1),
 		);
+		// 更新所属类别的回复数
+		$this->update_category_reply_count($id);
+		
 		return self::$_db->update($this->collection,$query,$new_data,false,false,true);
+	}
+	
+	/**
+	 * 更新类别回复数
+	 */
+	public function update_category_reply_count($id){
+		$row = $this->find_by_id((int)$id);
+		if (!empty($row)) {
+			$category = new Sher_Core_Model_Category();
+			$category->inc_counter('reply_count', 1, $row['category_id']);
+			$category->inc_counter('reply_count', 1, $row['fid']);
+			unset($category);
+		}
 	}
 	
 	/**

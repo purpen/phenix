@@ -92,6 +92,11 @@
 		}
 	});
 	
+	$('.ui.edit.button').bind('click', function(){
+		var id = $(this).data('id');
+		phenix.redirect('{{ app_url_topic }}/edit?id='+id);
+	});
+	
 	$('.ui.post.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){

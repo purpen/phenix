@@ -509,6 +509,25 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if (!$this->visitor->can_admin() && !($topic['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
+		
+		// 是否为一级分类
+		$is_top = false;
+		$current_category = array();
+		$parent_category = array();
+		
+		$category = new Sher_Core_Model_Category();
+		// 获取当前分类信息
+		$current_category = $category->load((int)$topic['category_id']);
+		// 获取父级分类
+		$parent_category = $category->load((int)$topic['fid']);
+
+		$this->stash['is_top'] = $is_top;
+		$this->stash['current_category'] = $current_category;
+		$this->stash['parent_category'] = $parent_category;
+		
+		$this->stash['cid'] = $topic['category_id'];
+		
+		
 		$this->stash['mode'] = 'edit';
 		$this->stash['topic'] = $topic;
 		

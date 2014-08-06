@@ -3,12 +3,12 @@
 		<img src="{{ comment.user.small_avatar_url }}" />
 	</a>
 	<div class="content">
-		<a class="author">{{ comment.user.nickname }}</a>
+		<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
 		<div class="metadata">
 			<div class="date">{{ comment.created_on }}</div>
 			<div class="laud">
-				<a class="ui link ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
-					<i class="flat icon heart64"></i>
+				<a class="ui link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
+					<i class="icon heart"></i>
 				</a>
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 				<textarea name="content" class="reply-content"></textarea>
 			</div>
 			<div class="ui button magenta submit labeled icon">
-				<i class="flat icon edit"></i> 回复
+				<i class="icon location"></i> 回复
 			</div>
 		</form>
 	</div>
