@@ -20,6 +20,44 @@
 	    min-width: 320px;
 	    width: 100%;
 	}
+	
+	.ui.big.segment {
+		padding: 2.5em;
+	}
+	.ui.big.segment .ui.header .content {
+	    font-size: 1.125em;
+	    line-height: 1.5;
+	    margin-left: 0.5em;
+		margin-top: 0.5em;
+	}
+	.ui.big.segment .ui.header .content .attribute {
+		margin: 0 0 0.75em;
+		font-size: 0.925rem;
+		color: rgba(0, 0, 0, 0.4);
+	}
+	.post, .tags {
+	    font-size: 1em;
+	    line-height: 1.5;
+	    margin-left: 5em;
+	}
+	.tags .ui.link {
+		margin-right: 0.85em;
+	}
+	.ui.big.segment .actions {
+		margin-top: 2.5em;
+	}
+	.ui.icon.buttons .button, 
+	.ui.buttons .icon.button {
+		padding: 0.8em 0.9em;
+	}
+	
+	#postpage .ui.comments .comment > .content > .metadata {
+	    color: rgba(0, 0, 0, 0.3);
+	    float: right;
+	}
+	#postpage .ui.comments .comment > .content > .text {
+	    margin: 0.5em 0 1em;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -27,89 +65,128 @@
 {% block jquery %}
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
+	
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark');
+		if (mark == 'n') {
+			$.get('{{ app_url_topic }}/ajax_favorite', {id: id}, function(){
+				
+			});
+		} else {
+			$.get('{{ app_url_topic }}/ajax_cancel_favorite', {id: id}, function(){
+				
+			});
+		}
+	});
+	
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark');
+		if (mark == 'n') {
+			$.get('{{ app_url_topic }}/ajax_laud', {id: id}, function(){
+				
+			});
+		} else {
+			$.get('{{ app_url_topic }}/ajax_cancel_laud', {id: id}, function(){
+				
+			});
+		}
+	});
+	
+	$('.ui.post.segment').hover(function(){
+		$('.ui.editable.buttons').removeClass('hide');
+	},function(){
+		$('.ui.editable.buttons').addClass('hide');
+	});
 {% endblock %}
 
 {% block content %}
-<div class="ui social show">
+<div class="ui social show" id="postpage">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui column">
+		
+		<div class="middle aligned row">
+			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_topic }}">社区</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_topic }}">
+						<i class="basic icon community"></i> 社区
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ topic.category._id }}">{{ topic.category.title }}</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ topic.title }}</div>
 				</div>
 			</div>
+			<div class="five wide right aligned column">
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui gray button">
+					<i class="add icon"></i> 发表话题
+				</a>
+			</div>
 		</div>
 		
-		<div class="row topic-view">
-			<div class="eleven wide column">
-				
-				<div class="ui twopad segment top attached">
-					
-					<a class="dot-irecommend" href="#comment">
-						<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
-						<span class="dot-irecommend-suffix"></span>
-					</a>
-					
-					<h3 class="ui marginnotop header">
-						{{ topic.title }}
-					</h3>
-
-					<div class="ui divided horizontal list">
-					  	<div class="small item">{{ topic.category.title }}</div>
-					  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> 发表于{{ topic.created_on|date 'y-m-d H:i' }}</div>
-						<div class="small item">浏览数：{{ topic.view_count }}</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui big post segment">
+					<div class="ui header">
+						<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+				      		<img src="{{ topic.user.small_avatar_url }}" />
+						</a>
+						<div class="content">
+							{{ topic.title }}
+							<div class="sub header attribute">
+								<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
+								<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|date 'y-m-d H:i' }}</span> | 
+								<span class="count">浏览数: {{ topic.view_count }}</span>
+							</div>
+						</div>
+						<a class="dot-irecommend" href="#comment">
+							<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+							<span class="dot-irecommend-suffix"></span>
+						</a>
+					</div>
+					<div class="post">
+						{{ topic.description }}
 					</div>
 					
-					<div class="ui content">
-						{{ topic.description }}
-						
-						{% asset_list var:'assets' parent_id:topic._id size:20 asset_type:50 %}
-						{% for asset in assets.rows %}
-					  	<p class="asset">
-							<img src="{{ asset.thumbnails.huge.view_url }}" />
-						</p>
+					<div class="tags">
+						{% for tag in topic.tags %}
+						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link"><i class="tag icon"></i>{{ tag }}</a>
 						{% endfor %}
 					</div>
 					
-				</div>
-				<div class="ui bottom attached footer">
-					<a class="ui magenta labeled icon button ajax" href="{{ app_url_topic }}/ajax_favorite?id={{ topic._id }}" id="favorite_{{ topic._id }}">
-						<i class="flat collection icon"></i> 收藏
-					</a>
-					<a class="ui magenta labeled icon button ajax" href="{{ app_url_topic }}/ajax_laud?id={{ topic._id }}" id="laud_{{ topic._id }}">
-						<i class="flat like icon"></i> 赞
-					</a>
+					<div class="admin post actions">
+						<div class="ui icon magenta buttons">
+							<div class="ui pop favorite button" data-content="添加收藏" data-id="{{ topic._id }}" data-mark="n">
+								<i class="empty star icon"></i>
+							</div>
+							<div class="ui pop love button" data-content="加入喜欢" data-id="{{ topic._id }}" data-mark="n">
+								<i class="heart empty icon"></i>
+							</div>
+						</div>
+						
+						<div class="ui icon magenta editable hide buttons">
+							<div class="ui pop top button" data-content="置顶" data-id="{{ topic._id }}">
+								<i class="flag icon"></i>
+							</div>
+							<div class="ui pop stick button" data-content="编辑推荐" data-id="{{ topic._id }}">
+								<i class="pin icon"></i>
+							</div>
+							<div class="ui pop edit button" data-content="编辑" data-id="{{ topic._id }}">
+								<i class="edit icon"></i>
+							</div>
+							<div class="ui pop remove button" data-content="删除" data-id="{{ topic._id }}">
+								<i class="remove icon"></i>
+							</div>
+						</div>
 					
-					{%include 'block/share.html'%}
+						{%include 'block/share.html'%}
+					</div>
 					
 				</div>
 				
 				
 				<a name="comment"></a>
-				<h3 class="ui top attached header">回应</h3>
-				<div class="ui segment attached">
-					<div class="ui grid" id="post-comment">
-						<div class="ui column">
-							<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
-							<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-								<input type="hidden" name="target_id" value="{{ topic._id }}" />
-								<input type="hidden" name="type" value="2" />
-								<div class="field">
-									<textarea name="content" class="comment-textarea" ></textarea>
-									<div id="comment"></div>
-								</div>
-								<div class="right aligned column">
-									<input type="submit" class="ui small magenta button" value="添加评论" />
-								</div>
-							</form>
-						</div>
-					</div>
-					
-					
+				<div class="ui big segment">
 					<div class="ui threaded minimal comments">
 						{% comment_list var:'comments' page:page target_id:topic._id %}
 						{% for comment in comments.rows %}
@@ -118,12 +195,12 @@
 								<img src="{{ comment.user.small_avatar_url }}" />
 							</a>
 							<div class="content">
-								<a class="author">{{ comment.user.nickname }}</a>
+								<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
 								<div class="metadata">
 									<div class="date">{{ comment.created_on }}</div>
 									<div class="laud">
-										<a class="ui link ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
-											<i class="flat icon heart64"></i>
+										<a class="ui link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
+											<i class="icon heart"></i>
 										</a>
 									</div>
 								</div>
@@ -141,12 +218,11 @@
 									<div class="field">
 										<textarea name="content" class="reply-content"></textarea>
 									</div>
-									<div class="ui button magenta submit labeled icon">
-										<i class="flat icon edit"></i> 回复
+									<div class="ui active button magenta submit labeled icon">
+										<i class="icon location"></i> 回复
 									</div>
 								</form>
 							</div>
-							
 							
 							{% if comment.reply %}
 							<div class="comments">
@@ -172,6 +248,22 @@
 						</div>
 						{% endfor %}
 					</div>
+					
+					<div class="post comment">
+						<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
+						<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+							<input type="hidden" name="target_id" value="{{ topic._id }}" />
+							<input type="hidden" name="type" value="2" />
+							<div class="field">
+								<textarea name="content" class="comment-textarea" ></textarea>
+								<div id="comment"></div>
+							</div>
+							<div class="right aligned column">
+								<input type="submit" class="ui small magenta button" value="添加评论" />
+							</div>
+						</form>
+					</div>
+					
 				</div>
 				{% if comments.rows %}
 				<div class="ui pagination">
@@ -180,91 +272,7 @@
 				</div>
 				{% endif %}
 			</div>
-			<div class="five wide column">
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="fluid active ui magenta icon button">
-					<i class="add icon"></i> 发表话题
-				</a>
-				
-				{% if visitor.is_admin %}
-				<div class="ui fluid magenta labeled icon four item menu">
-				  	<a class="item" href="{{ app_url_topic }}/edit?id={{ topic._id }}">
-				      	<i class="flat edit_edit icon"></i>
-				      	编辑
-				  	</a>
-				  	<a class="item confirm-request" href="{{ app_url_topic }}/deleted?id={{ topic._id }}">
-				      	<i class="flat edit_delete icon"></i>
-				      	删除
-				  	</a>
-					
-					{% if topic.stick %}
-				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
-				      	<i class="flat edit_recommend icon"></i>
-				      	推荐
-				  	</a>
-					{% else %}
-				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_stick?id={{ topic._id }}" id="stick_{{ topic._id }}">
-				      	<i class="flat edit_recommend icon"></i>
-				      	推荐
-				  	</a>
-					{% endif %}
-				
-					{% if topic.top %}
-				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_cancel_top?id={{ topic._id }}" id="top_{{ topic._id }}">
-				      	<i class="flat edit_top icon"></i>
-				      	取消置顶
-				  	</a>
-					{% else %}
-				  	<a class="item ajax" href="{{ app_url_topic }}/ajax_top?id={{ topic._id }}" id="top_{{ topic._id }}">
-				      	<i class="flat edit_top icon"></i>
-				      	置顶
-				  	</a>
-					{% endif %}
-					
-				</div>
-				{% else %}
-					{% if visitor._id == topic.user_id %}
-						<div class="ui fluid magenta labeled icon two item menu">
-						  	<a class="item" href="{{ app_url_topic }}/edit?id={{ topic._id }}">
-						      	<i class="flat edit_edit icon"></i>
-						      	编辑
-						  	</a>
-						  	<a class="item confirm-request" href="{{ app_url_topic }}/deleted?id={{ topic._id }}">
-						      	<i class="flat edit_delete icon"></i>
-						      	删除
-						  	</a>
-						</div>
-					{% endif %}
-				{% endif %}
-				
-				<h4 class="ui top attached header">
-					他的新帖
-				</h4>
-				<div class="ui segment bottom attached">
-					{% topic_list var:'user_list' size:5 sort:'latest' user_id:topic.user._id %}
-					<div class="ui list">
-						{% for topic in user_list.rows %}
-						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui item link"> 
-							{{ topic.title|truncate, 16, '' }}
-						</a>
-						{% endfor %}
-					</div>
-				</div>
-				
-				<h4 class="ui top attached header">
-					社区新帖
-				</h4>
-				<div class="ui segment bottom attached">
-					{% topic_list var:'stick_list' size:5 sort:'latest' %}
-					<div class="ui list">
-						{% for topic in stick_list.rows %}
-						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui item link"> 
-							{{ topic.title|truncate, 16, '' }}
-						</a>
-						{% endfor %}
-					</div>
-				</div>
-				
-			</div>
+			
 		</div>
 	</div>
 </div>

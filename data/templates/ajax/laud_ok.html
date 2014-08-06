@@ -13,8 +13,8 @@
 			{% endif %}
 		{% else %}
 			{% if mode == 'create'%}
-				<a class="ui link ajax" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
-					<i class="flat red icon like"></i>
+				<a class="ui magenta link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
+					<i class="heart icon"></i>
 				</a>
 			{% endif %}
 			{% if mode == 'cancel'%}

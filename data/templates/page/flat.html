@@ -11,36 +11,256 @@
 	width: 70%;
 	 margin: 30px auto;
 }
+b, strong {
+    font-weight: bold;
+}
+.alert {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+.alert-primary {
+    background-color: #7761a7;
+    border-color: #6d579d;
+    color: #fff;
+}
+.alert-white {
+    background: none repeat scroll 0 0 #fff;
+    border-color: #d5d5d5;
+    color: #404040;
+    padding-left: 61px;
+    position: relative;
+}
+.alert-white .icon {
+    border: 1px solid #bdbdbd;
+    height: 103%;
+    left: -1px;
+    padding-top: 15px;
+    position: absolute;
+    text-align: center;
+    top: -1px;
+    width: 45px;
+}
+.alert-white.rounded .icon {
+    border-radius: 3px 0 0 3px;
+}
+.alert-white .icon i {
+    color: #fff;
+    font-size: 20px;
+    left: 12px;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+}
+.alert-white .icon:after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #fff;
+    border-color: #bdbdbd #bdbdbd -moz-use-text-color -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none none;
+    border-width: 1px 1px 0 0;
+    content: "";
+    display: block;
+    height: 10px;
+    margin-top: -3px;
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 10px;
+}
+.alert-white.alert-primary .icon, .alert-white.alert-primary .icon:after {
+    background: none repeat scroll 0 0 #7761a7;
+    border-color: #6d579d;
+}
+
+.alert-white.rounded {
+    border-radius: 3px;
+}
+.close {
+    color: #000;
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #fff;
+}
+.close {
+    font-size: 1.5em;
+    margin-top: -6px;
+    text-shadow: none;
+}
+button.close {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.alert-white-alt2 {
+    background: none repeat scroll 0 0 #fff;
+    border-color: #d5d5d5;
+    color: #404040;
+    padding-left: 61px;
+    position: relative;
+}
+.alert-white-alt2 .icon {
+    border: 1px solid #d5d5d5;
+    height: 103%;
+    left: -1px;
+    padding-top: 15px;
+    position: absolute;
+    text-align: center;
+    top: -1px;
+    width: 45px;
+}
+.alert-white-alt2 .icon:after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #fff;
+    border-color: #d5d5d5 #d5d5d5 -moz-use-text-color -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none none;
+    border-width: 1px 1px 0 0;
+    content: "";
+    display: block;
+    height: 10px;
+    margin-top: -3px;
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 10px;
+}
+.alert-white-alt2.alert-primary .icon i {
+    color: #7761a7;
+}
+.alert-white-alt2 .icon i {
+    color: #fff;
+    font-size: 20px;
+    left: 12px;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+}
+
+.alert-white-alt.rounded {
+    border-radius: 3px;
+}
+.alert-white-alt {
+    background: none repeat scroll 0 0 #fff;
+    border-width: 2px;
+    color: #404040;
+    padding-left: 61px;
+    position: relative;
+}
+.alert-white-alt .icon {
+    border: 1px solid #bdbdbd;
+    height: 103%;
+    left: -1px;
+    padding-top: 15px;
+    position: absolute;
+    text-align: center;
+    top: -1px;
+    width: 45px;
+}
+.alert-white-alt.alert-primary .icon, .alert-white-alt.alert-primary .icon:after {
+    background: none repeat scroll 0 0 #7761a7;
+    border-color: #6d579d;
+}
+.alert-white-alt .icon:after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #fff;
+    border-color: #bdbdbd #bdbdbd -moz-use-text-color -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none none;
+    border-width: 1px 1px 0 0;
+    content: "";
+    display: block;
+    height: 10px;
+    margin-top: -3px;
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 10px;
+}
+.alert-white-alt .icon i {
+    color: #fff;
+    font-size: 20px;
+    left: 12px;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+}
+
+
+
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}	
-	$('#text-content').editable({
-		inlineMode:!1,
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
-	});	
+	
 {% endblock %}
 {% block content %}
 <div class="home">
-	<textarea name="content" class="editor" placeholder="详细内容" id="text-content">
-		{% if product.content %}
-		{{ product.content }}
-		{% else %}
-		<h3>关于我</h3>
-
-		<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
-
-
-		<h3>产品要解决什么问题</h3>
-
-		<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
-
-
-		<h3>产品怎样去解决问题</h3>
-
-		<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
-		{% endif %}
-	</textarea>
+	<div class="alert alert-primary alert-white rounded">
+		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+		<div class="icon"><i class="fa fa-check"></i></div>
+		<strong>Great!</strong> Can you say supercalifragilisticoexpialidoso?
+	</div>
+	
+	<div class="alert alert-primary alert-white-alt2 rounded">
+		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+		<div class="icon"><i class="fa fa-check"></i></div>
+		<strong>Great!</strong> Can you say supercalifragilisticoexpialidoso?
+	 </div>
+	 
+	 <div class="alert alert-primary alert-white-alt rounded">
+		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+		<div class="icon"><i class="fa fa-check"></i></div>
+		<strong>Great!</strong> Can you say supercalifragilisticoexpialidoso?
+	 </div>
+	 
+	 <div class="ui options">
+	  	<div class="ui primary alt option">
+	  		<div class="icon">
+	 			<i class="fa fa-check"></i>
+	 		</div>
+	  		灵感之源
+	  	</div>
+	 	<div class="ui magenta alt option">
+	 		<div class="icon">
+				<i class="fa fa-check"></i>
+			</div>
+	 		产品评测
+	 	</div>
+	 	<div class="ui active magenta alt option">
+	 		<div class="icon">
+				<i class="fa fa-check"></i>
+			</div>
+	 		产品评测
+	 	</div>
+	 	<div class="ui active green alt option">
+	 		<div class="icon">
+				<i class="fa fa-check"></i>
+			</div>
+	 		话题讨论
+	 	</div>
+	 </div>
+	 
+ 	
+	 
 </div>
 {% endblock %}

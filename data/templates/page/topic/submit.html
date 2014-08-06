@@ -2,7 +2,16 @@
 {% block title %}发布想法-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+	.new.topic a.icon-link {
+		text-decoration: none;
+	}
+	.new.topic a.icon-link:hover .help.icon {
+		color: #ff3b6b;
+	}
+	.new.topic a.icon-link .help.icon {
+		font-size: 0.725em;
+		color: #5c6166;
+	}
 </style>
 {% endblock %}
 
@@ -105,7 +114,7 @@
         	endpoint: '{{ app_url_upload_topic }}'
       	},
 		text: {
-            uploadButton: '<a class="ui magenta labeled icon button" href="javascript:void(0);"><i class="add icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -129,7 +138,7 @@
 	});
 	
 	// 选择分类
-	$('body').on('click', '.ui.category.button', function(){
+	$('.ui.options').on('click', '.option', function(){
 		var id = $(this).attr('data-value');
 		if ($(this).hasClass('active')){
 			$(this)
@@ -138,13 +147,11 @@
 			$('#topic-category').val('');
 		}else{
 			$(this)
-				.siblings('.ui.category.button').removeClass('active')
+				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#topic-category').val(id);
 		}
-		
-        return false;
 	});
 	
 	// 设置封面图
@@ -174,21 +181,29 @@
 			<div class="ui column">
 				<div class="ui medium breadcrumb">
 				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i>社区
+						<i class="basic icon community"></i> 社区
 					</a>
-				  	<i class="flat page_right icon divider"></i>
-					{% if pid %}
+				  	<i class="angle right icon divider"></i>
+					{% if !is_top %}
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon divider"></i>
 					{% endif %}
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
+				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">发表帖子</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="twelve wide column">
-				<h2 class="ui header">发表帖子</h2>
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						发表帖子
+						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看发帖帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
+					</h2>
+				</div>
+				
 				<div class="ui segment">
 					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
 						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
@@ -197,24 +212,22 @@
 					
 						<div class="field">
 							<label>类别</label>
-							<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
-							{% if pid %}
-								{% category_list var:'category' only_open:1 domain:2 pid:pid current:cid %}
-							{% else %}
-								{% category_list var:'category' only_open:1 domain:2 pid:cid current:cid %}
-							{% endif %}
-						
-							{% for cat in category.rows %}
-							{% if cat.active %}
-							<a class="big ui {{ cat.active }} magenta icon labeled category button" data-value="{{ cat._id }}">
-								<i class="checkmark icon"></i>{{ cat.title }}
-							</a>
-							{% else %}
-							<a class="big ui gray category button" data-value="{{ cat._id }}">
-								{{ cat.title }}
-							</a>
-							{% endif %}
-							{% endfor %}
+						   	<div class="ui options">
+							    <input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+								{% if !is_top %}
+									{% category_list var:'category' only_open:1 domain:2 pid:parent_category._id current:cid %}
+								{% else %}
+									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
+								{% endif %}
+								{% for cat in category.rows %}
+						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+						   	 		<div class="icon">
+						   				<i class="fa fa-check"></i>
+						   			</div>
+						   	 		{{ cat.title }}
+						   	 	</div>
+								{% endfor %}
+						   	 </div>
 						</div>
 					
 						<div class="field">
@@ -224,9 +237,7 @@
 					
 						<div class="field">
 							<label for="description">描述</label>
-						
-						  	<textarea name="description" placeholder="话题内容" id="editor">{{ topic.description }}</textarea>
-							<div class="description">请详细的描述</div>
+						  	<textarea name="description" placeholder="此处无需省略一万字..." id="editor">{{ topic.description }}</textarea>
 						</div>
 						
 						<div class="field">
@@ -285,32 +296,6 @@
 					</form>
 				</div>
 				
-			</div>
-			<div class="four wide column">
-				<h3 class="ui header">Q&A</h3>
-				<div class="ui basic accordion">
-				  	<div class="title">
-				    	<i class="flat page_right icon"></i>
-				    	如何提交创意？
-				  	</div>
-				  	<div class="content">
-				    	<p></p>
-				  	</div>
-				  	<div class="title">
-				    	<i class="flat page_right icon"></i>
-				    	创意如何通过审核？
-				  	</div>
-				  	<div class="content">
-				    	<p></p>
-				  	</div>
-				  	<div class="title">
-				    	<i class="flat page_right icon"></i>
-				    	创意评分规则？
-				  	</div>
-				  	<div class="content">
-				    	<p></p>
-				  	</div>
-				</div>
 			</div>
 		</div>
 	</div>

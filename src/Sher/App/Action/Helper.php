@@ -33,6 +33,13 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 		return $this->to_html_page('page/helper/rule.html');
 	}
 	
+	/**
+	 * 发帖指南
+	 */
+	public function topic() {
+		$this->set_target_css_state('page_topic');
+		return $this->to_html_page('page/helper/topic.html');
+	}
 	
 	/**
 	 * 常见问题

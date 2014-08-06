@@ -227,7 +227,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
 	    }
 		
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$topic['fid']);
+		
 		$this->stash['topic'] = &$topic;
+		$this->stash['parent_category'] = $parent_category;
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
@@ -438,7 +443,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	protected function editor_params() {
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
 		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
-		$this->stash['editor_pid'] = new MongoId();
+		$new_pic_id = new MongoId();
+		$this->stash['editor_pid'] = (string)$new_pic_id;
 
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_TOPIC;
@@ -448,27 +454,40 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 提交创意
 	 */
 	public function submit(){
-		$pid = isset($this->stash['pid']) ? $this->stash['pid'] : 0;
-		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
+		if (empty($this->stash['cid'])){
+			return $this->show_message_page('抱歉，请先选择一个分类！', true);
+		}
+		$cid = $this->stash['cid'];
+		// 是否为一级分类
+		$is_top = true;
+		$pid = 0;
+		$current_category = array();
+		$parent_category = array();
+
+		$category = new Sher_Core_Model_Category();
+		// 获取当前分类信息
+		$current_category = $category->load((int)$cid);
+		// 存在父级分类，标识是二级分类
+		if (!empty($current_category['pid'])){
+			$is_top = false;
+			// 获取父级分类
+			$parent_category = $category->extend_load((int)$current_category['pid']);
+		}
+
+		$this->stash['is_top'] = $is_top;
+		$this->stash['current_category'] = $current_category;
+		$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['mode'] = 'create';
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
 		
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
 		
 		$this->editor_params();
-		
-		$this->stash['pid'] = $pid;
-		$this->stash['cid'] = $cid;
-		
-		// 获取父级分类
-		if ($pid) {
-			$category = new Sher_Core_Model_Category();
-			$parent_category = $category->extend_load((int)$pid);
-			$this->stash['parent_category'] = $parent_category;
-		}
 		
 		return $this->to_html_page('page/topic/submit.html');
 	}
