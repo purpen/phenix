@@ -31,7 +31,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区
 	 */
 	public function execute(){
-		return $this->get_list();
+		return $this->index();
+	}
+	
+	/**
+	 * 社区首页
+	 */
+	public function index(){
+		return $this->to_html_page('page/topic/index.html');
 	}
 	
 	/**
@@ -41,6 +48,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
+		$current_category = array();
+		$parent_category = array();
 		
 		$digged = new Sher_Core_Model_DigList();
 		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
@@ -76,23 +85,18 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$category = new Sher_Core_Model_Category();
 			$current_category = $category->extend_load((int)$category_id);
 			// 存在父级分类，标识是二级分类
-			if ($current_category['pid']){
-				$this->stash['pid'] = $current_category['pid'];
+			if (!empty($current_category['pid'])){
 				$is_top = false;
+				// 获取父级分类
+				$parent_category = $category->extend_load((int)$current_category['pid']);
 			}
-			$this->stash['current_category'] = $current_category;
 		}
 		
 		$this->stash['cid'] = $this->stash['category_id'];
 		$this->stash['is_top'] = $is_top;
 		
-		$subject_cateory_id = Doggy_Config::$vars['app.product.topic_category_id'];
-		if ($category_id == $subject_cateory_id){
-			$category = new Sher_Core_Model_Category();
-			$this->stash['subject_category'] = $category->extend_load($subject_cateory_id);
-		}else{
-			$this->stash['subject_category'] = array();
-		}
+		$this->stash['current_category'] = $current_category;
+		$this->stash['parent_category'] = $parent_category;
 		
 		return $this->to_html_page('page/topic/list.html');
 	}

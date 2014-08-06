@@ -26,8 +26,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'domain' => Sher_Core_Util_Constant::TYPE_TOPIC,
 		# 是否公开
 		'is_open' => self::IS_OPENED,
-		# 内容数量
+		# 主题或内容数量
 		'total_count' => 0,
+		# 回复总数
+		'reply_count' => 0,
 		# 分类状态
 		'state' => 0,
     );

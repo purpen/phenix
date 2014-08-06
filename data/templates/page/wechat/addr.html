@@ -2,53 +2,29 @@
 {% block title %}收货地址-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.vertical.address.menu .item {
+		padding: 0.83em 2.05em 0.83em 0.95em;
+		cursor: pointer;
+	}
+	.ui.vertical.address.menu .item p {
+		margin: 0.5em 0;
+	}
+	.ui.vertical.menu .item > i.icon {
+	    position: absolute;
+	    right: 5px;
+	    top: 45%;
+	}
 </style>
 {% endblock %}
+
 {% block page_js %}
 <script type="text/javascript">
-	var oldTimeStamp;//记住timestamp，避免签名时的timestamp与传入的timestamp时不一致
-	var oldNonceStr; //记住nonceStr,避免签名时的nonceStr与传入的nonceStr不一致
-	
-	// 生成收货地址签名
-	function getAddrSign(){
-	    var app_id = ''; //公众号AppID
-	    var access_token =''; //用户授权凭证，请参照微信oauth2.0协议获取
-	    var url = window.location.href; //当前网页url
-	    var time_stamp = oldTimeStamp;
-	    var nonce_str = oldNonceStr;
-	    var keyvaluestring = "accesstoken="+access_token+"&appid="+app_id+"&noncestr="+nonce_str+"&timestamp="+time_stamp+"&url="+url;
-	    addrSign = CryptoJS.SHA1(keyvaluestring).toString();
-	    return addrSign;
-	}
-	
-	// 获取时间戳
-	function getTimeStamp(){
-	    var timestamp = new Date().getTime();
-	    var timestampstring = timestamp.toString();
-	    oldTimeStamp = timestampstring;
-	    return timestampstring;
-	}
-	
-	//获取随机字符串
-	function getNonceStr(){
-	    var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	    var maxPos = $chars.length;
-	    var noceStr = "";
-	    for (var i = 0; i < 32; i++) {
-	        noceStr += $chars.charAt(Math.floor(Math.random() * maxPos));
-	    }
-	    oldNonceStr = noceStr;
-	    return noceStr;
-	}
-
 	function getaddr(){
 		if (typeof WeixinJSBridge == 'undefined') {
 			// alert('WeixinJSBridge undefined');
-			setTimeout('getaddr()',10);
+			// setTimeout('getaddr()', 10);
 			return false;
 		} else {
-			
 			WeixinJSBridge.invoke('editAddress', {
 					"appId" : '{{ wxaddr_options.appId }}',
 					"scope" : "jsapi_address",
@@ -58,20 +34,40 @@
 					"nonceStr" : "{{ wxaddr_options.nonceStr }}",
 				},function(res) {
 					if (res != '') {
+						// alert(res.err_msg);
 						//已选择地址
 						if(res.err_msg == 'edit_address:ok'){
 							//获取成功
+							var addr_html = new Array();
+							
+							addr_html.push('<p><b>送至：</b></p>');
+							addr_html.push('<p>'+ res.proviceFirstStageName +','+ res.addressCitySecondStageName +','+ res.addressCountiesThirdStageName +','+ res.addressDetailInfo +'</p>');
+							addr_html.push('<p>'+ res.userName+','+ res.telNumber +'</p>');
+							
+							$('#send-address')
+								.html(addr_html.join(''))
+								.show(function(){
+									$('#userName').val(res.userName);
+									$('#telNumber').val(res.telNumber);
+									$('#addressPostalCode').val(res.addressPostalCode);
+									$('#proviceFirstStageName').val(res.proviceFirstStageName);
+									$('#addressCitySecondStageName').val(res.addressCitySecondStageName);
+									$('#addressCountiesThirdStageName').val(res.addressCountiesThirdStageName);
+									$('#addressDetailInfo').val(res.addressDetailInfo);
+								});
+							
+							$('#choose-address').hide();
 						}else{
-							setTimeout('getaddr()',100);
+							// setTimeout('getaddr()', 100);
 							//获取失败
-							//alert(res.err_msg);
-							//alert(res.err_desc);
+							// alert(res.err_msg);
+							$('#choose-address').show();
+							$('#send-address').hide();
 	        			}
 	      		 	} else {
 	      			  //未选择地址
 					  window.location.href = '...';
 	      			}
-
 	    		});
 		}
 	}
@@ -79,8 +75,65 @@
 {% endblock %}
 
 {% block jquery %}
-	alert('bird01');
-	getaddr();
+	// 微信支付
+	var wechat_pay = function() {
+		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
+		WeixinJSBridge.invoke('getBrandWCPayRequest', { 
+			"appId" : "{{ wxoptions.appId }}", 
+			"timeStamp" : "{{ wxoptions.timeStamp }}",
+			"nonceStr" : "{{ wxoptions.nonceStr }}",
+			"package" : "{{ wxoptions.package }}",
+			"signType" : "SHA1",
+			"paySign" : "{{ wxoptions.paySign }}"
+			}, function(res){
+				// 返回 res.err_msg,取值
+				// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
+				// get_brand_wcpay_request:ok 发送成功
+				WeixinJSBridge.log(res.err_msg);
+				alert(res.err_msg);
+				// 支付成功
+				if (res.err_msg == 'get_brand_wcpay_request:ok'){
+					alert('支付成功！');
+				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
+					alert('支付失败！');
+				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
+					alert('支付取消！');
+				} else {
+					alert('微信支付出现异常，请核对信息后重试！');
+				}
+		});
+	};
+	
+	$('.ui.wxpay.button').bind('click', function(){
+		// 更新订单
+		// 获取地址
+		var userName = $('#userName').val(), 
+		    telNumber = $('#telNumber').val(),
+			addressPostalCode = $('#addressPostalCode').val(),
+			proviceFirstStageName = $('#proviceFirstStageName').val(),
+			addressCitySecondStageName = $('#addressCitySecondStageName').val(),
+			addressCountiesThirdStageName = $('#addressCountiesThirdStageName').val(),
+			addressDetailInfo = $('#addressDetailInfo').val();
+			
+		if (!userName || !telNumber){
+			alert('请先确认收货地址！');
+			return false;
+		}
+		
+		$.post('{{ app_url_domain }}/wxpay/confirm', { rid: '{{ rid }}', name: username, phone: telnumber, zip: addressPostalCode, province: proviceFirstStageName, city: addressCitySecondStageName, area: addressCountiesThirdStageName, address: addressDetailInfo }, function(res){
+			if(res.success){
+				wechat_pay();
+			} else {
+				alert(res.message);
+			}
+		},'json');
+	});
+	
+	// 获取共享地址
+	$('.ui.address').bind('click', function() {
+		getaddr();
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -88,16 +141,25 @@
 	<div class="ui responsive grid">		
 		<div class="row">
 			<div class="column">
-				<h3 class="ui inverted green header">确认订单</h3>
+				<div class="ui inverted green header">确认订单</div>
 				
 				<h3 class="ui dividing header"></h3>
-				<div class="ui pointing vertical fluid menu">
-					<div class="item">
-						<a href="" class="ui address">请填写收货地址</a>
+				<div class="ui vertical fluid address menu">
+					<div class="item ui address">
+						<div id="choose-address">确认收货地址</div>
+						<div id="send-address"></div>
+						<i class="flat page_right icon"></i>
 					</div>
+					<input type="hidden" name="userName" id="userName" />
+					<input type="hidden" name="telNumber" id="telNumber" />
+					<input type="hidden" name="addressPostalCode" id="addressPostalCode" />
+					<input type="hidden" name="proviceFirstStageName" id="proviceFirstStageName" />
+					<input type="hidden" name="addressCitySecondStageName" id="addressCitySecondStageName" />
+					<input type="hidden" name="addressCountiesThirdStageName" id="addressCountiesThirdStageName" />
+					<input type="hidden" name="addressDetailInfo" id="addressDetailInfo" />
 				</div>
 				
-				
+				<button class="ui weixin active fluid wxpay button">微信支付</button>
 			</div>
 		</div>
 	</div>

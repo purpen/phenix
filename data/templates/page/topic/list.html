@@ -42,66 +42,53 @@
 {% block content %}
 <div class="ui social">
 	<div class="ui responsive grid">
-		<div class="column">
-			<div class="ui magenta tiered menu">
-			  	<div class="menu">
-					{% if is_top %}
-						{% category_list var:'category' only_open:1 domain:domain show_all:1 current:cid %}
-					{% else %}
-						{% category_list var:'category' only_open:1 domain:domain show_all:1 current:pid %}
+		<div class="middle aligned row">
+			<div class="eleven wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_topic }}">
+						<i class="basic icon community"></i> 社区
+					</a>
+				  	<i class="angle right icon divider"></i>
+					{% if !is_top %}
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+				  	<i class="angle right icon divider"></i>
 					{% endif %}
-					
-					{% for cat in category.rows %}
-				  	<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					{% endfor %}
-					
-					<a class="ui item" href="{{ app_url_try }}" target="_blank">产品公测</a>
-					
-			    	<div class="right menu">
-						<a class="ui showbox magenta item" href="#advanced-filter-topic">
-							<i class="list layout icon"></i>
-						</a>
-			    	</div>
-			  	</div>
-				{% if category_id %}
-					{% if is_top %}
-						{% category_list var:'children' page:1 only_open:1 domain:domain pid:cid %}
-					{% else %}
-						{% category_list var:'children' page:1 only_open:1 domain:domain pid:pid %}
-					{% endif %}
-					
-					{% if children.total_rows %}
-				  	<div class="ui sub menu">
-						<div class="ui labels">
-							{% for child in children.rows %}
-							{% if child._id == category_id %}
-							<a class="ui label magenta link" href="{{ child.view_url }}">
-								{{ child.title }}
-								{% if child.total_count %}
-								<div class="detail">{{ child.total_count }}</div>
-								{% endif %}
-							</a>
-							{% else %}
-							<a class="ui label black link" href="{{ child.view_url }}">
-								{{ child.title }}
-								{% if child.total_count %}
-								<div class="detail">{{ child.total_count }}</div>
-								{% endif %}
-							</a>
-							{% endif %}
-							{% endfor %}
-						</div>
-				  	</div>
-					{% endif %}
-				{% endif %}
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
+				</div>
+			</div>
+			<div class="five wide right aligned column">
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ current_category._id }}" class="ui gray hide button">
+					<i class="add icon"></i> 发表话题
+				</a>
 			</div>
 		</div>
-	</div>
-	
-	<div class="ui responsive grid">
 		
 		<div class="row">
 			<div class="column">
+				<div class="ui magenta tiered menu">
+				  	<div class="menu">
+						{% if is_top %}
+							{% category_list var:'category' page:1 only_open:1 show_all:1 domain:domain pid:cid current:cid %}
+						{% else %}
+							{% category_list var:'category' page:1 only_open:1 show_all:1 domain:domain pid:parent_category._id current:cid %}
+						{% endif %}
+						
+						{% for cat in category.rows %}
+							{% if cat._id == 0 %}
+								<a class="ui {% if is_top %}active{% endif %} item" href="{{ parent_category.view_url }}">{{ cat.title }}</a>
+							{% else %}
+								<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }} <small>({{ cat.total_count }})</small></a>
+							{% endif %}
+						{% endfor %}
+					
+				    	<div class="right menu">
+							<a class="ui showbox magenta item" href="#advanced-filter-topic">
+								<i class="list layout icon"></i>
+							</a>
+				    	</div>
+				  	</div>
+				</div>
+				
 				<div class="ui segment hide" id="advanced-filter-topic">
 					<div class="ui grid">
 						<div class="row">
@@ -146,124 +133,65 @@
 								<th>回复数</th>
 							</tr>
 						</thead>
-						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
-						{% for topic in list.rows %}
-							<tr>
-								<td>
-									<a class="ui small avatar image" href="{{ topic.user.home_url }}">
-							      		<img src="{{ topic.user.small_avatar_url }}" />
-									</a>
-								</td>
-								<td class="ten wide">
-						          	<h3 class="title">
-										<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-									</h3>
-							      	<div class="content">
-										<div class="attribute">
-											<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
-											<span class="author">
-												<a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a>  <i class="time icon"></i> 于 {{ topic.created_on|relative_time }} 发表
-											</span>
-										</div>
-										{% if !topic.asset_count %}
-											<div class="description">
-												{{ topic.strip_description|truncate 70 }}
-											</div>
-										{% else %}
-											{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 %}
-											<!--展示图片-->
-											<div class="ui small images">
-												{% for asset in assets.rows %}
-											  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
-												{% endfor %}
-											</div>
-										{% endif %}
-							      	</div>
-								</td>
-								<td>
-									{% if topic.last_user %}
-									<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-								  		<img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" />
-									</a>
-									最后回复 {{ topic.last_reply_time|relative_time}}
-									{% endif %}
-								</td>
-								<td>
-									<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-										<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
-										<span class="dot-irecommend-suffix"></span>
-									</a>
-								</td>
-							</tr>
-						{% endfor %}
-						
-						
-					</table>
-					
-					<div class="ui divided topic-list list">
+						<tbody>
 						{% if dig_list %}
 							{% for dig in dig_list %}
-								<div class="item">
-									<div class="ui grid">
-										<div class="two wide hide-on-mobile column">
-											<a class="ui small avatar image" href="{{ dig.user.home_url }}">
-									      		<img src="{{ dig.user.small_avatar_url }}" />
-											</a>
-										</div>
-										<div class="twelve wide column">
-									      	<div class="content">
-									          	<h3 class="link header">
-													[置顶] <a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui link">{{ dig.title }}</a>
-												</h3>
+								<tr>
+									<td>
+										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
+								      		<img src="{{ dig.user.small_avatar_url }}" />
+										</a>
+									</td>
+									<td class="ten wide">
+								      	<h3 class="title">
+											[置顶] <a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui link">{{ dig.title }}</a>
+										</h3>
+								      	<div class="content">
+											<div class="attribute">
+												<span class="category"><a href="{{ dig.category.view_url }}" class="ui link">{{ dig.category.title }}</a></span> | 
+												<span class="author">
+													<a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a>  <i class="time icon"></i> 于 {{ dig.created_on|relative_time }} 发表
+												</span>
+											</div>
+											{% if !dig.asset_count %}
 												<div class="description">
 													{{ dig.strip_description|truncate 70 }}
 												</div>
-												{% if dig.asset_count %}
-													<!--展示图片-->
-													<div class="ui small images">
-														{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 %}
-														{% for asset in assets.rows %}
-													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
-														{% endfor %}
-													</div>
-												{% endif %}
-												
-												<div class="ui divided horizontal list">
-												  	<div class="small item">
-														<a href="{{ dig.category.view_url }}" class="ui link">
-															{{ dig.category.title }}
-														</a>
-													</div>
-												  	<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a> <i class="time icon"></i>{{ dig.created_on|relative_time }}</div>
-													{% if topic.last_user %}
-													<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ dig.last_user.nickname }}</a> <i class="time icon"></i>{{ dig.last_reply_time|relative_time }}回复</div>
-													{% endif %}
+											{% else %}
+												{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 %}
+												<!--展示图片-->
+												<div class="ui small images">
+													{% for asset in assets.rows %}
+												  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+													{% endfor %}
 												</div>
-							
-									      	</div>
-										</div>
-										<div class="right aligned two wide hide-on-mobile column comment-counter">
-											<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-												<span class="dot-irecommend-count">{{ dig.comment_count }}</span> 
-												<span class="dot-irecommend-suffix"></span>
-											</a>
+											{% endif %}
 								      	</div>
-									</div>
-							  	</div>
+									</td>
+									<td>
+										{% if dig.last_user %}
+										<a class="ui link" href="{{ dig.last_user.home_url }}" title="{{ dig.last_user.nickname }}">
+									  		<img src="{{ dig.last_user.mini_avatar_url }}" class="ui avatar image" />
+										</a>
+										最后回复 {{ dig.last_reply_time|relative_time}}
+										{% endif %}
+									</td>
+									<td>
+										<a href="{{ dig.view_url }}#comment" class="dot-irecommend">
+											<span class="dot-irecommend-count">{{ dig.comment_count }}</span> 
+											<span class="dot-irecommend-suffix"></span>
+										</a>
+									</td>
+								</tr>
 							{% endfor %}
 						{% endif %}
 						
-						{% if !subject_category %}
-							
-						{% else %}
-							<!--产品话题专区-->
-							{% product_list var:'list' page:page only_subject:1 %}
-							{% for product in list.rows %}
-								{% include "block/product_subject_item.html" %}
-							{% endfor %}
-						{% endif %}
-					</div>
-					
+						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
+						{% for topic in list.rows %}
+							{% include "block/topic_item.html" %}
+						{% endfor %}
+						</tbody>
+					</table>
 				</div>
 				
 				{% if list.total_page %}
@@ -274,9 +202,8 @@
 				{% endif %}
 				
 			</div>
-			
-			
 		</div>
+
 	</div>
 </div>
 {% endblock %}

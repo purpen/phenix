@@ -65,7 +65,7 @@ server {
 
         location /topic {
           rewrite ^/topic[/]?$ /app/site/topic last;
-          rewrite ^/topic/c(\d+)[/]?$ /app/site/topic?category_id=$1 last;
+          rewrite ^/topic/c(\d+)[/]?$ /app/site/topic/get_list?category_id=$1 last;
           rewrite ^/topic/c(\d+)/t(\d+)[/]?$ /app/site/topic?category_id=$1&type=$2 last;
           rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/site/topic?category_id=$1&page=$2 last;
           rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/site/topic?category_id=$1&type=$2&page=$3 last;

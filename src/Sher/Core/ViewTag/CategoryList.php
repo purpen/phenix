@@ -55,6 +55,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Category::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_category_list($query,$options);
 		
