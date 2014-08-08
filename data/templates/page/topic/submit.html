@@ -18,8 +18,11 @@
 {% block page_js %}
 {% endblock %}
 {% block jquery %}
-	
 	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
 	$('#editor').editable({
 		inlineMode: false,
 		language: 'zh_cn',
@@ -37,8 +40,9 @@
 			$('#file_count').val(file_count);
 			
 			file_count++;
+			
 			// 重置参数
-			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
+			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
 		},
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	    // Catch image removal from the editor.
@@ -99,11 +103,6 @@
 			});
 		}
 	});
-	
-	var file_count = 1;
-	var ord = function(){
-		return file_count++;
-	};
 	
 	$('#phenix-uploader').fineUploader({
 		debug: true,

@@ -62,7 +62,6 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 	 */
 	public function qiniu_onelink() {
 		Doggy_Log_Helper::warn("Upload qiniu onelink callback.");
-		Doggy_Log_Helper::warn("保存图片失败：".json_encode($this->stash));
 		try{
 			$result = array();
 			$asset_info = $this->stash;
