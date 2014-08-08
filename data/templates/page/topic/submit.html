@@ -32,7 +32,7 @@
 		{% if app_mode != 'prod' %}
 		imageUploadParams: {'file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		{% endif %}
-		imageParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
+		imageParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' },
 		defaultImageWidth: 700,
 		maxImageSize: 1024 * 1024 * 3, // 3M
 		insertImageCallback: function (imageURL) {
@@ -41,7 +41,7 @@
 			
 			file_count++;
 			// 重置参数
-			$('#editor').editable("option", "imageParams", {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' });
+			$('#editor').editable("option", "imageParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}' });
 		},
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	    // Catch image removal from the editor.
