@@ -26,7 +26,7 @@ class Sher_Core_Util_Image {
         $policy = array(
                 'scope'        => Doggy_Config::$vars['app.qiniu.bucket'],
                 'deadline'     => time() + 3600,
-				'saveKey'      => '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)',
+				//'saveKey'      => '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)',
                 'callbackUrl'  => $callback_url,
 				'callbackBody' => 'filepath=$(key)&filename=$(fname)&size=$(fsize)&width=$(imageInfo.width)&height=$(imageInfo.height)&mime=$(mimeType)&hash=$(etag)&user_id=$(x:user_id)&parent_id=$(x:parent_id)&asset_type=$(x:asset_type)&domain=$(x:domain)&file_id=$(x:pid)',
 				'persistentOps' => 'avthumb/imageView/1/w/580/h/580/q/85|avthumb/imageView/1/w/160/h/120/q/90',
