@@ -81,6 +81,13 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	}
 	
 	/**
+	 * 智造革命专题
+	 */
+	public function z(){
+		return $this->to_html_page('page/wechat/z.html');
+	}
+	
+	/**
 	 * 查看产品详情
 	 */
 	public function view() {

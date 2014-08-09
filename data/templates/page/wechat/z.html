@@ -1,0 +1,208 @@
+{%extends 'layout/wechat.html'%}
+{% block title %}智造革命{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.responsive.grid {
+	padding: 0;
+}
+.ui.grid > .column, .ui.grid > .row > .column {
+	padding: 1em 8% 0em;
+	width: 100%;
+}
+.z.page {
+	 background: url("{{ app_url_packaged }}/images/zhizao-bg.jpg") repeat scroll center center;
+}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('.ui.cart.button').click(function(){
+		$.get($(this).attr('href'));
+		return false;
+	});
+{% endblock %}
+
+{% block layout_header %}
+{% endblock %}
+
+{% block content %}
+<div class="event list">
+	<div class="ui responsive grid">
+		<div class="row z page">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/zhizao-logo.png" alt="智造革命" />
+			</div>
+			<div class="column">
+				<div class="ui one items">
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-lisa.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									LISA智能孕表—您的孕期贴身闺蜜
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥799</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 650人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-goccia.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									Goccia－全球最小的智能可穿戴
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥799</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 610人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-dm.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									DM造梦者智能空气净化器
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥6950</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 450人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-loving.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									连爱智能手环
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥399</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 3500人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-light.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									世界首款太阳能电子蜡烛灯
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥148</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 4600人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-ezon.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									EZON宜准蓝牙智能S3运动表
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥699</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 200人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+					<div class="magenta item" id="product-{{ product._id }}">
+					  	<div class="image">
+							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+					      		<img src="{{ app_url_packaged }}/images/p-ueye.jpg" />
+							</a>
+					  	</div>
+					  	<div class="content">
+					      	<h4 class="ui dividing header">
+								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+									UEYE云眼
+								</a>
+							</h4>
+							<div class="sell clearfix">
+								<span class="price">
+									微信价：<span class="ui magenta text">￥599</span>
+								</span>
+					          	<div class="extra">
+					              	<small><i class="flat like icon"></i> 300人喜欢</small>
+					          	</div>
+							</div>
+					  	</div>
+					</div>
+					
+				</div>
+				
+				
+			</div>
+		</div>
+
+				
+	</div>
+</div>
+{% endblock %}
