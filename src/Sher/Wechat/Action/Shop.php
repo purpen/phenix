@@ -84,6 +84,8 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	 * 智造革命专题
 	 */
 	public function z(){
+		$product_ids = array(1080959165,1080959169,1060600664,1080959170,1080959172,1080959175,1080959177);
+		$this->stash['product_ids'] = $product_ids;
 		return $this->to_html_page('page/wechat/z.html');
 	}
 	
