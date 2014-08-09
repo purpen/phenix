@@ -178,8 +178,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	 */
 	public function edit(){
 		$id = (int)$this->stash['id'];
-		$model = new Sher_Core_Model_Product();
 		$mode = 'create';
+		
+		$model = new Sher_Core_Model_Product();
 		if(!empty($id)){
 			$mode = 'edit';
 			$this->stash['product'] = $model->load($id);
@@ -191,9 +192,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
 		$this->stash['editor_pid'] = new MongoId();
 
-		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
-		
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
 		
 		// 产品图片上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();

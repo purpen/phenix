@@ -55,8 +55,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				$revcontent = $weObj->getRev()->getRevContent();
 				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				if (!empty($revcontent)){
-					$data = $this->handle_text($revcontent);
-					$result = $weObj->news($data)->reply(array(), true);
+					$result = $this->handle_text($revcontent);
 				}else{ // 默认欢迎语
 					$welcome = $this->welcome();
 					$result = $weObj->text($welcome)->reply(array(), true);
@@ -98,12 +97,21 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		// 转换为小写
 		$content = strtolower($content);
 		$result = array();
+		
+		$weObj = new Sher_Core_Util_Wechat($this->options);
+		
 		switch($content){
-			case 'dm':
-				$result = $this->newest();
+			case '太火鸟':
+				$data = $this->newest();
+				$result = $weObj->news($data)->reply(array(), true);
+				break;
+			case '智造革命':
+				$text = $this->z();
+				$result = $weObj->text($text)->reply(array(), true);
 				break;
 			default:
-				$result = $this->newest();
+				$welcome = $this->welcome();
+				$result = $weObj->text($welcome)->reply(array(), true);
 				break;
 		}
 		
@@ -212,10 +220,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 订阅自动回复
 	 */
 	protected function welcome(){
-		$welcome = '您好，欢迎关注太火鸟！
-太火鸟是一个创新产品孵化加速器兼原创产品社会化电商平台，将于8月底正式启动，届时会推出10款原创智能创新产品，期待您的持续关注。了解更多，请猛戳：<a href="http://www.taihuoniao.com">www.taihuoniao.com</a>；参与全球首款革命性智能空气净化器活动，请回复：dm。';
+		$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。参与活动请回复“智造革命”。';
 		
 		return $welcome;
+	}
+	
+	/**
+	 * 智造革命专题
+	 */
+	protected function z(){
+		$text = '太火鸟已经将您的信息收录喽，中奖名单将于8月13日公布，敬请期待！';
+		return $text;
 	}
 	
 	/**
@@ -224,11 +239,23 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	protected function newest() {
 		$result = array(
 			"0" => array(
-				'Title' => '全球首款革命性智能空气净化器活动',
+				'Title' => '太火鸟梦想起航',
 				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
 				'PicUrl'=>'http://frstatic.qiniudn.com/images/product/dm-m-banner.jpg',
 				'Url'=>'http://www.taihuoniao.com/dm'
-			)
+			),
+			"1" => array(
+				'Title' => '太火鸟传奇',
+				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
+				'PicUrl'=>'http://frstatic.qiniudn.com/images/product/dm-m-banner.jpg',
+				'Url'=>'http://www.taihuoniao.com/dm'
+			),
+			"2" => array(
+				'Title' => '智造革命 太火鸟',
+				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
+				'PicUrl'=>'http://frstatic.qiniudn.com/images/product/dm-m-banner.jpg',
+				'Url'=>'http://www.taihuoniao.com/dm'
+			),
 		);
 		
 		return $result;

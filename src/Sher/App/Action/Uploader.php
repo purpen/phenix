@@ -190,6 +190,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$image_info = Sher_Core_Util_Image::image_info($file);
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
+				$image_info['file_id'] =  $this->stash['file_id'];
 		        $image_info['filename'] = basename($filename);
 				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, $asset_domain);
 				$image_info['domain'] = $asset_domain;

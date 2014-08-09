@@ -1,5 +1,5 @@
 {%extends 'layout/wechat.html'%}
-{% block title %}智造革命{% endblock %}
+{% block title %}智造革命-太火鸟&LKK{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .ui.responsive.grid {
@@ -11,6 +11,14 @@
 }
 .z.page {
 	 background: url("{{ app_url_packaged }}/images/zhizao-bg.jpg") repeat scroll center center;
+}
+h4.ui.header {
+    font-size: 1.02rem;
+    line-height: 1.33;
+}
+h4.ui.header .advantage {
+	font-size: 0.75em;
+	margin: 0.5em 0;
 }
 </style>
 {% endblock %}
@@ -32,24 +40,25 @@
 			</div>
 			<div class="column">
 				<div class="ui one items">
-					<div class="magenta item" id="product-{{ product._id }}">
+					<div class="magenta item" id="product-1080900851">
 					  	<div class="image">
-							<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
+							<a href="{{ app_url_domain }}/wechat/1080900851.html" title="LISA智能孕表—您的孕期贴身闺蜜">
 					      		<img src="{{ app_url_packaged }}/images/p-lisa.jpg" />
 							</a>
 					  	</div>
 					  	<div class="content">
 					      	<h4 class="ui dividing header">
-								<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
+								<a href="{{ app_url_domain }}/wechat/1080900851.html" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">
 									LISA智能孕表—您的孕期贴身闺蜜
 								</a>
+								<div class="advantage">国内一款针对母婴群体的智能手表！</div>
 							</h4>
 							<div class="sell clearfix">
 								<span class="price">
 									微信价：<span class="ui magenta text">￥799</span>
 								</span>
 					          	<div class="extra">
-					              	<small><i class="flat like icon"></i> 650人喜欢</small>
+					              	<small><i class="heart icon"></i> 650人喜欢</small>
 					          	</div>
 							</div>
 					  	</div>
