@@ -53,12 +53,16 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$revcontent = $weObj->getRev()->getRevContent();
+				// 转换为小写
+				$content = strtolower($content);
 				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
-				if (!empty($revcontent)){
-					$result = $this->handle_text($revcontent);
-				}else{ // 默认欢迎语
-					$welcome = $this->welcome();
-					$result = $weObj->text($welcome)->reply(array(), true);
+				
+				if($content == '太火鸟'){
+					$data = $this->newest();
+					$result = $weObj->news($data)->reply(array(), true);
+				}elseif($content == '智造革命'){
+					$text = $this->z();
+					$result = $weObj->text($text)->reply(array(), true);
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
@@ -97,23 +101,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		// 转换为小写
 		$content = strtolower($content);
 		$result = array();
-		
-		$weObj = new Sher_Core_Util_Wechat($this->options);
-		
-		switch($content){
-			case '太火鸟':
-				$data = $this->newest();
-				$result = $weObj->news($data)->reply(array(), true);
-				break;
-			case '智造革命':
-				$text = $this->z();
-				$result = $weObj->text($text)->reply(array(), true);
-				break;
-			default:
-				$welcome = $this->welcome();
-				$result = $weObj->text($welcome)->reply(array(), true);
-				break;
-		}
 		
 		Doggy_Log_Helper::warn("Handle text result[".json_encode($result)."]!");
 		
