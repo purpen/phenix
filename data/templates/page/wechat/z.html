@@ -6,7 +6,7 @@
 	padding: 0;
 }
 .ui.grid > .column, .ui.grid > .row > .column {
-	padding: 1em 8% 0em;
+	padding: 1em 6% 0em;
 	width: 100%;
 }
 .z.page {
@@ -17,10 +17,7 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('.ui.cart.button').click(function(){
-		$.get($(this).attr('href'));
-		return false;
-	});
+
 {% endblock %}
 
 {% block layout_header %}
