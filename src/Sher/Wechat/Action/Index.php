@@ -53,9 +53,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$revcontent = $weObj->getRev()->getRevContent();
-				// 转换为小写
-				$content = strtolower($content);
 				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
+				// 转换为小写
+				$content = strtolower($revcontent);
 				
 				if($content == '太火鸟'){
 					$data = $this->newest();
