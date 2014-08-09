@@ -20,6 +20,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		// 获取单个产品
 		$product_id = 0;
+		// 多个产品
+		$product_ids = array();
 		$sku = 0;
 		
 		$category_id = 0;
@@ -49,8 +51,6 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-     	
-        $options['sort_field'] = $sort;
 		
 		// 获取单个产品
 		if ($product_id) {
@@ -58,6 +58,14 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$context->set($var, $result);
 			return;
 		}
+		
+		// 获取一组产品列表
+		if (!empty($product_ids)){
+			$result = DoggyX_Model_Mapper::load_model_list($product_ids, 'Sher_Core_Model_Product');
+			$context->set($var, $result);
+			return;
+		}
+		
 		// 获取单个产品
 		if ($sku) {
             $product = new Sher_Core_Model_Product();
@@ -98,6 +106,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+		
+		$options['sort_field'] = $sort;
 		
         $result = $service->get_product_list($query, $options);
 		

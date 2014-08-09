@@ -93,6 +93,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		// 分步骤保存信息
 		$data = array();
 		$data['title'] = $this->stash['title'];
+		$data['advantage'] = $this->stash['advantage'];
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		$data['category_id'] = $this->stash['category_id'];
