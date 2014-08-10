@@ -2,62 +2,6 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.social.page {
-		margin-top: 2em;
-	}
-	.ui.marginnotop.header {
-		margin: 0 0 1rem;
-	}
-	.ui.content {
-		margin-top: 2em;
-		line-height: 1.5em;
-	}
-	.ui.content p.asset {
-		text-align: center;
-	}
-	.ui.content p.asset img {
-		max-width: 700px;
-	    min-width: 320px;
-	    width: 100%;
-	}
-	
-	.ui.big.segment {
-		padding: 2.5em;
-	}
-	.ui.big.segment .ui.header .content {
-	    font-size: 1.125em;
-	    line-height: 1.5;
-	    margin-left: 0.5em;
-		margin-top: 0.5em;
-	}
-	.ui.big.segment .ui.header .content .attribute {
-		margin: 0 0 0.75em;
-		font-size: 0.925rem;
-		color: rgba(0, 0, 0, 0.4);
-	}
-	.post, .tags {
-	    font-size: 1em;
-	    line-height: 1.5;
-	    margin-left: 5em;
-	}
-	.tags .ui.link {
-		margin-right: 0.85em;
-	}
-	.ui.big.segment .actions {
-		margin-top: 2.5em;
-	}
-	.ui.icon.buttons .button, 
-	.ui.buttons .icon.button {
-		padding: 0.8em 0.9em;
-	}
-	
-	#postpage .ui.comments .comment > .content > .metadata {
-	    color: rgba(0, 0, 0, 0.3);
-	    float: right;
-	}
-	#postpage .ui.comments .comment > .content > .text {
-	    margin: 0.5em 0 1em;
-	}
 </style>
 {% endblock %}
 {% block js %}
@@ -131,7 +75,7 @@
 		
 		<div class="row">
 			<div class="column">
-				<div class="ui big post segment">
+				<div class="ui big segment">
 					<div class="ui header">
 						<a class="ui small avatar image" href="{{ topic.user.home_url }}">
 				      		<img src="{{ topic.user.small_avatar_url }}" />

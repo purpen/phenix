@@ -4,13 +4,12 @@
 <style type="text/css">
 	.ui.tophead {
 	    background: url("{{ app_url_packaged }}/images/lisawatch-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
-	}
+	}	
 </style>
 {% endblock %}
 {% block jquery %}
 	
 {% endblock %}
-
 
 {% block tophead %}
 <div class="ui tophead">
@@ -80,33 +79,47 @@
 						{% endfor %}
 					</div>
 					
-					<table class="ui basic table">
-						{% topic_list var:'list' category_id:cat._id is_top:1 time:time sort:sort page:1 size:5 %}
-						{% for topic in list.rows %}
-							<tr>
-								<td class="nine wide">
-						          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-								</td>
-								<td>
-									<a class="ui small link" href="{{ topic.user.home_url }}">
-							      		<img src="{{ topic.user.mini_avatar_url }}" class="ui avatar image" /> {{ topic.user.nickname }}
-									</a>
-								</td>
-								<td>
-									{% if topic.last_user %}
-									最后回复 {{ topic.last_reply_time|relative_time}}
-									{% endif %}
-								</td>
-								<td>
-									<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-										<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
-										<span class="dot-irecommend-suffix"></span>
-									</a>
-								</td>
-							</tr>
-						{% endfor %}
-					</table>
+					{% topic_list var:'list' category_id:cat._id is_top:1 time:time sort:sort page:1 size:5 %}
 					
+					<div class="ui computer tablet only block">
+						<table class="ui basic table">
+							{% for topic in list.rows %}
+								<tr>
+									<td class="nine wide">
+							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+									</td>
+									<td>
+										<a class="ui small link" href="{{ topic.user.home_url }}">
+								      		<img src="{{ topic.user.mini_avatar_url }}" class="ui avatar image" /> {{ topic.user.nickname }}
+										</a>
+									</td>
+									<td>
+										{% if topic.last_user %}
+										最后回复 {{ topic.last_reply_time|relative_time}}
+										{% endif %}
+									</td>
+									<td>
+										<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+											<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
+											<span class="dot-irecommend-suffix"></span>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
+					
+					<div class="ui mobile only block">
+						<table class="ui basic table">
+							{% for topic in list.rows %}
+								<tr>
+									<td>
+							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
 				</div>
 			{% endfor %}
 			

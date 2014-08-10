@@ -7,6 +7,7 @@
 	}
 </style>
 {% endblock %}
+
 {% block jquery %}
 	
 {% endblock %}
@@ -19,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui social">
+<div class="ui social" id="topiclist">
 	<div class="ui responsive grid">
 		<div class="middle aligned row">
 			<div class="eleven wide column">
@@ -59,7 +60,6 @@
 								<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }} <small>({{ cat.total_count }})</small></a>
 							{% endif %}
 						{% endfor %}
-					
 				    	<div class="right menu">
 							<a class="ui showbox magenta item" href="#advanced-filter-topic">
 								<i class="list layout icon"></i>
