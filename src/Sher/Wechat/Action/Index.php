@@ -46,9 +46,10 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
+		$toUserName = $weObj->getRev()->getRevTo();
 		
-		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."]!");
-		Doggy_Log_Helper::warn("Get  rev content [".json_encode($revcontent)."]!");
+		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], toUserName[$toUserName]!");
+		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
@@ -66,20 +67,15 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
-				if (!isset($event['key']) || empty($event['key'])){  // 默认欢迎语
-					$welcome = $this->welcome();
-					$result = $weObj->text($welcome)->reply(array(), true);
+				$rev_data = $weObj->getRev()->getRevData();
+				$data = $this->handle_event($event, $rev_data);
+				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
+					$result = $weObj->text($data)->reply(array(), true);
 				}else{
-					$rev_data = $weObj->getRev()->getRevData();
-					$data = $this->handle_event($event, $rev_data);
-					if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
+					if ($event['event'] == 'subscribe' || strtolower($event['event']) == 'scan'){ // 扫描二维码关注
 						$result = $weObj->text($data)->reply(array(), true);
-					}else{
-						if ($event['event'] == 'subscribe' || strtolower($event['event']) == 'scan'){ // 扫描二维码关注
-							$result = $weObj->text($data)->reply(array(), true);
-						} else {
-							$result = $weObj->news($data)->reply(array(), true);
-						}
+					} else {
+						$result = $weObj->news($data)->reply(array(), true);
 					}
 				}
 				break;
@@ -128,7 +124,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			case 'MENU_KEY_SOCIAL_CONTACT':
 				$result = $this->contact();
 				break;
-			default:
+			case 'MENU_KEY_ORDER':
+				$result = $this->myorders();
 				break;
 		}
 		
@@ -193,6 +190,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		
 			return $welcome;
 		}
+	}
+	
+	/**
+	 * 返回我的订单信息
+	 */
+	protected function myorders(){
+		
 	}
 	
 	/**
@@ -286,9 +290,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 								"key" => "MENU_KEY_FEEDBACK"
 							),
 							array(
-						   	 	"type" => "view",
+						   	 	"type" => "click",
 						   	 	"name" => "我的订单",
-								"url" => "http://www.taihuoniao.com/my/orders"
+								"key" => "MENU_KEY_ORDER"
 							),
 							array(
 						   	 	"type" => "click",
