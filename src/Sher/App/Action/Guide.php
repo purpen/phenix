@@ -8,7 +8,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','about','succase');
+	protected $exclude_method_list = array('execute','about','contact','succase','media');
 
 	/**
 	 * 默认入口
@@ -23,6 +23,13 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	public function about() {
 		$this->set_target_css_state('page_about');
 		return $this->to_html_page('page/guide/about.html');
+	}
+	
+	/**
+	 * 媒体报道
+	 */
+	public function media() {
+		return $this->to_html_page('page/guide/media.html');
 	}
 	
 	/**

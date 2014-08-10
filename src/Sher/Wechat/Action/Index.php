@@ -228,14 +228,14 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			"0" => array(
 				'Title' => '太火鸟梦想起航',
 				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
-				'PicUrl'=>'http://frstatic.qiniudn.com/images/product/dm-m-banner.jpg',
+				'PicUrl'=>'http://mmbiz.qpic.cn/mmbiz/rPtCeu0vEpQalggOXdbRXwTnSLsWaOa9wzkJITUNJ2E2ebBQLuia8MFfMTzRnnO23dMkklLaHylsBHxR3NeJAeQ/640',
 				'Url'=>'http://www.taihuoniao.com/dm'
 			),
 			"1" => array(
 				'Title' => '太火鸟传奇',
-				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
-				'PicUrl'=>'http://frstatic.qiniudn.com/images/product/dm-m-banner.jpg',
-				'Url'=>'http://www.taihuoniao.com/dm'
+				'Description'=>'太火鸟栖息在海拔2000米左右的高山上，吃天露花蜜，在空中轻盈灵巧的飞舞时，能发出一阵阵迷人的乐声。',
+				'PicUrl'=>'http://frbird.qiniudn.com/topic/140809/53e5e1cd989a6a1d078b63fd-1-hu.jpg',
+				'Url'=>'http://www.taihuoniao.com/topic/view-100009-1.html'
 			),
 			"2" => array(
 				'Title' => '智造革命 太火鸟',
