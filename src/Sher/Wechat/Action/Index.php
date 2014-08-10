@@ -17,6 +17,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	// 配置微信参数
 	public $options = array();
 	
+	// 微信用户openid
+	public $wx_open_id = '';
+	
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/wechat/index.html';
 	
@@ -51,6 +54,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
 		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
+		$this->wx_open_id = $fromUserName;
+		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$revcontent = $weObj->getRev()->getRevContent();
@@ -69,9 +74,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
 				$rev_data = $weObj->getRev()->getRevData();
 				$data = $this->handle_event($event, $rev_data);
-				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
+				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT' || $event['key'] == 'MENU_KEY_ORDER'){ // 联系我们，我的订单
 					$result = $weObj->text($data)->reply(array(), true);
-				}else{
+				} else {
 					if ($event['event'] == 'subscribe'){ // 扫描二维码关注, strtolower($event['event']) == 'scan'
 						$result = $weObj->text($data)->reply(array(), true);
 					} else {
@@ -197,7 +202,36 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 返回我的订单信息
 	 */
 	protected function myorders(){
+		$default_text = '亲，还没有下单哦，更多精彩快行动吧！';
+		if (empty($this->wx_open_id)) {
+			return $default_text;
+		}
+		// 检测是否存在用户
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('wx_open_id'=>$this->wx_open_id));
+		// 不存在用户
+		if (empty($result)) {
+			return $default_text;
+		}
+		$user_id = $result['_id'];
 		
+		// 获取订单信息
+		$query = array(
+			'user_id' => (int)$user_id,
+			'status' => array('$in' => array(Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,Sher_Core_Util_Constant::ORDER_READY_GOODS,Sher_Core_Util_Constant::ORDER_SENDED_GOODS))
+		);
+		$orders = new Sher_Core_Model_Orders();
+		$list = $orders->find($query);
+		if (empty($list)){
+			return $default_text;
+		}
+		$extlist = $orders->extended_model_row($list);
+		$result_text = '';
+		for($i=0;$i<count($extlist);$i++){
+			$result_text .= "订单号：".$extlist[$i]['rid']." <br />订单金额：".$extlist[$i]['pay_money']."<br />订单状态：".$extlist[$i]['status_label']."<br />--------------------";
+		}
+		
+		return $result_text;
 	}
 	
 	/**
