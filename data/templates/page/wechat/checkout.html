@@ -2,42 +2,8 @@
 {% block title %}确认订单-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.fever-view .wide.cover.column {
-		padding-right: 0;
-	}
-	.product.designer > .column {
-		margin-bottom: 0rem;
-		margin-top: 0rem;
-	}
-	.product .attributes {
-		
-	}
-	.product .attributes .letter-spacing-two {
-		letter-spacing: 2em;
-	}
-	.product .attributes .price {
-		font-size: 1.5em;
-		color: #F42156;
-	}
-	
-	.cover-thumb {
-		text-align: center;
-	}
-	.vote.timer .button {
-		padding-left: 4em;
-		padding-right: 4em;
-	}
-	.ui.inventor {
-		background-color:rgba(255,51,102,1);
-		color: #fff;
-	}
-	.inventor .inventor-info {
-	    margin: 1em auto;
-	    text-align: center;
-	}
-	.inventor .inventor-info .summary {
+	.wechat.checkout {
 		margin: 1em auto;
-		line-height: 24px;
 	}
 	.ui.list > .item {
 		padding-left: 0em;
@@ -190,9 +156,9 @@
 	<div class="ui responsive grid">		
 		<div class="row">
 			<div class="column">
-				<h3 class="ui inverted green header">确认订单</h3>
-				
-				<h3 class="ui dividing header"></h3>
+				<h3 class="ui dividing header">
+					确认订单
+				</h3>
 				<div class="ui vertical fluid address menu">
 					<div class="item ui address">
 						<div id="choose-address">确认收货地址</div>
@@ -210,32 +176,39 @@
 				
 				<h3 class="ui header">订单信息</h3>
 				<div class="ui segment">
-					<div class="ui list">
+					<table class="ui basic table">
 						{% for product in data.items %}
-						<div class="item" id="product_{{ product.sku }}">
-							<div class="mm-image">
+						<tr id="product_{{ product.sku }}">
+							<td>
 								<a href="{{ product.view_url }}" class="ui cover image">
 						      		<img src="{{ product.cover }}" alt="{{ product.title }}" />
 								</a>
-							</div>
-							<div class="mm-content">
-					          	<div class="header">
-									<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+							</td>
+							<td>
+					          	<div class="ui header">
+									<div class="content">
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+										<div class="sub header">
+								          	<p class="attribute">价格：￥{{ product.sale_price }}</p>
+											<p class="attribute">数量：{{ product.quantity }}</p>
+										</div>
+									</div>
 								</div>
-					          	<p class="attribute">价格：￥{{ product.sale_price }}</p>
-								<p class="attribute">数量：{{ product.quantity }}</p>
-							</div>
-						</div>
+							</td>
+						</tr>
 						{% endfor %}
+					</table>
+					<div class="ui list">
 						<div class="item">
 							配送方式 （快递：免运费）
+						</div>
+						<div class="item">
+							实付金额：￥{{ pay_money }}
 						</div>
 					</div>
 				</div>
 				
-				<p>实付金额：￥{{ pay_money }}</p>
-				
-				<button class="ui weixin fluid wxpay button">微信支付</button>
+				<button class="fluid ui weixin wxpay button">微信支付</button>
 				
 			</div>
 		</div>
