@@ -232,8 +232,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		}
 		$extlist = $orders->extended_model_row($list);
 		$result_text = '';
+		Doggy_Log_Helper::warn("Get orders result [".json_encode($extlist)."]!");
 		for($i=0;$i<count($extlist);$i++){
-			$result_text .= "订单号：".$extlist[$i]['rid']." <br />订单金额：￥".$extlist[$i]['pay_money']."<br />订单状态：".$extlist[$i]['status_label']."<br />--------------------";
+			$result_text .= "订单号：".$extlist[$i]['rid'].",订单金额：￥".$extlist[$i]['pay_money'].",订单状态：".$extlist[$i]['status_label'].".";
 		}
 		
 		return $result_text;
