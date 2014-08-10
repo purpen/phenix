@@ -48,7 +48,11 @@
 				      	订单号：{{ order.rid }}
 				  	</div>
 				  	<div class="item">
-				      	{{ order.addbook.name }} 
+						{% if order.from_site == 5 %}
+							{{ order.express_info.name }} 
+						{% else %}
+				      		{{ order.addbook.name }} 
+						{% endif %}
 				  	</div>
 				  	<div class="item">
 				      	下单时间：{{ order.created_on|date }}
