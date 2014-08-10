@@ -220,15 +220,20 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			'user_id' => (int)$user_id,
 			'status' => array('$in' => array(Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,Sher_Core_Util_Constant::ORDER_READY_GOODS,Sher_Core_Util_Constant::ORDER_SENDED_GOODS))
 		);
+		$options = array(
+			'page' => 1,
+			'size' => 1,
+			'sort' => array('created_on'=>-1)
+		);
 		$orders = new Sher_Core_Model_Orders();
-		$list = $orders->find($query);
+		$list = $orders->find($query,$options);
 		if (empty($list)){
 			return $default_text;
 		}
 		$extlist = $orders->extended_model_row($list);
 		$result_text = '';
 		for($i=0;$i<count($extlist);$i++){
-			$result_text .= "订单号：".$extlist[$i]['rid']." <br />订单金额：".$extlist[$i]['pay_money']."<br />订单状态：".$extlist[$i]['status_label']."<br />--------------------";
+			$result_text .= "订单号：".$extlist[$i]['rid']." <br />订单金额：￥".$extlist[$i]['pay_money']."<br />订单状态：".$extlist[$i]['status_label']."<br />--------------------";
 		}
 		
 		return $result_text;
