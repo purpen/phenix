@@ -14,7 +14,6 @@
 		float: left;
 		margin-right: 1em;
 	}
-	
 	.ui.vertical.address.menu .item {
 		padding: 0.83em 2.05em 0.83em 0.95em;
 		cursor: pointer;
@@ -28,6 +27,9 @@
 	    top: 45%;
 	}
 	
+	.ui.header small a {
+		font-size: 0.8em;
+	}
 </style>
 {% endblock %}
 
@@ -174,7 +176,7 @@
 					<input type="hidden" name="addressDetailInfo" id="addressDetailInfo" />
 				</div>
 				
-				<h3 class="ui header">订单信息</h3>
+				<h3 class="ui header">订单信息 <small><a href="{{ app_url_domain }}/wxpay/clean?rid={{ rid }}" class="ui link">清空订单</a></small></h3>
 				<div class="ui segment">
 					<table class="ui basic table">
 						{% for product in data.items %}

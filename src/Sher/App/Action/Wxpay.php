@@ -71,6 +71,37 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
+	 * 清空订单信息
+	 */
+	public function clean(){
+		$rid = $this->stash['rid'];
+		$return_url = $_SERVER['HTTP_REFERER'];
+		if (empty($rid)){
+			return $this->show_message_page('缺少请求参数，请核对！', $return_url);
+		}
+		
+		try{
+			// 清空购物车
+			$cart = new Sher_Core_Util_Cart();
+			$cart->clearCookie();
+		
+			// 删除临时订单信息
+			$model = new Sher_Core_Model_OrderTemp();
+			$model->remove(array(
+				'rid' => $rid
+			));
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Clean cart & temp order failed!");
+			return $this->show_message_page('清空订单信息失败，请重试！', $return_url);
+		}
+		
+		// 临时返回智造革命专题
+		$next_url = Doggy_Config::$vars['app.url.domain'].'/wechat/shop/z';
+		
+		return $this->show_message_page('订单信息已清空！', $next_url);
+	}
+	
+	/**
 	 * 检查用户授权信息
 	 */
 	public function wxoauth(){
@@ -163,6 +194,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		if (!$user_id || empty($code)){
 			Doggy_Log_Helper::warn("Wechat oauth user_id,code fail!");
+			return $this->show_message_page('用户授权失败，请重试！');
 		}
 		
 		$wechat = new Sher_Core_Util_Wechat($this->options);
@@ -276,6 +308,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			);
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
+			return $this->show_message_page('微信支付授权失败，请重试！');
 		}
 		
 		$this->stash['wxoptions'] = $wxoptions;
