@@ -222,19 +222,24 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		);
 		$options = array(
 			'page' => 1,
-			'size' => 1,
+			'size' => 5,
 			'sort' => array('created_on'=>-1)
 		);
 		$orders = new Sher_Core_Model_Orders();
-		$list = $orders->find($query,$options);
-		if (empty($list)){
+		$extlist = $orders->find($query,$options);
+		if (empty($extlist)){
 			return $default_text;
 		}
-		$extlist = $orders->extended_model_row($list);
 		$result_text = '';
-		Doggy_Log_Helper::warn("Get orders result [".json_encode($extlist)."]!");
 		for($i=0;$i<count($extlist);$i++){
-			$result_text .= "订单号：".$extlist[$i]['rid'].",订单金额：￥".$extlist[$i]['pay_money'].",订单状态：".$extlist[$i]['status_label'].".";
+			if ($extlist[$i]['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+				$status_label = '等待付款';
+			} else if ($extlist[$i]['status'] == Sher_Core_Util_Constant::ORDER_READY_GOODS){
+				$status_label = '正在配货';
+			} else if ($extlist[$i]['status'] == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
+				$status_label = '已发货';
+			}
+			$result_text .= "订单号：".$extlist[$i]['rid'].",订单金额：￥".$extlist[$i]['pay_money'].",订单状态：".$status_label.".";
 		}
 		
 		return $result_text;
