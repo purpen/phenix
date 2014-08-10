@@ -37,6 +37,7 @@
 				<th>最后更新时间</th>
 				<th>文件大小</th>
 				<th>所属目标</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,6 +62,9 @@
 				</td>
 				<td>
 					{% if asset.asset_type == 10 %}产品：{% endif %}{{ asset.parent_id }}
+				</td>
+				<td>
+					<a href="{{ app_url_admin }}/asset/delete?id={{ asset._id }}" class="ui ajax link">删除</a>
 				</td>
 			</tr>
 			{% endfor %}

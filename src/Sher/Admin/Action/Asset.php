@@ -45,40 +45,13 @@ class Sher_Admin_Action_Asset extends Sher_Admin_Action_Base implements Doggy_Di
 	}
 	
 	/**
-	 * 保存公告
-	 */
-	public function save() {
-		$row = array();
-		$row['user_id'] = (int)$this->visitor->id;
-		$row['content'] = $this->stash['content'];
-		// 验证数据
-		if(empty($row['content'])){
-			return $this->ajax_note('获取数据错误,请重新提交', true);
-		}
-		
-		$cake = new Sher_Core_Model_Cake();
-		if(empty($this->stash['_id'])){
-			$ok = $cake->apply_and_save($row);
-		}else{
-			$row['_id'] = $this->stash['_id'];
-			$ok = $cake->apply_and_update($row);
-		}
-		
-		if(!$ok){
-			return $this->ajax_note('数据保存失败,请重新提交', true);
-		}
-		
-		return $this->ajax_notification('公告保存成功.');
-	}
-	
-	/**
-	 * 删除公告
+	 * 删除附件
 	 */
 	public function delete() {
 		$id = $this->stash['id'];
 		if(!empty($id)){
-			$cake = new Sher_Core_Model_Cake();
-			$cake->remove($id);
+			$model = new Sher_Core_Model_Asset();
+			$model->delete_file($id);
 		}
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('admin/del_ok.html');
