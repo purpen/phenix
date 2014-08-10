@@ -46,9 +46,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		// $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
-		$toUserName = $weObj->getRev()->getRevTo();
+		$fromUserName = $weObj->getRev()->getRevFrom();
 		
-		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], toUserName[$toUserName]!");
+		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
 		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		switch($type) {
@@ -72,7 +72,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT'){ // 联系我们
 					$result = $weObj->text($data)->reply(array(), true);
 				}else{
-					if ($event['event'] == 'subscribe' || strtolower($event['event']) == 'scan'){ // 扫描二维码关注
+					if ($event['event'] == 'subscribe'){ // 扫描二维码关注, strtolower($event['event']) == 'scan'
 						$result = $weObj->text($data)->reply(array(), true);
 					} else {
 						$result = $weObj->news($data)->reply(array(), true);
@@ -134,7 +134,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		// 扫描关注二维码
 		switch($event){
 			case 'subscribe':
-				$result = $this->handle_subscribe($rev_data);
+				// $result = $this->handle_subscribe($rev_data);
+				$result = $this->welcome();
 				break;
 			case 'scan':
 				$result = $this->handle_scan($rev_data);
