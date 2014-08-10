@@ -228,8 +228,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			"0" => array(
 				'Title' => '太火鸟梦想起航',
 				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
-				'PicUrl'=>'http://mmbiz.qpic.cn/mmbiz/rPtCeu0vEpQalggOXdbRXwTnSLsWaOa9wzkJITUNJ2E2ebBQLuia8MFfMTzRnnO23dMkklLaHylsBHxR3NeJAeQ/640',
-				'Url'=>'http://www.taihuoniao.com/dm'
+				'PicUrl'=>'http://frbird.qiniudn.com/topic/140810/53e70f85989a6a383e8b4b17-3-hu.jpg',
+				'Url'=>'http://www.taihuoniao.com/topic/view-100012-1.html'
 			),
 			"1" => array(
 				'Title' => '太火鸟传奇',
@@ -238,10 +238,10 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				'Url'=>'http://www.taihuoniao.com/topic/view-100009-1.html'
 			),
 			"2" => array(
-				'Title' => '智造革命 太火鸟',
-				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
-				'PicUrl'=>'http://frstatic.qiniudn.com/images/product/dm-m-banner.jpg',
-				'Url'=>'http://www.taihuoniao.com/dm'
+				'Title' => '智造革命 太火鸟&LKK',
+				'Description'=>'智造革命活动,参与就有机会赢取大奖',
+				'PicUrl'=>'http://frstatic.qiniudn.com/images/case-dm.jpg',
+				'Url'=>'http://www.taihuoniao.com/topic/view-100013-1.html'
 			),
 		);
 		
