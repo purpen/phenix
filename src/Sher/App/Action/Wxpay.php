@@ -127,8 +127,12 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			$user_id = $user['_id'];
 			
+			Doggy_Log_Helper::warn("Wechat user[$user_id] auto login!");
+			
 			// 实现自动登录
 			Sher_Core_Helper_Auth::create_user_session($user_id);
+			
+			Doggy_Log_Helper::warn("Wechat user[$user_id] set to cache!");
 			
 			// set the cache access_token
 			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
@@ -140,6 +144,8 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $code, $state);
 			
+			Doggy_Log_Helper::warn("Wechat redirect[$next_url]!");
+			
 			return $this->to_redirect($next_url);
 		}	
 	}
@@ -147,10 +153,13 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	/**
 	 * 确认订单
 	 */
-	public function checkout(){		
+	public function checkout(){	
+		Doggy_Log_Helper::warn("Wechat checkout resquest!");
+		
 		$state = $this->stash['state'];
 		$code = $this->stash['code'];
 		$user_id = $this->stash['user_id'];
+		
 		
 		if (!$user_id || empty($code)){
 			Doggy_Log_Helper::warn("Wechat oauth user_id,code fail!");
