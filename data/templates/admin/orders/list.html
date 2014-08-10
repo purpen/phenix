@@ -87,7 +87,7 @@
 				{% if order.from_site == 5 %}
 					{{ order.express_info.name }} 
 				{% else %}
-		      		{{ order.addbook.name }} 
+		      		{{ order.addbook.name|default '太火鸟用户'}} 
 				{% endif %}
 		  	</div>
 		  	<div class="item">
