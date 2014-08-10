@@ -239,7 +239,10 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			} else if ($extlist[$i]['status'] == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
 				$status_label = '已发货';
 			}
-			$result_text .= "订单号：".$extlist[$i]['rid'].",订单金额：￥".$extlist[$i]['pay_money'].",订单状态：".$status_label.".";
+			$result_text .= "订单号：".$extlist[$i]['rid']."\n订单金额：￥".$extlist[$i]['pay_money']."\n订单状态：".$status_label."\n下单时间：".date('Y-m-d H:i', $extlist[$i]['created_on'])."\n";
+			if ($i != count($extlist)-1){
+				$result_text .= "~~~~~~~~~~~~~~~~";
+			}
 		}
 		
 		return $result_text;
