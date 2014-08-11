@@ -1,0 +1,129 @@
+{%extends 'layout/column.html'%}
+{% block title%}Goccia全球最小的可穿戴-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/kz_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 300280, 400);
+	phenix.doit('goccia-people', 610);
+	phenix.doit('goccia-precent', 800);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/kz_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/goccia'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					Goccia <br />全球最小的可穿戴 亮相一抢而空
+					<div class="sub header">
+						2014年5月，太火鸟开始筹划全球最小的可穿戴设备Goccia的营销推广，其中包括卖点的提炼、详情页的设计、推广计划的制定等，2周后，Goccia亮相淘宝·星愿，在大量传播资源的支持下，以破竹之势抢购一空，达成率600%，销售610套，完成原计划一个月需要完成的300280元众筹目标。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>创意家居</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">300280</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">610</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">800</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>2013年，Goccia在实验室里有了最初的雏形，在整个可穿戴技术领域看来，已有很多企业开始投入研发，虽然行业前辈林立，而Goccia年轻的工程师们却对此保有自己的见解，他们是一群“偏执狂“和”完美主义者“，对于产品细节的追求近乎疯狂。</p>
+					<p>工程师们仿若从一个个戴着眼镜的书呆子蜕变成了手持凿锤的雕刻艺术家。Goccia出落的并不怎么像个运动检测器，几经雕琢，体型庞大的雏形机已变得如纽扣般大小，所有零件浑然一体，如果是从正面观摩，呼吸般明暗有致的信号灯使TA像极了一滴有灵魂的水滴——一个有生命的艺术品。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/kz_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/kz_02.jpg" class="ui image" />
+					</div>
+				</div>
+
+				<div class="wz">
+					<p>更具诗意的是，设计师将Goccia的数据传输打造为可见光传输，一束束代表着身体状况的数据通过光传递给手机，让我们更加了解自己，无辐射的光将Goccia的能耗降到最低，无线充电的设计让TA更完美。而这些光的背后，承载着工程师们对尖端科技的追逐。
+					</p>
+					<p>用户可以将它佩戴在几乎所有你能想象的地方，无需繁琐手动切换，TA不仅可以记录每天行走的步数和消耗的卡路里，优良的算法也适用于监测各种运动，同时帮助我们监测睡眠质量，可见光同步数据与您的智能设备及时沟通，无辐射让您更加放心。</p>
+					<p>Goccia让我们通过更有趣的方式了解自己、了解世界。前路无限，探索永存，就像在黑暗中的一束光，微弱，但它执拗的坚持着自己的方向，这便是属于G-wearable（Goccia母公司）的工程师们的光，与信念为伍，积极成就，不肆张扬，不为炫耀，纯粹分享，彼此恪守，追求极致，相信在不远的未来，这道光一定会划开新的篇章。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/kz_03.jpg" class="ui image" />
+						<p>在《芭莎男士》陈威廉组织的创新饭局上，巨星古天乐 、土豆网CEO杨伟东、百事中国CMO Richard、广告峰会金投赏创始人贺欣浩也佩戴试用了Goccia.</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/kz_04.jpg" class="ui image" />
+						<p>著名歌手胡海泉这样评价太火鸟：“设计之于未来等于翅膀之于凤凰。传统工业，再不涅槃，如何继续？”</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

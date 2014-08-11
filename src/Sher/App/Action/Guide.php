@@ -55,5 +55,46 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		return $this->to_html_page('page/guide/case.html');
 	}
 	
+	/**
+	 * 成功案例-Goccia
+	 */
+	public function goccia() {
+		return $this->to_html_page('page/case/goccia.html');
+	}
+	
+	/**
+	 * 成功案例-Light
+	 */
+	public function light() {
+		return $this->to_html_page('page/case/light.html');
+	}
+	
+	/**
+	 * 成功案例-Lisa
+	 */
+	public function lisa() {
+		return $this->to_html_page('page/case/lisa.html');
+	}
+	
+	/**
+	 * 成功案例-DM
+	 */
+	public function dm() {
+		return $this->to_html_page('page/case/dm.html');
+	}
+	
+	/**
+	 * 成功案例-Loving
+	 */
+	public function loving() {
+		return $this->to_html_page('page/case/loving.html');
+	}
+	
+	/**
+	 * 成功案例-Ezon
+	 */
+	public function ezon() {
+		return $this->to_html_page('page/case/ezon.html');
+	}
 }
 ?>

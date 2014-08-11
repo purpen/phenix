@@ -1,0 +1,129 @@
+{%extends 'layout/column.html'%}
+{% block title%}连爱手环-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/sh_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 273512, 100);
+	phenix.doit('goccia-people', 1955);
+	phenix.doit('goccia-precent', 2735, 2);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/sh_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/loving'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					连爱手环 <br />上线48小时即突破8万元
+					<div class="sub header">
+						连爱手环是一款设计简洁，功能强大的智能可穿戴设备，其丰富的色彩，质优价廉的性价比，为其赢得大批粉丝，众筹期间，大量是社会化媒体传播、圈层营销，对其起到关键性作用，上线48小时即突破8万元。目前，距离众筹结束还有15天的时间，累计资金304042元，远远超过众筹目标。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>健康监测</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">273512</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">1955</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">2735</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>连爱手环设计简洁，功能强大，能够实时查看运动数据监测，每周/月运动数据回顾对比，它不仅具有卡路里数据监测及运动数据回顾功能，告诉你一天的运动量是否得当，给您建议，方便适度调整，同时，对比上月或者上周运动量，给自己下周的运动定个目标。另外，连爱手环还能够监测睡眠质量，根据睡眠数据，调整睡眠，提升睡眠质量，精力更充沛。连爱手环的APP能够及时数据更新，下拉界面刷新，简单快捷的更新每小时所有数据；当天数据汇总，检查今天运动任务是否达成；分享朋友圈，友圈排行榜实时更新，让你的运动不在寂寞孤单，充满乐趣。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/sh_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/sh_02.jpg" class="ui image" />
+					</div>
+				</div>
+				
+				<div class="wz">
+					<p>在用户的体验上，连爱手环做的更多，多达9次的扣子打样优化，无论轻松扣带还是还是防脱落，绝不满足看上去差不多。对金属过敏的朋友也无需担心，连爱采用的内凹的槽内设计，确保扣子金属不接触皮肤。腕带内侧增加透气性，让佩戴更加舒适惬意！		</p>
+					<p>用户可以将它佩戴在几乎所有你能想象的地方，无需繁琐手动切换，TA不仅可以记录每天行走的步数和消耗的卡路里，优良的算法也适用于监测各种运动，同时帮助我们监测睡眠质量，可见光同步数据与您的智能设备及时沟通，无辐射让您更加放心。</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/sh_03.jpg" class="ui image" />
+						<p>上线 首日，淘宝首页焦点图</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/sh_04.jpg" class="ui image" />
+						<p>在创意及工业设计圈子中发声，形成大量传播</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}

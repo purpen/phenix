@@ -1,0 +1,133 @@
+{%extends 'layout/column.html'%}
+{% block title%}LISA智能孕表—您的孕期贴身闺蜜-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/lisa_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 311826, 300);
+	phenix.doit('goccia-people', 639);
+	phenix.doit('goccia-precent', 3118, 4);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/lisa_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/lisa'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					LISA智能孕表 <br />手环差异化竞争，主打孕期记胎动
+					<div class="sub header">
+						LISA孕表是一款专门为孕妈妈设计的手表，从资料的整理，到详情页的设计，再到正式上线，太火鸟仅花费了2天的时间，其间经历了3次改版，最终把近乎完美的页面呈现在消费者面前，上线一天即完成众筹目标，目前，距离众筹结束还有5天时间，累计支持金额 311826元，达成率 3118%。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>健康监测</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">311,826</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">639</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">3118</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>LISA智能手表最重要的功能是记录胎动。对于很多孕妈妈来说，记录胎动显得尤为重要，然而这是一个看似简单实则复杂的过程，很多准妈妈都难以坚持。LISA孕表的“随心记”功能无需固定记录时间、考虑胎动间隔，每次感受到胎动时长按孕表上表面，即可完成记录。在手机端APP可以查看到所有记录数据，自动生成胎动规律曲线，分析活跃时段，并推算全天胎动总数。</p>
+					<p>此外，LISA孕表也为孕妈妈及产后的妈妈们提供产前控制体重和产后塑形方案。佩戴LISA孕表便可自动记录孕妈妈的运动量，控制孕期体重合理增长。哺乳期过后，根据孕表的记录，孕妈妈则可以增强运动量。同时，孕表手机端APP内置多种运动指导，还可记录卡路里消耗。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/lisa_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/lisa_02.jpg" class="ui image" />
+					</div>
+				</div>
+
+				<div class="wz">
+					<p>在续航上，LISA孕表相对于一般智能手表有了很大进步。其采用低功耗蓝牙以及场景感知节电技术，孕表待机可达一年。针对较为复杂的使用场景，孕表配备了IP67防护等级，避免日常使用进水的情况。
+							</p>
+					<p>在外观上，LISA孕表采用了进口真皮表带，316精钢表身以及蓝宝石玻璃表蒙，尽可能让孕表成为一款可以“带出去”的设备。</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				<div class="ui three items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/lisa_03.jpg" class="ui image" />
+						<p>与大姨吗APP联合，在其APP做产品推广</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/lisa_04.jpg" class="ui image" />
+						<p>与太平洋亲子网联合推广Lisa孕表</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/lisa_05.jpg" class="ui image" />
+						<p>在淘宝母婴频道的焦点广告</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{%extends 'layout/column.html'%}
+{% block title%}宜准运动手表 全球首款拥有瑞士机芯的智能手表-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/yz_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 115270, 300);
+	phenix.doit('goccia-people', 230);
+	phenix.doit('goccia-precent', 1152, 4);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/yz_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/ezon'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					宜准运动手表 <br />全球首款拥有瑞士机芯的智能手表
+					<div class="sub header">
+						宜准是全球首款拥有瑞士机芯的智能手表，同时兼具数字和指针双显，太火鸟为其量身定制了独特的展示页面，将其五大功能一一提炼，并在上线之初进行了一些了社会化媒体营销，目前，距离众筹还有5天时间，累计支持金额 115270元，达成率 1152%。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>健康监测</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">115270</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">230</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">1152</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>ZON S3运动手表是全球首款拥有瑞士机芯的智能手表，高精度制造和信息技术的相结合，</p>
+					<p>集数据、科技、社区为一体。宜准能够为消费者提供个人运动数据管理，卡路里消耗全程记录；人机互动操作简单，运动、久坐、生日来电提醒，极简风格，超长待机180天，深度防水达50米；其用户体验上表现相当出色，能够构建运动社区平台，分享交流运动成果，畅通欢快交友；让运动成为一个充满智慧与时尚的生活方式。</p>
+					<p>获得荣誉：<br>
+					2013年中国设计红星奖 <br>
+					2013海峡工业设计大赛产品设计银奖<br>
+					2013”海峡杯”工业设计大赛专业组银奖
+					<br>
+					2013“蓝光杯”中国钟表设计大赛优秀奖<br>
+					并通过国家钟表质量监督检验中心官方认证，品质值得信赖</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/yz_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/yz_02.jpg" class="ui image" />
+					</div>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui three items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/yz_03.jpg" class="ui image" />
+						<p>上线首日，淘宝首页焦点图</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/yz_04.jpg" class="ui image" />
+						<p>淘宝手机版广告资源</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/yz_05.jpg" class="ui image" />
+						<p>微博上开展#晒运动照，赢EZON S3#活动，吸引大量运动爱好者参与。</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}

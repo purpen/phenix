@@ -1,0 +1,122 @@
+{%extends 'layout/column.html'%}
+{% block title%}中世纵横世界第一款太阳能电子蜡烛灯-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/dzd_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 166767, 100);
+	phenix.doit('goccia-people', 1537);
+	phenix.doit('goccia-precent', 833);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/dzd_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/light'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					中世纵横 <br />世界第一款太阳能电子蜡烛灯
+					<div class="sub header">
+						经过卖点提炼、视频拍摄剪辑、详细页面的制作等前期准备工作，5月12日，世界第一款太阳能蜡烛灯正式上线众筹，博得无数好评，并且吸引众多名人广泛关注，在无淘宝推广资源支持的条件下，极短时间筹得近17万，达成率达833%，共有1537位消费者对项目进行了支持,线上线下销售突破3000台！
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>创意家居</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">166767</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">1537</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">833</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>人类在照明科技领域虽然已非常发达，但蜡烛仍是生活中不可替代的浪漫气氛营造者，全球每年为此消耗数亿只蜡烛，随着全球环境日益恶化，推出低碳，节能，环保的蜡烛产品变得尤为重要。</p>
+					<p>SUNLIGHT CUBE的出现可以取代传统蜡烛，在照度，色温及烛光火苗摇曳等营造出比传统蜡烛更好的温馨氛围，消除了传统蜡烛更好的温馨氛围，消除了传统蜡烛燃烧时所带来的安全隐患，空气污染和能源消耗，真正做到了零排放。</p>
+					<p>SUNLIGHT CUBE采用简约主义的设计风格，突破传统蜡烛形态，拥有一个全新时尚体验，其奢华水晶质感，明亮而通透，与内部磨砂效果搭配，尽显品质，SUNLIGHT CUBE将太阳能转化为烛光，留住阳光气息，营造浪漫氛围，打造时尚低碳生活方式！</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/dzd_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/dzd_02.jpg" class="ui image" />
+					</div>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/dzd_03.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/dzd_04.jpg" class="ui image" />
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}

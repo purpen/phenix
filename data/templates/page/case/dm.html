@@ -1,0 +1,128 @@
+{%extends 'layout/column.html'%}
+{% block title%}造梦者智能空气净化器 京东众筹首款破百万产品-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/jhq_bj.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 1215983, 1200);
+	phenix.doit('goccia-people', 243);
+	phenix.doit('goccia-precent', 4053, 5);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/jhq_bj.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/dm'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					造梦者智能空气净化器 <br />京东众筹首款破百万产品 Dream Maker
+					<div class="sub header">
+						在月初作为首批入围京东众筹的产品上线后，即展开社会化媒体推广，并于不久后召开一场媒体体验交流会，邀请20多家媒体的记者评测报道。随着BTV的专访以及京东众筹首页展示资源的推广，众筹金额于上线的第二十天突破50万。截止至7月31日上午众筹结束，众筹金额达 1215983元，完成率高达 4053%！成为京东众筹首款众破百万产品。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>创意家居</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">1215983</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">243</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">4053</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>7月1日，太火鸟携Dream Maker造梦者智能空气净化器亮相，与京东众筹频道同步上线，上线后太火鸟即展开社会化媒体推广，并召开了一场媒体体验交流会，邀请20多家媒体的记者评测报道。在预售期间，结合消费者的疑问，造梦者预售页面也经过了二次优化。随后， BTV进行了专访，并进行了两次京东首页展示资源的推广。截止至7月31日上午众筹结束，众筹金额达1215983元，完成率高达4053%！成为京东众筹首款众破百万产品。</p>
+					<p>Dream Maker造梦者智能空气净化器采用静电吸附式技术，通过改变离子箱的内部结构，从而改变电场结构，抑制臭氧产生，从技术上解决了静电式空气净化器易产生臭氧的难题，其独有静电离子能技术和综合去甲醛臭氧技术，做到了永久无需更换耗材，让产品为大众服务，实现了智能空气净化器的重大突破。同时，造梦者以人为本，更加人性化、智能化的功能应运而生，其利用移动设备远程控制实现人机交互，同时Dream Maker具有世界领先高精度传感器，能够自动检测PM2.5、CO2、温度、湿度，并实时反馈到手机造梦者，让用户随时随地与机器互动</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/jhq_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/jhq_02.jpg" class="ui image" />
+					</div>
+				</div>
+				
+				<div class="wz">
+					<p>2014年6月，造梦者智能变频空气净化机DM460S01-i摘得“科技创新大奖”的桂冠。由于在除烟除PM2.5的杰出技术贡献，DREAM MAKER造梦者受邀参加此次高峰论坛。造梦者现场展出科技成果！钟南山认真听取了造梦者在除烟除PM2.5方面的科学成果，对于造梦者能够直接读取空气中的PM2.5数值，二氧化碳数值，温湿度并显示在屏幕和手机上，表示惊讶，能让老百姓看明白室内环境空气状况，这是一个大的进步！</p>
+					<p>Dream Maker的精英团队均来自德国，是最具创意与实力的团队，拥有无限梦想、激情与活力，作为根植于本土的第一代工业设计探索者，以自身独特的设计理念和创新体系，几乎囊括了国内工业设计界的所有荣誉，更多次在国际设计舞台上获得德国IF奖、德国红点奖等至高无上的设计殊荣。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/jhq_03.jpg" class="ui image" />
+						<p>媒体体验交流会，近20家媒体评测及报道</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/jhq_04.jpg" class="ui image" />
+						<p>BTV北京电视台专访报道，采访造梦者设计师李龚川</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
