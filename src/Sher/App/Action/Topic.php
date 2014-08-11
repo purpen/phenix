@@ -252,12 +252,28 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
+	 * 初始化互动操作
+	 */
+	public function ajax_done(){
+		$id = $this->stash['id'];
+		$user_id = $this->visitor->id;
+		
+		$data = array();
+		
+		// 验证是否收藏
+		$model = new Sher_Core_Model_Favorite();
+		$data['favorited'] = $model->check_favorite($user_id, $id);
+		
+		return $this->ajax_json('操作成功', false, null, $data);
+	}
+	
+	/**
 	 * 推荐
 	 */
 	public function ajax_stick(){
 		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_json('主题不存在！', true);
 		}
 		
 		try{
@@ -265,12 +281,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$model->mark_as_stick((int)$id);
 			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode']  = 'create';
-		
-		return $this->to_taconite_page('page/topic/stick_ok.html');
+		return $this->ajax_json('操作成功');
 	}
 	
 	/**
@@ -279,7 +293,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	public function ajax_cancel_stick(){
 		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_json('主题不存在！', true);
 		}
 		
 		try{
@@ -287,14 +301,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$model->mark_cancel_stick((int)$id);
 			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode']  = 'cancel';
-		
-		return $this->to_taconite_page('page/topic/stick_ok.html');
+		return $this->ajax_json('操作成功');
 	}
-	
 	
 	/**
 	 * 置顶
@@ -307,7 +318,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		try{
 			if (!$this->visitor->can_admin()){
-				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
+				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
 			$model = new Sher_Core_Model_Topic();
@@ -320,12 +331,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode']  = 'create';
-		
-		return $this->to_taconite_page('page/topic/top_ok.html');
+		return $this->ajax_json('操作成功');
 	}
 	
 	/**
@@ -334,12 +343,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	public function ajax_cancel_top(){
 		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_json('主题不存在！', true);
 		}
 		
 		try{
 			if (!$this->visitor->can_admin()){
-				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
+				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
 			$model = new Sher_Core_Model_Topic();
@@ -348,38 +357,52 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$diglist = new Sher_Core_Model_DigList();
 				$diglist->remove_item(Sher_Core_Util_Constant::DIG_TOPIC_TOP, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
 			}
-			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode']  = 'cancel';
-		
-		return $this->to_taconite_page('page/topic/top_ok.html');
+		return $this->ajax_json('操作成功');
 	}
 	
 	/**
 	 * 点赞
 	 */
 	public function ajax_laud(){
-		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_json('主题不存在！', true);
 		}
 		
 		try{
+			$id = $this->stash['id'];
+			
 			$model = new Sher_Core_Model_Topic();
 			$model->increase_counter('love_count', 1, (int)$id);
 		
 			$topic = $model->load((int)$id);
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode']  = 'create';
-		$this->stash['topic'] = $topic; 
+		return $this->ajax_json('操作成功', false);
+	}
+	
+	/**
+	 * 取消点赞
+	 */
+	public function ajax_cancel_laud(){
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		try{
+			$id = $this->stash['id'];
+			
+			$model = new Sher_Core_Model_Topic();
+			$model->dec_counter('love_count', 1, (int)$id);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
 		
-		return $this->to_taconite_page('page/topic/laud_ok.html');
+		return $this->ajax_json('操作成功', false);
 	}
 	
 	/**
@@ -388,7 +411,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	public function ajax_favorite(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_json('主题不存在！', true);
 		}
 		
 		try{
@@ -398,19 +421,16 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			);
 			$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
 			
+			$topic = new Sher_Core_Model_Topic();
 			if ($ok) {
-				$topic = new Sher_Core_Model_Topic();
 				$topic->increase_counter('favorite_count', 1, (int)$id);
-				
-				$this->stash['topic'] = $topic->load((int)$id);
 			}
+			$data = $topic->load((int)$id);
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode'] = 'create';
-		
-		return $this->to_taconite_page('page/topic/favorite_ok.html');
+		return $this->ajax_json('操作成功', false, '', $data);
 	}
 	
 	/**
@@ -419,26 +439,24 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	public function ajax_cancel_favorite(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_json('主题不存在！', true);
 		}
 		
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			$ok = $model->remove_favorite($this->visitor->id, $id);
 			
+			$topic = new Sher_Core_Model_Topic();
 			if ($ok) {
-				$topic = new Sher_Core_Model_Topic();
 				$topic->dec_counter('favorite_count', (int)$id);
-				
-				$this->stash['topic'] = $topic->load((int)$id);
 			}
+			$data = $topic->load((int)$id);
+			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['mode'] = 'cancel';
-		
-		return $this->to_taconite_page('page/topic/favorite_ok.html');
+		return $this->ajax_json('操作成功', false, '', $data);
 	}
 	
 	/**
@@ -711,6 +729,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 					$diglist = new Sher_Core_Model_DigList();
 					$diglist->remove_item(Sher_Core_Util_Constant::DIG_TOPIC_TOP, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
 				}
+				
+				// 更新所属分类: 主题数、回复数
+				$category = new Sher_Core_Model_Category();
+				
+				$category->dec_counter('total_count', $topic['category_id']);
+				$category->dec_counter('total_count', $topic['fid']);
+				$category->dec_counter('reply_count', $topic['category_id'], false, $topic['comment_count']);
+				$category->dec_counter('reply_count', $topic['fid'], false, $topic['comment_count']);
 				
 				// 更新用户主题数量
 				$this->visitor->dec_counter('topic_count', $topic['user_id']);

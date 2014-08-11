@@ -163,7 +163,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 * 减少计数
 	 * 需验证，防止出现负数
 	 */
-	public function dec_counter($field_name,$id=null,$force=false){
+	public function dec_counter($field_name,$id=null,$force=false,$val=1){
 	    if(is_null($id)){
 	        $id = $this->id;
 	    }
@@ -177,7 +177,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			}
 		}
 		
-		return $this->dec($id, $field_name);
+		return $this->dec($id, $field_name, $val);
 	}
 	
 	
