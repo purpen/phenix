@@ -8,8 +8,8 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','about','contact','succase','media');
-
+	protected $exclude_method_list = '*';
+	
 	/**
 	 * 默认入口
 	 */
@@ -52,6 +52,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例
 	 */
 	public function succase() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/guide/case.html');
 	}
 	
@@ -59,6 +60,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例-Goccia
 	 */
 	public function goccia() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/goccia.html');
 	}
 	
@@ -66,6 +68,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例-Light
 	 */
 	public function light() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/light.html');
 	}
 	
@@ -73,6 +76,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例-Lisa
 	 */
 	public function lisa() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/lisa.html');
 	}
 	
@@ -80,6 +84,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例-DM
 	 */
 	public function dm() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/dm.html');
 	}
 	
@@ -87,6 +92,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例-Loving
 	 */
 	public function loving() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/loving.html');
 	}
 	
@@ -94,6 +100,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 成功案例-Ezon
 	 */
 	public function ezon() {
+		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/ezon.html');
 	}
 }
