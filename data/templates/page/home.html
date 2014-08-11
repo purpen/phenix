@@ -1,8 +1,5 @@
 {%extends 'layout/column.html'%}
 {% block title %}首页-{% endblock %}
-{% block page_js %}
-<script type="text/javascript" src="http://player.youku.com/jsapi"></script>
-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -63,27 +60,6 @@
 		}
 		
 		$frame.sly('reload');
-	});
-	 
-	// 显示PC终端视频
-	$('.ui.computer.video').bind('click', function(){
-		$('.ui.videobox.modal').modal('show');
-	});
-	
-	// 显示移动端视频
-	var player = new YKU.Player('video-mobile',{
-		styleid: '1',
-		client_id: '4128f4a10a97103a',
-		vid: 'XNzA5ODI1Mjk2',
-		events:{
-			onPlayStart: function(){ 
-				$('#video-mobile').css('visibility', 'visible');
-				$('.play.icon').fadeOut();
-			}
-		}
-	});
-	$('.ui.tablet.mobile.video').bind('click', function(){
-		player.playVideo();
 	});
 	
 	// 分享按钮
@@ -215,7 +191,7 @@
 <section class="ui white backgroud newest-product block">
 	<div class="product-image">
 		<h1 class="ui header">造梦者<br/>全球首款革命性智能空气净化器</h1>
-		<a href="{{ app_url_domain }}/dm" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+		<a href="{{ app_url_domain }}/dm" class="ui black btn-4 btn-4c icon-arrow-right btn">
 			了解更多
 		</a>
 	</div>
@@ -271,37 +247,93 @@
 	</div>
 </section>
 
-<section class="ui video center aligned computer only grid">
-	<div class="column ui mask">
-		<i class="flat play icon"></i>
-		<div class="video-content">
-			<h3 class="ui header">人生是场大设计</h3>
-			<p>【致离经叛道的自己】亿万漂泊者的心声，太火鸟！</p>
+<section class="ui big white background succase block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="center aligned column section-title">
+					<h3 class="ui header">成功案例</h3>
+					<p>一个个鲜活的品牌从构想到建立并慢慢走向成功的运营</p>
+					<hr>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<div class="ui three items">
+					<div class="item">
+						<div class="image">
+							<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
+					      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" class="ui image" />
+							</a>
+						</div>
+						<div class="content">
+							<h4 class="ui header">
+								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
+							</h4>
+							<div class="name">
+								众筹金额：<span class="ui text">311,826</span> 元      支持人数：<span class="ui text">639</span> 个        达成率：<span class="ui text">3118％</span>    
+							</div>
+						</div>
+					</div>
+				
+					<div class="item">
+						<div class="image">
+							<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
+					      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" class="ui image" />
+							</a>
+						</div>
+						<div class="content">
+							<h4 class="ui header">
+								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
+							</h4>
+							<div class="name">
+								众筹金额：<span class="ui text">1215,983</span> 元      支持人数：<span class="ui text">243</span> 人        达成率：<span class="ui text">4053％</span>    
+							</div>
+						</div>
+					</div>
+				
+					<div class="item">
+						<div class="image">
+							<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
+					      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" class="ui image" />
+							</a>
+						</div>
+						<div class="content">
+							<h4 class="ui header">
+								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
+							</h4>
+							<div class="name">
+								众筹金额：<span class="ui text">300,000</span> 元      支持人数：<span class="ui text">610</span> 个      达成率：<span class="ui text">600％</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="more row">
+			<div class="center aligned column">
+				<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					查看更多
+				</a>
+			</div>
 		</div>
 	</div>
 </section>
 
-<section class="ui video center aligned tablet mobile only bird grid">
-	<div class="column ui mask">
-		<i class="flat play icon"></i>
-		<div id="video-mobile" style="width:100%;height:400px"></div>
-	</div>
-</section>
 
 <section class="ui small invite block">
-	<div class="ui responsive two column grid">
+	<div class="ui responsive grid">
 		<div class="middle aligned row">
-			<div class="center aligned column">
+			<div class="center aligned nine wide column">
 				<h3 class="ui header">提交创意，发现激动人心的产品</h3>
 				<p >想了解更多，查看<a href="{{ app_url_help }}" class="ui magenta link">如何工作？</a></p>
 			</div>
-			<div class="column">
-				<a href="{{ app_url_register }}" class="ui active magenta btn-4 btn-4c icon-arrow-right btn" target="_blank">现在加入</a>
+			<div class="seven wide column">
+				<a href="{{ app_url_register }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">现在加入</a>
 			</div>
 		</div>
 	</div>
 </section>
-
-{% include "block/video/bird-second.html" %}
 
 {% endblock %}

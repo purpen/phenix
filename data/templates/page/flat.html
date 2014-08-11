@@ -206,12 +206,51 @@ button.close {
 
 </style>
 {% endblock %}
+{% block page_js %}
+<script type="text/javascript" src="http://player.youku.com/jsapi"></script>
+{% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}	
+	// 显示PC终端视频
+	$('.ui.computer.video').bind('click', function(){
+		$('.ui.videobox.modal').modal('show');
+	});
 	
+	// 显示移动端视频
+	var player = new YKU.Player('video-mobile',{
+		styleid: '1',
+		client_id: '4128f4a10a97103a',
+		vid: 'XNzA5ODI1Mjk2',
+		events:{
+			onPlayStart: function(){ 
+				$('#video-mobile').css('visibility', 'visible');
+				$('.play.icon').fadeOut();
+			}
+		}
+	});
+	$('.ui.tablet.mobile.video').bind('click', function(){
+		player.playVideo();
+	});
 {% endblock %}
 {% block content %}
+<section class="ui video center aligned tablet mobile only bird grid">
+	<div class="column ui mask">
+		<i class="flat play icon"></i>
+		<div id="video-mobile" style="width:100%;height:400px"></div>
+	</div>
+</section>
+
+<section class="ui video center aligned computer only grid">
+	<div class="column ui mask">
+		<i class="flat play icon"></i>
+		<div class="video-content">
+			<h3 class="ui header">人生是场大设计</h3>
+			<p>【致离经叛道的自己】亿万漂泊者的心声，太火鸟！</p>
+		</div>
+	</div>
+</section>
+
 <div class="home">
 	<div class="alert alert-primary alert-white rounded">
 		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
