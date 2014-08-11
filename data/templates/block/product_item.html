@@ -17,11 +17,12 @@
 		</div>
   	</div>
   	<div class="content">
-      	<div class="name">
+      	<h4 class="ui dividing header">
 			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
 				{{ product.title|truncate, 16, '' }}
 			</a>
-		</div>
+			<div class="advantage">{{ product.advantage }}</div>
+		</h4>
 		{% if product.stage == 9 %}
 		<div class="sell clearfix">
 			<span class="price">
@@ -55,13 +56,13 @@
 		</div>
 		{% endif %}
 		
+		{% if product.stage != 9 %}
 		<div class="ui divider"></div>
-		
 		<div class="designer">
 			<img class="ui avatar image" src="{{ product.user.small_avatar_url }}" />
 			{{ product.user.nickname|default '太火鸟' }}
 		</div>
-		
+		{% endif %}
   	</div>
 	<div class="ui success message"></div>
 </div>

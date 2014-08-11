@@ -318,6 +318,17 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
         return $this->to_taconite_page($tpl);
     }
+	
+	/**
+	 * 获取图片列表
+	 */
+	public function load_images(){
+		$images = array(
+			'http://frbird.qiniudn.com/product/140809/53e5d6150c28aa481382aada-bi.jpg',
+			'http://frbird.qiniudn.com/product/140528/5385950e0c28aaca0259fe19-bi.jpg'
+		);
+		return $this->to_raw_json($images);
+	}
 		
 	/**
 	 * 设置创意的封面图
