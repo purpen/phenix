@@ -2,6 +2,7 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -175,13 +176,13 @@
 				</div>
 			</div>
 			<div class="five wide right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui gray button">
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui black button">
 					<i class="add icon"></i> 发表话题
 				</a>
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="nopad row">
 			<div class="column">
 				<div class="ui big topic segment">
 					<div class="ui header">
@@ -192,7 +193,7 @@
 							{{ topic.title }}
 							<div class="sub header attribute">
 								<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
-								<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|date 'y-m-d H:i' }}</span> | 
+								<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|date 'Y-m-d H:i' }}</span> | 
 								<span class="count">浏览数: {{ topic.view_count }}</span>
 							</div>
 						</div>
@@ -224,28 +225,28 @@
 						<div class="ui icon magenta editable hide buttons">
 							{% if visitor.can_admin %}
 								{% if topic.top %}
-								<div class="ui pop top active button" data-content="取消置顶" data-mark="y" data-id="{{ topic._id }}">
+								<div class="ui pop top active button" data-content="取消置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
 									<i class="flag icon"></i>
 								</div>
 								{% else %}
-								<div class="ui pop top button" data-content="置顶" data-mark="n" data-id="{{ topic._id }}">
+								<div class="ui pop top button" data-content="置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
 									<i class="flag icon"></i>
 								</div>
 								{% endif %}
 								{% if topic.stick %}
-								<div class="ui pop stick active button" data-content="取消推荐" data-mark="y" data-id="{{ topic._id }}">
+								<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
 									<i class="pin icon"></i>
 								</div>
 								{% else %}
-								<div class="ui pop stick button" data-content="编辑推荐" data-mark="n" data-id="{{ topic._id }}">
+								<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
 									<i class="pin icon"></i>
 								</div>
 								{% endif %}
 							{% endif %}
-							<div class="ui pop edit button" data-content="编辑" data-id="{{ topic._id }}">
+							<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
 								<i class="edit icon"></i>
 							</div>
-							<div class="ui pop remove button" data-content="删除" data-id="{{ topic._id }}">
+							<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 								<i class="remove icon"></i>
 							</div>
 						</div>

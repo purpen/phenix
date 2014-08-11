@@ -1,17 +1,8 @@
-{%extends 'layout/board.html'%}
-{% block title %}发布想法-{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}发表话题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.new.topic a.icon-link {
-		text-decoration: none;
-	}
-	.new.topic a.icon-link:hover .help.icon {
-		color: #ff3b6b;
-	}
-	.new.topic a.icon-link .help.icon {
-		font-size: 0.725em;
-		color: #5c6166;
-	}
+	
 </style>
 {% endblock %}
 
@@ -30,7 +21,8 @@
 		editorClass: 'bird',
 		minHeight: 300,
 		plainPaste: true,
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		alwaysBlank: true,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: 700,
@@ -168,8 +160,6 @@
 			return false;
 		});
 	});
-	
-	
 {% endblock %}
 
 {% block content %}
@@ -188,16 +178,16 @@
 					{% endif %}
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
 				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">发表帖子</div>
+				  	<div class="active section">发表话题</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="nopad row">
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						发表帖子
+						发表话题
 						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看发帖帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
@@ -279,8 +269,7 @@
 								{% endif %}
 							</div>
 						</div>
-						{% endif %}
-					
+						
 						<div class="field">
 							<label for="video_url">视频链接</label>
 							{% if topic.video_url %}
@@ -292,7 +281,8 @@
 							{% endif %}
 							<div class="description">支持优酷、土豆等视频链接</div>
 						</div>
-					
+						{% endif %}
+						
 						<div class="ui right floated aligned grid">
 							<div class="column">
 								<div class="ui gray cancel button">取消</div>
