@@ -187,13 +187,13 @@
 				<div class="ui big topic segment">
 					<div class="ui header">
 						<a class="ui small avatar image" href="{{ topic.user.home_url }}">
-				      		<img src="{{ topic.user.small_avatar_url }}" />
+				      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 						</a>
 						<div class="content">
 							{{ topic.title }}
 							<div class="sub header attribute">
 								<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
-								<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|date 'Y-m-d H:i' }}</span> | 
+								<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span> | 
 								<span class="count">浏览数: {{ topic.view_count }}</span>
 							</div>
 						</div>
@@ -263,7 +263,7 @@
 						{% for comment in comments.rows %}
 						<div class="comment" id="{{ comment._id }}">
 							<a class="avatar" href="{{ comment.user.home_url }}">
-								<img src="{{ comment.user.small_avatar_url }}" />
+								<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
 							</a>
 							<div class="content">
 								<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
@@ -300,7 +300,7 @@
 								{% for reply in comment.reply %}
 									<div class="comment">
 										<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-											<img src="{{ reply.user.small_avatar_url }}" />
+											<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
 										</a>
 										<div class="content">
 											<a class="author">{{ reply.user.nickname }}</a>

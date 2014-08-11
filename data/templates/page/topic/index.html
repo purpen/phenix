@@ -4,7 +4,7 @@
 <style type="text/css">
 	.ui.tophead {
 	    background: url("{{ app_url_packaged }}/images/lisawatch-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
-	}	
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -43,12 +43,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui social" id="topics">
+<div id="topics">
 	<div class="ui responsive grid">
-		<div class="column">
+		<div class="container column">
 			{% category_list var:'category' only_open:1 domain:domain %}
 			{% for cat in category.rows %}
-				<div class="ui segment">
+				<div class="ui block segment">
 					<h3 class="ui dividing header">
 						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
 					</h3>
@@ -90,12 +90,12 @@
 									</td>
 									<td>
 										<a class="ui small link" href="{{ topic.user.home_url }}">
-								      		<img src="{{ topic.user.mini_avatar_url }}" class="ui avatar image" /> {{ topic.user.nickname }}
+								      		<img src="{{ topic.user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" /> {{ topic.user.nickname }}
 										</a>
 									</td>
 									<td>
 										{% if topic.last_user %}
-										最后回复 {{ topic.last_reply_time|relative_time}}
+										最后回复 {{ topic.last_reply_time|relative_datetime}}
 										{% endif %}
 									</td>
 									<td>
@@ -125,6 +125,5 @@
 			
 		</div>
 	</div>
-	
 </div>
 {% endblock %}

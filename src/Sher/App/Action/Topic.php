@@ -19,7 +19,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array();
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
