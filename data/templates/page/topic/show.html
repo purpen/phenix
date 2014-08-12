@@ -18,22 +18,100 @@
 		$('.ui.editable.buttons').addClass('hide');
 	});
 	
-	// 初始化互动，是否收藏、点赞
-	$.get('{{ app_url_topic }}/ajax_done', {id: {{topic._id}} }, function(result){
-		if (result.success) {
-			// 验证收藏
-			if (result.data.favorited) {
-				$('.ui.favorite.button')
-					.data('content', '取消')
-					.data('mark', 'y')
-					.addClass('active');
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_topic }}/ajax_done', {id: {{topic._id}} }, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
 			}
-		}
-	}, 'json');
+		}, 'json');
+		
+		// 置顶
+		$('.ui.top.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_topic }}/ajax_top', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消置顶')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_topic }}/ajax_cancel_top', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '置顶')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+	
+		// 编辑推荐
+		$('.ui.stick.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_topic }}/ajax_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消推荐')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_topic }}/ajax_cancel_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '编辑推荐')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+		
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_topic }}/edit?id='+id);
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			$.post('{{ app_url_topic }}/deleted', {id: {{topic._id}} });
+		});
+		
+		/* 登录用户行为 */
+	{% endif %}
 	
 	// 收藏
 	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
 		if (mark == 'n') {
 			$.post('{{ app_url_topic }}/ajax_favorite', {id: id}, function(result){
 				if (result.success) {
@@ -62,6 +140,11 @@
 	// 喜欢
 	$('.ui.love.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
 		if (mark == 'n') {
 			$.post('{{ app_url_topic }}/ajax_laud', {id: id}, function(result){
 				if (result.success) {
@@ -86,75 +169,6 @@
 			}, 'json');
 		}
 	});
-	
-	// 置顶
-	$('.ui.top.button').bind('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
-		if (mark == 'n') {
-			$.post('{{ app_url_topic }}/ajax_top', {id: id}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '取消置顶')
-						.data('mark', 'y')
-						.addClass('active');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
-			$.post('{{ app_url_topic }}/ajax_cancel_top', {id: id}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '置顶')
-						.data('mark', 'n')
-						.removeClass('active');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
-	});
-	
-	// 编辑推荐
-	$('.ui.stick.button').bind('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
-		if (mark == 'n') {
-			$.post('{{ app_url_topic }}/ajax_stick', {id: id}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '取消推荐')
-						.data('mark', 'y')
-						.addClass('active');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
-			$.post('{{ app_url_topic }}/ajax_cancel_stick', {id: id}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '编辑推荐')
-						.data('mark', 'n')
-						.removeClass('active');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
-	});
-	
-	// 编辑
-	$('.ui.edit.button').bind('click', function(){
-		var id = $(this).data('id');
-		phenix.redirect('{{ app_url_topic }}/edit?id='+id);
-	});
-	
-	// 删除
-	$('.ui.remove.button').bind('click', function(){
-		var id = $(this).data('id');
-		$.post('{{ app_url_topic }}/deleted', {id: {{topic._id}} });
-	});
-	
 {% endblock %}
 
 {% block content %}
@@ -176,9 +190,15 @@
 				</div>
 			</div>
 			<div class="five wide right aligned column">
+				{% if visitor.is_login %}
 				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui black button">
 					<i class="add icon"></i> 发表话题
 				</a>
+				{% else %}
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
+					<i class="add icon"></i> 发表话题
+				</a>
+				{% endif %}
 			</div>
 		</div>
 		
@@ -243,12 +263,15 @@
 								</div>
 								{% endif %}
 							{% endif %}
+							
+							{% if editable %}
 							<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
 								<i class="edit icon"></i>
 							</div>
 							<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 								<i class="remove icon"></i>
 							</div>
+							{% endif %}
 						</div>
 					
 						{%include 'block/share.html'%}
@@ -278,6 +301,7 @@
 								<div class="text">
 									{{ comment.content }}
 								</div>
+								{% if visitor.is_login %}
 								<div class="actions">
 									<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
 									<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
@@ -293,6 +317,7 @@
 										<i class="icon location"></i> 回复
 									</div>
 								</form>
+								{% endif %}
 							</div>
 							
 							{% if comment.reply %}

@@ -27,25 +27,37 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * @return void
 	 */
 	public function login(){
-		// 已登录用户，跳过登录
-		if (!$this->visitor->id){
-	       	$this->gen_login_token();
-			$this->set_target_css_state('login_box','item_active');
-			
-			// 获取微博登录的Url
-			$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
-			$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-			$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
-			
-			$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
-			$weibo_auth_url = $oa->getAuthorizeURL($callback);
-			
-			$this->stash['weibo_auth_url'] = $weibo_auth_url;
-			
-			return $this->to_html_page('page/login.html');
+		$return_url = $_SERVER['HTTP_REFERER'];
+		// 过滤上一步来源为退出链接
+		if(!strpos($return_url,'logout')){
+			$this->stash['return_url'] = $return_url;
 		}
-		$next_url = Sher_Core_Helper_Url::user_home_url($this->visitor->id);
-       	return $this->to_redirect($next_url);
+		
+		// 当前有登录用户
+		if ($this->visitor->id){
+			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Sher_Core_Helper_Url::user_home_url($this->visitor->id);
+			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
+			return $this->to_redirect($redirect_url);
+		}
+		
+		// 设置cookie
+        if (!empty($this->stash['return_url'])) {
+			@setcookie('auth_return_url', $this->stash['return_url'], 0, '/');
+        }
+		
+       	$this->gen_login_token();
+		
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+		
+		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+		$weibo_auth_url = $oa->getAuthorizeURL($callback);
+		
+		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+		
+		return $this->to_html_page('page/login.html');
 	}
 	
 	/**
@@ -146,11 +158,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		
         Sher_Core_Helper_Auth::create_user_session($user_id);
 		
-        $redirect_url = isset($_COOKIE['auth_return_url']) ? $_COOKIE['auth_return_url'] : Sher_Core_Helper_Url::user_home_url($user_id);
+        $redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($user_id));
         if (empty($redirect_url)) {
             $redirect_url = '/';
         }
-		
         $this->clear_auth_return_url();
 		
 		return $this->ajax_json('欢迎,'.$nickname.' 回来.', false, $redirect_url);

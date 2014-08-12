@@ -19,9 +19,15 @@
 						</h2>
 						
 						<div class="actions">
-							<a href="{{ app_url_action_base }}/topic/submit?cid={{ cid }}" class="ui white btn-4 btn-4c icon-arrow-right btn">
-								发表话题
-							</a>
+							{% if visitor.is_login %}
+								<a href="{{ app_url_action_base }}/topic/submit?cid={{ cid }}" class="ui white btn-4 btn-4c icon-arrow-right btn">
+									发表话题
+								</a>
+							{% else %}
+								<a href="{{ app_url_action_base }}/topic/submit?cid={{ cid }}" class="ui white btn-4 btn-4c icon-arrow-right pop btn" data-content="先登录后，可发表话题">
+									发表话题
+								</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>

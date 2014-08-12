@@ -210,6 +210,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($id)){
 			return $this->show_message_page('访问的主题不存在！', $redirect_url);
 		}
+		// 是否允许编辑
+		$editable = false;
 		
 		if(isset($this->stash['referer'])){
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
@@ -226,6 +228,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
 		
+		// 当前用户是否有管理权限
+		if ($this->visitor->is_login){
+			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_admin){
+				$editable = true;
+			}
+		}
+		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
@@ -237,7 +246,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['topic'] = &$topic;
 		$this->stash['parent_category'] = $parent_category;
-		
+		$this->stash['editable'] = $editable;
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
 		
