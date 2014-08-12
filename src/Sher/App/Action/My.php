@@ -89,6 +89,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function shipping(){
 		$this->set_target_css_state('user_shipping');
+		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		$this->stash['provinces'] = $provinces;
 		return $this->to_html_page("page/my/shipping.html");
 	}
 	

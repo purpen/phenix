@@ -2,16 +2,27 @@
 {% block title %}支付订单-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.paywait.modal .picicon {
+	    font-size: 8em;
+	    padding-right: 20px;
+	}
+	.ui.paywait.modal .picicon .icon {
+	    margin-right: 0;
+	    opacity: 1;
+	}
+	.ui.paywait.modal .block {
+		margin-bottom: 3em;
+	}
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
 	// 跳转支付
-	$('.ui.next-pay.button').click(function(){
-		
+	$('.ui.checkout.btn').click(function(){
+		$('.ui.paywait.modal').modal('show');
 	});
+	
 {% endblock %}
 
 {% block content %}
@@ -54,7 +65,7 @@
 				</div>
 				
 				<h3 class="ui header">选择支付方式</h3>
-				<form id="ui pay form" method="post" action="{{ app_url_shopping }}/success" target="_blank">
+				<form class="ui pay form" method="post" action="{{ app_url_shopping }}/success" id="pay-form" target="_blank">
 					<input type="hidden" name="rid" value="{{ rid }}" />
 					
 					<table class="ui padded table payaway segment">
@@ -64,13 +75,15 @@
 								<p>手机等大额支付推荐使用支付宝快捷支付</p>
 							</td>	
 							<td class="dline">
-								<div class="ui radio checkbox">
-									<input type="radio" value="alipay" name="payaway"> 
-									<label><img alt="alipay" src="http://p.www.xiaomi.com/images/payOnline_zfb.gif"></label>
-								</div>
-								<div class="ui radio checkbox">
-									<input type="radio" value="tenpay" name="payaway"> 
-									<label><img alt="netpay" src="http://p.www.xiaomi.com/images/cft.gif"></label>
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input type="radio" value="alipay" name="payaway"> 
+										<label><img alt="alipay" src="http://p.www.xiaomi.com/images/payOnline_zfb.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input type="radio" value="tenpay" name="payaway"> 
+										<label><img alt="netpay" src="http://p.www.xiaomi.com/images/cft.gif"></label>
+									</div>
 								</div>
 							</td>
 						</tr>
@@ -79,8 +92,10 @@
 					<div class="ui bottom aligned grid">
 						<div class="row">
 							<div class="right aligned column">
-								<a class="ui gray btn-4 btn-4c icon-arrow-right btn" href="{{ order.view_url }}" target="_blank">查看订单</a>
-								<a class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">去支付</a>
+								<a class="ui gray btn-4 btn-4c btn" href="{{ order.view_url }}" target="_blank">
+									查看订单
+								</a>
+								<input type="submit" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn" value="去支付" />
 							</div>
 						</div>
 					</div>
@@ -89,6 +104,35 @@
 			</div>
 		</div>
 	</div>
-	
+</div>
+
+<div class="ui small paywait modal">
+  	<i class="flat close icon"></i>
+	<div class="ui header">
+    	正在支付...
+  	</div>
+	<div class="container">
+		<div class="content">
+			<div class="ui header">
+				<div class="picicon">
+					<i class="payment icon"></i>
+				</div>
+				<div class="content">
+					<div class="block">
+						如果支付失败...
+						<div class="sub header">
+							立即查看 <a href="{{ app_url_helper }}" class="ui magenta link">支付常见问题</a>
+						</div>
+					</div>
+					<div class="block">
+						支付成功了
+						<div class="sub header">
+							立即查看 <a href="{{ order.view_url }}" class="ui magenta link">订单详情</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
