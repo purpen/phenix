@@ -234,7 +234,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$provinces = $areas->fetch_provinces();
 		
 		try{
-			
 			// 预生成临时订单
 			$model = new Sher_Core_Model_OrderTemp();
 		
@@ -437,9 +436,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$query = array(
 			'user_id' => (int)$user_id,
+			'is_default' => 1
 		);
 		$options = array(
-			'sort' => array('is_default'=>-1, 'created_on' => -1),
+			'sort' => array('created_on' => -1),
 		);
 		$result = $addbooks->first($query, $options);
 		

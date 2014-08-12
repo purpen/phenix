@@ -218,6 +218,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         array(
 			'id' => 'a',
             'name' => '在线支付',
+			'active' => 'active',
             'summary' => '支付宝作为诚信中立的第三方机构，充分保障货款安全及买卖双方利益,支持各大银行网上支付。'
         ),
     );
@@ -231,6 +232,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         array(
 			'id' => 'a',
             'name' => '免费配送',
+			'active' => 'active',
             'freight'=> 0,
         ),
     );
@@ -243,6 +245,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     private $transfer_time = array(
 		array(
 			'id' => 'a',
+			'active' => 'active',
 			'title' => '任意时间',
 		),
 		array(

@@ -80,15 +80,29 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
+		$data['is_default'] = $this->stash['is_default'];
 		
 		try{
+			// 检测是否有默认地址
+			$ids = array();
+			if ($data['is_default'] == 1) {
+				$result = $model->find(array(
+					'user_id' => (int)$this->visitor->id,
+					'is_default' => 1,
+				));
+				for($i=0;$i<count($result);$i++){
+					$ids[] = (string)$result[$i]['_id'];
+				}
+				Doggy_Log_Helper::debug('原默认地址:'.json_encode($ids));
+			}
+			
 			if(empty($id)){
 				$data['user_id'] = $this->visitor->id;
 				
 				$ok = $model->apply_and_save($data);
 				 
 				$data = $model->get_data();
-				$id = $data['_id'];
+				$id = (string)$data['_id'];
 			}else{
 				$mode = 'edit';
 				
@@ -101,13 +115,25 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 				return $this->ajax_json('新地址保存失败,请重新提交', true);
 			}
 			
+			// 更新默认地址
+			if (!empty($ids)){
+				$updated_default_ids = array();
+				for($i=0;$i<count($ids);$i++){
+					if ($ids[$i] != $id){
+						Doggy_Log_Helper::debug('原默认地址:'.$ids[$i]);
+						$model->update_set($ids[$i], array('is_default' => 0));
+						$updated_default_ids[] = $ids[$i];
+					}
+				}
+				$this->stash['updated_default_ids'] = $updated_default_ids;
+			}
+			
 			$this->stash['id'] = $id;
 			$this->stash['address'] = $model->extend_load($id);
 			$this->stash['mode'] = $mode;
 			
-		}catch(Sher_Core_Model_Exception $e){
+		} catch (Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn('新地址保存失败:'.$e->getMessage());
-			
 			return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
 		}
 		
@@ -122,7 +148,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	public function remove_address(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_notification('地址不存在！', true);
+			return $this->ajax_json('地址不存在！', true);
 		}
 		
 		try{
@@ -135,12 +161,10 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('操作失败,请重新再试', true);
 		}
-		
-		$this->stash['ids'] = array($id);
-		
-		return $this->to_taconite_page('ajax/delete.html');
+				
+		return $this->ajax_json('删除成功', false, '', array('id'=>$id));
 	}
 	
 }
