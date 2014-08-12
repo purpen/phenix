@@ -145,21 +145,32 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 */
 	public function dec_qty(){
 		$com_sku = $this->stash['sku'];
-		$quantity = $this->stash['n'];
+		$quantity = (int)$this->stash['n'] || 0;
 		$com_size = $this->stash['s'];
 		
 		// 验证数据
-		if (empty($com_sku) || empty($quantity)){
-			
+		if (empty($com_sku)){
+			return $this->ajax_json('缺少请求参数，请重试！', true);
 		}
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->setItemQuantity($com_sku, $com_size, $quantity);
+		
+		// 若n=0,从购物车删除
+		if ($quantity <= 0){
+			$cart->delItem($com_sku, $com_size);
+		} else {
+			$cart->setItemQuantity($com_sku, $com_size, $quantity);
+		}
+		
 		// 重置cookie
 		$cart->set();
 		
+		if ($quantity > 0){
+			// 获取产品信息
+			$this->stash['product'] = $cart->findItem($com_sku, $com_size);
+		}
+		
 		// 获取购物车信息
-		$this->stash['product'] = $cart->findItem($com_sku, $com_size);
 		$this->stash['total_money'] = $cart->getTotalAmount();
 		$this->stash['items_count'] = $cart->getItemCount();
 		

@@ -1,118 +1,79 @@
 {%extends 'layout/board.html'%}
 {% block title %}购物车-{% endblock %}
 {% block page_css %}
-<style type="text/css">
-	.ui.cart.list {
-		
-	}
-	.ui.cart.list > .item .content > .attribute {
-		color: rgba(0,0,0, 0.35);
-		font-size: 0.875em;
-	}
-	.ui.cart.list > .item .quantity > .button {
-		background-color: rgba(255, 255, 255, 0.85);
-	    color: rgba(0, 0, 0, 0.35);
-	    padding: 0.325em;
-	}
-	.ui.cart.list > .item .quantity > .button:hover {
-		background-color: #666;
-	    color: #fff;
-		border-color: #666;
-	}
-	.ui.cart.list > .item .quantity > input {
-		width: 40%;
-		text-align: center;
-	}
-	.ui.cross.button {
-		background-color: rgba(255, 255, 255, 0.85);
-	    color: rgba(0, 0, 0, 0.35);
-	}
-	
-	.ui.help {
-		color: #9DA6AB;
-	}
-	.ui.indent {
-		font-size: 0.875em;
-		text-indent: 2.2em;
-	}
-	
-	.actions {
-		
-	}
-	
+<style type="text/css">	
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	// 更新购物车数据
 	var update_cart = function(pid, data){
-		$('#cart_items_count').text(data.items_count);
-		$('#cart_total_money').text(data.total_money);
+		// 购物车清空后，刷新页面
+		if (data.items_count == 0){
+			phenix.redirect('{{ app_url_cart }}', 0);
+		}
+		$('#cart-items-count').text(data.items_count);
+		$('#cart-total-money').text(data.total_money);
 	};
 
-	$('.inc_qty.button').bind('click', function(){
-		var inc_url = '{{ app_url_shopping }}/inc_qty',
-			sku = $(this).data('sku'),
-			qty_value = parseInt($('#product_'+sku+'_qty').val());
+	$('.inc-qty.button').bind('click', function(){
+		var sku = $(this).data('sku'),
+			qty_value = parseInt($('#product-'+sku+'-qty').val());
 			
 		// 添加1个数量
 		qty_value += 1;
 		
-		$.getJSON(inc_url, {sku: sku, n: qty_value}, function(result){
+		$.post('{{ app_url_shopping }}/inc_qty', {sku: sku, n: qty_value}, function(result){
 			if (result.success){
-				$('#product_'+sku+'_qty').val(qty_value);
-				$('#product_'+sku+'_subttotal').text(result.data.product.subtotal+'元');
+				$('#product-'+sku+'-qty').val(qty_value);
+				$('#product-'+sku+'-subttotal').find('.money').text(result.data.product.subtotal);
 				
 				update_cart(sku, result.data);
 			}else{
 				phenix.show_error_note(result.message, 5000);
 			}
-		});
-		
+		}, 'json');
 	});
 	
-	$('.dec_qty.button').bind('click', function(){
-		var dec_url = '{{ app_url_shopping }}/dec_qty', 
-			sku = $(this).data('sku'),
-			qty_value = parseInt($('#product_'+sku+'_qty').val());
+	$('.dec-qty.button').bind('click', function(){
+		var sku = $(this).data('sku'),
+			qty_value = parseInt($('#product-'+sku+'-qty').val());
 			
 		// 减少1个数量,验证是否为0
 		qty_value  -= 1;
 		
-		$.getJSON(dec_url, {sku: sku, n: qty_value}, function(result){
+		$.getJSON('{{ app_url_shopping }}/dec_qty', {sku: sku, n: qty_value}, function(result){
 			if (result.success){
 				if (qty_value <= 0){
-					$('#product_'+sku).remove();
+					$('#product-'+sku).remove();
 				}else{
-					$('#product_'+sku+'_qty').val(qty_value);
-					$('#product_'+sku+'_subttotal').text(result.data.product.subtotal+'元');
+					$('#product-'+sku+'-qty').val(qty_value);
+					$('#product-'+sku+'-subttotal').find('.money').text(result.data.product.subtotal);
 				}
-				
 				update_cart(sku, result.data);
 			}else{
 				phenix.show_error_note(result.message, 5000);
 			}
-		});
-		
+		}, 'json');
 	});
 	
+	// 从购物车删除
 	$('.ui.close.button').bind('click', function(){
-		var remove_url = '{{ app_url_shopping }}/remove',
-			sku = $(this).data('sku');
-		$.get(remove_url, {sku: sku});
+		var sku = $(this).data('sku');
+		$.get('{{ app_url_shopping }}/remove', {sku: sku});
 	});
 	
+	// 去结算
 	$('.checkout.btn').bind('click', function(){
 		var checkout = '{{ app_url_shopping }}/checkout';
 		phenix.redirect(checkout, 0);
 	});
-	
 {% endblock %}
 
 {% block content %}
-<div class="cart">
+<div class="cart page">
 	<div class="ui responsive grid">
-		
 		<div class="row">
 			<div class="ui center aligned column">
 				<div class="ui three steps">
@@ -131,93 +92,97 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="row">
 			{% if products %}
 				<div class="ui column" id="cart-body-content">
 					<h3 class="ui header">我的购物车</h3>
-					<div class="ui grid">
-						<div class="two wide column"></div>
-						<div class="left aligned six wide column">
-							产品信息
-						</div>
-						<div class="center aligned one wide column">
-							单价
-						</div>
-						<div class="center aligned three wide column">
-							购买数量
-						</div>
-						<div class="center aligned three wide column">
-							小计
-						</div>
-						<div class="center aligned one wide column"></div>
-					</div>
-				
-					<div class="ui celled cart list form">
+					<table class="ui cart padded table segment form">
+						<thead>
+							<tr>
+								<th></th>
+								<th>产品信息</th>
+								<th class="center aligned">单价</th>
+								<th class="center aligned">购买数量</th>
+								<th class="center aligned">小计</th>
+								<th class="center aligned"></th>
+							</tr>
+						</thead>
 						{% for product in products %}
-					  	<div class="item" id="product_{{ product.sku }}">
-							<div class="ui middle aligned grid">
-								<div class="two wide column">
-									<a href="{{ product.view_url }}" class="ui cover image">
-							      		<img src="{{ product.cover }}">
-									</a>
-								</div>
-								<div class="six wide column">
+						<tr id="product-{{ product.sku }}">
+							<td class="two wide">
+								<a href="{{ product.view_url }}" class="ui cover image">
+						      		<img src="{{ product.cover }}" alt="{{ product.title }}" />
+								</a>
+							</td>
+							<td class="six wide">
+					          	<div class="ui small header">
 							      	<div class="content">
-							          	<div class="header">
-											<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+										<div class="sub header">
+											<p class="attribute">编号：{{ product.sku }}</p>
 										</div>
-							          	<p class="attribute">编号：{{ product.sku }}</p>
 							      	</div>
 								</div>
-								<div class="center aligned one wide column">
-									{{ product.sale_price }}元
-								</div>
-								<div class="center aligned three wide quantity column">
-									<button class="ui mini gray dec_qty icon button" data-sku="{{ product.sku }}">
+							</td>
+							<td class="center aligned">
+								<span class="money">{{ product.sale_price }}</span> 元
+							</td>
+							<td class="center aligned">
+								<div class="quantity">
+									<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
 										<i class="flat reduce icon"></i>
 									</button>
-									<input type="text" name="product_{{ product.sku }}_qty" id="product_{{ product.sku }}_qty" value="{{ product.quantity }}" />
-									<button class="ui mini gray inc_qty icon button" data-sku="{{ product.sku }}">
+									<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" />
+									<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
 										<i class="flat add icon"></i>
 									</button>
 								</div>
-								<div class="center aligned three wide column">
-									<div id="product_{{ product.sku }}_subttotal" data-money="{{ product.subtotal }}">
-										{{ product.subtotal }}元
-									</div>
+							</td>
+							<td class="center aligned">
+								<div id="product-{{ product.sku }}-subttotal" data-money="{{ product.subtotal }}">
+									<span class="money">{{ product.subtotal }}</span> 元
 								</div>
-								<div class="center aligned one wide column">
-									<button class="ui magenta close button" data-sku="{{ product.sku }}">
-										<i class="flat close icon"></i>
-									</button>
-								</div>
-							</div>
-					  	</div>
+							</td>
+							<td class="center aligned">
+								<button class="magenta ui close button" data-sku="{{ product.sku }}">
+									<i class="flat close icon"></i>
+								</button>
+							</td>
+						</tr>
 						{% endfor %}
-					</div>
+					</table>
 				
-					<div class="ui grid">
-						<div class="left floated eight wide column">
-							<a href="{{ app_url_shop }}" class="ui green button">继续购物</a>
-						</div>
-						<div class="right aligned floated eight wide column">
-							<p><b id="cart_items_count">{{ items_count }}</b>件产品，总计： <b id="cart_total_money">{{ total_money }}</b>元</p>
-							<button class="ui active magenta btn-4 btn-4c icon-arrow-right checkout btn">去结算</button>
+					<div class="ui bottom aligned grid">
+						<div class="row">
+							<div class="six wide column">
+								<a href="{{ app_url_shop }}" class="ui black btn-4 btn-4c icon-arrow-right btn" data-content="继续挑选商品" data-variation="inverted">继续购物</a>
+							</div>
+							<div class="right aligned ten wide column">
+								<div class="bill">
+									<p class="item">
+										<b id="cart-items-count">{{ items_count }}</b>件产品，总计：<b id="cart-total-money">{{ total_money }}</b><span class="unit">元</span>
+									</p>
+								</div>
+								<a class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">去结算</a>
+							</div>
 						</div>
 					</div>
 				</div>
 			
 			{% else %}
-				<div class="ui column" id="cart-body-content">
+				<div class="column" id="cart-body-content">
 					<h3 class="ui header">我的购物车</h3>
-					<div class="ui message">
-						您还没找到喜欢的产品吗？<a href="{{ app_url_shop }}" class="ui link">赶快去选购吧</a>
+					<div class="ui empty message">
+						<div class="ui big header">
+							<i class="cart icon"></i>
+							<div class="content">
+								<div class="sub header">还没找到喜欢的产品吗？<a href="{{ app_url_shop }}" class="ui magenta link">赶快去选购吧</a></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			{% endif %}
 		</div>
-		
 	</div>
 </div>
 {% endblock %}
