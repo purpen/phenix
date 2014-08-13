@@ -229,7 +229,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$model->increase_counter('view_count', 1, $id);
 		
 		// 当前用户是否有管理权限
-		if ($this->visitor->is_login){
+		if ($this->visitor->id){
 			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_admin){
 				$editable = true;
 			}
