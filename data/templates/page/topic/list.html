@@ -167,7 +167,9 @@
 						
 						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
 						{% for topic in list.rows %}
-							{% include "block/topic_item.html" %}
+							{% if !topic.top %}<!--过滤置顶帖子-->
+								{% include "block/topic_item.html" %}
+							{% endif %}
 						{% endfor %}
 						</tbody>
 					</table>
