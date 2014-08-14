@@ -46,7 +46,7 @@ function inc_version($css_version, $js_version, $to_src){
 	echo "Start to inc version ... \n";
 	
 	$css_files = array('css/base.min.css','css/frbird.min.css');
-	$js_files = array('javascript/base.min.js', 'javascript/jquery_bundle.min.js', 'javascript/bird.min.js');
+	$js_files = array('javascript/base.min.js', 'javascript/jquery_bundle.min.js', 'javascript/frbird.min.js');
 	
 	for($i=0;$i<count($css_files);$i++){
 		$file = $css_files[$i];
