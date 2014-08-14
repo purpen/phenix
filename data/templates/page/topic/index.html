@@ -56,24 +56,22 @@
 					<div class="ui three items">
 						{% for child in children.rows %}
 						<div class="item">
-							<div class="box">
-								<div class="ui header">
-									<div class="picicon">
-										<div class="cate icon">
-											<i class="flat s_{{ child.name }} icon"></i>
-										</div>
+							<div class="ui header">
+								<div class="picicon">
+									<div class="cate icon">
+										<i class="flat s_{{ child.name }} icon"></i>
 									</div>
-								  	<div class="content">
-										<a class="ui magenta link" href="{{ child.view_url }}">
-											{{ child.title }}
-											{% if child.total_count %}
-											<small class="newadd">({{ child.total_count }})</small>
-											{% endif %}
-										</a>
-								    	<div class="sub header">{{ child.summary|truncate 40 }}</div>
-										<div class="count">主题：{{ child.total_count }} , 回帖：{{ child.reply_count|default 0 }}</div>
-								  	</div>
 								</div>
+							  	<div class="content">
+									<a class="ui magenta link" href="{{ child.view_url }}">
+										{{ child.title }}
+										{% if child.total_count %}
+										<small class="newadd">({{ child.total_count }})</small>
+										{% endif %}
+									</a>
+							    	<div class="sub header">{{ child.summary|truncate 40 }}</div>
+									<div class="count">主题：{{ child.total_count }} , 回帖：{{ child.reply_count|default 0 }}</div>
+							  	</div>
 							</div>
 						</div>
 						{% endfor %}
