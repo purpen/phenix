@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block page_css %}
 {% endblock %}
 {% block js %}
@@ -6,19 +6,290 @@
 {% block jquery %}
 {% endblock %}
 {% block content %}
-<section class="ui big block">
-	<div class="ui responsive center aligned grid">
-		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">加入我们</h3>
-				<hr>
+<div id="joinus">
+	<section class="ui join-banner block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h1 class="ui header">
+						<div class="content">
+							“燃”是一种精神
+							<div class="sub header">太火鸟，寻找火苗！</div>
+						</div>
+					</h1>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="center aligned column">
-				
+	</section>
+	<section class="ui big principle block">
+		<div class="ui responsive center aligned grid">
+			<div class="row">
+				<div class="center aligned column section-title">
+				<h3 class="ui header fz-2">让我们来设计一份完美工作</h3>
+				</div>
+			</div >
+			<div class="row">
+				<div class="five center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/join_2.png">
+					<h3 class="ui header color">有情趣</h3>
+					<p>上班不用打卡+工作不用通宵+公司环境优雅+最好还有休闲下午茶</p>
+				</div>
+				<div class="five center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/join_3.png">
+					<h3 class="ui header color">有情义</h3>
+					<p>公司地标要有格调+但也不要太热闹+地方不用太大+小伙伴们理想却很大</p>
+				</div>
+				<div class="five center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/join_4.png">
+					<h3 class="ui header color">有情怀</h3>
+					<p>周边要有高逼格咖啡店+要有新奇创意小商店+最好还有文艺展览馆，比如798</p>
+				</div>
+			</div>
+			<div class="row last mt-0">
+				<div class="center aligned column section-title">
+					<p>如果这是你以为遥不可及的梦想，太火鸟早已将其变为现实。太火鸟是实力雄厚的互联网公司、顶尖的创新产品孵化器、原创产品社会化电商平台，坐落于北京798艺术区，致力于将一切梦想转换为现实。这里有一群敢于梦想、坚持理想的太火鸟人，他们时刻并永久坚信：人生是场大设计！</p>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+	<section class="ui big white background block">
+		<div class="ui responsive grid">
+			<div class="center aligned row">
+				<div class="center aligned column section-title">
+					<h3 class="ui header fz-2">与太火鸟共同成长</h3>
+					<p>我们有优秀的团队，活力的氛围，源源不断的创意，目前已入选微软孵化器，未来还会有更大的建树！你将有机会与太火鸟见证创意经济时代的未来！</p>
+				</div>
+			</div >
+			<div class="photo row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/join_5.jpg" class="ui image" />
+				</div>
+			</div>
+			<div class="photo row">
+				<div class="ten wide column">
+					<img src="{{ app_url_packaged }}/images/join_6.jpg" class="ui image" />
+				</div>
+				<div class="six wide column">
+					<img src="{{ app_url_packaged }}/images/join_7.jpg" class="ui bt image" />
+					<img src="{{ app_url_packaged }}/images/join_8.jpg" class="ui image" />
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big jobs block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header fz-2">加入太火鸟</h3>
+					<p>不管你是“颜色不一样的烟火”还是“温饱梦想的火柴”，不管你是互联网资深极客还是职场新鲜人，只要你有理想、敢梦想、能燃烧，就是我们要找的火苗！</p>
+				</div>
+			</div >
+			<div class="two column row">
+				<div class="column">
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	营销策划<small>2个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<p>1、日常运营及维护线上新媒体渠道；<br>
+							2、策划并执行网络营销活动及促销活动；<br>
+							3、开拓网络营销渠道、并维护良好的合作关系；<br>
+							4、内容营销的策划与编辑；（提前策划，紧追市场新动向，捕捉最新的网络词语、语句、图片等应用于我们，并做好提前编辑存储）<br>
+							5、每天监控线上营销效果，并作出风险预估和应对。<br></p>
+							<strong>职位要求：</strong><br>
+							<p>1、洞察力强，能够及时发现社会动态，热点事件；<br>
+							2、3年以上营销策划工作经验；<br>
+							3、具备良好的理解力和执行力、文案处理能力；<br>
+							4、良好的沟通能力，保证部门和对外的合作顺利进行；<br>
+							5、创造力强，对新鲜事物保持好奇心。<br>
+							（面试时请带作品稿件）</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	社区编辑<small>2个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<p>1、负责社区日常运营，发掘推广优质用户，引导用户产生内容，增强社区互动；<br>
+							2、负责社会化媒体运营推广（微博、微信）及网络媒体关系管理；<br>
+							3、社区合作及活动的策划实施，开拓电子邮件、短信、数据库营销等线上营销方式；<br>
+							4、收集分析用户意见反馈，分析用户需求并提出合理化建议；<br></p>
+							<strong>
+								职位要求:</strong><br>
+							<p>1、熟悉sns，喜欢设计，能独立策划、组织、执行、控制推广项目；<br>
+							2、能承受压力，有创新思维，有较强的学习以及适应能力；<br>
+							3、优秀的沟通、协调能力，执行力强，敬业，有强烈的责任心以及高工作效率；<br>
+							4、知识面广，对新事物抱有很强的好奇心，对互联网行业的最新动态非常了解。</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	美术设计<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<p>1、负责网站视觉设计；<br>
+							2、设定产品整体界面视觉风格与创意规划；<br>
+							3、界面设计规范文档书写；<br>
+							4、线上、线下活动物料设计；<br></p>
+							<strong>职位要求：</strong><br><p>
+							1、精通MAC软件、Photoshop、Illustrator、Dreamweaver等设计工具；<br>
+							2、热衷于界面设计与相关研究有较强的学习能力，富有激情、创造力和责任感；<br>
+							3、提供个人设计作品。<br>
+							（面试时请带作品稿件）</p>
+								<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	电商运营<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<p>1、协助负责官网及店铺管理并完成店铺销售目标；<br>
+							2、协助负责店铺日常维护、产品更新、评价管理、客户关系管理；<br>
+							3、协助负责官网及店铺内销售产品描述的优化，提升产品在淘宝网搜索排名。<br>
+							4、协助负责官网及店铺的整体活动规划，策划淘宝站内各种活动推广工作；<br>
+							5、跟进淘宝网的各种官方推广活动的执行，配合淘宝网小二力争最佳活动效果；<br>
+							6、每日监控的数据：营销数据、交易数据、商品管理、顾客管理；<br>
+							<strong></p>
+								职位要求：</strong><br><p>
+							1、大专及以上学历，电子商务专业或相关专业，大学期间有自己开过淘宝店铺，或者参加过淘宝运营者优先；<br>
+							2、对电子商务有兴趣、责任心强，为人诚信正直，有超强的耐心和毅力，能够吃苦耐劳，接受挑战；<br>
+							3、有市场的观察力，大学期间做过销售行业，或者学生会干部，善于分析，有过策划活动经验的优先考虑；</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	客服专员<small>2个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<p>1 、通过淘宝旺旺在线聊天工具做售前客服，了解买家的需求从而推荐相关的商品，促进销售成功；<br>
+							2 、帮助客户查询以及跟踪物流情况，及时处理漏件丢件等情况；<br>
+							3 、买家收到货以后，对产品有疑问等一系列相关的售后问题，耐心帮买家解答。<br></p>
+							<strong>任职要求 :</strong><br>
+							<p>1 、熟悉淘宝网店的基本操作运营流程，普通话流利，对顾客有耐心、有礼貌，迅速的熟悉产品并且能解决顾客提出的常见问题；<br>
+							2 、熟练使用日常办公软件 excel 、 word ，电脑操作熟练，打字速度要快；<br>
+							3 、有亲和力和较强的责任感、具有独立工作的能力，重视团队合作精神 ；<br>
+							4 、善于收集消费者反馈的问题，总结目前网店服务需要改进的地方。<br></p>
+							<strong>加分条件：</strong><br><p>
+							1 、开过个人网店或独立运营过网店；<br>
+							2 、有相关客服工作经验优先考虑。</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	创意文案<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							这里没有条条框框，只有求贤若渴的渴望；这里没有政治环境，只有平等的交流与创新；在这里，指点江山、激扬文字....如果你自认妙笔生花，请仰天过来；如果你虎落平阳，来这重整雄风。哪怕怀才不遇，也要在文字的寂寥中傲视天下！这，就是对你，对我，对所有文案的的自白与要求。<br></p>
+							<strong>职位要求：</strong><br>
+							<p>1、对文字有感应，能感触到文字的体温、脉搏、呼吸；<br>
+							2、有创意，2年以上创意文案经验；<br>
+							3、对文案职业有着神圣的狂热和激情；<br>
+							4、大专以上学历，中文专业优先；<br>
+							（面试时请带作品稿件）</p>
+								<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	商品经理<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<p>1、商品开发经理，跟踪智能产品及创意产品前沿发展动态，寻找最新，热的智能产品及创意产品；<br>
+							2、商品开发经理，与相关部门沟通协调，及时了解产品生产及推广进度；<br>
+							3、商品开发经理 整理各类相关产品资料；<br></p>
+							<strong>职位要求:</strong><br>
+							<p>1、&nbsp;大专以上学历；<br>
+							2、对智能产品及创意产品有浓厚的兴趣；<br>
+							3、具有良好的沟通和组织协调能力和团队合作精神；</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	PHP工程师<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>职位描述：</strong><br>
+							<strong>任职要求：</strong><br>
+							<p>1、计算机相关专业；<br>
+							2、有很好的php和linux基础；<br>
+							3、熟练掌握数据结构与算法设计；<br>
+							4、学习能力强，踏实，有上进心。</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	运维工程师<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>任职要求：</strong><br>
+							<p>1、熟悉各种Linux的操作、安装部署、升级及Linux通用应用的调试；<br>
+							2、熟悉Linux网络配置及安全；<br>
+							3、能基于Linux实现系统及软件应用优化；<br>
+							4、熟悉Shell语言编程，了解C语言、PHP及HTML5；<br>
+							5、熟悉MongoDB、Mysql等应用配置，了解基本数据库操作；<br>
+							6、有责任心、钻研能力强，踏实；<br>
+							7、团队合作能力、善于交流。</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+					<div class="ui accordion">
+					  	<div class="title">
+					      	<i class="dropdown icon"></i>
+					      	行政人事<small>1个职位</small>
+					  	</div>
+					  	<div class="content">
+							<strong>任职要求：</strong><br>
+							<p>1、负责公司日常管理工作和综合服务工作，确保后勤保障到位，工作顺畅和环境优雅； &nbsp;<br>
+							2、负责公司的行政后勤工作，安全保卫和消防管理工作，创造舒适、优美、整洁的工作生活环境；<br>
+							3、负责公司资产管理、办公用品和劳保用品的管理工作,避免公司资产流失和浪费；<br>
+							4、负责公司各项规章制度的推行，执行与追综，维护公司各项规章制度的权威；<br>
+							5、负责对公司突发事件的处理工作，协助公司处理各项突发事件；<br>
+							6、配合工务课进行内部维修的管理，保障各部门正常开展各项工作；<br>
+							7、负责公司各部门的办公秩序和纪律状况，确保工作正常有序无违纪现象；<br></p>
+							<strong>任职要求 :</strong><p>
+							1、具有良好的沟通协调能力、语言文字表达能力，工作积极主动，责任心、执行力较强，抗压能力较强；<br>
+							2、有一定的数据统计、分析能力，能熟练操作办公软件；<br>
+							3、有良好的服务意识；<br>
+							4、性格稳重、正直、具有较强的责任心、专业领域的专注度和沟通能力，文笔流畅；<br>
+							5、对办公室工作程序熟悉。</p>
+							<a href="mailto:hi@taihuoniao.com" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">申请此职位</a>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<div class="floor">
+						<p>联系人：穆小姐    &nbsp; &nbsp; &nbsp; 邮箱：<a href="mailto:hi@taihuoniao.com" class="ui magenta link"> hi@taihuoniao.com</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
 {% endblock %}
