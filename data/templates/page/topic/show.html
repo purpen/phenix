@@ -2,7 +2,7 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+
 </style>
 {% endblock %}
 {% block js %}
@@ -328,7 +328,7 @@
 											<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
 										</a>
 										<div class="content">
-											<a class="author">{{ reply.user.nickname }}</a>
+											<a class="author ui magenta link" href="{{ reply.user.home_url }}">{{ reply.user.nickname }}</a>
 											<div class="metadata">
 												<div class="date">{{ reply.replied_on }}</div>
 											</div>

@@ -5,8 +5,7 @@
 	
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 	$('.ui.cart.button').click(function(){
 		$.get($(this).attr('href'));
@@ -15,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop list">
+<div class="shop list" id="shoplist">
 	<div class="ui responsive grid">
 		<div class="center aligned row">
 			<div class="column">
