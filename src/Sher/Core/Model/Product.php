@@ -94,6 +94,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 回应数 
     	'comment_count' => 0,
+		# 评价星数
+		'comment_star' => 0,
 		# 话题数
 		'topic_count' => 0,
 		# 赞成数
@@ -352,6 +354,32 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		return $this->update_set($id, array('score_count'=>$score_count,
 										'score_average'=>$score_average,
 										'score'=>$score));
+	}
+	
+	/**
+	 * 更新最后的评价,并且comment_count+1
+	 */
+	public function update_last_reply($id, $user_id, $star){
+		$query = array('_id'=> (int)$id);
+		$new_data = array(
+			'$inc' => array('comment_count'=>1, 'comment_star'=>(int)$star),
+		);
+		// 更新所属类别的回复数
+		$this->update_category_reply_count($id);
+		
+		return self::$_db->update($this->collection,$query,$new_data,false,false,true);
+	}
+	
+	/**
+	 * 更新类别回复数
+	 */
+	public function update_category_reply_count($id){
+		$row = $this->find_by_id((int)$id);
+		if (!empty($row)) {
+			$category = new Sher_Core_Model_Category();
+			$category->inc_counter('reply_count', 1, $row['category_id']);
+			unset($category);
+		}
 	}
 	
 	/**

@@ -27,17 +27,174 @@
 		padding-left: 4em;
 		padding-right: 4em;
 	}
-	.ui.inventor {
+	
+	
+	
+	body {
+		background-color: #fff;
+	}
+	
+	#shoppage {
+		margin: 0.5em auto 3em;
+	}
+	
+	.product.cover {
+		margin: 1.5em auto;
+	}
+	.product.cover .thumb.wrap {
+		margin-top: 1.5em;
+	}
+	.product.cover .ui.mini.images .image {
+		margin: 0 0.45em;
+	}
+	.product.cover .ui.images img {
+		margin: 0;
+		padding: 5px;
+		border: 1px solid transparent;
+	}
+	.product.cover .thumb.wrap .image:hover img,
+	.product.cover .thumb.wrap .active.image img {
+		border: 1px solid rgba(0, 0, 0, 0.15);
+	}
+	
+	
+	.buy.box {
+		background-color: #f4f4f4;
+	}
+	.buy.box .ui.grid > .row {
+		margin-bottom: 0rem;
+	}
+	.buy.box .attributes {
+		margin-top: 2em;
+	}
+	.buy.box .count {
+		margin-right: 0.2em;
+		font-weight: bold;
+	}
+	
+	.buy.box .ui.grid > .row > .column {
+		padding-top: 1.5%;
+		padding-bottom: 1.5%;
+	}
+	.buy.box .unit {
+		font-size: 1.5em;
+	}
+	.buy.box .price {
+		color: #444;
+		font-size: 2em;
+		margin-right: 1em;
+	}
+	.buy.box .ui.basic.table tbody tr {
+		border-bottom: 1px solid rgba(0, 0, 0, 0);
+	}
+	.buy.box .ui.basic.table .buy.btn {
+		width: 180px;
+	}
+	.buy.box .ui.basic.table .ui.btn + .btn {
+	   margin-left: 0.25em;
+	}
+	.buy.box .ui.basic.table .ui.btn.icon {
+		padding: 1em;
+	}
+	
+	.product.promotion {
+		display: none;
+		margin: 1.5em auto;
+	}
+	.product.promotion .picicon {
+		padding-right: 0em;
+	}
+	.product.promotion .picicon .icon {
+		opacity: 1;
+		margin: 0;
+	}
+	
+	.ui.tabox {
+		border-bottom: 1px solid #e4e5e7;
+		margin: 2.5em auto 1.5em;
+	}
+	.ui.tabs {
+		display: block;
+	    font-size: 0rem;
+	    width: 100% !important;
+	}
+	.ui.tabs .tab {
+		box-sizing: border-box;
+		cursor: pointer;
+		color: #444;
+	    display: inline-block;
+	    font-size: 1.5rem;
+	    padding-bottom: 0.8%;
+	    padding-top: 0.8%;
+	    text-align: left;
+	}
+	.ui.tabs .tab:hover,
+	.ui.tabs .active.tab {
+		border-bottom: 2px solid #ff3366;
+		color: #ff3366;
+	}
+	.ui.three.tabs .tab {
+		width: 33.3333%;
+	}
+	.ui.four.tabs .tab {
+		width: 25%;
+	}
+	
+	
+	.product.inventor {
 		background-color:rgba(255,51,102,1);
 		color: #fff;
+		margin: 2em auto;
 	}
-	.inventor .inventor-info {
-	    margin: 1em auto;
-	    text-align: center;
+	.product.inventor .inventor.info {
+	    margin: 4em auto;
 	}
-	.inventor .inventor-info .summary {
-		margin: 1em auto;
+	.product.inventor .inventor.info .sub.header {
+		color: #fff;
+	}
+	.product.inventor .inventor.avatar {
+	    margin: 2.5em auto;
+	}
+	.product.inventor .inventor.info .summary {
+		margin: 2em auto;
 		line-height: 24px;
+	}
+	.product.inventor .inventor.avatar .actions {
+		margin: 2em auto;
+	}
+	
+	#shoppage .ui.comments .comment > .content > .metadata {
+	    color: rgba(0, 0, 0, 0.3);
+	}
+	#shoppage .ui.comments .comment > .content > .laud {
+	    float: right;
+	}
+	#shoppage .ui.reply.segment {
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
+	}
+	#shoppage .ui.comments .comment {
+		padding: 0.5em 0;
+		border: 1px solid transparent;
+		border-radius: 3px;
+	}
+	#shoppage .ui.comments .comment .comment {
+		margin-right: 1em;
+	}
+	#shoppage .ui.comments .comment:hover {
+		border-color: rgba(255,51,102,1);
+		background-color: rgba(0,0,0,0.02);
+		padding: 0.5em 0;
+	}
+	#shoppage .post.comment {
+		margin-top: 1em;
+	}
+	#shoppage .product.service {
+		margin: 2em auto;
+		padding: 1.5em 0;
+		background-color: #f8f8f8;
+	}
+	#shoppage .product.service .ui.header {
+		margin-bottom: 0.35rem;
 	}
 </style>
 {% endblock %}
@@ -47,171 +204,396 @@
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
 	
+	$('.ui.write.rating').rating({
+		onRate: function(value){
+			$('#comment-star').val(value);
+		}
+	});
 	
 	$('.ui.cart.btn').click(function(){
 		$.get($(this).attr('href'));
 		return false;
 	});
 	
+	var $frame = $('#oneperframe');
+	var $wrap = $frame.parent();
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'forceCentered',
+		smart: 1,
+		activateMiddle: 1,
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		scrollBar: $wrap.find('.scrollbar'),
+		scrollBy: 1,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+		// Buttons
+		prev: $wrap.find('.prev'),
+		next: $wrap.find('.next')
+	});
+	
+	
 {% endblock %}
 
 {% block content %}
-<div class="ui shop show">
+<div class="ui shop show" id="shoppage">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="twelve wide column">
+		<div class="middle aligned row">
+			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domain }}">首页</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
 			</div>
-		</div>
-		
-		<div class="row product fever-view">
-			<div class="eight wide cover column">
-				<img src="{{ product.cover.thumbnails.big.view_url }}" id="main-cover" />
+			<div class="five wide right aligned column">
+				<div class="ui pop icon magenta share button" data-content="分享" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+					<i class="share icon"></i>
+				</div>
 			</div>
-			<div class="eight wide column">
-				<h3 class="ui header">
-					{{ product.title }}
-				</h3>
-				<div class="ui two column product designer grid">
-					<div class="left floated column">
-						<a href="{{ product.user.home_url }}" class="ui link" title="设计师">
-							{{ product.user.nickname }}
-						</a>
+		</div>
+	</div>
+	
+	<div class="product cover">
+		<div class="ui responsive grid">
+			<div class="center aligned row">
+				<div class="cover column">
+					<div class="main">
+						<img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" />
 					</div>
-					<div class="right floated aligned column">
-						<a href="{{ app_url_fever }}/ajax_laud?id={{ product._id }}" class="ui laud ajax link" id="laud_{{ product._id }}">
-							{{ product.love_count }} <i class="flat like icon"></i>
-						</a>
+					<div class="thumb wrap">
+						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+						<!--展示图片-->
+						<div class="ui mini images">
+							{% for asset in assets.rows %}
+							<a href="{{ asset.thumbnails.big.view_url }}" class="{% if asset._id == product.cover_id %}active {% endif %}image">
+						  		<img src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
+							</a>
+							{% endfor %}
+						</div>
 					</div>
-				</div>
-				
-				<div class="ui clearing divider"></div>
-				
-				<div class="attributes">
-					<p class="item">
-						<label><span class="letter-spacing-two">价</span>格：</label>
-						<label class="price">{{ product.sale_price }}</label> 元
-					</p>
-					<p class="item">
-						<label>产品评价：</label>
-						<label>{{ product.comment_count }}</label>条
-					</p>
-				</div>
-				
-				<div class="ui clearing divider"></div>
-				
-				<div class="buy">
-					<a href="{{ app_url_cart_buy }}?sku={{ product._id }}" class="ui active cart magenta btn-4 btn-4c icon-arrow-right btn">
-						<i class="flat shoppingin icon"></i> 加入购物车
-					</a>
-				
-					<a href="{{ app_url_topic }}/ajax_favorite?id={{ product._id }}" class="ui gray btn-4 btn-4c icon-arrow-right ajax btn" id="favorite_{{ product._id }}">
-						<i class="flat add icon"></i> 收藏
-					</a>
 					
 				</div>
-				
-				<div class="ui clearing divider"></div>
-				
-				<div class="ui info message">
-					<i class="flat close icon"></i>
-					<div class="ui header">
-						分享赢好礼！So easy!
-						<p class="sub header">
-							邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券； 
+			</div>
+		</div>
+	</div>
+	
+	<div class="buy box">
+		<div class="ui responsive grid">
+			<div class="two column row">
+				<div class="column">
+					<h3 class="ui dark header">
+						<div class="content">
+							{{ product.title }}
+							<div class="sub header">
+								<a href="{{ product.user.home_url }}" class="ui magenta link" title="设计师">
+									{{ product.user.nickname }}
+								</a>
+							</div>
+						</div>
+					</h3>
+					<div class="attributes">
+						<p class="item">
+							<div class="ui small star rating hover">
+							  	<i class="icon active"></i>
+							  	<i class="icon"></i>
+							  	<i class="icon"></i>
+							  	<i class="icon"></i>
+							  	<i class="icon"></i>
+							</div>
+							<small><span class="count">{{ product.comment_count }}</span>条评价 | <span class="count">{{ product.love_count }}</span>人点赞</small>
 						</p>
 					</div>
+				</div>	
+				<div class="right aligned column">
+					<table class="ui basic table">
+						<tr>
+							<td>
+								<span class="unit">￥</span><span class="price">{{ product.sale_price }}</span>
+								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn" data-id="{{ topic._id }}">
+									加入购物车
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="ui gray btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+									收藏
+								</div>
+								<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+									<i class="heart empty icon"></i>
+								</div>
+							</td>
+						</td>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="product promotion">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui gray message">
+						<i class="flat close icon"></i>
+						<div class="ui header">
+							<div class="picicon">
+								<i class="gift icon"></i>
+							</div>
+							<div class="content">
+								分享赢好礼！
+								<p class="sub header">
+									邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券； 
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="ui tabox">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui four tabs">
+					  	<div class="active tab" data-tab="overview">产品详情</div>
+					  	<div class="tab" data-tab="inventor">设计者</div>
+						<div class="tab" data-tab="reviews">用户评价</div>
+						<div class="tab" data-tab="service">售后服务</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="product overview">
+		<a name="overview"></a>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="product content froala-element">
+						{{ product.content }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="product inventor">
+		<a name="inventor"></a>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="nine wide column">
+					<div class="inventor info">
+						<h3 class="ui header">
+							设计者
+						</h3>
+						<h4 class="ui header">
+							<div class="content">
+								{{ product.user.nickname }}
+								<div class="sub header">
+									{{ product.user.city }} {{ product.user.profile.job }}
+								</div>
+							</div>
+						</h4>
+						<div class="summary">
+							{{ product.user.summary }}
+						</div>
+					</div>
+				</div>
+				<div class="one wide column"></div>
+				<div class="six wide center aligned column">
+					<div class="inventor avatar">
+						<a href="{{ product.user.home_url }}" class="ui huge avatar image" >
+							<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+						</a>
+						<div class="actions">
+							<button class="ui small white button">
+								关注 
+							</button>
+							<button class="ui small white button">
+								私信 
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="product reviews">
+		<a name="reviews"></a>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui dividing header">
+						用户评价 <small>（{{ product.comment_count }}）</small>
+					</h3>
+					<div class="ui big reply segment">
+						<div class="ui threaded minimal comments">
+							{% comment_list var:'comments' page:page target_id:product._id %}
+							{% for comment in comments.rows %}
+							<div class="comment" id="{{ comment._id }}">
+								<a class="avatar" href="{{ comment.user.home_url }}">
+									<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+								</a>
+								<div class="content">
+									<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+									<div class="metadata">
+										<div class="date">{{ comment.created_on }}</div>
+										{% include "block/star.html" %}
+									</div>
+									<div class="laud">
+										<a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
+											<i class="icon empty heart"></i>
+										</a>
+									</div>
+									
+									<div class="text">
+										{{ comment.content }}
+									</div>
+									{% if visitor.is_login %}
+									<div class="actions">
+										<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+										<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+									</div>
+									<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+										<input type="hidden" name="type" value="2" />
+										<input type="hidden" name="comment_id" value="{{ comment._id }}" />
+										<input type="hidden" name="target_id" value="{{ topic._id }}" />
+										<div class="field">
+											<textarea name="content" class="reply-content"></textarea>
+										</div>
+										<div class="ui active button magenta submit labeled icon">
+											<i class="icon location"></i> 回复
+										</div>
+									</form>
+									{% endif %}
+								</div>
+						
+								{% if comment.reply %}
+								<div class="comments">
+									{% for reply in comment.reply %}
+										<div class="comment">
+											<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+												<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+											</a>
+											<div class="content">
+												<a class="author">{{ reply.user.nickname }}</a>
+												<div class="metadata">
+													<div class="date">{{ reply.replied_on }}</div>
+												</div>
+												<div class="text">
+													{{ reply.content }}
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+								{% endif %}
+						
+							</div>
+							{% endfor %}
+						</div>
+				
+						<div class="post comment">
+							<div class="ui segment">
+								<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评价</p>
+								<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+									<input type="hidden" name="target_id" value="{{ product._id }}" />
+									<input type="hidden" name="type" value="4" />
+									<div class="field">
+										<input type="hidden" name="star" id="comment-star" />
+										<div class="rate">
+										  	综合评分:
+										  	<div class="ui star write rating">
+										    	<i class="icon"></i>
+										   		<i class="icon"></i>
+										    	<i class="icon"></i>
+										    	<i class="icon"></i>
+										    	<i class="icon"></i>
+										  	</div>
+										</div>
+									</div>
+									<div class="field">
+										<label>评价说：</label>
+										<textarea name="content" class="comment-textarea" ></textarea>
+									</div>
+									<div class="right aligned column">
+										<input type="submit" class="ui small magenta button" value="添加评论" />
+									</div>
+									{% if !visitor.is_login %}
+									<div class="not login">
+										<div class="ui grid">
+											<div class="row">
+												<div class="center aligned column">
+													<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
+													<p class="ui gray text">注册登录后可发评论</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									{% endif %}
+								</form>
+							</div>
+						</div>
+				
+					</div>
+					
 					
 				</div>
 			</div>
 		</div>
-		
-		<div class="row">
-			<div class="ui column">
-				<div class="ui sixteen wide center aligned submenu column">
-					<div class="ui magenta product buttons">
-					  	<a class="ui active item button" data-tab="content">产品详情</a>
-					  	<a class="ui item button" data-tab="inventor">设计师</a>
-					  	<a class="ui item button" data-tab="people">用户评价（{{ product.comment_count }}）</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="ui column">
-				
-				<div class="ui active tab segment" data-tab="content">
-					<div class="ui center aligned grid">
-						<div class="ui twelve wide column product-content froala-element">
-							{{ product.content }}
-						</div>
-					</div>
-				</div>
-		
-				<div class="ui tab inventor" data-tab="inventor">
-					<div class="ui grid">
-						<div class="two wide column"></div>
-						<div class="twelve wide column">
-							<div class="inventor-info">
-								<img src="{{ product.user.big_avatar_url }}" class="ui big avatar image" />
-								<h2 class="ui header">
-									{{ product.user.nickname }}
-								</h2>
-								<p>
-									<i class="flat locator icon"></i> {{ product.user.city }} {{ product.user.profile.job }}
-								</p>
-								<div class="actions">
-									<a href="" class="ui small white button">
-										关注 
-									</a>
-									<a href="" class="ui small white button">
-										私信 
-									</a>
-								</div>
-								<div class="summary">
-									{{ product.user.summary }}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-				<div class="ui tab segment" data-tab="people">
-					<div class="ui grid">
-						<div class="ui two wide column"></div>
-						<div class="ui twelve wide column">
-							<h3 class="ui header">预定者</h3>
-							<!--最新投票者列表-->
-							<div class="avatars" id="product-vote-people">
-								{% vote_list var:'votelist' target_id:product._id size:8 %}
-							    <div class="ui horizontal list">
-									{% for vote in votelist.rows  %}
-									<div class="item">
-										<a class="ui small avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted">
-											<img src="{{ vote.user.small_avatar_url }}" />
-										</a>
-									</div>
-									{% endfor %}
-								</div>
-				
-							</div>
-				
-						</div>
-						<div class="ui two wide column"></div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		
-		
 	</div>
+	
+	<div class="product service">
+		<a name="service"></a>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui dividing header">
+						售后服务及常见问题
+					</h3>
+				</div>
+			</div>
+			<div class="two column row">
+				<div class="column">
+					<div class="ui segment">
+						售后服务
+					</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">
+						<h4 class="ui header">常见问题</h4>
+						<div class="ui selection list">
+							<div class="item">
+								<h4 class="ui gray header">收藏商品功能</h4>
+								<p>点击“收藏按钮”后，按钮中的填实黑色,代表收藏成功，再次点击取消收藏。您可在“个人中心”中的我的收藏查看所有收藏商品。</p>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
 {% endblock %}

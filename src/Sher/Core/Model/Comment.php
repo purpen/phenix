@@ -12,11 +12,13 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     const TYPE_USER = 1;
     const TYPE_TOPIC = 2;
 	const TYPE_TRY = 3;
+	const TYPE_PRODUCT = 4;
 	
     
     protected $schema = array(
         'user_id' => 0,
         'target_id' => 0,
+		'star' => 0,
         'content' => '',
         'reply' => array(),
         'type' => self::TYPE_TOPIC,
@@ -27,7 +29,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
-    protected $int_fields = array('user_id','target_user_id');
+    protected $int_fields = array('user_id','target_user_id','star');
 	
 	/**
 	 * 验证数据
@@ -45,6 +47,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 			case self::TYPE_TOPIC:
 				$model = new Sher_Core_Model_Topic();
 				$model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
+				break;
+			case self::TYPE_PRODUCT:
+				$model = new Sher_Core_Model_Product();
+				$model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
 				break;
 			case self::TYPE_TRY:
 				$model = new Sher_Core_Model_Try();

@@ -23,7 +23,7 @@
 				{% else %}
 					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 %}
 					<!--展示图片-->
-					<div class="ui small images">
+					<div class="ui mini images">
 						{% for asset in assets.rows %}
 					  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 						{% endfor %}

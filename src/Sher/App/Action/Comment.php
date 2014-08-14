@@ -44,6 +44,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	public function do_save(){
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
+		$row['star'] = $this->stash['star'];
 		$row['target_id'] = $this->stash['target_id'];
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];

@@ -32,7 +32,7 @@
 			{% product_list var:'list' page:page category_id:category_id stage:9 only_onsale:1 size:16 %}
 			{% if list.rows %}
 			<div class="column">
-				<div class="ui four items">
+				<div class="ui three items">
 					{% for product in list.rows %}
 				  		{% include "block/product_item.html" %}
 				    {% endfor %}
