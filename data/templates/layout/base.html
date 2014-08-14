@@ -27,45 +27,6 @@
 				font-family: arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
 			}
 			
-			.ui.dropdown {
-			  cursor: pointer;
-			  position: relative;
-			  display: inline-block;
-			  line-height: 1;
-			  -webkit-transition: border-radius 0.1s ease, width 0.2s ease;
-			  transition: border-radius 0.1s ease, width 0.2s ease;
-			  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-			  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
-			  tap-highlight-color: rgba(0, 0, 0, 0);
-			}
-
-			/*******************************
-			            Content
-			*******************************/
-
-			/*--------------
-			     Menu
-			---------------*/
-
-			.ui.dropdown .menu {
-			  cursor: auto;
-			  position: absolute;
-			  display: none;
-			  top: 100%;
-			  margin: 0em;
-			  background-color: #FFFFFF;
-			  min-width: 100%;
-			  white-space: nowrap;
-			  font-size: 0.875em;
-			  text-shadow: none;
-			  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
-			  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
-			  border-radius: 0px 0px 0.325em 0.325em;
-			  -webkit-transition: opacity 0.2s ease;
-			  transition: opacity 0.2s ease;
-			  z-index: 11;
-			}
-			
 			/*******************************
 			          Flat Icon
 			*******************************/
@@ -126,9 +87,11 @@
 		</style>
 		
 		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/bird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
@@ -158,11 +121,11 @@
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.{{ js_jquery_bundle_version }}.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/bird.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
 		{% endif %}
 		
 		<!--[if lt IE 9]>
