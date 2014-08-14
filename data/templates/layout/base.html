@@ -26,6 +26,46 @@
 				font-size: 14px;
 				font-family: arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
 			}
+			
+			.ui.dropdown {
+			  cursor: pointer;
+			  position: relative;
+			  display: inline-block;
+			  line-height: 1;
+			  -webkit-transition: border-radius 0.1s ease, width 0.2s ease;
+			  transition: border-radius 0.1s ease, width 0.2s ease;
+			  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+			  tap-highlight-color: rgba(0, 0, 0, 0);
+			}
+
+			/*******************************
+			            Content
+			*******************************/
+
+			/*--------------
+			     Menu
+			---------------*/
+
+			.ui.dropdown .menu {
+			  cursor: auto;
+			  position: absolute;
+			  display: none;
+			  top: 100%;
+			  margin: 0em;
+			  background-color: #FFFFFF;
+			  min-width: 100%;
+			  white-space: nowrap;
+			  font-size: 0.875em;
+			  text-shadow: none;
+			  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+			  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+			  border-radius: 0px 0px 0.325em 0.325em;
+			  -webkit-transition: opacity 0.2s ease;
+			  transition: opacity 0.2s ease;
+			  z-index: 11;
+			}
+			
 			/*******************************
 			          Flat Icon
 			*******************************/
