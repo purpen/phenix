@@ -1,201 +1,8 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
-<style type="text/css">
-	.fever-view .wide.cover.column {
-		padding-right: 0;
-	}
-	.product.designer > .column {
-		margin-bottom: 0rem;
-		margin-top: 0rem;
-	}
-	.product .attributes {
-		
-	}
-	.product .attributes .letter-spacing-two {
-		letter-spacing: 2em;
-	}
-	.product .attributes .price {
-		font-size: 1.5em;
-		color: #F42156;
-	}
+<style type="text/css">	
 	
-	.cover-thumb {
-		text-align: center;
-	}
-	.vote.timer .button {
-		padding-left: 4em;
-		padding-right: 4em;
-	}
-	
-	
-	
-	body {
-		background-color: #fff;
-	}
-	
-	#shoppage {
-		margin: 0.5em auto 3em;
-	}
-	
-	.product.cover {
-		margin: 1.5em auto;
-	}
-	.product.cover .thumb.wrap {
-		margin-top: 1.5em;
-	}
-	.product.cover .ui.mini.images .image {
-		margin: 0 0.45em;
-	}
-	.product.cover .ui.images img {
-		margin: 0;
-		padding: 5px;
-		border: 1px solid transparent;
-	}
-	.product.cover .thumb.wrap .image:hover img,
-	.product.cover .thumb.wrap .active.image img {
-		border: 1px solid rgba(0, 0, 0, 0.15);
-	}
-	
-	
-	.buy.box {
-		background-color: #f4f4f4;
-	}
-	.buy.box .ui.grid > .row {
-		margin-bottom: 0rem;
-	}
-	.buy.box .attributes {
-		margin-top: 2em;
-	}
-	.buy.box .count {
-		margin-right: 0.2em;
-		font-weight: bold;
-	}
-	
-	.buy.box .ui.grid > .row > .column {
-		padding-top: 1.5%;
-		padding-bottom: 1.5%;
-	}
-	.buy.box .unit {
-		font-size: 1.5em;
-	}
-	.buy.box .price {
-		color: #444;
-		font-size: 2em;
-		margin-right: 1em;
-	}
-	.buy.box .ui.basic.table tbody tr {
-		border-bottom: 1px solid rgba(0, 0, 0, 0);
-	}
-	.buy.box .ui.basic.table .buy.btn {
-		width: 180px;
-	}
-	.buy.box .ui.basic.table .ui.btn + .btn {
-	   margin-left: 0.25em;
-	}
-	.buy.box .ui.basic.table .ui.btn.icon {
-		padding: 1em;
-	}
-	
-	.product.promotion {
-		display: none;
-		margin: 1.5em auto;
-	}
-	.product.promotion .picicon {
-		padding-right: 0em;
-	}
-	.product.promotion .picicon .icon {
-		opacity: 1;
-		margin: 0;
-	}
-	
-	.ui.tabox {
-		border-bottom: 1px solid #e4e5e7;
-		margin: 2.5em auto 1.5em;
-	}
-	.ui.tabs {
-		display: block;
-	    font-size: 0rem;
-	    width: 100% !important;
-	}
-	.ui.tabs .tab {
-		box-sizing: border-box;
-		cursor: pointer;
-		color: #444;
-	    display: inline-block;
-	    font-size: 1.5rem;
-	    padding-bottom: 0.8%;
-	    padding-top: 0.8%;
-	    text-align: left;
-	}
-	.ui.tabs .tab:hover,
-	.ui.tabs .active.tab {
-		border-bottom: 2px solid #ff3366;
-		color: #ff3366;
-	}
-	.ui.three.tabs .tab {
-		width: 33.3333%;
-	}
-	.ui.four.tabs .tab {
-		width: 25%;
-	}
-	
-	
-	.product.inventor {
-		background-color:rgba(255,51,102,1);
-		color: #fff;
-		margin: 2em auto;
-	}
-	.product.inventor .inventor.info {
-	    margin: 4em auto;
-	}
-	.product.inventor .inventor.info .sub.header {
-		color: #fff;
-	}
-	.product.inventor .inventor.avatar {
-	    margin: 2.5em auto;
-	}
-	.product.inventor .inventor.info .summary {
-		margin: 2em auto;
-		line-height: 24px;
-	}
-	.product.inventor .inventor.avatar .actions {
-		margin: 2em auto;
-	}
-	
-	#shoppage .ui.comments .comment > .content > .metadata {
-	    color: rgba(0, 0, 0, 0.3);
-	}
-	#shoppage .ui.comments .comment > .content > .laud {
-	    float: right;
-	}
-	#shoppage .ui.reply.segment {
-		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
-	}
-	#shoppage .ui.comments .comment {
-		padding: 0.5em 0;
-		border: 1px solid transparent;
-		border-radius: 3px;
-	}
-	#shoppage .ui.comments .comment .comment {
-		margin-right: 1em;
-	}
-	#shoppage .ui.comments .comment:hover {
-		border-color: rgba(255,51,102,1);
-		background-color: rgba(0,0,0,0.02);
-		padding: 0.5em 0;
-	}
-	#shoppage .post.comment {
-		margin-top: 1em;
-	}
-	#shoppage .product.service {
-		margin: 2em auto;
-		padding: 1.5em 0;
-		background-color: #f8f8f8;
-	}
-	#shoppage .product.service .ui.header {
-		margin-bottom: 0.35rem;
-	}
 </style>
 {% endblock %}
 {% block js %}
@@ -215,9 +22,8 @@
 		return false;
 	});
 	
-	var $frame = $('#oneperframe');
+	var $frame = $('#procover');
 	var $wrap = $frame.parent();
-	// Call Sly on frame
 	$frame.sly({
 		horizontal: 1,
 		itemNav: 'forceCentered',
@@ -227,8 +33,9 @@
 		touchDragging: 1,
 		releaseSwing: 1,
 		startAt: 0,
-		scrollBar: $wrap.find('.scrollbar'),
-		scrollBy: 1,
+		pagesBar: $wrap.find('.pages'),
+		pageItem: 'custom',
+		activatePageOn: 'click',
 		speed: 300,
 		elasticBounds: 1,
 		easing: 'easeOutExpo',
@@ -240,6 +47,9 @@
 		next: $wrap.find('.next')
 	});
 	
+    $('.ui.tabox').smint({
+    	'scrollSpeed' : 1000
+    });
 	
 {% endblock %}
 
@@ -258,6 +68,7 @@
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
 			</div>
+			
 			<div class="five wide right aligned column">
 				<div class="ui pop icon magenta share button" data-content="分享" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
 					<i class="share icon"></i>
@@ -269,22 +80,72 @@
 	<div class="product cover">
 		<div class="ui responsive grid">
 			<div class="center aligned row">
-				<div class="cover column">
-					<div class="main">
-						<img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" />
-					</div>
-					<div class="thumb wrap">
+				<div class="column">
+					
+					<div class="slidebox">
 						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
-						<!--展示图片-->
-						<div class="ui mini images">
-							{% for asset in assets.rows %}
-							<a href="{{ asset.thumbnails.big.view_url }}" class="{% if asset._id == product.cover_id %}active {% endif %}image">
-						  		<img src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
-							</a>
-							{% endfor %}
+					
+						<div id="procover" class="frame">
+							<ul class="clearfix">
+								<li class="active">
+									<img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" />
+								</li>
+								{% for asset in assets.rows %}
+									{% if asset._id != product.cover_id %}
+									<li>
+										<img src="{{ asset.thumbnails.big.view_url }}" alt="{{ product.title }}" />
+									</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+						<button class="ui magenta btn prev">
+							<i class="icon angle left"></i>
+						</button>
+						<button class="ui magenta btn next" disabled="">
+							<i class="icon angle right"></i>
+						</button>
+					
+						<div class="thumb wrap">
+							<!--展示图片-->
+							<div class="ui mini pages images">
+								<div class="active image">
+									<img src="{{ product.cover.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
+								</div>
+								{% for asset in assets.rows %}
+									{% if asset._id != product.cover_id %}
+									<div class="image">
+								  		<img src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
+									</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="product promotion">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui gray message">
+						<i class="flat close icon"></i>
+						<div class="ui header">
+							<div class="picicon">
+								<i class="gift icon"></i>
+							</div>
+							<div class="content">
+								分享赢好礼！
+								<p class="sub header">
+									邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券； 
+								</p>
+							</div>
 						</div>
 					</div>
-					
 				</div>
 			</div>
 		</div>
@@ -321,7 +182,8 @@
 					<table class="ui basic table">
 						<tr>
 							<td>
-								<span class="unit">￥</span><span class="price">{{ product.sale_price }}</span>
+								<span class="old price"><span class="unit">￥</span>{{ product.market_price }}</span>
+								<span class="price"><span class="unit">￥</span>{{ product.sale_price }}</span>
 								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn" data-id="{{ topic._id }}">
 									加入购物车
 								</div>
@@ -342,31 +204,7 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="product promotion">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="ui gray message">
-						<i class="flat close icon"></i>
-						<div class="ui header">
-							<div class="picicon">
-								<i class="gift icon"></i>
-							</div>
-							<div class="content">
-								分享赢好礼！
-								<p class="sub header">
-									邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券； 
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	
+
 	<div class="ui tabox">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -383,7 +221,6 @@
 	</div>
 	
 	<div class="product overview">
-		<a name="overview"></a>
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
@@ -396,7 +233,6 @@
 	</div>
 	
 	<div class="product inventor">
-		<a name="inventor"></a>
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="nine wide column">
@@ -438,7 +274,6 @@
 	</div>
 	
 	<div class="product reviews">
-		<a name="reviews"></a>
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
@@ -563,7 +398,38 @@
 	</div>
 	
 	<div class="product service">
-		<a name="service"></a>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui dividing header">
+						售后服务及常见问题
+					</h3>
+				</div>
+			</div>
+			<div class="two column row">
+				<div class="column">
+					<div class="ui segment">
+						售后服务
+					</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">
+						<h4 class="ui header">常见问题</h4>
+						<div class="ui selection list">
+							<div class="item">
+								<h4 class="ui gray header">收藏商品功能</h4>
+								<p>点击“收藏按钮”后，按钮中的填实黑色,代表收藏成功，再次点击取消收藏。您可在“个人中心”中的我的收藏查看所有收藏商品。</p>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="product">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">

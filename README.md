@@ -54,5 +54,15 @@ http://www.phptext.net/article_view.php?id=185
 froala_editor v1.1.7 普通上传默认设置了key,与七牛云存储key冲突.
 
 
+<!--[if (!IE)|(gte IE 8)]><!-->
+<link href="//d2torojtsnfbm3.cloudfront.net/assets/site-datauri.css?1407967365201" media="all" rel="stylesheet" type="text/css" />
+<!--<![endif]-->
+
+
+<!--[if lte IE 7]>
+<link href="//d2torojtsnfbm3.cloudfront.net/assets/site.css?1407967365201" media="all" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+
 
 
