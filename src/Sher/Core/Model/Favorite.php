@@ -29,7 +29,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id','target_id','private','type');
+    protected $int_fields = array('user_id','target_id','private','type', 'event');
 	
 	
     protected function before_save(&$data) {
@@ -58,13 +58,38 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         $row['tag_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
     }
 
+	/**
+	 * 关联事件
+	 */
+    protected function after_save() {
+		$type = $this->data['type'];
+		$event = $this->data['event'];
+		
+		if ($event == self::EVENT_FAVORITE){
+			$field = 'favorite_count';
+		}elseif ($event == self::EVENT_LOVE){
+			$field = 'love_count';
+		}
+		switch($type){
+			case self::TYPE_TOPIC:
+				$model = new Sher_Core_Model_Topic();
+				$model->increase_counter($field, 1, (int)$this->data['target_id']);
+				break;
+			case self::TYPE_PRODUCT:
+				$model = new Sher_Core_Model_Product();
+				$model->inc_counter($field, 1, (int)$this->data['target_id']);
+				break;
+		}
+    }
+	
     /**
      * 添加到收藏
      */
     public function add_favorite($user_id, $target_id, $info=array()) {
 		$info['user_id']   = (int)$user_id;
         $info['target_id'] = (int)$target_id;
-		$info['event']     = self::EVENT_FAVORITE;
+		$info['type'] = (int)$info['type'];
+		$info['event'] = self::EVENT_FAVORITE;
 		
         return $this->apply_and_save($info);
     }
@@ -72,9 +97,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     /**
      * 检测是否收藏
      */
-    public function check_favorite($user_id, $target_id){
+    public function check_favorite($user_id, $target_id, $type){
 		$query['user_id'] = (int)$user_id;
         $query['target_id'] = (int)$target_id;
+		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_FAVORITE;
 		
         $result = $this->count($query);
@@ -85,9 +111,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     /**
      * 删除收藏(只允许移除本人的收藏)
      */
-    public function remove_favorite($user_id, $target_id){
+    public function remove_favorite($user_id, $target_id, $type){
 		$query['user_id'] = (int)$user_id;
         $query['target_id'] = (int)$target_id;
+		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_FAVORITE;
 		
         return $this->remove($query);
@@ -96,9 +123,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     /**
      * 检测是否喜欢
      */
-	public function check_loved($user_id, $target_id){
-        $query['target_id'] = (int) $target_id;
+	public function check_loved($user_id, $target_id,$type){
 		$query['user_id'] = (int) $user_id;
+        $query['target_id'] = (int) $target_id;
+		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_LOVE;
 		
         $result = $this->count($query);
@@ -112,6 +140,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     public function add_love($user_id, $target_id, $info=array()) {		
 		$info['user_id']   = (int) $user_id;
         $info['target_id'] = (int) $target_id;
+		$info['type'] = (int)$info['type'];
 		$info['event']     = self::EVENT_LOVE;
 		
         return $this->apply_and_save($info);
@@ -120,12 +149,39 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	/**
 	 * 取消喜欢
 	 */
-	public function cancel_love($user_id, $target_id){
+	public function cancel_love($user_id, $target_id,$type){
 		$query['user_id'] = (int)$user_id;
         $query['target_id'] = (int)$target_id;
-		$info['event']  = self::EVENT_LOVE;
+		$query['type'] = (int)$type;
+		$query['event']  = self::EVENT_LOVE;
 		
         return $this->remove($query);
+	}
+	
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($user_id, $target_id, $type, $event) {
+		if (empty($user_id) || empty($target_id) || empty($type) || empty($event)){
+			throw new Sher_Core_Model_Exception('删除后关联失败！');
+		}
+		
+		if ($event == self::EVENT_FAVORITE){
+			$field = 'favorite_count';
+		}elseif ($event == self::EVENT_LOVE){
+			$field = 'love_count';
+		}
+		
+		switch($type){
+			case self::TYPE_TOPIC:
+				$model = new Sher_Core_Model_Topic();
+				$model->dec_counter($field, (int)$target_id);
+				break;
+			case self::TYPE_PRODUCT:
+				$model = new Sher_Core_Model_Product();
+				$model->dec_counter($field, (int)$target_id);
+				break;
+		}
 	}
 	
 }

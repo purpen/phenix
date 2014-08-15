@@ -58,6 +58,9 @@ app.url.cart.buy: '{$app.url.shopping}/buy'
 # 地址薄
 app.url.address: '{$app.url.action_base}/address'
 
+# 收藏
+app.url.favorite: '{$app.url.action_base}/favorite'
+
 # 附件管理
 app.url.asset: '{$app.url.action_base}/asset'
 

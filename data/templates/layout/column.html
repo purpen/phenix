@@ -16,6 +16,9 @@
 
 {% block layout_content %}
 	{% block content %}{% endblock %}
+	{% if !visitor.is_login %}
+		{% include "block/loginbox.html" %}
+	{% endif %}
 {% endblock %}
 
 {% block layout_footer %}

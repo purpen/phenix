@@ -261,22 +261,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
-	 * 初始化互动操作
-	 */
-	public function ajax_done(){
-		$id = $this->stash['id'];
-		$user_id = $this->visitor->id;
-		
-		$data = array();
-		
-		// 验证是否收藏
-		$model = new Sher_Core_Model_Favorite();
-		$data['favorited'] = $model->check_favorite($user_id, $id);
-		
-		return $this->ajax_json('操作成功', false, null, $data);
-	}
-	
-	/**
 	 * 推荐
 	 */
 	public function ajax_stick(){
@@ -371,101 +355,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		return $this->ajax_json('操作成功');
-	}
-	
-	/**
-	 * 点赞
-	 */
-	public function ajax_laud(){
-		if(empty($this->stash['id'])){
-			return $this->ajax_json('主题不存在！', true);
-		}
-		
-		try{
-			$id = $this->stash['id'];
-			
-			$model = new Sher_Core_Model_Topic();
-			$model->increase_counter('love_count', 1, (int)$id);
-		
-			$topic = $model->load((int)$id);
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('操作失败,请重新再试', true);
-		}
-		
-		return $this->ajax_json('操作成功', false);
-	}
-	
-	/**
-	 * 取消点赞
-	 */
-	public function ajax_cancel_laud(){
-		if(empty($this->stash['id'])){
-			return $this->ajax_json('主题不存在！', true);
-		}
-		try{
-			$id = $this->stash['id'];
-			
-			$model = new Sher_Core_Model_Topic();
-			$model->dec_counter('love_count', 1, (int)$id);
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('操作失败,请重新再试', true);
-		}
-		
-		return $this->ajax_json('操作成功', false);
-	}
-	
-	/**
-	 * 收藏
-	 */
-	public function ajax_favorite(){
-		$id = $this->stash['id'];
-		if(empty($id)){
-			return $this->ajax_json('主题不存在！', true);
-		}
-		
-		try{
-			$model = new Sher_Core_Model_Favorite();
-			$fav_info = array(
-				'type' => Sher_Core_Model_Favorite::TYPE_TOPIC,
-			);
-			$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
-			
-			$topic = new Sher_Core_Model_Topic();
-			if ($ok) {
-				$topic->increase_counter('favorite_count', 1, (int)$id);
-			}
-			$data = $topic->load((int)$id);
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('操作失败,请重新再试', true);
-		}
-		
-		return $this->ajax_json('操作成功', false, '', $data);
-	}
-	
-	/**
-	 * 取消收藏
-	 */
-	public function ajax_cancel_favorite(){
-		$id = $this->stash['id'];
-		if(empty($id)){
-			return $this->ajax_json('主题不存在！', true);
-		}
-		
-		try{
-			$model = new Sher_Core_Model_Favorite();
-			$ok = $model->remove_favorite($this->visitor->id, $id);
-			
-			$topic = new Sher_Core_Model_Topic();
-			if ($ok) {
-				$topic->dec_counter('favorite_count', (int)$id);
-			}
-			$data = $topic->load((int)$id);
-			
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('操作失败,请重新再试', true);
-		}
-		
-		return $this->ajax_json('操作成功', false, '', $data);
 	}
 	
 	/**

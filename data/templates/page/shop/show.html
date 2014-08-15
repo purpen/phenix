@@ -17,10 +17,110 @@
 		}
 	});
 	
+	// 加入购物车
 	$('.ui.cart.btn').click(function(){
 		$.get($(this).attr('href'));
 		return false;
 	});
+	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.btn')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.btn')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+	{% endif %}
+	
+	// 收藏
+	$('.ui.favorite.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 喜欢
+	$('.ui.love.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		var count = parseInt($('#product-love-count').text());
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+					count += 1;
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active');
+					count -= 1;	
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
 	
 	var $frame = $('#procover');
 	var $wrap = $frame.parent();
@@ -174,7 +274,7 @@
 							  	<i class="icon"></i>
 							  	<i class="icon"></i>
 							</div>
-							<small><span class="count">{{ product.comment_count }}</span>条评价 | <span class="count">{{ product.love_count }}</span>人点赞</small>
+							<small><span class="count">{{ product.comment_count }}</span>条评价 | <span class="count" id="product-love-count">{{ product.love_count }}</span>人点赞</small>
 						</p>
 					</div>
 				</div>	
@@ -191,10 +291,10 @@
 						</tr>
 						<tr>
 							<td>
-								<div class="ui gray btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+								<div class="ui black btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 									收藏
 								</div>
-								<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+								<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 									<i class="heart empty icon"></i>
 								</div>
 							</td>
@@ -210,10 +310,10 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui four tabs">
-					  	<div class="active tab" data-tab="overview">产品详情</div>
-					  	<div class="tab" data-tab="inventor">设计者</div>
-						<div class="tab" data-tab="reviews">用户评价</div>
-						<div class="tab" data-tab="service">售后服务</div>
+					  	<a class="active tab" href="#overview">产品详情</a>
+					  	<a class="tab" href="#inventor">设计者</a>
+						<a class="tab" href="#reviews">用户评价</a>
+						<a class="tab" href="#service">售后服务</a>
 					</div>
 				</div>
 			</div>
@@ -428,38 +528,6 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="product">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h3 class="ui dividing header">
-						售后服务及常见问题
-					</h3>
-				</div>
-			</div>
-			<div class="two column row">
-				<div class="column">
-					<div class="ui segment">
-						售后服务
-					</div>
-				</div>
-				<div class="column">
-					<div class="ui segment">
-						<h4 class="ui header">常见问题</h4>
-						<div class="ui selection list">
-							<div class="item">
-								<h4 class="ui gray header">收藏商品功能</h4>
-								<p>点击“收藏按钮”后，按钮中的填实黑色,代表收藏成功，再次点击取消收藏。您可在“个人中心”中的我的收藏查看所有收藏商品。</p>
-							</div>
-						</div>
-						
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+		
 </div>
 {% endblock %}

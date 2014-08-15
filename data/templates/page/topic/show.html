@@ -21,11 +21,22 @@
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
 		// 初始化互动，是否收藏、点赞
-		$.get('{{ app_url_topic }}/ajax_done', {id: {{topic._id}} }, function(result){
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{topic._id}},type:2,event:1}, function(result){
 			if (result.success) {
 				// 验证收藏
 				if (result.data.favorited) {
 					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{topic._id}},type:2,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active');
@@ -113,7 +124,7 @@
 			return false;
 		}
 		if (mark == 'n') {
-			$.post('{{ app_url_topic }}/ajax_favorite', {id: id}, function(result){
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '取消')
@@ -124,7 +135,7 @@
 				}
 			}, 'json');
 		} else {
-			$.post('{{ app_url_topic }}/ajax_cancel_favorite', {id: id}, function(result){
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '收藏')
@@ -146,7 +157,7 @@
 			return false;
 		}
 		if (mark == 'n') {
-			$.post('{{ app_url_topic }}/ajax_laud', {id: id}, function(result){
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '取消')
@@ -157,7 +168,7 @@
 				}
 			}, 'json');
 		} else {
-			$.post('{{ app_url_topic }}/ajax_cancel_laud', {id: id}, function(result){
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '点赞')
