@@ -18,9 +18,9 @@
 	});
 	
 	// 加入购物车
-	$('.ui.cart.btn').click(function(){
-		$.get($(this).attr('href'));
-		return false;
+	$('.ui.buy.btn').click(function(){
+		var id = $(this).data('id');
+		$.get('{{ app_url_cart_buy }}', {sku: id});
 	});
 	
 	/* 登录用户行为 */
@@ -284,7 +284,7 @@
 							<td>
 								<span class="old price"><span class="unit">￥</span>{{ product.market_price }}</span>
 								<span class="price"><span class="unit">￥</span>{{ product.sale_price }}</span>
-								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn" data-id="{{ topic._id }}">
+								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn" data-id="{{ product._id }}">
 									加入购物车
 								</div>
 							</td>

@@ -310,7 +310,25 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		$asset = new Sher_Core_Model_Asset();
 		$ok = $asset->update_set($criteria, array('parent_id' => (int)$id), false, true, true);
 		
+		// 重新附件数量计算
+		$asset_count = $asset->count(array(
+			'parent_id' => (int)$id,
+			'asset_type' => Sher_Core_Model_Asset::TYPE_EDITOR_TOPIC,
+		));
+		
+		Doggy_Log_Helper::debug("Query asset count[$asset_count].");
+		
+		$this->update_topic_asset_count($id, $asset_count);
+		
 		unset($asset);
 	}
+	
+	/**
+	 * 重新更新附件的数量
+	 */
+	public function update_topic_asset_count($id, $asset_count){
+		return $this->update_set($id, array('asset_count'=>(int)$asset_count));
+	}
+	
 }
 ?>
