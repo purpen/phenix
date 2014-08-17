@@ -137,7 +137,7 @@
 													{{ dig.strip_description|truncate 70 }}
 												</div>
 											{% else %}
-												{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 %}
+												{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 sort:'positive' %}
 												<!--展示图片-->
 												<div class="ui mini images">
 													{% for asset in assets.rows %}
