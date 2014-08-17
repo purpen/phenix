@@ -1,13 +1,18 @@
 {%extends 'layout/board.html'%}
 {% block title %}成功案例-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	#succase .ui.items .item > .content > .name {
+		font-size: 1em;
+	}
+</style>
 {% endblock %}
-
+	
 {% block jquery %}
 {% endblock %}
 
 {% block content %}
-<section class="ui small block">
+<section class="ui small block" id="succase">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
 			<div class="center aligned column section-title">

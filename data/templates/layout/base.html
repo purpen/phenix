@@ -24,9 +24,10 @@
 			    min-width: 320px;
 				margin: 0;
 				font-size: 14px;
-				font-family: arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
+				font-family: Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;
 			}
-			
+			.clearfix:after {content: "."; display: block;clear: both; visibility: hidden;line-height: 0; height: 0;}
+			.clearfix {display: inline-table; +display:inline-block;}/* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}
 			/*******************************
 			          Flat Icon
 			*******************************/
@@ -123,11 +124,9 @@
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
 		{% endif %}
 		
 		<!--[if lt IE 9]>
@@ -142,7 +141,13 @@
 		  <![endif]-->
 		
 		{% block layout_js %}{% endblock %}
-		{% block page_js %}{% endblock %}
+		{% block page_js %}
+			{% if js_use_bundle %}
+				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
+			{% else %}
+				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
+			{% endif %}
+		{% endblock %}
 
 		<script type="text/javascript">
 		<!--
