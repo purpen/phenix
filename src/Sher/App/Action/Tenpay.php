@@ -22,8 +22,8 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 预先执行init
 	 */
 	public function _init() {
-		$this->tenpay_config['partner'] = Doggy_Config::$vars['app.wechat.ser_partner_id'];
-		$this->tenpay_config['key'] = Doggy_Config::$vars['app.wechat.ser_partner_key'];
+		$this->tenpay_config['partner'] = Doggy_Config::$vars['app.tenpay.partner'];
+		$this->tenpay_config['key'] = Doggy_Config::$vars['app.tenpay.key'];
 		$this->tenpay_config['randNum'] = rand(1000, 9999);
 			
 		$this->tenpay_config['return_url'] = Doggy_Config::$vars['app.url.domain'].'/app/site/tenpay/direct_notify';
