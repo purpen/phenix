@@ -53,6 +53,8 @@ http://www.phptext.net/article_view.php?id=185
 ###
 froala_editor v1.1.7 普通上传默认设置了key,与七牛云存储key冲突.
 
+{"link":"http://frbird.qiniudn.com/NaN-53ac264fNb7710003.jpg-hu.jpg"}
+
 
 <!--[if (!IE)|(gte IE 8)]><!-->
 <link href="//d2torojtsnfbm3.cloudfront.net/assets/site-datauri.css?1407967365201" media="all" rel="stylesheet" type="text/css" />
