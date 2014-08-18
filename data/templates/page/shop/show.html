@@ -151,6 +151,11 @@
     	'scrollSpeed' : 1000
     });
 	
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -170,7 +175,7 @@
 			</div>
 			
 			<div class="five wide right aligned column">
-				<div class="ui pop icon magenta share button" data-content="分享" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+				<div class="ui pop icon magenta share button" data-content="分享" data-variation="inverted">
 					<i class="share icon"></i>
 				</div>
 			</div>
@@ -528,6 +533,6 @@
 			</div>
 		</div>
 	</div>
-		
 </div>
+{% include "block/sharebox.html" %}
 {% endblock %}

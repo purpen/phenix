@@ -1,48 +1,8 @@
-<a name="topic"></a>
-<div class="ui bottom aligned two column grid">
-	<div class="column">
-		<h3 class="ui header">
-			热门话题
-		</h3>
-	</div>
-	<div class="right aligned column">
-		<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta button">发表新话题</a>
-	</div>
-</div>
-
-<div class="ui divided topic-list list">
-	{% topic_list var:'list' target_id:product._id%}
+{% topic_list var:'list' target_id:product._id page:page %}
+<table class="ui sortable topic table">
+	<tbody>
 	{% for topic in list.rows %}
-	<div class="item">
-		<div class="ui grid">
-			<div class="two wide column">
-				<a class="ui small avatar image" href="{{ topic.user.home_url }}">
-		      		<img src="{{ topic.user.small_avatar_url }}" />
-				</a>
-			</div>
-			<div class="twelve wide column">
-		      	<div class="content">
-		          	<h3 class="link header">
-						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-					</h3>
-					<div class="description">
-						{{ topic.strip_description|truncate 70 }}
-					</div>
-					<div class="ui divided horizontal list">
-					  	<div class="small item"><a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a> {{ topic.created_on|relative_time }}</div>
-						{% if topic.last_user %}
-						<div class="small item"><a href="{{ dig.user.home_url }}" class="ui link">{{ topic.last_user.nickname }}</a> {{ topic.last_reply_time|relative_time}}回复</div>
-						{% endif %}
-					</div>
-		      	</div>
-			</div>
-			<div class="right aligned two wide column comment-counter">
-				<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-					<span class="dot-irecommend-count">{{ topic.comment_count }}</span> 
-					<span class="dot-irecommend-suffix"></span>
-				</a>
-	      	</div>
-		</div>
-  	</div>
+		{% include "block/topic_item.html" %}
 	{% endfor %}
-</div>
+	</tbody>
+</table>

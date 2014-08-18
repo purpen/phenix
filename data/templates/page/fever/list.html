@@ -1,8 +1,57 @@
 {%extends 'layout/sns.html'%}
-{% block title %}社区-{% endblock %}
-
-{% block js %}
+{% block title %}创意投票-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.tophead {
+	    background: url("{{ app_url_packaged }}/images/bg-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+	}
+	#votelist {
+		margin: 1.5em auto 2em;
+	}
+	#votelist .ui.items {
+		margin-top: 1.5em;
+	}
+	#votelist .vote {
+		position: relative;
+		padding-bottom: 0.5rem;
+	}
+	#votelist .ui.timer.list .item {
+		text-align: center;
+	}
+	#votelist .ui.timer.list .item:hover {
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2) inset;
+	}
+	#votelist .ui.timer.list .green.item {
+		color: #58CB73;
+	}
+	#votelist .ui.timer.list .green.item .unit {
+		color: #58CB73;
+	}
+	#votelist .ui.timer.list .number {
+		margin-bottom: 0.6em;
+	}
+	#votelist .ui.timer.list .unit {
+		font-size: 0.875em;
+		color: rgba(0,0,0,0.5);
+	}
+	#votelist .vote .progress {
+		position: absolute;
+	    right: 0;
+		text-align: right;
+	    top: 0;
+	    z-index: 9;
+	}
+	#votelist .vote .progress .count {
+		display: block;
+		font-size: 1.15em;
+	}
+	#votelist .vote .progress .description {
+		font-size: 0.875em;
+		color: rgba(0,0,0,0.5);
+	}
+</style>
 {% endblock %}
+
 {% block jquery %}
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
@@ -14,26 +63,53 @@
 
 {% block tophead %}
 <div class="ui tophead">
-	{% include "block/social/sub_menu.html" %}
+	<div class="masthead">
+		<div class="masthead-cover transparent">
+			<div class="ui responsive head grid">
+				<div class="row">
+					<div class="nine wide column">
+						<div class="introduction">
+							<h2 class="ui header">
+							  	<div class="content">
+							    	提交你的创意
+							    	<div class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</div>
+							  	</div>
+							</h2>
+							<div class="actions">
+								<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+									提交创意
+								</a>
+								<a href="{{ app_url_helper }}/topic" class="ui white btn-4 btn-4c icon-arrow-right btn">
+									查看帮助
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="seven wide column"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="ui fever">
+<div id="votelist">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="twelve wide column">
+			<div class="column">
+				
 				<div class="ui top attached novpad header">
-					<div class="ui grid">
-						<div class="fourteen wide column">
+					<div class="ui two column grid">
+						<div class="column">
 							<div class="ui divided horizontal list">
 								<a class="ui {{ css_type_voting }} item link" href="{{ links.voting_url }}">正在投票</a>
 								<a class="ui {{ css_type_finishing }} item link" href="{{ links.finishing_url }}">即将结束</a>
 							</div>
 						</div>
-						<div class="right aligned two wide column">
+						<div class="right aligned column">
 							<a class="ui showbox link" href="#advanced-filter-topic">
-								<i class="flat bullet3 icon"></i>
+								<i class="list layout icon"></i>
 							</a>
 						</div>
 					</div>
@@ -59,42 +135,23 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="four wide column">
-				<div class="ui segment">
-					<h3 class="ui header">
-						<p class="sub header">把你天马行空得创意交给我们，我们一起将它变成现实.</p>
-					</h3>
-					
-			      	<a class="ui active fluid magenta button" href="{{ app_url_fever }}/submit">
-						<i class="flat add icon"></i> 提交创意
-					</a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="ui column">
-				<div class="ui four items votelist">
+				
+				<div class="ui three items">
 					{% product_list var:'list' page:page category_id:category_id stage:1 only_approved:1 %}
 					{% for product in list.rows %}
-						{% include "block/product_item.html" %}
+						{% include "block/product_vote_item.html" %}
 					{% endfor %}
 				</div>
-			</div>
-		</div>
-		
-		{% if list.rows %}
-		<div class="row">
-			<div class="ui column">
+				
+				{% if list.total_page %}
 				<div class="ui pagination">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{%include 'block/pager.html'%}
 				</div>
+				{% endif %}
+				
 			</div>
 		</div>
-		{% endif %}
-		
 	</div><!--end responsive grid-->
 </div>
 {% endblock %}

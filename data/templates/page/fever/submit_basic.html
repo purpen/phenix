@@ -1,4 +1,4 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -53,32 +53,29 @@
 	});
 	
 	// 选择分类
-	$('body').on('click', '.category.button', function(){
+	$('.ui.options').on('click', '.option', function(){
 		var id = $(this).attr('data-value');
 		if ($(this).hasClass('active')){
 			$(this)
 				.removeClass('active');
 				
-			$('#product-category').val('');
+			$('#topic-category').val('');
 		}else{
 			$(this)
-				.siblings('.category.button').removeClass('active')
+				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
 		}
-		
-        return false;
 	});
 	
 {% endblock %}
 
 {% block content %}
-<div class="ui social show">
+<div class="ui social">
 	<div class="ui responsive grid">
-		
 		<div class="row">
-			<div class="ui center aligned column">
+			<div class="center aligned column">
 				<div class="ui three steps">
 				  	<div class="ui active step">
 				      	<span class="number">1</span>
@@ -95,65 +92,75 @@
 				</div>
 			</div>
 		</div>
-		
 		<div class="row">
-			<div class="eleven wide column">
-				<h1 class="ui header">提交创意</h1>
-				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-basic-form">
-					<input type="hidden" name="step" value="1" />
-					<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
-					<div class="field">
-						<label>标题</label>
-					  	<input type="text" name="title" value="{{ product.title }}" />
-						<div class="description">给你的创意起个名字</div>
-					</div>
-					<div class="field">
-						<label>创意简介</label>
-					  	<textarea name="summary">{{ product.summary }}</textarea>
-						<div class="description">给你30秒的时间，你该如何描述你的创意</div>
-					</div>
-					<div class="field">
-						<label>类别</label>
-						<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
-						{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
-						{% for cat in category.rows %}
-						<a class="ui {{ cat.active }} magenta category icon button" data-value="{{ cat._id }}">
-							<i class="flat {{ cat.name }} icon"></i> 
-							{{ cat.title }}
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						填写基本信息
+						<a class="icon-link ui pop link" href="{{ app_url_helper }}" data-content="查看提交创意帮助" data-variation="inverted" target="_blank">
+							<i class="help icon"></i>
 						</a>
-						{% endfor %}
-					</div>
-					<div class="field">
-						<label>标签</label>
-					  	<input type="text" name="tags" value="{{ product.tags_s }}" />
-					</div>
-					
-					<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms">
-				          	<label>授权</label>
-				        </div>
-					</div>
-					
-					<div class="ui grid">
-						<div class="left floated eight wide column">
-							
-						</div>
-						<div class="right floated aligned eight wide column">
-							<div class="ui large gray button">
-								取消
-							</div>
-							<div class="ui large magenta submit button">
-								下一步
-							</div>
-						</div>
-					</div>
-					
-				</form>
-			</div>
-			<div class="five wide column">
-				<h2 class="ui header">Q&A</h2>
+					</h2>
+				</div>
 				
+				<div class="fever content">
+					<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-basic-form">
+						<div class="ui segment">
+							<input type="hidden" name="step" value="1" />
+							<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
+						
+							<div class="field">
+								<label>类别</label>
+								<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
+							   	<div class="ui options">								
+									{% category_list var:'category' only_open:1 domain:domain current:product.category_id %}
+									{% for cat in category.rows %}
+							   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+							   	 		<div class="icon">
+							   				<i class="fa fa-check"></i>
+							   			</div>
+							   	 		{{ cat.title }}
+							   	 	</div>
+									{% endfor %}
+							   	 </div>
+							</div>
+							<div class="field">
+								<label>标题</label>
+							  	<input type="text" name="title" value="{{ product.title }}" />
+								<div class="description">给你的创意起个名字</div>
+							</div>
+							<div class="field">
+								<label>创意简介</label>
+							  	<textarea name="summary">{{ product.summary }}</textarea>
+								<div class="description">给你30秒的时间，你该如何描述你的创意</div>
+							</div>
+						
+							<div class="field">
+								<label>标签</label>
+							  	<input type="text" name="tags" value="{{ product.tags_s }}" />
+							</div>
+					
+							<div class="inline field">
+								<div class="ui checkbox">
+						          	<input type="checkbox" name="terms">
+						          	<label>授权</label>
+						        </div>
+							</div>
+						</div>
+						
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui gray btn-4 btn-4c icon-arrow-right btn">
+									取消
+								</div>
+								<div class="ui magenta btn-4 btn-4c icon-arrow-right submit btn">
+									下一步
+								</div>
+							</div>
+						</div>
+						
+					</form>
+				</div>
 				
 			</div>
 		</div>

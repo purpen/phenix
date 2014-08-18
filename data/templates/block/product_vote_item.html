@@ -1,0 +1,34 @@
+<div class="magenta item" id="product-{{ product._id }}">
+  	<div class="image">
+		<a href="{{ product.view_url }}" title="{{ product.title }}">
+      		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
+		</a>
+		<div class="image-extra">
+			<div class="extra-content">
+				<div class="inner-extra">
+					<a class="single-image plus-icon" href="{{ product.view_url }}">
+						<span class="curtain"></span>
+					</a>
+					<a class="single-image ajax vote-icon" href="{{ app_url_shopping }}/buy?sku={{ product._id }}" title="投票">
+						<span class="curtain"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	<div class="content">
+      	<h4 class="ui dividing header">
+			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
+				{{ product.title|truncate, 16, '' }}
+			</a>
+			<div class="advantage">{{ product.advantage }}</div>
+		</h4>
+		<div class="vote clearfix">
+			<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
+			<div class="progress">
+				<span class="count">0%</span>
+				<span class="description">{{ product.vote_count }} 人投票</span>
+			</div>
+		</div>
+  	</div>
+</div>

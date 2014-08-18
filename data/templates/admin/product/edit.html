@@ -197,6 +197,11 @@
 			  	<input type="text" name="advantage" value="{{ product.advantage }}" />
 			</div>
 			<div class="field">
+				<label>设计师</label>
+			  	<input type="text" name="designer_id" value="{{ product.designer_id }}" />
+				<div class="description">设计师的用户ID</div>
+			</div>
+			<div class="field">
 				<label>产品简述</label>
 			  	<textarea name="summary" class="small">{{ product.summary }}</textarea>
 				<div class="description">请详细的描述</div>
@@ -206,7 +211,7 @@
 				<label>产品标签</label>
 			  	<input type="text" name="tags" value="{{ product.tags_s }}" />
 			</div>
-		
+			
 			<div class="field">
 				<label>类别</label>
 				<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />

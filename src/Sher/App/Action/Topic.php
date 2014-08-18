@@ -581,8 +581,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$this->stash['topic'] = &DoggyX_Model_Mapper::load_model($id,'Sher_Core_Model_Topic');
 			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+			Doggy_Log_Helper::warn("话题保存失败：".$e->getMessage());
+			return $this->ajax_json('话题保存失败:'.$e->getMessage(), true);
 		}
 		
 		return $this->to_taconite_page('ajax/product_topic.html');

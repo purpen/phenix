@@ -1,8 +1,8 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-
+	
 </style>
 {% endblock %}
 
@@ -24,7 +24,10 @@
 		borderColor: '#999',
 		editorClass: 'bird',
 		height: 500,
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "undo", "redo"],
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 600,
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageParams: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
 		defaultImageWidth: 700,
@@ -84,11 +87,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui social show">
+<div class="ui social">
 	<div class="ui responsive grid">
-		
 		<div class="row">
-			<div class="ui center aligned column">
+			<div class="center aligned column">
 				<div class="ui three steps">
 				  	<div class="ui active step">
 				      	<span class="number">1</span>
@@ -107,57 +109,63 @@
 		</div>
 		
 		<div class="row">
-			<div class="eleven wide column">
-				<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-content-form">
-					<input type="hidden" name="step" value="2" />
-					<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
-					
-					
-					<div class="field">
-						<label>创意详细说明</label>
-						<textarea name="content" placeholder="详细内容" id="editor">
-							{% if product.content %}
-								{{ product.content }}
-							{% else %}
-								<h3>团队介绍</h3>
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						创意详细说明
+						<a class="icon-link ui pop link" href="{{ app_url_helper }}" data-content="查看提交创意帮助" data-variation="inverted" target="_blank">
+							<i class="help icon"></i>
+						</a>
+					</h2>
+				</div>
+				
+				<div class="fever content">
+					<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-content-form">
+						<input type="hidden" name="step" value="2" />
+						<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
+				
+						<div class="field">
+							<textarea name="content" placeholder="详细内容" id="editor">
+								{% if product.content %}
+									{{ product.content }}
+								{% else %}
+									<h3>团队介绍</h3>
 
-								<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
+									<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。建议不超过100字。</p>
 
 
-								<h3>概念阐述</h3>
+									<h3>概念阐述</h3>
 
-								<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+									<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
 
 
-								<h3>详细描述</h3>
+									<h3>详细描述</h3>
 
-								<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
-							{% endif %}
-						</textarea>
-					</div>
-					
-					
-					
-					<div class="ui grid">
-						<div class="left floated eight wide column">
-							<a href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}" class="ui large labeled icon gray button">
-								上一步<i class="flat back icon"></i>
-							</a>
+									<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。</p>
+								{% endif %}
+							</textarea>
 						</div>
-						<div class="right floated aligned eight wide column">
-							<div class="ui right large icon labeled magenta submit button">
-								下一步<i class="flat play_01 icon"></i>
+					
+						<div class="ui two column grid">
+							<div class="column">
+								<a class="ui black btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_fever }}/submit?step=1&id={{ product._id }}">
+									上一步
+								</a>
+							</div>
+							<div class="right aligned column">
+								<div class="ui magenta btn-4 btn-4c icon-arrow-right submit btn">
+									下一步
+								</div>
 							</div>
 						</div>
-					</div>
-										
-				</form>
-			</div>
-			<div class="five wide column">
-				<h2>Q&A</h2>
+									
+					</form>
+					
+				</div>
 				
 			</div>
 		</div>
+		
 	</div>
 </div>
 {% endblock %}
