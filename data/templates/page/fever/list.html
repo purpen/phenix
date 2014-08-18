@@ -1,4 +1,4 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}创意投票-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -61,7 +61,7 @@
 	});
 {% endblock %}
 
-{% block tophead %}
+{% block content %}
 <div class="ui tophead">
 	<div class="masthead">
 		<div class="masthead-cover transparent">
@@ -91,9 +91,7 @@
 		</div>
 	</div>
 </div>
-{% endblock %}
-
-{% block content %}
+	
 <div id="votelist">
 	<div class="ui responsive grid">
 		<div class="row">
