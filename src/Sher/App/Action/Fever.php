@@ -109,6 +109,8 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		if(isset($this->stash['referer'])){
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
+		// 是否允许编辑
+		$editable = false;
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->extend_load((int)$id);
@@ -130,6 +132,13 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->show_message_page('访问的创意等待审核中！', $redirect_url);
 		}
 		
+		// 当前用户是否有管理权限
+		if ($this->visitor->id){
+			if ($this->visitor->id == $product['user_id'] || $this->visitor->can_admin){
+				$editable = true;
+			}
+		}
+		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
@@ -149,6 +158,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::vote_view_url($id,'#p#');
+		$this->stash['editable'] = $editable;
 		
 		$this->stash['product'] = $product;
 		
