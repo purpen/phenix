@@ -581,7 +581,9 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			// 新建记录
 			if(empty($id)){
 				$data['user_id'] = (int)$this->visitor->id;
-				
+				// 上传者默认为设计师，后台管理可以指定
+				$data['designer_id'] = (int)$this->visitor->id;
+					
 				$ok = $model->apply_and_save($data);
 				
 				$product = $model->get_data();

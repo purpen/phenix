@@ -2,25 +2,37 @@
 {% block title %}预售-{% endblock %}
 {% block page_css %}
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 	
 {% endblock %}
 
 {% block content %}
-<div class="home">
+<div id="presale">
+	
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
-				<div class="ui votelist four items">
-					{% product_list var:'list' page:page category_id:category_id stage:5 %}
+			{% product_list var:'list' page:page category_id:category_id stage:5 size:15 %}
+			{% if list.rows %}
+			<div class="column">
+				<div class="ui votelist three items">
 					{% for product in list.rows %}
 				  		{% include "block/product_item.html" %}
-					{% endfor %}
+				    {% endfor %}
+				</div>
+				
+				<div class="ui pagination grid">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
 				</div>
 			</div>
+			{% else %}
+			<div class="center aligned column">
+				<p>没有更多产品，敬请期待鸟~~</p>
+			</div>
+			{% endif %}
 		</div>
+		
 	</div>
 </div>
 {% endblock %}

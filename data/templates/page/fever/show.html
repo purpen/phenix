@@ -289,7 +289,7 @@
 				</div>
 				
 				<div class="seven wide column">
-					<h2 class="ui dividing header">
+					<h3 class="ui dividing header">
 						<div class="content">
 							{{ product.title }}
 							<div class="sub header">
@@ -298,7 +298,7 @@
 								</a>
 							</div>
 						</div>
-					</h2>
+					</h3>
 				
 					{% if !product.expert_assess %}
 					<div class="vote box">
@@ -462,10 +462,16 @@
 					
 					{% if product.tags_s %}
 					<div class="vote highlight">
-						<h4>创意亮点</h4>
-						{% for tag in product.tags %}
-						<label class="ui black label">{{ tag }}</label>
-						{% endfor %}
+						<h4 class="ui header">
+							<div class="content">
+								创意亮点
+								<div class="sub header">
+									{% for tag in product.tags %}
+									<label class="ui gray label">{{ tag }}</label>
+									{% endfor %}
+								</div>
+							</div>
+						</h4>
 					</div>
 					{% endif %}
 					
@@ -556,22 +562,22 @@
 						</h3>
 						<h4 class="ui header">
 							<div class="content">
-								{{ product.user.nickname }}
+								{{ product.designer.nickname }}
 								<div class="sub header">
-									{{ product.user.city }} {{ product.user.profile.job }}
+									{{ product.designer.city }} {{ product.designer.profile.job }}
 								</div>
 							</div>
 						</h4>
 						<div class="summary">
-							{{ product.user.summary }}
+							{{ product.designer.summary }}
 						</div>
 					</div>
 				</div>
 				<div class="one wide column"></div>
 				<div class="six wide center aligned column">
 					<div class="inventor avatar">
-						<a href="{{ product.user.home_url }}" class="ui huge avatar image" >
-							<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+						<a href="{{ product.designer.home_url }}" class="ui huge avatar image" >
+							<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
 						</a>
 						<div class="actions">
 							<button class="ui small white button">

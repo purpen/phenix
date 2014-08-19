@@ -27,12 +27,11 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 	}
 	
 	/**
-	 * 社区列表
+	 * 预售列表
 	 */
 	public function get_list() {
 		return $this->to_html_page('page/sale/list.html');
 	}
-	
 	
 	/**
 	 * 查看详情
@@ -93,9 +92,25 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
 		
+		// 编辑器图片 
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$this->stash['editor_pid'] = new MongoId();
+
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
+		
+		// 封面图
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		
+		
+		// 产品信息
 		$model = new Sher_Core_Model_Product();
 		$product = & $model->extend_load($id);
-		
 		
 		$this->stash['product'] = $product;
 		
