@@ -8,6 +8,9 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
+	
+	
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -32,24 +35,23 @@
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 350000,
+		cycleInterval: 3500,
 		pauseOnHover:1,
-		
 		
 		prev:".hero .prev",
 		next:".hero .next",
 		
 		// Dragging
-		mouseDragging:1,
-		touchDragging:1,
-		elasticBounds:1,
-		releaseSwing:1,
+		mouseDragging: 1,
+		touchDragging: 1,
+		elasticBounds: 1,
+		releaseSwing: 1,
 		
 		// Mixed options
 		startAt:0,
-		speed:1200,
-		easing:"easeOutExpo",
-		keyboardNavBy:"items"
+		speed: 1200,
+		easing: "easeOutExpo",
+		keyboardNavBy: "items"
 		
 	});
 	
@@ -72,22 +74,22 @@
 	<section id="frame">
 		<ul class="slidee">
 			
-			<li class="business slide-6" style="background-image: url('{{ app_url_packaged }}/images/zz.jpg'); background-color: rgb(255, 162, 108);">
-				<div class="hero-main inverted verticalize-container">
+			<li class="slide-6" style="background-image: url('{{ app_url_packaged }}/images/macworld.jpg'); background-color: rgb(255, 162, 108);">
+				<div class="hero-main verticalize-container">
                     <div class="verticalize">
-						<span>TechCrunch国际创新峰会·太火鸟&洛可可亮相</span>
-						<h1>智造革命</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right black btn" href="http://www.taihuoniao.com/topic/view-100019-1.html" target="_blank">
+						<span>太火鸟参展Macworld数字世界亚洲博览会</span>
+						<h1>性感设计</h1>
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);" target="_blank">
 							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
 						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right black btn" href="javascript:void(0);">
+                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
 							<span>关注“太火鸟”微信</span><i class="icon-arrow-right-sharp"></i>
 						</a>
                     </div>
                 </div>
 			</li>
 			
-			<li class="business slide-1" style="background-image: url('{{ app_url_packaged }}/images/lisawatch.jpg'); background-color: rgb(55, 188, 174);">
+			<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/lisawatch.jpg'); background-color: rgb(55, 188, 174);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
                         <span>您的孕期贴身闺蜜-送给准妈妈最好的礼物</span>
@@ -102,7 +104,7 @@
                 </div>
 			</li>
 			
-			<li class="business slide-2" style="background-image: url('{{ app_url_packaged }}/images/dm.jpg'); background-color: rgb(130, 213, 141);">
+			<li class="slide-2" style="background-image: url('{{ app_url_packaged }}/images/dm.jpg'); background-color: rgb(130, 213, 141);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
                         <span>造梦者一代 世界首款革命性永久无需更换耗材</span>
@@ -117,7 +119,7 @@
                 </div>
 			</li>
 			
-			<li class="business slide-3" style="background-image: url('{{ app_url_packaged }}/images/loving.jpg'); background-color: rgb(4, 170, 255);">
+			<li class="slide-3" style="background-image: url('{{ app_url_packaged }}/images/loving.jpg'); background-color: rgb(4, 170, 255);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
                         <span>关爱自己，从这里开始-健康管理小专家</span>
@@ -132,7 +134,7 @@
                 </div>
 			</li>
 			
-			<li class="business slide-4" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(238, 220, 108);">
+			<li class="slide-4" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(238, 220, 108);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
                         <span>全球最小运动监测可穿戴式设备</span>
@@ -147,7 +149,7 @@
                 </div>
 			</li>
 			
-			<li class="business slide-5" style="background-image: url('{{ app_url_packaged }}/images/yunyan.jpg'); background-color: rgb(255, 162, 108);">
+			<li class="slide-5" style="background-image: url('{{ app_url_packaged }}/images/yunyan.jpg'); background-color: rgb(255, 162, 108);">
 				<div class="hero-main verticalize-container">
                     <div class="verticalize">
 						<span>全球第一款500万像素家庭摄像头</span>

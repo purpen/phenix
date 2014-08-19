@@ -188,12 +188,16 @@
 						
 						<div class="four fields">
 							<div class="field">
-							  	<label>产品型号：</label>
+							  	<label>产品型号/颜色：</label>
 								<input type="text" name="mode[]" />
 							</div>
 							<div class="field">
-							  	<label>产品数量：</label>
+							  	<label>产品数量/限量：</label>
 								<input type="text" name="quantity[]" />
+							</div>
+							<div class="field">
+							  	<label>预售价：</label>
+								<input type="text" name="prices[]" />
 							</div>
 							<div class="field">
 								<div class="ui active small magenta ok button">确定</div>
@@ -209,7 +213,7 @@
 								<input type="text" name="market_price" value="{{ product.market_price }}" />
 							</div>
 							<div class="field">
-						  		<label>预售价：</label>
+						  		<label>销售价：</label>
 								<input type="text" name="hot_price"  value="{{ product.hot_price }}" />
 							</div>
 							<div class="field"></div>

@@ -48,6 +48,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
     }
 	
 	/**
+	 * 征集令
+	 */
+	public function fire(){
+		return $this->to_html_page('page/fire.html');
+	}
+	
+	/**
 	 * Goccia单品
 	 */
 	public function goccia(){

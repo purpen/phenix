@@ -1,0 +1,751 @@
+{%extends 'layout/column.html'%}
+{% block title %}点火-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.submit-banner {
+		background: url('{{ app_url_packaged }}/images/submit_top.jpg') no-repeat scroll center top / cover;
+		color: #FFF;
+		padding: 120px 8% 80px;
+	}
+	.inline{
+		display:inline-block;
+		float:left;
+		font-size: 1.5rem;
+		padding: 0;
+		margin: 0;
+	}
+	.inline.pl-10{
+		padding-left:10%;
+	}
+	
+	.ui.submit{
+		background-color:#0bb;
+	}
+	
+	.six.wide.column .head,.six.wide.column .act{
+		padding-top:18em;
+		width:85%;
+		display:none;
+	}
+	.six.wide.column .head h1{
+		color: #3dd;
+		font-size: 4em;
+		line-height: 1.5rem;
+	}
+	.six.wide.column .act h1{
+		color:#5fd;
+		font-size: 4em;
+		line-height: 1.5rem;
+		display:none;
+	}
+	.six.wide.column .process{
+		border-bottom:1px solid #3dd;
+		text-align:left;
+		margin-top: 20px;
+		color: #fff;
+	}
+	.six.wide.column .process.last{
+		text-align:left;
+		margin-top: 20px;
+		color: #fff;
+		border-bottom: 0px;
+	}
+	
+	.ui.big.claim.block{
+		background-color:#0db;
+	}
+	.six.wide.column>p{
+		color:#fff;
+	}
+	.six.wide.column p>em,.six.wide.column .con{
+		color:#466;
+	}
+	.six.wide.column .con{
+		padding-top:.2em;
+		padding-bottom:.2em;
+	}
+	.six.wide.column .border{
+		border:1px solid #5fd;
+		text-align:left;
+		color:#fff;
+		padding:1em;
+	}
+	
+	.right-banner {
+		background: url({{ app_url_packaged }}/images/submit_r1.jpg) no-repeat scroll center top / cover;
+		color: #FFF;
+		padding: 120px 8% 80px;
+	}
+	
+	
+.ui.header .sub.header {
+color: #fff;
+line-height: 2;
+margin: 1em;
+}
+.right-banner .ui.header .content{
+	color:#cc4;
+	font-size:4rem;
+}
+.right-banner .ui.header .sub.header{
+	font-size:1.5rem;
+	margin-top:2em;
+	margin-bottom:6.5em;
+}
+.f76-banner{
+	background:#f76;
+	color:#fff;
+	padding:120px 8% 80px;
+}
+.f76-banner .content{
+	font-size:4rem;
+}
+.f76-banner .ui.header .sub.header{
+	font-size:1.5rem;
+	margin-top:2em;
+}
+.box{
+	width: 75%;
+	float: left;
+	background: #e54;
+	font-size: 1.5rem;
+	height: 84px;
+}
+.box-2{
+	width: 25%;
+	float: left;
+	background: #d32;
+	font-size: 1.5rem;
+	height: 84px;
+}
+.more.row .fz{
+	font-size:1.5rem;
+}
+section.f334-banner{
+	background:#334;
+	padding:120px 8% 80px;
+	color:#567;
+}
+.f334-banner .content>.sub.header{
+	color:#567;
+	font-size:1.5rem;
+}
+.f334-banner .content{
+	font-size:4rem;
+}
+.userstory.thn{
+	background-position:0 0;
+}
+.userstory{
+	height: 276px;
+	width: 276px;
+	display: inline-block;
+	margin: 0 19px 20px 0;
+	position: relative;
+	background: url("./images/zj.png") 0 0 no-repeat;
+	text-align: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+.userstory .overlay{
+line-height: 305px;
+filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#c8323a47', endColorstr='#c8323a47');
+background: rgba(37,43,51,0.9);
+-webkit-transition: background 0.2s ease-in-out;
+-webkit-transition-delay: 0s;
+-moz-transition: background 0.2s ease-in-out 0s;
+-o-transition: background 0.2s ease-in-out 0s;
+transition: background 0.2s ease-in-out 0s;
+z-index: 2;
+}
+.userstory .overlay,.userstory blockquote {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+}
+.userstory .zj-logo{
+display: -moz-inline-stack;
+display: inline-block;
+vertical-align: middle;
+zoom: 1;
+height: 110px;
+width: 179px;
+background-image: url('{{ app_url_packaged }}/images/zj_logo.png');
+background-repeat: no-repeat;
+}
+.userstory .overlay .zj-logo{
+vertical-align: middle;
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+opacity: 1;
+-webkit-transition: opacity 0.2s ease-in-out;
+-webkit-transition-delay: 0s;
+-moz-transition: opacity 0.2s ease-in-out 0s;
+-o-transition: opacity 0.2s ease-in-out 0s;
+transition: opacity 0.2s ease-in-out 0s;
+}
+.userstory.zhenge{
+	background-position:-287px 0px;
+}
+.userstory.thn .zj-logo{
+	background-position: -44px -90px;
+}
+.userstory.zhenge .zj-logo{
+	background-position: -344px -100px;
+}
+.userstory.ml{
+	background-position:-574px 0px;
+}
+.userstory.ml .zj-logo{
+	background-position: -644px -100px;
+}
+.userstory.saifu{
+	background-position:-861px 0;
+}
+.userstory.saifu .zj-logo{
+	background-position: -914px -100px;
+}
+.userstory.wt{
+	background-position:0 -287px;
+}
+.userstory.wt .zj-logo{
+	background-position: -44px -370px;
+}
+.userstory.lkk{
+	background-position:-287px -287px;
+}
+.userstory.lkk .zj-logo{
+	background-position: -344px -370px;
+}
+.userstory.qt{
+	background-position:-574px -287px;
+}
+.userstory.qt .zj-logo{
+	background-position: -644px -370px;
+}
+.userstory.sj{
+	background-position:-861px -287px;
+}
+.userstory.sj .zj-logo{
+	background-position: -914px -370px;
+}
+.userstory blockquote {
+z-index: 3;
+-webkit-transition: opacity 0.2s ease-in-out;
+-webkit-transition-delay: 0s;
+-moz-transition: opacity 0.2s ease-in-out 0s;
+-o-transition: opacity 0.2s ease-in-out 0s;
+transition: opacity 0.2s ease-in-out 0s;
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+opacity: 0;
+-webkit-backface-visibility: hidden;
+}
+.userstory blockquote {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+margin:0;
+}
+.userstory blockquote p {
+margin: 0px;
+color: #fff;
+font: 400 italic 17px/1.7em "Open Sans", "open-sans", sans-serif;
+}
+.userstory blockquote h3{
+	margin: 0px;
+	padding: 95px 34px 10px;
+	color: #fff;
+	font-size:1.5rem;	
+}
+.userstory:hover blockquote{
+	opacity:1;
+}
+.userstory:hover .zj-logo{
+	opacity:0;
+}
+section.log-banner{
+	background: url({{ app_url_packaged }}/images/submit_lo.jpg) no-repeat scroll center top / cover;
+	padding: 120px 8% 80px;
+}
+.ui.center.aligned.grid .column>.content-box {
+text-align: left;
+margin-bottom: 2em;
+}
+.ui.list:last-child {
+margin-bottom: 0;
+}
+ul.ui.list:first-child, ol.ui.list:first-child, .ui.list:first-child {
+margin-top: 0;
+}
+ul.ui.list, ol.ui.list, .ui.list {
+list-style-type: none;
+margin: 1em 0;
+padding: 0;
+}
+.ui.center.aligned.grid .column>.content-box>.ui.selection.list>.item {
+padding: .5em 1em;
+}
+.ui.selection.list .item {
+cursor: pointer;
+color: rgba(0,0,0,.4);
+padding: .5em;
+-webkit-transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
+transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
+}
+.ui.list .item {
+font-size: 1em;
+}
+ul.ui.list li, ol.ui.list li, .ui.list .item {
+display: list-item;
+list-style-type: none;
+list-style-position: inside;
+padding: .3em 0;
+line-height: 1.2em;
+}
+.ui.list .header {
+font-weight: 700;
+}
+.ui.magenta.header {
+color: #f36!important;
+font-size:2.5rem;
+}
+.ui.header:first-child {
+margin-top: 0;
+}
+.ui.magenta.header+p {
+margin-top: 0;
+line-height: 1.35em;
+font-size:1.5rem;
+color:#ccc;
+}
+.ui.partner-banner{
+	padding: 120px 8% 80px;
+	background:#ccc;
+}
+.ui.partner-banner .content{
+	font-size:4rem;
+}
+.partner{
+	height: 100px;
+	width: 150px;
+	display: inline-block;
+	margin: 0 10px 0;
+	position: relative;
+	background: url("{{ app_url_packaged }}/images/logo.png") 0 0 no-repeat;
+	text-align: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+.partnera {
+display: -moz-inline-stack;
+display: inline-block;
+vertical-align: middle;
+zoom: 1;
+height: 100px;
+width: 150px;
+background-image: url('{{ app_url_packaged }}/images/logo1.png');
+background-repeat: no-repeat;
+}
+.partner.lkk{
+	background-position:20px 0px;
+}
+.partnera{
+	opacity:0;
+}
+.partner:hover .partnera{
+	opacity:1;
+}
+
+</style>
+{% endblock %}
+	
+{% block jquery %}
+{% endblock %}
+
+{% block content %}
+<div class="submit page">
+	<section class="submit-banner">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="twelve wide column">
+					<h1 class="ui header">
+						<div class="content">
+							<img src="{{ app_url_packaged }}/images/submit_word.png" width="100%" />
+							<div class="sub header">
+								<p class="inline">也许你满腹才华</p>       <p class="inline pl-10">也许是一张产品草图</p>  <br><br>
+								<p class="inline">也许你灵感无限</p>      <p class="inline pl-10">也许是一个待改良的设计</p>
+							</div>
+						</div>
+					</h1>
+				</div>
+				<div class="more row">
+					<div class="center aligned column">
+						<a href="http://www.taihuoniao.com/fever/submit?step=1" class="ui white btn-4 btn-4c icon-arrow-right btn">
+							提交创意	
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui big submit block">
+		<div class="ui responsive center aligned grid">
+			<div class="row">
+				<div class="six wide column">
+					<img src="{{ app_url_packaged }}/images/submit_word1.png"class="ui image">
+					<div class="head">
+						<h1>提交</h1>
+						<h1>流程</h1>
+						<h1>PROCESS</h1>
+					</div>
+				</div>
+				<div class="six wide column">
+					<div class="process">
+						<h3 class="ui header">提交创意</h3>
+						<p>登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</p>	
+					</div>
+					<div class="process">
+						<h3 class="ui header">投票</h3>
+						<p>提交的创意通过审核后，进入为期2个星期的投票。用户可以选择对提交的创意进行支持， 不支持的投票选择你不支持的理由。</p>	
+					</div>
+					<div class="process">
+						<h3 class="ui header">专家评分</h3>
+						<p>投票阶段获得100张选票的创意进入专家评分的阶段，5位专家将在1周内对创意从设计、 外观功能、创意4个方面给出评分。</p>	
+					</div>
+					<div class="process">
+						<h3 class="ui header">预售产品</h3>
+						<p>重新编辑创意投票的页面，添加相关的产品预售选项。在30-45天内筹集相应的金额，用 户选择不同的额度支持。</p>	
+					</div>
+					<div class="process last">
+						<h3 class="ui header">销售产品</h3>
+						<p>预售成功的产品将会进入批量生产，进入各大电商平台销售。 将有机会成为爆款创意产品。</p>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui big claim block">
+		<div class="ui responsive center aligned grid">
+			<div class="row">
+				<div class="six center aligned wide column">
+					<p>提交的内容可以是未成形的创意点子也可以是已成形的产品；</p>
+					<p>所有提交内容包括<em> 团队介绍、概念阐述、详细描述</em> 三个部分；</p>
+					<p>请务必留下您的联系方式（Email、QQ、Wechat、Tel）
+					方便我们的产品经理与您联系；</p>
+					<div class="con">
+						<p>产品经理：张婷（Tel：1881028896；Email：zhangting@taihuoniao.com）</p>
+					</div>
+					<div class="border">
+						<h3 class="ui header">团队介绍</h3>
+						<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。</p>
+						<p>建议不超过100字。</p>
+						<p>概念阐述</p>
+						<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
+						<p>产品视频能够更好的展现产品的特色。</p>
+						<p>详细描述</p>
+						<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。图文并茂的形式有助于消费者理解。</p>
+					</div>
+				</div>
+				<div class="six center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/submit_word2.png"class="ui image right">
+					<div class="act">
+						<h1>创意</h1>
+						<h1>要求</h1>
+						<h1>CLAIM</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="right-banner">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<h1 class="ui header">
+						<div class="content">
+							右脑崛起 设计时代
+							<div class="sub header">
+								随着大数据、云计算和人工智能的发展，让我们的左脑越来越懒惰，而右脑代表的创造力、共情力、娱乐感和意义感则是现代意义上的“科技”所不能替代的，设计师的思维恰恰是右脑思维，设计师善于发现用户需求，并有效整合现有技术满足消费者需求，当产品能够与用户共情，那么我们塑造的产品才是真正的性感产品！
+							</div>
+						</div>
+					</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="f76-banner">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<h1 class="ui header">
+						<div class="content">
+							从设计产品到设计人生
+							<div class="sub header">
+								有数据显示
+							</div>
+						</div>
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<div class="box">
+						<p>有计划开发原创设计产品的设计师</p>
+					</div>
+					<div class="box-2">
+						<p>90%</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<div class="box">
+						<p>认为缺少成熟的销售平台和体系的设计师</p>
+					</div>
+					<div class="box-2">
+						<p>64%</p>
+					</div>
+				</div>
+			</div>
+			<div class="more row">
+				<div class="center aligned column">
+					<p class="fz">而太火鸟，恰恰能够帮您！</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="f334-banner">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<h1 class="ui header">
+						<div class="content">
+							专家（设计老鸟）
+							<div class="sub header">
+								重量级专家评审团，提供最专业的建议
+							</div>
+						</div>
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+					<div class="userstory thn">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>雷海波</h3>
+							<p>太火鸟创始人\CEO</p>
+						</blockquote>
+					</div>
+					<div class="userstory zhenge">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>徐小平</h3>
+							<p>“真格”天使投资基金创始人</p>
+						</blockquote>
+					</div>
+					<div class="userstory ml">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>黎万强</h3>
+							<p>小米科技联合创始人</p>
+						</blockquote>
+					</div>
+					<div class="userstory saifu">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>高胜涛</h3>
+							<p>赛富科技董事长</p>
+						</blockquote>
+					</div>
+					<div class="userstory wt">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>童玮亮</h3>
+							<p>梧桐树资本创始合伙人</p>
+						</blockquote>
+					</div>
+					<div class="userstory lkk">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>贾伟</h3>
+							<p>洛可可设计集团创始人</p>
+						</blockquote>
+					</div>
+					<div class="userstory qt">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>陈文龙</h3>
+							<p>台湾创意中心执行长</p>
+						</blockquote>
+					</div>
+					<div class="userstory sj">
+						<div class="overlay">
+							<div class="zj-logo">
+							</div>
+						</div>
+						<blockquote>
+							<h3>封昌红</h3>
+							<p>深圳工业设计行业协会秘书长</p>
+						</blockquote>
+					</div>
+			</div>
+		</div>
+	</section>
+	<section class="log-banner">
+		<div class="ui block">
+			<div class="ui responsive center aligned grid">
+				<div class="row">
+					<div class="center aligned twelve wide column">
+						<div class="content-box">
+							<div class="ui selection list">
+								<div class="item">
+									<h3 class="ui magenta header">传播</h3>
+									<p>完美的营销推广团队,强大的社会化媒体,百万级大众评审团,上千位极客发烧友<br>
+									几十家垂直媒体资源.</p>
+								</div>
+								<div class="item">
+									<h3 class="ui magenta header">资金</h3>
+									<p>2.5亿中国创新设计孵化基金<br>
+									太火鸟与深圳工业设计协会联合著名VC管理团队提供了 2.5亿创新设计孵化基金，以设计入股、直接投资的方式助力成长。</p>
+								</div>
+								<div class="item">
+									<h3 class="ui magenta header">渠道</h3>
+									<p>上百个渠道合作伙伴<br>
+									太火鸟整合天猫、淘宝、京东、苏宁、麦德龙、全国机场、电视购物、礼品定制等上百个线上线下渠道合作伙伴，助创意产品推向市场！</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui partner-banner">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<h1 class="ui header">
+						<div class="content">
+							合作伙伴
+						</div>
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="partner lkk">
+					<div class="partnera lkk-1">
+					</div>
+				</div>
+				<div class="partner saifu">
+					<div class="partnera saifu1">
+					</div>
+				</div>
+				<div class="partner ml">
+					<div class="partnera ml1">
+					</div>
+				</div>
+				<div class="partner dym">
+					<div class="partnera dym1">
+					</div>
+				</div>
+				<div class="partner mj">
+					<div class="partnera mj1">
+					</div>
+				</div>
+				<div class="partner lf">
+					<div class="partnera lf1">
+					</div>
+				</div>
+				<div class="partner dd">
+					<div class="partnera dd1">
+					</div>
+				</div>
+				<div class="partner kr">
+					<div class="partnera kr1">
+					</div>
+				</div>
+				<div class="partner fh">
+					<div class="partnera fh1">
+					</div>
+				</div>
+				<div class="partner tc">
+					<div class="partnera tc1">
+					</div>
+				</div>
+				<div class="partner tai">
+					<div class="partnera tai1">
+					</div>
+				</div>
+				<div class="partner wt">
+					<div class="partnera wt1">
+					</div>
+				</div>
+				<div class="partner jt">
+					<div class="partnera jt1">
+					</div>
+				</div>
+				<div class="partner tb">
+					<div class="partnera tb1">
+					</div>
+				</div>
+				<div class="partner jd">
+					<div class="partnera jd1">
+					</div>
+				</div>
+				<div class="partner ymx">
+					<div class="partnera ymx1">
+					</div>
+				</div>
+				<div class="partner tm">
+					<div class="partnera tm1">
+					</div>
+				</div>
+				<div class="partner lan">
+					<div class="partnera lan1">
+					</div>
+				</div>
+				<div class="partner gm">
+					<div class="partnera gm1">
+					</div>
+				</div>
+				<div class="partner sn">
+					<div class="partnera sn1">
+					</div>
+				</div>
+				<div class="partner po">
+					<div class="partnera po1">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}
