@@ -187,8 +187,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 获取产品专区话题列表
 		$category_id = Doggy_Config::$vars['app.product.topic_category_id'];
+		
 		$category = new Sher_Core_Model_Category();
-		$this->stash['subject_category'] = $category->extend_load($category_id);
+		$subject_category = $category->extend_load($category_id);
+		// 获取父级分类
+		$parent_category = $category->extend_load((int)$subject_category['pid']);
+		$this->stash['subject_category'] = $subject_category;
+		$this->stash['parent_category'] = $parent_category;
 		
 		$product = new Sher_Core_Model_Product();
 		$this->stash['product'] = & $product->extend_load($id);
@@ -254,7 +259,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if (isset($topic['target_id']) && !empty($topic['target_id'])){
 			$product = new Sher_Core_Model_Product();
 			$this->stash['product'] = & $product->extend_load($topic['target_id']);
-			$tpl = 'page/topic/subject_show.html';
 		}
 		
 		return $this->to_html_page($tpl);
@@ -457,8 +461,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page('page/topic/submit.html');
 	}
 	
-	
-	
 	/**
 	 * 保存主题信息
 	 */
@@ -553,7 +555,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['target_id'] = (int)$this->stash['target_id'];
 		
 		// 产品话题分类Id
-		$data['category_id'] = (int) Doggy_Config::$vars['app.product.topic_category_id'];
+		$data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_category_id'];
 		
 		try{
 			$model = new Sher_Core_Model_Topic();

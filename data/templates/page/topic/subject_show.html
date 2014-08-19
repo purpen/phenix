@@ -2,16 +2,10 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.social.page {
-		margin-top: 2em;
-	}
-	.ui.content p.asset img {
-		width: 100%;
-	}
+
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
