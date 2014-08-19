@@ -52,14 +52,37 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	}
 	
 	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id,$ticket) {
+		$product = new Sher_Core_Model_Product();
+		
+		if ($ticket == Sher_Core_Model_Support::TICKET_OPPOSE){
+			$product->dec_counter('vote_oppose_count', (int)$id);
+		} else {
+			$product->dec_counter('vote_favor_count', (int)$id);
+		}
+		
+		unset($product);
+	}
+	
+	/**
 	 * 默认反对票原因
 	 */
-	public function oppose_reason(){
+	public function oppose_reason($id=null){
 		$reasons = array(
 			array('_id'=>1,'reason'=>'没有兴趣'),
 			array('_id'=>2,'reason'=>'有类似的产品和创意'),
 			array('_id'=>3,'reason'=>'不是一个消费产品'),
 		);
+		
+		if (!empty($id)){
+			for($i=0;$i<count($reasons);$i++){
+				if ($reasons[$i]['_id'] == $id){
+					return $reasons[$i];
+				}
+			}
+		}
 		
 		return $reasons;
 	}

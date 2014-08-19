@@ -1,20 +1,54 @@
 <taconite>
-	<replace select="#product-vote-box">
-		<div class="ui buttons" id="product-vote-box">
-			<a href="{{ app_url_fever }}/ajax_favor?id={{ id }}" class="ui disabled active green icon button ajax">
-				<i class="flat diggood icon"></i>
-			</a>
-			<a href="{{ app_url_fever }}/ajax_oppose?id={{ id }}" class="ui disabled icon button ajax">
-				<i class="flat digbad icon"></i>
-			</a>
+	<replace select="#voted-action"><![CDATA[
+		<div id="voted-action">
+			{% if ticket == 'favor' %}
+				<div class="ui alert green rounded">
+					<div class="icon"><i class="fa fa-thumbs-o-up"></i></div>
+					<strong>Great!</strong> 感谢你的支持 <a class="ui undo ajax link" href="{{ app_url_fever }}/ajax_cancel_vote?id={{ id }}&ticket=1">取消</a>
+				</div>
+			{% endif %}
+		
+			{% if ticket == 'oppose' %}
+				<div class="ui alert gray rounded">
+					<div class="icon"><i class="fa fa-thumbs-o-down"></i></div>
+					<strong>Great!</strong> {{ reason.reason }} <a class="ui undo ajax link" href="{{ app_url_fever }}/ajax_cancel_vote?id={{ id }}&ticket=2">取消</a>
+				</div>
+			{% endif %}
+			
+			{% if ticket == 'cancel' %}
+				<div class="2 fluid ui buttons">
+				  	<div class="ui green support button" data-id="{{ product._id }}">
+				  		<i class="thumbs up outline icon"></i>
+				  	</div>
+					<div class="ui dropdown green button">
+					  	<i class="thumbs down outline icon"></i>
+					  	<div class="menu">
+							<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax">
+								没有兴趣
+							</a>
+							<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax">
+								有类似的产品和创意
+							</a>
+							<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax">
+								不是一个消费产品
+							</a>
+					  	</div>
+					</div>
+				</div>
+			{% endif %}
 		</div>
-	</replace>
+	]]></replace>
 	
-	<prepend select="#product-vote-people">
-		<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-			<img src="{{ visitor.small_avatar_url }}" />
-		</a>
-	</prepend>
+	{% if ticket == 'cancel' %}
+		<remove select="#vote-user-{{ user_id }}" />
+		<remove select="#supporter-user-{{ user_id }}" />
+	{% else %}
+		<prepend select="#product-vote-people">
+			<a class="ui small avatar image" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}" id="vote-user-{{ visitor.id }}">
+				<img src="{{ visitor.small_avatar_url }}" alt="{{ visitor.nickname }}" />
+			</a>
+		</prepend>
+	{% endif %}
 	
 	<replace select="#product-vote-count">
 		{{ product.vote_count }}

@@ -119,7 +119,7 @@
         	endpoint: '{{ app_url_upload_product }}'
       	},
 		text: {
-            uploadButton: '<a class="ui magenta labeled upload button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -307,10 +307,10 @@
 						<div class="buttons">
 							<div class="ui large links">
 								<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-									<i class="flat edit_delete icon"></i>
+									<i class="remove icon"></i>
 								</a>
 								<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == product.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
-									<i class="flat edit_recommend icon"></i>
+									<i class="checkered flag icon"></i>
 								</a>
 							</div>
 						</div>

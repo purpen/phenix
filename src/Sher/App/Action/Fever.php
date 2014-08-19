@@ -232,7 +232,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$model = new Sher_Core_Model_Support();
 			// 验证是否投票过
 			if ($model->check_voted($this->visitor->id, $id)){
-				return $this->ajax_notification('你已经投票成功！', true);
+				return $this->ajax_notification('已经投票成功！', true);
 			}
 			$data = array(
 				'user_id'   => $this->visitor->id,
@@ -243,10 +243,52 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				return $this->ajax_notification('投票失败，请重试！', true);
 			}
 			
+			$this->stash['ticket'] = 'favor';
 			// 获取产品信息
 			$product = new Sher_Core_Model_Product();
 			$this->stash['product'] = $product->extend_load($id);
 			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_notification('操作失败！', true);
+		}
+		
+		return $this->to_taconite_page('ajax/vote_ok.html');
+	}
+	
+	/**
+	 * 撤销投票
+	 */
+	public function ajax_cancel_vote(){
+		$id = (int)$this->stash['id'];
+		$ticket = $this->stash['ticket'];
+		if(empty($id) || empty($ticket)){
+			return $this->ajax_notification('访问的创意不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Support();
+			// 验证是否投票过
+			if (!$model->check_voted($this->visitor->id, $id)){
+				return $this->ajax_notification('抱歉，你没有投票过！', true);
+			}
+			
+			$query = array(
+				'user_id'   => $this->visitor->id,
+				'target_id' => $id,
+				'ticket' => (int)$ticket,
+			);
+			$ok = $model->remove($query);
+			if (!$ok) {
+				return $this->ajax_notification('投票失败，请重试！', true);
+			}
+			$model->mock_after_remove($id, (int)$ticket);
+			
+			$this->stash['ticket'] = 'cancel';
+			$this->stash['user_id'] = $this->visitor->id;
+			
+			$product = new Sher_Core_Model_Product();
+			$this->stash['product'] = $product->extend_load($id);
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
 			return $this->ajax_notification('操作失败！', true);
@@ -281,6 +323,9 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			if (!$ok) {
 				return $this->ajax_notification('投票失败，请重试！', true);
 			}
+			
+			$this->stash['ticket'] = 'oppose';
+			$this->stash['reason'] = $model->oppose_reason((int)$reason);
 			
 			// 获取产品信息
 			$product = new Sher_Core_Model_Product();
@@ -380,12 +425,12 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->stash['mode'] = 'edit';
 				
 				$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
-				$this->stash['pid'] = new MongoId();
+				$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+				$this->stash['editor_pid'] = new MongoId();
 		
-				$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_ASSET;
-				
+				$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+				$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
+					
 				$tpl_name = 'submit_content.html';
 				break;
 			case 3:
@@ -394,7 +439,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				
 				$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 				$this->stash['pid'] = new MongoId();
-		
+				
 				$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 				$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 				
@@ -565,6 +610,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$data = array();
 		$data['_id'] = $id;
 		
+		$data['cover_id'] = $this->stash['cover_id'];
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];

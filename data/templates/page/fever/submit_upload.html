@@ -2,7 +2,7 @@
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-
+	
 </style>
 {% endblock %}
 
@@ -38,7 +38,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload_product }}'
       	},
 		text: {
@@ -69,18 +69,16 @@
 	$('#asset-list .ajax-cover').livequery(function(){
 		$(this).click(function(){
 			$this = $(this);
-			$.get($(this).attr('href'), function(result){
-				if (result.success){
-					$('#asset-list .ajax-cover.active').removeClass('active');
-					$this.addClass('active');
-				}else{
-					phenix.show_error_message(result.message);
-				}
-			},'json');
+			var id = $(this).attr('data-value');
 			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#product_cover_id').val(id);
 			return false;
 		});
 	});
+	
 {% endblock %}
 
 {% block content %}
@@ -120,8 +118,11 @@
 						<div class="ui segment">
 							<input type="hidden" name="step" value="3" />
 							<input type="hidden" name="_id" value="{{ product._id }}" />
+							<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+							
 							<div class="field">
-								<label>添加图片</label>
+								<label>上传图片</label>
+								<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
 							  	<div id="phenix-uploader"></div>
 						
 								<div id="asset-list" class="ui four items">
@@ -136,11 +137,11 @@
 											<div class="buttons">
 												<div class="ui large links">
 													<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-														<i class="flat waste icon"></i>
+														<i class="remove icon"></i>
 													</a>
-											
-													<a href="{{ app_url_action_base }}/uploader/update_cover?id={{ product._id }}&cover_id={{ asset._id }}" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted">
-														<i class="flat flag icon"></i>
+													
+													<a href="javascript:void(0);" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+														<i class="checkered flag icon"></i>
 													</a>
 												</div>
 											</div>

@@ -17,32 +17,45 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	var file_count = 1;	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+		
 	$('#editor').editable({
 		inlineMode: false,
+		toolbarFixed: false,
 		language: 'zh_cn',
 		borderColor: '#999',
-		editorClass: 'bird',
+		editorClass: 'frbird',
 		height: 500,
 		plainPaste: true,
 		alwaysBlank: true,
 		typingTimer: 600,
+		{% if mode == 'edit' %}
+		defaultImageAlt: '{{ product.title }}',
+		{% else %}
+		defaultImageAlt: '太火鸟',
+		{% endif %}
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageParams: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' },
+		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: 700,
 		maxImageSize: 1024 * 1024 * 3, // 3M
 		insertImageCallback: function (imageURL) {
 			file_count++;
 			// 重置参数
-			$('#editor').editable("option", "imageParams", {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}' });
+			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'});
 		},
-		afterRemoveImageCallback: function () {
-		    // Do something great.
-		},
-		contentChangedCallback: function () {
-		    $("#editor").val($("#editor").editable("getHTML"));
-		}
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+	    // Catch image removal from the editor.
+        afterRemoveImageCallback: function ($img) {
+          // Set the image source to the image delete params.
+          this.options.imageDeleteParams = {file_url: $img.attr('src')};
+
+          // Make the delete request.
+          this.deleteImage($img);
+        }
 	});
 	
 	$('#product-content-form').form({

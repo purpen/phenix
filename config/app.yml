@@ -117,7 +117,7 @@ app.email.from:
 
 # 产品话题类别
 app.system.user_id: 1
-app.product.topic_category_id: 34
+app.product.topic_category_id: 59
 
 # 关注最大数
 app.follow.max: 2000

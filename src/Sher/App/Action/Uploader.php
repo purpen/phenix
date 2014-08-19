@@ -172,7 +172,6 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		if (!$this->visitor->id) {
             return $this->ajax_json('Session已过期，请重新登录！', true);
         }
-		
 		try{
 			$new_assets = array();
 			for($i=0; $i<count($this->asset); $i++){
@@ -195,6 +194,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, $asset_domain);
 				$image_info['domain'] = $asset_domain;
 		        $image_info['asset_type'] = $asset_type;
+				
+				if(isset($this->stash['x:parent_id'])){
+					$image_info['parent_id'] = $this->stash['x:parent_id'];
+				}
 			
 				$ok = $asset->apply_and_save($image_info);
 				

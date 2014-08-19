@@ -2,67 +2,6 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	#votepage {
-		padding-top: 1em;
-		padding-bottom: 3em;
-		background-color: #fff;
-	}
-	.product.params {
-		padding: 1.5em 0;
-	}
-	#votepage .product.reviews {
-		margin-bottom: 2em;
-	}
-	
-	#votepage .ui.rules.grid > .column {
-	    margin-bottom: 0;
-		font-size: 0.875rem;
-		color: rgba(0,0,0,0.6);
-	}
-	
-	.vote.box {
-	    margin-bottom: 1em;
-	}
-	.vote.box > .ui.timer.list,
-	.vote.box > .ui.vote.buttons {
-		text-align: center;
-	}
-	.vote.box > .ui.timer.list > .item {
-	    padding: 0.2em;
-	    line-height: 2.25em;
-	}
-	.vote.box > .ui.timer.list > .item.magenta {
-	    color:#ff3366;
-	}
-	.vote.box > .ui.timer.list > .item > .count {
-	    margin-right: 0.5em;
-		margin-left: 0.5em;
-	    font-size: 1.6em;
-	}
-	.vote.box > .ui.timer.list > .item:first-child > .count {
-		margin-left: 0em;
-	}
-	.vote.box > .ui.timer.list > .item > .count > span {
-		font-size: 0.5em;
-		color: rgba(0,0,0,0.6);
-		margin-left: 0.35em;
-	}
-	.vote.box > .ui.timer.list > .item > .number {
-	    margin-right: 0.5em;
-	    font-size: 1.5em;
-	}
-	.vote.box > .ui.timer.list > .item > .unit {
-	    font-size: 0.875em;
-	}
-	
-	.vote.box .ui.vote.buttons {
-		float: right;
-	}
-	.vote.box .ui.vote.buttons .button {
-		padding: 0.8em 3em;
-	}
-	
-	
 	
 	ul li {
 	    float: left;
@@ -221,6 +160,12 @@
 		margin: 0;
 	}
 	
+	#voted-action {
+		margin: 1em auto;
+	}
+	
+	
+	
 </style>
 {% endblock %}
 
@@ -260,6 +205,18 @@
 		$('.ui.share.modal').modal('show');
 	});
 	
+	// 投赞成票
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
+		$.post('{{ app_url_fever }}/ajax_favor', {id: id});
+	});	
+	
 {% endblock %}
 
 {% block content %}
@@ -273,6 +230,8 @@
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_fever }}">创意投票</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ product.category.view_url }}">{{ product.category.title }}</a>
 				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
@@ -305,11 +264,11 @@
 	<div class="product params">
 		<div class="ui responsive grid">
 			<div class="row fever-view">
-				<div class="eight wide cover column">
+				<div class="nine wide cover center aligned column">
 					<img src="{{ product.cover.thumbnails.large.view_url }}" alt="{{ product.title }}" />
 				</div>
 				
-				<div class="eight wide column">
+				<div class="seven wide column">
 					<h2 class="ui dividing header">
 						<div class="content">
 							{{ product.title }}
@@ -323,35 +282,36 @@
 				
 					{% if !product.expert_assess %}
 					<div class="vote box">
+						<span>剩余时间：</span>
 						<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-						<div class="ui vote buttons">
-							<div href="{{ app_url_fever }}/ajax_favor?id={{ product._id }}" class="ui active green button">
-								<i class="flat support icon"></i>
-							</div>
-							
-							<div class="ui dropdown green button">
-							  	<i class="flat oppose icon"></i>
-							  	<div class="menu">
-									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax">
-										没有兴趣
-									</a>
-									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax">
-										有类似的产品和创意
-									</a>
-									<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax">
-										不是一个消费产品
-									</a>
+						<div id="voted-action">							
+							<div class="2 fluid ui buttons">
+							  	<div class="ui green support button" data-id="{{ product._id }}">
+							  		<i class="thumbs up outline icon"></i>
 							  	</div>
+								<div class="ui dropdown green button">
+								  	<i class="thumbs down outline icon"></i>
+								  	<div class="menu">
+										<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax">
+											没有兴趣
+										</a>
+										<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax">
+											有类似的产品和创意
+										</a>
+										<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax">
+											不是一个消费产品
+										</a>
+								  	</div>
+								</div>
 							</div>
 						</div>
-						
 						<div class="ui clearing divider"></div>
 						<!--最新投票者列表-->
 						<div class="vote people">
 							<div class="avatars" id="product-vote-people">
 								{% vote_list var:'votelist' target_id:product._id size:8 %}
 								{% for vote in votelist.rows  %}
-								<a class="ui small avatar image" href="{{ vote.user.home_url }}" title="{{ vote.user.nickname }}">
+								<a class="ui small avatar image" href="{{ vote.user.home_url }}" title="{{ vote.user.nickname }}" id="vote-user-{{ vote.user._id }}">
 									<img src="{{ vote.user.small_avatar_url }}" alt="{{ vote.user.nickname }}" />
 								</a>
 								{% endfor %}
@@ -605,7 +565,7 @@
 					    <div class="ui horizontal list">
 							{% for vote in votelist.rows  %}
 							<div class="item">
-								<a class="ui large avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted">
+								<a class="ui large avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted" id="supporter-user-{{ vote.user._id }}">
 									<img src="{{ vote.user.medium_avatar_url }}" alt="{{ vote.user.nickname }}" />
 								</a>
 								<div class="content">
