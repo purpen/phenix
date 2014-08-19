@@ -135,6 +135,18 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
 	    }
 		
+		// 检测是否投票过
+		$vote_result = array();
+		$support = new Sher_Core_Model_Support();
+		$vote = $support->first(array(
+			'target_id' => $id,
+			'user_id' => $this->visitor->id,
+		));
+		if (!empty($vote)){
+			$vote_result = $support->extended_model_row($vote);
+		}
+		$this->stash['voted'] = $vote_result;
+		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::vote_view_url($id,'#p#');
 		
@@ -389,10 +401,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	public function ajax_approved(){
 		$id = (int)$this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_notification('访问的创意不存在！', true);
+			return $this->ajax_json('访问的创意不存在！', true);
 		}
 		if (!$this->visitor->can_admin()){
-			return $this->ajax_notification('抱歉，你没有相应权限！', true);
+			return $this->ajax_json('抱歉，你没有相应权限！', true);
 		}
 		
 		try{
@@ -400,10 +412,33 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$model->mark_as_approved($id);
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
-			return $this->ajax_notification('操作失败！', true);
+			return $this->ajax_json('操作失败！', true);
 		}
 		
-		return $this->ajax_notification('审核成功！', false);
+		return $this->ajax_json('审核成功！');
+	}
+	
+	/**
+	 * 取消审核
+	 */
+	public function ajax_cancel_approved(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_json('访问的创意不存在！', true);
+		}
+		if (!$this->visitor->can_admin()){
+			return $this->ajax_json('抱歉，你没有相应权限！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$model->mark_cancel_approved($id);
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+			return $this->ajax_json('操作失败！', true);
+		}
+		
+		return $this->ajax_json('审核成功！');
 	}
 	
 	/**

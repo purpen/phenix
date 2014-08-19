@@ -24,8 +24,7 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
     );
 	
     protected $joins = array(
-    	'user'  => array('user_id' => 'Sher_Core_Model_User'),
-		'product' => array('target_id' => 'Sher_Core_Model_Product'),
+    	'user'  => array('user_id'  => 'Sher_Core_Model_User'),
     );
 	
     protected $required_fields = array('user_id', 'target_id', 'ticket');
@@ -35,7 +34,7 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	 * 扩展关联数据
 	 */
     protected function extra_extend_model_row(&$row) {
-    	
+    	$row['reason_text'] = $this->oppose_reason((int)$row['reason']);
     }
 	
 	/**

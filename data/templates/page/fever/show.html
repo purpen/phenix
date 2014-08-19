@@ -2,7 +2,9 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	#voted-action {
+		margin: 1em auto;
+	}
 	ul li {
 	    float: left;
 	    margin-right: 10px;
@@ -141,31 +143,6 @@
 	.ui.clearing.divider {
 		margin-top: 0.5em;
 	}
-	
-	
-	
-	
-	
-	
-	
-	#product-vote {
-		float: right;
-	}
-	
-	#product-vote  > .button {
-		padding: 0.8em 3em;
-	}
-	
-	#product-vote  > .button > .icon {
-		margin: 0;
-	}
-	
-	#voted-action {
-		margin: 1em auto;
-	}
-	
-	
-	
 </style>
 {% endblock %}
 
@@ -173,6 +150,13 @@
 
 	phenix.hook_product_topic();
 	phenix.bind_share_list();
+	
+	// 显示编辑工具条 
+	$('.product.params').hover(function(){
+		$('.ui.admin.buttons').removeClass('hide');
+	},function(){
+		$('.ui.admin.buttons').addClass('hide');
+	});
 	
 	var score = {};
 	$('.ui.point > .button').click(function(){
@@ -217,6 +201,58 @@
 		$.post('{{ app_url_fever }}/ajax_favor', {id: id});
 	});	
 	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_fever }}/edit?id='+id);
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			if(confirm('确认执行删除操作吗?')){
+	        	$.post('{{ app_url_fever }}/deleted', {id: {{product._id}} });
+	        }
+		});		
+		
+		/* 登录用户行为 */
+	{% endif %}
+	
+	// 通过审核
+	$('.ui.check.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_fever }}/ajax_approved', {id: id}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消审核')
+						.data('mark', 'y')
+						.addClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_fever }}/ajax_cancel_approved', {id: id}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '通过审核')
+						.data('mark', 'n')
+						.removeClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -238,32 +274,16 @@
 			</div>
 			
 			<div class="five wide right aligned column">
-				<div class="ui pop icon black share button" data-content="分享" data-variation="inverted">
+				<div class="ui pop icon magenta share button" data-content="分享" data-variation="inverted">
 					<i class="share icon"></i>
 				</div>
-				{% if visitor.is_admin %}
-				<div class="ui black top right pointing dropdown icon button">
-				  	<i class="ellipsis vertical icon"></i>
-				  	<div class="menu">
-			          	<a class="item ajax" href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}">
-							<i class="checkmark icon"></i> 通过审核
-						</a>
-			          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-							<i class="edit icon"></i> 编辑创意
-						</a>
-			          	<a class="item" href="{{ app_url_fever }}/edit?id={{ product._id }}">
-							<i class="remove icon"></i> 删除创意
-						</a>
-				  	</div>
-				</div>
-				{% endif %}
 			</div>
 		</div>
 	</div>
 	
 	<div class="product params">
 		<div class="ui responsive grid">
-			<div class="row fever-view">
+			<div class="row">
 				<div class="nine wide cover center aligned column">
 					<img src="{{ product.cover.thumbnails.large.view_url }}" alt="{{ product.title }}" />
 				</div>
@@ -284,37 +304,59 @@
 					<div class="vote box">
 						<span>剩余时间：</span>
 						<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-						<div id="voted-action">							
-							<div class="2 fluid ui buttons">
-							  	<div class="ui green support button" data-id="{{ product._id }}">
-							  		<i class="thumbs up outline icon"></i>
-							  	</div>
-								<div class="ui dropdown green button">
-								  	<i class="thumbs down outline icon"></i>
-								  	<div class="menu">
-										<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax">
-											没有兴趣
-										</a>
-										<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax">
-											有类似的产品和创意
-										</a>
-										<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax">
-											不是一个消费产品
-										</a>
-								  	</div>
+						<div id="voted-action">
+							{% if voted %}
+								{% if voted.ticket == 1 %}
+								<div class="ui alert green rounded">
+									<div class="icon"><i class="fa fa-thumbs-o-up"></i></div>
+									<strong>Great!</strong> 感谢你的支持 <a class="ui undo ajax link" href="{{ app_url_fever }}/ajax_cancel_vote?id={{ product._id }}&ticket=1">取消</a>
 								</div>
-							</div>
+								{% else %}
+								<div class="ui alert gray rounded">
+									<div class="icon"><i class="fa fa-thumbs-o-down"></i></div>
+									<strong>Ok!</strong> {{ voted.reason_text.reason }} <a class="ui undo ajax link" href="{{ app_url_fever }}/ajax_cancel_vote?id={{ product._id }}&ticket=2">取消</a>
+								</div>
+								{% endif %}
+							{% else %}
+								<div class="2 fluid ui buttons">
+								  	<div class="ui green support button" data-id="{{ product._id }}">
+								  		<i class="thumbs up outline icon"></i>
+								  	</div>
+									<div class="ui dropdown green button">
+									  	<i class="thumbs down outline icon"></i>
+									  	<div class="menu">
+											<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=1" class="item ajax">
+												没有兴趣
+											</a>
+											<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=2" class="item ajax">
+												有类似的产品和创意
+											</a>
+											<a href="{{ app_url_fever }}/ajax_oppose?id={{ product._id }}&r=3" class="item ajax">
+												不是一个消费产品
+											</a>
+									  	</div>
+									</div>
+								</div>
+							{% endif %}
 						</div>
 						<div class="ui clearing divider"></div>
 						<!--最新投票者列表-->
 						<div class="vote people">
 							<div class="avatars" id="product-vote-people">
-								{% vote_list var:'votelist' target_id:product._id size:8 %}
+								{% vote_list var:'votelist' target_id:product._id size:14 %}
 								{% for vote in votelist.rows  %}
 								<a class="ui small avatar image" href="{{ vote.user.home_url }}" title="{{ vote.user.nickname }}" id="vote-user-{{ vote.user._id }}">
 									<img src="{{ vote.user.small_avatar_url }}" alt="{{ vote.user.nickname }}" />
 								</a>
 								{% endfor %}
+								
+								{% if votelist.total_rows < 14 %}
+									{% for u in votelist.lack %}
+									<a class="ui small avatar image" href="javascript:void(0);" title="下一个支持者">
+										<img src="{{ app_url_packaged }}/images/avatar_default_small.jpg" alt="下一个支持者" />
+									</a>
+									{% endfor %}
+								{% endif %}
 							</div>
 							<div class="ui rules grid">
 								<div class="left floated eight wide column">
@@ -325,11 +367,7 @@
 								</div>
 							</div>
 						</div>
-						
 					</div>
-					
-					
-					
 					{% else %}			
 					<div class="ui middle aligned grid">
 						<div class="eleven wide column">
@@ -422,13 +460,32 @@
 					</div>
 					{% endif %}
 					
-					<div class="ui clearing divider"></div>
 					{% if product.tags_s %}
 					<div class="vote highlight">
 						<h4>创意亮点</h4>
 						{% for tag in product.tags %}
 						<label class="ui black label">{{ tag }}</label>
 						{% endfor %}
+					</div>
+					{% endif %}
+					
+					{% if visitor.is_admin %}
+					<div class="ui icon admin black hide buttons">
+						{% if product.approved %}
+						<div class="ui active pop check button" data-content="取消审核" data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+							<i class="checkmark icon"></i>
+						</div>
+						{% else %}
+						<div class="ui pop check button" data-content="通过审核" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+							<i class="checkmark icon"></i>
+						</div>
+						{% endif %}
+						<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+							<i class="edit icon"></i>
+						</div>
+						<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+							<i class="remove icon"></i>
+						</div>
 					</div>
 					{% endif %}
 					

@@ -109,7 +109,9 @@
 		// 删除
 		$('.ui.remove.button').bind('click', function(){
 			var id = $(this).data('id');
-			$.post('{{ app_url_topic }}/deleted', {id: {{topic._id}} });
+			if(confirm('确认执行删除操作吗?')){
+				$.post('{{ app_url_topic }}/deleted', {id: {{topic._id}} });
+			}
 		});
 		
 		/* 登录用户行为 */

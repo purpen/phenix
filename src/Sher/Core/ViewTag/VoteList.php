@@ -47,7 +47,12 @@ class Sher_Core_ViewTag_VoteList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
         $result = $service->get_vote_list($query,$options);
-		        
+		
+		// 补充缺失
+		if ($result['total_rows'] < $size){
+			$result['lack'] = range(0, $size - $result['total_rows'] - 1);
+		}
+		
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

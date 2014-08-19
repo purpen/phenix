@@ -347,6 +347,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		return $this->update_vote_date($id);
 	}
 	
+    /**
+     * 取消审核
+     */
+	public function mark_cancel_approved($id) {
+		return $this->update_set($id, array('approved' => 0));
+	}
+	
 	/**
 	 * 更新专家评分
 	 */	
