@@ -1,23 +1,5 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/form.html'%}
 {% block title %}预售设置-{% endblock %}
-{% block page_css %}
-<style type="text/css">
-	.new.title {
-		margin-bottom: 1em;
-	}
-	.new.title .icon-link {
-		font-size: 0.875em;
-		text-decoration: none;
-	}
-	#salesetting {
-		margin-bottom: 3em;
-	}
-	#salesetting .ui.ok.button {
-		margin-top: 2.1em;
-	}
-	
-</style>
-{% endblock %}
 
 {% block layout_js %}
 	{% if js_use_bundle %}
@@ -39,7 +21,6 @@
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'frbird',
-		height: 500,
 		plainPaste: true,
 		alwaysBlank: true,
 		typingTimer: 600,
@@ -48,7 +29,7 @@
 		{% else %}
 		defaultImageAlt: '太火鸟',
 		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: 700,
@@ -146,11 +127,89 @@
 			return false;
 		});
 	});
+	
+	// 设置新类型
+	$('#create-new-presale').bind('click', function(){
+		$('.ui.presale.modal').modal('show');
+	});
+	
+	$('#presale-form').livequery(function(){
+		$('#presale-form').form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '预售项名称不能为空'
+					}
+				]
+			},
+			price: {
+				identifier  : 'price',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '预售价格不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
+	$('.ui.cancel.button').livequery(function(){
+		$(this).click(function(){
+			$('.ui.presale.modal').modal('hide');
+			$('#presale-form').clearForm();
+		});
+	});
+	
+	// 编辑预售项
+	$('.ui.edit.button').livequery(function(){
+		$(this).click(function(){
+			var r_id = $(this).data('id'), product_id = $(this).data('pid');
+			$.get('{{ app_url_fever }}/edit_presale', {product_id: product_id, r_id: r_id});
+		});
+	});
+	
+	// 删除预售项
+	$('.ui.remove.button').livequery(function(){
+		$(this).click(function(){
+			var r_id = $(this).data('id'), product_id = $(this).data('pid');
+			if(confirm('确认执行删除操作吗?')){
+	        	$.post('{{ app_url_fever }}/remove_presale', {product_id: product_id, r_id: r_id});
+	        }
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
 <div id="salesetting">
 	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_shop }}">预售</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ product.category.view_url }}">{{ product.category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+					<a class="ui section link" href="{{ product.view_url }}">{{ product.title }}</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">预售设置</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="column">
 				<div class="new title">
@@ -165,6 +224,53 @@
 				<form action="{{ app_url_sale }}/save" class="ui form" method="post" id="product-sale-form">
 					<div class="ui segment">
 						<input type="hidden" name="_id" value="{{ id }}" id="product_id" />
+						
+						<h3 class="ui dividing new title header">
+							产品型号/数量
+						</h3>
+						
+						<div class="ui seg grid">
+							<div class="row">
+								<div class="column">
+									<div class="ui four levels" id="product-presales">
+										{% for presale in product.presales %}
+										<div class="ui level" id="{{ presale.r_id }}" data-id="{{ presale.r_id }}">
+											<h3 class="ui header">{{ presale.name }}</h3>
+					
+											<div class="content">
+												<p class="time">
+													{{ presale.mode }}，限量{{ presale.quantity }}个
+												</p>
+												<p class="time">
+													{{ presale.summary }}
+												</p>
+												<div class="price">
+													￥ {{ presale.price }}
+												</div>
+											</div>
+					
+											<div class="actions">
+												<a class="ui small black icon edit button" data-id="{{ presale.r_id }}" data-pid="{{ product._id }}">
+													<i class="edit icon"></i>
+												</a>
+												<a class="ui small black icon remove button" data-id="{{ presale.r_id }}" data-pid="{{ product._id }}">
+													<i class="remove icon"></i>
+												</a>
+											</div>
+										</div>
+										{% endfor %}
+									</div>	
+								</div>
+							</div>
+							<div class="row">
+								<div class="center aligned column">
+										<a class="ui magenta addbook icon btn" href="javascript:void(0);" id="create-new-presale">
+											<i class="flat add icon"></i> 添加新类型
+										</a>
+								</div>
+							</div>
+						</div>
+						
 						<h3 class="ui dividing header">
 							基本信息
 						</h3>
@@ -173,50 +279,13 @@
 						  	<input type="text" name="title" value="{{ product.title }}" />
 						</div>
 						<div class="field">
-							<label>产品亮点</label>
+							<label>产品关键词</label>
 						  	<input type="text" name="tags" value="{{ product.tags_s }}" />
 						</div>
 						<div class="field">
 							<label>产品简述</label>
 						  	<textarea name="summary" class="small">{{ product.summary }}</textarea>
 							<div class="description">请详细的描述</div>
-						</div>
-						
-						<h3 class="ui dividing new title header">
-							产品型号/数量 <a href="#ajax-request" class="icon-link ui link"><i class="add sign icon"></i></a>
-						</h3>
-						
-						<div class="four fields">
-							<div class="field">
-							  	<label>产品型号/颜色：</label>
-								<input type="text" name="mode[]" />
-							</div>
-							<div class="field">
-							  	<label>产品数量/限量：</label>
-								<input type="text" name="quantity[]" />
-							</div>
-							<div class="field">
-							  	<label>预售价：</label>
-								<input type="text" name="prices[]" />
-							</div>
-							<div class="field">
-								<div class="ui active small magenta ok button">确定</div>
-							</div>
-						</div>
-						
-						<h3 class="ui dividing header">
-							价格设置
-						</h3>
-						<div class="four fields">
-							<div class="field">
-							  	<label>市场价：</label>
-								<input type="text" name="market_price" value="{{ product.market_price }}" />
-							</div>
-							<div class="field">
-						  		<label>销售价：</label>
-								<input type="text" name="hot_price"  value="{{ product.hot_price }}" />
-							</div>
-							<div class="field"></div>
 						</div>
 						
 						<h3 class="ui header">
@@ -276,4 +345,5 @@
 		</div>
 	</div>
 </div>
+{% include "block/shopping/presalebox.html" %}
 {% endblock %}

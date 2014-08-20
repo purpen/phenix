@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+<!--提交数据基本模板-->
+
+{% block title%}{% endblock %}
+{% block layout_css %}{% endblock %}
+{% block page_css %}{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block layout_jquery %}{% endblock %}
+{% block jquery %}{% endblock %}
+
+{% block layout_header %}
+<header class="main ui responsive grid">
+	{% include "block/header.html" %}
+</header>
+{% endblock %}
+
+{% block layout_content %}
+<div id="submitform">
+	<div id="ajaxalerts"></div>
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block layout_footer %}
+	{% include "block/footer.html" %}
+{% endblock %}

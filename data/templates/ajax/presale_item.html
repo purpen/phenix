@@ -1,0 +1,45 @@
+<taconite>
+	{% if action == 'update' %}
+	<replace select="#{{ r_id }}">
+	{% endif %}
+	
+	{% if action == 'create' %}
+	<append select="#product-presales">
+	{% endif %}
+		<div class="ui level" id="{{ presale.r_id }}" data-id="{{ presale.r_id }}">
+			<h3 class="ui header">{{ presale.name }}</h3>
+
+			<div class="content">
+				<p class="time">
+					{{ presale.mode }}，限量{{ presale.quantity }}个
+				</p>
+				<p class="time">
+					{{ presale.summary }}
+				</p>
+				<div class="price">
+					￥ {{ presale.price }}
+				</div>
+			</div>
+
+			<div class="actions">
+				<a class="ui small gray icon edit button" data-id="{{ presale.r_id }}" data-pid="{{ product_id }}">
+					<i class="edit icon"></i>
+				</a>
+				<a class="ui small gray icon remove button" data-id="{{ presale.r_id }}" data-pid="{{ product_id }}">
+					<i class="remove icon"></i>
+				</a>
+			</div>
+		</div>
+	{% if action == 'update' %}
+	</replace>
+	{% endif %}
+
+	{% if action == 'create' %}
+	</append>
+	{% endif %}
+
+	<eval>
+		$('.ui.presale.modal').modal('hide');
+		$('#presale-form').clearForm();
+	</eval>
+</taconite>

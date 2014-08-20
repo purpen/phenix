@@ -82,13 +82,17 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function edit(){
 		$id = (int)$this->stash['id'];
-		$redirect_url = Doggy_Config::$vars['app.url.fever'];
+		$redirect_url = Doggy_Config::$vars['app.url.sale'];
 		if(empty($id)){
 			return $this->show_message_page('产品不存在！', $redirect_url);
 		}
 		
+		// 产品信息
+		$model = new Sher_Core_Model_Product();
+		$product = & $model->extend_load($id);
+		
 		// 限制修改权限
-		if (!$this->visitor->can_admin()){
+		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
 		
@@ -107,11 +111,6 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		
-		
-		// 产品信息
-		$model = new Sher_Core_Model_Product();
-		$product = & $model->extend_load($id);
-		
 		$this->stash['product'] = $product;
 		
 		return $this->to_html_page('page/sale/edit.html');
@@ -122,21 +121,24 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function save(){		
 		$id = (int)$this->stash['_id'];
+		$redirect_url = Doggy_Config::$vars['app.url.sale'];
+		if(empty($id)){
+			return $this->show_message_page('产品不存在！', $redirect_url);
+		}
+		
+		// 限制修改权限
+		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
+		}
 		
 		// 分步骤保存信息
 		$data = array();
 		$data['_id'] = $id;
+		
 		$data['title'] = $this->stash['title'];
-		$data['summary'] = $this->stash['summary'];
-		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
-		
-		$data['cost_price'] = $this->stash['cost_price'];
-		$data['market_price'] = $this->stash['market_price'];
-		$data['hot_price'] = $this->stash['hot_price'];
-		
-		$data['mode'] = $this->stash['mode'];
-		$data['quantity'] = $this->stash['quantity'];
+		$data['summary'] = $this->stash['summary'];
+		$data['content'] = $this->stash['content'];
 		
 		try{
 			$model = new Sher_Core_Model_Product();
@@ -146,10 +148,8 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
-			
-		}catch(Sher_Core_Model_Exception $e){
-			
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+		}catch(Sher_Core_Model_Exception $e) {
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
 		$view_url = Sher_Core_Helper_Url::sale_view_url($id);

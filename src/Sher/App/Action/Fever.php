@@ -746,5 +746,144 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 	
+	
+	
+	/**
+	 * 编辑或修改预售项
+	 */
+	public function edit_presale(){
+		$product_id = (int)$this->stash['product_id'];
+		$r_id = (int)$this->stash['r_id'];
+		
+		// 验证数据
+		if(empty($product_id) || empty($r_id)){
+			return $this->ajax_notification('编辑请求参数不足！', true);
+		}
+		$presale = array();
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load($product_id);
+		// 仅管理员或本人具有设置权限
+		if ($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id){
+			for($i=0;$i<count($product['presales']);$i++){
+				if ($product['presales'][$i]['r_id'] == $r_id){
+					$presale = $product['presales'][$i];
+					break;
+				}
+			}
+		} else {
+			return $this->ajax_notification('编辑预售设置权限不足！', true);
+		}
+		
+		$this->stash['presale'] = $presale;
+		$this->stash['product'] = $product;
+		
+		return $this->to_taconite_page('ajax/presale_edit.html');
+	}
+	
+	/**
+	 * 保存预售项
+	 * array(
+	 *    'r_id'      => 0,
+	 *	  'name'     => '',
+	 *    'summary'  => '',
+	 *    'mode'     => '',
+	 *    'quantity' => 0,
+	 *    'price'    => 0,
+	 *    # 已售数量
+	 *    'sold'     => 0,
+	 * ),
+	 */
+	public function ajax_presale(){
+		$product_id = $this->stash['product_id'];
+		$r_id = $this->stash['r_id'];
+		$name = $this->stash['name'];
+		$mode = $this->stash['mode'];
+		$quantity = $this->stash['quantity'];
+		$price = $this->stash['price'];
+		$summary = $this->stash['summary'];
+		
+		// 验证数据
+		if(empty($product_id) || empty($price) || empty($name)){
+			return $this->ajax_notification('预售设置参数不足！', true);
+		}
+		
+		try{
+			$result = array();
+			
+			$model = new Sher_Core_Model_Product();
+			$product = $model->load((int)$product_id);
+			
+			// 仅管理员或本人具有设置权限
+			if ($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id){
+				if (empty($r_id)){ // 新增
+					$action = 'create';
+					$result = $model->create_presale($product_id, $name, $mode, $quantity, $price, $summary);
+				} else { // 更新
+					$action = 'update';
+					// 获取旧数据
+					for($i=0;$i<count($product['presales']);$i++){
+						if ($product['presales'][$i]['r_id'] == $r_id){
+							$old_data = $product['presales'][$i];
+							break;
+						}
+					}
+					$old_data = isset($old_data) ? $old_data : array();
+					
+					// 更新新数据
+			    	$updated['name'] = $name;
+			        $updated['mode'] = $mode;
+			        $updated['quantity'] = (int)$quantity;
+					$updated['price'] = (float)$price;
+					$updated['summary'] = $summary;
+					
+					$result = $model->update_presale($product_id, $r_id, $updated, $old_data);
+				}
+			} else {
+				return $this->ajax_notification('预售设置权限不足！', true);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		$this->stash['presale'] = $result;
+		$this->stash['action'] = $action;
+		
+		return $this->to_taconite_page('ajax/presale_item.html');
+	}
+	
+	/**
+	 * 删除预售项
+	 */
+	public function remove_presale(){
+		$product_id = $this->stash['product_id'];
+		$r_id = $this->stash['r_id'];
+		
+		// 验证数据
+		if(empty($product_id) || empty($r_id)){
+			return $this->ajax_notification('删除请求参数不足！', true);
+		}
+		
+		try{
+			$result = array();
+			
+			$model = new Sher_Core_Model_Product();
+			$product = $model->load((int)$product_id);
+			
+			// 仅管理员或本人具有设置权限
+			if ($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id){
+				$ok = $model->remove_presale($product_id, $r_id);
+			} else {
+				return $this->ajax_notification('删除设置权限不足！', true);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		$this->stash['ids'] = array($r_id);
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+	
 }
 ?>

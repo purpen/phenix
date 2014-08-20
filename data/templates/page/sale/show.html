@@ -177,98 +177,39 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui four levels">
+						{% for presale in product.presales %}
 						<div class="ui level">
-							<h3 class="ui header">5折优惠</h3>
-					
+							<h3 class="ui header">{{ presale.name }}</h3>
 							<div class="content">
 								<p class="time">
-									2014年4月15日 -- 2014年5月13日
+									{% if presale.mode %}
+											{{ presale.mode }},
+									{% endif %}
+									{% if presale.quantity %}
+										限量{{ presale.quantity }}个
+									{% endif %}
 								</p>
 								<p class="time">
-									下单预定产品
+									{{ presale.summary }}
 								</p>
 								<div class="price">
-									￥ 160.00
+									￥ {{ presale.price }}
 								</div>
 							</div>
-					
 							<div class="actions">
-								<div class="ui disabled active gray button">
-									已结束
-								</div>
-								<p class="small">已有30位预定者</p>
+								{% if presale.quantity > presale.sold %}
+									<div class="ui magenta booked button" data-id="{{ presale.r_id }}">
+										现在预定
+									</div>
+								{% else %}
+									<div class="ui disabled active gray button" data-id="{{ presale.r_id }}">
+										已抢完
+									</div>
+								{% endif %}
+								<p class="small">已有{{ presale.sold }}位预定者</p>
 							</div>
 						</div>
-						
-						<div class="ui active level">
-							<h3 class="ui header">6折优惠</h3>
-					
-							<div class="content">
-								<p class="time">
-									2014年4月15日 -- 2014年5月13日
-								</p>
-								<p class="time">
-									下单预定产品
-								</p>
-								<div class="price">
-									￥ 200.00
-								</div>
-							</div>
-					
-							<div class="actions">
-								<div class="ui white button">
-									现在预定
-								</div>
-								<p class="small">已有30位预定者</p>
-							</div>
-						</div>
-						
-						<div class="ui level">
-							<h3 class="ui header">7折优惠</h3>
-					
-							<div class="content">
-								<p class="time">
-									2014年4月15日 -- 2014年5月13日
-								</p>
-								<p class="time">
-									下单预定产品
-								</p>
-								<div class="price">
-									￥ 240.00
-								</div>
-							</div>
-					
-							<div class="actions">
-								<div class="ui gray button">
-									即将开启
-								</div>
-								<p class="small">已有30位预定者</p>
-							</div>
-						</div>
-						
-						<div class="ui level">
-							<h3 class="ui header">8折优惠</h3>
-					
-							<div class="content">
-								<p class="time">
-									2014年4月15日 -- 2014年5月13日
-								</p>
-								<p class="time">
-									下单预定产品
-								</p>
-								<div class="price">
-									￥ 340.00
-								</div>
-							</div>
-					
-							<div class="actions">
-								<div class="ui gray button">
-									即将开启
-								</div>
-								<p class="small">已有30位预定者</p>
-							</div>
-						</div>
-						
+						{% endfor %}
 					</div>
 					
 				</div>
