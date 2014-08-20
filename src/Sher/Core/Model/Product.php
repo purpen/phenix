@@ -548,6 +548,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 获取预售项
+	 */
+	public function find_presale($r_id, $product=array()){
+		$presale = array();
+		for($i=0;$i<count($product['presales']);$i++){
+			if ($product['presales'][$i]['r_id'] == $r_id){
+				$presale = $product['presales'][$i];
+			}
+		}
+		return $presale;
+	}
+	
+	/**
 	 * 新增/更新预售项
 	 * array(
 	 *    'r_id'      => 0,

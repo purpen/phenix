@@ -208,8 +208,134 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	public function clear(){
 		$cart = new Sher_Core_Util_Cart();
 		$cart->emptyCart();
+	}
+	
+	
+	/**
+	 * 生产临时订单
+	 */
+	protected function create_temp_order($items=array(),$total_money,$items_count){
+		$data = array();
+		$data['items'] = $items;
+		$data['total_money'] = $total_money;
+		$data['items_count'] = $items_count;
+	
+		// 检测是否已设置默认地址
+		$addbook = $this->get_default_addbook($this->visitor->id);
+		if (!empty($addbook)){
+			$data['addbook_id'] = (string)$addbook['_id'];
+		}
 		
+		// 获取快递费用
+		$freight = Sher_Core_Util_Shopping::getFees();
 		
+		// 优惠活动费用
+		$coin_money = 0.0;
+		
+		// 设置订单默认值
+		$default_data = array(
+	        'payment_method' => 'a',
+	        'transfer' => 'a',
+	        'transfer_time' => 'a',
+	        'summary' => '',
+	        'invoice_type' => 0,
+			'freight' => $freight,
+			'coin_money' => $coin_money,
+	        'invoice_caty' => 'p',
+	        'invoice_content' => 'd'
+	    );
+		
+		$new_data = array();
+		$new_data['dict'] = array_merge($default_data, $data);
+		
+		$new_data['user_id'] = $this->visitor->id;
+		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+		
+		try{
+			$order_info = array();
+			// 预生成临时订单
+			$model = new Sher_Core_Model_OrderTemp();
+			$ok = $model->apply_and_save($new_data);
+			if ($ok) {
+				$order_info = $model->get_data();
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
+			return false;
+		}
+		
+		return $order_info;
+	}
+	
+	/**
+	 * 订购预售产品
+	 * 无购物车，直接生产临时订单
+	 */
+	public function preorder(){
+		// 产品id
+		$product_id = (int)$this->stash['id'];
+		$r_id = (int)$this->stash['r_id'];
+		
+		if (empty($product_id)){
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		
+		$user_id = $this->visitor->id;
+		
+		$product = new Sher_Core_Model_Product();
+		$product_data = $product->extend_load($product_id);
+		
+		if (empty($product_data)){
+			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
+		}
+		
+		$presale = $product->find_presale($r_id, $product_data);
+		if (empty($presale)){
+			return $this->show_message_page('挑选的产品类型，请核对！', true);
+		}
+		
+		$items = array(
+			array(
+				'sku'  => $product_id,
+				'size' => '',
+				'quantity' => 1,
+				'sale_price' => $presale['price'],
+				'title' => $product_data['title'],
+				'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
+				'view_url' => $product_data['view_url'],
+				'subtotal' => $presale['price'],
+			),
+		);
+		$total_money = $presale['price'];
+		$items_count = 1;
+		
+		$order_info = $this->create_temp_order($items, $total_money, $items_count);
+		
+		if (empty($order_info)){
+			return $this->show_message_page('系统出了小差，请稍后重试！', true);
+		}
+		
+		// 获取快递费用
+		$freight = Sher_Core_Util_Shopping::getFees();
+		
+		// 优惠活动费用
+		$coin_money = 0.0;
+		
+		$pay_money = $total_money + $freight - $coin_money;
+		
+		$this->stash['order_info'] = $order_info;
+		$this->stash['data'] = $order_info['dict'];
+		$this->stash['pay_money'] = $pay_money;
+		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		$this->stash['provinces'] = $provinces;
+		
+		$this->set_extra_params();
+		
+		return $this->to_html_page('page/shopping/checkout.html');
 	}
 	
 	/**
@@ -476,8 +602,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         unset($order);
     }
 	
-	
-	
     /**
      * 修改配送地址
      */
@@ -536,10 +660,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	public function ajax_notice(){
 		
 	}
-	
-	
-	
-	
 	
 	
 }

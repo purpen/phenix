@@ -5,8 +5,7 @@
 	
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 	phenix.hook_comment_page();
 	
@@ -44,6 +43,17 @@
 		$('.ui.share.modal').modal('show');
 	});
 	phenix.bind_share_list();
+	
+	// 预定
+	$('.ui.booked.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		var r_id = $(this).data('id'), id = $(this).data('pid');
+		phenix.redirect('{{ app_url_shopping }}/preorder?id='+id+'&r_id='+r_id);
+	});
 	
 {% endblock %}
 
@@ -198,11 +208,11 @@
 							</div>
 							<div class="actions">
 								{% if presale.quantity > presale.sold %}
-									<div class="ui magenta booked button" data-id="{{ presale.r_id }}">
+									<div class="ui magenta booked button" data-id="{{ presale.r_id }}" data-pid="{{ product._id }}">
 										现在预定
 									</div>
 								{% else %}
-									<div class="ui disabled active gray button" data-id="{{ presale.r_id }}">
+									<div class="ui disabled active gray button">
 										已抢完
 									</div>
 								{% endif %}
