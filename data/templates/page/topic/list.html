@@ -129,7 +129,7 @@
 											<div class="attribute">
 												<span class="category"><a href="{{ dig.category.view_url }}" class="ui link">{{ dig.category.title }}</a></span> | 
 												<span class="author">
-													<a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a>  <i class="time icon"></i> 于 {{ dig.created_on|relative_datetime }} 发表
+													<a href="{{ dig.user.home_url }}" class="ui link">{{ dig.user.nickname }}</a>  <i class="time icon"></i>于{{ dig.created_on|relative_datetime }}发表
 												</span>
 											</div>
 											{% if !dig.asset_count %}

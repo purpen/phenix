@@ -55,6 +55,105 @@
 		phenix.redirect('{{ app_url_shopping }}/preorder?id='+id+'&r_id='+r_id);
 	});
 	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.btn')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.btn')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+	{% endif %}
+	
+	// 收藏
+	$('.ui.favorite.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 喜欢
+	$('.ui.love.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		var count = parseInt($('#product-love-count').text());
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+					count += 1;
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active');
+					count -= 1;	
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -237,7 +336,7 @@
 					<div class="ui four tabs">
 					  	<a class="active tab" href="#overview">产品详情</a>
 					  	<a class="tab" href="#inventor">设计者</a>
-						<a class="tab" href="#reviews">用户评价</a>
+						<a class="tab" href="#reviews">讨论话题 ({{ product.topic_count }})</a>
 						<a class="tab" href="#service">常见问题</a>
 					</div>
 				</div>
@@ -303,120 +402,19 @@
 			<div class="row">
 				<div class="column">
 					<h3 class="ui dividing header">
-						用户评价 <small>（{{ product.comment_count }}）</small>
+						讨论话题 <small>（{{ product.comment_count }}）</small>
 					</h3>
-					<div class="ui big reply segment">
-						<div class="ui threaded minimal comments">
-							{% comment_list var:'comments' page:page target_id:product._id %}
-							{% for comment in comments.rows %}
-							<div class="comment" id="{{ comment._id }}">
-								<a class="avatar" href="{{ comment.user.home_url }}">
-									<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-								</a>
-								<div class="content">
-									<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-									<div class="metadata">
-										<div class="date">{{ comment.created_on }}</div>
-										{% include "block/star.html" %}
-									</div>
-									<div class="laud">
-										<a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
-											<i class="icon empty heart"></i>
-										</a>
-									</div>
-									
-									<div class="text">
-										{{ comment.content }}
-									</div>
-									{% if visitor.is_login %}
-									<div class="actions">
-										<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-										<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-									</div>
-									<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-										<input type="hidden" name="type" value="2" />
-										<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-										<input type="hidden" name="target_id" value="{{ topic._id }}" />
-										<div class="field">
-											<textarea name="content" class="reply-content"></textarea>
-										</div>
-										<div class="ui active button magenta submit labeled icon">
-											<i class="icon location"></i> 回复
-										</div>
-									</form>
-									{% endif %}
-								</div>
-						
-								{% if comment.reply %}
-								<div class="comments">
-									{% for reply in comment.reply %}
-										<div class="comment">
-											<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-												<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-											</a>
-											<div class="content">
-												<a class="author">{{ reply.user.nickname }}</a>
-												<div class="metadata">
-													<div class="date">{{ reply.replied_on }}</div>
-												</div>
-												<div class="text">
-													{{ reply.content }}
-												</div>
-											</div>
-										</div>
-									{% endfor %}
-								</div>
-								{% endif %}
-						
-							</div>
-							{% endfor %}
-						</div>
-				
-						<div class="post comment">
-							<div class="ui segment">
-								<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评价</p>
-								<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-									<input type="hidden" name="target_id" value="{{ product._id }}" />
-									<input type="hidden" name="type" value="4" />
-									<div class="field">
-										<input type="hidden" name="star" id="comment-star" />
-										<div class="rate">
-										  	综合评分:
-										  	<div class="ui star write rating">
-										    	<i class="icon"></i>
-										   		<i class="icon"></i>
-										    	<i class="icon"></i>
-										    	<i class="icon"></i>
-										    	<i class="icon"></i>
-										  	</div>
-										</div>
-									</div>
-									<div class="field">
-										<label>评价说：</label>
-										<textarea name="content" class="comment-textarea" ></textarea>
-									</div>
-									<div class="right aligned column">
-										<input type="submit" class="ui small magenta button" value="添加评论" />
-									</div>
-									{% if !visitor.is_login %}
-									<div class="not login">
-										<div class="ui grid">
-											<div class="row">
-												<div class="center aligned column">
-													<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
-													<p class="ui gray text">注册登录后可发评论</p>
-												</div>
-											</div>
-										</div>
-									</div>
-									{% endif %}
-								</form>
-							</div>
-						</div>
-				
-					</div>
-					
-					
+					{% include "block/product_topic.html" %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<a href="{{ product.subject_view_url }}" class="ui black btn-4 btn-4c icon-arrow-right btn">
+						查看更多
+					</a>
+					<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						发表新话题
+					</a>
 				</div>
 			</div>
 		</div>

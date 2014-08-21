@@ -112,7 +112,7 @@
 								<th>回复数</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="ui topic list">
 							{% for topic in list.rows %}
 								{% include "block/topic_item.html" %}
 							{% endfor %}
@@ -138,10 +138,10 @@
 							<input type="hidden" name="type" value="1" />
 							
 							<div class="field">
-								<input type="text" name="title" class="topic-title" />
+								<input type="text" name="title" class="topic title" />
 							</div>
 							<div class="field">
-								<textarea name="description" class="small"></textarea>
+								<textarea name="description" class="small topic content"></textarea>
 							</div>
 							<div class="right aligned column">
 								<input type="submit" class="ui active small twopad magenta button" value="提交" />
