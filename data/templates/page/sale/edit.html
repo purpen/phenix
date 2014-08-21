@@ -1,6 +1,10 @@
 {%extends 'layout/form.html'%}
 {% block title %}预售设置-{% endblock %}
-
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
 {% block layout_js %}
 	{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
@@ -21,9 +25,11 @@
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'frbird',
+		minHeight: 300,
 		plainPaste: true,
 		alwaysBlank: true,
-		typingTimer: 600,
+		typingTimer: 700,
+		imageMargin: '20px',
 		{% if mode == 'edit' %}
 		defaultImageAlt: '{{ product.title }}',
 		{% else %}

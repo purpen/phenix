@@ -28,16 +28,17 @@
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'frbird',
-		height: 500,
+		minHeight: 300,
 		plainPaste: true,
 		alwaysBlank: true,
-		typingTimer: 600,
+		typingTimer: 700,
+		imageMargin: '20px',
 		{% if mode == 'edit' %}
 		defaultImageAlt: '{{ product.title }}',
 		{% else %}
 		defaultImageAlt: '太火鸟',
 		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: 700,
