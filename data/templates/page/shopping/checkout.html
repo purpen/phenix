@@ -201,10 +201,20 @@
 		</div>
 		<div class="row">
 			<div class="column">
+				{% if preorder %}
+				<div class="ui danger message">
+					<div class="content">
+						<i class="info icon"></i>
+						请在下单后15分钟内付款哦，否则您的订单会被自动关闭。
+					</div>
+				</div>
+				{% endif %}
+				
 				<h3 class="ui header">填写核对订单信息</h3>
 				{% if order_info %}
 				<form action="{{ app_url_shopping }}/confirm" method="post" id="checkout-form" class="ui form">
 					<input type="hidden" name="rrid" value="{{ order_info._id }}" />
+					<input type="hidden" name="is_presaled" value="{{ preorder }}" />
 					
 					<div class="step">
 						<h3 class="ui dividing header">

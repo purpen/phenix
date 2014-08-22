@@ -92,8 +92,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'status' => 0,
 		
 		## 时间（完成）
-		
 		'finished_date' => 0,
+		# 关闭时间
+		'closed_date' => 0,
+		
+		# 是否预售订单
+		'is_presaled' => 0,
+		# 过期时间,(普通订单、预售订单)
+		'expired_time' => 0,
 		
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
@@ -130,8 +136,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 保存之前
 	 */
 	protected function before_save(&$data) {
-		
 		$this->validate_order_items($data);
+		
+		// 设置过期时间，过期后自动关闭
+		if ($data['is_presaled']){
+			$data['expired_time'] = time() + Sher_Core_Util_Constant::PRESALE_EXPIRE_TIME;
+		} else {
+			$data['expired_time'] = time() + Sher_Core_Util_Constant::COMMON_EXPIRE_TIME;
+		}
 		
 	    parent::before_save($data);
 	}
@@ -469,6 +481,23 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		return $this->update_set($id, array('is_payed' => 1, 'payed_date' => time()));
     }
+	
+	/**
+	 * 自动关闭订单
+	 */
+	public function close_order($id){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id)){
+            throw new Sher_Core_Model_Exception('Order id is Null');
+        }
+		$updated = array(
+			'status' => Sher_Core_Util_Constant::ORDER_EXPIRED,
+			'closed_date' => time(),
+		);
+		return $this->update_set($id, $updated);
+	}
 	
 	/**
 	 * 更新订单的支付信息

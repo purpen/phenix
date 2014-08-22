@@ -33,6 +33,12 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	# 临时订单过期时间， 10小时
 	const EXPIRE_TIME = 36000;
 	
+	# 预售订单过期时间，15分钟
+	const PRESALE_EXPIRE_TIME = 900;
+	
+	# 普通订单过期时间，48小时
+	const COMMON_EXPIRE_TIME = 172800;
+	
 	/**
 	 * DigList推荐Id
 	 */

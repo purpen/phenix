@@ -98,5 +98,10 @@ user-scalable：用户是否可以手动缩放
 ### 部署修正
 1、分类增加类组及二级分类
 
+2、定时任务：
+   相关目录var/log设置权限；
+   执行文件，sbin/cron_service.sh,bin/cron_service_guard.sh,bin/cron_service.php设置执行权限；
+   启动、关闭脚本，sbin/core_service.sh start, sbin/core_service.sh stop;
+
 
  

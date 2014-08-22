@@ -327,6 +327,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$this->stash['data'] = $order_info['dict'];
 		$this->stash['pay_money'] = $pay_money;
 		
+		// 预售订单标识
+		$this->stash['preorder'] = 1;
+		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
 		$provinces = $areas->fetch_provinces();
@@ -427,15 +430,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$rrid = (int)$this->stash['rrid'];
 		if(empty($rrid)){
 			// 没有临时订单编号，为非法操作
-			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
 		
-		Doggy_Log_Helper::debug("Submit Order [$rrid]");
+		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
+		// 是否预售订单
+		$is_presaled = (int)$this->stash['is_presaled'];
 		
-		//验证购物车，无购物不可以去结算
+		// 验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
-		if (empty($cart->com_list)){
-			
+		if (!$is_presaled && empty($cart->com_list)){
+			return $this->ajax_json('订单产品缺失，请重试！', true);
 		}
 		
 		$total_money = $cart->getTotalAmount();
@@ -447,7 +452,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$model = new Sher_Core_Model_OrderTemp();
 		$result = $model->load($rrid);
 		if(empty($result)){
-			
+			return 	$this->ajax_json('订单处理失败，请重试！', true);
 		}
 		
 		// 订单临时信息
@@ -468,6 +473,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$order_info['invoice_caty'] = $this->stash['invoice_caty'];
 			$order_info['invoice_content'] = $this->stash['invoice_content'];
 		}
+		
+		$order_info['is_presaled'] = $is_presaled;
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -513,6 +520,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
+			return $this->ajax_json('订单生成失败，请重试！', true);
 		}
 		
 		$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;

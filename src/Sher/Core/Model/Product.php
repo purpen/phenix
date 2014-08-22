@@ -78,6 +78,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		 * ),
 		 */
 		'presales' => array(),
+		'presale_count' => 0,
+		'presale_money' => 0,
+		
+		# 预售开始时间
+		'presale_start_time'  => null,
+		# 预售完成时间
+		'presale_finish_time' => null,
 		
 		# 产品视频链接
 		'video' => array(),
@@ -102,10 +109,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'voted_start_time'    => null,
 		# 投票结束时间
 		'voted_finish_time'   => null,
-		# 预售开始时间
-		'presale_start_time'  => null,
-		# 预售完成时间
-		'presale_finish_time' => null,
 		
 		## 计数器
 		

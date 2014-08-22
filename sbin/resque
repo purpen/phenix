@@ -5,8 +5,8 @@
  * @author purpen
  *
  * 执行方式：
- * QUEUE='*' php bin/resque 或 QUEUE=image,emailing,cache php bin/resque
- * QUEUE='*' APP_INCLUDE=../application/init.php php bin/resque
+ * QUEUE='*' php bin/resque 或 QUEUE=emailing,cache,cleaner php sbin/resque
+ * QUEUE='*' APP_INCLUDE=../application/init.php php sbin/resque
  */
 
 $QUEUE = getenv('QUEUE');
@@ -14,7 +14,7 @@ if(empty($QUEUE)) {
 	die("Set QUEUE env var containing the list of queues to work.\n");
 }
 
-$config_file =  dirname(__FILE__).'/init.php';
+$config_file =  dirname(dirname(__FILE__)).'/deploy/init.php';
 if (!file_exists($config_file)) {
     die("Can't find config file: $config_file\n");
 }

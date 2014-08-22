@@ -106,6 +106,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		// 预售价格
 		$data['hot_price'] = $this->stash['hot_price'];
+		$data['presale_start_time'] = $this->stash['presale_start_time'];
+		$data['presale_finish_time'] = $this->stash['presale_finish_time'];
+		
 		
 		$data['mode'] = $this->stash['mode'];
 		$data['quantity'] = $this->stash['quantity'];
