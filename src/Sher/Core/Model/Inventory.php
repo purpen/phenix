@@ -135,7 +135,11 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	public function decrease_invertory_quantity($sku, $need_quantity=1){
 		$item = $this->find_by_id((int)$sku);
 		if(!empty($item)){
-			$this->dec($sku, 'quantity', $need_quantity);
+			$updated = array(
+				'$inc' => array('quantity'=>$need_quantity*-1, 'sold'=>$need_quantity),
+			);
+			$this->update((int)$sku, $updated);
+			
 			$product_id = $item['product_id'];
 		} else {
 			// 仅有1个默认sku
@@ -154,7 +158,11 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	public function recover_invertory_quantity($sku, $sale_quantity=1){
 		$item = $this->find_by_id((int)$sku);
 		if(!empty($item)){
-			$this->inc($id, 'quantity', $sale_quantity);
+			$updated = array(
+				'$inc' => array('quantity'=>$sale_quantity, 'sold'=>$sale_quantity*-1),
+			);
+			$this->update((int)$sku, $updated);
+			
 			$product_id = $item['product_id'];
 		} else {
 			// 仅有1个默认sku
