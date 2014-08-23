@@ -45,6 +45,9 @@ app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
+# 产品编辑
+app.url.product: '{$app.url.action_base}/product'
+
 # 社区创意投票
 app.url.fever: '{$app.url.domain}/fever'
 app.url.fever.list: '{$app.url.fever}/list-c%s-t%s-s%s-p%s.html'

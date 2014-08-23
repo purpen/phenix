@@ -87,18 +87,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	public function buy(){
 		$sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
-		$sizes = $this->stash['s'];
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
-			
+			return $this->ajax_note('请挑选需购买的产品！', true);
 		}
 		
-		Doggy_Log_Helper::warn("Add to cart [$sku][$sizes][$quantity]");
+		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->addItem($sku, $sizes);
-		$cart->setItemQuantity($sku, $sizes, $quantity);
+		$cart->addItem($sku);
+		$cart->setItemQuantity($sku, $quantity);
 		
         //重置到cookie
         $cart->set();
@@ -272,41 +271,46 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 无购物车，直接生产临时订单
 	 */
 	public function preorder(){
-		// 产品id
-		$product_id = (int)$this->stash['id'];
-		$r_id = (int)$this->stash['r_id'];
+		$r_id = $this->stash['r_id'];
 		
-		if (empty($product_id)){
+		if (empty($r_id)){
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
 		
+		$default_quantity = 1;
 		$user_id = $this->visitor->id;
 		
-		$product = new Sher_Core_Model_Product();
-		$product_data = $product->extend_load($product_id);
+		// 验证库存数量
+		$inventory = new Sher_Core_Model_Inventory();
+		$enoughed = $inventory->verify_enough_quantity($r_id, $default_quantity);
+		if (!$enoughed) {
+			return $this->show_message_page('挑选的产品已售完！', true);
+		}
+		$item = $inventory->load((int)$r_id);
 		
+		$product_id = !empty($item) ? $item['product_id'] : $r_id;
+		
+		// 获取产品信息
+		$product = new Sher_Core_Model_Product();
+		$product_data = $product->extend_load((int)$product_id);
 		if (empty($product_data)){
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
 		}
 		
-		$presale = $product->find_presale($r_id, $product_data);
-		if (empty($presale)){
-			return $this->show_message_page('挑选的产品类型，请核对！', true);
-		}
-		
 		$items = array(
 			array(
-				'sku'  => $product_id,
-				'size' => '',
-				'quantity' => 1,
-				'sale_price' => $presale['price'],
+				'sku'  => $r_id,
+				'product_id' => $product_id,
+				'quantity' => $default_quantity,
+				'price' => $item['price'],
+				'sale_price' => $item['price'],
 				'title' => $product_data['title'],
 				'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
 				'view_url' => $product_data['view_url'],
-				'subtotal' => $presale['price'],
+				'subtotal' => $item['price']*$default_quantity,
 			),
 		);
-		$total_money = $presale['price'];
+		$total_money = $item['price']*$default_quantity;
 		$items_count = 1;
 		
 		$order_info = $this->create_temp_order($items, $total_money, $items_count);
@@ -452,7 +456,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$model = new Sher_Core_Model_OrderTemp();
 		$result = $model->load($rrid);
 		if(empty($result)){
-			return 	$this->ajax_json('订单处理失败，请重试！', true);
+			return 	$this->ajax_json('订单预处理失败，请重试！', true);
 		}
 		
 		// 订单临时信息
@@ -501,7 +505,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
-				return 	$this->ajax_json('订单处理失败，请重试！', true);
+				return 	$this->ajax_json('订单生成失败，请重试！', true);
 			}
 			
 			$data = $orders->get_data();
@@ -520,7 +524,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
-			return $this->ajax_json('订单生成失败，请重试！', true);
+			return $this->ajax_json('订单处理异常，请重试！', true);
 		}
 		
 		$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;

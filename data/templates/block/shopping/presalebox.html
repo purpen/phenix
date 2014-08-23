@@ -4,9 +4,9 @@
     	预售项设置
   	</div>
 	<div class="container">
-		<form action="{{ app_url_fever }}/ajax_presale" class="ui form" method="post" id="presale-form">
+		<form action="{{ app_url_product }}/ajax_presale" class="ui form" method="post" id="presale-form">
 		  	<div class="content">
-				<input type="hidden" name="r_id" value="{{ presale.r_id }}" />
+				<input type="hidden" name="r_id" value="{{ presale._id }}" />
 				<input type="hidden" name="product_id" value="{{ product._id }}" />
 				
 				<div class="two fields">

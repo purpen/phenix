@@ -73,7 +73,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
 		
-		// 非预售状态的产品，跳转至对应的链接
+		// 非销售状态的产品，跳转至对应的链接
 		if($product['stage'] != Sher_Core_Model_Product::STAGE_SHOP){
 			return $this->to_redirect($product['view_url']);
 		}
@@ -82,6 +82,17 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
+		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 获取skus及inventory
+		$inventory = new Sher_Core_Model_Inventory();
+		$skus = $inventory->find(array(
+			'product_id' => $id,
+			'stage' => $product['stage'],
+		));
+		$this->stash['skus'] = $skus;
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');

@@ -2,7 +2,10 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">	
-	
+.attrs {
+	display: inline-block;
+	margin-right: 0.5em;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -17,10 +20,29 @@
 		}
 	});
 	
+	// 如果仅一个sku,则设置默认值
+	{% if product.mode_count %}
+		var choosed_sku = 0;
+	{% else %}
+		var choosed_sku = {{ product._id }};
+	{% endif %}
+	
+	// 选择sku
+	$('.attrs .ui.att.button').click(function(){
+		choosed_sku = $(this).data('id');
+		$('.attrs .ui.att.active.button').removeClass('active');
+		$(this).addClass('active');
+				
+		return false;
+	});
+	
 	// 加入购物车
 	$('.ui.buy.btn').click(function(){
-		var id = $(this).data('id');
-		$.get('{{ app_url_cart_buy }}', {sku: id});
+		if (choosed_sku){
+			$.post('{{ app_url_cart_buy }}', {sku: choosed_sku});
+		} else {
+			alert('请选择一个型号或颜色');
+		}
 	});
 	
 	/* 登录用户行为 */
@@ -260,8 +282,8 @@
 	
 	<div class="buy box">
 		<div class="ui responsive grid">
-			<div class="two column row">
-				<div class="column">
+			<div class="row">
+				<div class="six wide column">
 					<h3 class="ui dark header">
 						<div class="content">
 							{{ product.title }}
@@ -285,15 +307,27 @@
 						</p>
 					</div>
 				</div>	
-				<div class="right aligned column">
+				<div class="right aligned ten wide column">
 					<table class="ui basic table">
 						<tr>
 							<td>
+								<div class="attrs">
+									{% for m in skus %}
+									<span class="ui gray att button" data-id="{{ m._id }}">{{ m.name }}</span>
+									{% endfor %}
+								</div>
+								
 								<span class="old price"><span class="unit">￥</span>{{ product.market_price }}</span>
 								<span class="price"><span class="unit">￥</span>{{ product.sale_price }}</span>
-								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn" data-id="{{ product._id }}">
+								{% if product.can_saled %}
+								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn">
 									加入购物车
 								</div>
+								{% else %}
+								<div class="ui active gray btn-4 btn-4c icon-arrow-right locknotice  btn" data-id="{{ product._id }}">
+									缺货通知
+								</div>
+								{% endif %}
 							</td>
 						</tr>
 						<tr>

@@ -65,7 +65,7 @@
 						<table class="ui basic table">
 							<tbody>
 								{% for item in order.items %}
-								{% product_list var:'product' product_id:item.sku %}
+								{% product_list var:'product' product_id:item.product_id %}
 								<tr>
 									<td>
 										<a href="{{ product.view_url }}" class="ui cover image" target="_blank">

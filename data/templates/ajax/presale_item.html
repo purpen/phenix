@@ -6,7 +6,7 @@
 	{% if action == 'create' %}
 	<append select="#product-presales">
 	{% endif %}
-		<div class="ui level" id="{{ presale.r_id }}" data-id="{{ presale.r_id }}">
+		<div class="ui level" id="{{ presale._id }}" data-id="{{ presale._id }}">
 			<h3 class="ui header">{{ presale.name }}</h3>
 
 			<div class="content">
@@ -22,10 +22,10 @@
 			</div>
 
 			<div class="actions">
-				<a class="ui small gray icon edit button" data-id="{{ presale.r_id }}" data-pid="{{ product_id }}">
+				<a class="ui small gray icon edit button" data-id="{{ presale._id }}" data-pid="{{ presale.product_id }}">
 					<i class="edit icon"></i>
 				</a>
-				<a class="ui small gray icon remove button" data-id="{{ presale.r_id }}" data-pid="{{ product_id }}">
+				<a class="ui small gray icon remove button" data-id="{{ presale._id }}" data-pid="{{ presale.product_id }}">
 					<i class="remove icon"></i>
 				</a>
 			</div>

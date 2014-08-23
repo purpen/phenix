@@ -113,7 +113,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         }
 		
         foreach($this->com_list as $item){
-        	$result[] = "{$item['sku']},{$item['size']},{$item['quantity']}";
+        	$result[] = "{$item['sku']},{$item['quantity']}";
         }
 		
         //购物车商品数不能超过100个
@@ -136,10 +136,10 @@ class Sher_Core_Util_Cart extends Doggy_Object {
             
             for($i=0; $i<count($result); $i++){
                 $item = $result[$i];
-                list($com_sku, $com_size, $com_num) = explode(",", $item);
+                list($com_sku, $com_num) = explode(",", $item);
                 if(!empty($com_sku) && !empty($com_num)){
-                	$this->addItem($com_sku, $com_size);
-                	$this->setItemQuantity($com_sku, $com_size, $com_num);
+                	$this->addItem($com_sku);
+                	$this->setItemQuantity($com_sku, $com_num);
                 }
             }
             
@@ -153,11 +153,11 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      * @param $com_size
      * @return void
      */
-    public function addItem($com_sku, $com_size){
+    public function addItem($com_sku){
         $com_has_exist = 0;
         if($this->com_item > 0){
             for($i=0; $i<$this->com_item; $i++){
-                if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['size'] == $com_size){
+                if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['pid'] == $com_pid){
                     $this->com_list[$i]['quantity']++;
 					// 更新单品小计
 					$this->com_list[$i]['subtotal'] = $this->com_list[$i]['quantity'] * $this->com_list[$i]['sale_price'];
@@ -167,15 +167,24 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         }
         
         if($com_has_exist != 1){
+			// 获取sku信息
+			$inventory = new Sher_Core_Model_Inventory();
+			$item = $inventory->load((int)$com_sku);
+			
+			$com_pid = !empty($item) ? $item['product_id'] : $com_sku;
+			
+			// 获取单品信息
             $product = new Sher_Core_Model_Product();
-            $row = $product->extend_load((int)$com_sku);
+            $row = $product->extend_load((int)$com_pid);
+			
             if(!empty($row)){
 				$count = 1;
-            	$true_price = $row['sale_price'];
-                $this->com_list[] = array('sku'=>$com_sku,'size'=>$com_size,'quantity'=>(int)$count,'price'=>$true_price,'sale_price'=>$row['sale_price'],'title'=>$row['title'],'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price']);
+				$true_price = !empty($item) ? $item['price'] : $row['sale_price'];
+                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$row['title'],'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price']);
                 $this->com_item++;
             }
             unset($product);
+			unset($inventory);
         }
     }
 	
@@ -186,15 +195,15 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      * @param $com_size
      * @return void
      */
-    public function delItem($com_sku, $com_size){
+    public function delItem($com_sku){
     	if($this->com_item <= 0){
     		return;
     	}
 		
-		Doggy_Log_Helper::debug("Remove from the cart [$com_sku][$com_size]");
+		Doggy_Log_Helper::debug("Remove from the cart [$com_sku]");
 		
         for($i=0; $i<$this->com_item; $i++){
-            if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['size'] == $com_size){
+            if($this->com_list[$i]['sku'] == $com_sku){
             	$this->com_item--;
             	unset($this->com_list[$i]);
             }
@@ -217,13 +226,13 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      * @param $com_size
      * @return void
      */
-    public function findItem($com_sku, $com_size){
+    public function findItem($com_sku){
         if($this->com_item <= 0){
             return;
         }
 		
         for($i=0; $i<$this->com_item; $i++){
-            if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['size'] == $com_size){
+            if($this->com_list[$i]['sku'] == $com_sku){
                 return $this->com_list[$i];
             }
         }
@@ -237,10 +246,10 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      * @param $com_num
      * @return void
      */
-    public function setItemQuantity($com_sku, $com_size, $com_count){
+    public function setItemQuantity($com_sku, $com_count){
     	if(!empty($com_sku)){
     	    for($i=0; $i<$this->com_item; $i++){
-                if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['size'] == $com_size){
+                if($this->com_list[$i]['sku'] == $com_sku){
                     if ($com_count <= 0){ //如果数量为负数时,直接清除该商品
                     	$this->com_item--;
                     	unset($this->com_list[$i]);

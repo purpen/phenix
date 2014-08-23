@@ -100,18 +100,14 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
 		
-		$data['cost_price'] = $this->stash['cost_price'];
+		// 商品价格
 		$data['market_price'] = $this->stash['market_price'];
 		$data['sale_price'] = $this->stash['sale_price'];
+		$data['inventory'] = $this->stash['inventory'];
 		
-		// 预售价格
-		$data['hot_price'] = $this->stash['hot_price'];
+		// 预售时间
 		$data['presale_start_time'] = $this->stash['presale_start_time'];
 		$data['presale_finish_time'] = $this->stash['presale_finish_time'];
-		
-		
-		$data['mode'] = $this->stash['mode'];
-		$data['quantity'] = $this->stash['quantity'];
 		
 		// 产品阶段
 		$data['stage'] = (int) $this->stash['stage'];
@@ -125,6 +121,21 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}else{
 			$data['asset'] = array();
 			$data['asset_count'] = 0;
+		}
+		
+		// skus
+		$data['mode_count'] = $this->stash['mode_count'];
+		
+		$modes = array();
+		for($i=1;$i<=$data['mode_count'];$i++){
+			$item = array();
+			$item['r_id'] = $this->stash['r_id-'.$i];
+			$item['mode'] = $this->stash['mode-'.$i];
+			$item['quantity'] = $this->stash['quantity-'.$i];
+			$item['price'] = floatval($this->stash['price-'.$i]);
+			$item['sold'] = $this->stash['sold-'.$i];
+			
+			$modes[] = $item;
 		}
 		
 		try{
@@ -150,6 +161,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
+			// 保存skus
+			if (!empty($modes)){
+				$this->update_product_inventory($modes, $id, $data['stage']);
+			}
+			
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
@@ -162,6 +178,31 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product';
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
+	}
+	
+	/**
+	 * 更新产品的其他sku及数量
+	 */
+	protected function update_product_inventory($modes, $product_id, $stage){
+		try{
+			
+			foreach($modes as $mode){
+				$inventory = new Sher_Core_Model_Inventory();
+				$mode['product_id'] = (int)$product_id;
+				$mode['stage'] = (int)$stage;
+				if (empty($mode['r_id'])){
+					$inventory->apply_and_save($mode);
+				} else {
+					// 补全_id
+					$mode['_id'] = (int)$mode['r_id'];
+					$inventory->apply_and_update($mode);
+				}
+				unset($inventory);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Save product inventory failed: ".$e->getMessage());
+		}
+		return true;
 	}
 	
 	/**
@@ -188,7 +229,15 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$model = new Sher_Core_Model_Product();
 		if(!empty($id)){
 			$mode = 'edit';
-			$this->stash['product'] = $model->load($id);
+			$this->stash['product'] = $model->extend_load($id);
+			
+			// 获取inventory
+			$inventory = new Sher_Core_Model_Inventory();
+			$skus = $inventory->find(array(
+				'product_id' => $id,
+				'stage' => $this->stash['product']['stage'],
+			));
+			$this->stash['skus'] = $skus;
 		}
 		$this->stash['mode'] = $mode;
 		

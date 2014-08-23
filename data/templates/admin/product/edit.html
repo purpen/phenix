@@ -5,6 +5,10 @@
 	.ui.ok.button {
 		margin-top: 1.7em;
 	}
+	.ui.add.button {
+		padding: 0.3em;
+		margin-left: 1em;
+	}
 </style>
 {% endblock %}
 
@@ -169,6 +173,33 @@
 		});
 	});
 	
+	var mode_count = {{ product.mode_count|default 0}};
+	$('.ui.add.button').click(function(){
+		mode_count += 1;
+		var tpl = '<div class="four fields">';
+		tpl += '<input type="hidden" name="r_id-'+ mode_count +'" />';
+		tpl += '<input type="hidden" name="sold-'+ mode_count +'" />';
+		tpl += '<div class="field"><label>产品型号：</label><input type="text" name="mode-'+ mode_count +'" /></div>';
+		tpl += '<div class="field"><label>产品数量：</label><input type="text" class="quantity" name="quantity-'+ mode_count +'" /></div>';
+		tpl += '<div class="field"><label>销售价格：</label><input type="text" name="price-'+ mode_count +'" /></div>';
+		tpl += '</div>';
+		
+		$(tpl).appendTo('#modebox');
+		
+		$('#mode_count').val(mode_count);
+	});
+	
+	// 计算总库存数
+	$('input.quantity').livequery(function(){
+		$(this).bind('change', function(){
+			var total_quantity = 0;
+			$('input.quantity').each(function(){
+				total_quantity += parseInt($(this).val());
+			});
+			$('#inventory').val(total_quantity);
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -241,29 +272,38 @@
 			<div class="two fields">
 				<div class="field">
 				  	<label>开始时间：</label>
-					<input type="text" name="voted_start_time" value="{{ product.voted_start_time }}" />
+					<div class="ui icon input">
+					  	<input type="text" name="voted_start_time" value="{{ product.voted_start_time }}" />
+					  	<i class="calendar icon"></i>
+					</div>
 				</div>
 				<div class="field">
 				  	<label>结束时间：</label>
-					<input type="text" name="voted_finish_time" value="{{ product.voted_finish_time }}" />
+					<div class="ui icon input">
+					  	<input type="text" name="voted_finish_time" value="{{ product.voted_finish_time }}" />
+					  	<i class="calendar icon"></i>
+					</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="ui segment">
 			<h3 class="ui dividing header">预售设置</h3>
-			<div class="field">
-		  		<label>预售价格：</label>
-				<input type="text" name="hot_price"  value="{{ product.hot_price }}" />
-			</div>
+			
 			<div class="two fields">
 				<div class="field">
 				  	<label>开始时间：</label>
-					<input type="text" name="presale_start_time" value="{{ product.presale_start_time }}" />
+					<div class="ui icon input">
+					  	<input type="text" name="presale_start_time" value="{{ product.presale_start_time }}" />
+					  	<i class="calendar icon"></i>
+					</div>
 				</div>
 				<div class="field">
 				  	<label>结束时间：</label>
-					<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time }}" />
+					<div class="ui icon input">
+					  	<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time }}" />
+					  	<i class="calendar icon"></i>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -272,10 +312,6 @@
 			<h3 class="ui dividing header">销售设置</h3>
 			<div class="three fields">
 				<div class="field">
-				  	<label>成本价格：</label>
-					<input type="text" name="cost_price" value="{{ product.cost_price }}" />
-				</div>
-				<div class="field">
 				  	<label>市场价格：</label>
 					<input type="text" name="market_price" value="{{ product.market_price }}" />
 				</div>
@@ -283,23 +319,41 @@
 				  	<label>销售价格：</label>
 					<input type="text" name="sale_price" value="{{ product.sale_price }}" />
 				</div>
-			</div>
-			
-			<div class="field">
-				<label>产品型号/数量 <a href="#ajax-request" class="ui link"><i class="flat add icon"></i></a></label>
-			</div>
-			<div class="three fields">
-				<div class="field">
-				  	<label>产品型号：</label>
-					<input type="text" name="mode[]" />
-				</div>
 				<div class="field">
 				  	<label>产品数量：</label>
-					<input type="text" name="quantity[]" />
+					<input type="text" name="inventory" value="{{ product.inventory }}" id="inventory" />
 				</div>
-				<div class="field">
-					<div class="ui active small magenta ok button">确定</div>
+			</div>
+			
+			
+			<div class="field">
+				<input type="hidden" name="mode_count" id="mode_count" value="{{ product.mode_count }}" />
+				<label>
+					产品型号/颜色/数量
+					<div class="ui pop icon magenta add button" data-content="添加新sku" data-variation="inverted">
+						<i class="add icon"></i>
+					</div>
+				</label>
+			</div>
+			<div id="modebox">
+				{% for m in skus %}
+				<div class="four fields">
+					<input type="hidden" name="r_id-{{ loop.counter }}" value="{{ m._id }}" />
+					<input type="hidden" name="sold-{{ loop.counter }}" value="{{ m.sold }}" />
+					<div class="field">
+					  	<label>产品型号：</label>
+						<input type="text" name="mode-{{ loop.counter }}" value="{{ m.mode }}" />
+					</div>
+					<div class="field">
+					  	<label>产品数量：</label>
+						<input type="text" name="quantity-{{ loop.counter }}" class="quantity" value="{{ m.quantity }}" />
+					</div>
+					<div class="field">
+					  	<label>销售价格：</label>
+						<input type="text" name="price-{{ loop.counter }}" value="{{ m.price }}" />
+					</div>
 				</div>
+				{% endfor %}
 			</div>
 		</div>
 		

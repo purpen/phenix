@@ -51,8 +51,8 @@
 			phenix.show_login_box();
 			return false;
 		}
-		var r_id = $(this).data('id'), id = $(this).data('pid');
-		phenix.redirect('{{ app_url_shopping }}/preorder?id='+id+'&r_id='+r_id);
+		var r_id = $(this).data('id');
+		phenix.redirect('{{ app_url_shopping }}/preorder?r_id='+r_id);
 	});
 	
 	/* 登录用户行为 */
@@ -297,7 +297,7 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui four levels">
-						{% for presale in product.presales %}
+						{% for presale in presales %}
 						<div class="ui level">
 							<h3 class="ui header">{{ presale.name }}</h3>
 							<div class="content">
@@ -317,8 +317,8 @@
 								</div>
 							</div>
 							<div class="actions">
-								{% if presale.quantity > presale.sold %}
-									<div class="ui magenta booked button" data-id="{{ presale.r_id }}" data-pid="{{ product._id }}">
+								{% if presale.quantity %}
+									<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
 										现在预定
 									</div>
 								{% else %}

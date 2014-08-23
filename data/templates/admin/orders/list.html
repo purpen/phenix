@@ -98,22 +98,28 @@
 	<div class="middle aligned ui celled white grid">
 		<div class="row">
 			<div class="seven wide column">
-				<div class="ui divided order products list">
-					{% for item in order.items %}
-						{% product_list var:'product' product_id:item.sku %}
-						<div class="item">
-							<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
-					      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" width="50" />
-							</a>
-					      	<div class="content">
-					          	<div class="header">
-									<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
-								</div>
-					          	<p class="attribute">编号：{{ item.sku }}</p>
-					      	</div>
-						</div>
-					{% endfor %}
-				</div>
+				<table class="ui basic table">
+					<tbody>
+						{% for item in order.items %}
+						{% product_list var:'product' product_id:item.product_id %}
+						<tr>
+							<td>
+								<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+						      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+								</a>
+							</td>
+							<td>
+						      	<div class="content">
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+									</div>
+						          	<p class="attribute">编号：{{ item.sku }}</p>
+						      	</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 			<div class="center aligned three wide column">
 				<p>

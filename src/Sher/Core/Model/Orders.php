@@ -15,8 +15,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'rid' => 0,
 		## 订单明细项
 		#
-		# product_id, size, quantity
-		# price, discount, true_price
+		# product_id, sku, size, quantity
+		# price, price, sold
 		# 
 		'items' => array(),
 		'items_count' => 0,
@@ -133,7 +133,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	}
 	
 	/**
-	 * 保存之前
+	 * 保存之前事件
 	 */
 	protected function before_save(&$data) {
 		$this->validate_order_items($data);
@@ -149,23 +149,30 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	}
 	
 	/**
-	 * 通过rid查找
+	 * 保存后事件
 	 */
-	public function find_by_rid($rid){
-		$row = $this->first(array('rid'=>$rid));
-        if (!empty($row)) {
-            $row = $this->extended_model_row($row);
-        }
+    protected function after_save() {
+		$rid = $this->data['rid'];
+		$items = $this->data['items'];
 		
-		return $row;
-	}
+		for($i=0;$i<count($items);$i++){
+			$sku = $items[$i]['sku'];
+			$quantity = $items[$i]['quantity'];
+			
+			// 生成订单后，减少库存数量
+			$inventory = new Sher_Core_Model_Inventory();
+			$inventory->decrease_invertory_quantity($sku, $quantity);
+			
+			unset($inventory);
+		}
+    }
 	
 	/**
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'size', 'quantity', 'price', 'sale_price');
-		$int_fields = array('sku', 'quantity');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price');
+		$int_fields = array('sku', 'product_id', 'quantity');
 		$float_fields = array('price', 'sale_price');
 		
 		$new_items = array();
@@ -181,9 +188,58 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 					}
 	            }
 	        }
+			// 验证库存数量
+			$inventory = new Sher_Core_Model_Inventory();
+			$enoughed = $inventory->verify_enough_quantity($data['items'][$i]['sku'], $data['items'][$i]['quantity']);
+			
+			Doggy_Log_Helper::warn("Validate product invertory result[$enoughed]!");
+			if (!$enoughed){
+				throw new Sher_Core_Model_Exception('所选产品数量不足！');
+			}
+			
+			unset($inventory);
 		}
 		
 		$data['items'] = $new_items;
+	}
+	
+	/**
+	 * 自动关闭订单
+	 */
+	public function close_order($id){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id)){
+            throw new Sher_Core_Model_Exception('Order id is Null');
+        }
+		$row = $this->find_by_id($id);
+		
+		// 关闭订单，自动释放库存数量
+		for($i=0;$i<count($row['items']);$i++){
+			$inventory = new Sher_Core_Model_Inventory();
+			$inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity']);
+			
+			unset($inventory);
+		}
+		
+		$updated = array(
+			'status' => Sher_Core_Util_Constant::ORDER_EXPIRED,
+			'closed_date' => time(),
+		);
+		return $this->update_set($id, $updated);
+	}
+	
+	/**
+	 * 通过rid查找
+	 */
+	public function find_by_rid($rid){
+		$row = $this->first(array('rid'=>$rid));
+        if (!empty($row)) {
+            $row = $this->extended_model_row($row);
+        }
+		
+		return $row;
 	}
 	
 	/**
@@ -481,23 +537,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		return $this->update_set($id, array('is_payed' => 1, 'payed_date' => time()));
     }
-	
-	/**
-	 * 自动关闭订单
-	 */
-	public function close_order($id){
-        if(is_null($id)){
-            $id = $this->id;
-        }
-        if(empty($id)){
-            throw new Sher_Core_Model_Exception('Order id is Null');
-        }
-		$updated = array(
-			'status' => Sher_Core_Util_Constant::ORDER_EXPIRED,
-			'closed_date' => time(),
-		);
-		return $this->update_set($id, $updated);
-	}
 	
 	/**
 	 * 更新订单的支付信息

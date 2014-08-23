@@ -117,7 +117,7 @@
 				</td>
 				<td>
 		          	<div class="header">
-						<a href="{{ product.view_url }}" class="ui link" title="{{ product.title }}">
+						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
 							{{ product.title }}
 						</a>
 					</div>
@@ -155,7 +155,7 @@
 						{% endif %}
 						
 						{% if product.stage == 5 %}
-							<a href="{{ app_url_sale }}/edit?id={{ product._id }}" class="ui link item">预售设置</a>
+							<a href="{{ app_url_action_base }}/product/setting_presale?id={{ product._id }}" class="ui link item">预售设置</a>
 							{% if product.published == 1%}
 							<a href="{{ app_url_admin_base }}/product/update_shop?id={{ product._id }}" class="ui link item">热售设置</a>
 							{% endif %}

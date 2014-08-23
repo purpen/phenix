@@ -12,7 +12,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_VOTE     = 1;
     const STAGE_PRESALE  = 5;
     const STAGE_SHOP     = 9;
-
+	
     protected $schema = array(
 		'_id'     => null,
 		# taobao sku
@@ -39,16 +39,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 预售价
 		'hot_price'    => 0,
 		
-		# 商品型号、颜色
-		/**
-		 * array(
-		 *    '_id' => 0,
-		 *    'name' => '',
-		 *    'quantity' => '',
-		 *    'price' => 0,
-		 * )
-		 */
-		'mode' => array(),
+		# 库存数量
+		'inventory'  => 0,
+		# 销售数
+		'sale_count' => 0,
 		
 		# 商品属性信息
 		'attributes' => array(
@@ -64,10 +58,24 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			'unit' => null,
 		),
 		
+		# 商品型号、颜色
+		/**
+		 * array(
+		 *    'r_id'     => 0,
+		 *    'name'     => '',
+		 *    'quantity' => '',
+		 *    'price'    => 0,
+		 *    # 已售数量
+		 *    'sold'     => 0,
+		 * )
+		 */
+		// 'mode' => array(),
+		'mode_count' => 0,
+		
 		# 预售信息设置
 		/*
 		 * array(
-		 *    '_id'      => 0,
+		 *    'r_id'     => 0,
 		 *	  'name'     => '',
 		 *    'summary'  => '',
 		 *    'mode'     => '',
@@ -77,7 +85,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		 *    'sold'     => 0,
 		 * ),
 		 */
-		'presales' => array(),
+		// 'presales' => array(),
 		'presale_count' => 0,
 		'presale_money' => 0,
 		
@@ -128,8 +136,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'vote_favor_count' => 0,
 		# 反对数
 		'vote_oppose_count' => 0,
-		# 销售数
-		'sale_count' => 0,
 		
 		## 专家评分
 		
@@ -177,10 +183,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     );
 
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','state','published','deleted');
-	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count', 'mode_count','state','published','deleted');
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money');
 	
-	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
+	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -196,6 +202,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['view_url'] = $this->gen_view_url($row);
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
+		
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
 		
@@ -225,6 +232,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			}
 			array_multisort($rid, $price, $row['presales']);
 		}
+	}
+	
+	/**
+	 * 验证是否能够销售
+	 */
+	public function can_saled($data){
+		return $data['inventory'] > 0;
 	}
 	
 	// 添加自定义ID
@@ -390,6 +404,43 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 减少产品库存，及增加已销售数量
+	 */
+	public function decrease_invertory($id, $quantity=1){
+		$row = $this->find_by_id((int)$id);
+		
+		if (empty($row)){
+			throw new Sher_Core_Model_Exception('产品不存在或已被删除！');
+		}
+		
+		// 减少库存数量
+		if ($row['inventory'] >= $quantity){
+			$updated = array(
+				'$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1),
+			);
+			return $this->update((int)$id, $updated);
+		}
+	}
+	
+	/**
+	 * 恢复产品数量
+	 */
+	public function recover_invertory($id, $quantity=1){
+		$row = $this->find_by_id((int)$id);
+		
+		if (empty($row)){
+			throw new Sher_Core_Model_Exception('产品不存在或已被删除！');
+		}
+		
+		// 恢复库存数量
+		$updated = array(
+			'$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity),
+		);
+		
+		return $this->update((int)$id, $updated);
+	}
+	
+	/**
 	 * 更新专家评分
 	 */	
 	public function update_expert_score($id, $score, $score_count,$score_average){
@@ -495,7 +546,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 减少计数
 	 * 需验证，防止出现负数
 	 */
-	public function dec_counter($field_name,$id=null,$force=false){
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
 	    if(is_null($id)){
 	        $id = $this->id;
 	    }
@@ -509,7 +560,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			}
 		}
 		
-		return $this->dec($id, $field_name);
+		return $this->dec($id, $field_name, $count);
 	}
 	
 	/**
@@ -549,82 +600,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		return true;
 	}
-	
-	/**
-	 * 获取预售项
-	 */
-	public function find_presale($r_id, $product=array()){
-		$presale = array();
-		for($i=0;$i<count($product['presales']);$i++){
-			if ($product['presales'][$i]['r_id'] == $r_id){
-				$presale = $product['presales'][$i];
-			}
-		}
-		return $presale;
-	}
-	
-	/**
-	 * 新增/更新预售项
-	 * array(
-	 *    'r_id'      => 0,
-	 *	  'name'     => '',
-	 *    'summary'  => '',
-	 *    'mode'     => '',
-	 *    'quantity' => 0,
-	 *    'price'    => 0,
-	 *    # 已售数量
-	 *    'sold'     => 0,
-	 * ),
-	 */
-    public function create_presale($product_id, $name, $mode, $quantity, $price, $summary){
-		$item_row['r_id'] = (int)$this->gen_product_sku();
-		
-    	$item_row['name'] = $name;
-        $item_row['mode'] = $mode;
-        $item_row['quantity'] = (int)$quantity;
-		$item_row['price'] = (float)$price;
-		$item_row['summary'] = $summary;
-		
-		// 初始默认值
-		$item_row['sold'] = 0;
-		
-        $updated_row['$push']['presales'] = $item_row;
-        if ($this->update((int)$product_id, $updated_row)){
-            return $item_row;
-        }
-		
-        return false;
-    }
-	
-	/**
-	 * 更新预售项
-	 */
-    public function update_presale($product_id, $r_id, $updated=array(), $old_data=array()){
-		// 先删除
-		$this->remove_presale($product_id, $r_id);
-		
-		// 再新增
-		$new_data = array_merge($old_data, $updated);
-		$new_data['r_id'] = (int)$r_id;
-		
-        $updated_row['$push']['presales'] = $new_data;
-        if ($this->update((int)$product_id, $updated_row)){
-            return $new_data;
-        }
-		
-        return false;
-    }
-	
-	
-    /**
-     * 删除预售项
-     */
-    public function remove_presale($product_id, $r_id) {
-        $removed_presale['r_id'] = (int)$r_id;
-        $criteria = $this->_build_query((int)$product_id);
-		
-        return self::$_db->pull($this->collection, $criteria, 'presales', $removed_presale);
-    }
 	
 }
 ?>

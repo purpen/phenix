@@ -103,5 +103,6 @@ user-scalable：用户是否可以手动缩放
    执行文件，sbin/cron_service.sh,bin/cron_service_guard.sh,bin/cron_service.php设置执行权限；
    启动、关闭脚本，sbin/core_service.sh start, sbin/core_service.sh stop;
 
+3、购物过程事务处理
 
  
