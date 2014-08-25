@@ -5,6 +5,15 @@
 	#voted-action {
 		margin: 1em auto;
 	}
+	
+	#votepage .product.params .ui.btn.icon {
+	    padding: 1em;
+	}
+	#votepage .product.params .ui.btn + .btn {
+	    margin-left: 0.25em;
+	}
+	
+	
 	ul li {
 	    float: left;
 	    margin-right: 10px;
@@ -152,7 +161,7 @@
 	phenix.bind_share_list();
 	
 	// 显示编辑工具条 
-	$('.product.params').hover(function(){
+	$('.product.params .actions').hover(function(){
 		$('.ui.admin.buttons').removeClass('hide');
 	},function(){
 		$('.ui.admin.buttons').addClass('hide');
@@ -185,7 +194,7 @@
     });
 	
 	// 分享
-	$('.ui.share.button').bind('click', function(){
+	$('.ui.share.btn').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 	
@@ -203,6 +212,31 @@
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.btn')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.btn')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
 		// 编辑
 		$('.ui.edit.button').bind('click', function(){
 			var id = $(this).data('id');
@@ -219,6 +253,77 @@
 		
 		/* 登录用户行为 */
 	{% endif %}
+	
+	// 收藏
+	$('.ui.favorite.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 喜欢
+	$('.ui.love.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		var count = parseInt($('#product-love-count').text());
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+					count += 1;
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active');
+					count -= 1;	
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
 	
 	// 通过审核
 	$('.ui.check.button').bind('click', function(){
@@ -270,12 +375,6 @@
 				  	<a class="ui section link" href="{{ product.category.view_url }}">{{ product.category.title }}</a>
 				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ product.title }}</div>
-				</div>
-			</div>
-			
-			<div class="five wide right aligned column">
-				<div class="ui pop icon magenta share button" data-content="分享" data-variation="inverted">
-					<i class="share icon"></i>
 				</div>
 			</div>
 		</div>
@@ -460,42 +559,39 @@
 					</div>
 					{% endif %}
 					
-					{% if product.tags_s %}
-					<div class="vote highlight">
-						<h4 class="ui header">
-							<div class="content">
-								创意亮点
-								<div class="sub header">
-									{% for tag in product.tags %}
-									<label class="ui gray label">{{ tag }}</label>
-									{% endfor %}
-								</div>
+					<div class="actions">
+						<div class="ui magenta btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							收藏
+						</div>
+						<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<i class="heart empty icon"></i>
+						</div>
+						<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+							<i class="share icon"></i>
+						</div>
+						
+						{% if visitor.is_admin %}
+						<div class="ui icon admin black hide buttons">
+							{% if product.approved %}
+							<div class="ui active pop check button" data-content="取消审核" data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+								<i class="checkmark icon"></i>
 							</div>
-						</h4>
-					</div>
-					{% endif %}
-					
-					{% if visitor.is_login %}
-					<div class="ui icon admin black hide buttons">
-						{% if product.approved %}
-						<div class="ui active pop check button" data-content="取消审核" data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
-							<i class="checkmark icon"></i>
-						</div>
-						{% else %}
-						<div class="ui pop check button" data-content="通过审核" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
-							<i class="checkmark icon"></i>
-						</div>
-						{% endif %}
-						{% if editable %}
-						<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
-							<i class="edit icon"></i>
-						</div>
-						<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
-							<i class="remove icon"></i>
+							{% else %}
+							<div class="ui pop check button" data-content="通过审核" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+								<i class="checkmark icon"></i>
+							</div>
+							{% endif %}
+							{% if editable %}
+							<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+								<i class="edit icon"></i>
+							</div>
+							<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+								<i class="remove icon"></i>
+							</div>
+							{% endif %}
 						</div>
 						{% endif %}
 					</div>
-					{% endif %}
 					
 				</div>
 			</div>	
@@ -546,6 +642,14 @@
 				<div class="column">
 					<div class="product content clearfix">
 						{{ product.content }}
+						
+						{% if product.tags_s %}
+						<div class="tags">
+							{% for tag in product.tags %}
+							<label class="ui gray label">{{ tag }}</label>
+							{% endfor %}
+						</div>
+						{% endif %}
 					</div>
 				</div>
 			</div>
