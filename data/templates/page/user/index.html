@@ -62,7 +62,7 @@
 <div class="user center">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
+			<div class="column">
 				<div class="user-head">
 					<img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
 					<h2 class="ui header">
@@ -90,7 +90,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="ui sixteen wide center aligned submenu column">
+			<div class="center aligned submenu column">
 				<div class="ui magenta buttons">
 					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} button">全部</a>
 					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} button">支持的产品</a>
@@ -101,9 +101,8 @@
 		</div>
 		
 		<div class="row">
-			
 			{% if css_tab_all %}
-			<div class="ui eleven wide column">
+			<div class="eleven wide column">
 				<h3 class="ui header">他的动态</h3>
 				<div class="ui three items">
 					{% support_list var:'list' page:page user_id:user._id %}
@@ -112,7 +111,7 @@
 					{% endfor %}
 				</div>
 			</div>
-			<div class="ui five wide column">
+			<div class="five wide column">
 				<h3 class="ui header">支持他</h3>
 				<form class="ui form">
 					<div class="field">
@@ -133,12 +132,8 @@
 					</a>
 				</div>
 			</div>
-			
-			{% endif %}
-			<div class="ui sixteen wide column">
-				
-				
-				
+			{% else %}
+			<div class="column">
 				{% if css_tab_support %}
 					<div class="ui four items">
 						<!--我支持的产品-->
@@ -168,23 +163,17 @@
 						{% endfor %}
 					</div>
 				{% endif %}
-				
 			</div>
-			
-			
+			{% endif %}
 		</div>
 		
-		{% if list.rows %}
-		<div class="row">
-			<div class="ui two wide column"></div>
-			<div class="ui twelve wide column">
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-			</div>
+		{% if list.total_rows %}
+		<div class="ui pagination">
+			{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+			{%include 'block/pager.html'%}
 		</div>
 		{% endif %}
+		
 	</div>
 </div>
 
