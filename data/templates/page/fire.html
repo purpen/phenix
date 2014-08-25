@@ -1,12 +1,30 @@
-{%extends 'layout/column.html'%}
-{% block title %}点火-{% endblock %}
+{%extends 'layout/base.html'%}
+{% block title %}点火.创意征集令-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.submit-banner {
-		background: url('{{ app_url_packaged }}/images/submit_top.jpg') no-repeat scroll center top / cover;
-		color: #FFF;
-		padding: 120px 8% 80px;
+	.inner {
+	    margin: 0 auto;
+	    width: 70%;
 	}
+	.submit-banner{
+		background: url({{ app_url_packaged }}/images/fire/submit_top.jpg) no-repeat scroll center top / cover;
+		color: #FFF;
+	}
+	.submit-banner .inner {
+		margin-top: 15%;
+	}
+	.submit-banner .ui.table {
+		color: #fff;
+		font-size: 1.5em;
+		margin: 2em 0 4em;
+		text-align: center;
+	}
+	.submit-banner .ui.basic.table td {
+		padding: 0.8em 0.5em 0;
+	}
+	
+	
+
 	.inline{
 		display:inline-block;
 		float:left;
@@ -17,11 +35,9 @@
 	.inline.pl-10{
 		padding-left:10%;
 	}
-	
 	.ui.submit{
 		background-color:#0bb;
 	}
-	
 	.six.wide.column .head,.six.wide.column .act{
 		padding-top:18em;
 		width:85%;
@@ -50,7 +66,6 @@
 		color: #fff;
 		border-bottom: 0px;
 	}
-	
 	.ui.big.claim.block{
 		background-color:#0db;
 	}
@@ -72,38 +87,39 @@
 	}
 	
 	.right-banner {
-		background: url({{ app_url_packaged }}/images/submit_r1.jpg) no-repeat scroll center top / cover;
+		background: url({{ app_url_packaged }}/images/fire/submit_r1.jpg) no-repeat scroll center top / cover;
 		color: #FFF;
 		padding: 120px 8% 80px;
 	}
-	
-	
-.ui.header .sub.header {
-color: #fff;
-line-height: 2;
-margin: 1em;
-}
-.right-banner .ui.header .content{
-	color:#cc4;
-	font-size:4rem;
-}
-.right-banner .ui.header .sub.header{
-	font-size:1.5rem;
-	margin-top:2em;
-	margin-bottom:6.5em;
-}
-.f76-banner{
-	background:#f76;
-	color:#fff;
-	padding:120px 8% 80px;
-}
-.f76-banner .content{
-	font-size:4rem;
-}
-.f76-banner .ui.header .sub.header{
-	font-size:1.5rem;
-	margin-top:2em;
-}
+	.ui.header .sub.header {
+		color: #fff;
+		line-height: 2;
+		margin: 1em;
+	}
+	.right-banner .ui.header .content{
+		color:#cc4;
+		font-size:4rem;
+	}
+	.right-banner .ui.header .sub.header{
+		color: #fff;
+		line-height: 2;
+		margin: 1em;
+		font-size:1.5rem;
+		margin-top:2em;
+		margin-bottom:6.5em;
+	}
+	.f76-banner{
+		background:#f76;
+		color:#fff;
+		padding:120px 8% 80px;
+	}
+	.f76-banner .content{
+		font-size:4rem;
+	}
+	.f76-banner .ui.header .sub.header{
+		font-size:1.5rem;
+		margin-top:2em;
+	}
 .box{
 	width: 75%;
 	float: left;
@@ -123,7 +139,7 @@ margin: 1em;
 }
 section.f334-banner{
 	background:#334;
-	padding:120px 8% 80px;
+	padding:80px 8% 60px;
 	color:#567;
 }
 .f334-banner .content>.sub.header{
@@ -134,7 +150,7 @@ section.f334-banner{
 	font-size:4rem;
 }
 .userstory.thn{
-	background-position:0 0;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_1.jpg);
 }
 .userstory{
 	height: 276px;
@@ -142,7 +158,7 @@ section.f334-banner{
 	display: inline-block;
 	margin: 0 19px 20px 0;
 	position: relative;
-	background: url("./images/zj.png") 0 0 no-repeat;
+	background: url("{{ app_url_packaged }}/images/fire/zj.png") 0 0 no-repeat;
 	text-align: center;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -171,9 +187,9 @@ display: -moz-inline-stack;
 display: inline-block;
 vertical-align: middle;
 zoom: 1;
-height: 110px;
-width: 179px;
-background-image: url('{{ app_url_packaged }}/images/zj_logo.png');
+height: 276px;
+width: 276px;
+background-image: url('{{ app_url_packaged }}/images/fire/zj_logo.png');
 background-repeat: no-repeat;
 }
 .userstory .overlay .zj-logo{
@@ -187,49 +203,49 @@ opacity: 1;
 transition: opacity 0.2s ease-in-out 0s;
 }
 .userstory.zhenge{
-	background-position:-287px 0px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_2.jpg);
 }
 .userstory.thn .zj-logo{
-	background-position: -44px -90px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_01.png);
 }
 .userstory.zhenge .zj-logo{
-	background-position: -344px -100px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_02.png);
 }
 .userstory.ml{
-	background-position:-574px 0px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_3.jpg);
 }
 .userstory.ml .zj-logo{
-	background-position: -644px -100px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_03.png);
 }
 .userstory.saifu{
-	background-position:-861px 0;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_4.jpg);
 }
 .userstory.saifu .zj-logo{
-	background-position: -914px -100px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_04.png);
 }
 .userstory.wt{
-	background-position:0 -287px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_5.jpg);
 }
 .userstory.wt .zj-logo{
-	background-position: -44px -370px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_05.png);
 }
 .userstory.lkk{
-	background-position:-287px -287px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_6.jpg);
 }
 .userstory.lkk .zj-logo{
-	background-position: -344px -370px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_06.png);
 }
 .userstory.qt{
-	background-position:-574px -287px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_7.jpg);
 }
 .userstory.qt .zj-logo{
-	background-position: -644px -370px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_07.png);
 }
 .userstory.sj{
-	background-position:-861px -287px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_8.jpg);
 }
 .userstory.sj .zj-logo{
-	background-position: -914px -370px;
+	background:url({{ app_url_packaged }}/images/fire/images/expert_08.png);
 }
 .userstory blockquote {
 z-index: 3;
@@ -268,63 +284,16 @@ font: 400 italic 17px/1.7em "Open Sans", "open-sans", sans-serif;
 	opacity:0;
 }
 section.log-banner{
-	background: url({{ app_url_packaged }}/images/submit_lo.jpg) no-repeat scroll center top / cover;
+	background: url({{ app_url_packaged }}/images/fire/submit_lo.jpg) no-repeat scroll center top / cover;
 	padding: 120px 8% 80px;
 }
 .ui.center.aligned.grid .column>.content-box {
 text-align: left;
 margin-bottom: 2em;
 }
-.ui.list:last-child {
-margin-bottom: 0;
-}
-ul.ui.list:first-child, ol.ui.list:first-child, .ui.list:first-child {
-margin-top: 0;
-}
-ul.ui.list, ol.ui.list, .ui.list {
-list-style-type: none;
-margin: 1em 0;
-padding: 0;
-}
-.ui.center.aligned.grid .column>.content-box>.ui.selection.list>.item {
-padding: .5em 1em;
-}
-.ui.selection.list .item {
-cursor: pointer;
-color: rgba(0,0,0,.4);
-padding: .5em;
--webkit-transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
-transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
-}
-.ui.list .item {
-font-size: 1em;
-}
-ul.ui.list li, ol.ui.list li, .ui.list .item {
-display: list-item;
-list-style-type: none;
-list-style-position: inside;
-padding: .3em 0;
-line-height: 1.2em;
-}
-.ui.list .header {
-font-weight: 700;
-}
-.ui.magenta.header {
-color: #f36!important;
-font-size:2.5rem;
-}
-.ui.header:first-child {
-margin-top: 0;
-}
-.ui.magenta.header+p {
-margin-top: 0;
-line-height: 1.35em;
-font-size:1.5rem;
-color:#ccc;
-}
 .ui.partner-banner{
 	padding: 120px 8% 80px;
-	background:#ccc;
+	background:#f4f4f4;
 }
 .ui.partner-banner .content{
 	font-size:4rem;
@@ -335,7 +304,6 @@ color:#ccc;
 	display: inline-block;
 	margin: 0 10px 0;
 	position: relative;
-	background: url("{{ app_url_packaged }}/images/logo.png") 0 0 no-repeat;
 	text-align: center;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -348,11 +316,10 @@ vertical-align: middle;
 zoom: 1;
 height: 100px;
 width: 150px;
-background-image: url('{{ app_url_packaged }}/images/logo1.png');
 background-repeat: no-repeat;
 }
 .partner.lkk{
-	background-position:20px 0px;
+background:url({{ app_url_packaged }}/images/fire/images/logo_1.png) scroll no-repeat center center;
 }
 .partnera{
 	opacity:0;
@@ -360,65 +327,310 @@ background-repeat: no-repeat;
 .partner:hover .partnera{
 	opacity:1;
 }
+.partnera.lkk-1{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_01.png) scroll no-repeat center center;
+}
+.partner.saifu{
+	background:url({{ app_url_packaged }}/images/fire/logo_2.jpg) scroll no-repeat center center;
+}
+.partnera.saifu1{
+	background:url({{ app_url_packaged }}/images/fire/logo_02.jpg) scroll no-repeat center center;
+}
+.partner.ml{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_3.png) scroll no-repeat center center;
+}
+.partnera.ml1{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_03.png) scroll no-repeat center center;
+}
+.partner.dym{
+	background:url({{ app_url_packaged }}/images/fire/logo_4.jpg) scroll no-repeat center center;
+}
+.partnera.dym1{
+	background:url({{ app_url_packaged }}/images/fire/logo_04.jpg) scroll no-repeat center center;
+}
+.partner.mj{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_5.png) scroll no-repeat center center;
+}
+.partnera.mj1{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_05.png) scroll no-repeat center center;
+}
+.partner.lf{
+	background:url({{ app_url_packaged }}/images/fire/logo_6.jpg) scroll no-repeat center center;
+}
+.partnera.lf1{
+	background:url({{ app_url_packaged }}/images/fire/logo_06.jpg) scroll no-repeat center center;
+}
+.partner.dd{
+	background:url({{ app_url_packaged }}/images/fire/logo_7.jpg) scroll no-repeat center center;
+}
+.partnera.dd1{
+	background:url({{ app_url_packaged }}/images/fire/logo_07.jpg) scroll no-repeat center center;
+}
+.partner.kr{
+	background:url({{ app_url_packaged }}/images/fire/logo_8.jpg) scroll no-repeat center center;
+}
+.partnera.kr1{
+	background:url({{ app_url_packaged }}/images/fire/logo_08.jpg) scroll no-repeat center center;
+}
+.partner.fh{
+	background:url({{ app_url_packaged }}/images/fire/logo_9.jpg) scroll no-repeat center center;
+}
+.partnera.fh1{
+	background:url({{ app_url_packaged }}/images/fire/logo_09.jpg) scroll no-repeat center center;
+}
+.partner.tc{
+	background:url({{ app_url_packaged }}/images/fire/logo_10.jpg) scroll no-repeat center center;
+}
+.partnera.tc1{
+	background:url({{ app_url_packaged }}/images/fire/logo_010.jpg) scroll no-repeat center center;
+}
+.partner.tai{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_11.png) scroll no-repeat center center;
+}
+.partnera.tai1{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_011.png) scroll no-repeat center center;
+}
+.partner.wt{
+	background:url({{ app_url_packaged }}/images/fire/logo_12.jpg) scroll no-repeat center center;
+}
+.partnera.wt1{
+	background:url({{ app_url_packaged }}/images/fire/logo_-12.jpg) scroll no-repeat center center;
+}
+.partner.jt{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_13.png) scroll no-repeat center center;
+}
+.partnera.jt1{
+background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no-repeat center center;
+}
+.partner.tb{
+	background:url({{ app_url_packaged }}/images/fire/logo_14.jpg) scroll no-repeat center center;
+}
+.partnera.tb1{
+	background:url({{ app_url_packaged }}/images/fire/logo_014.jpg) scroll no-repeat center center;
+}
+.partner.jd{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_15.png) scroll no-repeat center center;
+}
+.partnera.jd1{
+	background:url({{ app_url_packaged }}/images/fire/images/logo_015.png) scroll no-repeat center center;
+}
+.partner.ymx{
+	background:url({{ app_url_packaged }}/images/fire/logo_16.jpg) scroll no-repeat center center;
+}
+.partnera.ymx1{
+	background:url({{ app_url_packaged }}/images/fire/logo_016.jpg) scroll no-repeat center center;
+}
+.partner.tm{
+	background:url({{ app_url_packaged }}/images/fire/logo_17.jpg) scroll no-repeat center center;
+}
+.partnera.tm1{
+	background:url({{ app_url_packaged }}/images/fire/logo_017.jpg) scroll no-repeat center center;
+}
+.partner.lan{
+	background:url({{ app_url_packaged }}/images/fire/logo_18.jpg) scroll no-repeat center center;
+}
+.partnera.lan1{
+	background:url({{ app_url_packaged }}/images/fire/logo_018.jpg) scroll no-repeat center center;
+}
+.partner.gm{
+	background:url({{ app_url_packaged }}/images/fire/logo_19.jpg) scroll no-repeat center center;
+}
+.partnera.gm1{
+	background:url({{ app_url_packaged }}/images/fire/logo_019.jpg) scroll no-repeat center center;
+}
+.partner.sn{
+	background:url({{ app_url_packaged }}/images/fire/logo_20.jpg) scroll no-repeat center center;
+}
+.partnera.sn1{
+	background:url({{ app_url_packaged }}/images/fire/logo_020.jpg) scroll no-repeat center center;
+}
+.partner.po{
+	background:url({{ app_url_packaged }}/images/fire/logo_21.jpg) scroll no-repeat center center;
+}
+.partnera.po1{
+	background:url({{ app_url_packaged }}/images/fire/logo_021.jpg) scroll no-repeat center center;
+}
+.panel{
+	height:760px;
+	overflow:hidden;
+}
+.mt-3{
+	margin-top:3em;
+}
+.ui.big.submit:hover .tX-200{
+	position:relative;
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	transition-duration: 2s;
+}
+.ui.big.submit:hover .tX200,.ui.big.submit .process{
+	position:relative;
+	-ms-transform:translateX(200px);	/* IE 9 */
+	-moz-transform:translateX(200px);	/* Firefox */
+	-webkit-transform:translateX(200px); /* Safari 和 Chrome */
+	-o-transform:translateX(200px);
+	transform: translateX(200px);
+	transition-duration: 2s;
+}
+.ui.big.submit:hover .process.on{
+	position:relative;
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	transition-duration: .4s;
+	transition-timing-function: esae;
+}
+.ui.big.submit:hover .process.to{
+	position:relative;
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	transition-duration: .8s;
+	transition-timing-function: esae;
+}
+.ui.big.submit:hover .process.three{
+	position:relative;
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	transition-duration: 1.2s;
+	transition-timing-function: esae;
+}
+.ui.big.submit:hover .process.four{
+	position:relative;
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	transition-duration: 1.6s;
+	transition-timing-function: esae;
+}
+.ui.big.submit:hover .process.last{
+	position:relative;
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	transition-duration: 2s;
+	transition-timing-function: esae;
+}
+.tX-200{
+	-ms-transform:translateX(-200px);	/* IE 9 */
+	-moz-transform:translateX(-200px);	/* Firefox */
+	-webkit-transform:translateX(-200px); /* Safari 和 Chrome */
+	-o-transform:translateX(-200px);
+	transform: translateX(-200px);
+	position: relative;
+	transition-duration: 2s;
+}
+.tX200{
+	-ms-transform:translateX(200px);	/* IE 9 */
+	-moz-transform:translateX(200px);	/* Firefox */
+	-webkit-transform:translateX(200px); /* Safari 和 Chrome */
+	-o-transform:translateX(200px);
+	transform: translateX(200px);
+	position: relative;
+	transition-duration: 2s;
+}
+.ui.big.claim.block:hover .tX-200{
+	-ms-transform:translateX(0px);	/* IE 9 */
+	-moz-transform:translateX(0px);	/* Firefox */
+	-webkit-transform:translateX(00px); /* Safari 和 Chrome */
+	-o-transform:translateX(00px);
+	transform: translateX(00px);
+	position: relative;
+	transition-duration: 2s;
+}
+.ui.big.claim.block:hover .tX200{
+	-ms-transform:translateX(00px);	/* IE 9 */
+	-moz-transform:translateX(00px);	/* Firefox */
+	-webkit-transform:translateX(00px); /* Safari 和 Chrome */
+	-o-transform:translateX(0px);
+	transform: translateX(0px);
+	position: relative;
+	transition-duration: 2s;
+}
 
 </style>
 {% endblock %}
 	
 {% block jquery %}
+	$(".panel").css({"height":$(window).height()});
+	$.scrollify({
+		section:".panel"
+	});
 {% endblock %}
 
 {% block content %}
-<div class="submit page">
-	<section class="submit-banner">
-		<div class="ui center aligned grid">
-			<div class="row">
-				<div class="twelve wide column">
-					<h1 class="ui header">
-						<div class="content">
-							<img src="{{ app_url_packaged }}/images/submit_word.png" width="100%" />
-							<div class="sub header">
-								<p class="inline">也许你满腹才华</p>       <p class="inline pl-10">也许是一张产品草图</p>  <br><br>
-								<p class="inline">也许你灵感无限</p>      <p class="inline pl-10">也许是一个待改良的设计</p>
-							</div>
-						</div>
-					</h1>
-				</div>
-				<div class="more row">
-					<div class="center aligned column">
-						<a href="http://www.taihuoniao.com/fever/submit?step=1" class="ui white btn-4 btn-4c icon-arrow-right btn">
-							提交创意	
-						</a>
-					</div>
+<section class="panel submit-banner" data-section-name="submit">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="inner">
+					<img src="{{ app_url_packaged }}/images/fire/submit_word.png" class="ui image" />
+					<table class="ui basic table">
+						<tr>
+							<td>也许你满腹才华</td>
+							<td>也许是一张产品草图</td>
+						</tr>
+						<tr>
+							<td>也许你灵感无限</td>
+							<td>也许是一个待改良的设计</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
-	</section>
+		<div class="more row">
+			<div class="center aligned column">
+				<a href="http://www.taihuoniao.com/fever/submit?step=1" class="ui black btn-4 btn-4c icon-arrow-right btn">
+					提交创意	
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="submit page">
 	
-	<section class="ui big submit block">
+	
+	
+	<section class="panel ui big submit block" data-section-name="big-submit">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
-				<div class="six wide column">
-					<img src="{{ app_url_packaged }}/images/submit_word1.png"class="ui image">
+				<div class="six center aligned wide column tX-200">
+					<img src="{{ app_url_packaged }}/images/fire/submit_word1.png"class="ui image">
 					<div class="head">
 						<h1>提交</h1>
 						<h1>流程</h1>
 						<h1>PROCESS</h1>
 					</div>
 				</div>
-				<div class="six wide column">
-					<div class="process">
+				<div class="six center aligned wide column">
+					<div class="process on">
 						<h3 class="ui header">提交创意</h3>
 						<p>登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</p>	
 					</div>
-					<div class="process">
+					<div class="process to">
 						<h3 class="ui header">投票</h3>
 						<p>提交的创意通过审核后，进入为期2个星期的投票。用户可以选择对提交的创意进行支持， 不支持的投票选择你不支持的理由。</p>	
 					</div>
-					<div class="process">
+					<div class="process three">
 						<h3 class="ui header">专家评分</h3>
 						<p>投票阶段获得100张选票的创意进入专家评分的阶段，5位专家将在1周内对创意从设计、 外观功能、创意4个方面给出评分。</p>	
 					</div>
-					<div class="process">
+					<div class="process four">
 						<h3 class="ui header">预售产品</h3>
 						<p>重新编辑创意投票的页面，添加相关的产品预售选项。在30-45天内筹集相应的金额，用 户选择不同的额度支持。</p>	
 					</div>
@@ -431,10 +643,10 @@ background-repeat: no-repeat;
 		</div>
 	</section>
 	
-	<section class="ui big claim block">
+	<section class="panel ui big claim block" data-section-name="claim">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
-				<div class="six center aligned wide column">
+				<div class="six center aligned wide column tX-200">
 					<p>提交的内容可以是未成形的创意点子也可以是已成形的产品；</p>
 					<p>所有提交内容包括<em> 团队介绍、概念阐述、详细描述</em> 三个部分；</p>
 					<p>请务必留下您的联系方式（Email、QQ、Wechat、Tel）
@@ -444,17 +656,17 @@ background-repeat: no-repeat;
 					</div>
 					<div class="border">
 						<h3 class="ui header">团队介绍</h3>
-						<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。</p>
-						<p>建议不超过100字。</p>
-						<p>概念阐述</p>
-						<p>图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。</p>
-						<p>产品视频能够更好的展现产品的特色。</p>
-						<p>详细描述</p>
-						<p>详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。图文并茂的形式有助于消费者理解。</p>
+						<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。<br>
+						建议不超过100字。<br>
+						概念阐述<br>
+						图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。<br>
+						产品视频能够更好的展现产品的特色。<br>
+						详细描述<br>
+						详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。图文并茂的形式有助于消费者理解。</p>
 					</div>
 				</div>
-				<div class="six center aligned wide column">
-					<img src="{{ app_url_packaged }}/images/submit_word2.png"class="ui image right">
+				<div class="six center aligned wide column tX200">
+					<img src="{{ app_url_packaged }}/images/fire/submit_word2.png"class="ui image right">
 					<div class="act">
 						<h1>创意</h1>
 						<h1>要求</h1>
@@ -464,7 +676,8 @@ background-repeat: no-repeat;
 			</div>
 		</div>
 	</section>
-	<section class="right-banner">
+	
+	<section class="panel right-banner" data-section-name="right">
 		<div class="ui center aligned grid">
 			<div class="row">
 				<div class="center aligned twelve wide column">
@@ -480,7 +693,8 @@ background-repeat: no-repeat;
 			</div>
 		</div>
 	</section>
-	<section class="f76-banner">
+	
+	<section class="panel f76-banner" data-section-name="f76">
 		<div class="ui center aligned grid">
 			<div class="row">
 				<div class="center aligned twelve wide column">
@@ -521,21 +735,22 @@ background-repeat: no-repeat;
 			</div>
 		</div>
 	</section>
-	<section class="f334-banner">
+	
+	<section class="panel f334-banner" data-section-name="f334">
 		<div class="ui center aligned grid">
 			<div class="row">
 				<div class="center aligned twelve wide column">
 					<h1 class="ui header">
 						<div class="content">
 							专家（设计老鸟）
-							<div class="sub header">
+							<div class="sub header" style="margin:0">
 								重量级专家评审团，提供最专业的建议
 							</div>
 						</div>
 					</h1>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin:0">
 					<div class="userstory thn">
 						<div class="overlay">
 							<div class="zj-logo">
@@ -619,7 +834,8 @@ background-repeat: no-repeat;
 			</div>
 		</div>
 	</section>
-	<section class="log-banner">
+	
+	<section class="panel log-banner" data-section-name="log">
 		<div class="ui block">
 			<div class="ui responsive center aligned grid">
 				<div class="row">
@@ -648,7 +864,8 @@ background-repeat: no-repeat;
 			</div>
 		</div>
 	</section>
-	<section class="ui partner-banner">
+	
+	<section class="panel ui partner-banner" data-section-name="partner">
 		<div class="ui center aligned grid">
 			<div class="row">
 				<div class="center aligned twelve wide column">
@@ -747,5 +964,6 @@ background-repeat: no-repeat;
 			</div>
 		</div>
 	</section>
+	
 </div>
 {% endblock %}
