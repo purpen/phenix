@@ -135,9 +135,9 @@
 			{% else %}
 			<div class="column">
 				{% if css_tab_support %}
-					<div class="ui four items">
-						<!--我支持的产品-->
-						{% support_list var:'list' page:page user_id:user._id %}
+					<!--我支持的产品-->
+					{% support_list var:'list' page:page user_id:user._id %}
+					<div class="ui three items">
 						{% for event in list.rows %}
 					  		{% include 'block/timeline_product_item.html' %}
 						{% endfor %}

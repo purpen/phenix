@@ -25,6 +25,7 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	
     protected $joins = array(
     	'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+		'product'  => array('target_id'  => 'Sher_Core_Model_Product'),
     );
 	
     protected $required_fields = array('user_id', 'target_id', 'ticket');
