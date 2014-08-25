@@ -6,7 +6,7 @@
 	</td>
 	<td class="ten wide">
       	<h3 class="title">
-			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title }}</a>
+			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 30 }}</a>
 		</h3>
       	<div class="content">
 			<div class="attribute">

@@ -84,7 +84,7 @@
 							{% for topic in list.rows %}
 								<tr>
 									<td class="nine wide">
-							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title }}</a>
+							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 30 }}</a>
 									</td>
 									<td>
 										<a class="ui small link" href="{{ topic.user.home_url }}">
