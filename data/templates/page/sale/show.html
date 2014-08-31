@@ -174,9 +174,9 @@
 						<i class="home icon"></i> 首页
 					</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_shop }}">预售</a>
+				  	<a class="ui section link" href="{{ app_url_sale }}">预售</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ product.category.view_url }}">{{ product.category.title }}</a>
+				  	<a class="ui section link" href="{{ app_url_domain }}/sale/c{{ product.category._id }}">{{ product.category.title }}</a>
 				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
