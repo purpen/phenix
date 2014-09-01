@@ -66,7 +66,7 @@
 	$('#phenix-uploader').fineUploader({
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ try._id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ try._id }}','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload_dotry }}'
       	},
 		text: {
@@ -97,15 +97,12 @@
 	$('#asset-list .ajax-cover').livequery(function(){
 		$(this).click(function(){
 			$this = $(this);
-			$.get($(this).attr('href'), function(result){
-				if (result.success){
-					$('#asset-list .ajax-cover.active').removeClass('active');
-					$this.addClass('active');
-				}else{
-					phenix.show_error_message(result.message);
-				}
-			},'json');
+			var id = $(this).attr('data-value');
 			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#try_cover_id').val(id);
 			return false;
 		});
 	});
@@ -114,15 +111,12 @@
 	$('#asset-list .ajax-banner').livequery(function(){
 		$(this).click(function(){
 			$this = $(this);
-			$.get($(this).attr('href'), function(result){
-				if (result.success){
-					$('#asset-list .ajax-banner.active').removeClass('active');
-					$this.addClass('active');
-				}else{
-					phenix.show_error_message(result.message);
-				}
-			},'json');
+			var id = $(this).attr('data-value');
 			
+			$('#asset-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#try_banner_id').val(id);
 			return false;
 		});
 	});
@@ -142,6 +136,8 @@
 	
 	<form action="{{ app_url_admin_base }}/try/save" class="ui form segment" method="post" id="try-form">
 		<input type="hidden" name="_id" value="{{ try._id }}" />
+		<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
+		
 		<h3 class="ui dividing header">新增试用产品</h3>
 		<div class="inline field">
 		  	<label>关联产品：</label>
@@ -176,6 +172,9 @@
 		
 		<div class="field">
 			<label>封面图：</label>
+			<input type="hidden" name="cover_id" id="try_cover_id" value="{{ try.cover_id }}" />
+			<input type="hidden" name="banner_id" id="try_banner_id" value="{{ try.banner_id }}" />
+			
 		  	<div id="phenix-uploader"></div>
 			<div id="asset-list" class="ui four items">
 				{% if mode == 'edit' %}
@@ -189,14 +188,14 @@
 						<div class="buttons">
 							<div class="ui large links">
 								<a href="{{ app_url_fever }}/delete_asset?id={{ try._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-									<i class="edit_delete icon"></i>
+									<i class="remove icon"></i>
 								</a>
 								
-								<a href="{{ app_url_action_base }}/uploader/update_cover?id={{ try._id }}&cover_id={{ asset._id }}&asset_domain={{ domain }}" class="ui link {%if try.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted">
-									<i class="edit_recommend icon"></i>
+								<a href="javascript:void(0);" class="ui link {%if try.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+									<i class="checkered flag icon"></i>
 								</a>
-								<a href="{{ app_url_action_base }}/uploader/update_banner?id={{ try._id }}&banner_id={{ asset._id }}&asset_domain={{ domain }}" class="ui link {%if try.banner_id == asset._id %}active {%endif%}ajax-banner pop" data-content="设置Banner图" data-variation="inverted">
-									<i class="edit_top icon"></i>
+								<a href="javascript:void(0);" class="ui link {%if try.banner_id == asset._id %}active {%endif%}ajax-banner pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
+									<i class="sun icon"></i>
 								</a>
 							</div>
 						</div>
