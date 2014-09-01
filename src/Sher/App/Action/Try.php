@@ -18,7 +18,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 	/**
 	 * 列表
 	 */
-	public function execute(){		
+	public function execute(){
 		return $this->get_list();
 	}
 	
@@ -26,6 +26,8 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 	 * 评测列表
 	 */
 	public function get_list(){
+		$this->set_target_css_state('page_try');
+		
 		return $this->to_html_page('page/try/list.html');
 	}
 	

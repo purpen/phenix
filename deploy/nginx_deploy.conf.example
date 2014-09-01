@@ -38,53 +38,59 @@ server {
             rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
         }
         location /wechat {
-          rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;
-          rewrite ^/wechat/(.*)$ /app/wechat/$1 last;
+          	rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;
+          	rewrite ^/wechat/(.*)$ /app/wechat/$1 last;
         }
         
         location /sale {
             rewrite ^/sale/c(\d+)[/]?$ /app/site/sale?category_id=$1 last;
-
             rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/sale?category_id=$1&page=$2 last;
             rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/sale?category_id=$1&sort=$2&page=$3 last;
             rewrite ^/sale/(\d+).html$ /app/site/sale/view?id=$1 last;
             rewrite ^/sale(.*)$ /app/site/sale$1 last;
         }
 		
-	location /shop {
+		location /shop {
             rewrite ^/shop/c(\d+)[/]?$ /app/site/shop?category_id=$1 last;
-  	    rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop?category_id=$1&page=$2 last;
-  	    rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop?category_id=$1&sort=$2&page=$3 last;
+  	    	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop?category_id=$1&page=$2 last;
+  	    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop?category_id=$1&sort=$2&page=$3 last;
             rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
             rewrite ^/shop(.*)$ /app/site/shop$1 last;
         }
 		
-	location /social {
+		location /social {
             rewrite ^/social(.*)$ /app/site/social$1 last;
         }
+		
+		location /try {
+			rewrite ^/try[/]?$ /app/site/try last;
+			rewrite ^/try/view-(\d+).html$ /app/site/try/view?id=$1 last;
+            rewrite ^/try(.*)$ /app/site/try$1 last;
+        }
+		
 
         location /topic {
-          rewrite ^/topic[/]?$ /app/site/topic last;
-          rewrite ^/topic/c(\d+)[/]?$ /app/site/topic/get_list?category_id=$1 last;
-          rewrite ^/topic/c(\d+)/t(\d+)[/]?$ /app/site/topic?category_id=$1&type=$2 last;
-          rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/site/topic?category_id=$1&page=$2 last;
-          rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/site/topic?category_id=$1&type=$2&page=$3 last;
-          rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
-          rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
-          rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
-          rewrite ^/topic(.*)$ /app/site/topic$1 last;
+          	rewrite ^/topic[/]?$ /app/site/topic last;
+          	rewrite ^/topic/c(\d+)[/]?$ /app/site/topic/get_list?category_id=$1 last;
+          	rewrite ^/topic/c(\d+)/t(\d+)[/]?$ /app/site/topic?category_id=$1&type=$2 last;
+          	rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/site/topic?category_id=$1&page=$2 last;
+          	rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/site/topic?category_id=$1&type=$2&page=$3 last;
+          	rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
+          	rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
+          	rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
+          	rewrite ^/topic(.*)$ /app/site/topic$1 last;
         }
 		
         location /fever {
-          rewrite ^/fever[/]?$ /app/site/fever last;
-          rewrite ^/fever/c(\d+)[/]?$ /app/site/fever?category_id=$1 last;
-          rewrite ^/fever/c(\d+)/t(\d+)[/]?$ /app/site/fever?category_id=$1&type=$2 last;
-          rewrite ^/fever/c(\d+)/t(\d+)/p(\d+).*$ /app/site/fever?category_id=$1&type=$2&page=$3 last;
-		  rewrite ^/fever/list-c(\d+)-t(\d+)-s(\d)-p(\d+).*$ /app/site/fever?category_id=$1&type=$2&sort=$3&page=$4 last;
-         rewrite ^/fever/(\d+).html$ /app/site/fever/view?id=$1 last;
-		  rewrite ^/fever/view-(\d+).html$ /app/site/fever/view?id=$1 last;
-          rewrite ^/fever/view-(\d+)-(\d+).html$ /app/site/fever/view?id=$1&page=$2 last;
-          rewrite ^/fever(.*)$ /app/site/fever$1 last;
+          	rewrite ^/fever[/]?$ /app/site/fever last;
+          	rewrite ^/fever/c(\d+)[/]?$ /app/site/fever?category_id=$1 last;
+          	rewrite ^/fever/c(\d+)/t(\d+)[/]?$ /app/site/fever?category_id=$1&type=$2 last;
+          	rewrite ^/fever/c(\d+)/t(\d+)/p(\d+).*$ /app/site/fever?category_id=$1&type=$2&page=$3 last;
+		  	rewrite ^/fever/list-c(\d+)-t(\d+)-s(\d)-p(\d+).*$ /app/site/fever?category_id=$1&type=$2&sort=$3&page=$4 last;
+         	rewrite ^/fever/(\d+).html$ /app/site/fever/view?id=$1 last;
+		  	rewrite ^/fever/view-(\d+).html$ /app/site/fever/view?id=$1 last;
+          	rewrite ^/fever/view-(\d+)-(\d+).html$ /app/site/fever/view?id=$1&page=$2 last;
+          	rewrite ^/fever(.*)$ /app/site/fever$1 last;
         }
 		
         location /shopping {
