@@ -14,6 +14,16 @@
 	.try .mainlist {
 		margin: 1em auto;
 	}
+	.try .mainlist .ui.items .item > .content > .name,
+	.try .mainlist .ui.items .item > .content > .result {
+		color: rgba(0, 0, 0, 0.6);
+		font-size: 0.95em;
+		margin-bottom: 0.5em;
+	}
+	.try .mainlist .ui.items .item:hover .count,
+	.try .mainlist .ui.items .item:hover .time {
+		color: #ff3366;
+	}
 </style>
 {% endblock %}
 
@@ -52,22 +62,21 @@
 							<div class="item">
 								<div class="image">
 									<a href="{{ t.view_url }}" title="{{ t.title }}">
-							      		<img src="{{ t.cover.thumbnails.medium.view_url }}" alt="{{ t.title }}" />
+							      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
 									</a>
 								</div>
 								<div class="content">
-									<h3 class="title">
+									<h4 class="ui dividing header">
 										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
 											{{ t.title|truncate, 16, '' }}
 										</a>
-									</h3>
-									<div class='description'></div>
+										<div class="advantage">{{ t.description }}</div>
+									</h4>
 									<div class="name">
-										产品数量：{{ t.try_count }}个 申请人数：{{ t.apply_count }}人
+										产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
 									</div>
-									<div class="ui divider"></div>
 									<div class="ui text result">
-										试用名单公布时间：
+										试用名单公布时间：<span class="time"></span>
 									</div>
 								</div>
 							</div>
