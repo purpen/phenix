@@ -175,7 +175,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product';
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product?stage='.$data['stage'];
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}

@@ -97,7 +97,7 @@
 		    <a class="item" href="{{ app_url_domain }}/help">
 		      	<i class="flat help_infor icon"></i> 帮助
 			</a>
-			{% if visitor.can_admin %}
+			{% if visitor.is_admin %}
 		    <a class="item" href="{{ app_url_admin_base }}">
 		      	<i class="flat admin_backstage icon"></i> 管理后台
 			</a>
