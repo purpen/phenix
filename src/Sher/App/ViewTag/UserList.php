@@ -122,7 +122,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		
         if($search_passport) {
 			$query['$or'] = array(
-				array('passport' => $search_passport),
+				array('account' => $search_passport),
 				array('nickname' => $search_passport), 
 			);
         }
