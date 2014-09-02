@@ -314,7 +314,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 判断是否是管理员
      */
     public function is_admin() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN || $this->data['role_id'] == self::ROLE_EDITOR);
     }
     /**
      * 判断是否是管理员
