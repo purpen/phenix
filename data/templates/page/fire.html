@@ -1,7 +1,27 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}点火.创意征集令-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	.panel{
+		overflow:hidden;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+	}
+	.panel > .transparent {
+	    background-color: rgba(0, 0, 0, 0.5);
+	    height: 100%;
+	}
+	.panel > .translucent {
+	    background-color: rgba(0, 0, 0, 0.8);
+	    height: 100%;
+	}
+	.panel h1.ui.header {
+		font-size: 3em;
+	}
+	.panel h1.ui.header .sub.header {
+		font-size: 1.5rem;
+	}
 	.inner {
 	    margin: 0 auto;
 	    width: 70%;
@@ -10,9 +30,15 @@
 		background: url({{ app_url_packaged }}/images/fire/submit_top.jpg) no-repeat scroll center top / cover;
 		color: #FFF;
 	}
+	.panel.submit-banner > .transparent {
+	    background-color: rgba(255, 51, 102, 0.8);
+	    height: 100%;
+	}
+	
 	.submit-banner .inner {
 		margin-top: 15%;
 	}
+	
 	.submit-banner .ui.table {
 		color: #fff;
 		font-size: 1.5em;
@@ -22,621 +48,604 @@
 	.submit-banner .ui.basic.table td {
 		padding: 0.8em 0.5em 0;
 	}
+	.submit-banner .submitbtn {
+		margin-bottom: 6em;
+	}
+	.submit-banner .submitbtn .btn {
+		background: none repeat scroll 0 0 rgba(255, 255, 255, 1);
+	    border-radius: 0.215em;
+	    color: #ff3366;
+		padding: 0.8em 3em;
+	}
+	.submit-banner .submitbtn .btn .title {
+		font-size: 1.8em;
+		display: block;
+		margin-bottom: 0.35em;
+	}
+	.submit-banner .submitbtn .btn .summary {
+		font-size: 1em;
+	}
 	
-	
-
-	.inline{
-		display:inline-block;
-		float:left;
+	.ui.submit.block {
+		background-color: #0bb;
+	}
+	#submit-steps i.icon{
+		font-size:1.4em;
+	}
+	#submit-steps .process {
+	    padding: 1.25em 0;
+		border-bottom: 1px solid rgba(255,255,255,0.6);
+	}
+	#submit-steps .process.last {
+		border-bottom: 0px solid rgba(255,255,255,0.6);
+	}
+	#submit-steps .ui.header .sub.header {
+		line-height: 1.6;
+		margin: 0.5em 0 0;
+		color: #fff;
+	}
+	#submit-steps .ui.header .icon {
+		display: table-cell;
+		padding-top: 0.5em;
+		padding-right: 0.5em;
+		color:#32d1de;
+	}
+	#submit-steps .ui.header .icon + .content {
+	    display: table-cell;
 		font-size: 1.5rem;
-		padding: 0;
-		margin: 0;
-	}
-	.inline.pl-10{
-		padding-left:10%;
-	}
-	.ui.submit{
-		background-color:#0bb;
-	}
-	.six.wide.column .head,.six.wide.column .act{
-		padding-top:18em;
-		width:85%;
-		display:none;
-	}
-	.six.wide.column .head h1{
-		color: #3dd;
-		font-size: 4em;
-		line-height: 1.5rem;
-	}
-	.six.wide.column .act h1{
-		color:#5fd;
-		font-size: 4em;
-		line-height: 1.5rem;
-		display:none;
-	}
-	.six.wide.column .process{
-		border-bottom:1px solid #3dd;
-		text-align:left;
-		margin-top: 20px;
+	    padding-left: 0.5em;
+		padding-bottom: .5em;
 		color: #fff;
 	}
-	.six.wide.column .process.last{
-		text-align:left;
-		margin-top: 20px;
+	#submit-steps i.icon.settings:before {
+		border-radius: 50% 50%;
+		background: #fff;
+		border: 3px solid #32d1de;
+		padding: 8px;
+	}
+	#submit-steps i.icon.user:before{
+		content: "\f007";
+		border-radius: 50% 50%;
+		background: #fff;
+		border: 3px solid #32d1de;
+		padding: 9px 13.5px;
+	}
+	#submit-steps i.icon.time:before{
+		content: "\f017";
+		border-radius: 50% 50%;
+		background: #fff;
+		border: 3px solid #32d1de;
+		padding: 9px 12px;
+	}
+	.ui.claim.block {
+		background-color: #0db;
+	}
+	#submit-content {
 		color: #fff;
-		border-bottom: 0px;
 	}
-	.ui.big.claim.block{
-		background-color:#0db;
+	#submit-content .ui.ordered.list {
+		padding-top: 2em;
 	}
-	.six.wide.column>p{
-		color:#fff;
+	#submit-content .ui.ordered.list .item {
+		font-size: 1.15em;
+		line-height: 1.5;
 	}
-	.six.wide.column p>em,.six.wide.column .con{
-		color:#466;
+	#submit-content .ui.ordered.list .item:before {
+		color: rgba(0, 0, 0, 0.6);
+	    font-size: 1.5em;
+		font-weight: bold;
+	    left: -1em;
+	    top: 0;
 	}
-	.six.wide.column .con{
-		padding-top:.2em;
-		padding-bottom:.2em;
+	#submit-content .ui.header .content {
+		font-size: 1rem;
+	    font-weight: normal;
+	    margin-top: 0.5em;
 	}
-	.six.wide.column .border{
-		border:1px solid #5fd;
-		text-align:left;
-		color:#fff;
-		padding:1em;
+	#submit-content .contact {
+		color: rgba(0,0,0,0.6);
+		margin-top: 5em;
+	}
+	#submit-content .border {
+	    padding-left: 2.25em;
 	}
 	
-	.right-banner {
+	.ui.brain.block {
 		background: url({{ app_url_packaged }}/images/fire/submit_r1.jpg) no-repeat scroll center top / cover;
+	}
+	#right-brain {
 		color: #FFF;
-		padding: 120px 8% 80px;
+		padding: 180px 10%;
 	}
-	.ui.header .sub.header {
-		color: #fff;
+	#right-brain .sub.header {
+		font-size: 1.2rem;
 		line-height: 2;
-		margin: 1em;
+		color: #FFF;
+		margin-top: 2em;
 	}
-	.right-banner .ui.header .content{
-		color:#cc4;
-		font-size:4rem;
-	}
-	.right-banner .ui.header .sub.header{
-		color: #fff;
-		line-height: 2;
-		margin: 1em;
-		font-size:1.5rem;
-		margin-top:2em;
-		margin-bottom:6.5em;
-	}
-	.f76-banner{
+	
+	.f76-banner {
 		background:#f76;
 		color:#fff;
-		padding:120px 8% 80px;
 	}
-	.f76-banner .content{
-		font-size:4rem;
+	#reference {
+		padding: 120px 8% 80px;
 	}
-	.f76-banner .ui.header .sub.header{
+	#reference .content{
+		font-size: 4rem;
+	}
+	
+	#reference .ui.header .sub.header{
 		font-size:1.5rem;
 		margin-top:2em;
 	}
-.box{
-	width: 75%;
-	float: left;
-	background: #e54;
-	font-size: 1.5rem;
-	height: 84px;
-}
-.box-2{
-	width: 25%;
-	float: left;
-	background: #d32;
-	font-size: 1.5rem;
-	height: 84px;
-}
-.more.row .fz{
-	font-size:1.5rem;
-}
-section.f334-banner{
-	background:#334;
-	padding:80px 8% 60px;
-	color:#567;
-}
-.f334-banner .content>.sub.header{
-	color:#567;
-	font-size:1.5rem;
-}
-.f334-banner .content{
-	font-size:4rem;
-}
-.userstory.thn{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_1.jpg);
-}
-.userstory{
-	height: 276px;
-	width: 276px;
-	display: inline-block;
-	margin: 0 19px 20px 0;
-	position: relative;
-	background: url("{{ app_url_packaged }}/images/fire/zj.png") 0 0 no-repeat;
-	text-align: center;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	user-select: none;
-}
-.userstory .overlay{
-line-height: 305px;
-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#c8323a47', endColorstr='#c8323a47');
-background: rgba(37,43,51,0.9);
--webkit-transition: background 0.2s ease-in-out;
--webkit-transition-delay: 0s;
--moz-transition: background 0.2s ease-in-out 0s;
--o-transition: background 0.2s ease-in-out 0s;
-transition: background 0.2s ease-in-out 0s;
-z-index: 2;
-}
-.userstory .overlay,.userstory blockquote {
-position: absolute;
-top: 0;
-left: 0;
-height: 100%;
-width: 100%;
-}
-.userstory .zj-logo{
-display: -moz-inline-stack;
-display: inline-block;
-vertical-align: middle;
-zoom: 1;
-height: 276px;
-width: 276px;
-background-image: url('{{ app_url_packaged }}/images/fire/zj_logo.png');
-background-repeat: no-repeat;
-}
-.userstory .overlay .zj-logo{
-vertical-align: middle;
-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-opacity: 1;
--webkit-transition: opacity 0.2s ease-in-out;
--webkit-transition-delay: 0s;
--moz-transition: opacity 0.2s ease-in-out 0s;
--o-transition: opacity 0.2s ease-in-out 0s;
-transition: opacity 0.2s ease-in-out 0s;
-}
-.userstory.zhenge{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_2.jpg);
-}
-.userstory.thn .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_01.png);
-}
-.userstory.zhenge .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_02.png);
-}
-.userstory.ml{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_3.jpg);
-}
-.userstory.ml .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_03.png);
-}
-.userstory.saifu{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_4.jpg);
-}
-.userstory.saifu .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_04.png);
-}
-.userstory.wt{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_5.jpg);
-}
-.userstory.wt .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_05.png);
-}
-.userstory.lkk{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_6.jpg);
-}
-.userstory.lkk .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_06.png);
-}
-.userstory.qt{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_7.jpg);
-}
-.userstory.qt .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_07.png);
-}
-.userstory.sj{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_8.jpg);
-}
-.userstory.sj .zj-logo{
-	background:url({{ app_url_packaged }}/images/fire/images/expert_08.png);
-}
-.userstory blockquote {
-z-index: 3;
--webkit-transition: opacity 0.2s ease-in-out;
--webkit-transition-delay: 0s;
--moz-transition: opacity 0.2s ease-in-out 0s;
--o-transition: opacity 0.2s ease-in-out 0s;
-transition: opacity 0.2s ease-in-out 0s;
-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-opacity: 0;
--webkit-backface-visibility: hidden;
-}
-.userstory blockquote {
-position: absolute;
-top: 0;
-left: 0;
-height: 100%;
-width: 100%;
-margin:0;
-}
-.userstory blockquote p {
-margin: 0px;
-color: #fff;
-font: 400 italic 17px/1.7em "Open Sans", "open-sans", sans-serif;
-}
-.userstory blockquote h3{
-	margin: 0px;
-	padding: 95px 34px 10px;
-	color: #fff;
-	font-size:1.5rem;	
-}
-.userstory:hover blockquote{
-	opacity:1;
-}
-.userstory:hover .zj-logo{
-	opacity:0;
-}
-section.log-banner{
-	background: url({{ app_url_packaged }}/images/fire/submit_lo.jpg) no-repeat scroll center top / cover;
-	padding: 120px 8% 80px;
-}
-.ui.center.aligned.grid .column>.content-box {
-text-align: left;
-margin-bottom: 2em;
-}
-.ui.partner-banner{
-	padding: 120px 8% 80px;
-	background:#f4f4f4;
-}
-.ui.partner-banner .content{
-	font-size:4rem;
-}
-.partner{
-	height: 100px;
-	width: 150px;
-	display: inline-block;
-	margin: 0 10px 0;
-	position: relative;
-	text-align: center;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	user-select: none;
-}
-.partnera {
-display: -moz-inline-stack;
-display: inline-block;
-vertical-align: middle;
-zoom: 1;
-height: 100px;
-width: 150px;
-background-repeat: no-repeat;
-}
-.partner.lkk{
-background:url({{ app_url_packaged }}/images/fire/images/logo_1.png) scroll no-repeat center center;
-}
-.partnera{
-	opacity:0;
-}
-.partner:hover .partnera{
-	opacity:1;
-}
-.partnera.lkk-1{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_01.png) scroll no-repeat center center;
-}
-.partner.saifu{
-	background:url({{ app_url_packaged }}/images/fire/logo_2.jpg) scroll no-repeat center center;
-}
-.partnera.saifu1{
-	background:url({{ app_url_packaged }}/images/fire/logo_02.jpg) scroll no-repeat center center;
-}
-.partner.ml{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_3.png) scroll no-repeat center center;
-}
-.partnera.ml1{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_03.png) scroll no-repeat center center;
-}
-.partner.dym{
-	background:url({{ app_url_packaged }}/images/fire/logo_4.jpg) scroll no-repeat center center;
-}
-.partnera.dym1{
-	background:url({{ app_url_packaged }}/images/fire/logo_04.jpg) scroll no-repeat center center;
-}
-.partner.mj{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_5.png) scroll no-repeat center center;
-}
-.partnera.mj1{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_05.png) scroll no-repeat center center;
-}
-.partner.lf{
-	background:url({{ app_url_packaged }}/images/fire/logo_6.jpg) scroll no-repeat center center;
-}
-.partnera.lf1{
-	background:url({{ app_url_packaged }}/images/fire/logo_06.jpg) scroll no-repeat center center;
-}
-.partner.dd{
-	background:url({{ app_url_packaged }}/images/fire/logo_7.jpg) scroll no-repeat center center;
-}
-.partnera.dd1{
-	background:url({{ app_url_packaged }}/images/fire/logo_07.jpg) scroll no-repeat center center;
-}
-.partner.kr{
-	background:url({{ app_url_packaged }}/images/fire/logo_8.jpg) scroll no-repeat center center;
-}
-.partnera.kr1{
-	background:url({{ app_url_packaged }}/images/fire/logo_08.jpg) scroll no-repeat center center;
-}
-.partner.fh{
-	background:url({{ app_url_packaged }}/images/fire/logo_9.jpg) scroll no-repeat center center;
-}
-.partnera.fh1{
-	background:url({{ app_url_packaged }}/images/fire/logo_09.jpg) scroll no-repeat center center;
-}
-.partner.tc{
-	background:url({{ app_url_packaged }}/images/fire/logo_10.jpg) scroll no-repeat center center;
-}
-.partnera.tc1{
-	background:url({{ app_url_packaged }}/images/fire/logo_010.jpg) scroll no-repeat center center;
-}
-.partner.tai{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_11.png) scroll no-repeat center center;
-}
-.partnera.tai1{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_011.png) scroll no-repeat center center;
-}
-.partner.wt{
-	background:url({{ app_url_packaged }}/images/fire/logo_12.jpg) scroll no-repeat center center;
-}
-.partnera.wt1{
-	background:url({{ app_url_packaged }}/images/fire/logo_-12.jpg) scroll no-repeat center center;
-}
-.partner.jt{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_13.png) scroll no-repeat center center;
-}
-.partnera.jt1{
-background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no-repeat center center;
-}
-.partner.tb{
-	background:url({{ app_url_packaged }}/images/fire/logo_14.jpg) scroll no-repeat center center;
-}
-.partnera.tb1{
-	background:url({{ app_url_packaged }}/images/fire/logo_014.jpg) scroll no-repeat center center;
-}
-.partner.jd{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_15.png) scroll no-repeat center center;
-}
-.partnera.jd1{
-	background:url({{ app_url_packaged }}/images/fire/images/logo_015.png) scroll no-repeat center center;
-}
-.partner.ymx{
-	background:url({{ app_url_packaged }}/images/fire/logo_16.jpg) scroll no-repeat center center;
-}
-.partnera.ymx1{
-	background:url({{ app_url_packaged }}/images/fire/logo_016.jpg) scroll no-repeat center center;
-}
-.partner.tm{
-	background:url({{ app_url_packaged }}/images/fire/logo_17.jpg) scroll no-repeat center center;
-}
-.partnera.tm1{
-	background:url({{ app_url_packaged }}/images/fire/logo_017.jpg) scroll no-repeat center center;
-}
-.partner.lan{
-	background:url({{ app_url_packaged }}/images/fire/logo_18.jpg) scroll no-repeat center center;
-}
-.partnera.lan1{
-	background:url({{ app_url_packaged }}/images/fire/logo_018.jpg) scroll no-repeat center center;
-}
-.partner.gm{
-	background:url({{ app_url_packaged }}/images/fire/logo_19.jpg) scroll no-repeat center center;
-}
-.partnera.gm1{
-	background:url({{ app_url_packaged }}/images/fire/logo_019.jpg) scroll no-repeat center center;
-}
-.partner.sn{
-	background:url({{ app_url_packaged }}/images/fire/logo_20.jpg) scroll no-repeat center center;
-}
-.partnera.sn1{
-	background:url({{ app_url_packaged }}/images/fire/logo_020.jpg) scroll no-repeat center center;
-}
-.partner.po{
-	background:url({{ app_url_packaged }}/images/fire/logo_21.jpg) scroll no-repeat center center;
-}
-.partnera.po1{
-	background:url({{ app_url_packaged }}/images/fire/logo_021.jpg) scroll no-repeat center center;
-}
-.panel{
-	height:760px;
-	overflow:hidden;
-}
-.mt-3{
-	margin-top:3em;
-}
-.ui.big.submit:hover .tX-200{
-	position:relative;
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	transition-duration: 2s;
-}
-.ui.big.submit:hover .tX200,.ui.big.submit .process{
-	position:relative;
-	-ms-transform:translateX(200px);	/* IE 9 */
-	-moz-transform:translateX(200px);	/* Firefox */
-	-webkit-transform:translateX(200px); /* Safari 和 Chrome */
-	-o-transform:translateX(200px);
-	transform: translateX(200px);
-	transition-duration: 2s;
-}
-.ui.big.submit:hover .process.on{
-	position:relative;
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	transition-duration: .4s;
-	transition-timing-function: esae;
-}
-.ui.big.submit:hover .process.to{
-	position:relative;
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	transition-duration: .8s;
-	transition-timing-function: esae;
-}
-.ui.big.submit:hover .process.three{
-	position:relative;
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	transition-duration: 1.2s;
-	transition-timing-function: esae;
-}
-.ui.big.submit:hover .process.four{
-	position:relative;
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	transition-duration: 1.6s;
-	transition-timing-function: esae;
-}
-.ui.big.submit:hover .process.last{
-	position:relative;
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(0px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	transition-duration: 2s;
-	transition-timing-function: esae;
-}
-.tX-200{
-	-ms-transform:translateX(-200px);	/* IE 9 */
-	-moz-transform:translateX(-200px);	/* Firefox */
-	-webkit-transform:translateX(-200px); /* Safari 和 Chrome */
-	-o-transform:translateX(-200px);
-	transform: translateX(-200px);
-	position: relative;
-	transition-duration: 2s;
-}
-.tX200{
-	-ms-transform:translateX(200px);	/* IE 9 */
-	-moz-transform:translateX(200px);	/* Firefox */
-	-webkit-transform:translateX(200px); /* Safari 和 Chrome */
-	-o-transform:translateX(200px);
-	transform: translateX(200px);
-	position: relative;
-	transition-duration: 2s;
-}
-.ui.big.claim.block:hover .tX-200{
-	-ms-transform:translateX(0px);	/* IE 9 */
-	-moz-transform:translateX(0px);	/* Firefox */
-	-webkit-transform:translateX(00px); /* Safari 和 Chrome */
-	-o-transform:translateX(00px);
-	transform: translateX(00px);
-	position: relative;
-	transition-duration: 2s;
-}
-.ui.big.claim.block:hover .tX200{
-	-ms-transform:translateX(00px);	/* IE 9 */
-	-moz-transform:translateX(00px);	/* Firefox */
-	-webkit-transform:translateX(00px); /* Safari 和 Chrome */
-	-o-transform:translateX(0px);
-	transform: translateX(0px);
-	position: relative;
-	transition-duration: 2s;
-}
+	#reference .box {
+		width: 75%;
+		float: left;
+		background: #e54;
+		font-size: 1.5rem;
+		height: 84px;
+	}
+	#reference .box-2 {
+		width: 25%;
+		float: left;
+		background: #d32;
+		font-size: 1.5rem;
+		height: 84px;
+	}
+	#reference .box-2 s {
+		position: relative;
+		top: -51px;
+		left: -28px;
+		display: block;
+		height: 0;
+		width: 0;
+		font-size: 0;
+		line-height: 0;
+		border-color: transparent #d32 transparent transparent;
+		border-style: dashed solid dashed dashed;
+		border-width: 14px;
+	}
+	#reference .box-2 s > i {
+		position: absolute;
+		top: -9px;
+		left: -10px;
+		display: block;
+		height: 0;
+		width: 0;
+		font-size: 0;
+		line-height: 0;
+		border-color: transparent transparent transparent transparent;
+		border-style: dashed dashed solid dashed;
+		border-width: 10px;
+	}
+	#reference .frbird {
+		margin-top: 3em;
+		font-size: 1.5rem;
+	}
+	
+	section.oldbird {
+		background: #334;
+		padding: 80px 0 60px;
+		color: #567;
+	}
+	#experts .content{
+		font-size:4rem;
+	}
+	#experts .content > .sub.header{
+		color: #567;
+		font-size: 1.5rem;
+	}
+	
+	.userstory {
+		height: 276px;
+		width: 276px;
+		display: inline-block;
+		margin: 0 19px 20px 0;
+		position: relative;
+		background: url("{{ app_url_packaged }}/images/fire/zj.png") 0 0 no-repeat;
+		text-align: center;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+	}
+	.userstory .overlay {
+		line-height: 305px;
+		filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#c8323a47', endColorstr='#c8323a47');
+		background: rgba(37,43,51,0.9);
+		-webkit-transition: background 0.2s ease-in-out;
+		-webkit-transition-delay: 0s;
+		-moz-transition: background 0.2s ease-in-out 0s;
+		-o-transition: background 0.2s ease-in-out 0s;
+		transition: background 0.2s ease-in-out 0s;
+		z-index: 2;
+	}
+	.userstory .overlay,
+	.userstory blockquote {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+	}
+	.userstory .zj-logo {
+		display: -moz-inline-stack;
+		display: inline-block;
+		vertical-align: middle;
+		zoom: 1;
+		height: 276px;
+		width: 276px;
+		background-image: url('{{ app_url_packaged }}/images/fire/zj_logo.png');
+		background-repeat: no-repeat;
+	}
+	.userstory .overlay .zj-logo{
+		vertical-align: middle;
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+		opacity: 1;
+		-webkit-transition: opacity 0.2s ease-in-out;
+		-webkit-transition-delay: 0s;
+		-moz-transition: opacity 0.2s ease-in-out 0s;
+		-o-transition: opacity 0.2s ease-in-out 0s;
+		transition: opacity 0.2s ease-in-out 0s;
+	}
+	.userstory blockquote {
+		z-index: 3;
+		margin: 0;
+		-webkit-transition: opacity 0.2s ease-in-out;
+		-webkit-transition-delay: 0s;
+		-moz-transition: opacity 0.2s ease-in-out 0s;
+		-o-transition: opacity 0.2s ease-in-out 0s;
+		transition: opacity 0.2s ease-in-out 0s;
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+		opacity: 0;
+		-webkit-backface-visibility: hidden;
+	}
+	.userstory blockquote p {
+		margin: 0px;
+		color: #fff;
+	}
+	.userstory blockquote h3{
+		margin: 0px;
+		padding: 95px 34px 10px;
+		color: #fff;
+		font-size:1.5rem;	
+	}
+	.userstory:hover .overlay {
+		background: rgba(37,43,51,0.6);
+	}
+	.userstory:hover blockquote {
+		opacity:1;
+	}
+	.userstory:hover .zj-logo{
+		opacity:0;
+	}
+	
+	.userstory.thn {
+		background:url({{ app_url_packaged }}/images/fire/images/expert_1.jpg);
+	}
+	.userstory.zhenge {
+		background:url({{ app_url_packaged }}/images/fire/images/expert_2.jpg);
+	}
+	.userstory.zhenge .zj-logo {
+		background:url({{ app_url_packaged }}/images/fire/images/expert_02.png);
+	}
+	.userstory.ml{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_3.jpg);
+	}
+	.userstory.ml .zj-logo{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_03.png);
+	}
+	.userstory.saifu{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_4.jpg);
+	}
+	.userstory.saifu .zj-logo{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_04.png);
+	}
+	.userstory.wt{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_5.jpg);
+	}
+	.userstory.wt .zj-logo{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_05.png);
+	}
+	.userstory.lkk{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_6.jpg);
+	}
+	.userstory.lkk .zj-logo{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_06.png);
+	}
+	.userstory.qt{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_7.jpg);
+	}
+	.userstory.qt .zj-logo{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_07.png);
+	}
+	.userstory.sj{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_8.jpg);
+	}
+	.userstory.sj .zj-logo{
+		background:url({{ app_url_packaged }}/images/fire/images/expert_08.png);
+	}
+	
+	section.log-banner{
+		background: url({{ app_url_packaged }}/images/fire/submit_lo.jpg) no-repeat scroll center top / cover;
+	}
+	
+	#resources .ui.header {
+		padding-top: 1em;
+		color: rgba(255,255,255,0.9);
+	}
+	#resources .sub.header {
+		color: rgba(255,255,255,0.9);
+	}
 
+	#resources .container {
+		text-align: left;
+		color: rgba(255,255,255,0.8);
+		margin-bottom: 3em;
+	}
+	
+	.ui.partners {
+		padding: 60px 8% 20px;
+		background: #f4f4f4;
+	}
+	.ui.partners .content{
+		font-size:4rem;
+	}
+	.partner {
+		height: 100px;
+		width: 150px;
+		display: inline-block;
+		margin: 0 10px 0;
+		position: relative;
+		text-align: center;
+	}
+	.partnera {
+		display: -moz-inline-stack;
+		display: inline-block;
+		vertical-align: middle;
+		zoom: 1;
+		height: 100px;
+		width: 150px;
+		background-repeat: no-repeat;
+		opacity: 0;
+	}
+	.partner:hover .partnera{
+		opacity:1;
+	}
+	
+	.partner.lkk{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_1.png) scroll no-repeat center center;
+	}
+	.partnera.lkk-1{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_01.png) scroll no-repeat center center;
+	}
+	.partner.saifu{
+		background:url({{ app_url_packaged }}/images/fire/logo_2.jpg) scroll no-repeat center center;
+	}
+	.partnera.saifu1{
+		background:url({{ app_url_packaged }}/images/fire/logo_02.jpg) scroll no-repeat center center;
+	}
+	.partner.ml{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_3.png) scroll no-repeat center center;
+	}
+	.partnera.ml1{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_03.png) scroll no-repeat center center;
+	}
+	.partner.dym{
+		background:url({{ app_url_packaged }}/images/fire/logo_4.jpg) scroll no-repeat center center;
+	}
+	.partnera.dym1{
+		background:url({{ app_url_packaged }}/images/fire/logo_04.jpg) scroll no-repeat center center;
+	}
+	.partner.mj{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_5.png) scroll no-repeat center center;
+	}
+	.partnera.mj1{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_05.png) scroll no-repeat center center;
+	}
+	.partner.lf{
+		background:url({{ app_url_packaged }}/images/fire/logo_6.jpg) scroll no-repeat center center;
+	}
+	.partnera.lf1{
+		background:url({{ app_url_packaged }}/images/fire/logo_06.jpg) scroll no-repeat center center;
+	}
+	.partner.dd{
+		background:url({{ app_url_packaged }}/images/fire/logo_7.jpg) scroll no-repeat center center;
+	}
+	.partnera.dd1{
+		background:url({{ app_url_packaged }}/images/fire/logo_07.jpg) scroll no-repeat center center;
+	}
+	.partner.kr{
+		background:url({{ app_url_packaged }}/images/fire/logo_8.jpg) scroll no-repeat center center;
+	}
+	.partnera.kr1{
+		background:url({{ app_url_packaged }}/images/fire/logo_08.jpg) scroll no-repeat center center;
+	}
+	.partner.fh{
+		background:url({{ app_url_packaged }}/images/fire/logo_9.jpg) scroll no-repeat center center;
+	}
+	.partnera.fh1{
+		background:url({{ app_url_packaged }}/images/fire/logo_09.jpg) scroll no-repeat center center;
+	}
+	.partner.tc{
+		background:url({{ app_url_packaged }}/images/fire/logo_10.jpg) scroll no-repeat center center;
+	}
+	.partnera.tc1{
+		background:url({{ app_url_packaged }}/images/fire/logo_010.jpg) scroll no-repeat center center;
+	}
+	.partner.tai{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_11.png) scroll no-repeat center center;
+	}
+	.partnera.tai1{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_011.png) scroll no-repeat center center;
+	}
+	.partner.wt{
+		background:url({{ app_url_packaged }}/images/fire/logo_12.jpg) scroll no-repeat center center;
+	}
+	.partnera.wt1{
+		background:url({{ app_url_packaged }}/images/fire/logo_012.jpg) scroll no-repeat center center;
+	}
+	.partner.jt{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_13.png) scroll no-repeat center center;
+	}
+	.partnera.jt1{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no-repeat center center;
+	}
+	.partner.tb{
+		background:url({{ app_url_packaged }}/images/fire/logo_14.jpg) scroll no-repeat center center;
+	}
+	.partnera.tb1{
+		background:url({{ app_url_packaged }}/images/fire/logo_014.jpg) scroll no-repeat center center;
+	}
+	.partner.jd{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_15.png) scroll no-repeat center center;
+	}
+	.partnera.jd1{
+		background:url({{ app_url_packaged }}/images/fire/images/logo_015.png) scroll no-repeat center center;
+	}
+	.partner.ymx{
+		background:url({{ app_url_packaged }}/images/fire/logo_16.jpg) scroll no-repeat center center;
+	}
+	.partnera.ymx1{
+		background:url({{ app_url_packaged }}/images/fire/logo_016.jpg) scroll no-repeat center center;
+	}
+	.partner.tm{
+		background:url({{ app_url_packaged }}/images/fire/logo_17.jpg) scroll no-repeat center center;
+	}
+	.partnera.tm1{
+		background:url({{ app_url_packaged }}/images/fire/logo_017.jpg) scroll no-repeat center center;
+	}
+	.partner.lan{
+		background:url({{ app_url_packaged }}/images/fire/logo_18.jpg) scroll no-repeat center center;
+	}
+	.partnera.lan1{
+		background:url({{ app_url_packaged }}/images/fire/logo_018.jpg) scroll no-repeat center center;
+	}
+	.partner.gm{
+		background:url({{ app_url_packaged }}/images/fire/logo_19.jpg) scroll no-repeat center center;
+	}
+	.partnera.gm1{
+		background:url({{ app_url_packaged }}/images/fire/logo_019.jpg) scroll no-repeat center center;
+	}
+	.partner.sn{
+		background:url({{ app_url_packaged }}/images/fire/logo_20.jpg) scroll no-repeat center center;
+	}
+	.partnera.sn1{
+		background:url({{ app_url_packaged }}/images/fire/logo_020.jpg) scroll no-repeat center center;
+	}
+	.partner.po{
+		background:url({{ app_url_packaged }}/images/fire/logo_21.jpg) scroll no-repeat center center;
+	}
+	.partnera.po1{
+		background:url({{ app_url_packaged }}/images/fire/logo_021.jpg) scroll no-repeat center center;
+	}
+	
 </style>
 {% endblock %}
 	
-{% block jquery %}
-	$(".panel").css({"height":$(window).height()});
-	$.scrollify({
-		section:".panel"
+{% block jquery %}	
+	skrollr.init({
+		forceHeight: false
 	});
 {% endblock %}
 
 {% block content %}
-<section class="panel submit-banner" data-section-name="submit">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="center aligned column">
-				<div class="inner">
-					<img src="{{ app_url_packaged }}/images/fire/submit_word.png" class="ui image" />
-					<table class="ui basic table">
-						<tr>
-							<td>也许你满腹才华</td>
-							<td>也许是一张产品草图</td>
-						</tr>
-						<tr>
-							<td>也许你灵感无限</td>
-							<td>也许是一个待改良的设计</td>
-						</tr>
-					</table>
+<div id="submitpage">
+	
+	<section class="panel submit-banner" data-section-name="submit-dream">
+		<div class="transparent">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="center aligned column">
+						<div class="inner">
+							<img src="{{ app_url_packaged }}/images/fire/submit_word.png" class="ui image" />
+							<table class="ui basic table">
+								<tr>
+									<td>也许你满腹才华</td>
+									<td>也许是一张产品设计草图</td>
+								</tr>
+								<tr>
+									<td>也许你灵感无限</td>
+									<td>也许是一个待改良的设计</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="more row">
+					<div class="center aligned column">
+						<div class="container submitbtn">
+							<a href="http://www.taihuoniao.com/fever/submit?step=1" class="ui active white btn-4 btn-4c btn" data-0="color:rgb(255,51,102);background-color:rgba(255,255,255,1);" data-300="color:rgb(255,255,255);background-color:rgba(0,0,0,0.1);">
+								<span class="title">提交创意,你可以</span>
+								<span class="summary">我们一起，让创意之火燎原</span>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="more row">
-			<div class="center aligned column">
-				<a href="http://www.taihuoniao.com/fever/submit?step=1" class="ui black btn-4 btn-4c icon-arrow-right btn">
-					提交创意	
-				</a>
-			</div>
-		</div>
-	</div>
-</section>
-
-<div class="submit page">
+	</section>
 	
-	
-	
-	<section class="panel ui big submit block" data-section-name="big-submit">
-		<div class="ui responsive center aligned grid">
-			<div class="row">
-				<div class="six center aligned wide column tX-200">
-					<img src="{{ app_url_packaged }}/images/fire/submit_word1.png"class="ui image">
-					<div class="head">
-						<h1>提交</h1>
-						<h1>流程</h1>
-						<h1>PROCESS</h1>
+	<section class="panel ui big submit block" data-section-name="submit-steps">
+		<div class="ui responsive grid" id="submit-steps">
+			<div class="middle aligned two column row">
+				<div class="column">
+					<div class="container" data-0="transform: translateX(-80px);opacity:0;" data-700="transform: translateX(80px);opacity:1;">
+						<img src="{{ app_url_packaged }}/images/fire/submit_word1.png" class="ui image" />
+						<div class="head ui hide">
+							<h1>提交</h1>
+							<h1>流程</h1>
+							<h1>PROCESS</h1>
+						</div>
 					</div>
 				</div>
-				<div class="six center aligned wide column">
-					<div class="process on">
-						<h3 class="ui header">提交创意</h3>
-						<p>登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</p>	
-					</div>
-					<div class="process to">
-						<h3 class="ui header">投票</h3>
-						<p>提交的创意通过审核后，进入为期2个星期的投票。用户可以选择对提交的创意进行支持， 不支持的投票选择你不支持的理由。</p>	
-					</div>
-					<div class="process three">
-						<h3 class="ui header">专家评分</h3>
-						<p>投票阶段获得100张选票的创意进入专家评分的阶段，5位专家将在1周内对创意从设计、 外观功能、创意4个方面给出评分。</p>	
-					</div>
-					<div class="process four">
-						<h3 class="ui header">预售产品</h3>
-						<p>重新编辑创意投票的页面，添加相关的产品预售选项。在30-45天内筹集相应的金额，用 户选择不同的额度支持。</p>	
-					</div>
-					<div class="process last">
-						<h3 class="ui header">销售产品</h3>
-						<p>预售成功的产品将会进入批量生产，进入各大电商平台销售。 将有机会成为爆款创意产品。</p>	
+				<div class="column">
+					<div class="container" data-0="transform: translateX(300px);opacity:0;" data-700="transform: translateX(0px);opacity:1;">
+						<div class="process one">
+							<h2 class="ui header">
+								<i class="settings icon"></i>
+								<div class="content">
+									提交创意
+									<div class="sub header">登录网站进入创意投票页面，点击提交创意按钮，填写个人基本信息，以及产品创意相关信息。提交成功在1-2个工作日通过审核后将显示在创意投票页。</div>
+								</div>
+							</h2>
+						</div>
+						<div class="process two">
+							<h2 class="ui header">
+								<i class="settings icon"></i>
+								<div class="content">
+									投票
+									<div class="sub header">提交的创意通过审核后，进入为期2个星期的投票。用户可以选择对提交的创意进行支持， 不支持的投票选择你不支持的理由。</div>
+								</div>
+							</h2>
+						</div>
+						<div class="process three">
+							<h2 class="ui header">
+								<i class="user icon"></i>
+								<div class="content">
+									专家评分
+									<div class="sub header">投票阶段获得100张选票的创意进入专家评分的阶段，5位专家将在1周内对创意从设计、 外观功能、创意4个方面给出评分。</div>
+								</div>
+							</h2>
+						</div>
+						<div class="process four">
+							<h2 class="ui header">
+								<i class="time icon"></i>
+								<div class="content">
+									预售产品
+									<div class="sub header">重新编辑创意投票的页面，添加相关的产品预售选项。在30-45天内筹集相应的金额，用 户选择不同的额度支持。</div>
+								</div>
+							</h2>	
+						</div>
+						<div class="process last">
+							<h2 class="ui header">
+								<i class="settings icon"></i>
+								<div class="content">
+									销售产品
+									<div class="sub header">预售成功的产品将会进入批量生产，进入各大电商平台销售。 将有机会成为爆款创意产品。</div>
+								</div>
+							</h2>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -644,60 +653,86 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 	</section>
 	
 	<section class="panel ui big claim block" data-section-name="claim">
-		<div class="ui responsive center aligned grid">
-			<div class="row">
-				<div class="six center aligned wide column tX-200">
-					<p>提交的内容可以是未成形的创意点子也可以是已成形的产品；</p>
-					<p>所有提交内容包括<em> 团队介绍、概念阐述、详细描述</em> 三个部分；</p>
-					<p>请务必留下您的联系方式（Email、QQ、Wechat、Tel）
-					方便我们的产品经理与您联系；</p>
-					<div class="con">
-						<p>产品经理：张婷（Tel：1881028896；Email：zhangting@taihuoniao.com）</p>
-					</div>
-					<div class="border">
-						<h3 class="ui header">团队介绍</h3>
-						<p>向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。<br>
-						建议不超过100字。<br>
-						概念阐述<br>
-						图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。<br>
-						产品视频能够更好的展现产品的特色。<br>
-						详细描述<br>
-						详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。图文并茂的形式有助于消费者理解。</p>
+		<div class="ui responsive grid" id="submit-content">
+			<div class="middle aligned two column row">
+				<div class="column">
+					<div class="container left" data-700="transform: translateX(-100px);opacity:0;" data-1400="transform: translateX(0px);opacity:1;">
+						<div class="ui ordered list">
+						  	<div class="item">提交的内容可以是未成形的创意点子也可以是已成形的产品；</div>
+						  	<div class="item">所有提交内容包括<em> 团队介绍、概念阐述、详细描述</em> 三个部分；</div>
+						  	<div class="item">请务必留下您的联系方式（Email、QQ、Wechat、Tel）
+						方便我们的产品经理与您联系；</div>
+						</div>
+						<div class="border">
+							<h3 class="ui header">
+								团队介绍
+								<div class="content">
+									向支持者介绍一下你自己，以及你与所发起的项目之间的背景。这样有助于拉近你与支持者之间的距离。<br/>
+									建议不超过100字。
+								</div>
+							</h3>
+							<h3 class="ui header">
+								概念阐述
+								<div class="content">
+									图文并茂的方式，描述下产品创意的灵感，要帮助消费者解决什么样的问题。<br/>
+									产品视频能够更好的展现产品的特色。
+								</div>
+							</h3>
+							<h3 class="ui header">
+								详细描述
+								<div class="content">
+									详细的产品特点，功能介绍，帮助大家去理解，此款产品消费者如何使用。图文并茂的形式有助于消费者理解。
+								</div>
+							</h3>
+						</div>
 					</div>
 				</div>
-				<div class="six center aligned wide column tX200">
-					<img src="{{ app_url_packaged }}/images/fire/submit_word2.png"class="ui image right">
-					<div class="act">
-						<h1>创意</h1>
-						<h1>要求</h1>
-						<h1>CLAIM</h1>
+				<div class="column">
+					<div class="container" data-700="transform: translateX(300px);opacity:0;" data-1400="transform: translateX(20px);opacity:1;">
+						<img src="{{ app_url_packaged }}/images/fire/submit_word2.png" class="ui image right">
+						<div class="act ui hide">
+							<h1>创意</h1>
+							<h1>要求</h1>
+							<h1>CLAIM</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<div class="contact" data-1500="transform: translateY(200px);opacity:0;" data-1600="transform: translateY(0px);opacity:1;">
+						<p>产品经理：张婷<small>（Tel：1881028896 Email：zhangting@taihuoniao.com）</small></p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="panel right-banner" data-section-name="right">
-		<div class="ui center aligned grid">
-			<div class="row">
-				<div class="center aligned twelve wide column">
-					<h1 class="ui header">
-						<div class="content">
-							右脑崛起 设计时代
-							<div class="sub header">
-								随着大数据、云计算和人工智能的发展，让我们的左脑越来越懒惰，而右脑代表的创造力、共情力、娱乐感和意义感则是现代意义上的“科技”所不能替代的，设计师的思维恰恰是右脑思维，设计师善于发现用户需求，并有效整合现有技术满足消费者需求，当产品能够与用户共情，那么我们塑造的产品才是真正的性感产品！
-							</div>
+	<section class="panel ui brain block" data-section-name="right-brain">
+		<div class="transparent">
+			<div class="ui center aligned responsive grid" id="right-brain">
+				<div class="row">
+					<div class="twelve wide column">
+						<div class="container" data-1600="transform: translateY(400px);opacity:0;" data-2200="transform: translateY(0px);opacity:1;">
+							<h1 class="ui header">
+								<div class="content">
+									右脑崛起 设计时代
+									<div class="sub header">
+										随着大数据、云计算和人工智能的发展，让我们的左脑越来越懒惰，而右脑代表的创造力、共情力、娱乐感和意义感则是现代意义上的“科技”所不能替代的，设计师的思维恰恰是右脑思维，设计师善于发现用户需求，并有效整合现有技术满足消费者需求，当产品能够与用户共情，那么我们塑造的产品才是真正的性感产品！
+									</div>
+								</div>
+							</h1>
 						</div>
-					</h1>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
 	<section class="panel f76-banner" data-section-name="f76">
-		<div class="ui center aligned grid">
+		<div class="ui responsive center aligned grid" id="reference">
 			<div class="row">
-				<div class="center aligned twelve wide column">
+				<div class="column">
 					<h1 class="ui header">
 						<div class="content">
 							从设计产品到设计人生
@@ -708,60 +743,68 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 					</h1>
 				</div>
 			</div>
-			<div class="row">
-				<div class="center aligned twelve wide column">
-					<div class="box">
-						<p>有计划开发原创设计产品的设计师</p>
-					</div>
-					<div class="box-2">
-						<p>90%</p>
+			<div class="center aligned row">
+				<div class="twelve wide column">
+					<div class="container" data-2400="transform: translateY(400px);opacity:0;" data-2500="transform: translateY(0px);opacity:1;">
+						<div class="box">
+							<p>有计划开发原创设计产品的设计师</p>
+						</div>
+						<div class="box-2">
+							<p>90%</p>
+							<s><i></i></s>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="center aligned twelve wide column">
-					<div class="box">
-						<p>认为缺少成熟的销售平台和体系的设计师</p>
-					</div>
-					<div class="box-2">
-						<p>64%</p>
+				<div class="twelve wide column">
+					<div class="container" data-2500="transform: translateY(400px);opacity:0;" data-2600="transform: translateY(0px);opacity:1;">
+						<div class="box">
+							<p>认为缺少成熟的销售平台和体系的设计师</p>
+						</div>
+						<div class="box-2">
+							<p>64%</p>
+							<s><i></i></s>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="more row">
-				<div class="center aligned column">
-					<p class="fz">而太火鸟，恰恰能够帮您！</p>
+				<div class="column">
+					<div class="frbird" data-2700="transform: translateY(200px);opacity:0;" data-2800="transform: translateY(0px);opacity:1;">
+						<p>而太火鸟，恰恰能够帮您！</p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="panel f334-banner" data-section-name="f334">
-		<div class="ui center aligned grid">
+	<section class="panel oldbird" data-section-name="experts">
+		<div class="ui center aligned grid" id="experts">
 			<div class="row">
-				<div class="center aligned twelve wide column">
+				<div class="column">
 					<h1 class="ui header">
 						<div class="content">
 							专家（设计老鸟）
-							<div class="sub header" style="margin:0">
+							<div class="sub header">
 								重量级专家评审团，提供最专业的建议
 							</div>
 						</div>
 					</h1>
 				</div>
 			</div>
-			<div class="row" style="margin:0">
-					<div class="userstory thn">
+			<div class="row">
+				<div class="column">
+					<div class="userstory thn" data-3100="transform: translateY(500px);opacity:0;" data-3400="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
-							<div class="zj-logo">
-							</div>
+							<div class="zj-logo"></div>
 						</div>
 						<blockquote>
 							<h3>雷海波</h3>
 							<p>太火鸟创始人\CEO</p>
 						</blockquote>
 					</div>
-					<div class="userstory zhenge">
+					<div class="userstory zhenge" data-3100="transform: translateY(500px);opacity:0;" data-3400="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -771,7 +814,7 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>“真格”天使投资基金创始人</p>
 						</blockquote>
 					</div>
-					<div class="userstory ml">
+					<div class="userstory ml" data-3100="transform: translateY(500px);opacity:0;" data-3400="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -781,7 +824,7 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>小米科技联合创始人</p>
 						</blockquote>
 					</div>
-					<div class="userstory saifu">
+					<div class="userstory saifu" data-3100="transform: translateY(500px);opacity:0;" data-3400="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -791,7 +834,7 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>赛富科技董事长</p>
 						</blockquote>
 					</div>
-					<div class="userstory wt">
+					<div class="userstory wt" data-3200="transform: translateY(500px);opacity:0;" data-3500="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -801,7 +844,7 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>梧桐树资本创始合伙人</p>
 						</blockquote>
 					</div>
-					<div class="userstory lkk">
+					<div class="userstory lkk" data-3200="transform: translateY(500px);opacity:0;" data-3500="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -811,7 +854,7 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>洛可可设计集团创始人</p>
 						</blockquote>
 					</div>
-					<div class="userstory qt">
+					<div class="userstory qt" data-3200="transform: translateY(500px);opacity:0;" data-3500="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -821,7 +864,7 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>台湾创意中心执行长</p>
 						</blockquote>
 					</div>
-					<div class="userstory sj">
+					<div class="userstory sj" data-3200="transform: translateY(500px);opacity:0;" data-3500="transform: translateY(0px);opacity:1;">
 						<div class="overlay">
 							<div class="zj-logo">
 							</div>
@@ -831,29 +874,42 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 							<p>深圳工业设计行业协会秘书长</p>
 						</blockquote>
 					</div>
+				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="panel log-banner" data-section-name="log">
-		<div class="ui block">
-			<div class="ui responsive center aligned grid">
+	<section class="panel log-banner ui block" data-section-name="log">
+		<div class="translucent">
+			<div class="ui responsive center aligned grid" id="resources">
 				<div class="row">
-					<div class="center aligned twelve wide column">
-						<div class="content-box">
-							<div class="ui selection list">
+					<div class="column">
+						<h1 class="ui header">
+							<div class="content">
+								我们的资源
+								<div class="sub header">
+									我们正在建立一个社会支持发明和创新的群落。
+								</div>
+							</div>
+						</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="twelve wide column">
+						<div class="container">
+							<div class="ui list">
 								<div class="item">
-									<h3 class="ui magenta header">传播</h3>
+									<h2 class="ui magenta header">传播</h3>
 									<p>完美的营销推广团队,强大的社会化媒体,百万级大众评审团,上千位极客发烧友<br>
 									几十家垂直媒体资源.</p>
 								</div>
 								<div class="item">
-									<h3 class="ui magenta header">资金</h3>
+									<h2 class="ui magenta header">资金</h3>
 									<p>2.5亿中国创新设计孵化基金<br>
 									太火鸟与深圳工业设计协会联合著名VC管理团队提供了 2.5亿创新设计孵化基金，以设计入股、直接投资的方式助力成长。</p>
 								</div>
 								<div class="item">
-									<h3 class="ui magenta header">渠道</h3>
+									<h2 class="ui magenta header">渠道</h3>
 									<p>上百个渠道合作伙伴<br>
 									太火鸟整合天猫、淘宝、京东、苏宁、麦德龙、全国机场、电视购物、礼品定制等上百个线上线下渠道合作伙伴，助创意产品推向市场！</p>
 								</div>
@@ -865,105 +921,165 @@ background:url({{ app_url_packaged }}/images/fire/images/logo_013.png) scroll no
 		</div>
 	</section>
 	
-	<section class="panel ui partner-banner" data-section-name="partner">
-		<div class="ui center aligned grid">
+	<section class="ui big white background succase block">
+		<div class="ui responsive grid">
 			<div class="row">
-				<div class="center aligned twelve wide column">
+				<div class="center aligned column">
 					<h1 class="ui header">
 						<div class="content">
-							合作伙伴
+							成功案例
+							<div class="sub header">
+								从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。
+							</div>
 						</div>
 					</h1>
 				</div>
 			</div>
 			<div class="row">
-				<div class="partner lkk">
-					<div class="partnera lkk-1">
+				<div class="center aligned column">
+					<div class="ui three items">
+						<div class="item">
+							<div class="image">
+								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
+						      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" class="ui image" />
+								</a>
+							</div>
+							<div class="content">
+								<h4 class="ui header">
+									<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
+								</h4>
+								<div class="name">
+									众筹金额:<span class="ui text">311,826</span>      支持人数:<span class="ui text">639</span>        达成率:<span class="ui text">3118％</span>    
+								</div>
+							</div>
+						</div>
+				
+						<div class="item">
+							<div class="image">
+								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
+						      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" class="ui image" />
+								</a>
+							</div>
+							<div class="content">
+								<h4 class="ui header">
+									<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
+								</h4>
+								<div class="name">
+									众筹金额:<span class="ui text">1215,983</span>      支持人数:<span class="ui text">243</span>       达成率:<span class="ui text">4053％</span>    
+								</div>
+							</div>
+						</div>
+				
+						<div class="item">
+							<div class="image">
+								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
+						      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" class="ui image" />
+								</a>
+							</div>
+							<div class="content">
+								<h4 class="ui header">
+									<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
+								</h4>
+								<div class="name">
+									众筹金额:<span class="ui text">300,000</span>      支持人数:<span class="ui text">610</span>      达成率:<span class="ui text">600％</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="partner saifu">
-					<div class="partnera saifu1">
-					</div>
-				</div>
-				<div class="partner ml">
-					<div class="partnera ml1">
-					</div>
-				</div>
-				<div class="partner dym">
-					<div class="partnera dym1">
-					</div>
-				</div>
-				<div class="partner mj">
-					<div class="partnera mj1">
-					</div>
-				</div>
-				<div class="partner lf">
-					<div class="partnera lf1">
-					</div>
-				</div>
-				<div class="partner dd">
-					<div class="partnera dd1">
-					</div>
-				</div>
-				<div class="partner kr">
-					<div class="partnera kr1">
-					</div>
-				</div>
-				<div class="partner fh">
-					<div class="partnera fh1">
-					</div>
-				</div>
-				<div class="partner tc">
-					<div class="partnera tc1">
-					</div>
-				</div>
-				<div class="partner tai">
-					<div class="partnera tai1">
-					</div>
-				</div>
-				<div class="partner wt">
-					<div class="partnera wt1">
-					</div>
-				</div>
-				<div class="partner jt">
-					<div class="partnera jt1">
-					</div>
-				</div>
-				<div class="partner tb">
-					<div class="partnera tb1">
-					</div>
-				</div>
-				<div class="partner jd">
-					<div class="partnera jd1">
-					</div>
-				</div>
-				<div class="partner ymx">
-					<div class="partnera ymx1">
-					</div>
-				</div>
-				<div class="partner tm">
-					<div class="partnera tm1">
-					</div>
-				</div>
-				<div class="partner lan">
-					<div class="partnera lan1">
-					</div>
-				</div>
-				<div class="partner gm">
-					<div class="partnera gm1">
-					</div>
-				</div>
-				<div class="partner sn">
-					<div class="partnera sn1">
-					</div>
-				</div>
-				<div class="partner po">
-					<div class="partnera po1">
-					</div>
+			</div>
+			<div class="more row">
+				<div class="center aligned column">
+					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						查看更多
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 	
+	<section class="panel ui partners block" data-section-name="partner">
+		<div class="ui center aligned grid" id="partners">
+			<div class="row">
+				<div class="column">
+					<h1 class="ui header">
+						<div class="content">
+							合作伙伴
+							<div class="sub header">
+								我们正在建立一个社会支持发明和创新的群落。
+							</div>
+						</div>
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="partner lkk">
+						<div class="partnera lkk-1"></div>
+					</div>
+					<div class="partner saifu">
+						<div class="partnera saifu1"></div>
+					</div>
+					<div class="partner ml">
+						<div class="partnera ml1"></div>
+					</div>
+					<div class="partner dym">
+						<div class="partnera dym1"></div>
+					</div>
+					<div class="partner mj">
+						<div class="partnera mj1"></div>
+					</div>
+					<div class="partner lf">
+						<div class="partnera lf1"></div>
+					</div>
+					<div class="partner dd">
+						<div class="partnera dd1"></div>
+					</div>
+					<div class="partner kr">
+						<div class="partnera kr1"></div>
+					</div>
+					<div class="partner fh">
+						<div class="partnera fh1"></div>
+					</div>
+					<div class="partner tc">
+						<div class="partnera tc1"></div>
+					</div>
+					<div class="partner tai">
+						<div class="partnera tai1"></div>
+					</div>
+					<div class="partner wt">
+						<div class="partnera wt1"></div>
+					</div>
+					<div class="partner jt">
+						<div class="partnera jt1"></div>
+					</div>
+					<div class="partner tb">
+						<div class="partnera tb1"></div>
+					</div>
+					<div class="partner jd">
+						<div class="partnera jd1"></div>
+					</div>
+					<div class="partner ymx">
+						<div class="partnera ymx1"></div>
+					</div>
+					<div class="partner tm">
+						<div class="partnera tm1"></div>
+					</div>
+					<div class="partner lan">
+						<div class="partnera lan1"></div>
+					</div>
+					<div class="partner gm">
+						<div class="partnera gm1"></div>
+					</div>
+					<div class="partner sn">
+						<div class="partnera sn1"></div>
+					</div>
+					<div class="partner po">
+						<div class="partnera po1"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </div>
 {% endblock %}
