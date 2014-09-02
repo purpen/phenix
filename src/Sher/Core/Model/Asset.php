@@ -79,11 +79,16 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'mini' => 'mi.jpg', 
 		'tiny' => 'ti.jpg', 
 		'small' => 'sm.jpg', 
-		'medium' => 'me.jpg', 
+		'medium' => 'me.jpg',
 		'large' => 'la.jpg', 
 		'big' => 'bi.jpg', 
 		'huge' => 'hu.jpg', 
 		'massive' => 'ma.jpg',
+	);
+	
+	# 响应式设计所需图
+	protected $thumbnails_resp = array(
+		'resp' => 'resp.jpg',
 	);
 
     protected $required_fields = array('filepath');
@@ -105,6 +110,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		if (isset($row['thumbnails']) && is_array($row['thumbnails'])) {
 			foreach($row['thumbnails'] as $key => $value){
 				$row['thumbnails'][$key]['view_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($row['filepath'], $this->thumbnails_styles[$key]);
+			}
+			# 响应式设计所需图
+			foreach($this->thumbnails_resp as $key => $value){
+				$row['thumbnails'][$key]['view_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($row['filepath'], $this->thumbnails_resp[$key]);
 			}
 		} else {
 			// 设置默认值
