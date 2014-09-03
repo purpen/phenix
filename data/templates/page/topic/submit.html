@@ -29,7 +29,7 @@
 		minHeight: 300,
 		plainPaste: true,
 		alwaysBlank: true,
-		typingTimer: 700,
+		typingTimer: 600,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
 		defaultImageAlt: '{{ topic.title }}',
@@ -39,7 +39,7 @@
 		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
-		defaultImageWidth: 700,
+		defaultImageWidth: '',
 		maxImageSize: 1024 * 1024 * 3, // 3M
 		insertImageCallback: function (imageURL) {
 			// 记录插入图片数
@@ -208,6 +208,7 @@
 						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
+						<input type="hidden" name="try_id" value="{{ try_id }}" />
 					
 						<div class="field">
 							<label>类别</label>

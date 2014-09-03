@@ -73,6 +73,8 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 		
 		$this->stash['provinces'] = $provinces;
 		
+		// 评测报告分类
+		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
 		
 		return $this->to_html_page($tpl);
 	}

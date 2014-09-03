@@ -28,7 +28,10 @@ app.css.use_bundle: 1
 app.redis_host: 'localhost:6379'
 
 # 产品话题类别
-app.product.topic_category_id: 1
+app.product.topic_category_id: 19
+
+# 评测报告类别
+app.try.report_category_id: 18
 
 app.url.action_base:    '{$app.domain.app}'
 

@@ -411,6 +411,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
+		// 评测对象
+		if(isset($this->stash['tid'])){
+			$this->stash['try_id'] = $this->stash['tid'];
+		}
+		
 		$this->editor_params();
 		
 		return $this->to_html_page('page/topic/submit.html');
@@ -446,7 +451,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['cid'] = $topic['category_id'];
-		
+		$this->stash['try_id'] = $topic['try_id'];
 		
 		$this->stash['mode'] = 'edit';
 		$this->stash['topic'] = $topic;
@@ -480,6 +485,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
 		$data['video_url'] = $this->stash['video_url'];
+		$data['try_id'] = $this->stash['try_id'];
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;

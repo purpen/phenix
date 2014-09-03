@@ -119,6 +119,9 @@ app.email.from:
 app.system.user_id: 1
 app.product.topic_category_id: 59
 
+# 评测报告类别
+app.try.report_category_id: 58
+
 # 关注最大数
 app.follow.max: 2000
 
