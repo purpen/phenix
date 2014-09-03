@@ -121,6 +121,8 @@
 		});
 	});
 	
+	$('.datepicker').pickadate();
+	
 {% endblock %}
 
 {% block content %}
@@ -208,11 +210,11 @@
 		<div class="two fields">
 			<div class="date field">
 			  	<label>开始时间：</label>
-				<input type="text" name="start_time"  value="{{ try.start_time }}" />
+				<input type="text" name="start_time"  value="{{ try.start_time }}" class="datepicker" />
 			</div>
 			<div class="date field">
 			  	<label>结束时间：</label>
-				<input type="text" name="end_time"  value="{{ try.end_time }}" />
+				<input type="text" name="end_time"  value="{{ try.end_time }}" class="datepicker" />
 			</div>
 		</div>
 		

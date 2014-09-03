@@ -19,6 +19,10 @@
 	    background-color: rgba(0, 0, 0, 0.5);
 	    height: 100%;
 	}
+	.try .ui.header .sub.header {
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 1.5rem;
+	}
 </style>
 {% endblock %}
 
@@ -118,6 +122,13 @@
     	'scrollSpeed': 1000
     });
 	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="count">%D<span>天</span></div></div><div class="item"><div class="count">%H<span>时</span></div></div> <div class="item"><div class="count">%M<span>分</span></div></div><div class="magenta item"><div class="count">%S<span>秒</span></div></div>'));
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -127,9 +138,13 @@
 			<div class="ui responsive grid">
 				<div class="column">
 					<h1 class="ui header">
-						{{ try.title }}
+						<div class="content">
+							{{ try.title }}
+							<div class="sub header">
+								{{ try.description }}
+							</div>
+						</div>
 					</h1>
-					<p>{{ try.description }}</p>
 					<div class="ui buttons">
 						<a href="{{ app_url_domain }}/try/apply" class="ui white btn-4 btn-4c icon-arrow-right applytry btn">
 							申请使用
@@ -138,7 +153,7 @@
 							产品详情
 						</a>
 					</div>
-					<p><b class="big">{{ try.apply_count }}</b> 人预约, 剩余时间：</p>
+					<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div></div>
 				</div>
 			</div>
 		</div>

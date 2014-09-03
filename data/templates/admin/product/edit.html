@@ -200,6 +200,8 @@
 		});
 	});
 	
+	$('.datepicker').pickadate();
+	
 {% endblock %}
 
 {% block content %}
@@ -294,14 +296,14 @@
 				<div class="field">
 				  	<label>开始时间：</label>
 					<div class="ui icon input">
-					  	<input type="text" name="presale_start_time" value="{{ product.presale_start_time }}" />
+					  	<input type="text" name="presale_start_time" value="{{ product.presale_start_time }}" class="datepicker" />
 					  	<i class="calendar icon"></i>
 					</div>
 				</div>
 				<div class="field">
 				  	<label>结束时间：</label>
 					<div class="ui icon input">
-					  	<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time }}" />
+					  	<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time }}" class="datepicker" />
 					  	<i class="calendar icon"></i>
 					</div>
 				</div>
