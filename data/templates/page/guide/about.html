@@ -8,7 +8,34 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+	var $frame = $('#frbird');
+	var $wrap = $frame.parent();
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		pagesBar: $wrap.find('.pages'),
+		pageItem: 'pages',
+		activatePageOn: 'click',
+		pageBuilder: function (index) {
+			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
+		},
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
 	
+	$('.photos .item a').lightBox();
 {% endblock %}
 {% block content %}
 <section class="about-banner">
@@ -141,13 +168,86 @@
 		</div>
 		<div class="row">
 			<div class="center aligned column">
-				<div class="ui medium images">
-					<img src="{{ app_url_packaged }}/images/event-01.jpg" />
-					<img src="{{ app_url_packaged }}/images/event-02.jpg" />
-					<img src="{{ app_url_packaged }}/images/event-03.jpg" />
-					<img src="{{ app_url_packaged }}/images/event-04.jpg" />
-					<img src="{{ app_url_packaged }}/images/event-05.jpg" />
+				<div id="frbird" class="frame">
+					<div class="ui horizontal list photos clearfix">
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/01.jpg" title="《致离经叛道的自己》太火鸟宣传片拍摄现场" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/1.jpg" alt="《致离经叛道的自己》太火鸟宣传片拍摄现场" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/02.jpg" title="太火鸟 在“ChinaBang互联网创新年会暨颁奖典礼”舞台惊艳全场" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/2.jpg" alt="太火鸟 在“ChinaBang互联网创新年会暨颁奖典礼”舞台惊艳全场" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/03.jpg" title="来自五湖四海的设计师在苏州创博会太火鸟logo墙下合影" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/3.jpg" alt="来自五湖四海的设计师在苏州创博会太火鸟logo墙下合影" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/04.jpg" title="雷海波在苏州创博会举办的“2014中国青年设计师峰会”上演讲" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/4.jpg" alt="雷海波在苏州创博会举办的“2014中国青年设计师峰会”上演讲" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/05.jpg" title="太火鸟创始人雷海波入选「中国商业最具创意人物100" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/5.jpg" alt="太火鸟创始人雷海波入选「中国商业最具创意人物100」" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/06.jpg" title="北京电视台“北京发布”报道太火鸟" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/6.jpg" alt="北京电视台“北京发布”报道太火鸟" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/07.jpg" title="太火鸟团队建设出走密云白河" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/7.jpg" alt="太火鸟团队建设出走密云白河" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/08.jpg" title="太火鸟荣幸入选微软孵化器第五期创业团队" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/8.jpg" alt="太火鸟荣幸入选微软孵化器第五期创业团队" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/09.jpg" title="太火鸟亮相硬蛋一号智能硬件先锋体验会，联合创始人崔波受邀演讲" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/9.jpg" alt="太火鸟亮相硬蛋一号智能硬件先锋体验会，联合创始人崔波受邀演讲" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/010.jpg" title="太火鸟创始人兼CEO雷海波先生作为受邀嘉宾在金点设计论坛上发表演讲" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/10.jpg" alt="太火鸟创始人兼CEO雷海波先生作为受邀嘉宾在金点设计论坛上发表演讲" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/011.jpg" title="雷海波受邀参与第七届金投赏终审" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/11.jpg" alt="雷海波受邀参与第七届金投赏终审" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/012.jpg" title="太火鸟创始人雷海波受邀参加2014年全国交互设计论坛" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/12.jpg" alt="太火鸟创始人雷海波受邀参加2014年全国交互设计论坛" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/013.jpg" title="雷海波受邀出席2014台湾设计周" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/13.jpg" alt="雷海波受邀出席2014台湾设计周" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/014.jpg" title="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/14.jpg" alt="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" />
+				            </a>
+						</div>
+						<div class="item">
+							<a href="{{ app_url_packaged }}/images/evtphotos/015.jpg" title="" class="ui image">
+				                <img src="{{ app_url_packaged }}/images/evtphotos/15.jpg" alt="太火鸟创始人雷海波受邀参与TechCrunch主会场以“设计与创业”为主题的Panel！" />
+				            </a>
+						</div>
+					</div>
 				</div>
+				<div class="pages"></div>
 			</div>
 		</div>
 	</div>
@@ -198,6 +298,81 @@
 		<div class="four column row">
 			<div class="column">
 				<div class="article wrapper">
+					<span class="created time">08/26/2014</span>
+					<span class="media">网易</span>
+					<h4 class="ui header">
+						<div class="content">
+							<a href="http://digi.163.com/14/0826/13/A4J0N47C001628BV.html" target="_blank" class="ui magenta link">MacWorld开展 太火鸟产品亮相</a>
+							<div class="sub header">
+											北京时间2014年8月21日，2014数字世界亚洲博览会(Macworld|iWorld Asia ，简称“MIA”) 正式在北京国家会议中心召开。Macworld/iWorld Asia(数字亚洲博览会)的影响力是毋庸置疑的，这里汇聚了行业的最新科技动态、前沿产品、合作商机以及业界观点，其中太火鸟的多款产品也均在此次大会中亮相!
+							</div>
+						</div>
+					</h4>
+					
+					<a class="article overlay" href="http://digi.163.com/14/0826/13/A4J0N47C001628BV.html" target="_blank">
+						<div class="article overlay content">
+							<hr>
+							<span class="type">
+											查看阅读
+								<i class="long arrow right icon arw"></i>
+							</span>
+							<p class="para">MacWorld开展 太火鸟产品亮相</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="column">
+				<div class="article wrapper">
+					<span class="created time">08/15/2014</span>
+					<span class="media">搜狐新闻</span>
+					<h4 class="ui header">
+						<div class="content">
+							<a href="http://roll.sohu.com.cm/20140815/n389493263902.html" target="_blank" class="ui magenta link">太火鸟携手洛可可亮相TechCrunch国际创新峰会</a>
+							<div class="sub header">
+											2014年8月11日，“TechCrunch国际创新峰会·北京站”(TechCrunch International City Event Beijing)在北京朝阳规划艺术馆盛大开幕。太火鸟携手LKK共同亮相TechCrunch国际创新峰会。
+							</div>
+						</div>
+					</h4>
+					
+					<a class="article overlay" href="http://roll.sohu.com.cm/20140815/n389493263902.html" target="_blank">
+						<div class="article overlay content">
+							<hr>
+							<span class="type">
+											查看阅读
+								<i class="long arrow right icon arw"></i>
+							</span>
+							<p class="para">太火鸟携手洛可可亮相TechCrunch国际创新峰会</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="column">
+				<div class="article wrapper">
+					<span class="created time">08/11/2014</span>
+					<span class="media">凤凰科技</span>
+					<h4 class="ui header">
+						<div class="content">
+							<a href="http://tech.ifeng.com/it/special/znyjpt/" target="_blank" class="ui magenta link">智能硬件的平台逻辑</a>
+							<div class="sub header">
+										平台化目前也在智能硬件行业蔚然成风。硬件孵化平台的出现，使得初创团队能更好的获得设计、媒体、渠道、融资等资源，从而一定程度上提高项目的存活率。但如同走向尚不明晰的智能硬件领域一样，智能硬件孵化平台本身也在探索进行时，如何发展、如何赚钱仍是一个不小的问题。
+							</div>
+						</div>
+					</h4>
+					
+					<a class="article overlay" href="http://tech.ifeng.com/it/special/znyjpt/" target="_blank">
+						<div class="article overlay content">
+							<hr>
+							<span class="type">
+											查看阅读
+								<i class="long arrow right icon arw"></i>
+							</span>
+							<p class="para">智能硬件的平台逻辑</p>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="column">
+				<div class="article wrapper">
 					<span class="created time">07/31/2014</span>
 					<span class="media">动点科技</span>
 					<h4 class="ui header">
@@ -220,84 +395,6 @@
 						</div>
 					</a>
 				</div>				
-			</div>
-			
-			<div class="column">
-				<div class="article wrapper">
-					<span class="created time">07/24/2014</span>
-					<span class="media">央视网</span>
-					<h4 class="ui header">
-						<div class="content">
-							<a href="http://imall.cntv.cn/2014/07/24/ARTI1406186972865375.shtml" target="_blank" class="ui magenta link">[太火鸟]众筹让梦想变成可能</a>
-							<div class="sub header">
-								很多人都有自己的梦想，但却无法实现;很多人创意满满，却缺少资金!这些使很多好的创意，好的产品最终流产，但现在这种问题却有了新的解决方案：「众筹」!那么众筹究竟是什么呢?
-							</div>
-						</div>
-					</h4>
-					
-					<a class="article overlay" href="http://imall.cntv.cn/2014/07/24/ARTI1406186972865375.shtml" target="_blank">
-						<div class="article overlay content">
-							<hr>
-							<span class="type">
-								查看阅读
-								<i class="long arrow right icon arw"></i>
-							</span>
-							<p class="para">[太火鸟]众筹让梦想变成可能</p>
-						</div>
-					</a>
-				</div>				
-			</div>
-			
-			<div class="column">
-				<div class="article wrapper">
-					<span class="created time">07/18/2014</span>
-					<span class="media">光明网</span>
-					<h4 class="ui header">
-						<div class="content">
-							<a href="http://economy.gmw.cn/2014-07/23/content_12125545.htm" target="_blank" class="ui magenta link">太火鸟荣幸入选微软孵化器第五期创业团队</a>
-							<div class="sub header">
-								太火鸟荣幸成为微软孵化器第五期创业团队的一员，团队合影出现在今早的纽约时代广场大屏幕上。感谢微软孵化器! 太火鸟能够脱颖而出，在于其不断的努力及创新的商业模式!
-							</div>
-						</div>
-					</h4>
-					
-					<a class="article overlay" href="http://economy.gmw.cn/2014-07/23/content_12125545.htm" target="_blank">
-						<div class="article overlay content">
-							<hr>
-							<span class="type">
-								查看阅读
-								<i class="long arrow right icon arw"></i>
-							</span>
-							<p class="para">太火鸟荣幸入选微软孵化器第五期创业团队</p>
-						</div>
-					</a>
-				</div>				
-			</div>
-			
-			<div class="column">
-				<div class="article wrapper">
-					<span class="created time">07/04/2014</span>
-					<span class="media">和讯网</span>
-					<h4 class="ui header">
-						<div class="content">
-							<a href="http://news.hexun.com/2014-07-04/166330200.html" target="_blank" class="ui magenta link">太火鸟创始人雷海波入选「中国商业最具创意人物100」</a>
-							<div class="sub header">
-								全球最小的可穿戴设备Goccia亮相太火鸟官方网站，并在淘宝•星愿进行众筹预售，不到2天的时间，首批限量610套，即被抢购一空！以两天筹得近30万的好成绩引业界惊叹！
-							</div>
-						</div>
-					</h4>
-					
-					<a class="article overlay" href="http://news.hexun.com/2014-07-04/166330200.html" target="_blank">
-						<div class="article overlay content">
-							<hr>
-							<span class="type">
-								查看阅读
-								<i class="long arrow right icon arw"></i>
-							</span>
-							<p class="para">太火鸟创始人雷海波入选「中国商业最具创意人物100」</p>
-						</div>
-					</a>
-				</div>
 			</div>
 		</div>
 		<div class="more row">
