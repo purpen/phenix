@@ -187,7 +187,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		Doggy_Log_Helper::warn("Remove before from the cart [$com_sku]");
 		
-		$cart->delItem($com_sku, $com_size);
+		$cart->delItem($com_sku);
 		
 		// 重置cookie
 		$cart->set();
