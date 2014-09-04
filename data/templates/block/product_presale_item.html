@@ -11,9 +11,20 @@
 			</a>
 			<div class="advantage">{{ product.advantage }}</div>
 		</h4>
-		<div class="designer">
-			<img class="ui avatar image" src="{{ product.designer.small_avatar_url }}" />
-			{{ product.designer.nickname|default '太火鸟' }}
+		<div class="schedule">
+			<div class="total amount">
+				<span class="unit">￥</span>{{ product.presale_money|default 0}}
+			</div>
+			<div class="ui red progress">
+			  	<div class="bar" style="width: {{ product.presale_percent }}%;"></div>
+			</div>
+			<div class="status clearfix">
+				话题： <span class="count">{{ product.topic_count|default 0 }}</span>
+				预定人数： <span class="count">{{ product.presale_count|default 0 }}</span>
+				<span class="remaining">
+					<span class="count">{{ product.presale_count|default 0 }}</span>天后结束
+				</span>
+			</div>
 		</div>
   	</div>
 </div>

@@ -88,6 +88,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		// 'presales' => array(),
 		'presale_count' => 0,
 		'presale_money' => 0,
+		# 预售目标金额
+		'presale_goals' => 0,
 		
 		# 预售开始时间
 		'presale_start_time'  => null,
@@ -231,6 +233,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 				$price[$key] = $value['price'];
 			}
 			array_multisort($rid, $price, $row['presales']);
+		}
+		// 预售百分比
+		if (isset($row['presale_goals']) && isset($row['presale_money'])){
+			$row['presale_percent'] = sprintf("%.2f", $row['presale_money']/$row['presale_goals']);
+		} else {
+			$row['presale_percent'] = 0;
 		}
 	}
 	

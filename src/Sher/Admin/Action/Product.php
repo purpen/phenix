@@ -108,6 +108,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		// 预售时间
 		$data['presale_start_time'] = $this->stash['presale_start_time'];
 		$data['presale_finish_time'] = $this->stash['presale_finish_time'];
+		$data['presale_goals'] = $this->stash['presale_goals'];
 		
 		// 产品阶段
 		$data['stage'] = (int) $this->stash['stage'];
@@ -315,6 +316,44 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		return $this->to_taconite_page('ajax/delete.html');
+	}
+	
+	/**
+	 * 推荐
+	 */
+	public function ajax_stick(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('主题不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$ok = $model->mark_as_stick((int)$id);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_notification('操作成功');
+	}
+	
+	/**
+	 * 取消推荐
+	 */
+	public function ajax_cancel_stick(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('主题不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$ok = $model->mark_cancel_stick((int)$id);			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_notification('操作成功');
 	}
 }
 ?>

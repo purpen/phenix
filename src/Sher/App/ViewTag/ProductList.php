@@ -31,6 +31,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_approved = 0;
 		$only_published = 0;
 		$only_onsale = 0;
+		$only_stick = 0;
 		
 		// 是否有话题
 		$only_subject = 0;
@@ -97,6 +98,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		if ($only_onsale) {
 			$query['published'] = 1;
+		}
+		
+		if ($only_stick){
+			$query['stick'] = 1;
 		}
 		
 		if ($only_subject){

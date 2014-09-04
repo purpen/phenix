@@ -8,9 +8,6 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
-	
-	
-	
 </style>
 {% endblock %}
 {% block js %}
@@ -70,270 +67,337 @@
 {% endblock %}
 
 {% block content %}
-<article class="hero ui hide-on-mobile">
-	<section id="frame">
-		<ul class="slidee">
+<div id="homepage">
+	<article class="hero ui hide-on-mobile">
+		<section id="frame">
+			<ul class="slidee">
 			
-			<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/012.jpg'); background-color: rgb(255, 51, 102);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-						<span>太火鸟-中国顶尖的创新产品众包设计平台</span>
-						<h1>太火鸟，寻找火苗！</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_about }}">
-							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/join">
-							<span>加入太火鸟</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                    </div>
-                </div>
-			</li>
+				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/012.jpg'); background-color: rgb(255, 51, 102);">
+					<div class="hero-main verticalize-container">
+	                    <div class="verticalize">
+							<span>太火鸟-中国顶尖的创新产品众包设计平台</span>
+							<h1>太火鸟，寻找火苗！</h1>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_about }}">
+								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/join">
+								<span>加入太火鸟</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                    </div>
+	                </div>
+				</li>
 			
-			<li class="slide-2" style="background-image: url('{{ app_url_packaged }}/images/lisawatch.jpg'); background-color: rgb(55, 188, 174);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-                        <span>您的孕期贴身闺蜜-送给准妈妈最好的礼物</span>
-                        <h1>LISA智能孕表</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/lisa">
-							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959165.html">
-							<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                    </div>
-                </div>
-			</li>
+				<li class="slide-2" style="background-image: url('{{ app_url_packaged }}/images/lisawatch.jpg'); background-color: rgb(55, 188, 174);">
+					<div class="hero-main verticalize-container">
+	                    <div class="verticalize">
+	                        <span>您的孕期贴身闺蜜-送给准妈妈最好的礼物</span>
+	                        <h1>LISA智能孕表</h1>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/lisa">
+								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959165.html">
+								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                    </div>
+	                </div>
+				</li>
 			
-			<li class="slide-3" style="background-image: url('{{ app_url_packaged }}/images/dm.jpg'); background-color: rgb(130, 213, 141);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-                        <span>造梦者一代 世界首款革命性永久无需更换耗材</span>
-                        <h1>智能空气净化器</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/dm">
-							<span>查看详情</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959170.html">
-							<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                    </div>
-                </div>
-			</li>
+				<li class="slide-3" style="background-image: url('{{ app_url_packaged }}/images/dm.jpg'); background-color: rgb(130, 213, 141);">
+					<div class="hero-main verticalize-container">
+	                    <div class="verticalize">
+	                        <span>造梦者一代 世界首款革命性永久无需更换耗材</span>
+	                        <h1>智能空气净化器</h1>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/dm">
+								<span>查看详情</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959170.html">
+								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                    </div>
+	                </div>
+				</li>
 			
-			<li class="slide-4" style="background-image: url('{{ app_url_packaged }}/images/loving.jpg'); background-color: rgb(4, 170, 255);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-                        <span>关爱自己，从这里开始-健康管理小专家</span>
-                        <h1>连爱智能手环</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/loving">
-							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959172.html">
-							<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                    </div>
-                </div>
-			</li>
+				<li class="slide-4" style="background-image: url('{{ app_url_packaged }}/images/loving.jpg'); background-color: rgb(4, 170, 255);">
+					<div class="hero-main verticalize-container">
+	                    <div class="verticalize">
+	                        <span>关爱自己，从这里开始-健康管理小专家</span>
+	                        <h1>连爱智能手环</h1>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/loving">
+								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959172.html">
+								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                    </div>
+	                </div>
+				</li>
 			
-			<li class="slide-5" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(238, 220, 108);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-                        <span>全球最小运动监测可穿戴式设备</span>
-                        <h1>Goccia强势来袭</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/goccia">
-							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959169.html">
-							<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                    </div>
-                </div>
-			</li>
+				<li class="slide-5" style="background-image: url('{{ app_url_packaged }}/images/kouzi.jpg'); background-color: rgb(238, 220, 108);">
+					<div class="hero-main verticalize-container">
+	                    <div class="verticalize">
+	                        <span>全球最小运动监测可穿戴式设备</span>
+	                        <h1>Goccia强势来袭</h1>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/goccia">
+								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959169.html">
+								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                    </div>
+	                </div>
+				</li>
 			
-			<li class="slide-6" style="background-image: url('{{ app_url_packaged }}/images/yunyan.jpg'); background-color: rgb(255, 162, 108);">
-				<div class="hero-main verticalize-container">
-                    <div class="verticalize">
-						<span>全球第一款500万像素家庭摄像头</span>
-						<h1>UEYE云眼</h1>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?id=835" target="_blank">
-							<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?id=835" target="_blank">
-							<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-						</a>
-                    </div>
-                </div>
-			</li>
+				<li class="slide-6" style="background-image: url('{{ app_url_packaged }}/images/yunyan.jpg'); background-color: rgb(255, 162, 108);">
+					<div class="hero-main verticalize-container">
+	                    <div class="verticalize">
+							<span>全球第一款500万像素家庭摄像头</span>
+							<h1>UEYE云眼</h1>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?id=835" target="_blank">
+								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?id=835" target="_blank">
+								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+							</a>
+	                    </div>
+	                </div>
+				</li>
 			
-		</ul>
-	</section>
-	<a class="prev" href="#">
-		<i class="flat arrow_left icon"></i>
-	</a>
-	<a class="next" href="#">
-		<i class="flat arrow_right icon"></i>
-	</a>
-	
-	<ul class="nav-categories">
-        <li class="category">
-			<a href="" class="ui link">
-				<i class="flat sort_01 icon"></i> 
-				<span>All</span>
-			</a>
-		</li>
-        <li class="category">
-			<a href="" class="ui link">
-				<i class="flat category_electronics icon"></i>
-				<span>新品</span>
-			</a>
-		</li>
-    </ul>
-	
-</article>
-
-<section class="ui white backgroud newest-product block">
-	<div class="product-image">
-		<h1 class="ui header">造梦者<br/>全球首款革命性智能空气净化器</h1>
-		<a href="{{ app_url_domain }}/dm" class="ui black btn-4 btn-4c icon-arrow-right btn">
-			了解更多
+			</ul>
+		</section>
+		<a class="prev" href="#">
+			<i class="flat arrow_left icon"></i>
 		</a>
-	</div>
-	<div class="ui responsive product-bright center aligned three column grid">
-		<div class="column">
-			<h3 class="ui header">远程智能控制·省时省心</h3>
-			<p>出差在外，不在她身边，只要手机一按，造梦者帮您随时呵护</p>
-		</div>
-		<div class="column">
-			<h3 class="ui header">永久无需更换耗材 一机永逸</h3>
-			<p>省钱免更换，冲洗晾干装置即可，可反复使用，无需更换</p>
-		</div>
-		<div class="column">
-			<h3 class="ui header">五大功能实力承诺</h3>
-			<p>ESP静电离子能除尘、三重杀菌技术（6000V高压、光触媒、紫外线）来灭杀各种有害病菌、RCD纳米技术分解甲醛、臭氧等有害气体</p>
-		</div>
-	</div>
-</section>
-
-<section class="ui helper-banner block">
-	<div class="ui grid">
-		<div class="row">
-			<div class="center aligned column">
-				<h2 class="ui header">
-					提交你的创意
-				</h2>
-				<p>把你天马行空的创意交给我们，我们一起将它变成现实。</p>
-				<div class="actions">
-					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-						提交创意
-					</a>
-					<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-						创意投票
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section class="ui small white backgroud block">
-	<div class="ui responsive grid">
-		<div class="eight center aligned wide column">
-			<h3 class="ui header">商店</h3>
-			<p>我们用心挑选数以万计的创意产品，为你每次的一见钟情。</p>
-			<img src="{{ app_url_packaged }}/images/home10.jpg" class="ui image" />
-		</div>
-		<div class="eight center aligned wide column">
-			<h3 class="ui header">社区话题</h3>
-			<p>我们分享第一手产品资讯，创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快。</p>
-			<img src="{{ app_url_packaged }}/images/home11.jpg" class="ui image" />
-		</div>
-	</div>
-</section>
-
-<section class="ui big white background succase block">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">成功案例</h3>
-				<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>
-				<hr>
-			</div>
-		</div>
-		<div class="row">
-			<div class="center aligned column">
-				<div class="ui three items">
-					<div class="item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
-					      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" class="ui image" />
-							</a>
-						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
-							</h4>
-							<div class="name">
-								众筹金额:<span class="ui text">311,826</span>      支持人数:<span class="ui text">639</span>        达成率:<span class="ui text">3118％</span>    
-							</div>
-						</div>
-					</div>
-				
-					<div class="item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
-					      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" class="ui image" />
-							</a>
-						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
-							</h4>
-							<div class="name">
-								众筹金额:<span class="ui text">1215,983</span>      支持人数:<span class="ui text">243</span>       达成率:<span class="ui text">4053％</span>    
-							</div>
-						</div>
-					</div>
-				
-					<div class="item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
-					      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" class="ui image" />
-							</a>
-						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
-							</h4>
-							<div class="name">
-								众筹金额:<span class="ui text">300,000</span>      支持人数:<span class="ui text">610</span>      达成率:<span class="ui text">600％</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="more row">
-			<div class="center aligned column">
-				<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-					查看更多
+		<a class="next" href="#">
+			<i class="flat arrow_right icon"></i>
+		</a>
+	
+		<ul class="nav-categories">
+	        <li class="category">
+				<a href="" class="ui link">
+					<i class="flat sort_01 icon"></i> 
+					<span>All</span>
 				</a>
+			</li>
+	        <li class="category">
+				<a href="{{ app_url_sale }}" class="ui link">
+					<i class="flat category_electronics icon"></i>
+					<span>新品</span>
+				</a>
+			</li>
+	    </ul>
+	
+	</article>
+	
+	<section class="ui small block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui header">预售商品</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					{% product_list var:'list' stage:5 only_stick:1 size:3 %}
+					<div class="ui three items">
+						{% for product in list.rows %}
+					  		{% include "block/product_presale_item.html" %}
+					    {% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
-
-<section class="ui small invite block">
-	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="center aligned nine wide column">
-				<h3 class="ui header">提交创意缔造传奇，发现产品见证奇迹。</h3>
-				<p >想了解更多，查看<a href="{{ app_url_help }}" class="ui magenta link">如何工作？</a></p>
+	<section class="ui small white background hotsale block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui header">热门商品</h3>
+				</div>
 			</div>
-			<div class="seven wide column">
-				<a href="{{ app_url_register }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">现在加入</a>
+			<div class="row">
+				<div class="column">
+					{% product_list var:'list' stage:9 only_onsale:1 only_stick:1 size:3 %}
+					<div class="ui three items">
+						{% for product in list.rows %}
+					  		{% include "block/product_item.html" %}
+					    {% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
+	<section class="ui helper-banner block">
+		<div class="ui grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h2 class="ui header">
+						提交你的创意
+					</h2>
+					<p>把你天马行空的创意交给我们，我们一起将它变成现实。</p>
+					<div class="actions">
+						<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+							提交创意
+						</a>
+						<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+							创意投票
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column section-title">
+					<h3 class="ui header">我们的社区</h3>
+					<p>分享第一手产品资讯，创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快。</p>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui four social items">
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/sq01.jpg" class="ui image" />
+								<a class="transparent" href="{{ app_url_topic }}/c11">
+									<h3 class="ui header">
+										<div class="content">
+											最新动态
+											<div class="sub header">
+												你总是需要多了解一些正在发生着的有关科技创意好玩的事
+											</div>
+										</div>
+									</h3>
+								</a>
+							</div>
+						</div>
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/sq02.jpg" class="ui image" />
+								<a class="transparent" href="{{ app_url_topic }}/c12">
+									<h3 class="ui header">
+										<div class="content">
+											产品专区
+											<div class="sub header">
+												我们用专业的数据说明，让你更了解产品的优缺点
+											</div>
+										</div>
+									</h3>
+								</a>
+							</div>
+						</div>
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/sq03.jpg" class="ui image" />
+								<a class="transparent" href="{{ app_url_topic }}/c13">
+									<h3 class="ui header">
+										<div class="content">
+											奇思妙想
+											<div class="sub header">
+												新奇的想法、怪怪的想法、笨笨的想法、好想法、坏想法……
+											</div>
+										</div>
+									</h3>
+								</a>
+							</div>
+						</div>
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/sq04.jpg" class="ui image" />
+								<a class="transparent" href="{{ app_url_topic }}/c14">
+									<h3 class="ui header">
+										<div class="content">
+											活动&吐槽
+											<div class="sub header">
+												只要发自内心的想去吐槽，槽点自然而然会呈现在你眼前
+											</div>
+										</div>
+									</h3>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ui big white background succase block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column section-title">
+					<h3 class="ui header">成功案例</h3>
+					<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui three items">
+						<div class="item">
+							<div class="image">
+								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
+						      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" class="ui image" />
+								</a>
+							</div>
+							<div class="content">
+								<h4 class="ui header">
+									<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
+								</h4>
+								<div class="name">
+									众筹金额:<span class="ui text">311,826</span>      支持人数:<span class="ui text">639</span>        达成率:<span class="ui text">3118％</span>    
+								</div>
+							</div>
+						</div>
+				
+						<div class="item">
+							<div class="image">
+								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
+						      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" class="ui image" />
+								</a>
+							</div>
+							<div class="content">
+								<h4 class="ui header">
+									<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
+								</h4>
+								<div class="name">
+									众筹金额:<span class="ui text">1215,983</span>      支持人数:<span class="ui text">243</span>       达成率:<span class="ui text">4053％</span>    
+								</div>
+							</div>
+						</div>
+				
+						<div class="item">
+							<div class="image">
+								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
+						      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" class="ui image" />
+								</a>
+							</div>
+							<div class="content">
+								<h4 class="ui header">
+									<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
+								</h4>
+								<div class="name">
+									众筹金额:<span class="ui text">300,000</span>      支持人数:<span class="ui text">610</span>      达成率:<span class="ui text">600％</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="more row">
+				<div class="center aligned column">
+					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						查看更多
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</div>
 {% endblock %}

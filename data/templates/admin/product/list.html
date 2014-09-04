@@ -162,6 +162,16 @@
 							
 						{% endif %}
 						
+						{% if !product.stick %}
+			          	<a href="{{ app_url_admin }}/product/ajax_stick?id={{ product._id }}" class="ui ajax link item">
+							推荐
+						</a>
+						{% else %}
+			          	<a href="{{ app_url_admin }}/product/ajax_cancel_stick?id={{ product._id }}" class="ui ajax link item">
+							取消推荐
+						</a>
+						{% endif %}
+						
 			          	<a href="{{ app_url_admin }}/product/deleted?id={{ product._id }}" class="ui confirm-request link item">
 							删除
 						</a>
