@@ -10,7 +10,7 @@
 <div class="ui secondary user menu">
 	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
-	    <label class="floating circular ui magenta label">{{ items_count }}</label>
+	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
 		{% else %}
 		<label class="floating circular ui magenta label hide"></label>
 		{% endif %}
@@ -55,10 +55,10 @@
 							<td colspan="3" class="nopad">
 								<div class="bill">
 									<p class="ui gray text">
-										共计：<b id="cart-items-count">{{ items_count }}</b>件产品
+										共计：<b class="cart-items-count">{{ items_count }}</b>件产品
 									</p>
 									<p>
-										总计：<b id="cart-total-money">{{ total_money }}</b>元
+										总计：<b class="cart-total-money">{{ total_money }}</b>元
 									</p>
 								</div>
 							</td>

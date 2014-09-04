@@ -69,8 +69,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		Doggy_Log_Helper::warn("Add to cart [$sku][$sizes][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->addItem($sku, $sizes);
-		$cart->setItemQuantity($sku, $sizes, $quantity);
+		$cart->addItem($sku);
+		$cart->setItemQuantity($sku, $quantity);
 		
         //重置到cookie
         $cart->set();
@@ -127,12 +127,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->setItemQuantity($com_sku, $com_size, $quantity);
+		$cart->setItemQuantity($com_sku, $quantity);
 		// 重置cookie
 		$cart->set();
 		
 		// 获取购物车信息
-		$this->stash['product'] = $cart->findItem($com_sku, $com_size);
+		$this->stash['product'] = $cart->findItem($com_sku);
 		$this->stash['total_money'] = $cart->getTotalAmount();
 		$this->stash['items_count'] = $cart->getItemCount();
 		
@@ -144,7 +144,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 */
 	public function dec_qty(){
 		$com_sku = $this->stash['sku'];
-		$quantity = (int)$this->stash['n'] || 0;
+		$quantity = (int)$this->stash['n'];
 		$com_size = $this->stash['s'];
 		
 		// 验证数据
@@ -156,9 +156,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 若n=0,从购物车删除
 		if ($quantity <= 0){
-			$cart->delItem($com_sku, $com_size);
+			$cart->delItem($com_sku);
 		} else {
-			$cart->setItemQuantity($com_sku, $com_size, $quantity);
+			$cart->setItemQuantity($com_sku, $quantity);
 		}
 		
 		// 重置cookie
@@ -166,7 +166,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		if ($quantity > 0){
 			// 获取产品信息
-			$this->stash['product'] = $cart->findItem($com_sku, $com_size);
+			$this->stash['product'] = $cart->findItem($com_sku);
 		}
 		
 		// 获取购物车信息

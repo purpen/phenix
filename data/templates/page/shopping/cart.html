@@ -13,8 +13,11 @@
 		if (data.items_count == 0){
 			phenix.redirect('{{ app_url_cart }}', 0);
 		}
-		$('#cart-items-count').text(data.items_count);
-		$('#cart-total-money').text(data.total_money);
+		// 导航购物标识角标
+		$('.basketnumber.label').text(data.items_count);
+		
+		$('.cart-items-count').text(data.items_count);
+		$('.cart-total-money').text(data.total_money);
 	};
 
 	$('.inc-qty.button').bind('click', function(){
@@ -43,7 +46,7 @@
 		// 减少1个数量,验证是否为0
 		qty_value  -= 1;
 		
-		$.getJSON('{{ app_url_shopping }}/dec_qty', {sku: sku, n: qty_value}, function(result){
+		$.post('{{ app_url_shopping }}/dec_qty', {sku: sku, n: qty_value}, function(result){
 			if (result.success){
 				if (qty_value <= 0){
 					$('#product-'+sku).remove();
@@ -133,7 +136,7 @@
 										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
 											<i class="flat reduce icon"></i>
 										</button>
-										<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" />
+										<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" />
 										<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
 											<i class="flat add icon"></i>
 										</button>
@@ -164,7 +167,7 @@
 							<div class="right aligned ten wide column">
 								<div class="bill">
 									<p class="item">
-										<b id="cart-items-count" class="money">{{ items_count }}</b>件产品，总计：<b id="cart-total-money" class="money">{{ total_money }}</b><span class="unit">元</span>
+										<b class="cart-items-count money">{{ items_count }}</b>件产品，总计：<b class="cart-total-money money">{{ total_money }}</b><span class="unit">元</span>
 									</p>
 								</div>
 								<a class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">去结算</a>
