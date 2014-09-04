@@ -3,12 +3,28 @@
 {% block page_css %}
 <style type="text/css">
 	.ui.tophead {
-	    background: url("{{ app_url_packaged }}/images/bg-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+	    background: url("{{ app_url_packaged }}/images/try_secret.jpg") no-repeat scroll center center / cover rgba(134, 176, 76, 1);
+		height: 300px;
+	}
+	.ui.tophead .introduction .ui.header {
+		margin-top: 0em;
+	}
+	.ui.tophead .introduction .trychannel {
+		margin: 0 0 0.35em;
+	}
+	.ui.tophead .introduction .trychannel a {
+		color: rgba(255,255,255,0.85);
+	}
+	.ui.tophead .introduction .trychannel a:hover {
+		text-decoration: none;
 	}
 </style>
 {% endblock %}
+
 {% block jquery %}
-	
+	skrollr.init({
+		forceHeight: false
+	});
 {% endblock %}
 
 {% block tophead %}
@@ -17,23 +33,23 @@
 		<div class="masthead-cover transparent">
 			<div class="ui responsive head grid">
 				<div class="row">
-					<div class="nine wide column">
+					<div class="column">
 						<div class="introduction">
+							<h2 class="trychannel">
+								<a href="{{ app_url_try }}" class="ui black link" data-0="border-bottom:2px solid rgba(255,255,255,0);" data-50="border-bottom:2px solid rgba(255,255,255,0.85);color:rgba(255,255,255,0.85);">产品试用</a>
+							</h2>
 							<h2 class="ui header">
 							  	<div class="content">
-							    	发现、支持、分享
-							    	<div class="sub header">让我们用创意和梦想去改变这个平凡无奇的世界</div>
+							    	MagicFinger指纹识别手机壳
+							    	<div class="sub header">手指动一动 生活如此轻松（免费申请）</div>
 							  	</div>
 							</h2>
 							<div class="actions">
-								<a href="{{ app_url_helper }}/topic" class="ui white btn-4 btn-4c icon-arrow-right btn">
-									查看帮助
+								<a href="{{ app_url_domain }}/try/view-3.html" class="ui white btn-4 btn-4c icon-arrow-right btn" data-0="background-color:rgba(255,255,255,0);color:rgba(255,255,255,1);" data-50="background-color:rgba(255,255,255,1);color:rgba(134, 176, 76, 1);">
+									查看试用详情
 								</a>
 							</div>
 						</div>
-					</div>
-					<div class="seven wide column">
-					
 					</div>
 				</div>
 			</div>

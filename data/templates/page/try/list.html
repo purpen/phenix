@@ -4,25 +4,9 @@
 {% block page_css %}
 <style class="text/css">
 	.try .masthead {
-	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		background: url("{{ app_url_packaged }}/images/try_banner.jpg") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 	    height: 300px;
 		color: #fff;
-	}
-	.try .masthead .column {
-		padding-top: 40px;
-	}
-	.try .mainlist {
-		margin: 1em auto;
-	}
-	.try .mainlist .ui.items .item > .content > .name,
-	.try .mainlist .ui.items .item > .content > .result {
-		color: rgba(0, 0, 0, 0.6);
-		font-size: 0.95em;
-		margin-bottom: 0.5em;
-	}
-	.try .mainlist .ui.items .item:hover .count,
-	.try .mainlist .ui.items .item:hover .time {
-		color: #ff3366;
 	}
 </style>
 {% endblock %}
@@ -39,13 +23,20 @@
 		<div class="masthead-cover">
 			<div class="ui responsive grid">
 				<div class="column">
-					<h1 class="ui header">
-						申请成为试用达人
-					</h1>
-					<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你.</p>
+					<h2 class="ui header">
+						<div class="content">
+							申请成为试用达人
+							<div class="sub header">
+								每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。
+							</div>
+						</div>
+					</h2>
 					<div class="ui buttons">
-						<a href="http://taihuoniao.me/auth/signup" class="ui active green btn-4 btn-4c icon-arrow-right gift btn">
+						<a href="http://taihuoniao.me/auth/signup" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
 							现在申请
+						</a>
+						<a href="{{ app_url_helper }}/try" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
+							试用规则
 						</a>
 					</div>
 				</div>
@@ -76,7 +67,7 @@
 										产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
 									</div>
 									<div class="ui text result">
-										试用名单公布时间：<span class="time"></span>
+										<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
 									</div>
 								</div>
 							</div>
