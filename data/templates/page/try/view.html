@@ -129,6 +129,10 @@
 		});
 	});
 	
+    $('textarea.comment-textarea').maxlength({
+        'feedback' : '.wordscount'
+    });
+	
 {% endblock %}
 
 {% block content %}
@@ -268,11 +272,11 @@
 								<input type="hidden" name="star" value="0" />
 							
 								<div class="field">
-									<textarea name="content" class="comment-textarea" placeholder="输入评论..."></textarea>
+									<textarea name="content" class="comment-textarea" maxlength="140" placeholder="输入评论..."></textarea>
 									<div id="comment"></div>
 								</div>
 								<div class="right aligned column">
-									<small>还可以输入<span id="comment-text-count">200</span> 字</small> <input type="submit" class="ui small magenta button" value="添加评论" />
+									<small>还可以输入<span class="wordscount">140</span> 字</small> <input type="submit" class="ui small magenta button" value="添加评论" />
 								</div>
 							</form>
 						</div>
