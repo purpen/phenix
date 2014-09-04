@@ -64,6 +64,9 @@
 	// 分享按钮
 	phenix.bind_share_list();
 	
+	skrollr.init({
+		forceHeight: false
+	});
 {% endblock %}
 
 {% block content %}
@@ -228,15 +231,15 @@
 		</div>
 	</section>
 
-	<section class="ui helper-banner block">
+	<section class="ui helper-banner block" data-1100="opacity:0.7;" data-1500="opacity:1;">
 		<div class="ui grid">
 			<div class="row">
 				<div class="center aligned column">
-					<h2 class="ui header">
+					<h2 class="ui header" data-1100="transform: translateY(-400px);opacity:0;" data-1500="transform: translateY(0px);opacity:1;">
 						提交你的创意
 					</h2>
-					<p>把你天马行空的创意交给我们，我们一起将它变成现实。</p>
-					<div class="actions">
+					<p data-1100="transform: translateY(400px);opacity:0;" data-1500="transform: translateY(0px);opacity:1;">把你天马行空的创意交给我们，我们一起将它变成现实。</p>
+					<div class="actions" data-1100="transform: translateY(400px);opacity:0;" data-1550="transform: translateY(0px);opacity:1;">
 						<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
 							提交创意
 						</a>
@@ -261,11 +264,11 @@
 			<div class="row">
 				<div class="center aligned column">
 					<div class="ui four social items">
-						<div class="item">
+						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1880="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<img src="{{ app_url_packaged }}/images/sq01.jpg" class="ui image" />
 								<a class="transparent" href="{{ app_url_topic }}/c11">
-									<h3 class="ui header">
+									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2100="transform: translateY(0px);opacity:1;">
 										<div class="content">
 											最新动态
 											<div class="sub header">
@@ -276,11 +279,11 @@
 								</a>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1930="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<img src="{{ app_url_packaged }}/images/sq02.jpg" class="ui image" />
 								<a class="transparent" href="{{ app_url_topic }}/c12">
-									<h3 class="ui header">
+									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2150="transform: translateY(0px);opacity:1;">
 										<div class="content">
 											产品专区
 											<div class="sub header">
@@ -291,11 +294,11 @@
 								</a>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1980="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<img src="{{ app_url_packaged }}/images/sq03.jpg" class="ui image" />
 								<a class="transparent" href="{{ app_url_topic }}/c13">
-									<h3 class="ui header">
+									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2200="transform: translateY(0px);opacity:1;">
 										<div class="content">
 											奇思妙想
 											<div class="sub header">
@@ -306,11 +309,11 @@
 								</a>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-2030="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<img src="{{ app_url_packaged }}/images/sq04.jpg" class="ui image" />
 								<a class="transparent" href="{{ app_url_topic }}/c14">
-									<h3 class="ui header">
+									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2250="transform: translateY(0px);opacity:1;">
 										<div class="content">
 											活动&吐槽
 											<div class="sub header">
@@ -339,7 +342,7 @@
 			<div class="row">
 				<div class="center aligned column">
 					<div class="ui three items">
-						<div class="item">
+						<div class="item" data-2100="transform: translateY(500px);opacity:0;" data-2480="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
 						      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" class="ui image" />
@@ -355,7 +358,7 @@
 							</div>
 						</div>
 				
-						<div class="item">
+						<div class="item" data-2100="transform: translateY(500px);opacity:0;" data-2560="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
 						      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" class="ui image" />
@@ -371,7 +374,7 @@
 							</div>
 						</div>
 				
-						<div class="item">
+						<div class="item" data-2100="transform: translateY(500px);opacity:0;" data-2640="transform: translateY(0px);opacity:1;">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
 						      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" class="ui image" />
@@ -391,7 +394,7 @@
 			</div>
 			<div class="more row">
 				<div class="center aligned column">
-					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn" data-2800="background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);" data-2950="background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);">
 						查看更多
 					</a>
 				</div>
