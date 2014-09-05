@@ -104,7 +104,7 @@
 			{% if css_tab_all %}
 			<div class="eleven wide column">
 				<h3 class="ui header">他的动态</h3>
-				<div class="ui three items">
+				<div class="ui two items">
 					{% support_list var:'list' page:page user_id:user._id %}
 					{% for event in list.rows %}
 				  		{% include 'block/timeline_product_item.html' %}
@@ -145,17 +145,22 @@
 				{% endif %}
 				
 				{% if css_tab_submitted %}
-					<div class="ui four items">
+					<div class="ui three items">
 						<!--我提交的产品-->
 						{% product_list var:'list' page:page user_id:user._id %}
 						{% for product in list.rows %}
-					  		{% include 'block/product_item.html' %}
+							{% if product.stage == 9 %}
+					  			{% include 'block/product_item.html' %}
+							{% endif %}
+							{% if product.stage == 5 %}
+					  			{% include 'block/product_presale_item.html' %}
+							{% endif %}
 						{% endfor %}
 					</div>
 				{% endif %}
 				
 				{% if css_tab_like %}
-					<div class="ui four items">
+					<div class="ui three items">
 						<!--我喜欢的产品-->
 						{% like_list var:'list' page:page user_id:user._id %}
 						{% for event in list.rows %}

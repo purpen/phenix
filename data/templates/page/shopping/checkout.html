@@ -154,7 +154,12 @@
 			]
 		}
 	}, {
-		inline : true,
+		inline : false,
+	    error: {
+	      method  : function(message){
+		      phenix.show_error_note(message, 5000);
+		  }
+	    },
 		onSuccess: function(event){
 			event.preventDefault();
 			$(this).ajaxSubmit({
@@ -167,7 +172,7 @@
 					
 					if(result.is_error){
 						$(event.target).addClass('error');
-						phenix.show_error_message(result.message, event.target);
+						phenix.show_error_note(result.message, 5000);
 					}else{						
 						phenix.redirect(result.redirect_url, 0);
 					}

@@ -64,6 +64,13 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 注册页面
 	 */
 	public function signup(){
+		// 当前有登录用户
+		if ($this->visitor->id){
+			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Sher_Core_Helper_Url::user_home_url($this->visitor->id);
+			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
+			return $this->to_redirect($redirect_url);
+		}
+		
 	    $this->gen_login_token();
 		$this->set_target_css_state('register_box','item_active');
 		return $this->to_html_page('page/signup.html');
@@ -98,10 +105,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
         if (empty($result)) {
-            return $this->ajax_json('帐号不存在!');
+            return $this->ajax_json('帐号不存在!', true);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
-            return $this->ajax_json('登录账号和密码不匹配',true);
+            return $this->ajax_json('登录账号和密码不匹配', true);
         }
         $user_id = (int) $result['_id'];
 		$nickname = $result['nickname'];
@@ -143,10 +150,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
         if (empty($result)) {
-            return $this->ajax_json('帐号不存在!');
+            return $this->ajax_json('帐号不存在!', true);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
-            return $this->ajax_json('登录账号和密码不匹配',true);
+            return $this->ajax_json('登录账号和密码不匹配', true);
         }
         $user_id = (int) $result['_id'];
 		$nickname = $result['nickname'];

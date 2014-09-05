@@ -21,14 +21,11 @@
 	
 	<eval>
 		{% if action == 'add' %}
-			$('#product-{{ sku }} .ui.message')
-				.html('已成功加入购物车')
-				.fadeTo(300, 1.0);
-			
-			var timer = setTimeout(function(){
-				$('#product-{{ sku }} .ui.message').fadeTo(300, 0);
-			}, 1000);	
-			
+			phenix.show_ok_note('已成功加入购物车', 2000);
+		{% endif %}
+		
+		{% if action == 'delete' %}
+			phenix.show_ok_note('已成功从购物车删除', 2000);
 		{% endif %}
 		
 		// 更新购物篮

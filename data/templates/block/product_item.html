@@ -9,17 +9,9 @@
 					<a class="single-image plus-icon" href="{{ product.view_url }}">
 						<span class="curtain"></span>
 					</a>
-					{% if product.stage == 9 %}
 					<a class="single-image ajax link-icon" href="{{ app_url_shopping }}/buy?sku={{ product._id }}" title="加入购物车">
 						<span class="curtain"></span>
 					</a>
-					{% endif %}
-					
-					{% if product.stage == 5 %}
-					<a class="single-image ajax link-icon" href="{{ app_url_shopping }}/buy?sku={{ product._id }}" title="现在预订">
-						<span class="curtain"></span>
-					</a>
-					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -31,7 +23,6 @@
 			</a>
 			<div class="advantage">{{ product.advantage }}</div>
 		</h4>
-		{% if product.stage == 9 %}
 		<div class="name">
 			<span class="unit">￥</span>
 			<span class="price">{{ product.sale_price }}</span>
@@ -44,26 +35,5 @@
 				<span class="count">{{ product.love_count }}</span>
 			</span>
 		</div>
-		{% endif %}
-		
-		{% if product.stage == 5 %}
-		<div class="sell clearfix">
-			<span class="price">
-				￥{{ product.hot_price }}
-			</span>
-			<a href="" class="ui small active magenta cart button">
-				<i class="flat order icon"></i>现在预订
-			</a>
-		</div>
-		{% endif %}
-		
-		{% if product.stage != 9 %}
-		<div class="ui divider"></div>
-		<div class="designer">
-			<img class="ui avatar image" src="{{ product.user.small_avatar_url }}" />
-			{{ product.user.nickname|default '太火鸟' }}
-		</div>
-		{% endif %}
   	</div>
-	<div class="ui success message"></div>
 </div>

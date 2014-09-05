@@ -78,9 +78,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
         if ($user_id) {
             if(is_array($user_id)){
-                $query['user_id'] = array('$in'=>$user_id);
+                $query['designer_id'] = array('$in'=>$user_id);
             }else{
-                $query['user_id'] = (int)$user_id;
+                $query['designer_id'] = (int)$user_id;
             }
         }
 		

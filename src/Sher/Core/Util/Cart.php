@@ -157,7 +157,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         $com_has_exist = 0;
         if($this->com_item > 0){
             for($i=0; $i<$this->com_item; $i++){
-                if($this->com_list[$i]['sku'] == $com_sku && $this->com_list[$i]['pid'] == $com_pid){
+                if($this->com_list[$i]['sku'] == $com_sku){
                     $this->com_list[$i]['quantity']++;
 					// 更新单品小计
 					$this->com_list[$i]['subtotal'] = $this->com_list[$i]['quantity'] * $this->com_list[$i]['sale_price'];
@@ -201,13 +201,20 @@ class Sher_Core_Util_Cart extends Doggy_Object {
     	}
 		
 		Doggy_Log_Helper::debug("Remove from the cart [$com_sku]");
-		
+		$index = 0;
+		$exist = false;
         for($i=0; $i<$this->com_item; $i++){
             if($this->com_list[$i]['sku'] == $com_sku){
             	$this->com_item--;
-            	unset($this->com_list[$i]);
+            	$index = $i;
+				$exist = true;
             }
         }
+		
+		if ($exist){
+			// 删除元素
+			array_splice($this->com_list, $index, 1);
+		}
 		
         //检测购物车是否为空
         if($this->com_item <= 0){
