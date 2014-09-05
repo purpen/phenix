@@ -436,6 +436,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 没有临时订单编号，为非法操作
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
+		if(empty($this->stash['addbook_id'])){
+			return $this->ajax_json('请选择收货地址！', true);
+		}
 		
 		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
 		// 是否预售订单
@@ -447,10 +450,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->ajax_json('订单产品缺失，请重试！', true);
 		}
 		
-		$total_money = $cart->getTotalAmount();
+		// 订单用户
 		$user_id = $this->visitor->id;
-		
-		// 订单备注
 		
 		// 预生成临时订单
 		$model = new Sher_Core_Model_OrderTemp();
@@ -464,6 +465,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
+		
+		// 获取购物金额
+		if (!$is_presaled){
+			$total_money = $cart->getTotalAmount();
+		} else {
+			$total_money = $order_info['total_money'];
+		}
 		
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $this->stash['payment_method'];
@@ -514,8 +522,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			Doggy_Log_Helper::debug("Save Order [ $rid ] is OK!");
 			
-			// 清空购物车
-			$cart->clearCookie();
+			// 购物车购物方式
+			if (!$is_presaled) {
+				// 清空购物车
+				$cart->clearCookie();
+			}
 			
 			// 删除临时订单数据
 			$model->remove($rrid);
