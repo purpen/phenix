@@ -240,13 +240,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		} else {
 			$row['presale_percent'] = 0;
 		}
+		
+		// 检测是否可售
+		$row['can_saled'] = $this->can_saled($row);
+		
 	}
 	
 	/**
 	 * 验证是否能够销售
 	 */
 	public function can_saled($data){
-		return $data['inventory'] > 0;
+		if(isset($data['inventory'])){
+			return $data['inventory'] > 0;
+		}
+		return false;
 	}
 	
 	// 添加自定义ID
