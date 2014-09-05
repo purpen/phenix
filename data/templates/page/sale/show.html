@@ -153,10 +153,10 @@
 			}, 'json');
 		}
 	});
-	
-	$('#clock').countdown('{{ product.presale_finish_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event) {
+
+	$('#clock').countdown('{{ product.presale_finish_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
 		var $this = $(this).html(event.strftime(''
-		+ '<span>%-d</span> 天 '
+		+ '<span>%D</span> 天 '
 		+ '<span>%H</span> 时 '
 		+ '<span>%M</span> 分 '
 		+ '<span>%S</span> 秒'));

@@ -182,6 +182,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 					return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
 				}
 				$status = $order_info['status'];
+				$is_presaled = $order_info['is_presaled'];
 		
 				// 验证订单是否已经付款
 				if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){

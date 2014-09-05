@@ -421,18 +421,35 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 减少产品库存，及增加已销售数量
 	 */
-	public function decrease_invertory($id, $quantity=1){
+	public function decrease_invertory($id, $quantity=1, $only=false, $add_money=0){
 		$row = $this->find_by_id((int)$id);
 		
 		if (empty($row)){
 			throw new Sher_Core_Model_Exception('产品不存在或已被删除！');
 		}
+		// 仅1个sku
+		if ($only){
+			$add_money = $row['sale_price']*$quantity;
+		}
 		
 		// 减少库存数量
 		if ($row['inventory'] >= $quantity){
-			$updated = array(
-				'$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1),
-			);
+			// 预售产品，需要累计预售金额及预售人数
+			if ($row['stage'] == self::STAGE_PRESALE){
+				$updated = array(
+					'$inc' => array(
+						'sale_count'=>$quantity, 
+						'inventory'=>$quantity*-1, 
+						'presale_count'=>1,
+						'presale_money'=>$add_money,
+					)
+				);
+			} else {
+				$updated = array(
+					'$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1),
+				);
+			}
+			
 			return $this->update((int)$id, $updated);
 		}
 	}
@@ -440,17 +457,34 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 恢复产品数量
 	 */
-	public function recover_invertory($id, $quantity=1){
+	public function recover_invertory($id, $quantity=1, $only=false, $dec_money=0){
 		$row = $this->find_by_id((int)$id);
 		
 		if (empty($row)){
 			throw new Sher_Core_Model_Exception('产品不存在或已被删除！');
 		}
 		
-		// 恢复库存数量
-		$updated = array(
-			'$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity),
-		);
+		// 仅1个sku
+		if ($only){
+			$dec_money = $row['sale_price']*$quantity;
+		}
+		// 预售产品，需要减少累计预售金额及预售人数
+		if ($row['stage'] == self::STAGE_PRESALE){
+			// 恢复库存数量
+			$updated = array(
+				'$inc' => array(
+					'sale_count'=>$quantity*-1, 
+					'inventory'=>$quantity,
+					'presale_count'=>-1,
+					'presale_money'=>$dec_money*-1,
+				),
+			);
+		} else {
+			// 恢复库存数量
+			$updated = array(
+				'$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity),
+			);
+		}
 		
 		return $this->update((int)$id, $updated);
 	}

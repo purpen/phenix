@@ -21,6 +21,7 @@ server {
           rewrite ^/home(.*)$ /app/site/index/home$1 last;
           rewrite ^/asset(.*)$ /app/site/asset$1 last;
 		  rewrite ^/fire(.*)$ /app/site/index/fire$1 last;
+		  rewrite ^/address(.*)$ /app/site/address$1 last;
           rewrite ^/admin(.*)$ /app/admin$1 last;
           rewrite ^/uploader(.*)$ /app/site/uploader$1 last;
           rewrite ^/favorite(.*)$ /app/site/favorite$1 last;

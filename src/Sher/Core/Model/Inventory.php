@@ -133,6 +133,8 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	 * 减少库存数量
 	 */
 	public function decrease_invertory_quantity($sku, $need_quantity=1){
+		$add_money = 0;
+		$only = false;
 		$item = $this->find_by_id((int)$sku);
 		if(!empty($item)){
 			$updated = array(
@@ -141,13 +143,18 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 			$this->update((int)$sku, $updated);
 			
 			$product_id = $item['product_id'];
+			
+			// 新增金额
+			$add_money = $item['price']*$need_quantity;
 		} else {
 			// 仅有1个默认sku
 			$product_id = $sku;
+			$only = true;
 		}
+		
 		// 更新总库存数
 		$product = new Sher_Core_Model_Product();
-		$product->decrease_invertory($product_id, $need_quantity);
+		$product->decrease_invertory($product_id, $need_quantity, $only, $add_money);
 		
 		unset($product);
 	}
@@ -156,6 +163,8 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	 * 恢复库存数量
 	 */
 	public function recover_invertory_quantity($sku, $sale_quantity=1){
+		$dec_money = 0;
+		$only = false;
 		$item = $this->find_by_id((int)$sku);
 		if(!empty($item)){
 			$updated = array(
@@ -164,13 +173,18 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 			$this->update((int)$sku, $updated);
 			
 			$product_id = $item['product_id'];
+			
+			// 减少金额
+			$dec_money = $item['price']*$sale_quantity;
 		} else {
 			// 仅有1个默认sku
 			$product_id = $sku;
+			$only = true;
 		}
+		
 		// 更新总库存数
 		$product = new Sher_Core_Model_Product();
-		$product->recover_invertory($product_id, $sale_quantity);
+		$product->recover_invertory($product_id, $sale_quantity, $only, $dec_money);
 		
 		unset($product);
 	}
