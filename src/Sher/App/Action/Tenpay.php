@@ -182,30 +182,55 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 					//------------------------------
 					// 处理业务开始
 					//------------------------------
-			
+					
 					// 处理数据库逻辑
 					// 注意交易单不要重复处理
-					// 注意判断返回金额
-			
+					$model = new Sher_Core_Model_Orders();
+					$order_info = $model->find_by_rid($out_trade_no);
+					if (empty($order_info)){
+						return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
+					}
+					$status = $order_info['status'];
+					$is_presaled = $order_info['is_presaled'];
+					$order_id = (string)$order_info['_id'];
+					
+					// 处理数据库逻辑
+					// 注意交易单不要重复处理
+					
+					// 验证订单是否已经付款
+					if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+						Doggy_Log_Helper::warn("Tenpay order[$out_trade_no] status[$order_status] updated!");
+						return $this->to_raw('Order updated!');
+					}
+					
+					// !!!注意判断返回金额!!!
+					// 验证支付金额是否一致,单位为分
+					if ($total_fee != $order_info['pay_money']*100){
+						Doggy_Log_Helper::warn("Tenpay order[$out_trade_no] total fee[$total_fee] not match!!!");
+						return $this->to_raw('Total fee not match!');
+					}
+					
+					// 更新支付状态,付款成功并配货中
+					$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+					
 					//------------------------------
 					// 处理业务完毕
 					//------------------------------
-					echo "success";
-			
+					return $this->to_raw('success');
 				} else {
 					//错误时，返回结果可能没有签名，写日志trade_state、retcode、retmsg看失败详情。
 					//echo "验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg") . "<br/>" ;
-					echo "fail";
+					return $this->to_raw('fail');
 				}
 			} else {
 				//通信失败
-				echo "fail";
+				return $this->to_raw('fail');
 				//后台调用通信失败,写日志，方便定位问题
 				//echo "<br>call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
 			}
 		} else {
 			//回调签名错误
-			echo "fail";
+			return $this->to_raw('fail');
 			//echo "<br>签名失败<br>";
 		}
 	}
@@ -264,28 +289,55 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 					// 处理业务开始
 					//------------------------------
 					
+					$model = new Sher_Core_Model_Orders();
+					$order_info = $model->find_by_rid($out_trade_no);
+					if (empty($order_info)){
+						return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
+					}
+					$status = $order_info['status'];
+					$is_presaled = $order_info['is_presaled'];
+					$order_id = (string)$order_info['_id'];
+					
+					// 跳转订单详情
+					$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+					
 					// 处理数据库逻辑
 					// 注意交易单不要重复处理
+					
+					// 验证订单是否已经付款
+					if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+						Doggy_Log_Helper::warn("Tenpay order[$out_trade_no] status[$status] updated!");
+						return $this->show_message_page('订单状态已更新!', true, $order_view_url);
+					}
+					
 					// !!!注意判断返回金额!!!
-			
+					// 验证支付金额是否一致,单位为分
+					if ($total_fee != $order_info['pay_money']*100){
+						Doggy_Log_Helper::warn("Tenpay order[$out_trade_no] total fee[$total_fee] not match!!!");
+						return $this->show_message_page('订单金额不一致，请核对!', true, $order_view_url);
+					}
+					
+					// 更新支付状态,付款成功并配货中
+					$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+					
 					//------------------------------
 					// 处理业务完毕
 					//------------------------------
-					echo "<br/>" . "支付成功" . "<br/>";
+					return $this->to_redirect($order_view_url);
 				} else {
 					// 错误时，返回结果可能没有签名，写日志trade_state、retcode、retmsg看失败详情。
 					// echo "验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg") . "<br/>" ;
-					echo "<br/>" . "支付失败" . "<br/>";
+					return $this->show_message_page('订单支付失败!', true);
 				}
 			} else {
 				// 通信失败
 				// echo "fail";
 				// 后台调用通信失败,写日志，方便定位问题，这些信息注意保密，最好不要打印给用户
-				echo "<br>订单通知查询失败:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
+				return $this->show_message_page("订单通知查询失败:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo(), true);
 			} 
 		} else {
 			// 签名错误
-			echo "<br>签名失败<br>";
+			return $this->show_message_page('签名失败!', true);
 		}
 		
 	}
