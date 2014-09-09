@@ -26,7 +26,7 @@
 		<div class="vote clearfix">
 			<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
 			<div class="progress">
-				<span class="count">0%</span>
+				<span class="count">{{ product.vote_percent }}%</span>
 				<span class="description">{{ product.vote_count }} 人投票</span>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
-<div class="magenta item">
+<div class="magenta item" id="product-{{ event.product._id }}">
   	<div class="image">
 		<a href="{{ event.product.view_url }}" title="{{ event.product.title }}">
-      		<img src="{{ event.product.cover.thumbnails.medium.view_url }}" alt="{{ event.product.title }}" />
+      		<img src="{{ event.product.cover.thumbnails.resp.view_url }}" alt="{{ event.product.title }}" />
 		</a>
   	</div>
   	<div class="content">
@@ -11,42 +11,53 @@
 			</a>
 			<div class="advantage">{{ event.product.advantage }}</div>
 		</h4>
-      	<div class="description">
-			{{ event.product.user.nickname }} {{ event.product.user.city }}
-          	<div class="extra">
-              	{{ event.product.love_count }} 喜欢
-          	</div>
-		</div>
 		
 		{% if event.product.stage == 1 %}
-		<div class="sell vote clearfix">
-			<div class="ui divided horizontal timer list" data-countdown="{{ event.product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-			<span class="count">
-				{{ event.product.vote_count }} 人投票
+		<div class="timestatus clearfix">
+			<span class="attr">
+				投票人数：<span class="count">{{ event.product.vote_count }}</span>
 			</span>
+			<span class="attr">
+				话题： <span class="count">{{ event.product.topic_count|default 0 }}</span>
+			</span>
+			<div class="progress">
+				<span class="count">{{ event.product.vote_percent }}%</span>
+				<span class="description" data-countdown="{{ event.product.voted_finish_time|date 'Y/m/d H:i:s' }}"></span>天后结束
+			</div>
 		</div>
 		{% endif %}
 		
 		{% if event.product.stage == 5 %}
-		<div class="sell clearfix">
-			<span class="price">
-				￥{{ event.product.hot_price }}
+		<div class="timestatus clearfix">
+			<span class="attr">
+				预定人数： <span class="count">{{ event.product.presale_count|default 0 }}</span>
+				<span class="amount">预定金额：<span class="count"><span class="unit">￥</span>{{ event.product.presale_money|default 0}}</span></span>
 			</span>
-			<a href="" class="ui small active magenta cart button">
-				<i class="flat shoppingin icon"></i>现在预订
-			</a>
+			<span class="attr">
+				话题： <span class="count">{{ event.product.topic_count|default 0 }}</span>
+			</span>
+			
+			<div class="progress">
+				<span class="count">{{ event.product.presale_percent }}%</span>
+				<span class="description" data-countdown="{{ event.product.presale_finish_time|date 'Y/m/d H:i:s' }}"></span>天后结束
+			</div>
 		</div>
 		{% endif %}
 		
 		{% if event.product.stage == 9 %}
-		<div class="sell clearfix">
-			<span class="price">
-				￥{{ event.product.market_price }}
+		<div class="timestatus">
+			<span class="unit">￥</span>
+			<span class="price">{{ event.product.sale_price }}</span>
+			<span class="like">
+				{% if event.product.love_count %}
+				<i class="icon heart"></i>
+				{% else %}
+				<i class="icon empty heart"></i>
+				{% endif %}
+				<span class="count">{{ event.product.love_count }}</span>
 			</span>
-			<a href="" class="ui small active magenta cart button">
-				<i class="flat shoppingin icon"></i>加入购物车
-			</a>
 		</div>
-		{% endif %}
+		{% endif %}	
+		
   	</div>
 </div>

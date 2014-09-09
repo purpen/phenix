@@ -19,7 +19,36 @@
 .user.center .submenu > .ui.buttons > .button {
 	padding: 0.8em 3em;
 }
-
+.user.center .ui.items .item > .content > .name {
+    font-size: 0.875em;
+} 
+.user.center .ui.items .item > .content > .timestatus {
+	position: relative;
+}
+.user.center .ui.items .item > .content > .timestatus .attr {
+	display: block;
+	margin-bottom: 0.25rem;
+}
+.user.center .ui.items .item .content .attr .amount {
+	margin-left: 0.35rem;
+}
+.user.center .ui.items .item .content .progress {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    z-index: 9;
+}
+.user.center .ui.items .item .content .progress .count {
+    display: block;
+    font-size: 1.15em;
+}
+.user.center .ui.items .item .content .progress .description {
+    font-size: 0.875em;
+}
+.user.center .ui.items .item:hover .content .progress .description {
+    color: #ff3366;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -54,6 +83,13 @@
 			event.preventDefault();
 			$(event.target).ajaxSubmit();
 		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
 	});
 	
 {% endblock %}

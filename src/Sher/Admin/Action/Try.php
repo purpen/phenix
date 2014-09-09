@@ -48,7 +48,6 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 新增评测
 	 */
 	public function edit() {
-		$this->editor_params();
 		$this->stash['mode'] = 'create';
 		
 		$data = array();
@@ -65,6 +64,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TRY;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TRY;
+		
+		$this->editor_params();
 		
 		return $this->to_html_page('admin/try/edit.html');
 	}

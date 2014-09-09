@@ -210,6 +210,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		if ($row['stage'] == self::STAGE_VOTE){
 			$row['stage_label'] = '投票中';
+			// 计算投票完成比
+			$lowest = Doggy_Config::$vars['app.vote.lowest'];
+			$row['vote_percent'] = sprintf("%.1f", $row['vote_favor_count']/$lowest);
 		}else if ($row['stage'] == self::STAGE_PRESALE){
 			$row['stage_label'] = '预售中';
 		}else if ($row['stage'] == self::STAGE_SHOP){
