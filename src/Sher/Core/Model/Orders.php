@@ -204,14 +204,31 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 取消订单
+	 */
+	public function canceled_order($id){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED);
+	}
+	
+	/**
 	 * 自动关闭订单
 	 */
 	public function close_order($id){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED);
+	}
+	
+	/**
+	 * 处理订单，并释放库存
+	 */
+	protected function _release_order($id, $status){
         if(is_null($id)){
             $id = $this->id;
         }
         if(empty($id)){
             throw new Sher_Core_Model_Exception('Order id is Null');
+        }
+        if(!isset($status)){
+            throw new Sher_Core_Model_Exception('Order status is Null');
         }
 		$row = $this->find_by_id($id);
 		
@@ -224,9 +241,20 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		}
 		
 		$updated = array(
-			'status' => Sher_Core_Util_Constant::ORDER_EXPIRED,
-			'closed_date' => time(),
+			'status' => $status,
 		);
+		
+		// 已过期关闭订单
+		if ($status == Sher_Core_Util_Constant::ORDER_EXPIRED){
+			$updated['closed_date'] = time();
+		}
+		
+		// 已取消订单
+		if ($status == Sher_Core_Util_Constant::ORDER_CANCELED){
+			$updated['is_canceled'] = 1;
+			$updated['canceled_date'] = time();
+		}
+		
 		return $this->update_set($id, $updated);
 	}
 	

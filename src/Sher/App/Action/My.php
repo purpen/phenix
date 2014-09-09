@@ -109,7 +109,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			case 1:
 				$this->set_target_css_state('nopayed');
 				break;
-			case 2: // 已关闭订单：取消的订单、过期的订单
+			case 9: // 已关闭订单：取消的订单、过期的订单
 				$this->set_target_css_state('closed');
 				break;
 			default:
@@ -120,6 +120,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/orders?s=%s&page=#p#', $status);
 		
 		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['my'] = true;
 		
 		return $this->to_html_page("page/my/orders.html");
 	}
@@ -138,6 +140,39 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['order_info'] = $order_info;
 		
 		return $this->to_html_page("page/my/order_view.html");
+	}
+	
+	/**
+	 * 取消订单
+	 */
+	public function ajax_cancel_order(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
+		}
+		
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
+		}
+		try {
+			// 关闭订单
+			$model->canceled_order($order_info['_id']);
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
+        }
+		
+		$this->stash['order'] = $model->find_by_rid($rid);
+		$this->stash['my'] = true;
+		
+		return $this->to_taconite_page('ajax/order_ok.html');
 	}
 	
 	/**

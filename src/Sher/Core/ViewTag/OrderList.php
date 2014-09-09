@@ -56,7 +56,9 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 				$query['status'] = Sher_Core_Util_Constant::ORDER_PUBLISHED;
 				break;
 			case 9: // 已关闭订单：取消的订单、过期的订单
-				$query['status'] = array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED);
+				$query['status'] = array(
+					'$in' => array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED),
+				);
 				break;
 		}
 		

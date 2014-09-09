@@ -1,12 +1,12 @@
 <div class="magenta item" id="product-{{ product._id }}">
   	<div class="image">
-		<a href="{{ product.view_url }}" title="{{ product.title }}">
+		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
       		<img src="{{ product.cover.thumbnails.resp.view_url }}" />
 		</a>
 		<div class="image-extra">
 			<div class="extra-content">
 				<div class="inner-extra">
-					<a class="single-image plus-icon" href="{{ product.view_url }}">
+					<a class="single-image plus-icon" href="{{ product.view_url }}" target="_blank">
 						<span class="curtain"></span>
 					</a>
 					{% if product.can_saled %}
@@ -24,7 +24,7 @@
   	</div>
   	<div class="content">
       	<h4 class="ui dividing header">
-			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
+			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link" target="_blank">
 				{{ product.title|truncate, 16, '' }}
 			</a>
 			<div class="advantage">{{ product.advantage }}</div>

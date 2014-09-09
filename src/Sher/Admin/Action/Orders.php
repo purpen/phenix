@@ -27,6 +27,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s']);
 		
+		$this->stash['admin'] = true;
+		
         return $this->to_html_page('admin/orders/list.html');
     }
 	
@@ -64,6 +66,39 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		$this->stash['express_caty'] = $express_caty;
 		
 		return $this->to_html_page("admin/orders/send.html");
+	}
+	
+	/**
+	 * 关闭订单
+	 */
+	public function ajax_close_order(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
+		}
+		
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
+		}
+		try {
+			// 关闭订单
+			$model->close_order($order_info['_id']);
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_notification('关闭订单失败:'.$e->getMessage(),true);
+        }
+		
+		$this->stash['order'] = $model->find_by_rid($rid);
+		$this->stash['admin'] = true;
+		
+		return $this->to_taconite_page('ajax/order_ok.html');
 	}
 	
 	/**
