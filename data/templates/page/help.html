@@ -52,9 +52,11 @@
 					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
 						提交创意
 					</a>
+					{% if !visitor.is_login %}
 					<a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 						现在加入
 					</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

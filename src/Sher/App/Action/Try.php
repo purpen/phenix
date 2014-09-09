@@ -3,7 +3,7 @@
  * 产品试用
  * @author purpen
  */
-class Sher_App_Action_Try extends Sher_App_Action_Base {
+class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'id' => '',
@@ -14,6 +14,10 @@ class Sher_App_Action_Try extends Sher_App_Action_Base {
 	protected $page_html = 'page/profile.html';
 	
 	protected $exclude_method_list = array();
+	
+	public function _init() {
+		$this->set_target_css_state('page_social');
+    }
 	
 	/**
 	 * 列表

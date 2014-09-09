@@ -15,10 +15,9 @@
 		<label class="floating circular ui magenta label hide"></label>
 		{% endif %}
 	  	<i class="flat shopping_cart icon"></i>
-		
 	  	<div class="menu">
 			{% if items_count > 0 %}
-			<div class="item">
+			<div class="item" id="basket-body-content">
 				<table class="ui basic basket table">
 					<thead>
 						<tr>
@@ -26,11 +25,12 @@
 							<th>产品信息</th>
 							<th>数 量</th>
 							<th class="center aligned">小计</th>
+							<th class="right aligned"></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="basket-item-wrapper">
 						{% for product in basket_products %}
-						<tr id="cart_item_{{ product.sku }}">
+						<tr id="basket-product-{{ product.sku }}">
 							<td>
 								<a href="{{ product.view_url }}" class="ui cover image">
 						      		<img src="{{ product.cover }}" />
@@ -49,10 +49,15 @@
 							<td class="center aligned">
 								{{ product.subtotal }}元
 							</td>
+							<td class="right aligned">
+								<a class="magenta ui close button" data-sku="{{ product.sku }}">
+									<i class="flat close icon"></i>
+								</a>
+							</td>
 						</tr>
 						{% endfor %}
 					    <tr>
-							<td colspan="3" class="nopad">
+							<td colspan="4">
 								<div class="bill">
 									<p class="ui gray text">
 										共计：<b class="cart-items-count">{{ items_count }}</b>件产品
@@ -62,7 +67,7 @@
 									</p>
 								</div>
 							</td>
-					    	<td class="center aligned nopad">
+					    	<td class="right aligned">
 							  	<a class="ui magenta btn-4 btn-4c btn" href="{{ app_url_cart }}">
 							    	去结算
 								</a>
@@ -72,11 +77,12 @@
 				</table>
 			</div>
 			{% else %}
-			<div class="item">
+			<div class="item" id="basket-body-content">
 				<p>购物车中还没有商品，赶紧选购吧！</p>
 			</div>
 			{% endif %}
 	  	</div>
+		
 	</div>
 	
 	{% if visitor %}

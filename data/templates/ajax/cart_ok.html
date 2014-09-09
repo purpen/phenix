@@ -1,6 +1,7 @@
 <taconite>
 	{% if action == 'delete' %}
-		<remove select="#product-{{ sku }}" />
+		<remove select="#cart-product-{{ sku }}" />
+		<remove select="#basket-product-{{ sku }}" />
 	{% endif %}
 	
 	{% if items_count == 0 %}
@@ -17,8 +18,76 @@
 			</div>
 		</div>
 	</replace>
+	<replace select="#basket-body-content">
+		<div class="item" id="basket-body-content">
+			<p>购物车中还没有商品，赶紧选购吧！</p>
+		</div>
+	</replace>
 	{% endif %}
 	
+	{% if action == 'add' %}
+		<replace select="#basket-body-content">
+			<div class="item" id="basket-body-content">
+				<table class="ui basic basket table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>产品信息</th>
+							<th>数 量</th>
+							<th class="center aligned">小计</th>
+							<th class="right aligned"></th>
+						</tr>
+					</thead>
+					<tbody id="basket-item-wrapper">
+						{% for product in basket_products %}
+						<tr id="basket-product-{{ product.sku }}">
+							<td>
+								<a href="{{ product.view_url }}" class="ui cover image">
+						      		<img src="{{ product.cover }}" />
+								</a>
+							</td>
+							<td>
+						      	<div class="content">
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui magenta link" title="{{ product.title }}">{{ product.title|truncate 18 '' }}</a>
+									</div>
+						      	</div>
+							</td>
+							<td class="center aligned">
+								{{ product.quantity }}
+							</td>
+							<td class="center aligned">
+								{{ product.subtotal }}元
+							</td>
+							<td class="right aligned">
+								<a class="magenta ui close button" data-sku="{{ product.sku }}">
+									<i class="flat close icon"></i>
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+					    <tr>
+							<td colspan="4">
+								<div class="bill">
+									<p class="ui gray text">
+										共计：<b class="cart-items-count">{{ items_count }}</b>件产品
+									</p>
+									<p>
+										总计：<b class="cart-total-money">{{ total_money }}</b>元
+									</p>
+								</div>
+							</td>
+					    	<td class="right aligned">
+							  	<a class="ui magenta btn-4 btn-4c btn" href="{{ app_url_cart }}">
+							    	去结算
+								</a>
+					    	</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</replace>
+	{% endif %}
 	<eval>
 		{% if action == 'add' %}
 			phenix.show_ok_note('已成功加入购物车', 2000);

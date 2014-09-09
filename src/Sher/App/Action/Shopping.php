@@ -104,7 +104,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$total_money = $cart->getTotalAmount();
 		$items_count = $cart->getItemCount();
+		$products = $cart->getItems();
 		
+		$this->stash['basket_products'] = $products;
 		$this->stash['total_money'] = $total_money;
 		$this->stash['items_count'] = $items_count;
 		
@@ -500,6 +502,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$order_info['user_id'] = (int)$user_id;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
+			
+			// 订单备注
+			if(isset($this->stash['summary'])){
+				$order_info['summary'] = $this->stash['summary'];
+			}
 			
 			// 商品金额
 			$order_info['total_money'] = $total_money;
