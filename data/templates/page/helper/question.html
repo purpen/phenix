@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}常见问题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="ui block">
+<section class="ui white background big block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
 			<div class="center aligned column section-title">
@@ -21,11 +21,189 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="fourteen wide column">
+			<div class="center aligned column">
+				<div class="ui magenta buttons">
+					<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">关于太火鸟</a>
+					<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">账号管理</a>
+					<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">投票</a>
+					<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">预售</a>
+					<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">商店</a>
+					<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">社区</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui white background big block" id="aboutfrbird">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="fourteen wide left aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">
-							<h3 class="ui magenta header">这是什么网站？</h3>
+							<h4 class="ui magenta header">太火鸟是什么？</h4>
+							<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">太火鸟优势是什么？</h4>
+							<p>快：这里有完备的数据支持与信息服务系统，我们用数据在第一时间说话，用消费者的反馈帮助产品改进创新，使产品用户体验最优化；</p>
+							<p>
+准：结合第一手数据与反馈信息，及时调整产品战略方向，重新定位，精准营销；</p>
+<p>
+广：这里有国内外最顶尖的设计师专家评审团，15年的资源积累与创意消费大数据，借助社区力量，帮助项目打通线上线下渠道，全面覆盖，打造完整创意生态产业链。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">我们的平台能为你带来什么？</h4>
+							<p>太火鸟是多面向的创意资讯、产品、产业服务平台，我们主要为三类人群带来最终受益。</p>
+			
+							<div class="ui three items">
+								<div class="item">
+									<h3>你是设计师</h3>
+									<div class="content">
+										这里可以帮你实现梦想、落实想法，资金问题我们来帮你解决！另外这里还有前沿创意资讯素材分享，能带给你更多启发和思考，你还可以在这里找到更多的设计人群，和同你一样专业的人士进行交流探讨。
+									</div>
+								</div>
+								<div class="item">
+									<h3>你是消费者</h3>
+									<div class="content">
+										如果你是一个创意产品发烧友，这里你可以找到一切前沿的甚至是未上市产品，我们在太火鸟平台发起众筹，只要你有兴趣并支持设计师，就有可能成为第一批使用者！另外，这里海量的新鲜创意资讯可以满足你的好奇心，同时你的分享也将被无数人看到，找到真正的品位同好者。
+									</div>
+								</div>
+								<div class="item">
+									<h3>你是供应商/企业</h3>
+									<div class="content">
+										你可以在这里找到眼前一亮的创意，和有兴趣的项目进行产品合作，永远走在市场的前端！同时你还可以在这里看到最新的设计资讯和设计潮流，了解世界每时每刻在发生着的设计事件。
+									</div>
+								</div>
+							</div>
+						</div>
+		
+						<div class="item">
+							<h4 class="ui magenta header">什么样的项目适合我们的平台？</h4>
+							<p>太火鸟希望提供给消费者的产品都是个性化的创新产品，所以你的项目可以是应用新原理、新技术、新工艺对某一新或老产品的功能进行创新，创意改进的产品，或者是利用数据化信息实现人机交互的智能科技新品。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">是否会要求产品或作品的知识产权？</h4>
+							<p>不会。我们只是提供一个宣传、支持和推广的平台，该产品的知识产权归项目发起单位所有。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big block" id="aboutfrbird">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="fourteen wide left aligned column">
+				<div class="content-box">
+					<div class="ui selection list">
+						<div class="item">
+							<h4 class="ui magenta header">如何创建太火鸟帐号？</h4>
+							<p>如果您尚未有太火鸟帐号，请前往： http://www.taihuoniao.com/auth/signup
+您可以使用你的邮箱、或使用新浪微博、qq第三方账号关联登录。
+帐号注册好后，请务必完善您的个人资料。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">如何重置修改密码？</h4>
+							<p>忘记密码：如果您无法登录太火鸟帐号，请访问http://www.taihuoniao.com/auth/login。输入您注册太火鸟帐号时使用的电子邮件地址，选择忘记密码，然后您将收到一封含有重置密码链接的邮件。
+修改密码：您可以在“账户设置”中修改密码。要修改密码，您必须提供您的原密码。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">如何编辑我的个人资料或个人头像？</h4>
+							<p>想要编辑您的太火鸟个人资料信息（包括您的个人头像），请按以下步骤操作：在taihuoniao.com右上角点击您的用户名，选择“编辑个人资料”，在页面左侧的菜单中选择您想编辑的部分。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui big white background block" id="aboutfrbird">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="fourteen wide left aligned column">
+				<div class="content-box">
+					<div class="ui selection list">
+						<div class="item">
+							<h4 class="ui magenta header">什么人可以发起项目？</h4>
+							<p>1、已满18周岁有完全民事行为能力的人、未满18周岁者请由监护人协助提供相关资料。</p>
+<p>2、中华人民共和国公民，或能提供长期在中国居住证明的非中华人民共和国公民，并在网站需要时，按照网站要求，提供必要的身份认证和资质认证，根据项目内容，包括但不限于：身份证，护照，学历证明等。</p>
+<p>3、拥有能够在中国地区接收人民币汇款的银行卡或者支付宝账户。</p>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="fourteen wide left aligned column">
+				<div class="content-box">
+					<div id="aboutfrbird">
+						<div class="ui selection list">
+							<div class="item">
+								<h4 class="ui magenta header">太火鸟是什么？</h4>
+								<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。</p>
+							</div>
+							<div class="item">
+								<h4 class="ui magenta header">太火鸟优势是什么？</h4>
+								<p>快：这里有完备的数据支持与信息服务系统，我们用数据在第一时间说话，用消费者的反馈帮助产品改进创新，使产品用户体验最优化；</p>
+								<p>
+准：结合第一手数据与反馈信息，及时调整产品战略方向，重新定位，精准营销；</p>
+<p>
+广：这里有国内外最顶尖的设计师专家评审团，15年的资源积累与创意消费大数据，借助社区力量，帮助项目打通线上线下渠道，全面覆盖，打造完整创意生态产业链。</p>
+							</div>
+							<div class="item">
+								<h4 class="ui magenta header">我们的平台能为你带来什么？</h4>
+								<p>太火鸟是多面向的创意资讯、产品、产业服务平台，我们主要为三类人群带来最终受益。</p>
+								
+								<div class="ui three items">
+									<div class="item">
+										<h3>你是设计师</h3>
+										<div class="content">
+											这里可以帮你实现梦想、落实想法，资金问题我们来帮你解决！另外这里还有前沿创意资讯素材分享，能带给你更多启发和思考，你还可以在这里找到更多的设计人群，和同你一样专业的人士进行交流探讨。
+										</div>
+									</div>
+									<div class="item">
+										<h3>你是消费者</h3>
+										<div class="content">
+											如果你是一个创意产品发烧友，这里你可以找到一切前沿的甚至是未上市产品，我们在太火鸟平台发起众筹，只要你有兴趣并支持设计师，就有可能成为第一批使用者！另外，这里海量的新鲜创意资讯可以满足你的好奇心，同时你的分享也将被无数人看到，找到真正的品位同好者。
+										</div>
+									</div>
+									<div class="item">
+										<h3>你是供应商/企业</h3>
+										<div class="content">
+											你可以在这里找到眼前一亮的创意，和有兴趣的项目进行产品合作，永远走在市场的前端！同时你还可以在这里看到最新的设计资讯和设计潮流，了解世界每时每刻在发生着的设计事件。
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="item">
+								<h4 class="ui magenta header">什么样的项目适合我们的平台？</h4>
+								<p>太火鸟希望提供给消费者的产品都是个性化的创新产品，所以你的项目可以是应用新原理、新技术、新工艺对某一新或老产品的功能进行创新，创意改进的产品，或者是利用数据化信息实现人机交互的智能科技新品。</p>
+							</div>
+							<div class="item">
+								<h4 class="ui magenta header">是否会要求产品或作品的知识产权？</h4>
+								<p>不会。我们只是提供一个宣传、支持和推广的平台，该产品的知识产权归项目发起单位所有。</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="content-box">
+					<div class="ui selection list">
+						<div class="item">
+							<h4 class="ui magenta header">这是什么网站？</h4>
 							<p>太火鸟网是一个让你可以发起和支持创意项目的平台。如果你有一个富有创意的想法(新颖的设计产品或独立电影)，欢迎你到我们的平台上发起项目，向公众推广，并得到资金的支持去实现你的想法。如果你喜欢创意，可以在太火鸟网上浏览各种有趣的项目，并力所能及地支持他们。</p>
 						</div>
 						
