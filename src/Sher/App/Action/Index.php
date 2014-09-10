@@ -51,6 +51,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 征集令
 	 */
 	public function fire(){
+		$this->set_target_css_state('page_fire');
 		return $this->to_html_page('page/fire.html');
 	}
 	

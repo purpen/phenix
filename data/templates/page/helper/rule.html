@@ -1,17 +1,6 @@
 {%extends 'layout/board.html'%}
 {% block title %}投票规则演示-{% endblock %}
-{% block page_css %}
-<style type="text/css">
-	.vote.timer .button {
-		padding-left: 4em;
-		padding-right: 4em;
-	}
-</style>
-{% endblock %}
-{% block js %}
-{% endblock %}
 {% block jquery %}
-	
 {% endblock %}
 
 {% block content %}
@@ -19,13 +8,38 @@
 	<div class="ui responsive center aligned grid">
 		<div class="row">
 			<div class="center aligned column section-title">
-				<h3 class="ui header">投票规则演示</h3>
+				<h3 class="ui header">投票规则</h3>
 				<hr>
 			</div>
 		</div>
 		<div class="row">
-			<div class="center aligned column">
-				
+			<div class="fourteen wide center aligned column">
+				<div class="content-box">
+					<div class="ui selection list">
+						<div class="item">
+							<h4 class="ui magenta header">提交创意，在线投票</h4>
+							<p>准备好产品资料，网上提交你的创意。在上线后2周时间内得到100位用户的投票就能进入专家陪审。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">专家评估</h4>
+							<p>达到投票数进入专家评估环节，共有6位评委，平均投票分差距最大的被自动删除，只有剩下的5个分数计算。所有用户都可以参加并投票表决。然而，只有选票用户超过5000状态积分将计入您的创意投票最终得分;这些用户投票的平均分数形成第6和最后的比分。整个过程需要7天。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">评分体系</h4>
+							<p>该评价体系是基于四个标准：设计、功能、外观、创意
+我们的系统中收集所有5的分数，并适用于下面的算法，以获得最终结果。</p>
+							<p>设计：40%，功能：30%    外观：20%    创意：10%</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">网站预售</h4>
+							<p>所有通过专家审核的产品创意，将进入网站预售阶段，在30天时间能获得1000人支持筹集金额为10万元以上才能成功，并进入量产在各大平台销售。</p>
+						</div>
+						<div class="item">
+							<h4 class="ui magenta header">线上销售</h4>
+							<p>进入太火鸟相关销售渠道销售。</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
