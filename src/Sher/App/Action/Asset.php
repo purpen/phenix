@@ -71,7 +71,7 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 			
 	        if ($ok) {
 				$asset_id = (string)$asset->_id;
-				$result['link'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hu.jpg');
+				$result['link'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hd.jpg');
 	        }
 		} catch (Sher_Core_Model_Exception $e) {
 			Doggy_Log_Helper::warn("上传图片失败：".$e->getMessage());

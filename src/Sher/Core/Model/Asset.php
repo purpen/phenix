@@ -89,6 +89,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 响应式设计所需图
 	protected $thumbnails_resp = array(
 		'resp' => 'resp.jpg',
+		'hd'   => 'hd.jpg',
 	);
 
     protected $required_fields = array('filepath');
