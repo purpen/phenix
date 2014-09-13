@@ -1,12 +1,12 @@
 <div class="magenta item" id="product-{{ event.product._id }}">
   	<div class="image">
-		<a href="{{ event.product.view_url }}" title="{{ event.product.title }}">
+		<a href="{{ event.product.view_url }}" title="{{ event.product.title }}" target="_blank">
       		<img src="{{ event.product.cover.thumbnails.resp.view_url }}" alt="{{ event.product.title }}" />
 		</a>
   	</div>
   	<div class="content">
       	<h4 class="ui dividing header">
-			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
+			<a href="{{ event.product.view_url }}" title="{{ event.product.title }}" class="ui link" target="_blank">
 				{{ event.product.title|truncate, 16, '' }}
 			</a>
 			<div class="advantage">{{ event.product.advantage }}</div>
@@ -57,7 +57,8 @@
 				<span class="count">{{ event.product.love_count }}</span>
 			</span>
 		</div>
-		{% endif %}	
+		{% endif %}
 		
+		<a href="{{ event.product.view_url }}" class="link-extra" target="_blank">{{ event.product.title }}</a>
   	</div>
 </div>
