@@ -120,7 +120,7 @@
 					{% for topic in topic.rows %}
 				  	<div class="item">
 				    	<div class="content">
-				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">{{ topic.title|truncate 18 }}</a>
+				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">{{ topic.title|truncate 16 }}</a>
 				      		<div class="description">
 								{% if topic.last_user %}
 								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
