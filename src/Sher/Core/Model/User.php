@@ -154,7 +154,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count');
-	
+	protected $retrieve_fields = array('password'=>0);
 	protected $joins = array();
 	
     //~ some event handles

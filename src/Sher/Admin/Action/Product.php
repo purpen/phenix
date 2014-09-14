@@ -74,7 +74,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = & $model->extend_load($id);
+		$product = & $model->load($id);
 		
 		// 更新产品状态
 		$model->mark_as_stage($id, Sher_Core_Model_Product::STAGE_SHOP);
@@ -230,7 +230,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$model = new Sher_Core_Model_Product();
 		if(!empty($id)){
 			$mode = 'edit';
-			$this->stash['product'] = $model->extend_load($id);
+			$this->stash['product'] = $model->load($id);
 			
 			// 获取inventory
 			$inventory = new Sher_Core_Model_Inventory();

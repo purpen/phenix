@@ -37,7 +37,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		
 		// 产品信息
 		$model = new Sher_Core_Model_Product();
-		$product = & $model->extend_load($id);
+		$product = & $model->load($id);
 		
 		// 限制修改权限
 		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){

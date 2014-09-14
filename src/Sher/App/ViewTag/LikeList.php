@@ -19,6 +19,7 @@ class Sher_App_ViewTag_LikeList extends Doggy_Dt_Tag {
         $size = 12;
 		
         $user_id = 0;
+		$type = 0;
 		
 		$sort = 'latest';
 		
@@ -39,6 +40,9 @@ class Sher_App_ViewTag_LikeList extends Doggy_Dt_Tag {
         if ($user_id) {
             $query['user_id'] = (int)$user_id;
         }
+		if ($type) {
+			$query['type'] = (int)$type;
+		}
 		
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;

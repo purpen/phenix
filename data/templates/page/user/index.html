@@ -15,40 +15,6 @@
 .user-head > .ui.avatar {
 	border: 3px solid #FFFFFF;
 }
-
-.user.center .submenu > .ui.buttons > .button {
-	padding: 0.8em 3em;
-}
-.user.center .ui.items .item > .content > .name {
-    font-size: 0.875em;
-} 
-.user.center .ui.items .item > .content > .timestatus {
-	position: relative;
-}
-.user.center .ui.items .item > .content > .timestatus .attr {
-	display: block;
-	margin-bottom: 0.25rem;
-}
-.user.center .ui.items .item .content .attr .amount {
-	margin-left: 0.35rem;
-}
-.user.center .ui.items .item .content .progress {
-    position: absolute;
-    right: 0;
-    text-align: right;
-    top: 0;
-    z-index: 9;
-}
-.user.center .ui.items .item .content .progress .count {
-    display: block;
-    font-size: 1.15em;
-}
-.user.center .ui.items .item .content .progress .description {
-    font-size: 0.875em;
-}
-.user.center .ui.items .item:hover .content .progress .description {
-    color: #ff3366;
-}
 </style>
 {% endblock %}
 {% block js %}
@@ -148,6 +114,31 @@
 				</div>
 			</div>
 			<div class="five wide column">
+				<h3 class="ui header">相关话题</h3>
+				{% topic_list var:'list' page:1 user_id:user._id size:5 %}
+				<div class="ui tiny selection list">
+					{% for topic in list.rows %}
+				  	<div class="item">
+				    	<div class="content">
+				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">{{ topic.title|truncate 18 }}</a>
+				      		<div class="description">
+								{% if topic.last_user %}
+								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+							  		{{ topic.last_user.nickname }}
+								</a>
+								回复于{{ topic.last_reply_time|relative_datetime }}
+								{% else %}
+								<a class="ui link" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
+							  		{{ topic.user.nickname }}
+								</a>
+								于{{ topic.created_on|relative_datetime }}发表
+								{% endif %}
+				      		</div>
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+				
 				<h3 class="ui header">支持他</h3>
 				<form class="ui form">
 					<div class="field">
@@ -198,7 +189,7 @@
 				{% if css_tab_like %}
 					<div class="ui three items">
 						<!--我喜欢的产品-->
-						{% like_list var:'list' page:page user_id:user._id %}
+						{% like_list var:'list' page:page user_id:user._id type:1 %}
 						{% for event in list.rows %}
 					  		{% include 'block/timeline_product_item.html' %}
 						{% endfor %}

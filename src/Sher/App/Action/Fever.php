@@ -112,7 +112,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$editable = false;
 		
 		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load((int)$id);
+		$product = $model->load((int)$id);
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的创意不存在或已被删除！', $redirect_url);

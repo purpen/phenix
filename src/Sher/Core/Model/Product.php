@@ -189,6 +189,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money');
 	
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
+	protected $retrieve_fields = array('content'=>0);
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -222,7 +223,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}
 		
 		// HTML 实体转换为字符
-		$row['content'] = htmlspecialchars_decode($row['content']);
+		if (isset($row['content'])){
+			$row['content'] = htmlspecialchars_decode($row['content']);
+		}
 		
 		// 去除 html/php标签
 		$row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));

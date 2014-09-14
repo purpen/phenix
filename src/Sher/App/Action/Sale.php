@@ -57,7 +57,10 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load($id);
+		$product = $model->load($id);
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);

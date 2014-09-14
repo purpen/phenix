@@ -105,11 +105,14 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load((int)$id);
-		
+		$product = $model->load((int)$id);
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
 		}
+		
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
