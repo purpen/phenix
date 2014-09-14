@@ -224,11 +224,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$tpl = 'page/topic/show.html';
 		
 		$model = new Sher_Core_Model_Topic();
-		$topic = & $model->extend_load($id);
+		$topic = $model->load($id);
 		
 		if(empty($topic) || $topic['deleted']){
 			return $this->show_message_page('访问的主题不存在或已被删除！', $redirect_url);
 		}
+        if (!empty($topic)) {
+            $topic = $model->extended_model_row($topic);
+        }
 		
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
@@ -429,11 +432,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->show_message_page('编辑的主题不存在！', true);
 		}
 		$model = new Sher_Core_Model_Topic();
-		$topic = $model->extend_load((int)$this->stash['id']);
+		$topic = $model->load((int)$this->stash['id']);
 		// 仅管理员或本人具有删除权限
 		if (!$this->visitor->can_admin() && !($topic['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
+        
 		
 		// 是否为一级分类
 		$is_top = false;
