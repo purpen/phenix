@@ -132,6 +132,8 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
 		
+		Doggy_Log_Helper::warn("Alipay secrete notify posts: ".json_encode($_POST));
+		
 		if ($verify_result) {//验证成功
 			$out_trade_no = $_POST['out_trade_no'];
 			$trade_no = $_POST['trade_no'];
@@ -157,6 +159,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			Doggy_Log_Helper::warn("Alipay secrete notify ok!");
 		}else{
 			// 验证失败
+			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
 			return $this->to_raw('fail');
 		}
 	}
@@ -212,7 +215,8 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			if (!$sync){
 				return $this->show_message_page('订单状态已更新!', true, $order_view_url);
 			} else {
-				return $this->to_raw('Trade status not match!');
+				// 已支付状态
+				return $this->to_raw('success');
 			}
 		}
 		

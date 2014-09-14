@@ -40,7 +40,9 @@ class Sher_Core_Util_AlipayNotify extends Doggy_Object {
 			
 			//获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
 			$responseTxt = 'true';
-			if (! empty($_POST["notify_id"])) {$responseTxt = $this->getResponse($_POST["notify_id"]);}
+			if (! empty($_POST["notify_id"])) {
+				$responseTxt = $this->getResponse($_POST["notify_id"]);
+			}
 			
 			//写日志记录
 			//if ($isSign) {
