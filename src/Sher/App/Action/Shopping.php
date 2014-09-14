@@ -597,7 +597,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$options = array(
 			'sort' => array('created_on' => -1),
 		);
-		$result = $addbooks->first($query, $options);
+		$result = $addbooks->first($query);
 		
 		return $result;
 	}
