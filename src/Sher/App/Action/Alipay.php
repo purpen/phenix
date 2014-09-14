@@ -151,9 +151,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				// 1、开通了普通即时到账，买家付款成功后。
 				// 2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限
 				//（如：三个月以内可退款、一年以内可退款等）后。
+			} else {
+				Doggy_Log_Helper::warn("Alipay secrete notify trade status fail!");
+				return $this->to_raw('fail');
 			}
-			
-			Doggy_Log_Helper::warn("Alipay secrete notify ok!");
 		}else{
 			// 验证失败
 			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
@@ -176,13 +177,18 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			// 交易状态
 			$trade_status = $_GET['trade_status'];
 			
+			// 跳转订单详情
+			$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+			
+			Doggy_Log_Helper::warn("Alipay direct notify trade_status: ".$_GET['trade_status']);
+			
 			if($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 如果有做过处理，不执行商户的业务程序
 				return $this->update_alipay_order_process($out_trade_no, $trade_no);
 			}else{
-				return $this->show_message_page('订单交易状态：'.$_GET['trade_status'], true);
+				return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
 			}
 		}else{
 		    // 验证失败
@@ -206,19 +212,20 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		// 跳转订单详情
 		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
 		
+		Doggy_Log_Helper::warn("Alipay order[$out_trade_no] status[$status] updated!");
+		
 		// 验证订单是否已经付款
-		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			Doggy_Log_Helper::warn("Alipay order[$out_trade_no] status[$status] updated!");
+		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			// 更新支付状态,付款成功并配货中
+			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+			
 			if (!$sync){
-				return $this->show_message_page('订单状态已更新!', true, $order_view_url);
+				return $this->show_message_page('订单状态已更新!', false, $order_view_url);
 			} else {
 				// 已支付状态
 				return $this->to_raw('success');
 			}
 		}
-		
-		// 更新支付状态,付款成功并配货中
-		$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
 		
 		if (!$sync){
 			return $this->to_redirect($order_view_url);
