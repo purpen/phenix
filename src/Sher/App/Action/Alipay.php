@@ -127,6 +127,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 支付宝服务器异步通知页面
 	 */
 	public function secrete_notify(){
+		Doggy_Log_Helper::warn("Alipay secrete notify updated!");
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
@@ -140,6 +141,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 如果有做过处理，不执行商户的业务程序
+				Doggy_Log_Helper::warn("Alipay secrete notify [$out_trade_no][$trade_no]!");
 				
 				return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
 				
@@ -151,6 +153,8 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			}else if ($_POST['trade_status'] == 'TRADE_SUCCESS') {
 				return $this->to_raw('fail');
 			}
+			
+			Doggy_Log_Helper::warn("Alipay secrete notify ok!");
 		}else{
 			// 验证失败
 			return $this->to_raw('fail');
