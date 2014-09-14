@@ -20,7 +20,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		'transport' => 'http',
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute','secrete_notify','direct_notify');
 	
 	/**
 	 * 预先执行init
@@ -35,11 +35,11 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.cacert'];
 		
 		// 服务器异步通知页面路径
-		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.domain.base'].'/app/site/alipay/secrete_notify';
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/secrete_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数
 		
 		// 页面跳转同步通知页面路径
-		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.domain.base'].'/app/site/alipay/direct_notify';
+		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/direct_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
     }
 	
