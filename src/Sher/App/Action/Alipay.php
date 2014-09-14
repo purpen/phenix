@@ -125,6 +125,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 	
 	/**
 	 * 支付宝服务器异步通知页面
+	 * posts:   {"discount":"0.00","payment_type":"1","subject":"","trade_no":"2014091470158997","buyer_email":"xy.shawn@aliyun.com","gmt_create":"2014-09-14 14:43:26","notify_type":"trade_status_sync","quantity":"1","out_trade_no":"114091400235","seller_id":"2088411237666512","notify_time":"2014-09-14 14:43:34","trade_status":"TRADE_SUCCESS","is_total_fee_adjust":"N","total_fee":"99.00","gmt_payment":"2014-09-14 14:43:33","seller_email":"admin@taihuoniao.com","price":"99.00","buyer_id":"2088202980059971","notify_id":"fd9ee56eaa40da0513555b74d1b5c3ea7e","use_coupon":"N","sign_type":"MD5","sign":"901a6c5509a978bb7463268a23c41762"}
 	 */
 	public function secrete_notify(){
 		Doggy_Log_Helper::warn("Alipay secrete notify updated!");
@@ -132,14 +133,12 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
 		
-		Doggy_Log_Helper::warn("Alipay secrete notify posts: ".json_encode($_POST));
-		
 		if ($verify_result) {//验证成功
 			$out_trade_no = $_POST['out_trade_no'];
 			$trade_no = $_POST['trade_no'];
 			$trade_status = $_POST['trade_status'];
 			
-			if($_POST['trade_status'] == 'TRADE_FINISHED') {
+			if($_POST['trade_status'] == 'TRADE_FINISHED' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 如果有做过处理，不执行商户的业务程序
@@ -152,8 +151,6 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				// 1、开通了普通即时到账，买家付款成功后。
 				// 2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限
 				//（如：三个月以内可退款、一年以内可退款等）后。
-			}else if ($_POST['trade_status'] == 'TRADE_SUCCESS') {
-				return $this->to_raw('fail');
 			}
 			
 			Doggy_Log_Helper::warn("Alipay secrete notify ok!");
