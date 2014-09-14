@@ -13,7 +13,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	protected $page_tab = 'page_user';
 	protected $page_html = 'page/profile.html';
 	
-	protected $exclude_method_list = array();
+	protected $exclude_method_list = array('execute','get_list','view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');

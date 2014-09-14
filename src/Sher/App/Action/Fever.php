@@ -17,7 +17,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('view');
+	protected $exclude_method_list = array('execute', 'get_list', 'view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_fever');
