@@ -115,9 +115,9 @@
 			</div>
 			<div class="five wide column">
 				<h3 class="ui header">相关话题</h3>
-				{% topic_list var:'list' page:1 user_id:user._id size:5 %}
+				{% topic_list var:'topic' page:1 user_id:user._id size:5 %}
 				<div class="ui tiny selection list">
-					{% for topic in list.rows %}
+					{% for topic in topic.rows %}
 				  	<div class="item">
 				    	<div class="content">
 				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">{{ topic.title|truncate 18 }}</a>
