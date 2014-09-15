@@ -47,10 +47,10 @@
 					<p>
 						{{ t.name }}<br />
 						{{ t.phone }}<br />
-						{{ t.area_province.city }}-{{ t.district }}-{{ t.address }}
+						{{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}
 					</p>
 				</td>
-				<td>{{ t.content|truncate 140 }}</td>
+				<td class="seven wide">{{ t.content|truncate 200 }}</td>
 				<td>{{ t.created_on|date 'y-m-d H:i' }}
 				</td>
 				<td>

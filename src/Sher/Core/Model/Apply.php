@@ -43,7 +43,7 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'target_id', 'content');
 	
-    protected $int_fields = array('user_id', 'target_id', 'state', 'result');
+    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result');
 	
 	/**
 	 * 扩展关联数据
