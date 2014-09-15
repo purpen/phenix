@@ -1,0 +1,362 @@
+{%extends 'layout/column.html'%}
+{% block title %}投票规则-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#vote{
+	background-color:#f8f8f8;
+}
+#vote .ui.white{
+	background-color:#fff;
+}
+
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+    
+
+
+{% endblock %}
+
+{% block content %}
+<div id="vote page">
+	<section class="ui big vote white block">
+		<div class="ui responsive grid">
+			<div class="center aligned row">
+				<h3 class="ui header">投票规则</h3>
+			</div>
+		</div>
+	</section>
+	<section class="ui block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">提交创意，在线投票</h1>
+					<p>准备好产品资料，网上提交你的创意。在上线后2周时间内得到100位用户的投票就能进入专家陪审。</p>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/" alt="提交创意，在线投票" class="ui image" />
+			</div>
+		</div>
+	</section>
+	<section class="ui big assess white block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="ui four items">
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/" alt="">
+						</div>
+					</div>
+					
+					
+					
+					
+					
+				</div>
+			</div>
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">专家评估</h1>
+					<p>达到投票数进入专家评估环节，共有6位评委，平均投票分差距最大的被自动删除，只有剩下的5个分数计算。所有用户都可以参加并投票表决。然而，只有选票用户超过5000状态积分将计入您的创意投票最终得分;这些用户投票的平均分数形成第6和最后的比分。整个过程需要7天。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big score block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">评分体系</h1>
+					<p>该评价体系是基于四个标准：设计、功能、外观、创意
+					我们的系统中收集所有5的分数，并适用于下面的算法，以获得最终结果。</p>
+					<div class="ui responsive grid">
+						<div class="row">
+							<div class="four wide column">
+								<p>评分标准 ＝</p>
+							</div>
+							<div class="twelve wide center aligned column">
+								设计*40 ＋ 功能*30 ＋ 外观*20 ＋ 创意*10<hr>100
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/" alt="评分体系" class="ui image" />
+			</div>
+		</div>
+	</section>
+	<section class="ui white sales block">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<img src="{{ app_url_packaged }}/images/" alt="网站预售" class="ui image" />
+			</div>
+			<div class="eight wide column">
+				<div class="submit-idea">
+					<h1 class="ui header">网站预售</h1>
+					<p>所有通过专家审核的产品创意，将进入网站预售阶段，在30天时间能获得1000人支持筹集金额为10万元以上才能成功，并进入量产在各大平台销售。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big online block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="eight wide column">
+					<div class="submit-idea">
+						<h1 class="ui header">在线销售</h1>
+						<p>进入太火鸟相关销售渠道销售</p>
+					</div>
+				</div>
+				<div class="eight wide column">
+					<div class="ui three items">
+						<div class="magenta item" id="product-1080959177">
+					  		<div class="image">
+								<a href="http://www.taihuoniao.com/shop/1080959177.html" title="UEYE云眼" target="_blank">
+					      			<img src="{{ app_url_packaged }}/images/p-ueye.jpg" alt="UEYE云眼" />
+								</a>
+								<div class="image-extra">
+									<div class="extra-content">
+										<div class="inner-extra">
+											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959177.html" target="_blank">
+												<span class="curtain"></span>
+											</a>
+											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959177" title="加入购物车">
+												<span class="curtain"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="content">
+					      		<h4 class="ui dividing header">
+									<a href="http://www.taihuoniao.com/shop/1080959177.html" title="UEYE云眼" class="ui link" target="_blank">
+									UEYE云眼
+									</a>
+									<div class="advantage">你有顺风耳吗？我有千里眼！</div>
+								</h4>
+								<div class="name">
+									<span class="unit">￥</span>
+									<span class="price">499</span>
+									<span class="like">
+										<i class="icon heart"></i>
+										<span class="count">2</span>
+									</span>
+								</div>
+								<a href="http://www.taihuoniao.com/shop/1080959177.html" class="link-extra" target="_blank">
+									UEYE云眼
+								</a>
+					  		</div>
+						</div>				    				  		
+						<div class="magenta item" id="product-1080959175">
+					  		<div class="image">
+								<a href="http://www.taihuoniao.com/shop/1080959175.html" title="EZON宜准蓝牙智能S3运动表" target="_blank">
+					      			<img src="{{ app_url_packaged }}/images/p-ezon.jpg" alt="EZON宜准蓝牙智能S3运动表" />
+								</a>
+								<div class="image-extra">
+									<div class="extra-content">
+										<div class="inner-extra">
+											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959175.html" target="_blank">
+												<span class="curtain"></span>
+											</a>
+											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959175" title="加入购物车">
+												<span class="curtain"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="content">
+					      		<h4 class="ui dividing header">
+									<a href="http://www.taihuoniao.com/shop/1080959175.html" title="EZON宜准蓝牙智能S3运动表" class="ui link" target="_blank">
+									EZON宜准蓝牙智能S3运动表
+									</a>
+									<div class="advantage">别约炮啦，现在流行约跑~</div>
+								</h4>
+								<div class="name">
+									<span class="unit">￥</span>
+									<span class="price">559</span>
+									<span class="like">
+										<i class="icon heart"></i>
+										<span class="count">3</span>
+									</span>
+								</div>
+								<a href="http://www.taihuoniao.com/shop/1080959175.html" class="link-extra" target="_blank">
+								EZON宜准蓝牙智能S3运动表
+								</a>
+					  		</div>
+						</div>				    				  	
+						<div class="magenta item" id="product-1080959172">
+					  		<div class="image">
+								<a href="http://www.taihuoniao.com/shop/1080959172.html" title="连爱智能手环" target="_blank">
+					      			<img src="{{ app_url_packaged }}/images/p-loving.jpg" alt="连爱智能手环"/>
+								</a>
+								<div class="image-extra">
+									<div class="extra-content">
+										<div class="inner-extra">
+											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959172.html" target="_blank">
+												<span class="curtain"></span>
+											</a>
+											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959172" title="加入购物车">
+												<span class="curtain"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="content">
+					      		<h4 class="ui dividing header">
+									<a href="http://www.taihuoniao.com/shop/1080959172.html" title="连爱智能手环" class="ui link" target="_blank">
+									连爱智能手环
+									</a>
+									<div class="advantage">奥运精神，集齐五环你就是连爱冠军啦！</div>
+								</h4>
+								<div class="name">
+									<span class="unit">￥</span>
+									<span class="price">399</span>
+									<span class="like">
+										<i class="icon heart"></i>
+										<span class="count">1</span>
+									</span>
+								</div>
+								<a href="http://www.taihuoniao.com/shop/1080959172.html" class="link-extra" target="_blank">
+									连爱智能手环
+								</a>
+					  		</div>
+						</div>				    				  		
+						<div class="magenta item" id="product-1080959170">
+					  		<div class="image">
+								<a href="http://www.taihuoniao.com/shop/1080959170.html" title="DM造梦者智能空气净化器" target="_blank">
+					      			<img src="{{ app_url_packaged }}/images/p-dm.jpg" alt="DM造梦者智能空气净化器" />
+								</a>
+								<div class="image-extra">
+									<div class="extra-content">
+										<div class="inner-extra">
+											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959170.html" target="_blank">
+												<span class="curtain"></span>
+											</a>
+											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959170" title="加入购物车">
+												<span class="curtain"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="content">
+					      		<h4 class="ui dividing header">
+									<a href="http://www.taihuoniao.com/shop/1080959170.html" title="DM造梦者智能空气净化器" class="ui link" target="_blank">
+										DM造梦者智能空气净化器
+									</a>
+									<div class="advantage">屋外雾霾屋内尘埃，你还能忍？</div>
+								</h4>
+								<div class="name">
+									<span class="unit">￥</span>
+									<span class="price">5999</span>
+									<span class="like">
+										<i class="icon heart"></i>
+										<span class="count">1</span>
+									</span>
+								</div>
+								<a href="http://www.taihuoniao.com/shop/1080959170.html" class="link-extra" target="_blank">
+									DM造梦者智能空气净化器
+								</a>
+					  		</div>
+						</div>				    				  		<div class="magenta item" id="product-1080959169">
+					  		<div class="image">
+								<a href="http://www.taihuoniao.com/shop/1080959169.html" title="Goccia－全球最小的智能可穿戴" target="_blank">
+					      			<img src="{{ app_url_packaged }}/images/p-goccia.jpg" alt="Goccia－全球最小的智能可穿戴" />
+								</a>
+								<div class="image-extra">
+									<div class="extra-content">
+										<div class="inner-extra">
+											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959169.html" target="_blank">
+												<span class="curtain"></span>
+											</a>
+											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959169" title="加入购物车">
+												<span class="curtain"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="content">
+					      		<h4 class="ui dividing header">
+									<a href="http://www.taihuoniao.com/shop/1080959169.html" title="Goccia－全球最小的智能可穿戴" class="ui link" target="_blank">
+										Goccia－全球最小的智能可穿
+									</a>
+									<div class="advantage">不骗你，真的只有大拇指那么大~</div>
+								</h4>
+								<div class="name">
+									<span class="unit">￥</span>
+									<span class="price">699</span>
+									<span class="like">
+										<i class="icon heart"></i>
+										<span class="count">1</span>
+									</span>
+								</div>
+								<a href="http://www.taihuoniao.com/shop/1080959169.html" class="link-extra" target="_blank">
+									Goccia－全球最小的智能可穿戴
+								</a>
+					  		</div>
+						</div>				    				  	
+						<div class="magenta item" id="product-1080959165">
+					  		<div class="image">
+								<a href="http://www.taihuoniao.com/shop/1080959165.html" title="LISA智能孕表—您的孕期贴身闺蜜 " target="_blank">
+					      			<img src="{{ app_url_packaged }}/images/p-lisa.jpg" alt="LISA智能孕表—您的孕期贴身闺蜜" />
+								</a>
+								<div class="image-extra">
+									<div class="extra-content">
+										<div class="inner-extra">
+											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959165.html" target="_blank">
+												<span class="curtain"></span>
+											</a>
+											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959165" title="加入购物车">
+												<span class="curtain"></span>
+											</a>
+										</div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="content">
+					      		<h4 class="ui dividing header">
+									<a href="http://www.taihuoniao.com/shop/1080959165.html" title="LISA智能孕表—您的孕期贴身闺蜜 " class="ui link" target="_blank">
+										LISA智能孕表—您的孕期贴身闺
+									</a>
+									<div class="advantage">闺蜜里最会孕护的，孕护专家里最贴身的</div>
+								</h4>
+								<div class="name">
+									<span class="unit">￥</span>
+									<span class="price">799</span>
+									<span class="like">
+										<i class="icon heart"></i>
+										<span class="count">1</span>
+									</span>
+								</div>
+								<a href="http://www.taihuoniao.com/shop/1080959165.html" class="link-extra" target="_blank">
+									LISA智能孕表—您的孕期贴身闺蜜 
+								</a>
+					  		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock %}
