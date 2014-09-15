@@ -43,6 +43,9 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
 		
 		// 获取inventory
 		$inventory = new Sher_Core_Model_Inventory();

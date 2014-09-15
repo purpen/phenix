@@ -437,7 +437,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if (!$this->visitor->can_admin() && !($topic['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
-        
+        if (!empty($topic)) {
+            $topic = $model->extended_model_row($topic);
+        }
 		
 		// 是否为一级分类
 		$is_top = false;
