@@ -521,7 +521,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$model = new Sher_Core_Model_Product();
-		$product = $model->extend_load($id);
+		$product = $model->load($id);
 		
 		if(empty($product)){
 			return $this->show_message_page('创意不存在或已被删除！', $redirect_url);
@@ -531,6 +531,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
+		
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
 		
 		$this->stash['mode'] = 'edit';
 		$this->stash['product'] = $product;
