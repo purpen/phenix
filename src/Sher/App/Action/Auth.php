@@ -224,8 +224,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             );
 			
 			$profile = $user->get_profile();
-			$profile['phone'] = $this->stash['phone'];
-			
+			if(isset($this->stash['phone'])){
+				$profile['phone'] = $this->stash['phone'];
+			}
 			$user_info['profile'] = $profile;
 			
             $ok = $user->create($user_info);

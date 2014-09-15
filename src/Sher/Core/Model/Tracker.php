@@ -31,17 +31,26 @@ class Sher_Core_Model_Tracker extends Sher_Core_Model_Base {
         'updated_on' => 0,  //最后的汇总时间
     );
     
+	/**
+	 * 重新计算匹配总数
+	 */
+	public function remath_sitedata_counter($id='frbird', $data=array()){
+		if(!empty($id) && !empty($data)){
+			return self::$_db->upsert($this->tracker_sitedata_collection, array('_id' => $id), $data);
+		}
+	}
+	
     /**
      * 记录站点总数,及匹配条件下总数
      */
     public function tracker_sitedata_counter($id='frbird', $field='users_count', $cnt=0){
-        $query['_id'] = (string)$id;
-        $query['updated_on'] = (int)date('Ymd', time());
+        $criteria = array('_id'=>$id);
 		
         if(!$cnt){
-        	return self::$_db->inc($this->tracker_sitedata_collection, $query, $field, 1, true);
+			Doggy_Log_Helper::debug("Tracker site counter：$cnt ");
+        	return self::$_db->inc($this->tracker_sitedata_collection, $criteria, $field, 1, true);
         }else{
-        	return self::$_db->update($this->tracker_sitedata_collection, $query, array('$set' => array($field=>$cnt)), true);
+        	return self::$_db->update($this->tracker_sitedata_collection, $criteria, array('$set' => array($field=>$cnt)), true);
         }
     }
 	

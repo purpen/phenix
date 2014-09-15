@@ -28,7 +28,7 @@ class Sher_Admin_Action_Console extends Sher_Admin_Action_Base {
 		
 		$tracker = new Sher_Core_Model_Tracker();
 		
-		$sitedata = $tracker->tracker_sitedata_counter();
+		$sitedata = $tracker->find_tracker_sitedata(array('_id'=>'frbird'));
 		
 		$this->stash['sitedata'] = $sitedata;
 		
