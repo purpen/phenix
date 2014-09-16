@@ -2,14 +2,19 @@
 {% block title %}投票规则-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-#vote-page{
+#vote-page {
 	background-color:#f8f8f8;
+}
+#vote-page h1.ui.header {
+	font-size: 2.5em;
+}
+#vote-page h1.ui.header .sub.header {
+	font-size: 1rem;
+	line-height: 1.35em;
+	margin-top: 0.5em;
 }
 #vote-page .ui.white{
 	background-color:#fff;
-}
-#vote-page .item{
-	margin-bottom:.3em !important;
 }
 #vote-page .image.expert1{
 	background:url("{{ app_url_packaged }}/images/fire/images/expert_1.jpg") no-repeat scroll center center /cover;
@@ -50,6 +55,17 @@
 	padding-top:5em;
 }
 
+#vote-page .ui.items .item {
+	margin-bottom: 1.5em !important;
+}
+#vote-page .ui.items .item > .content h4 {
+	font-size: 1em;
+	min-height: 40px;
+}
+#vote-page .ui.items .item > .content > .name {
+	font-size: 0.875em;
+}
+
 </style>
 {% endblock %}
 {% block js %}
@@ -60,8 +76,9 @@
 <div id="vote-page">
 	<section class="ui big vote white block">
 		<div class="ui responsive grid">
-			<div class="ui center aligned row">
+			<div class="center aligned column section-title">
 				<h3 class="ui header">投票规则</h3>
+				<hr>
 			</div>
 		</div>
 	</section>
@@ -69,8 +86,14 @@
 		<div class="ui responsive grid">
 			<div class="eight wide column">
 				<div class="submit-idea">
-					<h1 class="ui header">提交创意，在线投票</h1>
-					<p>准备好产品资料，网上提交你的创意。在上线后2周时间内得到100位用户的投票就能进入专家陪审。</p>
+					<h1 class="ui header">
+						<div class="content">
+							提交创意，在线投票
+							<div class="sub header">
+								准备好产品资料，网上提交你的创意。在上线后2周时间内得到100位用户的投票就能进入专家陪审。
+							</div>
+						</div>	
+					</h1>
 				</div>
 			</div>
 			<div class="eight wide column">
@@ -126,8 +149,16 @@
 			</div>
 			<div class="eight wide column">
 				<div class="submit-idea">
-					<h1 class="ui header">专家评估</h1>
-					<p>达到投票数进入专家评估环节，共有6位评委，平均投票分差距最大的被自动删除，只有剩下的5个分数计算。所有用户都可以参加并投票表决。然而，只有选票用户超过5000状态积分将计入您的创意投票最终得分;这些用户投票的平均分数形成第6和最后的比分。整个过程需要7天。</p>
+					<h1 class="ui header">
+						<div class="content">
+							专家评估
+							<div class="sub header">
+								<p>达到投票数进入专家评估环节，共有6位评委，平均投票分差距最大的被自动删除，只有剩下的5个分数计算。</p>
+								<p>所有用户都可以参加并投票表决。然而，只有选票用户超过5000状态积分将计入您的创意投票最终得分。</p>
+								<p>这些用户投票的平均分数形成第6和最后的比分。整个过程需要7天。</p>
+							</div>
+						</div>	
+					</h1>
 				</div>
 			</div>
 		</div>
@@ -136,9 +167,15 @@
 		<div class="ui responsive grid">
 			<div class="eight wide column">
 				<div class="submit-idea">
-					<h1 class="ui header">评分体系</h1>
-					<p>该评价体系是基于四个标准：设计、功能、外观、创意
-					我们的系统中收集所有5的分数，并适用于下面的算法，以获得最终结果。</p>
+					<h1 class="ui header">
+						<div class="content">
+							评分体系
+							<div class="sub header">
+								<p>该评价体系是基于四个标准：设计、功能、外观、创意
+								我们的系统中收集所有5的分数，并适用于下面的算法，以获得最终结果。</p>
+							</div>
+						</div>	
+					</h1>
 					<div class="ui grid">
 						<div class="row">
 							<div class="four wide column">
@@ -174,8 +211,14 @@
 			<div class="row">
 				<div class="six wide column">
 					<div class="submit-idea">
-						<h1 class="ui header">在线销售</h1>
-						<p>进入太火鸟相关销售渠道销售</p>
+						<h1 class="ui header">
+							<div class="content">
+								在线销售
+								<div class="sub header">
+									<p>进入太火鸟相关销售渠道销售</p>
+								</div>
+							</div>	
+						</h1>
 					</div>
 				</div>
 				<div class="ten wide column">
@@ -191,9 +234,6 @@
 											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959177.html" target="_blank">
 												<span class="curtain"></span>
 											</a>
-											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959177" title="加入购物车">
-												<span class="curtain"></span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -201,9 +241,8 @@
 					  		<div class="content">
 					      		<h4 class="ui dividing header">
 									<a href="http://www.taihuoniao.com/shop/1080959177.html" title="UEYE云眼" class="ui link" target="_blank">
-									UEYE云眼
+									UEYE云眼智能摄像头
 									</a>
-									<div class="advantage">你有顺风耳吗？我有千里眼！</div>
 								</h4>
 								<div class="name">
 									<span class="unit">￥</span>
@@ -229,9 +268,6 @@
 											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959175.html" target="_blank">
 												<span class="curtain"></span>
 											</a>
-											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959175" title="加入购物车">
-												<span class="curtain"></span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -241,7 +277,6 @@
 									<a href="http://www.taihuoniao.com/shop/1080959175.html" title="EZON宜准蓝牙智能S3运动表" class="ui link" target="_blank">
 									EZON宜准蓝牙智能S3运动表
 									</a>
-									<div class="advantage">别约炮啦，现在流行约跑~</div>
 								</h4>
 								<div class="name">
 									<span class="unit">￥</span>
@@ -267,9 +302,6 @@
 											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959172.html" target="_blank">
 												<span class="curtain"></span>
 											</a>
-											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959172" title="加入购物车">
-												<span class="curtain"></span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -279,7 +311,6 @@
 									<a href="http://www.taihuoniao.com/shop/1080959172.html" title="连爱智能手环" class="ui link" target="_blank">
 									连爱智能手环
 									</a>
-									<div class="advantage">奥运精神，集齐五环你就是连爱冠军啦！</div>
 								</h4>
 								<div class="name">
 									<span class="unit">￥</span>
@@ -305,9 +336,6 @@
 											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959170.html" target="_blank">
 												<span class="curtain"></span>
 											</a>
-											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959170" title="加入购物车">
-												<span class="curtain"></span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -317,7 +345,6 @@
 									<a href="http://www.taihuoniao.com/shop/1080959170.html" title="DM造梦者智能空气净化器" class="ui link" target="_blank">
 										DM造梦者智能空气净化器
 									</a>
-									<div class="advantage">屋外雾霾屋内尘埃，你还能忍？</div>
 								</h4>
 								<div class="name">
 									<span class="unit">￥</span>
@@ -342,9 +369,6 @@
 											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959169.html" target="_blank">
 												<span class="curtain"></span>
 											</a>
-											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959169" title="加入购物车">
-												<span class="curtain"></span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -354,7 +378,6 @@
 									<a href="http://www.taihuoniao.com/shop/1080959169.html" title="Goccia－全球最小的智能可穿戴" class="ui link" target="_blank">
 										Goccia－全球最小的智能可穿
 									</a>
-									<div class="advantage">不骗你，真的只有大拇指那么大~</div>
 								</h4>
 								<div class="name">
 									<span class="unit">￥</span>
@@ -380,9 +403,6 @@
 											<a class="single-image plus-icon" href="http://www.taihuoniao.com/shop/1080959165.html" target="_blank">
 												<span class="curtain"></span>
 											</a>
-											<a class="single-image ajax link-icon" href="http://www.taihuoniao.com/shopping/buy?sku=1080959165" title="加入购物车">
-												<span class="curtain"></span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -392,7 +412,6 @@
 									<a href="http://www.taihuoniao.com/shop/1080959165.html" title="LISA智能孕表—您的孕期贴身闺蜜 " class="ui link" target="_blank">
 										LISA智能孕表—您的孕期贴身闺
 									</a>
-									<div class="advantage">闺蜜里最会孕护的，孕护专家里最贴身的</div>
 								</h4>
 								<div class="name">
 									<span class="unit">￥</span>

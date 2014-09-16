@@ -50,6 +50,14 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 投票规则
+	 */
+	public function vote() {
+		$this->set_target_css_state('page_vote');
+		return $this->to_html_page('page/helper/vote.html');
+	}
+	
+	/**
 	 * 提交规范
 	 */
 	public function standard() {
