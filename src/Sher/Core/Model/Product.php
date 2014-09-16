@@ -241,7 +241,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			array_multisort($rid, $price, $row['presales']);
 		}
 		// 预售百分比
-		if (isset($row['presale_goals']) && isset($row['presale_money'])){
+		if (isset($row['presale_goals']) && isset($row['presale_money']) && $row['presale_goals'] != 0){
 			$row['presale_percent'] = sprintf("%.2f", $row['presale_money']/$row['presale_goals']);
 		} else {
 			$row['presale_percent'] = 0;
@@ -297,6 +297,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$category->inc_counter('total_count', 1, $category_id);
 			unset($category);
 		}
+		
+		// 更新产品总数
+		Sher_Core_Util_Tracker::update_product_counter();
     }
 	
 	/**

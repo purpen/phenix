@@ -1,5 +1,13 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
+<style type="text/css">
+	.ui.table .unit {
+		
+	}
+	.attribute {
+		margin-top: 0.5em;
+	}
+</style>
 {% endblock %}
 
 
@@ -9,7 +17,7 @@
 			<div class="column">
 				<div class="ui purple segment">
 					<h3 class="ui purple header">
-					  889
+					  {{ sitedata.users_count|default 0 }}
 					  <div class="sub header">注册用户</div>
 					</h3>
 				</div>
@@ -17,7 +25,7 @@
 			<div class="column">
 				<div class="ui magenta segment">
 					<h3 class="ui magenta header">
-					  89
+					  {{ sitedata.products_count|default 0 }}
 					  <div class="sub header">创意产品</div>
 					</h3>
 				</div>
@@ -25,7 +33,7 @@
 			<div class="column">
 				<div class="ui teal segment">
 					<h3 class="ui teal header">
-					  109
+					  {{ sitedata.topics_count|default 0 }}
 					  <div class="sub header">社区帖子</div>
 					</h3>
 				</div>
@@ -33,8 +41,8 @@
 			<div class="column">
 				<div class="ui orange segment">
 					<h3 class="ui orange header">
-					  389
-					  <div class="sub header">全部订单</div>
+					  {{ sitedata.orders_count|default 0 }}
+					  <div class="sub header">有效订单</div>
 					</h3>
 				</div>
 			</div>
@@ -42,16 +50,86 @@
 		
 		<div class="row">
 			<div class="ten wide column">
-				<div class="ui segment">
-					<h3 class="ui dividing header">最近10个订单</h3>
-					
-				</div>
+				<h3 class="ui header">最新10个订单</h3>
+				{% order_list var:'orders' page:1 size:10 %}
+
+				<table class="ui segment table">
+					<thead>
+						<tr>
+							<th>订单号</th>
+							<th>订单金额</th>
+							<th>收货人</th>
+							<th>下单时间</th>
+							<th>状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in orders.rows %}
+						<tr>
+							<td>
+								<a href="{{ order.view_url }}" class="ui magenta link" target="_blank">
+									{{ order.rid }}
+								</a>
+								
+							</td>
+							<td>
+								<small class="unit">￥</small><span class="count">{{ order.pay_money }}</span> <span>({{ order.items_count }}件)</span>
+								
+							</td>
+							<td>
+								{% if order.from_site == 5 %}
+									{{ order.express_info.name }}
+									<div class="attribute">
+										<span class="category">{{ order.express_info.phone }}</span>
+									</div>
+								{% else %}
+						      		{{ order.addbook.name|default '太火鸟用户' }}
+									<div class="attribute">
+										<span class="category">{{ order.addbook.phone }} </span>
+									</div>
+								{% endif %}
+							</td>
+							<td>
+								{{ order.created_on|date 'y-m-d H:i' }}
+							</td>
+							<td>
+								{{ order.status_label }}
+							</td>
+						</tr>
+						{% else %}
+						<tr>
+							<td colspan="5">没有相关订单</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 			<div class="six wide column">
-				<div class="ui segment">
-					<h3 class="ui dividing header">最近10个意见反馈</h3>
+				<h3 class="ui header">最新10个社区话题</h3>
+				{% topic_list var:'topics' page:1 size:10 %}
+				<table class="ui segment table">
+					<thead>
+						<tr>
+							<th>标题</th>
+						</tr>
+					</thead>
 					
-				</div>
+					<tbody>
+						{% for topic in topics.rows %}
+							<tr>
+								<td>
+									<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 30 }}</a>
+									<div class="attribute">
+										<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
+										<span class="author">
+											<a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a>  <i class="time icon"></i>于{{ topic.created_on|relative_datetime }}发表
+										</span>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 		

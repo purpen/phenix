@@ -25,6 +25,7 @@
 			<tr>
 				<th></th>
 				<th>申请人</th>
+				<th>用户信息</th>
 				<th>申请理由</th>
 				<th>申请时间</th>
 				<th>管理操作</th>
@@ -42,7 +43,14 @@
 				<td>
 					<a href="{{ t.user.home_url }}" target="_blank" class="ui link">{{ t.user.nickname }}</a>
 				</td>
-				<td>{{ t.content|truncate 140 }}</td>
+				<td>
+					<p>
+						{{ t.name }}<br />
+						{{ t.phone }}<br />
+						{{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}
+					</p>
+				</td>
+				<td class="seven wide">{{ t.content|truncate 200 }}</td>
 				<td>{{ t.created_on|date 'y-m-d H:i' }}
 				</td>
 				<td>

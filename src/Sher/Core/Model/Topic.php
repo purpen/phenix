@@ -125,6 +125,9 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 			$product->inc_counter('topic_count', 1, $target_id);
 			unset($product);
 		}
+		
+		// 更新话题总数
+		Sher_Core_Util_Tracker::update_topic_counter();
     }
 	
 	/**

@@ -165,6 +165,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			
 			unset($inventory);
 		}
+		
+		// 更新订单总数
+		Sher_Core_Util_Tracker::update_order_counter();
     }
 	
 	/**

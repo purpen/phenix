@@ -37,11 +37,13 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
     protected $joins = array(
     	'user' => array('user_id' => 'Sher_Core_Model_User'),
+    	'area_province'  => array('province' => 'Sher_Core_Model_Areas'),
+		'area_district'  => array('district' => 'Sher_Core_Model_Areas'),
     );
 	
     protected $required_fields = array('user_id', 'target_id', 'content');
 	
-    protected $int_fields = array('user_id', 'target_id', 'state', 'result');
+    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result');
 	
 	/**
 	 * 扩展关联数据

@@ -169,7 +169,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	    parent::before_save($data);
 	}
 	
+	/**
+	 * 保存之后事件
+	 */
     protected function after_save() {
+		// 更新用户总数
+		Sher_Core_Util_Tracker::update_user_counter();
     }
 	
 	/**

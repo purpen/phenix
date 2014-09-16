@@ -20,11 +20,18 @@ class Sher_Admin_Action_Console extends Sher_Admin_Action_Base {
 	}
 	
     /**
-     * 首页
+     * 管理首页
      * @return string
      */
     public function dashboard() {
     	$this->set_target_css_state('page_dashboard');
+		
+		$tracker = new Sher_Core_Model_Tracker();
+		
+		$sitedata = $tracker->find_tracker_sitedata(array('_id'=>'frbird'));
+		
+		$this->stash['sitedata'] = $sitedata;
+		
         return $this->to_html_page('admin/dashboard.html');
     }
 	
