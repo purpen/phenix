@@ -2,39 +2,54 @@
 {% block title %}投票规则-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-#vote{
+#vote-page{
 	background-color:#f8f8f8;
 }
-#vote .ui.white{
+#vote-page .ui.white{
 	background-color:#fff;
 }
-#vote .item{
+#vote-page .item{
 	margin-bottom:.3em !important;
 }
-#vote .image.expert1{
-	background:url(/images/fire/images/expert_1.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert1{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_1.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert2{
-	background:url(/images/fire/images/expert_2.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert2{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_2.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert3{
-	background:url(/images/fire/images/expert_3.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert3{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_3.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert4{
-	background:url(/images/fire/images/expert_4.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert4{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_4.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert5{
-	background:url(/images/fire/images/expert_5.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert5{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_5.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert6{
-	background:url(/images/fire/images/expert_6.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert6{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_6.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert7{
-	background:url(/images/fire/images/expert_7.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert7{
+	background:url("{{ app_url_packaged }}/images/fire/images/expert_7.jpg") no-repeat scroll center center /cover;
 }
-#vote .image.expert8{
-	background:url(/images/v-e-9.jpg) no-repeat scroll center center /cover;
+#vote-page .image.expert8{
+	background:url("{{ app_url_packaged }}/images/v-e-9.jpg") no-repeat scroll center center /cover;
 }
+#vote-page .assess .item img{
+	opacity:0;
+	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
+	transition: opacity .25s ease 0s,background-color .45s ease 0s;
+}
+#vote-page .assess .image:hover img{
+	opacity:1;
+}
+#vote-page .assess .submit-idea{
+	padding-top:0em;
+}
+#vote-page .score .submit-idea, #vote-page .sales .submit-idea{
+	padding-top:5em;
+}
+
 </style>
 {% endblock %}
 {% block js %}
@@ -42,15 +57,15 @@
 {% block jquery %}
 {% endblock %}
 {% block content %}
-<div id="vote page">
+<div id="vote-page">
 	<section class="ui big vote white block">
 		<div class="ui responsive grid">
-			<div class="center aligned row">
+			<div class="ui center aligned row">
 				<h3 class="ui header">投票规则</h3>
 			</div>
 		</div>
 	</section>
-	<section class="ui block">
+	<section class="ui big block">
 		<div class="ui responsive grid">
 			<div class="eight wide column">
 				<div class="submit-idea">
@@ -124,7 +139,7 @@
 					<h1 class="ui header">评分体系</h1>
 					<p>该评价体系是基于四个标准：设计、功能、外观、创意
 					我们的系统中收集所有5的分数，并适用于下面的算法，以获得最终结果。</p>
-					<div class="ui responsive grid">
+					<div class="ui grid">
 						<div class="row">
 							<div class="four wide column">
 								<p>评分标准 ＝</p>
@@ -137,14 +152,14 @@
 				</div>
 			</div>
 			<div class="eight wide column">
-				<img src="{{ app_url_packaged }}/images/vote-2" alt="评分体系" class="ui image" />
+				<img src="{{ app_url_packaged }}/images/vote-2.png" alt="评分体系" class="ui image" />
 			</div>
 		</div>
 	</section>
-	<section class="ui white sales block">
+	<section class="ui big white sales block">
 		<div class="ui responsive grid">
 			<div class="eight wide column">
-				<img src="{{ app_url_packaged }}/images/vote-3" alt="网站预售" class="ui image" />
+				<img src="{{ app_url_packaged }}/images/vote-3.png" alt="网站预售" class="ui image" />
 			</div>
 			<div class="eight wide column">
 				<div class="submit-idea">
@@ -157,13 +172,13 @@
 	<section class="ui big online block">
 		<div class="ui responsive grid">
 			<div class="row">
-				<div class="eight wide column">
+				<div class="six wide column">
 					<div class="submit-idea">
 						<h1 class="ui header">在线销售</h1>
 						<p>进入太火鸟相关销售渠道销售</p>
 					</div>
 				</div>
-				<div class="eight wide column">
+				<div class="ten wide column">
 					<div class="ui three items">
 						<div class="magenta item" id="product-1080959177">
 					  		<div class="image">
