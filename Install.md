@@ -19,7 +19,7 @@ XCache还不支持PHP 5.5.0，根据官方说法，XCache 3.1会支持PHP 5.5
    security.limit_extensions = app .php .php3 .php4 .php5 
    
 2、
-
+redis
 ### Composer 安装
 See http://composer.golaravel.com/
 
