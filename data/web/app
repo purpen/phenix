@@ -1,6 +1,6 @@
 <?php
-//deployed on: Fri Apr 25 17:24:59 2014
-define('DOGGY_VERSION','v1.4.1');
+//deployed on: Mon Sep 15 19:05:33 2014
+define('DOGGY_VERSION','v1.4.2');
 define('DOGGY_APP_ROOT','/Users/xiaoyi/Project/phenix/dev_root');
 define('DOGGY_APP_CLASS_PATH','/Users/xiaoyi/Project/phenix/vendor:/Users/xiaoyi/Project/phenix/src:/Users/xiaoyi/Project/doggy-x/src');
 require '/Users/xiaoyi/Project/doggy/src/Doggy.php';

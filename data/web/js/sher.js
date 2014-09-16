@@ -1,5 +1,5 @@
 /*
- * 悦伊js 
+ * js 
  */
 
 var sher = {
@@ -50,7 +50,7 @@ sher.initial = function(){
 	});
     
     /* 此类为ajax链接 */ 
-	$('body').on('click', 'a.ajax-request', function(){
+	$('body').on('click', 'a.ajax', function(){
 		$.get($(this).attr('href'));
         return false;
 	});
