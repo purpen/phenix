@@ -115,6 +115,7 @@
 						<tbody>
 						{% if dig_list %}
 							{% for dig in dig_list %}
+								{% if dig %}
 								<tr>
 									<td>
 										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
@@ -162,6 +163,7 @@
 										</a>
 									</td>
 								</tr>
+								{% endif %}
 							{% endfor %}
 						{% endif %}
 						
