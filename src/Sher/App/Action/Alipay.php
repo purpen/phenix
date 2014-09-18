@@ -7,6 +7,7 @@
 class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'rid' => 0,
+		'bank' => '',
 	);
 	
 	public $alipay_config = array(
@@ -115,6 +116,12 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			"exter_invoke_ip"	=> $exter_invoke_ip,
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
 		);
+		
+		// 网银支付
+		if (isset($this->stash['bank']) && !empty($this->stash['bank'])){
+			$parameter['paymethod'] = 'bankPay';
+			$parameter['defaultbank'] = $this->stash['bank'];
+		}
 		
 		// 建立请求
 		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);

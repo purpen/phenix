@@ -555,36 +555,58 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 */
 	public function success(){
 		$rid = $this->stash['rid'];
-		$payaway = $this->stash['payaway'];
 		if (empty($rid)) {
-			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+			return $this->show_message_page('操作不当，请查看购物帮助！');
 		}
+		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 		
 		// 成功提交订单后，发送提醒邮件<异步进程处理>
 		
-		// 挑选支付机构
-		Doggy_Log_Helper::warn('Pay away:'.$payaway);
-		if (!empty($payaway)){
-			$pay_url = '';
-			switch($payaway){
-				case 'alipay':
-					$pay_url = Doggy_Config::$vars['app.url.alipay'].'?rid='.$rid;
-					break;
-				case 'quickpay':
-					$pay_url = Doggy_Config::$vars['app.url.quickpay'].'?rid='.$rid;
-					break;
-				case 'tenpay':
-					$pay_url = Doggy_Config::$vars['app.url.tenpay'].'?rid='.$rid;
-					break;
-			}
-			return $this->to_redirect($pay_url);
-		}
-		
 		$this->stash['order'] = $order_info;
 		
 		return $this->to_html_page('page/shopping/success.html');
+	}
+	
+	/**
+	 * 处理支付
+	 */
+	public function payed(){
+		$rid = $this->stash['rid'];
+		$payaway = $this->stash['payaway'];
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！');
+		}
+		if (empty($payaway)){
+			$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+			return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 挑选支付机构
+		Doggy_Log_Helper::warn('Pay away:'.$payaway);
+		
+		$pay_url = '';
+		switch($payaway){
+			case 'alipay':
+				$pay_url = Doggy_Config::$vars['app.url.alipay'].'?rid='.$rid;
+				break;
+			case 'quickpay':
+				$pay_url = Doggy_Config::$vars['app.url.quickpay'].'?rid='.$rid;
+				break;
+			case 'tenpay':
+				$pay_url = Doggy_Config::$vars['app.url.tenpay'].'?rid='.$rid;
+				break;
+			default:
+				// 网上银行支付
+				$pay_url = Doggy_Config::$vars['app.url.alipay'].'?rid='.$rid.'&bank='.$payaway;
+				break;
+		}
+		
+		return $this->to_redirect($pay_url);
 	}
 	
 	/**
