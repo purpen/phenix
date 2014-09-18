@@ -7,36 +7,43 @@
 {% endblock %}
 	
 {% block content %}
-	<div class="ui tool-box">
-		<div class="ui magenta labeled icon top left pointing dropdown button">
-		  	<i class="flat sort icon"></i>
-		  	<span class="text">全部订单</span>
-		  	<div class="menu">
-				<a href="{{ app_url_admin_base }}/orders" class="ui item">
-					全部订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?stage=5" class="ui {% if stage == 5 %}active{%endif%} item">
-					未支付订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?stage=1" class="ui {% if stage == 1 %}active{%endif%} item">
-					待发货订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?stage=9" class="ui {% if stage == 9 %}active{%endif%} item">
-					已发货订单
-				</a>
-				<a href="{{ app_url_admin_base }}/orders?stage=9" class="ui {% if stage == 9 %}active{%endif%} item">
-					已完成订单
-				</a>
-		  	</div>
-		</div>
+	<h3 class="ui header">订单详情</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/orders" class="item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=1" class="{% if s == 1 %}active{%endif%} item">
+			未支付
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=2" class="{% if s == 2 %}active{%endif%} item">
+			待发货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
+			已发货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=4" class="{% if s == 4 %}active{%endif%} item">
+			已完成
+		</a>
 		
-		<form class="ui right floated column form" method="get" action="{{ app_url_admin_base }}/product">
-			<div class="inline field">
-				<div class="ui icon input">
-	          		<input placeholder="Search..." type="text" name="search" />
-	          		<i class="flat search icon"></i>
-				</div>
-	        </div>
+		<a href="" class="active item">
+			订单详情
+		</a>
+		
+		<div class="right menu">
+			<a href="{{ app_url_admin_base }}/orders?s=9" class="{% if s == 9 %}active{%endif%} item">
+				已关闭
+			</a>
+		</div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/orders" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search icon"></i>
+			</div>
 		</form>
 	</div>
 	
@@ -56,8 +63,9 @@
 				<div class="right aligned six wide column">
 					{% if order_info.status == 10 %}
 					<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui small magenta button">开始发货</a>
+					{% else %}
+					<a href="#" class="ui small magenta button">修改订单</a>
 					{% endif %}
-					<a href="#" class="ui small button">修改订单</a>
 				</div>
 			</div>
 		</div>
@@ -138,9 +146,11 @@
 		<h3 class="ui dividing header">发票信息</h3>
 		<div class="ui list">
 			{% if order_info.invoice_type %}
-			<div class="item"><label>发票类型：</label> {{ order_info.invoice_caty }}</div>
-			<div class="item"><label>发票抬头：</label> {{ order_info.invoice_title }}</div>
-			<div class="item"><label>发票内容：</label> {{ order_info.invoice_content }}</div>
+				<div class="item"><label>发票类型：</label> {{ order_info.invoice_caty_label.title }}</div>
+				{% if order_info.invoice_caty == 2 %}
+					<div class="item"><label>发票抬头：</label> {{ order_info.invoice_title }}</div>
+				{% endif %}
+				<div class="item"><label>发票内容：</label> {{ order_info.invoice_content_label.title|default '购买明细' }}</div>
 			{% else %}
 			<div class="item"><label>无需发票</label></div>
 			{% endif %}

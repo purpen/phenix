@@ -398,7 +398,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		        'invoice_type' => 0,
 				'freight' => $freight,
 				'coin_money' => $coin_money,
-		        'invoice_caty' => 'p',
+		        'invoice_caty' => 1,
 		        'invoice_content' => 'd'
 		    );
 			$new_data = array();
@@ -485,7 +485,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		if ($this->stash['invoice_type'] == 1){
 			$order_info['invoice_title'] = $this->stash['invoice_title'];
 			$order_info['invoice_caty'] = $this->stash['invoice_caty'];
-			$order_info['invoice_content'] = $this->stash['invoice_content'];
 		}
 		
 		$order_info['is_presaled'] = $is_presaled;

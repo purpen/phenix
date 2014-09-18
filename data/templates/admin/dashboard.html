@@ -67,7 +67,7 @@
 						{% for order in orders.rows %}
 						<tr>
 							<td>
-								<a href="{{ order.view_url }}" class="ui magenta link" target="_blank">
+								<a href="{{ app_url_admin }}/orders/show?rid={{ order.rid }}" class="ui magenta link" target="_blank">
 									{{ order.rid }}
 								</a>
 								

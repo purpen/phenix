@@ -31,6 +31,7 @@ class Sher_Admin_Action_Console extends Sher_Admin_Action_Base {
 		$sitedata = $tracker->find_tracker_sitedata(array('_id'=>'frbird'));
 		
 		$this->stash['sitedata'] = $sitedata;
+		$this->stash['admin'] = true;
 		
         return $this->to_html_page('admin/dashboard.html');
     }

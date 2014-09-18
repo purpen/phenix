@@ -43,13 +43,51 @@
 				.removeClass('active');
 				
 			$('#'+name).val('');
+			
+			// 开具发票
+			if (name == 'invoice_type'){
+				if (id == 1) {
+					$('#invoicebox').addClass('hide');
+				} else {
+					$('#invoicebox').removeClass('hide');
+				}
+			}
+			
+			// 单位名称
+			if (name == 'invoice_caty'){
+				if (id == 2) {
+					$('#companybox').addClass('hide');
+				} else {
+					$('#companybox').removeClass('hide');
+				}
+			}
+			
 		}else{
 			$(this)
 				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#'+name).val(id);
+			
+			// 开具发票
+			if (name == 'invoice_type'){
+				if (id == 1) {
+					$('#invoicebox').removeClass('hide');
+				} else {
+					$('#invoicebox').addClass('hide');
+				}
+			}
+			
+			// 单位名称
+			if (name == 'invoice_caty'){
+				if (id == 2) {
+					$('#companybox').removeClass('hide');
+				} else {
+					$('#companybox').addClass('hide');
+				}
+			}
 		}
+		
 	});
 	
 	$('#addbook-form').livequery(function(){
@@ -150,6 +188,33 @@
 				{
 					type   : 'empty',
 					prompt : '收货地址不能为空'
+				}
+			]
+		},
+		payment_method: {
+			identifier  : 'payment_method',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '必须选择一种支付方式'
+				}
+			]
+		},
+		transfer: {
+			identifier  : 'transfer',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '必须选择一种配送方式'
+				}
+			]
+		},
+		transfer_time: {
+			identifier  : 'transfer_time',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择一种送货时间'
 				}
 			]
 		}
@@ -325,6 +390,44 @@
 					   	 		普通发票
 					   	 	</div>
 						</div>
+						
+						<div class="ui hide grid" id="invoicebox">
+							<div class="row">
+								<div class="ten wide column">
+									<div class="ui segment">
+										<p>发票内容：购买商品明细</p>
+										<p>发票抬头：请确认单位名称正确,以免因名称错误耽搁您的报销。</p>
+										<table class="ui table">
+											<tr>
+												<td class="six wide">
+													<input type="hidden" name="invoice_caty" value="1" id="invoice_caty" />
+													<div class="ui options">
+												   	 	<div class="ui active magenta alt option" data-value="1" data-name="invoice_caty">
+												   	 		<div class="icon">
+												   				<i class="fa fa-check"></i>
+												   			</div>
+												   	 		个人
+												   	 	</div>
+												   	 	<div class="ui magenta alt option" data-value="2" data-name="invoice_caty"> 
+												   	 		<div class="icon">
+												   				<i class="fa fa-check"></i>
+												   			</div>
+												   	 		单位
+												   	 	</div>
+													</div>
+												</td>
+												<td class="company">
+													<div class="ui hide field" id="companybox">
+														<input name="invoice_title" type="text" placeholder="单位名称" />
+													</div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						
 					</div>
 					
 					<div class="step">

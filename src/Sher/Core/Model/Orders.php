@@ -129,7 +129,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if (!empty($row['transfer_time'])){
 			$row['transfer_time_s'] = $this->find_transfer_time($row['transfer_time']);
 		}
-		
+		// 发票信息
+		if ($row['invoice_type'] == 1){
+			$row['invoice_caty_label'] = $this->find_invoice_category((int)$row['invoice_caty']);
+			$row['invoice_content_label'] = $this->find_invoice_content($row['invoice_content']);
+		}
 	}
 	
 	/**
@@ -362,8 +366,22 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      */
     private $invoice_caty = array(
 		array(
+			'id' => 1,
+			'title' => '个人',
+		),
+		array(
+			'id' => 2,
+			'title' => '单位',
+		),
+    );
+	
+	/**
+	 * 发票的内容明细
+	 */
+	private $invoice_content = array(
+		array(
 			'id' => 'd',
-			'title' => '明细',
+			'title' => '购买明细',
 		),
 		array(
 			'id' => 'o',
@@ -374,6 +392,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			'title' => '数码配件',
 		),
     );
+	
 	
     /**
      * 快递类型
@@ -416,6 +435,26 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		for($i=0;$i<count($this->invoice_caty);$i++){
 			if ($this->invoice_caty[$i]['id'] == $key){
 				return $this->invoice_caty[$i];
+			}
+		}
+		
+		return null;
+    }
+	
+    /**
+     * 返回对应的抬头内容
+     * 
+     * @param $key
+     * @return mixed
+     */
+    public function find_invoice_content($key=null){
+        if(is_null($key)){
+            return $this->invoice_content;
+        }
+		
+		for($i=0;$i<count($this->invoice_content);$i++){
+			if ($this->invoice_content[$i]['id'] == $key){
+				return $this->invoice_content[$i];
 			}
 		}
 		
