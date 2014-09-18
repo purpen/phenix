@@ -572,6 +572,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				case 'alipay':
 					$pay_url = Doggy_Config::$vars['app.url.alipay'].'?rid='.$rid;
 					break;
+				case 'quickpay':
+					$pay_url = Doggy_Config::$vars['app.url.quickpay'].'?rid='.$rid;
+					break;
 				case 'tenpay':
 					$pay_url = Doggy_Config::$vars['app.url.tenpay'].'?rid='.$rid;
 					break;

@@ -1,0 +1,149 @@
+<?php
+/*
+ * 银联支付配置
+ * @author purpen
+ */
+class Sher_Core_Util_QuickpayConf extends Doggy_Object {
+
+    const VERIFY_HTTPS_CERT = false;
+
+    static $timezone        = "Asia/Shanghai"; //时区
+    static $sign_method     = "md5"; //摘要算法，目前仅支持md5 (2011-08-22)
+
+    static $security_key    = "88888888"; //商户密钥
+
+    //支付请求预定义字段
+    static $pay_params  = array(
+        'version'       => '1.0.0',
+        'charset'       => 'UTF-8', //UTF-8, GBK等
+        'merId'         => '105550149170027', //商户填写
+        'acqCode'       => '',  //收单机构填写
+        'merCode'       => '',  //收单机构填写
+        'merAbbr'       => '商户名称',
+    );
+    
+    const FRONT_PAY = 1;
+    const BACK_PAY  = 2;
+    const RESPONSE  = 3;
+    const QUERY     = 4;
+
+    const CONSUME                = "01";
+    const CONSUME_VOID           = "31";
+    const PRE_AUTH               = "02";
+    const PRE_AUTH_VOID          = "32";
+    const PRE_AUTH_COMPLETE      = "03";
+    const PRE_AUTH_VOID_COMPLETE = "33";
+    const REFUND                 = "04";
+    const REGISTRATION           = "71";
+
+    const CURRENCY_CNY           = "156";
+
+    // 支付请求可为空字段（但必须填写）
+    static $pay_params_empty = array(
+        "origQid"            => "",
+        "acqCode"            => "",
+        "merCode"            => "",
+        "commodityUrl"       => "",
+        "commodityName"      => "",
+        "commodityUnitPrice" => "",
+        "commodityQuantity"  => "",
+        "commodityDiscount"  => "",
+        "transferFee"        => "",
+        "customerName"       => "",
+        "defaultPayType"     => "",
+        "defaultBankNumber"  => "",
+        "transTimeout"       => "",
+        "merReserved"        => "",
+    );
+
+    // 支付请求必填字段检查
+    static $pay_params_check = array(
+        "version",
+        "charset",
+        "transType",
+        "origQid",
+        "merId",
+        "merAbbr",
+        "acqCode",
+        "merCode",
+        "commodityUrl",
+        "commodityName",
+        "commodityUnitPrice",
+        "commodityQuantity",
+        "commodityDiscount",
+        "transferFee",
+        "orderNumber",
+        "orderAmount",
+        "orderCurrency",
+        "orderTime",
+        "customerIp",
+        "customerName",
+        "defaultPayType",
+        "defaultBankNumber",
+        "transTimeout",
+        "frontEndUrl",
+        "backEndUrl",
+        "merReserved",
+    );
+
+    // 查询请求必填字段检查
+    static $query_params_check = array(
+        "version",
+        "charset",
+        "transType",
+        "merId",
+        "orderNumber",
+        "orderTime",
+        "merReserved",
+    );
+
+    // 商户保留域可能包含的字段
+    static $mer_params_reserved = array(
+    //  NEW NAME            OLD NAME
+        "cardNumber",       "pan",
+        "cardPasswd",       "password",
+        "credentialType",   "idType",
+        "cardCvn2",         "cvn",
+        "cardExpire",       "expire",
+        "credentialNumber", "idNo",
+        "credentialName",   "name",
+        "phoneNumber",      "mobile",
+        "merAbstract",
+
+        //tdb only
+        "orderTimeoutDate",
+        "origOrderNumber",
+        "origOrderTime",
+    );
+
+    static $notify_param_check = array(
+        "version",
+        "charset",
+        "transType",
+        "respCode",
+        "respMsg",
+        "respTime",
+        "merId",
+        "merAbbr",
+        "orderNumber",
+        "traceNumber",
+        "traceTime",
+        "qid",
+        "orderAmount",
+        "orderCurrency",
+        "settleAmount",
+        "settleCurrency",
+        "settleDate",
+        "exchangeRate",
+        "exchangeDate",
+        "cupReserved",
+        "signMethod",
+        "signature",
+    );
+
+    static $sign_ignore_params = array(
+        "bank",
+    );
+	
+}
+?>

@@ -104,6 +104,7 @@ app.url.user.view:		'{$app.url.user}/%s'
 #在线支付
 app.url.alipay: '{$app.url.action_base}/alipay'
 app.url.tenpay: '{$app.url.action_base}/tenpay'
+app.url.quickpay: '{$app.url.action_base}/quickpay'
 
 #评论
 app.url.comment:		'{$app.url.action_base}/comment'

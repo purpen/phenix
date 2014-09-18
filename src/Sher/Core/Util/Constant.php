@@ -89,6 +89,12 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      */
     const ORDER_WAIT_CHECK = 5;
 	
+	/**
+	 * 订单支付失败
+	 * @var int
+	 */
+	const ORDER_PAY_FAIL = 6;
+	
     /**
      * 正在配货状态
      * 

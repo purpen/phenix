@@ -13,6 +13,22 @@
 	.ui.paywait.modal .block {
 		margin-bottom: 3em;
 	}
+	
+	.payaway .ui.checkbox label {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		padding-left: 2em;
+	}
+	.payaway .ui.checkbox label:hover {
+		border: 1px solid rgba(0, 0, 0, 0.3);
+	}
+	.payaway .ui.radio.checkbox .box:after, 
+	.payaway .ui.radio.checkbox label:after {
+		left: 0.7em;
+	}
+	.payaway .ui.checkbox .box:before, 
+	.payaway .ui.checkbox label:before {
+		left: 0.5em;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -78,7 +94,11 @@
 								<div class="field">
 									<div class="ui radio checkbox">
 										<input type="radio" value="alipay" name="payaway"> 
-										<label><img alt="alipay" src="http://p.www.xiaomi.com/images/payOnline_zfb.gif"></label>
+										<label><img alt="alipay" src="{{ app_url_packaged }}/images/online_alipay.jpg"></label>
+									</div>
+									<div class="ui radio disabled checkbox">
+										<input type="radio" value="quickpay" name="payaway"> 
+										<label><img alt="alipay" src="{{ app_url_packaged }}/images/online_unionpay.jpg"></label>
 									</div>
 								</div>
 							</td>

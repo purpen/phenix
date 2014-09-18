@@ -16,7 +16,7 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 		'key' => '',
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute','secrete_notify');
 	
 	/**
 	 * 预先执行init
