@@ -8,6 +8,86 @@
 <a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
 
 <div class="ui secondary user menu">
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_topic }}" id="toptic-basket">
+		{% if items_count > 0 %}
+	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
+		{% else %}
+		<label class="floating circular ui magenta label hide"></label>
+		{% endif %}
+	  	<i class="flat discover icon"></i>
+	  	<div class="menu">
+			{% if items_count > 0 %}
+			<div class="item" id="basket-body-content">
+				<table class="ui basic basket table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>产品信息</th>
+							<th>数 量</th>
+							<th class="center aligned">小计</th>
+							<th class="right aligned"></th>
+						</tr>
+					</thead>
+					<tbody id="basket-item-wrapper">
+						{% for product in basket_products %}
+						<tr id="basket-product-{{ product.sku }}">
+							<td>
+								<a href="{{ product.view_url }}" class="ui cover image">
+						      		<img src="{{ product.cover }}" />
+								</a>
+							</td>
+							<td>
+						      	<div class="content">
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui magenta link" title="{{ product.title }}">{{ product.title|truncate 18 '' }}</a>
+									</div>
+						      	</div>
+							</td>
+							<td class="center aligned">
+								{{ product.quantity }}
+							</td>
+							<td class="center aligned">
+								{{ product.subtotal }}元
+							</td>
+							<td class="right aligned">
+								<a class="magenta ui close button" data-sku="{{ product.sku }}">
+									<i class="flat close icon"></i>
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+					    <tr>
+							<td colspan="4">
+								<div class="bill">
+									<p class="ui gray text">
+										共计：<b class="cart-items-count">{{ items_count }}</b>件产品
+									</p>
+									<p>
+										总计：<b class="cart-total-money">{{ total_money }}</b>元
+									</p>
+								</div>
+							</td>
+					    	<td class="right aligned">
+							  	<a class="ui magenta btn-4 btn-4c btn" href="{{ app_url_cart }}">
+							    	去结算
+								</a>
+					    	</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			{% else %}
+			<div class="item" id="basket-body-content">
+				<p>还没有动态</p>
+			</div>
+			{% endif %}
+	  	</div>
+		
+	</div>
+	
+	
+	
+	
 	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
