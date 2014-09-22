@@ -16,10 +16,10 @@ class Sher_Core_Util_QuickpayConf extends Doggy_Object {
     static $pay_params  = array(
         'version'       => '1.0.0',
         'charset'       => 'UTF-8', //UTF-8, GBK等
-        'merId'         => '105550149170027', //商户填写
+        'merId'         => '898111153990242', //商户填写
         'acqCode'       => '',  //收单机构填写
         'merCode'       => '',  //收单机构填写
-        'merAbbr'       => '商户名称',
+        'merAbbr'       => '北京太火红鸟科技有限公司',
     );
     
     const FRONT_PAY = 1;

@@ -71,6 +71,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		## 第三方交易号
 		'trade_no' => 0,
+		'trade_site' => Sher_Core_Util_Constant::TRADE_ALIPAY,
 		
 		## 备注
 		
@@ -208,6 +209,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		}
 		
 		$data['items'] = $new_items;
+	}
+	
+	/**
+	 * 更新失败订单，等同于关闭订单
+	 */
+	public function fail_order($id){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL);
 	}
 	
 	/**
@@ -612,7 +620,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 更新订单的支付信息
 	 * 支付状态，第三方交易号，状态
 	 */
-	public function update_order_payment_info($id=null, $trade_no=null, $status=null){
+	public function update_order_payment_info($id, $trade_no, $status=null, $trade_site=Sher_Core_Util_Constant::TRADE_ALIPAY){
         if(is_null($id)){
             $id = $this->id;
         }
@@ -633,6 +641,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if ($trade_no) {
 			$updated['trade_no'] = $trade_no;
 		}
+		if ($trade_site) {
+			$updated['trade_site'] = (int)$trade_site;
+		}
+		
 		if ($status) {
 			$updated['status'] = (int)$status;
 		}

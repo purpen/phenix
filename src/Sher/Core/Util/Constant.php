@@ -30,6 +30,13 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_WEIXIN = 5;
 	
 	
+	# 第三方支付
+	const TRADE_ALIPAY = 1;
+	const TRADE_QUICKPAY = 2;
+	const TRADE_WEIXIN = 3;
+	const TRADE_TENPAY = 4;
+	
+	
 	# 临时订单过期时间， 10小时
 	const EXPIRE_TIME = 36000;
 	

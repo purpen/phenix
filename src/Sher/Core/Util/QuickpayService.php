@@ -232,7 +232,11 @@ class Sher_Core_Util_QuickpayService extends Doggy_Object {
                 }
                 $sign_str .= sprintf("%s=%s&", $key, $val);
             }
-            return md5($sign_str . md5(Sher_Core_Util_QuickpayConf::$security_key));
+			
+			// 商户密钥
+			$security_key = Doggy_Config::$vars['app.quickpay.secret'];
+			
+            return md5($sign_str . md5($security_key));
         }
         /* TODO: elseif (strtolower($sign_method) == "rsa")  */
         else {

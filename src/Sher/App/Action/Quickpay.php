@@ -10,14 +10,21 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 	
 	public $pay_config = array(
 		/* 商户号，上线时务必将测试商户号替换为正式商户号 */
-		'partner' => '',
-		'key' => '',
+		'merId' => '898111153990242',
 	);
 	
 	protected $exclude_method_list = array('execute','secrete_notify');
 	
 	/**
 	 * 预先执行init
+	 * $pay_params  = array(
+     *   'version'       => '1.0.0',
+     *   'charset'       => 'UTF-8', //UTF-8, GBK等
+     *   'merId'         => '898111153990242', //商户填写
+     *   'acqCode'       => '',  //收单机构填写
+     *   'merCode'       => '',  //收单机构填写
+     *   'merAbbr'       => '北京太火红鸟科技有限公司',
+     * );
 	 */
 	public function _init() {
 		// 服务器异步通知页面路径
@@ -25,6 +32,7 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 页面跳转同步通知页面路径
 		$this->pay_config['return_url'] = Doggy_Config::$vars['app.url.domain'].'/app/site/quickpay/direct_notify';
+		
     }
 	
 	/**
@@ -99,21 +107,73 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 银联服务器异步通知页面
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Quickpay secrete notify updated!");
+		Doggy_Log_Helper::warn("Quickpay secrete notify updated ......!!!!!!");
 		
+		try{			
+		    $response = new Sher_Core_Util_QuickpayService($_POST, Sher_Core_Util_QuickpayConf::RESPONSE);
+		    if ($response->get('respCode') != Sher_Core_Util_QuickpayService::RESP_SUCCESS) {
+		        $err = sprintf("Error: %d => %s", $response->get('respCode'), $response->get('respMsg'));
+		        throw new Sher_App_Action_Exception($err);
+		    }
+		    $args = $response->get_args();
+			
+		    // 告知用户交易完成，更新数据库，将交易状态设置为已付款
+		    // 注意保存qid，以便调用后台接口进行退货/消费撤销
+			
+			// 检查商户账号是否一致
+			if (Sher_Core_Util_QuickpayConf::$pay_params['merId'] != $args['merId']) {
+				return $this->to_raw('商户号不一致！');
+			}
+			
+			// 商户订单号
+			$out_trade_no = $args['orderNumber'];
+			// 银联支付交易号
+			$trade_no = $args['qid'];
+			// 检查订单金额
+			$payment_amount = (int)$args['settleAmount'];
+			
+			$model = new Sher_Core_Model_Orders();
+			$order_info = $model->find_by_rid($out_trade_no);
+			if (empty($order_info)){
+				return $this->to_raw('系统不存在订单['.$out_trade_no.']！');
+			}
+			$order_time = date('YmdHis', $order_info['created_on']);
+			$total_fee = $order_info['pay_money'] * 100;
+			// 检查订单金额是否一致
+			if ($total_fee != $payment_amount) {
+				return $this->to_raw('订单金额不一致！');
+			}
+			
+			Doggy_Log_Helper::warn("Secrete Query order[$out_trade_no],time[$order_time]!");
+			
+			// 交易查询
+			return $this->quick_query($out_trade_no, $order_time, $trade_no, true);
+			
+		} catch(Sher_App_Action_Exception $e) {
+			 Doggy_Log_Helper::warn(var_export($e, true));
+			 return $this->to_raw('订单支付出现异常，请稍后重试！');
+		}
 	}
 	
 	/**
 	 * 银联页面跳转同步通知页面
+	 * Array ( [charset] => UTF-8 [cupReserved] => [exchangeDate] => [exchangeRate] => 
+	 *          [merAbbr] => 北京太火红鸟科技有限公司 [merId] => 898111153990242 [orderAmount] => 100 
+	 *          [orderCurrency] => 156 [orderNumber] => 114092200659 [qid] => 201409221739286127062 
+	 *          [respCode] => 00 [respMsg] => 支付成功 [respTime] => 20140922182726 
+	 *          [settleAmount] => 100 [settleCurrency] => 156 [settleDate] => 0922 [signMethod] => md5 [signature] =>          *          [traceNumber] => 612706 [traceTime] => 0922173928 [transType] => 01 [version] => 1.0.0 
+	 * )
 	 */
 	public function direct_notify(){
 		try{
-			$pay_service = new Sher_Core_Util_QuickpayService($_POST, Sher_Core_Util_QuickpayConf::FRONT_PAY);
-		    if ($pay_service->get('respCode') != Sher_Core_Util_QuickpayService::RESP_SUCCESS) {
-		        $err = sprintf("Error: %d => %s", $pay_service->get('respCode'), $pay_service->get('respMsg'));
+			Doggy_Log_Helper::warn("Quickpay pay result!");
+			
+		    $response = new Sher_Core_Util_QuickpayService($_POST, Sher_Core_Util_QuickpayConf::RESPONSE);
+		    if ($response->get('respCode') != Sher_Core_Util_QuickpayService::RESP_SUCCESS) {
+		        $err = sprintf("Error: %d => %s", $response->get('respCode'), $response->get('respMsg'));
 		        throw new Sher_App_Action_Exception($err);
 		    }
-		    $args = $pay_service->get_args(); 
+		    $args = $response->get_args();
 			
 		    // 告知用户交易完成，更新数据库，将交易状态设置为已付款
 		    // 注意保存qid，以便调用后台接口进行退货/消费撤销
@@ -125,7 +185,7 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			// 商户订单号
 			$out_trade_no = $args['orderNumber'];
-			// 支付宝交易号
+			// 银联支付交易号
 			$trade_no = $args['qid'];
 			// 检查订单金额
 			$payment_amount = (int)$args['settleAmount'];
@@ -135,16 +195,17 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 			if (empty($order_info)){
 				return $this->show_message_page('系统不存在订单['.$out_trade_no.']！', true);
 			}
-			$total_fee = $order_info['pay_money'] * 100;
 			$order_time = date('YmdHis', $order_info['created_on']);
-			
+			$total_fee = $order_info['pay_money'] * 100;
 			// 检查订单金额是否一致
 			if ($total_fee != $payment_amount) {
 				return $this->show_message_page('订单金额不一致！', true);
 			}
 			
+			Doggy_Log_Helper::warn("Query order[$out_trade_no],time[$order_time]!");
+			
 			// 交易查询
-			return $this->quick_query($out_trade_no, $order_time);
+			return $this->quick_query($out_trade_no, $order_time, $trade_no);
 			
 		} catch(Sher_App_Action_Exception $e) {
 			 Doggy_Log_Helper::warn(var_export($e, true));
@@ -155,7 +216,7 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 	/**
 	 * 查询接口
 	 */
-	public function quick_query($order_rid, $order_time, $sync=false){
+	public function quick_query($order_rid, $order_time, $trade_no, $sync=false){
 		$param = array();
 		
 		// 需要填入的部分
@@ -185,16 +246,18 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 			    // 更新数据库, 设置为交易失败
 				$message = "交易失败[respCode:{$respCode}]!";
 				
+				return $this->update_quickpay_order_fail($order_rid, $trade_no, $sync);
+				
 			} else if ($queryResult == Sher_Core_Util_QuickpayService::QUERY_INVALID) {
 			    // 出错
 				$message = "不存在此交易!";
 			} else if ($respCode == Sher_Core_Util_QuickpayService::RESP_SUCCESS
 			        && $queryResult == Sher_Core_Util_QuickpayService::QUERY_SUCCESS) {
 				
-				Doggy_Log_Helper::warn("订单[$out_trade_no]交易成功!");
+				Doggy_Log_Helper::warn("订单[$order_rid]交易成功!");
 				
 			    // 更新数据库, 设置为交易成功
-				return $this->update_quickpay_order_process($out_trade_no, $trade_no, $sync);
+				return $this->update_quickpay_order_process($order_rid, $trade_no, $sync);
 				
 			} else if ($respCode == Sher_Core_Util_QuickpayService::RESP_SUCCESS
 			        && $queryResult == Sher_Core_Util_QuickpayService::QUERY_WAIT) {
@@ -225,10 +288,20 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
 		}
 		$status = $order_info['status'];
+		$order_id = (string)$order_info['_id'];
 		
-		// 必须未支付的订单，才允许更新失败订单
+		// 必须未支付的订单，才允许更新失败订单,释放库存数
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			//
+			$model->fail_order($order_id);
+		}
+		
+		// 跳转订单详情
+		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+		
+		if (!$sync){
+			return $this->to_redirect($order_view_url);
+		} else {
+			return $this->to_raw('fail');
 		}
 	}
 	
@@ -253,15 +326,10 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 更新支付状态,付款成功并配货中
-			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
-			
-			if (!$sync){
-				return $this->show_message_page('订单状态已更新!', false, $order_view_url);
-			} else {
-				// 已支付状态
-				return $this->to_raw('success');
-			}
+			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_QUICKPAY);
 		}
+		
+		// 已支付状态
 		if (!$sync){
 			return $this->to_redirect($order_view_url);
 		} else {

@@ -86,6 +86,9 @@ app.url.upload.avatar: '{$app.url.upload}'
 app.url.upload.dotry: '{$app.url.upload}'
 
 # 银联支付
+app.quickpay.key: '898111153990242'
+# 测试环境密钥，生成环境需更换
+app.quickpay.secret: '88888888' 
 app.url.front_pay_url: 'https://unionpaysecure.com/api/Pay.action'
 app.url.back_pay_url: 'https://besvr.unionpaysecure.com/api/BSPay.action'
 app.url.query_url: 'https://query.unionpaysecure.com/api/Query.action'
