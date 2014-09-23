@@ -42,6 +42,9 @@ server {
         location /alipay {
             rewrite ^/alipay(.*)$ /app/site/alipay$1 last;
         }
+        location /quickpay {
+            rewrite ^/quickpay(.*)$ /app/site/quickpay$1 last;
+        }
 		
         location /wechat {
           	rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;

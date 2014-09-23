@@ -144,7 +144,7 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 				return $this->to_raw('订单金额不一致！');
 			}
 			
-			Doggy_Log_Helper::warn("Secrete Query order[$out_trade_no],time[$order_time]!");
+			Doggy_Log_Helper::warn("Secrete Query order[$out_trade_no],time[$order_time],trade_no[$trade_no]!");
 			
 			// 交易查询
 			return $this->quick_query($out_trade_no, $order_time, $trade_no, true);
@@ -218,6 +218,8 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 	 */
 	public function quick_query($order_rid, $order_time, $trade_no, $sync=false){
 		$param = array();
+		
+		Doggy_Log_Helper::warn("Quick Query order[$order_rid],time[$order_time],trade_no[$trade_no]!");
 		
 		// 需要填入的部分
 		$param['transType']     = Sher_Core_Util_QuickpayConf::CONSUME;   //交易类型
