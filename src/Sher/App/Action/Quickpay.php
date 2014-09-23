@@ -146,12 +146,15 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			Doggy_Log_Helper::warn("Secrete Query order[$out_trade_no],time[$order_time],trade_no[$trade_no]!");
 			
-			// 交易查询
-			return $this->quick_query($out_trade_no, $order_time, $trade_no, true);
+		    // 更新数据库, 设置为交易成功
+			return $this->update_quickpay_order_process($out_trade_no, $trade_no, true);
 			
 		} catch(Sher_App_Action_Exception $e) {
 			 Doggy_Log_Helper::warn(var_export($e, true));
 			 return $this->to_raw('订单支付出现异常，请稍后重试！');
+		} catch(Exception $e) {
+		 	Doggy_Log_Helper::warn(var_export($e, true));
+		 	return $this->to_raw('订单支付出现异常，请稍后重试！');
 		}
 	}
 	
@@ -161,7 +164,8 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 	 *          [merAbbr] => 北京太火红鸟科技有限公司 [merId] => 898111153990242 [orderAmount] => 100 
 	 *          [orderCurrency] => 156 [orderNumber] => 114092200659 [qid] => 201409221739286127062 
 	 *          [respCode] => 00 [respMsg] => 支付成功 [respTime] => 20140922182726 
-	 *          [settleAmount] => 100 [settleCurrency] => 156 [settleDate] => 0922 [signMethod] => md5 [signature] =>          *          [traceNumber] => 612706 [traceTime] => 0922173928 [transType] => 01 [version] => 1.0.0 
+	 *          [settleAmount] => 100 [settleCurrency] => 156 [settleDate] => 0922 [signMethod] => md5 [signature] =>
+	 *          [traceNumber] => 612706 [traceTime] => 0922173928 [transType] => 01 [version] => 1.0.0 
 	 * )
 	 */
 	public function direct_notify(){
@@ -204,8 +208,8 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			Doggy_Log_Helper::warn("Query order[$out_trade_no],time[$order_time]!");
 			
-			// 交易查询
-			return $this->quick_query($out_trade_no, $order_time, $trade_no);
+		    // 更新数据库, 设置为交易成功
+			return $this->update_quickpay_order_process($out_trade_no, $trade_no);
 			
 		} catch(Sher_App_Action_Exception $e) {
 			 Doggy_Log_Helper::warn(var_export($e, true));

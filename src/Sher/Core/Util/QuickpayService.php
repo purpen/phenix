@@ -259,7 +259,7 @@ eot;
         }
 		
         $html .= <<<eot
-    				<input type="submit" class="hidden" value="Submit" />
+					<input type="submit" type="hidden" style="display:none;" />
     			</form>
 				<script type="text/javascript">document.forms['QuickpaySubmit'].submit();</script>
 			</body>
