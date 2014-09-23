@@ -31,7 +31,13 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		# 库存总数
 		'quantity' => 0,
 		# 已销售数量
-		'sold'  => 0,	
+		'sold'  => 0,
+		
+		# 限额数量
+		'limited_count' => 0,
+		
+		# 同步数量
+		'sync_count' => 0,
 		
 		# 描述
 		'summary' => '',
@@ -58,12 +64,16 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
     );
 	
     protected $required_fields = array('product_id', 'price', 'quantity');
-    protected $int_fields = array('product_id', 'quantity', 'sold');
+    protected $int_fields = array('product_id', 'quantity', 'limited_count', 'sold', 'sync_count', 'revoke_count');
 	
 	/**
 	 * 扩展关联数据
 	 */
-    protected function extra_extend_model_row(&$row) {}
+    protected function extra_extend_model_row(&$row) {
+    	if(isset($row['sync_count'])){
+    		$row['sold'] += $row['sync_count'];
+    	}
+    }
 	
 	// 添加自定义ID
     protected function before_insert(&$data) {
@@ -126,6 +136,45 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		$product = new Sher_Core_Model_Product();
 		$product->update_set((int)$product_id, array('inventory' => $inventory));
+		unset($product);
+	}
+	
+	/**
+	 * 更新同步数量
+	 */
+	public function update_sync_count($sku, $sync_count=0, $sync_people=0){
+		$add_money = 0;
+		$only = false;
+		$sku = (int)$sku;
+		$sync_count = (int)$sync_count;
+		$sync_people = (int)$sync_people;
+		
+		$item = $this->find_by_id($sku);
+		
+		if(!empty($item)){
+			if($item['quantity'] < $sync_count){
+				throw new Sher_Core_Model_Exception('库存数量不足！');
+			}
+			Doggy_Log_Helper::warn("Update product[$sku] sync count[$sync_count]!");
+			$updated = array(
+				'$inc' => array('quantity'=>$sync_count*-1, 'sync_count'=>$sync_count),
+			);
+			$ok = $this->update($sku, $updated);
+			
+			$product_id = $item['product_id'];
+			
+			// 新增金额
+			$add_money  = $item['price']*$sync_count;
+		} else {
+			// 仅有1个默认sku
+			$product_id = $sku;
+			$only = true;
+		}
+		
+		// 更新总库存数
+		$product = new Sher_Core_Model_Product();
+		$product->decrease_invertory($product_id, $sync_count, $only, $add_money, $sync_people);
+		
 		unset($product);
 	}
 	

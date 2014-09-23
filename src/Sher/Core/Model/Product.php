@@ -44,6 +44,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 销售数
 		'sale_count' => 0,
 		
+		# 同步数量,单个sku情况
+		'sync_count' => 0,
+		
 		# 商品属性信息
 		'attributes' => array(
 			'width'  => 0,
@@ -430,7 +433,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 减少产品库存，及增加已销售数量
 	 */
-	public function decrease_invertory($id, $quantity=1, $only=false, $add_money=0){
+	public function decrease_invertory($id, $quantity=1, $only=false, $add_money=0, $add_people=1){
 		$row = $this->find_by_id((int)$id);
 		
 		if (empty($row)){
@@ -449,7 +452,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 					'$inc' => array(
 						'sale_count'=>$quantity, 
 						'inventory'=>$quantity*-1, 
-						'presale_count'=>1,
+						'presale_count'=>$add_people,
 						'presale_money'=>$add_money,
 					)
 				);

@@ -89,6 +89,7 @@ app.dt.extension_lib.sher_app:
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
     'user_list':'Sher_App_ViewTag_UserList'
+    'sku_list':'Sher_Core_ViewTag_SkuList'
     'tags_list':'Sher_App_ViewTag_TagsList'
     'cake_list':'Sher_App_ViewTag_CakeList'
     'message_list':'Sher_App_ViewTag_MessageList'

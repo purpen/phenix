@@ -319,6 +319,64 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	}
 	
 	/**
+	 * 同步产品的销售情况
+	 */
+	public function sync_sold(){
+		$id = (int)$this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->show_message_page('产品不存在！');
+		}
+		$model = new Sher_Core_Model_Product();
+		$this->stash['product'] = $model->load($id);
+		
+		// 获取inventory
+		$inventory = new Sher_Core_Model_Inventory();
+		$skus = $inventory->find(array(
+			'product_id' => $id,
+			'stage' => $this->stash['product']['stage'],
+		));
+		$this->stash['skus'] = $skus;
+		$this->stash['mode_count'] = count($skus);
+		
+		return $this->to_html_page('admin/product/sold.html');
+	}
+	
+	/**
+	 * 更新产品的销售情况
+	 */
+	public function update_solded(){
+		$id = (int)$this->stash['_id'];
+		$mode_count = (int)$this->stash['mode_count'];
+		$stage = (int)$this->stash['stage'];
+				
+		try{
+			for($i=1;$i<=$mode_count;$i++){
+				$r_id = $this->stash['r_id-'.$i];
+				$quantity = $this->stash['quantity-'.$i];
+				$sync_count = (int)$this->stash['sync-'.$i];
+				$sync_people = (int)$this->stash['people-'.$i];
+				
+				// <=库存数量
+				if ($sync_count <= $quantity){
+					// 同步销售数量
+					if($sync_count > 0 || $sync_people > 0){
+						$inventory = new Sher_Core_Model_Inventory();
+						$inventory->update_sync_count($r_id, $sync_count, $sync_people);
+						unset($inventory);
+					}
+				}
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Update product sold failed: ".$e->getMessage());
+			return $this->show_message_page('更新失败:'.$e->getMessage());
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product?stage='.$stage;
+		
+		return $this->to_redirect($redirect_url);
+	}
+	
+	/**
 	 * 推荐
 	 */
 	public function ajax_stick(){

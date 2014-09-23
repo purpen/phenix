@@ -80,14 +80,6 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
 		
-		// 获取inventory
-		$inventory = new Sher_Core_Model_Inventory();
-		$presales = $inventory->find(array(
-			'product_id' => $id,
-			'stage' => Sher_Core_Model_Inventory::STAGE_PRESALE,
-		));
-		$this->stash['presales'] = $presales;
-		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
 		

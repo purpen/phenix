@@ -95,6 +95,7 @@
 				</th>
 				<th>缩略图</th>
 				<th class="six wide">产品名称</th>
+				<th>剩余/已售</th>
 				<th>所属阶段</th>
 				<th>状态</th>
 				<th>管理操作</th>
@@ -125,6 +126,9 @@
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
 				</td>
 				<td>
+					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.sale_count|default 0 }}</span></p>
+				</td>
+				<td>
 					<label class="ui green label">{{ product.stage_label }}</label>
 				</td>
 				<td>					
@@ -145,8 +149,8 @@
 					{% endif %}
 				</td>
 				<td>
-					<div class="ui divided horizontal small list">
-						<a href="{{ app_url_admin_base }}/product/edit?id={{ product._id }}" class="ui link item">编辑</a>
+					<p>
+						
 						{% if product.stage == 1 %}
 							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax">通过审核</a>
 							{% if product.approved == 1%}
@@ -171,11 +175,16 @@
 							取消推荐
 						</a>
 						{% endif %}
-						
-			          	<a href="{{ app_url_admin }}/product/deleted?id={{ product._id }}" class="ui confirm-request link item">
-							删除
-						</a>
-					</div>
+					</p>
+					<p>
+						<a href="{{ app_url_admin_base }}/product/edit?id={{ product._id }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin }}/product/deleted?id={{ product._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+		          		<a href="{{ app_url_admin }}/product/sync_sold?id={{ product._id }}" class="ui link item">
+						    同步销售
+					    </a>
+					</P>
 				</td>
 			</tr>
 			{% endfor %}

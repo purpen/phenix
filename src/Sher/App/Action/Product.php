@@ -37,7 +37,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		
 		// 产品信息
 		$model = new Sher_Core_Model_Product();
-		$product = & $model->load($id);
+		$product = $model->load($id);
 		
 		// 限制修改权限
 		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){
@@ -46,14 +46,6 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
         if (!empty($product)) {
             $product = $model->extended_model_row($product);
         }
-		
-		// 获取inventory
-		$inventory = new Sher_Core_Model_Inventory();
-		$presales = $inventory->find(array(
-			'product_id' => $id,
-			'stage' => Sher_Core_Model_Inventory::STAGE_PRESALE,
-		));
-		$this->stash['presales'] = $presales;
 		
 		// 编辑器图片 
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
@@ -186,6 +178,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 						'product_id' => (int)$product_id,
 						'name' => $name,
 						'mode' => $this->stash['mode'],
+						'limited_count' => (int)$this->stash['limited_count'],
 						'quantity' => $this->stash['quantity'],
 						'price' => (float)$price,
 						'summary' => $this->stash['summary'],
@@ -201,6 +194,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 						'product_id' => (int)$product_id,
 						'name' => $name,
 						'mode' => $this->stash['mode'],
+						'limited_count' => (int)$this->stash['limited_count'],
 						'quantity' => $this->stash['quantity'],
 						'price' => (float)$price,
 						'summary' => $this->stash['summary'],

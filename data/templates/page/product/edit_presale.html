@@ -238,18 +238,18 @@
 						<h3 class="ui dividing new title header">
 							产品型号/数量
 						</h3>
-						
+						{% sku_list var:'presales' product_id:product._id stage:product.stage %}
 						<div class="ui seg grid">
 							<div class="row">
 								<div class="column">
 									<div class="ui four levels" id="product-presales">
-										{% for presale in presales %}
+										{% for presale in presales.rows %}
 										<div class="ui level" id="{{ presale._id }}" data-id="{{ presale._id }}">
 											<h3 class="ui header">{{ presale.name }}</h3>
 					
 											<div class="content">
 												<p class="time">
-													{{ presale.mode }}，限量{{ presale.quantity }}个
+													{{ presale.mode }}{%if presale.limited_count%}，限量{{ presale.limited_count }}个{%endif%}
 												</p>
 												<p class="time">
 													{{ presale.summary }}

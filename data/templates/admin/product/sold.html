@@ -1,0 +1,158 @@
+{%extends 'layout/admin.html'%}
+{% block title %}同步产品销售-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.ok.button {
+		margin-top: 1.7em;
+	}
+	.ui.add.button {
+		padding: 0.3em;
+		margin-left: 1em;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">产品管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/product" class="item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=1" class="{% if stage == 1 %}active{%endif%} item">
+			投票
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=5" class="{% if stage == 5 %}active{%endif%} item">
+			预售
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active{%endif%} item">
+			商店
+		</a>
+	  	<div class="right menu">			
+			<a href="{{ app_url_admin_base }}/product/edit" class="active item">
+				新增产品
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/product/update_solded" class="ui form" method="post" id="product-form">
+		<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
+		<input type="hidden" name="stage" value="{{ product.stage }}" />
+		<input type="hidden" name="mode_count" id="mode_count" value="{{ mode_count }}" />
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">基本信息</h3>
+			<div class="field">
+				<label>产品名称</label>
+			  	<input type="text" name="title" value="{{ product.title }}" readonly="true" />
+			</div>
+		</div>
+		
+		{% if product.stage == 5 %}
+		<div class="ui segment">
+			<h3 class="ui dividing header">预售设置</h3>
+			
+			<div class="three fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="presale_start_time" value="{{ product.presale_start_time }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+				  	<label>预售目标金额：</label>
+					<input type="text" name="presale_goals" value="{{ product.presale_goals }}" />
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		
+		{% if product.stage == 9 %}
+		<div class="ui segment">
+			<h3 class="ui dividing header">销售设置</h3>
+			<div class="four fields">
+				<div class="field">
+				  	<label>原价：</label>
+					<input type="text" name="market_price" value="{{ product.market_price }}" />
+				</div>
+				<div class="field">
+				  	<label>折扣价：</label>
+					<input type="text" name="sale_price" value="{{ product.sale_price }}" />
+				</div>
+				<div class="field">
+				  	<label>产品数量：</label>
+					<input type="text" name="inventory" value="{{ product.inventory }}" id="inventory" />
+				</div>
+				{% if product.mode_count < 2 %}
+				<div class="field">
+				  	<label>新增同步数量<small>（{{ product.sync_count|default 0 }}）</small>：</label>
+					<input type="text" name="sync_count" />
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		{% endif %}
+		
+		{% sku_list var:'skus' product_id:product._id stage:product.stage %}
+		{% if skus.total_rows %}
+		<div class="ui segment">
+			<div class="field">
+				<h3 class="ui dividing header">产品型号/颜色/数量</h3>
+			</div>
+			<div id="modebox">
+				{% for m in skus.rows %}
+				<div class="five fields">
+					<input type="hidden" name="r_id-{{ loop.counter }}" value="{{ m._id }}" />
+					<div class="field">
+					  	<label>产品名称/型号：</label>
+						 <input type="text" name="name-{{ loop.counter }}" value="{{ m.name }}/{{ m.mode }}" />
+					</div>
+					<div class="field">
+					  	<label>产品数量：</label>
+						<input type="text" name="quantity-{{ loop.counter }}" class="quantity" value="{{ m.quantity }}" />
+					</div>
+					<div class="field">
+					  	<label>销售价格：</label>
+						<input type="text" name="price-{{ loop.counter }}" value="{{ m.price }}" />
+					</div>
+					<div class="field">
+					  	<label>新增同步数量<small>（{{ m.sync_count|default 0 }}）</small>：</label>
+						<input type="text" name="sync-{{ loop.counter }}" />
+					</div>
+					<div class="field">
+					  	<label>新增同步人数：</label>
+						<input type="text" name="people-{{ loop.counter }}" />
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+		
+		<div class="ui right aligned grid">
+			<div class="column">
+				<div class="ui gray cancel button">
+					取消
+				</div>
+				<button class="ui magenta submit button">
+					确认提交
+				</button>
+			</div>
+		</div>
+		
+	</form>
+</div>
+{% endblock %}

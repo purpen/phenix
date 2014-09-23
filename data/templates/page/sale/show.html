@@ -290,17 +290,18 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
+					{% sku_list var:'presales' product_id:product._id stage:product.stage %}
 					<div class="ui four levels">
-						{% for presale in presales %}
+						{% for presale in presales.rows %}
 						<div class="ui level">
 							<h3 class="ui header">{{ presale.name }}</h3>
 							<div class="content">
 								<p class="time">
 									{% if presale.mode %}
-											{{ presale.mode }},
+										{{ presale.mode }}
 									{% endif %}
-									{% if presale.quantity %}
-										限量{{ presale.quantity }}个
+									{% if presale.limited_count %}
+										, 限量{{ presale.limited_count }}个
 									{% endif %}
 								</p>
 								<p class="time">
