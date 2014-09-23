@@ -25,8 +25,8 @@ class Sher_Core_ViewTag_SkuList extends Doggy_Dt_Tag {
         $include_pager = 0;
         $pager_var = 'pager';
 		
-		$sort_field = 'time';
-
+		$sort_field = 'price';
+		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
         $page = (int) $page;
@@ -46,6 +46,7 @@ class Sher_Core_ViewTag_SkuList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Inventory::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_sku_list($query,$options);
 		

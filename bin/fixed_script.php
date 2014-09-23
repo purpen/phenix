@@ -19,7 +19,7 @@ set_time_limit(0);
 ini_set('memory_limit','512M');
 
 echo "Prepare to fix user name...\n";
-$user = new Lgk_Core_Model_User();
+$user = new Sher_Core_Model_User();
 $page = 1;
 $size = 2000;
 $is_end = false;

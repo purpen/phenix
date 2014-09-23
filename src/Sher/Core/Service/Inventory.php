@@ -8,6 +8,7 @@ class Sher_Core_Service_Inventory extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
+		'price' => array('price' => 1),
     );
 	
     /**
