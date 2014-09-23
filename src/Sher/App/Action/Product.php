@@ -200,6 +200,9 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 						'summary' => $this->stash['summary'],
 					);
 					$ok = $inventory->apply_and_update($updated);
+					
+					// 重新更新产品库存数量
+					$inventory->recount_product_inventory((int)$product_id, $product['stage']);
 				}
 				
 				$result = $inventory->load((int)$r_id);
