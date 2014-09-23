@@ -377,12 +377,31 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	}
 	
 	/**
+	 * 重算预售销售额，解决预售数字不一致bug.
+	 */
+	public function ajax_recount(){
+		$id = (int)$this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$ok = $model->recount_presale_result((int)$id);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_notification('操作成功');
+	}
+	
+	/**
 	 * 推荐
 	 */
 	public function ajax_stick(){
 		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_notification('产品不存在！', true);
 		}
 		
 		try{
@@ -401,7 +420,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	public function ajax_cancel_stick(){
 		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('主题不存在！', true);
+			return $this->ajax_notification('产品不存在！', true);
 		}
 		
 		try{

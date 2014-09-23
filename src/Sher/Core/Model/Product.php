@@ -431,6 +431,33 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 重新计算产品预售数量、预售金额
+	 */
+	public function recount_presale_result($id, $stage=self::STAGE_PRESALE){
+		// 获取所有类型
+		$inventory = new Sher_Core_Model_Inventory();
+		$result = $inventory->find(array(
+			'product_id' => (int)$id,
+			'stage' => (int)$stage,
+		));
+		
+		$presale_count = 0;
+		$presale_money = 0;
+		if (!empty($result)){
+			for($i=0;$i<count($result);$i++){
+				$sold_count = $result[$i]['sold'] + $result[$i]['sync_count'];
+				$presale_count += $sold_count;
+				$presale_money += $sold_count*$result[$i]['price'];
+			}
+		}
+		
+		Doggy_Log_Helper::debug("Recount product presale:[$id],[$presale_count],[$presale_money]! ");
+		
+		// 开始更新
+		$this->update_set((int)$id, array('presale_count' => $presale_count, 'presale_money' => $presale_money));
+	}
+	
+	/**
 	 * 减少产品库存，及增加已销售数量
 	 */
 	public function decrease_invertory($id, $quantity=1, $only=false, $add_money=0, $add_people=1){

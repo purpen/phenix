@@ -47,7 +47,7 @@
 	<h3 class="ui header">产品管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/product" class="item">
+		<a href="{{ app_url_admin_base }}/product" class="{% if !stage %}active{%endif%} item">
 			全部
 		</a>
 		<a href="{{ app_url_admin_base }}/product?stage=1" class="{% if stage == 1 %}active{%endif%} item">
@@ -126,7 +126,11 @@
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
 				</td>
 				<td>
+					{% if product.stage == 5 %}
+					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.presale_count|default 0 }}</span></p>
+					{% else %}
 					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.sale_count|default 0 }}</span></p>
+					{% endif %}
 				</td>
 				<td>
 					<label class="ui green label">{{ product.stage_label }}</label>
@@ -184,6 +188,13 @@
 		          		<a href="{{ app_url_admin }}/product/sync_sold?id={{ product._id }}" class="ui link item">
 						    同步销售
 					    </a>
+						{% if visitor.is_system %}
+							{% if product.stage == 5 %}
+			          		<a href="{{ app_url_admin }}/product/ajax_recount?id={{ product._id }}" class="ui ajax link item">
+							    重算销售
+						    </a>
+							{% endif %}
+						{% endif %}
 					</P>
 				</td>
 			</tr>
