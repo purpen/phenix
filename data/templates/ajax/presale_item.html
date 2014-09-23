@@ -11,7 +11,10 @@
 
 			<div class="content">
 				<p class="time">
-					{{ presale.mode }}，限量{{ presale.quantity }}个
+					{{ presale.mode }}
+					{% if presale.limited_count %}
+						, 限量{{ presale.limited_count }}个
+					{% endif %}
 				</p>
 				<p class="time">
 					{{ presale.summary }}
