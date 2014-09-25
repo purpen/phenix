@@ -2,30 +2,40 @@
 {% block title %}智造革命-太火鸟&LKK{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.ui.responsive.grid {
-	padding: 0;
-}
-.ui.grid > .column, .ui.grid > .row > .column {
-	padding: 1em 6% 0em;
-	width: 100%;
-}
-.z.page {
-	 background: url("{{ app_url_packaged }}/images/zhizao-bg.jpg") repeat scroll center center;
-}
-h4.ui.header {
-    font-size: 1.02rem;
-    line-height: 1.33;
-}
-h4.ui.header .advantage {
-	font-size: 0.75em;
-	margin: 0.5em 0;
-}
-.ui.market.text {
-	margin-left: 1em;
-}
-.market .price {
-	text-decoration:line-through;
-}
+	.ui.responsive.grid {
+		padding: 0;
+	}
+	.ui.grid > .column, .ui.grid > .row > .column {
+		padding: 1em 2% 0em;
+		width: 100%;
+	}
+	.ui.one.items > .item {
+	    margin-left: 2%;
+	    margin-right: 2%;
+	    width: 96%;
+	}
+	.z.page {
+		 background: url("{{ app_url_packaged }}/images/zhizao-bg.jpg") repeat scroll center center;
+	}
+	h4.ui.header {
+	    font-size: 1.05rem;
+	    line-height: 1.33;
+	}
+	h4.ui.header .advantage {
+		font-size: 0.875em;
+		margin: 0.5em 0;
+	}
+	.wxprice,
+	.like .count,
+	.ui.items > .item > .content .like i.icon {
+		font-size: 16px;
+	}
+	.ui.market.text {
+		margin-left: 1em;
+	}
+	.market .price {
+		text-decoration:line-through;
+	}
 </style>
 {% endblock %}
 
@@ -40,6 +50,7 @@ h4.ui.header .advantage {
 				<div class="ui one items">
 					{% product_list var:'products' product_ids:product_ids %}
 					{% for product in products %}
+						{% if product %}
 						<div class="magenta item" id="product-{{ product._id }}">
 						  	<div class="image">
 								<a href="{{ product.mm_view_url }}" title="{{ product.title }}">
@@ -53,16 +64,22 @@ h4.ui.header .advantage {
 									</a>
 									<div class="advantage">{{ product.advantage }}</div>
 								</h4>
-								<div class="sell clearfix">
-									<span class="price">
+								<div class="name clearfix">
+									<span class="wxprice">
 										微信价：<span class="ui magenta text">￥{{ product.sale_price }}</span> <span class="ui market text"><span class="price">￥{{ product.market_price }}</span></span>
 									</span>
-						          	<div class="extra">
-						              	<small><i class="flat like icon"></i> {{ product.love_count }}人喜欢</small>
-						          	</div>
+									<span class="like">
+										{% if product.love_count %}
+										<i class="heart icon"></i>
+										{% else %}
+										<i class="empty heart icon"></i>
+										{% endif %}
+										<span class="count">{{ product.love_count }}人喜欢</span>
+									</span>
 								</div>
 						  	</div>
 						</div>
+						{% endif %}
 					{% endfor %}
 				</div>
 				

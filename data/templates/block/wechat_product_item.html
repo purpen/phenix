@@ -9,16 +9,20 @@
 			<a href="{{ product.mm_view_url }}" title="{{ product.title }}" class="ui link">
 				{{ product.title|truncate, 16, '' }}
 			</a>
+			<div class="advantage">{{ product.advantage }}</div>
 		</h4>
-		{% if product.stage == 9 %}
-		<div class="sell clearfix">
-			<span class="price">
-				微信价：<span class="ui magenta text">￥{{ product.sale_price }}</span>
+		<div class="name clearfix">
+			<span class="wxprice">
+				微信价：<span class="ui magenta text">￥{{ product.sale_price }}</span> <span class="ui market text"><span class="price">￥{{ product.market_price }}</span></span>
 			</span>
-          	<div class="extra">
-              	<small><i class="flat like icon"></i> {{ product.love_count }}人喜欢</small>
-          	</div>
+			<span class="like">
+				{% if product.love_count %}
+				<i class="heart icon"></i>
+				{% else %}
+				<i class="empty heart icon"></i>
+				{% endif %}
+				<span class="count">{{ product.love_count }}人喜欢</span>
+			</span>
 		</div>
-		{% endif %}
   	</div>
 </div>

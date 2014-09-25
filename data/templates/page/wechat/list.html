@@ -2,7 +2,40 @@
 {% block title %}精选商品{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.responsive.grid {
+		padding: 0;
+	}
+	.ui.grid > .column, .ui.grid > .row > .column {
+		padding: 1em 2% 0em;
+		width: 100%;
+	}
+	.ui.one.items > .item {
+	    margin-left: 2%;
+	    margin-right: 2%;
+	    width: 96%;
+	}
+	.z.page {
+		 background: url("{{ app_url_packaged }}/images/zhizao-bg.jpg") repeat scroll center center;
+	}
+	h4.ui.header {
+	    font-size: 1.05rem;
+	    line-height: 1.33;
+	}
+	h4.ui.header .advantage {
+		font-size: 0.875em;
+		margin: 0.5em 0;
+	}
+	.wxprice,
+	.like .count,
+	.ui.items > .item > .content .like i.icon {
+		font-size: 16px;
+	}
+	.ui.market.text {
+		margin-left: 1em;
+	}
+	.market .price {
+		text-decoration:line-through;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
