@@ -1,0 +1,78 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">红包管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/bonus" class="{% if used == 0 %}active{%endif%} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/bonus/gen" class="item">
+				<i class="flat add icon"></i>增发
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/bonus" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="红包码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>红包码</th>
+				<th>红包金额</th>
+				<th>状 态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% bonus_list var:'bonus' used:used search_code:q page:page %}
+			
+			{% for b in bonus.rows %}
+			<tr id="{{ b._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ b.code }}</td>
+				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
+				<td>{% if code.used_by %}<span class="ui label">已使用</span>{% else %}<span class="ui green label">未使用</span>{% endif %}</td>
+				<td>
+					<p>
+		          		<a href="{{ app_url_admin }}/bonus/deleted?id={{ b._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</p>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if bonus.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}

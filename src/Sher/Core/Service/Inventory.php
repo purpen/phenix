@@ -24,7 +24,7 @@ class Sher_Core_Service_Inventory extends Sher_Core_Service_Base {
     }
 	
     /**
-     * 获取评论列表
+     * 获取列表
      */
     public function get_sku_list($query = array(), $option = array()){
         $model = new Sher_Core_Model_Inventory();
