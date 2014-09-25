@@ -290,10 +290,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if ($row['role_id'] == self::ROLE_SYSTEM){
         	$row['is_system'] = $row['is_admin'] = true;
         	$row['can_system'] = $row['can_admin'] = true;
+			$row['can_edit']  = true;
         }
         if ($row['role_id'] == self::ROLE_ADMIN || $row['role_id'] == self::ROLE_EDITOR){
             $row['is_admin'] = true;
             $row['can_admin'] = true;
+			$row['can_edit']  = true;
         }
         if ($row['role_id'] == self::ROLE_EDITOR){
             $row['is_editor'] = true;

@@ -219,8 +219,16 @@
 										{{ comment.content }}
 									</div>
 									<div class="actions">
+										{% if visitor.is_login %}
 										<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+										{% endif %}
+										{% if visitor.can_edit %}
 										<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+										{% else %}
+											{% if visitor._id == reply.user_id %}
+												<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+											{% endif %}
+										{% endif %}
 									</div>
 									<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
 										<input type="hidden" name="type" value="2" />
@@ -229,8 +237,8 @@
 										<div class="field">
 											<textarea name="content" class="reply-content"></textarea>
 										</div>
-										<div class="ui button magenta submit labeled icon">
-											<i class="flat icon edit"></i> 回复
+										<div class="ui active button magenta submit labeled icon">
+											<i class="icon location"></i> 回复
 										</div>
 									</form>
 								</div>
@@ -239,7 +247,7 @@
 								{% if comment.reply %}
 								<div class="comments">
 									{% for reply in comment.reply %}
-										<div class="comment">
+										<div class="comment" id="{{ reply.r_id }}">
 											<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
 												<img src="{{ reply.user.small_avatar_url }}" />
 											</a>
@@ -250,6 +258,15 @@
 												</div>
 												<div class="text">
 													{{ reply.content }}
+												</div>
+												<div class="actions">
+													{% if visitor.can_edit %}
+													<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
+													{% else %}
+														{% if visitor._id == reply.user_id %}
+															<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
+														{% endif %}
+													{% endif %}
 												</div>
 											</div>
 										</div>
@@ -308,7 +325,7 @@
 								      <div class="header">
 										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
 									  </div>
-								      {{ user.city }}
+								      <span>{{ user.city }}</span>
 								</div>
 							</div>
 							{% endfor %}

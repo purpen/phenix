@@ -106,6 +106,8 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 				$model->mock_after_remove($comment);
 			}
 			
+			$this->stash['ids'] = array($comment_id);
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('删除评论失败,请重新提交', true);
 		}
@@ -141,6 +143,28 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		return $this->to_taconite_page('ajax/reply_ok.html');
 	}
 	
+	/**
+	 * 删除回复
+	 */
+	public function delete_reply(){
+		$comment_id = $this->stash['id'];
+		$reply_id = $this->stash['r_id'];
+		// 验证数据
+		if(empty($comment_id) || empty($reply_id)){
+			return $this->ajax_notification('获取数据错误,请重新提交', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Comment();
+			$ok = $model->remove_reply($comment_id, $reply_id);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('删除回复失败,请重新提交', true);
+		}
+		
+		$this->stash['ids'] = array($reply_id);
+		
+		return $this->ajax_delete('删除成功', false);
+	}
 	
 	
 }
