@@ -3,24 +3,6 @@
 		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
       		<img src="{{ product.cover.thumbnails.resp.view_url }}" />
 		</a>
-		<div class="image-extra">
-			<div class="extra-content">
-				<div class="inner-extra">
-					<a class="single-image plus-icon" href="{{ product.view_url }}" target="_blank">
-						<span class="curtain"></span>
-					</a>
-					{% if product.can_saled %}
-					<a class="single-image ajax link-icon" href="{{ app_url_shopping }}/buy?sku={{ product._id }}" title="加入购物车">
-						<span class="curtain"></span>
-					</a>
-					{% else %}
-					<a class="ui single-image disabled pop link-icon" href="javascript:void(0);" data-content="缺货通知" data-variation="inverted">
-						<span class="curtain"></span>
-					</a>
-					{% endif %}
-				</div>
-			</div>
-		</div>
   	</div>
   	<div class="content">
       	<h4 class="ui dividing header">

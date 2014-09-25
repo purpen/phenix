@@ -73,13 +73,13 @@
 		<form action="{{ app_url_admin_base }}/orders" method="post">
 			<label>搜索：</label>
 			<div class="ui icon input">
-				<input placeholder="Search..." type="text" name="q">
+				<input placeholder="订单号..." type="text" name="q">
 				<i class="search icon"></i>
 			</div>
 		</form>
 	</div>
 	
-	{% order_list var:'list' user_id:user_id status:s size:10 page:page %}
+	{% order_list var:'list' user_id:user_id status:s size:15 page:page search_rid:search_rid search_name:search_name  %}
 	
 	{% for order in list.rows %}
 		{% include 'block/order-item.html' %}

@@ -10,6 +10,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 20,
 		's' => 0,
+		'q' => '',
 	);
 	
 	public function execute(){
@@ -20,14 +21,24 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
      * 订单列表
      */
     public function get_list() {
-    	$this->set_target_css_state('page_orders');
+		$q = $this->stash['q'];
+    	
+		if (!empty($q)) {
+			// 是否为数字
+			if (is_numeric($q)){
+				$this->stash['search_rid'] = $q;
+			} else {
+				$this->stash['search_name'] = $q;
+			}
+		}
 		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders?s=%d&page=#p#';
-		
-		
+
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s']);
 		
 		$this->stash['admin'] = true;
+		
+		$this->set_target_css_state('page_orders');
 		
         return $this->to_html_page('admin/orders/list.html');
     }

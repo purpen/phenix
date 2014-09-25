@@ -22,6 +22,9 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		// 订单状态
 		$status = 0;
 		
+        $search_rid = 0;
+        $search_name = 0;
+		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -37,6 +40,10 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		
 		if ($user_id) {
 			$query['user_id'] = (int)$user_id;
+		}
+		
+		if ($search_rid) {
+			$query['rid'] = $search_rid;
 		}
 		
 		// 订单状态
