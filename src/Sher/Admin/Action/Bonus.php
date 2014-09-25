@@ -8,6 +8,8 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+		'status' => 0,
+		'used' => 0,
 		'q' => '',
 	);
 	
@@ -27,9 +29,18 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	 */
 	public function get_list() {
 		$query = array();
+		
 		$model = new Sher_Core_Model_Bonus();
         $bonus = $model->find($query);
         
+		if(!empty($this->stash['status'])){
+			$this->set_target_css_state('pending');
+		}else{
+			if ($this->stash['used'] == 0) {
+				$this->set_target_css_state('all');
+			}
+		}
+		
         $this->stash['bonus'] = $bonus;
 		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/bonus?page=#p#';
@@ -48,6 +59,28 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/bonus';
 		return $this->to_redirect($pager_url);
+	}
+	
+	/**
+	 * 解冻
+	 */
+	public function unpending(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('红包不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Bonus();
+			$model->unpending($id);
+			
+			$this->stash['id'] = $id;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('admin/del_ok.html');
 	}
 	
 	/**

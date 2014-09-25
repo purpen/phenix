@@ -6,7 +6,7 @@
 	<h3 class="ui header">红包管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/bonus" class="{% if used == 0 %}active{%endif%} item">
+		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
 			全部
 		</a>
 		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
@@ -14,6 +14,9 @@
 		</a>
 		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
 			未使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
+			冻结中
 		</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/bonus/gen" class="item">
@@ -43,7 +46,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% bonus_list var:'bonus' used:used search_code:q page:page %}
+			{% bonus_list var:'bonus' used:used search_code:q page:page status:status %}
 			
 			{% for b in bonus.rows %}
 			<tr id="{{ b._id }}">
@@ -55,9 +58,20 @@
 				</td>
 				<td>{{ b.code }}</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
-				<td>{% if code.used_by %}<span class="ui label">已使用</span>{% else %}<span class="ui green label">未使用</span>{% endif %}</td>
+				<td>
+					{% if code.used == 2 %}
+						<span class="ui label">已使用</span>
+					{% else %}
+						<span class="ui green label">未使用</span>
+					{% endif %}
+				</td>
 				<td>
 					<p>
+						{% if b.status == 1 %}
+		          		<a href="{{ app_url_admin }}/bonus/unpending?id={{ b._id }}" class="ui ajax link item">
+						    解冻
+					    </a>
+						{% endif %}
 		          		<a href="{{ app_url_admin }}/bonus/deleted?id={{ b._id }}" class="ui confirm-request link item">
 						    删除
 					    </a>

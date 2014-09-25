@@ -64,6 +64,36 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	);
 	
 	/**
+	 * 获取一个红包，同时锁定红包
+	 */
+	public function pop(){
+		$query = array(
+			'used' => self::USED_DEFAULT,
+			'status' => self::STATUS_OK,
+		);
+		
+		$updated = array(
+			'$set' => array(
+				'status' => self::STATUS_PENDING,
+			),
+		);
+		
+		$options = array(
+			'query'  => $query,
+			'update' => $updated,
+		);
+		
+		return self::$_db->find_and_modify($this->collection, $options);
+	}
+	
+	/**
+	 * 通过红包码查询
+	 */
+	public function find_by_code($code){
+		return $this->first(array('code' => $code));
+	}
+	
+	/**
 	 * 设置使用
 	 */
     public function mark_used($code, $used_by, $order_rid) {
@@ -78,6 +108,13 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 			'order_rid' => $order_rid,
 		));
     }
+	
+	/**
+	 * 解冻
+	 */
+	public function unpending($id){
+		return $this->update_set($id, array('status'=>self::STATUS_OK));
+	}
     
 	/**
 	 * 获取随机概率

@@ -20,6 +20,7 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		
         $user_id = 0;
 		$used = 0;
+		$status = 0;
 		
 		$search_code = '';
 		
@@ -43,6 +44,10 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		
 		if ($used) {
 			$query['used'] = (int)$used;
+		}
+		
+		if ($status) {
+			$query['status'] = (int)$status;
 		}
 		
 		if ($search_code){
