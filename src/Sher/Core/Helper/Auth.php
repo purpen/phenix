@@ -144,6 +144,7 @@ class Sher_Core_Helper_Auth {
         }
         return $password;
     }
+	
 	/**
 	 * 生成验证码
 	 */

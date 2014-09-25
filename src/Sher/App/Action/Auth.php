@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'logout', 'do_login', 'do_register', 'ajax_check_invite_code');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'logout', 'do_login', 'do_register', 'verify_code');
 	
 	/**
 	 * 入口
@@ -175,7 +175,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	}
     
 	/**
-	 * 创建Passport和灵感库帐号,完成提交注册信息
+	 * 创建帐号,完成提交注册信息
 	 */
 	public function do_register(){
         $service = DoggyX_Session_Service::instance();
@@ -184,7 +184,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
         }
 		
-	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['nickname'])) {
+	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
             return $this->ajax_note('数据错误,请重试', true);
         }
 		
@@ -201,32 +201,24 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		}*/
 		
 		// 验证验证码是否有效
-		/*
-		if(!empty($this->stash['verify_code'])){
-			$verify = new Sher_Core_Model_Verify();
-			$row = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
-			if(empty($row)){
-				return $this->ajax_note('验证码有误，请重新获取！',true,Doggy_Config::$vars['app.url.register']);
-			}else{
-				// 删除验证码
-				$verify->remove($row['_id']);
-			}
-		}*/
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('验证码有误，请重新获取！', true);
+		}
 		
         try {
 			$user = new Sher_Core_Model_User();
 			
 			$user_info = array(
                 'account' => $this->stash['account'],
-				'nickname' => $this->stash['nickname'],
+				'nickname' => $this->stash['account'],
 				'password' => sha1($this->stash['password']),
                 'state' => Sher_Core_Model_User::STATE_OK
             );
 			
 			$profile = $user->get_profile();
-			if(isset($this->stash['phone'])){
-				$profile['phone'] = $this->stash['phone'];
-			}
+			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
 			
             $ok = $user->create($user_info);
@@ -235,6 +227,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				
 				// 设置邀请码已使用
 				// $this->mark_invitation_used($user_id);
+				
+				// 删除验证码
+				$verify = new Sher_Core_Model_Verify();
+				$verify->remove($code['_id']);
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -247,6 +243,24 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
 		
 		return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_profile_url);
+	}
+	
+	
+	/**
+	 * 发送手机验证码
+	 */
+	public function verify_code() {
+		$phone = $this->stash['phone'];
+		$code = Sher_Core_Helper_Auth::generate_code();
+		
+		$verify = new Sher_Core_Model_Verify();
+		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));
+		if($ok){
+			// 开始发送
+			Sher_Core_Helper_Util::send_register_mms($phone, $code);
+		}
+		
+		return $this->to_json(200, '正在发送');
 	}
 
 	/**

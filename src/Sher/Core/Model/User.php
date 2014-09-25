@@ -184,11 +184,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		// 新建记录
 		if($this->insert_mode){
 			if (!$this->_check_account()){
-				throw new Sher_Core_Model_Exception('账户邮件已被占用，请更换或重试！');
-			}
-			
-			if (!$this->_check_name()){
-				throw new Sher_Core_Model_Exception('昵称已被占用，请更换或重试！');
+				throw new Sher_Core_Model_Exception('账户已被占用，请更换！');
 			}
 		}
 		

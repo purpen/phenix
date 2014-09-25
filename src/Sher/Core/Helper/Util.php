@@ -1,9 +1,13 @@
 <?php
+/**
+ * 常用工具类
+ * @author purpen
+ */
 class Sher_Core_Helper_Util {
 	/**
 	 * 发送注册验证码
 	 */
-	public static function send_register_mms($phone,$code) {
+	public static function send_register_mms($phone, $code) {
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
 		return self::send_mms($phone, $message);
 	}
@@ -25,7 +29,7 @@ class Sher_Core_Helper_Util {
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);     
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, TRUE); 
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($ch, CURLOPT_SSLVERSION , 3);
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH , CURLAUTH_BASIC);
@@ -33,7 +37,7 @@ class Sher_Core_Helper_Util {
 
 
 		curl_setopt($ch, CURLOPT_POST, TRUE);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, array('mobile' => $phone,'message' => $message));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, array('mobile' => $phone, 'message' => $message));
 
 		$res = curl_exec( $ch );
 		curl_close( $ch );
@@ -47,12 +51,14 @@ class Sher_Core_Helper_Util {
 		
 		return true;
 	}
+	
 	/**
 	 * 验证url是否合法
 	 */
 	public static function is_url($str){
 		return preg_match("/^http:\/\/[A-Za-z0-9-%_]+\.[A-Za-z0-9-%_]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"])*$/", $str);
 	}
+	
 	public static function is_gif($str){
 		return (strtolower(substr($str,-4)) == ".gif"); 
 	}
@@ -107,12 +113,14 @@ class Sher_Core_Helper_Util {
 		}
 		return false;
 	}
+	
     /**
      * 标签验证过滤器
      */
 	public static function filtor_tag($tag_s){
 		return array_values(array_unique(preg_split('/[,，\s]+/u',$tag_s)));
 	}
+	
 	/**
 	 * 生产随机数
 	 */
@@ -120,6 +128,7 @@ class Sher_Core_Helper_Util {
 		srand((double)microtime()*10000000);
 		return rand();
 	}
+	
 	/**
 	 * 生成加密key
 	 */
@@ -131,6 +140,7 @@ class Sher_Core_Helper_Util {
 		}
 		return $key;
 	}
+	
 	/**
 	 * 两个数组合并
 	 */
@@ -143,6 +153,7 @@ class Sher_Core_Helper_Util {
 		}
 		return array();
 	}
+	
 	/**
 	 * 截取字符
 	 */

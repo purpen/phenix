@@ -275,6 +275,24 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$user_info['_id'] = $this->visitor->id;
 		$user_info['nickname'] = $this->stash['nickname'];
 		
+		// 修改密码
+		$current_password = $this->stash['current_password'];
+		$password = $this->stash['password'];
+		$repeat_password = $this->stash['repeat_password'];
+		
+		if (!empty($current_password) && !empty($password) && !empty($repeat_password)){
+			// 验证当前密码
+			if ($this->visitor->password != sha1($current_password)){
+				return $this->ajax_notification('当前密码不正确！', true);
+			}
+			// 验证新密码是否一致
+			if ($password != $repeat_password){
+				return $this->ajax_notification('新密码与确认密码不一致！', true);
+			}
+			
+			$user_info['password'] = sha1($password);
+		}
+		
         //更新基本信息
         $this->visitor->save($user_info);
         

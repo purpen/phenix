@@ -1,6 +1,6 @@
 <?php
 /**
- * 验证码验证
+ * 手机验证码验证
  * @author purpen
  */
 class Sher_Core_Model_Verify extends Sher_Core_Model_Base {    
@@ -11,7 +11,7 @@ class Sher_Core_Model_Verify extends Sher_Core_Model_Base {
 		'code' => null,
     );
 	
-	protected $required_fields = array('phone','code');
+	protected $required_fields = array('phone', 'code');
 	
     protected $joins = array();
 	
