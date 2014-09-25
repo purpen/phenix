@@ -446,7 +446,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 禁用账户
      */
     public function block_account($id) {
-        return $this->update_set((int)$id,array('state' => self::STATE_DISABLED));
+        return $this->update_set((int)$id, array('state' => self::STATE_DISABLED));
     }
 
     /**

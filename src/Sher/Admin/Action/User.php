@@ -43,6 +43,9 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		}elseif($state == 1){
 			$this->stash['only_pending'] = 1;
 			$this->set_target_css_state('pending');
+		}elseif ($state == 3){
+			$this->stash['only_blocked'] = 1;
+			$this->set_target_css_state('blocked');
 		}
 		
 		if (isset($this->stash['role'])){
@@ -140,7 +143,14 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	 * 禁用用户
 	 */
 	public function disabled() {
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
 		
+		$model = new Sher_Core_Model_User();
+		$ok = $model->block_account($this->stash['id']);
+		
+		return $this->to_taconite_page('admin/del_ok.html');
 	}
 	
 }

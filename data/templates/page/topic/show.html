@@ -302,11 +302,17 @@
 						{{ topic.description }}
 					</div>
 					
+					{% if topic.tags %}
 					<div class="tags">
 						{% for tag in topic.tags %}
-						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link"><i class="tag icon"></i>{{ tag }}</a>
+						{% if tag %}
+						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
+							<i class="tag icon"></i>{{ tag }}
+						</a>
+						{% endif %}
 						{% endfor %}
 					</div>
+					{% endif %}
 					
 					<div class="admin post actions clearfix">
 						<div class="ui icon magenta buttons">

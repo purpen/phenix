@@ -12,6 +12,7 @@
 		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
 		<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活</a>
 		<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活</a>
+		<a href="{{ app_url_admin }}/user?state=3&time={{ time }}" class="{{ css_pending }} item">已禁用</a>
 		<a class="{{ css_admin }} item" href="{{ app_url_admin }}/user?role=admin">管理员</a>
 		<a class="{{ css_editor }} item" href="{{ app_url_admin }}/user?role=editor">编辑人员</a>
 	  	<div class="right menu">
@@ -36,7 +37,7 @@
 		</div>
 	</div>
 	
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -49,7 +50,7 @@
 		</thead>
 		<tbody>
 			{% for user in list.rows %}
-			<tr id="user_{{ user._id }}">
+			<tr id="{{ user._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids[]" type="checkbox" value="{{ user._id }}" />
@@ -92,23 +93,28 @@
 					</p>
 				</td>
 				<td>
-					<div class="ui small divided horizontal list">
+					{% if user.state %}
+					<p class="actions">
 						{% if visitor.role_id == 9 %}
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=admin" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为管理员</a>
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为普通会员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=admin" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为管理员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为普通会员</a>
 						{% endif %}
 						
 						{% if visitor.role_id == 8 %}
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax item" id="user_{{ user._id }}_upgrade">设为普通会员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为普通会员</a>
 						{% endif %}
 						
 						{% if user.state != 2 %}
-						<a href="{{ app_url_admin }}/user/activtion?id={{ user._id }}" class="ui link ajax item">激活</a>
+						<a href="{{ app_url_admin }}/user/activtion?id={{ user._id }}" class="ui link ajax">激活</a>
 						{% endif %}
-						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link ajax item">禁用</a>
-					</div>
+						
+						{% if user.state %}
+						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link ajax">禁用</a>
+						{% endif %}
+					</p>
+					{% endif %}
 				</td>
 			</tr>
 			{% endfor %}
