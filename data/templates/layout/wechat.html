@@ -85,10 +85,15 @@
 		</style>
 		
 		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/bird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
+		
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
 	</head>
