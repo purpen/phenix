@@ -7,7 +7,170 @@
 
 <a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
 
-<div class="ui secondary user menu">	
+<div class="ui secondary user menu">
+	
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_topic }}" id="toptic-basket">
+		{% if items_count > 0 %}
+	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
+		{% else %}
+		<label class="floating circular ui magenta label hide"></label>
+		{% endif %}
+	  	<i class="flat discover icon"></i>
+	  	<div class="menu">
+			{% if items_count > 0 %}
+			<div class="item" id="basket-body-content">
+				<table class="ui basic basket table">
+					<thead>
+						<tr>
+							<th></th>
+							<th>产品信息</th>
+							<th>数 量</th>
+							<th class="center aligned">小计</th>
+							<th class="right aligned"></th>
+						</tr>
+					</thead>
+					<tbody id="basket-item-wrapper">
+						{% for product in basket_products %}
+						<tr id="basket-product-{{ product.sku }}">
+							<td>
+								<a href="{{ product.view_url }}" class="ui cover image">
+						      		<img src="{{ product.cover }}" />
+								</a>
+							</td>
+							<td>
+						      	<div class="content">
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui magenta link" title="{{ product.title }}">{{ product.title|truncate 18 '' }}</a>
+									</div>
+						      	</div>
+							</td>
+							<td class="center aligned">
+								{{ product.quantity }}
+							</td>
+							<td class="center aligned">
+								{{ product.subtotal }}元
+							</td>
+							<td class="right aligned">
+								<a class="magenta ui close button" data-sku="{{ product.sku }}">
+									<i class="flat close icon"></i>
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+					    <tr>
+							<td colspan="4">
+								<div class="bill">
+									<p class="ui gray text">
+										共计：<b class="cart-items-count">{{ items_count }}</b>件产品
+									</p>
+									<p>
+										总计：<b class="cart-total-money">{{ total_money }}</b>元
+									</p>
+								</div>
+							</td>
+					    	<td class="right aligned">
+							  	<a class="ui magenta btn-4 btn-4c btn" href="{{ app_url_cart }}">
+							    	去结算
+								</a>
+					    	</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			{% else %}
+			<div class="item" id="basket-body-content">
+				<table class="ui basic basket table">
+					<thead>
+						<tr>
+							<th class="center aligned">动态</th>
+							<th class="center aligned">关注</th>
+							<th class="center aligned">通知</th>
+						</tr>
+					</thead>
+					<tbody id="basket-item-wrapper">
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p><b>木辛抽抽</b>&nbsp;&nbsp;&nbsp;回复了话题三大外媒开跑实测 iPhone6 ，<br/>
+								防震模式、240fps慢动作录影 ，效果不错<br/>2014年9月1日   19:30</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p><b>笨笨</b>&nbsp;&nbsp;&nbsp;回复了话题巴黎 VS 纽约, 你是哪一派？<br/>2小时前</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p>这些人最近鸟你了</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<img src="{{ app_url_packaged }}/images/fire/images/expert_1.jpg" width="10%" height="10%"  />&nbsp;&nbsp;&nbsp;<b>木辛抽抽<br>北京  设计师</b>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<img src="{{ app_url_packaged }}/images/fire/images/expert_1.jpg" width="10%" height="10%"  />&nbsp;&nbsp;&nbsp;<b>小鹿笛子<br>北京  设计师</b>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p>［新品试用］MagicFinger指纹识别手机壳手指动一动 <br>生活如此轻松（免费申请）</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p>获得了20个赞/10个收藏：Formula E ：当赛车也智慧，<br>真实竞赛如电玩来自木辛抽抽、小鹿笛子、笨笨等人</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p>获得了20人支持：易行云-车载桌面<br>两用音响来自木辛抽抽、小鹿笛子、笨笨等人</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<p>查看全部 ></p>
+							</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			{% endif %}
+	  	</div>
+
+	</div>
+	
+	
+		
 	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
