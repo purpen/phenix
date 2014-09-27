@@ -1,0 +1,134 @@
+{%extends 'layout/column.html'%}
+{% block title%}厘米空气净化器 全球首款可手机无线充电的空气净化器-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/cm_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 2126720,3500);
+	phenix.doit('goccia-people', 602);
+	phenix.doit('goccia-precent', 4253,8);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/cm_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/cm'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					厘米空气净化器 <br />全球首款可手机无线充电的空气净化器
+					<div class="sub header">
+						厘米是一款结合手机无线充电、空气质量监测的多用途空气净化器，太火鸟根据其产品特性，进行了市场综合分析，制定了“厘米”的营销推广计划，包括卖点的提炼、详情页的设计、推广营销方案制定等，8月27号，太火鸟帮助“厘米”正式登陆淘宝众筹，并在淘宝的首焦页面作为重点产品进行推介，在20天的时间内，达成率4253%，完成了212万元众筹金额。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>智能家居</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">2126720</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">602</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">4253</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>厘米是一款结合手机无线充电、空气质量监测的多功能空气净化器。其原理是在空气净化器中嵌入国际QI无线充电标准的线圈，实现手机无线充电功能，同时针对目前手机无线充电感应区较窄的问题，利用电磁波感应原理三线圈超大范围感应，实现多角度感应充电。</p>
+					<p>在空气净化方面，厘米采用高级椰壳活性炭材料与优质HEPA高效过滤的一体化设计，能有效的吸附甲醛等化学污染物、异味，去除PM2.5、粉尘，保证在10㎡左右的空间内的净化效果.</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/cm-1.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/cm-2.jpg" class="ui image" />
+					</div>
+				</div>
+				<div class="wz">
+					<p>在无线充电方面，厘米空气净化器实现了无线充电，解决了数据线的束缚，同时又保证了安全，厘米应用国际QI无线充电标准，利用电磁波感应原理进行充电，放置非QI认证的磁性物体不会对其充电，用户触摸无线充电器的面板也不会造成任何触电危害。厘米的运转电压在12V，而无线充电面板的工作电压是5V;研究表明,24V以内都是安全电压，由于人体自身的电阻较大，安全电压下无法产生电流或感知电流，对人体不会产生危害，并有自动断电保护。和很多手机无线充电设备的不同之处，厘米在充电感应上有较大改进，在北京Macworld2014大会上，体验者在机器上放置一本普通的杂志依然可以充电。
+					</p>
+					<p>在材质工艺方面，厘米空气净化器采用iPhone5s同材质合金，香槟金与月牙白完美搭配，设计简约，做工讲究！直径19厘米，厚度6.5厘米，做到了同类净化器中最薄。其风机优质，内部构造紧密，任何角度的翻转都能保持正常而且毫无杂音。</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui three items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/cm-1.png" class="ui image" />
+						<p>动点科技新闻报道</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/cm-2.png" class="ui image" />
+						<p>淘宝网首页定投</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/cm-3.png" class="ui image" />
+						<p>淘宝首页焦点图</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}

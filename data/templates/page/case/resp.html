@@ -1,0 +1,116 @@
+{%extends 'layout/column.html'%}
+{% block title%}SKIN RUN肌肤管家 智能肌肤测试仪，专业为您提供肌肤呵护建议-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/resp_bg.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 88283,200);
+	phenix.doit('goccia-people', 745,2);
+	phenix.doit('goccia-precent', 882,2);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/resp_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/resp'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					SKIN RUN肌肤管家 <br />智能肌肤测试仪，专业为您提供肌肤呵护建议
+					<div class="sub header">
+						肌肤管家是一款为现代女性而设计的一款用于肌肤测试和数据分析建议的智能仪器，从产品分析到项目上线，针对女性这一特殊群体以及产品特点，太火鸟制定了专业产品详情页和推广计划，在淘宝众筹做了首页推介，大量引流，超额完成众筹目标882%，获得了745人支持，88283元。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>智能家居</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">88283</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">745</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">882</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>肌肤管家是针对现代女性研发的一款肌肤测试仪，帮助女性更加了解自己的肌肤状况，根据季节，肤质，保养等元素时时跟踪女性肌肤的微小变化，进而提出相应的专业意见。肌肤管家全天候、全方位、多角度的肌肤测试标准，日常测试瞬间了解自己的肌肤状况，帮助用户选购更加适合自己的护肤产品， 天气指标温馨提示护肤侧重，肌肤管家，可以让用户更加详尽地认识自己的肌肤。</p>
+					<p>为了更加精准的帮助用户进行肌肤测试，肌肤管家更是增加了T区、U区以及眼部E区细分，让你更加清晰了解各个部位的皮肤详细数据，真正做到专业数据和专家级的建议。</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/resp-1.png" class="ui image" />
+						<p>淘宝网首页定投</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/resp-2.png" class="ui image" />
+						<p>淘宝众筹频道首焦</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
