@@ -12,6 +12,14 @@ app.log.default:
 
 app.mongodb_rs: true
 app.mongodb_host: '127.0.0.1'
+# mongodb
+app.mongo.default:
+  host: '10.9.29.163:27017,10.9.17.240:27017,10.9.27.227:27017'
+  db: 'firebird'
+  username: 'root'
+  password: 'Frbird#2014$Nest'
+  replicaSet: 'rs_frbird'
+  
 app.keychains.private: 'xxxxOOOOxxxx'
 
 app.url.packaged: '{$app.url.qiniu.frstatic}'
@@ -25,7 +33,7 @@ app.js.use_bundle: 1
 app.css.use_bundle: 1
 
 # redisdb
-app.redis_host: 'localhost:6379'
+app.redis_host: '10.9.29.163:6379'
 
 # 产品话题类别
 app.product.topic_category_id: 19
