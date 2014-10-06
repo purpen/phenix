@@ -13,9 +13,17 @@ class Sher_Core_Cache_Redis extends Doggy_Object {
 		
 		extract($options, EXTR_IF_EXISTS);
 		
+		if (!isset($options['host'])){
+			$options['host'] = Doggy_Config::$vars['app.redis.default']['host'];
+		}
+		
+		if (!isset($options['port'])){
+			$options['port'] = Doggy_Config::$vars['app.redis.default']['port'];
+		}
+		
 		$redis = new Redis();
 		
-		$redis->connect('127.0.0.1', 6379);
+		$redis->connect($options['host'], $options['port']);
 		
 		$this->redis = $redis;
     }

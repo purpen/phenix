@@ -33,7 +33,10 @@ app.js.use_bundle: 1
 app.css.use_bundle: 1
 
 # redisdb
-app.redis_host: '10.9.29.163:6379'
+# redisdb
+app.redis.default: 
+    host: '10.9.29.163'
+    port: 6379
 
 # 产品话题类别
 app.product.topic_category_id: 19
