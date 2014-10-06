@@ -2,27 +2,14 @@
 {% block title %}搜索{{q}}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	#searchpage {
-		padding-top: 1.5em;
-		background-color: #fff;
-		min-height: 350px;
-	}
-	#searchpage .ui.tabox {
-		margin: 0em auto 0.8em;
-	}
-	#searchpage .ui.tabox .ui.ten.tabs .tab {
-		width: 8%;
-		font-size: 1.15rem;
-		text-align: center;
-	}
+	
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('#searchbar i.search.icon').click(function(){
-		$('#searchbar').submit();
-	});
+	
 {% endblock %}
+
 {% block content %}
 <div id="searchpage">
 	<div class="ui tabox">
@@ -43,7 +30,7 @@
 			<div class="column">
 				{% if q %}
 					{%if has_scws %}
-						{% search_list var:'list' search_word:q index_name:index_name page:page %}
+						{% search_list var:'list' search_word:q index_name:index_name page:page type:t size:10 %}
 					    搜索 “{{ highlight }}” , 找到约 {{ list.total_rows }} 条结果
 					{%else%}
 					    搜索 “{{ q }}” , 找到约 0 条结果
@@ -56,9 +43,44 @@
 		<div class="row">
 			<div class="column">
 				<div class="search result">
+					<div class="ui search selection list">
 					{% for item in list.rows %}
+						{% if item.type == 2 %}
+						<div class="item">
+							{% if item.topic.asset_count > 0 %}
+								{% asset_list var:'assets' parent_id:item.topic._id size:1 asset_type:55 sort:'positive' %}
+								{% for asset in assets.rows %}
+							  	<img class="ui small image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endfor %}
+							{% endif %}
+							<div class="content">
+								<div class="header">
+							      	<a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui link" target="_blank">{{ item.topic.title }}</a>
+								</div>
+								<div class="attribute">
+									<span class="category"><a href="{{ item.topic.category.view_url }}" class="ui link">{{ item.topic.category.title }}</a></span> | 
+									<span class="author">
+										<a href="{{ item.topic.user.home_url }}" class="ui link">{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>于{{ item.topic.created_on|relative_datetime }}发表
+									</span>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						
+						{% if item.type == 1 %}
+						<div class="item">
+							<img class="ui small image" src="{{ item.product.cover.thumbnails.tiny.view_url }}" />
+							<div class="content">
+								<div class="header">
+							      	<a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui link" target="_blank">{{ item.product.title }}</a>
+								</div>
+								
+							</div>
+						</div>
+						{% endif %}
 						
 					{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>

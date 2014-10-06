@@ -107,11 +107,11 @@ server {
           rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
         }
 
-	location /search {
-	     rewrite ^/search[/]?$ /app/site/search last;
-	     rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;
-	     rewrite ^/search/([^/]+)/p(\d+).html$ /app/site/search?q=$1&page=$2 last;
-	}
+		location /search {
+		     rewrite ^/search[/]?$ /app/site/search last;
+		     rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;
+		     rewrite ^/search/(\d+)/([^/]+)/p(\d+).html$ /app/site/search?t=$1&q=$2&page=$3 last;
+		}
 
         location /tag {
 	    rewrite /tag(\/*)$ /tags/ last;

@@ -11,44 +11,46 @@ class Sher_App_ViewTag_SearchList extends Doggy_Dt_Tag {
     public function render($context, $stream) {
         $page = 1;
         $size = 20;
+		
         $user_id = 0;
         $search_word = '';
-        $sort_field = 'time';
+        $sort_field = 'latest';
+		$type = 0;
+		
         $index_name = 'full';
 		
-		$marital = 11;
-		
-		
         $var = 'list';
+        $include_pager = 0;
+        $pager_var = 'pager';
+		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
-        $page = (int) $page;
-        $page = $page?$page:1;
+		
+        $page = (int)$page;
+        $page = $page ? $page : 1;
         $size = (int)$size;
+		
         $query = array();
 
-        if ($user_id) {
-            $query['user_id'] = (int) $user_id;
+        if($user_id){
+            $query['user_id'] = (int)$user_id;
         }
-
-		if ($marital) {
-			$query['marital'] = $marital;
+		
+		if($type){
+			$query['type'] = (int)$type;
 		}
-
-        $options['sort_field'] = $sort_field;
+		
+		$service = Sher_Core_Service_Search::instance();
+		
         $options['page'] = $page;
         $options['size'] = $size;
-
-        $service = Sher_Core_Service_Search::instance();
+		$options['sort_field'] = $sort_field;
+        
+        $result = $service->search($search_word, $index_name, $query, $options);
+        $context->set($var, $result);
 		
-        $result = $service->search($search_word,$index_name,$query,$options);
-        if(!empty($result['rows'])){
-        	$rows = array();
-	        foreach ($result['rows'] as $k=>$v) {
-	        	$row[$k] = $v['user'];
-	        }
-	        $result['rows'] = $row;
+        if ($include_pager) {
+            $context->set($pager_var, $result['pager']);
         }
-        $context->set($var,$result);
     }
 }
 ?>

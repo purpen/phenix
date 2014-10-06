@@ -34,9 +34,9 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         $this->stash['search_result_key'] = md5($this->stash['q']).'::'.$this->stash['page'];
         
         if($this->stash['index_name'] == 'tags'){
-        	$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $this->stash['q']).'p#p#.html';
+        	$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $this->stash['t'], $this->stash['q']).'p#p#.html';
         }else{
-        	$this->stash['pager_url']  = Sher_Core_Helper_Url::build_url_path('app.url.search', $this->stash['q']).'p#p#.html';
+        	$this->stash['pager_url']  = Sher_Core_Helper_Url::build_url_path('app.url.search', $this->stash['t'], $this->stash['q']).'p#p#.html';
         	$this->stash['index_name'] = 'full';
         }
 		
