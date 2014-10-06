@@ -13,6 +13,34 @@
 		$('.ui.addbook.modal').modal('show');
 	});
 	
+	// 使用红包
+	$('.ui.bonus.icon').click(function(){
+		if ($(this).hasClass('active')){
+			$('.ui.bonus.segment').addClass('hide');
+			$(this).removeClass('active');
+		}else{
+			$('.ui.bonus.segment').removeClass('hide');
+			$(this).addClass('active');
+		}
+		return false;
+	});
+	
+	$('#submit-bonus').click(function(){
+		var bonus_code = $('#bonus-code').val();
+		if(bonus_code){
+			$.post('{{ app_url_shopping }}/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
+				if(result.success){
+					$('#order-coin-money').text(result.data.card_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+		}else{
+			phenix.show_error_note('请输入红包码', 3000);
+		}
+	});
+	
 	// 选择地址
 	$('.address').on('click', '.item', function(){
 		var addbook_id = $(this).data('id');
@@ -482,12 +510,21 @@
 						</table>
 					</div>
 					
-					<div class="ui bottom aligned grid">
+					<div class="ui grid">
 						<div class="row">
 							<div class="six wide column">
-								<a href="{{ app_url_cart }}" class="ui black btn-4 btn-4c btn">
-									<i class="truck icon"></i>返回购物车
-								</a>
+								<div class="bill">
+									<a href="javascript:void(0);" class="ui small icon magenta bonus button pop" data-content="使用红包" data-variation="inverted">
+										<i class="gift icon"></i>
+									</a>
+									<div class="ui bonus hide segment">
+										<h4>使用红包抵消部分总额 <a href="#" class="ui magenta link" target="_blank">[了解红包使用规则]</a></h4>
+										<div class="ui fluid action input">
+										  <input placeholder="输入红包码..." name="bonus" type="text" id="bonus-code" />
+										  <div class="ui active magenta button" id="submit-bonus">确定</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="right aligned ten wide column">
 								<div class="bill">
@@ -504,7 +541,15 @@
 										应付金额：<b id="order-pay-money" class="money">{{ pay_money }}</b>元
 									</p>
 								</div>
-								
+							</div>
+						</div>
+						<div class="bottom aligned row">
+							<div class="six wide column">
+								<a href="{{ app_url_cart }}" class="ui black btn-4 btn-4c btn">
+									<i class="truck icon"></i>返回购物车
+								</a>
+							</div>
+							<div class="right aligned ten wide column">
 								<div class="ui magenta btn-4 btn-4c icon-arrow-right checkout submit btn">立即下单</div>
 							</div>
 						</div>

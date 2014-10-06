@@ -233,6 +233,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 优惠活动费用
 		$coin_money = 0.0;
 		
+		// 红包金额
+		$card_money = 0.0;
+		
 		// 设置订单默认值
 		$default_data = array(
 	        'payment_method' => 'a',
@@ -241,6 +244,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	        'summary' => '',
 	        'invoice_type' => 0,
 			'freight' => $freight,
+			'card_money' => $card_money,
 			'coin_money' => $coin_money,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd'
@@ -269,7 +273,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	}
 	
 	/**
-	 * 订购预售产品
+	 * 订购预售产品，不享用红包优惠
 	 * 无购物车，直接生产临时订单
 	 */
 	public function preorder(){
@@ -389,6 +393,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 优惠活动费用
 			$coin_money = 0.0;
 			
+			// 红包金额
+			$card_money = 0.0;
+			
 			// 设置订单默认值
 			$default_data = array(
 		        'payment_method' => 'a',
@@ -397,6 +404,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		        'summary' => '',
 		        'invoice_type' => 0,
 				'freight' => $freight,
+				'card_money' => $card_money,
 				'coin_money' => $coin_money,
 		        'invoice_caty' => 1,
 		        'invoice_content' => 'd'
@@ -414,7 +422,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				$this->stash['data'] = $order_info['dict'];
 			}
 			
-			$pay_money = $total_money + $freight - $coin_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money;
 			
 			$this->stash['pay_money'] = $pay_money;
 			
@@ -493,7 +501,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$freight = Sher_Core_Util_Shopping::getFees();
 		
 		// 优惠活动金额
-		$coin_money = 0.0;
+		$coin_money = $order_info['coin_money'];
+		
+		// 红包金额
+		$card_money = $order_info['card_money'];
 		
 		try{
 			$orders = new Sher_Core_Model_Orders();
@@ -509,9 +520,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			// 商品金额
 			$order_info['total_money'] = $total_money;
-			
 			// 应付金额
-			$order_info['pay_money'] = $total_money + $freight - $coin_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			// 支付金额不能为负数
+			if($pay_money < 0){
+				$pay_money = 0.0;
+			}
+			$order_info['pay_money'] = $pay_money;
 			
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
@@ -547,6 +562,45 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
 		
 		return $this->ajax_json('下订单成功！', false, $next_url);
+	}
+	
+	/**
+	 * 使用红包抵扣
+	 */
+	public function ajax_bonus(){
+		$rid = $this->stash['rid'];
+		$code = $this->stash['code'];
+		if (empty($rid) || empty($code)) {
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+		try{
+			$data = array();
+			$card_money = Sher_Core_Util_Shopping::get_card_money($code);
+			// 更新临时订单
+			$model = new Sher_Core_Model_OrderTemp();
+			$ok = $model->use_bonus($rid, $code, $card_money);
+			if($ok){
+				$data['card_money'] = $card_money*-1;
+				
+				$result = $model->first(array('rid'=>$rid));
+				if (empty($result)){
+					return $this->ajax_json('订单操作失败，请重试！', true);
+				}
+				$dict = $result['dict'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'];
+				
+				// 支付金额不能为负数
+				if($pay_money < 0){
+					$pay_money = 0.0;
+				}
+				$data['pay_money'] = $pay_money;
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Bonus order failed: ".$e->getMessage());
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('红包成功使用', false, null, $data);
 	}
 	
 	/**

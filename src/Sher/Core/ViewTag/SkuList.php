@@ -20,6 +20,7 @@ class Sher_Core_ViewTag_SkuList extends Doggy_Dt_Tag {
 		
         $product_id = 0;
 		$stage = 0;
+		$sku = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -34,6 +35,16 @@ class Sher_Core_ViewTag_SkuList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
+		
+		// 获取单个sku信息
+		if ($sku) {
+			$inventory = new Sher_Core_Model_Inventory();
+			$item = $inventory->load((int)$sku);
+			
+			$context->set($var, $item);
+			
+			return;
+		}
 		
 		if ($product_id) {
 			$query['product_id'] = (int)$product_id;

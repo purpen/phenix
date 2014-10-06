@@ -25,7 +25,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		'pay_money'   => 0,
 		'total_money' => 0,
+		# 红包优惠金额
 		'card_money'  => 0,
+		# 优惠抵扣
 		'coin_money'  => 0,
 		
 		# 物流费用
@@ -84,7 +86,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'referer' => '',
 		'fromword' => '',
 		
-		## 优惠码
+		## 优惠码,红包
 		
 		'card_code' => '',
 		
@@ -169,6 +171,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$inventory->decrease_invertory_quantity($sku, $quantity);
 			
 			unset($inventory);
+		}
+		
+		// 更新红包状态
+		$card_code = $this->data['card_code'];
+		if(!empty($card_code)){
+			$bonus = new Sher_Core_Model_Bonus();
+			$bonus->mark_used($card_code, $this->data['user_id'], $rid);
 		}
 		
 		// 更新订单总数

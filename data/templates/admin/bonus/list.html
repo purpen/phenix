@@ -59,8 +59,8 @@
 				<td>{{ b.code }}</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
 				<td>
-					{% if code.used == 2 %}
-						<span class="ui label">已使用</span>
+					{% if b.used == 2 %}
+						<span class="ui magenta label">已使用</span>
 					{% else %}
 						<span class="ui green label">未使用</span>
 					{% endif %}
@@ -68,11 +68,11 @@
 				<td>
 					<p>
 						{% if b.status == 1 %}
-		          		<a href="{{ app_url_admin }}/bonus/unpending?id={{ b._id }}" class="ui ajax link item">
+		          		<a href="{{ app_url_admin }}/bonus/unpending?id={{ b._id }}" class="ui ajax magenta link">
 						    解冻
 					    </a>
 						{% endif %}
-		          		<a href="{{ app_url_admin }}/bonus/deleted?id={{ b._id }}" class="ui confirm-request link item">
+		          		<a href="{{ app_url_admin }}/bonus/deleted?id={{ b._id }}" class="ui confirm-request link">
 						    删除
 					    </a>
 					</p>

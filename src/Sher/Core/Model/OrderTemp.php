@@ -59,7 +59,19 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
     	
     }
 	
-	
+	/**
+	 * 使用红包
+	 */
+	public function use_bonus($rid, $code, $money) {
+		$criteria = array(
+			'rid' => $rid
+		);
+		$updated = array(
+			'dict.card_code'  => $code,
+			'dict.card_money' => $money,
+		);
+		return $this->update_set($criteria, $updated);
+	}
 	
     /**
      * 验证是否存在某个订单的临时信息

@@ -56,6 +56,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		$this->stash['order_info'] = $order_info;
 		
+		$this->set_target_css_state('page_orders');
+		
 		return $this->to_html_page("admin/orders/view.html");
 	}
 	
