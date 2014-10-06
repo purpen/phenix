@@ -46,9 +46,35 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
 			$this->set_target_css_state('topic');
 		}
         
-		return $this->display_tab_page('tab_category','page/search.html');
+		return $this->to_html_page('page/search.html');
 	}
-
+	
+	/**
+     * 标签结果页
+     */
+    public function tag(){
+    	$tag = $this->stash['q'];
+    	$page = $this->stash['page'];
+		
+    	if(empty($sort)){
+    		$sort = 'latest';
+    	}
+		
+    	$this->stash['index_name'] = 'full';
+    	$this->stash['page_tag_cache'] = 'tag_'.md5($tag).'s'.$sort.'p'.$page;
+    	$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $tag, 'p#p#');
+		
+		if($this->stash['t'] == 1){
+			$this->set_target_css_state('product');
+		}elseif($this->stash['t'] == 2){
+			$this->set_target_css_state('topic');
+		}
+		
+		$words = Sher_Core_Service_Search::instance()->check_query_string($tag);
+		
+    	return $this->_display_search_list($words);
+    }
+	
 	/**
      * 搜索标签
      */
@@ -65,23 +91,6 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         
         return $this->_display_search_list($tag);
     }
-
-	/**
-     * 标签结果页
-     */
-    public function tag(){
-    	$tag = $this->stash['q'];
-    	$page = $this->stash['page'];
-    	$sort = $this->stash['sort'];
-    	if(empty($sort)){
-    		$sort = 'latest';
-    	}
-    	$this->stash['index_name'] = 'tags';
-    	$this->stash['page_tag_cache'] = 'tag_'.md5($tag).'s'.$sort.'p'.$page;
-    	$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag',$tag,'p#p#',$sort);
-    	
-    	return $this->display_tab_page('tab_'.$sort,'page/tag_result.html');
-    }
     
     /**
      * 标签列表
@@ -96,7 +105,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     	$tag = new Lgk_Core_Model_Tags();
     	$tags = $tag->get_hot_tags();
     	$this->stash['tags'] = $tags;
-    	return $this->display_tab_page('tab_hot','page/index_tag.html');
+    	return $this->display_tab_page('tab_hot', 'page/index_tag.html');
     }
     
 }
