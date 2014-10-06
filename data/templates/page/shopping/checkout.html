@@ -513,6 +513,7 @@
 					<div class="ui grid">
 						<div class="row">
 							<div class="six wide column">
+								{% if !preorder %}
 								<div class="bill">
 									<a href="javascript:void(0);" class="ui small icon magenta bonus button pop" data-content="使用红包" data-variation="inverted">
 										<i class="gift icon"></i>
@@ -525,6 +526,7 @@
 										</div>
 									</div>
 								</div>
+								{% endif %}
 							</div>
 							<div class="right aligned ten wide column">
 								<div class="bill">
