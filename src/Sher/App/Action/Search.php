@@ -3,6 +3,9 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     public $stash = array(
 		'page'=>1,
 		'q'=>'',
+		'ref'=>'',
+		't'=>2,
+		'index_name'=>'full',
 	);
 	
 	public function execute() {
@@ -19,7 +22,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
             $this->stash['has_scws'] = true;
             $query_string = $this->stash['q'];
             foreach ($words as $k=>$v){
-                $query_string = str_replace($v,"<b class='text-danger'>{$v}</b>",$query_string);
+                $query_string = str_replace($v,"<b class='ui magenta text'>{$v}</b>", $query_string);
             }
             $this->stash['highlight'] = $query_string;
         }
@@ -31,11 +34,17 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         $this->stash['search_result_key'] = md5($this->stash['q']).'::'.$this->stash['page'];
         
         if($this->stash['index_name'] == 'tags'){
-        	$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag',$this->stash['q']).'p#p#.html';
+        	$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $this->stash['q']).'p#p#.html';
         }else{
-        	$this->stash['pager_url']  = Sher_Core_Helper_Url::build_url_path('app.url.search',$this->stash['q']).'p#p#.html';
+        	$this->stash['pager_url']  = Sher_Core_Helper_Url::build_url_path('app.url.search', $this->stash['q']).'p#p#.html';
         	$this->stash['index_name'] = 'full';
         }
+		
+		if($this->stash['t'] == 1){
+			$this->set_target_css_state('product');
+		}elseif($this->stash['t'] == 2){
+			$this->set_target_css_state('topic');
+		}
         
 		return $this->display_tab_page('tab_category','page/search.html');
 	}
