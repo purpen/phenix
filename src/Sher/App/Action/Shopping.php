@@ -617,6 +617,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 成功提交订单后，发送提醒邮件<异步进程处理>
 		
+		$this->stash['card_payed'] = false;
+		// 验证是否需要跳转支付		
+		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money']+$order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'])){
+			// 自动处理支付
+			if ($order_info['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+				$trade_no = 'card'.rand();
+				$model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+			}
+			$this->stash['card_payed'] = true;
+		}
+		
 		$this->stash['order'] = $order_info;
 		
 		return $this->to_html_page('page/shopping/success.html');
