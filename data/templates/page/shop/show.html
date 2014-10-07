@@ -14,6 +14,8 @@
 {% block jquery %}
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.mm_view_url }}'});
 	
 	$('.ui.write.rating').rating({
 		onRate: function(value){
@@ -570,4 +572,5 @@
 	</div>
 </div>
 {% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}

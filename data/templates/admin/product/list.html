@@ -179,6 +179,16 @@
 							取消推荐
 						</a>
 						{% endif %}
+						
+						{% if !product.published %}
+			          	<a href="{{ app_url_admin }}/product/update_onsale?id={{ product._id }}" class="ui ajax link item">
+							上架
+						</a>
+						{% else %}
+			          	<a href="{{ app_url_admin }}/product/update_offline?id={{ product._id }}" class="ui ajax link item">
+							下架
+						</a>
+						{% endif %}
 					</p>
 					<p>
 						<a href="{{ app_url_admin_base }}/product/edit?id={{ product._id }}" class="ui link item">编辑</a>

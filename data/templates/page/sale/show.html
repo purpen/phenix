@@ -43,6 +43,8 @@
 		$('.ui.share.modal').modal('show');
 	});
 	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.view_url }}'});
 	
 	// 预定
 	$('.ui.booked.button').click(function(){
@@ -455,4 +457,5 @@
 	
 </div>
 {% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}

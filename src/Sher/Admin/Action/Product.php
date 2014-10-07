@@ -282,6 +282,28 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	}
 	
 	/**
+	 * 更新产品下架
+	 */
+	public function update_offline(){
+		$ids = (int)$this->stash['id'];
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+			$model->mark_as_published($id, 0);
+		}
+		
+		$this->stash['note'] = '产品已下架成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+	}
+	
+	
+	/**
 	 * 删除产品
 	 */
 	public function deleted(){
