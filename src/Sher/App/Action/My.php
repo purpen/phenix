@@ -282,6 +282,16 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     public function save_account() {
 		$user_info = array();
 		$user_info['_id'] = $this->visitor->id;
+		
+		if (empty($this->stash['nickname'])) {
+			return $this->ajax_notification('昵称不能为空！', true);
+		}
+		
+		// 验证昵称是否重复
+		if (!$this->visitor->_check_name($this->stash['nickname'])) {
+			return $this->ajax_notification('昵称已经被占用！', true);
+		}
+		
 		$user_info['nickname'] = $this->stash['nickname'];
 		
 		// 修改密码
