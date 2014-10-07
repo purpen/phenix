@@ -62,6 +62,69 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 	
 	/**
+	 * 赠送
+	 */
+	public function give(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('红包不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Bonus();
+			$bonus = $model->load($id);
+			
+			
+			$this->stash['bonus'] = $bonus;
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_html_page('admin/bonus/give.html');
+	}
+	
+	/**
+	 * 赠送某人
+	 */
+	public function ajax_give(){
+		$id = $this->stash['_id'];
+		$user_id = $this->stash['user_id'];
+		if(empty($id) || empty($user_id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Bonus();
+			$bonus = $model->load($id);
+			
+			if (empty($bonus)){
+				return $this->ajax_json('红包不存在！', true);
+			}
+			// 是否使用过
+			if ($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
+				return $this->ajax_json('红包已被使用！', true);
+			}
+			//是否冻结中
+			if ($bonus['status'] != Sher_Core_Model_Bonus::STATUS_OK){
+				return $this->ajax_json('红包不能使用！', true);
+			}
+			// 是否过期
+			if ($bonus['expired_at'] && $bonus['expired_at'] < time()){
+				return $this->ajax_json('红包已被过期！', true);
+			}
+			
+			$ok = $model->give_user($bonus['code'], $user_id);
+			
+			$next_url = Doggy_Config::$vars['app.url.admin'].'/bonus?used='.$bonus['used'];
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试：'.$e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('红包赠送成功！', false, $next_url);
+	}
+	
+	/**
 	 * 解冻
 	 */
 	public function unpending(){

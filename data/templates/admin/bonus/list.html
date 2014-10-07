@@ -41,6 +41,7 @@
 				<th></th>
 				<th>红包码</th>
 				<th>红包金额</th>
+				<th>所属用户</th>
 				<th>状 态</th>
 				<th>管理操作</th>
 			</tr>
@@ -58,6 +59,7 @@
 				</td>
 				<td>{{ b.code }}</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
+				<td>{{ b.user_id }} / {{ b.used_by }}</td>
 				<td>
 					{% if b.used == 2 %}
 						<span class="ui magenta label">已使用</span>
@@ -68,13 +70,13 @@
 				<td>
 					<p>
 						{% if b.status == 1 %}
-		          		<a href="{{ app_url_admin }}/bonus/unpending?id={{ b._id }}" class="ui ajax magenta link">
-						    解冻
-					    </a>
+		          		<a href="{{ app_url_admin }}/bonus/unpending?id={{ b._id }}" class="ui ajax magenta link">解冻</a>
+						{% else %}
+							{% if b.used != 2 %}
+			          		<a href="{{ app_url_admin }}/bonus/give?id={{ b._id }}" class="ui link">赠送</a>
+							<a href="{{ app_url_admin }}/bonus/deleted?id={{ b._id }}" class="ui confirm-request link">删除</a>
+							{% endif %}
 						{% endif %}
-		          		<a href="{{ app_url_admin }}/bonus/deleted?id={{ b._id }}" class="ui confirm-request link">
-						    删除
-					    </a>
 					</p>
 				</td>
 			</tr>

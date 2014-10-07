@@ -1,0 +1,95 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#bonus-form').form({
+		user_id: {
+			identifier  : 'user_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '用户不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">红包管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
+			冻结中
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/bonus/gen" class="item">
+				<i class="flat add icon"></i>增发
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/bonus" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="红包码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<form class="ui form" action="{{ app_url_admin_base }}/bonus/ajax_give" method="post" id="bonus-form">
+		<input name="_id" type="hidden" value="{{ bonus._id }}" />
+		
+		<div class="inline field">
+			<label>赠送红包码:</label>
+			<label class="ui magenta text">{{ bonus.code }} / {{ bonus.amount }}元</label>
+		</div>
+		<div class="inline field">
+			<label>赠送用户ID:</label>
+			<input type="text" name="user_id" value="{{ bonus.user_id }}" />
+		</div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit button">
+				确认提交
+			</div>
+			<div class="ui gray cancel button">
+				取消
+			</div>
+		</div>
+	</form>
+	
+{% endblock %}

@@ -189,6 +189,15 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 	
 	/**
+	 * 红包列表
+	 */
+	public function bonus(){
+		$this->set_target_css_state('user_bonus');
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/bonus?page=#p#';
+		return $this->to_html_page("page/my/bonus.html");
+	}
+	
+	/**
 	 * 邀请好友
 	 */
 	public function invite(){

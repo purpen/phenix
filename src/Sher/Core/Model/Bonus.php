@@ -58,10 +58,21 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     protected $required_fields = array('code','amount');
     protected $int_fields = array('user_id','get_at','used_by','used_at','used','expired_at');
 	
-    protected $joins = array(
-        'user' => array('user_id' => 'Sher_Core_Model_User'),
-        'user_by' => array('used_by' => 'Sher_Core_Model_User'),
-	);
+    protected $joins = array();
+	
+	/**
+	 * 组装数据
+	 */
+	protected function extra_extend_model_row(&$row) {
+		if ($row['used'] != 2) {
+			if ($row['expired_at'] < time()){
+				$row['is_expired'] = true;
+				$row['expired_label'] = '已过期';
+			} else {
+				$row['expired_label'] = sprintf('将于 %s 过期', date('Y-m-d H:i:s', $row['expired_at']));
+			}
+		}
+	}
 	
 	/**
 	 * 获取一个红包，同时锁定红包
@@ -91,6 +102,21 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 */
 	public function find_by_code($code){
 		return $this->first(array('code' => $code));
+	}
+	
+	/**
+	 * 赠送给某人
+	 */
+	public function give_user($code, $user_id){
+		$crt = array('code' => $code);
+		
+		return $this->update_set($crt, array(
+			'user_id' => (int)$user_id,
+			'get_at'  => time(),
+			'expired_at' => time() + 30*24*60*60,
+			# 同时解除冻结
+			'status' => self::STATUS_OK,
+		));
 	}
 	
 	/**
