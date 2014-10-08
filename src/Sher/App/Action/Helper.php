@@ -81,7 +81,12 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 		return $this->to_html_page('page/helper/law.html');
 	}
 	
-	
+	/**
+	 * 404 page
+	 */
+	public function not_found(){
+		return $this->to_html_page('page/404.html');
+	}
 	
 	
 	

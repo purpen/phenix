@@ -15,7 +15,8 @@ server {
         index  app;
         root /www/phenix/web;
 
-        error_page  404              /404.html;
+        error_page  404              /app/site/helper/not_found;
+		
         # url rewrite rules
         location / {
           rewrite ^/home(.*)$ /app/site/index/home$1 last;
