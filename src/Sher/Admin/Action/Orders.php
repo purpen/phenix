@@ -115,6 +115,36 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 	}
 	
 	/**
+	 * 撤销发货
+	 */
+	public function revoke_send(){
+		$rid = $this->stash['rid'];
+		
+		try{
+			if (empty($rid)) {
+				return $this->ajax_note('参数缺少！', true);
+			}
+			
+			$model = new Sher_Core_Model_Orders();
+			$order_info = $model->find_by_rid($rid);
+			
+			// 仅已付款订单，可发货
+			if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_SENDED_GOODS) {
+				return $this->ajax_note('订单还未发货！', true);
+			}
+			
+			$ok = $model->revoke_order_sended((string)$order_info['_id']);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('撤销订单发货失败：'.$e->getMessage(), true);
+		}
+		
+		$view_url = Doggy_Config::$vars['app.url.admin'].'/orders/show?rid='.$rid;
+		
+		return $this->ajax_note('撤销成功！', false, $view_url);
+	}
+	
+	/**
 	 * 更新发货状态
 	 */
 	public function update_send(){

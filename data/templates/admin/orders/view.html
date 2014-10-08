@@ -62,9 +62,7 @@
 				</div>
 				<div class="right aligned six wide column">
 					{% if order_info.status == 10 %}
-					<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui small magenta button">开始发货</a>
-					{% else %}
-					<a href="#" class="ui small magenta button">修改订单</a>
+					<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
 					{% endif %}
 				</div>
 			</div>
@@ -133,6 +131,12 @@
 		  	<div class="item"><label>物流公司：</label> {{ order_info.express_company.title }}</div>
 		  	<div class="item"><label>运单号码：</label> {{ order_info.express_no }}</div>
 		</div>
+		<p>
+			{% if visitor.is_system %}
+			<a href="{{ app_url_admin_base }}/orders/revoke_send?rid={{ order_info.rid }}" class="ui small ajax magenta button">撤销发货</a>
+			{% endif %}
+			<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui small magenta button">更新物流信息</a>
+		</p>
 		{% endif %}
 		
 		<h3 class="ui dividing header">收货信息</h3>

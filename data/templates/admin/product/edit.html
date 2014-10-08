@@ -35,12 +35,30 @@
 				}
 			]
 		},
-		market_price: {
-			identifier  : 'market_price',
+		advantage: {
+			identifier  : 'advantage',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '产品价格不能为空'
+					prompt : '产品亮点不能为空'
+				}
+			]
+		},
+		tags: {
+			identifier  : 'tags',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '产品标签不能为空'
+				}
+			]
+		},
+		designer_id: {
+			identifier  : 'designer_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '产品设计师不能为空'
 				}
 			]
 		}
@@ -336,8 +354,9 @@
 					<input type="text" name="inventory" value="{{ product.inventory }}" id="inventory" />
 				</div>
 			</div>
+		</div>
 			
-			
+		<div class="ui segment">
 			<div class="field">
 				<input type="hidden" name="mode_count" id="mode_count" value="{{ product.mode_count }}" />
 				<label>

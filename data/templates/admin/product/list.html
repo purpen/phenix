@@ -133,7 +133,11 @@
 					{% endif %}
 				</td>
 				<td>
+					{% if product.stage %}
 					<label class="ui green label">{{ product.stage_label }}</label>
+					{% else %}
+					<label class="ui gray label">{{ product.stage_label }}</label>
+					{% endif %}
 				</td>
 				<td>					
 					{% if product.stage == 5 %}

@@ -111,7 +111,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['presale_goals'] = $this->stash['presale_goals'];
 		
 		// 产品阶段
-		$data['stage'] = (int) $this->stash['stage'];
+		$data['stage'] = (int)$this->stash['stage'];
 		
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];

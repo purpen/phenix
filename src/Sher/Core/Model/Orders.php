@@ -679,5 +679,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			'sended_date' => time()));
 	}
 	
+	/**
+	 * 撤销订单发货状态
+	 */
+	public function revoke_order_sended($id){
+		return $this->update_set($id, array(
+			'status' => (int)Sher_Core_Util_Constant::ORDER_READY_GOODS,
+			'express_caty' => '', 
+			'express_no' => '', 
+			'sended_date' => ''));
+	}
+	
 }
 ?>

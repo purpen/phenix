@@ -210,6 +210,8 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 			} else {
 				return $this->ajax_notification('预售设置权限不足！', true);
 			}
+		}catch(Doggy_Model_ValidateException $e){
+			return $this->ajax_notification('验证数据不能为空：'.$e->getMessage(), true);
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
