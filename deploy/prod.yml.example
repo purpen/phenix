@@ -33,7 +33,6 @@ app.js.use_bundle: 1
 app.css.use_bundle: 1
 
 # redisdb
-# redisdb
 app.redis.default: 
     host: '10.9.29.163'
     port: 6379

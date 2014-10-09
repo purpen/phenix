@@ -263,7 +263,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 订阅自动回复
 	 */
 	protected function welcome(){
-		$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。了解“扫一扫，赢万元惊喜大奖”活动,请回复“惊喜”！';
+		$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。了解并参与“2014上海设计之都”活动请回复“惊喜”。';
 		
 		return $welcome;
 	}
@@ -282,10 +282,10 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	protected function node(){
 		$result = array(
 			"0" => array(
-				'Title' => '极地风暴 惊喜等你|扫一扫，赢万元惊喜大奖',
-				'Description'=>'2014设计周期间，极地国际创新中心联合太火鸟搭建极地科技创新展，太火鸟众筹数十款明星智能硬件产品齐亮相，千万不要错过！',
+				'Title' => '2014上海设计之都 惊喜等你|扫一扫，赢万元惊喜大奖',
+				'Description'=>'2014上海设计之都期间，太火鸟众筹数十款明星智能硬件产品齐亮相，千万不要错过！',
 				'PicUrl'=>'http://frbird.qiniudn.com/asset/140925/5424385b989a6a185c8b92be-1-hu.jpg',
-				'Url'=>'http://www.taihuoniao.com/topic/view-100338-1.html'
+				'Url'=>'http://www.taihuoniao.com/topic/view-100392-1.html'
 			)
 		);
 		return $result;
