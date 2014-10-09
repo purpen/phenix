@@ -37,6 +37,12 @@ server {
           rewrite ^/dm(.*)$ /app/site/index/dm$1 last;  
         }
 		
+        location /api {
+			rewrite ^/api/gateway/(.*)$ /app/api/gateway/$1 last;
+			rewrite ^/api/auth/(.*)$ /app/api/auth/$1 last;
+            rewrite ^/api(.*)$ /app/api/$1 last;
+        }
+		
         location /wxpay {
             rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
         }

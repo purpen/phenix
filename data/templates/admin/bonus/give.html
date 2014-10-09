@@ -50,6 +50,12 @@
 		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
 			未使用
 		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=4" class="{{ css_waited }} item">
+			已领取
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=3" class="{{ css_locked }} item">
+			已锁定
+		</a>
 		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
 			冻结中
 		</a>

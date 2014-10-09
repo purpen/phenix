@@ -11,6 +11,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	const STATUS_DISABLED = 0;
 	const STATUS_PENDING = 1;
 	const STATUS_OK = 2;
+	const STATUS_LOCK = 3;
+	const STATUS_GOT = 4;
 	
 	# 使用状态
 	const USED_DEFAULT = 1;
@@ -114,8 +116,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 			'user_id' => (int)$user_id,
 			'get_at'  => time(),
 			'expired_at' => time() + 30*24*60*60,
-			# 同时解除冻结
-			'status' => self::STATUS_OK,
+			# 标识所属状态
+			'status' => self::STATUS_GOT,
 		));
 	}
 	
@@ -140,6 +142,13 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 */
 	public function unpending($id){
 		return $this->update_set($id, array('status'=>self::STATUS_OK));
+	}
+	
+	/**
+	 * 锁定
+	 */
+	public function locked($id){
+		return $this->update_set($id, array('status'=>self::STATUS_LOCK));
 	}
     
 	/**

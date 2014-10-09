@@ -33,8 +33,12 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		$model = new Sher_Core_Model_Bonus();
         $bonus = $model->find($query);
         
-		if(!empty($this->stash['status'])){
+		if($this->stash['status'] == 1){
 			$this->set_target_css_state('pending');
+		}elseif($this->stash['status'] == 3){
+			$this->set_target_css_state('locked');
+		}elseif($this->stash['status'] == 4){
+			$this->set_target_css_state('waited');
 		}else{
 			if ($this->stash['used'] == 0) {
 				$this->set_target_css_state('all');
@@ -43,7 +47,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		
         $this->stash['bonus'] = $bonus;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/bonus?page=#p#';
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/bonus?status=%d&used=%d&page=#p#', $this->stash['status'], $this->stash['used']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		

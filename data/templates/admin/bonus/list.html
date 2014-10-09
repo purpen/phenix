@@ -15,6 +15,12 @@
 		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
 			未使用
 		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=4" class="{{ css_waited }} item">
+			已领取
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=3" class="{{ css_locked }} item">
+			已锁定
+		</a>
 		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
 			冻结中
 		</a>
@@ -64,7 +70,21 @@
 					{% if b.used == 2 %}
 						<span class="ui magenta label">已使用</span>
 					{% else %}
+						{% if b.status == 1 %}
+						<span class="ui gray label">冻结中</span>
+						{% endif %}
+						
+						{% if b.status == 3 %}
+						<span class="ui black label">已锁定</span>
+						{% endif %}
+						
+						{% if b.status == 2 %}
 						<span class="ui green label">未使用</span>
+						{% endif %}
+						
+						{% if b.status == 4 %}
+						<span class="ui green label">已领取</span>
+						{% endif %}
 					{% endif %}
 				</td>
 				<td>

@@ -53,6 +53,13 @@ class Sher_Core_Helper_Util {
 	}
 	
 	/**
+	 * 验证是否是手机号码
+	 */
+	public static function is_mobile($phone){
+		return preg_match("/^13[0-9]{1}[0-9]{8}$|15[012356789]{1}[0-9]{8}$|18[012356789]{1}[0-9]{8}$|14[57]{1}[0-9]{8}$/", $phone);
+	}
+	
+	/**
 	 * 验证url是否合法
 	 */
 	public static function is_url($str){
