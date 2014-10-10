@@ -101,7 +101,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			if($row['is_end']){
 				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
 			}
-		
+			
 			// 检测是否已提交过申请
 			$model = new Sher_Core_Model_Apply();
 			if(!$model->check_reapply($user_id,$target_id)){
