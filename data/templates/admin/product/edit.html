@@ -9,6 +9,9 @@
 		padding: 0.3em;
 		margin-left: 1em;
 	}
+	.ui.close.button {
+		margin-top: 1.65em;
+	}
 </style>
 {% endblock %}
 
@@ -104,6 +107,23 @@
         return false;
 	});
 	
+	{% if mode == 'edit' %}
+		// 删除sku
+		$('.ui.close.button').bind('click', function(){
+			var sku = $(this).data('sku');
+			$.post('{{ app_url_admin }}/product/remove_sku', {r_id: sku, product_id:{{ product._id }} }, function(result){
+				if(result.success){
+					sku_count -= 1;
+					$('#sku_count').val(sku_count);
+				
+					$('#'+result.data.rid).remove();
+				}else{
+					phenix.show_error_note(result.message);
+				}
+			},'json');
+		});
+	{% endif %}
+	
 	var file_count = 1;
 	var ord = function(){
 		return file_count++;
@@ -197,20 +217,20 @@
 		});
 	});
 	
-	var mode_count = {{ product.mode_count|default 0}};
+	var sku_count = {{ product.sku_count|default 0}};
 	$('.ui.add.button').click(function(){
-		mode_count += 1;
+		sku_count += 1;
 		var tpl = '<div class="four fields">';
-		tpl += '<input type="hidden" name="r_id-'+ mode_count +'" />';
-		tpl += '<input type="hidden" name="sold-'+ mode_count +'" />';
-		tpl += '<div class="field"><label>产品型号：</label><input type="text" name="mode-'+ mode_count +'" /></div>';
-		tpl += '<div class="field"><label>产品数量：</label><input type="text" class="quantity" name="quantity-'+ mode_count +'" /></div>';
-		tpl += '<div class="field"><label>销售价格：</label><input type="text" name="price-'+ mode_count +'" /></div>';
+		tpl += '<input type="hidden" name="r_id-'+ sku_count +'" />';
+		tpl += '<input type="hidden" name="sold-'+ sku_count +'" />';
+		tpl += '<div class="field"><label>产品型号：</label><input type="text" name="mode-'+ sku_count +'" /></div>';
+		tpl += '<div class="field"><label>产品数量：</label><input type="text" class="quantity" name="quantity-'+ sku_count +'" /></div>';
+		tpl += '<div class="field"><label>销售价格：</label><input type="text" name="price-'+ sku_count +'" /></div>';
 		tpl += '</div>';
 		
 		$(tpl).appendTo('#modebox');
 		
-		$('#mode_count').val(mode_count);
+		$('#sku_count').val(sku_count);
 	});
 	
 	// 计算总库存数
@@ -355,12 +375,13 @@
 				</div>
 			</div>
 		</div>
-			
+		
+		{% if mode == 'edit' %}
 		<div class="ui segment">
 			<div class="field">
-				<input type="hidden" name="mode_count" id="mode_count" value="{{ product.mode_count }}" />
+				<input type="hidden" name="sku_count" id="sku_count" value="{{ product.sku_count }}" />
 				<label>
-					产品型号/颜色/数量
+					产品型号/颜色/数量<span class="ui red text">（仅限销售商品的设置）</span>
 					<div class="ui pop icon magenta add button" data-content="添加新sku" data-variation="inverted">
 						<i class="add icon"></i>
 					</div>
@@ -368,7 +389,7 @@
 			</div>
 			<div id="modebox">
 				{% for m in skus %}
-				<div class="four fields">
+				<div class="four fields" id="{{ m._id }}">
 					<input type="hidden" name="r_id-{{ loop.counter }}" value="{{ m._id }}" />
 					<input type="hidden" name="sold-{{ loop.counter }}" value="{{ m.sold }}" />
 					<div class="field">
@@ -383,10 +404,17 @@
 					  	<label>销售价格：</label>
 						<input type="text" name="price-{{ loop.counter }}" value="{{ m.price }}" />
 					</div>
+					<div class="field">
+						<label></label>
+						<a class="magenta ui close button" data-sku="{{ m._id }}">
+							<i class="flat close icon"></i>
+						</a>
+					</div>
 				</div>
 				{% endfor %}
 			</div>
 		</div>
+		{% endif %}
 		
 		<div class="field">
 			<label>添加图片</label>

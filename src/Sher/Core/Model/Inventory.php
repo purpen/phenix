@@ -91,9 +91,10 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		$product_id = $this->data['product_id'];
 		$stage = $this->data['stage'];
 		Doggy_Log_Helper::debug("After save inventory:[$product_id],[$stage]! ");
+		$field = ($stage == self::STAGE_PRESALE) ? 'mode_count' : 'sku_count';
 		if (!empty($product_id)) {
 			$product = new Sher_Core_Model_Product();
-			$product->inc_counter('mode_count', 1, (int)$product_id);
+			$product->inc_counter($field, 1, (int)$product_id);
 			unset($product);
 			
 			$this->recount_product_inventory($product_id, $stage);
@@ -104,10 +105,11 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	 * 删除后事件
 	 */
 	public function mock_after_remove($product_id, $stage=self::STAGE_PRESALE) {
+		$field = ($stage == self::STAGE_PRESALE) ? 'mode_count' : 'sku_count';
 		// 更新产品sku count
 		if (!empty($product_id)) {
 			$product = new Sher_Core_Model_Product();
-			$product->dec_counter('mode_count', (int)$product_id);
+			$product->dec_counter($field, (int)$product_id);
 			unset($product);
 			
 			$this->recount_product_inventory($product_id, $stage);

@@ -73,7 +73,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		 * )
 		 */
 		// 'mode' => array(),
+		// 预售项数
 		'mode_count' => 0,
+		// 商店sku数量
+		'sku_count' => 0,
 		
 		# 预售信息设置
 		/*
@@ -122,6 +125,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'voted_start_time'    => null,
 		# 投票结束时间
 		'voted_finish_time'   => null,
+		
+		## 限时抢购
+		'snatched' => 0,
+		'snatched_time' => 0,
 		
 		## 计数器
 		
@@ -222,7 +229,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}else if ($row['stage'] == self::STAGE_SHOP){
 			$row['stage_label'] = '热售中';
 		}else{
-			$row['stage_label'] = ''; // 未知
+			$row['stage_label'] = '未设置'; // 未知
 		}
 		
 		// HTML 实体转换为字符
