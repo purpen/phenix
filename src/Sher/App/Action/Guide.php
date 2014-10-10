@@ -89,6 +89,14 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 成功案例-cm
+	 */
+	public function cm() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/cm.html');
+	}
+	
+	/**
 	 * 成功案例-Loving
 	 */
 	public function loving() {
