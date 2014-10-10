@@ -29,7 +29,7 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	// 配置微信参数
 	public $options = array();
 	
-	protected $exclude_method_list = array('execute','featured','newest','get_list','view', 'z', 'd');
+	protected $exclude_method_list = array('execute','featured','newest','get_list','view', 'z', 'd', 'w');
 	
 	public function _init() {
 		$this->options = array(
