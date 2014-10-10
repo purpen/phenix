@@ -95,8 +95,8 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->show_message_page('清空订单信息失败，请重试！', $return_url);
 		}
 		
-		// 临时返回智造革命专题
-		$next_url = Doggy_Config::$vars['app.url.domain'].'/wechat/shop/z';
+		// 返回列表
+		$next_url = Doggy_Config::$vars['app.url.domain'].'/wechat/shop';
 		
 		return $this->show_message_page('订单信息已清空！', $next_url);
 	}
