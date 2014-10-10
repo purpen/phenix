@@ -2,7 +2,9 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.product.promotion {
+		display:block;
+	}
 </style>
 {% endblock %}
 
@@ -336,6 +338,30 @@
 		</div>
 	</div>
 	
+	{% if product._id == 1100197074 %}
+	<div class="product promotion">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui magenta message">
+						<i class="flat close icon"></i>
+						<div class="ui header">
+							<div class="picicon">
+								<i class="gift icon"></i>
+							</div>
+							<div class="content">
+								免费试用火热开启
+								<p class="sub header">
+									魔镜-全球首创美妆移动电源，免费试用申请开始了，数量有限，快快行动吧！点击链接：<a href="{{ app_url_domain }}/try/view-4.html" target="_blank" class="ui magenta link">{{ app_url_domain }}/try/view-4.html</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
 	
 	<div class="ui tabox">
 		<div class="ui responsive grid">
