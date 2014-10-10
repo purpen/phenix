@@ -137,6 +137,28 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$row['invoice_caty_label'] = $this->find_invoice_category((int)$row['invoice_caty']);
 			$row['invoice_content_label'] = $this->find_invoice_content($row['invoice_content']);
 		}
+		// 来源
+		if (isset($row['from_site'])){
+			$row['from_site_label'] = $this->get_from_label($row['from_site']);
+		}
+	}
+	
+	/**
+	 * 获取来源站点
+	 */
+	protected function get_from_label($site){
+		switch($site){
+			case Sher_Core_Util_Constant::FROM_LOCAL:
+				$label = '官网';
+				break;
+			case Sher_Core_Util_Constant::FROM_WEIXIN:
+				$label = '微信小店';
+				break;
+			default:
+				$label = '其他';
+				break;
+		}
+		return $label;
 	}
 	
 	/**

@@ -58,6 +58,9 @@
 						<div class="item">
 							<span class="ui magenta text">({{ order_info.status_label }})</span>
 						</div>
+						<div class="item">
+							<span class="ui gray text">@{{ order_info.from_site_label }}订单</span>
+						</div>						
 					</div>
 				</div>
 				<div class="right aligned six wide column">
@@ -139,6 +142,15 @@
 		</p>
 		{% endif %}
 		
+		<h3 class="ui dividing header">下单用户</h3>
+		<div class="ui list">
+			<div class="item">
+				<label>昵  称：</label>
+				<a href="{{ order_info.user.home_url }}" target="_blank" class="ui magenta link">{{ order_info.user.nickname }}</a>
+			</div>
+		</div>
+		
+		<h3 class="ui dividing header">收货信息</h3>
 		{% if order_info.from_site == 5 %}
 			<div class="ui list">
 			  	<div class="item"><label>姓   名：</label> {{ order_info.express_info.name }}</div>
