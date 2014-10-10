@@ -87,6 +87,16 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 			$row['strip_content'] = strip_tags($row['content']);
 		}
 		
+		# 验证是否结束
+		if (isset($row['end_time'])){
+			// end_time 是0时，应该按24时截止，+1day
+			if(strtotime($row['end_time'])+24*60*60 < time()){
+				$row['is_end'] = true;
+			}else{
+				$row['is_end'] = false;
+			}
+		}
+		
     }
 	
 	/**

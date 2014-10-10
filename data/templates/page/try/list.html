@@ -32,9 +32,11 @@
 						</div>
 					</h2>
 					<div class="ui buttons">
+						{% if !visitor.is_login %}
 						<a href="http://taihuoniao.me/auth/signup" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
 							现在申请
 						</a>
+						{% endif %}
 						<a href="{{ app_url_helper }}/try" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
 							试用规则
 						</a>
@@ -52,14 +54,14 @@
 						{% for t in list.rows %}
 							<div class="item">
 								<div class="image">
-									<a href="{{ t.view_url }}" title="{{ t.title }}">
+									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 							      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
 									</a>
 								</div>
 								<div class="content">
 									<h4 class="ui dividing header">
 										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
-											{{ t.title|truncate, 16, '' }}
+											{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
 										</a>
 										<div class="advantage">{{ t.description }}</div>
 									</h4>

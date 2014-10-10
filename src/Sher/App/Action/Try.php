@@ -94,12 +94,20 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		$target_id = $this->stash['target_id'];
 		$user_id = $this->visitor->id;
 		
-		// 检测是否已提交过申请
-		$model = new Sher_Core_Model_Apply();
-		if(!$model->check_reapply($user_id,$target_id)){
-			return $this->ajax_modal('你已提交过申请，无需重复提交！', true);
-		}
 		try{
+			// 验证是否结束
+			$try = new Sher_Core_Model_Try();
+			$row = $try->extend_load((int)$target_id);
+			if($row['is_end']){
+				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
+			}
+		
+			// 检测是否已提交过申请
+			$model = new Sher_Core_Model_Apply();
+			if(!$model->check_reapply($user_id,$target_id)){
+				return $this->ajax_modal('你已提交过申请，无需重复提交！', true);
+			}
+			
 			if(empty($this->stash['_id'])){
 				if(isset($this->stash['id'])){
 					unset($this->stash['id']);
@@ -115,8 +123,6 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		
 		return $this->ajax_modal('申请提交成功，等待审核.');
 	}
-	
-
 	
 }
 ?>

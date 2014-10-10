@@ -28,6 +28,12 @@
 
 {% block jquery %}
 	$('.ui.applytry.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
 		$('.ui.applytry.modal').modal('show');
 		return false;
 	});
@@ -150,14 +156,20 @@
 						</div>
 					</h1>
 					<div class="ui buttons">
-						<a href="{{ app_url_domain }}/try/apply" class="ui white btn-4 btn-4c icon-arrow-right applytry btn">
+						{% if !try.is_end %}
+						<a href="javascript:void(0);" class="ui white btn-4 btn-4c icon-arrow-right applytry btn">
 							申请使用
 						</a>
+						{% else %}
+						<a href="javascript:void(0);" class="ui active white btn-4 btn-4c icon-arrow-right btn">
+							已结束
+						</a>
+						{% endif %}
 						<a href="{{ try.product.view_url }}" class="ui white btn-4 btn-4c icon-arrow-right btn" target="_blank">
 							产品详情
 						</a>
 					</div>
-					<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div></div>
+					<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约{% if !try.is_end %}, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}, 结束时间：{{ try.end_time }}{% endif %}</div>
 				</div>
 			</div>
 		</div>

@@ -223,11 +223,17 @@
 		<div class="two fields">
 			<div class="date field">
 			  	<label>开始时间：</label>
-				<input type="text" name="start_time"  value="{{ try.start_time }}" class="datepicker" />
+				<div class="ui icon input">
+					<input type="text" name="start_time"  value="{{ try.start_time }}" class="datepicker">
+					<i class="calendar icon"></i>
+				</div>
 			</div>
 			<div class="date field">
 			  	<label>结束时间：</label>
-				<input type="text" name="end_time"  value="{{ try.end_time }}" class="datepicker" />
+				<div class="ui icon input">
+					<input type="text" name="end_time"  value="{{ try.end_time }}" class="datepicker" />
+					<i class="calendar icon"></i>
+				</div>
 			</div>
 		</div>
 		

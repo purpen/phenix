@@ -68,6 +68,12 @@
 						{% if t.state == 0 %}
 						<label class="ui orange label" id="publish-{{ t._id }}-label">未发布</label>
 						{% endif %}
+						
+						{% if t.is_end %}
+						<label class="ui black label">已结束</label>
+						{% else %}
+						<label class="ui green label">进行中</label>
+						{% endif %}
 					</p>
 				</td>
 				<td>
