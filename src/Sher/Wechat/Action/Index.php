@@ -336,13 +336,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						'sub_button' => array(
 							array(
 						   	 	"type" => "view",
-						   	 	"name" => "智造革命",
-								"url" => "http://www.taihuoniao.com/wechat/shop/z"
+						   	 	"name" => "防雾霭专区",
+								"url" => "http://www.taihuoniao.com/wechat/shop/w"
 							),
 							array(
 						   	 	"type" => "view",
-						   	 	"name" => "设计周专享",
-								"url" => "http://www.taihuoniao.com/wechat/shop/d"
+						   	 	"name" => "热门商品",
+								"url" => "http://www.taihuoniao.com/wechat/shop"
 							)
 						)
 					),

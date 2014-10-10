@@ -230,7 +230,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$model = new Sher_Core_Model_Product();
 		if(!empty($id)){
 			$mode = 'edit';
-			$this->stash['product'] = $model->load($id);
+			$product = $model->load($id);
+	        if (!empty($product)) {
+	            $product = $model->extended_model_row($product);
+	        }
+			$this->stash['product'] = $product;
 			
 			// 获取inventory
 			$inventory = new Sher_Core_Model_Inventory();

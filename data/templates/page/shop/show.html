@@ -24,7 +24,7 @@
 	});
 	
 	// 如果仅一个sku,则设置默认值
-	{% if product.mode_count %}
+	{% if skus_count %}
 		var choosed_sku = 0;
 	{% else %}
 		var choosed_sku = {{ product._id }};

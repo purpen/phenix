@@ -96,6 +96,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'stage' => $product['stage'],
 		));
 		$this->stash['skus'] = $skus;
+		$this->stash['skus_count'] = count($skus);
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');

@@ -99,6 +99,15 @@ class Sher_Wechat_Action_Shop extends Sher_App_Action_Base implements DoggyX_Act
 	}
 	
 	/**
+	 * 防范雾霭专区
+	 */
+	public function w(){
+		$product_ids = array(1082995133,1082995029,1082994847,1092167271,1080959170);
+		$this->stash['product_ids'] = $product_ids;
+		return $this->to_html_page('page/wechat/w.html');
+	}
+	
+	/**
 	 * 查看产品详情
 	 */
 	public function view() {

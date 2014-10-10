@@ -488,11 +488,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$order_info['transfer'] = $this->stash['transfer'];
 		$order_info['transfer_time'] = $this->stash['transfer_time'];
 		
-		$order_info['invoice_type'] = $this->stash['invoice_type'];
 		// 需要开具发票，验证开票信息
-		if ($this->stash['invoice_type'] == 1){
-			$order_info['invoice_title'] = $this->stash['invoice_title'];
-			$order_info['invoice_caty'] = $this->stash['invoice_caty'];
+		if(isset($this->stash['invoice_type'])){
+			$order_info['invoice_type'] = $this->stash['invoice_type'];
+			if ($order_info['invoice_type'] == 1){
+				$order_info['invoice_title'] = $this->stash['invoice_title'];
+				$order_info['invoice_caty'] = $this->stash['invoice_caty'];
+			}
 		}
 		
 		$order_info['is_presaled'] = $is_presaled;
