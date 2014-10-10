@@ -136,8 +136,10 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		Doggy_Log_Helper::debug("Recount product inventory:[$product_id],[$inventory]! ");
 		
+		$field = ($stage == self::STAGE_PRESALE) ? 'presale_inventory' : 'inventory';
+		
 		$product = new Sher_Core_Model_Product();
-		$product->update_set((int)$product_id, array('inventory' => $inventory));
+		$product->update_set((int)$product_id, array($field => $inventory));
 		unset($product);
 	}
 	
@@ -252,7 +254,9 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 			$product = new Sher_Core_Model_Product();
 			$row = $product->find_by_id((int)$sku);
 			
-			return $row['inventory'] >= $need_quantity;
+			$field = ($row['stage'] == self::STAGE_PRESALE) ? 'presale_inventory' : 'inventory';
+			
+			return $row[$field] >= $need_quantity;
 		}
 		
 		return false;

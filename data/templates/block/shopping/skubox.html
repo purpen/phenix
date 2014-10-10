@@ -1,0 +1,38 @@
+<div class="ui small sku modal" id="skus-form-box">
+  	<i class="flat close icon"></i>
+	<div class="ui header">
+    	销售SKU设置
+  	</div>
+	<div class="container">
+		<form action="{{ app_url_admin }}/product/ajax_sku" class="ui form" method="post" id="skus-form">
+		  	<div class="content">
+				<input type="hidden" name="r_id" value="{{ sku._id }}" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="two fields">
+					<div class="field">
+					  	<label>产品型号/颜色</label>
+						<input type="text" name="mode" value="{{ sku.mode }}" />
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+					  	<label>产品数量</label>
+						<input type="text" name="quantity" value="{{ sku.quantity }}" />
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+					  	<label>销售价</label>
+						<input type="text" name="price" value="{{ sku.price }}"  />
+					</div>
+				</div>
+				
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+			        <div class="ui gray cancel button">取消</div>
+				</div>
+			</div>				
+		</form>
+	</div>
+</div>

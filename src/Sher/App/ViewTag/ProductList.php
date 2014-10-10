@@ -28,6 +28,11 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $user_id = 0;
         $deleted = 0;
 		$stage = 0;
+		
+		$process_voted = 0;
+		$process_presaled = 0;
+		$process_saled = 0;
+		
 		$only_approved = 0;
 		$only_published = 0;
 		$only_onsale = 0;
@@ -90,6 +95,16 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		if ($stage) {
 			$query['stage'] = (int)$stage;
+		}
+		
+		if($process_saled){
+			$query['process_saled'] = 1;
+		}
+		if($process_presaled){
+			$query['process_presaled'] = 1;
+		}
+		if($process_voted){
+			$query['process_voted'] = 1;
 		}
 		
 		if ($only_approved) {

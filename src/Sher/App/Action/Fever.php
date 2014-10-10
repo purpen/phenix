@@ -40,7 +40,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Sher_Core_Helper_Url::vote_list_url($category_id);
+		$pager_url = Sher_Core_Helper_Url::vote_list_url($category_id,$type,$sort,'#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
 		

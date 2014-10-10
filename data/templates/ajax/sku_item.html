@@ -1,0 +1,43 @@
+<taconite>
+	{% if action == 'update' %}
+	<replace select="#{{ r_id }}">
+	{% endif %}
+	
+	{% if action == 'create' %}
+	<append select="#product-skus">
+	{% endif %}
+		<div class="item" id="{{ sku._id }}" data-id="{{ sku._id }}">
+			<div class="content">
+				<p>
+					<label>产品型号：</label>{{ sku.mode }}
+				</p>
+				<p>
+					<label>产品数量：</label>{{ sku.quantity }}
+				</p>
+				<p>
+					<label>销售价格：</label>￥ {{ sku.price }}
+				</p>
+				
+				<div class="actions">
+					<a class="ui small gray icon edit button" data-id="{{ sku._id }}" data-pid="{{ sku.product_id }}">
+						<i class="edit icon"></i>
+					</a>
+					<a class="ui small gray icon remove button" data-id="{{ sku._id }}" data-pid="{{ sku.product_id }}">
+						<i class="remove icon"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	{% if action == 'update' %}
+	</replace>
+	{% endif %}
+
+	{% if action == 'create' %}
+	</append>
+	{% endif %}
+
+	<eval>
+		$('.ui.sku.modal').modal('hide');
+		$('#skus-form').clearForm();
+	</eval>
+</taconite>

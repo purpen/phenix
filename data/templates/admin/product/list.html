@@ -65,11 +65,11 @@
 			</a>
 			
 			<a href="{{ app_url_admin_base }}/product/edit" class="item">
-				新增产品
+				<i class="add icon"></i>新增产品
 			</a>
 			
 			<a href="{{ app_url_admin }}/product/deleted" class="item ajax-delete">
-				删除
+				批量删除
 			</a>
 	    </div>
 	</div>
@@ -94,15 +94,16 @@
 					</div>
 				</th>
 				<th>缩略图</th>
-				<th class="six wide">产品名称</th>
+				<th class="five wide">产品名称</th>
 				<th>剩余/已售</th>
-				<th>所属阶段</th>
+				<th>历属</th>
+				<th>当前阶段</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% product_list var:'list' page:page category_id:category_id stage:stage size:20  %}
+			{% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted size:20  %}
 			{% for product in list.rows %}
 			<tr id="{{ product._id }}">
 				<td>
@@ -119,7 +120,7 @@
 				<td>
 		          	<div class="header">
 						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
-							{{ product.title }}
+							{{ product.title|truncate, 16 }}
 						</a>
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
@@ -127,38 +128,47 @@
 				</td>
 				<td>
 					{% if product.stage == 5 %}
-					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.presale_count|default 0 }}</span></p>
+					<p><span class="ui black text">{{ product.presale_inventory|default 0 }}</span> / <span class="ui green text">{{ product.presale_count|default 0 }}</span></p>
 					{% else %}
 					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.sale_count|default 0 }}</span></p>
 					{% endif %}
 				</td>
 				<td>
-					{% if product.stage %}
-					<label class="ui green label">{{ product.stage_label }}</label>
-					{% else %}
-					<label class="ui gray label">{{ product.stage_label }}</label>
+					{% if product.process_voted %}
+					<span>投票<i class="angle right icon"></i></span>
+					{% endif %}
+					{% if product.process_presaled %}
+					<span>预售<i class="angle right icon"></i></span>
+					{% endif %}
+					{% if product.process_saled %}
+					<span>商店</span>
 					{% endif %}
 				</td>
-				<td>					
-					{% if product.stage == 5 %}
-						{% if product.approved %}
-							<label class="ui green label">已审核</label>
-						{% else %}
-							<label class="ui orange label">待审核</label>
-						{% endif %}
-					{% endif %}
-					
-					{% if product.stage == 9 %}
-						{% if product.published %}
-							<label class="ui green label">已上架</label>
-						{% else %}
-							<label class="ui orange label">仓库中</label>
-						{% endif %}
+				<td>
+					{% if product.stage %}
+					<label class="ui green small label">{{ product.stage_label }}</label>
+					{% else %}
+					<label class="ui gray small label">{{ product.stage_label }}</label>
 					{% endif %}
 				</td>
 				<td>
 					<p>
-						
+						{% if product.approved %}
+							<span class="ui small green label">已审核</span><br />
+						{% else %}
+							<span class="ui small orange label">待审核</span><br />
+						{% endif %}
+					</p>
+					<p>
+						{% if product.published %}
+							<span class="ui small green label">已发布</span>
+						{% else %}
+							<span class="ui small orange label">待发布</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+					<p>
 						{% if product.stage == 1 %}
 							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax">通过审核</a>
 							{% if product.approved == 1%}
@@ -186,7 +196,7 @@
 						
 						{% if !product.published %}
 			          	<a href="{{ app_url_admin }}/product/update_onsale?id={{ product._id }}" class="ui ajax link item">
-							上架
+							发布
 						</a>
 						{% else %}
 			          	<a href="{{ app_url_admin }}/product/update_offline?id={{ product._id }}" class="ui ajax link item">

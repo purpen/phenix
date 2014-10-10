@@ -91,6 +91,11 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		
+		// 预售时间
+		$data['presale_start_time'] = $this->stash['presale_start_time'];
+		$data['presale_finish_time'] = $this->stash['presale_finish_time'];
+		$data['presale_goals'] = $this->stash['presale_goals'];
+		
 		try{
 			$model = new Sher_Core_Model_Product();
 			
@@ -202,7 +207,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 					$ok = $inventory->apply_and_update($updated);
 					
 					// 重新更新产品库存数量
-					$inventory->recount_product_inventory((int)$product_id, $product['stage']);
+					$inventory->recount_product_inventory((int)$product_id, Sher_Core_Model_Inventory::STAGE_PRESALE);
 				}
 				
 				$result = $inventory->load((int)$r_id);

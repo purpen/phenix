@@ -57,7 +57,7 @@
 			</div>
 		</div>
 		<div class="row">
-			{% product_list var:'list' page:page sort:sort stage:9 only_onsale:1 size:10 %}
+			{% product_list var:'list' page:page sort:sort process_saled:1 only_approved:1 only_onsale:1 size:10 %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui one items">

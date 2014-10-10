@@ -20,7 +20,7 @@
 	
 	<div class="ui responsive grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id stage:5 size:15 only_onsale:1 %}
+			{% product_list var:'list' page:page category_id:category_id process_presaled:1 only_approved:1 only_onsale:1 size:15 %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui votelist three items">

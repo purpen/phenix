@@ -196,7 +196,7 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% product_list var:'list' stage:5 only_stick:1 size:3 %}
+					{% product_list var:'list' process_presaled:1 only_approved:1 only_onsale:1 only_stick:1 size:3 %}
 					<div class="ui three items">
 						{% for product in list.rows %}
 					  		{% include "block/product_presale_item.html" %}
@@ -216,7 +216,7 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% product_list var:'list' stage:9 only_onsale:1 only_stick:1 size:3 %}
+					{% product_list var:'list' process_saled:1 only_approved:1 only_onsale:1 only_stick:1 size:3 %}
 					<div class="ui three items">
 						{% for product in list.rows %}
 					  		{% include "block/product_item.html" %}

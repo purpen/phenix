@@ -78,7 +78,7 @@
 						<div class="sixteen wide column">
 							<div class="ui horizontal list">
 								<label class="item">分类：</label>
-								{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
+								{% category_list var:'category' only_open:only_open stage:1 domain:domain show_all:1 current:category_id %}
 								{% for cat in category.rows %}
 							  	<a class="ui {{ cat.active }} item link" href="{{ cat.view_url }}">{{ cat.title }}</a>
 								{% endfor %}
@@ -96,7 +96,7 @@
 				</div>
 				
 				<div class="ui three items">
-					{% product_list var:'list' page:page category_id:category_id stage:1 only_approved:1 %}
+					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 %}
 					{% for product in list.rows %}
 						{% include "block/product_vote_item.html" %}
 					{% endfor %}

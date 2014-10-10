@@ -28,6 +28,23 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 产品亮点
     	'tags'    => array(),
 		
+		# 产品视频链接
+		'video' => array(),
+		
+		# 封面图
+ 		'cover_id' => '',
+		'asset' => array(),
+		# 附件图片数
+		'asset_count' => 0,
+		
+		# 类别支持多选
+		'category_id' => 0,
+		
+		# 上传者
+	    'user_id' => null,
+		# 设计者/团队
+		'designer_id' => 0,
+		
 		## 价格
 		
 		# 成本价
@@ -61,6 +78,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			'unit' => null,
 		),
 		
+		// 商店sku数量
+		'sku_count' => 0,
+		
 		# 商品型号、颜色
 		/**
 		 * array(
@@ -73,12 +93,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		 * )
 		 */
 		// 'mode' => array(),
-		// 预售项数
-		'mode_count' => 0,
-		// 商店sku数量
-		'sku_count' => 0,
 		
-		# 预售信息设置
+		## 预售信息设置
+		
+		# 预售项数
+		'mode_count' => 0,
 		/*
 		 * array(
 		 *    'r_id'     => 0,
@@ -92,8 +111,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		 * ),
 		 */
 		// 'presales' => array(),
+		# 预售库存数量
+		'presale_inventory' => 0,
 		'presale_count' => 0,
+		'presale_people' => 0,
 		'presale_money' => 0,
+		
 		# 预售目标金额
 		'presale_goals' => 0,
 		
@@ -101,23 +124,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'presale_start_time'  => null,
 		# 预售完成时间
 		'presale_finish_time' => null,
-		
-		# 产品视频链接
-		'video' => array(),
-		
-		# 封面图
- 		'cover_id' => '',
-		'asset' => array(),
-		# 附件图片数
-		'asset_count' => 0,
-		
-		# 类别支持多选
-		'category_id' => 0,
-		
-		# 上传者
-	    'user_id' => null,
-		# 设计者/团队
-		'designer_id' => 0,
 		
 		## 时间点
 		
@@ -168,16 +174,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			'content' => 0,
 		),
 		
-		
 		# 产品周期 (投票、预售、销售)
 		'stage' => self::STAGE_VOTE,
 		
+		# 是否在投票列表显示
+		'process_voted' => 0,
+		# 是否在预售列表显示
+		'process_presaled' => 0,
+		# 是否在商店列表显示
+		'process_saled' => 0,
+		
 		# 投票申请是否审核
 		'approved' => 0,
-		
 		# 投票是否成功
 		'succeed' => 0,
-		
 		# 预售，销售产品是否发布
     	'published' => 0,
 		
@@ -186,17 +196,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 状态
 		'state' => 0,
-		
     	# 删除标识
     	'deleted' => 0,
-		
 		# 随机数
 		'random' => 0,
     );
-
+	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count', 'mode_count','state','published','deleted');
-	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money');
+	
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory');
+	
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals');
 	
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -461,7 +471,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		Doggy_Log_Helper::debug("Recount product presale:[$id],[$presale_count],[$presale_money]! ");
 		
 		// 开始更新
-		$this->update_set((int)$id, array('presale_count' => $presale_count, 'presale_money' => $presale_money));
+		$this->update_set((int)$id, array('presale_count' => $presale_count, 'presale_people' => $presale_count, 'presale_money' => $presale_money));
 	}
 	
 	/**
@@ -478,15 +488,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$add_money = $row['sale_price']*$quantity;
 		}
 		
+		$field = ($row['stage'] == self::STAGE_PRESALE) ? 'presale_inventory' : 'inventory';
+		
 		// 减少库存数量
-		if ($row['inventory'] >= $quantity){
+		if ($row[$field] >= $quantity){
 			// 预售产品，需要累计预售金额及预售人数
 			if ($row['stage'] == self::STAGE_PRESALE){
 				$updated = array(
 					'$inc' => array(
-						'sale_count'=>$quantity, 
-						'inventory'=>$quantity*-1, 
-						'presale_count'=>$add_people,
+						'presale_count'=>$quantity, 
+						'presale_inventory'=>$quantity*-1,
+						'presale_people'=>$add_people,
 						'presale_money'=>$add_money,
 					)
 				);
@@ -519,9 +531,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			// 恢复库存数量
 			$updated = array(
 				'$inc' => array(
-					'sale_count'=>$quantity*-1, 
-					'inventory'=>$quantity,
-					'presale_count'=>-1,
+					'presale_count'=>$quantity*-1, 
+					'presale_inventory'=>$quantity,
+					'presale_people'=>-1,
 					'presale_money'=>$dec_money*-1,
 				),
 			);
