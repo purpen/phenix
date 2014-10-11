@@ -435,6 +435,18 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
     /**
      * 快递类型
+	 *  圆通快递
+	 *  中通快递
+	 *  顺丰速运
+	 *	申通快递
+	 *	优速快递
+	 *	韵达快递
+	 *	天天快递
+	 *	宅急送
+	 *	百世汇通
+	 *	国通快递
+	 *	EMS
+	 *	德邦物流
      */
     private $express_caty = array(
 		array(
@@ -447,7 +459,43 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		),
 		array(
 			'id' => 'f',
-			'title' => '顺丰快递',
+			'title' => '顺丰速运',
+		),
+		array(
+			'id' => 'z',
+			'title' => '中通快递',
+		),
+		array(
+			'id' => 'u',
+			'title' => '优速快递',
+		),
+		array(
+			'id' => 'm',
+			'title' => '韵达快递',
+		),
+		array(
+			'id' => 't',
+			'title' => '天天快递',
+		),
+		array(
+			'id' => 'j',
+			'title' => '宅急送',
+		),
+		array(
+			'id' => 'b',
+			'title' => '百世汇通',
+		),
+		array(
+			'id' => 'g',
+			'title' => '国通快递',
+		),
+		array(
+			'id' => 'e',
+			'title' => 'EMS',
+		),
+		array(
+			'id' => 'd',
+			'title' => '德邦物流',
 		),
     );
 	
