@@ -43,16 +43,27 @@ class Sher_Core_Helper_Auth {
 		// 不存在该用户，根据open_id获取用户信息
 		$wx = new Sher_Core_Util_Wechat($options);
 		$wx_user = $wx->getUserInfo($open_id);
+		
+		Doggy_Log_Helper::warn('Weixin load user msg: '.$wx->errMsg.'|'.$wx->errCode);
+		
 		if (!$wx_user) {
 			Doggy_Log_Helper::warn('Weixin load user info is null: ['.$open_id.']!');
 			return false;
 		}
 		
+		Doggy_Log_Helper::warn('Weixin load user info: '.json_encode($wx_user));
+		
 		// 自动注册用户
 		try {
+			$default_nickname = '微信用户['.$wx_user['nickname'].']';
+			// 检测用户名是否重复
+			if(!$user->_check_name($default_nickname)){
+				$default_nickname = $wx_user['openid'];
+			}
+			// 用户注册数据
 			$user_info = array(
 	            'account' => $wx_user['openid'],
-				'nickname' => '微信用户['.$wx_user['nickname'].']',
+				'nickname' => $default_nickname,
 				'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
 				'wx_open_id' => $wx_user['openid'],
 				'sex' => $wx_user['sex'],
@@ -64,8 +75,7 @@ class Sher_Core_Helper_Auth {
 			if($ok){
 				return $user->get_data();
 			}
-			
-		} catch (Sher_Core_Model_Exception $e) {
+		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn('Weixin login and regsiter failed:'.$e->getMessage());
 			return false;
 		}
