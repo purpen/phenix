@@ -136,6 +136,22 @@ class Sher_Core_Helper_Util {
 		return rand();
 	}
 	
+    /**
+     * 产生一个特定长度的字符串
+     * 
+     * @param int $len
+     * @param string $chars
+     * @return string
+     */
+    public static function rand_string($len, $chars='higklmntusc0b1d2j3v4p5f6e7w8a9xyzoqr'){
+        $string = '';
+        for($i=0;$i<$len;$i++){
+            $pos = rand(0, strlen($chars)-1);
+            $string .= $chars{$pos};
+        }
+        return $string;
+    }
+	
 	/**
 	 * 生成加密key
 	 */
