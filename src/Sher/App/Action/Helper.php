@@ -50,6 +50,15 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 售后服务
+	 */
+	public function service(){
+		$this->set_target_css_state('page_service');
+		return $this->to_html_page('page/helper/service.html');
+	}
+	
+	
+	/**
 	 * 投票规则
 	 */
 	public function vote() {

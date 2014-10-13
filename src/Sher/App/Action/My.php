@@ -112,6 +112,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			case 9: // 已关闭订单：取消的订单、过期的订单
 				$this->set_target_css_state('closed');
 				break;
+			case 4:
+				$this->set_target_css_state('finished');
+				break;
 			default:
 				$this->set_target_css_state('all');
 				break;
@@ -145,6 +148,36 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['order_info'] = $order_info;
 		
 		return $this->to_html_page("page/my/order_view.html");
+	}
+	
+	/**
+	 * 确认订单完成
+	 */
+	public function ajax_finished(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
+		}
+		
+		// 已发货订单才允许确认
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
+			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
+		}
+		try {
+			// 完成订单
+			$ok = $model->setOrderPublished($order_info['_id']);
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
+        }
+		
+		return $this->to_taconite_page('ajax/finished_ok.html');
 	}
 	
 	/**

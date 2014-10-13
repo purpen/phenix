@@ -303,7 +303,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         for($i=0; $i<$this->com_item; $i++){
             $this->comlist_count += $this->com_list[$i]['quantity'];
         }
-		Doggy_Log_Helper::warn("Cart item count: ".$this->comlist_count);
+		Doggy_Log_Helper::debug("Cart item count: ".$this->comlist_count);
 		
         return $this->comlist_count;
     }
