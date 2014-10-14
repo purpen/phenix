@@ -78,6 +78,9 @@
 					{% if order.status == 1 %}
 					<a href="{{ app_url_my }}/ajax_cancel_order?rid={{ order.rid }}" class="ui small gray ajax button">取消</a>
 					{% endif %}
+					{% if order.status >= 15 %}
+						<a href="{{ app_url_my }}/evaluate?rid={{ order.rid }}" class="ui magenta link">售后评价 »</a>
+					{% endif %}
 				{% endif %}
 				
 				{% if admin %}

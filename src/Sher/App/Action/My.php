@@ -519,5 +519,13 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		
 		return $this->to_taconite_page('ajax/del_ok.html');
 	}
+	
+	/**
+	 * 售后服务
+	 */
+	public function service(){
+		$this->set_target_css_state('user_service');
+		return $this->to_html_page('page/my/service.html');
+	}
 }
 ?>
