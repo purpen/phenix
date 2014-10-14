@@ -234,7 +234,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         }
 		
 		// 增加pv++
-		$model->increase_counter('view_count', 1, $id);
+		$inc_ran = rand(1,6);
+		$model->increase_counter('view_count', $inc_ran, $id);
 		
 		// 当前用户是否有管理权限
 		if ($this->visitor->id){
