@@ -30,6 +30,8 @@
 		return false;
 	});
 	
+	// 现在预约
+	
 	// 加入购物车
 	$('.ui.buy.btn').click(function(){
 		if (choosed_sku){
@@ -186,6 +188,16 @@
 		$('.ui.share.modal').modal('show');
 	});
 	
+	{% if product.snatched %}
+		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
+			var $this = $(this).html(event.strftime(''
+			+ '<span class="count">%D</span> 天 '
+			+ '<span class="count">%H</span> 时 '
+			+ '<span class="count">%M</span> 分 '
+			+ '<span class="count">%S</span> 秒'));
+		});
+	{% endif %}
+	
 {% endblock %}
 
 {% block content %}
@@ -330,6 +342,20 @@
 					<table class="ui basic buy action table">
 						<tr>
 							<td>
+								{% if product.snatched %}
+									{% if !product.snatched_start %}
+									<div class="product snatched">
+										<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>
+										<span class="ui text">倒计时：<span id="clock"></span></span>
+									</div>
+									{% else %}
+									<div class="product snatched">
+										{% if product.can_saled %}
+											<span class="ui black text">正在抢购中...</span>
+										{% endif %}
+									</div>
+									{% endif %}
+								{% endif %}
 								<div class="product attrs">
 									{% for m in skus %}
 									<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>
@@ -345,23 +371,46 @@
 								<span class="price" id="current-price">
 									<span class="unit">￥</span>{{ product.sale_price }}
 								</span>
-								{% if product.can_saled %}
-								<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy buy btn">
-									<i class="flat shopping57 icon"></i>加入购物车
-								</div>
+								{% if product.snatched %}
+									{% if !product.snatched_start %}
+									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy appoint btn">
+										<i class="ticket icon"></i>立即预约
+									</div>
+									{% else %}
+										{% if product.can_saled %}
+										<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
+											<i class="flat shopping57 icon"></i>立即抢购
+										</div>
+										{% else %}
+										<div class="ui active gray btn-4 btn-4c locknotice btn">
+											已抢完
+										</div>
+										{% endif %}
+									{% endif %}
+									
 								{% else %}
-								<div class="ui active gray btn-4 btn-4c icon-arrow-right locknotice btn" data-id="{{ product._id }}">
-									暂时缺货
-								</div>
+								
+									{% if product.can_saled %}
+									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy buy btn">
+										<i class="flat shopping57 icon"></i>加入购物车
+									</div>
+									{% else %}
+									<div class="ui active gray btn-4 btn-4c locknotice btn" data-id="{{ product._id }}">
+										暂时缺货
+									</div>
+									{% endif %}
+									
 								{% endif %}
 							</td>
 						</td>
 						<tr>
 							<td>
-								{% if product.can_saled %}
-								<div class="ui black btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
-									立即购买
-								</div>
+								{% if !product.snatched %}
+									{% if product.can_saled %}
+									<div class="ui black btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
+										立即购买
+									</div>
+									{% endif %}
 								{% endif %}
 							</td>
 						</tr>
@@ -378,7 +427,7 @@
 					<div class="ui four tabs">
 					  	<a class="active tab" href="#overview">产品详情</a>
 					  	<a class="tab" href="#inventor">设计者</a>
-						<a class="tab" href="#reviews">用户评价</a>
+						<a class="tab" href="#reviews">用户评价{% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}</a>
 						<a class="tab" href="#service">售后服务</a>
 					</div>
 				</div>
@@ -444,7 +493,7 @@
 			<div class="row">
 				<div class="column">
 					<h3 class="ui dividing header">
-						用户评价 <small>（{{ product.comment_count }}）</small>
+						用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
 					</h3>
 					<div class="ui big reply segment">
 						<div class="ui threaded minimal comments">

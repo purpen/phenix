@@ -271,6 +271,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		// 预售是否结束
 		$row['presale_finished'] = ($row['presale_finish_time'] < time()) ? true : false;
 		
+		// 抢购开启
+		$row['snatched_start'] = ($row['snatched_time'] && ($row['snatched_time'] < time())) ? true : false;
+		
 		// 检测是否可售
 		$row['can_saled'] = $this->can_saled($row);
 		
