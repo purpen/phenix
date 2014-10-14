@@ -125,8 +125,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$model->inc_counter('view_count', 1, $id);
 		
 		// 非投票状态的产品，跳转至对应的链接
-		if($product['stage'] != Sher_Core_Model_Product::STAGE_VOTE){
-			return $this->to_redirect($product['view_url']);
+		if(!$product['process_voted']){
+			if($product['stage'] != Sher_Core_Model_Product::STAGE_VOTE){
+				return $this->to_redirect($product['view_url']);
+			}
 		}
 		
 		// 未审核的产品，仅允许本人及管理员查看
@@ -502,7 +504,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$product = new Sher_Core_Model_Product();
 		if(!empty($id)){
-			$row = $product->extend_load((int)$id);
+			$row = $product->load((int)$id);
+	        if (!empty($row)) {
+	            $row = $product->extended_model_row($row);
+	        }
 		}
 		$this->stash['product'] = $row;
 		
