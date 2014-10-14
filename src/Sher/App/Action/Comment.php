@@ -64,6 +64,33 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 用户发表评价
+	 */
+	public function ajax_evaluate(){
+		$row = array();
+		
+		$row['user_id'] = $this->visitor->id;
+		$row['star'] = $this->stash['star'];
+		$row['target_id'] = $this->stash['target_id'];
+		$row['content'] = $this->stash['content'];
+		$row['type'] = (int)$this->stash['type'];
+		
+		// 验证数据
+		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
+			return $this->ajax_json('获取数据错误,请重新提交', true);
+		}
+		
+		$model = new Sher_Core_Model_Comment();
+		$ok = $model->apply_and_save($row);
+		if($ok){
+			$comment_id = $model->id;
+			$this->stash['comment'] = &$model->extend_load($comment_id);
+		}
+		
+		return $this->to_taconite_page('ajax/evaluate_ok.html');
+	}
+	
+	/**
 	 * 点赞回应
 	 */
 	public function ajax_laud() {

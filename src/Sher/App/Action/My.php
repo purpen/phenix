@@ -151,6 +151,28 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 	
 	/**
+	 * 订单评价
+	 */
+	public function evaluate(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！');
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 仅查看本人的订单
+		if($this->visitor->id != $order_info['user_id']){
+			return $this->show_message_page('你没有权限查看此订单！');
+		}
+		
+		$this->stash['order_info'] = $order_info;
+		
+		return $this->to_html_page("page/my/evaluate.html");
+	}
+	
+	/**
 	 * 确认订单完成
 	 */
 	public function ajax_finished(){

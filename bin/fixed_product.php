@@ -26,7 +26,7 @@ $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('_id','stage','inventory','sale_count','presale_count','presale_goals'),'page'=>$page,'size'=>$size);
+	$options = array('field' => array('_id','presale_start_time','presale_finish_time','voted_start_time','voted_finish_time','snatched_time'),'page'=>$page,'size'=>$size);
 	$list = $product->find($query,$options);
 	if(empty($list)){
 		echo "get product list is null,exit......\n";
@@ -34,34 +34,28 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i<$max; $i++) {
-		$updated = array(
-			'process_voted' => 0,
-			'process_presaled' => 0,
-			'process_saled' => 0,
-			'snatched' => 0,
-			'snatched_time' => 0,
-			'presale_inventory' => 0,
-			'presale_count' => 0,
-			'presale_people' => 0,
-		);
+		$updated = array();
 		
-		if($list[$i]['stage'] == 1){
-			$updated['process_voted'] = 1;
-		}elseif($list[$i]['stage'] == 5){
-			$updated['process_presaled'] = 1;
-			$updated['presale_inventory'] = $list[$i]['inventory'];
-			$updated['presale_count'] = $list[$i]['sale_count'];
-			$updated['presale_people'] = $list[$i]['presale_count'];
-			
-			if(isset($list[$i]['presale_goals'])){
-				$updated['presale_goals'] = (float)$list[$i]['presale_goals'];
-			}
-			
-		}elseif($list[$i]['stage'] == 9){
-			$updated['process_saled'] = 1;
+		$data = $list[$i];
+		
+		// 转换为时间戳, +12小时
+		if(isset($data['snatched_time']) && !empty($data['snatched_time'])){
+			$updated['snatched_time'] = strtotime($data['snatched_time']) + 12*60*60;
 		}
-		
-		
+		// 预售开始时间，结束时间
+		if(isset($data['presale_start_time'])){
+			$updated['presale_start_time'] = strtotime($data['presale_start_time']);
+		}
+		if(isset($data['presale_finish_time']) && !empty($data['presale_finish_time'])){
+			$updated['presale_finish_time'] = strtotime($data['presale_finish_time']) + 24*60*60 - 1;
+		}
+		// 投票开始时间，结束时间
+		if(isset($data['voted_start_time'])){
+			$updated['voted_start_time'] = strtotime($data['voted_start_time']);
+		}
+		if(isset($data['voted_finish_time'])  && !empty($data['voted_finish_time'])){
+			$updated['voted_finish_time'] = strtotime($data['voted_finish_time']) + 24*60*60 - 1;
+		}
 		
 		$new_product = new Sher_Core_Model_Product();
 		$new_product->update_set($list[$i]['_id'], $updated);

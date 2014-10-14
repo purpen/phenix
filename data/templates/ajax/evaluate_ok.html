@@ -1,0 +1,16 @@
+<taconite>
+	<replace select="#{{ comment.target_id }}"><![CDATA[
+		<div id="{{ comment.target_id }}" class="ui form">
+			<div class="field">
+				<div class="rate">
+				  	综合评分:
+					{% include "block/star.html" %}
+				</div>
+			</div>
+			<div class="field">
+				<label>评价说：</label>
+				{{ comment.content }}
+			</div>
+		</div>
+	]]></replace>
+</taconite>

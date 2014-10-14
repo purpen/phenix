@@ -71,8 +71,10 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 		$model->inc_counter('view_count', 1, $id);
 		
 		// 非预售状态的产品，跳转至对应的链接
-		if($product['stage'] != Sher_Core_Model_Product::STAGE_PRESALE){
-			return $this->to_redirect($product['view_url']);
+		if(!$product['presale_finished']){
+			if($product['stage'] != Sher_Core_Model_Product::STAGE_PRESALE){
+				return $this->to_redirect($product['view_url']);
+			}
 		}
 		
 		// 未发布上线的产品，仅允许本人及管理员查看

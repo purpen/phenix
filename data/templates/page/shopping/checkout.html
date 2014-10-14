@@ -313,6 +313,7 @@
 				<form action="{{ app_url_shopping }}/confirm" method="post" id="checkout-form" class="ui form">
 					<input type="hidden" name="rrid" value="{{ order_info._id }}" />
 					<input type="hidden" name="is_presaled" value="{{ preorder }}" />
+					<input type="hidden" name="is_nowbuy" value="{{ nowbuy }}" />
 					
 					<div class="step">
 						<h3 class="ui dividing header">

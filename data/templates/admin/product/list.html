@@ -220,6 +220,11 @@
 							{% endif %}
 						{% endif %}
 					</P>
+					{% if product.process_saled %}
+					<p>
+						<a href="{{ app_url_admin }}/product/evaluate?id={{ product._id }}" class="ui link">售后评价 »</a>
+					</p>
+					{% endif %}
 				</td>
 			</tr>
 			{% endfor %}

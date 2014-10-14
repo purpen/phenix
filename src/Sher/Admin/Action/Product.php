@@ -115,6 +115,13 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['process_presaled'] = isset($this->stash['process_presaled']) ? 1 : 0;
 		$data['process_saled'] = isset($this->stash['process_saled']) ? 1 : 0;
 		
+		// 是否抢购
+		$data['snatched'] = isset($this->stash['snatched']) ? 1 : 0;
+		$data['snatched_time'] = $this->stash['snatched_time'];
+		if($data['snatched'] && empty($data['snatched_time'])){
+			return $this->ajax_json('抢购商品，必须设置抢购开始时间！', true);
+		}
+		
 		// 商品价格
 		$data['market_price'] = $this->stash['market_price'];
 		$data['sale_price'] = $this->stash['sale_price'];
@@ -575,6 +582,52 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		return $this->ajax_notification('操作成功');
+	}
+	
+	
+	/**
+	 * 订单产品评价
+	 */
+	public function evaluate(){
+		$id = (int)$this->stash['id'];
+		
+		$model = new Sher_Core_Model_Product();
+		if(!empty($id)){
+			$product = $model->load($id);
+	        if (!empty($product)) {
+	            $product = $model->extended_model_row($product);
+	        }
+			$this->stash['product'] = $product;
+		}
+		
+		return $this->to_html_page("admin/product/evaluate.html");
+	}
+	
+	/**
+	 * 用户发表评价
+	 */
+	public function ajax_evaluate(){
+		$row = array();
+		
+		$row['user_id'] = $this->stash['user_id'];
+		$row['star'] = $this->stash['star'];
+		$row['target_id'] = $this->stash['target_id'];
+		$row['content'] = $this->stash['content'];
+		$row['type'] = (int)$this->stash['type'];
+		
+		// 验证数据
+		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
+			return $this->ajax_json('获取数据错误,请重新提交', true);
+		}
+		
+		$model = new Sher_Core_Model_Comment();
+		$ok = $model->apply_and_save($row);
+		if($ok){
+			$comment_id = $model->id;
+			$this->stash['comment'] = &$model->extend_load($comment_id);
+		}
+		
+		return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}
 }
 ?>

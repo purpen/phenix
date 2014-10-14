@@ -23,7 +23,20 @@
 						<h3 class="ui header">我的订单</h3>
 					</div>
 					<div class="right aligned ten wide column">
-						
+						<div class="ui horizontal bulleted list">
+							<div class="item">
+								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭订单</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -103,7 +116,7 @@
 					</div>
 					<div class="center aligned three wide column">
 						{% if order.status < 5 %}
-							<a href="{{ order_info.view_url }}" class="ui link">评价 »</a>
+							<a href="{{ app_url_my }}/evaluate?rid={{ order_info.rid }}" class="ui magenta link">售后评价 »</a>
 						{% endif %}
 					</div>
 				</div>

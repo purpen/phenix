@@ -57,6 +57,7 @@ app.url.fever.view: '{$app.url.fever}/%s.html'
 app.url.shopping: '{$app.url.domain}/shopping'
 app.url.cart: '{$app.url.shopping}/cart'
 app.url.cart.buy: '{$app.url.shopping}/buy'
+app.url.cart.nowbuy: '{$app.url.shopping}/now_buy'
 
 # 地址薄
 app.url.address: '{$app.url.action_base}/address'

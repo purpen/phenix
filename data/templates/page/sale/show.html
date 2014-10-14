@@ -242,6 +242,7 @@
 	<div class="buy box">
 		<div class="ui responsive grid">
 			<div class="row">
+				{% if !product.presale_finished %}
 				<div class="eleven wide column">
 					<h3 class="ui dark header">
 						<div class="content">
@@ -271,7 +272,6 @@
 						</div>
 					</div>
 				</div>
-				
 				<div class="five wide column">
 					<div class="reorder title">
 						<span class="count">{{ product.presale_count|default 0 }}</span>
@@ -286,6 +286,63 @@
 						剩余时间
 					</div>
 				</div>
+				{% else %}
+				<div class="nine wide column">
+					<h3 class="ui dark header">
+						<div class="content">
+							{{ product.title }}
+							<div class="sub header">
+								<a href="{{ product.designer.home_url }}" class="ui link" title="设计师">
+									{{ product.designer.nickname }}
+								</a>
+								<i class="map marker icon"></i>{{ product.designer.city }} {{ product.designer.profile.job }}
+							</div>
+						</div>
+					</h3>
+					<div class="attributes">
+						<p class="item">
+							<small><span class="count">{{ product.favorite_count }}</span>人已收藏 | <span class="count" id="product-love-count">{{ product.love_count }}</span>人点赞</small>
+						</p>
+						<div class="item">
+							<div class="ui magenta btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+								收藏
+							</div>
+							<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+								<i class="heart empty icon"></i>
+							</div>
+							<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+								<i class="share icon"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="seven wide right aligned column">
+					<div class="ui relaxed horizontal divided preresult list">
+						<div class="item">
+							<div class="reorder result">
+								<span class="count">{{ product.presale_count|default 0 }}</span>
+								预定人数
+							</div>
+						</div>
+						<div class="item">
+							<div class="reorder result">
+								<span class="count"><span class="unit">￥</span>{{ product.presale_money|default 0 }}</span>
+								完成金额
+							</div>
+						</div>
+						<div class="item">
+							<div class="reorder result">
+								<span class="count">{{ product.presale_percent }}%</span>
+								达成率
+							</div>
+						</div>
+					</div>
+					
+					<a class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy btn" href="{{ app_url_domain }}/shop/{{ product._id}}.html">
+						<i class="flat shopping icon"></i>去商店购买
+					</a>
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -316,14 +373,26 @@
 								</div>
 							</div>
 							<div class="actions">
-								{% if presale.quantity %}
-									<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
-										现在预定
-									</div>
+								{% if !product.presale_finished %}
+									{% if presale.quantity %}
+										<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
+											现在预定
+										</div>
+									{% else %}
+										<div class="ui disabled active gray button">
+											已抢完
+										</div>
+									{% endif %}
 								{% else %}
-									<div class="ui disabled active gray button">
-										已抢完
-									</div>
+									{% if presale.quantity %}
+										<div class="ui disabled button">
+											预售结束
+										</div>
+									{% else %}
+										<div class="ui disabled active gray button">
+											已抢完
+										</div>
+									{% endif %}
 								{% endif %}
 								<p class="small">已有{{ presale.sold }}位预定者</p>
 							</div>

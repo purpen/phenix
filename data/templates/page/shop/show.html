@@ -2,25 +2,15 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">	
-.attrs {
-	display: inline-block;
-	margin-right: 0.5em;
-}
+	
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	phenix.hook_comment_page();
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.mm_view_url }}'});
-	
-	$('.ui.write.rating').rating({
-		onRate: function(value){
-			$('#comment-star').val(value);
-		}
-	});
 	
 	// 如果仅一个sku,则设置默认值
 	{% if skus_count %}
@@ -34,6 +24,8 @@
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
+		
+		$('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
 				
 		return false;
 	});
@@ -43,7 +35,21 @@
 		if (choosed_sku){
 			$.post('{{ app_url_cart_buy }}', {sku: choosed_sku});
 		} else {
-			alert('请选择一个型号或颜色');
+			phenix.show_error_note('请选择一个型号或颜色', 3000);
+		}
+	});
+	
+	// 立即购买
+	$('.ui.nowbuy.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (choosed_sku){
+			phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
+		} else {
+			phenix.show_error_note('请选择一个型号或颜色', 3000);
 		}
 	});
 	
@@ -279,7 +285,7 @@
 	<div class="buy box">
 		<div class="ui responsive grid">
 			<div class="row">
-				<div class="six wide column">
+				<div class="seven wide column">
 					<h3 class="ui dark header">
 						<div class="content">
 							{{ product.title }}
@@ -302,44 +308,63 @@
 							</div>
 							<small><span class="count">{{ product.comment_count }}</span>条评价 | <span class="count" id="product-love-count">{{ product.love_count }}</span>人点赞</small>
 						</p>
+						<div class="item">
+							<div class="ui black btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+								收藏
+							</div>
+							<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+								<i class="heart empty icon"></i>
+							</div>
+							<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+								<i class="share icon"></i>
+							</div>
+							{% if product.process_presaled %}
+							<a class="ui magenta btn-4 btn-4c pop icon btn" data-content="查看预售结果" data-variation="inverted" href="{{ app_url_domain }}/sale/{{ product._id }}.html">
+								<i class="time icon"></i>
+							</a>
+							{% endif %}
+						</div>
 					</div>
 				</div>	
-				<div class="right aligned ten wide column">
-					<table class="ui basic table">
+				<div class="right aligned nine wide column">
+					<table class="ui basic buy action table">
 						<tr>
 							<td>
-								<div class="attrs">
+								<div class="product attrs">
 									{% for m in skus %}
-									<span class="ui small magenta att button" data-id="{{ m._id }}">{{ m.mode }}</span>
+									<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>
 									{% endfor %}
 								</div>
-								
-								<span class="old price"><span class="unit">￥</span>{{ product.market_price }}</span>
-								<span class="price"><span class="unit">￥</span>{{ product.sale_price }}</span>
-								{% if product.can_saled %}
-								<div class="ui active magenta btn-4 btn-4c icon-arrow-right buy btn">
-									加入购物车
-								</div>
-								{% else %}
-								<div class="ui active gray btn-4 btn-4c icon-arrow-right locknotice  btn" data-id="{{ product._id }}">
-									缺货通知
-								</div>
-								{% endif %}
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<div class="ui black btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
-									收藏
+								<span class="old price">
+									<span class="unit">￥</span>{{ product.market_price }}
+								</span>
+								<span class="price" id="current-price">
+									<span class="unit">￥</span>{{ product.sale_price }}
+								</span>
+								{% if product.can_saled %}
+								<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy buy btn">
+									<i class="flat shopping57 icon"></i>加入购物车
 								</div>
-								<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
-									<i class="heart empty icon"></i>
+								{% else %}
+								<div class="ui active gray btn-4 btn-4c icon-arrow-right locknotice btn" data-id="{{ product._id }}">
+									暂时缺货
 								</div>
-								<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
-									<i class="share icon"></i>
-								</div>
+								{% endif %}
 							</td>
 						</td>
+						<tr>
+							<td>
+								{% if product.can_saled %}
+								<div class="ui black btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
+									立即购买
+								</div>
+								{% endif %}
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>
@@ -487,51 +512,8 @@
 							</div>
 							{% endfor %}
 						</div>
-				
-						<div class="post comment">
-							<div class="ui segment">
-								<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评价</p>
-								<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-									<input type="hidden" name="target_id" value="{{ product._id }}" />
-									<input type="hidden" name="type" value="4" />
-									<div class="field">
-										<input type="hidden" name="star" id="comment-star" />
-										<div class="rate">
-										  	综合评分:
-										  	<div class="ui star write rating">
-										    	<i class="icon"></i>
-										   		<i class="icon"></i>
-										    	<i class="icon"></i>
-										    	<i class="icon"></i>
-										    	<i class="icon"></i>
-										  	</div>
-										</div>
-									</div>
-									<div class="field">
-										<label>评价说：</label>
-										<textarea name="content" class="comment-textarea" ></textarea>
-									</div>
-									<div class="right aligned column">
-										<input type="submit" class="ui small magenta button" value="添加评论" />
-									</div>
-									{% if !visitor.is_login %}
-									<div class="not login">
-										<div class="ui grid">
-											<div class="row">
-												<div class="center aligned column">
-													<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
-													<p class="ui gray text">注册登录后可发评论</p>
-												</div>
-											</div>
-										</div>
-									</div>
-									{% endif %}
-								</form>
-							</div>
-						</div>
-				
+						
 					</div>
-					
 					
 				</div>
 			</div>
@@ -550,7 +532,18 @@
 			<div class="two column row">
 				<div class="column">
 					<div class="ui segment">
-						售后服务
+						<h4 class="ui header">售后服务</h4>
+						<div class="ui selection list">
+							<div class="item">
+								客服热线：010- 8459 9327 / 8459 9323
+							</div>
+							<div class="item">
+								QQ客服：211470932
+							</div>
+							<div class="item">
+								客服邮箱：service#taihuoniao.com(#换成@)
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="column">

@@ -225,6 +225,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['view_url'] = $this->gen_view_url($row);
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
+		$row['vote_view_url'] = Sher_Core_Helper_Url::vote_view_url($row['_id']);
+		$row['presale_view_url'] = Sher_Core_Helper_Url::sale_view_url($row['_id']);
 		
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
@@ -253,7 +255,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$this->expert_assess($row);
 		
 		// 预售项排序,根据r_id正序排列
-		if (isset($row['presales'])){
+		if(isset($row['presales'])){
 			foreach ($row['presales'] as $key => $value) {
 				$rid[$key] = $value['r_id'];
 				$price[$key] = $value['price'];
@@ -261,11 +263,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			array_multisort($rid, $price, $row['presales']);
 		}
 		// 预售百分比
-		if (isset($row['presale_goals']) && isset($row['presale_money']) && $row['presale_goals'] != 0){
+		if(isset($row['presale_goals']) && isset($row['presale_money']) && $row['presale_goals'] != 0){
 			$row['presale_percent'] = sprintf("%.2f", $row['presale_money']*100/$row['presale_goals']);
-		} else {
+		}else{
 			$row['presale_percent'] = 0;
 		}
+		// 预售是否结束
+		$row['presale_finished'] = ($row['presale_finish_time'] < time()) ? true : false;
 		
 		// 检测是否可售
 		$row['can_saled'] = $this->can_saled($row);
@@ -302,6 +306,25 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		if ($this->is_saved()){
 			// 添加随机数
 			$data['random'] = Sher_Core_Helper_Util::gen_random();
+		}
+		
+		// 转换为时间戳, +12小时
+		if(isset($data['snatched_time'])){
+			$data['snatched_time'] = strtotime($data['snatched_time']) + 12*60*60;
+		}
+		// 预售开始时间，结束时间
+		if(isset($data['presale_start_time'])){
+			$data['presale_start_time'] = strtotime($data['presale_start_time']);
+		}
+		if(isset($data['presale_finish_time'])){
+			$data['presale_finish_time'] = strtotime($data['presale_finish_time']) + 24*60*60 - 1;
+		}
+		// 投票开始时间，结束时间
+		if(isset($data['voted_start_time'])){
+			$data['voted_start_time'] = strtotime($data['voted_start_time']);
+		}
+		if(isset($data['voted_finish_time'])){
+			$data['voted_finish_time'] = strtotime($data['voted_finish_time']) + 24*60*60 - 1;
 		}
 		
 	    parent::before_save($data);

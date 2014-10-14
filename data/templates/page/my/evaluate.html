@@ -1,0 +1,164 @@
+{%extends 'layout/board.html'%}
+{% block title %}售后评价-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+	.ui.basic.table td.product.wide {
+		vertical-align: top;
+	}
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.evaluate.form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[1400]',
+					prompt : '评论内容不超过1400字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	$('.ui.write.rating').rating({
+		onRate: function(value){
+			$(this).parents('.field').find('.comment-star').val(value);
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu.html" %}
+		</div>
+		<div class="twelve wide column">
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="six wide column">
+						<h3 class="ui header">我的订单</h3>
+					</div>
+					<div class="right aligned ten wide column">
+						<div class="ui horizontal bulleted list">
+							<div class="item">
+								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭订单</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="ui top attached header">
+				<div class="ui middle aligned grid">
+					<div class="row">
+						<div class="column">
+							<div class="ui horizontal list">
+							  	<div class="item">
+							      	订单号：{{ order_info.rid }}
+							  	</div>
+								<div class="item">
+									<span class="ui magenta text" id="order-status">({{ order_info.status_label }})</span>
+								</div>
+								{% if order_info.status >= 15 %}
+								<div class="item">
+									<span class="ui gray text">{{ order_info.express_company.title }}：{{ order_info.express_no }}</span>
+								</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="middle aligned ui celled white grid">
+				<div class="row">
+					<div class="seven wide column">
+						<table class="ui basic table">
+							<tbody>
+								<tr>
+									<td colspan="2">
+										售后评价
+									</td>
+								</td>
+								{% for item in order_info.items %}
+								{% product_list var:'product' product_id:item.product_id %}
+								<tr>
+									<td class="five product wide">
+										<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+								      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+										</a>
+										{% if item.sku == item.product_id %}
+							          	<p>
+											<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+											<br />
+											编号：{{ item.sku }}
+										</p>
+										{% else %}
+										{% sku_list var:'sku' sku:item.sku %}
+							          	<p>
+											<a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
+											<br />
+											编号：{{ item.sku }}
+										</p>
+										{% endif %}
+									</td>
+									<td>
+										<form class="ui evaluate form" action="{{ app_url_comment }}/ajax_evaluate" method="post" id="{{ product._id }}">
+											<input type="hidden" name="target_id" value="{{ product._id }}" />
+											<input type="hidden" name="type" value="4" />
+											<div class="field">
+												<input type="hidden" name="star" class="comment-star" />
+												<div class="rate">
+												  	综合评分:
+												  	<div class="ui star write rating">
+												    	<i class="icon"></i>
+												   		<i class="icon"></i>
+												    	<i class="icon"></i>
+												    	<i class="icon"></i>
+												    	<i class="icon"></i>
+												  	</div>
+												</div>
+											</div>
+											<div class="field">
+												<label>评价说：</label>
+												<textarea name="content" class="comment-textarea" ></textarea>
+											</div>
+											<div class="right aligned column">
+												<input type="submit" class="ui small magenta button" value="提交评价" />
+											</div>
+										</form>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+				
+			</div>			
+			
+		</div>
+	</div>
+</div>
+{% endblock %}
