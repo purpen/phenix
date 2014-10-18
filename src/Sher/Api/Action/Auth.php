@@ -63,18 +63,18 @@ class Sher_Api_Action_Auth extends Sher_Core_Action_Authorize {
 	 */
 	public function register(){
 	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-            return $this->ajax_note('数据错误,请重试', true);
+            return $this->ajax_note('数据错误,请重试----01', true);
         }
 		// 验证手机号码格式
-		if(!Sher_Core_Helper_Util::is_mobile($phone)){
-			return $this->ajax_json('手机号码格式不正确！', true);
+		if(!Sher_Core_Helper_Util::is_mobile($this->stash['mobile'])){
+			return $this->ajax_json('手机号码格式不正确！--- 02', true);
 		}
 		
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
 		$code = $verify->first(array('phone'=>$this->stash['mobile'],'code'=>$this->stash['verify_code']));
 		if(empty($code)){
-			return $this->ajax_json('验证码有误，请重新获取！', true);
+			return $this->ajax_json('验证码有误，请重新获取！--03', true);
 		}
 		
 		$user_info = array(
