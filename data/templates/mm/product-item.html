@@ -1,0 +1,18 @@
+<div class="magenta item" id="product-{{ product._id }}">
+  	<div class="image">
+		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
+      		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
+		</a>
+  	</div>
+  	<div class="content">
+      	<h5 class="ui header">
+			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link" target="_blank">
+				{{ product.title|truncate, 16, '' }}
+			</a>
+		</h5>
+		<div class="name">
+			<span class="unit">￥</span>
+			<span class="price">{{ product.sale_price }}</span>
+		</div>
+  	</div>
+</div>

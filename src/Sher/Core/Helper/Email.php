@@ -24,8 +24,8 @@ class Sher_Core_Helper_Email {
         $body.="小提示: 你需要在".date('Y-m-d',$ttl)."之前点击上述链接,过期将失效.\n";
         $body.="---------------------------------------------------------\n";
         $body.='本邮件为系统自动发送，请勿直接回复.'."\n";
-        $body.=" 视觉中国灵感库(http://idea.chinavisual.com/) \n".date('Y-m-d');
-        $subject="视觉中国灵感库注册确认邮件";
+        $body.=" 太火鸟(http://www.taihuoniao.com/) \n".date('Y-m-d');
+        $subject="太火鸟注册确认邮件";
 
         $mail = new PHPMailer();
         $mail->IsSMTP();

@@ -1,0 +1,54 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#tags-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">关键词管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/tags" class="{{css_all_category}} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/tags/edit" class="active item">
+				+新增关键词
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增关键词</h4>
+		{% else %}
+		<h4>编辑关键词</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/tags/save" class="ajax-form" method="post" id="tags-form">
+			<input type="hidden" name="_id" value="{{ tag._id }}" />
+			<div class="inline field">
+			  	<label for="name">名称：</label>
+				<input type="text" name="name" value="{{ tag.name }}" />
+			</div>			
+			<input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}

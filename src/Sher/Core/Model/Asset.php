@@ -19,6 +19,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 普通附件，编辑器图片
 	const TYPE_ASSET = 2;
+	# 广告图片
+	const TYPE_AD = 3;
 	
     # 用户头像
     const TYPE_AVATAR = 4;

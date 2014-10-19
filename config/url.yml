@@ -68,6 +68,10 @@ app.url.favorite: '{$app.url.action_base}/favorite'
 # 附件管理
 app.url.asset: '{$app.url.action_base}/asset'
 
+# 推荐广告
+app.url.advertise.view: '{$app.url.action_base}/tracker?kid=%s'
+
+
 # 微信
 app.url.wechat: '{$app.url.domain}/wechat'
 app.url.mm_shop.view: '{$app.url.wechat}/%s.html'

@@ -192,7 +192,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	}
 	
 	/**
-	 * 更新产品发布上线
+	 * 更新发布上线
 	 */
 	public function mark_as_publish($id, $published=1) {
 		return $this->update_set($id, array('state' => $published));

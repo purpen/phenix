@@ -1,0 +1,75 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">关键词管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/tags" class="{{css_all}} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/tags/export" class="item">
+				导出至文本
+			</a>
+			<a href="{{ app_url_admin_base }}/tags/edit" class="item">
+				+新增关键词
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/tags" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	{% tags_list var:'list' page:page tag:q %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>名称</th>
+				<th>索引</th>
+				<th>相关数量</th>
+				<th>创建时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for tag in list.rows %}
+			<tr id="{{ tag._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ tag._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ tag.name }}</td>
+				<td>{{ tag.index }}</td>
+				<td>{{ tag.total_count }}</td>
+				<td>{{ tag.created_on|date 'Y-m-d H:i' }}</td>
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="{{ app_url_admin_base }}/tags/edit?id={{ tag._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/tags/delete?id={{ tag._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}

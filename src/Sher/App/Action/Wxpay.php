@@ -51,23 +51,29 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
-		$sizes = $this->stash['s'];
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
 			return $this->show_message_page('操作异常，请重试！');
 		}
 		
-		Doggy_Log_Helper::warn("Add to cart [$sku][$sizes][$quantity]");
+		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->addItem($sku, $sizes);
-		$cart->setItemQuantity($sku, $sizes, $quantity);
+		$cart->addItem($sku);
+		$cart->setItemQuantity($sku, $quantity);
 		
         //重置到cookie
         $cart->set();
 		
 		return $this->wxoauth();
+	}
+	
+	/**
+	 * 加入购物车
+	 */
+	public function addcart(){
+		
 	}
 	
 	/**
@@ -108,9 +114,10 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$state = $this->stash['state'];
 		$code = $this->stash['code'];
 		
-		$user_id = $this->visitor->id;
 		$reoauth = false;
-		if ($user_id){
+		$user_id = $this->visitor->id;
+		// 已登录用户
+		if($user_id){
 			Doggy_Log_Helper::warn("wx oauth user_id[$user_id].");
 			$redis = new Sher_Core_Cache_Redis();
 			$cache_user_token = $redis->get('weixin_'.$user_id.'_oauth_token');
@@ -119,25 +126,25 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			Doggy_Log_Helper::warn("wx oauth user_token[$cache_user_token],code[$cache_code],state[$cache_state] all.");
 			
-			if (!empty($cache_user_token) && !empty($cache_code) && !empty($cache_state)) {
+			if(!empty($cache_user_token) && !empty($cache_code) && !empty($cache_state)){
 				$next_url = sprintf(Doggy_Config::$vars['app.url.domain'].'/wxpay/checkout?user_id=%s&code=%s&state=%s&showwxpaytitle=1', $user_id, $cache_code, $cache_state);
-				
 				return $this->to_redirect($next_url);
-			} else {
+			}else{
 				$reoauth = true;
 			}
-		} else {
+		}else{
 			$reoauth = true;
 		}
 		
+		// 重新获取授权
 		$wechat = new Sher_Core_Util_Wechat($this->options);
-		if ($reoauth && empty($code)){
-			Doggy_Log_Helper::warn("wx oauth snsapi_base.");
+		if($reoauth && empty($code)){
+			Doggy_Log_Helper::warn("wx redirect oauth snsapi_base!!!");
 			$redirect_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/wxoauth';
 			$oauth_url = $wechat->getOauthRedirect($redirect_url, 'wxbase', 'snsapi_base');
 			
 			return $this->to_redirect($oauth_url);
-		} else {
+		}else{
 			
 			$json = $wechat->getOauthAccessToken($code);
 			
@@ -222,7 +229,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		);
 		Doggy_Log_Helper::warn("Wechat addr options: ".json_encode($wxaddr_options));
 		
-		//验证购物车，无购物不可以去结算
+		// 验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
 		if (empty($cart->com_list)){
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);

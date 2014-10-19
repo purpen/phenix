@@ -173,6 +173,13 @@ class Sher_Core_Helper_Url {
     	return  sprintf(Doggy_Config::$vars['app.url.my.order_view'], $rid);
     }
 	
+	/**
+	 * 跟踪推荐位查看地址
+	 */
+    public static function ad_view_url($id){
+    	return  sprintf(Doggy_Config::$vars['app.url.advertise.view'], $id);
+    }
+	
     /**
      * 他人喜欢的列表地址
      */

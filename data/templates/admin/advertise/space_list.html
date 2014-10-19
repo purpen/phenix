@@ -1,0 +1,65 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">推荐管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/advertise" class="{{ css_advertise }} item">推荐列表</a>
+		<a href="{{ app_url_admin_base }}/advertise/space" class="{{ css_space }} item">位置列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/advertise/edit" class="item">
+				+新增推荐
+			</a>
+			<a href="{{ app_url_admin_base }}/advertise/space_edit" class="item">
+				+新增位置
+			</a>
+	    </div>
+	</div>
+	
+	{% space_list var:'list' page:page %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>标识</th>
+				<th>名称</th>
+				<th>创建时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for space in list.rows %}
+			<tr id="{{ space._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ space._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					{{ space.name }}
+				</td>
+				<td>{{ space.title }}</td>
+				<td>{{ space.created_on|date 'Y-m-d H:i' }}</td>
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="{{ app_url_admin }}/advertise?space_id={{ space._id}}" class="ui link item">查看内容</a>
+						<a href="{{ app_url_admin_base }}/advertise/space_edit?id={{ space._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/advertise/space_delete?id={{ space._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}

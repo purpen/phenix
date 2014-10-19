@@ -1,0 +1,26 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">关键词管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/tags" class="{{css_all_category}} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/tags/export" class="active item">
+				导出至文本
+			</a>
+			<a href="{{ app_url_admin_base }}/tags/edit" class="item">
+				+新增关键词
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui form segment">
+		正在导出中。。。
+	</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#advertise-form').form({
+		space_id: {
+			identifier  : 'space_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '所属位置没有选择'
+				}
+			]
+		},
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		web_url: {
+			identifier  : 'web_url',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '链接不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	var up = $('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }} },
+        	endpoint: '{{ app_url_upload_pictures }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data.ids});
+		}
+	});
+	
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">推荐管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/advertise" class="{{ css_advertise }} item">推荐列表</a>
+		<a href="{{ app_url_admin_base }}/advertise/space" class="{{ css_space }} item">位置列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/advertise/edit" class="active item">
+				+新增推荐
+			</a>
+			<a href="{{ app_url_admin_base }}/advertise/space_edit" class="item">
+				+新增位置
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/advertise" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增推荐内容</h4>
+		{% else %}
+		<h4>编辑推荐内容</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/advertise/save" method="post" id="advertise-form">
+			<input type="hidden" name="_id" value="{{ advertise._id }}" />
+			<div class="inline field">
+				<label for="space_id">所属位置：</label>
+				{% space_list var:'spacelist' page:page %}
+				<div class="ui selection dropdown">
+					<input type="hidden" name="space_id" value="{{ advertise.space_id }}" />
+				    <div class="default text">请选择</div>
+				    <i class="flat arrowbottom icon"></i>
+				    <div class="menu">
+						{% for space in spacelist.rows %}
+						<div data-value="{{ space._id }}" class="{% if space._id == advertise.space_id %}active {% endif %}item">{{ space.title }}</div>
+						{% endfor %}
+				    </div>
+				</div>
+			</div>
+			<div class="field">
+			  	<label for="title">标题：</label>
+				<input type="text" name="title" value="{{ advertise.title }}" />
+			</div>
+			<div class="field">
+			  	<label for="sub_title">子标题：</label>
+				<input type="text" name="sub_title" value="{{ advertise.sub_title }}" />
+			</div>
+			<div class="field">
+			  	<label for="web_url">链接：</label>
+				<input type="text" name="web_url" value="{{ advertise.web_url }}" />
+			</div>
+			<div class="inline field">
+			  	<label for="ordby">排序：</label>
+				<input type="text" name="ordby" value="{{ advertise.ordby|default 0 }}" />
+				<small class="ui magenta text">数字越大越靠前!</small>
+			</div>
+			<div class="field">
+				<p>上传图片:</p>
+				<div id="phenix-uploader"></div>
+				<div id="asset-list" class="ui four items"></div>
+			</div>
+			<div class="field">
+			  	<label for="summary">简述：</label>
+				<textarea class="small" name="summary">{{ advertise.summary }}</textarea>
+			</div>
+			
+			<input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}

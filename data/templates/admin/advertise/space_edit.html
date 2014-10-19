@@ -1,0 +1,81 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#space-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标识不能为空'
+				}
+			]
+		},
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">推荐管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/advertise" class="{{ css_advertise }} item">推荐列表</a>
+		<a href="{{ app_url_admin_base }}/advertise/space" class="{{ css_space }} item">位置列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/advertise/edit" class="item">
+				+新增推荐
+			</a>
+			<a href="{{ app_url_admin_base }}/advertise/space_edit" class="active item">
+				+新增位置
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/advertise" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增位置</h4>
+		{% else %}
+		<h4>编辑位置</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/advertise/space_save" method="post" id="space-form">
+			<input type="hidden" name="_id" value="{{ space._id }}" />
+			<div class="field">
+			  	<label for="name">标识：</label>
+				<input type="text" name="name" value="{{ space.name }}" />
+			</div>
+			<div class="field">
+			  	<label for="title">标题：</label>
+				<input type="text" name="title" value="{{ space.title }}" />
+			</div>
+			
+			<input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}
