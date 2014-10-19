@@ -1,0 +1,186 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}收货地址-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('#addbook-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '收货人姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '联系电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '联系电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮政编码不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="checkout page">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h5 class="ui dividing header">选择收货地址</h5>
+				{% addbooks_list var:'addresses' user_id:visitor.id size:10 %}
+				<div class="ui segment">
+					<div class="ui very relaxed divided address selection list" id="address-list">
+						{% for address in addresses.rows %}
+						<div class="{% if address._id == addrid %}active {% endif %}item" id="{{ address._id }}">
+							<div class="right floated">
+								<a href="{{ app_url_wap }}/shop/submit_address?rrid={{ rrid }}&id={{ address._id }}" class="ui magenta icon link">
+									{% if address._id == addrid %}
+									<i class="checked checkbox icon"></i>
+									{% else %}
+									<i class="empty checkbox icon"></i>
+									{% endif %}
+								</a>
+							</div>
+							<div class="content">
+								<div class="header">{{ address.name }} {{ address.phone }}</div>
+								{{ address.area_province.city}} {{ address.area_district.city }} {{ address.address }} ({{ address.zip }})
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				
+				<div class="ui segment">
+					<div class="ui very relaxed divided newaddress list">
+						<div class="item">
+							<div class="right floated">
+								<a href="javascript:void(0);" class="ui magenta icon link">
+									<i class="circle down icon"></i>
+								</a>
+							</div>
+							<div class="content">
+								<div class="header">
+									添加新收货地址
+								</div>
+							</div>
+						</div>
+						<div class="item" id="addbook-box">
+							<form action="{{ app_url_wap }}/shop/ajax_address" class="ui form" method="post" id="addbook-form">
+								<input type="hidden" name="_id" value="{{ addbook._id }}" />
+								<input type="hidden" name="rrid" value="{{ rrid }}" />
+								<input type="hidden" name="is_default" value="{{ addbook.is_default }}" />
+								
+								<div class="field">
+									<label>收货人姓名</label>
+							  		<input type="text" name="name" value="{{ addbook.name }}" />
+								</div>
+								<div class="field">
+									<label>联系电话</label>
+								  	<input type="text" name="phone" placeholder="11位手机号码" value="{{ addbook.phone }}" />
+								</div>
+								
+								<div class="field">
+									<label>地址</label>
+									<div class="ui selection province dropdown">
+										<input type="hidden" name="province" value="{{ addbook.province }}" />
+	
+									    <div class="default text">省份/自治区</div>
+									    <i class="flat arrowbottom icon"></i>
+									    <div class="menu">
+											{% for province in provinces %}
+									        <div data-value="{{ province._id }}" class="{% if province._id == addbook.province %}active{%endif%} item">{{ province.city }}</div>
+											{% endfor %}
+									    </div>
+									</div>
+
+									<div class="ui selection district dropdown" id="district-menu">
+										<input type="hidden" name="city" value="{{ addbook.city }}" />
+									    <div class="default text">地区区域</div>
+									    <i class="flat arrowbottom icon"></i>
+									    <div class="menu">
+											{% for district in districts %}
+									        <div data-value="{{ district._id }}" class="{% if district._id == addbook.city %}active{%endif%} item">{{ district.city }}</div>
+											{% endfor %}
+									    </div>
+									</div>
+								</div>
+								
+								<div class="field">
+									<textarea name="address" class="small">{{ addbook.address }}</textarea>
+								</div>
+	
+								<div class="two fields">
+									<div class="field">
+										<label>邮政编码</label>
+									  	<input type="text" name="zip" value="{{ addbook.zip }}" />
+									</div>
+								</div>
+	
+								<div class="field">
+									<div class="ui active magenta submit button">确定提交</div>
+						        	<div class="ui gray cancel button">取消</div>
+								</div>
+											
+							</form>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

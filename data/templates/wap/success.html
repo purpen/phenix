@@ -1,0 +1,124 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}支付订单-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	// 跳转支付
+	$('.ui.checkout.btn').click(function(){
+		$('.ui.paywait.modal').modal('show');
+	});
+	
+	// 点击 
+	$('.ui.radio.checkbox').on('click', 'label', function(){
+		$('.ui.radio.checkbox label').removeClass('active');
+		$(this)
+			.addClass('active');
+	});
+{% endblock %}
+
+{% block content %}
+<div class="checkout page">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h5 class="ui dividing header">支付订单</h5>
+				{% if !card_payed %}
+				<div class="ui ordered magenta message">
+					<h5 class="ui header">
+						<div class="picicon">
+							<i class="checkmark icon"></i>
+						</div>
+						<div class="content">
+							订单提交成功，请尽快付款
+							<div class="sub header">
+								订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">{{ order.payment.name }}</span>
+							</div>
+						</div>
+					</h5>
+				</div>
+				
+				<form class="ui pay form" method="post" action="{{ app_url_shopping }}/payed" id="pay-form" target="_blank">
+					<input type="hidden" name="rid" value="{{ rid }}" />
+					<div class="ui segment">
+						<h5 class="ui dividing header">选择支付方式</h5>
+						
+						<div class="ui very relaxed divided payaway selection list">
+							<div class="item">
+								<div class="right floated">
+									<small>大额支付推荐使用支付宝快捷支付</small>
+								</div>
+								<div class="content">
+									<div class="header">
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" value="alipay" name="payaway"> 
+												<label>支付宝</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="right floated">
+									<small>需安装网银支付插件</small>
+								</div>
+								<div class="content">
+									<div class="header">
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" value="quickpay" name="payaway"> 
+												<label>银联手机支付</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="right floated">
+									<small></small>
+								</div>
+								<div class="content">
+									<div class="header">
+										<div class="field">
+											<div class="ui radio checkbox">
+												<input type="radio" value="quickpay" name="payaway"> 
+												<label>微信支付</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<input type="submit" class="ui active fluid magenta button" value="去支付" />
+				</form>
+				{% else %}
+				<div class="ui ordered magenta message">
+					<h3 class="ui header">
+						<div class="picicon">
+							<i class="checkmark icon"></i>
+						</div>
+						<div class="content">
+							订单已提交成功。
+							<div class="sub header">
+								订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">优惠抵扣</span>
+							</div>
+						</div>
+					</h3>
+				</div>
+				
+				<a class="ui active fluid block button" href="{{ order.view_url }}">
+					查看订单
+				</a>
+				{% endif %}
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

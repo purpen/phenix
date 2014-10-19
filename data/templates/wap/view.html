@@ -1,0 +1,365 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.presale.grid {
+	margin: 1rem auto;
+}
+.ui.money.list .item .content {
+	margin-left: 0%;
+}
+.ui.one.levels {
+	margin: 0;
+}
+.ui.one.levels > .level {
+	width: 100%;
+	margin-bottom: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	var s=e(window).width();
+	e("#frslide > .ui.slide > .item").width(s);
+	
+	var $frame = $('#frslide');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'pages',
+		activatePageOn: 'click',
+		pageBuilder: function (index) {
+			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
+		},
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 3000,
+		pauseOnHover:1,
+		
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+	
+	$(window).resize(function() {
+		var s=$(window).width();
+		e("#frslide > .ui.slide > .item").width(s);
+		
+		$frame.sly('reload');
+	});
+	
+	phenix.bind_share_list();
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	
+	// 如果仅一个sku,则设置默认值
+	{% if skus_count %}
+		var choosed_sku = 0;
+	{% else %}
+		var choosed_sku = {{ product._id }};
+	{% endif %}
+	
+	// 选择sku
+	$('.attrs .ui.att.button').click(function(){
+		choosed_sku = $(this).data('id');
+		$('.attrs .ui.att.active.button').removeClass('active');
+		$(this).addClass('active');
+		
+		$('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
+				
+		return false;
+	});
+	
+	// 立即购买
+	$('.ui.nowbuy.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (choosed_sku){
+			phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+		} else {
+			phenix.show_error_note('请选择一个型号或颜色', 3000);
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid" id="mshoppage">
+	<div class="row">
+		<div class="column">
+			<div class="ui breadcrumb">
+			  	<a class="section" href="{{ app_url_wap }}">
+					<i class="home icon"></i>首页
+				</a>
+			  	<div class="divider"> / </div>
+				{% if product.stage == 9 %}
+			  	<a class="section" href="{{ app_url_wap }}/shop">商品</a>
+				{% endif %}
+				{% if product.stage == 5 %}
+			  	<a class="section" href="{{ app_url_wap }}/shop/presale">预售</a>
+				{% endif %}
+			  	<div class="divider"> / </div>
+			  	<div class="active section">{{ product.title|truncate 12 }}</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--产品图片-->
+<div class="ui grid">
+	<div class="row">
+		<div class="column">
+			{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+			<div id="frslide" class="frame">
+				<div class="ui slide">
+					<div class="item">
+						<img src="{{ product.cover.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image" />
+					</div>
+					{% for asset in assets.rows %}
+						{% if asset._id != product.cover_id %}
+						<div class="item">
+							<img src="{{ asset.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image"  />
+						</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class="pages"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--产品内容-->
+<div class="ui responsive grid">			
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">
+				{{ product.title }}
+			</h5>
+		</div>
+	</div>
+	{% if product.stage == 9 %}
+	<div class="two column row">
+		<div class="column">
+			<label class="price">
+				<span class="ui magenta text"><small>￥</small>{{ product.sale_price }}</span>
+			</label>
+		</div>
+		<div class="right aligned column">
+			<div class="ui small star rating hover">
+			  	<i class="icon active"></i>
+			  	<i class="icon"></i>
+			  	<i class="icon"></i>
+			  	<i class="icon"></i>
+			  	<i class="icon"></i>
+			</div>
+			<small><span class="ui magenta text">{{ product.comment_count }}</span> 条评价</small>
+		</div>
+	</div>
+	<!--购买动作-->
+	<div class="row">
+		<div class="center aligned column">
+			<div class="ui active magenta labeled icon nowbuy button">
+				<i class="cart icon"></i>立即购买
+			</div>
+			<div class="ui active green icon share button">
+				<i class="share icon"></i>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>
+
+{% if product.stage == 5 %}
+<div class="ui responsive presale grid">
+	<div class="row">
+		<div class="column">
+			<div class="ui segment">
+				<div class="ui very relaxed divided money selection list">
+					<div class="item">
+						<div class="right floated">
+							<span class="ui magenta text"><small>￥</small>{{ product.presale_count|default 0 }}</span>
+						</div>
+						<div class="content">
+							<div class="header">预定人数</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="right floated">
+							<span class="ui magenta text"><small>￥</small>{{ product.presale_money|default 0 }}</span>
+						</div>
+						<div class="content">
+							<div class="header">完成金额</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="right floated">
+							<span class="ui magenta text">{{ product.presale_percent }}<small>%</small></span>
+						</div>
+						<div class="content">
+							<div class="header">达成率</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>			
+	<div class="row">
+		<div class="column">
+			{% sku_list var:'presales' product_id:product._id stage:5 %}
+			<div class="ui one levels">
+				{% for presale in presales.rows %}
+				<div class="ui level">
+					<h3 class="ui header">{{ presale.name }}</h3>
+					<div class="content">
+						<p class="time">
+							{% if presale.mode %}
+								{{ presale.mode }}
+							{% endif %}
+							{% if presale.limited_count %}
+								, 限量{{ presale.limited_count }}个
+							{% endif %}
+						</p>
+						<p class="time">
+							{{ presale.summary }}
+						</p>
+						<div class="price">
+							￥ {{ presale.price }}
+						</div>
+					</div>
+					<div class="actions">
+						{% if !product.presale_finished %}
+							{% if presale.quantity %}
+								<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
+									现在预定
+								</div>
+							{% else %}
+								<div class="ui disabled active gray button">
+									已抢完
+								</div>
+							{% endif %}
+						{% else %}
+							{% if presale.quantity %}
+								<div class="ui disabled button">
+									预售结束
+								</div>
+							{% else %}
+								<div class="ui disabled active gray button">
+									已抢完
+								</div>
+							{% endif %}
+						{% endif %}
+						<p class="small">已有{{ presale.sold }}位预定者</p>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>	
+{% endif %}
+
+<!--商品介绍-->
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">
+				产品详情
+			</h5>
+			<div class="product content froala-element">
+				{{ product.content }}
+			</div>
+		</div>
+	</div>
+	<!--商品评价-->
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">
+				用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+			</h5>
+			<div class="ui big reply segment">
+				<div class="ui threaded minimal comments">
+					{% comment_list var:'comments' page:page target_id:product._id %}
+					{% for comment in comments.rows %}
+					<div class="comment" id="{{ comment._id }}">
+						<a class="avatar" href="{{ comment.user.home_url }}">
+							<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+						</a>
+						<div class="content">
+							<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+							<div class="metadata">
+								<div class="date">{{ comment.created_on }}</div>
+								{% include "block/star.html" %}
+							</div>
+							
+							<div class="text">
+								{{ comment.content }}
+							</div>
+							{% if visitor.is_login %}
+							<div class="actions">
+								<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+								<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+							</div>
+							<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+								<input type="hidden" name="type" value="2" />
+								<input type="hidden" name="comment_id" value="{{ comment._id }}" />
+								<input type="hidden" name="target_id" value="{{ topic._id }}" />
+								<div class="field">
+									<textarea name="content" class="reply-content"></textarea>
+								</div>
+								<div class="ui active button magenta submit labeled icon">
+									<i class="icon location"></i> 回复
+								</div>
+							</form>
+							{% endif %}
+						</div>
+				
+						{% if comment.reply %}
+						<div class="comments">
+							{% for reply in comment.reply %}
+								<div class="comment">
+									<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+										<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+									</a>
+									<div class="content">
+										<a class="author">{{ reply.user.nickname }}</a>
+										<div class="metadata">
+											<div class="date">{{ reply.replied_on }}</div>
+										</div>
+										<div class="text">
+											{{ reply.content }}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						{% endif %}
+				
+					</div>
+					{% endfor %}
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% include "block/sharebox.html" %}
+{% endblock %}
