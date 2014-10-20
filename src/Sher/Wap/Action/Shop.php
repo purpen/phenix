@@ -22,7 +22,7 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop');
+	protected $exclude_method_list = array('execute','shop','presale','view','cart');
 	
 	/**
 	 * 商城入口
@@ -160,14 +160,10 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 		$total_money = $price*$quantity;
 		$items_count = 1;
 		
-		$order_info = $this->create_temp_order($items, $total_money, $items_count);
-		
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, 1);
 		if (empty($order_info)){
 			return $this->show_message_page('系统出了小差，请稍后重试！', true);
 		}
-		
-		// 立即订单标识
-		$this->stash['nowbuy'] = 1;
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -244,15 +240,12 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 		
 		Doggy_Log_Helper::debug("Submit Mobile Order [$rrid]！");
 		
-		// 是否预售订单
-		$is_presaled = isset($this->stash['is_presaled']) ? (int)$this->stash['is_presaled'] : false;
-		
-		// 是否立即购买订单
-		$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : false;
+		// 是否立即购买订单/预售订单/购物车订单
+		$event_type = isset($this->stash['event_type']) ? (int)$this->stash['event_type'] : 0;
 		
 		// 验证购物车，无购物不可以去结算
 		$cart = new Sher_Core_Util_Cart();
-		if (!$is_presaled && !$is_nowbuy && empty($cart->com_list)){
+		if (!$event_type && empty($cart->com_list)){
 			return $this->ajax_json('订单产品缺失，请重试！', true);
 		}
 		
@@ -273,7 +266,7 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 		$order_info['rid'] = $result['rid'];
 		
 		// 获取购物金额
-		if ($is_presaled || $is_nowbuy){
+		if ($event_type){
 			$total_money = $order_info['total_money'];
 		}else{
 			$total_money = $cart->getTotalAmount();
@@ -288,7 +281,10 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			}
 		}
 		
-		$order_info['is_presaled'] = $is_presaled;
+		// 预售订单
+		if($event_type == 2){
+			$order_info['is_presaled'] = 1;
+		}
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -337,7 +333,7 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			Doggy_Log_Helper::debug("Save Mobile Order [ $rid ] is OK!");
 			
 			// 购物车购物方式
-			if (!$is_presaled) {
+			if (!$event_type) {
 				// 清空购物车
 				$cart->clearCookie();
 			}
@@ -426,7 +422,7 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count){
+	protected function create_temp_order($items=array(),$total_money,$items_count,$event_type=1){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
@@ -459,7 +455,8 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			'card_money' => $card_money,
 			'coin_money' => $coin_money,
 	        'invoice_caty' => 'p',
-	        'invoice_content' => 'd'
+	        'invoice_content' => 'd',
+			'event_type' => $event_type,
 	    );
 		
 		$new_data = array();

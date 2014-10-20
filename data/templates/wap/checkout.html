@@ -49,8 +49,7 @@
 <div class="checkout page">
 	<form action="{{ app_url_wap }}/shop/confirm" method="post" id="checkout-form" class="ui form">
 		<input type="hidden" name="rrid" value="{{ order_info.rid }}" />
-		<input type="hidden" name="is_presaled" value="{{ preorder }}" />
-		<input type="hidden" name="is_nowbuy" value="{{ nowbuy }}" />
+		<input type="hidden" name="event_type" value="{{ data.event_type }}" />
 		<input type="hidden" name="addbook_id" value="{{ default_addbook._id }}" />
 		
 		<div class="ui responsive grid">
