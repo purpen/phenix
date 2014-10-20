@@ -7,6 +7,9 @@ app.url.domain:         '{$app.domain.base}'
 app.url.action_base:    '{$app.domain.app}/app/site'
 app.url.admin_base:    '{$app.domain.app}/app/admin'
 
+app.domain.mobile: 'http://taihuoniao.me'
+app.url.mobile: '{$app.domain.mobile}'
+app.url.wap: '{$app.domain.mobile}/app/wap'
 
 app.url.static: '{$app.domain.static}'
 app.url.packaged: '{$app.domain.static}/packaged'

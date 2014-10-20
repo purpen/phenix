@@ -2,163 +2,140 @@
 {% block title%}太火鸟商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.wap {
-		line-height: 30px;
-		margin: 10px auto;
-	}
-	#slides {
-	    display: none;
-	    margin-bottom: 20px;
-		max-height: 300px;
-		position: relative;
-	}
-	.slidesjs-pagination {
-		bottom: 15px;
-	    position: absolute;
-	    padding: 0;
-		text-align: center;
-		width: 100%;
-		z-index: 10;
-	}
-	.slidesjs-pagination li {
-		display: inline-block;
-		margin: 0 3px;
-	}
-	.slidesjs-pagination li a {
-		border: 1px solid rgba(255,255,255,0.35);
-		background-color: rgba(255,255,255,0.35);
-		border-radius: 10rem;
-	    display: inline-block;
-	    height: 0;
-	    overflow: hidden;
-	    padding-top: 10px;
-	    width: 10px;
-	}
-	.slidesjs-pagination li a.active, .slidesjs-pagination li a.active:hover {
-	    border-color: rgba(255,255,255,0.5);
-		background-color: rgba(255,255,255,0.5);
-	}
-	.slidesjs-pagination li a:hover {
-	    border-color: rgba(255,255,255,0.5);
-		background-color: rgba(255,255,255,0.5);
-	}
-	
-	
-	#indexpage .pages {
-		bottom: 1em;
-	    margin: 0 auto;
-	    position: absolute;
-	    width: 180px;
-	}
-	#indexpage .pages > a {
-		background-color: rgba(153,153,153,0.9);
-		border: 1px solid transparent;
-	    border-radius: 2em;
-	    display: inline-block;
-	    height: 0.8em;
-	    margin-right: 1.5em;
-	    padding: 0.1em;
-	    text-indent: -999em;
-	    width: 0.8em;
-	}
-	#indexpage .pages > a.active,
-	#indexpage .pages > a:hover {
-		border-color: #ff3366;
-		background-color: rgba(0,0,0,0);
-	}
-	
-	.mmfoot .ui.grid > .row.bot {
-		padding: 8px 0;
-		border-bottom: 1px solid rgba(0,0,0,0.1);
+	#mfrbird {
+	    margin: 0em 0 3em;
 	}
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('#slides').slidesjs({
-		width: 940,
-		height: 528,
-		navigation: false,
-		pagination: {
-	      active: true,
-	        // [boolean] Create pagination items.
-	        // You cannot use your own pagination. Sorry.
-	      effect: "slide"
-	        // [string] Can be either "slide" or "fade".
-	    }
+	var s=e(window).width();
+	e("#frslide > .ui.slide > .item").width(s);
+	
+	var $frame = $('#frslide');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'pages',
+		activatePageOn: 'click',
+		pageBuilder: function (index) {
+			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
+		},
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+	
+	$(window).resize(function() {
+		var s=$(window).width();
+		e("#frslide > .ui.slide > .item").width(s);
+		
+		$frame.sly('reload');
 	});
 	
 {% endblock %}
 
 {% block content %}
-<div id="slides">
-	<div class="slide">
-		<a href="" class="ui image">
-            <img src="{{ app_url_packaged }}/images/clabox.jpg" alt="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" />
-        </a>
+<div id="frslide" class="frame">
+	<div class="ui slide">
+		<div class="item">
+			<a href="{{ app_url_packaged }}/images/evtphotos/e014.jpg" class="ui image">
+                <img src="{{ app_url_packaged }}/images/cm.jpg" alt="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" />
+            </a>
+		</div>
+		<div class="item">
+			<a href="{{ app_url_packaged }}/images/evtphotos/e014.jpg" class="ui image">
+                <img src="{{ app_url_packaged }}/images/eding.jpg" alt="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" />
+            </a>
+		</div>
 	</div>
-	<div class="slide">
-		<a href="" class="ui image">
-            <img src="{{ app_url_packaged }}/images/eding.jpg" alt="太火鸟创始人雷海波受邀参与TechCrunch主会场以“设计与创业”为主题的Panel！" />
-        </a>
+	<div class="pages"></div>
+</div>
+<!--二级导航-->
+<div class="ui responsive grid" id="mchildmenu">
+	<div class="row">
+		<div class="column">
+			<div class="ui fluid four item labeled icon main menu">
+			  	<a class="item" href="{{ app_url_wap }}/shop">
+			    	<i class="block layout icon"></i>
+			    	全部商品
+			  	</a>
+			  	<a class="item" href="{{ app_url_wap }}/shop/presale">
+			    	<i class="time icon"></i>
+			    	新品预售
+			  	</a>
+			  	<a class="item" href="">
+			    	<i class="star icon"></i>
+			    	免费试用
+			  	</a>
+			  	<a class="item" href="">
+			    	<i class="basic community icon"></i>
+			    	社区话题
+			  	</a>
+			  	<a class="noline item" href="">
+			    	<i class="basic community icon"></i>
+			    	线在开抢
+			  	</a>
+			  	<a class="green item" href="">
+			    	<i class="basic community icon"></i>
+			    	十万火计
+			  	</a>
+			  	<a class="green item" href="">
+			    	<i class="gamepad icon"></i>
+			    	玩蛋去
+			  	</a>
+			  	<a class="disable item" href="">
+			    	<i class="mobile icon"></i>
+			    	客户端
+			  	</a>
+			</div>
+		</div>
 	</div>
 </div>
+<!--预售商品-->
+{% product_list var:'presale' process_presaled:1 only_approved:1 only_onsale:1 only_stick:1 size:3 %}
+{% if presale.total_rows %}
+<div class="ui responsive grid" id="mpresale">
+	<div class="row">
+		<div class="column">
+			<h4 class="ui header">预售商品</h4>
+			<div class="ui one items">
+				{% for product in presale.rows %}
+			  		{% include "mm/product-item.html" %}
+			    {% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+<!--商店商品-->
+{% product_list var:'sale' process_saled:1 only_approved:1 only_onsale:1 only_stick:1 size:5 %}
+{% if sale.total_rows %}
+<div class="ui responsive grid" id="mpresale">
+	<div class="row">
+		<div class="column">
+			<h4 class="ui header">热门商品</h4>
+			<div class="ui one items">
+				{% for product in sale.rows %}
+			  		{% include "mm/product-item.html" %}
+			    {% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
 
-<div id="indexpage">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui fluid four item labeled icon menu">
-				  	<a class="red item">
-				    	<i class="block layout icon"></i>
-				    	全部商品
-				  	</a>
-				  	<a class="teal item">
-				    	<i class="time icon"></i>
-				    	新品预售
-				  	</a>
-				  	<a class="green item">
-				    	<i class="star icon"></i>
-				    	免费试用
-				  	</a>
-				  	<a class="green item">
-				    	<i class="basic community icon"></i>
-				    	社区话题
-				  	</a>
-				  	<a class="green item">
-				    	<i class="basic community icon"></i>
-				    	即上线，线开抢
-				  	</a>
-				  	<a class="green item">
-				    	<i class="basic community icon"></i>
-				    	十万火计
-				  	</a>
-				  	<a class="green item">
-				    	<i class="gamepad icon"></i>
-				    	玩蛋去
-				  	</a>
-				  	<a class="green item">
-				    	<i class="mobile icon"></i>
-				    	客户端
-				  	</a>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				<h4 class="ui header">热门商品</h4>
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				{% product_list var:'list' process_saled:1 only_approved:1 only_onsale:1 only_stick:1 size:4 %}
-				<div class="ui two items">
-					{% for product in list.rows %}
-				  		{% include "mm/product-item.html" %}
-				    {% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+
 {% endblock %}

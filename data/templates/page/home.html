@@ -8,6 +8,13 @@
 		-moz-box-sizing:border-box; /* Firefox */
 		-webkit-box-sizing:border-box; /* Safari */
 	}
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+		display: block;
+	}
+	.hero .slidee li > div.container {
+	    margin: 0 auto;
+	    max-width: 1920px;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -83,76 +90,86 @@
 			<ul class="slidee">
 				
 				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/clabox.jpg'); background-color: rgb(235, 97, 122);">
-					<div class="hero-main verticalize-container">
-	                    <div class="verticalize">
-	                        <span>全球首创美妆移动电源，化妆充电两不误！</span>
-	                        <h1>魔镜-美妆移动电源</h1>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/try/view-4.html">
-								<span>免费试用</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1100197074.html">
-								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                    </div>
-	                </div>
+					<div class="clearfix container">
+						<div class="hero-main verticalize-container">
+		                    <div class="verticalize">
+		                        <span>全球首创美妆移动电源，化妆充电两不误！</span>
+		                        <h1>魔镜-美妆移动电源</h1>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/try/view-4.html">
+									<span>免费试用</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1100197074.html">
+									<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                    </div>
+		                </div>
+					</div>
 				</li>
 				
 				<li class="slide-5" style="background-image: url('{{ app_url_packaged }}/images/wuai.jpg'); background-color: rgb(238, 220, 108);">
-					<div class="hero-main inverted verticalize-container">
-	                    <div class="verticalize">
-	                        <span>紧急应对措施，太火鸟教你坦然面对</span>
-	                        <h1>雾霾天来袭！</h1>
-	                        <a class="ui black btn-4 btn-4c icon-arrow-right btn" href="http://www.taihuoniao.com/topic/view-100390-1.html">
-								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                    </div>
-	                </div>
+					<div class="clearfix container">
+						<div class="hero-main inverted verticalize-container">
+		                    <div class="verticalize">
+		                        <span>紧急应对措施，太火鸟教你坦然面对</span>
+		                        <h1>雾霾天来袭！</h1>
+		                        <a class="ui black btn-4 btn-4c icon-arrow-right btn" href="http://www.taihuoniao.com/topic/view-100390-1.html">
+									<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                    </div>
+		                </div>
+					</div>
 				</li>
 				
 				<li class="slide-2" style="background-image: url('{{ app_url_packaged }}/images/fire.jpg'); background-color: rgb(255, 47, 81);">
-					<div class="hero-main verticalize-container">
-	                    <div class="verticalize">
-							<span>我们一起，让创意之火燎原</span>
-							<h1>点火•产品创意征集令</h1>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/fire">
-								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_about }}">
-								<span>关于太火鸟</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                    </div>
-	                </div>
+					<div class="clearfix container">
+						<div class="hero-main verticalize-container">
+		                    <div class="verticalize">
+								<span>我们一起，让创意之火燎原</span>
+								<h1>点火•产品创意征集令</h1>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/fire">
+									<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_about }}">
+									<span>关于太火鸟</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                    </div>
+		                </div>
+					</div>
 				</li>
 				
 				<li class="slide-3" style="background-image: url('{{ app_url_packaged }}/images/cm.jpg'); background-color: rgb(133,174,82);">
-					<div class="hero-main verticalize-container">
-	                    <div class="verticalize">
-							<span>全球首款手机无线充电空气净化器</span>
-							<h1>厘米净化器突破200万</h1>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?spm=a215p.1259974.a31cr.1.1YWHlA&id=1872" target="_blank">
-								<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1082994847.html">
-								<span>火热预定</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-							<aside>太火鸟与鼎兴商贸联合共同推出，众筹金额212万元，达成率4253%！</aside>
-	                    </div>
-	                </div>
+					<div class="clearfix container">
+						<div class="hero-main verticalize-container">
+		                    <div class="verticalize">
+								<span>全球首款手机无线充电空气净化器</span>
+								<h1>厘米净化器突破200万</h1>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?spm=a215p.1259974.a31cr.1.1YWHlA&id=1872" target="_blank">
+									<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1082994847.html">
+									<span>火热预定</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+								<aside>太火鸟与鼎兴商贸联合共同推出，众筹金额212万元，达成率4253%！</aside>
+		                    </div>
+		                </div>
+					</div>
 				</li>
 			
 				<li class="slide-4" style="background-image: url('{{ app_url_packaged }}/images/dm.jpg'); background-color: rgb(130, 213, 141);">
-					<div class="hero-main verticalize-container">
-	                    <div class="verticalize">
-	                        <span>造梦者一代 世界首款革命性永久无需更换耗材</span>
-	                        <h1>智能空气净化器</h1>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/dm">
-								<span>查看详情</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959170.html">
-								<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
-							</a>
-	                    </div>
-	                </div>
+					<div class="clearfix container">
+						<div class="hero-main verticalize-container">
+		                    <div class="verticalize">
+		                        <span>造梦者一代 世界首款革命性永久无需更换耗材</span>
+		                        <h1>智能空气净化器</h1>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_action_base }}/guide/dm">
+									<span>查看详情</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959170.html">
+									<span>现在订购</span><i class="icon-arrow-right-sharp"></i>
+								</a>
+		                    </div>
+		                </div>
+					</div>
 				</li>
 				
 			</ul>

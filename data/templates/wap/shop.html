@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}太火鸟-{% endblock %}
+{% block title%}太火鸟商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -11,16 +11,41 @@
 {% endblock %}
 
 {% block content %}
-<div class="indexpage">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<h3 class="ui dividing header">
-					售后服务及常见问题
-				</h3>
+{% if process_saled %}
+<div class="ui responsive grid">
+	<div class="two column row">
+		<div class="column">
+			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid %}
+			<div class="ui selection dropdown">
+			    <div class="default text">全部类别</div>
+			    <i class="angle down icon"></i>
+			    <div class="menu">
+					{% for cat in category.rows %}
+				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
+					{% endfor %}
+			    </div>
 			</div>
+		</div>
+		<div class="right aligned column">
 			
 		</div>
 	</div>
 </div>
+{% endif %}
+<!--商店商品-->
+{% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 only_stick:1 category_id:cid page:page %}
+{% if sale.total_rows %}
+<div class="ui responsive grid" id="mproducts">
+	<div class="row">
+		<div class="column">
+			<div class="ui one items">
+				{% for product in sale.rows %}
+			  		{% include "mm/product-item.html" %}
+			    {% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}

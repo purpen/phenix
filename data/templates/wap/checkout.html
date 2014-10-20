@@ -1,0 +1,181 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}填写订单信息-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('#checkout-form').form({
+		addbook_id: {
+			identifier  : 'addbook_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '收货地址不能为空'
+				}
+			]
+		},
+	}, {
+		inline : false,
+	    error: {
+	      method : function(message){
+		      phenix.show_error_note(message, 5000);
+		  }
+	    },
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					if(result.is_error){
+						phenix.show_error_note(result.message, 5000);
+					}else{						
+						phenix.redirect(result.redirect_url, 0);
+					}
+				}
+			});
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="checkout page">
+	<form action="{{ app_url_wap }}/shop/confirm" method="post" id="checkout-form" class="ui form">
+		<input type="hidden" name="rrid" value="{{ order_info.rid }}" />
+		<input type="hidden" name="is_presaled" value="{{ preorder }}" />
+		<input type="hidden" name="is_nowbuy" value="{{ nowbuy }}" />
+		<input type="hidden" name="addbook_id" value="{{ default_addbook._id }}" />
+		
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h5 class="ui dividing header">确认订单信息</h5>
+					<div class="ui segment">
+						<div class="ui very relaxed divided address list">
+							<div class="item">
+								<div class="right floated">
+									<a href="{{ app_url_wap }}/shop/address?rrid={{ order_info.rid }}&addrid={{ default_addbook._id }}" class="ui magenta icon link">
+										<i class="circle right icon"></i>
+									</a>
+								</div>
+								<div class="content">
+									{% if default_addbook %}
+									<div class="header">{{ default_addbook.name }} ({{ default_addbook.phone }})</div>
+									{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} {{ default_addbook.address }} ({{ default_addbook.zip }})
+									{% else %}
+									<div class="header">请选择送货地址</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				
+					<div class="ui segment">
+						<div class="ui very relaxed divided list">
+							<div class="item">
+								<label>支付方式：</label>在线支付
+							</div>
+							<div class="item">
+								配送方式： 默认圆通快递
+							</div>
+							<div class="item">
+								送货时间： 不限送货时间
+							</div>
+						</div>
+					</div>
+				
+					<div class="ui segment">
+						<label>商品清单：<small>共<b id="cart-items-count" class="money">{{ data.items_count }}</b>件商品</small></label>
+						<div class="ui celled goods list">
+							{% for product in data.items %}
+							<div class="item" id="product_{{ product.sku }}">
+						    	<img class="ui mini image" src="{{ product.cover }}" />
+						    	<div class="content">
+						      		<div class="header">
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+									</div>
+						      	  	<small class="ui gray text">价格：￥{{ product.sale_price }} </small> <small class="ui gray text">数量：{{ product.quantity }}个</small>
+						    	</div>
+						  	</div>
+							{% endfor %}
+						</div>
+					</div>
+				
+					<div class="ui segment">
+						<div class="ui very relaxed divided money list">
+							<div class="item">
+								<div class="right floated">
+									<a href="" class="ui magenta link">
+										<i class="circle down icon" ></i>
+									</a>
+								</div>
+								<div class="content">
+									<div class="header">使用红包：</div>
+								</div>
+							</div>
+							{% bonus_list var:'bonus' page:1 user_id:visitor.id size:10 not_expired:1 %}
+							{% for b in bonus.rows %}
+							<div class="bonus item">
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input name="bonus" checked="checked" type="radio" />
+										<label><span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }}</small></label>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+							<div class="item">
+								<div class="ui fluid action input">
+								  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" />
+								  <div class="ui active magenta button" id="submit-bonus">确定</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				
+					<div class="ui segment">
+						<div class="ui very relaxed divided money list">
+							<div class="item">
+								<div class="right floated">
+									￥{{ data.total_money }}
+								</div>
+								<div class="content">
+									<div class="header">商品金额：</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="right floated">
+									￥{{ data.freight }}
+								</div>
+								<div class="content">
+									<div class="header">运费：</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="right floated">
+									<span class="ui magenta text">￥{{ pay_money }}</span>
+								</div>
+								<div class="content">
+									<div class="header">订单金额：</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+					<div class="ui active fluid magenta submit button">
+						去结算
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

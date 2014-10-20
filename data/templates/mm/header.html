@@ -3,14 +3,21 @@
 		<div class="middle aligned row">
 			<div class="column">
 				<h4 class="ui header">
-					<a href="{{ app_url_mm_domain }}" class="ui link">太火鸟</a>
+					<a href="{{ app_url_wap }}" class="ui link">
+						<img src="{{ app_url_packaged }}/images/logo-home.png" class="ui tiny image" />
+					</a>
 				</h4>
 			</div>
 			<div class="right aligned column">
-				<a href="" class="ui icon gray pop button">
+				<a href="" class="ui small icon gray button">
 					<i class="user icon"></i>
 				</a>
-				<a href="" class="ui icon gray button">
+				<a href="{{ app_url_wap }}/shop/cart" class="ui small icon gray basket button">
+					{% if items_count > 0 %}
+					<label class="floating ui magenta circular label">{{ items_count }}</label>
+					{% else %}
+					<label class="floating ui magenta circular label hide"></label>
+					{% endif %}
 					<i class="cart icon"></i>
 				</a>
 			</div>

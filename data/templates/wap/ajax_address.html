@@ -1,0 +1,41 @@
+<taconite>
+	{% if mode == 'edit' %}
+	<replace select="#{{ id }}">
+	{% endif %}
+	
+	{% if updated_default_ids %}
+		{% for updated_id in updated_default_ids %}
+			<removeClass select="#{{ updated_id }}" value="active" />
+		{% endfor %}
+	{% endif %}
+	
+	{% if mode == 'create' %}
+	<append select="#address-list"><![CDATA[
+	{% endif %}
+		<div class="{% if address.is_default %}active {% endif %}item" id="{{ address._id }}">
+			<div class="right floated">
+				<a href="{{ app_url_wap }}/shop/submit_address?rrid={{ rrid }}&id={{ address._id }}" class="ui magenta icon link">
+					{% if address.is_default %}
+					<i class="checked checkbox icon"></i>
+					{% else %}
+					<i class="empty checkbox icon"></i>
+					{% endif %}
+				</a>
+			</div>
+			<div class="content">
+				<div class="header">{{ address.name }} {{ address.phone }}</div>
+				{{ address.area_province.city}} {{ address.area_district.city }} {{ address.address }} ({{ address.zip }})
+			</div>
+		</div>
+	{% if mode == 'edit' %}
+	</replace>
+	{% endif %}
+
+	{% if mode == 'create' %}
+	]]></append>
+	{% endif %}
+
+	<eval>
+		$('#addbook-form').clearForm();
+	</eval>
+</taconite>
