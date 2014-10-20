@@ -24,7 +24,13 @@
 			<div class="advantage">{{ product.advantage }}</div>
 		</h4>
 		<div class="vote clearfix">
+			{% if product.voted_finished %}
+			<div class="ui divided horizontal vstatus list">
+				<div class="item">投票已结束</div>
+			</div>
+			{% else %}
 			<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
+			{% endif %}
 			<div class="progress">
 				<span class="count">{{ product.vote_percent }}%</span>
 				<span class="description">{{ product.vote_count }} 人投票</span>

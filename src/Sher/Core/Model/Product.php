@@ -268,6 +268,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}else{
 			$row['presale_percent'] = 0;
 		}
+		// 投票是否结束
+		$row['voted_finished'] = ($row['voted_finish_time'] < time()) ? true : false;
+		
 		// 预售是否结束
 		$row['presale_finished'] = ($row['presale_finish_time'] < time()) ? true : false;
 		
