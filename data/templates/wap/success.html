@@ -8,15 +8,8 @@
 
 {% block jquery %}
 	// 跳转支付
-	$('.ui.checkout.btn').click(function(){
+	$('.ui.checkout.button').click(function(){
 		$('.ui.paywait.modal').modal('show');
-	});
-	
-	// 点击 
-	$('.ui.radio.checkbox').on('click', 'label', function(){
-		$('.ui.radio.checkbox label').removeClass('active');
-		$(this)
-			.addClass('active');
 	});
 {% endblock %}
 
@@ -41,7 +34,7 @@
 					</h5>
 				</div>
 				
-				<form class="ui pay form" method="post" action="{{ app_url_shopping }}/payed" id="pay-form" target="_blank">
+				<form class="ui pay form" method="post" action="{{ app_url_wap }}/shop/payed" id="pay-form" target="_blank">
 					<input type="hidden" name="rid" value="{{ rid }}" />
 					<div class="ui segment">
 						<h5 class="ui dividing header">选择支付方式</h5>
@@ -95,7 +88,7 @@
 						</div>
 					</div>
 					
-					<input type="submit" class="ui active fluid magenta button" value="去支付" />
+					<input type="submit" class="ui active fluid magenta checkout button" value="去支付" />
 				</form>
 				{% else %}
 				<div class="ui ordered magenta message">
@@ -117,6 +110,36 @@
 				</a>
 				{% endif %}
 				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui small paywait modal">
+  	<i class="flat close icon"></i>
+	<div class="ui header">
+    	正在支付...
+  	</div>
+	<div class="container">
+		<div class="content">
+			<div class="ui header">
+				<div class="picicon">
+					<i class="payment icon"></i>
+				</div>
+				<div class="content">
+					<div class="block">
+						如果支付失败...
+						<div class="sub header">
+							立即查看 <a href="{{ app_url_helper }}" class="ui magenta link">支付常见问题</a>
+						</div>
+					</div>
+					<div class="block">
+						支付成功了
+						<div class="sub header">
+							立即查看 <a href="{{ order.view_url }}" class="ui magenta link">订单详情</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
