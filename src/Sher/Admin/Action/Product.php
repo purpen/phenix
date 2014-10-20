@@ -109,6 +109,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
 		
+		// 投票时间
+		$data['voted_start_time'] = $this->stash['voted_start_time'];
+		$data['voted_finish_time'] = $this->stash['voted_finish_time'];
+		
 		// 产品阶段
 		$data['stage'] = (int)$this->stash['stage'];
 		$data['process_voted'] = isset($this->stash['process_voted']) ? 1 : 0;
@@ -290,12 +294,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
 				);
 				$ok = $inventory->apply_and_update($updated);
-				
-				// 重新更新产品库存数量
-				$inventory->recount_product_inventory((int)$product_id, Sher_Core_Model_Inventory::STAGE_SHOP);
 			}
-			
 			$result = $inventory->load((int)$r_id);
+			
+			// 重新更新产品库存数量
+			$total_quantity = $inventory->recount_product_inventory((int)$product_id, Sher_Core_Model_Inventory::STAGE_SHOP, false);
+			
 		}catch(Doggy_Model_ValidateException $e){
 			return $this->ajax_notification('验证数据不能为空：'.$e->getMessage(), true);
 		}catch(Sher_Core_Model_Exception $e){
@@ -304,6 +308,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		$this->stash['sku'] = $result;
 		$this->stash['action'] = $action;
+		$this->stash['total_quantity']= $total_quantity;
 		
 		return $this->to_taconite_page('ajax/sku_item.html');
 	}
@@ -332,7 +337,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
 		
-		$this->stash['id'] = array($r_id);
+		$this->stash['id'] = $r_id;
 		$this->stash['product'] = $product;
 		
 		return $this->to_taconite_page('ajax/del_sku.html');

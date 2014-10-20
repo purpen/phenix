@@ -96,7 +96,7 @@
 				</div>
 				
 				<div class="ui three items">
-					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 %}
+					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 %}
 					{% for product in list.rows %}
 						{% include "block/product_vote_item.html" %}
 					{% endfor %}

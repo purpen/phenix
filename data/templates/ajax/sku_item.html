@@ -35,7 +35,9 @@
 	{% if action == 'create' %}
 	</append>
 	{% endif %}
-
+	
+	<val select="#inventory" value="{{ total_quantity }}" />
+	
 	<eval>
 		$('.ui.sku.modal').modal('hide');
 		$('#skus-form').clearForm();

@@ -121,7 +121,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	/**
 	 * 重新计算产品总库存数量
 	 */
-	public function recount_product_inventory($product_id, $stage){
+	public function recount_product_inventory($product_id, $stage, $updated=true){
 		$result = $this->find(array(
 			'product_id' => (int)$product_id,
 			'stage' => (int)$stage,
@@ -137,6 +137,11 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		Doggy_Log_Helper::debug("Recount product inventory:[$product_id],[$inventory]! ");
 		
 		$field = ($stage == self::STAGE_PRESALE) ? 'presale_inventory' : 'inventory';
+		
+		// 直接返回库存数量
+		if(!$updated){
+			return $inventory;
+		}
 		
 		$product = new Sher_Core_Model_Product();
 		$product->update_set((int)$product_id, array($field => $inventory));
