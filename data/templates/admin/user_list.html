@@ -113,6 +113,10 @@
 						{% if user.state %}
 						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link ajax">禁用</a>
 						{% endif %}
+						
+						{% if visitor.role_id == 9 %}
+						<a href="{{ app_url_admin }}/user/remove?id={{ user._id }}" class="ui link confirm-request">删除</a>
+						{% endif %}
 					</p>
 					{% endif %}
 				</td>

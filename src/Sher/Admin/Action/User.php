@@ -153,5 +153,23 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
 	
+	/**
+	 * 删除用户
+	 */
+	public function remove(){
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		// 系统管理员才能删除用户
+		if($this->visitor->can_system()){
+			$model = new Sher_Core_Model_User();
+			$ok = $model->remove((int)$this->stash['id']);
+		}else{
+			return $this->ajax_notification('你没有权限删除用户！', true);
+		}
+		
+		return $this->to_taconite_page('admin/del_ok.html');
+	}
+	
 }
 ?>
