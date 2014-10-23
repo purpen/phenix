@@ -1,0 +1,105 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}订单详情-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">订单详情</h5>
+			<div class="ui very relaxed divided address list segment">
+			  	<div class="item">
+			      	订单状态：<span class="ui magenta text" id="order-status">{{ order_info.status_label }}</span> 
+			  	</div>
+			  	<div class="item">
+			      	订单编号：{{ order_info.rid }}
+			  	</div>
+			  	<div class="item">
+			      	下单时间：{{ order_info.created_on|date }}
+			  	</div>
+			  	<div class="item">
+			      	商品总价：￥{{ order_info.total_money }} 优惠：￥{{ order_info.card_money }} 运费：￥{{ order_info.freight }}
+			  	</div>
+			  	<div class="item">
+			      	实付总额：<span class="ui magenta text">￥{{ order_info.pay_money }}</span>
+			  	</div>
+				{% if !order_info.is_payed %}
+				<div class="ui center aligned item">
+					<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui active small magenta button">现在支付</a>
+				</div>
+				{% endif %}
+				{% if order_info.status == 15 %}
+				<div class="ui center aligned item">
+					<a href="{{ app_url_wap }}/my/ajax_finished?rid={{ order_info.rid }}" class="active ui small ajax magenta button" id="order-action-finish">确认收货</a>
+				</div>
+				{% endif %}
+			</div>
+			
+			{% if order_info.status >= 15 %}
+			<div class="ui very relaxed divided address list segment">
+			  	<div class="item">
+			      	物流信息：<span class="ui gray text">{{ order_info.express_company.title }}</span>
+			  	</div>
+			  	<div class="item">
+			      	快递单号：<span class="ui gray text">{{ order_info.express_no }}</span>
+			  	</div>
+			</div>
+			{% endif %}
+			
+			<div class="ui very relaxed divided address list segment">
+				{% if order.from_site == 5 %}
+				  	<div class="item">
+				      	收货地址：{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.area }} {{ order_info.express_info.address }} ({{ order_info.express_info.zip }})<br />
+						{{ order_info.express_info.name }} {{ order_info.express_info.phone }}
+				  	</div>
+				{% else %}
+				  	<div class="item">
+				      	收货地址：{{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }} {{ order_info.addbook.address }} ({{ order_info.addbook.zip }})<br />
+						{{ order_info.addbook.name }} {{ order_info.addbook.phone }}
+				  	</div>
+				{% endif %}
+				
+			  	<div class="item">
+			      	送货时间：{{ order_info.transfer_time_s.title }}
+			  	</div>	
+			  	<div class="item">
+			      	备注：{{ order_info.summary|default '无' }}
+			  	</div>			
+			</div>
+			
+			<div class="ui segment">
+				<div class="ui very relaxed divided address list">
+					{% for item in order_info.items %}
+					{% product_list var:'product' product_id:item.product_id %}
+					<div class="item" id="order-{{ order._id }}">
+						<img class="ui tiny image" src="{{ product.cover.thumbnails.mini.view_url }}" />
+						<div class="content">
+							{% if item.sku == item.product_id %}
+				          	<div class="header">
+								<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+							</div>
+							{% else %}
+							{% sku_list var:'sku' sku:item.sku %}
+				          	<div class="header">
+								<a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
+							</div>
+							{% endif %}
+							<p class="attribute">编号：{{ item.sku }}</p>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+{% endblock %}

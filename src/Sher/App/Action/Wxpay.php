@@ -522,7 +522,68 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 微信支付请求实例
 	 */
 	public function payment(){
-		return $this->to_html_page('page/wechat/payment.html');
+		$rid = $this->stash['rid'];
+		if (empty($rid)){
+			return $this->show_message_page('操作不当，订单号丢失！', true);
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		if (empty($order_info)){
+			return $this->show_message_page('抱歉，系统不存在该订单！', true);
+		}
+		$status = $order_info['status'];
+		
+		// 验证订单是否已经付款
+		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->show_message_page('订单[$rid]已付款！', false);
+		}
+		
+		$wechat = new Sher_Core_Util_Wechat($this->options);
+		
+		$timestamp = time();
+		$noncestr = $wechat->generateNonceStr();
+		
+		// 订单信息组成该字符串
+		$out_trade_no = $order_info['rid'];
+        // 订单内容，必填
+        $body = '太火鸟商城'.$out_trade_no.'订单';
+		// 订单总金额,单位为分
+		$total_fee = $order_info['pay_money'];
+		
+		// 支付完成通知回调接口，255 字节以内
+		$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/direct_native';
+		// 用户终端IP，IPV4字串，15字节内
+		$reqeust = new Doggy_Dispatcher_Request_Http();
+		$spbill_create_ip = $reqeust->getClientIp();
+		// 现金支付币种，默认1:人民币
+		$fee_type = 1;
+		// 银行通道类型,默认WX
+		$bank_type = "WX";
+		// 传入参数字符编码，默认UTF-8
+		$input_charset = "UTF-8";
+		// 交易起始时间
+		$time_start = "";
+		$time_expire = "";
+		// 物流费用,单位为分
+		$transport_fee = $order_info['freight'];
+		// 商品费用,单位为分
+		$product_fee = $order_info['total_money'];
+		
+		$package = $wechat->createPackage($out_trade_no, $body, $total_fee*100, $notify_url, $spbill_create_ip, $fee_type, $bank_type, $input_charset, $time_start, $time_expire, $transport_fee*100, $product_fee*100);
+		
+		// 微信支付参数
+		$wxoptions = array(
+			'appId' => $this->options['appid'],
+			'timeStamp' => $timestamp,
+			'nonceStr' => $noncestr,
+			'package' => $package,
+			'paySign' => $wechat->getPaySign($package, $timestamp, $noncestr),
+		);
+		
+		$this->stash['wxoptions'] = $wxoptions;
+		
+		return $this->to_html_page('wap/wxpay.html');
 	}
 	
 	/**

@@ -1,0 +1,38 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}订单查询-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">订单查询</h5>
+			<div class="ui segment">
+				{% order_list var:'list' user_id:user.id status:s size:10 page:page %}
+				<div class="ui very relaxed divided address list">
+					{% for order in list.rows %}
+						{% include 'mm/order-item.html' %}
+					{% else %}
+					<div class="item">您还没有相关订单</div>
+					{% endfor %}
+				</div>
+			</div>
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

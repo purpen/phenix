@@ -1,0 +1,53 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}我的收藏-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">我的收藏</h5>
+			{% favorite_list var:'favorites' user_id:visitor.id type:1 size:10 %}
+			<div class="ui one items">
+			{% for fav in favorites.rows %}
+			{% if fav.product %}
+				<div class="magenta item" id="product-{{ fav.product._id }}">
+				  	<div class="image">
+						<a href="{{ app_url_wap }}/shop/view?id={{ fav.product._id }}" title="{{ fav.product.title }}" target="_blank">
+				      		<img src="{{ fav.product.cover.thumbnails.medium.view_url }}" />
+						</a>
+				  	</div>
+				  	<div class="content">
+				      	<h5 class="ui header">
+							<a href="{{ app_url_wap }}/shop/view?id={{ fav.product._id }}" title="{{ fav.product.title }}" class="ui link" target="_blank">
+								{{ fav.product.title|truncate, 16, '' }}
+							</a>
+						</h5>
+						<div class="name">
+							<span class="unit">￥</span>
+							<span class="price">{{ fav.product.sale_price }}</span>
+						</div>
+				  	</div>
+				</div>
+			{% endif %}
+		    {% endfor %}
+			</div>
+			
+			{% if favorites.total_rows > 10 %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:favorites.total_rows,total_page:favorites.total_page,current_page:page, var:'pager',pager_size:9 %}
+				{%include 'block/pager.html'%}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

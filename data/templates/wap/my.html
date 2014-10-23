@@ -1,0 +1,49 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}个人中心-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<div class="ui pointing vertical fluid navigation menu">
+				<div class="header item">
+				    <i class="user icon"></i>个人中心
+				</div>
+				<a href="{{ app_url_wap }}/my/orders" class="{{ css_user_orders }} item">
+					<i class="flat order icon"></i> 订单查询
+				</a>
+				<a href="{{ app_url_wap }}/my/orders?s=1" class="{{ css_nopayed }} item">
+					<i class="flat order icon"></i> 待付款订单
+				</a>
+				<a href="{{ app_url_wap }}/my/shipping" class="{{ css_user_shipping }} item">
+					<i class="flat position icon"></i> 收货地址管理
+				</a>
+				<a href="{{ app_url_wap }}/my/bonus" class="{{ css_user_bonus }} item">
+					<i class="flat dollar78 icon"></i> 我的红包
+				</a>
+				<a href="{{ app_url_wap }}/my/favorite" class="{{ css_user_favorite }} item">
+					<i class="flat profile icon"></i> 我的收藏
+				</a>
+			</div>
+			
+			<div class="ui pointing vertical fluid navigation menu">
+				<div class="header item">
+				    <i class="smile icon"></i>售后服务
+				</div>
+				<a href="{{ app_url_wap }}/my/service" class="{{ css_user_service }} item">
+					<i class="flat delivery6 icon"></i> 退换货
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

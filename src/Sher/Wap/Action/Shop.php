@@ -404,13 +404,13 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 		$pay_url = '';
 		switch($payaway){
 			case 'alipay':
-				$pay_url = Doggy_Config::$vars['app.url.alipay'].'?rid='.$rid;
+				$pay_url = Doggy_Config::$vars['app.url.wap'].'/pay/alipay?rid='.$rid;
 				break;
 			case 'quickpay':
-				$pay_url = Doggy_Config::$vars['app.url.quickpay'].'?rid='.$rid;
+				$pay_url = Doggy_Config::$vars['app.url.wap'].'/pay/quickpay?rid='.$rid;
 				break;
-			case 'tenpay':
-				$pay_url = Doggy_Config::$vars['app.url.tenpay'].'?rid='.$rid;
+			case 'wxpay':
+				$pay_url = Doggy_Config::$vars['app.url.jsapi.wxpay.request'].'?rid='.$rid;
 				break;
 			default:
 				return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);

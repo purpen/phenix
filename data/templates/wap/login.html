@@ -1,0 +1,56 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}现在登录-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	phenix.build_auth_page();
+{% endblock %}
+
+{% block content %}
+<div class="auth page">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<form action="{{ app_url_wap }}/auth/do_login" class="ui small top form segment" method="post" id="login-form">
+					<input type="hidden" name="t" value="{{ login_token }}" />
+					<h5 class="ui center aligned dividing header">登录太火鸟</h5>
+					<div class="field">
+						<label for="account">登录账号</label>
+					  	<input type="text" name="account" placeholder="手机号/Email" />
+					</div>
+					<div class="field">
+						<label for="account">登录密码</label>
+					  	<input type="password" name="password" id="password" placeholder="登录密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label>自动登录</label>
+				        </div>
+					
+						<a href="" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+					</div>
+			
+					<div class="field ">
+						<div class="fluid ui active magenta submit button" >登录</div>
+					</div>
+					
+					<div class="field">
+						<label for="account">你也可以使用以下账号登录:</label>
+						<a href="{{ weibo_auth_url }}" class="ui weibo icon button">
+							<i class="flat icon_weibo icon"></i>
+						</a>
+						<a href="{{ app_url_qq_login }}" class="ui blue qq icon button">
+							<i class="flat icon_qq icon"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

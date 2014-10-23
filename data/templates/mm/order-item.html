@@ -1,0 +1,18 @@
+<div class="item" id="order-{{ order._id }}">
+	<div class="right floated">
+		<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui magenta icon link">
+			<i class="circle right icon"></i>
+		</a>
+	</div>
+	{% for item in order.items %}
+		{% if loop.first %}
+		{% product_list var:'product' product_id:item.product_id %}
+		<img class="ui tiny image" src="{{ product.cover.thumbnails.mini.view_url }}" />
+		{% endif %}
+	{% endfor %}
+	<div class="content">
+		<div class="header">订单日期：{{ order.created_on|date 'Y/m/d' }}</div>
+		<small>订单号：{{ order.rid }}{%if order.items_count > 1 %},共{{ order.items_count }}件{% endif %}</small><br />
+		<small>总金额：￥{{ order.pay_money }} 状态：{{ order.status_label }}</small>
+	</div>
+</div>

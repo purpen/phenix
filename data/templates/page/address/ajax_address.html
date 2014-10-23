@@ -11,6 +11,7 @@
 				  	<div class="content">
 						<input type="hidden" name="_id" value="{{ addbook._id }}" />
 						<input type="hidden" name="is_default" value="{{ addbook.is_default }}" />
+						<input type="hidden" name="plat" value="{{ plat }}" />
 				
 						<div class="two fields">
 							<div class="field">
@@ -97,7 +98,11 @@
 		{% if mode == 'create' %}
 		<before select="#create-new-address">
 		{% endif %}
-		  	<div class="address active item" id="{{ address._id }}" data-id="{{ address._id }}">
+			{% if plat == 'mobile' %}
+		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
+			{% else %}
+			<div class="address active item" id="{{ address._id }}" data-id="{{ address._id }}">
+			{% endif %}
 				<h4 class="ui dividing header">
 					<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
 				</h4>

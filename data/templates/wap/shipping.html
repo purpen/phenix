@@ -1,0 +1,147 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}收货地址管理-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	// 显示地址框
+	$('.ui.addbook.button').click(function(){
+		$('.ui.addbook.modal').modal('show');
+	});
+	
+	$('#addbook-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '收货人姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '联系电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '联系电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮政编码不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('.ui.cancel.button').livequery(function(){
+		$(this).click(function(){
+			$('#edit-form-box').empty();
+		});
+	});
+	
+	// 编辑
+	$('.ui.edit.button').bind('click', function(){
+		var id = $(this).data('id');
+		$.post('{{ app_url_address }}/edit_address', {id: id, plat:'mobile'});
+		return false;
+	});
+	
+	// 删除
+	$('.ui.remove.button').bind('click', function(){
+		var id = $(this).data('id');
+		if(confirm('确认执行这个删除操作吗?')){
+			$.post('{{ app_url_address }}/remove_address', {id: id}, function(result){
+				if (result.success){
+					if ($('#'+result.data.id).hasClass('active')) {
+						// 清空默认值
+						$('#addbook_default_id').val('');
+					}
+					$('#'+result.data.id).remove();
+				} else {
+					phenix.show_error_note(result.message, 5000);
+				}
+			}, 'json');
+        }
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<h5 class="ui dividing header">管理收货地址</h5>
+			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
+			{% for address in addresses.rows %}
+		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
+				<h4 class="ui dividing header">
+					<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
+				</h4>
+				<p>{{ address.phone }}</p>
+				<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
+				
+				<div class="actions">
+					<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+						<i class="edit icon"></i>
+					</a>
+					<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+						<i class="remove icon"></i>
+					</a>
+				</div>
+		  	</div>
+			{% endfor %}
+			<div class="ui center aligned segment" id="create-new-address" data-id="0">
+				<a class="ui active magenta addbook icon labeled button" href="javascript:void(0);">
+					<i class="flat add icon"></i> 添加新地址
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% include "block/shopping/address.html" %}
+{% endblock %}
