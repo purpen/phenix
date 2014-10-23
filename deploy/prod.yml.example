@@ -66,6 +66,7 @@ app.storage.sher:
 app.alipay.partner: '2088411237666512'
 app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
 app.alipay.cacert: '/opt/project/phenix/vendor/cacert.pem'
+app.alipay.pendir: '/Users/xiaoyi/project/phenix/vendor'
 
 # SinaWeibo API
 app.sinaweibo.app_key: '3156984431'

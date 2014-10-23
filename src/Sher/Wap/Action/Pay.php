@@ -11,6 +11,11 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 	);
 	
 	public $alipay_config = array(
+		// 合作身份者id，以2088开头的16位纯数字
+		'partner' => '',
+		// 安全检验码，以数字和字母组成的32位字符
+		// 如果签名方式设置为“MD5”时，请设置该参数
+		'key' => '',
         //卖家支付宝帐户
 		'seller_email' => 'admin@taihuoniao.com',
 		// 签名方式 不需修改
@@ -21,17 +26,16 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 		'transport' => 'http',
 		// 商户的私钥（后缀是.pen）文件相对路径
 		// 如果签名方式设置为“0001”时，请设置该参数
-		'private_key_path' => 'key/rsa_private_key.pem',
+		'private_key_path' => '',
 		// 支付宝公钥（后缀是.pen）文件相对路径
 		// 如果签名方式设置为“0001”时，请设置该参数
-		'private_key_path' => 'key/alipay_public_key.pem',
+		'ali_public_key_path' => '',
 	);
 	
 	// 配置微信参数
 	public $wechat_options = array();
 	
-	protected $exclude_method_list = array('execute','home');
-	
+	protected $exclude_method_list = array('execute','direct_notify','secrete_notify');
 	
 	/**
 	 * 预先执行init
@@ -44,6 +48,9 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 		
 		// ca证书路径地址，用于curl中ssl校验
 		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.cacert'];
+		
+		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_key.pem';
+		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
 		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/secrete_notify';
@@ -71,7 +78,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 	 * 移动支付入口
 	 */
 	public function execute(){
-		return $this->home();
+		return $this->alipay();
 	}
 	
 	/**
@@ -123,7 +130,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 			"v"	      => $v,
 			"req_id"	=> $req_id,
 			"req_data"	=> $req_data,
-			"_input_charset" => trim(strtolower($this->alipay_config['input_charset']))
+			"_input_charset" => trim(strtolower($this->alipay_config['input_charset'])),
 		);
 		
 		// 建立请求
