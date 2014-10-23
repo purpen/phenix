@@ -377,6 +377,7 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 		}
 		
 		$this->stash['order'] = $order_info;
+		$this->stash['is_weixin'] = Sher_Core_Helper_Util::is_weixin();
 		
 		return $this->to_html_page('wap/success.html');
 	}

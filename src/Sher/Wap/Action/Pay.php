@@ -172,7 +172,42 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 	 * 支付宝异步通知
 	 */
 	public function secrete_notify(){
+		Doggy_Log_Helper::warn("Alipay mobile secrete notify updated!");
+		// 计算得出通知验证结果
+		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
+		$verify_result = $alipayNotify->verifyNotify();
 		
+		if($verify_result){//验证成功
+			$doc = new DOMDocument();	
+			if($this->alipay_config['sign_type'] == 'MD5'){
+				$doc->loadXML($_POST['notify_data']);
+			}
+	
+			if($this->alipay_config['sign_type'] == '0001'){
+				$doc->loadXML($alipayNotify->decrypt($_POST['notify_data']));
+			}
+			
+			if(!empty($doc->getElementsByTagName("notify")->item(0)->nodeValue)){
+				// 商户订单号
+				$out_trade_no = $doc->getElementsByTagName( "out_trade_no" )->item(0)->nodeValue;
+				// 支付宝交易号
+				$trade_no = $doc->getElementsByTagName( "trade_no" )->item(0)->nodeValue;
+				// 交易状态
+				$trade_status = $doc->getElementsByTagName( "trade_status" )->item(0)->nodeValue;
+		
+				if($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS'){
+					Doggy_Log_Helper::warn("Alipay mobile secrete notify [$out_trade_no][$trade_no]!");
+					return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
+				}else{
+					Doggy_Log_Helper::warn("Alipay mobile secrete notify trade status fail!");
+					return $this->to_raw('fail');
+				}
+			}
+		}else{
+			// 验证失败
+			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
+			return $this->to_raw('fail');
+		}
 	}
 	
 	/**
@@ -212,9 +247,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 	/**
 	 * 手机银联支付
 	 */
-	public function quickpay(){
-		
-	}
+	public function quickpay(){}
 	
 	/**
 	 * 更新订单状态

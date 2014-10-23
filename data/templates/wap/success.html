@@ -42,19 +42,20 @@
 						<div class="ui very relaxed divided payaway selection list">
 							<div class="item">
 								<div class="right floated">
-									<small>大额支付推荐使用支付宝快捷支付</small>
+									<small>推荐使用支付宝快捷支付</small>
 								</div>
 								<div class="content">
 									<div class="header">
 										<div class="field">
 											<div class="ui radio checkbox">
-												<input type="radio" value="alipay" name="payaway" /> 
+												<input type="radio" value="alipay" name="payaway" checked="checked" /> 
 												<label>支付宝</label>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+							{% if is_weixin %}
 							<div class="item">
 								<div class="right floated">
 									<small></small>
@@ -70,6 +71,8 @@
 									</div>
 								</div>
 							</div>
+							{% endif %}
+							<!--
 							<div class="item">
 								<div class="right floated">
 									<small>需安装网银支付插件</small>
@@ -85,6 +88,7 @@
 									</div>
 								</div>
 							</div>
+							-->
 						</div>
 					</div>
 					
