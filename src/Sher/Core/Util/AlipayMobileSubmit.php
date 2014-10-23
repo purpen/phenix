@@ -173,7 +173,7 @@ class Sher_Core_Util_AlipayMobileSubmit extends Doggy_Object {
 		if( ! empty ($para_text['res_data'])) {
 			//解析加密部分字符串
 			if($this->alipay_config['sign_type'] == '0001') {
-				$para_text['res_data'] = rsaDecrypt($para_text['res_data'], $this->alipay_config['private_key_path']);
+				$para_text['res_data'] = Sher_Core_Util_Alipay::rsaDecrypt($para_text['res_data'], $this->alipay_config['private_key_path']);
 			}
 			
 			//token从res_data中解析出来（也就是说res_data中已经包含token的内容）
