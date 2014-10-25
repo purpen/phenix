@@ -8,6 +8,7 @@
 
 {% block jquery %}
 	// 微信支付
+	alert('debug start');
 	// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
 	WeixinJSBridge.invoke('getBrandWCPayRequest', { 
 		"appId" : "{{ wxoptions.appId }}", 
@@ -21,6 +22,7 @@
 			// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
 			// get_brand_wcpay_request:ok 发送成功
 			WeixinJSBridge.log(res.err_msg);
+			alert(res.err_msg);
 			// 支付成功
 			if (res.err_msg == 'get_brand_wcpay_request:ok'){
 				var view_url = '{{ app_url_domain }}/wxpay/show?rid='+rid;
@@ -33,6 +35,7 @@
 				alert('微信支付出现异常，请核对信息后重试！');
 			}
 	});
+	alert('debug end');
 {% endblock %}
 
 {% block content %}
