@@ -28,6 +28,13 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	}
 	
 	/**
+	 * 十万火计
+	 */
+	public function ideas(){
+		return $this->to_html_page('page/match.html');
+	}
+	
+	/**
 	 * 社区列表
 	 */
 	public function get_list() {		
