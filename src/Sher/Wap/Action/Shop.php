@@ -410,9 +410,6 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			case 'quickpay':
 				$pay_url = Doggy_Config::$vars['app.url.wap'].'/pay/quickpay?rid='.$rid;
 				break;
-			case 'wxpay':
-				$pay_url = Doggy_Config::$vars['app.url.jsapi.wxpay.request'].'?rid='.$rid.'&showwxpaytitle=1';
-				break;
 			default:
 				return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
 		}

@@ -8,8 +8,6 @@
 
 {% block jquery %}
 	// 微信支付
-	alert('debug start');
-	// 微信支付
 	var wechat_pay = function() {
 		if (typeof WeixinJSBridge == 'undefined') {
 			alert('WeixinJSBridge undefined');
@@ -41,9 +39,7 @@
 					alert('微信支付出现异常，请核对信息后重试！');
 				}
 		});
-	};
-	alert('debug end');
-	
+	};	
 	wechat_pay();
 	
 {% endblock %}
