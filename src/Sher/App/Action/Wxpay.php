@@ -541,6 +541,11 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$wechat = new Sher_Core_Util_Wechat($this->options);
 		
+		// 获取access token
+		$access_token = $wechat->checkAuth();
+		
+		Doggy_Log_Helper::debug("Get access token [ $access_token ] is OK!");
+		
 		$timestamp = time();
 		$noncestr = $wechat->generateNonceStr();
 		
@@ -569,6 +574,8 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$transport_fee = $order_info['freight'];
 		// 商品费用,单位为分
 		$product_fee = $order_info['total_money'];
+		
+		
 		
 		$package = $wechat->createPackage($out_trade_no, $body, $total_fee*100, $notify_url, $spbill_create_ip, $fee_type, $bank_type, $input_charset, $time_start, $time_expire, $transport_fee*100, $product_fee*100);
 		
