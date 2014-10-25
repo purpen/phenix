@@ -544,7 +544,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		// 获取access token
 		$access_token = $wechat->checkAuth();
 		
-		Doggy_Log_Helper::debug("Get access token [ $access_token ] is OK!");
+		Doggy_Log_Helper::warn("Get access token [ $access_token ] is OK!");
 		
 		$timestamp = time();
 		$noncestr = $wechat->generateNonceStr();

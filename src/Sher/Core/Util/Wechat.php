@@ -608,6 +608,7 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		$redis = new Sher_Core_Cache_Redis();
 		$access_token = $redis->get('weixin_access_token');
 		if ($access_token){
+			Doggy_Log_Helper::warn("Get access token from cache [ $access_token ] is OK!");
 			$this->access_token = $access_token;
 			return $this->access_token;
 		}
