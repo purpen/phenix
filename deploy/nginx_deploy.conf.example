@@ -20,10 +20,10 @@ server {
 	if ( $http_user_agent ~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
 		set $mobile '${mobile}1';
 	}
-	if ( $http_host ~* "m\.taihuoniao\.com" ) {
+	if ( $http_host !~* "www\.taihuoniao\.com" ) {
 		set $mobile "${mobile}2";
 	}
-	if ( $http_cookie !~* "mode=mobile" ) {
+	if ( $http_cookie !~* "mode=pc" ) {
 		set $mobile "${mobile}3";
 	}
 	if ( $mobile != '0123' ) {

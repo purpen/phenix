@@ -46,15 +46,13 @@
 	});
 	
 	$('#pc-site').click(function(){
-		create_cookie('mode', 'pc', 1, 'taihuoniao.me');
-		alert(read_cookie('mode'));
-		phenix.redirect('http://taihuoniao.me', 0);
-	}).html(read_cookie('mode'));
+		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');
+		phenix.redirect('http://beta.taihuoniao.com', 0);
+	});
 	
 	$('#touch-site').click(function(){
-		create_cookie('mode', 'mobile', 1, 'taihuoniao.me');
-		alert(read_cookie('mode'));
-		phenix.redirect('http://m.taihuoniao.me', 0);
+		phenix.create_cookie('mode', 'mobile', 1, 'taihuoniao.com');
+		phenix.redirect('http://mb.taihuoniao.com', 0);
 	});
 	
 {% endblock %}
