@@ -22,8 +22,8 @@
 		<div class="row">
 			<div class="center aligned column">
 				<div class="ui horizontal divided list">
-					<a href="{{ app_url_wap }}" class="ui item link" onclick="setCookie('mode', 'mobile', 1, 'taihuoniao.me');" target="_blank">触屏版</a>
-				    <a href="{{ app_url_domain }}" class="ui item link" onclick="setCookie('mode', 'pc', 1, 'taihuoniao.com');" target="_blank">电脑版</a>
+					<a href="javascript:void(0);" class="ui item link" id="touch-site">触屏版</a>
+				    <a href="javascript:void(0);" class="ui item link" id="pc-site">电脑版</a>
 					<!--<div class="ui item gray link">客户端</div>-->
 				</div>
 			</div>
@@ -35,3 +35,32 @@
 		</div>
 	</div>
 </footer>
+	<script type="text/javascript">
+	function create_cookie(name, value, days, domain, path){
+		var expires = '';
+		if (days) {
+			var d = new Date();
+			d.setTime(d.getTime() + (days*24*60*60*1000));
+			expires = '; expires=' + d.toGMTString();
+		}
+		domain = domain ? '; domain=' + domain : '';
+		path = '; path=' + (path ? path : '/');
+		document.cookie = name + '=' + value + expires + path + domain;
+	}
+
+	function read_cookie(name){
+		var n = name + '=';
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var c = cookies[i].replace(/^\s+/, '');
+			if (c.indexOf(n) == 0) {
+				return c.substring(n.length);
+			}
+		}
+		return null;
+	}
+
+	function erase_cookie(name, domain, path){
+		create_cookie(name, '', -1, domain, path);
+	}
+	</script>
