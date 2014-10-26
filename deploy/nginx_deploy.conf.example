@@ -17,16 +17,16 @@ server {
 	error_page  404              /app/wap/index/not_found;
 	
 	set $mobile 0;
-	if ( $http_user_agent ~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
+	if ( $http_user_agent !~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
 		set $mobile '${mobile}1';
 	}
 	if ( $http_host !~* "www\.taihuoniao\.com" ) {
 		set $mobile "${mobile}2";
 	}
-	if ( $http_cookie !~* "mode=pc" ) {
+	if ( $http_cookie !~* "mode=mobile" ) {
 		set $mobile "${mobile}3";
 	}
-	if ( $mobile != '0123' ) {
+	if ( $mobile = '0123' ) {
 		rewrite ^/(.*)$ http://www.taihuoniao.com/$1 last;
 		break;
 	}
