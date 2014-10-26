@@ -24,7 +24,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 社区
 	 */
 	public function execute(){
-		return $this->get_list();
+		return $this->ideas();
 	}
 	
 	/**

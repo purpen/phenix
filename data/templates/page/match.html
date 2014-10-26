@@ -578,6 +578,13 @@
 		forceHeight: false
 	});
 {% endblock %}
+
+{% block layout_header %}
+<header class="main ui responsive grid">
+	{% include "block/header.html" %}
+</header>
+{% endblock %}
+
 {% block content %}
 <div class="match page">
 	<section class="ui logo block">
@@ -590,11 +597,11 @@
 	<section class="ui nav responsive grid">
 		<div class="twelve wide computer only column">
 			<div class="ui labeled icon text magenta main-nav menu">
-				<a href=" " class="active item">首页</a>
-				<a href=" " class="item">关于十万火计</a>
-				<a href=" " class="item">评委专家</a>
-				<a href=" " class="item">全部作品</a>
-				<a href=" " class="item">话题作品</a>
+				<a href="" class="active item">首页</a>
+				<a href="" class="item">关于十万火计</a>
+				<a href="" class="item">评委专家</a>
+				<a href="" class="item">全部作品</a>
+				<a href="" class="item">社区话题</a>
 			</div>
 		</div>
 		<div class="right aligned four wide computer only column">
@@ -603,15 +610,14 @@
 			</a>
 		</div>
 	</section>
-	<article class="hero ui hide-on-mobile">
+	<article class="hero">
 		<section class="ui plan block" id="frame">
 			<ul class="slidee">
-			
 				<li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_2.jpg') scroll center center no-repeat;background-size:cover;">	
 				</li>
 				<li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
 					<div>
-						<video poster="{{ app_url_packaged }}/images/match/match_bg_3.jpg" muted="muted" preload="auto" loop="true"autoplay="true">
+						<video poster="{{ app_url_packaged }}/images/match/match_bg_3.jpg" muted="muted" preload="auto" loop="true" autoplay="true">
 							<source type="video/mov" src="{{ app_url_packaged }}/images/match/match.mov">
 						</video>
 					</div>
@@ -636,6 +642,7 @@
 			<i class="flat arrow_right icon"></i>
 		</a>
 	</article>
+	
 	<section class="ui big about block">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
@@ -756,6 +763,7 @@
 			</div>
 		</div>
 	</section>
+	
 	<section class="ui big times block">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -801,6 +809,7 @@
 			</div>	
 		</div>
 	</section>
+	
 	<section class="ui big judges block">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -892,6 +901,7 @@
 			</div>
 		</div>
 	</section>
+	
 	<section class="ui big dreams block">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
@@ -929,6 +939,7 @@
 			</div>
 		</div>
 	</section>
+	
 	<section class="ui big products block">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
@@ -950,6 +961,7 @@
 			</div>
 		</div>
 	</section>
+	
 	<section class="ui big teams block">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
@@ -965,6 +977,7 @@
 			</div>
 		</div>
 	</section>
+	
 	<section class="ui big organization block">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
@@ -1059,6 +1072,7 @@
 			</div>
 		</div>
 	</section>
+	
 	<section class="ui big contant block">
 		<div class="ui responsive center aligned grid">
 			<div class="row">
@@ -1077,5 +1091,6 @@
 			</div>
 		</div>
 	</section>
+	
 </div>
 {% endblock %}
