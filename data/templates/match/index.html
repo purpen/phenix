@@ -30,7 +30,6 @@
 		margin-bottom:.5em;
 	}
 	.match.page .ui.plan{
-		padding-top:.2rem;
 		padding-bottom:0rem;
 	}
 	.match.page .ui.plan .match_bg{
@@ -538,11 +537,8 @@
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 3500,
+		cycleInterval: 3000,
 		pauseOnHover:1,
-		
-		prev:".hero .prev",
-		next:".hero .next",
 		
 		// Dragging
 		mouseDragging: 1,
@@ -567,13 +563,6 @@
 		$frame.sly('reload');
 	});
 	
-	$('[data-countdown]').each(function() {
-		var $this = $(this), finalDate = $(this).data('countdown');
-		$this.countdown(finalDate, function(event) {
-			$this.html(event.strftime('%-D'));
-		});
-	});
-	
 	skrollr.init({
 		forceHeight: false
 	});
@@ -593,19 +582,21 @@
 		</div>
 	</section>
 	<section class="ui nav responsive grid">
-		<div class="twelve wide computer only column">
-			<div class="ui labeled icon text magenta main-nav menu">
-				<a href="" class="active item">首页</a>
-				<a href="" class="item">关于十万火计</a>
-				<a href="" class="item">评委专家</a>
-				<a href="" class="item">全部作品</a>
-				<a href="" class="item">社区话题</a>
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui text magenta menu">
+					<a href="" class="active item">首页</a>
+					<a href="" class="item">关于十万火计</a>
+					<a href="" class="item">评委专家</a>
+					<a href="" class="item">全部作品</a>
+					<a href="" class="item">社区话题</a>
+				</div>
 			</div>
-		</div>
-		<div class="right aligned four wide computer only column">
-			<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-				提交创意
-			</a>
+			<div class="right aligned four wide column">
+				<a href="{{ app_url_topic }}/submit?cid=64&ref=dream" class="ui active magenta button">
+					提交创意
+				</a>
+			</div>
 		</div>
 	</section>
 	<article class="hero">
@@ -614,11 +605,12 @@
 				<li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_2.jpg') scroll center center no-repeat;background-size:cover;">	
 				</li>
 				<li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
-					<div>
-						<video poster="{{ app_url_packaged }}/images/match/match_bg_3.jpg" muted="muted" preload="auto" loop="true" autoplay="true">
-							<source type="video/mov" src="{{ app_url_packaged }}/images/match/match.mov">
-						</video>
-					</div>
+					<video height="100%" onended="this.play()" loop="loop" autoplay="true">
+						<source type="video/mp4" src="https://d3mlfyygrfdi2i.cloudfront.net/a144/hploop_0204.mp4"></source>
+						<source type="video/webm" src="https://d3mlfyygrfdi2i.cloudfront.net/90da/hploop_0204.webm"></source>
+						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg">
+						You need an HTML5 enabled browser to view this video.
+					</video>
 				</li>
 			</ul>
 			<div class="ui big block">
@@ -633,12 +625,6 @@
 				</div>
 			</div>
 		</section>
-		<a class="prev" href="#">
-			<i class="flat arrow_left icon"></i>
-		</a>
-		<a class="next" href="#">
-			<i class="flat arrow_right icon"></i>
-		</a>
 	</article>
 	
 	<section class="ui big about block">
@@ -658,7 +644,11 @@
 					<p> / 能真正识别优秀产品创意并实现生产制造落地 / 令想法变成实物 / </p>
 					<p> / 能斥资一百万只为寻找十万个绝佳创意 / </p>
 					<p>现在，你只需要负责想，太火鸟来帮你做！</p>
-					<h3>创意不死，灵感永生！</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<h2 class="ui header">创意不死，灵感永生！</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -942,17 +932,31 @@
 		<div class="ui responsive center aligned grid">
 			<div class="row">
 				<div class="center aligned column section-title">
-					<h3 class="ui header">推荐作品</h3>
+					<h3 class="ui header">推荐创意</h3>
 					<hr>
 					<h5 class="ui header">Products</h5>
 				</div>
 			</div>
-			<div class="row" style="height:200px;">
-				
+			<div class="row">
+				<div class="column">
+					{% topic_list var:'list' category_id:64 time:time sort:sort page:1 size:8 %}
+					<div class="ui four items">
+						{% for topic in list.rows %}
+						<div class="item">
+							<div class="content">
+								{{ topic.title }}
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_social }}/allist" class="ui active black btn-4 btn-4c icon-arrow-right btn">
+						全部创意
+					</a>
+					<a href="{{ app_url_topic }}/submit?cid=64&ref=dream" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
 						提交创意
 					</a>
 				</div>

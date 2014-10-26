@@ -81,6 +81,13 @@
 	skrollr.init({
 		forceHeight: false
 	});
+	
+	$('#touch-site').click(function(){
+		create_cookie('mode', 'mobile', 1, 'taihuoniao.me');
+		alert(read_cookie('mode'));
+		phenix.redirect('http://m.taihuoniao.me', 0);
+	}).html(read_cookie('mode'));
+	
 {% endblock %}
 
 {% block content %}
