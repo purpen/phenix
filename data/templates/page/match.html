@@ -39,8 +39,7 @@
 		left:0;
 		background:rgba(0,0,0,.5);
 	}
-	
-	.match.page .ui.plan .match_bg .ui.one.items .item{
+	.match.page .ui.plan .match_bg .ui.one.items .item {
 		background-color:rgba(0,0,0,0);
 		border-bottom: 0 solid rgba(0,0,0,0) !important;
 		box-shadow: 0 -2px 0 0 rgba(0,0,0,0) inset !important;
@@ -52,7 +51,7 @@
 	.match.page .ui.plan .match_bg .ui.one.items .item h3.ui.header{
 		text-align: center;
 		margin-top: 1em !important;
-		font-size: 1.8rem;
+		font-size: 1.5rem;
 		font-weight: 700;
 	}
 	.match.page .ui.plan .match_bg .ui.one.items .item h2.ui.header{
@@ -60,7 +59,7 @@
 		color: #f36;
 		font-weight: 700;
 		letter-spacing: 2px;
-		font-size: 3.6rem;
+		font-size: 3rem;
 		margin-top: 1rem;
 	}
 	.match.page .ui.plan .match_bg .ui.one.items h3.ui.header span{
@@ -661,9 +660,34 @@
 	border-width: 10px;
 	}
 	
+	#contentwrap {
+	    height: auto;
+	    min-height: 100%;
+	    overflow: hidden;
+	    position: relative;
+	    z-index: 4;
+	}
+	.box.topbox {
+	    background: none repeat scroll 0 0 #ffe000;
+	    height: 100%;
+		max-width: 100%;
+	    overflow: hidden;
+	    padding: 0;
+	    z-index: 0;
+	}
+	.fulllayout .topbox .dimmed {
+	    background: none repeat scroll 0 0 rgba(0,0,0,0.7);
+	    height: 100%;
+	    left: 0;
+	    position: absolute;
+	    top: 0;
+	    width: 100%;
+	}
+	
 </style>
 {% endblock %}
 {% block jquery %}
+	/*
 	var a=e(window).height(),s=e(window).width();
 	e(".hero").height(a);
 	e(".hero .slidee li").width(s);
@@ -683,11 +707,8 @@
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 3500,
+		cycleInterval: 350000,
 		pauseOnHover:1,
-		
-		prev:".hero .prev",
-		next:".hero .next",
 		
 		// Dragging
 		mouseDragging: 1,
@@ -701,7 +722,7 @@
 		easing: "easeOutExpo",
 		keyboardNavBy: "items"
 		
-	});
+	});*/
 	
 	$(window).resize(function(e) {
 		var e=$(window).width();
@@ -709,17 +730,19 @@
 			$(".hero .slidee li").width(e);
 		}
 		
-		$frame.sly('reload');
+		//$frame.sly('reload');
 	});
 	
 	skrollr.init({
 		forceHeight: false
 	});
 	
+
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
 	phenix.bind_share_list(pic_url);
 	
+
 {% endblock %}
 
 {% block layout_header %}
@@ -749,8 +772,8 @@
 			<div class="twelve wide column">
 				<div class="ui magenta horizontal divided list">
 					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">首页</a>
-					<a href="{{ app_url_domain }}/dream" class="ui link item">关于十万火计</a>
-					<a href="{{ app_url_domain }}/dream" class="ui link item">评委专家</a>
+					<a href="{{ app_url_domain }}/dream#plan" class="ui link item">关于十万火计</a>
+					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
 					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
 					<a href="{{ app_url_topic }}/c66/" class="ui link item" target="_blank">社区话题</a>
 				</div>
@@ -762,110 +785,99 @@
 			</div>
 		</div>
 	</section>
-	<article class="hero">
-		<section class="ui plan block" id="frame">
-			<ul class="slidee">
-				<li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_02.jpg') scroll center center no-repeat;background-size:cover;">	
-				</li>
-				<li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
+	
+	<div id="contentwrap" class="fulllayout">
+		<div class="contents">
+			<div class="box topbox bright">
+				<div class="visual video">
 					<video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
 						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.mp4"></source>
 						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.webm"></source>
 						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg">
 						You need an HTML5 enabled browser to view this video.
 					</video>
-				</li>
-			</ul>
-			<div class="ui big block">
-				<div class="ui responsive grid">
-					<div class="row">
-						<div class="center aligned cloumn">
-							
-							<div class="match_bg">
-								<div class="ui one items">
-									<div class="item">
-										<div class="image">
-											<img src="{{ app_url_packaged }}/images/match/match_logo.png">
-										</div>
-										<div class="content">
-											<h3 class="ui header">梦想资金&nbsp;<span>¥1,000,000</span>&nbsp;等你的好点子砸过来</h3>
-											<h2 class="ui header">产品创意与创新想法征集活动</h2>
-										</div>
-									</div>
-								</div>
-								<div class="ui seven items">
-									<div class="item mtop" style=" width: 10%; ">
-										<div class="content">
-											<h5 class="ui header">
-												梦想嘉宾  <span style="float:right;">·</span>
 
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 10%; ">
-										<div class="content">
-											<h5 class="ui header">
-												徐小平
-												<div class="description">著名天使创始人</div>
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 14%; ">
-										<div class="content">
-											<h5 class="ui header">
-												黎万强
-												<div class="description">小米科技联合创始人</div>
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 14%; ">
-										<div class="content">
-											<h5 class="ui header">
-												常虹
-												<div class="description">北京电视台节目制片人</div>
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 11%; ">
-										<div class="content">
-											<h5 class="ui header">
-												卢刚
-												<div class="description">动点科技创始人</div>
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 18%; ">
-										<div class="content">
-											<h5 class="ui header">
-												麻长炜
-												<div class="description">DFF设计师创始人资本董事长</div>
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 12%; ">
-										<div class="content">
-											<h5 class="ui header">
-												雷海波
-												<div class="description">太火鸟科技创始人</div>
-											</h5>
-										</div>
-									</div>	
-								</div>
-							</div>
-						</div>
+				</div>
+				<div class="dimmed"></div>
+			</div>
+		</div>
+	</div>
+	
+	<article class="hero">
+		<div class="match_bg">
+			<div class="ui one items">
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match/match_logo.png" class="ui image" />
+					</div>
+					<div class="content">
+						<h3 class="ui header">梦想资金&nbsp;<span>¥1,000,000</span>&nbsp;等你的好点子砸过来</h3>
+						<h2 class="ui header">产品创意与创新想法征集活动</h2>
 					</div>
 				</div>
 			</div>
-		</section>
-		<a class="prev" href="#">
-			<i class="flat arrow_left icon"></i>
-		</a>
-		<a class="next" href="#">
-			<i class="flat arrow_right icon"></i>
-		</a>
+			<div class="ui seven items">
+				<div class="item mtop">
+					<div class="content">
+						<h5 class="ui header">
+							梦想嘉宾  <span style="float:right;">·</span>
+						</h5>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<h5 class="ui header">
+							徐小平
+							<div class="description">著名天使创始人</div>
+						</h5>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<h5 class="ui header">
+							黎万强
+							<div class="description">小米科技联合创始人</div>
+						</h5>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<h5 class="ui header">
+							常虹
+							<div class="description">北京电视台节目制片人</div>
+						</h5>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<h5 class="ui header">
+							贾伟
+							<div class="description">洛可可设计集团创始人</div>
+						</h5>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<h5 class="ui header">
+							雷海波
+							<div class="description">太火鸟科技创始人</div>
+						</h5>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<h5 class="ui header">
+							麻长炜
+							<div class="description">DFF设计师创始人资本董事长</div>
+						</h5>
+					</div>
+				</div>	
+			</div>
+		</div>
 	</article>
 	
 	<section class="ui big about block">
+		<a name="plan"></a>
 		<div class="ui responsive center aligned grid">
 			<div class="row">
 				<div class="center aligned column section-title">
@@ -936,25 +948,25 @@
 						</div>
 						<div id="t2" class="text transition-frame" data-800="opacity: 0;-webkit-transform: scale(0.5); transform: scale(0.5);"data-1401="opacity: 1;-webkit-transform: scale(1); transform: scale(1);">
 							<h3>生活周边</h3>
-							<p>Artiart 小鸟刀 / 飞立盘</p>
+							<p>Artiart 小鸟刀</p>
 							<p>Kepler智能燃气报警器</p>
 							<p>飞利浦HUE灯</p>
 						</div>
 						<div id="t3" class="text transition-frame" data-800="opacity: 0;-webkit-transform: scale(0.5); transform: scale(0.5);"data-1401="opacity: 1;-webkit-transform: scale(1); transform: scale(1);">
 							<h3>智能硬件</h3>
 							<p>小米科技 / Phoneblocks</p>
-							<p>iphones 周边 / 造梦者空气净化器</p>
-							<p>EYE云眼摄像头 / Pivothead SMART</p>
-							<p>iDesk智能书桌 / Arcus</p>
+							<p>Arcus / DreamMaker</p>
+							<p>EYE / Pivothead SMART</p>
+							<p>iDesk / </p>
 							<p>Stir Kinetic Desk</p>
 						</div>
 						<div id="t4" class="text transition-frame" data-800="opacity: 0;-webkit-transform: scale(0.5); transform: scale(0.5);"data-1401="opacity: 1;-webkit-transform: scale(1); transform: scale(1);">
 							<h3>可穿戴</h3>
 							<p>Google Glass / iWatch</p>
-							<p>Moto 360 / Jowbone up / GolfSense</p>
+							<p>Moto 360 / Misfit Shine / Boogio</p>
+							<p>Jowbone up / Jowbone up</p>
 							<p>Pebble / Smarter Socks</p>
-							<p>小米智能鞋 / Boogio智能鞋垫</p>
-							<p>project glass / Misfit Shine</p>
+							<p>GolfSense</p>
 						</div>
 						<div id="t5" class="text transition-frame" data-800="opacity: 0;-webkit-transform: scale(0.5); transform: scale(0.5);"data-1401="opacity: 1;-webkit-transform: scale(1); transform: scale(1);">
 							<h3>人性化交互</h3>
@@ -1033,6 +1045,7 @@
 	</section>
 	
 	<section class="ui big judges block">
+		<a name="judges"></a>
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column section-title">
@@ -1355,89 +1368,7 @@
 					<h5 class="ui header">Organization</h5>
 				</div>
 			</div>
-			<!--<div class="row">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content one">
-							主办单位
-						</div>
-						<div class="imc">
-							<a href="">
-								<img src="{{ app_url_packaged }}/images/match/contant_1.png" alt="太火鸟">
-							</a>
-						</div>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							联合主办
-						</div>  
-						<div class="imc">   
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_2.png" alt="视觉中国"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_3.png" alt="站酷"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_4.png" alt="billwang"></a>
-						</div>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							指导单位
-						</div>  
-						<div class="imc">   
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_5.png" alt="中国工业设计协会"></a>
-						</div>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							战略合作
-						</div>  
-						<div class="imc">   
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_6.png" alt="深圳工业设计行业协会"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_7.png" alt="上海工业设计协会"></a>
-						</div>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							合作单位
-						</div>  
-						<div class="imc">   
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_8.png" alt="北京服装学院"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_9.png" alt="广州美术学院"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_10.png" alt="清华大学美术学院"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_11.png" alt="中央美术学院"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_12.png" alt="中央设计在线"></a>
-						</div>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							合作媒体
-						</div>  
-						<div class="imc">   
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_13.png" alt="BTV"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_14.png" alt="虎嗅"></a>
-							<a href=""><img src="{{ app_url_packaged }}/images/match/contant_15.png" alt="动点科技"></a>
-						</div>
-					</h2>
-				</div>
-			</div>-->
+		
 			<div class="row">
 				<div class="center aligned column">
 					<h3 class="ui header">
