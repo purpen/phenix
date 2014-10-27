@@ -11,42 +11,42 @@ server {
     listen       80;
     server_name  m.taihuoniao.com;
     charset utf-8;
-    index  app;
+	index  app;
     root /www/phenix/web;
-	
-	error_page  404              /app/wap/index/not_found;
-	
-	set $mobile 0;
-	if ( $http_user_agent ~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
-		set $mobile '${mobile}1';
-	}
-	if ( $http_host ~* "m\.taihuoniao\.com" ) {
-		set $mobile "${mobile}2";
-	}
-	if ( $http_cookie !~* "mode=mobile" ) {
-		set $mobile "${mobile}3";
-	}
-	if ( $mobile != '0123' ) {
-		rewrite ^/(.*)$ http://www.taihuoniao.com/$1 last;
-		break;
-	}
-	
-	location / {
-		rewrite ^(.*)$ /app/wap/index$1 last;
-	}
-	
+
+    error_page  404              /app/wap/index/not_found;
+
+    set $mobile 0;
+    if ( $http_user_agent !~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
+        set $mobile '${mobile}1';
+    }
+    if ( $http_host !~* "www\.taihuoniao\.com" ) {
+        set $mobile "${mobile}2";
+    }
+    if ( $http_cookie !~* "mode=mobile" ) {
+        set $mobile "${mobile}3";
+    }
+    if ( $mobile = '0123' ) {
+        rewrite ^/(.*)$ http://www.taihuoniao.com/$1 last;
+        break;
+    }
+
+    location / {
+        rewrite ^(.*)$ /app/wap/index$1 last;
+    }
+
     location /auth {
         rewrite ^/auth(.*)$ /app/wap/auth/$1 last;
     }
-	
+
     location /my {
         rewrite ^/my(.*)$ /app/wap/my/$1 last;
     }
-	
+
     location /shop {
         rewrite ^/shop(.*)$ /app/wap/shop/$1 last;
     }
-	
+
     location /social {
         rewrite ^/social(.*)$ /app/wap/social/$1 last;
     }
@@ -56,8 +56,8 @@ server {
     }
 	
 	location /__file_result__/ {
-	        internal;
-	        alias /;
+	    internal;
+	    alias /;
 	}
 
     include phpbackend.conf;
@@ -74,19 +74,19 @@ server {
         error_page  404              /app/site/helper/not_found;
 		
 		set $mobile 0;
-		if ( $http_user_agent ~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
-			set $mobile '${mobile}1';
-		}
-		if ( $http_host !~* "m\.taihuoniao\.com" ) {
-			set $mobile "${mobile}2";
-		}
-		if ( $http_cookie !~* "mode=pc" ) {
-			set $mobile "${mobile}3";
-		}
-		if ( $mobile = '0123' ) {
-			rewrite ^/(.*)$ http://m.taihuoniao.com/$1 last;
-			break;
-		}
+        if ( $http_user_agent ~* "(Android|iPhone|Windows Phone|webOS|iPod|BlackBerry)" ) {
+             set $mobile '${mobile}1';
+        }
+        if ( $http_host !~* "m\.taihuoniao\.com" ) {
+             set $mobile "${mobile}2";
+        }
+        if ( $http_cookie !~* "mode=pc" ) {
+             set $mobile "${mobile}3";
+        }
+        if ( $mobile = '0123' ) {
+             rewrite ^/(.*)$ http://m.taihuoniao.com/$1 last;
+             break;
+        }
 		
         # url rewrite rules
         location / {

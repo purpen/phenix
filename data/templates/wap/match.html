@@ -8,11 +8,6 @@
 	.match-app .ui.header{
 		font-weight: 400;
 	}
-	.match-app .ui.plan{
-		background:url("{{ app_url_packaged }}/images/match/match_app_1.jpg") scroll center center no-repeat;
-		background-size:cover;
-		padding:17rem 0;
-}
 	.match-app .ui.about .ui.header,.match-app .ui.times .ui.header,.match-app .ui.dreams .ui.header,.match-app .ui.teams .ui.header,.match-app .ui.contant .ui.header{
 		color:#f36;
 	}
@@ -453,18 +448,23 @@
 {% endblock %}
 {% block content %}
 <div class="match-app">
-	<section class="ui plan block">
-	</section>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/match_app_1.jpg" class="ui image" />
+			</div>
+		</div>
+	</div>
 	<section class="ui big about block">
 		<div class="ui responsive grid">
-			<div class="row">
-				<div class="center aligned column section-title">
+			<div class="center aligned row">
+				<div class="column section-title">
 					<h3 class="ui header">大赛概述</h3>
 					<hr>
 					<h5 class="ui header">About</h5>
 				</div>
 			</div>
-			<div class="row">
+			<div class="center aligned row">
 				<div class="column">
 					<p>有没有这样一个大赛项目?</p>
 					<p>/ 能真正实现创意征集全民化 / 推崇全民参与 / 拒绝专业垄断 / </p>
@@ -472,10 +472,10 @@
 					<p> / 能真正识别优秀产品创意并实现生产制造落地 / 令想法变成实物 / </p>
 					<p> / 能斥资一百万只为寻找十万个绝佳创意 / </p>
 					<p>现在，你只需要负责想，太火鸟来帮你做！</p>
-					<h3>创意不死，灵感永生！</h3>
+					<h3 class="ui magenta header">创意不死，灵感永生！</h3>
 				</div>
 			</div>
-			<div class="row">
+			<div class="center aligned row">
 				<div class="column">
 					<p>太火鸟《十万火计》面向全社会征集产品创意，投入一百万元筑梦基金，现面向全社会征集一万个创意梦想，并最终扶持创意实物落地！</p>
 					<p>如果你是一名工业设计师，太火鸟欢迎你！</p>
@@ -485,6 +485,7 @@
 			</div>	
 		</div>
 	</section>
+	
 	<section class="ui big collection block">
 		<div class="ui responsive grid">
 			<div class="row">

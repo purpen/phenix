@@ -73,7 +73,6 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	protected $int_fields = array('user_id','category_id','fid','gid','deleted','published');
 	
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
-	protected $retrieve_fields = array('description'=>0);
 	
 	protected $joins = array(
 	    'user'      =>  array('user_id'   => 'Sher_Core_Model_User'),

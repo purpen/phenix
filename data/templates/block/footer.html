@@ -40,7 +40,6 @@
 				<a href="{{ app_url_domain }}" class="ui green circular share wechat icon button" title="微信">
 					<i class="flat icon_weixin icon"></i>
 				</a>
-				<a href="javascript:void(0);" class="ui item link" id="touch-site">触屏版</a>
 			</div>
 		</div>
 		<div class="row">
@@ -50,54 +49,5 @@
 		</div>
 	</div>
 	{% include "block/qrcode-frbird.html" %}
-	{% if css_use_bundle %}
-	<div class="ui tongji hide">
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		  ga('create', 'UA-50478715-1', 'taihuoniao.com');
-		  ga('send', 'pageview');
-
-		</script>
-		
-		<script type="text/javascript">
-		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa6fa7c04b9ccd632817643f9ac3e41de' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-	</div>
-	{% endif %}
-	
-	<script type="text/javascript">
-	function create_cookie(name, value, days, domain, path){
-		var expires = '';
-		if (days) {
-			var d = new Date();
-			d.setTime(d.getTime() + (days*24*60*60*1000));
-			expires = '; expires=' + d.toGMTString();
-		}
-		domain = domain ? '; domain=' + domain : '';
-		path = '; path=' + (path ? path : '/');
-		document.cookie = name + '=' + value + expires + path + domain;
-	}
-
-	function read_cookie(name){
-		var n = name + '=';
-		var cookies = document.cookie.split(';');
-		for (var i = 0; i < cookies.length; i++) {
-			var c = cookies[i].replace(/^\s+/, '');
-			if (c.indexOf(n) == 0) {
-				return c.substring(n.length);
-			}
-		}
-		return null;
-	}
-
-	function erase_cookie(name, domain, path){
-		create_cookie(name, '', -1, domain, path);
-	}
-	</script>
 </footer>
 
