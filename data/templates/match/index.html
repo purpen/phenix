@@ -605,9 +605,9 @@
 				<li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_2.jpg') scroll center center no-repeat;background-size:cover;">	
 				</li>
 				<li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
-					<video height="100%" onended="this.play()" loop="loop" autoplay="true">
-						<source type="video/mp4" src="https://d3mlfyygrfdi2i.cloudfront.net/a144/hploop_0204.mp4"></source>
-						<source type="video/webm" src="https://d3mlfyygrfdi2i.cloudfront.net/90da/hploop_0204.webm"></source>
+					<video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
+						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.mp4"></source>
+						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.webm"></source>
 						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg">
 						You need an HTML5 enabled browser to view this video.
 					</video>
@@ -929,8 +929,8 @@
 	</section>
 	
 	<section class="ui big products block">
-		<div class="ui responsive center aligned grid">
-			<div class="row">
+		<div class="ui responsive grid">
+			<div class="center aligned row">
 				<div class="center aligned column section-title">
 					<h3 class="ui header">推荐创意</h3>
 					<hr>
@@ -944,14 +944,17 @@
 						{% for topic in list.rows %}
 						<div class="item">
 							<div class="content">
-								{{ topic.title }}
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" target="_blank">{{ topic.title }}</a>
+								<div class="description">
+									{{ topic.strip_description|truncate 70 }}
+								</div>
 							</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="center aligned row">
 				<div class="center aligned column">
 					<a href="{{ app_url_social }}/allist" class="ui active black btn-4 btn-4c icon-arrow-right btn">
 						全部创意
