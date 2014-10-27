@@ -34,10 +34,59 @@
 		padding-bottom:0rem;
 	}
 	.match.page .ui.plan .match_bg{
-		padding: 0 17% 0 20%;
+		padding: 0 17% 0 11%;
 		position: absolute; 
-		top: 10rem; 
+		top: 5rem; 
 	}
+	
+	.match.page .ui.plan .match_bg .ui.one.items .item{
+		background-color:rgba(0,0,0,0);
+		border-bottom: 0 solid rgba(0,0,0,0) !important;
+		box-shadow: 0 -2px 0 0 rgba(0,0,0,0) inset !important;
+	}
+	.match.page .ui.plan .match_bg .ui.one.items .image img{
+		width: 88%;
+		margin: 0 auto;
+	}
+	.match.page .ui.plan .match_bg .ui.one.items .item h3.ui.header{
+		text-align: center;
+		margin-top: 1em !important;
+		font-size: 1.8rem;
+		font-weight: 700;
+	}
+	.match.page .ui.plan .match_bg .ui.one.items .item h2.ui.header{
+		text-align: center;
+		color: #f36;
+		font-weight: 700;
+		letter-spacing: 2px;
+		font-size: 3.6rem;
+		margin-top: 1rem;
+	}
+	.match.page .ui.plan .match_bg .ui.one.items h3.ui.header span{
+		font-size: 1.9em;
+	}
+	.match.page .ui.plan .match_bg .ui.seven.items .item{
+		background-color:rgba(0,0,0,0);
+		border-bottom: 0 solid rgba(0,0,0,0) !important;
+		box-shadow: 0 -2px 0 0 rgba(0,0,0,0) inset !important;
+		padding-top:1rem;
+	}
+	.match.page .ui.plan .match_bg .ui.seven.items .item.mtop{
+		margin-top:1.5%;
+	}
+	.match.page .ui.plan .match_bg .ui.seven.items .ui.header{
+		text-align:center;
+	}
+	.match.page .ui.plan .match_bg .ui.seven.items .ui.header .description{
+		font-size: .8rem;
+		padding-top: 0.5em;
+	}
+	.match.page .ui.plan .match_bg .ui.seven.items .content{
+		padding: .75em 0em !important;
+	}
+	
+	
+	
 	.match.page .ui.about,.match.page .ui.times{
 		background:#fff;
 	}
@@ -688,11 +737,6 @@
 				</a>
 			</div>
 		</div>
-		<div class="right aligned four wide computer only column">
-			<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-				提交创意
-			</a>
-		</div>
 	</section>
 	<article class="hero">
 		<section class="ui plan block" id="frame">
@@ -711,9 +755,78 @@
 			<div class="ui big block">
 				<div class="ui responsive grid">
 					<div class="row">
-						<div class="cloumn">
+						<div class="center aligned cloumn">
+							
 							<div class="match_bg">
-								<img src="{{app_url_packaged }}/images/match/match_bg_1.png" style="width: 78%;height: 70%;">
+								<div class="ui one items">
+									<div class="item">
+										<div class="image">
+											<img src="{{ app_url_packaged }}/images/match/match_logo.png">
+										</div>
+										<div class="content">
+											<h3 class="ui header">梦想资金&nbsp;<span>¥1,000,000</span>&nbsp;等你的好点子砸过来</h3>
+											<h2 class="ui header">产品创意与创新想法征集活动</h2>
+										</div>
+									</div>
+								</div>
+								<div class="ui seven items">
+									<div class="item mtop">
+										<div class="content">
+											<h5 class="ui header">
+												梦想嘉宾  <span style="float:right;">·</span>
+
+											</h5>
+										</div>
+									</div>
+									<div class="item">
+										<div class="content">
+											<h5 class="ui header">
+												徐小平
+												<div class="description">著名天使创始人</div>
+											</h5>
+										</div>
+									</div>
+									<div class="item">
+										<div class="content">
+											<h5 class="ui header">
+												黎万强
+												<div class="description">小米科技联合创始人</div>
+											</h5>
+										</div>
+									</div>
+									<div class="item">
+										<div class="content">
+											<h5 class="ui header">
+												常虹
+												<div class="description">北京电视台节目制片人</div>
+											</h5>
+										</div>
+									</div>
+									<div class="item">
+										<div class="content">
+											<h5 class="ui header">
+												贾伟
+												<div class="description">洛可可设计集团创始人</div>
+											</h5>
+										</div>
+									</div>
+									<div class="item">
+										<div class="content">
+											<h5 class="ui header">
+												雷海波
+												<div class="description">太火鸟科技创始人</div>
+											</h5>
+										</div>
+									</div>
+									<div class="item">
+										<div class="content">
+											<h5 class="ui header">
+												麻长炜
+												<div class="description">DFF设计师创始人资本董事长</div>
+											</h5>
+										</div>
+									</div>	
+								</div>
 							</div>
 						</div>
 					</div>
