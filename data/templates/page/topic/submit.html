@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}发表话题-{% endblock %}
+{% block title %}{{ page_title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -193,7 +193,7 @@
 					{% endif %}
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
 				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">发表话题</div>
+				  	<div class="active section">{{ page_title }}</div>
 				</div>
 			</div>
 		</div>
@@ -202,8 +202,10 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						发表话题
+						{{ page_title }}
+						{% if !ref %}
 						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看发帖帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
+						{% endif %}
 					</h2>
 				</div>
 				
@@ -214,7 +216,7 @@
 						<input type="hidden" name="file_count" id="file_count" />
 						<input type="hidden" name="try_id" value="{{ try_id }}" />
 						
-						<div class="field">
+						<div class="ui {{ hide }} field">
 							<label>类别</label>
 						   	<div class="ui options">
 								{% if mode == 'edit' %}
@@ -260,7 +262,7 @@
 						</div>
 						
 						<div class="field">
-							<label>上传图片</label>
+							<label>上传图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						

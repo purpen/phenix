@@ -40,6 +40,9 @@ app.redis.default:
 # 产品话题类别
 app.product.topic_category_id: 19
 
+# 十万火计
+app.topic.dream_category_id: 21
+
 # 评测报告类别
 app.try.report_category_id: 18
 

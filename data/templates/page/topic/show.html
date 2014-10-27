@@ -2,7 +2,7 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -196,8 +196,20 @@
 
 {% block content %}
 <div id="postpage">
+	
 	<div class="ui responsive grid">
-		
+		<div class="row">
+			<div class="column">
+				<div class="advert bottom content">
+					<a href="{{ app_url_domain }}/dream" title="太火鸟十万火计创意征集活动">
+			      		<img src="{{ app_url_packaged }}/images/match/dreamx1180x100.jpg" class="ui image" />
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui responsive grid">
 		<div class="middle aligned row">
 			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
@@ -300,6 +312,15 @@
 							<span class="dot-irecommend-suffix"></span>
 						</a>
 					</div>
+					
+					{% if topic.category_id == dream_category_id %}
+					<div class="post">
+						<div class="ui contest">
+							<a href="{{ app_url_domain }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
+						</div>
+					</div>
+					{% endif %}
+					
 					<div class="post froala-element clearfix">
 						{{ topic.description }}
 					</div>

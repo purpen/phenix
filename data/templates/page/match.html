@@ -763,16 +763,18 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="right aligned seven wide column">
-				<a href="{{ app_url_domain }}/home"><img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg"></a>
-				<!--<img src="{{ app_url_packaged }}/images/match/logo.jpg" class="ui image1" />-->
+				<a href="{{ app_url_domain }}/home" target="_blank" title="太火鸟首页">
+					<img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg" />
+				</a>
 			</div>
 			<div class="center aligned two wide column">
 				<img src="{{ app_url_packaged }}/images/match/match_logo_2.jpg">
 			</div>
 			<div class="seven wide column">
-				<a href="{{ app_url_domain }}/dream"><img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg"></a>
+				<a href="{{ app_url_domain }}/dream" title="太火鸟十万火计">
+					<img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg" />
+				</a>
 			</div>
-		</div>
 		</div>
 	</section>
 	<section class="ui nav responsive grid">
@@ -787,7 +789,7 @@
 				</div>
 			</div>
 			<div class="right aligned four wide column">
-				<a href="{{ app_url_topic }}/submit?cid=21&ref=dream" class="ui active magenta button">
+				<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui active magenta button">
 					提交创意
 				</a>
 			</div>
@@ -1193,7 +1195,7 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% topic_list var:'list' category_id:21 time:time sort:sort page:1 size:8 %}
+					{% topic_list var:'list' category_id:dream_category_id time:time sort:sort page:1 size:8 %}
 					<div class="ui four items">
 						{% for topic in list.rows %}
 						<div class="item">
@@ -1231,7 +1233,7 @@
 					<a href="{{ app_url_social }}/allist" class="ui active black btn-4 btn-4c icon-arrow-right btn">
 						全部创意
 					</a>
-					<a href="{{ app_url_topic }}/submit?cid=21&ref=dream" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
 						提交创意
 					</a>
 				</div>
