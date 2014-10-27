@@ -543,28 +543,10 @@
 		background:#45a5ba;
 		padding-bottom: 10em;
 	}
-	.match.page .ui.organization h2.ui.header .content{
-		display: inline-block;
-		padding-bottom: .5em;
-		padding-top: 0.3em;
-		padding-right: 1.5em;
-		float: left;
-	}
-	.match.page .ui.organization h2.ui.header .content.one{
-		padding-top: 1.5em !important;
-	}
-	
-	.match.page .ui.organization h2.ui.header img{
-		padding-left: 1em;
-	}
-	.match.page .ui.organization h2.ui.header .imc{
-		display: inline-block;
-		float: left;
-	}
 	.match.page .ui.contant{
 		background:url("{{ app_url_packaged }}/images/match/match_5.jpg") scroll center center no-repeat;
 		background-size:cover;
-		padding-bottom:10rem;
+		padding-bottom:5em;
 	}
 	.match.page .ui.contant .row.ctop{
 		padding-top:3rem;
@@ -647,6 +629,10 @@
 	.allist .ui.items > .item a {
 		color: #fff;
 	}
+	.ui.organization img{
+		margin:7px;
+	}
+	
 	
 	s {
 	position: absolute;
@@ -729,6 +715,11 @@
 	skrollr.init({
 		forceHeight: false
 	});
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
+	phenix.bind_share_list(pic_url);
+	
 {% endblock %}
 
 {% block layout_header %}
@@ -835,19 +826,11 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item" style=" width: 14%; ">
+									<div class="item" style=" width: 11%; ">
 										<div class="content">
 											<h5 class="ui header">
-												贾伟
-												<div class="description">洛可可设计集团创始人</div>
-											</h5>
-										</div>
-									</div>
-									<div class="item" style=" width: 12%; ">
-										<div class="content">
-											<h5 class="ui header">
-												雷海波
-												<div class="description">太火鸟科技创始人</div>
+												卢刚
+												<div class="description">动点科技创始人</div>
 											</h5>
 										</div>
 									</div>
@@ -856,6 +839,14 @@
 											<h5 class="ui header">
 												麻长炜
 												<div class="description">DFF设计师创始人资本董事长</div>
+											</h5>
+										</div>
+									</div>
+									<div class="item" style=" width: 12%; ">
+										<div class="content">
+											<h5 class="ui header">
+												雷海波
+												<div class="description">太火鸟科技创始人</div>
 											</h5>
 										</div>
 									</div>	
@@ -889,7 +880,7 @@
 					<p>/ 能真正实现创意征集全民化 / 推崇全民参与 / 拒绝专业垄断 / </p>
 					<p> / 能真的做到许可征稿不设限 / 设计稿也好 / 说明文稿也罢 / 照单全收 / </p>
 					<p> / 能真正识别优秀产品创意并实现生产制造落地 / 令想法变成实物 / </p>
-					<p> / 能斥资一百万只为寻找十万个绝佳创意 / </p>
+					<p> / 能斥资一百万只为寻找一万个绝佳创意 / </p>
 					<p>现在，你只需要负责想，太火鸟来帮你做！</p>
 					<h3 class="ui magenta header">创意不死，灵感永生！</h3>
 				</div>
@@ -1001,7 +992,7 @@
 				<div class="center aligned column section-title">
 					<h3 class="ui header">大赛日程</h3>
 					<hr>
-					<h5 class="ui header">Times</h5>
+					<h5 class="ui header">Calendar</h5>
 				</div>
 			</div>
 			<div class="row" style="height:350px">
@@ -1052,6 +1043,7 @@
 			</div>
 			<div class="row">
 				<div class="ui ptop center aligned column">
+					
 					<div class="ui four items">
 						<div class="item">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
@@ -1068,7 +1060,7 @@
 							</div>
 							<div class="content" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<h4 class="ui header">徐小平</h4>
-								<h5>“真格”天使投资基金创始人</h5>
+								<h5>真格天使投资基金创始人</h5>
 							</div>
 						</div>
 						<div class="item">
@@ -1090,6 +1082,7 @@
 							</div>
 						</div>
 					</div>
+				
 					<div class="ui four items">
 						<div class="item">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
@@ -1128,6 +1121,46 @@
 							</div>
 						</div>
 					</div>
+					
+					<div class="ui four items">
+						<div class="item">
+							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<img alt="卢刚"src="{{ app_url_packaged }}/images/match/judges_9.png">
+							</div>
+							<div class="content" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<h4 class="ui header">麻长炜</h4>
+								<h5>DFF设计师创始人资本董事长</h5>
+							</div>
+						</div>
+						<div class="item">
+							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<img alt="罗成" src="{{ app_url_packaged }}/images/match/judges_10.png">
+							</div>
+							<div class="content" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<h4 class="ui header">罗成</h4>
+								<h5>浪尖设计创始人</h5>
+							</div>
+						</div>
+						<div class="item">
+							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<img alt="杨明洁" src="{{ app_url_packaged }}/images/match/judges_11.png">
+							</div>
+							<div class="content" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<h4 class="ui header">杨明洁</h4>
+								<h5>杨明洁设计创始人</h5>
+							</div>
+						</div>
+						<div class="item">
+							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<img alt="麻长炜" src="{{ app_url_packaged }}/images/match/judges_12.png">
+							</div>
+							<div class="content" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
+								<h4 class="ui header">卢刚</h4>
+								<h5>动点科技CEO</h5>
+							</div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -1157,7 +1190,7 @@
 							<h1><span>100</span>万</h1>
 							<h4>《十万火计》创意奖</h4>
 							<p>给予创意落地扶持，帮助作者将创意变成实实在在的产品！并可投入市场
-							下一个设计界新星就是你！</p>
+							下一个创意界新星就是你！</p>
 							<h3>限前<span>10</span>名</h3>
 						</div>
 						<div class="word word-right">
@@ -1232,9 +1265,9 @@
 		<div class="ui responsive center aligned grid">
 			<div class="row">
 				<div class="center aligned column section-title">
-					<h3 class="ui header">创业团队</h3>
+					<h3 class="ui header">案例</h3>
 					<hr>
-					<h5 class="ui header">Teams</h5>
+					<h5 class="ui header">Case</h5>
 				</div>
 			</div>
 			<div class="row">
@@ -1322,7 +1355,7 @@
 					<h5 class="ui header">Organization</h5>
 				</div>
 			</div>
-			<div class="row">
+			<!--<div class="row">
 				<div class="column">
 					<h2 class="ui header">
 						<div class="content one">
@@ -1404,7 +1437,59 @@
 						</div>
 					</h2>
 				</div>
+			</div>-->
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">
+						<div class="content">
+						主办单位
+						</div>
+					</h3>
+				</div>
 			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<img src="{{app_url_packaged }}/images/match/org_1.jpg">
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">
+						<div class="content">
+						合作单位
+						</div>
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<img src="{{app_url_packaged }}/images/match/org_2.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_3.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_4.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_5.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_6.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_7.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_8.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_9.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_10.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_11.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_12.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_13.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_14.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_15.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_16.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_17.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_18.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_19.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_20.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_21.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_22.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_23.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_24.jpg">
+					<img src="{{app_url_packaged }}/images/match/org_25.jpg">
+				</div>
+			</div>
+			
 		</div>
 	</section>
 	
@@ -1424,6 +1509,13 @@
 					<p>E-mail / liudi@taihuoniao.com</p>
 				</div>
 			</div>
+			
+			<div class="row ctop">
+				<div class="center aligned column">
+					{% include "block/big-circel-share.html" %}
+				</div>
+			</div>
+			
 		</div>
 	</section>
 	
