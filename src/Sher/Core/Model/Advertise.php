@@ -20,7 +20,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		'summary' => '',
 		
 		# 附件图片
-		'asset' => '',
+		'cover_id' => '',
 		
 		# 浏览数量
 		'view_count' => 0,
@@ -41,6 +41,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	
 	protected $joins = array(
 	    'space'  => array('space_id'  => 'Sher_Core_Model_Space'),
+		'cover'  => array('cover_id' => 'Sher_Core_Model_Asset'),
 	);
 	
     protected function extra_extend_model_row(&$row) {
@@ -55,6 +56,19 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		
 		parent::before_insert($data);
     }
+	
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$model->update_set($id, array('parent_id' => (int)$parent_id));
+			}
+		}
+	}
 	
 	/**
 	 * 更新发布上线

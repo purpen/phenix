@@ -78,7 +78,13 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 			
 			if(!$ok){
 				return $this->ajax_note('保存失败,请重新提交', true);
-			}			
+			}		
+			
+			// 上传成功后，更新所属的附件
+			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
+				$model->update_batch_assets($this->stash['asset'], (int)$this->stash['_id']);
+			}
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_note('保存失败:'.$e->getMessage(), true);
 		}

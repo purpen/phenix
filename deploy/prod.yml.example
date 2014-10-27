@@ -40,6 +40,9 @@ app.redis.default:
 # 产品话题类别
 app.product.topic_category_id: 19
 
+# 十万火计
+app.topic.dream_category_id: 21
+
 # 评测报告类别
 app.try.report_category_id: 18
 
@@ -95,6 +98,7 @@ app.url.upload.topic: '{$app.url.upload}'
 app.url.upload.pictures: '{$app.url.upload}'
 app.url.upload.avatar: '{$app.url.upload}'
 app.url.upload.dotry: '{$app.url.upload}'
+app.url.upload.advertise: '{$app.url.upload}/advertise'
 
 # 银联支付
 app.quickpay.key: '898111153990242'

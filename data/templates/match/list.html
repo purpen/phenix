@@ -7,9 +7,7 @@
 		font-weight:400;
 	}
 	.match.page .ui.logo{
-		background:url("{{ app_url_packaged }}/images/match/logo.jpg") scroll center center no-repeat;
-		background-size:cover;
-		padding:4rem 0;
+		margin:1em auto;	
 	}
 	.match.page > .ui.nav{
 		border-top: 1px solid #e4e5e7;
@@ -135,9 +133,20 @@
 {% block content %}
 <div class="match page">
 	<section class="ui logo block">
-		<div class="row">
-			<div class="center aligned column">
-				<!--<img src="{{ app_url_packaged }}/images/match/logo.jpg" class="ui image1" />-->
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="right aligned seven wide column">
+				<a href="{{ app_url_domain }}/home" target="_blank" title="太火鸟首页">
+					<img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg" />
+				</a>
+			</div>
+			<div class="center aligned two wide column">
+				<img src="{{ app_url_packaged }}/images/match/match_logo_2.jpg">
+			</div>
+			<div class="seven wide column">
+				<a href="{{ app_url_domain }}/dream" title="太火鸟十万火计">
+					<img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg" />
+				</a>
 			</div>
 		</div>
 	</section>
@@ -187,7 +196,7 @@
 			</div>
 		</div>
 		<div class="ui responsive media allist grid">
-			{% topic_list var:'list' category_id:21 time:time sort:sort page:page size:20 %}
+			{% topic_list var:'list' category_id:dream_category_id time:time sort:sort page:page size:20 %}
 			<div class="four column row">
 				{% for topic in list.rows %}
 				<div class="column">

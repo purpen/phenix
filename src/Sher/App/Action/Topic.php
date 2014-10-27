@@ -265,6 +265,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$this->stash['product'] = & $product->extend_load($topic['target_id']);
 		}
 		
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		
 		return $this->to_html_page($tpl);
 	}
 	
@@ -419,6 +421,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(isset($this->stash['tid'])){
 			$this->stash['try_id'] = $this->stash['tid'];
 		}
+		
+		// 判断来源
+		if(isset($this->stash['ref']) && $this->stash['ref'] == 'dream'){
+			$page_title = '提交创意';
+			$this->stash['hide'] = 'hide';
+		}else{
+			$page_title = '发表话题';
+		}
+		$this->stash['page_title'] = $page_title;
 		
 		$this->editor_params();
 		

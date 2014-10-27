@@ -59,17 +59,15 @@
 
 {% block content %}
 <div id="frslide" class="frame">
+	{% ad_list var:'ad' page:1 size:5 space:'wap_index_slide' %}
 	<div class="ui slide">
+		{% for ad in ad.rows %}
 		<div class="item">
-			<a href="{{ app_url_packaged }}/images/evtphotos/e014.jpg" class="ui image">
-                <img src="{{ app_url_packaged }}/images/cm.jpg" alt="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" />
-            </a>
+			<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
+			</a>
 		</div>
-		<div class="item">
-			<a href="{{ app_url_packaged }}/images/evtphotos/e014.jpg" class="ui image">
-                <img src="{{ app_url_packaged }}/images/eding.jpg" alt="2014TechCrunch国际创新峰会太火鸟展区人潮鼎沸" />
-            </a>
-		</div>
+		{% endfor %}
 	</div>
 	<div class="pages"></div>
 </div>
