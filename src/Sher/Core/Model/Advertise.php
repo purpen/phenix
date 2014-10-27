@@ -46,7 +46,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	
     protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = Sher_Core_Helper_Url::ad_view_url($row['_id']);
-		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap'].'/tracker?kid=%d', $id);
+		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap'].'/tracker?kid=%d', $row['_id']);
     }
 	
 	/**
