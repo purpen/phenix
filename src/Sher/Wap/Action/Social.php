@@ -10,7 +10,7 @@ class Sher_Wap_Action_Social extends Sher_Core_Action_Authorize {
 		'size' => 20,
 	);
 	
-	protected $exclude_method_list = array('execute','home');
+	protected $exclude_method_list = array('execute','dream');
 	
 	/**
 	 * 商城入口

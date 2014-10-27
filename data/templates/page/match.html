@@ -9,9 +9,7 @@
 		font-weight: 400;
 	}
 	.match.page .ui.logo{
-		background:url("{{ app_url_packaged }}/images/match/logo.jpg") scroll center center no-repeat;
-		background-size:cover;
-		padding:4rem 0;
+		margin:1.5em auto;	
 	}
 	.match.page > .ui.nav{
 		border-top: 1px solid #e4e5e7;
@@ -34,11 +32,12 @@
 	.match.page .ui.plan {
 		padding-bottom:0rem;
 	}
-	
-	.match.page .ui.plan .match_bg {
-		padding: 0 17%;
+	.match.page .ui.plan .match_bg{
+		padding: 6% 24% 10% 19%;
 		position: absolute; 
-		top: 5rem;
+		top: 0rem; 
+		left:0;
+		background:rgba(0,0,0,.5);
 	}
 	.match.page .ui.plan .match_bg .ui.one.items .item {
 		background-color:rgba(0,0,0,0);
@@ -73,19 +72,23 @@
 		padding-top:1rem;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .item.mtop{
-		margin-top:1.5%;
+		margin-top:1.2%;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .ui.header{
 		text-align:center;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .ui.header .description{
-		font-size: .8rem;
+		font-size: .4rem;
 		padding-top: 0.5em;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .content{
 		padding: .75em 0em !important;
+		color:#ccc;
 	}
-	
+	.match.page .ui.plan .match_bg .ui.seven.items {
+		margin-left: -9%;
+		margin-right: -12%;
+	}
 	
 	
 	.match.page .ui.about,.match.page .ui.times{
@@ -757,10 +760,19 @@
 {% block content %}
 <div class="match page">
 	<section class="ui logo block">
-		<div class="row">
-			<div class="center aligned column">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="right aligned seven wide column">
+				<a href="{{ app_url_domain }}/home"><img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg"></a>
 				<!--<img src="{{ app_url_packaged }}/images/match/logo.jpg" class="ui image1" />-->
 			</div>
+			<div class="center aligned two wide column">
+				<img src="{{ app_url_packaged }}/images/match/match_logo_2.jpg">
+			</div>
+			<div class="seven wide column">
+				<a href="{{ app_url_domain }}/dream"><img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg"></a>
+			</div>
+		</div>
 		</div>
 	</section>
 	<section class="ui nav responsive grid">
