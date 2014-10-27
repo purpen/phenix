@@ -757,6 +757,9 @@
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
 	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream'});
 
 {% endblock %}
 
@@ -1466,7 +1469,6 @@
 			
 		</div>
 	</section>
-	
-	
 </div>
+{% include "block/qrcode.html" %}
 {% endblock %}
