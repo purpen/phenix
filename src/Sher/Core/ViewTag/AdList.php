@@ -39,9 +39,11 @@ class Sher_Core_ViewTag_AdList extends Doggy_Dt_Tag {
 		if(!empty($space)){
 			$model = new Sher_Core_Model_Space();
 			$row = $model->first(array('name'=>$space));
-			if(empty($row)){
+			if(!empty($row)){
 				$space_id = (int)$row['_id'];
 			}
+		}else{
+			return $context->set($var, array());
 		}
 		
 		if ($space_id) {
