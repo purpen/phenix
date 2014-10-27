@@ -80,6 +80,9 @@
 		background-color: #ff3366;
 	}
 	
+	.match.page .article.wrapper {
+		height: 320px;
+	}
 	.match.page .ui.pagination {
 		margin-top: 1.5rem;
 	}
@@ -199,10 +202,13 @@
 							<div class="content">
 								<a href="{{ topic.view_url }}" target="_blank" class="ui magenta link">{{ topic.title }}</a>
 								<div class="sub header">
-									{{ topic.strip_description|truncate 140 }}
+									{{ topic.strip_description|truncate 100 }}
 								</div>
 							</div>
 						</h4>
+						<div class="image">
+							<img src="{{ topic.cover.thumbnails.medium.view_url }}" class="ui image" />
+						</div>
 					
 						<a class="article overlay" href="{{ topic.view_url }}" target="_blank">
 							<div class="article overlay content">
