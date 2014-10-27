@@ -9,7 +9,7 @@
 		font-weight: 400;
 	}
 	.match.page .ui.logo{
-		margin:1.5em auto;	
+		margin:1em auto;	
 	}
 	.match.page > .ui.nav{
 		border-top: 1px solid #e4e5e7;
@@ -687,7 +687,6 @@
 </style>
 {% endblock %}
 {% block jquery %}
-	/*
 	var a=e(window).height(),s=e(window).width();
 	e(".hero").height(a);
 	e(".hero .slidee li").width(s);
@@ -707,7 +706,7 @@
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 350000,
+		cycleInterval: 3500,
 		pauseOnHover:1,
 		
 		// Dragging
@@ -720,9 +719,8 @@
 		startAt:0,
 		speed: 1200,
 		easing: "easeOutExpo",
-		keyboardNavBy: "items"
-		
-	});*/
+		keyboardNavBy: "items"	
+	});
 	
 	$(window).resize(function(e) {
 		var e=$(window).width();
@@ -788,25 +786,23 @@
 		</div>
 	</section>
 	
-	<div id="contentwrap" class="fulllayout">
-		<div class="contents">
-			<div class="box topbox bright">
-				<div class="visual video">
-					<video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
-						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.mp4"></source>
-						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.webm"></source>
-						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg">
-						You need an HTML5 enabled browser to view this video.
-					</video>
-
-				</div>
-				<div class="dimmed"></div>
-			</div>
-		</div>
-	</div>
-	
 	<article class="hero">
-		<div class="match_bg">
+	     <section class="ui plan block" id="frame">
+	         <ul class="slidee">
+	-                <li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_2.jpg') scroll center center no-repeat;background-size:cover;">    
+	+                <li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_02.jpg') scroll center center no-repeat;background-size:cover;">    
+	             </li>
+	             <li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
+					 <video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
+ 						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.mp4"></source>
+ 						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.webm"></source>
+ 						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg">
+ 						You need an HTML5 enabled browser to view this video.
+ 					</video>
+				</li>
+			</ul>
+
+			<div class="match_bg">
 			<div class="ui one items">
 				<div class="item">
 					<div class="image">
@@ -876,6 +872,7 @@
 				</div>	
 			</div>
 		</div>
+		</section>
 	</article>
 	
 	<section class="ui big about block">

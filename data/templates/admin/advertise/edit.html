@@ -74,6 +74,20 @@
 		}
 	});
 	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#ad_cover_id').val(id);
+			return false;
+		});
+	});
+	
 {% endblock %}
 {% block content %}
 	<h3 class="ui header">推荐管理</h3>
@@ -145,8 +159,32 @@
 			</div>
 			<div class="field">
 				<p>上传图片:</p>
+				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ advertise.cover_id }}" />
 				<div id="phenix-uploader"></div>
-				<div id="asset-list" class="ui four items"></div>
+				<div id="asset-list" class="ui four items">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:advertise._id size:20 asset_type:3 %}
+						{% for asset in assets.rows %}
+						<div class="thumb item" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ advertise._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+								
+									<a href="javascript:void(0);" class="ui link {%if advertise.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
 			</div>
 			<div class="field">
 			  	<label for="summary">简述：</label>

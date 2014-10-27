@@ -196,14 +196,14 @@
 
 {% block content %}
 <div id="postpage">
-	{% ad_list var:'ad' page:1 size:1 space:'topic_view_page_t1' %}
+	{% ad_list var:'ad' page:1 size:1 space:'topic_view_page_t1' sort_field:'latest' %}
 	{% if ad %}
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
 				<div class="advert bottom content">
 					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-			      		<img src="{{ ad.asset }}" class="ui image" />
+			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
 					</a>
 				</div>
 			</div>
