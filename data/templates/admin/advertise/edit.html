@@ -48,8 +48,8 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }} },
-        	endpoint: '{{ app_url_upload_pictures }}'
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ advertise._id }}','file_id': '{{ pid }}'},
+        	endpoint: '{{ app_url_upload_advertise }}'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -66,12 +66,11 @@
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
-			$('#product-upload-form').addClass('error');
 			phenix.show_error_note(result.message);
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data.ids});
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
 		}
 	});
 	
@@ -111,6 +110,8 @@
 		
 		<form action="{{ app_url_admin_base }}/advertise/save" method="post" id="advertise-form">
 			<input type="hidden" name="_id" value="{{ advertise._id }}" />
+			<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
+			
 			<div class="inline field">
 				<label for="space_id">所属位置：</label>
 				{% space_list var:'spacelist' page:page %}

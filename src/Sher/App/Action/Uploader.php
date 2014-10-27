@@ -155,6 +155,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
+	 * 上传广告图片
+	 */
+	public function advertise() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_ASSET;
+		$asset_type = Sher_Core_Model_Asset::TYPE_AD;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+	
+	/**
 	 * 上传产品公测图片
 	 */
 	public function dotry() {

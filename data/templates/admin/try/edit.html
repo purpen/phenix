@@ -98,7 +98,7 @@
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
 			$('#product-upload-form').addClass('error');
-			phenix.show_error_message(result.message, $('#product-upload-form'));
+			phenix.show_error_note(result.message);
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			

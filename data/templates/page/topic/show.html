@@ -196,19 +196,20 @@
 
 {% block content %}
 <div id="postpage">
-	
+	{% ad_list var:'ad' page:1 size:1 space:'topic_view_page_t1' %}
+	{% if ad %}
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
 				<div class="advert bottom content">
-					<a href="{{ app_url_domain }}/dream" title="太火鸟十万火计创意征集活动">
-			      		<img src="{{ app_url_packaged }}/images/match/dreamx1180x100.jpg" class="ui image" />
+					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+			      		<img src="{{ ad.asset }}" class="ui image" />
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	{% endif %}
 	<div class="ui responsive grid">
 		<div class="middle aligned row">
 			<div class="eleven wide column">

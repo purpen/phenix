@@ -37,8 +37,8 @@ class Sher_Core_ViewTag_AdList extends Doggy_Dt_Tag {
 		
 		// 获取某位置的推荐内容
 		if(!empty($space)){
-			$space = new Sher_Core_Model_Space();
-			$row = $space->first(array('name'=>$space));
+			$model = new Sher_Core_Model_Space();
+			$row = $model->first(array('name'=>$space));
 			if(empty($row)){
 				$space_id = (int)$row['_id'];
 			}
@@ -58,6 +58,11 @@ class Sher_Core_ViewTag_AdList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_ad_list($query,$options);
+		
+		// 获取单条记录
+		if($size == 1 && !empty($result['rows'])){
+			$result = $result['rows'][0];
+		}
 		
         $context->set($var, $result);
         if ($include_pager) {
