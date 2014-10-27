@@ -30,6 +30,7 @@
 		margin-bottom:.5em;
 	}
 	.match.page .ui.plan{
+		padding-top:.2rem;
 		padding-bottom:0rem;
 	}
 	.match.page .ui.plan .match_bg{
@@ -472,7 +473,7 @@
 	.match.page .ui.products{
 		background:url("{{ app_url_packaged }}/images/match/match_4.jpg") scroll center center no-repeat;
 		background-size:cover;
-		padding:2.5em 20rem;
+		padding:2.5em 0rem;
 	}
 	.match.page .ui.products .ui.magenta.active.btn{
 		background:#ffde00;
@@ -515,6 +516,85 @@
 		padding-top:3rem;
 	}
 	
+	.ui.products .hero a.prev,.ui.products a.prev:hover{
+		left:80px !important;
+		right:auto !important;
+	}
+	.ui.products .hero a.next,.ui.products a.next:hover{
+		right:80px;
+	}
+	.ui.products .item{
+		margin-bottom:1em;
+		border-radius:5px;
+	}
+	.ui.products .item .image .transparent{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+		background-color: rgba(0,0,0,0);
+	}
+	.ui.products .item .image > img{
+		border-radius:5px;
+	}
+	.ui.products .ui.four.items h3.ui.header{
+		margin: 0em;
+		position: absolute;
+		left: 0;
+		top: 1em;
+		width:100%;
+	}
+	.ui.products .ui.four.items h3.ui.header .image{
+	display: block;
+	position: relative;
+	background-color: rgba(0,0,0,0);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	}
+	.ui.products .ui.four.items h3.ui.header .image img.img{
+	border:5px solid #fff;
+	margin:0 auto;
+	border-radius: 50% !important;
+	width: 27%;
+	}
+	.ui.products .ui.four.items .ui.header .content .sub.header{
+		margin:.5em !important;
+		color:#fff !important;
+		line-height: 1.4em;
+		font-size: .7em;
+	}
+	.ui.products .ui.four.items .ui.header .content .sub.header span{
+		font-size:1.2em;
+		position:absolute;
+		left:.9em;
+	}
+	.ui.teams .ui.four.items .item{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+	}
+	.ui.teams .ui.four.items .item p.description{
+		text-align:left;
+	}
+	.ui.teams .ui.four.items .item .name+p.description{
+		text-align:center;
+	}
+	.ui.teams .ui.four.items .item .content.border{
+		border: 1px solid #f36 !important;
+		width: 89%;
+		margin: 0 auto;
+	}
+	.ui.teams .ui.four.items .item .content.border+.image{
+		margin-top:4em;
+	}
+	.ui.teams .ui.four.items .item .content.border+.image img{
+		width: 59%;
+		margin: 0 auto;
+	}
+	
+	
 </style>
 {% endblock %}
 {% block jquery %}
@@ -537,8 +617,11 @@
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 3000,
+		cycleInterval: 3500,
 		pauseOnHover:1,
+		
+		prev:".hero .prev",
+		next:".hero .next",
 		
 		// Dragging
 		mouseDragging: 1,
@@ -561,6 +644,13 @@
 		}
 		
 		$frame.sly('reload');
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
 	});
 	
 	skrollr.init({
@@ -598,6 +688,11 @@
 				</a>
 			</div>
 		</div>
+		<div class="right aligned four wide computer only column">
+			<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+				提交创意
+			</a>
+		</div>
 	</section>
 	<article class="hero">
 		<section class="ui plan block" id="frame">
@@ -625,6 +720,12 @@
 				</div>
 			</div>
 		</section>
+		<a class="prev" href="#">
+			<i class="flat arrow_left icon"></i>
+		</a>
+		<a class="next" href="#">
+			<i class="flat arrow_right icon"></i>
+		</a>
 	</article>
 	
 	<section class="ui big about block">
@@ -644,11 +745,7 @@
 					<p> / 能真正识别优秀产品创意并实现生产制造落地 / 令想法变成实物 / </p>
 					<p> / 能斥资一百万只为寻找十万个绝佳创意 / </p>
 					<p>现在，你只需要负责想，太火鸟来帮你做！</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="center aligned column">
-					<h2 class="ui header">创意不死，灵感永生！</h2>
+					<h3>创意不死，灵感永生！</h3>
 				</div>
 			</div>
 			<div class="row">
@@ -932,7 +1029,7 @@
 		<div class="ui responsive grid">
 			<div class="center aligned row">
 				<div class="center aligned column section-title">
-					<h3 class="ui header">推荐创意</h3>
+					<h3 class="ui header">推荐作品</h3>
 					<hr>
 					<h5 class="ui header">Products</h5>
 				</div>
@@ -941,16 +1038,109 @@
 				<div class="column">
 					{% topic_list var:'list' category_id:21 time:time sort:sort page:1 size:8 %}
 					<div class="ui four items">
-						{% for topic in list.rows %}
+						
 						<div class="item">
-							<div class="content">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}" target="_blank">{{ topic.title }}</a>
-								<div class="description">
-									{{ topic.strip_description|truncate 70 }}
-								</div>
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/products_1.png">
+								<a class="transparent" href="">
+									<h3 class="ui header">
+										<div class="image">
+											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
+										</div>
+										<div class="content">
+											shenxia
+											<div class="sub header">
+												<span>原创经典CD创意包装</span><br><br>
+												中国原创生活美学品牌创始人、创意
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+											</div>
+											<div class="image">
+												<img src="{{app_url_packaged }}/images/match/match_1.jpg" style="width:78%;">
+											</div>
+										</div>	
+									</h3>
+								</a>
 							</div>
 						</div>
-						{% endfor %}
+						
+						<div class="item">
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/products_1.png">
+								<a class="transparent" href="">
+									<h3 class="ui header">
+										<div class="image">
+											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
+										</div>
+										<div class="content">
+											shenxia
+											<div class="sub header">
+												<span>原创经典CD创意包装</span><br><br>
+												中国原创生活美学品牌创始人、创意
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+											</div>
+											<div class="image">
+												<img src="{{app_url_packaged }}/images/match/match_1.jpg" style="width:78%;">
+											</div>
+										</div>	
+									</h3>
+								</a>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/products_1.png">
+								<a class="transparent" href="">
+									<h3 class="ui header">
+										<div class="image">
+											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
+										</div>
+										<div class="content">
+											shenxia
+											<div class="sub header">
+												<span>原创经典CD创意包装</span><br><br>
+												中国原创生活美学品牌创始人、创意
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+											</div>
+											<div class="image">
+												<img src="{{app_url_packaged }}/images/match/match_1.jpg" style="width:78%;">
+											</div>
+										</div>	
+									</h3>
+								</a>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/products_1.png">
+								<a class="transparent" href="">
+									<h3 class="ui header">
+										<div class="image">
+											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
+										</div>
+										<div class="content">
+											shenxia
+											<div class="sub header">
+												<span>原创经典CD创意包装</span><br><br>
+												中国原创生活美学品牌创始人、创意
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+												总监,北京大学文化产业研究院副研究
+												员,中国第一中国原创生创始人
+											</div>
+										</div>	
+									</h3>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -976,9 +1166,66 @@
 					<h5 class="ui header">Teams</h5>
 				</div>
 			</div>
-			<div class="row" style="height:300px">
-			
-			
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui four items">
+						<div class="item">
+							<div class="content border">
+								<p class="description">太火鸟给予了我们设计团队莫大的支持！</p>
+								<p class="description">没有太火鸟，很难有我们的今天！因为资金是个很大的问题。</p>
+							</div>
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/teams_1.jpg">
+							</div>
+							<div class="content">
+								<div class="name">Cassie</div>
+								<p class="description">太火鸟大中华区创意总监</p>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="content border">
+								<p class="description">太火鸟给予了我们设计团队莫大的支持！</p>
+								<p class="description">没有太火鸟，很难有我们的今天！因为资金是个很大的问题。</p>
+							</div>
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/teams_2.jpg">
+							</div>
+							<div class="content">
+								<div class="name">Cassie</div>
+								<p class="description">太火鸟大中华区创意总监</p>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="content border">
+								<p class="description">太火鸟给予了我们设计团队莫大的支持！</p>
+								<p class="description">没有太火鸟，很难有我们的今天！因为资金是个很大的问题。</p>
+							</div>
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/teams_3.jpg">
+							</div>
+							<div class="content">
+								<div class="name">Cassie</div>
+								<p class="description">太火鸟大中华区创意总监</p>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="content border">
+								<p class="description">太火鸟给予了我们设计团队莫大的支持！</p>
+								<p class="description">没有太火鸟，很难有我们的今天！因为资金是个很大的问题。</p>
+							</div>
+							<div class="image">
+								<img src="{{app_url_packaged }}/images/match/teams_4.jpg">
+							</div>
+							<div class="content">
+								<div class="name">Cassie</div>
+								<p class="description">太火鸟大中华区创意总监</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -1096,6 +1343,7 @@
 			</div>
 		</div>
 	</section>
+	
 	
 </div>
 {% endblock %}
