@@ -481,6 +481,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->editor_params();
 		
+		// 判断来源
+		if(isset($topic['category_id']) && $topic['category_id'] == Doggy_Config::$vars['app.topic.dream_category_id']){
+			$page_title = '提交创意';
+			$this->stash['hide'] = 'hide';
+		}else{
+			$page_title = '发表话题';
+		}
+		$this->stash['page_title'] = $page_title;
+		
 		return $this->to_html_page('page/topic/submit.html');
 	}
 	
