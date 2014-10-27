@@ -542,6 +542,8 @@
 		border: 1px solid #f36 !important;
 		width: 89%;
 		margin: 0 auto;
+		min-height:140px;
+		border-radius: 0.3125em;
 	}
 	.ui.teams .ui.four.items .item .content.border+.image{
 		margin-top:4em;
@@ -551,10 +553,9 @@
 		margin: 0 auto;
 	}
 	
-	.allist .ui.items > .item {
-		background-color: #5e5e5e;
-		color: #fff;
-		padding: 2em 0.8em 0.8em;
+	/*.allist .ui.items  .item {
+		background-color: #f0f0f0;
+		color: #000;
 		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2) inset;
 	}
 	.allist .ui.items > .item .ui.avatar.image {
@@ -565,11 +566,11 @@
 		font-size: 14px;
 	}
 	.allist .ui.items > .item a {
-		color: #fff;
+		color: #000;
 	}
 	.ui.organization img{
 		margin:7px;
-	}
+	}*/
 	
 	
 	s {
@@ -671,6 +672,27 @@
 	.fulllayout .match.head .ui.seven.items {
 		margin:0 10%;
 	}
+	.match.page .ui.allist .item{
+		border-bottom: 0 solid rgba(0,0,0,0);
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		background-color:#f0f0f0;
+		min-height:320px
+	}
+	.ui.allist .ui.four.items .item .content{
+		padding-top:1.75em;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing .image{
+		background-color: rgba(0,0,0,0);
+		border-radius: 0;
+		position: relative;
+		display: block;
+		box-sizing: border-box;
+		margin: 22px auto;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing .image img{
+		width:100%;
+	}
+	
 	
 </style>
 {% endblock %}
@@ -1192,7 +1214,7 @@
 	</section>
 	
 	<section class="ui big products block">
-		<div class="ui responsive allist grid">
+		<div class="ui responsive grid">
 			<div class="center aligned row">
 				<div class="center aligned column section-title">
 					<h3 class="ui header">推荐作品</h3>
@@ -1235,6 +1257,37 @@
 				</div>
 			</div>
 			
+			<div class="ui responsive allist grid">
+				<div class="row">
+					<div class="column">
+						<div class="ui four items">
+							<div class="item">
+								<div class="content">
+									<h4 class="ui dividing header">
+										<a href="">原创经典CD创意包装</a>
+										<div class="image">
+											<img src="{{ app_url_packaged }}/images/match/match_1.jpg"width="100%">
+										</div>
+										<div class="advantage">
+											随着大数据、云计算和人工智能的发展，科技使我们的左脑越来越懒惰，而人的右脑代表创造力、共情力、娱乐感和意义感，是现代意义上的“科技”所不能替代的
+										</div>
+									</h4>
+									<div class="schedule">
+										<div class="status clearfix">
+											作者:
+											<span class="count"><a href="">action</a></span>
+											<span class="like"><i class="icon heart"></i><span class="count">2</span></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
 			<div class="center aligned row">
 				<div class="center aligned column">
 					<a href="{{ app_url_social }}/allist" class="ui active black btn-4 btn-4c icon-arrow-right btn">
@@ -1246,6 +1299,7 @@
 				</div>
 			</div>
 		</div>
+		
 	</section>
 	
 	<section class="ui big teams block">
