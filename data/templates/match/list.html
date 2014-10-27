@@ -207,7 +207,9 @@
 							</div>
 						</h4>
 						<div class="image">
+							{% if topic.cover %}
 							<img src="{{ topic.cover.thumbnails.medium.view_url }}" class="ui image" />
+							{% endif %}
 						</div>
 					
 						<a class="article overlay" href="{{ topic.view_url }}" target="_blank">
