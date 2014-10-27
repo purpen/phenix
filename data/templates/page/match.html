@@ -7,9 +7,7 @@
 		font-weight:400;
 	}
 	.match.page .ui.logo{
-		background:url("{{ app_url_packaged }}/images/match/logo.jpg") scroll center center no-repeat;
-		background-size:cover;
-		padding:4rem 0;
+		margin:1.5em auto;	
 	}
 	.match.page > .ui.nav{
 		border-top: 1px solid #e4e5e7;
@@ -34,9 +32,11 @@
 		padding-bottom:0rem;
 	}
 	.match.page .ui.plan .match_bg{
-		padding: 0 17% 0 11%;
+		padding: 6% 24% 10% 19%;
 		position: absolute; 
-		top: 5rem; 
+		top: 0rem; 
+		left:0;
+		background:rgba(0,0,0,.5);
 	}
 	
 	.match.page .ui.plan .match_bg .ui.one.items .item{
@@ -72,19 +72,23 @@
 		padding-top:1rem;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .item.mtop{
-		margin-top:1.5%;
+		margin-top:1.2%;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .ui.header{
 		text-align:center;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .ui.header .description{
-		font-size: .8rem;
+		font-size: .4rem;
 		padding-top: 0.5em;
 	}
 	.match.page .ui.plan .match_bg .ui.seven.items .content{
 		padding: .75em 0em !important;
+		color:#ccc;
 	}
-	
+	.match.page .ui.plan .match_bg .ui.seven.items {
+		margin-left: -9%;
+		margin-right: -12%;
+	}
 	
 	
 	.match.page .ui.about,.match.page .ui.times{
@@ -739,10 +743,19 @@
 {% block content %}
 <div class="match page">
 	<section class="ui logo block">
-		<div class="row">
-			<div class="center aligned column">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="right aligned seven wide column">
+				<a href="{{ app_url_domain }}/home"><img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg"></a>
 				<!--<img src="{{ app_url_packaged }}/images/match/logo.jpg" class="ui image1" />-->
 			</div>
+			<div class="center aligned two wide column">
+				<img src="{{ app_url_packaged }}/images/match/match_logo_2.jpg">
+			</div>
+			<div class="seven wide column">
+				<a href=" "><img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg"></a>
+			</div>
+		</div>
 		</div>
 	</section>
 	<section class="ui nav responsive grid">
@@ -766,7 +779,7 @@
 	<article class="hero">
 		<section class="ui plan block" id="frame">
 			<ul class="slidee">
-				<li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_2.jpg') scroll center center no-repeat;background-size:cover;">	
+				<li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_02.jpg') scroll center center no-repeat;background-size:cover;">	
 				</li>
 				<li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
 					<video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
@@ -795,7 +808,7 @@
 									</div>
 								</div>
 								<div class="ui seven items">
-									<div class="item mtop">
+									<div class="item mtop" style=" width: 10%; ">
 										<div class="content">
 											<h5 class="ui header">
 												梦想嘉宾  <span style="float:right;">·</span>
@@ -803,7 +816,7 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item">
+									<div class="item" style=" width: 10%; ">
 										<div class="content">
 											<h5 class="ui header">
 												徐小平
@@ -811,7 +824,7 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item">
+									<div class="item" style=" width: 14%; ">
 										<div class="content">
 											<h5 class="ui header">
 												黎万强
@@ -819,7 +832,7 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item">
+									<div class="item" style=" width: 14%; ">
 										<div class="content">
 											<h5 class="ui header">
 												常虹
@@ -827,7 +840,7 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item">
+									<div class="item" style=" width: 14%; ">
 										<div class="content">
 											<h5 class="ui header">
 												贾伟
@@ -835,7 +848,7 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item">
+									<div class="item" style=" width: 12%; ">
 										<div class="content">
 											<h5 class="ui header">
 												雷海波
@@ -843,7 +856,7 @@
 											</h5>
 										</div>
 									</div>
-									<div class="item">
+									<div class="item" style=" width: 18%; ">
 										<div class="content">
 											<h5 class="ui header">
 												麻长炜
