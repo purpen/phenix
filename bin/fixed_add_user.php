@@ -3,7 +3,7 @@
 /**
  * fix user name => nickname
  */
-$config_file =  dirname(__FILE__).'/../deploy/app_config.php';
+$config_file =  dirname(__FILE__).'/../deploy/app_config.php.example';
 if (!file_exists($config_file)) {
     die("Can't find config_file: $config_file\n");
 }
@@ -22,7 +22,7 @@ echo "Prepare to add user...\n";
 
 $total = 0;
 
-$file = $cfg_app_project_root.'install/tbuser/u1.csv';
+$file = $cfg_app_project_root.'u1.csv';
 if(!file_exists($file)){
 	echo "File[$file] not exists!!!\n";
 	exit;
@@ -53,8 +53,8 @@ while($data = fgetcsv($file)){
 			continue; // 直接跳过
 		}
 		
-		// echo "Account: $account | Nickname: $nickname | Username: $username | Mobile: $mobile\n";
-		
+		 //echo "Account: $account | Nickname: $nickname | Username: $username | Mobile: $mobile\n";
+		 
 		$data = array(
 			'account'  => $account,
 			'password' => sha1($password),

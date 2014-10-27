@@ -125,6 +125,12 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	public function flat() {		
 		return $this->to_html_page('page/flat.html');
 	}
+	public function match() {		
+		return $this->to_html_page('page/match.html');
+	}
+	public function match_app() {		
+		return $this->to_html_page('page/match_app.html');
+	}
 	
 }
 ?>

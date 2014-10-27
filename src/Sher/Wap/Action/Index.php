@@ -31,6 +31,12 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 		return $this->to_html_page('wap/index.html');
 	}
 	
+	/**
+	 * 404 page
+	 */
+	public function not_found(){
+		return $this->to_html_page('page/404.html');
+	}
 	
 	
 }

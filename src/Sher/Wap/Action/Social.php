@@ -1,6 +1,6 @@
 <?php
 /**
- * 社区
+ * 移动社区
  * @author purpen
  */
 class Sher_Wap_Action_Social extends Sher_Core_Action_Authorize {
@@ -16,13 +16,13 @@ class Sher_Wap_Action_Social extends Sher_Core_Action_Authorize {
 	 * 商城入口
 	 */
 	public function execute(){
-		return $this->ideas();
+		return $this->dream();
 	}
 	
 	/**
 	 * 十万火计
 	 */
-	public function ideas(){
+	public function dream(){
 		return $this->to_html_page('wap/match.html');
 	}
 	

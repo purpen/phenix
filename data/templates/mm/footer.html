@@ -22,9 +22,9 @@
 		<div class="row">
 			<div class="center aligned column">
 				<div class="ui horizontal divided list">
-					<a href="" class="ui item link" target="_blank">触屏版</a>
-				    <a href="#top" class="ui item link" target="_blank">电脑版</a>
-				    <div class="ui item gray link">客户端</div>
+					<a href="{{ app_url_wap }}" class="ui item link" onclick="setCookie('mode', 'mobile', 1, 'taihuoniao.me');" target="_blank">触屏版</a>
+				    <a href="{{ app_url_domain }}" class="ui item link" onclick="setCookie('mode', 'pc', 1, 'taihuoniao.com');" target="_blank">电脑版</a>
+					<!--<div class="ui item gray link">客户端</div>-->
 				</div>
 			</div>
 		</div>
