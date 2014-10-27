@@ -687,12 +687,21 @@
 		position: relative;
 		display: block;
 		box-sizing: border-box;
-		margin: 22px auto;
+		margin: 12px auto;
+		height: 200px;
+		max-height: 100%;
+		overflow: hidden;
 	}
 	.ui.allist .ui.four.items .item .ui.dividing .image img{
 		width:100%;
 	}
-	
+	.ui.allist .ui.items .item .full.advantage {
+		display: block;
+		box-sizing: border-box;
+		height: 255px;
+		max-height: 100%;
+		overflow: hidden;
+	}
 	
 </style>
 {% endblock %}
@@ -1214,7 +1223,7 @@
 	</section>
 	
 	<section class="ui big products block">
-		<div class="ui responsive grid">
+		<div class="ui responsive allist grid">
 			<div class="center aligned row">
 				<div class="center aligned column section-title">
 					<h3 class="ui header">推荐作品</h3>
@@ -1228,66 +1237,46 @@
 					<div class="ui four items">
 						{% for topic in list.rows %}
 						<div class="item">
-							<div class="ui center aligned header">
-								<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
-						      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
-								</a>
-								<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
-									{{ topic.user.nickname }}
-								</a>
-							</div>
 							<div class="content">
-								<h4 class='ui header'>
+								<h4 class="ui dividing header">
 									<a class="ui link" href="{{ topic.view_url }}" target="_blank">
 										{{ topic.title|truncate 28 }}
 									</a>
+									{% if topic.cover %}
+									<div class="image">
+										<img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" />
+									</div>
+									<div class="advantage">
+										{{ topic.strip_description|truncate 140 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ topic.strip_description|truncate 520 }}
+									</div>
+									{% endif %}
 								</h4>
-								<div class="sub header">
-									{{ topic.strip_description|truncate 140 }}
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
+								      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
+												{{ topic.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ topic.view_count }}</span>
+										</span>
+									</div>
 								</div>
-							</div>
-							<div class="image">
-								{% if topic.cover %}
-								<img src="{{ topic.cover.thumbnails.medium.view_url }}" class="ui image" />
-								{% endif %}
 							</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
 			</div>
-			
-			<div class="ui responsive allist grid">
-				<div class="row">
-					<div class="column">
-						<div class="ui four items">
-							<div class="item">
-								<div class="content">
-									<h4 class="ui dividing header">
-										<a href="">原创经典CD创意包装</a>
-										<div class="image">
-											<img src="{{ app_url_packaged }}/images/match/match_1.jpg"width="100%">
-										</div>
-										<div class="advantage">
-											随着大数据、云计算和人工智能的发展，科技使我们的左脑越来越懒惰，而人的右脑代表创造力、共情力、娱乐感和意义感，是现代意义上的“科技”所不能替代的
-										</div>
-									</h4>
-									<div class="schedule">
-										<div class="status clearfix">
-											作者:
-											<span class="count"><a href="">action</a></span>
-											<span class="like"><i class="icon heart"></i><span class="count">2</span></span>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			
 			<div class="center aligned row">
 				<div class="center aligned column">
 					<a href="{{ app_url_social }}/allist" class="ui active black btn-4 btn-4c icon-arrow-right btn">

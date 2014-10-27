@@ -36,11 +36,13 @@ class Sher_Core_ViewTag_AdList extends Doggy_Dt_Tag {
         $query = array();
 		
 		// 获取某位置的推荐内容
-		if(!empty($name)){
+		if(!empty($name) && empty($space_id)){
 			$model = new Sher_Core_Model_Space();
 			$row = $model->first(array('name'=>$name));
 			if(!empty($row)){
 				$space_id = (int)$row['_id'];
+			}else{
+				return $context->set($var, array());
 			}
 		}
 		
