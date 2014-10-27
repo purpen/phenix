@@ -29,66 +29,6 @@
 		margin-top:.5em;
 		margin-bottom:.5em;
 	}
-	.match.page .ui.plan {
-		padding-bottom:0rem;
-	}
-	
-	.match.page .ui.plan .match_bg{
-		padding: 6% 24% 10% 19%;
-		position: absolute; 
-		top: 0rem; 
-		left:0;
-		background:rgba(0,0,0,.5);
-	}
-	
-	.match.page .ui.plan .match_bg .ui.one.items .item {
-		background-color:rgba(0,0,0,0);
-		border-bottom: 0 solid rgba(0,0,0,0) !important;
-		box-shadow: 0 -2px 0 0 rgba(0,0,0,0) inset !important;
-	}
-	
-	.match.page .ui.plan .match_bg .ui.one.items .item h3.ui.header{
-		text-align: center;
-		margin-top: 1em !important;
-		font-size: 1.5rem;
-		font-weight: 700;
-	}
-	.match.page .ui.plan .match_bg .ui.one.items .item h2.ui.header{
-		text-align: center;
-		color: #f36;
-		font-weight: 700;
-		letter-spacing: 2px;
-		font-size: 3rem;
-		margin-top: 1rem;
-	}
-	.match.page .ui.plan .match_bg .ui.one.items h3.ui.header span{
-		font-size: 1.9em;
-	}
-	.match.page .ui.plan .match_bg .ui.seven.items .item{
-		background-color:rgba(0,0,0,0);
-		border-bottom: 0 solid rgba(0,0,0,0) !important;
-		box-shadow: 0 -2px 0 0 rgba(0,0,0,0) inset !important;
-		padding-top:1rem;
-	}
-	.match.page .ui.plan .match_bg .ui.seven.items .item.mtop{
-		margin-top:1.2%;
-	}
-	.match.page .ui.plan .match_bg .ui.seven.items .ui.header{
-		text-align:center;
-	}
-	.match.page .ui.plan .match_bg .ui.seven.items .ui.header .description{
-		font-size: .4rem;
-		padding-top: 0.5em;
-	}
-	.match.page .ui.plan .match_bg .ui.seven.items .content{
-		padding: .75em 0em !important;
-		color:#ccc;
-	}
-	.match.page .ui.plan .match_bg .ui.seven.items {
-		margin-left: -9%;
-		margin-right: -12%;
-	}
-	
 	
 	.match.page .ui.about,.match.page .ui.times{
 		background:#fff;
@@ -690,30 +630,20 @@
 	    width: 100%;
 		z-index: 9;
 	}
-	.fulllayout .match.head > .ui.grid {
-		margin-top: 3.5%;
+	.fulllayout .match.head > .ui.content.grid {
+		padding: 0 10%;
 	}
-	.fulllayout .match.head > .ui.grid .logoimg{
-		max-width: 100%;
-		margin: 0 auto;
-	}
-	.fulllayout .match.head h3.ui.header{
-		margin-top: 1em !important;
-		font-size: 1.5rem;
-		font-weight: 700;
-		color: rgba(255,255,255,1);
+	.fulllayout .match.head > .ui.logo.grid {
+		margin-top: 5.5%;
+		padding: 0 24.5%;
 	}
 	.fulllayout .match.head h2.ui.header{
 		color: #f36;
 		font-weight: 700;
-		letter-spacing: 2px;
+		letter-spacing: 8px;
 		font-size: 3rem;
 		margin-top: 1rem;
 	}
-	.fulllayout .match.head h3.ui.header span{
-		font-size: 1.9em;
-	}
-	
 	.fulllayout .match.head .ui.seven.items > .item{
 		background-color: rgba(0,0,0,0);
 		border-bottom: 0 solid rgba(0,0,0,0) !important;
@@ -797,7 +727,6 @@
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
 	phenix.bind_share_list(pic_url);
-	
 
 {% endblock %}
 
@@ -807,50 +736,13 @@
 
 {% block content %}
 <div class="match page">
-	<section class="ui logo block">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="right aligned seven wide column">
-				<a href="{{ app_url_domain }}/home" target="_blank" title="太火鸟首页">
-					<img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg" />
-				</a>
-			</div>
-			<div class="center aligned two wide column">
-				<img src="{{ app_url_packaged }}/images/match/match_logo_2.jpg">
-			</div>
-			<div class="seven wide column">
-				<a href="{{ app_url_domain }}/dream" title="太火鸟十万火计">
-					<img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg" />
-				</a>
-			</div>
-		</div>
-	</section>
-	<section class="ui nav responsive grid">
-		<div class="middle aligned row">
-			<div class="twelve wide column">
-				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">首页</a>
-					<a href="{{ app_url_domain }}/dream#plan" class="ui link item">关于十万火计</a>
-					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
-					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
-					<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">社区话题</a>
-				</div>
-			</div>
-			<div class="right aligned four wide column">
-				<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui active magenta button">
-					提交创意
-				</a>
-			</div>
-		</div>
-	</section>
-	
 	<div id="contentwrap" class="fulllayout">
 		<div class="contents">
 			<div class="box topbox bright">
 				<div class="visual video">
 					<video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
-						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.3mp4"></source>
-						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.3webm"></source>
+						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.mp4"></source>
+						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.webm"></source>
 						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg" />
 						You need an HTML5 enabled browser to view this video.
 					</video>
@@ -858,12 +750,18 @@
 				<div class="dimmed"></div>
 			</div>
 			<div class="match head">
-				<div class="ui responsive center aligned grid">
-					<div class="row">
+				<div class="ui responsive logo grid">
+					<div class="center aligned row">
 						<div class="column">
 							<img src="{{ app_url_packaged }}/images/match/match_logo.png" class="logoimg" />
+						</div>
+					</div>
+				</div>
+				<div class="ui responsive center aligned content grid">
+					<div class="row">
+						<div class="column">
 							<div class="content">
-								<h2 class="ui header">产品创意与创新想法征集活动</h2>
+								<h2 class="ui header" data-0="color:rgba(255,51,102,1);" data-500="color:rgba(255, 255, 255, 1);">产品创意与创新想法征集活动</h2>
 							</div>
 						</div>
 					</div>
@@ -933,92 +831,24 @@
 		</div>
 	</div>
 	
-	<article class="ui hide hero">
-	     <section class="ui plan block" id="frame">
-	         <ul class="slidee">
-                <li class="slide-1" style="background: url('{{ app_url_packaged }}/images/match/match_bg_2.jpg') scroll center center no-repeat;background-size:cover;">
-	             <li class="slide-2" style="background: url('{{ app_url_packaged }}/images/match/match_bg_3.jpg') scroll center center no-repeat;background-size:cover;">
-					 <video height="100%" width="100%" onended="this.play()" loop="loop" autoplay="true">
- 						<source type="video/mp4" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_480p.mp4"></source>
- 						<source type="video/webm" src="http://frstatic.qiniudn.com/v%2Fidream_YouTube_WebM_720p.webm"></source>
- 						<img src="{{ app_url_packaged }}/images/match/match_bg_3.jpg">
- 						You need an HTML5 enabled browser to view this video.
- 					</video>
-				</li>
-			</ul>
-
-			<div class="match_bg">
-			<div class="ui one items">
-				<div class="item">
-					<div class="image">
-						<img src="{{ app_url_packaged }}/images/match/match_logo.png" class="ui image" />
-					</div>
-					<div class="content">
-						<h3 class="ui header">梦想资金&nbsp;<span>¥1,000,000</span>&nbsp;等你的好点子砸过来</h3>
-						<h2 class="ui header">产品创意与创新想法征集活动</h2>
-					</div>
+	<section class="ui nav responsive grid">
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">首页</a>
+					<a href="{{ app_url_domain }}/dream#plan" class="ui link item">关于十万火计</a>
+					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
+					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">社区话题</a>
 				</div>
 			</div>
-			<div class="ui seven items">
-				<div class="item mtop">
-					<div class="content">
-						<h5 class="ui header">
-							梦想嘉宾  <span style="float:right;">·</span>
-						</h5>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<h5 class="ui header">
-							徐小平
-							<div class="description">著名天使创始人</div>
-						</h5>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<h5 class="ui header">
-							黎万强
-							<div class="description">小米科技联合创始人</div>
-						</h5>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<h5 class="ui header">
-							常虹
-							<div class="description">北京电视台节目制片人</div>
-						</h5>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<h5 class="ui header">
-							卢刚
-							<div class="description">动点科技CEO</div>
-						</h5>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<h5 class="ui header">
-							麻长炜
-							<div class="description">DFF设计师创始人资本董事长</div>
-						</h5>
-					</div>
-				</div>
-				<div class="item">
-					<div class="content">
-						<h5 class="ui header">
-							雷海波
-							<div class="description">太火鸟科技创始人</div>
-						</h5>
-					</div>
-				</div>	
+			<div class="right aligned four wide column">
+				<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui active magenta button">
+					提交创意
+				</a>
 			</div>
 		</div>
-		</section>
-	</article>
+	</section>
 	
 	<section class="ui big about block">
 		<a name="plan"></a>
