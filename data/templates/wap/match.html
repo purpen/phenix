@@ -2,6 +2,9 @@
 {% block title %}十万火计-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	#mfrbird {
+		margin-top: 0;
+	}
 	.match-app body{
 		background:#fff;
 	}
@@ -42,7 +45,6 @@
 		width:65px;
 	}
 	.match-app .ui.collection h5+p{
-		text-align:left;
 		line-height:1.6em;
 		font-size:.9em;
 	}
@@ -169,7 +171,7 @@
 	}
 	.circles-container #t3 {
 		left: -70px;
-		top: -189px;
+		top: -169px;
 		width: 148px;
 	}
 	.circles-container #t4 {
@@ -198,12 +200,12 @@
 		font-weight: normal;
 		margin-bottom: 2px;
 		letter-spacing: 1px;
-		font-size: .8rem;
+		font-size: 1rem;
 	}
 	.match-app .circles-container .text p{
 		margin: 0;
 		letter-spacing: 0px;
-		font-size: 0.2rem;
+		font-size: 0.65rem;
 	}
 	.match-app .ui.collection .row.ptop p+p{
 		font-size:1.6em;
@@ -510,7 +512,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">
-				<img src="{{ app_url_packaged }}/images/match/match_app_1.jpg" class="ui image" />
+				<img src="{{ app_url_packaged }}/images/match/match_app_banner.jpg" class="ui image" />
 			</div>
 		</div>
 	</div>
@@ -582,18 +584,17 @@
 						<div id="t3" class="text transition-frame">
 							<h3>智能硬件</h3>
 							<p>小米科技 / Phoneblocks</p>
-							<p>iphones 周边 / 造梦者空气净化器</p>
-							<p>EYE云眼摄像头 / Pivothead SMART</p>
-							<p>iDesk智能书桌 / Arcus</p>
+							<p>DreamMaker / EYE</p>
+							<p>Arcus / Pivothead SMART</p>
 							<p>Stir Kinetic Desk</p>
+							<p>iDesk</p>
 						</div>
 						<div id="t4" class="text transition-frame">
 							<h3>可穿戴</h3>
 							<p>Google Glass / iWatch
 							Moto 360 / Jowbone up / GolfSense</p>
 							Pebble / Smarter Socks
-							<p>小米智能鞋 / Boogio智能鞋垫</p>
-							project glass / Misfit Shine
+							<p>Misfit Shine / Boogio</p>
 						</div>
 						<div id="t7" class="text transition-frame">
 							<h3>创意产品</h3>
@@ -610,7 +611,6 @@
 			<div class="row ptop">	
 				<div class="center aligned column">
 					<p>任何品牌 / 产品都是从一个点子萌生而来，今天的你明天将成为他们之中的一员！</p>
-					<p>今天的你明天将成为他们之中的一员！</p>
 				</div>
 			</div>
 		</div>
@@ -821,7 +821,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="ui big products block">
+	<section class="ui hide big products block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column section-title">
@@ -864,7 +864,7 @@
 								</s>
 							</div>
 							<div class="image">
-								<img src="{{app_url_packaged }}/images/match/teams_w.jpg">
+								<img src="{{app_url_packaged }}/images/match/teams_w2.jpg">
 							</div>
 							<div class="content">
 								<div class="name">邱懿武</div>
@@ -882,7 +882,7 @@
 								</s>
 							</div>
 							<div class="image">
-								<img src="{{app_url_packaged }}/images/match/teams_d.jpg">
+								<img src="{{app_url_packaged }}/images/match/teams_d2.jpg">
 							</div>
 							<div class="content">
 								<div class="name">金三奇</div>
@@ -976,8 +976,8 @@
 			</div>
 			<div class="row ctop">
 				<div class="center aligned column">
-					<p>官网 <a href="http://www.taihuoniao.com">http://www.taihuoniao.com</a></p>
-					<p>旗舰店 <a href="http://redcv.taobao.com">http://redcv.taobao.com</a></p>
+					<p>官网：<a href="http://www.taihuoniao.com" class="ui magenta link">http://www.taihuoniao.com</a></p>
+					<p>旗舰店：<a href="http://redcv.taobao.com" class="ui magenta link">http://redcv.taobao.com</a></p>
 					<p>北京市 朝阳区 酒仙桥路4号 751D.Park 北京时尚设计广场极地国际创新中心218室</p>
 				</div>
 			</div>
