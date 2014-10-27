@@ -56,7 +56,7 @@ class Sher_Core_ViewTag_AdList extends Doggy_Dt_Tag {
         $options['page'] = $page;
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
-		print_r($query);
+		
         $result = $service->get_ad_list($query,$options);
 		
 		// 获取单条记录
