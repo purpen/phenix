@@ -75,8 +75,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	
 	protected $joins = array(
-	    'user'      =>  array('user_id'   => 'Sher_Core_Model_User'),
-		'last_user' =>  array('last_user' => 'Sher_Core_Model_User'),
+	    'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
+		'last_user' =>  array('last_user'   => 'Sher_Core_Model_User'),
 		'category'  =>  array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
@@ -135,14 +135,6 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::topic_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
-
-		if (isset($row['cover'])) {
-	        $row['thumb_small_view_url'] = $row['cover']['thumb_small_url'];
-	        $row['thumb_big_view_url'] = $row['cover']['thumb_big_url'];
-		}else{
-	        $row['thumb_small_view_url'] = Doggy_Config::$vars['app.url.default_thumb_small'];
-	        $row['thumb_big_view_url'] = Doggy_Config::$vars['app.url.default_thumb_big'];
-		}
 		
 		if(isset($row['description'])){
 			// 转码
@@ -150,6 +142,25 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		
 			// 去除 html/php标签
 			$row['strip_description'] = strip_tags($row['description']);
+		}
+		// 获取封面图
+		$row['cover'] = $this->cover($row);
+	}
+	
+	/**
+	 * 获取封面图
+	 */
+	protected function cover(&$row){
+		// 已设置封面图
+		if(isset($row['cover_id'])){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($row['cover_id']);
+		}
+		// 未设置封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$row = $asset->first(array('parent_id'=>(int)$row['_di'],'asset_type'=>Sher_Core_Util_Constant::STROAGE_TOPIC));
+		if(!empty($row)){
+			return $asset->extra_extend_model_row($row);
 		}
 	}
 	

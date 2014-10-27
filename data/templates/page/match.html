@@ -2,9 +2,11 @@
 {% block title %}十万火计-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	body{background:#fff;}
+	body{
+		background:#fff;
+	}
 	.match.page .ui.header{
-		font-weight:400;
+		font-weight: 400;
 	}
 	.match.page .ui.logo{
 		margin:1.5em auto;	
@@ -27,8 +29,7 @@
 		margin-top:.5em;
 		margin-bottom:.5em;
 	}
-	.match.page .ui.plan{
-		padding-top:.2rem;
+	.match.page .ui.plan {
 		padding-bottom:0rem;
 	}
 	.match.page .ui.plan .match_bg{
@@ -106,7 +107,7 @@
 	}
 	.match.page .ui.about p{
 		margin:0 auto;
-		line-height:2;
+		line-height:3;
 	}
 	.match.page .ui.about p+h3{
 		margin-bottom:0;
@@ -576,6 +577,8 @@
 	.ui.products .hero a.next,.ui.products a.next:hover{
 		right:80px;
 	}
+	
+	
 	.ui.products .item{
 		margin-bottom:1em;
 		border-radius:5px;
@@ -588,25 +591,6 @@
 		height: 100%;
 		z-index: 10;
 		background-color: rgba(0,0,0,0);
-	}
-	.ui.products .item .image > img{
-		border-radius:5px;
-	}
-	.ui.products .ui.four.items h3.ui.header{
-		margin: 0em;
-		position: absolute;
-		left: 0;
-		top: 1em;
-		width:100%;
-	}
-	.ui.products .ui.four.items h3.ui.header .image{
-	display: block;
-	position: relative;
-	background-color: rgba(0,0,0,0);
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	box-sizing: border-box;
 	}
 	.ui.products .ui.four.items h3.ui.header .image img.img{
 	border:5px solid #fff;
@@ -646,6 +630,24 @@
 		width: 59%;
 		margin: 0 auto;
 	}
+	
+	.allist .ui.items > .item {
+		background-color: #5e5e5e;
+		color: #fff;
+		padding: 2em 0.8em 0.8em;
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2) inset;
+	}
+	.allist .ui.items > .item .ui.avatar.image {
+		display: block;
+		margin: 0 auto;
+	}
+	.allist .ui.items > .item .ui.small.link {
+		font-size: 14px;
+	}
+	.allist .ui.items > .item a {
+		color: #fff;
+	}
+	
 	s {
 	position: absolute;
 	left:69px;
@@ -724,13 +726,6 @@
 		$frame.sly('reload');
 	});
 	
-	$('[data-countdown]').each(function() {
-		var $this = $(this), finalDate = $(this).data('countdown');
-		$this.countdown(finalDate, function(event) {
-			$this.html(event.strftime('%-D'));
-		});
-	});
-	
 	skrollr.init({
 		forceHeight: false
 	});
@@ -761,12 +756,12 @@
 	<section class="ui nav responsive grid">
 		<div class="middle aligned row">
 			<div class="twelve wide column">
-				<div class="ui text magenta menu">
-					<a href="" class="active item">首页</a>
-					<a href="" class="item">关于十万火计</a>
-					<a href="" class="item">评委专家</a>
-					<a href="" class="item">全部作品</a>
-					<a href="" class="item">社区话题</a>
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">首页</a>
+					<a href="{{ app_url_domain }}/dream" class="ui link item">关于十万火计</a>
+					<a href="{{ app_url_domain }}/dream" class="ui link item">评委专家</a>
+					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_topic }}/c66/" class="ui link item" target="_blank">社区话题</a>
 				</div>
 			</div>
 			<div class="right aligned four wide column">
@@ -896,7 +891,7 @@
 					<p> / 能真正识别优秀产品创意并实现生产制造落地 / 令想法变成实物 / </p>
 					<p> / 能斥资一百万只为寻找十万个绝佳创意 / </p>
 					<p>现在，你只需要负责想，太火鸟来帮你做！</p>
-					<h3>创意不死，灵感永生！</h3>
+					<h3 class="ui magenta header">创意不死，灵感永生！</h3>
 				</div>
 			</div>
 			<div class="row">
@@ -1177,7 +1172,7 @@
 	</section>
 	
 	<section class="ui big products block">
-		<div class="ui responsive grid">
+		<div class="ui responsive allist grid">
 			<div class="center aligned row">
 				<div class="center aligned column section-title">
 					<h3 class="ui header">推荐作品</h3>
@@ -1189,112 +1184,37 @@
 				<div class="column">
 					{% topic_list var:'list' category_id:21 time:time sort:sort page:1 size:8 %}
 					<div class="ui four items">
-						
+						{% for topic in list.rows %}
 						<div class="item">
-							<div class="image">
-								<img src="{{app_url_packaged }}/images/match/products_1.png">
-								<a class="transparent" href="">
-									<h3 class="ui header">
-										<div class="image">
-											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
-										</div>
-										<div class="content">
-											shenxia
-											<div class="sub header">
-												<span>原创经典CD创意包装</span><br><br>
-												中国原创生活美学品牌创始人、创意
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-											</div>
-											<div class="image">
-												<img src="{{app_url_packaged }}/images/match/match_1.jpg" style="width:78%;">
-											</div>
-										</div>	
-									</h3>
+							<div class="ui center aligned header">
+								<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
+						      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+								</a>
+								<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
+									{{ topic.user.nickname }}
 								</a>
 							</div>
-						</div>
-						
-						<div class="item">
+							<div class="content">
+								<h4 class='ui header'>
+									<a class="ui link" href="{{ topic.view_url }}" target="_blank">
+										{{ topic.title|truncate 28 }}
+									</a>
+								</h4>
+								<div class="sub header">
+									{{ topic.strip_description|truncate 140 }}
+								</div>
+							</div>
 							<div class="image">
-								<img src="{{app_url_packaged }}/images/match/products_1.png">
-								<a class="transparent" href="">
-									<h3 class="ui header">
-										<div class="image">
-											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
-										</div>
-										<div class="content">
-											shenxia
-											<div class="sub header">
-												<span>原创经典CD创意包装</span><br><br>
-												中国原创生活美学品牌创始人、创意
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-											</div>
-											<div class="image">
-												<img src="{{app_url_packaged }}/images/match/match_1.jpg" style="width:78%;">
-											</div>
-										</div>	
-									</h3>
-								</a>
+								{% if topic.cover %}
+								<img src="{{ topic.cover.thumbnails.medium.view_url }}" class="ui image" />
+								{% endif %}
 							</div>
 						</div>
-						
-						<div class="item">
-							<div class="image">
-								<img src="{{app_url_packaged }}/images/match/products_1.png">
-								<a class="transparent" href="">
-									<h3 class="ui header">
-										<div class="image">
-											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
-										</div>
-										<div class="content">
-											shenxia
-											<div class="sub header">
-												<span>原创经典CD创意包装</span><br><br>
-												中国原创生活美学品牌创始人、创意
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-											</div>
-											<div class="image">
-												<img src="{{app_url_packaged }}/images/match/match_1.jpg" style="width:78%;">
-											</div>
-										</div>	
-									</h3>
-								</a>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								<img src="{{app_url_packaged }}/images/match/products_1.png">
-								<a class="transparent" href="">
-									<h3 class="ui header">
-										<div class="image">
-											<img class="img" src="{{app_url_packaged }}/images/match/judges_1.png">
-										</div>
-										<div class="content">
-											shenxia
-											<div class="sub header">
-												<span>原创经典CD创意包装</span><br><br>
-												中国原创生活美学品牌创始人、创意
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-												总监,北京大学文化产业研究院副研究
-												员,中国第一中国原创生创始人
-											</div>
-										</div>	
-									</h3>
-								</a>
-							</div>
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
+			
 			<div class="center aligned row">
 				<div class="center aligned column">
 					<a href="{{ app_url_social }}/allist" class="ui active black btn-4 btn-4c icon-arrow-right btn">

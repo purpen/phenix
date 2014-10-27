@@ -165,18 +165,16 @@
 	$('#asset-list .ajax-cover').livequery(function(){
 		$(this).click(function(){
 			$this = $(this);
-			$.get($(this).attr('href'), function(result){
-				if (result.success){
-					$('#asset-list .ajax-cover.active').removeClass('active');
-					$this.addClass('active');
-				}else{
-					phenix.show_error_message(result.message);
-				}
-			},'json');
+			var id = $(this).attr('data-value');
 			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#topic_cover_id').val(id);
 			return false;
 		});
 	});
+	
 {% endblock %}
 
 {% block content %}
@@ -260,10 +258,10 @@
 						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
-					
-						{% if visitor.can_admin %}
+						
 						<div class="field">
 							<label>上传图片</label>
+							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
 							<div id="asset-list" class="ui four items">
@@ -278,7 +276,10 @@
 										<div class="buttons">
 											<div class="ui large links">
 												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-													<i class="flat edit_delete icon"></i>
+													<i class="remove icon"></i>
+												</a>
+												<a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+													<i class="checkered flag icon"></i>
 												</a>
 											</div>
 										</div>
@@ -287,19 +288,6 @@
 								{% endif %}
 							</div>
 						</div>
-						
-						<div class="field">
-							<label for="video_url">视频链接</label>
-							{% if topic.video_url %}
-								{% for video in topic.video_url %}
-							  	<input type="text" name="video_url[]" placeholder="http://" value="{{ video }}" />
-								{% endfor %}
-							{% else %}
-								<input type="text" name="video_url[]" placeholder="http://" />
-							{% endif %}
-							<div class="description">支持优酷、土豆等视频链接</div>
-						</div>
-						{% endif %}
 						
 						<div class="ui right floated aligned grid">
 							<div class="column">

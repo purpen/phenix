@@ -491,7 +491,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['description'] = $this->stash['description'];
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
-		$data['video_url'] = $this->stash['video_url'];
+		
+		$data['cover_id'] = $this->stash['cover_id'];
+		
 		$data['try_id'] = $this->stash['try_id'];
 		
 		// 检测编辑器图片数

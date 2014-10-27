@@ -31,13 +31,20 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 十万火计
 	 */
 	public function dream(){
-		return $this->to_html_page('match/index.html');
+		$this->set_target_css_state('index');
+		return $this->to_html_page('page/match.html');
 	}
 	
 	/**
 	 * 全部创意列表
 	 */
 	public function allist(){
+		$this->set_target_css_state('allist');
+		
+		$page = "?page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.social', 'allist').$page;
+		$this->stash['pager_url'] = $pager_url;
+		
 		return $this->to_html_page('match/list.html');
 	}
 	
