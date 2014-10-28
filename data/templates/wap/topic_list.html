@@ -1,0 +1,49 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}社区话题-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.grid .column > .ui.topic.segment {
+		margin-top: 1.5em;
+	}
+	.ui.topic.list .item .content {
+		margin-left: -1.5%;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div id="topicpage">
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui topic segment">
+						{% topic_list var:'list' is_top:1 time:time sort:sort page:page size:20 %}
+						<div class="ui topic relaxed divided list">
+							{% for topic in list.rows %}
+							<div class="item">
+								<div class="content">
+							    	<div class="header"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
+							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}</small>
+							    </div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					{% if list.total_page %}
+					<div class="ui pagination">
+						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+						{% include 'block/pager.html' %}
+					</div>
+					{% endif %}
+				<div>
+			</div>	
+		</div>
+	</section>
+</div>
+{% endblock %}

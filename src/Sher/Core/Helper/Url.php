@@ -87,6 +87,13 @@ class Sher_Core_Helper_Url {
     }
 	
 	/**
+	 * Wap帖子查看地址
+	 */
+    public static function wap_topic_view_url($topic_id,$page=1){
+    	return sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $topic_id, $page);
+    }
+	
+	/**
 	 * 产品话题查看地址
 	 */
 	public static function product_subject_url($product_id, $page=1){

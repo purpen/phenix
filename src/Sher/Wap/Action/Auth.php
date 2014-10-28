@@ -3,7 +3,7 @@
  * 用户验证等
  * @author purpen
  */
-class Sher_Wap_Action_Auth extends Sher_App_Action_Base {
+class Sher_Wap_Action_Auth extends Sher_Core_Action_Authorize {
 	
 	public $stash = array(
 		'email' => '',
@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'logout', 'do_login', 'do_register', 'verify_code');
+	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'forget', 'logout', 'verify_code');
 	
 	/**
 	 * 入口
@@ -66,7 +66,7 @@ class Sher_Wap_Action_Auth extends Sher_App_Action_Base {
 	public function signup(){
 		// 当前有登录用户
 		if ($this->visitor->id){
-			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Sher_Core_Helper_Url::user_home_url($this->visitor->id);
+			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
 			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
 			return $this->to_redirect($redirect_url);
 		}
@@ -88,11 +88,11 @@ class Sher_Wap_Action_Auth extends Sher_App_Action_Base {
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            return $this->ajax_json('页面已经超时,您需要重新刷新后登录',true,Doggy_Config::$vars['app.url.login']);
+            return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true, Doggy_Config::$vars['app.url.login']);
         }
 		
         if (empty($this->stash['account']) || empty($this->stash['password']) ||empty($this->stash['t'])) {
-            return $this->ajax_json('数据错误,请重新登录',true,Doggy_Config::$vars['app.url.login']);
+            return $this->ajax_json('数据错误,请重新登录', true, Doggy_Config::$vars['app.url.login']);
         }
         
 		$user = new Sher_Core_Model_User();
@@ -185,7 +185,6 @@ class Sher_Wap_Action_Auth extends Sher_App_Action_Base {
 		
 		return $this->ajax_json("欢迎你加入太火鸟！", false, $redirect_url);
 	}
-	
 	/**
 	 * 忘记密码页面
 	 */
@@ -203,7 +202,6 @@ class Sher_Wap_Action_Auth extends Sher_App_Action_Base {
 		
 		return $this->display_note_page('您已成功的退出登录,稍候将跳转到主页.', Doggy_Config::$vars['app.url.index']);
 	}
-	
 	/**
 	 * 发送手机验证码
 	 */

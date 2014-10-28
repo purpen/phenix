@@ -134,6 +134,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::topic_view_url($row['_id']);
+		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $row['_id'], 0);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		
 		if(isset($row['description'])){
@@ -158,7 +159,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		}
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
-		$row = $asset->first(array('parent_id'=>(int)$row['_di'],'asset_type'=>Sher_Core_Util_Constant::STROAGE_TOPIC));
+		$row = $asset->first(array('parent_id'=>(int)$row['_id'],'asset_type'=>Sher_Core_Util_Constant::STROAGE_TOPIC));
 		if(!empty($row)){
 			return $asset->extra_extend_model_row($row);
 		}
