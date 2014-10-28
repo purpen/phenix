@@ -9,8 +9,13 @@
 		background:#fff;
 	}
 	.match-app .ui.big.block{
-		padding-top:2.5em;
+		padding-top: 2.5em;
+		padding-bottom: 1.5em;
 	}
+	.match-app .ui.products.block{
+		padding-bottom: 2.5em;
+	}
+	
 	.match-app .ui.header{
 		font-weight: 400;
 	}
@@ -98,25 +103,25 @@
 	
 	
 	.circles-container #c1 {
-		top: -181px;
-		left: -139px;
-		width: 71px;
-		height: 71px;
 		border-radius: 50%;
+	    height: 60px;
+	    left: -120px;
+	    top: -180px;
+	    width: 60px;
 	}
 	.circles-container #c2 {
-		top: -112px;
-		left: -167px;
-		width: 95px;
-		height: 95px;
-		border-radius: 64px;
+		border-radius: 50%;
+	    height: 95px;
+	    left: -157px;
+	    top: -120px;
+	    width: 95px;
 	}
 	.circles-container #c4 {
-		top: -186px;
-		left: -78px;
-		width: 164px;
-		height: 164px;
 		border-radius: 122px;
+	    height: 140px;
+	    left: -67px;
+	    top: -180px;
+	    width: 140px;
 	}
 	.circles-container #c5 {
 		top: -35px;
@@ -140,18 +145,18 @@
 		border-radius: 71px;
 	}
 	.circles-container #c8 {
-		top: -187px;
-		left: 77px;
-		width: 75px;
-		height: 75px;
-		border-radius: 79px;
+		border-radius: 50%;
+	    height: 75px;
+	    left: 75px;
+	    top: -200px;
+	    width: 75px;
 	}
 	.circles-container #c9 {
-		top: -116px;
-		left: 75px;
-		width: 130px;
-		height: 130px;
 		border-radius: 107px;
+	    height: 130px;
+	    left: 65px;
+	    top: -126px;
+	    width: 130px;
 	}
 	.circles-container #c10 {
 		top: 13px;
@@ -168,12 +173,12 @@
 		border-radius: 122px;
 	}
 	.circles-container #t1 {
-		left: -220px;
-		top: -109px;
+		left: -210px;
+	    top: -115px;
 	}
 	.circles-container #t2 {
 		left: -121px;
-		top: -33px;
+		top: -23px;
 		width: 120px;
 	}
 	.circles-container #t3 {
@@ -182,9 +187,9 @@
 		width: 148px;
 	}
 	.circles-container #t4 {
-		left: 81px;
-		top: -111px;
-		width: 120px;
+		left: 71px;
+	    top: -121px;
+	    width: 120px;
 	}
 	.circles-container #t5 {
 		left: 118px;
@@ -192,7 +197,7 @@
 	}
 	.circles-container #t7 {
 		left: -45px;
-		top: -23px;
+		top: -20px;
 	}
 	.circles-container #t8 {
 		left: -94px;
@@ -213,6 +218,7 @@
 		margin: 0;
 		letter-spacing: 0px;
 		font-size: 0.65rem;
+		line-height: 1.5;
 	}
 	.match-app .ui.collection .row.ptop p+p{
 		font-size:1.6em;
@@ -222,6 +228,9 @@
 	}
 	.match-app .ui.collection p{
 		color:#fff;
+	}
+	.match-app .ui.collection i.icon.right {
+		margin: 0;
 	}
 	/*-------------*/
 	.match-app .ui.times .data h3 {
@@ -286,8 +295,6 @@
 		background:rgba(0,0,0,0) !important;;
 	}
 	.ui.judges .item .image{
-		width: 75%;
-		height: 75%;
 		margin: auto;
 	}
 	.ui.judges .item{
@@ -304,13 +311,14 @@
 	}
 	.ui.judges .content h5{
 		margin:0;
+		font-size: 0.6em;
 	}
 	.ui.judges .content h4{
 		margin: .6em 0 5px;
 	}
 	.ui.judges .ui.two.items{
-		padding-left: 16.15%;
-		padding-right: 16.15%;
+		padding-left: 8%;
+		padding-right: 8%;
 	}
 	.ui.judges .ui.three.items,.ui.judges .ui.two.items{
 		margin-bottom:0em;
@@ -386,13 +394,6 @@
 		background:url("{{ app_url_packaged }}/images/match/match_4.jpg") scroll center center no-repeat;
 		background-size:cover;
 		padding:2.5em auto;
-	}
-	.match-app .ui.products .ui.magenta.active.btn{
-		background:#ffde00;
-		color: #5e5e5e;
-	}
-	.match-app .ui.products .ui.magenta.btn {
-	border-color: #ffde00;
 	}
 	.match-app .ui.teams{
 		background:#fff;
@@ -509,20 +510,33 @@
 	border-style: solid dashed dashed dashed;
 	border-width: 10px;
 	}
-
+	
+	.match-app .ui.products.block .ui.items > .item {
+	    border-radius: 0.3125em;
+	}
+	.match-app .ui.products.block .ui.items > .item a.link {
+		display: inline-block;
+	    margin-bottom: 0.5em;
+	}
+	.match-app .ui.products.block .ui.items > .item .advantage {
+	    color: rgba(0, 0, 0, 0.6);
+	    font-size: 14px;
+	    line-height: 1.2;
+	    margin-top: 0.5em;
+		margin-bottom: 0.5em;
+	}
+	.ui.magenta.active.btn {
+	    background-color: #f36;
+	    border-radius: 0.3125em;
+	    color: #fff;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
 {% endblock %}
 {% block content %}
 <div class="match-app">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="center aligned column">
-				<img src="{{ app_url_packaged }}/images/match/match_app_banner.jpg" class="ui image" />
-			</div>
-		</div>
-	</div>
+	<img src="{{ app_url_packaged }}/images/match/match_app_banner.jpg" class="ui image" alt="太火鸟十万火计" />
 	<section class="ui big about block">
 		<div class="ui responsive grid">
 			<div class="center aligned row">
@@ -610,7 +624,7 @@
 							<p>意外设计满月灯</p>
 						</div>
 						<div id="t8" class="text transition-frame">
-							<h3>></h3>
+							<h3><i class="angle right icon"></i></h3>
 						</div>
 					</div>
 				</div>
@@ -670,7 +684,7 @@
 			</div>
 			<div class="row">
 				<div class="phei ui center aligned column">
-					<div class="ui four items">
+					<div class="ui two items">
 						<div class="item">
 							<div class="image">
 								<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
@@ -709,7 +723,7 @@
 						</div>
 					</div>
 					
-					<div class="ui four items">
+					<div class="ui two items">
 						<div class="item">
 							<div class="image">
 								<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
@@ -747,7 +761,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="ui four items">
+					<div class="ui two items">
 						<div class="item">
 							<div class="image">
 								<img alt="麻长炜"src="{{ app_url_packaged }}/images/match/judges_9.png">
@@ -828,22 +842,74 @@
 			</div>
 		</div>
 	</section>
-	<section class="ui hide big products block">
+	<section class="ui big products block">
 		<div class="ui responsive grid">
-			<div class="row">
-				<div class="center aligned column section-title">
+			<div class="center aligned row">
+				<div class="column section-title">
 					<h3 class="ui header">推荐作品</h3>
 					<hr>
 					<h5 class="ui header">Products</h5>
 				</div>
 			</div>
-			<div class="row" style="height:200px;">
-				
-			</div>
 			<div class="row">
-				<div class="center aligned column">
-					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+				<div class="column">
+					
+					{% topic_list var:'list' category_id:dream_category_id time:time sort:sort page:1 size:8 %}
+					<div class="ui one items">
+						{% for topic in list.rows %}
+						<div class="item">
+							<div class="content">
+								<h4 class="ui dividing header">
+									<a class="ui link" href="{{ topic.view_url }}" target="_blank">
+										{{ topic.title|truncate 32 }}
+									</a>
+									{% if topic.cover %}
+									<div class="image">
+										<img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" class="ui image" />
+									</div>
+									<div class="advantage">
+										{{ topic.strip_description|truncate 140 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ topic.strip_description|truncate 280 }}
+									</div>
+									{% endif %}
+								</h4>
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
+								      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
+												{{ topic.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ topic.view_count }}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					
+				</div>
+			</div>
+			<div class="center aligned row">
+				<div class="column">
+					<a href="{{ app_url_wap }}/social/submit?cid={{ dream_category_id }}&ref=dream" class="fluid ui active magenta btn-4 btn-4c icon-arrow-right btn">
 						提交创意
+					</a>
+				</div>
+			</div>
+			<div class="center aligned row">
+				<div class="column">
+					<a href="{{ app_url_wap }}/dream/allist" class="fluid ui black btn-4 btn-4c icon-arrow-right btn">
+						全部创意
 					</a>
 				</div>
 			</div>
