@@ -200,7 +200,7 @@ class Sher_Wap_Action_Auth extends Sher_Core_Action_Authorize {
 		
         $service->stop_visitor_session();
 		
-		return $this->display_note_page('您已成功的退出登录,稍候将跳转到主页.', Doggy_Config::$vars['app.url.index']);
+		return $this->display_note_page('您已成功的退出登录,稍候将跳转到主页.', Doggy_Config::$vars['app.url.wap']);
 	}
 	/**
 	 * 发送手机验证码

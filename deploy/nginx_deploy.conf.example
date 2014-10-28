@@ -36,24 +36,36 @@ server {
         rewrite ^(.*)$ /app/wap/index$1 last;
     }
 
-    location /auth {
-        rewrite ^/auth(.*)$ /app/wap/auth/$1 last;
+	location /auth {
+        rewrite ^/auth[/]?$ /app/wap/auth last;
+        rewrite ^/auth/(.*)$ /app/wap/auth/$1 last;
     }
 
     location /my {
-        rewrite ^/my(.*)$ /app/wap/my/$1 last;
+        rewrite ^/my[/]?$ /app/wap/my last;
+        rewrite ^/my/(.*)$ /app/wap/my/$1 last;
+    }
+	
+    location /pay {
+		rewrite ^/pay(.*)$ /app/wap/pay$1 last;
     }
 
     location /shop {
-        rewrite ^/shop(.*)$ /app/wap/shop/$1 last;
+        rewrite ^/shop[/]?$ /app/wap/shop last;
+        rewrite ^/shop/(\d+).html$ /app/wap/shop/view?id=$1 last;
+        rewrite ^/shop/(.*)$ /app/wap/shop/$1 last;
     }
 
     location /social {
-        rewrite ^/social(.*)$ /app/wap/social/$1 last;
+        rewrite ^/social[/]?$ /app/wap/social last;
+        rewrite ^/social/show-(\d+).html$ /app/wap/social/show?id=$1 last;
+        rewrite ^/social/show-(\d+)-(\d+).html$ /app/wap/social/show?id=$1&page=$2 last;
+        rewrite ^/social/(.*)$ /app/wap/social/$1 last;
     }
-	
+
     location /dream {
-        rewrite ^/dream(.*)$ /app/wap/social/$1 last;
+        rewrite ^/dream[/]?$ /app/wap/social/dream last;
+        rewrite ^/dream/(.*)$ /app/wap/social/$1 last;
     }
 	
 	location /__file_result__/ {

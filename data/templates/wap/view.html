@@ -89,7 +89,7 @@
 	$('.ui.nowbuy.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+			phenix.redirect('{{ app_url_wap }}/auth/login');
 			return false;
 		}
 		if (choosed_sku){
@@ -97,6 +97,17 @@
 		} else {
 			phenix.show_error_note('请选择一个型号或颜色', 3000);
 		}
+	});
+	
+	// 预定
+	$('.ui.booked.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.redirect('{{ app_url_wap }}/auth/login');
+			return false;
+		}
+		var r_id = $(this).data('id');
+		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+r_id);
 	});
 	
 {% endblock %}
@@ -292,6 +303,7 @@
 			</div>
 		</div>
 	</div>
+	{% if product.stage == 9 %}
 	<!--商品评价-->
 	<div class="row">
 		<div class="column">
@@ -363,6 +375,7 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 </div>
 {% include "block/sharebox.html" %}
 {% endblock %}
