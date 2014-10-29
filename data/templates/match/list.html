@@ -105,12 +105,16 @@
 	.ui.allist .ui.four.items .item .ui.dividing .image img{
 		width:100%;
 	}
+	.ui.allist .ui.items .item .advantage {
+		min-height: 70px;
+	}
 	.ui.allist .ui.items .item .full.advantage {
 		display: block;
 		box-sizing: border-box;
-		height: 255px;
 		max-height: 100%;
 		overflow: hidden;
+		margin-top: 0.8em;
+		min-height: 285px;
 	}
 	
 </style>
@@ -244,7 +248,7 @@
 									</div>
 									{% else %}
 									<div class="full advantage">
-										{{ topic.strip_description|truncate 520 }}
+										{{ topic.strip_description|truncate 580 }}
 									</div>
 									{% endif %}
 								</h4>

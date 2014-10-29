@@ -1,0 +1,78 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}社区话题-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.grid .column > .ui.topic.segment {
+		margin-top: 1.5em;
+	}
+	.ui.topic.list .item .content {
+		margin-left: -1.5%;
+	}
+	#topicpage .post .ui.contest {
+		margin-bottom: 1rem;
+		border-top: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+		padding: 0.8em 0;
+		text-align: center;
+	}
+	.post.froala-element {
+	    min-height: 200px;
+	    overflow-y: hidden;
+	}
+	.post img {
+		width: 100%;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div id="topicpage">
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+						<div class="ui big topic segment">
+							<div class="ui header">
+								<div class="content">
+									{{ topic.title }}
+									<div class="sub header attribute">
+										<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
+										<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span> | 
+										<span class="count">浏览数: {{ topic.view_count }}</span>
+									</div>
+								</div>
+							</div>
+					
+							{% if topic.category_id == dream_category_id %}
+							<div class="post">
+								<div class="ui contest">
+									<a href="{{ app_url_wap }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
+								</div>
+							</div>
+							{% endif %}
+					
+							<div class="post froala-element clearfix">
+								{{ topic.description }}
+							</div>
+					
+							{% if topic.tags %}
+							<div class="tags">
+								{% for tag in topic.tags %}
+								{% if tag %}
+								<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
+									<i class="tag icon"></i>{{ tag }}
+								</a>
+								{% endif %}
+								{% endfor %}
+							</div>
+							{% endif %}
+						</div>
+				
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}

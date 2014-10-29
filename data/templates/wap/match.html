@@ -11,6 +11,7 @@
 	.match-app .ui.big.block{
 		padding-top: 2.5em;
 		padding-bottom: 1.5em;
+		overflow: hidden;
 	}
 	.match-app .ui.products.block{
 		padding-bottom: 2.5em;
@@ -298,6 +299,7 @@
 	}
 	.ui.judges .item .image{
 		margin: auto;
+		width: 90%;
 	}
 	.ui.judges .item{
 		border-bottom: 0 solid rgba(0,0,0,0);
@@ -505,6 +507,9 @@
 	border-width: 10px;
 	}
 	
+	.match-app .ui.btn {
+		border-radius: 0.3125em;
+	}
 	.match-app .ui.products.block .ui.items > .item {
 	    border-radius: 0.3125em;
 	}
@@ -518,11 +523,6 @@
 	    line-height: 1.2;
 	    margin-top: 0.5em;
 		margin-bottom: 0.5em;
-	}
-	.ui..btn {
-	    background-color: #f36;
-	    border-radius: 0.3125em;
-	    color: #fff;
 	}
 </style>
 {% endblock %}
@@ -863,7 +863,7 @@
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
-									<a class="ui link" href="{{ topic.view_url }}" target="_blank">
+									<a class="ui link" href="{{ topic.wap_view_url }}" target="_blank">
 										{{ topic.title|truncate 32 }}
 									</a>
 									{% if topic.cover %}
