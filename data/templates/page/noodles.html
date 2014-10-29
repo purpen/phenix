@@ -1,0 +1,274 @@
+{%extends 'layout/column.html'%}
+{% block title %}面条线-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.noodles.page{
+		background:#fff;
+	}
+	.noodles .line{
+		background:url('{{ app_url_packaged }}/images/noodles1.jpg') scroll center center no-repeat;
+		background-size:cover;
+	}
+	.line .hero-main h1 {
+	font-size: 40px;
+	margin-bottom: 0px;
+	margin-left: -9px;
+	margin-top: 32px;
+	text-transform: uppercase;
+	color:#f36;
+	}
+	.line .hero-main{
+		padding-top:30px;
+	}
+	.line .hero-main h1 span{
+		font-size:30px;
+	}
+	.line .hero-main .verticalize{
+		padding-left:15%;
+	}
+	.line .hero-main p{
+		font-size:22px;
+		color:#000;
+	}
+	.line .hero-main p span{
+		font-size:31px;
+	}
+	.line .hero-main p+p{
+		font-size:18px;
+		color:#666;
+	}
+	.ptop {
+	padding: 0px 0 30px;
+	}
+	.noodles .froala-element p, p.fr-tag {
+	margin-top: 0;
+	margin-bottom: 0!important;
+	}
+	.ui.img.block{
+		padding-bottom: 1em;
+	}
+	.ui.nowi{
+		padding:2% 19%;
+	}
+	.ui.nowi .ui.items .item{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		background:#e5e5e5;
+		transition-timing-function: ease-out;
+		-moz-transition-timing-function: ease-out;
+		-webkit-transition-timing-function: ease-out;
+		-o-transition-timing-function: ease-out;
+		transition-duration: .3s;
+		-moz-transition-duration: .3s;
+		-webkit-transition-duration: .3s;
+		-o-transition-duration: .3s;
+	}
+	.ui.nowi .item .content{
+		text-align:center;
+		color:#666;
+	}
+	.ui.nowi .item h4.ui.header{
+		line-height: 1.33;
+		font-size: 1.5rem;
+		margin-bottom: .4em;
+	}
+	.ui.nowi .ui.items .item .name{
+		font-weight: 400;
+		margin-bottom: .2em;
+		color: rgba(0,0,0,.7);
+		font-size:.7em;
+		margin-top: .2em;
+	}
+	.ui.nowi .ui.items .item .name.one{
+		margin-top: 1em !important;
+	}
+	.ui.nowi .ui.items .item:hover{
+		background:#f36;
+		color:#fff;
+	}
+	.ui.nowi .item:hover .content,.ui.nowi .ui.items .item:hover .name,.ui.nowi .ui.items .item:hover .name a{
+		color:#fff;
+	}
+	.ui.nowi .row {
+		padding:0;
+		margin:0;
+	}
+	.ui.nowi .ui.one.items .item .content{
+		text-align:left;
+	}
+	.ui.nowi .ui.one.items .item .name{
+		font-size:1em;
+		line-height: 27px;
+	}
+	.ui.nowi .ui.one.items .item .name a{
+		font-weight:700;
+	}
+	.noodles p#clock span {
+		color: #fff;
+		background: #4d4d4d;
+		padding: 5px;
+	}
+	.noodles p.count {
+		padding: 19px 0;
+	}
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+$('#clock').countdown('2014/11/19 23:59:59').on('update.countdown', function(event){
+		var $this = $(this).html(event.strftime(''
+		+ '<span>%D</span> 天 '
+		+ '<span>%H</span> 时 '
+		+ '<span>%M</span> 分 '
+		+ '<span>%S</span> 秒'));
+	});
+{% endblock %}
+
+{% block content %}
+<div class="noodles page">
+	<section class="ui line block">
+		<div class="ui grid">
+			<div class="hero-main">
+				<div class="verticalize">
+				<h1>就线在&nbsp;<span>Line For Now</span>&nbsp;</h1>
+				<hr>
+				<p>太火鸟上线内测&nbsp;<span>3000</span>&nbsp;条数据线免费抢*</p>
+				 <a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
+						<span>现在预约</span>
+				</a>
+				<p class="count" id="clock">
+					
+				</p>
+				<div class="ptop">
+					<div>
+						
+					</div>
+					<p>已有&nbsp;<span>258</span>&nbsp;人参与抢购!</p>
+					<p>2014.10.29—10.31，每天12:00准时开抢</p>
+				
+				</div>
+			
+			</div>
+			<!--<div class="row">
+				<h1>就线在Line For Now</h1>
+				<hr>
+				<p>太火鸟上线内测3000条数据线免费抢*</p>
+			</div>
+			<div class="row">
+				
+			</div>-->
+		</div>
+	</section>
+	<section class="ui img block">
+		<div class="ui grid">
+			<div class="row">
+				<div class="column">
+					<div class="product content froala-element">
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_3.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_11.jpg">
+						
+						<div class="ui nowi grid">
+							<div class="row">
+								<div class="column">
+								<div class="ui three items">
+									<div class="item">
+										<div class="image">
+											<img src="{{ app_url_packaged }}/images/noodle_01.png">
+										</div>
+										<div class="content">
+											<h4 class="ui header">
+												数据线免费得
+												<div class="name one">
+													2014.10.29—10.31</div>
+													<div class="name">每天12:00，3000条数据线</div>
+													<div class="name">准时开抢 / 连抢三天
+												</div>
+											</h4>
+										</div>
+									</div>
+									<div class="item">
+										<div class="image">
+											<img src="{{ app_url_packaged }}/images/noodles_02.png">
+										</div>
+										<div class="content">
+											<h4 class="ui header">
+												百元券免费送
+												<div class="name one">
+													凡在活动专区为太火鸟官网</div>
+													<div class="name">提出宝贵意见的小伙伴均</div>
+													<div class="name">有机会获得100元优惠券
+												</div>
+											</h4>
+										</div>
+									</div>
+									<div class="item">
+										<div class="image">
+											<img src="{{ app_url_packaged }}/images/noodles_03.png">
+										</div>
+										<div class="content">
+											<h4 class="ui header">
+												骑士鸟直接封
+												<div class="name one">
+													抢到数据线的小伙伴</div>
+													<div class="name">获封骑士鸟,骑士鸟能优先</div>
+													<div class="name">试用太火鸟网站新品
+												</div>
+											</h4>
+										</div>
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>	
+						</p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_5.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_6.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_7.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_12.jpg">
+							<div class="ui nowi grid">
+								<div class="row">
+									<div class="column">
+										<div class="ui one items">
+											<div class="item">
+												<div class="content">
+													<div class="name">1、提前注册，填写收货地址，登录即抢，活动前1-3小时将获提醒短信，绝对不会错过抢购时机！</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="column">
+										<div class="ui one items">
+											<div class="item">
+												<div class="content">
+													<div class="name">2、评论领券，活动期间（10月27日-31日）只要在&nbsp;<a href="">内测专区</a>&nbsp;为太火鸟提出有价值的意见建议，
+													即有可能获得100元的优惠券一张，优惠券不限使用额度，购你想购！</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="column">
+										<div class="ui one items">
+											<div class="item">
+												<div class="content">
+													<div class="name">3、社区总编辑：<a href="">小鹿笛子</a>，此女好美色，多文艺，偶嚣张！收此女心，或得大礼！</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_9.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_10.jpg"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}
