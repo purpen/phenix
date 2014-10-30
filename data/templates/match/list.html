@@ -10,7 +10,6 @@
 		margin:1em auto;	
 	}
 	.match.page > .ui.nav{
-		border-top: 1px solid #e4e5e7;
 		border-bottom: 1px solid #e4e5e7;
 	}
 	.ui.nav .ui.main-nav .item{
@@ -158,49 +157,8 @@
 	
 {% endblock %}
 
-{% block layout_header %}
-<!--Header-->
-{% endblock %}
-
 {% block content %}
 <div class="match page">
-	<section class="ui logo block">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="right aligned seven wide column">
-				<a href="{{ app_url_domain }}/home" target="_blank" title="太火鸟首页">
-					<img src="{{ app_url_packaged }}/images/match/match_logo_1.jpg" />
-				</a>
-			</div>
-			<div class="center aligned two wide column">
-				<img src="{{ app_url_packaged }}/images/match/match_logo_2.jpg">
-			</div>
-			<div class="seven wide column">
-				<a href="{{ app_url_domain }}/dream" title="太火鸟十万火计">
-					<img src="{{ app_url_packaged }}/images/match/match_logo_3.jpg" />
-				</a>
-			</div>
-		</div>
-	</section>
-	<section class="ui nav responsive grid">
-		<div class="middle aligned row">
-			<div class="twelve wide column">
-				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">首页</a>
-					<a href="{{ app_url_domain }}/dream#plan" class="ui link item">关于十万火计</a>
-					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
-					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
-					<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">社区话题</a>
-				</div>
-			</div>
-			<div class="right aligned four wide column">
-				<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-					提交创意
-				</a>
-			</div>
-		</div>
-	</section>
-	
 	{% ad_list var:'ad' page:1 size:5 name:'match_list_slide' %}
 	{% if ad.rows %}
 	<div id="frslide" class="frame">
@@ -216,6 +174,25 @@
 		<div class="pages"></div>
 	</div>
 	{% endif %}
+	
+	<section class="ui nav responsive grid">
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_domain }}/dream" class="ui link item">大赛首页</a>
+					<a href="{{ app_url_domain }}/dream#plan" class="ui link {{ css_index }} item">关于十万火计</a>
+					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
+					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">社区话题</a>
+				</div>
+			</div>
+			<div class="right aligned four wide column">
+				<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					提交创意
+				</a>
+			</div>
+		</div>
+	</section>
 	
 	<section class="ui big block">
 		<div class="ui responsive grid">

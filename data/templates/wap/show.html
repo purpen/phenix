@@ -59,11 +59,11 @@
 							{% if topic.tags %}
 							<div class="tags">
 								{% for tag in topic.tags %}
-								{% if tag %}
-								<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
-									<i class="tag icon"></i>{{ tag }}
-								</a>
-								{% endif %}
+									{% if tag %}
+									<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
+										<i class="tag icon"></i>{{ tag }}
+									</a>
+									{% endif %}
 								{% endfor %}
 							</div>
 							{% endif %}

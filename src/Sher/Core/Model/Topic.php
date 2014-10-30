@@ -153,15 +153,19 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	 */
 	protected function cover(&$row){
 		// 已设置封面图
-		if(isset($row['cover_id'])){
+		if(!empty($row['cover_id'])){
 			$asset = new Sher_Core_Model_Asset();
 			return $asset->extend_load($row['cover_id']);
 		}
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
-		$row = $asset->first(array('parent_id'=>(int)$row['_id'],'asset_type'=>Sher_Core_Util_Constant::STROAGE_TOPIC));
-		if(!empty($row)){
-			return $asset->extra_extend_model_row($row);
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => array('$in'=>array(Sher_Core_Model_Asset::TYPE_TOPIC, Sher_Core_Model_Asset::TYPE_EDITOR_TOPIC))
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
 		}
 	}
 	

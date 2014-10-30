@@ -656,7 +656,7 @@
 		padding: 0 10%;
 	}
 	.fulllayout .match.head > .ui.logo.grid {
-		margin-top: 5.5%;
+		margin-top: 4%;
 		padding: 0 24.5%;
 	}
 	.fulllayout .match.head h2.ui.header{
@@ -731,8 +731,8 @@
 </style>
 {% endblock %}
 {% block jquery %}
-	var a=e(window).height(),s=e(window).width();
-	e("#contentwrap").height(a);
+	var a=e(window).height(),s=e(window).width(),h=$('header.ui.main').height();
+	e("#contentwrap").height(a - h);
 	e("#contentwrap").width(s);
 	
 	var $frame = $('#frame');
@@ -787,10 +787,6 @@
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream'});
 
-{% endblock %}
-
-{% block layout_header %}
-<!--Header-->
 {% endblock %}
 
 {% block content %}
@@ -894,7 +890,7 @@
 		<div class="middle aligned row">
 			<div class="twelve wide column">
 				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">首页</a>
+					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">大赛首页</a>
 					<a href="{{ app_url_domain }}/dream#plan" class="ui link item">关于十万火计</a>
 					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
 					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
