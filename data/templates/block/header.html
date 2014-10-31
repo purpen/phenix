@@ -1,3 +1,17 @@
+{% block page_css %}
+<style type="text/css">
+	@media only screen and (min-width:992px) and (max-width:1052px){
+		header.main .ui.main-nav>.item{
+			padding-left: .8em;
+			padding-right: .8em;
+			}
+		header.main .ui.main-nav>.active.item,header.main .ui.main-nav>.item:active,header.main .ui.main-nav>.item:hover{
+			padding-left:.8em;
+			padding-right:.8em
+			}
+		}
+</style>
+{% endblock %}
 <div class="eight wide computer only column">
 	<a href="{{ app_url_domain }}" title="首页" class="logo">
 		<img src="{{ app_url_packaged }}/images/logo-home.png" class="ui hide" alt="太火鸟" />太火鸟
