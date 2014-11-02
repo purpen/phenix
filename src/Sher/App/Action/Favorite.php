@@ -63,8 +63,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
+		// 获取计数
+		$favorite_count = $this->remath_count($id, $type);
 		
-		return $this->ajax_json('操作成功');
+		return $this->ajax_json('操作成功',false,'',array('favorite_count'=>$favorite_count));
 	}
 	
 	/**
@@ -87,7 +89,31 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		return $this->ajax_json('操作成功');
+		// 获取计数
+		$favorite_count = $this->remath_count($id, $type);
+		
+		return $this->ajax_json('操作成功',false,'',array('favorite_count'=>$favorite_count));
+	}
+	
+	/**
+	 * 计算总数
+	 */
+	protected function remath_count($id, $type, $filed='favorite_count'){
+		$count = 0;
+		switch($type){
+			case Sher_Core_Model_Favorite::TYPE_TOPIC:
+				$model = new Sher_Core_Model_Topic();
+				$result = $model->load((int)$id);
+				break;
+			case Sher_Core_Model_Favorite::TYPE_PRODUCT:
+				$model = new Sher_Core_Model_Product();
+				$result = $model->load((int)$id);
+				break;
+		}
+		if(!empty($result)){
+			$count = $result[$filed];
+		}
+		return $count;
 	}
 	
 	/**
@@ -112,7 +138,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
 		
-		return $this->ajax_json('操作成功');
+		// 获取计数
+		$love_count = $this->remath_count($id, $type, 'love_count');
+		
+		return $this->ajax_json('操作成功',false,'',array('love_count'=>$love_count));
 	}
 	
 	/**
@@ -135,7 +164,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}
 		
-		return $this->ajax_json('操作成功');
+		// 获取计数
+		$love_count = $this->remath_count($id, $type, 'love_count');
+		
+		return $this->ajax_json('操作成功',false,'',array('love_count'=>$love_count));
 	}
 	
 }

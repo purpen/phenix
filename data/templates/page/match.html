@@ -43,9 +43,6 @@
 		}
 	}
 	@media screen and (max-width: 1024px){
-		#contentwrap{
-			height:455px !important;
-		}
 		.fulllayout .topbox .dimmed{
 			height: 60%;
 		    left: 0;
@@ -71,8 +68,11 @@
 	}
 	
 	@media screen and (max-width: 800px){
-		#contentwrap,.ui.collection,.ui.times,.word-right,.word-left{
-			display:none !important;
+		#contentwrap h2.ui.header {
+			font-size: 28px;
+		}
+		.fulllayout .match.head .ui.seven.items {
+		    margin: 0 !important;
 		}
 	}
 
@@ -814,11 +814,18 @@
 		margin-top: 0.8em;
 		min-height: 285px;
 	}
-	
+	.ui.allist .ui.items .item .like {
+		font-size: 0.875em;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
 	var a=e(window).height(),s=e(window).width(),h=$('header.ui.main').height();
+	if(s > 960 && s <= 1024){
+		a = 650;
+	}else if(s <= 960){
+		a = 500;
+	}
 	e("#contentwrap").height(a - h);
 	e("#contentwrap").width(s);
 	
@@ -1374,8 +1381,8 @@
 											</a>
 										</span>
 										<span class="like">
-											<i class="icon unhide"></i>
-											<span class="count">{{ topic.view_count }}</span>
+											<i class="heart icon"></i>
+											<span class="count">{{ topic.love_count }}</span>
 										</span>
 									</div>
 								</div>

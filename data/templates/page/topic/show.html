@@ -133,7 +133,8 @@
 					$btn
 						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -144,7 +145,8 @@
 					$btn
 						.data('content', '收藏')
 						.data('mark', 'n')
-						.removeClass('active');
+						.removeClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -166,7 +168,8 @@
 					$btn
 						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+						.html('<i class="empty heart icon"></i> <small>'+ result.data.love_count +'</small>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -177,7 +180,8 @@
 					$btn
 						.data('content', '点赞')
 						.data('mark', 'n')
-						.removeClass('active');
+						.removeClass('active')
+						.html('<i class="empty heart icon"></i> <small>'+ result.data.love_count +'</small>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -353,10 +357,10 @@
 					<div class="admin post actions clearfix">
 						<div class="ui icon magenta buttons">
 							<div class="ui pop favorite button" data-content="收藏" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-								<i class="empty star icon"></i>
+								<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
 							</div>
 							<div class="ui pop love button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-								<i class="heart empty icon"></i>
+								<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
 							</div>
 						</div>
 						
