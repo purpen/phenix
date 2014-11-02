@@ -40,7 +40,11 @@
 		<div class="column">
 			<div class="ui one items">
 				{% for product in sale.rows %}
-			  		{% include "mm/product-item.html" %}
+					{% if process_saled %}
+			  			{% include "mm/product-item.html" %}
+					{% else %}
+						{% include "mm/product-presale-item.html" %}
+					{% endif %}
 			    {% endfor %}
 			</div>
 		</div>
