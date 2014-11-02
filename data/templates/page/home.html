@@ -66,10 +66,17 @@
 	});
 	
 	$(window).resize(function(e) {
-		var e=$(window).width();
-		if (e > 1009){
-			$(".hero .slidee li").width(e);
+		var s=$(window).width(),a=$(window).height();
+		if(s > 960 && s <= 1024){
+			a = 690;
+		}else if(s > 768 && s <= 960){
+			a = 500;
+		}else if(s <= 768){
+			a = 450;
 		}
+		
+		$(".hero").height(a);
+		$(".hero .slidee li").width(s);
 		
 		$frame.sly('reload');
 	});
