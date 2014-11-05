@@ -70,7 +70,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','category_id','fid','gid','deleted','published');
+	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published');
 	
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	

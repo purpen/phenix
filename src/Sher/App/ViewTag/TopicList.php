@@ -20,6 +20,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		
         $user_id = 0;
 		$target_id = 0;
+		$try_id = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -47,7 +48,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
      	
         $options['sort_field'] = $sort;
 		
-		if ($category_id) {
+		if($category_id){
 			if ($is_top) {
 				$query['fid'] = (int)$category_id;
 			} else {
@@ -55,8 +56,12 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			}
 		}
 		
-		if ($target_id) {
+		if($target_id){
 			$query['target_id'] = (int)$target_id;
+		}
+		
+		if($try_id){
+			$query['try_id'] = (int)$try_id;
 		}
 		
 		// 类别
