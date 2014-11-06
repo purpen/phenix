@@ -204,6 +204,29 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page('page/topic/subject_list.html');
 	}
 	
+	/**
+	 * 产品试用报告
+	 */
+	public function report(){
+		$tid = (int)$this->stash['tid'];
+		
+		$try = new Sher_Core_Model_Try();
+		$this->stash['try'] = $try->extend_load($tid);
+		
+		// 评测报告分类
+		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
+		
+		// 分类名称
+		$category = new Sher_Core_Model_Category();
+		$subject_category = $category->extend_load($this->stash['report_category_id']);
+		
+		$this->stash['subject_category'] = $subject_category;
+		
+		// 分页链接
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.topic'].'/report?tid=%d&page=#p#', $tid);
+		
+		return $this->to_html_page('page/topic/report_list.html');
+	}
 	
 	/**
 	 * 显示主题详情帖

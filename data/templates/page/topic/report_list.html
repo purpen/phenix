@@ -1,0 +1,120 @@
+{%extends 'layout/column.html'%}
+{% block title %}报告列表-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#subject .ui.header .sub.header {
+		margin: 0.4em 0 0;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	phenix.hook_product_topic();
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="count">%D<span>天</span></div></div><div class="item"><div class="count">%H<span>时</span></div></div> <div class="item"><div class="count">%M<span>分</span></div></div><div class="magenta item"><div class="count">%S<span>秒</span></div></div>'));
+		});
+	});
+{% endblock %}
+
+{% block content %}
+<div id="subject" class="ui social">
+	<div class="ui responsive grid">
+		
+		<div class="middle aligned row">
+			<div class="eleven wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_topic }}">
+						<i class="basic icon community"></i> 社区
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ subject_category._id }}">{{ subject_category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_domain }}/try">新品试用</a>
+				  	<i class="angle right icon divider"></i>
+				  	{{ try.title }}
+				</div>
+			</div>
+			<div class="five wide right aligned column">
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ subject_category._id }}" class="ui gray hide button">
+					<i class="add icon"></i> 发表话题
+				</a>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui segment">
+					<h3 class="ui dividing header">
+						所属试用
+					</h3>
+					<div class="ui grid">
+						<div class="row">
+							<div class="two wide column">
+								<a href="{{ try.view_url }}" title="{{ try.title }}">
+						      		<img src="{{ try.cover.thumbnails.tiny.view_url }}" class="ui image" />
+								</a>
+							</div>
+							<div class="eight wide column">
+						      	<h4 class="ui header">
+								  	<div class="content">
+										<a href="{{ try.view_url }}" title="{{ try.title }}" class="ui line">
+											{{ try.title }} {%if try.is_end%}（已结束）{%endif%}
+										</a>
+										<div class="sub header">
+											产品数量：<span class="count">{{ try.try_count }}</span>个 申请人数：<span class="count">{{ try.apply_count }}</span>人{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}
+										</div>
+								  	</div>
+								</h4>
+								<p class="summary">
+									{{ try.description }}
+								</p>
+							</div>
+							
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">
+					全部报告
+				</h3>
+				{% topic_list var:'list' page:page try_id:tid size:2 %}
+				<div class="ui segment">
+					<table class="ui basic sortable topic table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>浏览数</th>
+							</tr>
+						</thead>
+						<tbody class="ui topic list">
+							{% for topic in list.rows %}
+								{% include "block/topic_item.html" %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<a name="newtopic"></a>
+				
+				{% if list.total_rows %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+				{% endif %}
+				
+			</div>
+			
+		</div>
+	</div>
+</div>
+{% endblock %}
