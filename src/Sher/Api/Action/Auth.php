@@ -131,13 +131,20 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	 * 发送手机验证码
 	 */
 	public function verify_code(){
+		// 请求参数
+		$this->resparams = array_merge($this->resparams, array('mobile'));
+		// 验证请求签名
+		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
+			return $this->api_json('数据错误,请重试!', 300);
+		}
+		
 		$phone = $this->stash['mobile'];
 		if(empty($phone)){
-			return $this->ajax_json('发送失败：手机号码不能为空！', true);
+			return $this->api_json('发送失败：手机号码不能为空！', 300);
 		}
 		// 验证手机号码格式
 		if(!Sher_Core_Helper_Util::is_mobile($phone)){
-			return $this->ajax_json('发送失败：手机号码格式不正确！', true);
+			return $this->api_json('发送失败：手机号码格式不正确！', 300);
 		}
 		// 生成验证码
 		$verify = new Sher_Core_Model_Verify();
@@ -148,7 +155,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);
 		}
 		
-		return $this->ajax_json('正在发送');
+		return $this->api_json('正在发送');
 	}
 	
 	/**
