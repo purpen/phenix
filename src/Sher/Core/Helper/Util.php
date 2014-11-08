@@ -105,16 +105,16 @@ class Sher_Core_Helper_Util {
 				$paramstring .= "&" . $key . "=" . $value;
 			}
 		}
-		
+		Doggy_Log_Helper::warn("Sign client_id: $client_id ");
 		if($client_id == Doggy_Config::$vars['app.frbird.key']){
 			$sercet = Doggy_Config::$vars['app.frbird.sercet'];
 		}else{
 			// 返回为空
 			return;
 		}
-		
+		Doggy_Log_Helper::warn("Sign params: $paramstring ");
 		$sign = md5(md5($paramstring.$sercet.$client_id));
-		
+		Doggy_Log_Helper::warn("Sign: $sign ");
 		return $sign;
 	}
 	

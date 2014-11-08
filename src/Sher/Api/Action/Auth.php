@@ -135,7 +135,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$this->resparams = array_merge($this->resparams, array('mobile'));
 		// 验证请求签名
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			return $this->api_json('数据错误,请重试!', 300);
+			return $this->api_json('请求参数签名有误,请重试!', 300);
 		}
 		
 		$phone = $this->stash['mobile'];
