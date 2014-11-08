@@ -99,6 +99,9 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$user_info['profile'] = $profile;
 		
         try {
+			// 删除验证码
+			$verify->remove($code['_id']);
+			
             $ok = $user->create($user_info);
 			if($ok){
 				$user_id = $user->id;
@@ -115,9 +118,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 				
 				// 实现自动登录
 				Sher_Core_Helper_Auth::create_user_session($user_id);
-				
-				// 删除验证码
-				$verify->remove($code['_id']);
 			}
         }catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to register:'.$e->getMessage());
