@@ -6,19 +6,68 @@
 class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 	public $stash = array(
 		'page' => 1,
+		'size' => 10,
 		'uid' => 0,
 		'c' => '',
 		's' => '',
 		'bonus' => '',
 	);
 
-	protected $exclude_method_list = array('execute', 'bonus', 'up_bonus', 'game_result');
+	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result');
 	
 	/**
 	 * 入口
 	 */
 	public function execute(){
 		return $this->to_raw('Hi Taihuoniao!');
+	}
+	
+	/**
+	 * 广告位轮换图
+	 */
+	public function slide(){
+		$result = array();
+		$page = $this->stash['page'];
+		$size = $this->stash['size'];
+		// 请求参数
+		$space_id = isset($this->stash['space_id']) ? $this->stash['space_id'] : 0;
+		$name = isset($this->stash['name']) ? $this->stash['name'] : '';
+		
+		// 获取某位置的推荐内容
+		if(!empty($name) && empty($space_id)){
+			$model = new Sher_Core_Model_Space();
+			$row = $model->first(array('name' => $name));
+			if(!empty($row)){
+				$space_id = (int)$row['_id'];
+			}else{
+				return $this->ajax_json('请求参数不足', true, '/', $result);
+			}
+		}
+		
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		if ($space_id) {
+			$query['space_id'] = (int)$space_id;
+		}
+		
+		$query['state'] = Sher_Core_Model_Advertise::STATE_PUBLISHED;
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+        $service = Sher_Core_Service_Advertise::instance();
+        $result = $service->get_ad_list($query,$options);
+		
+		// 获取单条记录
+		if($size == 1 && !empty($result['rows'])){
+			$result = $result['rows'][0];
+		}
+		
+		return $this->ajax_json('请求成功', false, '/', $result);
 	}
 	
 	/**

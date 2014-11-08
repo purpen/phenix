@@ -35,13 +35,23 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
         @setcookie('auth_return_url', '', time()-259200, '/');
     }
 	
+	/**
+	 * API接口返回数据
+	 */
+	public function api_json($msg, $error_code=0, $data=array()){
+		$is_error = !empty($error_code) ? true : false;
+		return $this->ajax_json($msg, $is_error, null, $data, $error_code);
+	}
+	
     /**
      * alias to_raw_json
+	 * error_code 错误码，默认0为正确； 
      */
-	public function ajax_json($msg,$is_error=false,$url=null,$data=array()) {
+	public function ajax_json($msg, $is_error=false, $url=null, $data=array(), $error_code=0) {
 		$result = array(
 			'success'  => !$is_error,
 			'is_error' => $is_error,
+			'status'   => (string)$error_code,
 			'message'  => $msg
 		);
 		if (!empty($url)){

@@ -76,8 +76,46 @@ class Sher_Core_Helper_Util {
 		return preg_match("/^http:\/\/[A-Za-z0-9-%_]+\.[A-Za-z0-9-%_]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"])*$/", $str);
 	}
 	
+	/**
+	 * 判断是否为gif格式
+	 */
 	public static function is_gif($str){
 		return (strtolower(substr($str,-4)) == ".gif"); 
+	}
+	
+	/**
+	 * 获取签名
+	 * @param array $arrdata 签名数组
+	 * @param array $resparams 参与签名的Key
+	 * @param string $client_id 应用key
+	 * @return boolean|string 签名值
+	 */
+	public static function get_signature($arrdata, $resparams, $client_id){
+		ksort($arrdata);
+		
+		$paramstring = '';
+		foreach($arrdata as $key => $value){
+			// 空参数值不参与签名, 或不在参与签名参数的
+			if(empty($value) || !in_array($key, $resparams)){
+				continue;
+			}
+			if(strlen($paramstring) == 0){
+				$paramstring .= $key . "=" . $value;
+			}else{
+				$paramstring .= "&" . $key . "=" . $value;
+			}
+		}
+		
+		if($client_id == Doggy_Config::$vars['app.frbird.key']){
+			$sercet = Doggy_Config::$vars['app.frbird.sercet'];
+		}else{
+			// 返回为空
+			return;
+		}
+		
+		$sign = md5(md5($paramstring.$sercet.$client_id));
+		
+		return $sign;
 	}
 	
 	/**

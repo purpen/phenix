@@ -155,7 +155,9 @@ app.wechat.app_secret: '795ff8ca3d4a57ae645e4d217c193988'
 app.tenpay.partner: '1220172801'
 app.tenpay.key: 'c61bea76f78ee72048aaa6570ad36ab3'
 
-
+# 太火鸟App Key
+app.frbird.key: '1415289600'
+app.frbird.sercet: '545d9f8aac6b7a4d04abffe5'
 
 # 附件存储目录
 app.storage.sher:

@@ -3,13 +3,13 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Auth extends Sher_Core_Action_Authorize {
+class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'uid' => 0,
 		'bonus' => '',
 	);
-
+	
 	protected $exclude_method_list = array('execute', 'login', 'register', 'verify_code');
 	
 	/**
@@ -62,19 +62,27 @@ class Sher_Api_Action_Auth extends Sher_Core_Action_Authorize {
 	 * 注册接口
 	 */
 	public function register(){
+		// 请求参数
+		$this->resparams = array_merge($this->resparams, array('mobile','password','verify_code'));
+		// 验证请求签名
+		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
+			return $this->api_json('数据错误,请重试!', 300);
+		}
+		
 	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-            return $this->ajax_note('数据错误,请重试----01', true);
+            return $this->ajax_json('数据错误,请重试!', true);
         }
+		
 		// 验证手机号码格式
 		if(!Sher_Core_Helper_Util::is_mobile($this->stash['mobile'])){
-			return $this->ajax_json('手机号码格式不正确！--- 02', true);
+			return $this->ajax_json('手机号码格式不正确!', true);
 		}
 		
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
 		$code = $verify->first(array('phone'=>$this->stash['mobile'],'code'=>$this->stash['verify_code']));
 		if(empty($code)){
-			return $this->ajax_json('验证码有误，请重新获取！--03', true);
+			return $this->ajax_json('验证码有误，请重新获取！', true);
 		}
 		
 		$user_info = array(
@@ -122,7 +130,7 @@ class Sher_Api_Action_Auth extends Sher_Core_Action_Authorize {
 	/**
 	 * 发送手机验证码
 	 */
-	public function verify_code() {
+	public function verify_code(){
 		$phone = $this->stash['mobile'];
 		if(empty($phone)){
 			return $this->ajax_json('发送失败：手机号码不能为空！', true);
@@ -142,6 +150,15 @@ class Sher_Api_Action_Auth extends Sher_Core_Action_Authorize {
 		
 		return $this->ajax_json('正在发送');
 	}
+	
+	/**
+	 * 获取用户信息
+	 */
+	public function user(){
+		
+	}
+	
+	
 
 }
 ?>
