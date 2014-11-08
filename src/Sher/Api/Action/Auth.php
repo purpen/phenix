@@ -23,24 +23,31 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	 * 登录接口
 	 */
 	public function login(){
+		// 请求参数
+		$this->resparams = array_merge($this->resparams, array('mobile','password'));
+		// 验证请求签名
+		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
+			return $this->api_json('请求签名验证错误,请重试!', 3000);
+		}
+		
         if (empty($this->stash['mobile']) || empty($this->stash['password'])) {
-            return $this->ajax_json('数据错误,请重新登录', true);
+            return $this->api_json('数据错误,请重新登录', 3001);
         }
 		
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['mobile']));
         if (empty($result)) {
-            return $this->ajax_json('帐号不存在!', true);
+            return $this->api_json('帐号不存在!', 3002);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
-            return $this->ajax_json('登录账号和密码不匹配', true);
+            return $this->api_json('登录账号和密码不匹配', 3001);
         }
         $user_id = (int)$result['_id'];
 		$nickname = $result['nickname'];
         $user_state = $result['state'];
         
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
-            return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
+            return $this->api_json('此帐号涉嫌违规已经被禁用!', 3003);
         }
 		
 		Sher_Core_Helper_Auth::create_user_session($user_id);
@@ -55,7 +62,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
             $visitor[$k] = isset($user_data[$k]) ? $user_data[$k] : null;
         }
 		
-		return $this->ajax_json('欢迎回来.', false, null, $visitor);
+		return $this->api_json('欢迎回来.', 0, $visitor);
 	}
 	
 	/**
@@ -66,7 +73,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$this->resparams = array_merge($this->resparams, array('mobile','password','verify_code'));
 		// 验证请求签名
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			return $this->api_json('数据错误,请重试!', 3000);
+			return $this->api_json('请求签名验证错误,请重试!', 3000);
 		}
 		
 	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
