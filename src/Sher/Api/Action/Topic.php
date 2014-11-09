@@ -58,7 +58,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
         $service = Sher_Core_Service_Topic::instance();
         $result = $service->get_topic_list($query, $options);
 		
-		return $this->ajax_json('请求成功', false, '/', $result);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -66,10 +66,8 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
-		
-		$redirect_url = Doggy_Config::$vars['app.url.topic'];
 		if(empty($id)){
-			return $this->ajax_json('访问的主题不存在！', true, $redirect_url);
+			return $this->api_json('访问的主题不存在！', 3000);
 		}
 		
 		// 是否允许编辑
@@ -84,7 +82,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		$topic = $model->extend_load($id);
 		
 		if(empty($topic) || $topic['deleted']){
-			return $this->ajax_json('访问的主题不存在或已被删除！', true, $redirect_url);
+			return $this->api_json('访问的主题不存在或已被删除！', 3001);
 		}
 		
 		// 增加pv++
@@ -122,7 +120,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 			$result['product'] = & $product->extend_load($topic['target_id']);
 		}
 		
-		return $this->ajax_json('请求成功', false, '/', $result);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -145,7 +143,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
         $service = Sher_Core_Service_Category::instance();
         $result = $service->get_category_list($query, $options);
 		
-		return $this->ajax_json('请求成功', false, '/', $result);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -159,6 +157,9 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		// 请求参数
         $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
+		if(empty($target_id)){
+			return $this->api_json('获取数据错误,请重新提交', 3000);
+		}
 		
 		$query   = array();
 		$options = array();
@@ -183,7 +184,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
         $service = Sher_Core_Service_Comment::instance();
         $result = $service->get_comment_list($query, $options);
 		
-		return $this->ajax_json('请求成功', false, '/', $result);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -196,23 +197,26 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		// 验证数据
 		$data['target_id'] = $this->stash['target_id'];
 		$data['content'] = $this->stash['content'];
-		$data['star'] = $this->stash['star'];
 		if(empty($data['target_id']) || empty($data['content'])){
-			return $this->ajax_json('获取数据错误,请重新提交', true);
+			return $this->api_json('获取数据错误,请重新提交', 3000);
 		}
 		
 		$data['user_id'] = $this->visitor->id;
-		$data['type'] = Sher_Core_Model_Favorite::TYPE_TOPIC;
+		$data['type'] = Sher_Core_Model_Comment::TYPE_TOPIC;
 		
-		// 保存数据
-		$model = new Sher_Core_Model_Comment();
-		$ok = $model->apply_and_save($data);
-		if($ok){
-			$comment_id = $model->id;
-			$result['comment'] = &$model->extend_load($comment_id);
+		try{
+			// 保存数据
+			$model = new Sher_Core_Model_Comment();
+			$ok = $model->apply_and_save($data);
+			if($ok){
+				$comment_id = $model->id;
+				$result['comment'] = &$model->extend_load($comment_id);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
 		
-		return $this->ajax_json('操作成功', false, '/', $result);
+		return $this->api_json('操作成功', 0, $result);
 	}
 	
 	/**
@@ -221,7 +225,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	public function ajax_favorite(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_json('缺少请求参数！', true);
+			return $this->api_json('缺少请求参数！', 3000);
 		}
 		
 		try{
@@ -233,13 +237,13 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 				$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
 		
 		// 获取新计数
 		$favorite_count = $this->remath_count($id, 'favorite_count');
 		
-		return $this->ajax_json('操作成功', false, '/', array('favorite_count'=>$favorite_count));
+		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
 	}
 	
 	/**
@@ -248,7 +252,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	public function ajax_love(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_json('缺少请求参数！', true);
+			return $this->api_json('缺少请求参数！', 3000);
 		}
 		
 		try{
@@ -260,13 +264,13 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 				$ok = $model->add_love($this->visitor->id, $id, $fav_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
+			return $this->api_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
 		
 		// 获取计数
 		$love_count = $this->remath_count($id, 'love_count');
 		
-		return $this->ajax_json('操作成功', false, '/', array('love_count'=>$love_count));
+		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
 	}
 	
 	/**

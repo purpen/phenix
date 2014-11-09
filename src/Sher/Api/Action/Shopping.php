@@ -1,6 +1,6 @@
 <?php
 /**
- * API 接口
+ * 购物流程 API 接口
  * @author purpen
  */
 class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {

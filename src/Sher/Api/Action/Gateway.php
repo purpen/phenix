@@ -29,9 +29,13 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		$result = array();
 		$page = $this->stash['page'];
 		$size = $this->stash['size'];
+		
 		// 请求参数
 		$space_id = isset($this->stash['space_id']) ? $this->stash['space_id'] : 0;
 		$name = isset($this->stash['name']) ? $this->stash['name'] : '';
+		if(empty($name) && empty($space_id)){
+			return $this->api_json('请求参数不足', 3000);
+		}
 		
 		// 获取某位置的推荐内容
 		if(!empty($name) && empty($space_id)){
@@ -40,7 +44,7 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 			if(!empty($row)){
 				$space_id = (int)$row['_id'];
 			}else{
-				return $this->ajax_json('请求参数不足', true, '/', $result);
+				return $this->api_json('请求参数不足', 3002);
 			}
 		}
 		
@@ -67,7 +71,7 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 			$result = $result['rows'][0];
 		}
 		
-		return $this->ajax_json('请求成功', false, '/', $result);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**

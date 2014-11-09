@@ -7,65 +7,260 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	
 	public $stash = array(
 		'page' => 1,
+		'size' => 10,
 	);
+	
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments');
 	
 	/**
 	 * 入口
 	 */
 	public function execute(){
-		
+		return $this->getlist();
 	}
 	
 	/**
 	 * 分类
 	 */
 	public function category(){
+		$page = $this->stash['page'];
+		$size = $this->stash['size'];
 		
+		$query   = array();
+		$options = array();
+		
+		$query['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+		
+        $options['page'] = $page;
+        $options['size'] = $size;
+		$options['sort_field'] = 'orby';
+		
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($query, $options);
+		
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
 	 * 商品列表
 	 */
-	public function list(){
+	public function getlist(){
+		$page = $this->stash['page'];
+		$size = $this->stash['size'];
+		// 请求参数
+		$category_id = isset($this->stash['category_id']) ? $this->stash['category_id'] : 0;
+		$user_id   = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
 		
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		if($category_id){
+			$query['category_id'] = (int)$category_id;
+		}
+		if($user_id){
+			$query['user_id'] = (int)$user_id;
+		}
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+		// 开启查询
+        $service = Sher_Core_Service_Product::instance();
+        $result = $service->get_product_list($query, $options);
+		
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
 	 * 商品详情
 	 */
 	public function view(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('访问的产品不存在！', 3000);
+		}
 		
+		$product = array();
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$id);
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
+		if($product['deleted']){
+			return $this->api_json('访问的产品不存在或已被删除！', 3001);
+		}
+		
+		// 增加pv++
+		$model->inc_counter('view_count', 1, $id);
+		
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->api_json('访问的产品等待发布中！', 3001);
+		}
+		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 获取skus及inventory
+		$inventory = new Sher_Core_Model_Inventory();
+		$skus = $inventory->find(array(
+			'product_id' => $id,
+			'stage' => $product['stage'],
+		));
+		$product['skus'] = $skus;
+		$product['skus_count'] = count($skus);
+		
+		return $this->api_json('请求成功', 0, $product);
 	}
 	
 	/**
 	 * 收藏
 	 */
 	public function ajax_favorite(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('缺少请求参数！', 3000);
+		}
 		
+		try{
+			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
+			
+			$model = new Sher_Core_Model_Favorite();
+			if(!$model->check_favorite($this->visitor->id, $id, $type)){
+				$fav_info = array('type' => $type);
+				$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+		}
+		
+		// 获取新计数
+		$favorite_count = $this->remath_count($id, 'favorite_count');
+		
+		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
 	}
 	
 	/**
 	 * 点赞
 	 */
 	public function ajax_love(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('缺少请求参数！', 3000);
+		}
 		
+		try{
+			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
+			
+			$model = new Sher_Core_Model_Favorite();
+			if (!$model->check_loved($this->visitor->id, $id, $type)) {
+				$love_info = array('type' => $type);
+				$ok = $model->add_love($this->visitor->id, $id, $love_info);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+		}
+		
+		// 获取计数
+		$love_count = $this->remath_count($id, 'love_count');
+		
+		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
 	}
 	
 	/**
 	 * 用户评论列表
 	 */
 	public function comments(){
+		$type = Sher_Core_Model_Comment::TYPE_PRODUCT;
+		$page = $this->stash['page'];
+		$size = $this->stash['size'];
 		
+		// 请求参数
+        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+        $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
+		if(empty($target_id)){
+			return $this->api_json('获取数据错误,请重新提交', 3000);
+		}
+		
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+        if($user_id){
+            $query['user_id'] = (int) $user_id;
+        }
+		if($target_id){
+			$query['target_id'] = (string)$target_id;
+		}
+		if($type){
+			$query['type'] = (int)$type;
+		}
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+        $options['sort_field'] = 'earliest';
+		
+		// 开启查询
+        $service = Sher_Core_Service_Comment::instance();
+        $result = $service->get_comment_list($query, $options);
+		
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
 	 * 用户评价
 	 */
 	public function ajax_comment(){
+		$data = array();
+		$result = array();
 		
+		try{
+			// 验证数据
+			$data['target_id'] = $this->stash['target_id'];
+			$data['content'] = $this->stash['content'];
+			$data['star'] = $this->stash['star'];
+			if(empty($data['target_id']) || empty($data['content'])){
+				return $this->api_json('获取数据错误,请重新提交', 3000);
+			}
+		
+			$data['user_id'] = $this->visitor->id;
+			$data['type'] = Sher_Core_Model_Comment::TYPE_PRODUCT;
+			
+			// 保存数据
+			$model = new Sher_Core_Model_Comment();
+			$ok = $model->apply_and_save($data);
+			if($ok){
+				$comment_id = $model->id;
+				$result['comment'] = &$model->extend_load($comment_id);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+		}
+		
+		return $this->api_json('操作成功', 0, $result);
 	}
 	
-	
+	/**
+	 * 计算总数
+	 */
+	protected function remath_count($id, $field='favorite_count'){
+		$count = 0;
+		
+		$model = new Sher_Core_Model_Product();
+		$result = $model->load((int)$id);
+		
+		if(!empty($result)){
+			$count = $result[$field];
+		}
+		
+		return $count;
+	}
 	
 }
 ?>
