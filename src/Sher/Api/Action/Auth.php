@@ -16,7 +16,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	 * 入口
 	 */
 	public function execute(){
-		return $this->to_raw('Hi Taihuoniao!');
+		return $this->user();
 	}
 	
 	/**
@@ -169,7 +169,15 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	 * 获取用户信息
 	 */
 	public function user(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('访问的用户不存在！', 3000);
+		}
 		
+		$model = new Sher_Core_Model_User();
+		$result = $model->load((int)$id);
+		
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	
