@@ -46,7 +46,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		Doggy_Log_Helper::warn("Get wexin request!");
 		
 		$weObj = new Sher_Core_Util_Wechat($this->options);
-		return $weObj->valid();
+		// return $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
 		$fromUserName = $weObj->getRev()->getRevFrom();
