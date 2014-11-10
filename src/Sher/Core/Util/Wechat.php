@@ -123,7 +123,7 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		sort($tmpArr, SORT_STRING);
 		$tmpStr = implode( $tmpArr );
 		$tmpStr = sha1( $tmpStr );
-		
+		Doggy_Log_Helper::warn("Valid wechat signature [".$tmpStr."],[".$signature."]!");
 		if( $tmpStr == $signature ){
 			return true;
 		}else{
@@ -138,6 +138,7 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	public function valid($return=false)
     {
         $echoStr = isset($_GET["echostr"]) ? $_GET["echostr"]: '';
+		Doggy_Log_Helper::warn("Valid wechat [".$echoStr."]!");
         if ($return) {
         		if ($echoStr) {
         			if ($this->checkSignature()) 
