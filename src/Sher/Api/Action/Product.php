@@ -48,10 +48,12 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	public function getlist(){
 		$page = $this->stash['page'];
 		$size = $this->stash['size'];
-		// 请求参数
-		$category_id = isset($this->stash['category_id']) ? $this->stash['category_id'] : 0;
-		$user_id   = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
 		
+		// 请求参数
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+			
 		$query   = array();
 		$options = array();
 		
@@ -61,6 +63,9 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		}
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
+		}
+		if($stick){
+			$query['stick'] = 1;
 		}
 		
 		// 分页参数
