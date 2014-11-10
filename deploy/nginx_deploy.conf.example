@@ -46,6 +46,15 @@ server {
         rewrite ^/my/(.*)$ /app/wap/my/$1 last;
     }
 	
+    location /wechat {
+      	rewrite ^/wechat/(\d+).html$ /app/wechat/shop/view?id=$1 last;
+      	rewrite ^/wechat/(.*)$ /app/wechat/$1 last;
+    }
+	
+    location /wxpay {
+        rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
+    }
+	
     location /pay {
 		rewrite ^/pay(.*)$ /app/wap/pay$1 last;
     }

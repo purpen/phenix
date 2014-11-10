@@ -46,7 +46,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		Doggy_Log_Helper::warn("Get wexin request!");
 		
 		$weObj = new Sher_Core_Util_Wechat($this->options);
-		// return $weObj->valid();
+		return $weObj->valid();
 		$type = $weObj->getRev()->getRevType();
 		$event = $weObj->getRev()->getRevEvent();
 		$fromUserName = $weObj->getRev()->getRevFrom();
@@ -263,7 +263,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 订阅自动回复
 	 */
 	protected function welcome(){
-		$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。了解并参与“2014上海设计之都”活动请回复“惊喜”。';
+		$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。';
 		
 		return $welcome;
 	}
@@ -296,23 +296,11 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 */
 	protected function newest() {
 		$result = array(
-			"0" => array(
-				'Title' => '太火鸟梦想起航',
-				'Description'=>'全球首款革命性智能空气净化器活动,现在预订就有机会赢取大奖',
-				'PicUrl'=>'http://frbird.qiniudn.com/topic/140810/53e70f85989a6a383e8b4b17-3-hu.jpg',
-				'Url'=>'http://www.taihuoniao.com/topic/view-100012-1.html'
-			),
 			"1" => array(
 				'Title' => '太火鸟传奇',
 				'Description'=>'太火鸟栖息在海拔2000米左右的高山上，吃天露花蜜，在空中轻盈灵巧的飞舞时，能发出一阵阵迷人的乐声。',
 				'PicUrl'=>'http://frbird.qiniudn.com/topic/140809/53e5e1cd989a6a1d078b63fd-1-hu.jpg',
-				'Url'=>'http://www.taihuoniao.com/topic/view-100009-1.html'
-			),
-			"2" => array(
-				'Title' => '智造革命 太火鸟&LKK',
-				'Description'=>'智造革命活动,参与就有机会赢取大奖',
-				'PicUrl'=>'http://frstatic.qiniudn.com/images/case-dm.jpg',
-				'Url'=>'http://www.taihuoniao.com/topic/view-100013-1.html'
+				'Url'=>'http://m.taihuoniao.com/social/show-100009-1.html'
 			),
 		);
 		
@@ -330,26 +318,20 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			"button"=>
 				array(
 					array(
-						'type' => 'click',
+						'type' => 'view',
 						'name' => '精选商品',
-						"key" => "MENU_KEY_SHOP",
+						"url" => "http://mp.weixin.qq.com/bizmall/mallshelf?id=&t=mall/list&biz=MzA3ODY5ODUxNA==&shelf_id=1&showwxpaytitle=1#wechat_redirect",
+					),
+					array(
+						'type' => 'click',
+						'name' => '最新活动',
 						'sub_button' => array(
 							array(
 						   	 	"type" => "view",
-						   	 	"name" => "防雾霭专区",
-								"url" => "http://www.taihuoniao.com/wechat/shop/w"
-							),
-							array(
-						   	 	"type" => "view",
-						   	 	"name" => "热门商品",
-								"url" => "http://www.taihuoniao.com/wechat/shop"
+						   	 	"name" => "十万火计",
+								"url" => "http://m.taihuoniao.com/dream"
 							)
 						)
-					),
-					array(
-						'type' => 'view',
-						'name' => '享优惠',
-						"url" => "http://wd.koudai.com/?userid=164729694",
 					),
 					array(
 						'type' => 'click',

@@ -10,6 +10,7 @@ app.url.admin_base:    '{$app.domain.app}/app/admin'
 app.domain.mobile: 'http://m.taihuoniao.me'
 app.url.mobile: '{$app.domain.mobile}'
 app.url.wap: '{$app.domain.mobile}'
+
 #wap
 app.url.wap.social: '{$app.url.wap}/social'
 app.url.wap.social.list : '{$app.url.wap.social}/list'
