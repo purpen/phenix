@@ -17,6 +17,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 社区入口
 	 */
 	public function execute(){
+		Doggy_Log_Helper::warn('Social request!');
 		return $this->topic();
 	}
 	
@@ -47,6 +48,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 社区首页
 	 */
 	public function topic(){
+		Doggy_Log_Helper::warn('Social request topic!');
 		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
 		$this->stash['category_prefix_url'] = $prefix_url;
 		return $this->to_html_page('wap/topic.html');

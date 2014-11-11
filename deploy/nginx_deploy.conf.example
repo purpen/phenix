@@ -33,6 +33,7 @@ server {
 
     location / {
 		rewrite ^/tracker(.*)$ /app/site/tracker$1 last;
+		rewrite ^(.*)$ /app/wap/index$1 last;
     }
 
 	location /auth {
