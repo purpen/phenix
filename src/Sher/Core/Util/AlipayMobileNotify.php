@@ -154,7 +154,7 @@ class Sher_Core_Util_AlipayMobileNotify extends Doggy_Object {
 		
 		//把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
 		$prestr = Sher_Core_Util_Alipay::createLinkstring($para);
-		Doggy_Log_Helper::warn('Verify mobile alipay prestr: '.json_encode($prestr));
+		Doggy_Log_Helper::warn('Verify mobile alipay prestr: '.$prestr);
 		$isSgin = false;
 		switch (strtoupper(trim($this->alipay_config['sign_type']))) {
 			case "MD5" :
@@ -164,6 +164,8 @@ class Sher_Core_Util_AlipayMobileNotify extends Doggy_Object {
 				$isSgin = Sher_Core_Util_Alipay::rsaVerify($prestr, trim($this->alipay_config['ali_public_key_path']), $sign);
 				break;
 			case "0001" :
+				Doggy_Log_Helper::warn('Verify mobile alipay sign: '.$sign);
+				Doggy_Log_Helper::warn('Verify mobile public key path: '.trim($this->alipay_config['ali_public_key_path']));
 				$isSgin = Sher_Core_Util_Alipay::rsaVerify($prestr, trim($this->alipay_config['ali_public_key_path']), $sign);
 				break;
 			default :
