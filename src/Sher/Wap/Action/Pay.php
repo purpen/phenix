@@ -172,12 +172,14 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 	 * 支付宝异步通知
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Alipay mobile secrete notify updated!");
+		Doggy_Log_Helper::warn("Alipay mobile secret notify updated!");
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
 		
 		if($verify_result){//验证成功
+			Doggy_Log_Helper::warn("Alipay mobile secrete notify document: ".$_POST['notify_data']);
+			
 			$doc = new DOMDocument();	
 			if($this->alipay_config['sign_type'] == 'MD5'){
 				$doc->loadXML($_POST['notify_data']);
@@ -203,6 +205,8 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 					return $this->to_raw('fail');
 				}
 			}
+			
+			Doggy_Log_Helper::warn("Alipay mobile secrete notify document over!");
 		}else{
 			// 验证失败
 			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
