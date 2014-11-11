@@ -11,13 +11,33 @@
 {% endblock %}
 
 {% block content %}
-{% if process_saled %}
 <div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<div class="ui breadcrumb">
+			  	<a class="section" href="{{ app_url_wap }}">
+					<i class="icon home"></i>首页
+				</a>
+				{% if process_saled %}
+			  	<div class="divider"> / </div>
+			  	<div class="active section">新品预售</div>
+				{% else %}
+			  	<div class="divider"> / </div>
+			  	<div class="active section">热门商品</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	{% if process_saled %}
 	<div class="two column row">
 		<div class="column">
-			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid %}
+			{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
 			<div class="ui selection dropdown">
+				{% if current %}
+				<div class="default text">{{ current.title }}</div>
+				{% else %}
 			    <div class="default text">全部类别</div>
+				{% endif %}
 			    <i class="angle down icon"></i>
 			    <div class="menu">
 					{% for cat in category.rows %}
@@ -30,8 +50,9 @@
 			
 		</div>
 	</div>
+	{% endif %}
 </div>
-{% endif %}
+
 <!--商店商品-->
 {% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 only_stick:1 category_id:cid page:page %}
 {% if sale.total_rows %}

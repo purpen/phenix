@@ -42,7 +42,34 @@
 			});
 		}
 	});
-	
+	// 选择填写红包
+	$('#submit-bonus').click(function(){
+		var bonus_code = $('#bonus-code').val();
+		if(bonus_code){
+			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
+				if(result.success){
+					$('#order-coin-money').text('￥'+result.data.card_money);
+					$('#order-pay-money').text('￥'+result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+		}else{
+			phenix.show_error_note('请输入红包码', 3000);
+		}
+	});
+	// 选择使用红包
+	$('.inbonus').change(function(){
+		var code = $('.inbonus:checked').val();
+		$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
+			if(result.success){
+				$('#order-coin-money').text('￥'+result.data.card_money);
+				$('#order-pay-money').text('￥'+result.data.pay_money);
+			}else{
+				phenix.show_error_note(result.message, 3000);
+			}
+		}, 'json');
+	});
 {% endblock %}
 
 {% block content %}
@@ -79,13 +106,31 @@
 					<div class="ui segment">
 						<div class="ui very relaxed divided list">
 							<div class="item">
-								<label>支付方式：</label>在线支付
+								<label>支付方式：</label> <span class="ui magenta text">在线支付</span>
 							</div>
 							<div class="item">
-								配送方式： 默认圆通快递
+								配送方式： <span class="ui magenta text">圆通快递 (默认)</span>
 							</div>
 							<div class="item">
-								送货时间： 不限送货时间
+								送货时间：
+							</div>
+							<div class="item">
+								<div class="ui radio checkbox">
+									<input name="transfer_time" type="radio" value="a" checked="checked" />
+									<label><span class="ui text">不限送货时间</span></label>
+								</div>
+							</div>
+							<div class="item">
+								<div class="ui radio checkbox">
+									<input name="transfer_time" type="radio" value="b" />
+									<label><span class="ui text">星期一至星期五</span></label>
+								</div>
+							</div>
+							<div class="item">
+								<div class="ui radio checkbox">
+									<input name="transfer_time" type="radio" value="c" />
+									<label><span class="ui text">星期六、日</span></label>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -107,7 +152,7 @@
 						</div>
 					</div>
 				
-					<div class="ui hide segment">
+					<div class="ui segment">
 						<div class="ui very relaxed divided money list">
 							<div class="item">
 								<div class="right floated">
@@ -119,12 +164,12 @@
 									<div class="header">使用红包：</div>
 								</div>
 							</div>
-							{% bonus_list var:'bonus' page:1 user_id:visitor.id size:10 not_expired:1 %}
+							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
 							{% for b in bonus.rows %}
 							<div class="bonus item">
 								<div class="field">
 									<div class="ui radio checkbox">
-										<input name="bonus" checked="checked" type="radio" />
+										<input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />
 										<label><span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }}</small></label>
 									</div>
 								</div>
@@ -160,7 +205,15 @@
 							</div>
 							<div class="item">
 								<div class="right floated">
-									<span class="ui magenta text">￥{{ pay_money }}</span>
+									<span class="ui text" id="order-coin-money">￥{{ data.card_money }}</span>
+								</div>
+								<div class="content">
+									<div class="header">优惠：</div>
+								</div>
+							</div>
+							<div class="item">
+								<div class="right floated">
+									<span class="ui magenta text" id="order-pay-money">￥{{ pay_money }}</span>
 								</div>
 								<div class="content">
 									<div class="header">订单金额：</div>

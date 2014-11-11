@@ -42,6 +42,18 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 	 * 商店列表
 	 */
 	public function shop(){
+		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
+		
+		if($cid){
+			// 获取某类别列表
+			$category = new Sher_Core_Model_Category();
+			$current = $category->load((int)$cid);
+			if(empty($current)){
+				return $this->show_message_page('请选择某个分类');
+			}
+			$this->stash['current'] = $current;
+		}
+		
 		$this->stash['process_saled'] = 1;
 		return $this->to_html_page('wap/shop.html');
 	}
@@ -235,8 +247,9 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 		if(empty($this->stash['addbook_id'])){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
-		$bonus = $this->stash['bonus'];
+		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : '';
 		$bonus_code = $this->stash['bonus_code'];
+		$transfer_time = $this->stash['transfer_time'];
 		
 		Doggy_Log_Helper::debug("Submit Mobile Order [$rrid]！");
 		
@@ -301,6 +314,11 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			$order_info['user_id'] = (int)$user_id;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
+			
+			// 更新送货时间
+			if(!empty($transfer_time)){
+				$order_info['transfer_time'] = $transfer_time;
+			}
 			
 			// 订单备注
 			if(isset($this->stash['summary'])){
@@ -410,12 +428,56 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			case 'quickpay':
 				$pay_url = Doggy_Config::$vars['app.url.wap'].'/pay/quickpay?rid='.$rid;
 				break;
+			case 'wxpay':
+				$pay_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/payment?rid='.$rid;
+				break;
 			default:
 				return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
 		}
 		
 		return $this->to_redirect($pay_url);
 	}
+	
+	/**
+	 * 使用红包
+	 */
+	public function ajax_bonus(){
+		$rid = $this->stash['rid'];
+		$code = $this->stash['code'];
+		if(empty($rid) || empty($code)){
+			return $this->ajax_json('订单编号或红包为空！', true);
+		}
+		
+		try{
+			$data = array();
+			$card_money = Sher_Core_Util_Shopping::get_card_money($code);
+			// 更新临时订单
+			$model = new Sher_Core_Model_OrderTemp();
+			$ok = $model->use_bonus($rid, $code, $card_money);
+			if($ok){
+				$data['card_money'] = $card_money*-1;
+				
+				$result = $model->first(array('rid'=>$rid));
+				if (empty($result)){
+					return $this->ajax_json('订单操作失败，请重试！', true);
+				}
+				$dict = $result['dict'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'];
+				
+				// 支付金额不能为负数
+				if($pay_money < 0){
+					$pay_money = 0.0;
+				}
+				$data['pay_money'] = $pay_money;
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Bonus order failed: ".$e->getMessage());
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('红包成功使用', false, null, $data);
+	}
+	
 	
 	/**
 	 * 生产临时订单
