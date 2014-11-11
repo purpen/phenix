@@ -19,7 +19,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
         //卖家支付宝帐户
 		'seller_email' => 'admin@taihuoniao.com',
 		// 签名方式 不需修改
-		'sign_type'  => '0001',
+		'sign_type'  => 'MD5',
 		// 字符编码格式 目前支持 gbk 或 utf-8
 		'input_charset' => 'utf-8',
 		// 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
