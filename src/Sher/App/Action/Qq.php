@@ -135,7 +135,13 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 				$user_info['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
 				$user_info['state'] = Sher_Core_Model_User::STATE_OK;
 				
-				$user_info['nickname'] = $qq_info['nickname'];
+				// 检测用户名是否重复
+				$default_nickname = $qq_info['nickname'];
+				if(!$user->_check_name($default_nickname)){
+					$default_nickname = $qq_info['nickname'].rand(0, 1000);
+				}
+				$user_info['nickname'] = $default_nickname;
+				
 				$user_info['sex'] = $qq_info['gender'];
 				$user_info['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
 				

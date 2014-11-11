@@ -7,10 +7,7 @@
 {% endblock %}
 
 {% block jquery %}
-	// 跳转支付
-	$('.ui.checkout.button').click(function(){
-		$('.ui.paywait.modal').modal('show');
-	});
+	
 {% endblock %}
 
 {% block content %}
@@ -20,11 +17,8 @@
 			<div class="column">
 				<h5 class="ui dividing header">支付订单</h5>
 				{% if !card_payed %}
-				<div class="ui ordered magenta message">
+				<div class="ui ordered danger message">
 					<h5 class="ui header">
-						<div class="picicon">
-							<i class="checkmark icon"></i>
-						</div>
 						<div class="content">
 							订单提交成功，请尽快付款
 							<div class="sub header">
@@ -39,22 +33,35 @@
 					<div class="ui segment">
 						<h5 class="ui dividing header">选择支付方式</h5>
 						
-						<div class="ui very relaxed divided payaway selection list">
+						<div class="ui relaxed divided payaway selection list">
 							<div class="item">
 								<div class="right floated">
 									<small>推荐使用支付宝快捷支付</small>
 								</div>
 								<div class="content">
 									<div class="header">
-										<div class="field">
-											<div class="ui radio checkbox">
-												<input type="radio" value="alipay" name="payaway" checked="checked" /> 
-												<label>支付宝</label>
-											</div>
+										<div class="ui radio checkbox">
+											<input type="radio" value="alipay" name="payaway" checked="checked" /> 
+											<label>支付宝</label>
 										</div>
 									</div>
 								</div>
 							</div>
+							{% if is_weixin %}
+							<div class="item">
+								<div class="right floated">
+									<small>方便快捷支付</small>
+								</div>
+								<div class="content">
+									<div class="header">
+										<div class="ui radio checkbox">
+											<input type="radio" value="wxpay" name="payaway" /> 
+											<label>微信支付</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
 							<!--
 							<div class="item">
 								<div class="right floated">
@@ -74,8 +81,7 @@
 							-->
 						</div>
 					</div>
-					
-					<input type="submit" class="ui active fluid magenta checkout button" value="去支付" />
+					<button class="ui active fluid magenta checkout button">去支付</button>
 				</form>
 				{% else %}
 				<div class="ui ordered magenta message">
@@ -97,36 +103,6 @@
 				</a>
 				{% endif %}
 				
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="ui small paywait modal">
-  	<i class="flat close icon"></i>
-	<div class="ui header">
-    	正在支付...
-  	</div>
-	<div class="container">
-		<div class="content">
-			<div class="ui header">
-				<div class="picicon">
-					<i class="payment icon"></i>
-				</div>
-				<div class="content">
-					<div class="block">
-						如果支付失败...
-						<div class="sub header">
-							立即查看 <a href="{{ app_url_helper }}" class="ui magenta link">支付常见问题</a>
-						</div>
-					</div>
-					<div class="block">
-						支付成功了
-						<div class="sub header">
-							立即查看 <a href="{{ order.view_url }}" class="ui magenta link">订单详情</a>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

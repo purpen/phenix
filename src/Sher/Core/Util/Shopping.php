@@ -40,7 +40,7 @@ class Sher_Core_Util_Shopping extends Doggy_Exception {
 			throw new Sher_Core_Model_Exception('红包已被使用！');
 		}
 		//是否冻结中
-		if ($bonus['status'] != Sher_Core_Model_Bonus::STATUS_OK){
+		if ($bonus['status'] != Sher_Core_Model_Bonus::STATUS_OK && $bonus['status'] != Sher_Core_Model_Bonus::STATUS_GOT){
 			throw new Sher_Core_Model_Exception('红包不能使用！');
 		}
 		// 是否过期

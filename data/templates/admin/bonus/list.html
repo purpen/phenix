@@ -63,7 +63,10 @@
 					  	<label></label>
 					</div>
 				</td>
-				<td>{{ b.code }}</td>
+				<td>
+					{{ b.code }}<br />
+					<small>过期时间：{{ b.expired_at|date 'Y-m-d H:i' }}</small>
+				</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
 				<td>{{ b.user_id }} / {{ b.used_by }}</td>
 				<td>

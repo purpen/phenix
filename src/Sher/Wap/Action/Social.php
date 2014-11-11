@@ -3,11 +3,12 @@
  * 移动社区
  * @author purpen
  */
-class Sher_Wap_Action_Social extends Sher_Core_Action_Authorize {
+class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+		'category_id' => 0,
 	);
 	
 	protected $exclude_method_list = array('execute','dream','allist','getlist','show');
@@ -16,7 +17,7 @@ class Sher_Wap_Action_Social extends Sher_Core_Action_Authorize {
 	 * 社区入口
 	 */
 	public function execute(){
-		return $this->getlist();
+		return $this->topic();
 	}
 	
 	/**
@@ -43,13 +44,31 @@ class Sher_Wap_Action_Social extends Sher_Core_Action_Authorize {
 	}
 	
 	/**
+	 * 社区首页
+	 */
+	public function topic(){
+		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
+		$this->stash['category_prefix_url'] = $prefix_url;
+		return $this->to_html_page('wap/topic.html');
+	}
+	
+	/**
 	 * 全部话题列表
 	 */
-	public function getlist(){
+	public function get_list(){
 		$this->set_target_css_state('getlist');
+		$category_id = $this->stash['category_id'];
+		
+		// 获取某类别列表
+		$category = new Sher_Core_Model_Category();
+		$child = $category->load((int)$category_id);
+		if(empty($child)){
+			return $this->show_message_page('请选择某个分类');
+		}
+		$this->stash['child'] = $child;
 		
 		$page = "?page=#p#";
-		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'getlist').$page;
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$category_id).$page;
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('wap/topic_list.html');

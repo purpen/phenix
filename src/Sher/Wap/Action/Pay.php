@@ -19,7 +19,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
         //卖家支付宝帐户
 		'seller_email' => 'admin@taihuoniao.com',
 		// 签名方式 不需修改
-		'sign_type'  => '0001',
+		'sign_type'  => 'MD5',
 		// 字符编码格式 目前支持 gbk 或 utf-8
 		'input_charset' => 'utf-8',
 		// 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
@@ -53,15 +53,15 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
-		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/secrete_notify';
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/secrete_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数
 		
 		// 页面跳转同步通知页面路径
-		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/direct_notify';
+		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/direct_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 		
 		// 操作中断返回地址
-		$this->alipay_config['merchant_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/merchant';
+		$this->alipay_config['merchant_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/merchant';
 		
 		// 微信参数
 		$this->wechat_options = array(
@@ -172,12 +172,14 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 	 * 支付宝异步通知
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Alipay mobile secrete notify updated!");
+		Doggy_Log_Helper::warn("Alipay mobile secret notify updated!");
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
 		
 		if($verify_result){//验证成功
+			Doggy_Log_Helper::warn("Alipay mobile secrete notify document: ".$_POST['notify_data']);
+			
 			$doc = new DOMDocument();	
 			if($this->alipay_config['sign_type'] == 'MD5'){
 				$doc->loadXML($_POST['notify_data']);
@@ -203,6 +205,8 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 					return $this->to_raw('fail');
 				}
 			}
+			
+			Doggy_Log_Helper::warn("Alipay mobile secrete notify document over!");
 		}else{
 			// 验证失败
 			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
@@ -217,7 +221,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		if($verify_result) { // 验证成功
+		if($verify_result){ // 验证成功
 			// 商户订单号
 			$out_trade_no = $_GET['out_trade_no'];
 			// 支付宝交易号
