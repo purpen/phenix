@@ -53,15 +53,15 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
-		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/secrete_notify';
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/secrete_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数
 		
 		// 页面跳转同步通知页面路径
-		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/direct_notify';
+		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/direct_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
 		
 		// 操作中断返回地址
-		$this->alipay_config['merchant_url'] = Doggy_Config::$vars['app.url.wap'].'/pay/merchant';
+		$this->alipay_config['merchant_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/merchant';
 		
 		// 微信参数
 		$this->wechat_options = array(
