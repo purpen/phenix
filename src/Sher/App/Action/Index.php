@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon');
 	
 	protected $admin_method_list = array();
 	
@@ -53,6 +53,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	public function fire(){
 		$this->set_target_css_state('page_fire');
 		return $this->to_html_page('page/fire.html');
+	}
+	
+	/**
+	 * 即上线，线开抢
+	 */
+	public function comeon(){
+		return $this->to_html_page('page/noodles.html');
 	}
 	
 	/**
