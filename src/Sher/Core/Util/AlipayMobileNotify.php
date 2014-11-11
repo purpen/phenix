@@ -83,8 +83,12 @@ class Sher_Core_Util_AlipayMobileNotify extends Doggy_Object {
 			return false;
 		}
 		else {
+			Doggy_Log_Helper::warn('Verify mobile alipay return: '.json_encode($_GET));
+			
 			//生成签名结果
 			$isSign = $this->getSignVeryfy($_GET, $_GET["sign"], true);
+			
+			Doggy_Log_Helper::warn('Verify mobile alipay sign: '.$isSign);
 			
 			//写日志记录
 			//if ($isSign) {
@@ -140,7 +144,7 @@ class Sher_Core_Util_AlipayMobileNotify extends Doggy_Object {
 	public function getSignVeryfy($para_temp, $sign, $isSort) {
 		//除去待签名参数数组中的空值和签名参数
 		$para = Sher_Core_Util_Alipay::paraFilter($para_temp);
-		
+		Doggy_Log_Helper::warn('Verify mobile alipay para: '.json_encode($para));
 		//对待签名参数数组排序
 		if($isSort) {
 			$para = Sher_Core_Util_Alipay::argSort($para);
@@ -150,7 +154,7 @@ class Sher_Core_Util_AlipayMobileNotify extends Doggy_Object {
 		
 		//把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
 		$prestr = Sher_Core_Util_Alipay::createLinkstring($para);
-		
+		Doggy_Log_Helper::warn('Verify mobile alipay prestr: '.json_encode($prestr));
 		$isSgin = false;
 		switch (strtoupper(trim($this->alipay_config['sign_type']))) {
 			case "MD5" :

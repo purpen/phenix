@@ -217,7 +217,7 @@ class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_A
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyReturn();
-		if($verify_result) { // 验证成功
+		if($verify_result){ // 验证成功
 			// 商户订单号
 			$out_trade_no = $_GET['out_trade_no'];
 			// 支付宝交易号
