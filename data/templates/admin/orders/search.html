@@ -11,7 +11,7 @@
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">订单管理</h3>
+	<h3 class="ui header">搜索订单</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/orders" class="{% if !s %}active{%endif%} item">
@@ -70,7 +70,7 @@
 				</div>
 				<div class="field">
 					<div class="ui fluid selection dropdown">
-						<input type="hidden" name="status" value="{{ status }}" />
+						<input type="hidden" name="s" value="{{ status }}" />
 					    <div class="default text">订单状态</div>
 					    <div class="menu">
 							<div data-value="0" class="{% if !status %}active {% endif %}item">全部订单</div>
@@ -88,13 +88,95 @@
 		</form>
 	</div>
 	
-	{% order_list var:'list' user_id:user_id status:s size:15 page:page search_rid:search_rid search_name:search_name  %}
+	{% order_list var:'list' searched:1 status:s q:q name:name mobile:mobile start_time:start_time end_time:end_time product:product sku:sku page:page  %}
 	
-	{% for order in list.rows %}
-		{% include 'block/order-item.html' %}
+	{% for item in list.rows %}
+		<div id="order-{{ item.order._id }}" class="order-item">
+			<div class="ui top attached header">
+				<div class="ui horizontal bulleted list">
+				  	<div class="item">
+				      	订单号：{{ item.order.rid }}
+				  	</div>
+				  	<div class="item">
+						{% if item.order.from_site == 5 %}
+							{{ item.order.express_info.name }} 
+						{% else %}
+				      		{{ item.order.addbook.name|default '太火鸟用户' }} 
+						{% endif %}
+				  	</div>
+				  	<div class="item">
+				      	下单时间：{{ item.order.created_on|date }}
+				  	</div>
+				</div>
+			</div>
+			<div class="middle aligned ui celled white grid">
+				<div class="row">
+					<div class="seven wide column">
+						<table class="ui basic table">
+							<tbody>
+								{% for p in item.order.items %}
+								{% product_list var:'product' product_id:p.product_id %}
+								<tr>
+									<td>
+										<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+								      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+										</a>
+									</td>
+									<td>
+								      	<div class="content">
+											{% if p.sku == p.product_id %}
+								          	<div class="header">
+												<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+											</div>
+											{% else %}
+											{% sku_list var:'sku' sku:p.sku %}
+								          	<div class="header">
+												<a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
+											</div>
+											{% endif %}
+								          	<p class="attribute">编号：{{ p.sku }}</p>
+								      	</div>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="center aligned three wide column">
+						<p>
+							订单金额：{{ item.order.pay_money }} 元
+						</p>
+						<p>
+							<small>（运费：{{ item.order.freight }} 元）</small>
+						</p>
+						<p>
+							{{ item.order.payment.name }}
+						</p>
+					</div>
+					<div class="center aligned three wide column">
+						<div id="order-{{ item.order.rid }}-label" class="status-label">
+							{{ item.order.status_label }}
+						</div>
+			
+						{% if item.order.status == 1 %}
+						<a href="{{ app_url_shopping }}/success?rid={{ item.order.rid }}" class="ui small magenta button">立即支付</a>
+						{% endif %}
+			
+					</div>
+					<div class="center aligned three wide column">
+						<p>
+							<a href="{{ app_url_admin }}/orders/show?rid={{ item.order.rid }}" class="ui link">订单详情 »</a>
+						</p>
+						{% if item.order.status == 1 %}
+						<a href="{{ app_url_admin }}/orders/ajax_close_order?rid={{ item.order.rid }}" class="ui small gray ajax button">关闭</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
 	{% else %}
 	<div class="ui center aligned segment">
-		<p>没有相关订单</p>
+		<p>没有搜索相关订单</p>
 	</div>
 	{% endfor %}
 	

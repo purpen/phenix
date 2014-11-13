@@ -25,10 +25,17 @@ class Sher_Core_Service_Orders extends Sher_Core_Service_Base {
     /**
      * 获取列表
      */
-    public function get_latest_list($query=array(),$options = array()) {
+    public function get_latest_list($query=array(), $options=array()) {
 	    $model = new Sher_Core_Model_Orders();
 		return $this->query_list($model,$query,$options);
     }
-
+	
+	/**
+	 * 获取搜索列表
+	 */
+	public function get_search_list($query=array(), $options=array()){
+	    $model = new Sher_Core_Model_OrdersIndex();
+		return $this->query_list($model, $query, $options);
+	}
 }
 ?>

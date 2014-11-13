@@ -29,7 +29,7 @@ class Sher_Core_Model_AddBooks extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'phone', 'address');
 	
-    protected $int_fields = array('user_id', 'phone', 'zip', 'province', 'city', 'is_default');
+    protected $int_fields = array('user_id', 'zip', 'province', 'city', 'is_default');
 	
 	/**
 	 * 扩展关联数据

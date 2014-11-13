@@ -18,19 +18,57 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 	}
 	
 	/**
+	 * 订单高级搜索
+	 */
+	public function search(){		
+		// 处理分页链接
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders/search?';
+		$params = array();
+		if(!empty($this->stash['q'])){
+			$params['q'] = $this->stash['q'];
+		}
+		if(!empty($this->stash['name'])){
+			$params['name'] = $this->stash['name'];
+		}
+		if(!empty($this->stash['mobile'])){
+			$params['mobile'] = $this->stash['mobile'];
+		}
+		if(!empty($this->stash['product'])){
+			$params['product'] = $this->stash['product'];
+		}
+		if(!empty($this->stash['sku'])){
+			$params['sku'] = $this->stash['sku'];
+		}
+		if(!empty($this->stash['start_date'])){
+			$params['start_time'] = strtotime($this->stash['start_date']);
+			$this->stash['start_time'] = $params['start_time'];
+		}
+		if(!empty($this->stash['end_date'])){
+			$params['end_time'] = strtotime($this->stash['end_date']);
+			$this->stash['end_time'] = $params['end_time'];
+		}
+		if(!empty($this->stash['s'])){
+			$params['status'] = $this->stash['s'];
+		}
+		
+		$arg = "";
+		while(list($key, $val) = each($params)){
+			$arg .= $key."=".$val."&";
+		}
+		// 去掉最后一个&字符
+		$arg = substr($arg, 0, count($arg)-2);
+		// 去除转义
+		$arg = stripslashes($arg);
+		
+		$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
+		
+		return $this->to_html_page('admin/orders/search.html');
+	}
+	
+	/**
      * 订单列表
      */
     public function get_list() {
-		$q = $this->stash['q'];
-    	
-		if (!empty($q)) {
-			// 是否为数字
-			if (is_numeric($q)){
-				$this->stash['search_rid'] = $q;
-			} else {
-				$this->stash['search_name'] = $q;
-			}
-		}
 		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders?s=%d&page=#p#';
 

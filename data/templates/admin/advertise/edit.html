@@ -132,7 +132,7 @@
 				<div class="ui selection dropdown">
 					<input type="hidden" name="space_id" value="{{ advertise.space_id }}" />
 				    <div class="default text">请选择</div>
-				    <i class="flat arrowbottom icon"></i>
+				    <i class="angle down icon"></i>
 				    <div class="menu">
 						{% for space in spacelist.rows %}
 						<div data-value="{{ space._id }}" class="{% if space._id == advertise.space_id %}active {% endif %}item">{{ space.title }}</div>

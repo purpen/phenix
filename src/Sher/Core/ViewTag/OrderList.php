@@ -22,8 +22,23 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		// 订单状态
 		$status = 0;
 		
-        $search_rid = 0;
-        $search_name = 0;
+		// 是否高级搜索
+		$searched = 0;
+		
+		// 订单编号
+        $q = 0;
+		// 收货人姓名
+        $name = 0;
+		// 收货人电话
+		$mobile = 0;
+		// 商品名称
+		$product = 0;
+		// 商品编号
+		$sku = 0;
+		// 开始时间
+		$start_time = 0;
+		// 截止时间
+		$end_time = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -38,12 +53,8 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		
         $query = array();
 		
-		if ($user_id) {
+		if($user_id){
 			$query['user_id'] = (int)$user_id;
-		}
-		
-		if ($search_rid) {
-			$query['rid'] = $search_rid;
 		}
 		
 		// 订单状态
@@ -69,13 +80,53 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 				break;
 		}
 		
+		// 高级搜索
+		if($q){
+			$query['rid'] = $q;
+		}
+		if($name){
+			$query['name'] = $name;
+		}
+		if($mobile){
+			$query['mobile'] = $mobile;
+		}
+		if($product){
+			$searcher = Sher_Core_Service_Search::instance();
+            $query_words = $searcher->check_query_string($product);
+            if(!empty($query_words)){
+				if(count($query_words) == 1){
+                    $query['full'] = $query_words[0];
+                }
+                else {
+                    $query['full']['$all'] = $query_words;
+                }
+            }
+		}
+		if($sku){
+			$query['sku'] = (int)$sku;
+		}
+		
+		if($start_time && $end_time){
+			$query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+		}
+		if($start_time && !$end_time){
+			$query['created_on'] = array('$gte' => $start_time);
+		}
+		if(!$start_time && $end_time){
+			$query['created_on'] = array('$lte' => $end_time);
+		}
+		
         $service = Sher_Core_Service_Orders::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		
 		$options['sort_field'] = $sort_field;
 		
-        $result = $service->get_latest_list($query,$options);
+		if(!$searched){
+			$result = $service->get_latest_list($query, $options);
+		}else{
+			$result = $service->get_search_list($query, $options);
+		}
 		
         $context->set($var, $result);
         if ($include_pager) {

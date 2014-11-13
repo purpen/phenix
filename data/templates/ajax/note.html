@@ -1,11 +1,11 @@
 <taconite>
 {% if is_error %}
 	<eval>
-		phenix.show_error_note('{{ note }}', 5000);
+		phenix.show_error_note('{{ note }}', 3000);
 	</eval>
 {% else %}
 	<eval>
-		phenix.show_ok_note('{{ note }}', 2000);
+		phenix.show_ok_note('{{ note }}', 1000);
 	</eval>
 {% endif %}
 
