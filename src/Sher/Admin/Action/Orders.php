@@ -230,6 +230,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		return $this->ajax_json('数据导出成功！', false, '/', array('export_url' => $export_url));
 	}
 	
+	
+	/**
+	 * 更新导入
+	 */
+	public function update_import(){}
+	
 	/**
      * 订单列表
      */
