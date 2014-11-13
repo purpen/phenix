@@ -21,8 +21,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 	 * 订单高级搜索
 	 */
 	public function search(){		
-		// 处理分页链接
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders/search?';
+		
 		$params = array();
 		if(!empty($this->stash['q'])){
 			$params['q'] = $this->stash['q'];
@@ -40,12 +39,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$params['sku'] = $this->stash['sku'];
 		}
 		if(!empty($this->stash['start_date'])){
-			$params['start_time'] = strtotime($this->stash['start_date']);
-			$this->stash['start_time'] = $params['start_time'];
+			$params['start_date'] = $this->stash['start_date'];
+			$this->stash['start_time'] = strtotime($this->stash['start_date']);
 		}
 		if(!empty($this->stash['end_date'])){
-			$params['end_time'] = strtotime($this->stash['end_date']);
-			$this->stash['end_time'] = $params['end_time'];
+			$params['end_date'] = $this->stash['end_date'];
+			$this->stash['end_time'] = strtotime($this->stash['end_date']);
 		}
 		if(!empty($this->stash['s'])){
 			$params['status'] = $this->stash['s'];
@@ -60,9 +59,175 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 去除转义
 		$arg = stripslashes($arg);
 		
+		// 处理分页链接
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders/search?';
 		$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
 		
+		// 数据导出链接
+		$this->stash['export_url'] = Doggy_Config::$vars['app.url.admin'].'/orders/export?'.$arg;
+		
 		return $this->to_html_page('admin/orders/search.html');
+	}
+	
+	/**
+	 * 导出订单列表
+	 */
+	public function export(){
+		$query = array();
+		$options = array();
+		$page = 1;
+		$size = 500;
+		
+		if(!empty($this->stash['s'])){
+			$status = $this->stash['s'];
+			switch($status){
+				case 1: // 未支付订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
+					break;
+				case 2: // 待发货订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+					break;
+				case 3: // 已发货订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_SENDED_GOODS;
+					break;
+				case 4: // 已完成订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_PUBLISHED;
+					break;
+				case 9: // 已关闭订单：取消的订单、过期的订单
+					$query['status'] = array(
+						'$in' => array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED),
+					);
+					break;
+			}
+		}
+		
+		if(!empty($this->stash['q'])){
+			$query['rid'] = $this->stash['q'];
+		}
+		if(!empty($this->stash['name'])){
+			$query['name'] = $this->stash['name'];
+		}
+		if(!empty($this->stash['mobile'])){
+			$query['mobile'] = $this->stash['mobile'];
+		}
+		if(!empty($this->stash['product'])){
+			if($this->stash['product']){
+				$searcher = Sher_Core_Service_Search::instance();
+	            $query_words = $searcher->check_query_string($this->stash['product']);
+	            if(!empty($query_words)){
+					if(count($query_words) == 1){
+	                    $query['full'] = $query_words[0];
+	                }
+	                else {
+	                    $query['full']['$all'] = $query_words;
+	                }
+	            }
+			}
+		}
+		if(!empty($this->stash['sku'])){
+			$query['sku'] = (int)$this->stash['sku'];
+		}
+		if(!empty($this->stash['start_date']) && !empty($this->stash['end_date'])){
+			$query['created_on'] = array('$gte' => strtotime($this->stash['start_date']), '$lte' => strtotime($this->stash['end_date']));
+		}
+		if(!empty($this->stash['start_date']) && empty($this->stash['end_date'])){
+			$query['created_on'] = array('$gte' => strtotime($this->stash['start_date']));
+		}
+		if(empty($this->stash['start_date']) && !empty($this->stash['end_date'])){
+			$query['created_on'] = array('$lte' => strtotime($this->stash['end_date']));
+		}
+		
+		if(empty($query)){
+			return $this->ajax_json('请选择导出数据条件！', true);
+		}
+		
+		$filepath = Doggy_Config::$vars['app.storage.tmpdir'];
+		$filename = 'frbird_report_'.date('YmdH').'.csv';
+		
+		$export_file = $filepath.'/'.$filename;
+		// 检测是否已经存在该文件
+		if(is_file($export_file)){
+			//return $this->ajax_json('一个小时内已导出过此数据！', true);
+		}
+		
+		// 设置不超时
+		set_time_limit(0);
+			
+		// header('Content-Type: application/vnd.ms-excel');
+		// header('Content-Disposition: attachment;filename="'.$export_file.'"');
+		// header('Cache-Control: max-age=0');
+		
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+		$fp = fopen($export_file, 'w');
+		// 输出Excel列名信息
+		$head = array('下单时间', '订单编号', '订单金额', '收货人姓名', '收货人电话', '订单状态', '物流名称', '物流单号', '发货时间');
+		/*
+		foreach($head as $i => $v){
+			// CSV的Excel支持GBK编码，一定要转换，否则乱码
+			$head[$i] = iconv('utf-8', 'gbk', $v);
+		}*/
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+		
+		$service = Sher_Core_Service_Orders::instance();
+		
+		$is_end = false;
+		$counter = 0;
+		$limit = 1000;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			Doggy_Log_Helper::warn("Export order page[$page],size[$size]!");
+			
+			$result = $service->get_search_list($query, $options);
+			
+			$max = count($result['rows']);
+			for($i=0; $i<$max; $i++){
+				$counter ++;
+				if($limit == $counter){
+					ob_flush();
+					flush();
+					$counter = 0;
+				}
+				
+				$data = $result['rows'][$i]['order'];
+				// 收货人地址
+				if(!empty($data['express_info'])){
+					$name = $data['express_info']['name'];
+					$mobile = $data['express_info']['phone'];
+				}else{
+					$name = $data['addbook']['name'];
+					$mobile = $data['addbook']['phone'];
+				}
+				
+				$sended_date = !empty($data['sended_date']) ? date('Y-m-d H:i:s', $data['sended_date']) : '';
+				
+				$express_company = !empty($data['express_caty']) ? $data['express_company']['title'] : '';
+				
+				$row = array(date('Y-m-d H:i:s', $data['created_on']), $data['rid'], $data['pay_money'], $name, $mobile, $data['status_label'], $express_company, $data['express_no'], $sended_date);
+				
+				fputcsv($fp, $row);
+				
+				unset($row);
+				unset($data);
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		}
+		
+		fclose($fp);
+		
+		$export_url = Doggy_Config::$vars['app.url.domain'].'/export/'.$filename;
+		
+		return $this->ajax_json('数据导出成功！', false, '/', array('export_url' => $export_url));
 	}
 	
 	/**

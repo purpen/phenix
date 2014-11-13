@@ -8,6 +8,16 @@
 	$('.ui.submit.button').click(function(){
 		$('#search-form').submit();
 	});
+	
+	$('.ui.export.button').click(function(){
+		$.post('{{ export_url }}',function(result){
+			if(result.success){
+				window.location.href = result.data.export_url;
+			}else{
+				phenix.show_error_note(result.message, 2000);
+			}
+		}, 'json');
+	});
 {% endblock %}
 	
 {% block content %}
@@ -82,7 +92,8 @@
 					</div>
 				</div>
 				<div class="field">
-					<div class="ui active small green submit button">开始搜索</div>
+					<div class="ui active small green submit button">搜索</div>
+					<div class="ui active small black export button">导出数据</div>
 				</div>
 			</div>
 		</form>

@@ -107,3 +107,7 @@ app.quickpay.secret: '88888888'
 app.url.front_pay_url: 'https://unionpaysecure.com/api/Pay.action'
 app.url.back_pay_url: 'https://besvr.unionpaysecure.com/api/BSPay.action'
 app.url.query_url: 'https://query.unionpaysecure.com/api/Query.action'
+
+# 临时数据存储目录
+app.storage.tmpdir: '/www/phenix/data/export'
+
