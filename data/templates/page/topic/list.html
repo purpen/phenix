@@ -145,7 +145,7 @@
 													<img class="ui image" src="{{ dig.cover.thumbnails.tiny.view_url }}" />
 													{% endif %}
 													{% for asset in assets.rows %}
-														{% if dig.cover_id != asset._id %}
+														{% if dig.cover._id != asset._id %}
 													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 														{% endif %}
 													{% endfor %}
