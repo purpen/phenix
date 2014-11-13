@@ -23,6 +23,23 @@ class Sher_Core_Util_Shopping extends Doggy_Exception {
 		return self::DEFAULT_FEES;
 	}
 	
+	/**
+	 * 获取宝贝标题
+	 */
+	public static function get_product_title($sku, $product_id){
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$product_id);
+		
+		if($sku == $product_id){
+			return $product['title'];
+		}
+		
+		$inventory = new Sher_Core_Model_Inventory();
+		$sku = $inventory->load((int)$sku);
+		
+		return $product['title'].'('.$sku['mode'].')';
+	}
+	
 	
 	/**
 	 * 获取红包金额

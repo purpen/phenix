@@ -63,9 +63,6 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders/search?';
 		$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
 		
-		// 数据导出链接
-		$this->stash['export_url'] = Doggy_Config::$vars['app.url.admin'].'/orders/export?'.$arg;
-		
 		return $this->to_html_page('admin/orders/search.html');
 	}
 	
@@ -160,12 +157,11 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 打开PHP文件句柄，php://output表示直接输出到浏览器
 		$fp = fopen($export_file, 'w');
 		// 输出Excel列名信息
-		$head = array('下单时间', '订单编号', '订单金额', '收货人姓名', '收货人电话', '订单状态', '物流名称', '物流单号', '发货时间');
-		/*
+		$head = array('下单时间', '订单付款时间', '订单编号', '买家会员名', '买家支付方式', '宝贝标题', '宝贝种类', '宝贝总数量', '总金额', '实际支付金额', '订单状态', '买家留言', '收货人姓名', '联系手机', '收货地址', '运送方式', '物流单号', '物流公司', '是否要发票', '发票类型', '发票抬头', '订单备注');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
 			$head[$i] = iconv('utf-8', 'gbk', $v);
-		}*/
+		}
 		// 将数据通过fputcsv写到文件句柄
 		fputcsv($fp, $head);
 		
@@ -198,16 +194,44 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				if(!empty($data['express_info'])){
 					$name = $data['express_info']['name'];
 					$mobile = $data['express_info']['phone'];
+					$address = $data['express_info']['province'].' '.$data['express_info']['city'].' '.$data['express_info']['area'].' '.$data['express_info']['address'];
 				}else{
 					$name = $data['addbook']['name'];
 					$mobile = $data['addbook']['phone'];
+					$address = $data['addbook']['area_province']['city'].' '.$data['addbook']['area_district']['city'].' '.$data['addbook']['address'];
 				}
 				
-				$sended_date = !empty($data['sended_date']) ? date('Y-m-d H:i:s', $data['sended_date']) : '';
+				$payed_date = !empty($data['payed_date']) ? date('Y-m-d H:i:s', $data['payed_date']) : '';
 				
 				$express_company = !empty($data['express_caty']) ? $data['express_company']['title'] : '';
+				$express_away = '快递';
 				
-				$row = array(date('Y-m-d H:i:s', $data['created_on']), $data['rid'], $data['pay_money'], $name, $mobile, $data['status_label'], $express_company, $data['express_no'], $sended_date);
+				// 宝贝信息
+				$titles = array();
+				$quantity = 0;
+				foreach($data['items'] as $item){
+					$quantity += $item['quantity'];
+					$titles[] = Sher_Core_Util_Shopping::get_product_title($item['sku'], $item['product_id']);
+				}
+				$product_title = implode(',', $titles);
+				
+				// 是否需要发票
+				if($data['invoice_type'] == 1){
+					$need_invoice = 'Yes';
+					$invoice_caty_label = $data['invoice_caty_label']['title'];
+					$invoice_content = $data['invoice_title'];
+				}else{
+					$need_invoice = 'No';
+					$invoice_caty_label = '';
+					$invoice_content = '';
+				}
+				
+				$row = array(date('Y-m-d H:i:s', $data['created_on']), $payed_date, $data['rid'], $data['user']['nickname'], $data['payment']['name'], $product_title, $data['items_count'], $quantity, $data['total_money'], $data['pay_money'], $data['status_label'], $data['summary'], $name, $mobile, $address, $express_away, $data['express_no'], $express_company, $need_invoice, $invoice_caty_label, $invoice_content, '');
+				
+				foreach($row as $k => $v){
+					// CSV的Excel支持GBK编码，一定要转换，否则乱码
+					$row[$i] = iconv('utf-8', 'gbk', $v);
+				}
 				
 				fputcsv($fp, $row);
 				
