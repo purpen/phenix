@@ -43,6 +43,9 @@ app.product.topic_category_id: 19
 # 十万火计
 app.topic.dream_category_id: 21
 
+# 就现在商品
+app.comeon.product_id: 1111801264
+
 # 评测报告类别
 app.try.report_category_id: 18
 

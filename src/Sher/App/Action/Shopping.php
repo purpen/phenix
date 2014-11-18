@@ -54,6 +54,28 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	}
 	
 	/**
+	 * 验证限量抢购
+	 */
+	protected function validate_snatch($sku){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku != $product_id){
+			return true;
+		}
+		
+		// 设置已预约标识
+		$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
+		Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+		
+		$redis = new Sher_Core_Cache_Redis();
+		$buyed = $redis->get($cache_key);
+		if($buyed){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * 立即购买
 	 */
 	public function now_buy(){
@@ -63,6 +85,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
 			return $this->show_message_page('操作异常，请重试！');
+		}
+		
+		// 验证抢购商品是否重复
+		if(!$this->validate_snatch($sku)){
+			return $this->show_message_page('抱歉，不要重复抢哦！');
 		}
 		
 		$user_id = $this->visitor->id;
@@ -610,6 +637,18 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				$cart->clearCookie();
 			}
 			
+			// 立即下单
+			if($is_nowbuy){
+				$order_item = $order_info['items'][0];
+				if($order_item['product_id'] == Doggy_Config::$vars['app.comeon.product_id']){
+					$cache_key = sprintf('snatch_%d_%d_%d', Doggy_Config::$vars['app.comeon.product_id'], $this->visitor->id, date('Ymd'));
+					Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+					// 设置缓存
+					$redis = new Sher_Core_Cache_Redis();
+					$redis->set($cache_key, 1);
+				}
+			}
+			
 			// 删除临时订单数据
 			$model->remove($rrid);
 			
@@ -619,7 +658,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
 			return $this->ajax_json('订单处理异常，请重试！', true);
 		}
-		
 		$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
 		
 		return $this->ajax_json('下订单成功！', false, $next_url);
