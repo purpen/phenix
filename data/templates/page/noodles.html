@@ -5,6 +5,10 @@
 <style type="text/css">
 	.noodles.page{
 		background:#fff;
+		overflow-x:hidden;
+	}
+	.noodles p img{
+		width: 90%!important;
 	}
 	.noodles .line{
 		background:url('{{ app_url_packaged }}/images/noodles1.jpg') scroll center center no-repeat;
@@ -86,6 +90,9 @@
 		background:#f36;
 		color:#fff;
 	}
+	.noodles .ui.nowi .ui.one.items>.item {
+		width: 96% !important;
+	}
 	.ui.nowi .item:hover .content,.ui.nowi .ui.items .item:hover .name,.ui.nowi .ui.items .item:hover .name a{
 		color:#fff;
 	}
@@ -119,7 +126,10 @@
 		background: #f36;
 		opacity: .9;
 	}
-	
+	.noodles .ui.three.items{
+		width: 88%;
+		margin: auto;
+	}
 
 </style>
 {% endblock %}
