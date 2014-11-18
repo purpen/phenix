@@ -128,9 +128,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	public function match() {		
 		return $this->to_html_page('page/match.html');
 	}
-	public function match_app() {		
-		return $this->to_html_page('page/match_app.html');
+	public function noodles() {		
+		return $this->to_html_page('page/noodles.html');
 	}
-	
 }
 ?>
