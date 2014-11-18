@@ -87,6 +87,9 @@
 		border-radius: 0.3125em;
 		min-height:320px
 	}
+	.ui.sort.grid > .row {
+		margin-bottom: 2%;
+	}
 	.ui.allist .ui.four.items .item .content{
 		padding-top:1.75em;
 	}
@@ -206,10 +209,34 @@
 				</div>
 			</div>
 		</div>
+		<div class="ui responsive sort grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui divided horizontal list">
+					  	<div class="item">排序：</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_social }}/allist?st=4" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_social }}/allist?st=5" class="ui {% if st == 5 %}active{% endif %} link">浏览</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_social }}/allist?st=2" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_social }}/allist?st=3" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_social }}/allist?st=0" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="ui responsive media allist grid">
 			<div class="row">
 				<div class="column">
-					{% topic_list var:'list' category_id:dream_category_id time:time sort:sort page:page size:12 %}
+					{% topic_list var:'list' category_id:dream_category_id time:time sort:st page:page size:12 %}
 					<div class="ui four items">
 						{% for topic in list.rows %}
 						<div class="item">
@@ -244,6 +271,8 @@
 										<span class="like">
 											<i class="heart icon"></i>
 											<span class="count">{{ topic.love_count }}</span>
+											<i class="unhide icon"></i>
+											<span class="count">{{ topic.view_count }}</span>
 										</span>
 									</div>
 								</div>
