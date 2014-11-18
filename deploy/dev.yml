@@ -39,6 +39,12 @@ app.cache.memcached.default:
       port: 11211
       weight: 1
 
+# 十万火计
+app.topic.dream_category_id: 64
+
+# 就现在商品
+app.comeon.product_id: 1111801264
+
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'
@@ -69,6 +75,7 @@ app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.avatar: '{$app.url.upload}/avatar'
 app.url.upload.dotry: '{$app.url.upload}/dotry'
+app.url.upload.advertise: '{$app.url.upload}/advertise'
 
 # 银联支付
 app.quickpay.key: '898111153990242'
@@ -76,4 +83,7 @@ app.quickpay.secret: '88888888'
 app.url.front_pay_url: 'http://202.101.25.184/UpopWeb/api/Pay.action'
 app.url.back_pay_url: 'http://202.101.25.184/UpopWeb/api/BSPay.action'
 app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
+
+# 临时数据存储目录
+app.storage.tmpdir: '/Users/xiaoyi/data/export'
 
