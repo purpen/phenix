@@ -14,11 +14,6 @@ body{
 	max-width:960px;
 	position: relative;
 }
-/*.noodles .ui.responsive.grid {
-    margin: 0;
-    max-width: 767px;
-    padding: 0 3.5%;
-}*/
 .noodles .line{
 	background:url('{{ app_url_packaged }}/images/noodle_app1.jpg') scroll center center no-repeat;
 	background-size:cover;
@@ -63,8 +58,6 @@ padding: 0px 0 30px;
 .noodles .ui.img.block{
 	padding-bottom: 1em;
 }
-
-
 .noodles .ui.nowi{
 	padding:2% 5%;
 }
@@ -133,6 +126,94 @@ margin-bottom: 0!important;
 .bbat{
 	margin-bottom:.5em !important;
 	width:60%;
+}
+.rundown-timeline-container:before {
+    background: none repeat scroll 0 0 #DCDEE1;
+    content: "";
+    height: 318px;
+    left: 27%;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+.rundown-timeline-container {
+    height: auto;
+    margin: 0 auto;
+    max-width: 320px;
+    position: relative;
+    width: 100%;
+}
+.timeline-block.top, .sec-rundown .timeline-block.bottom {
+    height: 40px;
+    margin: 10px 0;
+}
+.timeline-block {
+    height: 85px;
+    margin: 0;
+    position: relative;
+    top: -5px;
+}
+.timeline-endpoint {
+    background-image: url("{{ app_url_packaged }}/images/publish_03.png");
+    background-size: contain;
+    height: 30px;
+    left: 27%;
+    margin-left: -13px;
+    position: absolute;
+    top: 5px;
+    width: 30px;
+}
+.timeline-content {
+    float: right;
+    width: 66%;
+}
+.part-one {
+    font-size: 18px;
+    font-weight: bold;
+    left: 38%;
+    line-height: 38px !important;
+    position: absolute;
+}
+.timeline-content .time {
+    font-size: 16px;
+    font-weight: bold;
+    left: -10%;
+    line-height: 38px !important;
+    position: absolute;
+}
+.timeline-red-dot {
+    background-color: #EB6363;
+    border-radius: 7px 7px 7px 7px;
+    height: 13px;
+    left: 27%;
+    margin-left: -5px;
+    position: absolute;
+    top: 27px;
+    width: 13px;
+}
+.timeline-content.right {
+    float: right;
+}
+.timeline-content.right .time {
+    font-weight: normal;
+    top: 14px;
+}
+.timeline-content .name {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 16px;
+    margin-top: 12px !important;
+	margin-bottom: 0;
+	color:#f36;
+}
+.timeline-content .title {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 8px 0 5px !important;
+}
+p+.ui.big.block {
+padding-top: 1.5rem;
+padding-bottom: 3.5rem;
 }
 
 </style>
@@ -292,13 +373,53 @@ margin-bottom: 0!important;
 				<div class="column">
 					<div class="product content froala-element">
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_app7.jpg"></p>
-						<p><img class="bbat" src="{{ app_url_packaged }}/images/noodles_app3.jpg"></p>
-						<p><img class="bbat" src="{{ app_url_packaged }}/images/noodles_app4.jpg"></p>
-						<p><img class="bbat" src="{{ app_url_packaged }}/images/noodles_app5.jpg"></p>
-						<p><img class="bbat" src="{{ app_url_packaged }}/images/noodles_app6.jpg"></p>
+						<div class="ui big block">
+							<div class="ui responsive grid">
+								<div class="row">
+									<div class="rundown-timeline-container">
+										<div class="timeline-block top">
+											<div class="timeline-endpoint"></div>
+											<div class="timeline-content">
+												<span class="part-one">预约购买</span>
+												<span class="time">2014.10.24</span>
+											</div>
+										</div>
+										<div class="timeline-block">
+											<div class="timeline-red-dot"></div>
+											<div class="timeline-content right">
+												<div class="time">12:00准时开抢</div>
+												<p class="name">抢购苹果线</p>
+												<p class="title">2014.10.29</p>
+											</div>	
+										</div>
+										<div class="timeline-block">
+											<div class="timeline-red-dot"></div>
+											<div class="timeline-content right">
+												<div class="time">12:00准时开抢</div>
+												<p class="name">抢购安卓线</p>
+												<p class="title">2014.10.30</p>
+											</div>	
+										</div>
+										<div class="timeline-block">
+											<div class="timeline-red-dot"></div>
+											<div class="timeline-content right">
+												<div class="time">12:00准时开抢</div>
+												<p class="name">抢购苹果线</p>
+												<p class="title">2014.10.31</p>
+											</div>	
+										</div>
+										<div class="timeline-block top">
+											<div class="timeline-endpoint"></div>
+											<div class="timeline-content">
+												<span class="part-one">抢购结束</span>
+												<span class="time">2014.11.24</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_011.jpg">
-							
-							
 						<div class="ui nowi grid bbto">
 							<div class="row">
 								<div class="column">
