@@ -19,10 +19,10 @@ body{
     max-width: 767px;
     padding: 0 3.5%;
 }
-.publish .ui.image.grid {
+.publish .ui.imagebox.grid {
 	margin: 0;
 }
-.publish .ui.image.grid > .row > .column {
+.publish .ui.imagebox.grid > .row > .column {
 	padding-right: 0;
 	padding-left: 0;
 }
@@ -149,14 +149,15 @@ body{
 .publish .ui.items>.item{
 	margin-bottom: 0 !important;
 }
-
 </style>
 {% endblock %}
+
 {% block jquery %}
 {% endblock %}
+
 {% block content %}
 <div class="publish page">
-	<div class='ui image grid'>
+	<div class='ui imagebox grid'>
 		<div class="center aligned row">
 			<div class="column">
 				<img src="{{ app_url_packaged }}/images/twotwo.jpg" alt="太火鸟孵化智能硬件新品体验会" />
@@ -351,7 +352,7 @@ body{
 			<div class="row">
 				<div class="center aligned column">
 					<h3 class="ui header">关注太火鸟</h3>
-					<p>您如果有特别想见的设计大咖，欢迎随时提议！没准我们能邀请到哦！</p>
+					<p>您如果有特别想见的设计大咖，欢迎随时提议！<br />没准我们能邀请到哦！</p>
 					<img src="{{ app_url_packaged }}/images/publish_04.jpg" />
 					<p><small>请扫描二维码关注太火鸟官方微信，欢迎骚扰，接受调戏！</small></p>
 				</div>
