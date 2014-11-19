@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home');
+	protected $exclude_method_list = array('execute','home','twelve');
 	
 	/**
 	 * 商城入口
