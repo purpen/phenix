@@ -1,0 +1,98 @@
+{%extends 'layout/base.html'%}
+{% block title %}太火鸟孵化智能硬件新品预热体验会-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+body{
+	margin:0;
+	padding:0;
+	min-height:100% !important;
+	overflow-y:hidden;
+}
+.pubindex{
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+	background:url('{{ app_url_packaged }}/images/publish_f1.jpg') ;
+	color:#FFF;
+}
+.pubindex h3.ui.header{
+	font-size:5rem;
+	margin:0 auto .3rem;
+}
+.pubindex h3+p{
+	font-size:3rem;
+	margin-bottom:.3rem;
+}
+.pubindex p+p{
+	margin:.3rem auto;
+	padding:0;
+}
+.pubindex .ui.items>.item ,.pubindex .ui.items>.item:hover{
+border-bottom: 0 solid rgba(0,0,0,.2);
+box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+background:rgba(0,0,0,0);
+}
+.pubindex .ui.big {
+	padding-top:2rem;
+	padding-bottom:8rem;
+}
+.pubindex .item .image{
+	width:68%;
+	margin:auto;
+}
+
+
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<section class="pubindex page">
+	<div class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<img src="{{ app_url_packaged }}/images/publish_f8.png" style="width:50%">
+					<h3 class="ui header">设计让产品更性感</h3>
+					<p>太火鸟孵化智能硬件新品预热体验会</p>
+					<p>时间:&nbsp;2014/11/22 &nbsp;13:30</p>
+					<p>地址：&nbsp;北京海淀大街27号亿景大厦 &nbsp;天使汇 &nbsp; 极客咖啡三层</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui three items">
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/publish_f4.png">
+							</div>
+						</div>
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/publish_f5.png">
+							</div>
+						</div>
+						<div class="item">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/publish_f6.png">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
+							<span>进入官网</span>
+						</a>
+						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
+							<span>活动专题</span>
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
