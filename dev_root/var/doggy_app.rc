@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-11-18 13:36:14
+//dump on 2014-11-18 16:20:55
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -325,11 +325,8 @@ Doggy_Config::add( array (
   'app.mongodb_rs' => false,
   'app.mongo.default' => 
   array (
-    'host' => '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027',
+    'host' => '127.0.0.1:27017',
     'db' => 'firebird',
-    'username' => 'root',
-    'password' => 'Frbird#2014$Shop',
-    'replicaSet' => 'she_main',
   ),
   'app.redis_host' => 'localhost:6379',
   'app.dt.extension_lib.sher_app' => 
@@ -432,7 +429,7 @@ Doggy_Config::add( array (
     'seword' => 'tmd|sex|色情|妈的|奶奶的|日你|TNND|她娘的',
   ),
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
-  'app.doggyx.class_path' => '/Users/xiaoyi/project/doggy-x',
+  'app.doggyx.class_path' => '/opt/project/php/doggy-x',
   'app.redis.default' => 
   array (
     'host' => '127.0.0.1',

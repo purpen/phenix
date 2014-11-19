@@ -1,0 +1,149 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "a242f6431ae13f6398be2a166980af36",
+    "packages": [
+        {
+            "name": "chrisboulton/php-resque",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chrisboulton/php-resque.git",
+                "reference": "0549d6c88a4aed934655b7c03b6153349d6c3ad0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chrisboulton/php-resque/zipball/0549d6c88a4aed934655b7c03b6153349d6c3ad0",
+                "reference": "0549d6c88a4aed934655b7c03b6153349d6c3ad0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Resque": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Boulton",
+                    "email": "chris@bigcommerce.com"
+                }
+            ],
+            "description": "Redis backed library for creating background jobs and processing them later. Based on resque for Ruby.",
+            "homepage": "http://www.github.com/chrisboulton/php-resque/",
+            "keywords": [
+                "background",
+                "job",
+                "redis",
+                "resque"
+            ],
+            "time": "2012-10-13 07:28:16"
+        },
+        {
+            "name": "elvis-bi/taobao-top-client",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elvis-bi/TaobaoTopClient.git",
+                "reference": "d11067807a1cfe48ce73b2614b8c7931be3c41c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elvis-bi/TaobaoTopClient/zipball/d11067807a1cfe48ce73b2614b8c7931be3c41c9",
+                "reference": "d11067807a1cfe48ce73b2614b8c7931be3c41c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "TaobaoTopClient": "src/"
+                },
+                "files": [
+                    "src/TaobaoTopClient/RequestCheckUtil.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Elvis Bi",
+                    "email": "elvis@dwenzi.com",
+                    "homepage": "http://www.dwenzi.com/"
+                }
+            ],
+            "description": "taobao top client",
+            "homepage": "https://github.com/elvis-bi/TaobaoTopClient",
+            "keywords": [
+                "client",
+                "sdk",
+                "taobao",
+                "top"
+            ],
+            "time": "2013-11-13 02:34:43"
+        },
+        {
+            "name": "purpen/qiniu",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/purpen/qiniu.git",
+                "reference": "a0a3f65db7679308d5a3745306acd633dd4c4518"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/purpen/qiniu/zipball/a0a3f65db7679308d5a3745306acd633dd4c4518",
+                "reference": "a0a3f65db7679308d5a3745306acd633dd4c4518",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qiniu\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "purpen",
+                    "email": "purpen.w@gmail.com"
+                }
+            ],
+            "description": "Qiniu云存储非官方API",
+            "keywords": [
+                "api",
+                "cloud storage",
+                "qiniu",
+                "sdk"
+            ],
+            "time": "2014-05-05 14:18:14"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
+}

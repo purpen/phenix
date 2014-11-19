@@ -1,0 +1,21 @@
+{
+    "name": "purpen/qiniu",
+    "description": "Qiniu云存储非官方API",
+    "keywords": ["sdk", "cloud storage", "api", "qiniu"],
+    "license": "MIT",
+	"type": "library",
+    "authors": [
+        {
+            "name": "purpen",
+            "email": "purpen.w@gmail.com"
+        }
+    ],
+    "require": {
+		"php": ">=5.3.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qiniu\\": "src/"
+		}
+    }
+}
