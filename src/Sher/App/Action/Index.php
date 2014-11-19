@@ -27,7 +27,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){
-		return $this->home();
+		return $this->twelve();
 	}
 	
 	/**
@@ -35,6 +35,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 */
 	public function welcome(){
 		return $this->to_html_page('page/welcome.html');
+	}
+	
+	/**
+	 * 双12活动专题
+	 */
+	public function twelve(){
+		return $this->to_html_page('page/pubindex.html');
 	}
 	
     /**
