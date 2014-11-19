@@ -38,6 +38,11 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 		return $this->to_html_page('page/404.html');
 	}
 	
-	
+	/**
+	 * 双12活动
+	 */
+	public function twelve(){
+		return $this->to_html_page('wap/publish.html');
+	}
 }
 ?>
