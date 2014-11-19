@@ -19,20 +19,37 @@ body{
     max-width: 767px;
     padding: 0 3.5%;
 }
+.publish .ui.imagebox.grid {
+	margin: 0;
+}
+.publish .ui.imagebox.grid > .row > .column {
+	padding-right: 0;
+	padding-left: 0;
+}
 .publish .ui.big.block {
     overflow: hidden;
-    padding-bottom: 1.5em;
-    padding-top: 1em;
+    padding-bottom: 3em;
+    padding-top: 3em;
+}
+.publish .ui.gray.block {
+	background-color: #efefef;
+}
+.publish .ui.parter.block {
+	margin-bottom: 0em;
 }
 .publish h3.ui.center.header p{
 	margin:0;
 	padding:0;
 }
+.publish .ui.big.block .ui.header + p {
+    line-height: 2em;
+}
 .publish .content {
-	padding-top:1em !important;
+	padding-top:2em !important;
 }
 .publish .content p{
-	color:#f36;
+	line-height: 2em;
+	text-indent: 2em;
 }
 .rundown-timeline-container:before {
     background: none repeat scroll 0 0 #DCDEE1;
@@ -132,29 +149,38 @@ body{
 .publish .ui.items>.item{
 	margin-bottom: 0 !important;
 }
-
 </style>
 {% endblock %}
+
 {% block jquery %}
 {% endblock %}
+
 {% block content %}
 <div class="publish page">
-	<img src="{{ app_url_packaged }}/images/publish_01.jpg" class="ui image">
+	<div class='ui imagebox grid'>
+		<div class="center aligned row">
+			<div class="column">
+				<img src="{{ app_url_packaged }}/images/twotwo.jpg" alt="太火鸟孵化智能硬件新品体验会" />
+			</div>
+		</div>
+	</div>
 	<section class="ui big block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<h3 class="ui header">右脑崛起设计时代</h3>
+					<h3 class="ui magenta header">右脑崛起设计时代</h3>
 					<p>随着大数据、云计算和人工智能的发展，让我们的左脑越来越懒惰，而右脑代表的创造力、共情力、娱乐感和意义感则是现代意义上的“科技”所不能替代的，设计师的思维恰恰是右脑思维，设计师善于发现用户需求，并有效整合现有技术满足消费者需求，当产品能够与用户共情，那么我们塑造的产品才是真正的性感产品！</p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="column">
-					<h3 class="ui header center aligned">从设计产品到设计人生</h3>
-					<p>有数据显示，<br>
-					90% 的设计师有计划开发原创设计产品，<br>
-					64% 的设计师认为缺少成熟的销售平台和体系，<br>
-					而太火鸟，恰恰能够帮您！</p>
+				<div class="center aligned column">
+					<h3 class="ui magenta header">从设计产品到设计人生</h3>
+					<div class="ui list">
+						<div class="item">有数据显示</div>
+						<div class="item">90% 的设计师有计划开发原创设计产品</div>
+						<div class="item">64% 的设计师认为缺少成熟的销售平台和体系</div>
+						<div class="item">而太火鸟，恰恰能够帮您！</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -164,7 +190,9 @@ body{
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<p>本次太火鸟携多款孵化产品亮相，你能见到专为新时代辣妈辣爸设计的智能配奶机、摇一摇便降温升温55度的魔法水杯、家庭空气净化的升级装备新风机！你还有可能见到会跟你聊天的睡眠灯、让你成为街头亮点的筋斗云平衡车、无时无刻带给您的家人温暖和爱的时光机……现场还有神秘大奖抽送噢！</p>
+					<p class="ui magenta text">本次太火鸟携多款孵化产品亮相，你能见到专为新时代辣妈辣爸设计的智能配奶机、摇一摇便降温升温55度的魔法水杯、家庭空气净化的升级装备新风机！</p>
+					<p class="ui magenta text">你还有可能见到会跟你聊天的睡眠灯、让你成为街头亮点的筋斗云平衡车、无时无刻带给您的家人温暖和爱的时光机……</p>
+					<p class="ui magenta text">现场还有神秘大奖抽送噢！~~~~~</p>
 				</div>
 			</div>
 		</div>
@@ -173,20 +201,20 @@ body{
 		<div class="ui grid">
 			<div class="row">
 				<div class="column">
-					<div class="ui three items">
+					<div class="ui one items">
 						<div class="item">
 							<div class="image">
-								<img src="{{ app_url_packaged }}/images/publish_1.jpg">
+								<img src="{{ app_url_packaged }}/images/mp-newair.jpg" />
 							</div>
 						</div>
 						<div class="item">
 							<div class="image">
-								<img src="{{ app_url_packaged }}/images/publish_2.jpg">
+								<img src="{{ app_url_packaged }}/images/mp-55du.jpg" />
 							</div>
 						</div>
 						<div class="item">
 							<div class="image">
-								<img src="{{ app_url_packaged }}/images/publish_3.jpg">
+								<img src="{{ app_url_packaged }}/images/mp-milk.jpg" />
 							</div>
 						</div>
 					</div>
@@ -245,11 +273,11 @@ body{
 			</div>
 		</div>
 	</section>
-	<section class="ui big block">
+	<section class="ui big gray block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<h3 class="ui header">活动流程</h3>
+					<h3 class="ui magenta header">活动流程</h3>
 				</div>
 			</div>
 			<div class="row">
@@ -300,6 +328,7 @@ body{
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
+<<<<<<< HEAD
 					<h3 class="ui header">邀请嘉宾</h3>
 					<p>太火鸟创始人/CEO  雷海波</p>
 					<p>洛可可设计集团创始人  贾伟</p>
@@ -321,6 +350,23 @@ body{
 					<p>创新工场投资经理 孙培麟</p>
 					<p>戈壁资本投资总监 杨世毅</p>
 					<p>梧桐树资本合伙人 童玮亮</p>
+=======
+					<h3 class="ui magenta header">邀请嘉宾</h3>
+					<div class="ui list">
+						<div class="item">太火鸟创始人/CEO  雷海波</div>
+						<div class="item">洛可可设计集团创始人  贾伟</div>
+						<div class="item">创新工场合伙人 赖晓凌</div>
+						<div class="item">创新工场投资经理 孙培麟</div>
+						<div class="item">戈壁资本投资总监 杨世毅</div>
+						<div class="item">梧桐树资本合伙人 童玮亮</div>
+						<div class="item">淘宝众筹负责人 萧无</div>
+						<div class="item">婴萌科技创始人 陈清华</div>
+						<div class="item">造梦者设计总监 李龚川</div>
+						<div class="item">云造科技CEO 邱懿武</div>
+						<div class="item">整点科技CEO 胡木石</div>
+						<div class="item">木创科技联合创始人 黄声岩</div>
+					</div>
+>>>>>>> refs/remotes/origin/HEAD
 				</div>
 			</div>
 		</div>
@@ -330,25 +376,25 @@ body{
 			<div class="row">
 				<div class="center aligned column">
 					<h3 class="ui header">关注太火鸟</h3>
-					<p>您如果有特别想见的设计大咖，欢迎随时提议！没准我们能邀请到哦！
-					请扫描二维码关注太火鸟官方微信，欢迎骚扰，接受调戏！</p>
-					<img src="{{ app_url_packaged }}/images/publish_04.jpg" class="ui image">
+					<p>您如果有特别想见的设计大咖，欢迎随时提议！<br />没准我们能邀请到哦！</p>
+					<img src="{{ app_url_packaged }}/images/publish_04.jpg" />
+					<p><small>请扫描二维码关注太火鸟官方微信，欢迎骚扰，接受调戏！</small></p>
 				</div>
 			</div>
 		</div>
 	</section>
-	<section class="ui big block">
+	<section class="ui big gray parter block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<h3 class="ui header">主办单位</h3>
-					<p>太火鸟</p>
+					<h3 class="ui magenta header">主办单位</h3>
+					<img src="{{ app_url_packaged }}/images/logo-home.png" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<h3 class="ui header">合作伙伴</h3>
-					<p>极客咖啡、天使汇、活动行、淘宝众筹、创新工场、戈壁资本、梧桐树资本、DFF设计创始人基金、时尚集团</p>
+					<h3 class="ui magenta header">合作伙伴</h3>
+					<p>极客咖啡、天使汇、活动行、淘宝众筹、创新工场、戈壁资本、梧桐树资本、DFF设计创始人基金、时尚集团、微软加速器</p>
 				</div>
 			</div>
 		</div>
