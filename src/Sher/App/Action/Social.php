@@ -9,6 +9,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		'id' => '',
 		'page' => 1,
 		'step' => 0,
+		'st' => 0,
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -43,8 +44,9 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function allist(){
 		$this->set_target_css_state('allist');
+		$sort = $this->stash['st'];
 		
-		$page = "?page=#p#";
+		$page = "?st=${sort}&page=#p#";
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.social', 'allist').$page;
 		$this->stash['pager_url'] = $pager_url;
 		

@@ -1,10 +1,18 @@
 {%extends 'layout/column.html'%}
-{% block title %}面条线-{% endblock %}
+{% block title %}就线在-数据充电线免费抢-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
+	.noodles .ui.grid{
+		margin: 0; 
+	}
 	.noodles.page{
 		background:#fff;
+		/*overflow-x:hidden;*/
+	}
+	.noodles p img{
+		width: 71%!important;
+		margin:auto;
 	}
 	.noodles .line{
 		background:url('{{ app_url_packaged }}/images/noodles1.jpg') scroll center center no-repeat;
@@ -13,7 +21,7 @@
 	.noodles .line .hero-main h1 {
 	font-size: 40px;
 	margin-bottom: 0px;
-	margin-left: -9px;
+	margin-left: 0px;
 	margin-top: 32px;
 	text-transform: uppercase;
 	color:#f36;
@@ -30,6 +38,7 @@
 	.noodles .line .hero-main p{
 		font-size:22px;
 		color:#000;
+		margin-top: 0.8em;
 	}
 	.noodles .line .hero-main p span{
 		font-size:31px;
@@ -49,7 +58,7 @@
 		padding-bottom: 1em;
 	}
 	.noodles .ui.nowi{
-		padding:2% 19%;
+		padding:2% 15%;
 	}
 	.noodles .ui.nowi .ui.items .item{
 		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
@@ -86,6 +95,9 @@
 		background:#f36;
 		color:#fff;
 	}
+	.noodles .ui.nowi .ui.one.items>.item {
+		width: 96% !important;
+	}
 	.ui.nowi .item:hover .content,.ui.nowi .ui.items .item:hover .name,.ui.nowi .ui.items .item:hover .name a{
 		color:#fff;
 	}
@@ -111,62 +123,145 @@
 	.noodles p.count {
 		padding: 19px 0;
 	}
-	.noodles .ui.btn{
-		background: #f36;
-		opacity: .7;
+	.noodles h1+hr{
+		border-style: groove;
 	}
-	.noodles .ui.btn:hover{
-		background: #f36;
-		opacity: .9;
-	}
-	
-
 </style>
 {% endblock %}
 
 {% block jquery %}
-$('#clock').countdown('2014/11/19 23:59:59').on('update.countdown', function(event){
-		var $this = $(this).html(event.strftime(''
-		+ '<span>%D</span> 天 '
-		+ '<span>%H</span> 时 '
-		+ '<span>%M</span> 分 '
-		+ '<span>%S</span> 秒'));
+	{% if product.snatched %}
+		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
+			var $this = $(this).html(event.strftime(''
+			+ '<span>%D</span> 天 '
+			+ '<span>%H</span> 时 '
+			+ '<span>%M</span> 分 '
+			+ '<span>%S</span> 秒'));
+		});
+	{% endif %}
+	
+	$('.ui.appoint.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$('#addbook-form-box').modal('show');
 	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	// 立即购买
+	$('.ui.nowbuy.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		phenix.redirect('{{ app_url_cart_nowbuy }}?sku={{ product._id }}', 0);
+	});
+	
+	$('#addbook-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '收货人姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '联系电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '联系电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮政编码不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
 <div class="noodles page">
 	<section class="ui line block">
-		<div class="ui grid">
-			<div class="hero-main">
-				<div class="verticalize">
+		<div class="hero-main">
+			<div class="verticalize">
 				<h1>就线在&nbsp;<span>Line For Now</span>&nbsp;</h1>
 				<hr>
 				<p>太火鸟上线内测&nbsp;<span>3000</span>&nbsp;条数据线免费抢*</p>
-				 <a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
-						<span>现在预约</span>
-				</a>
-				<p class="count" id="clock">
-					
-				</p>
-				<div class="ptop">
-					<div>
-						
+				{% if !product.snatched_start %}
+					{% if appointed %}
+				 	<div class="ui active btn-4 btn-4c black btn">
+						<span>已经预约</span>
+					</div>	
+					{% else %}
+				 	<div class="ui active btn-4 btn-4c icon-arrow-right appoint magenta btn">
+						<span>线在预约</span>
 					</div>
-					<p>已有&nbsp;<span>258</span>&nbsp;人参与抢购!</p>
-					<p>2014.10.29—10.31，每天12:00准时开抢</p>
-				
+					{% endif %}
+					<p class="count" id="clock"></p>
+				{% else %}
+					{% if product.can_saled %}
+					<div class="ui active magenta btn-4 btn-4c icon-arrow-right nowbuy btn">
+						<span>线在抢购</span>
+					</div>
+					{% else %}
+					<div class="ui active gray btn-4 btn-4c locknotice btn">
+						<span>已抢完</span>
+					</div>
+					{% endif %}
+					<p class="count">火热抢购中</p>
+				{% endif %}
+				<div class="ptop">
+					<p>已有&nbsp;<span id="appoint_people_count">{{ product.appoint_count|default 0 }}</span>&nbsp;人提前预约!</p>
+					<p>2014.12.10—12.12，每天12:00准时开抢</p>
 				</div>
-			
 			</div>
-			<!--<div class="row">
-				<h1>就线在Line For Now</h1>
-				<hr>
-				<p>太火鸟上线内测3000条数据线免费抢*</p>
-			</div>
-			<div class="row">
-				
-			</div>-->
 		</div>
 	</section>
 	<section class="ui img block">
@@ -174,8 +269,8 @@ $('#clock').countdown('2014/11/19 23:59:59').on('update.countdown', function(eve
 			<div class="row">
 				<div class="column">
 					<div class="product content froala-element">
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_3.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_11.jpg">
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_03.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_011.jpg">
 						
 						<div class="ui nowi grid">
 							<div class="row">
@@ -189,7 +284,7 @@ $('#clock').countdown('2014/11/19 23:59:59').on('update.countdown', function(eve
 											<h4 class="ui header">
 												数据线免费得
 												<div class="name one">
-													2014.10.29—10.31</div>
+													2014.11.24—12.9</div>
 													<div class="name">每天12:00，3000条数据线</div>
 													<div class="name">准时开抢 / 连抢三天
 												</div>
@@ -231,10 +326,10 @@ $('#clock').countdown('2014/11/19 23:59:59').on('update.countdown', function(eve
 							</div>
 						</div>	
 						</p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_5.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_6.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_7.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_12.jpg">
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_05.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_06.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_07.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_012.jpg">
 							<div class="ui nowi grid">
 								<div class="row">
 									<div class="column">
@@ -272,12 +367,84 @@ $('#clock').countdown('2014/11/19 23:59:59').on('update.countdown', function(eve
 								</div>
 							</div>
 						</p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_9.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_10.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_09.jpg"></p>
+						<p><img class="" src="{{ app_url_packaged }}/images/noodles_010.jpg"></p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+</div>
+<!--预约填写收货地址-->
+<div class="ui small addbook modal" id="addbook-form-box">
+  	<i class="flat close icon"></i>
+	<div class="ui header">
+    	线在预约：填写收货地址，登录即抢！
+  	</div>
+	<div class="container">
+		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_default" value="1" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="two fields">
+					<div class="field">
+						<label>收货人姓名</label>
+				  		<input type="text" name="name" />
+					</div>
+				</div>
+				
+				<div class="two fields">
+					<div class="field">
+						<label>联系电话</label>
+					  	<input type="text" name="phone" placeholder="11位手机号码" />
+					</div>
+				</div>
+				
+				<div class="field">
+					<label>地址</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+		
+					    <div class="default text">省份/自治区</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+	
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+				</div>
+				
+				<div class="field">
+					<textarea name="address" class="small">{{ addbook.address }}</textarea>
+				</div>
+		
+				<div class="two fields">
+					<div class="field">
+						<label>邮政编码</label>
+					  	<input type="text" name="zip" />
+					</div>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+	</div>
 </div>
 {% endblock %}

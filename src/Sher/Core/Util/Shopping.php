@@ -5,7 +5,7 @@
  * @author purpen
  * @version $Id$
  */ 
-class Sher_Core_Util_Shopping extends Doggy_Exception {
+class Sher_Core_Util_Shopping extends Doggy_Object {
 	# 默认运费
 	const DEFAULT_FEES = 0;
 	
@@ -21,6 +21,20 @@ class Sher_Core_Util_Shopping extends Doggy_Exception {
      */
 	public static function getFees(){
 		return self::DEFAULT_FEES;
+	}
+	
+	/**
+	 * 更新商品预约信息
+	 * @param int $product_id
+	 * @return array
+	 */
+	public static function update_appoint_product($product_id){
+		$product_id = (int)$product_id;
+		
+		$product = new Sher_Core_Model_Product();
+		$product->inc_counter('appoint_count', 1, $product_id);
+		
+		return $product->load($product_id);
 	}
 	
 	/**
