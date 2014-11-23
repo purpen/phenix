@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+		<title>太火鸟</title>
+	</head>
+	
+	<body>
+		<div class="uiehr_box" id="ue_height" style=" width:100%; position:relative">
+			<iframe src="http://hi.taobao.com/market/hi/detail2014.php?id={{ id }}"  style="border:none !important; height:100%; width:100%; color:#666"></iframe>
+     	 	<div style="width:100%; left:50%; margin-left:-50%; position:fixed; bottom:100px; background:#ff9900; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; padding:5px 0px;" >
+    		 	<div style="width:100%; font-size:16px; line-height:25px; text-align:center; color:#fff; position:relative ">
+    				<p style=" line-height:25px;">如果页面加载不成功,</p>
+    			 	<p style=" line-height:25px;">请复制以下链接粘贴到浏览器打开</p>
+    			 	<p style=" line-height:25px;">http://hi.taobao.com/market/hi/detail2014.php?id={{ id }}</p>
+   				 	<img class="ueyuir" style=" width:30px; position:absolute; top:-20px; right:0px;" src="{{ app_url_packaged }}/images/lightbox/close.png">
+     			</div>
+    		</div>
+		</div>
+		<script type="text/javascript" src="http://frstatic.qiniudn.com/javascript/jquery-2.min.js"></script>
+		<script type="text/javascript">
+			var udie = document.documentElement.clientHeight-10;
+			$("ue_height").css({height: udie});
+			$(".ueyuir").on("click",function(){
+				$(this).parent().parent().hide();	
+			});
+		</script>
+	</body>
+</html>
