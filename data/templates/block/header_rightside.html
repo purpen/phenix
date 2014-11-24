@@ -1,3 +1,67 @@
+{% block page_css %}
+<style type="text/css">
+a:link,a:visited{text-decoration:none;}
+a:hover{text-decoration:none;}
+ul{list-style:none;margin:0;padding:0}
+.menu_zzjs_net{float:left;padding-top:2px;width:100%;padding-bottom: 5px;border-bottom: 1px solid rgba(0,0,0,.3);}
+.menu_zzjs_net li{float:left;}
+.menu_zzjs_net li a{display:block;float:left;color:#fff;height:25px;line-height:25px;padding:0 2.5em;margin-left:2px;}
+.menu_zzjs_net .this_zzjs a {color:#f36!important;}
+.sub_zzjs{clear:both;border-top:none;}
+.sub_zzjs ul{display:none;line-height:180%;}
+.sub_zzjs li {
+border-bottom: 1px solid rgba(0,0,0,.3);
+padding: 4px 15px;
+}
+.ui.avatar.image {
+margin-right: 8px!important;
+}
+i.settings.icon {
+font-size: 1.5em !important;
+padding-top: 5px;
+}
+ul li.borf{
+	border-bottom:0px solid #fff;
+}
+ul li .flr{
+	float:right;
+}
+ul li.borf a:hover{
+	text-decoration:underline;
+}
+.ui.dropdown .menu .item:first-child {
+	padding-bottom: .2em!important;
+}
+
+</style>
+{% endblock %}
+<script>
+function $_class(name){
+ var elements = document.getElementsByTagName("*");
+ for(s=0;s<elements.length;s++){
+  if(elements[s].className==name){
+   return  elements[s];
+  }
+ }
+}
+var tabList = $_class("menu_zzjs_net").getElementsByTagName("li")
+ tabCon = $_class("sub_zzjs").getElementsByTagName("ul");
+for(i=0;i<tabList.length;i++){
+ (function(){
+  var t = i;
+  tabList[t].onmouseover = function(){
+   for(o=0;o<tabCon.length;o++){
+    tabCon[o].style.display = "none";
+    tabList[o].className = "";
+    if(t==o){
+     this.className = "this_zzjs";
+     tabCon[o].style.display = "block";
+    }
+   }
+  }
+ })()
+}
+</script>
 <form class="search item" method="post" action="{{ app_url_domain }}/search" id="searchbar">
  	<div class="ui icon input">
 		<input name="q" type="text" value="{{ q }}" />
@@ -8,6 +72,80 @@
 <a href="{{ app_url_helper }}" class="ui magenta how-work button">如何工作？</a>
 
 <div class="ui secondary user menu">
+	
+	
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url=" ">
+	  	<i class="flat discover icon"></i>
+	  	<div class="menu" style="width:330px;">
+			<div class="item" id="basket-body-content">
+				<ul class="menu_zzjs_net">
+				<li class="this_zzjs"><a href="javascript:void(0)" _fcksavedurl="javascript:void(0)">动态</a></li>
+				<li><a href="javascript:void(0)" _fcksavedurl="javascript:void(0)">关注</a></li>
+				<li><a href="javascript:void(0)" _fcksavedurl="javascript:void(0)">通知</a></li>
+				</ul>
+				<div class="sub_zzjs">
+				<ul style="display:block;">
+				<li>
+					
+						<div class="">
+							<b>笨笨</b>&nbsp;回复了话题 巴黎VS纽约,你是哪一派?
+						</div>
+						<div class="">
+							2个小时前
+						</div>
+					
+				</li>
+				<li>
+					<a href=" " _fcksavedurl=" ">
+						<div class="">
+							<b>木辛抽抽</b>&nbsp;回复了话题 三大外媒开跑实测iPhone6<br />,防震模式、240fps慢动作录影,效果不错
+						</div>
+						<div class="">
+							2014年9月31日&nbsp;19:30
+						</div>
+					</a>
+				</li>
+				<li>
+					这些人最近鸟你了
+				<li>
+					<a class="ui small link">
+						<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						sherry wang
+					</a>
+				</li>
+				<li>
+					<a class="ui small link">
+						<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						sherry wang
+					</a>
+				</li>
+				<li class="borf">
+					<i class="settings icon"></i>
+					<div class="flr">
+						<a href="">
+							查看全部
+						</a>
+					</div>
+				</li>
+				</ul>
+				<ul>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				</ul>
+				<ul>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				<li><a href=" " _fcksavedurl=" "> <br /></a></li>
+				</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
