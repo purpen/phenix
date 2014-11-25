@@ -21,6 +21,10 @@
 			padding-left:0 !important;
 		}
 	}
+	#homepage .ui.topic .stick.list .header {
+		font-size: 1.12em;
+	}
+	
 	.ui.grid>.column{
 		padding-right:1.2%;
 		padding-left:1.2%;
@@ -74,7 +78,7 @@
 	}else if(s <= 768){
 		a = 450;
 	}
-	e(".hero").height(a);
+	e(".hero").height(a-80);
 	e(".hero .slidee li").width(s);
 	
 	var $frame = $('#frame');
@@ -122,7 +126,7 @@
 			a = 450;
 		}
 		
-		$(".hero").height(a);
+		$(".hero").height(a-80);
 		$(".hero .slidee li").width(s);
 		
 		$frame.sly('reload');
@@ -291,7 +295,7 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">热门商品</h3>
+					<h3 class="ui header">热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small></h3>
 				</div>
 			</div>
 			<div class="row">
