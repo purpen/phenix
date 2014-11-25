@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat');
+	protected $exclude_method_list = array('execute','flat','add_user');
 
 	/**
 	 * 默认入口
@@ -131,5 +131,23 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	public function pubindex() {		
 		return $this->to_html_page('page/pubindex.html');
 	}
+
+  /**
+   * Add User
+   */
+  public function add_user(){
+		$user = new Sher_Core_Model_User();
+		$data = array(
+			'account'  => 'tian_005',
+			'password' => sha1('123456'),
+			'nickname' => 'tian_005',
+		
+			'state' => Sher_Core_Model_User::STATE_OK,
+			'role_id'  => Sher_Core_Model_User::ROLE_USER,
+		);
+    echo sha1('123456');
+    #$user->create($data);
+    echo 'ok';exit;
+  }
 }
 ?>

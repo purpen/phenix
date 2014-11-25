@@ -172,7 +172,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	/**
 	 * 保存之后事件
 	 */
-    protected function after_save() {
+    protected function after_insert() {
 		// 更新用户总数
 		Sher_Core_Util_Tracker::update_user_counter();
     }

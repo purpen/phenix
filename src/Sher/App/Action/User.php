@@ -256,6 +256,23 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		
 		return $this->to_taconite_page('ajax/send_ok.html');
 	}
+
+	/**
+	 * 定时获取用户消息提醒
+	 * 
+	 * @return string
+	 */
+	public function ajax_fetch_counter(){
+    $this->stash['total_count'] = (
+		  ($this->stash['message_count'] = $this->visitor->counter['message_count']) +
+		  ($this->stash['alert_count'] = $this->visitor->counter['alert_count']) +
+		  ($this->stash['notice_count'] = $this->visitor->counter['notice_count']) +
+		  ($this->stash['fans_count'] = $this->visitor->counter['fans_count']) +
+		  ($this->stash['comment_count'] = $this->visitor->counter['comment_count']) +
+		  ($this->stash['people_count'] = $this->visitor->counter['people_count'])
+    );
+    return $this->to_taconite_page('ajax/user_notice.html');
+	}
 	
 	
 }
