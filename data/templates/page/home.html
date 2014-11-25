@@ -80,10 +80,16 @@
 		$frame.sly('reload');
 	});
 	
-	$('[data-countdown]').each(function() {
+	$('.schedule .count[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
 		$this.countdown(finalDate, function(event) {
 			$this.html(event.strftime('%-D'));
+		});
+	});
+	$('.vote .timer[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="number">%D</div><div class="unit">天</div></div><div class="item"><div class="number">%H</div><div class="unit">时</div></div> <div class="item"><div class="number">%M</div><div class="unit">分</div></div><div class="green item"><div class="number">%S</div><div class="unit">秒</div></div>'));
 		});
 	});
 	
@@ -97,7 +103,7 @@
 
 {% block content %}
 <div id="homepage">
-	<article class="hero ui hide-on-mobile">
+	<article class="hero">
 		<section id="frame">
 			<ul class="slidee">
 				
@@ -274,21 +280,28 @@
 			</div>
 		</div>
 	</section>
-
-	<section class="ui helper-banner block" data-1100="opacity:0.7;" data-1500="opacity:1;">
-		<div class="ui grid">
+	
+	<section class="ui small vote block">
+		<div class="ui responsive grid" id="votelist">
 			<div class="row">
+				<div class="column">
+					<h3 class="ui header">创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small></h3>
+				</div>
+			</div>
+			<div class="content row">
 				<div class="center aligned column">
-					<h2 class="ui header" data-1100="transform: translateY(-400px);opacity:0;" data-1500="transform: translateY(0px);opacity:1;">
-						提交你的创意
-					</h2>
-					<p data-1100="transform: translateY(400px);opacity:0;" data-1500="transform: translateY(0px);opacity:1;">把你天马行空的创意交给我们，我们一起将它变成现实。</p>
-					<div class="actions" data-1100="transform: translateY(400px);opacity:0;" data-1550="transform: translateY(0px);opacity:1;">
+					<div class="ui three items">
+						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:6 %}
+						{% for product in list.rows %}
+							{% include "block/product_vote_item.html" %}
+						{% endfor %}
+					</div>
+					<div class="actions" data-2200="transform: translateY(400px);opacity:0;" data-2350="transform: translateY(0px);opacity:1;">
+						<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+							全部创意
+						</a>
 						<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
 							提交创意
-						</a>
-						<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-							创意投票
 						</a>
 					</div>
 				</div>
@@ -296,12 +309,11 @@
 		</div>
 	</section>
 	
-	
 	<section class="ui small topic white background block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">社区话题</h3>
+					<h3 class="ui header">社区话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small></h3>
 				</div>
 			</div>
 			<div class="two column row">
@@ -320,13 +332,19 @@
 				</div>
 				<div class="column">
 					{% topic_list var:'list' is_top:1 page:1 size:6 %}
-					<div class="ui divided selection stick list">
+					<div class="ui divided stick list">
 						{% for topic in list.rows %}
 					  	<div class="item">
 							<div class="right floated compact ui label">{{ topic.view_count }}</div>
 					    	<div class="content">
 					      	  	<a class="ui header link" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
-					      		<div class="description"><a href="{{ topic.user.home_url }}" class="ui user link">{{ topic.user.nickname }}</a> <i class="time icon"></i>于 {{ topic.created_on|relative_datetime }} 发表</div>
+					      		<div class="description">
+									<ul class="ui horizontal bulleted link list">
+										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
+										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
+										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>		
+									</ul>
+								</div>
 					    	</div>
 					  	</div>
 						{% endfor %}
@@ -417,10 +435,8 @@
 	<section class="ui big succase block">
 		<div class="ui responsive grid">
 			<div class="row">
-				<div class="center aligned column section-title">
-					<h3 class="ui header">成功案例</h3>
-					<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>
-					<hr>
+				<div class="column section-title">
+					<h3 class="ui header">成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small></h3>
 				</div>
 			</div>
 			<div class="row">
