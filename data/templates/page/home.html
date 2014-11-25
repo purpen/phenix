@@ -342,7 +342,9 @@
 									<ul class="ui horizontal bulleted link list">
 										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
 										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
-										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>		
+										{% if topic.last_user %}
+										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>
+										{% endif %}
 									</ul>
 								</div>
 					    	</div>
