@@ -14,49 +14,6 @@
 	    margin: 0 auto;
 	    max-width: 1920px;
 	}
-	
-	.topic .item .image{
-		cursor: default;
-	}
-	.topic .bword{
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 12%;
-		z-index: 10;
-		background-color: rgba(0,0,0,.2);
-		-webkit-transition: all .3s ease .1s;
-		transition: all .3s ease .1s;
-	}
-	.topic .item:hover .bword{
-		background-color: rgba(0,0,0,.4);
-	}
-	.topic .bword h3.ui.header{
-		margin:.3em .5em;
-		position: absolute;
-		left: 0;
-		bottom: 0em;
-	}
-	.topic .bword .sub.header{
-		color:#fff;
-	}
-	.topic .ui.only.item{
-		background:#fff;
-		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-	}
-	.topic .ui.only.item:hover{
-		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-	}
-	.topic .duline{
-		padding: .6em 1em;
-		border-bottom: 1px solid rgba(0,0,0,.3);
-	}
-	.topic .duline:hover .sub.header{
-		text-decoration: underline;
-		color:#f36;
-	}
-	
 </style>
 {% endblock %}
 
@@ -166,7 +123,7 @@
 						<div class="hero-main verticalize-container">
 		                    <div class="verticalize">
 		                        <span>解决新手爸妈的喂奶问题</span>
-		                        <h1>婴萌全球首款智能配奶机</h1>
+		                        <h1>婴萌首款智能配奶机</h1>
 		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://www.taihuoniao.com/sale/1111546391.html">
 									<span>了解更多</span>
 								</a>
@@ -340,114 +297,46 @@
 	</section>
 	
 	
-	<section class="ui small hide topic block">
+	<section class="ui small topic white background block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
 					<h3 class="ui header">社区话题</h3>
 				</div>
 			</div>
-			<div class="row">
+			<div class="two column row">
 				<div class="column">
-					<div class="ui two items">
-						<div class="item">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/topic_1.jpg" class="ui image" />
-								<div class="bword">
-									<h3 class="ui header">
-										<div class="content">
-											<div class="sub header">是什么成就了创意团队中的伟大领袖？</div>
-										</div>
-									</h3>
-								</div>
-							</div>
+					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' %}
+					{% if ad %}
+					<div class="advert content">
+						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+				      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+						</a>
+						<div class="bword">
+							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
 						</div>
-						<div class="ui only item">
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												2014年国际最佳LOGO设计精选（图文详解）
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												日本设计大师 佐藤可士和 作品集 [平面 包装]
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												【你的冰，我的火——我们是真捐！】各路英雄挑战太火鸟合集...
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												2014年国际最佳LOGO设计精选（图文详解）
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												日本设计大师 佐藤可士和 作品集 [平面 包装]
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												【你的冰，我的火——我们是真捐！】各路英雄挑战太火鸟合集...
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-							<div class="duline">
-								<h3 class="ui header">
-									<div class="content">
-										<a href="">
-											<div class="sub header">
-												2014年国际最佳LOGO设计精选（图文详解）
-											</div>
-										</a>
-									</div>
-								</h3>
-							</div>
-						</div>
+					</div>
+					{% endif %}
+				</div>
+				<div class="column">
+					{% topic_list var:'list' is_top:1 page:1 size:6 %}
+					<div class="ui divided selection stick list">
+						{% for topic in list.rows %}
+					  	<div class="item">
+							<div class="right floated compact ui label">{{ topic.view_count }}</div>
+					    	<div class="content">
+					      	  	<a class="ui header link" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
+					      		<div class="description"><a href="{{ topic.user.home_url }}" class="ui user link">{{ topic.user.nickname }}</a> <i class="time icon"></i>于 {{ topic.created_on|relative_datetime }} 发表</div>
+					    	</div>
+					  	</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
-	<section class="ui big white background block">
+	<section class="ui hide big white background block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column section-title">
