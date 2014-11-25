@@ -146,8 +146,23 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 			'role_id'  => Sher_Core_Model_User::ROLE_USER,
 		);
     echo sha1('123456');
-    #$user->create($data);
+    //$user->create($data);
     echo 'ok';exit;
+  }
+
+  /**
+   * 测试正则
+   */
+  public function validate_str(){
+    $str = '悄你的aa_--_aaa悄好aaaaaaaaaaaaaaaaaa';
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}_-a-zA-Z0-9]{3,30}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    ///^[\x{4e00}-\x{9fa5}_a-zA-Z0-9]+$/u
+    if (!preg_match($e, $str)) {
+      echo 'no';
+    }else{ 
+      echo 'yes';
+    } 
+  
   }
 }
 ?>

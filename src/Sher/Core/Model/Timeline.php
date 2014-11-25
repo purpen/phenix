@@ -24,41 +24,39 @@ class Sher_Core_Model_Timeline extends Sher_Core_Model_Base  {
 	# 收藏
 	const EVT_FAVORITE = 5;
 	
-    # 喜欢
-    const EVT_LOVE = 6;
+  # 喜欢
+  const EVT_LOVE = 6;
+
+  # 关注
+  const EVT_FOLLOW = 7;
+
+  # 分享
+  const EVT_SHARE = 8;
+
 	
-    # 关注
-    const EVT_FOLLOW = 7;
-	
-    # 分享
-    const EVT_SHARE = 8;
-	
-	
-	## 类型定义
+	  ## 类型定义
 	
     const TYPE_TOPIC = 1;
     const TYPE_PRODUCT = 2;
-	const TYPE_USER = 3;
-	
+	  const TYPE_USER = 3;
 
     protected $schema = array(
-        'user_id' => 0,
+      'user_id' => 0,
+      'target_id' => null,
+		  'type' => self::TYPE_TOPIC,
 		
-        'target_id' => 0,
-		'type' => self::TYPE_TOPIC,
+		  # 目标对象所属的用户(字段不是必添)
+		  'target_user_id' => 0,
 		
-		# 目标对象所属的用户
-		'target_user_id' => 0,
-		
-        'evt' => 0,
-        'data' => array(),
+      'evt' => 0,
+      'data' => array(),
     );
 	
     protected $required_fields = array('user_id','target_id','evt');
-    protected $int_fields = array('user_id','target_id', 'type', 'target_user_id', 'evt');
+    protected $int_fields = array('user_id', 'type', 'target_user_id', 'evt');
     
     protected $joins = array(
-        'user' => array('user_id' => 'Sher_Core_Model_User'),
+      'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
 	
     /**
