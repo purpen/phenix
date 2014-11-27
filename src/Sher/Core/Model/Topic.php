@@ -135,11 +135,11 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         $timeline = new Sher_Core_Model_Timeline();
         $arr = array(
           'user_id' => $this->data['user_id'],
-          'target_id' => $this->data['_id'],
+          'target_id' => (int)$this->data['_id'],
           'type' => Sher_Core_Model_Timeline::TYPE_TOPIC,
           'evt' => Sher_Core_Model_Timeline::EVT_POST,
         );
-        #$ok = $timeline->create($arr);
+        $timeline->create($arr);
       }
     }
   }

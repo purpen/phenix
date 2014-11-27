@@ -169,9 +169,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 			$this->visitor->inc_counter('follow_count', $user_id);
 			unset($user);
 			
-			// 更新新粉丝数
-			$this->visitor->update_counter_byinc($follow_id, 'fans_count');
-			
 			// 更新粉丝相互关注状态
 			if($is_both){
 				$some_data['type'] = Sher_Core_Model_Follow::BOTH_TYPE;

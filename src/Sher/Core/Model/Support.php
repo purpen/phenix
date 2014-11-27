@@ -18,9 +18,9 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
     protected $schema = array(
     	'user_id' => null,
     	'target_id' => null,
-		'ticket' => self::TICKET_FAVOR,
-		'reason' => 0,
-		'event'  => self::EVENT_VOTE,
+      'ticket' => self::TICKET_FAVOR,
+      'reason' => 0,
+      'event'  => self::EVENT_VOTE,
     );
 	
     protected $joins = array(
@@ -42,13 +42,39 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	 * 投票成功后，更新对象票数
 	 */
 	protected function after_save() {
-		$product = new Sher_Core_Model_Product();
-		if ($this->data['ticket'] == self::TICKET_FAVOR){
-			$product->inc_counter('vote_favor_count', 1, $this->data['target_id']);
-		}else{
-			$product->inc_counter('vote_oppose_count', 1, $this->data['target_id']);
-		}
-		unset($product);
+    //如果是新的记录
+    if($this->insert_mode) {
+      $product = new Sher_Core_Model_Product();
+      if ($this->data['ticket'] == self::TICKET_FAVOR){
+        $product->inc_counter('vote_favor_count', 1, $this->data['target_id']);
+      }else{
+        $product->inc_counter('vote_oppose_count', 1, $this->data['target_id']);
+      }
+      //获取目标用户ID
+      $user_id = $product->extend_load($this->data['target_id'])['user_id'];
+
+      //添加动态提醒
+      $timeline = new Sher_Core_Model_Timeline();
+      if($this->data['ticket'] == self::TICKET_FAVOR){
+        $evt = Sher_Core_Model_Timeline::EVT_VOTE_FAVOR;
+      }elseif($this->data['ticket'] == self::EVENT_PREORDER){
+        $evt = Sher_Core_Model_Timeline::EVT_VOTE_OPPOSE;
+      }
+      $arr = array(
+        'user_id' => $this->data['user_id'],
+        'target_id' => (string)$this->data['_id'],
+        'type' => Sher_Core_Model_Timeline::TYPE_PRODUCT,
+        'evt' => $evt,
+        'target_user_id' => $user_id,
+      );
+      $ok = $timeline->create($arr);
+      //给用户添加提醒
+      if($ok){
+        $user = new Sher_Core_Model_User();
+        $user->update_counter_byinc($user_id, 'alert_count', 1);     
+      }
+      unset($product);
+    }
 	}
 	
 	/**

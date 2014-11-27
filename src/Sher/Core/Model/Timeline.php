@@ -12,7 +12,7 @@ class Sher_Core_Model_Timeline extends Sher_Core_Model_Base  {
 	# 发帖
 	const EVT_POST = 1;
 	
-	# 发布产品
+	# 备用
 	const EVT_PUBLISH = 2;
 	
 	# 回帖
@@ -33,12 +33,28 @@ class Sher_Core_Model_Timeline extends Sher_Core_Model_Base  {
   # 分享
   const EVT_SHARE = 8;
 
+  # 发布创意投票
+  const EVT_VOTE = 10;
+  # 发布预售产品
+  const EVT_PRESELL = 11;
+  # 发布产品
+  const EVT_SHOP = 12;
+
+  //投票-支持
+  const EVT_VOTE_FAVOR = 13;
+  const EVT_VOTE_OPPOSE = 14;
+
 	
 	  ## 类型定义
 	
     const TYPE_TOPIC = 1;
     const TYPE_PRODUCT = 2;
-	  const TYPE_USER = 3;
+    const TYPE_USER = 3;
+
+    //回复评论,给评论点攒用到这个类型
+    const TYPE_COMMENT = 4;
+    //投票
+    const TYPE_SUPPORT = 5;
 
     protected $schema = array(
       'user_id' => 0,
@@ -95,28 +111,28 @@ class Sher_Core_Model_Timeline extends Sher_Core_Model_Base  {
     }
 	
     /**
-     * 添加动态事件
+     * 添加动态事件(没有调用此方法，需要根据evt判断是否获取target_user_id方法)
      */
     public function broad_events($evt, $sender, $target_id, $type, $data=array()) {
-        $event['user_id'] = (int)$sender;
-        $event['evt'] = (int)$evt;
-        $event['target_id'] = (int)$target_id;
-        $event['type'] = (int)$type;
-        $event['data'] = $data;
 
-		## 添加目标所属用户
-		
-		if($type == self::TYPE_TOPIC){
-			$topic = & DoggyX_Model_Mapper::load_model($target_id, 'Sher_Core_Model_Topic');
-			$event['target_user_id'] = $topic['user_id'];
-		}
-		
-		if($type == self::TYPE_PRODUCT){
-			$product = & DoggyX_Model_Mapper::load_model($target_id, 'Sher_Core_Model_Product');
-			$event['target_user_id'] = $product['user_id'];
-		}
-		
-        return $this->create($event);
+      $event['user_id'] = (int)$sender;
+      $event['target_id'] = (int)$target_id;
+      $event['evt'] = (int)$evt;
+      $event['type'] = (int)$type;
+      $event['data'] = $data;
+
+      if($type == self::TYPE_TOPIC){
+        $topic = & DoggyX_Model_Mapper::load_model($target_id, 'Sher_Core_Model_Topic');
+        $event['target_user_id'] = $topic['user_id'];
+      }
+      
+      if($type == self::TYPE_PRODUCT){
+        $product = & DoggyX_Model_Mapper::load_model($target_id, 'Sher_Core_Model_Product');
+        $event['target_user_id'] = $product['user_id'];
+      }
+    
+      return $this->create($event); 
+
     }
 	
     /**

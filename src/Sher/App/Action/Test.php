@@ -164,5 +164,21 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     } 
   
   }
+
+  /**
+   * 测试mongodb方法
+   */
+  public function test_db(){
+    $model = new Sher_Core_Model_Product();
+    $ok = $model->update_set(1112600014, array('published' => $published));
+    #$data = $model->load(1112600014);
+    if($ok){
+      echo '1111';
+    }
+
+    $model = new Sher_Core_Model_Timeline();
+    $data = $model->find_by_id('547598dd7fd32e45041bfcd8');
+    print_r($data);
+  }
 }
 ?>

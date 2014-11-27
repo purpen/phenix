@@ -341,17 +341,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 保存之后事件
 	 */
-    protected function after_save() {
-		$category_id = $this->data['category_id'];
-		if (!empty($category_id)) {
-			$category = new Sher_Core_Model_Category();
-			$category->inc_counter('total_count', 1, $category_id);
-			unset($category);
-		}
-		
-		// 更新产品总数
-		Sher_Core_Util_Tracker::update_product_counter();
+  protected function after_save() {
+    //如果是新的记录
+    if($this->insert_mode) {
+      $category_id = $this->data['category_id'];
+      if (!empty($category_id)) {
+        $category = new Sher_Core_Model_Category();
+        $category->inc_counter('total_count', 1, $category_id);
+        unset($category);
+      }
+      
+      // 更新产品总数
+      Sher_Core_Util_Tracker::update_product_counter();
     }
+  }
 	
 	/**
 	 * 通过sku查找
@@ -460,8 +463,43 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 更新产品发布上线
 	 */
-	public function mark_as_published($id, $published=1) {
-		return $this->update_set((int)$id, array('published' => $published));
+  public function mark_as_published($id, $published=1) {
+
+    $data = $this->extend_load((int)$id);
+
+    if(empty($data)) return;
+
+    //不作无意义提交
+    if($data['published']==$published) return;
+    //$old_stat = $data['published'];
+    $ok = $this->update_set((int)$id, array('published' => $published));
+    //如果是发布状态,创建Timeline
+    if($published==1){
+      //根据类型创建timeline 
+      if($ok){
+        switch ($data['stage']){
+          case self::STAGE_VOTE:
+            $evt = Sher_Core_Model_Timeline::EVT_VOTE;
+            break;
+          case self::STAGE_PRESALE:
+            $evt = Sher_Core_Model_Timeline::EVT_PRESELL;
+            break;
+          case self::STAGE_SHOP:
+            $evt = Sher_Core_Model_Timeline::EVT_SHOP;
+            break;
+          default:
+            $evt = 0;
+        }
+        $timeline = new Sher_Core_Model_Timeline();
+        $arr = array(
+          'user_id' => $data['user_id'],
+          'target_id' => $data['_id'],
+          'type' => Sher_Core_Model_Timeline::TYPE_PRODUCT,
+          'evt' => $evt,
+        );
+        $timeline->broad_events($arr['evt'], $arr['user_id'], $arr['target_id'], $arr['type']);
+      }
+    }
 	}
 	
 	/**
