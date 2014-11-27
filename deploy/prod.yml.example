@@ -44,7 +44,7 @@ app.product.topic_category_id: 19
 app.topic.dream_category_id: 21
 
 # 就现在商品
-app.comeon.product_id: 1111801264
+app.comeon.product_id: 1112616234
 
 # 评测报告类别
 app.try.report_category_id: 18
