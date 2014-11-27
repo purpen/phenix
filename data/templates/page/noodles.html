@@ -224,6 +224,18 @@
 		});
 	});
 	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/cm_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/comeon'});
+	
+	$('#wechat-share').click(function(){
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -372,9 +384,16 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<h5 class="ui header">分享案例故事</h5>
+					{% include "block/big-circel-share.html" %}
+				</div>
+			</div>
 		</div>
 	</section>
 </div>
+{% include "block/qrcode.html" %}
 <!--预约填写收货地址-->
 <div class="ui small addbook modal" id="addbook-form-box">
   	<i class="flat close icon"></i>

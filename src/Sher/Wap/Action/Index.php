@@ -44,5 +44,12 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 	public function twelve(){
 		return $this->to_html_page('wap/publish.html');
 	}
+	
+	/**
+	 * 就现在能量线
+	 */
+	public function comeon(){
+		return $this->to_html_page('wap/noodles.html');
+	}
 }
 ?>
