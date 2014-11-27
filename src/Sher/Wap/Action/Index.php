@@ -49,6 +49,38 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 	 * 就现在能量线
 	 */
 	public function comeon(){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$product_id);
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
+		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 增加pv++
+		$model->inc_counter('view_count', 1, $product_id);
+		
+		$this->stash['product'] = $product;
+		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		$this->stash['provinces'] = $provinces;
+		
+		// 验证是否预约
+		if($this->visitor->id){
+			$cache_key = sprintf('appoint_%d_%d', $product_id, $this->visitor->id);
+			$redis = new Sher_Core_Cache_Redis();
+			$appointed = $redis->get($cache_key);
+		}else{
+			$appointed = false;
+		}
+		$this->stash['appointed'] = $appointed;
+		
 		return $this->to_html_page('wap/noodles.html');
 	}
 }
