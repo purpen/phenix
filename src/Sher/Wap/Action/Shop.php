@@ -36,8 +36,13 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 	 */
 	public function presale(){
 		$this->stash['process_presaled'] = 1;
+		
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.shop').'presale/p#p#';
+		$this->stash['pager_url'] = $pager_url;
+		
 		return $this->to_html_page('wap/shop.html');
 	}
+	
 	/**
 	 * 商店列表
 	 */
@@ -53,6 +58,9 @@ class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
 			}
 			$this->stash['current'] = $current;
 		}
+		
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.shop', 'c'.$cid).'p#p#';
+		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['process_saled'] = 1;
 		return $this->to_html_page('wap/shop.html');

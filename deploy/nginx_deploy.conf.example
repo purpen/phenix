@@ -62,9 +62,19 @@ server {
     location /pay {
 		rewrite ^/pay(.*)$ /app/wap/pay$1 last;
     }
+	
+	location /try {
+		rewrite ^/try[/]?$ /app/wap/try last;
+		rewrite ^/try/view-(\d+).html$ /app/wap/try/view?id=$1 last;
+        rewrite ^/try(.*)$ /app/wap/try$1 last;
+    }
 
     location /shop {
         rewrite ^/shop[/]?$ /app/wap/shop last;
+        rewrite ^/shop/c(\d+)[/]?$ /app/wap/shop?category_id=$1 last;
+    	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/wap/shop?category_id=$1&page=$2 last;
+		rewrite ^/shop/presale/p(\d+).*$ /app/wap/shop/presale?page=$1 last;
+    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/wap/shop?category_id=$1&sort=$2&page=$3 last;
         rewrite ^/shop/(\d+).html$ /app/wap/shop/view?id=$1 last;
         rewrite ^/shop/(.*)$ /app/wap/shop/$1 last;
     }

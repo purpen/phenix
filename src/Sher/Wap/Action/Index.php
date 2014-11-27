@@ -46,6 +46,20 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 	}
 	
 	/**
+	 * 游戏
+	 */
+	public function games(){
+		return $this->to_html_page('wap/games.html');
+	}
+	
+	/**
+	 * 客户端
+	 */
+	public function clients(){
+		return $this->to_html_page('wap/clients.html');
+	}
+	
+	/**
 	 * 就现在能量线
 	 */
 	public function comeon(){
