@@ -62,6 +62,12 @@ server {
     location /pay {
 		rewrite ^/pay(.*)$ /app/wap/pay$1 last;
     }
+	
+	location /try {
+		rewrite ^/try[/]?$ /app/wap/try last;
+		rewrite ^/try/view-(\d+).html$ /app/wap/try/view?id=$1 last;
+        rewrite ^/try(.*)$ /app/wap/try$1 last;
+    }
 
     location /shop {
         rewrite ^/shop[/]?$ /app/wap/shop last;
