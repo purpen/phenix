@@ -126,6 +126,9 @@
 	.noodles h1+hr{
 		border-style: groove;
 	}
+	.noodles .row > .share.column {
+		margin-bottom: 8em;
+	}
 </style>
 {% endblock %}
 
@@ -225,7 +228,7 @@
 	});
 	
 	// 分享按钮
-	var pic_url = '{{ app_url_packaged }}/images/cm_bg.jpg';
+	var pic_url = 'http://frbird.qiniudn.com/product/141126/5475aa82621e194c648b4e20-7-bi.jpg';
 	phenix.bind_share_list(pic_url);
 	
 	// 生成二维码
@@ -385,8 +388,8 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="center aligned column">
-					<h5 class="ui header">分享案例故事</h5>
+				<div class="center aligned share column">
+					<p><img class="" src="{{ app_url_packaged }}/images/noodles_u08.jpg" /></p>
 					{% include "block/big-circel-share.html" %}
 				</div>
 			</div>
