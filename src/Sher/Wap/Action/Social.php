@@ -11,7 +11,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream','allist','getlist','show');
+	protected $exclude_method_list = array('execute','dream', 'topic', 'allist', 'get_list', 'show');
 	
 	/**
 	 * 社区入口
