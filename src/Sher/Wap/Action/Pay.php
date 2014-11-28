@@ -3,7 +3,7 @@
  * 移动支付
  * @author purpen
  */
-class Sher_Wap_Action_Pay extends Sher_Core_Action_Authorize implements DoggyX_Action_Initialize {
+class Sher_Wap_Action_Pay extends Sher_Wap_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'rid' => 0,

@@ -3,7 +3,7 @@
  * 微信里嵌套淘宝链接
  * @author purpen
  */
-class Sher_Wap_Action_Taobao extends Sher_App_Action_Base {
+class Sher_Wap_Action_Taobao extends Sher_Wap_Action_Base {
 	public $stash = array(
 	    'id' => '',
 	);

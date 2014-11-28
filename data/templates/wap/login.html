@@ -2,7 +2,9 @@
 {% block title%}现在登录-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.sign-up {
+	text-align: right;
+}
 </style>
 {% endblock %}
 
@@ -49,6 +51,9 @@
 						</a>
 					</div>
 				</form>
+				<div class="sign-up">
+					<label>没有太火鸟账号？<a href="{{ app_url_wap }}/auth/signup" title="立即注册" class="ui magenta link" >立即注册</a></label>
+				</div>
 			</div>
 		</div>
 	</div>

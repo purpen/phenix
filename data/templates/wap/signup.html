@@ -2,7 +2,9 @@
 {% block title%}现在注册-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.sign-up {
+	text-align: right;
+}
 </style>
 {% endblock %}
 
@@ -73,8 +75,11 @@
 						</a>
 					</div>
 				</form>
-				
+				<div class="sign-up">
+					<label>已有账号？<a href="{{ app_url_wap }}/auth/login" title="立即登录" class="ui magenta link">立即登录</a></label>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 </div>

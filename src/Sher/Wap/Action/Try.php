@@ -3,7 +3,7 @@
  * 新品试用
  * @author purpen
  */
-class Sher_Wap_Action_Try extends Sher_Core_Action_Authorize {
+class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,

@@ -74,7 +74,6 @@ padding: 0px 0 30px;
 	-o-transition-duration: .3s;
 }
 .noodles .ui.nowi .item .content{
-	text-align:center;
 	color:#666;
 }
 .noodles .ui.nowi .item h4.ui.header{
@@ -105,9 +104,6 @@ padding: 0px 0 30px;
 .ui.nowi .row {
 	padding:0;
 	margin:0;
-}
-.ui.nowi .ui.one.items .item .content{
-	text-align:center;
 }
 .ui.nowi .ui.one.items .item .name{
 	font-size:1em;
@@ -212,10 +208,9 @@ margin-bottom: 0!important;
     margin: 8px 0 5px !important;
 }
 p+.ui.big.block {
-padding-top: 1.5rem;
-padding-bottom: 3.5rem;
+	padding-top: 1.5rem;
+	padding-bottom: 3.5rem;
 }
-
 </style>
 {% endblock %}
 {% block jquery %}
@@ -232,7 +227,7 @@ padding-bottom: 3.5rem;
 	$('.ui.appoint.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+			phenix.redirect('{{ app_url_wap }}/auth/login');
 			return false;
 		}
 		$('#addbook-form-box').modal('show');
@@ -484,10 +479,11 @@ padding-bottom: 3.5rem;
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_u05.jpg"></p>
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_u06.jpg"></p>
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_u07.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_012.jpg">
+						<p><a name="away"></a><img class="" src="{{ app_url_packaged }}/images/noodles_012.jpg">
 							<div class="ui nowi grid">
 								<div class="row">
 									<div class="column">
+										
 										<div class="ui one items">
 											<div class="item">
 												<div class="content">

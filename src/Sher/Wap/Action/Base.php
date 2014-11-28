@@ -24,5 +24,22 @@ class Sher_Wap_Action_Base extends Sher_Core_Action_Authorize {
         return $this->to_html_page('wap/note_page.html');
     }
 	
+	/**
+	 * 拒绝权限
+	 */
+	protected function deny() {
+        $this->stash['note'] = '抱歉，权限不足！';	
+		return $this->to_html_page('wap/note_page.html');
+	}
+	
+	/**
+	 * Override this to define custom login info page
+	 *
+	 * @return string
+	 */
+	protected function custom_authorize_info_page() {
+	    return $this->to_redirect(Doggy_Config::$vars['app.url.wap.auth'].'/login');
+	}
+	
 }
 ?>
