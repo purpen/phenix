@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}就线在-数据充电线免费抢-{% endblock %}
+{% block title %}憧憬，就线在；相爱，就线在；创业，就线在；抢线，就线在！我们是行动派，就线在 LINE FOR NOW！12月9日-11日,3000条数据线开抢喽！-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird {
@@ -242,7 +242,7 @@ padding-bottom: 3.5rem;
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
 				}
 			}
 		});
@@ -311,6 +311,16 @@ padding-bottom: 3.5rem;
 				$(this).ajaxSubmit();
 			}
 		});
+	});
+	
+	
+	// 分享按钮
+	var pic_url = 'http://frstatic.qiniudn.com/images/share-comeon.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	$('#o-share-weixin').click(function(){
+		$('.ui.qrcode.modal').modal('show');
+		return false;
 	});
 	
 {% endblock %}
@@ -520,13 +530,28 @@ padding-bottom: 3.5rem;
 		</div>
 	</section>
 </div>
+<div class="ui small qrcode modal">
+  	<i class="flat close icon"></i>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p>点击屏幕右上角分享按钮</p>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	<div class="actions">
+    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
+  	</div>
+</div>
 <div class="ui small addbook modal" id="addbook-form-box">
   	<i class="flat close icon"></i>
-	<div class="ui header">
-    	线在预约：填写收货地址，登录即抢！
+	<div class="ui header" id="modal-header">
+    	<span class="ui magenta text">线</span>在预约：填写收货地址，登录即抢
   	</div>
 	<div class="container">
-		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
 		  	<div class="content">
 				<input type="hidden" name="_id" />
 				<input type="hidden" name="is_default" value="1" />
@@ -589,6 +614,22 @@ padding-bottom: 3.5rem;
 				
 			</div>				
 		</form>
+		<!--分享内容-->
+		<div id="share-friends" class="ui hide form">
+			<div class="content">
+				<div class="field">
+					<textarea name="sharecontent" class="small">憧憬，就线在；相爱，就线在；创业，就线在；抢线，就线在！我们是行动派，就线在 LINE FOR NOW！3000条数据线开抢喽，12月9日-11日，太火鸟等你！</textarea>
+				</div>
+				<div class="field">
+					<div class="ui active red button" id="o-share-weibo">
+						<i class="flat icon_weibo icon"></i>分享至微博
+					</div>
+					<div class="ui active green button" id="o-share-weixin">
+						<i class="flat icon_weixin icon"></i>分享到微信
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

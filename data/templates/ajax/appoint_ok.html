@@ -4,12 +4,23 @@
 			<span>预约成功</span>
 		</div>
 	</replace>
- 	
+	
+ 	<replace select="#modal-header">
+		<div class="ui header" id="modal-header">
+			<span class="ui magenta text">线</span>在就分享
+		</div>
+	</replace>
+	
 	<replace select="#appoint_people_count">
 		<span id="appoint_people_count">{{ product.appoint_count }}</span>
 	</replace>
+	
 	<eval>
-		$('.ui.addbook.modal').modal('hide');
-		$('#addbook-form').clearForm();
+		$('#addbook-form')
+			.addClass('hide')
+			.clearForm();
+			
+		$('#share-friends')
+			.removeClass('hide');
 	</eval>
 </taconite>
