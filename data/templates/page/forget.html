@@ -1,0 +1,100 @@
+{%extends 'layout/column.html'%}
+{% block title%}找回密码-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.forgetpage {
+	margin: 1em 0em 3em;
+}
+</style>
+{% endblock %}
+
+
+{% block jquery %}
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#phone').val();
+		if(phone){
+			$(this).addClass('disabled').text('正在发送');
+			$this = $('#fetch-verify-code');
+			$.getJSON('/app/site/auth/verify_forget_code', {'phone': phone}, function(result){
+				if(result.errorCode == 200){
+					$this.removeClass('disabled').text('获取验证码');
+				}else if(result.errorCode == 300){
+					$this.removeClass('disabled').text('获取验证码');
+					phenix.show_error_note(result.errorMessage);
+				}
+			});
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+	
+    /*表单验证*/
+	$('#forget-form').form({
+		phone: {
+			identifier  : 'phone',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号码不能为空'
+				}
+			]
+		},
+		verify_code: {
+			identifier  : 'verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '验证码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="forgetpage">
+	<div class="ui responsive grid">
+		<div class="middle aligned row">
+			<div class="eleven wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">找回密码</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui segment">
+					<form action="{{ app_url_auth }}/find_passwd" method="post" class="ui form" id="forget-form">
+						<h3 class="ui dividing header">找回密码</h3>
+						<div class="three fields">
+							<div class="field">
+								<input type="text" name="phone" placeholder="注册时手机号码" id="phone" />
+							</div>
+							<div class="field">
+								<div class="ui active small gray button" id="fetch-verify-code">获取验证码</div>
+							</div>
+						</div>
+						<div class="three fields">
+							<div class="inline field">
+								<input name="verify_code" type="text" placeholder="验证码" id="verify_code" />
+								<span class="description">请输入手机收到的验证码</span>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui active magenta submit button">下一步</div>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
