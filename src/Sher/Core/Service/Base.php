@@ -55,7 +55,9 @@ class Sher_Core_Service_Base {
 
         $page = isset($options['page'])? $options['page'] : -1;
         $size = isset($options['size'])? $options['size'] : -1;
-        
+		// 返回部分字段
+        $some_fields = isset($options['some_fields']) ? $options['some_fields'] : array();
+		
         $limit_start = $page > 1 ? $page*$size + 1 : 0;
         if($limit_start < self::MAX_OFFSET){
         	$max_offset = self::MAX_OFFSET;
@@ -80,7 +82,7 @@ class Sher_Core_Service_Base {
         if (empty($slice)) {
             return $result;
         }
-        $rows = $model->extend_load_all($slice);
+        $rows = $model->extend_load_all($slice, $some_fields);
         $result['total_rows'] = $cnt;
         if ($page>0 && $size >0) {
         	if($cnt > $max_offset){
