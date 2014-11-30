@@ -1,0 +1,112 @@
+{%extends 'layout/column.html'%}
+{% block title%}重置密码-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.forgetpage {
+	margin: 1em 0em 3em;
+}
+</style>
+{% endblock %}
+
+
+{% block jquery %}	
+    /*表单验证*/
+	$('#forget-form').form({
+		password: {
+			identifier  : 'password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入正确的登录密码'
+				},
+				{
+					type   : 'length[6]',
+					prompt : '登录密码必须6位以上字符'
+				}
+			]
+		},
+		password_confirm: {
+			identifier  : 'password_confirm',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入正确的确认密码'
+				},
+				{
+					type   : 'match[password]',
+					prompt : '两次输入密码不一致'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						phenix.show_error_note(data.message, 5000);
+					}else{
+						phenix.show_ok_note(data.message, 2000);
+						phenix.redirect(data.redirect_url, 2000);
+					}
+				}
+			});
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="forgetpage">
+	<div class="ui responsive grid">
+		<div class="middle aligned row">
+			<div class="eleven wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">重置密码</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui segment">
+					<form action="{{ app_url_auth }}/reset_passwd" method="post" class="ui form" id="forget-form">
+						<h3 class="ui dividing header">重置密码</h3>
+						<input type="hidden" name="verify_code" value="{{ verify_code }}" />
+						<div class="three fields">
+							<div class="inline field">
+								<input type="hidden" name="phone" value="{{ phone }}" />
+								<label>注册时账号：{{ phone }}</label>
+							</div>
+						</div>
+						<div class="three fields">
+							<div class="field">
+								<input type="password" name="password" id="password" placeholder="密码" />
+							</div>
+						</div>
+						<div class="three fields">
+							<div class="field">
+								<input type="password" name="password_confirm" placeholder="确认密码" />
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui active magenta submit button">确认提交</div>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

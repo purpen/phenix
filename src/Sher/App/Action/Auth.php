@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'logout', 'do_login', 'do_register', 'verify_code');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'verify_code', 'verify_forget_code','reset_passwd');
 	
 	/**
 	 * 入口
@@ -29,7 +29,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	public function login(){
 		$return_url = $_SERVER['HTTP_REFERER'];
 		// 过滤上一步来源为退出链接
-		if(!strpos($return_url,'logout')){
+		if(!strpos($return_url,'logout') && !strpos($return_url, 'find_passwd')){
 			$this->stash['return_url'] = $return_url;
 		}
 		
@@ -72,7 +72,17 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		}
 		
 	    $this->gen_login_token();
-		$this->set_target_css_state('register_box','item_active');
+		
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+		
+		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+		$weibo_auth_url = $oa->getAuthorizeURL($callback);
+		
+		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+		
 		return $this->to_html_page('page/signup.html');
 	}
 
@@ -80,8 +90,79 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 忘记密码页面
 	 */
 	public function forget(){
-		return $this->to_html_page('page/auth_forget.html');
+		return $this->to_html_page('page/forget.html');
 	}
+	
+	/**
+	 * 找回密码之重置
+	 */
+	public function find_passwd(){
+		$forget_url = Doggy_Config::$vars['app.url.auth'].'/forget';
+        if (empty($this->stash['phone']) || empty($this->stash['verify_code'])) {
+            return $this->show_message_page('数据错误', $forget_url);
+        }
+		
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['phone'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->show_message_page('验证码有误，请重新获取！', true);
+		}
+		
+		return $this->to_html_page('page/reset_passwd.html');
+	}
+	
+	/**
+	 * 重置密码
+	 */
+	public function reset_passwd(){
+		// 修改密码
+		$password = $this->stash['password'];
+		$repeat_password = $this->stash['password_confirm'];
+		$phone = $this->stash['phone'];
+		$verify_code = $this->stash['verify_code'];
+        if (empty($phone) || empty($verify_code) || empty($password) || empty($repeat_password)) {
+            return $this->ajax_json('数据错误', true);
+        }
+		
+		// 验证新密码是否一致
+		if ($password != $repeat_password){
+			return $this->ajax_json('新密码与确认密码不一致！', true);
+		}
+		
+        try {
+			// 验证验证码是否有效
+			$verify = new Sher_Core_Model_Verify();
+			$code = $verify->first(array('phone'=>$phone, 'code'=>$verify_code));
+			if(empty($code)){
+				return $this->ajax_json('验证码有误，请重新获取！', true);
+			}
+			
+			// 验证是否存在账户
+			$user = new Sher_Core_Model_User();
+			$result = $user->first(array('account'=>$phone));
+	        if (empty($result)) {
+	            return $this->ajax_json('此账户不存在！', true);
+	        }
+		
+			$user_id = $result['_id'];
+		
+			$ok = $user->update_password($user_id, $password);
+			if(!$ok){
+				return $this->ajax_json('重置密码失败，稍后重试！', true);
+			}
+			
+			// 删除验证码
+			$verify->remove($code['_id']);
+			
+        } catch (Sher_Core_Model_Exception $e) {
+            Doggy_Log_Helper::error('Failed to reset passwd:'.$e->getMessage());
+            return $this->ajax_json("重置失败:".$e->getMessage(), true);
+        }
+		
+		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.login']);
+	}
+	
 	/**
 	 * 退出
 	 */
@@ -252,6 +333,30 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	public function verify_code() {
 		$phone = $this->stash['phone'];
 		$code = Sher_Core_Helper_Auth::generate_code();
+		
+		$verify = new Sher_Core_Model_Verify();
+		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));
+		if($ok){
+			// 开始发送
+			Sher_Core_Helper_Util::send_register_mms($phone, $code);
+		}
+		
+		return $this->to_json(200, '正在发送');
+	}
+	
+	/**
+	 * 忘记密码发送验证码
+	 */
+	public function verify_forget_code(){
+		$phone = $this->stash['phone'];
+		$code = Sher_Core_Helper_Auth::generate_code();
+		
+		// 验证是否存在账户
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('account'=>$phone));
+        if (empty($result)) {
+            return $this->to_json(300, '此账户不存在！');
+        }
 		
 		$verify = new Sher_Core_Model_Verify();
 		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));

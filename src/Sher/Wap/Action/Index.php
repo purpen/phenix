@@ -3,7 +3,7 @@
  * Wap首页
  * @author purpen
  */
-class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
+class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,
@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Core_Action_Authorize {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve');
+	protected $exclude_method_list = array('execute','home','twelve','comeon');
 	
 	/**
 	 * 商城入口

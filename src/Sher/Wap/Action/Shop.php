@@ -3,7 +3,7 @@
  * Wap Shop
  * @author purpen
  */
-class Sher_Wap_Action_Shop extends Sher_Core_Action_Authorize {
+class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,

@@ -2,7 +2,9 @@
 {% block title%}现在注册-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.sign-up {
+	text-align: right;
+}
 </style>
 {% endblock %}
 
@@ -62,19 +64,12 @@
 					<div class="field">
 				    	<div class="fluid ui active magenta submit button" >确认注册</div>
 					</div>
-					
-					<div class="field">
-						<label for="account">你也可以使用以下账号登录:</label>
-						<a href="{{ weibo_auth_url }}" class="ui weibo icon button">
-							<i class="flat icon_weibo icon"></i>
-						</a>
-						<a href="{{ app_url_qq_login }}" class="ui blue qq icon button">
-							<i class="flat icon_qq icon"></i>
-						</a>
-					</div>
 				</form>
-				
+				<div class="sign-up">
+					<label>已有账号？<a href="{{ app_url_wap }}/auth/login" title="立即登录" class="ui magenta link">立即登录</a></label>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 </div>

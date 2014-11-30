@@ -469,6 +469,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 更新密码
+	 */
+	public function update_password($id, $newpassword){
+		return $this->update_set((int)$id, array('password' => sha1($newpassword)));
+	}
+	
+	/**
 	 * 更新用户的计数
 	 */
     public function inc_counter($field_name, $user_id=null) {
