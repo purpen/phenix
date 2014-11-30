@@ -107,8 +107,8 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 			$data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
 		}
-		print_r($data);
-		//return $this->api_json('请求成功', 0, $result);
+		$result['rows'] = $data;
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
