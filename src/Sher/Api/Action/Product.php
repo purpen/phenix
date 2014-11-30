@@ -57,6 +57,8 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		$query   = array();
 		$options = array();
 		
+		$stage = Sher_Core_Model_Product::STAGE_SHOP;
+		
 		// 查询条件
 		if($category_id){
 			$query['category_id'] = (int)$category_id;
@@ -64,6 +66,14 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
+		if($stage){
+			$query['stage'] = (int)$stage;
+		}
+		// 已审核
+		$query['approved'] = 1;
+		// 已发布上线
+		$query['published'] = 1;
+		
 		if($stick){
 			$query['stick'] = 1;
 		}
