@@ -49,15 +49,22 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		$page = $this->stash['page'];
 		$size = $this->stash['size'];
 		
+		$some_fields = array(
+			'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
+			'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
+			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
+			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1
+		);
+		
 		// 请求参数
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		
+		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
 		$query   = array();
 		$options = array();
-		
-		$stage = Sher_Core_Model_Product::STAGE_SHOP;
 		
 		// 查询条件
 		if($category_id){
@@ -83,11 +90,25 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
         $options['size'] = $size;
 		$options['sort_field'] = 'latest';
 		
+		$options['some_fields'] = $some_fields;
 		// 开启查询
         $service = Sher_Core_Service_Product::instance();
         $result = $service->get_product_list($query, $options);
 		
-		return $this->api_json('请求成功', 0, $result);
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = $result['rows'][$i][$key];
+			}
+			// 封面图url
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			// 用户信息
+			$data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
+			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
+		}
+		print_r($data);
+		//return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**

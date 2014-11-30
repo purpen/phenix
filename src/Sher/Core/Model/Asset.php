@@ -88,6 +88,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'massive' => 'ma.jpg',
 	);
 	
+	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1);
+	
 	# 响应式设计所需图
 	protected $thumbnails_resp = array(
 		'resp' => 'resp.jpg',
