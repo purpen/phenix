@@ -140,23 +140,54 @@
 				    </div>
 				</div>
 			</div>
-			<div class="field">
-			  	<label for="title">标题：</label>
-				<input type="text" name="title" value="{{ advertise.title }}" />
+			<div class="two fields">
+				<div class="field">
+				  	<label for="title">标题：</label>
+					<input type="text" name="title" value="{{ advertise.title }}" />
+				</div>
 			</div>
-			<div class="field">
-			  	<label for="sub_title">子标题：</label>
-				<input type="text" name="sub_title" value="{{ advertise.sub_title }}" />
+			<div class="two fields">
+				<div class="field">
+				  	<label for="sub_title">子标题：</label>
+					<input type="text" name="sub_title" value="{{ advertise.sub_title }}" />
+				</div>
 			</div>
+			
+			<div class="three fields">
+				<div class="field">
+				  	<label for="ordby">排序：</label>
+					<input type="text" name="ordby" value="{{ advertise.ordby|default 0 }}" />
+					<small class="ui magenta text">数字越大越靠前!</small>
+				</div>
+			</div>
+			
+			<p><label for="type">链接类型：</label></p>
+			<div class="five fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="1" {% if advertise.type == 1 %}checked="checked"{% endif %} /> 
+						<label>普通链接</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="2" {% if advertise.type == 2 %}checked="checked"{% endif %} /> 
+						<label>商品ID</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="3" {% if advertise.type == 3 %}checked="checked"{% endif %} /> 
+						<label>关键词</label>
+					</div>
+				</div>
+			</div>
+			
 			<div class="field">
 			  	<label for="web_url">链接：</label>
-				<input type="text" name="web_url" value="{{ advertise.web_url }}" placeholder="http://" />
+				<input type="text" name="web_url" value="{{ advertise.web_url }}" placeholder="普通链接/ID/关键词" />
 			</div>
-			<div class="inline field">
-			  	<label for="ordby">排序：</label>
-				<input type="text" name="ordby" value="{{ advertise.ordby|default 0 }}" />
-				<small class="ui magenta text">数字越大越靠前!</small>
-			</div>
+			
 			<div class="field">
 				<p>上传图片:</p>
 				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ advertise.cover_id }}" />

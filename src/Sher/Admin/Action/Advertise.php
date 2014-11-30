@@ -40,9 +40,12 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 	public function edit() {
 		$model = new Sher_Core_Model_Advertise();
 		$mode = 'create';
+		
 		if(!empty($this->stash['id'])) {
 			$this->stash['advertise'] = $model->extend_load((int)$this->stash['id']);
 			$mode = 'edit';
+		}else{
+			$this->stash['advertise'] = array('type'=>1);
 		}
 		
 		$this->stash['user_id'] = $this->visitor->id;
