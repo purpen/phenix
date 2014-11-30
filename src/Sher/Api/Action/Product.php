@@ -73,7 +73,8 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
-		
+		// 状态
+		$query['stage'] = array('$in'=>array(5,9));
 		// 已审核
 		$query['approved']  = 1;
 		// 已发布上线
