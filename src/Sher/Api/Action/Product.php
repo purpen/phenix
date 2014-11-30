@@ -53,7 +53,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 			'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
 			'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
-			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1
+			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1
 		);
 		
 		// 请求参数
@@ -108,6 +108,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
 		}
 		$result['rows'] = $data;
+		
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
