@@ -38,13 +38,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 千万红包
-	 */
-	public function coupon(){
-		return $this->to_html_page('page/tweleve.html');
-	}
-	
-	/**
 	 * 双12活动专题
 	 */
 	public function twelve(){
