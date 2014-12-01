@@ -26,7 +26,7 @@ app.mongo.default:
   username: 'root'
   password: 'Frbird#2014$Shop'
   replicaSet: 'she_main'
-        
+  
 # redisdb
 app.redis.default: 
     host: '127.0.0.1'
