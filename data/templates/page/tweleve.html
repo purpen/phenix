@@ -20,6 +20,7 @@
 }
 .tweleve.page .wechat h2.ui.header{
 	color:#dd081c;
+	padding-bottom: 1em;
 }
 .tweleve.page .twin h1.ui.header+p{
 	color:#fff;
@@ -82,15 +83,17 @@ padding-top: 40px;
 }
 .tweleve.page .wechat{
 	background:#eedc6c;
-	padding:3em 0;
 }
 .tweleve.page .wechat .ui.grid .row .ui.responsive.grid{
-	padding:0 12%;
+	padding:0 0%;
+}
+.tweleve.page .wechat .ui.grid .row .ui.responsive.grid .row:nth-child(2){
+	margin-top:0;
 }
 .tweleve.page .wechat .ui.grid .row .ui.responsive.grid p{
-	line-height:32px;
+	line-height: 27px;
 	margin: 0px;
-	padding: 0;
+	padding: 6px;
 }
 .tweleve.page .wechat .ui.items .item{
 	background:rgba(0,0,0,0) !important;
@@ -100,12 +103,33 @@ padding-top: 40px;
 	text-align:center;
 	padding: .5em 0;
 }
-.tweleve.page .wechat>.ui.grid>.row:last-child p,.tweleve.page .wechat>.ui.grid>.row:nth-child(3) p{
-	margin:0;
-	padding:0;
-	line-height:32px;
+.tweleve.page .wechat>.red>.ui.grid>.row p{
+	line-height: 27px;
+	margin: 0px;
+	padding: 6px;
 }
-	
+.tweleve.page .wechat .publish{
+	padding:5em 0;
+	background:#fff85f;
+}
+.tweleve.page .wechat .red{
+	background:#00a8d9;
+	padding:5em 0;
+	color:#fff;
+}
+.tweleve.page .wechat .red h2.ui.header{
+	color:#fff;
+}
+.tweleve.page .wechat .product{
+	padding:5em 0;
+	background:#00d9c1;
+}	
+.tweleve.page .wechat .publish .ui.grid .ui.grid .row p span{
+	color: rgba(0,0,0,.8);
+}
+.tweleve.page .ui.responsive.grid{
+	padding:0 12%;
+}	
 .tweleve.page .description {
 	color: #fff;
 	margin: 1em auto;
@@ -166,6 +190,7 @@ padding-top: 40px;
 		</div>
 	</section>
 	<section class="wechat">
+		<div class="publish">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="ui responsive grid">
@@ -175,17 +200,25 @@ padding-top: 40px;
 						</div>
 					</div>
 					<div class="row">
-						<div class="five wide column">
-							<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%">
+						<div class="center aligned column">
+							<div class="image">
+								<img src="{{ app_url_packaged }}/images/dimension.jpg">
+							</div>
 						</div>
-						<div class="ten wide column">
+					</div>
+					<div class="row">
+						<div class="center aligned column">
 							<p>1、关注太火鸟微信公众号：taihuoniao（已关注的可略过此步）</p>
-							<p>2、发送大奖礼品申请理由至太火鸟微信公众号，格式：当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。</p>
+							<p>2、发送大奖礼品申请理由至太火鸟微信公众号，格式：<br><span>当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。<span></p>
 							<p>3、获奖名单及第二日神秘大礼将于次日公布。</p>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		</div>
+		<div class="product">
+		<div class="ui responsive grid">
 			<div class="row">
 				<div class="ui two items">
 					
@@ -251,29 +284,25 @@ padding-top: 40px;
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="center aligned column">
-					<h2 class="ui header">获奖名单</h2>
-					<p>微信号：boc747，手机尾号：*0238</p>
-					<p>微信号：boc747，手机尾号：*0238</p>
-					<p>微信号：boc747，手机尾号：*0238</p>
-				</div>
-			</div>	
+		</div>
+		</div>	
+		<div class="red">
+			<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h2 class="ui center aligned header">获奖名单</h2>
-					<p>1、活动时间：2014年12月1日—12月31日</p>
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;红包领取时间：12月1日—12月11日 </p>
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;神秘大奖抽送时间：12月2日—12月11日每日17:00前</p>
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;红包使用时间：12月1日—12月31日 </p>
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;12月12日活动当天官网商品最低折扣，配合红包使用最优惠</p>
+					<h2 class="ui center aligned header">活动时间及规则</h2>
+					<p>1、活动时间：2014年12月1日—12月31日<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;红包领取时间：12月1日—12月11日 <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;神秘大奖抽送时间：12月2日—12月11日每日17:00前<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;红包使用时间：12月1日—12月31日 <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;12月12日活动当天官网商品最低折扣，配合红包使用最优惠</p>
 					<p>2、活动期间注册用户每人每天皆可得有三次领取太火鸟红包（以鸟币形式出现，1鸟币=￥1，金额为5/10/20/50/100不等，随机出现）的机会，可任意选取用于官网商品购买，每笔订单只能使用一个红包；</p>
 					<p>3、活动时间内用户共有33次领取红包的机会，金额随机，最高享受100元的优惠，可在活动期间任意挑选使用，过期无效；</p>
 					<p>4、太火鸟红包不可叠加使用，红包内金额不可用于提现、转账或其他用途。红包内金额使用后发生退款交易的，已使用的红包内金额不予退还。且此红包只限于在此次活动期间使用，过期无效；</p>
-					<p>5、12月2日—12月11日还有神秘大奖抽送的机会，大奖将于前一日在太火鸟微信公众号上公布，有兴趣的用户可提前关注锁定抽取时间，点击抽奖后，将跳出对话框提示活动步骤：①关注太火鸟微信公众号：taihuoniao（已关注的可略过此步）、②发送大奖礼品申请理由至太火鸟微信公众号，格式：当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。获奖名单及第二日神秘大礼将于次日公布。</p>
-					<p>6、每个账户只能绑定一个手机号码；</p>
-					<p>7、本活动最终解释权在法律允许的范围内归太火鸟所有。</p>
+					<p>5、12月2日—12月11日还有神秘大奖抽送的机会，大奖将于前一日在太火鸟微信公众号上公布，有兴趣的用户可提前关注锁定抽取时间，点击抽奖后，将跳出对话框提示活动步骤：①关注太火鸟微信公众号：taihuoniao<small>（已关注的可略过此步）</small>、②发送大奖礼品申请理由至太火鸟微信公众号，格式：当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。获奖名单及第二日神秘大礼将于次日公布。</p>
+					<p>6、本活动最终解释权在法律允许的范围内归太火鸟所有。</p>
 				</div>
+			</div>
 			</div>
 		</div>
 	</section>
