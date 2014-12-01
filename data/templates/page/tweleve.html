@@ -96,7 +96,15 @@ padding-top: 40px;
 
 </style>
 {% endblock %}
-{% block jquery %}	
+{% block jquery %}
+	$('#free-luck').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_domain }}/promo/got_bonus');
+	});
 {% endblock %}
 {% block content %}
 <div class="tweleve page">
@@ -159,7 +167,7 @@ padding-top: 40px;
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="" class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
 						免 费 领 取
 					</a>
 					<p>每人每天有3次机会领取</p>
