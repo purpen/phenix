@@ -171,7 +171,9 @@
 	phenix.bind_share_list();
 	
 	skrollr.init({
-		forceHeight: false
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
 	});	
 {% endblock %}
 
