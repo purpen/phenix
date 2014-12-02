@@ -35,16 +35,23 @@
 		top: 47%;
 		width: 118px;
 		background: rgba(0,0,0,0);
-		border: 1px solid rgba(0,0,0,.3);
 		transition: 0.3s;
 		-webkit-transition: 0.3s;
 		-moz-transition: 0.3s;
+		z-index: 111;
+	}
+	.response img{
+		border:1px solid rgba(0,0,0,.1);
+		border-bottom:none;
 	}
 	.response .attention{
 		text-align: center;
 		background: #f36;
 		padding: 3px;
 		color: #fff;
+		margin-top:-3px;
+		font-size: 12px;
+		line-height: 17px;
 	}
 	
 	
@@ -164,7 +171,9 @@
 	phenix.bind_share_list();
 	
 	skrollr.init({
-		forceHeight: false
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
 	});	
 {% endblock %}
 
