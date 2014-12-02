@@ -90,7 +90,7 @@
 										{% if child.total_count %}
 										<small class="newadd">({{ child.total_count }})</small>
 										{% endif %}
-								    	<div class="sub header">{{ child.summary|truncate 40 }}</div>
+								    	<div class="sub header">{{ child.summary|truncate 60 }}</div>
 										<div class="count">主题：{{ child.total_count }} , 回帖：{{ child.reply_count|default 0 }}</div>
 								  	</div>
 								</a>

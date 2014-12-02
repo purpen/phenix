@@ -1,5 +1,20 @@
 <footer id="ft">
 	<div class="ui responsive grid">
+		<div class="mobile only row">
+			<div class="center aligned column">
+				<p>
+					{% if is_mobile_client %}
+					<a href="{{ app_url_domain }}" class="ui link">
+						<i class="laptop icon"></i>切换到电脑版
+					</a>
+					{% else %}
+					<a href="{{ app_url_wap }}" class="ui magenta link">
+						<i class="mobile icon"></i>切换到手机版
+					</a>
+					{% endif %}
+				</p>
+			</div>
+		</div>
 		<div class="computer tablet only row">
 			<div class="four wide column">
 				<div class="ui list">
