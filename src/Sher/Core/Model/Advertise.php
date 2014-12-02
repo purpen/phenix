@@ -11,6 +11,11 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	const STATE_DRAFT = 1;
 	const STATE_PUBLISHED = 2;
 	
+	# 类型
+	const TYPE_URL  = 1;
+	const TYPE_ID   = 2;
+	const TYPE_WORD = 3;
+	
     protected $schema = array(
         'space_id' => 0,
 		
@@ -18,6 +23,9 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		'sub_title' => '',
         'web_url' => '',
 		'summary' => '',
+		
+		# 类型
+		'type' => self::TYPE_URL,
 		
 		# 附件图片
 		'cover_id' => '',
@@ -30,7 +38,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		# 排序
 		'ordby' => 0,
 		
-		#是否发布、草稿
+		# 是否发布、草稿
 		'state' => self::STATE_DRAFT,
     );
 	

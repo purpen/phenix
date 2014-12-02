@@ -151,6 +151,11 @@ server {
 		  rewrite ^/tracker(.*)$ /app/site/tracker$1 last;  
         }
 		
+        location /promo {
+            rewrite ^/promo[/]?$ /app/site/promo last;
+			rewrite ^/promo/(.*)$ /app/site/promo/$1 last;
+        }
+		
         location /dream {
             rewrite ^/dream(.*)$ /app/site/social/$1 last;
         }

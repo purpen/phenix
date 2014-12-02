@@ -28,8 +28,15 @@
 		<div class="row">
 			<div class="center aligned column">
 				<div class="ui horizontal divided list">
-					<a href="javascript:void(0);" class="ui item link" id="touch-site">触屏版</a>
-				    <a href="javascript:void(0);" class="ui item link" id="pc-site">电脑版</a>
+					{% if is_mobile_client %}
+					<a href="{{ app_url_domain }}" class="ui item link">
+						<i class="laptop icon"></i>切换到电脑版
+					</a>
+					{% else %}
+					<a href="{{ app_url_wap }}" class="ui magenta item link">
+						<i class="mobile icon"></i>切换到手机版
+					</a>
+					{% endif %}
 					<!--<div class="ui item gray link">客户端</div>-->
 				</div>
 			</div>

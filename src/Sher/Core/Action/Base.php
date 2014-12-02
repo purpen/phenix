@@ -169,7 +169,9 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
         parent::before_to_view();
 		// 预置购物车
 		$this->basket();
-		
+		// 是否移动端
+		$this->stash['is_mobile_client'] = Sher_Core_Helper_Util::is_mobile_client();
+			
         Sher_Core_Helper_View::setup_deploy_information($this->stash);
         Sher_Core_Helper_View::setup_site_menu($this->stash);
     }

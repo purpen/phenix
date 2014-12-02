@@ -29,6 +29,25 @@
 		width:30%;
 	}
 	
+	.response{
+		position: fixed;
+		right: 10px;
+		top: 47%;
+		width: 118px;
+		background: rgba(0,0,0,0);
+		border: 1px solid rgba(0,0,0,.3);
+		transition: 0.3s;
+		-webkit-transition: 0.3s;
+		-moz-transition: 0.3s;
+	}
+	.response .attention{
+		text-align: center;
+		background: #f36;
+		padding: 3px;
+		color: #fff;
+	}
+	
+	
 	a:link,a:visited{text-decoration:none;}
 	a:hover{text-decoration:none;}
 	ul{list-style:none;margin:0;padding:0}
@@ -151,9 +170,49 @@
 
 {% block content %}
 <div id="homepage">
+	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
+		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" />
+		<div class="attention">
+			关注太火鸟
+		</div>
+	</div>
 	<article class="hero">
 		<section id="frame">
 			<ul class="slidee">
+				
+				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/comeon-three.jpg'); background-color: rgb(240, 221, 101);">
+					<div class="clearfix container">
+						<div class="hero-main inverted verticalize-container">
+		                    <div class="verticalize">
+		                        <span>太火鸟上线内测3000条数据线免费抢！</span>
+		                        <h1>即上线 线开抢</h1>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right black btn" href="{{ app_url_domain }}/comeon">
+									<span>了解更多</span>
+								</a>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right black btn" href="{{ app_url_domain }}/comeon">
+									<span>即将开抢</span>
+								</a>
+		                    </div>
+		                </div>
+					</div>
+				</li>
+				
+				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/promo12.jpg'); background-color: rgb(240, 221, 101);">
+					<div class="clearfix container">
+						<div class="hero-main verticalize-container">
+		                    <div class="verticalize">
+		                        <span>太火鸟双十二，全场产品5折起</span>
+		                        <h1>千万红包免费抢</h1>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/promo">
+									<span>了解更多</span>
+								</a>
+		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/promo">
+									<span>火热开抢</span>
+								</a>
+		                    </div>
+		                </div>
+					</div>
+				</li>
 				
 				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/dream.jpg'); background-color: rgb(238, 43, 75);">
 					<div class="clearfix container">

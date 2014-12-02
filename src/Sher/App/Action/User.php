@@ -17,7 +17,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	
 	public function _init() {
         $user_id = $this->stash['id'];
-        $this->stash['user'] = null;
+        $this->stash['user'] = array();
         if (!empty($user_id)) {
             $this->stash['user'] = &DoggyX_Model_Mapper::load_model((int)$user_id,'Sher_Core_Model_User');
         }

@@ -1,0 +1,121 @@
+{%extends 'layout/base.html'%}
+{% block title %} -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.leaflet.page{
+		background:#fff;
+	}
+	.leaflet.page .ui.grid .row .six.wide {
+		
+	}
+	.leaflet.page p{
+		font-size:.9em;
+		margin: .2em 0;
+	}
+	.leaflet.page .blue{
+		background: blue;
+		padding-top: 1em;
+	}
+	.leaflet.page .red{
+		background:#f36;
+	}
+	.leaflet.page .red p{
+		margin: 1.2em 0 !important;
+	}
+	.leaflet.page .add{
+		padding:1em 0;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="leaflet page">
+	<section class="ui img block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+						<p><img src="{{ app_url_packaged }}/images/leaflet_1.png" width="20%"></p>
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<div class="column">
+					<h4 class="center aligned ui header">中国顶尖的创新产品众包设计平台</h4>
+					<p>
+						太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。2014年春开始正式运营，由中国设计界资深风云人物雷海波等联合创办，并获得著名投资人徐小平和行业领袖联合投资。</p>
+						<p>太火鸟致力于建设开放式众包设计平台，重构产品研发创新流程。努力帮助设计师和创意者实现商业价值，从广泛的创意中寻找具有「创新价值」且可以称为「性感设计」的产品。将开启一个全新的［众包设计］时代。</p>
+						<p>太火鸟基于消费者及设计师的大数据，网站整合创新产品社区与电子商务服务为一体，充分依托众包和众筹的互联网优势，使社区用户参与产品开发销售的整个过程，包括：提交创意、大众审核、专家评估、开发打样、众筹预售、批量生产、渠道销售等，打造完美的创意生态系统。</p>
+				</div>
+			</div>
+			
+			
+			<div class="row">
+				<div class="six wide column">
+					<img src="{{ app_url_packaged }}/images/fire/images/expert_1.jpg">
+				</div>
+				<div class="ten wide column">
+					<h4 class="ui header">雷海波 / 创始人 CEO</h4>
+					<p>中国设计界风云人物       资深策展人和跨界创意合作推手</p>
+					<p>//////////////////////////////////////////////////</p>
+					<p>太火鸟创始人 雷海波 曾在2000年创办视觉中国，2010年视觉中国社区与多家关联企业整合成为视觉中国集团，并于2013年8月公告在深圳A股主板借壳上市「股票000681」成为国内唯一的互联网文化创意企业。</p>
+					<p>2014年春 雷海波 创办太火鸟 Taihuoniao.com 科技公司，此第二次创业聚焦在创新产品孵化电商上，为的是解决目前原创设计产品品牌中缺乏成熟的营销体系和孵化平台这一痛点，并获得著名投资人徐小平和行业领袖联合投资。</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="product content froala-element">
+						<p><img src="{{ app_url_packaged }}/images/leaflet_2.jpg"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="blue">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="product content froala-element">
+						<p><img src="{{ app_url_packaged }}/images/leaflet_3.png"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="red">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="product content froala-element">
+						<p><img src="{{ app_url_packaged }}/images/leaflet_5.png"></p>
+						<p><img src="{{ app_url_packaged }}/images/leaflet_6.png"></p>
+						<p><img src="{{ app_url_packaged }}/images/leaflet_7.png"></p>
+						<p><img src="{{ app_url_packaged }}/images/leaflet_8.png"></p>
+						<p><img src="{{ app_url_packaged }}/images/leaflet_9.png"></p>
+						<p><img src="{{ app_url_packaged }}/images/leaflet_10.png"></p>
+						<p><img src="{{ app_url_packaged }}/images/leaflet_11.png"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="add">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="two wide column">
+					<img src="{{ app_url_packaged }}/images/logo-home.png">
+				</div>
+				<div class="fourteen wide column">
+					<p>Add:&nbsp;北京市 朝阳区 酒仙桥路4号 北京时尚设计广场 极地A9栋218室 太火鸟</p>
+					<p>Tel:&nbsp; +8610 8459 9328 / 8459 9327 / 8459 9323 </p>
+					<p>http://www.taihuoniao.com</p>
+				</div>
+			</div>
+			
+		</div>
+	</section>
+</div>
+{% endblock %}

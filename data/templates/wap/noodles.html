@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}就线在-数据充电线免费抢-{% endblock %}
+{% block title %}憧憬，就线在；相爱，就线在；创业，就线在；抢线，就线在！我们是行动派，就线在 LINE FOR NOW！12月9日-11日,3000条数据线开抢喽！-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird {
@@ -74,7 +74,6 @@ padding: 0px 0 30px;
 	-o-transition-duration: .3s;
 }
 .noodles .ui.nowi .item .content{
-	text-align:center;
 	color:#666;
 }
 .noodles .ui.nowi .item h4.ui.header{
@@ -105,9 +104,6 @@ padding: 0px 0 30px;
 .ui.nowi .row {
 	padding:0;
 	margin:0;
-}
-.ui.nowi .ui.one.items .item .content{
-	text-align:center;
 }
 .ui.nowi .ui.one.items .item .name{
 	font-size:1em;
@@ -212,10 +208,9 @@ margin-bottom: 0!important;
     margin: 8px 0 5px !important;
 }
 p+.ui.big.block {
-padding-top: 1.5rem;
-padding-bottom: 3.5rem;
+	padding-top: 1.5rem;
+	padding-bottom: 3.5rem;
 }
-
 </style>
 {% endblock %}
 {% block jquery %}
@@ -232,7 +227,7 @@ padding-bottom: 3.5rem;
 	$('.ui.appoint.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+			phenix.redirect('{{ app_url_wap }}/auth/login');
 			return false;
 		}
 		$('#addbook-form-box').modal('show');
@@ -242,7 +237,7 @@ padding-bottom: 3.5rem;
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
 				}
 			}
 		});
@@ -313,6 +308,16 @@ padding-bottom: 3.5rem;
 		});
 	});
 	
+	
+	// 分享按钮
+	var pic_url = 'http://frstatic.qiniudn.com/images/share-comeon.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	$('#o-share-weixin').click(function(){
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
 {% endblock %}
 {% block content %}
 <div class='noodles page'>
@@ -373,7 +378,7 @@ padding-bottom: 3.5rem;
 										<div class="timeline-block top">
 											<div class="timeline-endpoint"></div>
 											<div class="timeline-content">
-												<span class="part-one">预约购买</span>
+												<span class="part-one">预约抢购</span>
 												<span class="time">2014.11.26</span>
 											</div>
 										</div>
@@ -415,7 +420,7 @@ padding-bottom: 3.5rem;
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_011.jpg">
 						<div class="ui nowi grid bbto">
 							<div class="row">
-								<div class="column">
+								<div class="center aligned column">
 									<div class="ui one items">
 										<div class="item">
 											<div class="image">
@@ -424,11 +429,8 @@ padding-bottom: 3.5rem;
 											<div class="content">
 												<h4 class="ui header">
 													数据线免费得
-													<div class="name one">
-														2014.12.09—12.11</div>
-														<div class="name">每天12:00，3000条数据线</div>
-														<div class="name">准时开抢 / 连抢三天
-													</div>
+													<div class="name one">2014.12.09—12.11</div>
+													<div class="name">每天12:00，3000条数据线准时开抢 / 连抢三天</div>
 												</h4>
 											</div>
 										</div>
@@ -442,10 +444,7 @@ padding-bottom: 3.5rem;
 												<h4 class="ui header">
 													百元券免费送
 													<div class="name one">
-														凡在活动专区为太火鸟官网</div>
-														<div class="name">提出宝贵意见的小伙伴均</div>
-														<div class="name">有机会获得100元优惠券
-													</div>
+														凡在活动专区为太火鸟官网提出宝贵意见的小伙伴均有机会获得100元优惠券</div>
 												</h4>
 											</div>
 										</div>
@@ -474,10 +473,11 @@ padding-bottom: 3.5rem;
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_u05.jpg"></p>
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_u06.jpg"></p>
 						<p><img class="" src="{{ app_url_packaged }}/images/noodles_u07.jpg"></p>
-						<p><img class="" src="{{ app_url_packaged }}/images/noodles_012.jpg">
+						<p><a name="away"></a><img class="" src="{{ app_url_packaged }}/images/noodles_012.jpg">
 							<div class="ui nowi grid">
 								<div class="row">
 									<div class="column">
+										
 										<div class="ui one items">
 											<div class="item">
 												<div class="content">
@@ -492,7 +492,7 @@ padding-bottom: 3.5rem;
 										<div class="ui one items">
 											<div class="item">
 												<div class="content">
-													<div class="name">2、评论领券，活动期间（11月26日-12月08日）只要在&nbsp;<a href="">内测专区</a>&nbsp;为太火鸟提出有价值的意见建议，
+													<div class="name">2、评论领券，活动期间（11月26日-12月08日）只要在&nbsp;<a href="{{ app_url_wap }}/social/c27" target="_blank">内测专区</a>&nbsp;为太火鸟提出有价值的意见建议，
 													即有可能获得100元的优惠券一张，优惠券不限使用额度，购你想购！</div>
 												</div>
 											</div>
@@ -504,7 +504,7 @@ padding-bottom: 3.5rem;
 										<div class="ui one items">
 											<div class="item">
 												<div class="content">
-													<div class="name">3、社区总编辑：<a href="">小鹿笛子</a>，此女好美色，多文艺，偶嚣张！收此女心，或得大礼！</div>
+													<div class="name">3、社区总编辑：@小鹿笛子，此女好美色，多文艺，偶嚣张！收此女心，或得大礼！</div>
 												</div>
 											</div>
 										</div>
@@ -520,13 +520,28 @@ padding-bottom: 3.5rem;
 		</div>
 	</section>
 </div>
+<div class="ui small qrcode modal">
+  	<i class="flat close icon"></i>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p>点击屏幕右上角分享按钮</p>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	<div class="actions">
+    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
+  	</div>
+</div>
 <div class="ui small addbook modal" id="addbook-form-box">
   	<i class="flat close icon"></i>
-	<div class="ui header">
-    	线在预约：填写收货地址，登录即抢！
+	<div class="ui header" id="modal-header">
+    	<span class="ui magenta text">线</span>在预约：填写收货地址，登录即抢
   	</div>
 	<div class="container">
-		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
 		  	<div class="content">
 				<input type="hidden" name="_id" />
 				<input type="hidden" name="is_default" value="1" />
@@ -589,6 +604,22 @@ padding-bottom: 3.5rem;
 				
 			</div>				
 		</form>
+		<!--分享内容-->
+		<div id="share-friends" class="ui hide form">
+			<div class="content">
+				<div class="field">
+					<textarea name="sharecontent" class="small">憧憬，就线在；相爱，就线在；创业，就线在；抢线，就线在！我们是行动派，就线在 LINE FOR NOW！3000条数据线开抢喽，12月9日-11日，太火鸟等你！</textarea>
+				</div>
+				<div class="field">
+					<div class="ui active red button" id="o-share-weibo">
+						<i class="flat icon_weibo icon"></i>分享至微博
+					</div>
+					<div class="ui active green button" id="o-share-weixin">
+						<i class="flat icon_weixin icon"></i>分享到微信
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

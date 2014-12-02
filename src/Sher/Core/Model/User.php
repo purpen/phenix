@@ -151,10 +151,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
 	
+	protected $retrieve_fields = array('nickname'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1);
+	
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count');
-	protected $retrieve_fields = array('password'=>0);
+	
 	protected $joins = array();
 	
     //~ some event handles
@@ -270,20 +272,6 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['medium'], 'avm.jpg');
 			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['small'], 'avs.jpg');
 			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['mini'], 'avn.jpg');		
-		}else{
-			// 用户默认头像
-			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('big', $row['sex']);
-			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('medium', $row['sex']);
-			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('small', $row['sex']);
-			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url('mini', $row['sex']);	
-		}
-		
-		// calculate age
-		if(isset($row['age']['year']) && isset($row['age']['mouth']) && isset($row['age']['day'])){
-			$age_number = Sher_Core_Helper_Util::calc_age($row['age']['year'],$row['age']['mouth'],$row['age']['day']);
-			$row['age_text'] = Sher_Core_Helper_Util::belong_age_interval($age_number);
-		}else{
-			$row['age_text'] = '未设置';
 		}
 		
         $row['home_url'] = Sher_Core_Helper_Url::user_home_url($id);
@@ -469,6 +457,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 */
 	public function update_qq_accesstoken($id, $accesstoken){
 		return $this->update_set((int)$id, array('qq_access_token' => $accesstoken));
+	}
+	
+	/**
+	 * 更新密码
+	 */
+	public function update_password($id, $newpassword){
+		return $this->update_set((int)$id, array('password' => sha1($newpassword)));
 	}
 	
 	/**
