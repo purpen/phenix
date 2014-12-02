@@ -263,6 +263,9 @@
 						<span>线在预约</span>
 					</div>
 					{% endif %}
+					<a class="ui active gray btn-4 btn-4c icon-arrow-right btn" target="_blank" href="{{ app_url_domain }}/shop/{{ product._id }}.html">
+						<span>查看产品详情</span>
+					</a>
 					<p class="count" id="clock"></p>
 				{% else %}
 					{% if product.can_saled %}
@@ -274,6 +277,9 @@
 						<span>已抢完</span>
 					</div>
 					{% endif %}
+					<a class="ui active gray btn-4 btn-4c icon-arrow-right btn" target="_blank" href="{{ app_url_domain }}/shop/{{ product._id }}.html">
+						<span>查看产品详情</span>
+					</a>
 					<p class="count">火热抢购中</p>
 				{% endif %}
 				<div class="ptop">

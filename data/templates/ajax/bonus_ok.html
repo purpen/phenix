@@ -1,0 +1,29 @@
+<taconite>
+	<replace select="#luck-modal-content">
+		<div class="content" id="luck-modal-content">
+			<img src="{{ app_url_packaged }}/images/{{ bonus.amount }}.jpg" class="ui image" />
+		</div>
+	</replace>
+	
+	<replace select=".luck.description">
+		<div class="luck description">
+			{% if left_times > 0 %}
+			<small>今天还有 <b>{{ left_times }}</b> 次领取机会</small>
+			{% else %}
+			<small>今天的 <b>3</b> 次领取机会已经用完，明天再来吧！</small>
+			{% endif %}
+		</div>
+	</replace>
+	
+	{% if left_times <= 0 %}
+	<replace select=".ui.magenta.btn">
+		<div class="ui active gray disabled btn-4 btn-4c btn">
+			 试一试手气
+		</div>
+	</replace>
+	{% endif %}
+	
+	<eval>
+		$('.ui.luck.modal').modal('show');
+	</eval>
+</taconite>

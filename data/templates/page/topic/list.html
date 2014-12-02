@@ -117,7 +117,7 @@
 							{% for dig in dig_list %}
 								{% if dig %}
 								<tr>
-									<td>
+									<td class="hide-on-mobile">
 										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
 								      		<img src="{{ dig.user.small_avatar_url }}" alt="{{ dig.user.nickname }}" />
 										</a>
@@ -153,7 +153,7 @@
 											{% endif %}
 								      	</div>
 									</td>
-									<td>
+									<td class="hide-on-mobile">
 										{% if dig.last_user %}
 										<a class="ui link" href="{{ dig.last_user.home_url }}" title="{{ dig.last_user.nickname }}">
 									  		<img src="{{ dig.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ dig.last_user.nickname }}" />
@@ -161,7 +161,7 @@
 										回复于{{ dig.last_reply_time|relative_datetime }}
 										{% endif %}
 									</td>
-									<td>
+									<td class="hide-on-mobile">
 										<a href="{{ dig.view_url }}#comment" class="dot-irecommend">
 											<span class="dot-irecommend-count">{{ dig.view_count }}</span> 
 											<span class="dot-irecommend-suffix"></span>

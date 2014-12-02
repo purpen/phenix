@@ -22,6 +22,10 @@
 	color:#dd081c;
 	padding-bottom: 1em;
 }
+.tweleve.page .product h2.ui.header{
+	color:#fff;
+	padding-bottom: 1em;
+}
 .tweleve.page .twin h1.ui.header+p{
 	color:#fff;
 	font-size:6em;
@@ -66,10 +70,14 @@ transition: opacity .25s ease,background-color .25s ease,color .25s ease;
 .tweleve.page .wechat .advert.content h3.ui.header span{
 	font-size:33px;
 }
-.tweleve.page .twin .ui.btn,.tweleve.page .twin .ui.btn:hover{
+.tweleve.page .twin .ui.magenta.btn,.tweleve.page .twin .ui.magenta.btn:hover{
 	background:#dd081c;
-	font-size: 23px;
-	border-radius: 4px;
+	font-size: 22px;
+	border-radius: 3px;
+}
+.tweleve.page .twin .ui.gray.btn,.tweleve.page .twin .ui.gray.btn:hover{
+	font-size: 22px;
+	border-radius: 3px;
 }
 .tweleve.page .twin .ui.grid>.row:last-child {
 padding-top: 40px;
@@ -125,13 +133,26 @@ padding-top: 40px;
 }
 .tweleve.page .ui.responsive.grid{
 	padding:0 12%;
+}	
+.tweleve.page .description {
+	color: #fff;
+	margin: 1em auto;
 }
-
-	
+#luck-modal-content img {
+	width: 100%;
+}
 
 </style>
 {% endblock %}
-{% block jquery %}	
+{% block jquery %}
+	$('#free-luck').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_domain }}/promo/got_bonus');
+	});
 {% endblock %}
 {% block content %}
 <div class="tweleve page">
@@ -145,7 +166,7 @@ padding-top: 40px;
 			<div class="row">
 				<div class="center aligned column">
 					<h1 class="ui header">太火鸟双十二</h1>
-					<p>千万红包免费抢！</p>
+					<p>千万红包免费抢</p>
 					<div class="image">
 						<img src="{{ app_url_packaged }}/images/tweleve_1.png">
 					</div>
@@ -153,10 +174,21 @@ padding-top: 40px;
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-						免 费 领 取 红 包
-					</a>
-					<p>每人每天有3次机会领取</p>
+					{% if left_times > 0 %}
+					<div class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
+						 试一试手气
+					</div>
+					<div class="luck description">
+						<small>每人每天有 <b>{{ left_times }}</b> 次机会领取</small>
+					</div>
+					{% else %}
+					<div class="ui active gray disabled btn-4 btn-4c btn">
+						 试一试手气
+					</div>
+					<div class="luck description">
+						<small>今天的 <b>3</b> 次领取机会已经用完，明天再来吧！</small>
+					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -193,7 +225,7 @@ padding-top: 40px;
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<h2 class="ui header">神秘大奖</h2>
+					<h2 class="ui white header">神秘大奖惊喜连连</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -254,11 +286,6 @@ padding-top: 40px;
 							<img src="{{ app_url_packaged }}/images/tweleve_11.jpg">
 						</div>
 					</div>
-					<div class="item">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/tweleve_12.jpg">
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -276,15 +303,20 @@ padding-top: 40px;
 					<p>2、活动期间注册用户每人每天皆可得有三次领取太火鸟红包（以鸟币形式出现，1鸟币=￥1，金额为5/10/20/50/100不等，随机出现）的机会，可任意选取用于官网商品购买，每笔订单只能使用一个红包；</p>
 					<p>3、活动时间内用户共有33次领取红包的机会，金额随机，最高享受100元的优惠，可在活动期间任意挑选使用，过期无效；</p>
 					<p>4、太火鸟红包不可叠加使用，红包内金额不可用于提现、转账或其他用途。红包内金额使用后发生退款交易的，已使用的红包内金额不予退还。且此红包只限于在此次活动期间使用，过期无效；</p>
-					<p>5、12月2日—12月11日还有神秘大奖抽送的机会，大奖将于前一日在太火鸟微信公众号上公布，有兴趣的用户可提前关注锁定抽取时间，点击抽奖后，将跳出对话框提示活动步骤：①关注太火鸟微信公众号：taihuoniao（已关注的可略过此步）、②发送大奖礼品申请理由至太火鸟微信公众号，格式：当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。获奖名单及第二日神秘大礼将于次日公布。</p>
-					<p>6、每个账户只能绑定一个手机号码；</p>
-					<p>7、本活动最终解释权在法律允许的范围内归太火鸟所有。</p>
+					<p>5、12月2日—12月11日还有神秘大奖抽送的机会，大奖将于前一日在太火鸟微信公众号上公布，有兴趣的用户可提前关注锁定抽取时间，点击抽奖后，将跳出对话框提示活动步骤：①关注太火鸟微信公众号：taihuoniao<small>（已关注的可略过此步）</small>、②发送大奖礼品申请理由至太火鸟微信公众号，格式：当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。获奖名单及第二日神秘大礼将于次日公布。</p>
+					<p>6、本活动最终解释权在法律允许的范围内归太火鸟所有。</p>
 				</div>
 			</div>
 			</div>
 		</div>
 	</section>
 
+</div>
+<div class="ui small luck modal">
+  	<i class="flat close icon"></i>
+	<div class="container">
+	  	<div class="content" id="luck-modal-content"></div>
+	</div>
 </div>
 {% endblock %}
 

@@ -14,6 +14,7 @@
     "require": {
         "chrisboulton/php-resque": "1.2.x",
 		"elvis-bi/taobao-top-client": "*",
-		"purpen/qiniu": "1.0.2"
+		"purpen/qiniu": "1.0.2",
+		"mailgun/mailgun-php": "~1.7.2"
     }
 }
