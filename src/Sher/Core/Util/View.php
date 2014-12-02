@@ -71,7 +71,20 @@ class Sher_Core_Util_View extends Doggy_Exception {
 		} 
 		return $content;
 	}
-	
+
+  /**
+   * api转义html
+   */
+  public static function api_transf_html($arr){
+    foreach($arr as $k=>$v){
+      if (is_string($v)){
+        $arr[$k] = htmlspecialchars_decode($v);
+      }else if (is_array($v)) { //若为数组，则再转义.
+        $arr[$k] = self::api_transf_html($v);
+      }
+    }
+    return $arr;
+  }
 	
 }
 ?>

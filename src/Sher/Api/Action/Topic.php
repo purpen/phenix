@@ -84,6 +84,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		if(empty($topic) || $topic['deleted']){
 			return $this->api_json('访问的主题不存在或已被删除！', 3001);
 		}
+    $topic = $model->extra_extend_model_row($topic);
 		
 		// 增加pv++
 		$inc_ran = rand(1, 6);

@@ -169,9 +169,18 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    * 测试mongodb方法
    */
   public function test_db(){
-    $model = new Sher_Core_Model_Product();
-    $ok = $model->update_set(1112600014, array('published' => $published));
-    #$data = $model->load(1112600014);
+    //$model = new Sher_Core_Model_Product();
+    //$ok = $model->update_set(1112600014, array('published' => $published));
+    //$data = $model->load(1112600014);
+    $service = Sher_Core_Service_Topic::instance();
+    $model = new Sher_Core_Model_User();
+    $product = new Sher_Core_Model_Product();
+    $data = $product->find_by_id(1112600027);
+    $data = $product->extended_model_row($data);
+    //print_r($data);exit;
+    //$result = $model->find_by_id(3, array('account'=>0));
+    $result = $service->query_list($model,$query=array(),array('assign_fields'=>array('account','sex','is_ok','state','role_id','avatar')));
+    print_r($result);exit;
     if($ok){
       echo '1111';
     }
@@ -180,5 +189,30 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     $data = $model->find_by_id('547598dd7fd32e45041bfcd8');
     print_r($data);
   }
+
+  /**
+   * 测试redis
+   */
+  public function test_redis(){
+    $redis = new Sher_Core_Cache_Redis();
+    #$redis->set('aaa', 'aaa');
+    echo $redis->get('aaa');
+  }
+
+  /**
+   * test json
+   */
+  public function test_json(){
+    $data = array(
+      'a'=>"aa&amp;aa",
+      'b'=>'中&lt;文&#039;测试',
+      'c'=>array('a'=>'aa&amp;', 'b'=>'sdfs&nbsp;df'),
+    );
+    print_r(Sher_Core_Util_View::api_transf_html($data));exit;
+    //echo "<scrit>alert(123);</script>';
+		return $this->api_json('sssss',0,$data);
+		//return $this->ajax_json(200, false, null,htmlspecialchars_decode('aa&amp;aa', ENT_QUOTES));
+  }
+
 }
 ?>

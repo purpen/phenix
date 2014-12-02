@@ -35,6 +35,14 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 验证数据
 	 */
     protected function validate() {
+      //内容长度介于3到500字符之间
+      if(strlen($this->data['content'])<3 || strlen($this->data['content'])>500){
+        $this->data['error'] = '内容长度介于3到500字符之间';
+        return false;
+      }
+
+
+      
         return true;
     }
 	
