@@ -1,0 +1,109 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#edm-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[70]',
+					prompt : '请别超过70个字符'
+				}
+			]
+		},
+		summary: {
+			identifier  : 'summary',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '摘要不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '请别超过140个字符'
+				}
+			]
+		},
+		mailbody: {
+			identifier  : 'mailbody',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '公告内容不能为空'
+				}
+			]
+		}
+	},
+	{
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">Edm管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/edm" class="{{ css_all_edm }} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/edm/edit" class="active item">
+				+新增Edm
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h3>新增Edm</h3>
+		{% else %}
+		<h3>编辑Edm</h3>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/edm/save" method="post" id="edm-form">
+			<input type="hidden" name="_id" value="{{ edm._id }}" />
+			
+			<div class="field">
+			  	<label>标题：</label>
+				<input name="title" type="text" value="{{ edm.title }}" />
+			</div>
+			<div class="field">
+			  	<label>摘要：</label>
+				<textarea rows="2" name="summary" class="small">{{ edm.summary }}</textarea>
+				<div class="ui pointing top label">
+					限制140个字符之内!
+				</div>
+			</div>
+			<div class="field">
+			  	<label>内容：</label>
+				<textarea rows="3" name="mailbody">{{ edm.mailbody }}</textarea>
+			</div>
+			
+			<div class="five fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="0" {% if edm.state %}checked="checked"{% endif %} /> 
+						<label>草稿箱</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="1" {% if edm.state == 1 %}checked="checked"{% endif %} /> 
+						<label>通过审核</label>
+					</div>
+				</div>
+			</div>
+			
+			<button type="submit" class="ui magenta button">确认保存</button>
+			<button type="button" class="ui gray button">取消</button>
+		</form>
+	</div>
+{% endblock %}
