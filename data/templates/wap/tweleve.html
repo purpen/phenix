@@ -1,0 +1,249 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}太火鸟双十二-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.tweleve.page .ui.grid{
+	margin:0;
+}
+.tweleve.page{
+	margin-top: -1.5em;
+}
+.tweleve.page .twin > .ui.grid > .row:nth-child(2) {
+	margin-top:-14rem;
+}
+.tweleve.page .description {
+	color: #fff;
+	margin: 1em auto;
+}
+.tweleve.page .wechat{
+	padding:9rem 0 2em;
+	background:#fff85f;
+}
+.tweleve.page .wechat h3.ui.header{
+	color:#dd081c;
+	padding-bottom: 1em;
+}
+.tweleve.page .wechat .ui.grid .row p span{
+	color: rgba(0,0,0,.8);
+}
+.tweleve.page .wechat .ui.grid .row .image>img{
+	width:50%;
+}
+.tweleve.page p{
+	font-size:14px;
+	margin:.4em auto;
+	padding:0;
+}
+.tweleve.page .product{
+	padding:2em 0;
+	background:#00d9c1;
+}
+.tweleve.page .product h3.ui.white{
+	color:#fff;
+}
+.tweleve.page .product .item{
+	margin-bottom:20px;
+}
+
+.tweleve.page .product .advert.content{
+	background:#dd081c;
+	color:#fff;
+}
+.tweleve.page .product .advert.content .bword {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 36px;
+z-index: 10;
+color:#fff;
+line-height: 20px;
+background-color: rgba(0,0,0,.55);
+-webkit-transition: opacity .25s ease,background-color .25s ease,color .25s ease;
+transition: opacity .25s ease,background-color .25s ease,color .25s ease;
+}
+.tweleve.page .product .advert.content .bword:hover{
+	background-color: rgba(0,0,0,.7);
+}
+.tweleve.page .ui.items .item ,.tweleve.page .ui.items>.item:hover{
+	-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+	box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+	background:#dd081c;
+}
+.tweleve.page .product .advert.content .bword p{
+	font-size: 18px;
+	margin: 0;
+	margin-left:.8em;
+	line-height: 36px;
+}
+.tweleve.page .red{
+	background:#00a8d9;
+	padding:2em 0;
+	color:#fff;
+}
+
+#luck-modal-content img {
+	width: 100%;
+}
+
+
+</style>
+{% endblock %}
+{% block jquery %}
+	$('#free-luck').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_domain }}/promo/got_bonus');
+	});
+{% endblock %}
+{% block content %}
+<div class="tweleve page">
+	<section class="twin">
+		<div class="ui grid">
+			<div class="row">
+				<img src="{{app_url_packaged }}/images/tweleve_app_1.jpg">
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					{% if left_times > 0 %}
+					<div class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
+						 试一试手气
+					</div>
+					<div class="luck description">
+						<small>每人每天有 <b>{{ left_times }}</b> 次机会领取</small>
+					</div>
+					{% else %}
+					<div class="ui active gray disabled btn-4 btn-4c btn">
+						 试一试手气
+					</div>
+					<div class="luck description">
+						<small>今天的 <b>3</b> 次领取机会已经用完，明天再来吧！</small>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+				
+		</div>
+	</section>
+	<section class="wechat">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="center aligned column">
+						<h3 class="ui header">关注太火鸟微信抽取每天神秘大奖</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="center aligned column">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/dimension.jpg">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="center aligned column">
+						<p>1、关注太火鸟微信公众号：taihuoniao（已关注的可略过此步）</p>
+						<p>2、发送大奖礼品申请理由至太火鸟微信公众号，格式：<br><span>当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。<span></p>
+						<p>3、获奖名单及第二日神秘大礼将于次日公布。</p>
+					</div>
+				</div>
+			</div>
+	</section>
+	<section class="product">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui white header">神秘大奖惊喜连连</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui one items">
+					
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_3.jpg">
+						</div>
+						<div class="advert content">
+							<div class="bword">
+								<p>"要爱爱"，女人美丽最要"紧"</p>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_4.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_5.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_6.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_7.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_8.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_13.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_9.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_10.jpg">
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/tweleve_11.jpg">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="red">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui center aligned header">活动时间及规则</h3>
+					<p>1、活动时间：2014年12月1日—12月31日<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;红包领取时间：12月1日—12月11日 <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;神秘大奖抽送时间：12月2日—12月11日每日17:00前<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;红包使用时间：12月1日—12月31日 <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;12月12日活动当天官网商品最低折扣，配合红包使用最优惠</p>
+					<p>2、活动期间注册用户每人每天皆可得有三次领取太火鸟红包（以鸟币形式出现，1鸟币=￥1，金额为5/10/20/50/100不等，随机出现）的机会，可任意选取用于官网商品购买，每笔订单只能使用一个红包；</p>
+					<p>3、活动时间内用户共有33次领取红包的机会，金额随机，最高享受100元的优惠，可在活动期间任意挑选使用，过期无效；</p>
+					<p>4、太火鸟红包不可叠加使用，红包内金额不可用于提现、转账或其他用途。红包内金额使用后发生退款交易的，已使用的红包内金额不予退还。且此红包只限于在此次活动期间使用，过期无效；</p>
+					<p>5、12月2日—12月11日还有神秘大奖抽送的机会，大奖将于前一日在太火鸟微信公众号上公布，有兴趣的用户可提前关注锁定抽取时间，点击抽奖后，将跳出对话框提示活动步骤：①关注太火鸟微信公众号：taihuoniao<small>（已关注的可略过此步）</small>、②发送大奖礼品申请理由至太火鸟微信公众号，格式：当日奖品名称+您的太火鸟官网注册用户名+最能打动小编的奖品申请理由。获奖名单及第二日神秘大礼将于次日公布。</p>
+					<p>6、本活动最终解释权在法律允许的范围内归太火鸟所有。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<div class="ui small luck modal">
+  	<i class="flat close icon"></i>
+	<div class="container">
+	  	<div class="content" id="luck-modal-content"></div>
+	</div>
+</div>
+{% endblock %}
