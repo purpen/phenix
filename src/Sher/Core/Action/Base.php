@@ -169,6 +169,15 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
         parent::before_to_view();
 		// 预置购物车
 		$this->basket();
+		
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+		
+		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+		$this->stash['weibo_login_url'] = $oa->getAuthorizeURL($callback);
+		
 		// 是否移动端
 		$this->stash['is_mobile_client'] = Sher_Core_Helper_Util::is_mobile_client();
 			
