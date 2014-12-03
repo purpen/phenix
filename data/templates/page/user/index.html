@@ -220,8 +220,8 @@ color: rgba(0,0,0,.45);
 			</div>
 		</div>
 		
-		<div class="ui hide row">
-			<!--{% if css_tab_all %}-->
+		<div class="ui row">
+			{% if css_tab_all %}
 			<div class="eleven wide column">
 				<h3 class="ui header">他的动态</h3>
 				<div class="ui two items">
@@ -230,7 +230,7 @@ color: rgba(0,0,0,.45);
 				  		{% include 'block/timeline_product_item.html' %}
 					{% endfor %}
 				</div>
-				
+				<!--
 				<h3 class="ui header">发表的话题 <a class="ui small link"href="">查看全部 > </a></h3>
 				<div class="ui published selection list">
 					<div class="item">
@@ -306,10 +306,11 @@ color: rgba(0,0,0,.45);
 						</div>
 					</div>
 				</div>	
+				-->
 			</div>
 			
 			<div class="five wide column">
-				<!--<h3 class="ui header">相关话题</h3>
+				<h3 class="ui header">相关话题</h3>
 				{% topic_list var:'topic' page:1 user_id:user._id size:5 %}
 				<div class="ui tiny selection list">
 					{% for topic in topic.rows %}
@@ -332,7 +333,7 @@ color: rgba(0,0,0,.45);
 				    	</div>
 				  	</div>
 					{% endfor %}
-				</div>-->
+				</div>
 				<!--<div class="menu">
 					<div class="attention">
 						<div class="content">
@@ -419,7 +420,7 @@ color: rgba(0,0,0,.45);
 		</div>
 		
 		
-		<div class="row">
+		<div class="ui hide row">
 			<div class="eleven wide column">
 				<h3 class="ui header">全部动态</h3>
 				<div class="time">
@@ -469,12 +470,8 @@ color: rgba(0,0,0,.45);
 				</div>
 			</div>
 			<div class="five wide column">
-				{% include 'page/user/user_right.html' %}
 			</div>
 		</div>
-		
-		
-		
 		
 		{% if list.total_rows %}
 		<div class="ui pagination">
