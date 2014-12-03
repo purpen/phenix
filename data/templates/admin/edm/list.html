@@ -1,0 +1,67 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">Edm管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/cake" class="{{ css_all_edm }} item">全部列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/edm/edit" class="magenta item">
+				+新增Edm
+			</a>
+	    </div>
+	</div>
+	
+	{% edm_list var:'list' state:state page:page %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>标题</th>
+				<th>更新时间</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for edm in list.rows %}
+			<tr id="{{ edm._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ edm._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ edm.title }}</td>
+				<td>{{ edm.updated_on|date 'y-m-d H:i' }}</td>
+				<td>
+					{% if edm.state == 4 %}
+						<span class="ui magenta label">{{ edm.state_label }}</span>
+					{% else %}
+						<span class="ui label">{{ edm.state_label }}</span>
+					{% endif %}
+				</td>
+				<td>
+					<div class="ui divided horizontal list">
+						{% if edm.state == 1 %}
+						<a href="{{ app_url_admin_base }}/edm/send?id={{ edm._id }}" class="ui ajax link item">开始发送</a>
+						{% endif %}
+						<a href="{{ app_url_admin_base }}/edm/edit?id={{ edm._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/edm/delete?id={{ edm._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}

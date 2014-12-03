@@ -18,7 +18,9 @@ require_once $cfg_resque_src.'lib/Resque/Worker.php';
 
 Resque::setBackend(Doggy_Config::$vars['app.redis_host']);
 
-
+/**
+ * 清除缓存内容
+ */
 function build_clean_task(){
 	Doggy_Log_Helper::debug("Enqueue clean jobs!");
 	// 添加任务到队列
@@ -26,6 +28,9 @@ function build_clean_task(){
 	
 	Doggy_Log_Helper::debug("Enqueue job ok!");
 }
+
+
+
 
 // 开始执行
 build_clean_task();

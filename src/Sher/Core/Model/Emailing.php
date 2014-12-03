@@ -6,12 +6,21 @@
 class Sher_Core_Model_Emailing extends Sher_Core_Model_Base  {
     protected $collection = "emailing";
 	
+	# 状态
+	const STATE_NO = 0;
+	const STATE_OK = 1;
+	
     protected $schema = array(
-        'email' => 0,
-        'state' => 0,
+		'name' => '',
+		'email' => '',
+		
+		'phone' => '',
+		
+		'state' => self::STATE_OK,
     );
 	
     protected $required_fields = array('email');
+	
     protected $int_fields = array('state');
 	
     protected $joins = array();
