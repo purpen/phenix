@@ -22,8 +22,9 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 */
 	public function coupon(){
 		$total_times = 3;
-		$current_data = date('Y-m-d',time());
+		
 		// 验证领取次数
+		$current_data = date('Ymd', time());
 		$cache_key = sprintf('bonus_%s_%d', $current_data, $this->visitor->id);
 		$redis = new Sher_Core_Cache_Redis();
 		$times = (int)$redis->get($cache_key);
@@ -38,8 +39,8 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 */
 	public function got_bonus(){
 		$total_times = 3;
-		$current_data = date('Y-m-d',time());
 		// 验证领取次数
+		$current_data = date('Ymd', time());
 		$cache_key = sprintf('bonus_%s_%d', $current_data, $this->visitor->id);
 		$redis = new Sher_Core_Cache_Redis();
 		$times = $redis->get($cache_key);
