@@ -1,3 +1,5 @@
 *.swp
 dev_root/*
 deploy/app_config.php
+composer.lock
+vendor/
