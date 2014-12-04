@@ -214,5 +214,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		//return $this->ajax_json(200, false, null,htmlspecialchars_decode('aa&amp;aa', ENT_QUOTES));
   }
 
+  /**
+   * test function show
+   */
+  public function test_func(){
+    $str = Sher_Core_Util_View::api_topic_templet();
+    echo $str;exit;
+  }
+
 }
 ?>

@@ -130,6 +130,10 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		if($product['deleted']){
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
+
+    //转换描述格式
+    $desc_html = Sher_Core_Util_View::api_product_templet($product);
+    $product['content'] = $desc_html;
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);

@@ -292,6 +292,30 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_html_page($tpl);
 	}
+
+	/**
+	 * 显示主题详情帖---手机app content
+	 */
+	public function api_view(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.topic'];
+		if(empty($id)){
+			return $this->api_json('访问的主题不存在或已被删除！', 3001);
+		}
+		
+		$model = new Sher_Core_Model_Topic();
+		$topic = $model->load($id);
+		
+		if(empty($topic) || $topic['deleted']){
+			return $this->api_json('访问的主题不存在或已被删除！', 3001);
+		}
+    $topic = $model->extended_model_row($topic);
+		
+		$this->stash['topic'] = &$topic;
+		
+		return $this->to_html_page('page/topic/api_show.html');
+	}
 	
 	/**
 	 * 推荐

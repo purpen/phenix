@@ -34,6 +34,12 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		
 		$query   = array();
 		$options = array();
+
+    //显示的字段
+    $options['some_fields'] = array(
+      '_id'=> 1, 'title'=>1, 'category_id'=>1, 'target_id'=>1, 'cover_id'=>1, 'asset'=>1, 'parent_id'=>1, 'view_count'=>1, 'stick'=>1,
+      'deleted'=>1, 'published'=>1, 'user_id'=>1,
+    );
 		
 		// 查询条件
 		if($category_id){
@@ -50,13 +56,27 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		}
 		
 		// 分页参数
-        $options['page'] = $page;
-        $options['size'] = $size;
+    $options['page'] = $page;
+    $options['size'] = $size;
 		$options['sort_field'] = 'latest';
-		
+
 		// 开启查询
-        $service = Sher_Core_Service_Topic::instance();
-        $result = $service->get_topic_list($query, $options);
+    $service = Sher_Core_Service_Topic::instance();
+    $result = $service->get_topic_list($query, $options);
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($options['some_fields'] as $key=>$value){
+				$data[$i][$key] = $result['rows'][$i][$key];
+			}
+			// 封面图url
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			// 用户信息
+			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
+			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
+		}
+		$result['rows'] = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
@@ -84,7 +104,11 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		if(empty($topic) || $topic['deleted']){
 			return $this->api_json('访问的主题不存在或已被删除！', 3001);
 		}
-    $topic = $model->extra_extend_model_row($topic);
+
+    //转换描述格式
+    $topic['created_on_format'] = date('y-m-d H:i', $topic['created_on']);
+    $desc_html = Sher_Core_Util_View::api_topic_templet($topic);
+    $topic['description'] = $desc_html;
 		
 		// 增加pv++
 		$inc_ran = rand(1, 6);
