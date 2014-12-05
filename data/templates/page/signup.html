@@ -26,9 +26,6 @@
 		if(!can_send){
 		    return false;
 		}
-		// 添加发送频率
-		limitime();
-		
 		if(phone){
 	        // 先输入验证码再发送
 	        var captcha = $('#captcha').val();
@@ -45,6 +42,9 @@
 	          	  $('#captcha-img img').click();
 	          	  return false;
 	          }else{
+		  		  // 添加发送频率
+		  		  limitime();
+				  
 			      $this = $('#fetch-verify-code');
 				  $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
 				      if(result.errorCode == 200){
