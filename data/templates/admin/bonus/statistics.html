@@ -1,0 +1,58 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">红包管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=4" class="{{ css_waited }} item">
+			已领取
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=3" class="{{ css_locked }} item">
+			已锁定
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
+			冻结中
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus/statistics" class="{{ css_state }} item">
+			统计
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/bonus/gen" class="item">
+				<i class="flat add icon"></i>增发
+			</a>
+	    </div>
+	</div>
+
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th>红包状态:</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+          <p>
+            领取金额统计(已领取/总数):
+          </p>
+          <p>
+          ￥5 : {{ number_5 }} &nbsp;&nbsp;￥10 : {{ number_10 }}  &nbsp;&nbsp;￥20 : {{ number_20 }}  &nbsp;&nbsp;￥50 : {{ number_50 }}  &nbsp;&nbsp;￥100 : {{ number_100 }}
+          </p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+{% endblock %}
