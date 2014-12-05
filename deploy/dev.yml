@@ -31,9 +31,9 @@ app.mongodb_rs: false
 app.mongo.default:
   host: '127.0.0.1:27017'
   db: 'firebird'
-  username: 'root'
-  password: 'Frbird#2014$Shop'
-  replicaSet: 'she_main'
+#  username: 'root'
+#  password: 'Frbird#2014$Shop'
+#  replicaSet: 'she_main'
  
 # redisdb
 app.redis.default: 
