@@ -53,7 +53,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% bonus_list var:'bonus' used:used search_code:q page:page status:status %}
+			{% bonus_list var:'bonus' used:used search_code:q page:page status:status size:30 %}
 			
 			{% for b in bonus.rows %}
 			<tr id="{{ b._id }}">
