@@ -190,7 +190,7 @@ EOF;
         </div>					
       </div>
 EOF;
-    return htmlspecialchars(self::api_templet($str));
+    return self::api_templet($str);
   }
 
   /**
