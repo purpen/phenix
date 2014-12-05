@@ -1,6 +1,6 @@
 *.swp
 deploy/app_config.php
 dev_root/
-vendor/
 composer.lock
-data/web/app
+vendor/
+.*
