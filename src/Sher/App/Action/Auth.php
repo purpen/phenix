@@ -259,6 +259,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 创建帐号,完成提交注册信息
 	 */
 	public function do_register(){
+    session_start();
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
         if (empty($s_t) || $s_t != $this->stash['t']) {
@@ -266,8 +267,13 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
 		
 	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-            return $this->ajax_note('数据错误,请重试', true);
+            return $this->ajax_json('数据错误,请重试', true);
         }
+
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);       
+    }
 		
 		// 验证密码是否一致
 		$password_confirm = $this->stash['password_confirm'];
@@ -285,7 +291,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$verify = new Sher_Core_Model_Verify();
 		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
 		if(empty($code)){
-			return $this->ajax_json('验证码有误，请重新获取！', true);
+			return $this->ajax_json('短信验证码有误，请重新获取！', true);
 		}
 		
         try {

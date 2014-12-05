@@ -25,13 +25,11 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 	
 	/**
-	 * 邀请码列表
+	 * 红包列表
 	 */
 	public function get_list() {
-		$query = array();
-		
-		$model = new Sher_Core_Model_Bonus();
-        $bonus = $model->find($query);
+		$page = (int)$this->stash['page'];
+		Doggy_Log_Helper::warn("Get bonus list page[$page]!");
         
 		if($this->stash['status'] == 1){
 			$this->set_target_css_state('pending');
@@ -44,8 +42,6 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 				$this->set_target_css_state('all');
 			}
 		}
-		
-        $this->stash['bonus'] = $bonus;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/bonus?status=%d&used=%d&page=#p#', $this->stash['status'], $this->stash['used']);
 		
@@ -179,5 +175,22 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+
+	/**
+	 * 红包统计
+	 */
+	public function statistics() {
+		$this->set_target_css_state('state');
+		$model = new Sher_Core_Model_Bonus();
+    $bonus = null;
+    $this->stash['number_5'] = count($model->find(array('amount'=>5, 'status'=>4))) .'/'. count($model->find(array('amount'=>5)));
+    $this->stash['number_10'] = count($model->find(array('amount'=>10, 'status'=>4))) .'/'. count($model->find(array('amount'=>10)));
+    $this->stash['number_20'] = count($model->find(array('amount'=>20, 'status'=>4))) .'/'. count($model->find(array('amount'=>20)));
+    $this->stash['number_50']  = count($model->find(array('amount'=>50, 'status'=>4))) .'/'. count($model->find(array('amount'=>50)));
+    $this->stash['number_100']  = count($model->find(array('amount'=>100, 'status'=>4))) .'/'. count($model->find(array('amount'=>100)));
+		
+		return $this->to_html_page('admin/bonus/statistics.html');
+	}
+
 }
 ?>
