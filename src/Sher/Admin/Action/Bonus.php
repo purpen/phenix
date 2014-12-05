@@ -25,13 +25,11 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 	
 	/**
-	 * 邀请码列表
+	 * 红包列表
 	 */
 	public function get_list() {
-		$query = array();
-		
-		$model = new Sher_Core_Model_Bonus();
-        $bonus = $model->find($query);
+		$page = (int)$this->stash['page'];
+		Doggy_Log_Helper::warn("Get bonus list page[$page]!");
         
 		if($this->stash['status'] == 1){
 			$this->set_target_css_state('pending');
@@ -44,8 +42,6 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 				$this->set_target_css_state('all');
 			}
 		}
-		
-        $this->stash['bonus'] = $bonus;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/bonus?status=%d&used=%d&page=#p#', $this->stash['status'], $this->stash['used']);
 		
