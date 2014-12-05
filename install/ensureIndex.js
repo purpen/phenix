@@ -4,6 +4,9 @@ db.bonus.ensureIndex({'user_id':1}, {background: true});
 db.bonus.ensureIndex({'used':1}, {background: true});
 db.bonus.ensureIndex({'status':1}, {background: true});
 
+db.bonus.ensureIndex({'used':1,'status':1}, {background: true});
+
+
 # 订单管理
 db.ordertemp.ensureIndex({'rid':1}, {unique: true}, {background: true});
 

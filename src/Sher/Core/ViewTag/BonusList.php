@@ -69,7 +69,6 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
         $options['page'] = $page;
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
-		
         $result = $service->get_all_list($query,$options);
 		
         $context->set($var, $result);

@@ -13,30 +13,30 @@ class Sher_App_Action_Captcha extends Sher_App_Action_Base {
 		return $this->view();
 	}
 
-  /**
-   * captcha show
-   */
-  public function view(){
-    session_start();
-    $captcha = new Sher_Core_Util_Captcha();
-    return $captcha->create(6, array('width'=>20, 'height'=>30));
-  }
+ 	/**
+   	 * captcha show
+     */
+    public function view(){
+    	session_start();
+    	$captcha = new Sher_Core_Util_Captcha();
+    	return $captcha->create(6, array('width'=>20, 'height'=>30));
+  	}
 
-  /**
-   * 检察验证码
-   */
-  public function check(){
-    session_start();
-    $code = $this->stash['code'];
-    $type = isset($this->stash['type'])? (int)$this->stash['type'] : 1;
-    $captcha = new Sher_Core_Util_Captcha();
-    $is_true =  $captcha->check($code, $type);
-    if($is_true){
-      echo '1';
-    }else{
-      echo '0';
-    }
-  }
+  	/**
+     * 检察验证码
+     */
+    public function check(){
+    	session_start();
+    	$code = $this->stash['code'];
+    	$type = isset($this->stash['type'])? (int)$this->stash['type'] : 1;
+    	$captcha = new Sher_Core_Util_Captcha();
+    	$is_true =  $captcha->check($code, $type);
+    	if($is_true){
+      	  	return $this->to_raw('1');
+    	}else{
+			return $this->to_raw('0');
+    	}
+  	}
 	
 }
 ?>
