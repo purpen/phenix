@@ -15,6 +15,124 @@
 .user-head > .ui.avatar {
 	border: 3px solid #FFFFFF;
 }
+.user.center h3 a.ui.small{
+	float: right;
+	font-weight: 400;
+	font-size: .65em;
+	margin-right:.3em;
+	line-height: 27px;
+}
+.ui.published.list .item,.ui.dynamic.list .item {
+font-size: .8125rem;
+background: #fff;
+border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.ui.published.list .item .content {
+margin-left: 0%;
+margin-right:0;
+display:block;
+}
+.ui.published.list .description {
+margin-top: .3em;
+float: right;
+}
+.ui.dynamic.list .content .ui.line.header{
+	margin-bottom:.5em;
+	margin-top:0;
+}
+.ui.dynamic.list .item .content{
+	margin-left: 0%;
+	margin-right:0;
+	display:inline-block;
+	float: left;
+}
+.ui.dynamic.list .ui.avatar.image{
+	float: left;
+	width:3em;
+	height:3em;
+	margin: 4px .5em 4px 0;
+}
+.user .five.wide .menu{
+	padding-bottom:15px;
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.user .five.wide .menu .attention{
+	display:inline-block;
+	padding:5px 15px 5px 0;
+	border-right:1px solid rgba(0,0,0,.1);
+}
+.user .five.wide .menu .attention .content>.name a ,.user .five.wide .menu .fans .content>.name a{
+	text-decoration: none;
+	display: block;
+	font-size: 1.05em;
+	font-weight: 700;
+	margin-bottom: .2em;
+	color: rgba(0,0,0,.5);
+}
+.user .five.wide .menu .attention .content>.name a:hover ,.user .five.wide .menu .fans .content>.name a:hover{
+	color:#f36;
+}
+.user .five.wide .menu .attention .content>.description ,.user .five.wide .menu .fans .content>.description{
+clear: both;
+margin: 0;
+color: rgba(0,0,0,.45);
+}
+.user .five.wide .menu .fans{
+	display:inline-block;
+	padding:5px 15px;
+}
+.user .five.wide .news{
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.user .five.wide .news div{
+	margin:15px 0;
+}
+.user .five.wide .news div a{
+	text-decoration: none;
+	color: rgba(0,0,0,.5);
+	font-size: 1.05em;
+	font-weight: 700;
+}
+
+.user .five.wide .news div a:hover{
+	color:#f36;
+}
+.user .five.wide .browse{
+	margin:15px 0;
+	color: rgba(0,0,0,.45);
+	
+}
+.user .time,.user .date{
+	display:inline-block;
+	color:rgba(0,0,0,.3);
+	font-size: .85em;
+}
+.user .right.aligned {
+	float: right;
+}
+.user .content>.inline{
+	display:inline-block;
+	line-height: 33px;
+	margin:0 8px;
+}
+.user .right.btn>.ui.btn{
+	padding: .5em 1em;
+	margin-right: .5em;
+}
+.user .right.btn{
+	line-height: 47px;
+}
+.user .description.fsize{
+	font-size: 15px;
+	color: rgba(0,0,0,.7);
+}
+
+
+
+
+.ui.hide{
+	display:none !important;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -102,7 +220,7 @@
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="ui row">
 			{% if css_tab_all %}
 			<div class="eleven wide column">
 				<h3 class="ui header">他的动态</h3>
@@ -112,7 +230,85 @@
 				  		{% include 'block/timeline_product_item.html' %}
 					{% endfor %}
 				</div>
+				<!--
+				<h3 class="ui header">发表的话题 <a class="ui small link"href="">查看全部 > </a></h3>
+				<div class="ui published selection list">
+					<div class="item">
+				    	<div class="content">
+				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">深圳站【设计让产品更性感】太火鸟</a>
+							<div class="description">
+								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+							  		
+								</a>
+								发表于
+								<a class="ui link" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
+							  		
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+				    	<div class="content">
+				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">深圳站【设计让产品更性感】太火鸟</a>
+							<div class="description">
+								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+							  		
+								</a>
+								发表于
+								<a class="ui link" href="" title="">
+							  		
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<h3 class="ui header">全部动态<a class="ui small link"href="">查看全部 > </a></h3>
+				<div class="ui dynamic selection list">
+					<div class="item">
+						<a>
+							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						</a>
+				    	<div class="content">
+				      	  	<div class="ui line header">收藏了话题</div>
+							<div class="description">
+								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+									深圳站【设计让产品更性感】太火鸟
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<a>
+							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						</a>
+				    	<div class="content">
+				      	  	<div class="ui line header">发表了话题</div>
+							<div class="description">
+								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+									深圳站【设计让产品更性感】太火鸟
+								</a>
+								
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<a>
+							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						</a>
+				    	<div class="content">
+				      	  	<div class="ui line header">回复了话题</div>
+							<div class="description">
+								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+									深圳站【设计让产品更性感】太火鸟
+								</a>
+								
+							</div>
+						</div>
+					</div>
+				</div>	
+				-->
 			</div>
+			
 			<div class="five wide column">
 				<h3 class="ui header">相关话题</h3>
 				{% topic_list var:'topic' page:1 user_id:user._id size:5 %}
@@ -138,6 +334,36 @@
 				  	</div>
 					{% endfor %}
 				</div>
+				<!--<div class="menu">
+					<div class="attention">
+						<div class="content">
+							<div class="name"><a href="">关注</a></div>
+							<div class="description">
+								9人
+							</div>
+						</div>
+					</div>
+					<div class="fans">
+						<div class="content">
+							<div class="name"><a href="">粉丝</a></div>
+							<div class="description">
+								9人
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="news">
+					<div><a href="">动态</a></div>
+					<div><a href="">通知</a></div>
+					<div><a href="">私信</a></div>
+				</div>
+				<div class="news">
+					<div><a href="">收藏</a></div>
+					<div><a href="">发表的话题</a></div>
+				</div>
+				<div class="browse">
+					个人主页被30人浏览过
+				</div>
 				
 				<h3 class="ui header">关注他</h3>
 				<div class="ui social">
@@ -150,7 +376,8 @@
 					<a href="" title="豆瓣" class="ui small green icon button">
 						<i class="flat icon icon_douban"></i>
 					</a>
-				</div>
+				</div>-->
+				{% include 'page/user/user_right.html' %}
 			</div>
 			{% else %}
 			<div class="column">
@@ -190,6 +417,60 @@
 				{% endif %}
 			</div>
 			{% endif %}
+		</div>
+		
+		
+		<div class="ui hide row">
+			<div class="eleven wide column">
+				<h3 class="ui header">全部动态</h3>
+				<div class="time">
+					1天前
+				</div>
+				<div class="right aligned date">
+					2014-11-25
+				</div>
+			</div>
+			<div class="eleven wide column">
+				<div class="ui dynamic selection list">
+					<div class="item">
+				    	<a>
+							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						</a>
+				    	<div class="content">
+				      	  	<div class="ui line header inline">noofoo</div>
+							<div class="description fsize inline">
+									关注了你
+							</div>
+						</div>
+						<div class="right aligned btn">
+							<a href="" class="ui magenta btn-4 btn-4c btn">
+								+ 关注
+							</a>
+						</div>
+					</div>
+					
+					<div class="item">
+				    	<a>
+							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						</a>
+				    	<div class="content">
+				      	  	<div class="ui line header inline">noofoo</div>
+							<div class="description fsize inline">
+								收藏了话题
+							</div>
+							<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+								深圳站【设计让产品更性感】太火鸟
+							</a>
+						</div>
+					</div>
+					
+					
+					
+					
+				</div>
+			</div>
+			<div class="five wide column">
+			</div>
 		</div>
 		
 		{% if list.total_rows %}
