@@ -282,7 +282,10 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
 
-		$this->stash['content'] = $product['content'];
+    //加载model扩展数据
+    $product = $model->extended_model_row($product);
+
+		$this->stash['product'] = &$product;
 		return $this->to_html_page('page/product/api_show.html');
 	}
 	
