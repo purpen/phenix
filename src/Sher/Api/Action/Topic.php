@@ -38,7 +38,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
     //显示的字段
     $options['some_fields'] = array(
       '_id'=> 1, 'title'=>1, 'category_id'=>1, 'target_id'=>1, 'cover_id'=>1, 'asset'=>1, 'parent_id'=>1, 'view_count'=>1, 'stick'=>1,
-      'deleted'=>1, 'published'=>1, 'user_id'=>1,
+      'deleted'=>1, 'published'=>1, 'user_id'=>1, 'comment_count'=>1, 'created_on'=>1,
     );
 		
 		// 查询条件
@@ -75,6 +75,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
+      $data[$i]['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
 		}
 		$result['rows'] = $data;
 		
@@ -104,11 +105,6 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		if(empty($topic) || $topic['deleted']){
 			return $this->api_json('访问的主题不存在或已被删除！', 3001);
 		}
-
-    //转换描述格式
-    $topic['created_on_format'] = date('y-m-d H:i', $topic['created_on']);
-    $desc_html = Sher_Core_Util_View::api_topic_templet($topic);
-    $topic['description'] = $desc_html;
 		
 		// 增加pv++
 		$inc_ran = rand(1, 6);
@@ -132,6 +128,8 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		$category = new Sher_Core_Model_Category();
 		$parent_category = $category->extend_load((int)$topic['fid']);
 		
+    $topic['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
+    $topic['description'] = null;
 		$result['topic'] = &$topic;
 		$result['parent_category'] = $parent_category;
 		$result['editable'] = $editable;

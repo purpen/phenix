@@ -87,7 +87,7 @@ class Sher_Core_Util_View extends Doggy_Exception {
   }
 
   /**
-   * html5 templet for app
+   * html5 templet for app --no used
    */
   public static function api_templet($content, $type=1){
     $str = <<<EOF
@@ -169,7 +169,7 @@ EOF;
   }
 
   /**
-   * topic desc templet
+   * topic desc templet --no used
    */
   public static function api_topic_templet(&$topic=array()){
    $str = <<<EOF
@@ -194,7 +194,7 @@ EOF;
   }
 
   /**
-   * product desc templet
+   * product desc templet -- no used
    */
   public static function api_product_templet(&$product=array()){
    $str = <<<EOF

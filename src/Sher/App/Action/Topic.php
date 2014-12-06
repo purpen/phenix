@@ -19,7 +19,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view');
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view', 'api_view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -310,9 +310,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($topic) || $topic['deleted']){
 			return $this->api_json('访问的主题不存在或已被删除！', 3001);
 		}
+
+    //创建关联数据
     $topic = $model->extended_model_row($topic);
 		
-		$this->stash['topic'] = &$topic;
+		$this->stash['topic'] = $topic;
 		
 		return $this->to_html_page('page/topic/api_show.html');
 	}

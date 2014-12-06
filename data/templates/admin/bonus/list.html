@@ -24,6 +24,9 @@
 		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
 			冻结中
 		</a>
+		<a href="{{ app_url_admin_base }}/bonus/statistics" class="{{ css_state }} item">
+			统计
+		</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/bonus/gen" class="item">
 				<i class="flat add icon"></i>增发
@@ -31,14 +34,24 @@
 	    </div>
 	</div>
 	
-	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/bonus" method="post">
-			<label>搜索：</label>
-			<div class="ui icon input">
-				<input placeholder="红包码..." type="text" name="q">
-				<i class="flat search link icon"></i>
+	<div class="ui grid">
+		<div class="middle aligned row">
+			<div class="six wide column">
+				<label>红包金额：</label>
+				<a href="{{ app_url_admin_base }}/bonus?status={{ status }}&used={{ used }}&amount=5" class="ui {% if amount == 5 %}active{%endif%} link">5元</a> <a href="{{ app_url_admin_base }}/bonus?status={{ status }}&amount=10" class="ui {% if amount == 10 %}active{%endif%} link">10元</a> <a href="{{ app_url_admin_base }}/bonus?status={{ status }}&amount=20" class="ui {% if amount == 20 %}active{%endif%} link">20元</a> <a href="{{ app_url_admin_base }}/bonus?status={{ status }}&amount=50" class="ui {% if amount == 50 %}active{%endif%} link">50元</a> <a href="{{ app_url_admin_base }}/bonus?status={{ status }}&amount=100" class="ui {% if amount == 100 %}active{%endif%} link">100元</a>
 			</div>
-		</form>
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/bonus" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="红包码..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	<table class="ui table segment">
@@ -53,7 +66,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% bonus_list var:'bonus' used:used search_code:q page:page status:status %}
+			{% bonus_list var:'bonus' used:used search_code:q page:page status:status amount:amount size:30 %}
 			
 			{% for b in bonus.rows %}
 			<tr id="{{ b._id }}">
@@ -111,6 +124,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+		<label class="page_count">{{ bonus.total_rows }}个</label>
 	</div>
 	{% endif %}
 	

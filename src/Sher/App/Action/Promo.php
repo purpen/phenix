@@ -38,6 +38,8 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 * 获取红包
 	 */
 	public function got_bonus(){
+		return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
+		
 		$total_times = 3;
 		// 验证领取次数
 		$current_data = date('Ymd', time());
