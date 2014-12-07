@@ -123,6 +123,11 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	    }
 		
 		$result['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+
+    //验证是否收藏或喜欢
+    $fav = new Sher_Core_Model_Favorite();
+    $topic['is_favorite'] = $fav->check_favorite(1, $topic['_id'], 2) ? 1 : 0;
+    $topic['is_love'] = $fav->check_loved(1, $topic['_id'], 2) ? 1 : 0;
 		
 		// 获取父级分类
 		$category = new Sher_Core_Model_Category();

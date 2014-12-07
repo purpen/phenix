@@ -144,6 +144,11 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 			return $this->api_json('访问的产品等待发布中！', 3001);
 		}
 
+    //验证是否收藏或喜欢
+    $fav = new Sher_Core_Model_Favorite();
+    $product['is_favorite'] = $fav->check_favorite(1, $product['_id'], 1) ? 1 : 0;
+    $product['is_love'] = $fav->check_loved(1, $product['_id'], 1) ? 1 : 0;
+
     //返回图片数据
     $assets = array();
     if(!empty($product['asset'])){
