@@ -16,7 +16,7 @@ class Sher_Core_Model_Device extends Sher_Core_Model_Base  {
   );
 
   protected $required_fields = array('d_id');
-  protected $int_fields = array('user_id', 'push_count', 'state', 'district');
+  protected $int_fields = array('user_id', 'push_count', 'state');
 	
 }
 ?>

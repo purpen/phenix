@@ -27,15 +27,6 @@ app.mongodb_rs: false
 #  password: ''
 #  replicaSet: 'she_main'
 
-
-##tianshuai的数据库环境
-#----------------------------------------
-app.mongo.default:
-  host: '127.0.0.1:27017'
-  db: 'firebird'
-    
-#-----------------------------------------
-
 # redisdb
 app.redis.default: 
     host: '127.0.0.1'
@@ -95,5 +86,3 @@ app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
 
 # 临时数据存储目录
 app.storage.tmpdir: '/Users/xiaoyi/data/export'
-
-
