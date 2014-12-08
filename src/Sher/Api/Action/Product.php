@@ -125,6 +125,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
+
         if (!empty($product)) {
             $product = $model->extended_model_row($product);
         }
@@ -178,8 +179,8 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		));
 		$product['skus'] = $skus;
 		$product['skus_count'] = count($skus);
-		
-		return $this->api_json('请求成功', 0, $product);
+
+		//return $this->api_json('请求成功', 0, $product);
 	}
 	
 	/**
