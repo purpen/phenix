@@ -2,7 +2,6 @@
 deploy/app_config.php
 dev_root/
 data/web/app
-deploy/dev.yml
 composer.lock
 vendor/
-.*
+.gitignore

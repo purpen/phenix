@@ -361,12 +361,19 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      * @var array
      */
     private $payment_methods = array(
-        array(
+      array(
 			'id' => 'a',
             'name' => '在线支付',
 			'active' => 'active',
             'summary' => '支付宝作为诚信中立的第三方机构，充分保障货款安全及买卖双方利益,支持各大银行网上支付。'
-        ),
+          ),
+      array(
+        'id' => 'b',
+        'name'  =>  '0元抢购',
+        'active'  =>  'active',
+        'summary' => '',
+      ),
+      
     );
 	
     /**
