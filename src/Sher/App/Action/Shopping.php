@@ -625,7 +625,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         // 设置订单状态为备货
         $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
         $order_info['is_payed'] = 1;
-        $order_info['payment_method'] = 'b';
       }else{
         $is_snatched = false;
       }
