@@ -46,9 +46,10 @@
 				</td>
 				<td>
 					<div class="ui divided horizontal list">
-						{% if edm.state == 1 %}
+						{% if edm.state < 1 %}
 						<a href="{{ app_url_admin_base }}/edm/send?id={{ edm._id }}" class="ui ajax link item">开始发送</a>
 						{% endif %}
+						<a href="{{ app_url_admin_base }}/edm/test?id={{ edm._id }}" class="ui ajax link item">发送测试</a> 
 						<a href="{{ app_url_admin_base }}/edm/edit?id={{ edm._id }}" class="ui link item">编辑</a> 
 						<a href="{{ app_url_admin_base }}/edm/delete?id={{ edm._id }}" class="ui link item confirm-request">删除</a>
 					</div>
