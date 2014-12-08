@@ -181,19 +181,30 @@ html{
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<!--<div class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
-						 试一试手气
-					</div>
-					<div class="luck description">
-						<small>每人每天有 <b>{{ left_times }}</b> 次机会领取</small>
-					</div>-->
+					{% if has_bonus %}
+						{% if left_times %}
+						<div class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
+							 试一试手气
+						</div>
+						<div class="luck description">
+							<small>每人每天有 <b>{{ left_times }}</b> 次机会领取</small>
+						</div>
+						{% else %}
+						<div class="ui active gray disabled btn-4 btn-4c btn">
+							 试一试手气
+						</div>
+						<div class="luck description">
+							<small>今天的 <b>3</b> 次领取机会已经用完，明天再来吧！</small>
+						</div>
+						{% endif %}
+					{% else %}
 					<div class="ui active gray disabled btn-4 btn-4c btn">
 						 红包已抢光了,等待下次机会哦！
 					</div>
 					<div class="luck description">
 						太火鸟微信抽取每天神秘大奖依然继续！
 					</div>
-					
+					{% endif %}
 				</div>
 			</div>
 		</div>
