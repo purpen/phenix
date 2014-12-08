@@ -619,15 +619,15 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
-      //抢购产品状态，跳过付款状态
-      if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id']){
-        $is_snatched = true;
-        // 设置订单状态为备货
-        $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-        $order_info['is_payed'] = 1;
-      }else{
-        $is_snatched = false;
-      }
+      	    //抢购产品状态，跳过付款状态
+      	    if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id']){
+        		$is_snatched = true;
+       		    // 设置订单状态为备货
+        		$order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+        		$order_info['is_payed'] = 1;
+      	    }else{
+        		$is_snatched = false;
+     	    }
 			
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
@@ -667,14 +667,14 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
 			return $this->ajax_json('订单处理异常，请重试！', true);
-    }
-    if($is_snatched){
-      //如果是抢购，无需支付，跳到我的订单页
-    	$next_url = Doggy_Config::$vars['app.url.my'].'/orders';
-      echo $next_url;exit;
-    }else{
-    	$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
-    }
+    	}
+		
+	    if($is_snatched){
+	    	//如果是抢购，无需支付，跳到我的订单页
+	    	$next_url = Doggy_Config::$vars['app.url.my'].'/order_view?rid='.$rid;
+	    }else{
+	    	$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+	    }
 		
 		return $this->ajax_json('下订单成功！', false, $next_url);
 	}
