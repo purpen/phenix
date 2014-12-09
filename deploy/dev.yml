@@ -57,7 +57,7 @@ app.cache.memcached.default:
 app.topic.dream_category_id: 64
 
 # 就现在商品
-app.comeon.product_id: 1111801264
+app.comeon.product_id: 1120800090
 
 # 支付宝
 app.alipay.partner: '2088411237666512'
