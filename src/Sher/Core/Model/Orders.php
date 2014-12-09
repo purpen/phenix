@@ -169,7 +169,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
    */
   protected function before_insert(&$data) {
     //复制收货地址
-    if(isset($data['addbook_id'])){
+    if(!isset($data['addbook_id'])){
       $model = new Sher_Core_Model_AddBooks();
       $address = $model->find_by_id($data['addbook_id']);
       if($address){
