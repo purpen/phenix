@@ -58,21 +58,24 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           $type = Sher_Core_Model_Timeline::TYPE_TOPIC;
           $model = new Sher_Core_Model_Topic();
           //获取目标用户ID
-          $user_id = $model->extend_load((int)$this->data['target_id'])['user_id'];
+          $topic = $model->extend_load((int)$this->data['target_id']);
+          $user_id = $topic['user_id'];
           $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
           break;
         case self::TYPE_PRODUCT:
           $type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
           $model = new Sher_Core_Model_Product();
           //获取目标用户ID
-          $user_id = $model->extend_load((int)$this->data['target_id'])['user_id'];
+          $product = $model->extend_load((int)$this->data['target_id']);
+          $user_id = $product['user_id'];
           $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
           break;
         case self::TYPE_TRY:
           $type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
           $model = new Sher_Core_Model_Try();
           //获取目标用户ID
-          $user_id = $model->extend_load($this->data['target_id'])['user_id'];
+          $try = $model->extend_load($this->data['target_id']);
+          $user_id = $try['user_id'];
           $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
           break;
         default:
