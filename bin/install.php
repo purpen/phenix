@@ -74,6 +74,33 @@ function create_init_user(){
 	return $new_data['_id'];
 }
 
+// 添加邮件订阅账号
+function create_emailing_user(){
+	echo "Create emailing user ...\n";
+	try{
+		$email_user = new Sher_Core_Model_Emailing();
+		$data = array(
+			'name' => 'purpen',
+			'email' => 'xiaoyi.tian@taihuoniao.com',
+			'phone' => '',
+		
+			'state' => Sher_Core_Model_Emailing::STATE_OK,
+		);
+		
+		$ok = $email_user->create($data);
+		
+		if ($ok){
+			echo "Create emailing user is ok!\n";
+		}
+		
+		$new_data = $email_user->get_data();
+		
+	}catch(Sher_Core_Model_Exception $e){
+		echo "Create emailing user failed: ".$e->getMessage();
+	}
+	
+	return $new_data['_id'];
+}
 
 
 // 添加邀请码
@@ -120,7 +147,55 @@ function create_category(){
 
 echo "Install ... \n";
 
-create_system_user();
+function send_mailgun($name, $email, $subject, $content){
+
+	$config = array();
+
+	$config['api_key'] = "key-6k-1qi-1gvn4q8dpszcp8uvf-7lmbry0";
+
+	$config['api_url'] = "https://api.mailgun.net/v2/email.taihuoniao.com/messages";
+
+	$message = array();
+
+	$message['from'] = "太火鸟 <noreply@email.taihuoniao.com>";
+
+	$message['to'] = $email;
+
+	$message['subject'] = $subject;
+
+	$message['html'] = $content;
+	
+	print_r($message);
+
+	$ch = curl_init();
+    print '1';
+	curl_setopt($ch, CURLOPT_URL, $config['api_url']);
+   print '2';
+	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
+	curl_setopt($ch, CURLOPT_USERPWD, "api:{$config['api_key']}");
+   print '3';
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+	curl_setopt($ch, CURLOPT_POST, true); 
+
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
+    print '4';
+	$result = curl_exec($ch);
+	print '5';
+    print_r($result);
+	curl_close($ch);
+
+	return $result;
+}
+
+// create_system_user();
 
 // $user_id = create_init_user();
 
@@ -128,10 +203,19 @@ create_system_user();
 
 // create_category();
 
+// create_emailing_user();
+
+// Sher_Core_Jobs_Queue::send_edm('547d894fac6b7aef019cd352');
+//echo "job\n";
+// $job = new Sher_Core_Jobs_Emailing();
+//echo "job perform\n";
+send_mailgun('helo','xiaoyi.tian@taihuoniao.com', '547d894fac6b7aef019cd352', 'neirong');
+
+/*
 $pic_url = 'http://img30.360buyimg.com/popWaterMark/g4/M01/00/04/rBEGFlNwLkgIAAAAAAJnJ2VjT6MAABaNAFbrHEAAmc_167.jpg';
 $img_data = @file_get_contents($pic_url);
 var_dump(strlen($img_data));
 Sher_Core_Jobs_Queue::fetcher_image($pic_url, array('target_id'=>1051300353));
-
+*/
 echo "Install is OK! \n";
 ?>

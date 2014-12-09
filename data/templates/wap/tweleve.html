@@ -99,7 +99,7 @@ transition: opacity .25s ease,background-color .25s ease,color .25s ease;
 			phenix.show_login_box();
 			return false;
 		}
-		$.post('{{ app_url_domain }}/promo/got_bonus');
+		$.post('{{ app_url_wap }}/promo/got_bonus');
 	});
 {% endblock %}
 {% block content %}
@@ -111,21 +111,30 @@ transition: opacity .25s ease,background-color .25s ease,color .25s ease;
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<!--
-					<div class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
-						 试一试手气
-					</div>
-					<div class="luck description">
-						<small>每人每天有 <b>{{ left_times }}</b> 次机会领取</small>
-					</div>-->
-
+					{% if has_bonus %}
+						{% if left_times %}
+						<div class="ui active magenta btn-4 btn-4c icon-arrow-right btn" id="free-luck">
+							 试一试手气
+						</div>
+						<div class="luck description">
+							<small>每人每天有 <b>{{ left_times }}</b> 次机会领取</small>
+						</div>
+						{% else %}
+						<div class="ui active gray disabled btn-4 btn-4c btn">
+							 试一试手气
+						</div>
+						<div class="luck description">
+							<small>今天的 <b>3</b> 次领取机会已经用完，明天再来吧！</small>
+						</div>
+						{% endif %}
+					{% else %}
 					<div class="ui active gray disabled btn-4 btn-4c btn">
 						 红包已抢光了,等待下次机会哦！
 					</div>
 					<div class="luck description">
 						太火鸟微信抽取每天神秘大奖依然继续！
 					</div>
-					
+					{% endif %}
 				</div>
 			</div>
 				
@@ -202,29 +211,53 @@ transition: opacity .25s ease,background-color .25s ease,color .25s ease;
 							<img src="{{ app_url_packaged }}/images/tweleve_06.jpg">
 						</div>
 						<div class="advert content">
-							<div class="bword">
-								<p>"要爱我" 宅男自爱神器 不撸白不撸 电力十足!</p>
+							<div class="bword line">
+								<p>"爱我" 宅男自爱神器 不撸白不撸 电力十足!</p>
+								<p>获奖者：LEO 186****0311</p>
 							</div>
 						</div>
 					</div>
 					<div class="item">
 						<div class="image">
-							<img src="{{ app_url_packaged }}/images/tweleve_7.jpg">
+							<img src="{{ app_url_packaged }}/images/tweleve_07.jpg">
+						</div>
+						<div class="advert content">
+							<div class="bword line">
+								<p>叫个鸭子！慎入，很黄很爆礼！</p>
+								<p>获奖者：安静的美男子 134****5943 </p>
+							</div>
 						</div>
 					</div>
 					<div class="item">
 						<div class="image">
-							<img src="{{ app_url_packaged }}/images/tweleve_8.jpg">
+							<img src="{{ app_url_packaged }}/images/tweleve_08.jpg">
+						</div>
+						<div class="advert content">
+							<div class="bword line">
+								<p>送你连龚琳娜老师都梦寐以求的神物！</p>
+								<p>获奖者：grug 158****9141</p>
+							</div>
 						</div>
 					</div>
 					<div class="item">
 						<div class="image">
-							<img src="{{ app_url_packaged }}/images/tweleve_13.jpg">
+							<img src="{{ app_url_packaged }}/images/tweleve_013.jpg">
+						</div>
+						<div class="advert content">
+							<div class="bword line">
+								<p>就是有钱，就是任性！</p>
+								<p>获奖者：燃烧吧火鸟 139****0563</p>
+							</div>
 						</div>
 					</div>
 					<div class="item">
 						<div class="image">
-							<img src="{{ app_url_packaged }}/images/tweleve_9.jpg">
+							<img src="{{ app_url_packaged }}/images/tweleve_09.jpg">
+						</div>
+						<div class="advert content">
+							<div class="bword">
+								<p>爱持久爱温度，这个冬天不太冷</p>
+							</div>
 						</div>
 					</div>
 					<div class="item">

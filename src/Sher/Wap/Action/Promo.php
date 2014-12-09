@@ -31,15 +31,27 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		$this->stash['left_times'] = $total_times - $times;
 		
+		// 检测是否还有红包
+		$bonus = new Sher_Core_Model_Bonus();
+		$query = array(
+			'used' => Sher_Core_Model_Bonus::USED_DEFAULT,
+			'status' => Sher_Core_Model_Bonus::STATUS_OK,
+		);
+		$result = $bonus->first($query);
+		if(!empty($result)){
+			$has_bonus = true;
+		}else{
+			$has_bonus = false;
+		}
+		$this->stash['has_bonus'] = $has_bonus;
+		
 		return $this->to_html_page('wap/tweleve.html');
 	}
 	
 	/**
 	 * 获取红包
 	 */
-	public function got_bonus(){
-		return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
-		
+	public function got_bonus(){		
 		$total_times = 3;
 		// 验证领取次数
 		$current_data = date('Ymd', time());
@@ -60,7 +72,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		$bonus = new Sher_Core_Model_Bonus();
 		$result = $bonus->pop();
 		
+		if(empty($result)){
+			return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
+		}
+		
 		// 获取为空，重新生产红包
+		/*
 		while(empty($result)){
 			$bonus->create_batch_bonus(100);
 			$result = $bonus->pop();
@@ -68,7 +85,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 			if(!empty($result)){
 				break;
 			}
-		}
+		}*/
 		
 		// 赠与红包
 		$ok = $bonus->give_user($result['code'], $this->visitor->id);

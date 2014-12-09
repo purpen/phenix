@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-11-25 09:27:16
+//dump on 2014-12-09 12:32:25
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -214,6 +214,7 @@ Doggy_Config::add( array (
       'bonus_list' => 'Sher_Core_ViewTag_BonusList',
       'tags_list' => 'Sher_App_ViewTag_TagsList',
       'ad_list' => 'Sher_Core_ViewTag_AdList',
+      'edm_list' => 'Sher_Core_ViewTag_EdmList',
       'space_list' => 'Sher_Core_ViewTag_SpaceList',
       'favorite_list' => 'Sher_Core_ViewTag_FavoriteList',
       'cake_list' => 'Sher_App_ViewTag_CakeList',
@@ -398,9 +399,9 @@ Doggy_Config::add( array (
   'app.url.stuff.view' => 'http://taihuoniao.me/idea/%s',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b14111801',
-  'app.version.jquery_bundle_version' => 'v0.10b14111801',
-  'app.version.css_bundle_version' => 'v0.10b14111801',
+  'app.version.sher' => 'v0.10b14120201',
+  'app.version.jquery_bundle_version' => 'v0.10b14120201',
+  'app.version.css_bundle_version' => 'v0.10b14120201',
   'app.email.domains' => 
   array (
     '163.com' => 'http://mail.163.com/',

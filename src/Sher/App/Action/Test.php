@@ -128,8 +128,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	public function noodles() {		
 		return $this->to_html_page('page/noodles.html');
 	}
-	public function pubindex() {		
-		return $this->to_html_page('page/pubindex.html');
+	public function tweleve() {
+		return $this->to_html_page('page/tweleve.html');
 	}
 
   /**

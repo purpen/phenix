@@ -272,7 +272,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		
 		Doggy_Log_Helper::warn('Register session:'.$_SESSION['m_captcha']);
 		
-    	// 验证码验证
+    	//验证码验证
     	if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
 			return $this->ajax_json('验证码不正确!', true);
     	}
