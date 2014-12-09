@@ -214,13 +214,14 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 */
 	public function _check_name($nickname=null) {
 		if (is_null($nickname)){
-			$nickname = $this->data['nickname'];
+      $nickname = $this->data['nickname'];
 		}
 		if(empty($nickname)){
 			return false;
 		}
+    $user_id = $this->data['_id'];
 		Doggy_Log_Helper::debug("Validate user name[$nickname]!");
-		$row = $this->first(array('nickname' => $nickname));
+		$row = $this->first(array('nickname' => $nickname, '_id' => array('$ne'=>$user_id)));
 		if(!empty($row)){
 			return false;
 		}

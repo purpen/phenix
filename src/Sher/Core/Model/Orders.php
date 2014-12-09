@@ -160,6 +160,26 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		}
 		return $label;
 	}
+
+  /**
+   * 创建之前事件
+   */
+  protected function before_insert(&$data) {
+    //复制收货地址
+    if(isset($data['addbook_id'])){
+      $model = new Sher_Core_Model_AddBooks();
+      $address = $model->find_by_id($data['addbook_id']);
+      if($address){
+        unset($address['is_default']);
+        unset($address['created_on']);
+        unset($address['updated_on']);
+        $area_model = new Sher_Core_Model_Areas();
+        $address['province'] = $area_model->find_by_id($address['province'])['city'];
+        $address['city'] = $area_model->find_by_id($address['city'])['city'];
+        $data['express_info'] = $address;
+      }
+    }
+  }
 	
 	/**
 	 * 保存之前事件

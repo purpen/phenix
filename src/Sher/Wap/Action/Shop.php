@@ -287,6 +287,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(empty($this->stash['addbook_id'])){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
+
+    //验证地址
+    $add_book_model = new Sher_Core_Model_AddBooks();
+    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+    if(empty($add_book)){
+			return $this->ajax_json('地址不存在！', true);
+    }
+
 		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : '';
 		$bonus_code = $this->stash['bonus_code'];
 		$transfer_time = $this->stash['transfer_time'];
@@ -379,7 +387,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
       	    //抢购产品状态并且sale_price为0，跳过付款状态
-      	    if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
+      	    if( is_array($order_info['items']) && count($order_info['items'])==1 &&  isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
       		    $is_snatched = true;
         		// 设置订单状态为备货
       		    $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
