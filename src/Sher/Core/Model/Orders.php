@@ -170,13 +170,21 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
       $model = new Sher_Core_Model_AddBooks();
       $address = $model->find_by_id($data['addbook_id']);
       if($address){
-        unset($address['is_default']);
-        unset($address['created_on']);
-        unset($address['updated_on']);
+
         $area_model = new Sher_Core_Model_Areas();
-        $address['province'] = $area_model->find_by_id($address['province'])['city'];
-        $address['city'] = $area_model->find_by_id($address['city'])['city'];
-        $data['express_info'] = $address;
+        $pro = $area_model->find_by_id($address['province']);
+        $city = $area_model->find_by_id($address['city']);
+        $add_info = array(
+                'name'=> $address['name'],
+                'phone'=> $address['phone'],
+                'area'=> $address['area'],
+                'address'=> $address['address'],
+                'zip'=> $address['zip'],
+                'email'=> $address['email'],
+                'province'=> $pro['city'],
+                'city'=> $city['city'],
+        );
+        $data['express_info'] = $add_info;
       }
     }
   }
