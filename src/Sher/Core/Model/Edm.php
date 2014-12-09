@@ -23,6 +23,9 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 		'weekly_number' => 0,
 		'weekly_total' => 0,
 		
+		# 测试用户地址
+		'test_user' => '',
+		
 		'state' => self::STATE_DRAFT,
     );
 	
@@ -59,10 +62,24 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 设置等待发送
+	 */
+	public function mark_set_wait($id){
+		return $this->update_set($id, array('state'=>self::STATE_WAITING));
+	}
+	
+	/**
 	 * 设置发送状态
 	 */
 	public function mark_set_send($id){
 		return $this->update_set($id, array('state'=>self::STATE_SENDING));
+	}
+	
+	/**
+	 * 设置完成状态
+	 */
+	public function mark_set_finish($id){
+		return $this->update_set($id, array('state'=>self::STATE_FINISHED));
 	}
 	
 }

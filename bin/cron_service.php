@@ -29,9 +29,6 @@ function build_clean_task(){
 	Doggy_Log_Helper::debug("Enqueue job ok!");
 }
 
-
-
-
 // 开始执行
 build_clean_task();
 

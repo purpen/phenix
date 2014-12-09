@@ -160,7 +160,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		$head = array('下单时间', '订单付款时间', '订单编号', '买家会员名', '买家支付方式', '宝贝标题', '宝贝种类', '宝贝总数量', '总金额', '实际支付金额', '订单状态', '买家留言', '收货人姓名', '联系手机', '收货地址', '运送方式', '物流单号', '物流公司', '是否要发票', '发票类型', '发票抬头', '订单备注');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
-			$head[$i] = iconv('utf-8', 'gbk', $v);
+			// $head[$i] = iconv('utf-8', 'gbk', $v);
 		}
 		// 将数据通过fputcsv写到文件句柄
 		fputcsv($fp, $head);
@@ -228,11 +228,11 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				
 				$row = array(date('Y-m-d H:i:s', $data['created_on']), $payed_date, $data['rid'], $data['user']['nickname'], $data['payment']['name'], $product_title, $data['items_count'], $quantity, $data['total_money'], $data['pay_money'], $data['status_label'], $data['summary'], $name, $mobile, $address, $express_away, $data['express_no'], $express_company, $need_invoice, $invoice_caty_label, $invoice_content, '');
 				
-				/*
+				
 				foreach($row as $k => $v){
 					// CSV的Excel支持GBK编码，一定要转换，否则乱码
-					$row[$i] = iconv('utf-8', 'gbk', $v);
-				}*/
+					// $row[$i] = iconv('utf-8', 'gbk', $v);
+				}
 				
 				fputcsv($fp, $row);
 				

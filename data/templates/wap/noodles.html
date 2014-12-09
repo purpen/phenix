@@ -254,7 +254,7 @@ p+.ui.big.block {
 			phenix.show_login_box();
 			return false;
 		}
-		phenix.redirect('{{ app_url_cart_nowbuy }}?sku={{ product._id }}', 0);
+		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku={{ product._id }}', 0);
 	});
 	
 	$('#addbook-form').livequery(function(){

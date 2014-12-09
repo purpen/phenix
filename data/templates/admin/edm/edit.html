@@ -76,6 +76,10 @@
 				<input name="title" type="text" value="{{ edm.title }}" />
 			</div>
 			<div class="field">
+			  	<label>测试用户：</label>
+				<input name="test_user" type="text" value="{{ edm.test_user }}" />
+			</div>
+			<div class="field">
 			  	<label>摘要：</label>
 				<textarea rows="2" name="summary" class="small">{{ edm.summary }}</textarea>
 				<div class="ui pointing top label">
@@ -85,21 +89,6 @@
 			<div class="field">
 			  	<label>内容：</label>
 				<textarea rows="3" name="mailbody">{{ edm.mailbody }}</textarea>
-			</div>
-			
-			<div class="five fields">
-				<div class="field">
-					<div class="ui radio checkbox">
-						<input type="radio" name="state" value="0" {% if edm.state %}checked="checked"{% endif %} /> 
-						<label>草稿箱</label>
-					</div>
-				</div>
-				<div class="field">
-					<div class="ui radio checkbox">
-						<input type="radio" name="state" value="1" {% if edm.state == 1 %}checked="checked"{% endif %} /> 
-						<label>通过审核</label>
-					</div>
-				</div>
 			</div>
 			
 			<button type="submit" class="ui magenta button">确认保存</button>

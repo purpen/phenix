@@ -6,6 +6,18 @@
 class Sher_Core_Jobs_Queue extends Doggy_Object {
 	
 	/**
+	 * 发送邮件
+	 */
+	public static function send_edm($edm_id, $args=array()){
+		$args['edm_id'] = $edm_id;
+		
+		Resque::setBackend(Doggy_Config::$vars['app.redis_host']);
+		
+		Resque::enqueue('edming', 'Sher_Core_Jobs_Edm', $args);
+		
+	}
+	
+	/**
 	 * 根据图片Url抓取图片
 	 */
 	public static function fetcher_image($img_url, $args=array()){

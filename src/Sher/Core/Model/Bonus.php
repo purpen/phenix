@@ -154,12 +154,13 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	/**
 	 * 获取随机概率
 	 * 概率设定：5元红包 50%，10元红包 45%，20元红包 4%，50元红包 0.8%，100元红包 0.2%；
+	 *         5元红包 50%，10元红包 45%，20元红包 5% 
 	 */
 	protected function _get_random_chance(){ 
 	    $list = array(
-			'A' => 2,
-			'B' => 8, 
-			'C' => 40, 
+			//'A' => 2,
+			//'B' => 8, 
+			'C' => 50, 
 			'D' => 450, 
 			'E' => 500
 		);
@@ -193,8 +194,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	public function create_batch_bonus($count=100, $xname='T9'){
 		# 红包金额
 	    $bonus = array(
-			'A' => 100,
-			'B' => 50, 
+			//'A' => 100,
+			//'B' => 50, 
 			'C' => 20, 
 			'D' => 10, 
 			'E' => 5
