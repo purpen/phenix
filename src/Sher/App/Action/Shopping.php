@@ -619,8 +619,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
-      	    //抢购产品状态，跳过付款状态
-      	    if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id']){
+
+      	    //抢购产品状态，跳过付款状态，跳过付款状态
+      	    if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
+
         		$is_snatched = true;
        		    // 设置订单状态为备货
         		$order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
