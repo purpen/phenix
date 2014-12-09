@@ -35,6 +35,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	}
 	
 	/**
+	 *造梦者空气净化器
+	 */
+	public function dreamk(){
+		return $this->to_html_page('page/dream.html');
+	}
+	
+	/**
 	 * 获取红包
 	 */
 	public function got_bonus(){
