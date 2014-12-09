@@ -154,6 +154,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			case Sher_Core_Util_Constant::FROM_WEIXIN:
 				$label = '微信小店';
 				break;
+			case Sher_Core_Util_Constant::FROM_WAP:
+				$label = '手机';
+				break;
 			default:
 				$label = '其他';
 				break;

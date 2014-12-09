@@ -28,6 +28,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_QQ = 3;
 	const FROM_ALIPAY = 4;
 	const FROM_WEIXIN = 5;
+	const FROM_WAP = 6;
+	const FROM_IAPP = 7;
 	
 	
 	# 第三方支付

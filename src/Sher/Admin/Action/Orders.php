@@ -157,9 +157,9 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 打开PHP文件句柄，php://output表示直接输出到浏览器
 		$fp = fopen($export_file, 'w');
 
-    //Windows下使用BOM来标记文本文件的编码方式 
-    fwrite($fp,chr(0xEF).chr(0xBB).chr(0xBF));
-
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
 		// 输出Excel列名信息
 		$head = array('下单时间', '订单付款时间', '订单编号', '买家会员名', '买家支付方式', '宝贝标题', '宝贝种类', '宝贝总数量', '总金额', '实际支付金额', '订单状态', '买家留言', '收货人姓名', '联系手机', '收货地址', '运送方式', '物流单号', '物流公司', '是否要发票', '发票类型', '发票抬头', '订单备注');
 		foreach($head as $i => $v){
