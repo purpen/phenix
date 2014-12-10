@@ -173,6 +173,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->ajax_note('请挑选需购买的产品！', true);
 		}
 		
+		// 抢购商品不能加入购物车
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku == $product_id){
+			return $this->ajax_note('此产品为活动商品！', true);
+		}
+		
 		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
