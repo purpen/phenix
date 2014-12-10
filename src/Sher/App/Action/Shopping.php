@@ -173,6 +173,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->ajax_note('请挑选需购买的产品！', true);
 		}
 		
+		// 抢购商品不能加入购物车
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku == $product_id){
+			return $this->ajax_note('此产品为活动商品！', true);
+		}
+		
 		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
@@ -360,6 +366,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$r_id = $this->stash['r_id'];
 		if (empty($r_id)){
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		
+		// 抢购商品不能加入购物车
+		$comeon_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($r_id == $comeon_id){
+			return $this->show_message_page('此产品为活动商品！', true);
 		}
 		
 		$default_quantity = 1;

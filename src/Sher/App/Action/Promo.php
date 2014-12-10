@@ -48,6 +48,13 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		
 		return $this->to_html_page('page/tweleve.html');
 	}
+
+	/**
+	 *造梦者空气净化器
+	 */
+	public function dreamk(){
+		return $this->to_html_page('page/dream.html');
+	}
 	
 	/**
 	 * 获取红包

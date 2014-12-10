@@ -287,13 +287,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(empty($this->stash['addbook_id'])){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
-
-    //验证地址
-    $add_book_model = new Sher_Core_Model_AddBooks();
-    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
-    if(empty($add_book)){
+		
+	    //验证地址
+	    $add_book_model = new Sher_Core_Model_AddBooks();
+	    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+	    if(empty($add_book)){
 			return $this->ajax_json('地址不存在！', true);
-    }
+	    }
 
 		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : '';
 		$bonus_code = $this->stash['bonus_code'];
@@ -362,6 +362,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$order_info['user_id'] = (int)$user_id;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
+			
+			// 来源手机Wap订单
+			$order_info['from_site'] = Sher_Core_Util_Constant::FROM_WAP;
 			
 			// 更新送货时间
 			if(!empty($transfer_time)){
