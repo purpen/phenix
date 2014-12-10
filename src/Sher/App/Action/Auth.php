@@ -338,7 +338,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
 
         if($this->stash['third_source']=='weibo'){
-          $user_info['sina_uid'] = $this->stash['uid'];
+          $user_info['sina_uid'] = (int)$this->stash['uid'];
           $user_info['sina_access_token'] = $this->stash['access_token'];      
         }elseif($this->stash['third_source']=='qq'){
           $user_info['qq_uid'] = $this->stash['uid'];
