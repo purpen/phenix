@@ -10,6 +10,9 @@ body{
 	max-width:960px;
 	background:#fff;
 }
+.item,img{
+	cursor: auto !important;
+}
 .noodles section{
 	max-width:960px;
 	position: relative;
@@ -91,16 +94,16 @@ padding: 0px 0 30px;
 .noodles .ui.nowi .ui.items .item .name.one{
 	margin-top: 1em !important;
 }
-.noodles .ui.nowi .ui.items .item:hover{
+/*.noodles .ui.nowi .ui.items .item:hover{
 	background:#f36;
 	color:#fff;
-}
+}*/
 .noodles .ui.nowi .ui.one.items>.item {
 	width: 96% !important;
 }
-.ui.nowi .item:hover .content,.ui.nowi .ui.items .item:hover .name,.ui.nowi .ui.items .item:hover .name a{
+/*.ui.nowi .item:hover .content,.ui.nowi .ui.items .item:hover .name,.ui.nowi .ui.items .item:hover .name a{
 	color:#fff;
-}
+}*/
 .ui.nowi .row {
 	padding:0;
 	margin:0;
@@ -358,8 +361,9 @@ p+.ui.big.block {
 						<p class="count">火热抢购中</p>
 					{% endif %}
 					<div class="ptop">
-						<p>已有&nbsp;<span id="appoint_people_count">{{ product.appoint_count|default 0 }}</span>&nbsp;人提前预约!</p>
-						<p>2014.12.09—12.11，每天12:00准时开抢</p>
+						<p><small>今日1000个小伙伴已成功抢线！再接再厉，明天继续！</small></p>
+						<p><small>已有&nbsp;<span id="appoint_people_count">{{ product.appoint_count|default 0 }}</span>&nbsp;人提前预约明天的抢线活动。抓紧预约，就线在!</small></p>
+						<p><small>2014.12.09—12.11，每天12:00准时开抢</small></p>
 					</div>
 				</div>
 			</div>

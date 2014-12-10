@@ -10,6 +10,8 @@ app.domain.base: 'http://taihuoniao.me'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
+
+#app.doggyx.class_path: '/Users/xiaoyi/project/doggy-x'
 app.doggyx.class_path: '/opt/project/php/doggy-x'
 
 app.url.packaged: '{$app.domain.static}'
@@ -19,7 +21,16 @@ app.css.use_bundle: 0
 
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
-# mongodb
+
+## mongodb
+#app.mongo.default:
+#  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
+#  db: 'firebird'
+#  username: 'root'
+#  password: 'Frbird#2014$Shop'
+#  replicaSet: 'she_main'
+  
+##liyingweng database 
 #app.mongo.default:
 #  host: '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027'
 #  db: 'firebird'
@@ -52,7 +63,7 @@ app.cache.memcached.default:
 app.topic.dream_category_id: 64
 
 # 就现在商品
-app.comeon.product_id: 1111801264
+app.comeon.product_id: 1120800090
 
 # 支付宝
 app.alipay.partner: '2088411237666512'

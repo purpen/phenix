@@ -215,19 +215,33 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	/**
 	 * 检查昵称是否唯一
 	 */
-	public function _check_name($nickname=null) {
+	public function _check_name($nickname=null, $user_id=0) {
 		if (is_null($nickname)){
-			$nickname = $this->data['nickname'];
+      	    $nickname = $this->data['nickname'];
 		}
 		if(empty($nickname)){
 			return false;
 		}
+
 		Doggy_Log_Helper::debug("Validate user name[$nickname]!");
-		$row = $this->first(array('nickname' => $nickname));
-		if(!empty($row)){
-			return false;
-		}
-		return true;
+		$rows = $this->find(array('nickname' => $nickname));
+		if(empty($rows)){
+			return true;
+    	}else{
+      	  	//判断是否更新状态
+      	   if($user_id != 0){
+        	   if(count($rows) == 1){
+				   if($rows[0]['_id'] == $user_id) {
+					   return true;
+				   }
+          	   	   return false;
+        	   }else{
+          		   return false;
+        	   }
+      	 	}else{
+        		return false;
+      	 	}
+    	}
 	}
 	
 	/**

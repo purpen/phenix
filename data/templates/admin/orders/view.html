@@ -197,7 +197,8 @@
 		</div>
 		
 		<h3 class="ui dividing header">收货信息</h3>
-		{% if order_info.from_site == 5 %}
+    <!--针对老数据及微信-->
+		{% if order_info.express_info %}
 			<div class="ui list">
 			  	<div class="item"><label>姓   名：</label> {{ order_info.express_info.name }}</div>
 			  	<div class="item"><label>收货地址：</label> {{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.area }} {{ order_info.express_info.address }}</div>
