@@ -154,12 +154,47 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			case Sher_Core_Util_Constant::FROM_WEIXIN:
 				$label = '微信小店';
 				break;
+			case Sher_Core_Util_Constant::FROM_WAP:
+				$label = '手机';
+				break;
 			default:
 				$label = '其他';
 				break;
 		}
 		return $label;
 	}
+
+    /**
+   	 * 创建之前事件
+     */
+  	protected function before_insert(&$data) {
+  		//复制收货地址
+    	if(!isset($data['addbook_id'])){
+	      	$model = new Sher_Core_Model_AddBooks();
+		  	if(empty($data['addbook_id'])){
+			  	throw new Sher_Core_Model_Exception('收货地址为空！');
+		  	}
+	      	$address = $model->find_by_id($data['addbook_id']);
+	      	if(!empty($address)){
+	        	$area_model = new Sher_Core_Model_Areas();
+				
+	        	$pro = $area_model->find_by_id($address['province']);
+	        	$city = $area_model->find_by_id($address['city']);
+	        	$add_info = array(
+	                'name'=> $address['name'],
+	                'phone'=> $address['phone'],
+	                'area'=> $address['area'],
+	                'address'=> $address['address'],
+	                'zip'=> $address['zip'],
+	                'email'=> $address['email'],
+	                'province'=> $pro['city'],
+	                'city'=> $city['city'],
+	        	);
+				
+	        	$data['express_info'] = $add_info;
+	      	}
+    	}
+  	}
 	
 	/**
 	 * 保存之前事件

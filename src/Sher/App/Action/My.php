@@ -353,7 +353,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     }
 		
 		// 验证昵称是否重复
-		if (!$this->visitor->_check_name($this->stash['nickname'])) {
+		if (!$this->visitor->_check_name($this->stash['nickname'], $this->visitor->id)) {
 			return $this->ajax_notification('昵称已经被占用！', true);
 		}
 		

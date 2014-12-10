@@ -1,0 +1,204 @@
+{%extends 'layout/column.html'%}
+{% block title %}空气净化器-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.dream.maker .ui.grid{
+		margin: 0; 
+	}
+	.dream.maker{
+		background:#fff;
+	}
+	.dream.maker .ui.big.block{
+		padding-top:4.5em;
+		padding-bottom:4.5em;
+	}
+	
+	.dream.maker .ui.air{
+		background:url('{{ app_url_packaged }}/images/dreamk_2.jpg') no-repeat scroll bottom center;
+		background-size:cover;
+	}
+	.dream.maker .ui.air .hero-main .verticalize {
+		padding-left: 15%;
+	}
+	.dream.maker .ui.air .image img {
+		margin-left: -50px;
+	}
+	.dream.maker .ui.air p{
+		color:#3e9139;
+		font-size: 22px;
+		line-height:50px;
+	}
+	.dream.maker .ui.air p span{
+		font-size:31px;
+	}
+	.dream.maker .ui.air .ui.appoint.btn{
+		background:#3e9139;
+		margin-top:5em;
+		font-size: 1.3rem;
+	}
+	.dream.maker .ui.air .verticalize p:last-child{
+		margin-bottom:5em;
+		font-size: 19px;
+	}
+	
+	.dream.maker section > img{
+		width:100%;
+	}
+	.dream.maker .rule p {
+		margin: 0;
+		line-height: 2.3em!important;
+	}
+	.dream.maker .rule p a{
+		color:#f36;
+		text-decoration:none;
+	}
+	.dream.maker .rule p a:hover{
+		text-decoration:underline;
+	}
+	.dream.maker .forever{
+		background:url('{{ app_url_packaged }}/images/dreamk_4.jpg') no-repeat scroll bottom center;
+		background-size:cover;
+	}
+	.dream.maker .forever p{
+		line-height: 28px;
+	}
+	.dream.maker .forever .row .column:first-child > p:first-child{
+		padding-top:1em;
+	}
+	.dream.maker .forever h2{
+		color:#3e9139;
+		line-height: 27px;
+		font-size: 30px;
+	}
+	.dream.maker .forever h2 span{
+		font-size:20px;
+	}
+	.dream.maker .forever .row .column:first-child > p:last-child{
+		font-weight:700;
+	}
+	.dream.maker .publish .ui.responsive{
+		padding:0 30%;
+	}
+	.dream.maker .publish h2.ui.header+p{
+		font-size:19px;
+	}
+	
+	@media only screen and (max-width: 767px){
+		.dream.maker .ui.air{
+			background:url('{{ app_url_packaged }}/images/dreamk_2.jpg') no-repeat scroll bottom right;
+			background-size:cover;
+		}
+		.dream.maker .ui.air .image img {
+			margin-left: -50px;
+			width:70%;
+		}
+		.dream.maker .ui.air .hero-main .verticalize {
+			padding-left: 10%;
+		}
+		.dream.maker .ui.air p{
+			font-size:18px;
+		}
+		.dream.maker .ui.air p span{
+			font-size:24px;
+		}
+		.dream.maker .ui.air .ui.appoint.btn{
+			background:#3e9139;
+			margin-top:4em;
+			font-size: 1rem;
+		}
+		.dream.maker .ui.air .verticalize p:last-child{
+			margin-bottom:4em;
+			font-size: 14px;
+		}
+		.dream.maker .ui.big.forever.block{
+			padding-top:2em;
+		}
+		.dream.maker .forever .eight.wide.column{
+			width:98%;
+		}
+		.dream.maker .publish .ui.responsive.grid{
+			padding:0 16%;
+		}
+	}
+	
+
+</style>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+<div class="dream maker">
+	<section class="ui air block">
+		<div class="hero-main">
+			<div class="verticalize">
+				<div class="image">
+					<img src="{{ app_url_packaged }}/images/dreamk_3.png">
+				</div>
+				<p><span>3000</span>&nbsp;枚耳戴式呼吸阀防护口罩等你免费领取！</p>
+				<div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
+					<span>立即领取</span>
+				</div>
+				<p>活动时间：2014/12/15—12/19</p>					
+			</div>
+		</div>
+	</section>
+	<section>
+		<img src="{{ app_url_packaged }}/images/dreamk_1.jpg">
+	</section>
+	<section class="ui big rule block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui header">活动规则</h3>
+					<p>1、活动时间：2014年12月15日—12月19日；</p>
+					<p>2、活动共准备3000枚口罩，用户可进太火鸟官网 <a href="{{ app_url_domain }}/home">http://www.taihuoniao.com/home </a> 免费领取，无需任何费用
+					     填写有效收货信息并于微信分享即可领取耳戴式呼吸阀防护口罩一枚；
+					</p>
+					<p>3、每个用户在成功领取口罩后可将活动链接分享至朋友圈，分发给好友赢取口罩的机会，传递温暖；</p>
+					<p>4、活动期间每个账号只可又一次领取机会，且每个账户只能绑定一个手机号码；</p>
+					<p>5、本活动最终解释权在法律允许的范围内归太火鸟所有。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big forever block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="eight wide column">
+					<p>APEC Blue已成为短暂易逝的美好的代言词，的确在结束一周后，北京又再度陷入重度雾霾，空气又开始变得难闻起来、道路又开始变得拥堵起来，大家的心情难免陷入一片忧郁，也闷闷不乐起来。</p>
+					<h2>愿美好不再短暂易逝<br><span>Forever Dream Maker, Forever APEC Blue！</span></h2>
+					<p>Dream Maker造梦者团队和太火鸟感谢您的支持,愿我们生活中的空气
+					如森林般清新，如海洋般纯净，让我们一起安然享受室内空气！</p>
+					<p>把世界最好的空气带回家</p>
+				</div>
+				<div class="eight center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/dreamk_5.png">
+					<p>造梦者恒氧净化机</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big publish block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h2 class="ui header">坐享新风 惊喜爆棚！</h2>
+					<p>太火鸟还有福利给你哟~</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<img src="{{ app_url_packaged }}/images/dreamk_6.jpg">
+					<img src="{{ app_url_packaged }}/images/dreamk_7.jpg">
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<p>扫描上方二维码，成功关注造梦者官方微信，并发送“我要新风机+太火鸟官网注册用户名+能够打动造梦者的理由”至造梦者官方微信即有机会获得造梦者新风机一台！获奖名单将择日在造梦者微信公众号公布！莫错过~</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}

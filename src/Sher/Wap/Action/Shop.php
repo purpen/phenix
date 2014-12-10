@@ -81,6 +81,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
 		
+		// 抢购商品返回专题页
+		if($id == Doggy_Config::$vars['app.comeon.product_id']){
+			return $this->to_redirect(Doggy_Config::$vars['app.url.wap'].'/comeon');
+		}
+		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
 		if(empty($product) || $product['deleted']){
@@ -132,6 +137,28 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
+	 * 验证限量抢购
+	 */
+	protected function validate_snatch($sku){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku != $product_id){
+			return true;
+		}
+		
+		// 设置已预约标识
+		$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
+		Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+		
+		$redis = new Sher_Core_Cache_Redis();
+		$buyed = $redis->get($cache_key);
+		if($buyed){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * 立即购买
 	 */
 	public function nowbuy(){
@@ -141,6 +168,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
 			return $this->show_message_page('操作异常，请重试！');
+		}
+		
+		// 验证抢购商品是否重复
+		if(!$this->validate_snatch($sku)){
+			return $this->show_message_page('抱歉，不要重复抢哦！');
 		}
 		
 		$user_id = $this->visitor->id;
@@ -255,6 +287,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(empty($this->stash['addbook_id'])){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
+		
+	    //验证地址
+	    $add_book_model = new Sher_Core_Model_AddBooks();
+	    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+	    if(empty($add_book)){
+			return $this->ajax_json('地址不存在！', true);
+	    }
+
 		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : '';
 		$bonus_code = $this->stash['bonus_code'];
 		$transfer_time = $this->stash['transfer_time'];
@@ -323,6 +363,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			
+			// 来源手机Wap订单
+			$order_info['from_site'] = Sher_Core_Util_Constant::FROM_WAP;
+			
 			// 更新送货时间
 			if(!empty($transfer_time)){
 				$order_info['transfer_time'] = $transfer_time;
@@ -347,7 +390,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
       	    //抢购产品状态并且sale_price为0，跳过付款状态
-      	    if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
+      	    if( is_array($order_info['items']) && count($order_info['items'])==1 &&  isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
       		    $is_snatched = true;
         		// 设置订单状态为备货
       		    $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
@@ -382,11 +425,21 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->ajax_json('订单处理异常，请重试！', true);
 		}
 		
+		// 限量抢购活动设置缓存
     	if($is_snatched){
+			$order_item = $order_info['items'][0];
+			if($order_item['product_id'] == Doggy_Config::$vars['app.comeon.product_id']){
+				$cache_key = sprintf('snatch_%d_%d_%d', Doggy_Config::$vars['app.comeon.product_id'], $this->visitor->id, date('Ymd'));
+				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+				// 设置缓存
+				$redis = new Sher_Core_Cache_Redis();
+				$redis->set($cache_key, 1);
+			}
+			
       	    //如果是抢购，无需支付，跳到我的订单页
       	    $next_url = Doggy_Config::$vars['app.url.wap'].'/my/order_view?rid='.$rid;
     	}else{
-      	    $next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+      	    $next_url = Doggy_Config::$vars['app.url.wap'].'/shop/success?rid='.$rid;
     	}
 		
 		return $this->ajax_json('下订单成功！', false, $next_url);

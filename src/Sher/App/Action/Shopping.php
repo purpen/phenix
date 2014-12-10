@@ -173,6 +173,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->ajax_note('请挑选需购买的产品！', true);
 		}
 		
+		// 抢购商品不能加入购物车
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku == $product_id){
+			return $this->ajax_note('此产品为活动商品！', true);
+		}
+		
 		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
@@ -362,6 +368,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
 		
+		// 抢购商品不能加入购物车
+		$comeon_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($r_id == $comeon_id){
+			return $this->show_message_page('此产品为活动商品！', true);
+		}
+		
 		$default_quantity = 1;
 		$user_id = $this->visitor->id;
 		
@@ -532,6 +544,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		if(empty($this->stash['addbook_id'])){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
+
+    //验证地址
+    $add_book_model = new Sher_Core_Model_AddBooks();
+    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+    if(empty($add_book)){
+			return $this->ajax_json('地址不存在！', true);
+    }
 		
 		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
 		// 是否预售订单
@@ -621,7 +640,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
 
       	    //抢购产品状态，跳过付款状态，跳过付款状态
-      	    if( isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
+      	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
 
         		$is_snatched = true;
        		    // 设置订单状态为备货

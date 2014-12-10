@@ -84,12 +84,12 @@
 						<div class="content">
 							{% if item.sku == item.product_id %}
 				          	<div class="header">
-								<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+								<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" class="ui link">{{ product.title }}</a>
 							</div>
 							{% else %}
 							{% sku_list var:'sku' sku:item.sku %}
 				          	<div class="header">
-								<a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
+								<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
 							</div>
 							{% endif %}
 							<p class="attribute">编号：{{ item.sku }}</p>
