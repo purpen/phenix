@@ -97,6 +97,8 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
           $user->update_weibo_accesstoken($user_id, $token['access_token']);
           // 实现自动登录
           Sher_Core_Helper_Auth::create_user_session($user_id);
+          $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+          return $this->to_redirect($user_profile_url);
         }
 
 			} else {
