@@ -244,6 +244,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
         }
 
+        $third_info = '';
         //第三方绑定
         if(isset($this->stash['third_source'])){
           if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
@@ -259,10 +260,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
           }
           $third_result = $user->update_set($user_id, $third_info);
           if($third_result){
-            $welcome_info = '绑定成功! ';
-          }else{
-            $welcome_info = '';
+            $third_info = '绑定成功! ';
           }
+
         }
 		
         Sher_Core_Helper_Auth::create_user_session($user_id);
@@ -273,7 +273,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
         $this->clear_auth_return_url();
 		
-		return $this->ajax_json($welcome_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
+		return $this->ajax_json($third_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
 	}
     
 	/**
