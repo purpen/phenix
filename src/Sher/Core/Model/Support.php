@@ -51,7 +51,8 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
         $product->inc_counter('vote_oppose_count', 1, $this->data['target_id']);
       }
       //获取目标用户ID
-      $user_id = $product->extend_load($this->data['target_id'])['user_id'];
+      $data = $product->extend_load($this->data['target_id']);
+      $user_id = $data['user_id'];
 
       //添加动态提醒
       $timeline = new Sher_Core_Model_Timeline();

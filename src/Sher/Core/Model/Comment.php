@@ -164,7 +164,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
       $reply_row['r_id'] = new MongoId;
       $updated_row['$push']['reply'] = $reply_row;
       if ($this->update($comment_id, $updated_row)){
-        $comment_user_id = $this->extend_load($comment_id)['user_id'];
+        $comment_user = $this->extend_load($comment_id);
         //添加动态提醒
         $timeline = new Sher_Core_Model_Timeline();
         $arr = array(
@@ -172,13 +172,13 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           'target_id' => (string)$comment_id,
           'type' => Sher_Core_Model_Timeline::EVT_REPLY,
           'evt' => Sher_Core_Model_Timeline::EVT_COMMENT,
-          'target_user_id' => $comment_user_id,
+          'target_user_id' => $comment_user['user_id'],
         );
         $ok = $timeline->create($arr);
         //给用户添加提醒
         if($ok){
           $user = new Sher_Core_Model_User();
-          $user->update_counter_byinc($comment_user_id, 'comment_count', 1);     
+          $user->update_counter_byinc($comment_user['user_id'], 'comment_count', 1);     
         }
         return $reply_row;
       }

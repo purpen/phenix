@@ -79,14 +79,16 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
           $model = new Sher_Core_Model_Topic();
           $model->increase_counter($field, 1, (int)$this->data['target_id']);
           //获取目标用户ID
-          $user_id = $model->extend_load((int)$this->data['target_id'])['user_id'];
+          $topic = $model->extend_load((int)$this->data['target_id']);
+          $user_id = $topic['user_id'];
           $type = Sher_Core_Model_Timeline::TYPE_TOPIC;
           break;
         case self::TYPE_PRODUCT:
           $model = new Sher_Core_Model_Product();
           $model->inc_counter($field, 1, (int)$this->data['target_id']);
           //获取目标用户ID
-          $user_id = $model->extend_load((int)$this->data['target_id'])['user_id'];
+          $product = $model->extend_load((int)$this->data['target_id']);
+          $user_id = $product['user_id'];
           $type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
           break;
       }
