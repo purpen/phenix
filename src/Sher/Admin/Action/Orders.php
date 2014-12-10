@@ -46,8 +46,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$params['end_date'] = $this->stash['end_date'];
 			$this->stash['end_time'] = strtotime($this->stash['end_date']);
 		}
-		if(!empty($this->stash['s'])){
-			$params['status'] = $this->stash['s'];
+		if(!empty($this->stash['status'])){
+			$params['s'] = $this->stash['status'];
 		}
 		
 		$arg = "";
@@ -177,7 +177,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		$counter = 0;
 		$limit = 1000;
         $options['size'] = $size;
-		$options['sort_field'] = 'latest';
+		$options['sort_field'] = 'positive';
 		
 		while(!$is_end){
 			$options['page'] = $page;
@@ -234,11 +234,11 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				
 				$row = array(date('Y-m-d H:i:s', $data['created_on']), $payed_date, $data['rid'], $data['user']['nickname'], $data['payment']['name'], $product_title, $data['items_count'], $quantity, $data['total_money'], $data['pay_money'], $data['status_label'], $data['summary'], $name, $mobile, $address, $express_away, $data['express_no'], $express_company, $need_invoice, $invoice_caty_label, $invoice_content, '');
 				
-				
+				/*
 				foreach($row as $k => $v){
 					// CSV的Excel支持GBK编码，一定要转换，否则乱码
 					// $row[$i] = iconv('utf-8', 'gbk', $v);
-				}
+				}*/
 				
 				fputcsv($fp, $row);
 				

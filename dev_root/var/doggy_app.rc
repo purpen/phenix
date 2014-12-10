@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-12-09 16:40:15
+//dump on 2014-12-10 19:31:34
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -437,7 +437,7 @@ Doggy_Config::add( array (
     'port' => 6379,
   ),
   'app.topic.dream_category_id' => 64,
-  'app.comeon.product_id' => 1111801264,
+  'app.comeon.product_id' => 1120800090,
   'app.alipay.partner' => '2088411237666512',
   'app.alipay.key' => '8igqejramxdbw53yvlp8aukvbt9s5rnd',
   'app.alipay.cacert' => '/Users/xiaoyi/project/phenix/vendor/cacert.pem',

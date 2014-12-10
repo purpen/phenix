@@ -31,6 +31,7 @@ app.mongodb_rs: false
 #  replicaSet: 'she_main'
   
 ##liyingweng database 
+
 #app.mongo.default:
 #  host: '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027'
 #  db: 'firebird'

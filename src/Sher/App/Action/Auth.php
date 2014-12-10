@@ -243,6 +243,27 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
             return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
         }
+
+        //第三方绑定
+        if(isset($this->stash['third_source'])){
+          if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+            return $this->ajax_json('绑定信息有误,请重试!', true);
+          }
+
+          if($this->stash['third_source']=='weibo'){
+            $third_info = array('sina_uid'=>$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
+          }elseif($this->stash['third_source']=='qq'){
+             $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);    
+          }else{
+            $third_info = array();
+          }
+          $third_result = $user->update_set($user_id, $third_info);
+          if($third_result){
+            $welcome_info = '绑定成功! ';
+          }else{
+            $welcome_info = '';
+          }
+        }
 		
         Sher_Core_Helper_Auth::create_user_session($user_id);
 		
@@ -252,7 +273,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
         $this->clear_auth_return_url();
 		
-		return $this->ajax_json('欢迎,'.$nickname.' 回来.', false, $redirect_url);
+		return $this->ajax_json($welcome_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
 	}
     
 	/**
@@ -309,6 +330,29 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
+
+      //第三方绑定
+      if(isset($this->stash['third_source'])){
+        if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+          return $this->ajax_json('绑定信息有误,请重试!', true);
+        }
+
+        if($this->stash['third_source']=='weibo'){
+          $user_info['sina_uid'] = $this->stash['uid'];
+          $user_info['sina_access_token'] = $this->stash['access_token'];      
+        }elseif($this->stash['third_source']=='qq'){
+          $user_info['qq_uid'] = $this->stash['uid'];
+          $user_info['qq_access_token'] = $this->stash['access_token']; 
+        }else{
+          //next_third
+        }
+
+				$user_info['nickname'] = $this->stash['nickname'];
+				$user_info['summary'] = $this->stash['summary'];
+				$user_info['sex'] = $this->stash['sex'];
+				$user_info['city'] = $this->stash['city'];
+				$user_info['from_site'] = (int)$this->stash['from_site'];
+      }
 			
             $ok = $user->create($user_info);
 			if($ok){
