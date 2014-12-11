@@ -159,6 +159,23 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
+	 * 检查订单里是否存在抢购商品
+	 */
+	protected function check_have_snatch($items){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		
+		for($i=0;$i<count($items);$i++){
+			if($items[$i]['product_id'] == $product_id){
+				$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
+				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+				// 设置缓存
+				$redis = new Sher_Core_Cache_Redis();
+				$redis->set($cache_key, 1);
+			}
+		}
+	}
+	
+	/**
 	 * 立即购买
 	 */
 	public function nowbuy(){
@@ -426,16 +443,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 		
 		// 限量抢购活动设置缓存
+		$this->check_have_snatch($order_info['items']);
+		
     	if($is_snatched){
-			$order_item = $order_info['items'][0];
-			if($order_item['product_id'] == Doggy_Config::$vars['app.comeon.product_id']){
-				$cache_key = sprintf('snatch_%d_%d_%d', Doggy_Config::$vars['app.comeon.product_id'], $this->visitor->id, date('Ymd'));
-				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
-				// 设置缓存
-				$redis = new Sher_Core_Cache_Redis();
-				$redis->set($cache_key, 1);
-			}
-			
       	    //如果是抢购，无需支付，跳到我的订单页
       	    $next_url = Doggy_Config::$vars['app.url.wap'].'/my/order_view?rid='.$rid;
     	}else{
