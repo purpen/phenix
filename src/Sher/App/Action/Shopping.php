@@ -76,6 +76,23 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	}
 	
 	/**
+	 * 检查订单里是否存在抢购商品
+	 */
+	protected function check_have_snatch($items){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		
+		for($i=0;$i<count($items);$i++){
+			if($items[$i]['product_id'] == $product_id){
+				$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
+				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+				// 设置缓存
+				$redis = new Sher_Core_Cache_Redis();
+				$redis->set($cache_key, 1);
+			}
+		}
+	}
+	
+	/**
 	 * 立即购买
 	 */
 	public function now_buy(){
@@ -171,6 +188,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
 			return $this->ajax_note('请挑选需购买的产品！', true);
+		}
+		
+		// 抢购商品不能加入购物车
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku == $product_id){
+			return $this->ajax_note('此产品为活动商品！', true);
 		}
 		
 		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
@@ -360,6 +383,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$r_id = $this->stash['r_id'];
 		if (empty($r_id)){
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		
+		// 抢购商品不能加入购物车
+		$comeon_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($r_id == $comeon_id){
+			return $this->show_message_page('此产品为活动商品！', true);
 		}
 		
 		$default_quantity = 1;
@@ -656,17 +685,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				$cart->clearCookie();
 			}
 			
-			// 立即下单
-			if($is_nowbuy){
-				$order_item = $order_info['items'][0];
-				if($order_item['product_id'] == Doggy_Config::$vars['app.comeon.product_id']){
-					$cache_key = sprintf('snatch_%d_%d_%d', Doggy_Config::$vars['app.comeon.product_id'], $this->visitor->id, date('Ymd'));
-					Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
-					// 设置缓存
-					$redis = new Sher_Core_Cache_Redis();
-					$redis->set($cache_key, 1);
-				}
-			}
+			// 设置缓存限制
+			$this->check_have_snatch($order_info['items']);
 			
 			// 删除临时订单数据
 			$model->remove($rrid);

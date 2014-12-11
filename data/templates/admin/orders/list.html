@@ -70,14 +70,14 @@
 				</div>
 				<div class="field">
 					<div class="ui fluid selection dropdown">
-						<input type="hidden" name="status" value="{{ status }}" />
+						<input type="hidden" name="s" value="{{ s }}" />
 					    <div class="default text">订单状态</div>
 					    <div class="menu">
-							<div data-value="0" class="{% if !status %}active {% endif %}item">全部订单</div>
-							<div data-value="1" class="{% if status == 1 %}active {% endif %}item">未支付订单</div>
-							<div data-value="2" class="{% if status == 2 %}active {% endif %}item">待发货订单</div>
-							<div data-value="3" class="{% if status == 3 %}active {% endif %}item">已发货订单</div>
-							<div data-value="4" class="{% if status == 4 %}active {% endif %}item">已完成订单</div>
+							<div data-value="0" class="{% if !s %}active {% endif %}item">全部订单</div>
+							<div data-value="1" class="{% if s == 1 %}active {% endif %}item">未支付订单</div>
+							<div data-value="2" class="{% if s == 2 %}active {% endif %}item">待发货订单</div>
+							<div data-value="3" class="{% if s == 3 %}active {% endif %}item">已发货订单</div>
+							<div data-value="4" class="{% if s == 4 %}active {% endif %}item">已完成订单</div>
 					    </div>
 					</div>
 				</div>
