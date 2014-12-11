@@ -491,7 +491,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
-        return $this->to_redirect($user_profile_url);
+		    return $this->ajax_json("绑定成功！", false, $user_profile_url);
       }else{
  			  return $this->ajax_json('绑定失败！', true);    
       }
