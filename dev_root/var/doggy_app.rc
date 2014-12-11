@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-12-10 19:31:34
+//dump on 2014-12-11 16:45:42
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
