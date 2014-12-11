@@ -30,14 +30,11 @@ app.mongodb_rs: false
 #  password: ''
 #  replicaSet: 'she_main'
 
-
 ##tianshuai的数据库环境
 #----------------------------------------
 app.mongo.default:
   host: '127.0.0.1:27017'
   db: 'firebird'
-    
-#-----------------------------------------
 
 # redisdb
 app.redis.default: 

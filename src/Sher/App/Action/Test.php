@@ -218,8 +218,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    * test function show
    */
   public function test_func(){
-    $str = Sher_Core_Util_View::api_topic_templet();
-    echo $str;exit;
+
+    echo (int)'a232303'; //输出为0
   }
 
 }

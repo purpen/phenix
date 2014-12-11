@@ -433,6 +433,68 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		}
 		return $this->to_raw_json(true);
 	}
+
+  /**
+   * 第三方登录绑定手机--兼容老数据
+   */
+  public function do_bind_phone(){
+    session_start();
+    $service = DoggyX_Session_Service::instance();
+    $s_t = $service->session->login_token;
+    if (empty($s_t) || $s_t != $this->stash['t']) {
+        return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
+    }
+
+    if (empty($this->stash['account']) || empty($this->stash['user_id']) || empty($this->stash['verify_code']) || empty($this->stash['captcha'])) {
+        return $this->ajax_json('数据错误,请重试', true);
+    }
+  
+		Doggy_Log_Helper::warn('Register session:'.$_SESSION['m_captcha']);
+		
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);
+    }
+
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('短信验证码有误，请重新获取！', true);
+		}
+
+    $user = new Sher_Core_Model_User();
+    $user_id = (int)$this->stash['user_id'];
+    //验证手机号码是否重复
+    $has_phone = $user->first(array('account' => $this->stash['account']));
+    if(!empty($has_phone)){
+ 			return $this->ajax_json('该手机号已存在！', true);
+    }
+
+    try{
+      $ok = $user->update_set($user_id, array('account' => $this->stash['account']));
+      if($ok){
+        // 重新更新access_token
+        $third_source = $this->stash['third_source'];
+        if($third_source=='weibo'){
+          $user->update_weibo_accesstoken($user_id, $this->stash['access_token']);  
+        }elseif($third_source=='qq'){
+          $user->update_qq_accesstoken($user_id, $this->stash['access_token']);
+        }
+
+        // 实现自动登录
+        Sher_Core_Helper_Auth::create_user_session($user_id);
+        $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+        return $this->to_redirect($user_profile_url);
+      }else{
+ 			  return $this->ajax_json('绑定失败！', true);    
+      }
+    }catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("user bind phone is failed: ".$e->getMessage());
+			return $this->ajax_json('系统异常！', true);
+    }
+  
+  }
 	
 	protected function _invitation_is_ok($check_used = true) {
 	    $invite_code = $this->stash['invite_code'];

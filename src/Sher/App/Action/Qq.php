@@ -122,11 +122,23 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 
         } else {
           $user_id = $result['_id'];
+
+          //如果未绑定手机，需要强制绑定
+          if(!Sher_Core_Helper_Util::is_mobile($result['account'])){
+            $this->stash['third_source'] = 'qq';
+            $this->stash['uid'] = $uid;
+            $this->stash['nickname'] = $result['nickname'];
+            $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+            $this->stash['access_token'] = $token['access_token'];
+            return $this->to_html_page('page/third_bind_phone.html');
+          }
           
           // 重新更新access_token
           $user->update_qq_accesstoken($user_id, $access_token);
           // 实现自动登录
           Sher_Core_Helper_Auth::create_user_session($user_id);
+		      $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+		      return $this->to_redirect($user_profile_url);
         }
 
 			} else {
@@ -135,7 +147,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 		} catch (Sher_Core_Helper_OAuthException $e) {
             Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
 			$login_url = Doggy_Config::$vars['app.url.login'];
-            return $this->display_note_page("注册失败:".$e->getMessage(), $login_url);
+            return $this->display_note_page("第三方登录失败:".$e->getMessage(), $login_url);
 		}
 	}
 	
