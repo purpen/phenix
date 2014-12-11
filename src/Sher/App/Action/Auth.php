@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'verify_code', 'verify_forget_code','reset_passwd');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd');
 	
 	/**
 	 * 入口
@@ -445,7 +445,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
     }
 
-    if (empty($this->stash['account']) || empty($this->stash['user_id']) || empty($this->stash['verify_code']) || empty($this->stash['captcha'])) {
+    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['user_id']) || empty($this->stash['verify_code']) || empty($this->stash['captcha'])) {
         return $this->ajax_json('数据错误,请重试', true);
     }
   
@@ -455,6 +455,12 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
       return $this->ajax_json('验证码不正确!', true);
     }
+
+		// 验证密码是否一致
+		$password_confirm = $this->stash['password_confirm'];
+		if(empty($password_confirm) || $this->stash['password_confirm'] != $this->stash['password']){
+			return $this->ajax_json('两次输入密码不一致！', true);
+		}
 
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
@@ -472,7 +478,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     }
 
     try{
-      $ok = $user->update_set($user_id, array('account' => $this->stash['account']));
+      $ok = $user->update_set($user_id, array('account' => $this->stash['account'], 'password'=>sha1($this->stash['password'])));
       if($ok){
         // 重新更新access_token
         $third_source = $this->stash['third_source'];

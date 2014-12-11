@@ -126,7 +126,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           //如果未绑定手机，需要强制绑定
           if(!Sher_Core_Helper_Util::is_mobile($result['account'])){
             $this->stash['third_source'] = 'qq';
-            $this->stash['uid'] = $uid;
+            $this->stash['user_id'] = $user_id;
             $this->stash['nickname'] = $result['nickname'];
             $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
             $this->stash['access_token'] = $token['access_token'];
