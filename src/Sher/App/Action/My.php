@@ -115,6 +115,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			case 4:
 				$this->set_target_css_state('finished');
 				break;
+			case 5:
+				$this->set_target_css_state('refunding');
+				break;
+			case 6:
+				$this->set_target_css_state('refunded');
+				break;
 			default:
 				$this->set_target_css_state('all');
 				break;
@@ -537,5 +543,41 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->set_target_css_state('user_service');
 		return $this->to_html_page('page/my/service.html');
 	}
+
+  /**
+   * 申请退款
+   */
+  public function ajax_refund(){
+		$rid = $this->stash['rid'];
+    $content = $this->stash['content'];
+		if (empty($rid)) {
+			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
+		}
+		
+		// 正在配货订单才允许申请
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
+    }
+    $options = array('refund_reason'=>$content);
+		try {
+			// 申请退款
+			$model->refunding_order($order_info['_id'], $options);
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_notification('申请退款失败，请联系客服:'.$e->getMessage(),true);
+        }
+		
+		$this->stash['order'] = $model->find_by_rid($rid);
+		$this->stash['my'] = true;
+		
+		return $this->to_taconite_page('ajax/refund_ok.html');
+  }
+
 }
 ?>

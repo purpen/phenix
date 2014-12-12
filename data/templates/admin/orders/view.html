@@ -111,7 +111,10 @@
 				</div>
 				<div class="right aligned six wide column">
 					{% if order_info.status == 10 %}
-					<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
+					  <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
+					{% endif %}
+					{% if order_info.status == 12 %}
+					  <a href="{{ app_url_admin_base }}/orders/ajax_do_refund?rid={{ order_info.rid }}" class="ui active small magenta button">确认退款</a>
 					{% endif %}
 				</div>
 			</div>
