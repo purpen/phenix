@@ -339,8 +339,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['is_canceled'] = 1;
 			$updated['canceled_date'] = time();
 		}
-		
-		return $this->update_set($id, $updated);
+    $ok = $this->update_set($id, $updated);
+    //同步订单索引状态 值 
+    if($ok){
+      $order_index = new Sher_Core_Model_OrdersIndex();
+      $order_index->update_set(array('order_id'=>$id), array('status'=>$status));
+    }
+    return $ok;
 	}
 	
 	/**
