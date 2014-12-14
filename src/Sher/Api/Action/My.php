@@ -101,7 +101,7 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 			$user = new Sher_Core_Model_User();
 			
 			// 检测用户昵称是否唯一
-			if($user->_check_name($nickname, $user_id)){
+			if(!$user->_check_name($nickname, $user_id)){
 				return $this->api_json('用户昵称已被占用！', 3001);
 			}
 			
