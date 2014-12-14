@@ -13,8 +13,108 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 	/**
 	 * 入口
 	 */
-	public function execute() {
+	public function execute(){
 		
+	}
+	
+	/**
+	 * 客户端上传Token
+	 */
+	public function upload_token(){
+		$type = (int)$this->stash['type'];
+		
+		switch($type){
+			case 1:
+				$domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+				$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT;
+				break;
+			case 2:
+				$domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
+				$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
+				break;
+			case 4:
+				$domain = Sher_Core_Util_Constant::STROAGE_AVATAR;
+				$asset_type = Sher_Core_Model_Asset::TYPE_AVATAR;
+				break;
+			default:
+				$domain = Sher_Core_Util_Constant::STROAGE_ASSET;
+				$asset_type = Sher_Core_Model_Asset::TYPE_ASSET;
+				break;
+		}
+		
+		// 图片上传参数
+		$params = array();
+		
+		$params['token'] = Sher_Core_Util_Image::qiniu_token();
+		$params['domain'] = $domain;
+		$params['asset_type'] = $asset_type;
+		
+		$new_file_id = new MongoId();
+		$params['new_file_id'] = (string)$new_file_id;
+		
+		return $this->api_json('请求成功', 0, $params);
+	}
+	
+	/**
+	 * 更新用户头像
+	 */
+	public function update_avatar(){
+		$user_id = (int)$this->stash['user_id'];
+		$qkey = (int)$this->stash['qkey'];
+		
+		$avatar = array(
+			'big' => $qkey,
+			'medium' => $qkey,
+			'small' => $qkey,
+			'mini' => $qkey
+		);
+		
+		$user = new Sher_Core_Model_User();
+		$ok = $user->update_avatar($avatar, $user_id);
+		
+		return $this->api_json('更新成功', 0);
+	}
+	
+	/**
+	 * 更新用户信息
+	 */
+	public function update_profile(){
+		$user_id = (int)$this->stash['user_id'];
+		$nickname = $this->stash['nickname'];
+		
+		if(empty($user_id) || empty($nickname)){
+			return $this->api_json('请求参数不能为空！', 3000);
+		}
+		
+		$user_info = array();
+		
+		$profile = array();
+        $profile['job'] = $this->stash['job'];
+		$profile['phone'] = $this->stash['phone'];
+		
+		$user_info['profile'] = $profile;
+		
+		$user_info['sex']  = (int)$this->stash['sex'];
+		$user_info['city'] = $this->stash['city'];
+		
+		try {
+			$user = new Sher_Core_Model_User();
+			
+			// 检测用户昵称是否唯一
+			if($user->_check_name($nickname, $user_id)){
+				return $this->api_json('用户昵称已被占用！', 3001);
+			}
+			
+			$user_info['nickname'] = $nickname;
+			
+	        //更新基本信息
+			$ok = $user->save($user_info);
+		} catch (Sher_Core_Model_Exception $e) {
+            Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
+            return $this->api_json("更新失败:".$e->getMessage(), 4001);
+        }
+		
+		return $this->api_json('更新用户信息成功！', 0);
 	}
 	
 	/**

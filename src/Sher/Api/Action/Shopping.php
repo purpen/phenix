@@ -94,7 +94,7 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 	}
 	
 	/**
-	 * 新增收货地址
+	 * 新增/编辑 收货地址
 	 */
 	public function ajax_address(){
 		// 验证数据

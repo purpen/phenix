@@ -235,12 +235,6 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		return $this->ajax_json('提交成功！');
 	}
 	
-	/**
-	 * 关于太火鸟
-	 */
-	public function about(){
-		return $this->to_html_page('api/about.html');
-	}
 	
 }
 ?>
