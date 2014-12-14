@@ -108,7 +108,10 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 			$user_info['nickname'] = $nickname;
 			
 	        //更新基本信息
-			$ok = $user->save($user_info);
+			$user_info['_id'] = (int)$user_info;
+			
+			$ok = $user->apply_and_update($user_info);
+			
 		} catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
             return $this->api_json("更新失败:".$e->getMessage(), 4001);
