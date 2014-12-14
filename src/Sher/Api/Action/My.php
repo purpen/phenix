@@ -74,6 +74,10 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 				foreach($some_fields as $key=>$value){
 					$data[$i][$key] = $result['rows'][$i]['product'][$key];
 				}
+				$product = new Sher_Core_Model_Product();
+				// 获取商品价格区间
+				$data[$i]['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
+				
 				// 封面图url
 				$data[$i]['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
 			}
