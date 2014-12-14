@@ -62,6 +62,14 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
             $visitor[$k] = isset($user_data[$k]) ? $user_data[$k] : null;
         }
 		
+		// 绑定设备操作
+		$uuid = $this->stash['uuid'];
+		$user_id = (int)$this->stash['user_id'];
+		if(!empty($uuid) && !empty($user_id)){
+			$pusher = new Sher_Core_Model_Pusher();
+			$ok = $pusher->binding($uuid, $user_id);
+		}
+		
 		return $this->api_json('欢迎回来.', 0, $visitor);
 	}
 	
@@ -125,6 +133,14 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 				
 				// 实现自动登录
 				Sher_Core_Helper_Auth::create_user_session($user_id);
+				
+				// 绑定设备操作
+				$uuid = $this->stash['uuid'];
+				$user_id = (int)$this->stash['user_id'];
+				if(!empty($uuid) && !empty($user_id)){
+					$pusher = new Sher_Core_Model_Pusher();
+					$ok = $pusher->binding($uuid, $user_id);
+				}
 			}
         }catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to register:'.$e->getMessage());
@@ -132,6 +148,31 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
         }
 		
 		return $this->api_json("注册成功，欢迎加入太火鸟！", 0, $visitor);
+	}
+	
+	/**
+	 * 安全退出
+	 */
+	public function logout(){
+		try{
+	        $service = DoggyX_Session_Service::instance();
+	        $service->revoke_auth_cookie();
+		
+	        $service->stop_visitor_session();
+			
+			// 解绑设备操作
+			$uuid = $this->stash['uuid'];
+			$user_id = (int)$this->stash['user_id'];
+			if(!empty($uuid) && !empty($user_id)){
+				$pusher = new Sher_Core_Model_Pusher();
+				$ok = $pusher->unbinding($uuid, $user_id);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+            Doggy_Log_Helper::error('Failed to logout:'.$e->getMessage());
+            return $this->api_json($e->getMessage(), 4001);
+		}
+		
+		return $this->api_json("您已成功的退出登录,稍候将跳转到主页.", 0);
 	}
 	
 	/**
