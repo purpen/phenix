@@ -13,7 +13,7 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		'bonus' => '',
 	);
 
-	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result');
+	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result', 'feedback');
 	
 	/**
 	 * 入口

@@ -10,6 +10,8 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 		'type' => 1,
 	);
 
+	protected $exclude_method_list = array('execute', 'upload_token', 'update_avatar', 'update_profile', 'favorite');
+	
 	/**
 	 * 入口
 	 */
