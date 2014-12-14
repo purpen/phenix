@@ -10,7 +10,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		'bonus' => '',
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'register', 'verify_code');
+	protected $exclude_method_list = array('execute', 'login', 'register', 'logout', 'verify_code', 'user');
 	
 	/**
 	 * 入口
@@ -234,7 +234,5 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
-	
-
 }
 ?>

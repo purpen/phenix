@@ -11,7 +11,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'replis');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'replis', 'submit');
 	
 	/**
 	 * 入口
