@@ -38,5 +38,12 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Authorize implements DoggyX_
 		$this->sign = isset($this->stash['sign'])?$this->stash['sign']:'';
     }
 	
+	/**
+	 * 重建结果集
+	 */
+	public function rebuild_result($result, $some_fields){
+		
+	}
+	
 }
 ?>

@@ -216,18 +216,18 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_User();
-		$result = $model->load((int)$id);
+		$result = $model->extend_load((int)$id);
 		
-		$some_fields = array('account'=>1,'nickname'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1);
+		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'medium_avatar_url'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1);
 		
 		// 重建数据结果
 		$data = array();
-		for($i=0;$i<count($result['rows']);$i++){
-			foreach($some_fields as $key=>$value){
-				$data[$i][$key] = $result['rows'][$i][$key];
-			}
+		foreach($some_fields as $key=>$value){
+			$data[$key] = $result[$key];
 		}
-		$result['rows'] = $data;
+		$data['phone'] = $result['profile']['phone'];
+		
+		$result = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
