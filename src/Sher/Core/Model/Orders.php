@@ -373,7 +373,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     //申请退款中
     if ($status == Sher_Core_Util_Constant::ORDER_READY_REFUND){
 			$updated['is_refunding'] = 1;
-			$updated['canceled_date'] = time();
+			$updated['refunding_date'] = time();
       if(!empty($options) && !empty($options['refund_reason'])){
  			  $updated['refund_reason'] = $options['refund_reason'];   
       }
@@ -382,7 +382,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     //退款成功
     if ($status == Sher_Core_Util_Constant::ORDER_REFUND_DONE){
 			$updated['is_refunded'] = 1;
-			$updated['canceled_date'] = time();
+			$updated['refunded_date'] = time();
     }
 		
 		return $this->update_set($id, $updated);

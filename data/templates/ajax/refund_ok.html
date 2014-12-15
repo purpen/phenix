@@ -1,7 +1,10 @@
 <taconite>
-	{% if mode == 'message' %}
+	<replace select="#order-{{ order._id }}">
+		{% include 'block/order-item.html' %}
+	</replace>
 	<eval>
-		phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
+		phenix.show_ok_note('您已成功提交!', 2000, '#message-form');
+    $('.ui.refund-box.modal').modal('hide');
 	</eval>
-	{% endif %}
+
 </taconite>

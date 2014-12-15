@@ -557,8 +557,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$order_info = $model->find_by_rid($rid);
 		
 		// 检查是否具有权限
-		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
-			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
+		if ($order_info['user_id'] != $this->visitor->id) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
 		}
 		
 		// 正在配货订单才允许申请
@@ -569,13 +569,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		try {
 			// 申请退款
 			$model->refunding_order($order_info['_id'], $options);
-        } catch (Sher_Core_Model_Exception $e) {
-            return $this->ajax_notification('申请退款失败，请联系客服:'.$e->getMessage(),true);
-        }
+    } catch (Sher_Core_Model_Exception $e) {
+        return $this->ajax_notification('申请退款失败，请联系客服:'.$e->getMessage(), true);
+    }
 		
+    $this->stash['my'] = true;
 		$this->stash['order'] = $model->find_by_rid($rid);
-		$this->stash['my'] = true;
-		
 		return $this->to_taconite_page('ajax/refund_ok.html');
   }
 
