@@ -47,7 +47,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$this->stash['end_time'] = strtotime($this->stash['end_date']);
 		}
 		if(!empty($this->stash['s'])){
-			$params['status'] = $this->stash['s'];
+			$params['s'] = $this->stash['s'];
 		}
 		
 		$arg = "";
@@ -61,7 +61,11 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		// 处理分页链接
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders/search?';
-		$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
+		if(empty($arg)){
+			$this->stash['pager_url'] = $pager_url.'page=#p#';
+		}else{
+			$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
+		}
 		
 		return $this->to_html_page('admin/orders/search.html');
 	}
