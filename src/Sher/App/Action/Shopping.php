@@ -658,6 +658,22 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
       	    //抢购产品状态，跳过付款状态，跳过付款状态
       	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
+              // 获取产品信息
+              $product = new Sher_Core_Model_Product();
+              $product_data = $product->load((int)$order_info['items'][0]['product_id']);
+              if(empty($product_data)){
+                return $this->ajax_json('抢购产品不存在！', true);
+              }
+
+              //是否是抢购商品
+              if($product_data['snatched'] != 1){
+                 return $this->ajax_json('非抢抢购产品！', true);
+              }
+
+              //在抢购时间内
+              if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
+                return $this->ajax_json('抢购还没有开始！', true);
+              }
 
         		$is_snatched = true;
        		    // 设置订单状态为备货

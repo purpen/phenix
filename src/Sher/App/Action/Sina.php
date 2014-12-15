@@ -27,7 +27,14 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 	 */
 	public function authorize(){
 		$code = $this->stash['code'];
-		
+
+		// 当前有登录用户
+		if ($this->visitor->id){
+			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Sher_Core_Helper_Url::user_home_url($this->visitor->id);
+			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
+			return $this->to_redirect($redirect_url);
+		}
+
 		// 获取微博登录的Url
 		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
@@ -36,20 +43,83 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 		$keys = array();
 		$keys['code'] = $code;
 		$keys['redirect_uri'] = $callback;
-		
+
 		try{
 			$o = new Sher_Core_Helper_SaeTOAuthV2($akey , $skey);
 			$token = $o->getAccessToken('code', $keys);
-			// { "access_token":"SlAV32hkKG", "remind_in ":3600, "expires_in":3600 }
+      // { "access_token":"SlAV32hkKG", "remind_in ":3600, "expires_in":3600 }
 			if ($token) {
-				return $this->login($token);
+        $user = new Sher_Core_Model_User();
+        $user_info = array();
+        
+        // 第一步，检测是否已经注册
+        $akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+        $skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+        
+        $c = new Sher_Core_Helper_SaeTClientV2($akey, $skey, $token['access_token']);
+        $uid_get = $c->get_uid();
+        $uid = $uid_get['uid'];
+
+        $result = $user->first(array('sina_uid' => (int)$uid));
+        if (empty($result)) {
+          // 第二步，未注册过用户实现绑定账号
+          $weibo_info = $c->show_user_by_id($uid);//根据ID获取用户等基本信息
+          
+          // 连接出错
+          if (isset($weibo_info['error']) && !empty($weibo_info['error'])){
+            Doggy_Log_Helper::warn('Failed to login of weibo user:'.$weibo_info['error']);
+            return $this->display_note_page('微博登录应用正在审核中，请耐心等待！');
+          }
+
+          // 检查用户名是否唯一
+          $exist = $user->_check_name($weibo_info['screen_name']);
+          if ($exist) {
+            $nickname = $weibo_info['screen_name'];
+          } else {
+            $nickname = '微博用户['.$weibo_info['screen_name'].']';
+          }
+
+          $this->stash['third_source'] = 'weibo';
+          $this->stash['uid'] = $uid;
+				  $this->stash['access_token'] = $token['access_token'];
+          $this->stash['nickname'] = $nickname;
+          $this->stash['summary'] = $weibo_info['description'];
+				  $this->stash['city'] = $weibo_info['location'];
+          $this->stash['sex'] = $weibo_info['gender'];
+          $this->stash['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
+          $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+
+          return $this->to_html_page('page/landing.html');
+
+        } else {  //已绑定，直接登录
+          $user_id = $result['_id'];
+
+          //如果未绑定手机，需要强制绑定
+          if(!Sher_Core_Helper_Util::is_mobile($result['account'])){
+            $this->stash['third_source'] = 'weibo';
+            $this->stash['user_id'] = $user_id;
+            $this->stash['nickname'] = $result['nickname'];
+            $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+            $this->stash['access_token'] = $token['access_token'];
+            return $this->to_html_page('page/third_bind_phone.html');
+          }
+
+          // 重新更新access_token
+          $user->update_weibo_accesstoken($user_id, $token['access_token']);
+          // 实现自动登录
+          Sher_Core_Helper_Auth::create_user_session($user_id);
+
+		      $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+		      return $this->to_redirect($user_profile_url);
+        }
+
 			} else {
 				return $this->display_note_page('授权失败');
 			}
 		} catch (Sher_Core_Helper_OAuthException $e) {
             Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
 			$login_url = Doggy_Config::$vars['app.url.login'];
-            return $this->display_note_page("注册失败:".$e->getMessage(), $login_url);
+            return $this->display_note_page("第三方登录失败:".$e->getMessage(), $login_url);
 		}
 	}
 	
@@ -85,7 +155,8 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 微博账号实现登录
+   * 微博账号实现登录
+   * 需要绑定本地账号，该方法暂时没有调用
 	 */
 	protected function login($token) {
         try {

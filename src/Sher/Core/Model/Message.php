@@ -1,6 +1,6 @@
 <?php
 /**
- * 站内私信
+ * 站内私信 old remove
  * @author purpen
  */
 class Sher_Core_Model_Message extends Sher_Core_Model_Base {    
@@ -18,7 +18,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
     protected $required_fields = array('_id');
     protected $int_fields = array('s_readed', 'b_readed');
     
-    protected $created_timestamp_fields = array('updated_on');
+    protected $created_timestamp_fields = array('created_on');
     protected $updated_timestamp_fields = array('updated_on');
 
     protected $joins = array();
@@ -85,9 +85,10 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$this->update($_id,$updated);
 		}
 		
-		# 更新用户未读私信数
+		// 更新用户未读私信数
 		$user = new Sher_Core_Model_User();
-		$user->update_counter_byinc($to_user, 'message_count', 1);
+    $user->update_counter_byinc($to_user, 'message_count', 1);
+
 		unset($user);
 		
 		return $_id;
