@@ -284,28 +284,35 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	/**
 	 * 更新失败订单，等同于关闭订单
 	 */
-	public function fail_order($id){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL);
+	public function fail_order($id, $array=Array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL, $array);
 	}
 	
 	/**
 	 * 取消订单
 	 */
-	public function canceled_order($id){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED);
+	public function canceled_order($id, $array=Array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED, $array);
 	}
 	
 	/**
 	 * 自动关闭订单
 	 */
-	public function close_order($id){
-        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED);
+	public function close_order($id, $array=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED, $array);
+	}
+
+	/**
+	 * 已发货订单
+	 */
+	public function sended_order($id, $array=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_SENDED_GOODS, $array);
 	}
 	
 	/**
 	 * 处理订单，并释放库存
 	 */
-	protected function _release_order($id, $status){
+	protected function _release_order($id, $status, $array=Array()){
         if(is_null($id)){
             $id = $this->id;
         }
