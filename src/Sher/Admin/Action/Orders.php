@@ -46,8 +46,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$params['end_date'] = $this->stash['end_date'];
 			$this->stash['end_time'] = strtotime($this->stash['end_date']);
 		}
-		if(!empty($this->stash['status'])){
-			$params['s'] = $this->stash['status'];
+		if(!empty($this->stash['s'])){
+			$params['s'] = $this->stash['s'];
 		}
 		
 		$arg = "";
