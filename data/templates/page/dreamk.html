@@ -28,12 +28,20 @@
 		font-size: 22px;
 		line-height:50px;
 	}
+	.dream.maker .ui.air p.time {
+		line-height: 10px!important;
+		font-size: 20px !important;
+		margin: 0;
+	}
 	.dream.maker .ui.air p span{
 		font-size:31px;
 	}
+	.dream.maker .ui.air .ui.appoint.btn+p span{
+		font-size:26px !important;
+	}
 	.dream.maker .ui.air .ui.appoint.btn{
 		background:#3e9139;
-		margin-top:5em;
+		margin-top:0em;
 		font-size: 1.3rem;
 	}
 	.dream.maker .ui.air .verticalize p:last-child{
@@ -83,6 +91,16 @@
 		font-size:19px;
 	}
 	
+	p#clock span {
+		color: #fff;
+		background: #4d4d4d;
+		padding: 5px;
+	}
+ 	p.count {
+		padding: 19px 0;
+	}
+	
+	
 	@media only screen and (max-width: 767px){
 		.dream.maker .ui.air{
 			background:url('{{ app_url_packaged }}/images/dreamk_2.jpg') no-repeat scroll bottom right;
@@ -125,6 +143,49 @@
 </style>
 {% endblock %}
 {% block jquery %}
+{% if product.snatched %}
+	$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
+		var $this = $(this).html(event.strftime(''
+		+ '<span>%D</span> 天 '
+		+ '<span>%H</span> 时 '
+		+ '<span>%M</span> 分 '
+		+ '<span>%S</span> 秒'));
+	});
+{% endif %}
+
+$('.ui.appoint.btn').click(function(){
+	// 所有ajax请求，验证是否登录
+	if (!phenix.visitor.is_login){
+		phenix.show_login_box();
+		return false;
+	}
+	$('#addbook-form-box').modal('show');
+});
+
+$('.ui.province.dropdown').livequery(function(){
+	$(this).dropdown({
+		onChange : function(value, text){
+			if (value) {
+				$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+			}
+		}
+	});
+});
+
+$('.ui.district.dropdown').livequery(function(){
+	$(this).dropdown();
+});
+
+// 立即购买
+$('.ui.nowbuy.btn').click(function(){
+	// 所有ajax请求，验证是否登录
+	if (!phenix.visitor.is_login){
+		phenix.show_login_box();
+		return false;
+	}
+	phenix.redirect('{{ app_url_cart_nowbuy }}?sku={{ product._id }}', 0);
+});
+
 	
 {% endblock %}
 {% block content %}
@@ -136,22 +197,24 @@
 					<img src="{{ app_url_packaged }}/images/dreamk_3.png">
 				</div>
 				<p><span>3000</span>&nbsp;枚耳戴式呼吸阀防护口罩等你免费领取！</p>
+				<p class="time">距明天开枪还有 :</p>
+				<p id ="clock"> <span>12</span>&nbsp;天 <span>42</span>&nbsp;时&nbsp;</p>
 				<div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
 					<span>立即领取</span>
 				</div>
-				<p>活动时间：2014/12/15—12/19</p>					
+				<p>已有&nbsp;<span>888</span>&nbsp;人抢到</p>					
 			</div>
 		</div>
 	</section>
 	<section>
-		<img src="{{ app_url_packaged }}/images/dreamk_1.jpg">
+		<img src="{{ app_url_packaged }}/images/dreamk_01.jpg">
 	</section>
 	<section class="ui big rule block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
 					<h3 class="ui header">活动规则</h3>
-					<p>1、活动时间：2014年12月15日—12月19日；</p>
+					<p>1、活动时间：2014年12月17日—12月19日；</p>
 					<p>2、活动共准备3000枚口罩，用户可进太火鸟官网 <a href="{{ app_url_domain }}/home">http://www.taihuoniao.com/home </a> 免费领取，无需任何费用
 					     填写有效收货信息并于微信分享即可领取耳戴式呼吸阀防护口罩一枚；
 					</p>
