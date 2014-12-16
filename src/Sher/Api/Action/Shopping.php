@@ -53,6 +53,10 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 			return $this->api_json('请求参数错误', 3000);
 		}
 		
+		$some_fields = array(
+			'_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'area'=>1,'address'=>1,'zip'=>1,'is_default'=>1,
+		);
+		
 		$query   = array();
 		$options = array();
 		
@@ -70,11 +74,27 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
         $service = Sher_Core_Service_AddBooks::instance();
         $result = $service->get_address_list($query, $options);
 		
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				if($key == '_id'){
+					$data[$i][$key] = (string)$result['rows'][$i][$key];
+				}else{
+					$data[$i][$key] = $result['rows'][$i][$key];
+				}
+			}
+			// 省市、城市
+			$data[$i]['province'] = $result['rows'][$i]['area_province']['city'];
+			$data[$i]['city'] = $result['rows'][$i]['area_district']['city'];
+		}
+		$result['rows'] = $data;
+		
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
-	 * 新增收货地址
+	 * 新增/编辑 收货地址
 	 */
 	public function ajax_address(){
 		// 验证数据
@@ -181,7 +201,7 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 			return $this->api_json('操作失败,请重新再试', 3002);
 		}
 		
-		return $this->api_json('请求成功', 0);
+		return $this->api_json('请求成功', 0, array('id'=>$id));
 	}
 	
 	/**

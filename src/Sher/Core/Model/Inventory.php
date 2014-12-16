@@ -60,7 +60,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
     );
 	
     protected $joins = array(
-    	'product' => array('product_id'  => 'Sher_Core_Model_Product'),
+    	'product' => array('product_id' => 'Sher_Core_Model_Product'),
     );
 	
     protected $required_fields = array('product_id', 'price', 'quantity');
