@@ -13,7 +13,7 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		'bonus' => '',
 	);
 
-	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result');
+	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result', 'feedback');
 	
 	/**
 	 * 入口
@@ -233,6 +233,39 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		}
 		
 		return $this->ajax_json('提交成功！');
+	}
+	
+	
+	/**
+	 * 意见反馈
+	 */
+	public function feedback(){
+		$user_id = (int)$this->stash['user_id'];
+		$content = $this->stash['content'];
+		$contact = $this->stash['contact'];
+		
+		if(empty($user_id) || empty($content) || empty($contact)){
+			return $this->api_json('请求参数不足', 3000);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Feedback();
+			
+			$ok = $model->create(array(
+				'user_id' => $user_id,
+				'content' => $content,
+				'contact' => $contact,
+			));
+			
+			if(!$ok){
+				return $this->api_json('提交失败，请重试！', 4002);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+            Doggy_Log_Helper::error('Failed to update feedback:'.$e->getMessage());
+            return $this->api_json("更新失败:".$e->getMessage(), 4001);
+		}
+		
+		return $this->api_json('意见反馈成功！', 0);
 	}
 	
 }

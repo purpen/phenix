@@ -10,7 +10,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		'bonus' => '',
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'register', 'verify_code');
+	protected $exclude_method_list = array('execute', 'login', 'register', 'logout', 'verify_code', 'user');
 	
 	/**
 	 * 入口
@@ -61,6 +61,14 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
         foreach (array('account','nickname','last_login','current_login','visit','is_admin') as $k) {
             $visitor[$k] = isset($user_data[$k]) ? $user_data[$k] : null;
         }
+		
+		// 绑定设备操作
+		$uuid = $this->stash['uuid'];
+		$user_id = (int)$this->stash['user_id'];
+		if(!empty($uuid) && !empty($user_id)){
+			$pusher = new Sher_Core_Model_Pusher();
+			$ok = $pusher->binding($uuid, $user_id);
+		}
 		
 		return $this->api_json('欢迎回来.', 0, $visitor);
 	}
@@ -125,6 +133,14 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 				
 				// 实现自动登录
 				Sher_Core_Helper_Auth::create_user_session($user_id);
+				
+				// 绑定设备操作
+				$uuid = $this->stash['uuid'];
+				$user_id = (int)$this->stash['user_id'];
+				if(!empty($uuid) && !empty($user_id)){
+					$pusher = new Sher_Core_Model_Pusher();
+					$ok = $pusher->binding($uuid, $user_id);
+				}
 			}
         }catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to register:'.$e->getMessage());
@@ -132,6 +148,31 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
         }
 		
 		return $this->api_json("注册成功，欢迎加入太火鸟！", 0, $visitor);
+	}
+	
+	/**
+	 * 安全退出
+	 */
+	public function logout(){
+		try{
+	        $service = DoggyX_Session_Service::instance();
+	        $service->revoke_auth_cookie();
+		
+	        $service->stop_visitor_session();
+			
+			// 解绑设备操作
+			$uuid = $this->stash['uuid'];
+			$user_id = (int)$this->stash['user_id'];
+			if(!empty($uuid) && !empty($user_id)){
+				$pusher = new Sher_Core_Model_Pusher();
+				$ok = $pusher->unbinding($uuid, $user_id);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+            Doggy_Log_Helper::error('Failed to logout:'.$e->getMessage());
+            return $this->api_json($e->getMessage(), 4001);
+		}
+		
+		return $this->api_json("您已成功的退出登录,稍候将跳转到主页.", 0);
 	}
 	
 	/**
@@ -175,12 +216,23 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_User();
-		$result = $model->load((int)$id);
+		$result = $model->extend_load((int)$id);
+		
+		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1);
+		
+		// 重建数据结果
+		$data = array();
+		foreach($some_fields as $key=>$value){
+			$data[$key] = $result[$key];
+		}
+		$data['phone'] = $result['profile']['phone'];
+		$data['job'] = $result['profile']['job'];
+		$data['avatar'] = $result['medium_avatar_url'];
+		
+		$result = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
-	
-
 }
 ?>

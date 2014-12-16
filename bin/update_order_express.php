@@ -18,7 +18,7 @@ ini_set('memory_limit','512M');
 echo "Prepare to build order express...\n";
 
 $filepath = Doggy_Config::$vars['app.storage.tmpdir'];
-$filename = 'frbird_report_20141210.csv';
+$filename = 'frbird_report_20141211.csv';
 
 $data_file = $filepath.'/'.$filename;
 // 检测是否已经存在该文件
@@ -29,8 +29,8 @@ if(!is_file($data_file)){
 $total = 0;
 $fp = fopen($data_file, 'r');
 while($data = fgetcsv($fp)){
-	$rid = $data[0];
-	$express_no = $data[9];
+	$rid = trim($data[0]);
+	$express_no = trim($data[9]);
 	
 	$express_title = '申通快递';
 	$express_caty = 's';
@@ -43,7 +43,7 @@ while($data = fgetcsv($fp)){
 		echo "Order[$rid],not exist!\n";
 		continue;
 	}
-	$id = $order_info['_id'];
+	$id = (string)$order_info['_id'];
 	
 	// 仅已付款订单，可发货
 	if($order_info['is_payed'] != 1 || $order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
