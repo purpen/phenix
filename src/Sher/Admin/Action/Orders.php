@@ -480,10 +480,9 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
     } catch (Sher_Core_Model_Exception $e) {
         return $this->ajax_notification('确认退款失败:'.$e->getMessage(), true);
     }
-		
     $this->stash['admin'] = true;
 		$this->stash['order'] = $model->find_by_rid($rid);
-		//return $this->to_taconite_page('ajax/refund_ok.html');   
+		return $this->to_taconite_page('ajax/refund_ok.html');   
   
   
   }

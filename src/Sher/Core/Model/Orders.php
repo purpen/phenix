@@ -67,6 +67,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
     #退款成功标识及时间
     'is_refunded' => 0,
+    'refund_price'  =>  null,
     'refunded_date' => 0,
 		
 		## 物流信息

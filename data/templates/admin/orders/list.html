@@ -5,7 +5,7 @@
 {% block jquery %}
 	$('.datepicker').pickadate();
 	
-	$('.ui.submit.button').click(function(){
+	$('.ui.submit.button.search').click(function(){
 		$('#search-form').submit();
 	});
 
@@ -23,6 +23,7 @@
 
 	$('#refund-form').form({}, {
 		onSuccess: function(event){
+			event.preventDefault();
 			$(event.target).ajaxSubmit();
 		}
 	});
@@ -109,7 +110,7 @@
 					</div>
 				</div>
 				<div class="field">
-					<div class="ui active small green submit button">搜索</div>
+					<div class="ui active small green submit button search">搜索</div>
 				</div>
 			</div>
 		</form>
@@ -156,7 +157,7 @@
 
       <div class="right aligned field ">
         <div class="ui gray cancel button">取消</div>
-        <div class="ui active magenta submit button" >确认退款</div>
+        <div class="ui active refund magenta submit button" >确认退款</div>
       </div>
     </form>
     </div>

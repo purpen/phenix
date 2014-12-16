@@ -3,8 +3,13 @@
 		{% include 'block/order-item.html' %}
 	</replace>
 	<eval>
+  {% if my %}
 		phenix.show_ok_note('您已成功提交!', 2000, '#message-form');
-    $('.ui.refund-box.modal').modal('hide');
+  {% endif %}
+  {% if admin %}
+		phenix.show_ok_note('退款成功!', 2000, '#message-form');
+  {% endif %}
+  $('.ui.refund-box.modal').modal('hide');
 	</eval>
 
 </taconite>
