@@ -70,7 +70,31 @@ p#clock span {
 			phenix.redirect('{{ app_url_wap }}/auth/login');
 			return false;
 		}
+    {% if appointed %}
+			phenix.show_error_note('不能重复预约', 2000);
+      return;
+    {% endif %}
+
+    {% if has_address %}
+      $('#modal-header').html('确定预约');
+    {% endif %}
 		$('#addbook-form-box').modal('show');
+	});
+
+  //立即抢购
+	$('.ui.qiang.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+
+    {% if product.can_saled %}
+      {% if is_time %}
+    		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku={{ product._id }}', 0);
+      {% endif %}
+    {% endif %}
+
 	});
 	
 	$('.ui.province.dropdown').livequery(function(){
@@ -115,11 +139,32 @@ p#clock span {
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<p>距明天开枪还有:</p>
-					<p id ="clock"> <span>12</span>&nbsp;天 <span>42</span>&nbsp;时&nbsp;</p>
-					<div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
-						<span>立即预约</span>
-					</div>
+					<p>距开枪还有:</p>
+					<p id ="clock"> <span>0</span>&nbsp;天 <span>0</span>&nbsp;时&nbsp;<span>0</span>&nbsp;分&nbsp;<span>0</span>&nbsp;秒&nbsp;</p>
+
+          <!--有库存-->
+          {% if product.can_saled %}
+            {% if is_time %}
+              <div class="ui active btn-4 btn-4c icon-arrow-right black qiang btn">
+                <span>开始抢购</span>
+              </div>
+            {% else %}
+              {% if appointed %}
+                <div class="ui active btn-4 btn-4c icon-arrow-right black btn">
+                  <span>预约成功</span>
+                </div>
+              {% else %}
+                <div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
+                  <span>立即预约</span>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <div class="ui active btn-4 btn-4c icon-arrow-right black btn">
+              <span>活动已结束</span>
+            </div>
+          {% endif %}
+
 					<p>活动时间: 2014/12/22</p>
 				</div>
 			</div>
@@ -151,9 +196,29 @@ p#clock span {
 <div class="ui small addbook modal" id="addbook-form-box">
   	<i class="flat close icon"></i>
 	<div class="ui header" id="modal-header">
-    	<span class="ui magenta text">现</span>在预约：填写收货地址，登录即抢
+    	填写收货地址，登录即抢
   	</div>
 	<div class="container">
+    {% if has_address %}
+		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content ptop">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_address" value="1" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="fields">
+					<div class="field">
+            <label>如需更换收货地址，预约成功后可以进行个人中心收货地址进行修改。</label>
+					</div>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+    {% else %}
 		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
 		  	<div class="content">
 				<input type="hidden" name="_id" />
@@ -217,6 +282,7 @@ p#clock span {
 				
 			</div>				
 		</form>
+    {%endif%}
 		<!--分享内容-->
 		<div id="share-friends" class="ui hide form">
 			<div class="content">
