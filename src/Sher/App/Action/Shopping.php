@@ -62,13 +62,35 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return true;
 		}
 		
-		// 设置已预约标识
+		// 设置已抢购标识
 		$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
 		Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
 		
 		$redis = new Sher_Core_Cache_Redis();
 		$buyed = $redis->get($cache_key);
 		if($buyed){
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * 如果是抢购商品，验证是否预约过
+	 */
+	protected function validate_appoint($sku){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku != $product_id){
+			return true;
+		}
+		
+		// 设置已预约标识
+    $cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
+		Doggy_Log_Helper::warn('Validate appoint log key: '.$cache_key);
+		
+		$redis = new Sher_Core_Cache_Redis();
+		$buyed = $redis->get($cache_key);
+		if(!$buyed){
 			return false;
 		}
 		
@@ -104,6 +126,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('操作异常，请重试！');
 		}
 		
+		// 验证是否预约过抢购商品
+		if(!$this->validate_appoint($sku)){
+			return $this->show_message_page('抱歉，您还没有预约，不能参加本次抢购！');
+		}
 		// 验证抢购商品是否重复
 		if(!$this->validate_snatch($sku)){
 			return $this->show_message_page('抱歉，不要重复抢哦！');
@@ -673,6 +699,15 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
               //在抢购时间内
               if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
                 return $this->ajax_json('抢购还没有开始！', true);
+              }
+
+              // 验证是否预约过抢购商品
+              if(!$this->validate_appoint($product_data['_id'])){
+                return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
+              }
+              // 验证抢购商品是否重复
+              if(!$this->validate_snatch($product_data['_id'])){
+                return $this->ajax_json('抱歉，不要重复抢哦！', true);
               }
 
         		$is_snatched = true;
