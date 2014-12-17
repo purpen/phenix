@@ -97,5 +97,6 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/noodles.html');
 	}
+
 }
 ?>

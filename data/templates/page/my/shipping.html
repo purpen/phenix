@@ -11,6 +11,11 @@
 	$('.ui.addbook.btn').click(function(){
 		$('.ui.addbook.modal').modal('show');
 	});
+
+	// 关闭地址框
+	$('.ui.close-btn.button').click(function(){
+		$('.ui.addbook.modal').modal('hide');
+	});
 	
 	// 选择地址
 	$('.address').on('click', '.item', function(){

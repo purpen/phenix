@@ -342,6 +342,11 @@ class Sher_Core_Util_Image {
 	    if (!is_file($file)) {
             return null;
         }
+      try{
+              $gm = new Gmagick($file);
+      }catch(Exception $e){
+        echo $e->getMessage();exit;
+      }
         $gm = new Gmagick($file);
 		
 		$info = array();

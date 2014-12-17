@@ -10,6 +10,7 @@ app.domain.base: 'http://taihuoniao.me'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
+
 app.doggyx.class_path: '/Users/xiaoyi/project/doggy-x'
 #app.doggyx.class_path: '/opt/project/php/doggy-x'
 
@@ -20,21 +21,21 @@ app.css.use_bundle: 0
 
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
+
 ## mongodb
 app.mongo.default:
-  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
+  host: '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027'
   db: 'firebird'
   username: 'root'
   password: 'Frbird#2014$Shop'
   replicaSet: 'she_main'
-  
-##liyingweng database 
+
+##tianshuai的数据库环境
+#----------------------------------------
 #app.mongo.default:
-#  host: '127.0.0.1:27017'
-#  db: 'firebird'
-#  username: 'root'
-#  password: 'Frbird#2014$Shop'
-#  replicaSet: 'she_main'
+#    host: '127.0.0.1:27017'
+#    db: 'firebird'
+#    username: 'root'
 
 # redisdb
 app.redis.default: 
@@ -51,7 +52,7 @@ app.cache.memcached.default:
 # 十万火计
 app.topic.dream_category_id: 64
 
-# 就现在商品
+#抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
 # 支付宝
@@ -95,3 +96,4 @@ app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
 
 # 临时数据存储目录
 app.storage.tmpdir: '/Users/xiaoyi/data/export'
+

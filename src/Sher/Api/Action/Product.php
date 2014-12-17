@@ -105,6 +105,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
+      $data[$i]['content_view_url'] = sprintf('%s/app/site/product/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
 		}
 		$result['rows'] = $data;
 		
@@ -124,12 +125,17 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
+
         if (!empty($product)) {
             $product = $model->extended_model_row($product);
         }
 		if($product['deleted']){
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
+
+    //转换描述格式
+    $product['content'] = null;
+    $product['content_view_url'] = sprintf('%s/app/site/product/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id']);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -138,6 +144,29 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
 			return $this->api_json('访问的产品等待发布中！', 3001);
 		}
+
+    //验证是否收藏或喜欢
+    $fav = new Sher_Core_Model_Favorite();
+    $product['is_favorite'] = $fav->check_favorite(1, $product['_id'], 1) ? 1 : 0;
+    $product['is_love'] = $fav->check_loved(1, $product['_id'], 1) ? 1 : 0;
+
+    //返回图片数据
+    $assets = array();
+    if(!empty($product['asset'])){
+      $asset_model = new Sher_Core_Model_Asset();
+      $imgs = $asset_model->extend_load_all($product['asset']);
+			foreach($imgs as $key=>$value){
+        //echo $value['thumbnails']['big']['view_url'];
+        if($value['_id']==$product['cover_id']){
+          $cover_img_url = $value['thumbnails']['big']['view_url'];
+        }else{
+          array_push($assets, $value['thumbnails']['big']['view_url']);
+        }
+      }
+      //封面图放第一
+      array_unshift($assets, $cover_img_url);
+    }
+    $product['asset'] = $assets;
 		
 		// 验证是否还有库存
 		$product['can_saled'] = $model->can_saled($product);
@@ -150,8 +179,8 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		));
 		$product['skus'] = $skus;
 		$product['skus_count'] = count($skus);
-		
-		return $this->api_json('请求成功', 0, $product);
+
+		//return $this->api_json('请求成功', 0, $product);
 	}
 	
 	/**

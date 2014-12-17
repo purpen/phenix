@@ -1,5 +1,5 @@
 {%extends 'layout/auth.html'%}
-{% block title %}现在注册-{% endblock %}
+{% block title %}绑定手机-{% endblock %}
 
 {% block jquery %}
 	phenix.build_auth_page();
@@ -69,26 +69,17 @@
 				</a>
 			</div>
 			<div class="ui bottom attached segment">
-				<form action="{{ app_url_action_base }}/auth/do_register" class="ui  form" method="post" id="register-form">
+				<form action="{{ app_url_action_base }}/auth/do_bind_phone" class="ui  form" method="post" id="register-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
-					<div class="center aligned ui header">
-						注册太火鸟
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<a href="{{ weibo_auth_url }}" class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
-								<i class="flat icon_weibo icon"></i> 用微博账号
-							</a>
-						</div>
-						<div class="field">
-							<a href="{{ app_url_qq_login }}" class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
-								<i class="flat icon_qq icon"></i> 用QQ账号
-							</a>
-						</div>
+          <input type="hidden" name="third_source" value="{{ third_source }}" />
+					<input type="hidden" name="user_id" value="{{ user_id }}" />
+          <input type="hidden" name="access_token" value="{{ access_token }}" />
+					<div class="center aligned ui header" style="padding-bottom: 1.5em;">
+            绑定手机
 					</div>
 					
 					<div class="inline field">
-						<input type="text" name="account" placeholder="手机号码" id="account" />
+						<input type="text" name="account" placeholder="手机号码" id="account" style="margin-top: -25px;" />
 					</div>
 					<div class="inline field">
 						<input type="text" name="captcha" placeholder="验证码" id="captcha" />
@@ -100,27 +91,20 @@
 						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
 						<a href="javascript:void(0);" class="ui gray button" id="fetch-verify-code">获取验证码</a>
 					</div>
+
 					<div class="field">
 						<input type="password" name="password" id="password" placeholder="密码" />
 					</div>
 					<div class="field">
 						<input type="password" name="password_confirm" placeholder="确认密码" />
 					</div>
-					<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms" checked="checked">
-				          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
-				        </div>
-					</div>
 					
 					<div class="field">
-				    	<div class="fluid ui big active magenta submit button" >确认注册</div>
+				    	<div class="fluid ui big active magenta submit button" >确认绑定</div>
 					</div>
 				</form>
 			</div>
-			<div class="sign-up">
-				<label>已有账号？<a href="{{ app_url_login }}" title="立即登录" class="ui link">立即登录</a></label>
-			</div>
+
 		</div>
 	</div>
 </div>

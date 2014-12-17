@@ -50,16 +50,24 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['type'] = (int)$this->stash['type'];
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content'])){
-			return $this->ajax_json('获取数据错误,请重新提交', true);
+      $this->stash['is_error'] = true;
+			$this->stash['note'] = '获取数据错误,请重新提交';
+      return $this->to_taconite_page('ajax/note.html');
 		}
 		
 		$model = new Sher_Core_Model_Comment();
-		$ok = $model->apply_and_save($row);
-		if($ok){
-			$comment_id = $model->id;
-			$this->stash['comment'] = &$model->extend_load($comment_id);
-		}
-		
+    try{
+		  $ok = $model->apply_and_save($row);
+      if($ok){
+        $comment_id = $model->id;
+        $this->stash['comment'] = &$model->extend_load($comment_id);
+      } 
+    }catch(Exception $e){
+      $this->stash['is_error'] = true;
+			$this->stash['note'] = $e->getMessage();
+      return $this->to_taconite_page('ajax/note.html');  
+    }
+
 		return $this->to_taconite_page('ajax/comment_ok.html');
 	}
 	

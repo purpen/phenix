@@ -1,0 +1,75 @@
+{%extends 'layout/column.html'%}
+{% block title %}玩蛋去-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.games.page{
+	background:#fff;
+}
+.games .play img{
+	width:100%;
+}
+.games .code{
+	padding:5em 0 !important;
+}
+.games .code h2.ui.header,.games .code h3.ui.header{
+	color:#ff5100;
+}
+.games .code .item img{
+	cursor: default;
+}
+.games .code .row:last-child .column p{
+	line-height: 27px;
+	margin: 0px;
+	padding: 3px 0;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="games page">
+	<section class="play">
+		<img src="{{ app_url_packaged }}/images/game_1.jpg" class="ui image" ondragstart="return false;">
+	</section>
+	<section class="ui big code block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/game_code.jpg" ondragstart="return false;">
+					</div>
+					<h2 class="ui header">扫一扫，玩砸蛋，赢红包</h2>
+					<p>玩家在9秒内尽量多砸鸟蛋，砸碎越多，获奖机率也越高</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui four items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/game_2.jpg" class="ui image" ondragstart="return false">
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/game_3.jpg" class="ui image" ondragstart="return false">
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/game_4.jpg" class="ui image" ondragstart="return false">
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/game_5.jpg" class="ui image" ondragstart="return false">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<h3 class="ui header">游戏规则</h3>
+					<p>1、屏幕中共计64个鸟蛋（暂定8*8=64个），其中一枚鸟蛋中有奖品（随机），奖品包括（5元红包、10元红包、20元红包、50元红包、100元红包）。</p>
+					<p>2、玩家需要在9秒钟内砸碎尽量多的鸟蛋，砸碎越多，评分越高，理论上获奖机率也越高。游戏中砸中彩蛋，自动收入钱包，不影响游戏进程，每局结束后，直接显示彩蛋中红包金额。</p>
+					<p>3、红包可在微信小店及官方网站使用，无消费额度限制，消费时间限一个月。红包金额不叠加，每次只能用一个红包。</p>
+					<p>4、游戏过程中，如果砸到彩蛋（彩蛋中有红包，红包金额不等），彩蛋中的红包会自动收入右上角的钱包中，不影响游戏进程，本轮游戏结束后，界面提示分享“你果真是个菜鸟！o(╯□╰)o，分享到朋友圈，没准他们还不如你！”分享动作完成之后提示“争当鸟王，再玩一局”</p>
+					<p>5、退出小游戏时，提示“天上掉馅饼，您在本游戏中共砸中红包*个，赶快点击右上角钱包领取！ ”点开钱包之后，红包依次排列，玩家分别点开，并显示金额，“哇，少侠，您赢得了105元红包呦，赶快登录官网或微信小店挥霍吧！然后跳出登录及注册框，如果不使用，红包保留在用户微信账号-个人中心-我的红包内，使用期限一个月。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}
