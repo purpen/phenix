@@ -284,54 +284,45 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	/**
 	 * 更新失败订单，等同于关闭订单
 	 */
-	public function fail_order($id, $array=Array()){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL, $array);
+	public function fail_order($id, $options=Array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL, $options);
 	}
 	
 	/**
 	 * 取消订单
 	 */
-	public function canceled_order($id, $array=Array()){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED, $array);
+	public function canceled_order($id, $options=Array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED, $options);
 	}
 	
 	/**
 	 * 自动关闭订单
 	 */
-	public function close_order($id, $array=Array()){
-        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED, $array);
+	public function close_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED, $options);
 	}
 
 	/**
 	 * 已发货订单
 	 */
-	public function sended_order($id, $array=Array()){
-        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_SENDED_GOODS, $array);
+	public function sended_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_SENDED_GOODS, $options);
 	}
 	
 	/**
 	 * 处理订单，并释放库存
 	 */
-	protected function _release_order($id, $status, $array=Array()){
-        if(is_null($id)){
-            $id = $this->id;
-        }
-        if(empty($id)){
-            throw new Sher_Core_Model_Exception('Order id is Null');
-        }
-        if(!isset($status)){
-            throw new Sher_Core_Model_Exception('Order status is Null');
-        }
-		$row = $this->find_by_id($id);
-		
-		// 关闭订单，自动释放库存数量
-		for($i=0;$i<count($row['items']);$i++){
-			$inventory = new Sher_Core_Model_Inventory();
-			$inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity']);
-			
-			unset($inventory);
-		}
-		
+	protected function _release_order($id, $status, $options=Array()){
+    if(is_null($id)){
+        $id = $this->id;
+    }
+    if(empty($id)){
+        throw new Sher_Core_Model_Exception('Order id is Null');
+    }
+    if(!isset($status)){
+        throw new Sher_Core_Model_Exception('Order status is Null');
+    }
+
 		$updated = array(
 			'status' => $status,
 		);
@@ -346,6 +337,33 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['is_canceled'] = 1;
 			$updated['canceled_date'] = time();
 		}
+
+    // 已发货订单
+		if ($status == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
+      if(empty($options['express_caty']) || empty($options['express_no'])){
+        throw new Sher_Core_Model_Exception('Order_id, express_caty, express_no is Null'); 
+      }
+			$updated['express_caty'] = $options['express_caty'];
+			$updated['express_no'] = $options['express_no'];
+			$updated['sended_date'] = time();
+		}
+
+		// 关闭订单，自动释放库存数量
+    //需要释放库存的状态数组
+    $arr = array(
+      Sher_Core_Util_Constant::ORDER_PAY_FAIL,
+      Sher_Core_Util_Constant::ORDER_EXPIRED, 
+      Sher_Core_Util_Constant::ORDER_CANCELED, 
+    );
+    if(in_array($status, $arr)){
+		  $row = $this->find_by_id($id);
+      for($i=0;$i<count($row['items']);$i++){
+        $inventory = new Sher_Core_Model_Inventory();
+        $inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity']);
+        unset($inventory);
+      }
+    }
+
     $ok = $this->update_set($id, $updated);
     //同步订单索引状态 值 
     if($ok){
@@ -788,7 +806,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	}
 	
 	/**
-	 * 更新订单的已发货状态
+	 * 更新订单的已发货状态------------该方法已不用，统一改为sended_order()
 	 */
 	public function update_order_sended_status($id, $express_caty, $express_no){
         if(is_null($id)){
