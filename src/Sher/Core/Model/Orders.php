@@ -367,11 +367,22 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     $ok = $this->update_set($id, $updated);
     //同步订单索引状态 值 
     if($ok){
-      $order_index = new Sher_Core_Model_OrdersIndex();
-      $order_index->update_set(array('order_id'=>$id), array('status'=>$status));
+      $this->sync_order_index($id, $status);
     }
     return $ok;
 	}
+
+  /**
+   * 同步订单索引表
+   */
+  protected function sync_order_index($id, $status, $options=array()){
+    if(empty($id)){
+      return false;
+    }
+    $order_index = new Sher_Core_Model_OrdersIndex();
+    $ok = $order_index->update_set(array('order_id'=>(string)$id), array('status'=>(int)$status));
+    return $ok;
+  }
 	
 	/**
 	 * 通过rid查找
@@ -752,11 +763,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('Order id is Null');
         }
 		
-		return $this->update_set($id, array('status' => (int)$status));
+        $ok = $this->update_set($id, array('status' => (int)$status));
+        if($ok){
+          $this->sync_order_index($id, $status);
+        }
+        return $ok;
     }
 	
     /**
-     * 更新订单的支付状态
+     * 更新订单的支付状态--------有争议，没有更新status 而且方法没有 被调用过
      */
     public function update_order_pay_status($id=null){
         if(is_null($id)){
@@ -802,7 +817,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['status'] = (int)$status;
 		}
 		
-		return $this->update_set($id, $updated);
+    $ok = $this->update_set($id, $updated);
+    if($ok){
+      $this->sync_order_index($id, $status);
+    }
+    return $ok;
 	}
 	
 	/**
@@ -827,11 +846,17 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 撤销订单发货状态
 	 */
 	public function revoke_order_sended($id){
-		return $this->update_set($id, array(
+		$ok = $this->update_set($id, array(
 			'status' => (int)Sher_Core_Util_Constant::ORDER_READY_GOODS,
 			'express_caty' => '', 
 			'express_no' => '', 
-			'sended_date' => ''));
+      'sended_date' => ''
+    ));
+    if($ok){
+      $this->sync_order_index($id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+    }
+    return $ok;
+
 	}
 	
 }
