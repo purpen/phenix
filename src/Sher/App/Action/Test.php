@@ -129,7 +129,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		return $this->to_html_page('page/noodles.html');
 	}
 	public function tweleve() {
-		return $this->to_html_page('page/tweleve.html');
+		return $this->to_html_page('page/dreamk.html');
 	}
 
   /**

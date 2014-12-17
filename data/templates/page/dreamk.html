@@ -96,6 +96,13 @@
  	p.count {
 		padding: 19px 0;
 	}
+	.fields .field.line label {
+		font-size:17px;
+	}
+	#addbook-form .content.ptop{
+		padding-top:3em;
+		padding-bottom:3em;
+	}
 	
 	
 	@media only screen and (max-width: 767px){
@@ -382,14 +389,14 @@
 	<div class="container">
     {% if has_address %}
 		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
-		  	<div class="content">
+		  	<div class="content ptop">
 				<input type="hidden" name="_id" />
 				<input type="hidden" name="is_address" value="1" />
 				<input type="hidden" name="product_id" value="{{ product._id }}" />
 				
-				<div class="two fields">
+				<div class="fields">
 					<div class="field">
-            <label>注: 以免不被抢到，请提前设置好默认地址，<a href="{{ app_url_my }}/shipping" target="_blank" >更换默认地址</a></label>
+            <label>如需更换收货地址，预约成功后可以进行个人中心收货地址进行修改。</label>
 					</div>
 				</div>
 		
