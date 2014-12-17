@@ -100,8 +100,8 @@
 		font-size:17px;
 	}
 	#addbook-form .content.ptop{
-		padding-top:3em;
-		padding-bottom:3em;
+		padding-top:2em;
+		padding-bottom:2em;
 	}
 	
 	
@@ -269,6 +269,20 @@
 	// 分享按钮
 	var pic_url = 'http://frstatic.qiniudn.com/images/share-comeon.jpg';
 	phenix.bind_share_list(pic_url);
+
+  var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/mask';
+
+	var getParamsOfShareWindow = function(width, height) {
+		return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+	}
+
+	$('#o-share-weibo').click(function() {
+    var title = '坐享新风 免费领口罩';
+		var url = 'http://v.t.sina.com.cn/share/share.php?url=' + site + '&title=' + title + '&pic=' + pic_url;
+		var params = getParamsOfShareWindow(607, 523);
+		window.open(url, windowName, params);
+		return false;
+	});
 	
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/mask'});
@@ -464,6 +478,11 @@
 					  	<input type="text" name="zip" />
 					</div>
 				</div>
+
+        <div class="ui checkbox field">
+          <input name="is_default" type="checkbox" value="1" />
+            <label>设为默认地址</label>
+        </div>
 		
 				<div class="field">
 					<div class="ui active magenta submit button">确定</div>
