@@ -177,88 +177,92 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 			return $this->ajax_note('预约商品不存在或已被删除！', true);
 		}
 		// 验证是否预约过
-		$cache_key = sprintf('appoint_%d_%d', $product_id, $this->visitor->id);
+		$cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
 		
 		$redis = new Sher_Core_Cache_Redis();
 		$appointed = $redis->get($cache_key);
 		if($appointed){
 			return $this->ajax_note('你已预约过，无须重复预约！', true);
-		}
-		
-		$model = new Sher_Core_Model_AddBooks();
-		
-		$id = $this->stash['_id'];
-		
-		$data = array();
-		$mode = 'create';
-		
-		$data['name'] = $this->stash['name'];
-		$data['phone'] = $this->stash['phone'];
-		$data['province'] = $this->stash['province'];
-		$data['city']  = $this->stash['city'];
-		$data['address'] = $this->stash['address'];
-		$data['zip']  = $this->stash['zip'];
-		$data['is_default'] = $this->stash['is_default'];
-		
-		try{
-			// 检测是否有默认地址
-			$ids = array();
-			if ($data['is_default'] == 1) {
-				$result = $model->find(array(
-					'user_id' => (int)$this->visitor->id,
-					'is_default' => 1,
-				));
-				for($i=0;$i<count($result);$i++){
-					$ids[] = (string)$result[$i]['_id'];
-				}
-				Doggy_Log_Helper::debug('原默认地址:'.json_encode($ids));
-			}
-			
-			if(empty($id)){
-				$data['user_id'] = $this->visitor->id;
-				
-				$ok = $model->apply_and_save($data);
-				 
-				$data = $model->get_data();
-				$id = (string)$data['_id'];
-			}else{
-				$mode = 'edit';
-				
-				$data['_id'] = $id;
-				
-				$ok = $model->apply_and_update($data);
-			}
-			
-			if(!$ok){
-				return $this->ajax_note('新地址保存失败,请重新提交', true);
-			}
-			
-			// 更新商品预约信息
-			$product = Sher_Core_Util_Shopping::update_appoint_product($product_id);
-			$this->stash['product'] = $product;
-			
-			// 设置已预约标识
-			$cache_key = sprintf('appoint_%d_%d', $product_id, $this->visitor->id);
-			Doggy_Log_Helper::warn('Set appoint log key: '.$cache_key);
-			$redis = new Sher_Core_Cache_Redis();
-			$redis->set($cache_key, 1);
-			
-			// 更新默认地址
-			if (!empty($ids)){
-				$updated_default_ids = array();
-				for($i=0;$i<count($ids);$i++){
-					if ($ids[$i] != $id){
-						Doggy_Log_Helper::debug('原默认地址:'.$ids[$i]);
-						$model->update_set($ids[$i], array('is_default' => 0));
-						$updated_default_ids[] = $ids[$i];
-					}
-				}
-				$this->stash['updated_default_ids'] = $updated_default_ids;
-			}			
-		} catch (Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn('新地址保存失败:'.$e->getMessage());
-			return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
-		}
+    }
+
+    //是否设置过地址
+    $is_address = (int)$this->stash['is_address'];
+    if(!$is_address){
+      $model = new Sher_Core_Model_AddBooks();
+      
+      $id = $this->stash['_id'];
+      
+      $data = array();
+      $mode = 'create';
+      
+      $data['name'] = $this->stash['name'];
+      $data['phone'] = $this->stash['phone'];
+      $data['province'] = $this->stash['province'];
+      $data['city']  = $this->stash['city'];
+      $data['address'] = $this->stash['address'];
+      $data['zip']  = $this->stash['zip'];
+      $data['is_default'] = $this->stash['is_default'];
+      
+      try{
+        // 检测是否有默认地址
+        $ids = array();
+        if ($data['is_default'] == 1) {
+          $result = $model->find(array(
+            'user_id' => (int)$this->visitor->id,
+            'is_default' => 1,
+          ));
+          for($i=0;$i<count($result);$i++){
+            $ids[] = (string)$result[$i]['_id'];
+          }
+          Doggy_Log_Helper::debug('原默认地址:'.json_encode($ids));
+        }
+        
+        if(empty($id)){
+          $data['user_id'] = $this->visitor->id;
+          
+          $ok = $model->apply_and_save($data);
+           
+          $data = $model->get_data();
+          $id = (string)$data['_id'];
+        }else{
+          $mode = 'edit';
+          
+          $data['_id'] = $id;
+          
+          $ok = $model->apply_and_update($data);
+        }
+        
+        if(!$ok){
+          return $this->ajax_note('新地址保存失败,请重新提交', true);
+        }
+        
+        // 更新默认地址
+        if (!empty($ids)){
+          $updated_default_ids = array();
+          for($i=0;$i<count($ids);$i++){
+            if ($ids[$i] != $id){
+              Doggy_Log_Helper::debug('原默认地址:'.$ids[$i]);
+              $model->update_set($ids[$i], array('is_default' => 0));
+              $updated_default_ids[] = $ids[$i];
+            }
+          }
+          $this->stash['updated_default_ids'] = $updated_default_ids;
+        }			
+      } catch (Sher_Core_Model_Exception $e){
+        Doggy_Log_Helper::warn('新地址保存失败:'.$e->getMessage());
+        return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
+      }   
+    }
+
+    // 更新商品预约信息
+    $product = Sher_Core_Util_Shopping::update_appoint_product($product_id);
+    $this->stash['product'] = $product;
+    
+    // 设置已预约标识
+    $cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
+    Doggy_Log_Helper::warn('Set appoint log key: '.$cache_key);
+    $redis = new Sher_Core_Cache_Redis();
+    $redis->set($cache_key, 1);
 		
 		return $this->to_taconite_page('ajax/appoint_ok.html');
 	}
