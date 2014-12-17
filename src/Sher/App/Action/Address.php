@@ -70,6 +70,11 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		$model = new Sher_Core_Model_AddBooks();
 		
 		$id = $this->stash['_id'];
+    if(isset($this->stash['is_default']) && (int)$this->stash['is_default']==1){
+      $is_default = 1;
+    }else{
+      $is_default = 0;
+    }
 		
 		$data = array();
 		$mode = 'create';
@@ -80,7 +85,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
-		$data['is_default'] = $this->stash['is_default'];
+		$data['is_default'] = $is_default;
 		
 		try{
 			// 检测是否有默认地址

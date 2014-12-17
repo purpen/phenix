@@ -7,7 +7,6 @@
 		<form action="{{ app_url_address }}/ajax_address" class="ui form" method="post" id="addbook-form">
 		  	<div class="content">
 				<input type="hidden" name="_id" />
-				<input type="hidden" name="is_default" value="1" />
 				<input type="hidden" name="plat" value="{{ plat }}" />
 				
 				<div class="two fields">
@@ -60,10 +59,15 @@
 					  	<input type="text" name="zip" />
 					</div>
 				</div>
-		
+
+        <div class="ui checkbox field">
+            <input name="is_default" type="checkbox" value="1" />
+            <label>设为默认地址</label>
+        </div>
+
 				<div class="field">
 					<div class="ui active magenta submit button">确定</div>
-			        <div class="ui gray button">取消</div>
+			        <div class="ui gray close-btn button">取消</div>
 				</div>
 				
 			</div>				
