@@ -62,11 +62,13 @@
 							  	<input type="text" name="zip" value="{{ addbook.zip }}" />
 							</div>
 						</div>
-
-            <div class="ui checkbox field">
-              <input name="is_default" type="checkbox" {%if addbook.is_default==1%}checked="checked"{%endif%} value="1" />
-                <label>设为默认地址</label>
-            </div>
+						
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input name="is_default" type="checkbox" style="width:100%;cursor:pointer;" {%if addbook.is_default==1%}checked="checked"{%endif%} value="1" />
+								<label>设为默认地址</label>
+						    </div>
+						</div>
 		
 						<div class="field">
 							<div class="ui active magenta submit button">确定</div>
