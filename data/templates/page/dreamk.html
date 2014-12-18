@@ -270,7 +270,7 @@
 	var pic_url = 'http://7fvhq3.com1.z0.glb.clouddn.com/images/share-dreamk.jpg';
 	phenix.bind_share_list(pic_url);
 
-  var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/mask';
+  var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/promo/dreamk';
 
 	var getParamsOfShareWindow = function(width, height) {
 		return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
@@ -285,7 +285,7 @@
 	});
 	
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/mask'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/promo/dreamk'});
 	
 	$('#wechat-share').click(function(){
 		$('.ui.qrcode.modal').modal('show');

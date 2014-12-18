@@ -27,7 +27,7 @@ app.mongodb_rs: false
 #  host: '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027'
 #  db: 'firebird'
 #  username: 'root'
-#  password: ''
+#  password: 'Frbird#2014$Shop'
 #  replicaSet: 'she_main'
 
 ##tianshuai的数据库环境
