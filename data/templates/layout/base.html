@@ -92,6 +92,12 @@
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<!--[if IE 8]>
+				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie8.min.{{ css_bundle_version }}.css" type="text/css" />
+			<![endif]-->
+			<!--[if IE 7]>
+				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie7.min.{{ css_bundle_version }}.css" type="text/css" />
+			<![endif]-->
 		{% else %}
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.css" type="text/css" />
@@ -104,34 +110,6 @@
 	
 	<body>
 		<!--[if lt IE 9]>
-
-    <style type="text/css">
-      #homepage ul.slidee li,#homepage a.prev,#homepage a.next{
-      display:none;
-      }
-      #homepage ul.slidee li.slide-1{
-      display:block;
-      }
-
-      .ui.grid>.row>.column{
-      width:100% !important;
-      }
-
-      .ui.grid{
-      font-size:14px!important;
-      }
-      .ui.grid>.row.column.two>.column{
-      width:49%!important;
-      }
-
-      .ui.grid>.row>.four.wide.column{
-      width:24%!important;
-      }
-      .ui.responsive.grid{
-      padding:0 8%;
-      }
-    </style>
-
 			<noscript>
 				<div class="ui responsive unsupported-browser grid">
 					<div class="column">
