@@ -219,7 +219,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    */
   public function test_func(){
 
-    echo (float)0.1; //输出为0
+    //echo (float)0.1; //输出为0
+   echo date('Y-m-d H:i:s');
   }
 
 }

@@ -52,7 +52,7 @@ while($data = fgetcsv($fp)){
 	}
 	
 	// 更新物流信息
-	$ok = $model->update_order_sended_status($id, $express_caty, $express_no);
+	$ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no);
 	if(!$ok){
 		echo "Order[$rid],update failed!\n";
 		continue;

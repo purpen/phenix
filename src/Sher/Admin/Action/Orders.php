@@ -412,7 +412,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
-			$ok = $model->update_order_sended_status($id, $express_caty, $express_no);
+      $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
 			
 			// 微信订单，调用发货通知
 			if ($ok && $order_info['from_site'] == Sher_Core_Util_Constant::FROM_WEIXIN) {
@@ -473,16 +473,19 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
 			return $this->ajax_notification('订单状态不正确！', true);
     }
+    $refund_url = Doggy_Config::$vars['app.url.alipay'].'refund/?rid='.$rid;
+    return $this->to_redirect($refund_url);
 
 		try {
 			// 确认退款
 			//$model->refunded_order($order_info['_id']);
+
     } catch (Sher_Core_Model_Exception $e) {
         return $this->ajax_notification('确认退款失败:'.$e->getMessage(), true);
     }
-    $this->stash['admin'] = true;
-		$this->stash['order'] = $model->find_by_rid($rid);
-		return $this->to_taconite_page('ajax/refund_ok.html');   
+    //$this->stash['admin'] = true;
+		//$this->stash['order'] = $model->find_by_rid($rid);
+		//return $this->to_taconite_page('ajax/refund_ok.html');   
   
   
   }

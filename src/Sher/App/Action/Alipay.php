@@ -240,6 +240,76 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->to_raw('success');
 		}
 	}
+
+  /**
+   * 退款
+   */
+  public function refund(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)){
+			return $this->show_message_page('操作不当，订单号丢失！', true);
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		if (empty($order_info)){
+			return $this->show_message_page('抱歉，系统不存在该订单！', true);
+		}
+		$status = $order_info['status'];
+		
+		// 验证订单是否已经付款
+		if ($status != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+			return $this->show_message_page('订单[$rid]未付款！', false);
+    }
+
+    $pay_money = $order_info['pay_money'];
+    if((float)$pay_money==0){
+  			return $this->show_message_page('订单[$rid]金额为零！', false);  
+    }
+
+    $trade_no = $order_info['trade_no'];
+    $trade_site = $order_info['trade_site'];
+    //是否来自支付宝且第三方交易号存在
+    if($trade_site != Sher_Core_Util_Constant::TRADE_ALIPAY || empty($trade_no)){
+			return $this->show_message_page('订单[$rid]支付类型错误！', false);
+    }
+
+
+    //退款日期2014-12-18 24:50:50 (24小时制)
+    $refund_date = date('Y-m-d H:i:s');
+    $detail_data = $trade_no.'^'.$pay_money.'^协商退款';
+
+
+    //构造要请求的参数数组，无需改动
+    $parameter = array(
+      "service" => "refund_fastpay_by_platform_pwd",
+      "partner" => trim($this->alipay_config['partner']),
+      "notify_url"	=> Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
+      "seller_email"	=> $this->alipay_config['seller_email'],
+      "refund_date"	=> $refund_date,
+      "batch_no"	=> $trade_no,
+      "batch_num"	=> 1,
+      "detail_data"	=> $detail_data,
+      "_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
+    );
+
+		// 建立请求
+		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
+		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
+		echo $html_text;
+
+  }
+
+  /**
+   * 退款异步通知url
+   */
+  public function refund_notify(){
+    echo 'aaaaaaaaaaaaaa';
+  
+    //退款成功
+    return $this->to_raw('success');
+  }
+
 	
 }
 ?>

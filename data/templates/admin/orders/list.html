@@ -11,7 +11,7 @@
 
 	// 确认退款弹框 
 	$('a[name=confirm-refund]').bind('click', function(){
-    var rid = $(this).attr('rid');
+    var rid = $(this).attr('refund_rid');
     var pay_money = $(this).attr('pay_money');
     var user_id = $(this).attr('user_id');
     $('div.refund-box [name=rid]').val(rid);
@@ -144,7 +144,7 @@
       <div class="field">
         <label>订单号: <span name="rid-show"></span></label>
         <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
-        <input type="hidden" name="rid" value="" />
+        <input type="hidden" name="refund_rid" value="" />
       </div>
       <div class="field">
         <label>退款用户ID: <span name="user-id-show"></span></label>

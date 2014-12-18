@@ -23,6 +23,15 @@ app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
 
 ## mongodb
+
+#app.mongo.default:
+#  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
+#  db: 'firebird'
+#  username: 'root'
+#  password: 'Frbird#2014$Shop'
+#  replicaSet: 'she_main'
+  
+##liyingweng database 
 #app.mongo.default:
 #  host: '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027'
 #  db: 'firebird'
