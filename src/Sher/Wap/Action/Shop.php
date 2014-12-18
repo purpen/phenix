@@ -432,43 +432,52 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
-      	    //抢购产品状态并且sale_price为0，跳过付款状态
-      	    if( is_array($order_info['items']) && count($order_info['items'])==1 &&  isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
 
-              // 获取产品信息
-              $product = new Sher_Core_Model_Product();
-              $product_data = $product->load((int)$order_info['items'][0]['product_id']);
-              if(empty($product_data)){
-                return $this->ajax_json('抢购产品不存在！', true);
-              }
+            $is_snatched = false;
+      	    //抢购产品状态，跳过付款状态
+      	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
 
-              //是否是抢购商品
-              if($product_data['snatched'] != 1){
-                 return $this->ajax_json('非抢抢购产品！', true);
-              }
+              if((int)$order_info['items'][0]['sale_price']==0){
+                //配置文件没有配置价格为0的产品，返回错误
+                if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
+                  return $this->ajax_json('不允许的操作！', true);             
+                }
 
-              //在抢购时间内
-              if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
-                return $this->ajax_json('抢购还没有开始！', true);
-              }
+                // 获取产品信息
+                $product = new Sher_Core_Model_Product();
+                $product_data = $product->load((int)$order_info['items'][0]['product_id']);
+                if(empty($product_data)){
+                  return $this->ajax_json('抢购产品不存在！', true);
+                }
 
-              // 验证是否预约过抢购商品
-              if(!$this->validate_appoint($product_data['_id'])){
-                return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
-              }
-              // 验证抢购商品是否重复
-              if(!$this->validate_snatch($product_data['_id'])){
-                return $this->ajax_json('抱歉，不要重复抢哦！', true);
-              }
+                //是否是抢购商品
+                if($product_data['snatched'] != 1){
+                   return $this->ajax_json('非抢抢购产品！', true);
+                }
 
-      		    $is_snatched = true;
-        		// 设置订单状态为备货
-      		    $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-      		    $order_info['is_payed'] = 1;
-      	    }else{
-    			$is_snatched = false;
-    		}
-			
+                //在抢购时间内
+                if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
+                  return $this->ajax_json('抢购还没有开始！', true);
+                }
+
+                // 验证是否预约过抢购商品
+                if(!$this->validate_appoint($product_data['_id'])){
+                  return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
+                }
+                // 验证抢购商品是否重复
+                if(!$this->validate_snatch($product_data['_id'])){
+                  return $this->ajax_json('抱歉，不要重复抢哦！', true);
+                }
+
+                $is_snatched = true;
+                // 设置订单状态为备货
+                $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+                $order_info['is_payed'] = 1;
+
+              }
+        		  
+     	      }
+
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
