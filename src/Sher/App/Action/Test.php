@@ -219,7 +219,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    */
   public function test_func(){
 
-    echo (int)'a232303'; //输出为0
+    echo (float)0.1; //输出为0
   }
 
 }

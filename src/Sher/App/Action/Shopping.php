@@ -686,7 +686,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       	    //抢购产品状态，跳过付款状态
       	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
 
-              if((int)$order_info['items'][0]['sale_price']==0){
+              if((float)$order_info['items'][0]['sale_price']==0){
                 //配置文件没有配置价格为0的产品，返回错误
                 if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
                   return $this->ajax_json('不允许的操作！', true);             
