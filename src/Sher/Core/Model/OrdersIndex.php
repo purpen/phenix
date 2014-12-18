@@ -39,11 +39,11 @@ class Sher_Core_Model_OrdersIndex extends Sher_Core_Model_Base  {
 	 * 更新索引记录
 	 */
     public function build_index($id, $rid, $name, $mobile, $full_words=array(), $sku=array(), $attributes=array()){
-        $criteria['order_id'] = $id;
+        $criteria['order_id'] = (string)$id;
 		
         $row = $attributes;
 		
-		$row['order_id'] = $id;
+		$row['order_id'] = (string)$id;
 		$row['rid'] = $rid;
 		$row['name'] = $name;
 		$row['mobile'] = (string)$mobile;

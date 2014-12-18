@@ -60,7 +60,7 @@
 							</div>
 						</div>
 						<div class="right aligned four wide column">
-							{% if !order_info.is_payed %}
+							{% if order_info.status == 1 %}
 							<a href="{{ app_url_shopping }}/success?rid={{ order_info.rid }}" class="ui small magenta button">立即支付</a>
 							{% endif %}
 							
