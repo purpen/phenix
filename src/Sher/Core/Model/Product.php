@@ -294,6 +294,24 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		return false;
 	}
 	
+	/**
+	 * 获取产品的价格区间
+	 */
+	public function range_price($id, $stage){
+		$inventory = new Sher_Core_Model_Inventory();
+		$rows = $inventory->find(array('product_id'=>(int)$id, 'stage'=>(int)$stage));
+		
+		$prices = array();
+		if(!empty($rows)){
+			for($i=0;$i<count($rows);$i++){
+				$prices[] = $rows[$i]['price'];
+			}
+		}
+		unset($inventory);
+		
+		return $prices;
+	}
+	
 	// 添加自定义ID
     protected function before_insert(&$data) {
         $data['_id'] = $this->gen_product_sku();

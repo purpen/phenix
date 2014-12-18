@@ -1,29 +1,18 @@
-{%extends 'layout/board.html'%}
-{% block title %}用户注册服务协议-{% endblock %}
+{%extends 'layout/app.html'%}
+{% block title%}用户注册服务协议-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	ol.ui.list > li > ol.list > li > ol.list >li{
-		padding-left:.8em;
+	.lawpage {
+		margin: 2em auto;
 	}
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
-{% block jquery %}
-	
-{% endblock %}
 
 {% block content %}
-<section class="ui big block">
-	<div class="ui responsive center aligned grid">
+<div class="lawpage">
+	<div class="ui center aligned responsive grid">
 		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">用户注册服务协议</h3>
-				<hr>
-			</div>
-		</div>
-		<div class="row">
-			<div class="fourteen wide column">
+			<div class="column">
 				<div class="content-box">
 					<p class="paragraph">太火鸟网(www.taihuoniao.com)是北京太火红鸟科技有限公司（简称“太火鸟”）运营的网络平台，本协议的双方是太火鸟网的注册用户（简称“您”）与太火鸟。在您注册并使用“太火鸟网”提供的各项服务之前，请您务必仔细阅读并透彻理解本协议条款。如果您同意注册并使用“太火鸟网”提供的服务，视为您已经认真阅读、理解并完全接受了本协议全部内容，本协议即时在您与太火鸟之间发生法律效力。</p>
 					<h3 class="ui header">以下为本协议内容：</h3>
@@ -99,9 +88,11 @@
 						
 					</ol>
 					
-				</div>
+				</div>	
+				
 			</div>
 		</div>
+		
 	</div>
-</section>
+</div>
 {% endblock %}

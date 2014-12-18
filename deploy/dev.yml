@@ -27,14 +27,15 @@ app.mongodb_rs: false
 #  host: '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027'
 #  db: 'firebird'
 #  username: 'root'
-#  password: ''
+#  password: 'Frbird#2014$Shop'
 #  replicaSet: 'she_main'
 
 ##tianshuai的数据库环境
 #----------------------------------------
 app.mongo.default:
-  host: '127.0.0.1:27017'
-  db: 'firebird'
+    host: '127.0.0.1:27017'
+    db: 'firebird'
+    username: 'root'
 
 # redisdb
 app.redis.default: 
@@ -51,7 +52,7 @@ app.cache.memcached.default:
 # 十万火计
 app.topic.dream_category_id: 64
 
-# 就现在商品
+#抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
 # 支付宝

@@ -62,7 +62,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
 		}
-		
+
+    //有些信息visitor没有，需要再次查询user表
+    $model = new Sher_Core_Model_User();
+    $user = $model->find_by_id($this->stash['user_id']);
+
+    $this->stash['user'] = $user;
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 
@@ -410,6 +415,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         $profile['realname'] = $this->stash['realname'];
         $profile['job'] = $this->stash['job'];
 		$profile['phone'] = $this->stash['phone'];
+		$profile['address'] = $this->stash['address'];
 		
 		$user_info['profile'] = $profile;
         

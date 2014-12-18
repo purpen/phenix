@@ -11,7 +11,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'replis');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'replis', 'submit');
 	
 	/**
 	 * 入口
@@ -149,6 +149,64 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		}
 		
 		return $this->api_json('请求成功', 0, $result);
+	}
+	
+	/**
+	 * 提交话题
+	 */
+	public function submit(){
+		$user_id = (int)$this->stash['user_id'];
+		$id = (int)$this->stash['_id'];
+		
+		$data = array();
+		$data['title'] = $this->stash['title'];
+		$data['description'] = $this->stash['description'];
+		$data['tags'] = $this->stash['tags'];
+		$data['asset'] = $this->stash['asset'];
+		
+		if(empty($user_id) || empty($data['title']) || empty($data['description'])){
+			return $this->api_json('请求参数不能为空', 3000);
+		}
+		
+		$data['category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = $user_id;
+				
+				$ok = $model->apply_and_save($data);
+				$topic = $model->get_data();
+				
+				$id = (string)$topic['_id'];
+				
+				if($ok){
+					// 更新用户主题数量
+					$user = new Sher_Core_Model_User();
+					$user->inc_counter('topic_count', $user_id);
+					unset($user);
+				}
+			}else{
+				$data['_id'] = $id;
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->api_json('保存失败,请重新提交', 4002);
+			}
+			
+			// 上传成功后，更新所属的附件
+			/*
+			if(isset($data['asset']) && !empty($data['asset'])){
+				$this->update_batch_assets($data['asset'], $id);
+			}*/			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
+			return $this->api_json('创意保存失败:'.$e->getMessage(), 4001);
+		}
+		
+		return $this->api_json('提交成功', 0, array('id'=>$id));
 	}
 	
 	/**

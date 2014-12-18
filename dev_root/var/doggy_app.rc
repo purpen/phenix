@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-12-11 14:34:09
+//dump on 2014-12-18 11:50:53
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -189,6 +189,7 @@ Doggy_Config::add( array (
   array (
     'host' => '127.0.0.1:27017',
     'db' => 'firebird',
+    'username' => 'root',
   ),
   'app.redis_host' => 'localhost:6379',
   'app.dt.extension_lib.sher_app' => 

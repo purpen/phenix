@@ -1,0 +1,305 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}坐享新风 免费领口罩 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird {
+    margin-top: 0;
+}
+body{
+	font-size:16px;
+	max-width:960px;
+	background:#fff;
+}
+.item,img{
+	cursor: auto !important;
+}
+.dreamk section{
+	max-width:960px;
+	position: relative;
+}
+.dreamk .air .row:first-child .image{
+	padding-top:2em;
+}
+.dreamk .air p{
+	font-size:17px;
+	color:#3e9139;
+	margin-top: 0.8em;
+}
+.dreamk .ui.air .ui.appoint.btn{
+	background:#3e9139;
+	border:0px solid #fff;
+}
+p#clock span {
+	color: #fff;
+	background: #4d4d4d;
+	padding: 5px;
+}
+.dreamk .ui.air .responsive{
+	position:absolute;
+	left:8px;
+	top:290px;
+	width: 96%;
+}
+.dreamk .ui.air .ui.btn-4:before {
+	line-height: 2.3;
+}
+.dreamk .ui.air .ui.btn:hover, .ui.btn:active, .ui.active.btn {
+	padding: .8em 2em;
+}
+
+
+
+
+
+</style>
+{% endblock %}
+{% block jquery %}
+	{% if product.snatched %}
+		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
+			var $this = $(this).html(event.strftime(''
+			+ '<span>%D</span> 天 '
+			+ '<span>%H</span> 时 '
+			+ '<span>%M</span> 分 '
+			+ '<span>%S</span> 秒'));
+		});
+	{% endif %}
+	
+	$('.ui.appoint.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.redirect('{{ app_url_wap }}/auth/login');
+			return false;
+		}
+    {% if appointed %}
+			phenix.show_error_note('不能重复预约', 2000);
+      return;
+    {% endif %}
+
+    {% if has_address %}
+      $('#modal-header').html('确定预约');
+    {% endif %}
+		$('#addbook-form-box').modal('show');
+	});
+
+  //立即抢购
+	$('.ui.qiang.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+
+    {% if product.can_saled %}
+      {% if is_time %}
+    		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku={{ product._id }}', 0);
+      {% endif %}
+    {% endif %}
+
+	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	// 立即购买
+	$('.ui.nowbuy.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku={{ product._id }}', 0);
+	});
+	
+	
+	// 分享按钮
+	var pic_url = 'http://7fvhq3.com1.z0.glb.clouddn.com/images/share-dreamk.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	$('#o-share-weixin').click(function(){
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+{% block content %}
+<div class="dreamk page">
+	<section class="ui air block">
+		<img src="{{ app_url_packaged }}/images/dreamk_app.jpg" class="ui image" />
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<p>距开抢还有:</p>
+					<p id ="clock"> <span>0</span>&nbsp;天 <span>0</span>&nbsp;时&nbsp;<span>0</span>&nbsp;分&nbsp;<span>0</span>&nbsp;秒&nbsp;</p>
+
+          <!--有库存-->
+          {% if product.can_saled %}
+            {% if is_time %}
+              <div class="ui active btn-4 btn-4c icon-arrow-right black qiang btn">
+                <span>开始抢购</span>
+              </div>
+            {% else %}
+              {% if appointed %}
+                <div class="ui active btn-4 btn-4c icon-arrow-right black btn">
+                  <span>预约成功</span>
+                </div>
+              {% else %}
+                <div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
+                  <span>立即预约</span>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <div class="ui active btn-4 btn-4c icon-arrow-right black btn">
+              <span>活动已结束</span>
+            </div>
+          {% endif %}
+
+					<p>活动时间: 2014/12/22</p>
+				</div>
+			</div>
+		</div>
+	</section>
+		<img src="{{ app_url_packaged }}/images/dreamk_app02.jpg" class="ui image" />
+		<img src="{{ app_url_packaged }}/images/dreamk_app3.jpg" class="ui image" />
+		<img src="{{ app_url_packaged }}/images/dreamk_app4.jpg" class="ui image" />
+		<img src="{{ app_url_packaged }}/images/dreamk_app5.jpg" class="ui image" />
+</div>
+
+
+
+<div class="ui small qrcode modal">
+  	<i class="flat close icon"></i>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p>点击屏幕右上角分享按钮</p>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	<div class="actions">
+    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
+  	</div>
+</div>
+<div class="ui small addbook modal" id="addbook-form-box">
+  	<i class="flat close icon"></i>
+	<div class="ui header" id="modal-header">
+    	填写收货地址，登录即抢
+  	</div>
+	<div class="container">
+    {% if has_address %}
+		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content ptop">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_address" value="1" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="fields">
+					<div class="field">
+            <label>如需更换默认收货地址，预约成功后可以进入个人中心收货地址进行修改。</label>
+					</div>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+    {% else %}
+		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_default" value="1" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="two fields">
+					<div class="field">
+						<label>收货人姓名</label>
+				  		<input type="text" name="name" />
+					</div>
+				</div>
+				
+				<div class="two fields">
+					<div class="field">
+						<label>联系电话</label>
+					  	<input type="text" name="phone" placeholder="11位手机号码" />
+					</div>
+				</div>
+				
+				<div class="field">
+					<label>地址</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+		
+					    <div class="default text">省份/自治区</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+	
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+				</div>
+				
+				<div class="field">
+					<textarea name="address" class="small">{{ addbook.address }}</textarea>
+				</div>
+		
+				<div class="two fields">
+					<div class="field">
+						<label>邮政编码</label>
+					  	<input type="text" name="zip" />
+					</div>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+    {%endif%}
+		<!--分享内容-->
+		<div id="share-friends" class="ui hide form">
+			<div class="content">
+				<div class="field">
+					<textarea name="sharecontent" class="small">坐享新风 免费领口罩</textarea>
+				</div>
+				<div class="field">
+					<div class="ui active red button" id="o-share-weibo">
+						<i class="flat icon_weibo icon"></i>分享至微博
+					</div>
+					<div class="ui active green button" id="o-share-weixin">
+						<i class="flat icon_weixin icon"></i>分享到微信
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
