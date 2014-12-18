@@ -30,7 +30,10 @@
 		return false;
 	});
 	
-	// 现在预约
+	// 现在预约--口罩
+  $('.appoint.btn').click(function(){
+    phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
+  });
 	
 	// 加入购物车
 	$('.ui.buy.btn').click(function(){
