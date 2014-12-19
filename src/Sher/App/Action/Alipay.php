@@ -259,7 +259,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		// 验证订单是否已申请付款
 		if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-			return $this->show_message_page('订单[$rid]未付款！', false);
+			return $this->show_message_page('订单[$rid]未申请付款！', false);
     }
 
     $pay_money = $order_info['pay_money'];
@@ -267,7 +267,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
   			return $this->show_message_page('订单[$rid]金额为零！', false);  
     }
 
-    $trade_no = $order_info['trade_no'];
+    $trade_no = (int)$order_info['trade_no'];
     $trade_site = $order_info['trade_site'];
     //是否来自支付宝且第三方交易号存在
     if($trade_site != Sher_Core_Util_Constant::TRADE_ALIPAY || empty($trade_no)){
@@ -287,7 +287,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
       "notify_url"	=> Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
       "seller_email"	=> $this->alipay_config['seller_email'],
       "refund_date"	=> $refund_date,
-      "batch_no"	=> $trade_no,
+      "batch_no"	=> (string)date('Ymd').(string)$trade_no,
       "batch_num"	=> 1,
       "detail_data"	=> $detail_data,
       "_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
