@@ -11,6 +11,11 @@
 	$('.ui.addbook.button').click(function(){
 		$('.ui.addbook.modal').modal('show');
 	});
+
+	// 关闭地址框
+	$('.ui.close-btn.button').click(function(){
+		$('.ui.addbook.modal').modal('hide');
+	});
 	
 	$('#addbook-form').livequery(function(){
 		$(this).form({
@@ -67,7 +72,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
 				}
 			}
 		});
@@ -86,7 +91,7 @@
 	// 编辑
 	$('.ui.edit.button').bind('click', function(){
 		var id = $(this).data('id');
-		$.post('{{ app_url_address }}/edit_address', {id: id, plat:'mobile'});
+		$.post('{{ app_url_wap }}/app/site/address/edit_address', {id: id, plat:'mobile'});
 		return false;
 	});
 	
@@ -94,7 +99,7 @@
 	$('.ui.remove.button').bind('click', function(){
 		var id = $(this).data('id');
 		if(confirm('确认执行这个删除操作吗?')){
-			$.post('{{ app_url_address }}/remove_address', {id: id}, function(result){
+			$.post('{{ app_url_wap }}/app/site/address/remove_address', {id: id}, function(result){
 				if (result.success){
 					if ($('#'+result.data.id).hasClass('active')) {
 						// 清空默认值
@@ -143,5 +148,85 @@
 		</div>
 	</div>
 </div>
-{% include "block/shopping/address.html" %}
+
+<!--弹出地址框-->
+<div class="ui small addbook modal" id="addbook-form-box">
+  	<i class="flat close icon"></i>
+	<div class="ui header">
+    	使用新地址
+  	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/app/site/address/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="plat" value="{{ plat }}" />
+				
+				<div class="two fields">
+					<div class="field">
+						<label>收货人姓名</label>
+				  		<input type="text" name="name" />
+					</div>
+				</div>
+				
+				<div class="two fields">
+					<div class="field">
+						<label>联系电话</label>
+					  	<input type="text" name="phone" placeholder="11位手机号码" />
+					</div>
+				</div>
+				
+				<div class="field">
+					<label>地址</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+		
+					    <div class="default text">省份/自治区</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+	
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+				</div>
+				
+				<div class="field">
+					<textarea name="address" class="small">{{ addbook.address }}</textarea>
+				</div>
+		
+				<div class="two fields">
+					<div class="field">
+						<label>邮政编码</label>
+					  	<input type="text" name="zip" />
+					</div>
+				</div>
+
+        		<div class="inline field">
+					<div class="ui checkbox">
+						<input name="is_default" type="checkbox" checked="checked" value="1">
+						<label>设为默认地址</label>
+				    </div>
+				</div>
+
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+			        <div class="ui gray close-btn button">取消</div>
+				</div>
+				
+			</div>				
+		</form>
+	</div>
+</div>
+
 {% endblock %}
