@@ -257,8 +257,8 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		}
 		$status = $order_info['status'];
 		
-		// 验证订单是否已经付款
-		if ($status != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+		// 验证订单是否已申请付款
+		if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
 			return $this->show_message_page('订单[$rid]未付款！', false);
     }
 

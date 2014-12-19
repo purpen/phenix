@@ -473,7 +473,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
 			return $this->ajax_notification('订单状态不正确！', true);
     }
-    $refund_url = Doggy_Config::$vars['app.url.alipay'].'refund/?rid='.$rid;
+    $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
     return $this->to_redirect($refund_url);
 
 		try {
