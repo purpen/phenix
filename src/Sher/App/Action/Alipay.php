@@ -315,25 +315,27 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$verify_result = $alipayNotify->verifyNotify();
 		
 		if ($verify_result) {//验证成功
-			$notify_type = $_POST['notify_type'];
-			$batch_no = $_POST['batch_no'];
-			$result_details = $_POST['result_details'];
+			$notify_type = isset($_POST['notify_type']) ? $_POST['notify_type'] : '';
+			$batch_no = isset($_POST['batch_no']) ? $_POST['batch_no'] : '';
+			$result_details = isset($_POST['result_details']) ? $_POST['result_details'] : '';
 
       if($notify_type != 'batch_refund_notify'){
         Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] is notify_type wrong!");
 				return $this->to_raw('fail');
       }
 
-      $refund_fields = array();
+      $refunded_price = 0;
+      $refund_result = '';
+      $trade_no = '';
       $details_arr = explode('$', $result_details);
 
       if(count($details_arr)>0){
         $val = explode('^', $details_arr[0]);
-        $rade_no = $val[0];
-        $refund_fields['refunded_price'] = $val[1];
+        $trade_no = $val[0];
+        $refunded_price = $val[1];
         $refund_result = $val[2];
 
-        if(isset($datails_arr[1])){
+        if(isset($details_arr[1])){
           $val = explode('^', $details_arr[1]);
           $refund_alipay_account = $val[0];
           $refund_alipay_id = $val[1];
@@ -345,12 +347,12 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				return $this->to_raw('fail');     
       }
 
-      if(!isset($refund_result) || $refund_result != 'SUCCESS'){
+      if($refund_result != 'SUCCESS'){
         Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] wrong! error_code is $refund_result");
 				return $this->to_raw('fail'); 
       }
 
-      if(!isset($trade_no || empty($trade_no))){
+      if(empty($trade_no)){
         Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] trade_no is not found!");
 				return $this->to_raw('fail');     
       }
@@ -363,17 +365,20 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				return $this->to_raw('fail');        
       }
 
+      $order_id = (string)$order['_id'];
+
       if($order['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-        Doggy_Log_Helper::warn("Alipay refund notify: order_id[(string)$order['_id']] stauts is wrong!");
+        Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] stauts is wrong!");
 				return $this->to_raw('fail');      
       }
 
-      $ok = $model->refunded_order($order['_id'], $refund_fields);
+      $ok = $model->refunded_order($order_id, array('refund_fields'=>$refunded_price));
       if($ok){
         //退款成功
         return $this->to_raw('success');     
       }else{
-        return $this->to_raw('fail');      
+        Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] refunde_order fail !");
+        return $this->to_raw('fail');  
       }
 			
 		}else{
