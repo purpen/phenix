@@ -67,7 +67,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
     #退款成功标识及时间
     'is_refunded' => 0,
-    'refund_price'  =>  null,
+    'refunded_price'  =>  null,
     'refunded_date' => 0,
 		
 		## 物流信息
@@ -373,6 +373,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
     //退款成功
     if ($status == Sher_Core_Util_Constant::ORDER_REFUND_DONE){
+      if(empty($options['refunded_price'])){
+        throw new Sher_Core_Model_Exception('refunded_price is Null'); 
+      }
+      $updated['refunded_price'] = $options['refunded_price'];
 			$updated['is_refunded'] = 1;
 			$updated['refunded_date'] = time();
     }
@@ -380,7 +384,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     // 已发货订单
 		if ($status == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
       if(empty($options['express_caty']) || empty($options['express_no'])){
-        throw new Sher_Core_Model_Exception('Order_id, express_caty, express_no is Null'); 
+        throw new Sher_Core_Model_Exception('express_caty, express_no is Null'); 
       }
 			$updated['express_caty'] = $options['express_caty'];
 			$updated['express_no'] = $options['express_no'];

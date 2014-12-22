@@ -318,36 +318,65 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
         Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] is notify_type wrong!");
 				return $this->to_raw('fail');
       }
+
+      $refund_fields = array();
+      $details_arr = explode('$', $result_details);
+
+      if(count($details_arr)>0){
+        $val = explode('^', $details_arr[0]);
+        $rade_no = $val[0];
+        $refund_fields['refunded_price'] = $val[1];
+        $refund_result = $val[2];
+
+        if(isset($datails_arr[1])){
+          $val = explode('^', $details_arr[1]);
+          $refund_alipay_account = $val[0];
+          $refund_alipay_id = $val[1];
+          $refund_money = $val[2];
+        }
+      
+      }else{
+        Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] is result_details wrong!");
+				return $this->to_raw('fail');     
+      }
+
+      if(!isset($refund_result) || $refund_result != 'SUCCESS'){
+        Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] wrong! error_code is $refund_result");
+				return $this->to_raw('fail'); 
+      }
+
+      if(!isset($trade_no || empty($trade_no))){
+        Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] trade_no is not found!");
+				return $this->to_raw('fail');     
+      }
+
+      $model = new Sher_Core_Model_Orders();
+      $order = $model->first(array('trade_no'=>$trade_no));
+
+      if(empty($order)){
+        Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$trade_no] order is empty!");
+				return $this->to_raw('fail');        
+      }
+
+      if($order['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+        Doggy_Log_Helper::warn("Alipay refund notify: order_id[(string)$order['_id']] stauts is wrong!");
+				return $this->to_raw('fail');      
+      }
+
+      $ok = $model->refunded_order($order['_id'], $refund_fields);
+      if($ok){
+        //退款成功
+        return $this->to_raw('success');     
+      }else{
+        return $this->to_raw('fail');      
+      }
 			
-			if($notify_type == 'batch_refund_notify' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
-				// 判断该笔订单是否在商户网站中已经做过处理
-				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				// 如果有做过处理，不执行商户的业务程序
-				Doggy_Log_Helper::warn("Alipay secrete notify [$out_trade_no][$trade_no]!");
-				
-				return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
-
-        $model = new Sher_Core_Model_Orders();
-        $model->refunded_order($id, array());
-
-				
-				// 注意：
-				// 该种交易状态只在两种情况下出现
-				// 1、开通了普通即时到账，买家付款成功后。
-				// 2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限
-				//（如：三个月以内可退款、一年以内可退款等）后。
-			} else {
-				Doggy_Log_Helper::warn("Alipay secrete notify trade status fail!");
-				return $this->to_raw('fail');
-			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
+			Doggy_Log_Helper::warn("Alipay refund notify verify result fail!");
 			return $this->to_raw('fail');
 		}
-  
-    //退款成功
-    return $this->to_raw('success');
+
   }
 
 	
