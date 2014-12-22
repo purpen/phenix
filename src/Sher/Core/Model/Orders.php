@@ -316,7 +316,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 退款成功
 	 */
 	public function refunded_order($id, $options=array()){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_REFUND_DONE);
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_REFUND_DONE, $options);
 	}
 	
 	/**
