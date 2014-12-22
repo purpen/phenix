@@ -304,7 +304,12 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
    * 退款异步通知url
    */
   public function refund_notify(){
-		Doggy_Log_Helper::warn("Alipay secrete notify refund!");
+		Doggy_Log_Helper::warn("Alipay refund notify !");
+    //记录传回参数，测试用
+    $str = implode('&&', $this->stash);
+		Doggy_Log_Helper::warn("=======================");
+		Doggy_Log_Helper::warn("Alipay refund notify params: $str !");
+		Doggy_Log_Helper::warn("=======================");
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
