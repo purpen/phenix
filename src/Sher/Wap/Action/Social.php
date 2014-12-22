@@ -132,7 +132,13 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
 		
+		// 是否参赛作品
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		if($topic['category_id'] == $this->stash['dream_category_id']){
+			if($topic['created_on'] >= mktime(0,0,0,10,28,2014) && $topic['created_on'] <= mktime(23,59,59,12,20,2014)){
+				$this->stash['is_match_idea'] = true;
+			}
+		}
 		
 		return $this->to_html_page('wap/show.html');
 	}

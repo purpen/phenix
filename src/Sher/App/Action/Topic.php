@@ -288,7 +288,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$this->stash['product'] = & $product->extend_load($topic['target_id']);
 		}
 		
+		// 是否参赛作品
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		if($topic['category_id'] == $this->stash['dream_category_id']){
+			if($topic['created_on'] >= mktime(0,0,0,10,28,2014) && $topic['created_on'] <= mktime(23,59,59,12,20,2014)){
+				$this->stash['is_match_idea'] = true;
+			}
+		}
 		
 		return $this->to_html_page($tpl);
 	}
