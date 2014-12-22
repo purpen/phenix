@@ -219,7 +219,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    */
   public function test_func(){
 
-    //echo (float)0.1; //输出为0
+    //echo gettype((float)'12.5'); //输出为0
+    echo date('Y-m-d H:i:s', strtotime('2014-12-22 22:20:33'));
     //echo date('Y-m-d H:i:s');
     //$model = new Sher_Core_Model_Orders();
     //$model->update_set('547d8eda7fd32e4704477f69', array('pay_money'=>50));

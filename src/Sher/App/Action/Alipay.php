@@ -344,6 +344,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
           $refund_alipay_account = $val[0];
           $refund_alipay_id = $val[1];
           $refund_money = $val[2];
+          Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] has serve pay: $refund_alipay_account, $refund_alipay_id, $refund_money !");
         }
       
       }else{
@@ -376,7 +377,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				return $this->to_raw('fail');      
       }
 
-      $ok = $model->refunded_order($order_id, array('refund_fields'=>$refunded_price));
+      $ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
       if($ok){
         //退款成功
         return $this->to_raw('success');     

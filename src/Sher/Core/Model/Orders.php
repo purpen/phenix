@@ -376,7 +376,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
       if(empty($options['refunded_price'])){
         throw new Sher_Core_Model_Exception('refunded_price is Null'); 
       }
-      $updated['refunded_price'] = $options['refunded_price'];
+      $updated['refunded_price'] = (float)$options['refunded_price'];
 			$updated['is_refunded'] = 1;
 			$updated['refunded_date'] = time();
     }
