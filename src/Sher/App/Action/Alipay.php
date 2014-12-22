@@ -21,7 +21,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		'transport' => 'http',
 	);
 	
-	protected $exclude_method_list = array('execute','secrete_notify','direct_notify');
+	protected $exclude_method_list = array('execute','secrete_notify','direct_notify','refund_notify');
 	
 	/**
 	 * 预先执行init
@@ -284,7 +284,6 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
     $parameter = array(
       "service" => "refund_fastpay_by_platform_pwd",
       "partner" => trim($this->alipay_config['partner']),
-      "notify_url"	=> Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
       "seller_email"	=> $this->alipay_config['seller_email'],
       "refund_date"	=> $refund_date,
       "batch_no"	=> (string)date('Ymd').(string)$trade_no,
@@ -292,6 +291,11 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
       "detail_data"	=> $detail_data,
       "_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
     );
+
+    //删除初始化付款时调用参数
+    unset($this->alipay_config['return_url']);
+		// 服务器异步通知页面路径
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify';
 
 		// 建立请求
 		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
