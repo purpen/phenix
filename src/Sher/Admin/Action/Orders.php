@@ -47,7 +47,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$this->stash['end_time'] = strtotime($this->stash['end_date']);
 		}
 		if(!empty($this->stash['s'])){
-			$params['status'] = $this->stash['s'];
+			$params['s'] = $this->stash['s'];
 		}
 		
 		$arg = "";
@@ -154,6 +154,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// header('Content-Disposition: attachment;filename="'.$export_file.'"');
 		// header('Cache-Control: max-age=0');
 		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
 		// 打开PHP文件句柄，php://output表示直接输出到浏览器
 		$fp = fopen($export_file, 'w');
 
@@ -404,7 +406,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
-			$ok = $model->update_order_sended_status($id, $express_caty, $express_no);
+      $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
 			
 			// 微信订单，调用发货通知
 			if ($ok && $order_info['from_site'] == Sher_Core_Util_Constant::FROM_WEIXIN) {

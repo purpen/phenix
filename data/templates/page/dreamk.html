@@ -161,6 +161,7 @@
 </style>
 {% endblock %}
 {% block jquery %}
+
 	{% if product.snatched %}
 		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
 			var $this = $(this).html(event.strftime(''
@@ -177,7 +178,31 @@
 			phenix.show_login_box();
 			return false;
 		}
-		$('#addbook-form-box').modal('show');
+    {% if appointed %}
+			phenix.show_error_note('不能重复预约', 2000);
+      return;
+    {% endif %}
+
+    {% if has_address %}
+      $('#modal-header').html('确定预约');
+    {% endif %}
+    
+  	$('#addbook-form-box').modal('show');
+	});
+
+  //立即抢购
+	$('.ui.qiang.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    {% if product.can_saled %}
+      {% if is_time %}
+    		phenix.redirect('{{ app_url_cart_nowbuy }}?sku={{ product._id }}', 0);
+      {% endif %}
+    {% endif %}
+
 	});
 	
 	$('.ui.province.dropdown').livequery(function(){
@@ -256,11 +281,25 @@
 	});
 	
 	// 分享按钮
-	var pic_url = 'http://frstatic.qiniudn.com/images/share-comeon.jpg';
+	var pic_url = 'http://7fvhq3.com1.z0.glb.clouddn.com/images/share-dreamk.jpg';
 	phenix.bind_share_list(pic_url);
+
+  var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/promo/dreamk';
+
+	var getParamsOfShareWindow = function(width, height) {
+		return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+	}
+
+	$('#o-share-weibo').click(function() {
+    var title = '坐享新风 免费领口罩';
+		var url = 'http://v.t.sina.com.cn/share/share.php?url=' + site + '&title=' + title + '&pic=' + pic_url;
+		var params = getParamsOfShareWindow(607, 523);
+		window.open(url, windowName, params);
+		return false;
+	});
 	
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/comeon'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/promo/dreamk'});
 	
 	$('#wechat-share').click(function(){
 		$('.ui.qrcode.modal').modal('show');
@@ -281,11 +320,30 @@
 					<img src="{{ app_url_packaged }}/images/dreamk_3.png">
 				</div>
 				<p><span>3000</span>&nbsp;枚耳戴式呼吸阀防护口罩等你免费领取！</p>
-				<p class="time">距明天开枪还有 :</p>
-				<p id ="clock"> <span>12</span>&nbsp;天 <span>42</span>&nbsp;时&nbsp;</p>
-				<div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
-					<span>立即预约</span>
-				</div>
+				<p class="time">距开抢还有 :</p>
+        <p id ="clock"> <span>0</span>&nbsp;天 <span>0</span>&nbsp;时&nbsp;<span>0</span>&nbsp;分&nbsp;<span>0</span>&nbsp;秒&nbsp;</p>
+        <!--有库存-->
+        {% if product.can_saled %}
+          {% if is_time %}
+            <div class="ui active btn-4 btn-4c icon-arrow-right black qiang btn">
+              <span>开始抢购</span>
+            </div>
+          {% else %}
+            {% if appointed %}
+              <div class="ui active btn-4 btn-4c icon-arrow-right black btn">
+                <span>预约成功</span>
+              </div>
+            {% else %}
+              <div class="ui active btn-4 btn-4c icon-arrow-right appoint btn">
+                <span>立即预约</span>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% else %}
+          <div class="ui active btn-4 btn-4c icon-arrow-right black btn">
+            <span>活动已结束</span>
+          </div>
+        {% endif %}
 				<p>活动时间 : 2014/12/22</p>					
 			</div>
 		</div>
@@ -393,9 +451,30 @@
 
 
 	<div class="container">
+    {% if has_address %}
+		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content ptop">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_address" value="1" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="fields">
+					<div class="field">
+            <label>如需更换默认收货地址，预约成功后可以进入个人中心收货地址进行修改。</label>
+					</div>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+    {% else %}
 		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
 		  	<div class="content">
 				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_address" value="0" />
 				<input type="hidden" name="is_default" value="1" />
 				<input type="hidden" name="product_id" value="{{ product._id }}" />
 				
@@ -456,6 +535,7 @@
 				
 			</div>				
 		</form>
+    {% endif %}
 		
 		<!--分享内容-->
 		<div id="share-friends" class="ui hide form">

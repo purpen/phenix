@@ -1,5 +1,5 @@
 <?php
-//deployed on: Wed Dec 17 20:53:43 2014
+//deployed on: Mon Dec 22 10:21:29 2014
 define('DOGGY_VERSION','v1.4.2');
 define('DOGGY_APP_ROOT','/Users/purpen/project/phenix/dev_root');
 define('DOGGY_APP_CLASS_PATH','/Users/purpen/project/phenix/vendor:/Users/purpen/project/phenix/src:/Users/purpen/project/doggy-x/src');

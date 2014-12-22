@@ -51,7 +51,7 @@ app.cache.memcached.default:
 # 十万火计
 app.topic.dream_category_id: 64
 
-# 就现在商品
+#抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
 # 支付宝
@@ -95,3 +95,4 @@ app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
 
 # 临时数据存储目录
 app.storage.tmpdir: '/Users/xiaoyi/data/export'
+

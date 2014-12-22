@@ -49,6 +49,13 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 公司证书
+	 */
+	public function license(){
+		return $this->to_html_page('page/guide/license.html');
+	}
+	
+	/**
 	 * 成功案例
 	 */
 	public function succase() {
