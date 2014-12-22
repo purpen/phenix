@@ -25,6 +25,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 */
 	public function dream(){
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		$this->stash['start_time'] = mktime(0,0,0,10,28,2014);
+		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
+		
 		return $this->to_html_page('wap/match.html');
 	}
 	
@@ -39,6 +42,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		
+		$this->stash['start_time'] = mktime(0,0,0,10,28,2014);
+		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
 		
 		return $this->to_html_page('wap/match_list.html');
 	}
