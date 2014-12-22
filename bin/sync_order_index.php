@@ -39,7 +39,7 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i<$max; $i++) {
-    $order_id = $list[$i]['_id'];
+    $order_id = (string)$list[$i]['_id'];
 		$status = $list[$i]['status']; 
     $rid = $list[$i]['rid'];
 

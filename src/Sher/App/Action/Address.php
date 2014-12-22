@@ -58,7 +58,11 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		
 		$this->stash['provinces'] = $provinces;
 		
-		$this->stash['action'] = 'edit_address';
+    $this->stash['action'] = 'edit_address';
+    $this->stash['action_url'] = Doggy_Config::$vars['app.url.address'].'/ajax_address';
+    if(isset($this->stash['plat']) && $this->stash['plat']=='mobile'){
+      $this->stash['action_url'] = Doggy_Config::$vars['app.url.wap'].'/app/site/address/ajax_address';
+    }
 		
 		return $this->to_taconite_page('page/address/ajax_address.html');
 	}

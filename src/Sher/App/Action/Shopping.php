@@ -128,7 +128,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 验证是否预约过抢购商品
 		if(!$this->validate_appoint($sku)){
-			return $this->show_message_page('抱歉，您还没有预约，不能参加本次抢购！');
+			//return $this->show_message_page('抱歉，您还没有预约，不能参加本次抢购！');
 		}
 		// 验证抢购商品是否重复
 		if(!$this->validate_snatch($sku)){
@@ -711,7 +711,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
                 // 验证是否预约过抢购商品
                 if(!$this->validate_appoint($product_data['_id'])){
-                  return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
+                  //return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
                 }
                 // 验证抢购商品是否重复
                 if(!$this->validate_snatch($product_data['_id'])){
