@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-12-19 09:57:51
+//dump on 2014-12-19 15:54:19
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -187,9 +187,11 @@ Doggy_Config::add( array (
   'app.mongodb_rs' => false,
   'app.mongo.default' => 
   array (
-    'host' => '127.0.0.1:27017',
+    'host' => '127.0.0.1:27029,127.0.0.1:27028,127.0.0.1:27027',
     'db' => 'firebird',
     'username' => 'root',
+    'password' => 'Frbird#2014$Shop',
+    'replicaSet' => 'she_main',
   ),
   'app.redis_host' => 'localhost:6379',
   'app.dt.extension_lib.sher_app' => 
@@ -291,6 +293,33 @@ Doggy_Config::add( array (
   'app.word.filter' => 
   array (
     'seword' => 'tmd|sex|色情|妈的|奶奶的|日你|TNND|她娘的',
+  ),
+  'app.email.domains' => 
+  array (
+    '163.com' => 'http://mail.163.com/',
+    '126.com' => 'http://www.126.com/',
+    'gmail.com' => 'http://mail.google.com/',
+    'sina.com.cn' => 'http://mail.sina.com.cn/',
+    'sina.cn' => 'http://mail.sina.com.cn/',
+    'vip.sina.cn' => 'http://mail.sina.com.cn/',
+    '2008.sina.com' => 'http://mail.2008.sina.com.cn/',
+    'sohu.com' => 'http://mail.sohu.com/',
+    'tom.com' => 'http://mail.tom.com/',
+    '139.com' => 'http://mail.139.com/',
+    'qq.com' => 'http://mail.qq.com/',
+    'vip.qq.com' => 'http://mail.qq.com/',
+    'foxmail.com' => 'http://foxmail.com/',
+    'hotmail.com' => 'http://www.hotmail.com/',
+    'live.com' => 'http://mail.live.com/',
+    'yahoo.com.cn' => 'http://mail.cn.yahoo.com/',
+    'yahoo.cn' => 'http://mail.cn.yahoo.com/',
+    'yahoo.com' => 'http://mail.yahoo.com/',
+    'eyou.com' => 'http://www.eyou.com/',
+    '21cn.com' => 'http://mail.21cn.com/',
+    'yeah.net' => 'http://www.yeah.net/',
+    '188.com' => 'http://www.188.com/',
+    'sogou.com' => 'http://mail.sogou.com/',
+    '189.cn' => 'http://webmail3.189.cn/webmail/',
   ),
   'app.domain.base' => 'http://taihuoniao.me',
   'app.domain.static' => 'http://static.taihuoniao.me',
@@ -400,38 +429,11 @@ Doggy_Config::add( array (
   'app.url.stuff.view' => 'http://taihuoniao.me/idea/%s',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b14120201',
-  'app.version.jquery_bundle_version' => 'v0.10b14120201',
-  'app.version.css_bundle_version' => 'v0.10b14120201',
-  'app.email.domains' => 
-  array (
-    '163.com' => 'http://mail.163.com/',
-    '126.com' => 'http://www.126.com/',
-    'gmail.com' => 'http://mail.google.com/',
-    'sina.com.cn' => 'http://mail.sina.com.cn/',
-    'sina.cn' => 'http://mail.sina.com.cn/',
-    'vip.sina.cn' => 'http://mail.sina.com.cn/',
-    '2008.sina.com' => 'http://mail.2008.sina.com.cn/',
-    'sohu.com' => 'http://mail.sohu.com/',
-    'tom.com' => 'http://mail.tom.com/',
-    '139.com' => 'http://mail.139.com/',
-    'qq.com' => 'http://mail.qq.com/',
-    'vip.qq.com' => 'http://mail.qq.com/',
-    'foxmail.com' => 'http://foxmail.com/',
-    'hotmail.com' => 'http://www.hotmail.com/',
-    'live.com' => 'http://mail.live.com/',
-    'yahoo.com.cn' => 'http://mail.cn.yahoo.com/',
-    'yahoo.cn' => 'http://mail.cn.yahoo.com/',
-    'yahoo.com' => 'http://mail.yahoo.com/',
-    'eyou.com' => 'http://www.eyou.com/',
-    '21cn.com' => 'http://mail.21cn.com/',
-    'yeah.net' => 'http://www.yeah.net/',
-    '188.com' => 'http://www.188.com/',
-    'sogou.com' => 'http://mail.sogou.com/',
-    '189.cn' => 'http://webmail3.189.cn/webmail/',
-  ),
+  'app.version.sher' => 'v0.10b14121901',
+  'app.version.jquery_bundle_version' => 'v0.10b14121901',
+  'app.version.css_bundle_version' => 'v0.10b14121901',
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
-  'app.doggyx.class_path' => '/opt/project/php/doggy-x',
+  'app.doggyx.class_path' => '/Users/xiaoyi/project/doggy-x',
   'app.redis.default' => 
   array (
     'host' => '127.0.0.1',
