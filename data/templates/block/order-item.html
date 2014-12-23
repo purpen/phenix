@@ -12,7 +12,7 @@
 				{% endif %}
 		  	</div>
 		  	<div class="item">
-		      	下单时间：{{ order.created_on|date }}
+		      	下单时间：{{ order.created_on|intval|date }}
 		  	</div>
 		</div>
 	</div>

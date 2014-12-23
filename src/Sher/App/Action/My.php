@@ -114,6 +114,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			case 1:
 				$this->set_target_css_state('nopayed');
 				break;
+      case 2:
+        $this->set_target_css_state('ready_goods');
+        break;
 			case 9: // 已关闭订单：取消的订单、过期的订单
 				$this->set_target_css_state('closed');
 				break;
