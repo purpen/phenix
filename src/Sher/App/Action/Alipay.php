@@ -290,7 +290,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
       "batch_num"	=> 1,
       "detail_data"	=> $detail_data,
       "_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
-      ""  =>  Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
+      "notify_url"  =>  Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
     );
 
     //删除初始化付款时调用参数
