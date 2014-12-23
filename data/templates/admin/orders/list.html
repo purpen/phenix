@@ -21,6 +21,17 @@
 		$('.ui.refund-box.modal').modal('show');
 	});
 
+	// 确认退款按钮
+	$('.ui.refund.button').click(function(){
+		$('.ui.refund-result-box.modal').modal('show');
+		$('.ui.refund-box.modal').modal('hide');
+
+	});
+
+	// 支付后查看结果
+	$('.ui.refund-result').click(function(){
+    location.reload(true);
+	});
 
 {% endblock %}
 	
@@ -134,7 +145,7 @@
     退款信息:
   </div>
     <div class="content">
-    <form action="{{ app_url_admin }}/orders/ajax_do_refund" class="ui form" method="post" id="refund-form">
+    <form action="{{ app_url_admin }}/orders/ajax_do_refund" class="ui form" method="post" id="refund-form" target="_blank">
       <div class="field">
         <label>订单号: <span name="rid-show"></span></label>
         <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
@@ -152,6 +163,24 @@
       <div class="right aligned field ">
         <div class="ui gray cancel button">取消</div>
 				<input type="submit" class="ui active refund magenta submit button" value="确认退款" />
+      </div>
+    </form>
+    </div>
+</div>
+
+<!-- 退款成功后返回结果 -->
+<div class="ui small refund-result-box modal">
+    <i class="flat close icon"></i>
+  <div class="header">
+    退款结果:
+  </div>
+    <div class="content">
+    <form action="" class="ui form" method="get">
+      <div class="field">
+        <label>点击确定查看退款状态是否正确</label>
+      </div>
+      <div class="right aligned field ">
+				<input type="submit" class="ui active refund-result magenta submit button" value="确定" />
       </div>
     </form>
     </div>
