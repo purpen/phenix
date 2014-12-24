@@ -90,6 +90,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				case 4: // 已完成订单
 					$query['status'] = Sher_Core_Util_Constant::ORDER_PUBLISHED;
 					break;
+				case 5: // 申请退款订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_READY_REFUND;
+					break;
+				case 6: // 已退款订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_REFUND_DONE;
+					break;
 				case 9: // 已关闭订单：取消的订单、过期的订单
 					$query['status'] = array(
 						'$in' => array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED),
@@ -446,5 +452,43 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		return $this->get_list();
 	}
+
+  /**
+   * 确认退款操作
+   */
+  public function ajax_do_refund(){
+ 		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('订单不存在！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+		}
+		
+		// 申请退款的订单才允许退款操作
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			return $this->ajax_notification('订单状态不正确！', true);
+    }
+    $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
+    return $this->to_redirect($refund_url);
+
+		try {
+			// 确认退款
+			//$model->refunded_order($order_info['_id']);
+
+    } catch (Sher_Core_Model_Exception $e) {
+        return $this->ajax_notification('确认退款失败:'.$e->getMessage(), true);
+    }
+    //$this->stash['admin'] = true;
+		//$this->stash['order'] = $model->find_by_rid($rid);
+		//return $this->to_taconite_page('ajax/refund_ok.html');   
+  
+  
+  }
+
 }
 ?>

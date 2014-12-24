@@ -110,6 +110,20 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * @var int
      */
     const ORDER_READY_GOODS = 10;
+
+    /**
+     * 申请退款
+     * 
+     * @var int
+     */
+    const ORDER_READY_REFUND = 12;
+
+    /**
+     * 已退款成功
+     * 
+     * @var int
+     */
+    const ORDER_REFUND_DONE = 13;
 	
     /**
      * 订单已发货状态

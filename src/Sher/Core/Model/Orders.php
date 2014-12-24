@@ -59,6 +59,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		# 取消订单标识及时间
 		'is_canceled' => 0,
 		'canceled_date' => 0,
+
+    #申请退款标识及时间
+    'is_refunding' => 0,
+    'refunding_date' => 0,
+    'refund_reason'  =>  null,
+
+    #退款成功标识及时间
+    'is_refunded' => 0,
+    'refunded_price'  =>  null,
+    'refunded_date' => 0,
 		
 		## 物流信息
 		
@@ -294,6 +304,20 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	public function canceled_order($id, $options=Array()){
 		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED, $options);
 	}
+
+	/**
+	 * 申请退款
+	 */
+	public function refunding_order($id, $options=array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_READY_REFUND, $options);
+	}
+
+	/**
+	 * 退款成功
+	 */
+	public function refunded_order($id, $options=array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_REFUND_DONE, $options);
+	}
 	
 	/**
 	 * 自动关闭订单
@@ -338,10 +362,29 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['canceled_date'] = time();
 		}
 
+    //申请退款中
+    if ($status == Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			$updated['is_refunding'] = 1;
+			$updated['refunding_date'] = time();
+      if(!empty($options) && !empty($options['refund_reason'])){
+ 			  $updated['refund_reason'] = $options['refund_reason'];   
+      }
+    }
+
+    //退款成功
+    if ($status == Sher_Core_Util_Constant::ORDER_REFUND_DONE){
+      if(empty($options['refunded_price'])){
+        throw new Sher_Core_Model_Exception('refunded_price is Null'); 
+      }
+      $updated['refunded_price'] = (float)$options['refunded_price'];
+			$updated['is_refunded'] = 1;
+			$updated['refunded_date'] = time();
+    }
+
     // 已发货订单
 		if ($status == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
       if(empty($options['express_caty']) || empty($options['express_no'])){
-        throw new Sher_Core_Model_Exception('Order_id, express_caty, express_no is Null'); 
+        throw new Sher_Core_Model_Exception('express_caty, express_no is Null'); 
       }
 			$updated['express_caty'] = $options['express_caty'];
 			$updated['express_no'] = $options['express_no'];
@@ -354,6 +397,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
       Sher_Core_Util_Constant::ORDER_PAY_FAIL,
       Sher_Core_Util_Constant::ORDER_EXPIRED, 
       Sher_Core_Util_Constant::ORDER_CANCELED, 
+      Sher_Core_Util_Constant::ORDER_READY_REFUND,
     );
     if(in_array($status, $arr)){
 		  $row = $this->find_by_id($id);
@@ -415,6 +459,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				break;
 			case Sher_Core_Util_Constant::ORDER_READY_GOODS:
 				$status_label = '正在配货';
+				break;
+			case Sher_Core_Util_Constant::ORDER_READY_REFUND:
+				$status_label = '退款中';
+				break;
+			case Sher_Core_Util_Constant::ORDER_REFUND_DONE:
+				$status_label = '已退款';
 				break;
 			case Sher_Core_Util_Constant::ORDER_SENDED_GOODS:
 				$status_label = '已发货';

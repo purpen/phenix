@@ -128,7 +128,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 验证是否预约过抢购商品
 		if(!$this->validate_appoint($sku)){
-			return $this->show_message_page('抱歉，您还没有预约，不能参加本次抢购！');
+			//return $this->show_message_page('抱歉，您还没有预约，不能参加本次抢购！');
 		}
 		// 验证抢购商品是否重复
 		if(!$this->validate_snatch($sku)){
@@ -686,7 +686,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       	    //抢购产品状态，跳过付款状态
       	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
 
-              if((int)$order_info['items'][0]['sale_price']==0){
+              if((float)$order_info['items'][0]['sale_price']==0){
                 //配置文件没有配置价格为0的产品，返回错误
                 if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
                   return $this->ajax_json('不允许的操作！', true);             
@@ -711,7 +711,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
                 // 验证是否预约过抢购商品
                 if(!$this->validate_appoint($product_data['_id'])){
-                  return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
+                  //return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
                 }
                 // 验证抢购商品是否重复
                 if(!$this->validate_snatch($product_data['_id'])){

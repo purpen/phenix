@@ -5,8 +5,32 @@
 {% block jquery %}
 	$('.datepicker').pickadate();
 	
-	$('.ui.submit.button').click(function(){
+	$('.ui.submit.button.search').click(function(){
 		$('#search-form').submit();
+	});
+
+	// 确认退款弹框 
+	$('a[name=confirm-refund]').bind('click', function(){
+    var rid = $(this).attr('rid');
+    var pay_money = $(this).attr('pay_money');
+    var user_id = $(this).attr('user_id');
+    $('div.refund-box [name=rid]').val(rid);
+    $('div.refund-box [name=rid-show]').text(rid);
+    $('div.refund-box [name=pay-money-show]').text(pay_money);
+    $('div.refund-box [name=user-id-show]').text(user_id);
+		$('.ui.refund-box.modal').modal('show');
+	});
+
+	// 确认退款按钮
+	$('.ui.refund.button').click(function(){
+		$('.ui.refund-result-box.modal').modal('show');
+		$('.ui.refund-box.modal').modal('hide');
+
+	});
+
+	// 支付后查看结果
+	$('.ui.refund-result').click(function(){
+    location.reload(true);
 	});
 {% endblock %}
 	
@@ -22,6 +46,12 @@
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=2" class="{% if s == 2 %}active{%endif%} item">
 			待发货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=5" class="{% if s == 5 %}active{%endif%} item">
+			申请退款
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=6" class="{% if s == 6 %}active{%endif%} item">
+			已退款
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
 			已发货
@@ -111,7 +141,10 @@
 				</div>
 				<div class="right aligned six wide column">
 					{% if order_info.status == 10 %}
-					<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
+					  <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
+					{% endif %}
+					{% if order_info.status == 12 %}
+            <a href="javascript:void(0);" class="ui small gray button" name="confirm-refund" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" >确认退款</a>
 					{% endif %}
 				</div>
 			</div>
@@ -237,5 +270,53 @@
 			<div class="item">{{ order_info.transfer_time_s.title }}</div>
 		</div>
 	</div>
+
+<!-- 确认退款弹出层 -->
+<div class="ui small refund-box modal">
+    <i class="flat close icon"></i>
+  <div class="header">
+    退款信息:
+  </div>
+    <div class="content">
+    <form action="{{ app_url_admin }}/orders/ajax_do_refund" class="ui form" method="post" id="refund-form" target="_blank">
+      <div class="field">
+        <label>订单号: <span name="rid-show"></span></label>
+        <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
+        <input type="hidden" name="rid" value="" />
+      </div>
+      <div class="field">
+        <label>退款用户ID: <span name="user-id-show"></span></label>
+
+      </div>
+      <div class="field">
+        <label>退款金额: <span name="pay-money-show"></span></label>
+
+      </div>
+
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+				<input type="submit" class="ui active refund magenta submit button" value="确认退款" />
+      </div>
+    </form>
+    </div>
+</div>
+
+<!-- 退款成功后返回结果 -->
+<div class="ui small refund-result-box modal">
+    <i class="flat close icon"></i>
+  <div class="header">
+    退款结果:
+  </div>
+    <div class="content">
+    <form class="ui form" method="get">
+      <div class="field">
+        <label>点击确定查看退款状态是否正确</label>
+      </div>
+      <div class="right aligned field ">
+				<input type="submit" class="ui active refund-result magenta submit button" value="确定" />
+      </div>
+    </form>
+    </div>
+</div>
 
 {% endblock %}

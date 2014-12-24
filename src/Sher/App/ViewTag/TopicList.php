@@ -31,6 +31,9 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		$time = 0;
 		$sort = 0;
 		
+		$start_time = 0;
+		$end_time = 0;
+		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -91,6 +94,16 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			case 4:
 				$query['created_on'] = array('$gte'=> time() - 365*$day);
 				break;
+		}
+		// 开始时间
+		if($start_time && $end_time){
+			$query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+		}
+		if($start_time && !$end_time){
+			$query['created_on'] = array('$gte' => $start_time);
+		}
+		if(!$start_time && $end_time){
+			$query['created_on'] = array('$lte' => $end_time);
 		}
 		
 		// 排序
