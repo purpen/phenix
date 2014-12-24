@@ -8,7 +8,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg');
 	
 	/**
 	 * 网站入口
@@ -155,6 +155,13 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		$this->stash['bonus'] = $result;
 		
 		return $this->to_taconite_page('ajax/bonus_ok.html');
+	}
+	
+	/**
+	 * 玩蛋去
+	 */
+	public function playegg(){
+		return $this->to_html_page('page/games.html');
 	}
 	
 }
