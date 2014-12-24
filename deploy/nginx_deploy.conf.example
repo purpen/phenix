@@ -9,6 +9,27 @@ server {
 
 server {
     listen       80;
+    server_name  api.taihuoniao.com;
+    charset utf-8;
+	index  app;
+    root /www/phenix/web;
+
+    error_page  404   /app/wap/index/not_found;
+
+    location / {
+		rewrite ^(.*)$ /app/api/$1 last;
+    }
+	
+	location /__file_result__/ {
+	    internal;
+	    alias /;
+	}
+	
+    include phpbackend.conf;
+}
+
+server {
+    listen       80;
     server_name  m.taihuoniao.com;
     charset utf-8;
 	index  app;
