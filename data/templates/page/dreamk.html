@@ -96,13 +96,27 @@
  	p.count {
 		padding: 19px 0;
 	}
-	.fields .field.line label {
-		font-size:17px;
+ 	/*.ui.dimmer.page .ui.one.items .ui.dividing{
+		display: inline;
+		float: left;
+		margin-right: 17px;
+		border-bottom:0px solid #fff;
+		margin-bottom:0 !important;
+		padding-bottom:0 !important;
 	}
-	#addbook-form .content.ptop{
-		padding-top:2em;
-		padding-bottom:2em;
+	.ui.dimmer.page .ui.one.items .ui.dividing+p{
+		line-height: 1.6em;
+		margin-bottom: 0;
 	}
+	.ui.one.address.items .item{
+		height:100%;
+	}
+	.ui.one.address.items .center.item{
+		margin-bottom:9%;
+	}
+	.ui.one.address.items .center.item .btn{
+		margin:0 !important;
+	}*/
 	
 	
 	@media only screen and (max-width: 767px){
@@ -398,8 +412,44 @@
 <div class="ui small addbook modal" id="addbook-form-box">
   	<i class="flat close icon"></i>
 	<div class="ui header" id="modal-header">
-    	填写收货地址，登录即抢
+    	选择收货地址
   	</div>
+	<!--<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui one address items">
+					<div class="item active">
+						<h4 class="ui dividing header">
+							<i class="map marker icon"></i> <span class="name">刘永峰</span>
+						</h4>	
+						<p>
+						北京市 朝阳区 酒仙桥北京市</p>		
+					</div>
+					<div class="item">
+						<h4 class="ui dividing header">
+							<i class="map marker icon"></i> <span class="name">刘永峰</span>
+						</h4>	
+						<p>
+						北京市 朝阳区 酒仙桥北京市</p>		
+					</div>
+					<div class="item">
+						<h4 class="ui dividing header">
+							<i class="map marker icon"></i> <span class="name">刘永峰</span>
+						</h4>	
+						<p>
+						北京市 朝阳区 酒仙桥北京市</p>		
+					</div>
+					<div class="center aligned item" id="create-new-address">
+						<a class="ui magenta addbook icon btn" href="">
+							<i class="flat add icon"></i> 添加新地址
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+
+
 	<div class="container">
     {% if has_address %}
 		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
