@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-12-26 13:36:46
+//dump on 2014-12-26 13:37:59
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -431,7 +431,7 @@ Doggy_Config::add( array (
     '189.cn' => 'http://webmail3.189.cn/webmail/',
   ),
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
-  'app.doggyx.class_path' => '/Users/purpen/project/doggy-x',
+  'app.doggyx.class_path' => '/opt/project/php/doggy-x',
   'app.redis.default' => 
   array (
     'host' => '127.0.0.1',
