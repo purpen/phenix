@@ -307,6 +307,7 @@ function got_bonus() {
             var success = result.success;
             if (success == true) {
                 //领取成功后相关操作
+                gift_value = 0;
                 num_gift = 0;
                 gift = [];
                 $('.getgift').html(num_gift);

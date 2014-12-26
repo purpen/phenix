@@ -1,0 +1,29 @@
+<taconite>
+	<prepend select="#product-vote-people-list"><![CDATA[
+    {% vote_list var:'votelist' target_id:target_id size:size page:page %}
+      <div class="ui horizontal list">
+      {% for vote in votelist.rows  %}
+      <div class="item">
+        <a class="ui large avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted" id="supporter-user-{{ vote.user._id }}">
+          <img src="{{ vote.user.medium_avatar_url }}" alt="{{ vote.user.nickname }}" />
+        </a>
+        <div class="content">
+          <a class="ui link" href="{{ vote.user.home_url }}">{{ vote.user.nickname }}</a>
+              <div class="sub header">
+              {{ vote.user.city }}
+            </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+	]]></prepend>
+
+  <eval>
+  {% if votelist.total_rows > size %}
+      $("a[name='support_list_more']").attr('current_page', {{ size }});
+    {% else %}
+      $("a[name='support_list_more']").hide();
+    {%endif%}
+  </eval>
+
+</taconite>

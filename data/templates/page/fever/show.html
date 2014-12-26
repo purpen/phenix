@@ -153,7 +153,7 @@
 		margin-top: 0.5em;
 	}
 
-  #product-vote-people>.ui.list>.item>.content{
+  #product-vote-people-list>.ui.list>.item>.content{
     float: left;
     height: 48px;
     width: 119px;
@@ -163,8 +163,9 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-  function fetch_support(){
-    
+  function fetch_support(current_page, size){
+    var url = '{{ app_url_fever }}/ajax_fetch_support';
+    $.get(url, {target_id: {{ product._id }}, page: current_page, size: size});
   }
 </script>
 {% endblock %}
@@ -376,7 +377,15 @@
 
 
   //ajax加载支持者
-  fetch_support();
+  fetch_support(1, 8);
+
+  //查看更多支持者
+  $('a[name=support_list_more]').click(function(){
+    var current_page = $("a[name='support_list_more']").attr('current_page');
+    current_page++;
+    fetch_support(current_page, 16);
+  });
+
 	
 {% endblock %}
 
@@ -756,24 +765,8 @@
 					<h3 class="ui dividing header">
 						支持者 <small>（{{ product.vote_count }}）</small>
 					</h3>
-					<div class="avatars" id="product-vote-people-list">
-						{% vote_list var:'votelist' target_id:product._id size:8 %}
-					    <div class="ui horizontal list">
-							{% for vote in votelist.rows  %}
-							<div class="item">
-								<a class="ui large avatar pop image" href="{{ vote.user.home_url }}"  data-content="{{ vote.user.nickname }}" data-variation="inverted" id="supporter-user-{{ vote.user._id }}">
-									<img src="{{ vote.user.medium_avatar_url }}" alt="{{ vote.user.nickname }}" />
-								</a>
-								<div class="content">
-									<a class="ui link" href="{{ vote.user.home_url }}">{{ vote.user.nickname }}</a>
-							      	<div class="sub header">
-									  	{{ vote.user.city }}
-								  	</div>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-					</div>
+					<div class="avatars" id="product-vote-people-list"></div>
+          <div><a href="javascript:void(0);" current_page="1" name="support_list_more">更多>></a></div>
 					
 				</div>
 			</div>

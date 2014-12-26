@@ -476,7 +476,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
 		// 现在只支持支付宝退款
 		if ($order_info['trade_site'] != Sher_Core_Util_Constant::TRADE_ALIPAY){
-			return $this->ajax_notification('只支持支付宝退款', true);
+			return $this->show_message_page('只支持支付宝退款', true);
     }
 
     $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
