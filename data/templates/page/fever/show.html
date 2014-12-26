@@ -155,6 +155,14 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript">
+  function abc(){
+    alert(123);
+  }
+</script>
+{% endblock %}
+
 {% block jquery %}
 
 	phenix.hook_product_topic();
@@ -359,6 +367,10 @@
 			}, 'json');
 		}
 	});
+
+
+  //ajax加载支持者
+  abc();
 	
 {% endblock %}
 
@@ -449,6 +461,7 @@
 						<div class="ui clearing divider"></div>
 						<!--最新投票者列表-->
 						<div class="vote people">
+              <!--ajax加载-->
 							<div class="avatars" id="product-vote-people">
 								{% vote_list var:'votelist' target_id:product._id size:14 %}
 								{% for vote in votelist.rows  %}
@@ -737,7 +750,7 @@
 					<h3 class="ui dividing header">
 						支持者 <small>（{{ product.vote_count }}）</small>
 					</h3>
-					<div class="avatars" id="product-vote-people">
+					<div class="avatars" id="product-vote-people-list">
 						{% vote_list var:'votelist' target_id:product._id size:8 %}
 					    <div class="ui horizontal list">
 							{% for vote in votelist.rows  %}
