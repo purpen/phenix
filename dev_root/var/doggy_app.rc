@@ -1,5 +1,5 @@
 <?php
-//dump on 2014-12-22 16:38:34
+//dump on 2014-12-24 21:35:59
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -460,5 +460,5 @@ Doggy_Config::add( array (
   'app.url.front_pay_url' => 'http://202.101.25.184/UpopWeb/api/Pay.action',
   'app.url.back_pay_url' => 'http://202.101.25.184/UpopWeb/api/BSPay.action',
   'app.url.query_url' => 'http://202.101.25.184/UpopWeb/api/Query.action',
-  'app.storage.tmpdir' => '/Users/xiaoyi/data/export',
+  'app.storage.tmpdir' => '/opt/tmp',
 ));?>

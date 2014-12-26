@@ -104,5 +104,6 @@ app.url.back_pay_url: 'http://202.101.25.184/UpopWeb/api/BSPay.action'
 app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
 
 # 临时数据存储目录
-app.storage.tmpdir: '/Users/xiaoyi/data/export'
+#app.storage.tmpdir: '/Users/xiaoyi/data/export'
+app.storage.tmpdir: '/opt/tmp'
 
