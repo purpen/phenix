@@ -121,14 +121,14 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 			return $this->api_json('访问的产品不存在！', 3000);
 		}
 		
-		$product = array();
-		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
 
-        if (!empty($product)) {
-            $product = $model->extended_model_row($product);
-        }
+    if(empty($product)) {
+			return $this->api_json('访问的产品不存在！', 3000);
+    }
+    $product = $model->extended_model_row($product);
+
 		if($product['deleted']){
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
@@ -180,7 +180,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		$product['skus'] = $skus;
 		$product['skus_count'] = count($skus);
 
-		//return $this->api_json('请求成功', 0, $product);
+		return $this->api_json('请求成功', 0, $product);
 	}
 	
 	/**

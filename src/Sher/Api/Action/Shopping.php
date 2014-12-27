@@ -325,7 +325,7 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
       if(!empty($result['rows'][$i]['items'])){
         $m = 0;
         foreach($result['rows'][$i]['items'] as $k=>$v){
-          $d = $product_model->find_by_id((int)$v['product_id']);
+          $d = $product_model->extend_load((int)$v['product_id']);
           if(!empty($d)){
             if($v['sku']==$v['product_id']){
               $data[$i]['items'][$m]['name'] = $d['title'];   
@@ -337,6 +337,7 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
               }
               $data[$i]['items'][$m]['name'] = $d['title'].' '.$sku_mode; 
             }
+            $data[$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
           }
 
           $m++;
