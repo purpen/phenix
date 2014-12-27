@@ -1,5 +1,5 @@
 <taconite>
-	<prepend select="#product-vote-people-list"><![CDATA[
+	<append select="#product-vote-people-list"><![CDATA[
     {% vote_list var:'votelist' target_id:target_id size:per_page page:page %}
       <div class="ui horizontal list">
       {% for vote in votelist.rows  %}
@@ -16,13 +16,13 @@
       </div>
       {% endfor %}
     </div>
-	]]></prepend>
+	]]></append>
 
   <eval>
   {% if page >= total_page %}
       $("a[name='support_list_more']").hide();
     {% else %}
-      $("a[name='support_list_more']").attr('current_page', {{ size }});
+      $("a[name='support_list_more']").attr('current_page', {{ page }});
     {%endif%}
   </eval>
 
