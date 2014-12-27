@@ -171,9 +171,14 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-  function fetch_support(current_page, size){
+
+  var per_page = 4;
+
+  function fetch_support(current_page, per_page){
+    var total_count = {{ product.vote_count }};
+    var total_page = Math.ceil(total_count/per_page);
     var url = '{{ app_url_fever }}/ajax_fetch_support';
-    $.get(url, {target_id: {{ product._id }}, page: current_page, size: size});
+    $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
   }
 </script>
 {% endblock %}
@@ -391,7 +396,7 @@
   $('a[name=support_list_more]').click(function(){
     var current_page = $("a[name='support_list_more']").attr('current_page');
     current_page++;
-    fetch_support(current_page, 16);
+    fetch_support(current_page, 8);
   });
 
 	
