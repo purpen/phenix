@@ -172,21 +172,19 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //$model = new Sher_Core_Model_Product();
     //$ok = $model->update_set(1112600014, array('published' => $published));
     //$data = $model->load(1112600014);
-    $service = Sher_Core_Service_Topic::instance();
-    $model = new Sher_Core_Model_User();
-    $product = new Sher_Core_Model_Product();
-    $data = $product->find_by_id(1112600027);
-    $data = $product->extended_model_row($data);
+    //$service = Sher_Core_Service_Topic::instance();
+    //$model = new Sher_Core_Model_User();
+    //$product = new Sher_Core_Model_Product();
+    //$data = $product->find_by_id(1112600027);
+    //$data = $product->extended_model_row($data);
     //print_r($data);exit;
     //$result = $model->find_by_id(3, array('account'=>0));
-    $result = $service->query_list($model,$query=array(),array('assign_fields'=>array('account','sex','is_ok','state','role_id','avatar')));
-    print_r($result);exit;
-    if($ok){
-      echo '1111';
-    }
+    //$result = $service->query_list($model,$query=array(),array('assign_fields'=>array('account','sex','is_ok','state','role_id','avatar')));
+    //print_r($result);exit;
 
-    $model = new Sher_Core_Model_Timeline();
-    $data = $model->find_by_id('547598dd7fd32e45041bfcd8');
+
+    $model = new Sher_Core_Model_AddBooks();
+    $data = $model->find_by_id('549e72b27fd32e46042e3d5e');
     print_r($data);
   }
 

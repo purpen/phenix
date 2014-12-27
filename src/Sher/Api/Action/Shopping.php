@@ -299,6 +299,8 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
         $result = $service->get_latest_list($query, $options);
 
 
+    $product_model = new Sher_Core_Model_Product();
+    $sku_model = new Sher_Core_Model_Inventory();
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
@@ -307,7 +309,39 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 			}
 			// ID转换为字符串
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
+      //收货地址
+      if(empty($result['rows'][$i]['express_info'])){
+        if(isset($result['rows'][$i]['addbook'])){
+          $data[$i]['express_info']['name'] = $result['rows'][$i]['addbook']['name'];
+          $data[$i]['express_info']['phone'] = $result['rows'][$i]['addbook']['phone'];
+          //列表页暂不需要
+          //$data[$i]['express_info']['zip'] = $result['rows'][$i]['addbook']['zip'];
+          //$data[$i]['express_info']['province'] = $result['rows'][$i]['addbook']['area_province']['city'];
+          //$data[$i]['express_info']['province'] = $result['rows'][$i]['addbook']['area_district']['city'];
+        }
+      }
 
+      //商品详情
+      if(!empty($result['rows'][$i]['items'])){
+        $m = 0;
+        foreach($result['rows'][$i]['items'] as $k=>$v){
+          $d = $product_model->find_by_id((int)$v['product_id']);
+          if(!empty($d)){
+            if($v['sku']==$v['product_id']){
+              $data[$i]['items'][$m]['name'] = $d['title'];   
+            }else{
+              $sku_mode = '';
+              $sku = $sku_model->find_by_id($v['sku']);
+              if(!empty($sku)){
+                $sku_mode = $sku['mode'];
+              }
+              $data[$i]['items'][$m]['name'] = $d['title'].' '.$sku_mode; 
+            }
+          }
+
+          $m++;
+        }
+      }
 		}
 		$result['rows'] = $data;
 		

@@ -10,7 +10,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 		'size' => 10,
 	);
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment');
 	
 	/**
 	 * 入口
@@ -187,18 +187,23 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	 * 收藏
 	 */
 	public function ajax_favorite(){
-		$id = $this->stash['id'];
+    $id = $this->stash['id'];
+    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}
+
+    if(empty($user_id)){
+    	return $this->api_json('缺少请求参数！', 3000);
+    }
 		
 		try{
 			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
 			
 			$model = new Sher_Core_Model_Favorite();
-			if(!$model->check_favorite($this->visitor->id, $id, $type)){
+			if(!$model->check_favorite($user_id, $id, $type)){
 				$fav_info = array('type' => $type);
-				$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
+				$ok = $model->add_favorite($user_id, $id, $fav_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
@@ -215,17 +220,21 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	 */
 	public function ajax_love(){
 		$id = $this->stash['id'];
+    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}
+    if(empty($user_id)){
+    	return $this->api_json('缺少请求参数！', 3000);
+    }
 		
 		try{
 			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
 			
 			$model = new Sher_Core_Model_Favorite();
-			if (!$model->check_loved($this->visitor->id, $id, $type)) {
+			if (!$model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
-				$ok = $model->add_love($this->visitor->id, $id, $love_info);
+				$ok = $model->add_love($user_id, $id, $love_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
@@ -282,6 +291,10 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	 * 用户评价
 	 */
 	public function ajax_comment(){
+    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+    if(empty($user_id)){
+    	return $this->api_json('缺少请求参数！', 3000);
+    }
 		$data = array();
 		$result = array();
 		
@@ -294,7 +307,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 				return $this->api_json('获取数据错误,请重新提交', 3000);
 			}
 		
-			$data['user_id'] = $this->visitor->id;
+			$data['user_id'] = $user_id;
 			$data['type'] = Sher_Core_Model_Comment::TYPE_PRODUCT;
 			
 			// 保存数据
