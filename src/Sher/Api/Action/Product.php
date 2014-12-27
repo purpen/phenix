@@ -117,6 +117,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+    $user_id = isset($this->stash['current_user_id'])?$this->stash['current_user_id']:0;
 		if(empty($id)){
 			return $this->api_json('访问的产品不存在！', 3000);
 		}
@@ -147,8 +148,8 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
-    $product['is_favorite'] = $fav->check_favorite(1, $product['_id'], 1) ? 1 : 0;
-    $product['is_love'] = $fav->check_loved(1, $product['_id'], 1) ? 1 : 0;
+    $product['is_favorite'] = $fav->check_favorite($user_id, $product['_id'], 1) ? 1 : 0;
+    $product['is_love'] = $fav->check_loved($user_id, $product['_id'], 1) ? 1 : 0;
 
     //返回图片数据
     $assets = array();
@@ -188,7 +189,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	 */
 	public function ajax_favorite(){
     $id = $this->stash['id'];
-    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+    $user_id = isset($this->stash['current_user_id'])?(int)$this->stash['current_user_id']:0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}
@@ -220,7 +221,7 @@ class Sher_Api_Action_Product extends Sher_Core_Action_Authorize {
 	 */
 	public function ajax_love(){
 		$id = $this->stash['id'];
-    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+    $user_id = isset($this->stash['current_user_id'])?(int)$this->stash['current_user_id']:0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}

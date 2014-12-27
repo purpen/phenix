@@ -87,6 +87,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+    $user_id = isset($this->stash['current_user_id'])?(int)$this->stash['current_user_id']:0;
 		if(empty($id)){
 			return $this->api_json('访问的主题不存在！', 3000);
 		}
@@ -126,8 +127,8 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
-    $topic['is_favorite'] = $fav->check_favorite(1, $topic['_id'], 2) ? 1 : 0;
-    $topic['is_love'] = $fav->check_loved(1, $topic['_id'], 2) ? 1 : 0;
+    $topic['is_favorite'] = $fav->check_favorite($user_id, $topic['_id'], 2) ? 1 : 0;
+    $topic['is_love'] = $fav->check_loved($user_id, $topic['_id'], 2) ? 1 : 0;
 		
 		// 获取父级分类
 		$category = new Sher_Core_Model_Category();

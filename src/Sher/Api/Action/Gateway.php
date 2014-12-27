@@ -146,7 +146,7 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 			return $this->ajax_json('领取失败：缺少请求参数！', true);
 		}
 		
-		$bonus_list = preg_split('/[:]+/u', $bonus);
+		$bonus_list = preg_split('/[;]+/u', $bonus);
 		if(empty($bonus_list)){
 			return $this->ajax_json('领取失败：未获取红包信息！', true);
 		}

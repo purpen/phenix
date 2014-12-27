@@ -289,7 +289,7 @@ function got_bonus() {
         if (bonus == '')
             bonus = key;
         else {
-            bonus += +';' + key;
+            bonus += ';' + key;
         }
     }
     popWinOther('reg_box');
