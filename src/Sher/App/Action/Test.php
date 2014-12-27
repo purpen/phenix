@@ -215,6 +215,23 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
   }
 
   /**
+   * 打印所有字段用于整理文档
+   */
+  public function print_model(){
+    $order = new Sher_Core_Model_Orders();
+    $data = $order->find_by_rid('114122500252');
+    if(!empty($data)){
+      foreach($data as $key=>$val){
+        echo $key;
+        echo '<br />';
+      }
+    }else{
+      echo '不存在';
+    }
+
+  }
+
+  /**
    * test function show
    */
   public function test_func(){

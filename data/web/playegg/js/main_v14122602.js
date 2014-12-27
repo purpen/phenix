@@ -132,9 +132,9 @@ function showResult(id) {
 
 function gameover() {
     if (find == true) {
-        var url = gate_url+'/gateway/game_result?version=' + version + '&uid=' + uid + '&bonus=code' + ':1';
+        var url = gate_url+'/gateway/game_result?version=' + version + '&uid=' + uid + '&bonus='+ code +':1';
     } else {
-        var url = gate_url+'/gateway/game_result?version=' + version + '&uid=' + uid + '&bonus=code' + ':0';
+        var url = gate_url+'/gateway/game_result?version=' + version + '&uid=' + uid + '&bonus='+ code +':0';
     }
 
     pauseAud();
