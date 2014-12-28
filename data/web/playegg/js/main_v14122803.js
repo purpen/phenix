@@ -8,13 +8,13 @@ var gift_value = 0; //红包总值
 var num_gift = 0; //红包个数
 var name = "菜鸟"; //封号
 var percent = 0; //百分比
-var uid = 0; //用户id
-var nickname = ""; //用户昵称
+var uid = $("input[name='user_id']").val(); //用户id
+var nickname = $("input[name='nickname']").val(); //用户昵称
 var version = 1; //游戏版本
 var gate_url  = 'http://m.taihuoniao.com/app/api';
 
 $(function () {
-    newgame();
+    //newgame();
 
     $('form :input').blur(function () {
         if ($(this).is('#tel')) {
