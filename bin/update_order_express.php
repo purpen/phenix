@@ -36,6 +36,11 @@ while($data = fgetcsv($fp)){
 	$express_caty = 's';
 	
 	echo "Order[$rid],express[$express_caty][$express_title][$express_no]\n";
+
+  if(empty($express_no)){
+    echo "Order[$rid], express is empty";
+    continue;
+  }
 	
 	$model = new Sher_Core_Model_Orders();
 	$order_info = $model->find_by_rid($rid);
@@ -52,7 +57,7 @@ while($data = fgetcsv($fp)){
 	}
 	
 	// 更新物流信息
-	$ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no);
+	$ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
 	if(!$ok){
 		echo "Order[$rid],update failed!\n";
 		continue;
