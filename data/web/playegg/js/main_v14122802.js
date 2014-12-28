@@ -11,7 +11,7 @@ var percent = 0; //百分比
 var uid = 0; //用户id
 var nickname = ""; //用户昵称
 var version = 1; //游戏版本
-var gate_url  = 'http://wap.taihuoniao.com/app/api';
+var gate_url  = 'http://m.taihuoniao.com/app/api';
 
 $(function () {
     newgame();
