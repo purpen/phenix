@@ -49,9 +49,10 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 * 游戏
 	 */
 	public function games(){
-    $playegg_url = Doggy_Config::$vars['app.url.wap'].'/playegg/index.html';
+    //$playegg_url = Doggy_Config::$vars['app.url.wap'].'/playegg/index.html';
+    //echo $playegg_url;exit;
     //直接跳转游戏页面
-    return $this->to_redirect($playegg_url);
+		return $this->to_html_page('../web/playegg/index.html');
 		//return $this->to_html_page('wap/games.html');
 	}
 	
