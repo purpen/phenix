@@ -165,6 +165,9 @@
   #product-vote-people-list .ui.list .item .ui.image{
     display:block;
   }
+  #product-vote-people-list .ui.horizontal.list+.ui.horizontal.list {
+    padding-top: 20px;
+  }
 
 </style>
 {% endblock %}
@@ -172,7 +175,7 @@
 {% block layout_js %}
 <script type="text/javascript">
 
-  var per_page = 4;
+  var per_page = 32;
 
   function fetch_support(current_page, per_page){
     var total_count = {{ product.vote_count }};
@@ -390,13 +393,13 @@
 
 
   //ajax加载支持者
-  fetch_support(1, 8);
+  fetch_support(1, per_page);
 
   //查看更多支持者
   $('a[name=support_list_more]').click(function(){
     var current_page = $("a[name='support_list_more']").attr('current_page');
     current_page++;
-    fetch_support(current_page, 8);
+    fetch_support(current_page, per_page);
   });
 
 	
