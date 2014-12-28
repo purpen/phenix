@@ -14,7 +14,7 @@ var version = 1; //游戏版本
 var gate_url  = 'http://m.taihuoniao.com/app/api';
 
 $(function () {
-    //newgame();
+    newgame();
 
     $('form :input').blur(function () {
         if ($(this).is('#tel')) {
