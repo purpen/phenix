@@ -18,7 +18,7 @@ ini_set('memory_limit','512M');
 echo "Prepare to build order express...\n";
 
 $filepath = Doggy_Config::$vars['app.storage.tmpdir'];
-$filename = 'frbird_report_20141211.csv';
+$filename = 'frbird_report_20141228.csv';
 
 $data_file = $filepath.'/'.$filename;
 // 检测是否已经存在该文件
@@ -30,7 +30,7 @@ $total = 0;
 $fp = fopen($data_file, 'r');
 while($data = fgetcsv($fp)){
 	$rid = trim($data[0]);
-	$express_no = trim($data[9]);
+	$express_no = trim($data[8]);
 	
 	$express_title = '申通快递';
 	$express_caty = 's';
