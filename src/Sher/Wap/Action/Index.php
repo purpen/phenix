@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games');
 	
 	/**
 	 * 商城入口
@@ -49,7 +49,16 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 * 游戏
 	 */
 	public function games(){
-		return $this->to_html_page('wap/games.html');
+    //直接跳转游戏页面
+    if($this->visitor->id){
+      $this->stash['user_id'] = $this->visitor->id;
+      $this->stash['nickname'] = $this->visitor->nickname;
+    }else{
+      $this->stash['user_id'] = 0;
+      $this->stash['nickname'] = '';
+    }
+		return $this->to_html_page('../web/playegg/index.html');
+		//return $this->to_html_page('wap/games.html');
 	}
 	
 	/**

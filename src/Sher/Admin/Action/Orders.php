@@ -473,20 +473,14 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
 			return $this->ajax_notification('订单状态不正确！', true);
     }
+
+		// 现在只支持支付宝退款
+		if ($order_info['trade_site'] != Sher_Core_Util_Constant::TRADE_ALIPAY){
+			return $this->show_message_page('只支持支付宝退款', true);
+    }
+
     $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
     return $this->to_redirect($refund_url);
-
-		try {
-			// 确认退款
-			//$model->refunded_order($order_info['_id']);
-
-    } catch (Sher_Core_Model_Exception $e) {
-        return $this->ajax_notification('确认退款失败:'.$e->getMessage(), true);
-    }
-    //$this->stash['admin'] = true;
-		//$this->stash['order'] = $model->find_by_rid($rid);
-		//return $this->to_taconite_page('ajax/refund_ok.html');   
-  
   
   }
 

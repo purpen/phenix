@@ -18,7 +18,7 @@ ini_set('memory_limit','512M');
 echo "Prepare to build order express...\n";
 
 $filepath = Doggy_Config::$vars['app.storage.tmpdir'];
-$filename = 'frbird_report_20141211.csv';
+$filename = 'frbird_report_20141228.csv';
 
 $data_file = $filepath.'/'.$filename;
 // 检测是否已经存在该文件
@@ -30,12 +30,17 @@ $total = 0;
 $fp = fopen($data_file, 'r');
 while($data = fgetcsv($fp)){
 	$rid = trim($data[0]);
-	$express_no = trim($data[9]);
+	$express_no = trim($data[8]);
 	
 	$express_title = '申通快递';
 	$express_caty = 's';
 	
 	echo "Order[$rid],express[$express_caty][$express_title][$express_no]\n";
+
+  if(empty($express_no)){
+    echo "Order[$rid], express is empty";
+    continue;
+  }
 	
 	$model = new Sher_Core_Model_Orders();
 	$order_info = $model->find_by_rid($rid);
@@ -52,7 +57,7 @@ while($data = fgetcsv($fp)){
 	}
 	
 	// 更新物流信息
-	$ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no);
+	$ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
 	if(!$ok){
 		echo "Order[$rid],update failed!\n";
 		continue;

@@ -266,13 +266,29 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 			case 4: // 已完成订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_PUBLISHED;
 				break;
+			case 5: // 申请退款订单
+        $query['status'] = Sher_Core_Util_Constant::ORDER_READY_REFUND;
+        break;
+			case 6: // 已退款订单
+        $query['status'] = Sher_Core_Util_Constant::ORDER_REFUND_DONE;
+        break;
 			case 9: // 已关闭订单：取消的订单、过期的订单
 				$query['status'] = array(
 					'$in' => array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED),
 				);
 				break;
 		}
-		
+
+    //限制输出字段
+		$some_fields = array(
+			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1,
+			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1, 'addbook_id'=>1,
+			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
+			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
+      'expired_time'=>1, 'from_site'=>1, 'status'=>1,
+		);
+		$options['some_fields'] = $some_fields;
+
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
@@ -281,6 +297,54 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 		// 开启查询
         $service = Sher_Core_Service_Orders::instance();
         $result = $service->get_latest_list($query, $options);
+
+
+    $product_model = new Sher_Core_Model_Product();
+    $sku_model = new Sher_Core_Model_Inventory();
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = $result['rows'][$i][$key];
+			}
+			// ID转换为字符串
+			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
+      //收货地址
+      if(empty($result['rows'][$i]['express_info'])){
+        if(isset($result['rows'][$i]['addbook'])){
+          $data[$i]['express_info']['name'] = $result['rows'][$i]['addbook']['name'];
+          $data[$i]['express_info']['phone'] = $result['rows'][$i]['addbook']['phone'];
+          //列表页暂不需要
+          //$data[$i]['express_info']['zip'] = $result['rows'][$i]['addbook']['zip'];
+          //$data[$i]['express_info']['province'] = $result['rows'][$i]['addbook']['area_province']['city'];
+          //$data[$i]['express_info']['province'] = $result['rows'][$i]['addbook']['area_district']['city'];
+        }
+      }
+
+      //商品详情
+      if(!empty($result['rows'][$i]['items'])){
+        $m = 0;
+        foreach($result['rows'][$i]['items'] as $k=>$v){
+          $d = $product_model->extend_load((int)$v['product_id']);
+          if(!empty($d)){
+            if($v['sku']==$v['product_id']){
+              $data[$i]['items'][$m]['name'] = $d['title'];   
+            }else{
+              $sku_mode = '';
+              $sku = $sku_model->find_by_id($v['sku']);
+              if(!empty($sku)){
+                $sku_mode = $sku['mode'];
+              }
+              $data[$i]['items'][$m]['name'] = $d['title'].' '.$sku_mode; 
+            }
+            $data[$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+          }
+
+          $m++;
+        }
+      }
+		}
+		$result['rows'] = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
 	}

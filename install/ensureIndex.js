@@ -19,6 +19,9 @@ db.orders.ensureIndex({'rid':1}, {unique: true}, {background: true});
 db.user.ensureIndex({'account':1}, {unique: true}, {background: true});
 db.user.ensureIndex({'nickname':1}, {unique: true}, {background: true});
 
+db.user.ensureIndex({'sina_uid':1}, {background: true});
+db.user.ensureIndex({'qq_uid':1}, {background: true});
+
 # 手机验证码
 db.verify.ensureIndex({'phone':1,'code':1}, {unique: true}, {background: true});
 

@@ -21,7 +21,7 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							{% bonus_list var:'bonus' page:page user_id:user._id size:10 %}
+							{% bonus_list var:'bonus' page:page user_id:user._id size:12 %}
 							<div class="ui three bonus items">
 								{% for b in bonus.rows %}
 							  	<div class="item" id="{{ b._id }}" data-id="{{ b._id }}">
@@ -40,7 +40,7 @@
 								{% endfor %}
 							</div>
 							
-							{% if bonus.total_rows > 10 %}
+							{% if bonus.total_rows > 12 %}
 							<div class="ui pagination">
 								{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
 								{%include 'block/pager.html'%}
