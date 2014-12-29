@@ -14,7 +14,9 @@ var version = 1; //游戏版本
 var gate_url  = 'http://m.taihuoniao.com/app/api';
 
 $(function () {
-    newgame();
+    //newgame();
+    popWin('init_box', '');
+    $('.play').css('display','block');
 
     $('form :input').blur(function () {
         if ($(this).is('#tel')) {
@@ -41,6 +43,7 @@ $(function () {
 function newgame() {
     $('.play').css('display','none');
     $('#egg_acount').html(0);
+    close(init_box);
     init();
 //    playAud();
 }
