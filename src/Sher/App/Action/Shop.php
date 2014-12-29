@@ -53,8 +53,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function view() {
 		$id = (int)$this->stash['id'];
-
-    print_r($this->visitor);exit;
 		
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
 		if(empty($id)){
