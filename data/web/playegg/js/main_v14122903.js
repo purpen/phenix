@@ -336,7 +336,7 @@ function share() {
         WeixinJSBridge.invoke("shareTimeline", {
             "title": "我在《玩蛋去》中，玩碎了" + count + "个蛋，打败了" + percent + "%的鸟友，获封" + name + "，你的头衔比我高么？",
             "desc" :"",
-            "link": "http://m.taihuoniao.com/playegg/home.html",
+            "link": "http://m.taihuoniao.com/games",
             "img_url": "http://frstatic.qiniudn.com/images/egg/share.jpg",
             "img_width": "640",
             "img_height": "640"

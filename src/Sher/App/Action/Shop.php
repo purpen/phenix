@@ -18,7 +18,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -53,6 +53,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function view() {
 		$id = (int)$this->stash['id'];
+
+    print_r($this->visitor);exit;
 		
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
 		if(empty($id)){
@@ -107,6 +109,16 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		return $this->to_html_page('page/shop/show.html');
 	}
+
+  /**
+   * ajax获取评论
+   */
+  public function ajax_fetch_comment(){
+		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
+		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
+  }
 	
 }
 ?>
