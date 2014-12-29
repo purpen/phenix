@@ -43,7 +43,7 @@ $(function () {
 function newgame() {
     $('.play').css('display','none');
     $('#egg_acount').html(0);
-    close(init_box);
+    close('init_box');
     init();
 //    playAud();
 }
