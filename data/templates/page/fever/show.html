@@ -622,8 +622,9 @@
 							<i class="share icon"></i>
 						</div>
 						
-						{% if visitor.is_admin %}
 						<div class="ui icon admin black hide buttons">
+						{% if visitor.is_admin %}
+
 							{% if product.approved %}
 							<div class="ui active pop check button" data-content="取消审核" data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
 								<i class="checkmark icon"></i>
@@ -633,16 +634,17 @@
 								<i class="checkmark icon"></i>
 							</div>
 							{% endif %}
-							{% if editable %}
-							<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
-								<i class="edit icon"></i>
-							</div>
-							<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
-								<i class="remove icon"></i>
-							</div>
-							{% endif %}
-						</div>
+
 						{% endif %}
+            {% if editable %}
+            <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+              <i class="edit icon"></i>
+            </div>
+            <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+              <i class="remove icon"></i>
+            </div>
+            {% endif %}
+						</div>
 					</div>
 					
 				</div>

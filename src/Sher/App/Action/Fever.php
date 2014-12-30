@@ -536,6 +536,11 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
+
+    //如果是通过审核状态禁止用户修改
+    if($product['user_id']==$this->visitor->id && !empty($product['published'])){
+ 			return $this->show_message_page('您的创意产品已经进入投票阶段，如要修改，请联系管理员！', $redirect_url); 
+    }
 		
         if (!empty($product)) {
             $product = $model->extended_model_row($product);
@@ -714,6 +719,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 仅管理员或本人具有删除权限
 			if ($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id){
+        //如果是通过审核状态禁止用户修改
+        if($product['user_id']==$this->visitor->id && !empty($product['published'])){
+          return $this->ajax_notification('您的创意产品已经进入投票阶段，如要修改，请联系管理员！', true); 
+        }
 				$model->remove((int)$id);
 				
 				// 删除关联对象

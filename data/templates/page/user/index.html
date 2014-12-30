@@ -396,6 +396,11 @@ color: rgba(0,0,0,.45);
 						<!--我提交的产品-->
 						{% product_list var:'list' page:page user_id:user._id %}
 						{% for product in list.rows %}
+              {% if user._id == visitor.id %}
+                {% if product.stage == 1 %}
+                  {% include 'block/product_vote_item.html' %}
+                {% endif %}
+              {% endif %}
 							{% if product.stage == 9 %}
 					  			{% include 'block/product_item.html' %}
 							{% endif %}

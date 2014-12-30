@@ -12,6 +12,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_VOTE     = 1;
     const STAGE_PRESALE  = 5;
     const STAGE_SHOP     = 9;
+
+    #类型
+    //普通(投票，预售，商品)
+    const KIND_PRODUCTION = 1;
+    //产品合作
+    const KIND_COOPERATE = 2;
 	
     protected $schema = array(
 		'_id'     => null,
@@ -30,6 +36,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 产品视频链接
 		'video' => array(),
+
+    #类型
+    'kind' => self::KIND_PRODUCTION,
 		
 		# 封面图
  		'cover_id' => '',
@@ -202,6 +211,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     	'deleted' => 0,
 		# 随机数
 		'random' => 0,
+
+      #以下用于产品合作
+      'contact_name' => null,
+      'contact_tel' => null,
+      'contact_email' => null,
     );
 	
 	protected $required_fields = array('user_id','title');
