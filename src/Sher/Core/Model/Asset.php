@@ -37,6 +37,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 话题编辑器图片
 	const TYPE_EDITOR_TOPIC = 55;
 
+  #合作联系图片,1.产品合作
+  const TYPE_CONTACT = 60;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',

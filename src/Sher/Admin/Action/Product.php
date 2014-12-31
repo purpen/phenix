@@ -635,5 +635,66 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}
+
+  /**
+   * 产品合作
+   */
+  public function cooperate(){
+  	$this->set_target_css_state('page_cooperate');
+		$this->stash['state'] = isset($this->stash['state'])?(int)$this->stash['state']:0;
+    if(empty($this->stash['state'])){
+   		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/cooperate?state=%d&page=#p#'; 
+    }else{
+  		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/cooperate?state=%d&page=#p#';  
+    }
+
+		switch($this->stash['state']){
+			case 1:
+				$this->stash['state'] = 1;
+				break;
+			case 2:
+				$this->stash['state'] = 2;
+				break;
+		}
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['state']);
+    
+    return $this->to_html_page('admin/product/cooperate.html');
+  }
+
+  /**
+   * 删除产品全作
+   */
+  public function cooperate_deleted(){
+ 		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品合作不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_Contact();
+			
+			foreach($ids as $id){
+				$product = $model->load((int)$id);
+				
+				if (!empty($product)){
+					$model->remove((int)$id);
+				
+					// 删除关联对象
+					$model->mock_after_remove($id);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+  
+  }
+
 }
 ?>
