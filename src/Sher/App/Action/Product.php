@@ -289,6 +289,138 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		return $this->to_html_page('page/product/api_show.html');
 	}
 	
+
+  /**
+   * 产品合作创建
+   */
+  public function cooperate_product(){
+  	$row = array();
+    $this->stash['mode'] = 'create';
+		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
+
+    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+    $this->stash['editor_pid'] = new MongoId();
+
+    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+    $this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
+
+    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+    $this->stash['pid'] = new MongoId();
+    
+    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+
+		$this->stash['product'] = $row;
+		return $this->to_html_page('page/product/cooperate_submit.html');
+  }
+
+  /**
+   * 产品合作保存
+   */
+  public function save_cooperate(){
+		// 验证数据
+		if(empty($this->stash['category_id'])){
+			return $this->ajax_json('请选择一个分类！', true);
+		}
+		if(empty($this->stash['title'])){
+			return $this->ajax_json('产品名称不能为空！', true);
+		}
+		if(empty($this->stash['content'])){
+			return $this->ajax_json('产品详情不能为空！', true);
+		}
+		if(empty($this->stash['contact_name'])){
+			return $this->ajax_json('联系人不能为空！', true);
+		}
+		if(empty($this->stash['contact_tel'])){
+			return $this->ajax_json('联系电话不能为空！', true);
+		}
+		if(empty($this->stash['contact_email'])){
+			return $this->ajax_json('邮箱不能为空！', true);
+		}
+		
+		$id = (int)$this->stash['_id'];
+		
+		//保存信息
+		$data = array();
+		$data['title'] = $this->stash['title'];
+		$data['summary'] = $this->stash['summary'];
+		$data['category_id'] = $this->stash['category_id'];
+		$data['content'] = $this->stash['content'];
+		$data['contact_name'] = $this->stash['contact_name'];
+		$data['contact_tel'] = $this->stash['contact_tel'];
+		$data['contact_email'] = $this->stash['contact_email'];
+    $data['kind'] = 2;
+
+		$data['cover_id'] = $this->stash['cover_id'];
+		// 检查是否有附件
+		if(isset($this->stash['asset'])){
+			$data['asset'] = $this->stash['asset'];
+			$data['asset_count'] = count($data['asset']);
+		}else{
+			$data['asset'] = array();
+			$data['asset_count'] = 0;
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = (int)$this->visitor->id;
+				// 上传者默认为设计师，后台管理可以指定
+				$data['designer_id'] = (int)$this->visitor->id;
+					
+				$ok = $model->apply_and_save($data);
+				
+				$product = $model->get_data();
+				$id = $product['_id'];
+				
+				// 更新用户产品数量
+				$this->visitor->inc_counter('product_count', $data['user_id']);
+				
+			}else{
+				$data['_id'] = $id;
+				
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			
+			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.product'];
+		
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+    
+  }
+
+	/**
+	 * 删除某个附件
+	 */
+	public function delete_asset(){
+		$id = $this->stash['id'];
+		$asset_id = $this->stash['asset_id'];
+		if (empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Product();
+			$model->delete_asset($id, $asset_id);
+		}else{
+			// 仅仅删除附件
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_file($id);
+		}
+		
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
+	}
 	
 }
 ?>
