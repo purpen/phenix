@@ -122,7 +122,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    * 产品合作入口
    */
   public function cooperate(){
-    $this->to_html_page('page/shop/cooperate');
+    return $this->to_html_page('page/shop/cooperate.html');
   }
 
   /**

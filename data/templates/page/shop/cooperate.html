@@ -1,0 +1,141 @@
+{%extends 'layout/column.html'%}
+{% block title %}产品合作-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#cooperate .cooperate-banner{
+		background: url('{{ app_url_packaged }}/images/cooperate-banner.jpg') no-repeat scroll center top / cover #565960;
+		color: #FFF;
+		padding: 120px 8% 80px;
+	}
+	#cooperate .cooperate-banner .ui.header .sub.header {
+		color: #fff;
+		line-height: 2;
+		margin: 1em;
+	}
+	#cooperate .five.wide.column i{
+		font-size: 58px;
+		color: #f36;
+		margin: 0;
+		width:100%;
+		text-align:center;
+	}
+	#cooperate .ui.big.block{
+		padding-top:4em;
+		padding-bottom:4em;
+	}
+	#cooperate .ui.big.block h5.ui.header{
+		color:#f36;
+	}
+	#cooperate .ui.big.block p{
+		line-height:1.55;
+		margin-top: .3em;
+		margin-bottom: .3em;
+	}
+	i.flat.icon.icon_eggs3:before {
+	    content: "\e6df";
+		font-weight:600;
+	}
+	i.flat.icon.icon_buy4:before{
+		content:"\e698";
+	}
+	i.flat.icon.icon_cents1:before{
+		content:"\e6ac";
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div id="cooperate">
+	<section class="cooperate-banner">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="center aligned tweleve wide column">
+					<h2 class="ui header">
+						<div class="content">
+								中国最火爆的智能硬件平台
+							<div class="sub header">
+								太火鸟是一个带有互联网基因的创新智能硬件孵化平台，整合产品开发打样、众筹预售、批量生产、渠道销售为一体，意在帮助设计师实现商业价值，将最性感的产品呈现在大众面前。
+							</div>
+						</div>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_shop }}/cooperate_product">
+						<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="five wide column">
+					<i class="flat icon icon_eggs3"></i>
+					<h3 class="ui center aligned header">产品孵化</h3>
+					<p>太火鸟将从产品的开模打样到批量生产、从宣传营销到预售分销给予全程指导，并有专业的实验室提供孵化团队专业的产品测试平台，提升产品品质高度及竞争力，降低产品的设计成本及时间成本；同时，一亿设计创始人基金助力太火鸟孵化团队，让您资金无忧！</p>
+				</div>
+				<div class="five wide column">
+					<i class="flat icon_buy4 icon"></i>
+					<h3 class="ui center aligned header">产品销售</h3>
+					<p>太火鸟覆盖国际国内全网预售平台，只要是未面市产品，均可通过太火鸟进行预售，太火鸟将根据产品属性及特色，为产品提供卖点提炼、产品包装及市场营销等服务，并为产品选择最适合的平台进行预售，获得产品的第一批忠实粉丝及真实用户反馈。 </p>
+				</div>
+				<div class="five wide column">
+					<i class="flat icon_cents1 icon"></i>
+					<h3 class="ui center aligned header">零售+渠道合作</h3>
+					<p>太火鸟整合天猫、淘宝、京东、苏宁、麦德龙、全国机场、电视购物、礼品定制等上百国内、国外、线上、线下渠道合作伙伴，助产品迅速扩张市场！只要您敢来，我们就敢卖！</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="five wide column">
+					<h5 class="ui header">孵化要求：</h5>
+					<p>1、三人以上的团队或平台</p>
+					<p>2、具备智能硬件的技术研发（软件/硬件）、供应链及渠道销售等任意资源</p>
+					<p>3、拥有互联网智能硬件创业精神</p>
+					<h5 class="ui header">孵化资源：</h5>
+					<p>太火鸟能为您提供孵化资金、设计师及软件/硬件配备、供应链及渠道扩充、营销推广</p>
+				</div>
+				<div class="five wide column">
+					<h5 class="ui header">众筹要求:</h5>
+					<p>1.产品具有设计美感</p>
+					<p>2.至少要有工程样机</p>
+					<h5 class="ui header">众筹资源:</h5>
+					<p>太火鸟能为您提供媒体合作，平台广告位，微信/微博营销，产品试用推广</p>
+				</div>
+				<div class="five wide column">
+					<h5 class="ui header">合作要求:</h5>
+					<p>1.产品已量产，且有一定的库存深度</p>
+					<p>2.产品设计外观及产品功能有其独特性</p>
+					<p>3、拥有互联网智能硬件创业精神</p>
+					<h5 class="ui header">渠道资源:</h5>
+					<p>太火鸟能为您提供自有平台销售及太火鸟分销渠道体系</p>
+				</div>
+			</div>
+		</div>
+		
+		
+	</section>
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}

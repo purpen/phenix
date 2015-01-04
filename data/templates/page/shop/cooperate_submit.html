@@ -146,6 +146,11 @@
 			return false;
 		});
 	});
+
+  //取消
+  $('.cancel.btn').click(function(){
+    phenix.redirect('{{ app_url_domain }}', 0);
+  });
 	
 {% endblock %}
 
@@ -256,7 +261,7 @@
 						
 						<div class="ui grid">
 							<div class="right aligned column">
-								<div class="ui gray btn-4 btn-4c icon-arrow-right btn">
+								<div class="ui gray btn-4 btn-4c icon-arrow-right cancel btn">
 									取消
 								</div>
 								<div class="ui magenta btn-4 btn-4c icon-arrow-right submit btn">
