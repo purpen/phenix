@@ -10,7 +10,7 @@ class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
 		'size' => 10,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_provinces');
+	protected $exclude_method_list = array('execute', 'ajax_provinces', 'ajax_districts');
 	
 	/**
 	 * 入口
