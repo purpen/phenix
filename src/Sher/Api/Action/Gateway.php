@@ -65,8 +65,27 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		
         $service = Sher_Core_Service_Advertise::instance();
         $result = $service->get_ad_list($query,$options);
-		
-		// 获取单条记录
+	
+
+    //显示的字段
+    $options['some_fields'] = array(
+      '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1,
+      'created_on'=>1,
+    );
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($options['some_fields'] as $key=>$value){
+				$data[$i][$key] = $result['rows'][$i][$key];
+			}
+			// 封面图url
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+		}
+
+		$result['rows'] = $data;
+
+		// 获取单条记录 ????
 		if($size == 1 && !empty($result['rows'])){
 			$result = $result['rows'][0];
 		}

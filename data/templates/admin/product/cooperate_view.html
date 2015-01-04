@@ -39,19 +39,20 @@
 	
   <div>
     <div>
-      <span>联系人: </span> {{ contact.name }}<span> &nbsp;&nbsp;电话: </span> {{ contact.tel }}  <span>&nbsp;&nbsp;邮箱: </span> {{ contact.email }}
+      <span><strong>联系人: </strong></span> {{ contact.name }}<span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>电话: </strong></span> {{ contact.tel }}  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>邮箱: </strong></span> {{ contact.email }}
+    </div>
+
+    <div>
+      <span><strong>分类: </strong></span> {{ contact.cate_name }}
     </div>
     <div>
-      <span>分类: </span> {{ contact.cate_name }}
+      <span><strong>标题: </strong></span> {{ contact.title }}
     </div>
     <div>
-      <span>标题: </span> {{ contact.title }}
+      <span><strong>描述: </strong></span> {{ contact.content }}
     </div>
     <div>
-      <span>描述: </span> {{ contact.content }}
-    </div>
-    <div>
-      <span>产品图片: </span>
+      <span><strong>产品图片: </strong></span>
       <div>
 				{% asset_list var:'assets' parent_id:contact._id size:10 asset_type:60 %}
         <ul class="clearfix">
