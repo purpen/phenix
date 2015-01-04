@@ -1,5 +1,19 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
+<style type="text/css">
+  .clearfix{
+    list-style:none;
+    text-aligned:center;
+  }
+  ul.clearfix li img{
+    width:100%;
+  }
+
+  .ui.secondary.pointing.menu + div > div {
+    padding-top: 8px;
+  }
+</style>
+
 {% endblock %}
 
 {% block jquery %}
@@ -57,9 +71,6 @@
     </div>
     <div>
       <span>邮箱: </span> {{ contact.email }}
-    </div>
-    <div>
-      <span>产品图片: </span> {{ contact.content }}
     </div>
   </div>
 	

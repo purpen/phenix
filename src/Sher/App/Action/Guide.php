@@ -118,5 +118,13 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/ezon.html');
 	}
+
+	/**
+	 * 成功案例-Resp
+	 */
+	public function resp() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/resp.html');
+	}
 }
 ?>
