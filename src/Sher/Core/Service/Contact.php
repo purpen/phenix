@@ -28,7 +28,7 @@ class Sher_Core_Service_Contact extends Sher_Core_Service_Base {
      */
     public function get_contact_list($query=array(), $options=array()) {
 	    $model = new Sher_Core_Model_Contact();
-		return $this->query_list($model, $query, $options);
+		  return $this->query_list($model, $query, $options);
     }
 	
 }

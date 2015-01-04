@@ -65,7 +65,7 @@
 		<tbody>
 			{% contact_list var:'list' page:page state:state size:20  %}
 			{% for contact in list.rows %}
-			<tr id="{{ contact._id }}">
+			<tr id="contact_{{ contact._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids" type="checkbox" value="{{ contact._id }}" class="checkbox" />
@@ -79,7 +79,7 @@
 				</td>
 				<td>
 		          	<div class="header">
-						<a href="{{ contact.view_url }}" class="ui link" target="_blank" title="{{ contact.title }}">
+                  <a href="{{ app_domain_base }}/app/admin/product/cooperate_view?id={{ contact._id }}" class="ui link" target="_blank" title="{{ contact.title }}">
 							{{ contact.title|truncate, 32 }}
 						</a>
 					</div>
@@ -88,18 +88,27 @@
           {{ contact.name }}
 				</td>
 				<td>
-          {{ contact.category_id }}
+          {{ contact.cate_name }}
 				</td>
 				<td>
 					<p>
-          <span class="ui small green label">{{ contact.state }}</span><br />
+          <span class="ui small green label state-name">{{ contact.state_name }}</span><br />
 					</p>
 
 				</td>
 				<td>
 					<p>
+            {% if contact.state == 0 %}
+		        <a href="{{ app_url_admin }}/product/set_cooperate?id={{ contact._id }}&state=2" class="ui ajax link item set-state">
+						    设已读
+					  </a>
+            {% else %}
+		        <a href="{{ app_url_admin }}/product/set_cooperate?id={{ contact._id }}&state=1" class="ui ajax link item set-state">
+						    设未读
+					  </a>
+            {%endif%}
 		        <a href="{{ app_url_admin }}/product/cooperate_deleted?id={{ contact._id }}" class="ui confirm-request link item">
-						    删除
+						   | 删除
 					  </a>
 					</P>
 				</td>

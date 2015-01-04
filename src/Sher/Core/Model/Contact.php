@@ -63,7 +63,29 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 			$row['content'] = htmlspecialchars_decode($row['content']);
 		}
 		// 去除 html/php标签
-		$row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+    if(isset($row['summary'])){
+		  $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+    }
+
+    //分类名称
+    if($row['category_id']==1){
+      $row['cate_name'] = '产品孵化';  
+    }elseif($row['category_id']==2){
+      $row['cate_name'] = '产品众筹';
+    }elseif($row['category_id']==3){
+      $row['cate_name'] = '产品销售';
+    }else{
+      $row['cate_name'] = '未定义';
+    }
+
+    //状态描述
+    if($row['state']==0){
+      $row['state_name'] = '未读';  
+    }elseif($row['state']==1){
+      $row['state_name'] = '已读';
+    }else{
+      $row['state_name'] = '未定义';
+    }
 		
 	}
 	
@@ -87,6 +109,28 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 		}
 	  parent::before_save($data);
 	}
+
+	/**
+	 * 保存之后事件
+	 */
+  protected function after_save() {
+    //如果是新的记录
+    if($this->insert_mode) {
+      $parent_id = (string)$this->data['_id'];
+      $assets = $this->data['asset'];
+      if (!empty($assets)) {
+			$asset_model = new Sher_Core_Model_Asset();
+			foreach($assets as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$asset_model->update_set($id, array('parent_id' => $parent_id));
+			}
+			unset($asset_model);
+      }
+      
+      // 更新产品总数
+      Sher_Core_Util_Tracker::update_product_counter();
+    }
+  }
 	
 	/**
 	 * 设置封面图

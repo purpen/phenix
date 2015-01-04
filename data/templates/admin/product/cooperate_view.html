@@ -1,0 +1,67 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">产品合作</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/product/cooperate" class="{% if !state %}active{%endif%} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/product/cooperate?state=1" class="{% if state == 1 %}active{%endif%} item">
+			未处理
+		</a>
+		<a href="{{ app_url_admin_base }}/product/cooperate?state=2" class="{% if state == 2 %}active{%endif%} item">
+			已处理
+		</a>
+	</div>
+	
+  <div>
+    <div>
+      <span>分类: </span> {{ contact.cate_name }}
+    </div>
+    <div>
+      <span>标题: </span> {{ contact.title }}
+    </div>
+    <div>
+      <span>描述: </span> {{ contact.content }}
+    </div>
+    <div>
+      <span>产品图片: </span>
+      <div>
+				{% asset_list var:'assets' parent_id:contact._id size:10 asset_type:60 %}
+        <ul class="clearfix">
+          <li class="active">
+            <img src="{{ contact.cover.thumbnails.big.view_url }}" alt="{{ contact.title }}" />
+          </li>
+          {% for asset in assets.rows %}
+            {% if asset._id != contact.cover_id %}
+            <li>
+              <img src="{{ asset.thumbnails.big.view_url }}" alt="{{ contact.title }}" />
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div>
+      <span>联系人: </span> {{ contact.name }}
+    </div>
+    <div>
+      <span>联系电话: </span> {{ contact.tel }}
+    </div>
+    <div>
+      <span>邮箱: </span> {{ contact.email }}
+    </div>
+    <div>
+      <span>产品图片: </span> {{ contact.content }}
+    </div>
+  </div>
+	
+
+{% endblock %}

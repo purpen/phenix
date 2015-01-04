@@ -42,6 +42,11 @@ class Sher_App_ViewTag_AssetList extends Doggy_Dt_Tag {
 		if($asset_type){
 			$query['asset_type'] = (int)$asset_type;
 		}
+
+    $string_parent_ids = array(60);
+    if(in_array($query['asset_type'], $string_parent_ids)){
+      $query['parent_id'] = (string)$query['parent_id'];
+    }
 		
         $service = Sher_Core_Service_Asset::instance();
         $options['page'] = $page;
