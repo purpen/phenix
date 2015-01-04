@@ -665,6 +665,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
    * 产品合作详情
    */
   public function cooperate_view(){
+  	$this->set_target_css_state('page_cooperate');
   	$id = $this->stash['id'];
 		if(empty($id)){
 			return $this->ajax_notification('产品合作不存在！', true);
