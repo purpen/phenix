@@ -32,12 +32,14 @@
 		<a href="{{ app_url_admin_base }}/product/cooperate" class="{% if !state %}active{%endif%} item">
 			全部
 		</a>
+    <!--
 		<a href="{{ app_url_admin_base }}/product/cooperate?state=1" class="{% if state == 1 %}active{%endif%} item">
 			未处理
 		</a>
 		<a href="{{ app_url_admin_base }}/product/cooperate?state=2" class="{% if state == 2 %}active{%endif%} item">
 			已处理
 		</a>
+    -->
     <div class="right menu">
     <a href="{{ app_url_admin }}/product/cooperate_deleted" class="item ajax-delete">
       批量删除
@@ -92,12 +94,13 @@
 				</td>
 				<td>
 					<p>
-          <span class="ui small green label state-name">{{ contact.state_name }}</span><br />
+          <span class="ui small green label state-name">{{ contact.state }}</span><br />
 					</p>
 
 				</td>
 				<td>
 					<p>
+          <!--
             {% if contact.state == 0 %}
 		        <a href="{{ app_url_admin }}/product/set_cooperate?id={{ contact._id }}&state=2" class="ui ajax link item set-state">
 						    设已读
@@ -107,8 +110,9 @@
 						    设未读
 					  </a>
             {%endif%}
+            -->
 		        <a href="{{ app_url_admin }}/product/cooperate_deleted?id={{ contact._id }}" class="ui confirm-request link item">
-						   | 删除
+						    删除
 					  </a>
 					</P>
 				</td>

@@ -37,7 +37,7 @@
 					prompt : '内容不能为空'
 				},
 				{
-					type   : 'maxLength[30]',
+					type   : 'maxLength[1000]',
 					prompt : '内容最多1000个字符'
 				}
 			]
@@ -129,7 +129,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets', {'id': '{{ contact._id }}', 'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+			$.get('{{ app_url_action_base }}/uploader/check_upload_contact_assets', {'id': '{{ contact._id }}', 'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
 		}
 	});
 	
@@ -142,7 +142,7 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#product_cover_id').val(id);
+			$('#contact_cover_id').val(id);
 			return false;
 		});
 	});
@@ -215,7 +215,7 @@
 							<div class="field">
 								<label>联系电话</label>
 							  	<input type="text" name="tel" value="{{ contact.tel }}" />
-								<div class="description">您的手机号或座机</div>
+								<div class="description">留下你的电话，便于我们及时和您取得联系。</div>
 							</div>
 
 							<div class="field">
@@ -227,7 +227,7 @@
 
 							<div class="field">
 								<label>上传图片</label>
-								<input type="hidden" name="cover_id" id="product_cover_id" value="{{ contact.cover_id }}" />
+								<input type="hidden" name="cover_id" id="contact_cover_id" value="{{ contact.cover_id }}" />
 							  	<div id="phenix-uploader"></div>
 						
 								<div id="asset-list" class="ui four items">
@@ -244,10 +244,11 @@
 													<a href="{{ app_url_shop }}/delete_asset?id={{ contact._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 														<i class="remove icon"></i>
 													</a>
-													
+													<!--
 													<a href="javascript:void(0);" class="ui link {%if contact.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 														<i class="checkered flag icon"></i>
 													</a>
+                          -->
 												</div>
 											</div>
 										</div>

@@ -19,7 +19,7 @@
 	
 	<h4>试用人数：{{ try.try_count }} 人, 申请人数：{{ try.pass_count }} / {{ try.apply_count }} 人</h4>
 	
-	{% apply_list var:'list' target_id:id page:page size:30 %}
+	{% apply_list var:'list' target_id:id page:page size:20 %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -67,5 +67,12 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
 	
 {% endblock %}
