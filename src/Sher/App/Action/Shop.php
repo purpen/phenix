@@ -40,7 +40,23 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$type = (int)$this->stash['type'];
 		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
-		
+    $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
+    $this->stash['all_active'] = false;
+    $this->stash['presale_active'] = false;
+    if(empty($presale)){
+      $this->stash['is_shop'] = 1;
+      $this->stash['presaled'] = 0;
+      if($category_id==0){
+        $this->stash['all_active'] = true;
+      }
+    }else{
+      $this->stash['is_shop'] = 0;
+      $this->stash['presaled'] = 1;
+      if($category_id==0){
+        $this->stash['presale_active'] = true;
+      }
+    }
+
 		$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id,$type,$sort,'#p#');
 		
 		$this->stash['pager_url'] = $pager_url;

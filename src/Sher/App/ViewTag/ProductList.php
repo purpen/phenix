@@ -37,6 +37,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_published = 0;
 		$only_onsale = 0;
 		$only_stick = 0;
+    $is_shop = 0;
 		
 		// 是否有话题
 		$only_subject = 0;
@@ -110,6 +111,11 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		if ($only_approved) {
 			$query['approved'] = 1;
 		}
+
+    if ($is_shop) {
+      $query['$or'] = array(array('process_saled'=>1), array('process_presaled'=>1));     
+    }
+
 		
 		if ($only_onsale) {
 			$query['published'] = 1;
