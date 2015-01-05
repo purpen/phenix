@@ -68,10 +68,16 @@ class Sher_Core_Service_Base {
         // only return _id
         $options['fields'] = array('_id' => 1);
         if (isset($options['sort_field'])) {
-            $sort_field = $options['sort_field'];
-            if (isset($this->sort_fields[$sort_field])) {
-                $options['sort'] = $this->sort_fields[$sort_field];
+          $sort_field = $options['sort_field'];
+          $sort_arr = explode(':', $sort_field);
+          $options['sort'] = array();
+          foreach($sort_arr as $v){
+            if (isset($this->sort_fields[$v])) {
+              //$options['sort'] = $this->sort_fields[$sort_field];
+              array_push($options['sort'], $this->sort_fields[$v]);
             }
+          }
+
         }
         //获取记录时放入游标起点
         if(isset($cursor_point) && !empty($cursor_point)){

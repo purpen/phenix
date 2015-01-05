@@ -8,7 +8,8 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
         'hot' => array('created_on' => -1),
-		'rand' => array('random' => 1),
+		    'rand' => array('random' => 1),
+        'stick' => array('stick' => -1),
 	);
 
     protected static $instance;

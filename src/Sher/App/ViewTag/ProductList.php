@@ -97,6 +97,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		if ($stage) {
 			$query['stage'] = (int)$stage;
 		}
+
+    if ($is_shop) {
+      $query['stage'] = array('$in'=>array(5, 9));
+    }
 		
 		if($process_saled){
 			$query['process_saled'] = 1;
@@ -111,11 +115,6 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		if ($only_approved) {
 			$query['approved'] = 1;
 		}
-
-    if ($is_shop) {
-      $query['$or'] = array(array('process_saled'=>1), array('process_presaled'=>1));     
-    }
-
 		
 		if ($only_onsale) {
 			$query['published'] = 1;

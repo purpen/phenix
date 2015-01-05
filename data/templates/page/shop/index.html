@@ -14,7 +14,8 @@
   .schedule.p-sell .remaining .flat.sale.icon {
     margin:0;
     opacity:1;
-    font-size: 17px;
+    font-size: 14px;
+    font-weight: 700;
   }
   .schedule.p-sell{
     margin-bottom:0 !important;
@@ -32,6 +33,14 @@
 	$('.ui.cart.button').click(function(){
 		$.get($(this).attr('href'));
 		return false;
+	});
+
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
 	});
 {% endblock %}
 
@@ -52,7 +61,7 @@
 		</div>
 		
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_approved:1 only_onsale:1 size:15 sort:'latest' %}
+			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_approved:1 only_onsale:1 size:15 sort:'stick:latest' %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui three items">
