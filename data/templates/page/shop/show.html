@@ -26,7 +26,7 @@
 {% block jquery %}
 	phenix.bind_share_list();
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.mm_view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
 	
 	// 如果仅一个sku,则设置默认值
 	{% if skus_count %}

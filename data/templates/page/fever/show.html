@@ -195,7 +195,7 @@
 	phenix.hook_product_topic();
 	phenix.bind_share_list();
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
 	
 	// 显示编辑工具条 
 	$('.product.params .actions').hover(function(){
