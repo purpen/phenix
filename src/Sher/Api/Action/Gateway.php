@@ -3,7 +3,7 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
+class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 10,

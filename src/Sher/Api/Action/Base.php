@@ -3,7 +3,7 @@
  * API模块基类
  * @author purpen
  */
-class Sher_Api_Action_Base extends Sher_Core_Action_Authorize implements DoggyX_Action_Initialize {
+class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Action_Initialize {
 	
 	/**
 	 * 客户端key

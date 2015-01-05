@@ -3,7 +3,7 @@
  * 购物流程 API 接口
  * @author purpen
  */
-class Sher_Api_Action_Shopping extends Sher_Core_Action_Authorize {
+class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,

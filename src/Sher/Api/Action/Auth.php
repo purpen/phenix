@@ -92,6 +92,11 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		if(!Sher_Core_Helper_Util::is_mobile($this->stash['mobile'])){
 			return $this->api_json('手机号码格式不正确!', 3002);
 		}
+
+    //验证密码格式
+    if(!Sher_Core_Helper_Auth::verify_pwd($this->stash['password'])){
+ 			return $this->api_json('密码格式不正确 6-20位字符!', 3002);     
+    }
 		
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
@@ -233,6 +238,53 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+  /**
+   * 找回密码
+   */
+  public function find_pwd(){
+    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
+      return $this->api_json('数据错误,请重试!', 3001);
+    }
+
+		// 验证手机号码格式
+		if(!Sher_Core_Helper_Util::is_mobile($this->stash['mobile'])){
+			return $this->api_json('手机号码格式不正确!', 3002);
+		}
+
+    //验证密码格式
+    if(!Sher_Core_Helper_Auth::verify_pwd($this->stash['password'])){
+ 			return $this->api_json('密码格式不正确 6-20位字符!', 3002);     
+    }
+
+		$user_model = new Sher_Core_Model_User();
+    $user = $user_model->first(array('account'=>$this->stash['mobile']));
+    if(empty($user)){
+ 			return $this->api_json('账号不存在!', 3003);
+    }
+
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$user['account'], 'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->api_json('验证码有误，请重新获取！', 3004);
+    }
+
+    try {
+      $ok = $user_model->update_set($user['_id'], array('password'=> sha1($this->stash['password'])));
+      if($ok){
+        // 删除验证码
+        $verify->remove($code['_id']);
+		    return $this->api_json('请求成功', 0, $user['_id']);
+      }else{
+  		  return $this->api_json('修改失败！', 3005);      
+      }
+    }catch(Sher_Core_Model_Exception $e){
+      Doggy_Log_Helper::error('Failed to find pwd:'.$e->getMessage());
+      return $this->api_json($e->getMessage(), 4001);
+    }
+  
+  }
 	
 }
 ?>
