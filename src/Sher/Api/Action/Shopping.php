@@ -12,6 +12,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	
 	protected $exclude_method_list = array('execute', 'ajax_provinces', 'ajax_districts');
 	
+  /**
+   * 忽略不传current_user_id
+   */
+  protected $ignore_check_method_list = array('address');
+
 	/**
 	 * 入口
 	 */
@@ -46,13 +51,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	public function address(){
 		$page = $this->stash['page'];
 		$size = $this->stash['size'];
-		
-		// 请求参数
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
-		if(empty($user_id)){
-			return $this->api_json('请求参数错误', 3000);
-		}
-		
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'area'=>1,'address'=>1,'zip'=>1,'is_default'=>1,
 		);
@@ -61,9 +59,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$options = array();
 		
 		// 查询条件
-        if($user_id){
-            $query['user_id'] = (int)$user_id;
+        if($this->current_user_id){
+            $query['user_id'] = $this->current_user_id;
         }
+    echo $this->current_user_id;
 		
 		// 分页参数
         $options['page'] = $page;
@@ -85,8 +84,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 				}
 			}
 			// 省市、城市
-			$data[$i]['province'] = $result['rows'][$i]['area_province']['city'];
-			$data[$i]['city'] = $result['rows'][$i]['area_district']['city'];
+			$data[$i]['province_name'] = $result['rows'][$i]['area_province']['city'];
+			$data[$i]['city_name'] = $result['rows'][$i]['area_district']['city'];
 		}
 		$result['rows'] = $data;
 		

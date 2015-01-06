@@ -11,6 +11,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	);
 	
 	protected $exclude_method_list = array('execute', 'login', 'register', 'logout', 'verify_code', 'user');
+  protected $ignore_check_method_list = array('login', 'register', 'verify_code');
 	
 	/**
 	 * 入口
