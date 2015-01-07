@@ -168,7 +168,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 			
 			// 解绑设备操作
 			$uuid = $this->stash['uuid'];
-			$user_id = (int)$this->stash['user_id'];
+			$user_id = $this->current_user_id;
 			if(!empty($uuid) && !empty($user_id)){
 				$pusher = new Sher_Core_Model_Pusher();
 				$ok = $pusher->unbinding($uuid, $user_id);

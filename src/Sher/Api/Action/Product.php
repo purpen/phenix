@@ -246,7 +246,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$size = $this->stash['size'];
 		
 		// 请求参数
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+        $user_id = $this->current_user_id;
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
 		if(empty($target_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);

@@ -87,7 +87,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
-    $user_id = isset($this->stash['current_user_id'])?(int)$this->stash['current_user_id']:0;
+    $user_id = $this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('访问的主题不存在！', 3000);
 		}
@@ -112,7 +112,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 		$model->increase_counter('view_count', $inc_ran, $id);
 		
 		// 当前用户是否有管理权限
-    if ($this->current_user_id == $topic['user_id'] || $this->visitor->can_admin){
+    if ($this->current_user_id == $topic['user_id']){
       $editable = true;
     }
 		
@@ -154,7 +154,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 * 提交话题
 	 */
 	public function submit(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$id = (int)$this->stash['_id'];
 		
 		$data = array();
@@ -240,7 +240,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 		$size = $this->stash['size'];
 		
 		// 请求参数
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+        $user_id = $this->current_user_id;
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
 		if(empty($target_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);

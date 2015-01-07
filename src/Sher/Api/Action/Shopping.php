@@ -97,10 +97,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	public function ajax_address(){
 		// 验证数据
 		$id = $this->stash['_id'];
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
-		if(empty($user_id)){
-			return $this->api_json('请求参数错误', 3000);
-		}
+    $user_id = $this->current_user_id;
 		if(empty($this->stash['name']) || empty($this->stash['phone']) || empty($this->stash['province']) || empty($this->stash['city']) || empty($this->stash['address'])){
 			return $this->api_json('请求参数错误', 3000);
 		}
@@ -182,7 +179,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	 */
 	public function remove_address(){
 		$id = $this->stash['id'];
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+        $user_id = $this->current_user_id;
 		if(empty($user_id) || empty($id)){
 			return $this->api_json('请求参数错误', 3000);
 		}
@@ -236,7 +233,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$size = $this->stash['size'];
 		
 		// 请求参数
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+        $user_id = $this->current_user_id;
 		// 订单状态
 		$status  = isset($this->stash['status']) ? $this->stash['status'] : 0;
 		if(empty($user_id)){
@@ -352,7 +349,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	 */
 	public function detail(){
 		$rid = $this->stash['rid'];
-		$user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+		$user_id = $this->current_user_id;
 		if(empty($rid)){
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
 		}

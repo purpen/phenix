@@ -61,7 +61,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	 * 更新用户头像
 	 */
 	public function update_avatar(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$qkey = (int)$this->stash['qkey'];
 		
 		$avatar = array(
@@ -81,7 +81,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	 * 更新用户信息
 	 */
 	public function update_profile(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$nickname = $this->stash['nickname'];
 		
 		if(empty($user_id) || empty($nickname)){
@@ -130,7 +130,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$size = $this->stash['size'];
 		
 		$type = (int)$this->stash['type'];
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
 		}
