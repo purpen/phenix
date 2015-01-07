@@ -62,7 +62,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
         if($this->current_user_id){
             $query['user_id'] = $this->current_user_id;
         }
-    echo $this->current_user_id;
 		
 		// 分页参数
         $options['page'] = $page;
