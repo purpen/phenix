@@ -22,7 +22,7 @@ require $cfg_doggy_bootstrap;
 
 set_time_limit(0);
 
-$conf_dir = '/opt/qiniu-dev/';
+$conf_dir = '/opt/qiniu';
 $from_src = '/opt/project/php/phenix-ui/build/packaged';
 $to_src = '/opt/project/php/phenix/data/web/packaged';
 
@@ -73,8 +73,9 @@ function inc_version($css_version, $js_version, $to_src){
 // qrsync -skipsym ~/qiniu/conf.json
 function deploy_sync($conf_dir){
 	echo "Start to sync files ... \n";
-	
-	system("qrsync -skipsym $conf_dir/frbird.json");
+	echo "$conf_dir...\n";
+	//system("qrsync -skipsym $conf_dir");
+	system("/opt/qiniu/qrsync -skipsym $conf_dir/frbird.json");
 	
 	echo "Sync files is ok! \n";
 }
