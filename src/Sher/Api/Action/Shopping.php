@@ -15,7 +15,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
   /**
    * 忽略不传current_user_id
    */
-  protected $ignore_check_method_list = array('address');
+  protected $ignore_check_method_list = array('*');
 
 	/**
 	 * 入口
