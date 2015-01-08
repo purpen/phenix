@@ -96,30 +96,39 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	 */
 	public function ajax_address(){
 		// 验证数据
-		$id = $this->stash['_id'];
+		$id = isset($this->stash['_id'])?$this->stash['_id']:0;
     $user_id = $this->current_user_id;
-		if(empty($this->stash['name']) || empty($this->stash['phone']) || empty($this->stash['province']) || empty($this->stash['city']) || empty($this->stash['address'])){
+		if(empty($this->stash['name']) || empty($this->stash['email']) || empty($this->stash['phone']) || empty($this->stash['province']) || empty($this->stash['city']) || empty($this->stash['address']) || empty($this->stash['zip'])){
 			return $this->api_json('请求参数错误', 3000);
 		}
+    $is_default = isset($this->stash['is_default'])?(int)$this->stash['is_default']:0;
 		
 		$mode = 'create';
 		$result = array();
+
+    //输出字段
+		$some_fields = array(
+			'_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'area'=>1,'address'=>1,'zip'=>1,'is_default'=>1,
+		);
+
+    $new_data = array();
 		
 		$data = array();
+		$data['email'] = $this->stash['email'];
 		$data['name'] = $this->stash['name'];
 		$data['phone'] = $this->stash['phone'];
 		$data['province'] = $this->stash['province'];
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
-		$data['is_default'] = $this->stash['is_default'];
+		$data['is_default'] = $is_default;
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
 			
 			// 检测是否有默认地址
 			$ids = array();
-			if ($data['is_default'] == 1) {
+			if ($is_default == 1) {
 				$result = $model->find(array(
 					'user_id' => (int)$user_id,
 					'is_default' => 1,
@@ -151,27 +160,36 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			
 			// 更新默认地址
 			if (!empty($ids)){
-				$updated_default_ids = array();
 				for($i=0; $i<count($ids); $i++){
 					if ($ids[$i] != $id){
 						Doggy_Log_Helper::debug('原默认地址:'.$ids[$i]);
 						$model->update_set($ids[$i], array('is_default' => 0));
-						$updated_default_ids[] = $ids[$i];
 					}
 				}
-				$result['updated_default_ids'] = $updated_default_ids;
 			}
 			
-			$result['id'] = $id;
-			$result['address'] = $model->extend_load($id);
-			$result['mode'] = $mode;
+			$result = $model->extend_load($id);
+      if(empty($result)){
+ 			  return $this->api_json('系统错误！', 3002);  
+      }
+
+			foreach($some_fields as $key=>$value){
+				if($key == '_id'){
+					$new_data[$key] = (string)$result[$key];
+				}else{
+					$new_data[$key] = $result[$key];
+				}
+			}
+			// 省市、城市
+			$new_data['province_name'] = $result['area_province']['city'];
+			$new_data['city_name'] = $result['area_district']['city'];
 			
 		} catch (Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn('新地址保存失败:'.$e->getMessage());
 			return $this->api_json('新地址保存失败:'.$e->getMessage(), 3002);
 		}
 		
-		return $this->api_json('请求成功', 0, $result);
+		return $this->api_json('请求成功', 0, $new_data);
 	}
 	
 	/**
