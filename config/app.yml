@@ -99,6 +99,7 @@ app.dt.extension_lib.sher_app:
     'cake_list':'Sher_App_ViewTag_CakeList'
     'message_list':'Sher_App_ViewTag_MessageList'
     'contact_list':'Sher_App_ViewTag_ContactList'
+    'block_list':'Sher_Core_ViewTag_BlockList'
     'pager':'Sher_App_ViewTag_Pager'
   filters: []
 

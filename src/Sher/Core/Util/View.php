@@ -206,6 +206,34 @@ EOF;
 EOF;
     return htmlspecialchars(self::api_templet($str));
   }
+
+
+  /**
+   * 块内容显示
+   * type=0,content内容原样输出，type=1 content内容过滤标签
+   */
+  public static function load_block($mark, $type=0){
+    if(empty($mark)){
+      return null;
+    }
+    $model = new Sher_Core_Model_Block();
+    $block = $model->first(array('mark'=>$mark));
+    if(empty($block)){
+      return null;
+    }
+    if(!empty($block['content'])){
+      $c = $block['content'];
+      if($type==0){
+        return $c;
+      }elseif($type==1){
+        return strip_tags(htmlspecialchars_decode($c));
+      }else{
+        return $c;
+      }
+    }
+    return null;
+  }
+    
 	
 }
 ?>

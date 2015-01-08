@@ -167,6 +167,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       array_unshift($assets, $cover_img_url);
     }
     $product['asset'] = $assets;
+    $product['cover_url'] = $cover_img_url;
 		
 		// 验证是否还有库存
 		$product['can_saled'] = $model->can_saled($product);

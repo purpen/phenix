@@ -17,7 +17,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	}
 	
 	/**
-     * 用户列表
+     * 产品列表
      * @return string
      */
     public function get_list() {
