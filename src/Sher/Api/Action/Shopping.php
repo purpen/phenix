@@ -98,7 +98,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		// 验证数据
 		$id = isset($this->stash['_id'])?$this->stash['_id']:0;
     $user_id = $this->current_user_id;
-		if(empty($this->stash['name']) || empty($this->stash['email']) || empty($this->stash['phone']) || empty($this->stash['province']) || empty($this->stash['city']) || empty($this->stash['address']) || empty($this->stash['zip'])){
+		if(empty($this->stash['name']) || empty($this->stash['phone']) || empty($this->stash['province']) || empty($this->stash['city']) || empty($this->stash['address'])){
 			return $this->api_json('请求参数错误', 3000);
 		}
     $is_default = isset($this->stash['is_default'])?(int)$this->stash['is_default']:0;
