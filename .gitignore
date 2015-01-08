@@ -5,4 +5,4 @@ data/web/app
 composer.lock
 vendor/
 .gitignore
-/data
+data/web/packaged

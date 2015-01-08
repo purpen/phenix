@@ -74,19 +74,25 @@
     border: 1px solid #ccc;
   }
 
+  .ui.together.block {
+    padding-bottom: 4.5rem;
+  }
+  #homepage .ui.block{
+    padding-top:2.5em;
+  }
+  #homepage .ui.block .ui.grid .row+.row{
+    padding:0;
+  }
   .ui.small.vote.block {
     padding-bottom: 2.5em;
-  }
-  .hero{
-    height:500px !important;
+    padding-top: 0.5em !important;
   }
   .hero .next, .hero .prev {
     bottom: 50px;
   }
-  .presell {
-    padding: .8em 1.5em .8em .8em;
+  #ft {
+    padding:0 0 2em;
   }
-
 
 </style>
 {% endblock %}
@@ -206,7 +212,7 @@
         </div>
         </li>
 
-        <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/exerbike.jpg'); background-color: rgb(255, 116, 105);background-position:0 -100px;">
+        <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/exerbike.jpg'); background-color: rgb(255, 116, 105);">
         <div class="clearfix container">
         <div class="hero-main verticalize-container">
         <div class="verticalize">
