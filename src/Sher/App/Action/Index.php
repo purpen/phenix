@@ -51,6 +51,21 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
     public function home() {
 		$this->gen_login_token();
 		$this->set_target_css_state('page_home');
+    $product_ids = Sher_Core_Util_View::load_block('index_product_stick ', 1);
+
+    //商品推荐列表---取块内容
+    $products = array();
+    if($product_ids){
+      $product_model = new Sher_Core_Model_Product();
+      $id_arr = explode(',', $product_ids);
+      foreach(array_slice($id_arr, 0, 6) as $i){
+        $product = $product_model->extend_load((int)$i);
+        if(!empty($product)){
+          array_push($products, $product);
+        }
+      }
+    }
+    $this->stash['products'] = $products;
         return $this->to_html_page('page/home.html');
     }
 	

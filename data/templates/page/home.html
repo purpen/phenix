@@ -321,9 +321,8 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% product_list var:'list' only_approved:1 only_onsale:1 is_shop:1 only_stick:1 size:6 %}
 					<div class="ui three items">
-						{% for product in list.rows %}
+						{% for product in products %}
 					  		{% include "block/product_item.html" %}
 					    {% endfor %}
 					</div>
