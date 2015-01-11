@@ -64,20 +64,43 @@
 		color:#f36;
 		text-decoration: none;
 	}
+
+  .ui.header +.ui.header{
+    margin:0 10px;
+    padding:0 10px;
+  }
+  .content.pt-0{
+    margin-top:0 !important;
+  }
 	</style>
 </head>
 <body>
-	<div class="ui header">
-		<a class="ui small avatar image"><img src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avs.jpg" alt="sherry wang"></a>
-		<div class="content">
+  <div class="ui header">
+    <div class="content">
       {{ topic.title }}
-			<div class="sub header attribute">
-				<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span>&nbsp;|
-        <span>{{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span>&nbsp;|
-        <span>浏览数: {{ topic.view_count }}</span>
-			</div>
-		</div>
-	</div>
+    </div>
+  </div>
+
+<div class="ui header">
+  <a class="ui small avatar image"><img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}"></a>
+<div class="content">
+{{ topic.user.nickname }}
+<div class="sub header attribute">
+  <span>{{ topic.user.city }}</span>
+  <span>{{ topic.user.profile.job }}</span>
+</div>
+</div>
+</div>
+<div class="ui header">
+<div class="content pt-0">
+<div class="sub header attribute">
+<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span>|
+<span>{{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span>|
+<span>浏览数: {{ topic.view_count }}</span>
+</div>
+</div>
+</div>
+
 	<div class="course">
 		<div class="cont">
 				{{ topic.description }}

@@ -19,13 +19,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'taobao_iid' => null,
 		# 产品名称
 	    'title'   => '',
-		# 优势
+		# 优势/亮点
 		'advantage' => '',
 		# 简述
         'summary' => '',
 		# 详情内容
 		'content' => '',
-		# 产品亮点
+		# 产品标签
     	'tags'    => array(),
 		
 		# 产品视频链接

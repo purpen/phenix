@@ -36,6 +36,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				break;
 		}
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
+    $this->stash['is_search'] = false;
 		
         return $this->to_html_page('admin/product/list.html');
     }
@@ -751,6 +752,30 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
 		return $this->to_taconite_page('admin/product/ajax_cooperate.html');
+  }
+
+  /**
+   * 产品搜索
+   */
+  public function search(){
+    $this->set_target_css_state('page_product');
+    $this->stash['is_search'] = true;
+		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&page=#p#';
+		switch($this->stash['stage']){
+			case 9:
+				$this->stash['process_saled'] = 1;
+				break;
+			case 5:
+				$this->stash['process_presaled'] = 1;
+				break;
+			case 1:
+				$this->stash['process_voted'] = 1;
+				break;
+		}
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q']);
+    return $this->to_html_page('admin/product/list.html');
+  
   }
 
 }
