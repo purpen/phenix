@@ -450,6 +450,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                   return $this->ajax_json('抢购产品不存在！', true);
                 }
 
+                //是否有库存
+                if($product_data['inventory']==0){
+                  return $this->ajax_json('没有库存！', true);              
+                }
+
                 //是否是抢购商品
                 if($product_data['snatched'] != 1){
                    return $this->ajax_json('非抢抢购产品！', true);
