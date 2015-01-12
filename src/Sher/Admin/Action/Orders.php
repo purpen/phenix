@@ -461,13 +461,18 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if (empty($rid)) {
 			return $this->ajax_notification('订单不存在！', true);
 		}
-		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid($rid);
-		
+
 		// 检查是否具有权限---有问题
 		if (!$this->visitor->can_admin()) {
 			return $this->ajax_notification('操作不当，你没有权限！', true);
 		}
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+    //订单不存在
+    if(empty($order_info)){
+ 			return $this->ajax_notification('订单未找到！', true);     
+    }
 		
 		// 申请退款的订单才允许退款操作
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
@@ -481,6 +486,42 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
     $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
     return $this->to_redirect($refund_url);
+  
+  }
+
+  /**
+   * 强制退款操作－不退款，更改订单状态，用于非支付宝支付的订单或需要人工退款操作的
+   */
+  public function ajax_do_refund_force(){
+ 		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('订单不存在！', true);
+		}
+		
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+    }
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+
+    //订单不存在
+    if(empty($order_info)){
+ 			return $this->ajax_notification('订单未找到！', true);
+    }
+		
+		// 申请退款的订单才允许退款操作
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			return $this->ajax_notification('订单状态不正确！', true);
+    }
+
+    $ok = $model->refunded_order($order_info['_id'], array('refunded_price'=>$order_info['pay_money']));
+    if($ok){
+		  return $this->ajax_json('操作成功', false, '', array('is_error'=>false, 'message'=>'操作成功'));
+    }else{
+ 		  return $this->ajax_json('操作失败', false, '', array('is_error'=>true, 'message'=>'操作失败'));  
+    }
   
   }
 

@@ -573,6 +573,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if ($order_info['user_id'] != $this->visitor->id) {
 			return $this->ajax_notification('操作不当，你没有权限！', true);
 		}
+
+    //零元不能退款
+    if ((int)$order_info['pay_money']==0){
+ 			return $this->ajax_notification('此订单不允许退款操作！', true);  
+    }
 		
 		// 正在配货订单才允许申请
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
