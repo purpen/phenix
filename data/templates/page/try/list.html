@@ -52,7 +52,7 @@
 					<div class="ui three items">
 						{% try_list var:'list' page:page state:1 %}
 						{% for t in list.rows %}
-							<div class="item">
+							<div class="magenta item">
 								<div class="image">
 									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 							      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
