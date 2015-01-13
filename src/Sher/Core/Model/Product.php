@@ -137,6 +137,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'snatched_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
+
+    ##试用
+    'trial' =>  0,
 		
 		## 计数器
 		
@@ -282,6 +285,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		// 检测是否可售
 		$row['can_saled'] = $this->can_saled($row);
+
+    //是否是试用
+    if(isset($row['trial'])){
+      $row['is_try'] = $this->is_try($row['trial']);
+    }else{
+      $row['is_try'] = false;
+    }
+
 		
 	}
 	
@@ -294,6 +305,16 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}
 		return false;
 	}
+
+  /**
+   * 是否是试用
+   */
+  public function is_try($trial=0){
+    if(empty($trial)){
+      return false;
+    }
+    return true;
+  }
 	
 	/**
 	 * 获取产品的价格区间

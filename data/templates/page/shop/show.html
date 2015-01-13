@@ -413,27 +413,34 @@
 									
 								{% else %}
 								
-									{% if product.can_saled %}
-									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy buy btn">
-										<i class="flat shopping57 icon"></i>加入购物车
-									</div>
-									{% else %}
-									<div class="ui active gray btn-4 btn-4c locknotice btn" data-id="{{ product._id }}">
-										暂时缺货
-									</div>
-									{% endif %}
-									
+                  {% if !product.is_try %}
+                    {% if product.can_saled %}
+                    <div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy buy btn">
+                      <i class="flat shopping57 icon"></i>加入购物车
+                    </div>
+                    {% else %}
+                    <div class="ui active gray btn-4 btn-4c locknotice btn" data-id="{{ product._id }}">
+                      暂时缺货
+                    </div>
+                    {% endif %}
+									{% endif %}				
 								{% endif %}
 							</td>
 						</td>
 						<tr>
 							<td>
 								{% if !product.snatched %}
-									{% if product.can_saled %}
-									<div class="ui black btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
-										立即购买
-									</div>
-									{% endif %}
+                  {% if !product.is_try %}
+                    {% if product.can_saled %}
+                    <div class="ui black btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
+                      立即购买
+                    </div>
+                    {% endif %}
+                  {%else%}
+                    <div class="ui black btn-4 btn-4c btn">
+                      试用产品
+                    </div>
+                  {% endif %}
 								{% endif %}
 							</td>
 						</tr>

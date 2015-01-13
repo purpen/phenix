@@ -139,6 +139,9 @@
 						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
 							{{ product.title|truncate, 32 }}
 						</a>
+            {% if product.is_try %}
+              <span style="color:red;">试</span>
+            {%endif%}
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
