@@ -32,8 +32,8 @@
 			$('#product-upload-form').addClass('error');
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
+      $('#file_path').text(result.data.asset.file_url);
 			$('.qq-upload-list').children().eq(id).fadeOut();
-      $('#file_path').text(result.filepath);
 		}
 	});
 	
