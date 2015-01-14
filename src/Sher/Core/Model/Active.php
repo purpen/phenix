@@ -101,6 +101,12 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     'published' =>  0,
     #推荐
     'stick' =>  0,
+    #Process流程
+    'process'  =>  array();
+    #地图信息
+    'map_info'  =>  array();
+    #合作伙伴
+    'partner' =>  array();
 		
 		# 状态:0,禁用，1.启用
 		'state' => 0,
@@ -221,6 +227,10 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		),
 		array(
 			'id' => 3,
+			'name' => '沙龙',
+		),
+		array(
+			'id' => 4,
 			'name' => '未定义',
 		),
 	);

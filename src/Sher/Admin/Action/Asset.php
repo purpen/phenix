@@ -25,7 +25,9 @@ class Sher_Admin_Action_Asset extends Sher_Admin_Action_Base implements Doggy_Di
 		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/asset?page=#p#';
 		
-		$this->stash['pager_url'] = $pager_url;
+    $this->stash['pager_url'] = $pager_url;
+    $model = new Sher_Core_Model_Asset();
+    $this->stash['thumb_info'] = $model->thumb_info();
 		
 		return $this->to_html_page('admin/asset/list.html');
 	}

@@ -62,6 +62,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
         'width' => 0,
         'height' => 0,
 		'mime' => null,
+    'desc'  =>  null,
 		
 		## 缩略图组
 		/*
@@ -101,7 +102,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'massive' => 'ma.jpg',
 	);
 	
-	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1);
+	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1,'asset_type'=>1,'parent_id'=>1, 'size'=>1);
 	
 	# 响应式设计所需图
 	protected $thumbnails_resp = array(
@@ -313,6 +314,13 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	public function file_content(){
 		return $this->file_content;
 	}
+
+  /**
+   * 返回所有缩略图后缀
+   */
+  public function thumb_info(){
+    return $this->thumbnails_styles;
+  }
 	
 	
 }
