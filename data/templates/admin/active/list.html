@@ -122,7 +122,7 @@
 				</td>
 				<td>
 		          	<div class="header">
-						<a href="{{ active.view_url }}" class="ui link" target="_blank" title="{{ active.title }}">
+                  <a href="{{ app.base.domain }}/app/site/active/view?id={{ active._id }}" class="ui link" target="_blank" title="{{ active.title }}">
 							{{ active.title|truncate, 32 }}
 						</a>
 					</div>

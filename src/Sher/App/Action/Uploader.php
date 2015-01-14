@@ -293,6 +293,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		        if ($ok) {
 					$asset_id = (string)$asset->_id;
 					$result['link'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hd.jpg');
+          $result['filepath'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath);
 				}
 			}
 		} catch (Sher_Core_Model_Exception $e) {

@@ -102,11 +102,11 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     #推荐
     'stick' =>  0,
     #Process流程
-    'process'  =>  array();
+    'process'  =>  array(),
     #地图信息
-    'map_info'  =>  array();
+    'map_info'  =>  array(),
     #合作伙伴
-    'partner' =>  array();
+    'partner' =>  array(),
 		
 		# 状态:0,禁用，1.启用
 		'state' => 0,
