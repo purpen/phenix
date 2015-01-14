@@ -150,7 +150,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	public function topic() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
-		
+
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传活动图片
+	 */
+	public function active() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_ACTIVE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_ACTIVE;
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
 	
@@ -361,6 +370,30 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		// 先上传再保存信息的情况
 		if (isset($this->stash['ref'])){
 			$tpl = 'ajax/check_contact_onestep.html';
+		}
+		
+        return $this->to_taconite_page($tpl);
+    }
+
+	/**
+     * 检查指定附件的状态并返回附件列表到上传队列中---活动
+     *
+     * @return void
+     */
+    public function check_upload_active_assets() {
+		$assets_ids = $this->stash['assets'];
+		$tpl = 'ajax/check_upload_active_assets.html';
+        if (empty($assets_ids)) {
+            $result['error_message'] = '没有上传的图片';
+            $result['code'] = 401;
+            return $this->ajax_response($tpl, $result);
+        }
+        $model = new Sher_Core_Model_Asset();
+		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
+		
+		// 先上传再保存信息的情况
+		if (isset($this->stash['ref'])){
+			$tpl = 'ajax/check_active_onestep.html';
 		}
 		
         return $this->to_taconite_page($tpl);

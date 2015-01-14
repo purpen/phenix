@@ -56,6 +56,34 @@ class Sher_Admin_Action_Asset extends Sher_Admin_Action_Base implements Doggy_Di
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
+
+	/**
+	 * 删除某个附件
+	 */
+	public function delete_asset(){
+		$id = $this->stash['id'];
+    $asset_id = $this->stash['asset_id'];
+    $model_name = $this->stash['model'];
+		if (empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		
+		if (!empty($id)){
+      if($model_name=='Active'){
+			  $model = new Sher_Core_Model_Active();
+      }elseif($model_name=='Product'){
+ 			  $model = new Sher_Core_Model_Product();   
+      }
+
+			$model->delete_asset($id, $asset_id);
+		}else{
+			// 仅仅删除附件
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_file($id);
+		}
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
+	}
 	
 	
 }

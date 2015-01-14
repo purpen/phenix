@@ -43,6 +43,13 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
   #后台区块编辑器图片
   const TYPE_EDITOR_BLOCK = 63;
 
+  #活动图片
+  const TYPE_ACTIVE = 65;
+  #活动编辑器图
+  const TYPE_EDITOR_ACTIVE = 66;
+  #活动用户上传图
+  const TYPE_USER_ACTIVE = 67;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',

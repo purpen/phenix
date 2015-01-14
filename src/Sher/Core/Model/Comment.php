@@ -13,6 +13,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     const TYPE_TOPIC = 2;
 	const TYPE_TRY = 3;
 	const TYPE_PRODUCT = 4;
+  const TYPE_ACTIVE = 5;
 	
     
     protected $schema = array(
@@ -113,6 +114,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				break;
 			case self::TYPE_TRY:
 				$model = new Sher_Core_Model_Try();
+				$model->dec_counter('comment_count', (int)$target_id);
+				break;
+			case self::TYPE_ACTIVE:
+				$model = new Sher_Core_Model_Active();
 				$model->dec_counter('comment_count', (int)$target_id);
 				break;
 			default:

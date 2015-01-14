@@ -1,0 +1,568 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑活动-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.ok.button {
+		margin-top: 1.7em;
+	}
+	.ui.add.button {
+		padding: 0.3em;
+		margin-left: 1em;
+	}
+	.ui.close.button {
+		margin-top: 1.65em;
+	}
+	.ui.close.button > .icon {
+		margin-top: 0.4em;
+	}
+	.ui.stage.header {
+		margin-top: 2.5em;
+	}
+	.ui.items .item .actions {
+		text-align: center;
+	}
+	.field > .ui.checkbox {
+		margin-right: 1em;
+	}
+	.ui.checkbox .box, .ui.checkbox label {
+		padding-left: 1.5em;
+	}
+  .icon-photo-banner:before {
+    content: "\f03e";
+  }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
+{% endblock %}
+
+{% block jquery %}
+	$('#active-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '标题最多30个字符'
+				}
+			]
+		},
+		contact_name: {
+			identifier  : 'contact_name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系人不能为空'
+				},
+				{
+					type   : 'maxLength[20]',
+					prompt : '最多20个字符'
+				}
+			]
+		},
+		contact_tel: {
+			identifier  : 'contact_tel',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系电话不能为空'
+				},
+				{
+					type   : 'maxLength[20]',
+					prompt : '最多20个字符'
+				}
+			]
+		},
+		address: {
+			identifier  : 'address',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '地址不能为空'
+				},
+				{
+					type   : 'maxLength[150]',
+					prompt : '最多150个字符'
+				}
+			]
+		},
+		category_id: {
+			identifier  : 'category_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择分类'
+				}
+			]
+		},
+
+		tags: {
+			identifier  : 'tags',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		},
+		stage: {
+			identifier  : 'stage',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '产品阶段不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#active-category').val('');
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#active-category').val(id);
+		}
+		
+        return false;
+	});
+	
+	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#editor').editable({
+		inlineMode: false,
+		toolbarFixed: false,
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		minHeight: 300,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 2000,
+		imageMargin: '20px',
+		{% if mode == 'edit' %}
+		defaultImageAlt: '{{ active.title }}',
+		{% else %}
+		defaultImageAlt: '太火鸟',
+		{% endif %}
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' },
+		defaultImageWidth: '',
+		maxImageSize: 1024 * 1024 * 3, // 3M
+		imageErrorCallback:  function (error) {
+			if (error.code == 5){
+				error.message = '图片太大，请选择小于3M！';
+			}
+			phenix.show_error_note(error.message, 5000);
+		},
+		insertImageCallback: function (imageURL) {
+			file_count++;
+			// 重置参数
+			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
+		},
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+	    // Catch image removal from the editor.
+        afterRemoveImageCallback: function ($img) {
+          // Set the image source to the image delete params.
+          this.options.imageDeleteParams = {file_url: $img.attr('src')};
+		  
+          // Make the delete request.
+          this.deleteImage($img);
+        }
+	});
+	
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_active }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#active-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#active-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ active._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_cover_id').val(id);
+			return false;
+		});
+	});
+
+	// 设置Banner图
+	$('#asset-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_banner_id').val(id);
+			return false;
+		});
+	});
+	
+	$('.datepicker').pickadate();
+	
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">活动管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/active" class="item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i>编辑活动
+			</div>
+			{% endif %}		
+			<a href="{{ app_url_admin_base }}/active/submit" class="item">
+				<i class="add icon"></i>新增活动
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/active/save" class="ui form" method="post" id="active-form">
+		<input type="hidden" name="id" value="{{ active._id }}" id="active_id" />
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">基本信息</h3>
+			<div class="field">
+				<label>标题</label>
+			  	<input type="text" name="title" value="{{ active.title }}" />
+			</div>
+			<div class="field">
+				<label>子标题</label>
+			  	<input type="text" name="sub_title" value="{{ active.sub_title }}" />
+			</div>
+			<div class="field">
+        <label>几期</label>
+			  	<input type="text" name="season" value="{{ active.season }}" />
+			</div>
+
+			<div class="field">
+				<label>简述</label>
+			  	<textarea name="summary" class="small">{{ active.summary }}</textarea>
+				<div class="description">请详细的描述</div>
+			</div>
+			
+			<div class="field">
+				<label>标签</label>
+			  	<input type="text" name="tags" value="{{ active.tags_s }}" />
+			</div>
+			
+			<div class="field">
+				<label>分类</label>
+				<input type="hidden" name="category_id" value="{{ active.category_id }}" id="active-category" />
+				{% for cat in categories %}
+        <a class="ui{% if cat.id==active.category_id %} active{%endif%} magenta category button" data-value="{{ cat.id }}">{{ cat.name }}</a>
+				{% endfor %}
+			</div>
+			
+			<h3 class="ui dividing stage header">是否免费</h3>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="free_stat" value="1" {% if active.free_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>免费</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="free_stat" value="2" {% if active.free_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>收费</label>
+					</div>
+
+			</div>
+
+			<h3 class="ui dividing stage header">线上线下</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="line_stat" value="2" {% if active.line_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>线上</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="line_stat" value="1" {% if active.line_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>线下</label>
+					</div>
+				</div>
+
+			</div>
+			
+      <!--
+			<h3 class="ui dividing stage header">官方/个人</h3>
+			<div class="inline field">
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="process_voted" {% if active.kind %}checked="checked"{% endif %} />
+		          	<label>官方</label>
+		        </div>
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="process_presaled" {% if active.kind %}checked="checked"{% endif %} />
+		          	<label>个人</label>
+		        </div>
+			</div>
+
+    -->
+		</div>
+		
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">时间设置</h3>
+			<div class="two fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="begin_time" value="{{ active.begin_time|date 'Y-m-d' }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="end_time" value="{{ active.end_time|date 'Y-m-d' }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">联系信息设置</h3>
+			<div class="three fields">
+				<div class="field">
+				  	<label>联系人：</label>
+					<input type="text" name="contact_name" value="{{ active.contact_name }}" />
+				</div>
+				<div class="field">
+				  	<label>电话：</label>
+					<input type="text" name="contact_tel" value="{{ active.contact_tel }}" />
+				</div>
+				<div class="field">
+				  	<label>邮箱：</label>
+					<input type="text" name="contact_email" value="{{ active.contact_email }}" />
+				</div>
+			</div>
+			<div class="field">
+				<label>地址</label>
+			  	<textarea name="address" class="small">{{ active.address }}</textarea>
+				<div class="description">活动地址</div>
+			</div>
+
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">报名设置</h3>
+			<div class="three fields">
+				<div class="field">
+				  <label>名额上线：</label>
+					<input type="text" name="max_number_count" value="{{ active.max_number_count }}" />
+				  <div class="description">零为无上线</div>
+				</div>
+				<div class="field">
+				  	<label>费用：</label>
+					<input type="text" name="pay_money" value="{{ active.pay_money }}" />
+				<div class="description">零为免费</div>
+				</div>
+
+			</div>
+
+		</div>
+
+			<h3 class="ui dividing stage header">进度</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="0" {% if active.step_stat == 0 %}checked="checked"{% endif %} /> 
+						<label>暂停</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="1" {% if active.step_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>开始</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="2" {% if active.step_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>结束</label>
+					</div>
+				</div>
+
+			</div>
+
+			<h3 class="ui dividing stage header">发布</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="published" value="0" {% if active.published == 0 %}checked="checked"{% endif %} /> 
+						<label>否</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="published" value="1" {% if active.published == 1 %}checked="checked"{% endif %} /> 
+						<label>是</label>
+					</div>
+				</div>
+			</div>
+
+			<h3 class="ui dividing stage header">推荐</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stick" value="0" {% if active.stick == 0 %}checked="checked"{% endif %} /> 
+						<label>否</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="stick" value="1" {% if active.stick == 1 %}checked="checked"{% endif %} /> 
+						<label>是</label>
+					</div>
+				</div>
+			</div>
+
+			<h3 class="ui dividing stage header">状态</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="0" {% if active.state == 0 %}checked="checked"{% endif %} /> 
+						<label>禁用</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="1" {% if active.state == 1 %}checked="checked"{% endif %} /> 
+						<label>正常</label>
+					</div>
+				</div>
+
+			</div>
+		
+		<div class="ui segment">
+			<div class="field">
+				<label>上传活动图片</label>
+				<input type="hidden" name="cover_id" id="active_cover_id" value="{{ active.cover_id }}" />
+				<input type="hidden" name="banner_id" id="active_banner_id" value="{{ active.banner_id }}" />
+			  	<div id="phenix-uploader"></div>
+			
+				<div id="asset-list" class="ui four items">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:active._id asset_type:65 size:20 %}
+						{% for asset in assets.rows %}
+						<div class="thumb item" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == active.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class=" icon-photo-banner icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="field">
+				<label>活动介绍</label>
+				<textarea name="content" placeholder="活动介绍" id="editor">
+					{{ active.content }}
+				</textarea>
+			</div>
+		</div>
+		
+		<div class="ui right aligned grid">
+			<div class="column">
+				<div class="ui gray cancel button">
+					取消
+				</div>
+				<div class="ui magenta submit button">
+					确认提交
+				</div>
+			</div>
+		</div>
+		
+	</form>
+</div>
+{% include "block/shopping/skubox.html" %}
+{% endblock %}
