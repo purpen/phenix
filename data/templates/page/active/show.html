@@ -108,6 +108,7 @@ hr{
 }
 .ui.place+.ui.grid{
 	padding-bottom:20px;
+	position:relative;
 }
 .ui.background-30{
 	height:30px;
@@ -205,7 +206,61 @@ word-wrap: break-word;
 line-height: 1.325em;
 font-size:14px;
 }
+.position.row h4.ui.header{
+	font-size:1em;
+	font-weight:400;
+	padding-bottom:1rem;
+}
+h4.ui.header .map-advantage {
+font-size: 1em;
+font-weight: 400;
+color:#666;
+display: inline-block;
+float: right;
+}
+.position.row{
+	position:absolute;
+	top:40px;
+	width:360px;
+	text-align: left;
+	left:62%;
+}
+.position.row .item{
+	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.4) !important;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.4) !important;
+}
+.position.row .image img{
+	width:100%;
+}
+.position.row .one.items{
+	background:#fff;
+}
+.position.row .content{
+	padding:1.2em 1em 1.8em;
+}
+.icon-place:before {
+    content: "\f124";
+	color:#f36;
+	font-size: 1.5em;
+}
 
+
+
+@media only screen and (max-width: 1350px){
+    .position.row{
+		left:60%;
+	}
+  }
+@media only screen and (max-width: 1250px){
+    .position.row{
+		left:58%;
+	}
+  }
+@media only screen and (max-width: 1100px){
+    .position.row{
+		left:54%;
+	}
+  }
 </style>
 {% endblock %}
 
@@ -237,7 +292,10 @@ font-size:14px;
     }
     function addMapOverlay(){
       var markers = [
-        {content:"酒仙桥路798艺术区",title:"酒仙桥路798艺术",imageOffset: {width:0,height:3},position:{lat:39.95959,lng:116.474589}}
+        {content:'<div style="margin:0;line-height:20px;padding:2px;">' +
+		                    '<img src="{{ app_url_packaged }}/images/camp_3.jpg" alt="" style="float:right;zoom:1;overflow:hidden;width:280px;height:150px;margin-left:3px;"/>' +
+		                    '简介：百度大厦位于北京市海淀区西二旗地铁站附近，为百度公司综合研发及办公总部。' +
+		                  '</div>',title:"酒仙桥路798艺术",imageOffset: {width:0,height:3},position:{lat:39.95959,lng:116.474589}}
       ];
       for(var index = 0; index < markers.length; index++ ){
         var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
@@ -448,7 +506,7 @@ font-size:14px;
       <div class="row">
         <div class="twelve wide column">
           <div class="content">
-            <i class="time icon"></i>2015-01-27  14:00 &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
+            <i class="flat sale icon"></i>2015-01-27  14:00 &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
           </div>
         </div>
       </div>
@@ -597,9 +655,40 @@ font-size:14px;
   <div class="ui responsive grid">
 	<div class="row">
 	  <div class="center aligned column">
-		<div style="height:440px;border:#ccc solid 1px;font-size:12px" id="map"></div>
+		<div style="height:440px;border:#ccc solid 1px;font-size:12px" id="map">
+			
+			
+			
+			
+			
+		</div>
+		<div class="position row">
+			<div class="column">
+				<div class="one items">
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/camp_3.jpg">
+						</div>
+						<div class="content">
+							<h4 class="ui dividing header">
+									极地创新中心
+								<div class="map-advantage">
+									50人规模
+								</div>
+							</h4>
+							<div class="clearfix">
+								<i class="icon-place icon"></i>
+								北京朝阳区酒仙桥路4号极地创新中心218
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	  </div>
 	</div>
+	
   </div>
   <div class="ui part gray background block">
     <div class="ui responsive grid">
