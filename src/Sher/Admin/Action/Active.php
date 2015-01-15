@@ -103,6 +103,24 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
 
+    //地图信息
+    if(isset($this->stash['map_info'])){
+      $data['map_info'] = $this->stash['map_info'];  
+    }
+
+    //进度安排
+    $data['process'] = array();
+    if(isset($this->stash['process'])){
+      $data['process'] = $this->stash['process'];
+    }
+
+    //合作伙伴
+    $data['partner'] = array();
+    if(isset($this->stash['partner'])){
+      $data['partner'] = $this->stash['partner'];
+    }
+
+
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];

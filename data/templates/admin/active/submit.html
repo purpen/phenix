@@ -272,6 +272,41 @@
 	});
 	
 	$('.datepicker').pickadate();
+
+
+  $('.add-process').click(function(){
+    var html = '';
+    html+='<div class="process-box two fields">';
+    html+='<div class="field"><input type="text" name="process[]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="del_process_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#process-box').append(html);
+  });
+
+  //删除process
+	$("input[name='del_process_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.process-box').remove();
+		});
+	});
+
+  $('.add-partner').click(function(){
+    var html = '';
+    html+='<div class="partner-box two fields">';
+    html+='<div class="field"><input type="text" name="partner[]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="del_partner_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#partner-box').append(html);
+  });
+
+  //删除process
+	$("input[name='del_partner_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.partner-box').remove();
+		});
+	});
 	
 {% endblock %}
 
@@ -443,6 +478,90 @@
 
 		</div>
 
+      <h3 class="ui dividing stage header">流程</h3>
+      <div id="process-box">
+        <div class="two fields">
+          <div class="field">
+              <label>格式要求： 时间段|名称|姓名|头像|职位 不添可留空，但保留'|'</label>
+
+          </div>
+          <div class="field">
+              <label>操作：</label>
+
+          </div>
+
+        </div>
+        {% if mode == 'edit' %}
+          {% if active.process %}
+            {% for p in active.process %}
+              <div class="process-box two fields">
+                <div class="field">
+                  <input type="text" name="process[]" value="{{ p }}" />
+                </div>
+                <div class="field">
+                  <input type="button" name="del_process_box" value="删除" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+
+      <div class="ui right aligned grid">
+        <div class="column">
+          <div class="ui magenta add-process button">
+            追加
+          </div>
+        </div>
+      </div>
+
+      <h3 class="ui dividing stage header">合作伙伴</h3>
+      <div id="partner-box">
+        <div class="two fields">
+          <div class="field">
+              <label>格式要求： 名称|链接|图片地址 不添可留空，但保留'|'</label>
+
+          </div>
+          <div class="field">
+              <label>操作：</label>
+
+          </div>
+
+        </div>
+        {% if mode == 'edit' %}
+          {% if active.partner %}
+            {% for p in active.partner %}
+              <div class="partner-box two fields">
+                <div class="field">
+                  <input type="text" name="partner[]" value="{{ p }}" />
+                </div>
+                <div class="field">
+                  <input type="button" name="del_partner_box" value="删除" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+
+      <div class="ui right aligned grid">
+        <div class="column">
+          <div class="ui magenta add-partner button">
+            追加
+          </div>
+        </div>
+      </div>
+      
+      <h3 class="ui dividing stage header">地图</h3>
+      <div id="map-box">
+        <div class="one fields">
+          <div class="field">
+              <label>格式要求： 时间段|名称|姓名|头像|职位 不添可留空，但保留'|'</label>
+              <input type="text" name="map_info" value="{{ active.map_info }}" />
+          </div>
+
+        </div>
+
 			<h3 class="ui dividing stage header">进度</h3>
 			<div class="grouped inline fields">
 
@@ -463,14 +582,6 @@
 
 			</div>
 
-      <h3 class="ui dividing stage header">进度</h3>
-			<div class="grouped inline fields">
-
-				<div class="field">
-
-				</div>
-
-			</div>
 
 			<h3 class="ui dividing stage header">发布</h3>
 			<div class="grouped inline fields">

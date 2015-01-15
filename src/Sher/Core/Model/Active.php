@@ -104,7 +104,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     #Process流程
     'process'  =>  array(),
     #地图信息
-    'map_info'  =>  array(),
+    'map_info'  =>  null,
     #合作伙伴
     'partner' =>  array(),
 		
