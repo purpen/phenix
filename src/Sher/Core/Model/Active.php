@@ -212,6 +212,37 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     }else{
       $row['step_name'] = '';
     }
+
+    //转换进度安排格式
+    if(isset($row['process'])){
+      $process_arr = array();
+      if(is_array($row['process'])){
+        foreach($row['process'] as $v){
+          $a = explode('|', $v);
+          array_push($process_arr, $a);
+        }
+      }
+      $row['process_arr'] = $process_arr;
+    }
+
+    //转换合作伙伴格式
+    if(isset($row['partner'])){
+      $partner_arr = array();
+      if(is_array($row['partner'])){
+        foreach($row['partner'] as $v){
+          $a = explode('|', $v);
+          array_push($partner_arr, $a);
+        }
+      }
+      $row['partner_arr'] = $partner_arr;
+    }
+
+    //转换地图信息格式
+    if(isset($row['map_info'])){
+      $map_info_arr = array();
+      $a = explode('|', $row['map_info']);
+      $row['map_info_arr'] = $a;
+    }
 		
 	}
 

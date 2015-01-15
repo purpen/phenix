@@ -277,7 +277,7 @@ float: right;
     }
     function createMap(){ 
       map = new BMap.Map("map"); 
-      map.centerAndZoom(new BMap.Point(116.368804,39.99586),11);
+      map.centerAndZoom(new BMap.Point({{ active.map_info_arr.0 }},{{ active.map_info_arr.1 }}),{{ active.map_info_arr.2 }});
     }
     function setMapEvent(){
       map.enableScrollWheelZoom();
@@ -292,10 +292,7 @@ float: right;
     }
     function addMapOverlay(){
       var markers = [
-        {content:'<div style="margin:0;line-height:20px;padding:2px;">' +
-		                    '<img src="{{ app_url_packaged }}/images/camp_3.jpg" alt="" style="float:right;zoom:1;overflow:hidden;width:280px;height:150px;margin-left:3px;"/>' +
-		                    '简介：百度大厦位于北京市海淀区西二旗地铁站附近，为百度公司综合研发及办公总部。' +
-		                  '</div>',title:"酒仙桥路798艺术",imageOffset: {width:0,height:3},position:{lat:39.95959,lng:116.474589}}
+      {content:'{{ active.map_info_arr.6 }}',title:"{{ active.map_info_arr.5 }}",imageOffset: {width:0,height:3},position:{lat:{{ active.map_info_arr.3 }},lng:{{ active.map_info_arr.4 }} }}
       ];
       for(var index = 0; index < markers.length; index++ ){
         var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
@@ -334,8 +331,10 @@ float: right;
 
 {% endblock %}
 {% block jquery %}
+  {% if active.map_info_arr %}
     var map;
     initMap();
+  {%endif%}
 
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
@@ -554,71 +553,31 @@ float: right;
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="rundown-timeline-container">
-				<div class="timeline-block">
-					<div class="timeline-red-dot"></div>
-					<div class="timeline-content right">
-					<div class="time">09:00 - 10:00</div>
-						<p class="name top">活动签到</p>
-					</div>
-				</div>
-			</div>
-			<div class="rundown-timeline-container">
-				<div class="timeline-block">
-					<div class="timeline-red-dot"></div>
-					<div class="timeline-content right">
-					<div class="time">09:00 - 10:00</div>
-						<p class="name"> 设计创业  </p>
-						<div class="title"><img src="http://frbird.qiniudn.com/avatar/141218/54922ab5fc8b129e078b45c9-avs.jpg" alt="燃烧吧火鸟">
-							<div class="content">
-									雷海波  
-								<div class="text">
-								 太火鸟创始人、CEO
-								</div>
-							</div>	
-						 </div>
-					</div>
-				</div>
-			</div>
+      {% if active.process_arr %}
 			
-			
-			<div class="rundown-timeline-container">
-				<div class="timeline-block">
-					<div class="timeline-red-dot"></div>
-					<div class="timeline-content right">
-					<div class="time">09:00 - 10:00</div>
-						<p class="name"> 设计创业  </p>
-						<div class="title">
-							<img src="http://frbird.qiniudn.com/avatar/141218/54922ab5fc8b129e078b45c9-avs.jpg" alt="燃烧吧火鸟">
-							<div class="content">
-									雷海波  
-								<div class="text">
-								 太火鸟创始人、CEO
-								</div>
-							</div>	
-						 </div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="rundown-timeline-container">
-				<div class="timeline-block">
-					<div class="timeline-red-dot"></div>
-					<div class="timeline-content right">
-					<div class="time">09:00 - 10:00</div>
-						<p class="name"> 设计创业  </p>
-						<div class="title">
-							<img src="http://frbird.qiniudn.com/avatar/141218/54922ab5fc8b129e078b45c9-avs.jpg" alt="燃烧吧火鸟">
-							<div class="content">
-									雷海波  
-								<div class="text">
-								 太火鸟创始人、CEO
-								</div>
-							</div>	
-						 </div>
-					</div>
-				</div>
-			</div>
+      {% for p in active.process_arr %}
+        <div class="rundown-timeline-container">
+          <div class="timeline-block">
+            <div class="timeline-red-dot"></div>
+            <div class="timeline-content right">
+              <div class="time">{{ p.0 }}</div>
+              <p class="name"> {{ p.1 }}  </p>
+              <div class="title">
+                {% if p.3 %}
+                <img src="{{ p.3 }}" alt="{{ p.2 }}">
+                {%endif%}
+                <div class="content">
+                  {{ p.2 }}  
+                  <div class="text">
+                    {{ p.4 }}
+                  </div>
+                </div>	
+               </div>
+            </div>
+          </div>
+        </div>
+      {%endfor%}
+      {%endif%}
 			
 			<div class="rundown-timeline-container bottom">
 				<div class="timeline-block">
@@ -636,7 +595,7 @@ float: right;
 			<a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
 	            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
 	        </a>
-			<p>共有230人报名</p>	
+          <p>共有{{ active.signup_count }}人报名</p>	
 		</div>
 	  </div>
     </div>
@@ -661,27 +620,24 @@ float: right;
 		<div style="height:440px;border:#ccc solid 1px;font-size:12px" id="map">
 			
 			
-			
-			
-			
 		</div>
 		<div class="position row">
 			<div class="column">
 				<div class="one items">
 					<div class="item">
 						<div class="image">
-							<img src="{{ app_url_packaged }}/images/camp_3.jpg">
+              <img src="{{ active.map_info_arr.7 }}">
 						</div>
 						<div class="content">
 							<h4 class="ui dividing header">
-									极地创新中心
+                {{ active.map_info_arr.5 }}
 								<div class="map-advantage">
-									50人规模
+                  {{ active.max_number_count }}人规模
 								</div>
 							</h4>
 							<div class="clearfix">
 								<i class="icon-place icon"></i>
-								北京朝阳区酒仙桥路4号极地创新中心218
+								  {{ active.address }}
 							</div>
 						</div>
 					</div>
@@ -706,14 +662,14 @@ float: right;
   <div class="ui white together background block">
     <div class="ui responsive grid">
       <div class="row">
+        {% if active.partner_arr %}
             <div class="center aligned column">
-              <!--<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_technode.jpg" alt="动点科技"></a>
-              <a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="{{ app_url_packaged }}/images/logo_geekpark.jpg" alt="动点科技"></a>
-              <a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_leikeji.jpg" alt="动点科技"></a>-->
-              <a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="{{ app_url_packaged }}/images/logo_shijue.jpg" alt="视觉中国"></a>
-              <a href="http://techcrunch.cn" title="TC" target="_blank"><img src="{{ app_url_packaged }}/images/logo_tech.jpg" alt="TC"></a>
+            {% for p in active.partner_arr %}
+            <a href="{{ p.1 }}" title="{{ p.0 }}" target="_blank"><img src="{{ p.2 }}" alt="{{ p.0 }}" /></a>
+            {%endfor%}
             </div>
          </div>
+        {%endif%}
     </div>
   </div>
   <div class="ui background-30"></div>
