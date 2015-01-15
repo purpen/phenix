@@ -1,0 +1,1 @@
+T2{smarty_include test.smarty.test_include3}

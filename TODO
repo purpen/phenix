@@ -1,0 +1,25 @@
+TODO 
+v1.3
+DBA
+    - 废弃Adodb
+    - 增加普通的mysqli driver
+    - 正式启用 MysqlND driver
+ActiveRecord
+    - 引入Sequence Generator,使用全局sequence(如memcached改进版)
+    - 支持二级缓存
+Cacche
+    - Memcached 更新到3.0API
+MessageService
+    - 增加更为高效的work queue 实现(现有数据库效率太低)
+
+Dispatcher
+    - 增加Profiling
+    - 增加Cache filter
+    - 增强fileResult 对lighttpd的支持
+Storage
+    - 修改MogileFs Provier的实用性
+Misc
+    - 改进MogileFS客户端
+    - 增加Server的部署模式,编译*yml为可缓存的数据
+Deploy
+    - 将phing部署方式转为shellscript(bash/perl?)方式,windows可通过cygwin支持

@@ -1,0 +1,62 @@
+- 2009-7
+v1.2.9.x
+The main goal is to backport most used features from v1.3.
+Main new features list:
+* New doggy script/helper base build system.
+* Change test suite to more simple(but power) TAP testing(Perl Test::More like test suite).
+* New built-in mysql driver,support mysqli/mysqlnd.
+* New pecl-libmemcached memcached driver.
+* New Doggy_HashDb package.
+* 
+
+Improved:
+* Doggy bootstrap improved.
+* Improve Doggy_Config runtime performance(also remove XCache depends).
+
+
+Known compatible issues:
+* All config syntax changed,remove environment section.
+* Adodb vendor is not used anymore,removed from vendor.
+
+
+- 2008-6-3
+  v1.2.5
+  * Doggy::Cache::FastCache , add push_queue,fetch_queue,clear_queue, add missing PHPDoc
+  * Doggy::Dispatcher::Server , flush Doggy::Cache::FastCache process queue into memcached before flush response.
+  * Doggy::ActiveRecord::Base::getExtendResultArray deep serialize activerecord resultset to array 
+- 2008-5-28
+  v1.2.4 release
+  * Doggy::Cache::FastCache , an optimize cacher depend on Memcached.
+  
+- v1.2.3
+  * minor bug fix
+  
+- 2008-1-13
+  v1.2.2 release
+  * workaronnd serialize/unserialize
+  * add internal cache (findById)
+  
+- 2007-12-29
+  v1.2.0 release,this is "bug fix" and performance improve version,so most planned new features will be delayed to v1.3(See TODO)
+  * Fix bug in ClassLoader
+  * Speed up ClassLoader/Doggy_Config(use Xcache )
+  * Support Lighttped/Nginx SendFile feature (Doggy_Dispatcher_Result_File)
+  * Add Mysqli driver code skeleton(NOT work yet!)
+  * Add MysqlND driver code (buggy!)
+  * In product mode,disabled error backtrace, just header 500 or 404 code.(Doggy_Dispatcher_Server)
+  * Remove empty Jdba driver(Not support anymore)
+  * Fix bug in SmartyBase(when used in build static page)
+  * Implements filter work
+  * Add page cache filter,support custom page rules to cache whole page.
+  * Support Nginx memcache module, work with NGINX 0.5.x/0.6.x, improve best performance!
+  * Add filters.yml,cache_filter.yml in config
+  * Improve cache manager,can use different cacher provider in same application(cache.yml format is changed!)
+  
+- 2007-12-16
+  v1.1 final release
+- 2007-2-23
+  M1 reached! A basic mvc flow running.
+- 2007-1-27
+  Project startup! We have a nice code name:Doggy ;-)
+- 2006-12-27
+  Rebuild from EPS2006 against PHP5 features

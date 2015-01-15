@@ -1,0 +1,3 @@
+---
+deploy.app_name: 'doggy-app'
+deploy.root: '/www/doggy-app'

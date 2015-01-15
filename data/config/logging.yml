@@ -1,0 +1,6 @@
+all:
+    default:
+        class:Doggy_Log_FileLog
+        options:
+            output:'${build.log.dir}/doggy.log'
+            level:'debug'
