@@ -1,0 +1,8 @@
+---
+app.id: 'doggyx'
+app.modules.doggyx: 
+  state: 'on'
+  namespace: 'DoggyX'
+  index_action: 'Root'
+app.modules.boot: 'doggyx'
+app.dispatcher.routes:

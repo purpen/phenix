@@ -1,0 +1,4 @@
+all:
+    id:'doggy.app.${app.name}'
+    storage.class:'Doggy_Session_Storage_Php'
+    storage.memcached.session_save_path:'tcp://192.168.80.200:11211?persistent=1&weight=1&timeout=2&retry_interval=10,'

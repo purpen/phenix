@@ -1,0 +1,34 @@
+#!/usr/bin/env perl
+use strict;
+use FindBin qw($RealBin);
+my $cpanm = "$RealBin/cpanm";
+#check pre-requirement
+eval 'use YAML;';
+if ($@) {
+    # die "(ERROR:$@) \nDoggy need YAML package, please install as follow:\ncpan -i YAML\n";
+    print "WARN:You DONT INSTALL YAML,I'll try to install it now ...\n";
+    `$cpanm YAML`;
+}
+eval 'use App::Prove;';
+if ($@) {
+    print "WARN:YOU DONT INSTALL App::Prove, I'll try to install it now....\n";
+    `$cpanm App::Prove`;
+    # die "(ERROR:$@) \nDoggy need App::Prove to run tests, please install as follow:\ncpan -i App::Prove\n";
+}
+
+use Cwd 'abs_path';
+use lib "$RealBin/../src";
+eval 'use Doggy;';
+
+if($@){
+    die "Load doggy script failed(ERROR:$@), please re-install Doggy framework.";
+}
+
+my $doggy_root = abs_path("$RealBin/..");
+
+if (-e "$doggy_root/VERSION") {
+    $Doggy::VERSION = `cat $doggy_root/VERSION`;
+}
+
+Doggy::load_doggy($doggy_root);
+Doggy::do_task(@ARGV);
