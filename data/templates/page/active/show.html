@@ -19,7 +19,8 @@
 	display: inline-block;
 	text-align:center;
 }
-.ui.tabox .ui.tabs .tab{
+.ui.tabox .ui.tabs .tab,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover{
+	border-bottom:0px solid #fff;
 	color:#fff;
 	text-align:center;
 	font-size: 0.9285rem;
@@ -27,6 +28,9 @@
 	margin-right: 1.5%;
 	padding-top:1%;
 	padding-bottom:1%;
+}
+.ui.tabs .tab:hover{
+	color:#f36 !important;
 }
 .ui.grid>.row{
 	margin:0;
@@ -261,10 +265,42 @@ float: right;
 		left:54%;
 	}
   }
+
+.flexslider{
+	text-align:center;
+	position:relative;
+	padding:100px 0;
+}
+.flex-control-nav {display:none;}
+.flex-direction-nav {*height: 0;}
+.flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
+.flex-direction-nav .flex-prev { left: -50px; }
+.flex-direction-nav .flex-next { right: -50px; text-align: right; }
+.flexslider:hover .flex-prev { opacity: 0.7; left: 10px; }
+.flexslider:hover .flex-next { opacity: 0.7; right: 10px; }
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
+.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
+.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
+.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
+
+.slides img{
+	width: 590px;
+}
+.slides p{
+	height: 36px;
+	color: #fff;
+	font-size: 16px;
+	background: rgba(0,0,0,0.5);
+	width: 590;
+	margin:0 auto;
+	line-height: 36px;
+	text-align: left;
+}
 </style>
 {% endblock %}
 
 {% block layout_js %}
+  <script defer="" src="http://flexslider.woothemes.com/js/jquery.flexslider.js"></script>
   <!--引用百度地图API-->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
   <script type="text/javascript" >
@@ -449,7 +485,8 @@ float: right;
 	});
 	
 	$('.ui.tabox').smint({
-    	'scrollSpeed': 1000
+    	'scrollSpeed': 1000,
+		'mySelector' : 'section'
     });
 
   $('.ui.tabox').smint({
@@ -528,6 +565,10 @@ float: right;
 			}
 		});
 	});
+
+	$('.flexslider').flexslider({
+	      animation: "slide",
+	    });
 	
 {% endblock %}
 
@@ -549,7 +590,7 @@ float: right;
       </div>
     </div>
   </div>
-  <div class="ui start block">
+  <section class="ui start block">
     <div class="ui responsive center aligned grid">
       <div class="row">
         <div class="center aligned tweleve wide column">
@@ -583,7 +624,7 @@ float: right;
         </div>
       {%endif%}
     </div>
-  </div>
+  </section>
   <div class="ui space gray background block">
     <div class="ui responsive center aligned grid">
       <div class="row">
@@ -595,7 +636,7 @@ float: right;
       </div>
     </div>
   </div>
-  <div class="ui big abstract block">
+  <section class="ui big abstract block">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
@@ -605,7 +646,7 @@ float: right;
         </div>
       </div>
     </div>
-  </div>
+  </section>
   <div class="ui picture gray background block">
     <div class="ui responsive grid">
       <div class="row">
@@ -617,11 +658,32 @@ float: right;
     </div>
   </div>
   <div class="ui grid">
-    <div class="row"style="height:200px;background:#f8f8f8;">
-      
-    </div>
+    <div class="ui responsive grid">
+	    <div class="row">
+	      	<div class="flexslider">
+	          <ul class="slides">
+	            <li>
+	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;123</p>
+	  	    		</li>
+	  	    		<li>
+	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;456</p>
+	  	    		</li>
+	  	    		<li>
+	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;123</p>
+	  	    		</li>
+	  	    		<li>
+	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;456</p>
+	  	    		</li>
+	          </ul>
+	        </div>
+	    </div>
+	  </div>
   </div>
-  <div class="ui process gray background block">
+  <section class="ui process gray background block">
     <div class="ui responsive grid">
       <div class="row">
         <div class="center aligned column section-title">
@@ -630,7 +692,7 @@ float: right;
         </div>
       </div>
     </div>
-  </div>
+  </section>
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -669,7 +731,7 @@ float: right;
 		</div>
 	</div>
   </div>
-  <div class="ui report block">
+  <section class="ui report block">
     <div class="ui responsive center aligned column">
       <div class="row">
 		<div class="center aligned column">
@@ -694,10 +756,10 @@ float: right;
 		</div>
 	  </div>
     </div>
-  </div>
+  </section>
   <div class="ui background-30"></div>
 	
-  <div class="ui place gray background block">
+  <section class="ui place gray background block">
     <div class="ui responsive grid">
       <div class="row">
         <div class="center aligned column section-title">
@@ -708,7 +770,7 @@ float: right;
         </div>
       </div>
     </div>
-  </div>
+  </section>
   <div class="ui responsive grid">
 	<div class="row">
 	  <div class="center aligned column">
@@ -744,7 +806,7 @@ float: right;
 	</div>
 	
   </div>
-  <div class="ui part gray background block">
+  <section class="ui part gray background block">
     <div class="ui responsive grid">
       <div class="row">
         <div class="center aligned column section-title">
@@ -753,7 +815,7 @@ float: right;
         </div>
       </div>
     </div>
-  </div>
+  </section>
   <div class="ui white together background block">
     <div class="ui responsive grid">
       <div class="row">
@@ -763,12 +825,12 @@ float: right;
             <a href="{{ p.1 }}" title="{{ p.0 }}" target="_blank"><img src="{{ p.2 }}" alt="{{ p.0 }}" /></a>
             {%endfor%}
             </div>
-         </div>
         {%endif%}
+		</div>
     </div>
   </div>
   <div class="ui background-30"></div>
-  <div class="ui comment gray background block">
+  <section class="ui comment gray background block">
     <div class="ui responsive grid">
       <div class="row">
         <div class="center aligned column section-title">
@@ -777,7 +839,7 @@ float: right;
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
 <div class="ui white background block">
   <div class="ui responsive grid">
