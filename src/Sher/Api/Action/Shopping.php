@@ -810,6 +810,23 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		
 		return $result;
 	}
+
+	/**
+	 * 检查订单里是否存在抢购商品
+	 */
+	protected function check_have_snatch($items){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		
+		for($i=0;$i<count($items);$i++){
+			if($items[$i]['product_id'] == $product_id){
+				$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->current_user_id, date('Ymd'));
+				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+				// 设置缓存
+				$redis = new Sher_Core_Cache_Redis();
+				$redis->set($cache_key, 1);
+			}
+		}
+	}
 	
 }
 ?>

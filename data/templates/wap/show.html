@@ -2,7 +2,9 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+  .ui.comments .comment>.content>.laud {
+    float: right;
+  }	
 </style>
 {% endblock %}
 {% block jquery %}
@@ -143,9 +145,10 @@
 						{% endfor %}
 					</div>
 					
+          {% if visitor.is_login %}
 					<div class="post comment">
 						<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
-						<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+						<form class="ui reply form" action="{{ app_url_wap }}/app/site/comment/do_save" method="post" id="comment-form">
 							<input type="hidden" name="target_id" value="{{ topic._id }}" />
 							<input type="hidden" name="type" value="2" />
 							<input type="hidden" name="star" value="0" />
@@ -156,7 +159,10 @@
 							<div class="right aligned column">
 								<input type="submit" class="ui small magenta button" value="添加评论" />
 							</div>
-							{% if !visitor.is_login %}
+
+						</form>
+					</div>
+						{% else %}
 							<div class="not login">
 								<div class="ui grid">
 									<div class="row">
@@ -167,9 +173,8 @@
 									</div>
 								</div>
 							</div>
-							{% endif %}
-						</form>
-					</div>
+					{% endif %}
+
 					
 				</div>
 				{% if comments.rows %}
