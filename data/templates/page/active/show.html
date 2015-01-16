@@ -119,7 +119,6 @@ hr{
 	background:#eee;
 }
 
-
 .rundown-timeline-container {
 	height: auto;
 	margin: 0 auto;
@@ -247,8 +246,6 @@ float: right;
 	color:#f36;
 	font-size: 1.5em;
 }
-
-
 
 @media only screen and (max-width: 1350px){
     .position.row{
@@ -489,10 +486,6 @@ float: right;
 		'mySelector' : 'section'
     });
 
-  $('.ui.tabox').smint({
-    'scrollSpeed': 1000
-  });
-
   //报名按钮
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -504,8 +497,8 @@ float: right;
     //验证用户信息齐全
     $.get('{{ app_url_action_base }}/user/ajax_check_userinfo', {}, function(result){
       if(result=='true'){
-      //ajax报名
-      $.get('{{ app_url_action_base }}/active/ajax_attend', { target_id: {{ active._id }} });
+        //ajax报名
+        $.get('{{ app_url_action_base }}/active/ajax_attend', { target_id: {{ active._id }} });
       }else if(result=='false'){
     		$('.ui.user-info-box.modal').modal('show');
 		    return false; 
