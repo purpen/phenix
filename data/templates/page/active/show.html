@@ -298,6 +298,8 @@ float: right;
 
 {% block layout_js %}
   <script defer="" src="http://flexslider.woothemes.com/js/jquery.flexslider.js"></script>
+
+  {% if active.map_info %}
   <!--引用百度地图API-->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
   <script type="text/javascript" >
@@ -357,6 +359,8 @@ float: right;
       map.addControl(overviewControl);
     }
 
+  {%endif%}
+
   </script>
 {% endblock %}
 
@@ -364,7 +368,7 @@ float: right;
 
 {% endblock %}
 {% block jquery %}
-  {% if active.map_info_arr %}
+  {% if active.map_info %}
     var map;
     initMap();
   {%endif%}
@@ -868,7 +872,7 @@ float: right;
                   {% endif %}
 								</div>
 								<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-									<input type="hidden" name="type" value="2" />
+									<input type="hidden" name="type" value="5" />
 									<input type="hidden" name="comment_id" value="{{ comment._id }}" />
 									<input type="hidden" name="target_id" value="{{ active._id }}" />
 									<div class="field">
