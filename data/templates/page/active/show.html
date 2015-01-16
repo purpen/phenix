@@ -455,6 +455,79 @@ float: right;
   $('.ui.tabox').smint({
     'scrollSpeed': 1000
   });
+
+  //报名按钮
+	$('.ui.attend.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
+    //验证用户信息齐全
+    $.get('{{ app_url_action_base }}/user/ajax_check_userinfo', {}, function(result){
+      if(result=='true'){
+      //ajax报名
+      $.get('{{ app_url_action_base }}/active/ajax_attend', { target_id: {{ active._id }} });
+      }else if(result=='false'){
+    		$('.ui.user-info-box.modal').modal('show');
+		    return false; 
+      }
+    });
+
+	});
+
+  //取消报名
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
 	
 {% endblock %}
 
@@ -494,13 +567,21 @@ float: right;
           <h2 class="ui header">{{ active.sub_title }}</h2>
         </div>
       </div>
-      <div class="row">
-        <div class="center aligned column">
-          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
-            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-          </a>
+        {% if step_stat==0 %}
+        <div class="row">
+          <div class="center aligned column attend-box">
+          {% if is_attend %}
+            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+              <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          {%else%}
+            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
+              <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          {%endif%}
+          </div>
         </div>
-      </div>
+      {%endif%}
     </div>
   </div>
   <div class="ui space gray background block">
@@ -592,10 +673,24 @@ float: right;
     <div class="ui responsive center aligned column">
       <div class="row">
 		<div class="center aligned column">
-			<a class="ui btn-4 btn-4c icon-arrow-right btn" href="">
-	            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-	        </a>
-          <p>共有{{ active.signup_count }}人报名</p>	
+      <div class="attend-box">
+        {% if step_stat==0 %}
+          {% if is_attend %}
+            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          {%else%}
+            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
+                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          {%endif%}
+        {%else%}
+          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+                <span>报名结束</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        {%endif%}
+      </div>
+      <p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>	
 		</div>
 	  </div>
     </div>
@@ -808,4 +903,5 @@ float: right;
 		</div>
 	</div>
 </div>
+{% include "block/attend_user_info.html" %}
 {% endblock %}

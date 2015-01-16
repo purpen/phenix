@@ -1,0 +1,16 @@
+<taconite>
+	<replace select=".attend-box">
+    <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+      <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+    </a>
+	</replace>
+	
+	<eval>
+    var val = $('.attend-num').text();
+    $('.attend-num').text(parseInt(val)+1);
+    {% if is_user_info %}
+      //关闭弹出层
+      $('.ui.user-info-box.modal').modal('hide');
+    {%endif%}
+	</eval>
+</taconite>

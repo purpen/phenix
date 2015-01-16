@@ -5,30 +5,27 @@
  */
 class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 
-    protected $collection = "attend";
-	
+  protected $collection = "attend";
 
+  protected $required_fields = array('user_id', 'target_id');
+  protected $int_fields = array('user_id', 'event');
 	
 	# Event: 活动报名
 	const EVENT_ACTIVE = 1;
 	const EVENT_OTHER = 2;
 	
-    protected $schema = array(
-    	'user_id' => null,
-    	'target_id' => null,
-      'ticket' => 1,
-      'event'  => self::EVENT_ACTIVE,
-    );
-	
-    protected $joins = array(
-    	'user'  => array('user_id'  => 'Sher_Core_Model_User'),
-      if($this->data['event']==1){
-      	'target'  => array('target_id'  => 'Sher_Core_Model_Active'),
-      }
-    );
-	
-    protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id', 'event');
+  protected $schema = array(
+    'user_id' => null,
+    'target_id' => null,
+    'ticket' => 1,
+    'event'  => self::EVENT_ACTIVE,
+  );
+
+  protected $joins = array(
+    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+    'target'  => array('target_id'  => 'Sher_Core_Model_Active'),
+  );
+
 	
 	/**
 	 * 扩展关联数据
@@ -67,9 +64,10 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   /**
    * 检测是否报名
    */
-  public function check_signup($user_id, $target_id){
+  public function check_signup($user_id, $target_id, $event=1){
     $query['target_id'] = (int) $target_id;
     $query['user_id'] = (int) $user_id;
+    $query['event'] = (int) $event;
     $result = $this->count($query);
 
     return $result>0?true:false;
