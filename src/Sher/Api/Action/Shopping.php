@@ -302,15 +302,19 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
         return $this->api_json('订单处理异常，请重试！', 3011);
     	}
-		
+
+    $result = array();
+    $result['rid'] = $rid;
 	    if($is_snatched){
 	    	//如果是抢购，无需支付，跳到我的订单页
-	    	$next_url = Doggy_Config::$vars['app.url.my'].'/order_view?rid='.$rid;
+        $result['is_snatched'] = 1;
+        $msg = '抢购成功!';
 	    }else{
-	    	$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+        $result['is_snatched'] = 0;
+        $msg = '下单成功!';
 	    }
 		
-		return $this->ajax_json('下订单成功！', false, $next_url);
+		return $this->api_json($msg, 0, $result);
 		
 	}
 	
