@@ -763,14 +763,18 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->ajax_json('订单处理异常，请重试！', true);
     	}
 		
+    $result = array();
+    $result['rid'] = $rid;
 	    if($is_snatched){
 	    	//如果是抢购，无需支付，跳到我的订单页
-	    	$next_url = Doggy_Config::$vars['app.url.my'].'/order_view?rid='.$rid;
+	    	//$next_url = Doggy_Config::$vars['app.url.my'].'/order_view?rid='.$rid;
+        $result['is_snatched'] = 1;
 	    }else{
-	    	$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+        //$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+        $result['is_snatched'] = 0;
 	    }
 		
-		return $this->ajax_json('下订单成功！', false, $next_url);
+		return $this->ajax_json('下订单成功！', false, $result);
 	}
 	
 	/**
