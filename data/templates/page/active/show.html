@@ -19,7 +19,8 @@
 	display: inline-block;
 	text-align:center;
 }
-.ui.tabox .ui.tabs .tab,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover{
+/*  ,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
+.ui.tabox .ui.tabs .tab{
 	border-bottom:0px solid #fff;
 	color:#fff;
 	text-align:center;
@@ -28,6 +29,13 @@
 	margin-right: 1.5%;
 	padding-top:1%;
 	padding-bottom:1%;
+}
+.ui.tabox{
+	-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
+	-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
+	-o-transition: opacity 0.25s ease,translateY 0.25s ease;
+	-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
+	transition:opacity 0.25s ease,translateY 0.25s ease;
 }
 .ui.tabs .tab:hover{
 	color:#f36 !important;
@@ -106,9 +114,7 @@ hr{
 	padding:40px 0;
 }
 .ui.report{
-	background:url({{ app_url_packaged }}/images/camp_2.jpg) no-repeat center center /cover;
 	color:#fff;
-	padding:140px 0%;
 }
 .report .ui.btn{
 	background:#ccc;
@@ -237,7 +243,7 @@ float: right;
 	top:40px;
 	width:360px;
 	text-align: left;
-	left:62%;
+	right:3%;
 }
 .position.row .item{
 	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.4) !important;
@@ -257,8 +263,11 @@ float: right;
 	color:#f36;
 	font-size: 1.5em;
 }
+.icon-place.icon{
+	opacity:1;
+}
 
-@media only screen and (max-width: 1350px){
+/*@media only screen and (max-width: 1350px){
     .position.row{
 		left:60%;
 	}
@@ -272,7 +281,7 @@ float: right;
     .position.row{
 		left:54%;
 	}
-  }
+  }*/
 
 .flexslider{
 	text-align:center;
@@ -282,10 +291,10 @@ float: right;
 .flex-control-nav {display:none;}
 .flex-direction-nav {*height: 0;}
 .flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
-.flex-direction-nav .flex-prev { left: -50px; }
-.flex-direction-nav .flex-next { right: -50px; text-align: right; }
-.flexslider:hover .flex-prev { opacity: 0.7; left: 10px; }
-.flexslider:hover .flex-next { opacity: 0.7; right: 10px; }
+.flex-direction-nav .flex-prev { left: 0px; opacity: .5;}
+.flex-direction-nav .flex-next { right: 0px; text-align: right; opacity: .5;}
+.flexslider:hover .flex-prev { opacity: 0.7; left: 0px; }
+.flexslider:hover .flex-next { opacity: 0.7; right: 0px; }
 .flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
 .flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
 .flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
@@ -293,6 +302,7 @@ float: right;
 
 .slides img{
 	width: 590px;
+	height:360px;
 }
 .slides p{
 	height: 36px;
@@ -303,6 +313,34 @@ float: right;
 	margin:0 auto;
 	line-height: 36px;
 	text-align: left;
+}
+.ui.place +.ui.grid .row .column{
+	padding:0 !important;
+}
+
+.ui.w-1180{
+	width:1180px;
+	margin: 0 auto;
+	position:relative;
+	background:rgb(74,74,74);
+	padding: 10px 0;
+}
+.ui.w-1180 .image{
+	width:100px;
+	height:100px;
+	display: inline-block;
+	padding:10 7px;
+}
+.ui.w-1180 .image img{
+	width:100px;
+	height:100px;
+	opacity:0.3;
+	border-radius:50%;
+}
+.report-btn{
+	position:absolute;
+	top: 160px;
+	left: 517.5px;
 }
 </style>
 {% endblock %}
@@ -572,12 +610,17 @@ float: right;
 
 	$('.flexslider').flexslider({
 	      animation: "slide",
-	    });
+	});
 	
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
 {% endblock %}
 
 {% block content %}
-  <div class="ui tabox">
+  <div class="ui tabox" data-70="transform:translateY(-20px);opacity:0;" data-71="transform:translateY(0px);opacity:1;">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
@@ -661,7 +704,9 @@ float: right;
       </div>
     </div>
   </div>
-  <div class="ui grid">
+  <div class="ui grid" style="height:595px">
+	
+	
     <div class="ui responsive grid">
 	    <div class="row">
 	      	<div class="flexslider">
@@ -735,7 +780,7 @@ float: right;
 		</div>
 	</div>
   </div>
-  <section class="ui report block">
+  <!--<section class="ui report block">
     <div class="ui responsive center aligned column">
       <div class="row">
 		<div class="center aligned column">
@@ -760,7 +805,132 @@ float: right;
 		</div>
 	  </div>
     </div>
+  </section>-->
+ 
+  <section class="ui report block">
+    <div class="ui w-1180">
+      <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/topic/150106/54abc8a63ffca262238b4577-1-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141208/54858e48621e19c87a8b5e8c-1-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141208/5485844d989a6af1698b50da-1-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141220/549515cffc8b12bc4b8b481d-4-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-byheart.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-purpen.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-zhuhong.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-bobo.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-ting.jpg">
+	  </div>
+	
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-dali.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-yonglin.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-xinyu.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-ruby.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-ping.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-dan.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-qmei.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-feng.png">
+	  </div>
+	  <div class="image">
+	    <img src="http://frstatic.qiniudn.com/images/a-liudi.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  <div class="image">
+	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
+	  </div>
+	  
+	  <div class="report-btn">
+		<div class="ui responsive center aligned column">
+	      <div class="row">
+			<div class="center aligned column">
+	      <div class="attend-box">
+	        {% if step_stat==0 %}
+	          {% if is_attend %}
+	            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+	                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+	            </a>
+	          {%else%}
+	            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
+	                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+	            </a>
+	          {%endif%}
+	        {%else%}
+	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+	                <span>报名结束</span><i class="icon-arrow-right-sharp"></i>
+	          </a>
+	        {%endif%}
+	      </div>
+	      <p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>	
+			</div>
+		  </div>
+	    </div>
+	  </div>
+	</div>
   </section>
+
   <div class="ui background-30"></div>
 	
   <section class="ui place gray background block">
@@ -775,7 +945,7 @@ float: right;
       </div>
     </div>
   </section>
-  <div class="ui responsive grid">
+  <div class="ui grid" style="width:100%">
 	<div class="row">
 	  <div class="center aligned column">
 		<div style="height:440px;border:#ccc solid 1px;font-size:12px" id="map">
