@@ -1,0 +1,127 @@
+{%extends 'layout/column.html'%}
+{% block title%}造梦者恒氧净化机 众筹突破1200万元，缔造淘宝众筹新神话-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/milk_bj.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 3245356, 3400);
+	phenix.doit('goccia-people', 3794,7);
+	phenix.doit('goccia-precent', 649);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/milk_bj.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/milk'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					婴萌智能配奶机 <br />智能时代如何打造爆款产品
+					<div class="sub header">
+						随着消费者对于品质生活的追求，更简单便捷的智能硬件产品的时代正在来临。由智能硬件创新孵化平台太火鸟全程孵化的婴萌智能配奶机在亮相淘宝众筹至今共筹集320多万人民币，649%达成众筹目标，获得3794多人支持！配奶其实很简单，婴萌智能配奶机只是让您有更多时间陪宝贝成长，享受宝贝成长，这是一种生活要求，也是时代使然。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>智能家居</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">3245356</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">3794</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">649</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>80、90后作为时尚生活的前锋领袖怎能被宝贝喂养问题折腾的焦头烂额，无暇分身？在三年的奶粉喂养中，大约需耗时25000分钟去完成5000次冲奶， 而在选择婴萌智能配奶机后，年轻父母不仅能完成5000次的冲奶任务，还能节省出24167分钟来敷面膜、看电影、参加朋友的生日趴……</p>
+					<p>婴萌智能配奶机正是基于为了节省年轻父母的宝贵的时间，合理缩短这些简单繁琐的操作过程，实现一键安全卫生精准的配奶，不仅简单，而且智能！只要安装手机APP，扫描一下奶粉的二维码，婴萌智能配奶机就会自动进行奶粉配比，一键操作，10秒钟就能完成配奶工作。而且还会将每次冲奶时间、奶量、浓度、奶粉品牌等通过蓝牙4.0传输到APP进行储存，方便爸爸妈妈随时查阅和问诊医生。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/milk_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/milk_02.jpg" class="ui image" />
+					</div>
+				</div>
+				
+				<div class="wz">
+					<p>酒香也怕巷子深，何况是初入市场的众筹产品。太火鸟为婴萌配奶机提供了全面的线上线下的宣传推广，让其迅速成为家喻户晓的明星产品。在项目众筹上线之前， 太火鸟就利用自媒体、朋友圈等先行吸引消费者关注，使产品未上先热，引起消费者购买欲望。在项目上线淘宝众筹初期，太火鸟分别在北京、深圳举办了两场一定 规模的线下发布会，邀请业内大咖站台，并现场推介产品，并参加了深圳工业设计展会，扩大产品在业内的知名度，并引起了众多科技媒体如36氪、雷锋网、雷科 技、极客公园、猫眼科技及搜狐母婴、太平洋亲子网、妈妈网、新浪科技、新浪财经等众多门户、行业媒体争相报道，迅速火爆全网，一时之间使之成为业内热门产 品。淘宝首焦、定投、搜索框等资源投放，能迅速吸引大批有购买意向的消费者进行关注及支持筹款，使项目在上线短短几天就能突破百万大关。宝宝树等母婴论坛 的产品推广帮助产品锁定目标人群，进行精准的目标人群投放。整个营销推广过程使产品在整个众筹过程持续处于火爆状态，并成功吸引上百家渠道抢订。</p>
+				</div>
+				<h2 class="ui header">传播推广</h2>
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/milk_03.jpg" class="ui image" />
+						<p>在淘宝双十二期间，55度杯被推上12个众筹科技梦想之一，得到了消费者的普遍关注。</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/milk_04.jpg" class="ui image" />
+						<p>为55度杯提供淘宝关键字等资源，在淘宝双十二期间，荣登最潮科技新品第一名，使在持续保持其热度与曝光度。双十二后，55度杯神奇效应持续发酵，火爆至今。</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
