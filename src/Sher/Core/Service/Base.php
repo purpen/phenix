@@ -13,6 +13,7 @@ class Sher_Core_Service_Base {
     protected $sort_fields = array(
         'time' => array('created_on' => -1),
         'latest' => array('created_on' => -1),
+        'earliest' => array('created_on' => 1),
         'hot' => array('event_count' => -1),
 	);
 	
