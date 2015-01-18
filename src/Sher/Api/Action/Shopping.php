@@ -93,9 +93,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		);
 		$total_money = $price*$quantity;
 		$items_count = 1;
-		
+
 		$order_info = $this->create_temp_order($items, $total_money, $items_count);
-		
 		if (empty($order_info)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
 		}
@@ -303,15 +302,19 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
         return $this->api_json('订单处理异常，请重试！', 3011);
     	}
-		
+
+    $result = array();
+    $result['rid'] = $rid;
 	    if($is_snatched){
 	    	//如果是抢购，无需支付，跳到我的订单页
-	    	$next_url = Doggy_Config::$vars['app.url.my'].'/order_view?rid='.$rid;
+        $result['is_snatched'] = 1;
+        $msg = '抢购成功!';
 	    }else{
-	    	$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
+        $result['is_snatched'] = 0;
+        $msg = '下单成功!';
 	    }
 		
-		return $this->ajax_json('下订单成功！', false, $next_url);
+		return $this->api_json($msg, 0, $result);
 		
 	}
 	
@@ -749,6 +752,85 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
       
       unset($order);
   }
+
+	/**
+	 * 验证限量抢购
+	 */
+	protected function validate_snatch($sku){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku != $product_id){
+			return true;
+		}
+		
+		// 设置已抢购标识
+		$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
+		Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+		
+		$redis = new Sher_Core_Cache_Redis();
+		$buyed = $redis->get($cache_key);
+		if($buyed){
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * 如果是抢购商品，验证是否预约过
+	 */
+	protected function validate_appoint($sku){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku != $product_id){
+			return true;
+		}
+		
+		// 设置已预约标识
+    $cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
+		Doggy_Log_Helper::warn('Validate appoint log key: '.$cache_key);
+		
+		$redis = new Sher_Core_Cache_Redis();
+		$buyed = $redis->get($cache_key);
+		if(!$buyed){
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * 获取默认地址，无默认地址，取第一个地址
+	 */
+	protected function get_default_addbook($user_id){
+		$addbooks = new Sher_Core_Model_AddBooks();
+		
+		$query = array(
+			'user_id' => (int)$this->current_user_id,
+			'is_default' => 1
+		);
+		$options = array(
+			'sort' => array('created_on' => -1),
+		);
+		$result = $addbooks->first($query);
+		
+		return $result;
+	}
+
+	/**
+	 * 检查订单里是否存在抢购商品
+	 */
+	protected function check_have_snatch($items){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		
+		for($i=0;$i<count($items);$i++){
+			if($items[$i]['product_id'] == $product_id){
+				$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->current_user_id, date('Ymd'));
+				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+				// 设置缓存
+				$redis = new Sher_Core_Cache_Redis();
+				$redis->set($cache_key, 1);
+			}
+		}
+	}
 	
 }
 ?>
