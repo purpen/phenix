@@ -1,0 +1,127 @@
+{%extends 'layout/column.html'%}
+{% block title%}55度杯 摇一摇变55度的魔法水杯-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/fifty_bj.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 1251374, 2400);
+	phenix.doit('goccia-people', 3094,6);
+	phenix.doit('goccia-precent', 625);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/fifty_bj.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/fifty'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					55度杯 <br />摇一摇变55度的魔法水杯 
+					<div class="sub header">
+						2014年下半年，洛可可55度杯凭借能将开水瞬间变成55度温水的神奇功效，病毒般火爆网络。这款神奇水杯不仅概念神奇，而且能够避免热水对于人体的伤害，品牌所传递的有温度的观念，有情怀的产品也受到了消费者普遍的欢迎。目前，太火鸟携手洛可可共同推动的55度杯项目在淘宝众筹平台已经众筹成功。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>生活用品</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">1251374</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">3094</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">625</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>在这个畅销易得，爆款难求的时代，是什么点燃了55度这把火呢?首先是概念新奇。无论是100度沸水还是冷水只要放到杯子里面摇一摇就能迅速变温为55度左右的 温水，许多人都想知道它到底是怎样实现的，温度都去哪儿了。第二，健康理念。中国人的传统观念喝冷水对于身体不好，可是水太热又喝不进去，等水温降下来又 需要好长时间，没准一忙起来就忘了，想起来的时候水已经冷了。55度杯省却等待时间，只需一分钟摇一摇，就能喝到温水。第三，产品普世。上到刚上幼儿园的 小宝贝中到工作繁忙的办公室白领下到年逾古稀的耄耋老人，都需要水杯喝水，55度杯作为礼品不仅惊喜而且老少咸宜，男女通吃。除却以上特点让55度杯火爆 外，产品时尚的设计、有温度的定位理念等都功不可没。</p>
+				</div>
+				
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/fifty_01.jpg" class="ui image" />
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/fifty_02.jpg" class="ui image" />
+					</div>
+				</div>
+				
+				<div class="wz">
+					<p>那55度杯是什么降温原理呢？其实55°杯是通过在食品级不锈钢夹层中贮存了一种微米级传热材料，它会随着温度的变化在微米级别发生可逆的固液转换。当水温高于55度时能够快速把热量传导 到杯壁并贮存起来，使水温降到55度左右，当水温低于55度时，该材料会缓慢释放热量并保温3小时。由于传热材料为纯物理相变环保材料，因此导热速度快， 热贮存效率高。</p>
+					<p>太火鸟是北京五十五度科技有限公司特许经销商，太火鸟官方网站所销售的55度杯均为洛可可官方正品。请大家放心购买。</p>
+				</div>
+				<h2 class="ui header">传播推广</h2>
+				<div class="ui two items">
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/fifty_03.jpg" class="ui image" />
+						<p>太火鸟举办深圳、北京两场线下发布会，邀请众多媒体及观众参加，并向观众介绍摇一摇即降温的神奇水杯。发布会后众多媒体对其进行了大篇幅报道。</p>
+					</div>
+					<div class="item">
+						<img src="{{ app_url_packaged }}/images/fifty_04.jpg" class="ui image" />
+						<p>为55度杯提供淘宝关键字等资源，在淘宝双十二期间，荣登最潮科技新品第一名，使在持续保持其热度与曝光度。双十二后，55度杯神奇效应持续发酵，火爆至今。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
+
