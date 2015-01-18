@@ -296,6 +296,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
+    //评论参数
+    $this->stash['comment_target_id'] = $topic['_id'];
+    $this->stash['comment_type'] = 2;
+
 		return $this->to_html_page($tpl);
 	}
 

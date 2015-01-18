@@ -1,5 +1,5 @@
 <taconite>
-	<prepend select=".ui.threaded.minimal.comments"><![CDATA[
+	<append select=".ui.threaded.minimal.comments"><![CDATA[
 		<div class="comment" id="{{ comment._id }}">
 			<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
 				<img src="{{ comment.user.small_avatar_url }}" />
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-	]]></prepend>
+	]]></append>
 	<eval>
 		$('.comment-textarea').val('');
 	</eval>

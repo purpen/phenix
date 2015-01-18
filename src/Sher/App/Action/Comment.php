@@ -15,7 +15,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	protected $page_tab = 'page_user';
 	protected $page_html = 'page/profile.html';
 	
-	protected $exclude_method_list = array();
+	protected $exclude_method_list = array('ajax_fetch_comment_site', 'ajax_fetch_comment_wap');
 	
 	/**
 	 * 
@@ -200,6 +200,24 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		
 		return $this->ajax_delete('删除成功', false);
 	}
+
+  /**
+   * ajax获取评论--site
+   */
+  public function ajax_fetch_comment_site(){
+		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+		return $this->to_taconite_page('ajax/comment_list_site.html');
+  }
+
+  /**
+   * ajax获取评论--wap
+   */
+  public function ajax_fetch_comment_wap(){
+		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+		return $this->to_taconite_page('ajax/comment_list_wap.html');
+  }
 	
 	
 }

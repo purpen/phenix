@@ -139,6 +139,10 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 				$this->stash['is_match_idea'] = true;
 			}
 		}
+
+    //评论参数
+    $this->stash['comment_target_id'] = $topic['_id'];
+    $this->stash['comment_type'] = 2;
 		
 		return $this->to_html_page('wap/show.html');
 	}
