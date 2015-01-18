@@ -23,6 +23,9 @@
 		color: rgba(255, 255, 255, 0.9);
 		font-size: 1.5rem;
 	}
+	.try .ui.list .count span{
+		font-size:16px !important;
+	}
 </style>
 {% endblock %}
 
@@ -131,7 +134,7 @@
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
 		$this.countdown(finalDate, function(event) {
-			$this.html(event.strftime('<div class="item"><div class="count">%D<span>天</span></div></div><div class="item"><div class="count">%H<span>时</span></div></div> <div class="item"><div class="count">%M<span>分</span></div></div><div class="magenta item"><div class="count">%S<span>秒</span></div></div>'));
+			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
 		});
 	});
 	
@@ -180,9 +183,9 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui four tabs">
-					  	<a class="active tab" href="#overview">评测介绍</a>
+					  	<a class="active tab" href="#overview">试用介绍</a>
 					  	<a class="tab" href="#reviews">讨论 ({{ try.comment_count||default 0 }})</a>
-						<a class="tab" href="#people">试用达人</a>
+						<a class="tab" href="#people">名单公布</a>
 						<a class="tab" href="#report">试用报告</a>
 					</div>
 				</div>

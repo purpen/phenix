@@ -1,0 +1,186 @@
+{%extends 'layout/sns.html'%}
+{% block title %}{{ active.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.grid{
+	margin:0;
+}
+.ui.social {
+	padding: 0em;
+}
+.ui.responsive.grid{
+	width:1180px !important;
+	margin:0 auto;
+	padding:0 !important;
+}
+
+.start{
+	background:url({{ app_url_packaged }}/images/camp.jpg) no-repeat center center /cover;
+	color:#fff;
+	padding:100px 0% 80px;
+}
+.start .ui.btn{
+	border-radius:4px !important;
+	background:#ccc;
+}
+.start .ui.attend.btn{
+	border-radius:4px !important;
+	background:rgba(0,0,0,0);
+}
+.start h2.ui.header{
+	font-weight: 400;
+}
+.start h2.ui.header .content{
+	text-align:left;
+}
+.start .row:nth-child(3){
+	padding-top:90px;
+	margin:0;
+}
+.start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
+	font-size:30px !important;
+}
+.start .row:first-child h2.ui.header{
+	font-size:60px !important;
+}
+.camp .row .column{
+	padding:0 !important;
+}
+.camp .presell{
+	padding:0.5em 0.8em;
+}
+.camp .content{
+	padding:1em 0.5em !important;
+}
+
+</style>
+{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block jquery %}{% endblock %}
+
+{% block content %}
+  <section class="ui responsive grid">
+	<div class="ui labeled icon text magenta main-nav menu">
+		<a href="" class="item">话题</a>
+		<a href="" class="item">产品试用</a>
+		<a href="" class="item">活动</a>
+		<a href="" class="item">开放实验室</a>
+		<a href="" class="item">高校孵化基地</a>
+	</div>
+  </section>
+  <section class="ui start block">
+    <div class="ui responsive center aligned grid">
+      <div class="row">
+        <div class="center aligned tweleve wide column">
+          <h2 class="ui header">
+            <div class="content">
+              <span>NO.{{ active.season }}</span>
+              <br />
+              <strong>{{ active.title }}</strong>
+            </div>
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="center aligned column">
+          <h2 class="ui header">{{ active.sub_title }}</h2>
+        </div>
+      </div>
+        <div class="row">
+          <div class="center aligned column attend-box">
+            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="{{ app_url_domain }}/app/site/active/view?id=1">
+              <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          </div>
+        </div>
+    </div>
+  </section>
+  <section class="ui big camp block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<h3 class="ui header">历史活动</h3>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui three items">
+					<div class="magenta item">
+						<div class="image">
+							<a href=""><img src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-resp.jpg"></a>
+							<div class="presell">
+								第一期
+							</div>
+						</div>
+						<div class="content">
+							十万火计线下沙龙－深圳站 
+						</div>
+							
+					</div>
+					<div class="magenta item">
+						<div class="image">
+							<a href=""><img src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-resp.jpg"></a>
+							<div class="presell">
+								第一期
+							</div>
+						</div>
+						<div class="content">
+							十万火计线下沙龙－深圳站 
+						</div>
+					</div>
+					<div class="magenta item">
+						<div class="image">
+							<a href=""><img src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-resp.jpg"></a>
+							<div class="presell">
+								第一期
+							</div>
+						</div>
+						<div class="content">
+							十万火计线下沙龙－深圳站 
+						</div>
+					</div>
+				</div>
+				
+				<div class="ui three items">
+					<div class="magenta item">
+						<div class="image">
+							<a href=""><img src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-resp.jpg"></a>
+							<div class="presell">
+								第一期
+							</div>
+						</div>
+						<div class="content">
+							十万火计线下沙龙－深圳站 
+						</div>
+							
+					</div>
+					<div class="magenta item">
+						<div class="image">
+							<a href=""><img src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-resp.jpg"></a>
+							<div class="presell">
+								第一期
+							</div>
+						</div>
+						<div class="content">
+							十万火计线下沙龙－深圳站 
+						</div>
+					</div>
+					<div class="magenta item">
+						<div class="image">
+							<a href=""><img src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-resp.jpg"></a>
+							<div class="presell">
+								第一期
+							</div>
+						</div>
+						<div class="content">
+							十万火计线下沙龙－深圳站 
+						</div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+  </section>
+
+
+{% endblock %}
