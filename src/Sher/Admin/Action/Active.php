@@ -111,7 +111,19 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
     //进度安排
     $data['process'] = array();
     if(isset($this->stash['process'])){
-      $data['process'] = $this->stash['process'];
+      $p_arr = array();
+      foreach($this->stash['process'] as $process){
+        $s_arr = array();
+        $arr_process = explode('|', $process);
+        $s_arr['sort'] = $arr_process[0];
+        $s_arr['time'] = $arr_process[1];
+        $s_arr['title'] = $arr_process[2];
+        $s_arr['name'] = $arr_process[3];
+        $s_arr['position'] = $arr_process[4];
+        $s_arr['img'] = $arr_process[5];
+        array_push($p_arr, $s_arr);
+      }
+      $data['process'] = $p_arr;
     }
 
     //合作伙伴

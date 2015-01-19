@@ -217,12 +217,11 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     if(isset($row['process'])){
       $process_arr = array();
       if(is_array($row['process'])){
-        foreach($row['process'] as $v){
-          $a = explode('|', $v);
-          array_push($process_arr, $a);
+        foreach($row['process'] as $key=>$process){
+          $join_process = $process['sort'].'|'.$process['time'].'|'.$process['title'].'|'.$process['name'].'|'.$process['position'].'|'.$process['img'];
+          $row['process'][$key]['join_process'] = $join_process;         
         }
       }
-      $row['process_arr'] = $process_arr;
     }
 
     //转换合作伙伴格式

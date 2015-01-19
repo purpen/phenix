@@ -19,7 +19,7 @@
           </div>
           
           <div class="text">
-            {{ comment.content }}
+            {{ comment.content|safe }}
           </div>
           {% if visitor.is_login %}
           <div class="actions">
