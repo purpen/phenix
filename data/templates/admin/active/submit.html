@@ -54,6 +54,57 @@
 	{% else %}
 		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
 	{% endif %}
+
+  <script type="text/javascript">
+    function generate_html(obj, type=1){
+      var p_sort = obj.parents('.process-box').find('[name="process_temp[sort]"]').val();
+      var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
+      var p_title = obj.parents('.process-box').find('[name="process_temp[title]"]').val();
+      var p_name = obj.parents('.process-box').find('[name="process_temp[name]"]').val();
+      var p_position = obj.parents('.process-box').find('[name="process_temp[position]"]').val();
+      var p_img = obj.parents('.process-box').find('[name="process_temp[img]"]').val();
+
+      var total_join = p_sort + '|' + p_time + '|' + p_title + '|' + p_name + '|' + p_position + '|' + p_img;
+      var html = '';
+      html+='<div class="process-box five fields">';
+      html+='<div class="field"><label>'+ p_sort +'</label></div>';
+      html+='<div class="field"><label>'+ p_time +'</label></div>';
+      html+='<div class="field"><label>'+ p_title +'</label></div>';
+      html+='<div class="field"><label>'+ p_name +'</label></div>';
+      html+='<div class="field"><label>'+ p_position +'</label></div>';
+      html+='<div class="field"><label>'+ p_img +'</label></div>';
+      html+='<input type="hidden" name="process[]" value="'+ total_join +'" />';
+      html+='<div class="field"><input type="button" name="edit_process_item" value="编辑" /><input type="button" name="del_process_box" value="删除" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+    function generate_html_edit(obj, type=1){
+      var p_sort = obj.parents('.process-box').find('label').text();
+      var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
+      var p_title = obj.parents('.process-box').find('[name="process_temp[title]"]').val();
+      var p_name = obj.parents('.process-box').find('[name="process_temp[name]"]').val();
+      var p_position = obj.parents('.process-box').find('[name="process_temp[position]"]').val();
+      var p_img = obj.parents('.process-box').find('[name="process_temp[img]"]').val();
+
+      var str = obj.parents('.process-box').find('[name="process[]"]').val();
+      var arr = str.split('|');
+      var html = '';
+
+      html+='<div class="process-box five fields">';
+      html+='<div class="field"><input type="text" name="process_temp[sort]" value="'+ arr[0] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[time]" value="'+ arr[1] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[title]" value="'+ arr[2] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[name]" value="'+ arr[3] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[position]" value="'+ arr[4] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[img]" value="'+ arr[5] +'" /></div>';
+      html+='<div class="field"><input type="button" name="save_process_item" value="保存" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+  </script>
 {% endblock %}
 
 {% block jquery %}
@@ -292,17 +343,45 @@
   $('.add-process').click(function(){
     var html = '';
     html+='<div class="process-box five fields">';
-    html+='<div class="field"><input type="text" name="process[][time]" value="" /></div>';
-    html+='<div class="field"><input type="text" name="process[][title]" value="" /></div>';
-    html+='<div class="field"><input type="text" name="process[][name]" value="" /></div>';
-    html+='<div class="field"><input type="text" name="process[][position]" value="" /></div>';
-    html+='<div class="field"><input type="text" name="process[][img]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[sort]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[time]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[title]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[name]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[position]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[img]" value="" /></div>';
     html+='<div class="field"><input type="button" name="add_process_item" value="确定" /></div>';
     //html+='<div class="field"><input type="button" name="del_process_box" value="删除" /></div>';
     html+='</div>';
 
-    $('#process-box').append(html);
+    $('#process-box-edit').append(html);
   });
+
+  //添加process
+	$("input[name='add_process_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+
+
+      $('#process-box').append(html);
+      $(this).parents('.process-box').remove();
+		});
+	});
+
+  //编辑process
+	$("input[name='edit_process_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html_edit($(this));
+      $(this).parents('.process-box').replaceWith(html);
+		});
+	});
+
+  //保存编辑process
+	$("input[name='save_process_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      $(this).parents('.process-box').replaceWith(html);
+		});
+	});
 
   //删除process
 	$("input[name='del_process_box']").livequery(function(){
@@ -502,6 +581,9 @@
       <div id="process-box">
         <div class="five fields">
           <div class="field">
+              <label>排序:</label>
+          </div>
+          <div class="field">
               <label>时间:</label>
           </div>
           <div class="field">
@@ -515,7 +597,9 @@
           </div>
           <div class="field">
               <label>图片：</label>
-
+          </div>
+          <div class="field">
+              <label>操作：</label>
           </div>
 
         </div>
@@ -523,28 +607,37 @@
           {% if active.process %}
             {% for p in active.process %}
               <div class="process-box five fields">
+                <input type="hidden" name="process[]" value="{{ p.join_process }}" />
                 <div class="field">
-                  <input type="text" name="process[][time]" value="{{ p.time }}" />
+                  <label>{{ p.sort }}</label>
                 </div>
                 <div class="field">
-                  <input type="text" name="process[][title]" value="{{ p.title }}" />
+                  <label>{{ p.time }}</label>
                 </div>
                 <div class="field">
-                  <input type="text" name="process[][name]" value="{{ p.name }}" />
+                  <label>{{ p.title }}</label>
                 </div>
                 <div class="field">
-                  <input type="text" name="process[][position]" value="{{ p.position }}" />
+                  <label>{{ p.name }}</label>
                 </div>
                 <div class="field">
-                  <input type="text" name="process[][img]" value="{{ p.img }}" />
+                  <label>{{ p.position }}</label>
                 </div>
                 <div class="field">
+                  <label>{{ p.img }}</label>
+                </div>
+                <div class="field">
+                  <input type="button" name="edit_process_item" value="编辑" />
                   <input type="button" name="del_process_box" value="删除" />
                 </div>
               </div>
             {%endfor%}
           {%endif%}
         {%endif%}
+      </div>
+
+      <div id="process-box-edit">
+
       </div>
 
       <div class="ui right aligned grid">

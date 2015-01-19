@@ -135,7 +135,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
         }
-        $row['content'] = Sher_Core_Util_View::safe(htmlspecialchars_decode($row['content']));
+        $row['content'] = Sher_Core_Util_View::safe($row['content']);
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if (!empty($row['reply'])) {
             for ($i=0; $i < count($row['reply']); $i++) {
