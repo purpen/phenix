@@ -1,9 +1,9 @@
 <taconite>
 	<replaceContent select="#comment-list"><![CDATA[
     <div class="ui threaded minimal comments">
-      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'time' %}
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' %}
       {% for comment in comments.rows %}
-      <div class="comment" id="comment_{{ comment._id }}">
+      <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
           <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
         </a>
@@ -25,10 +25,10 @@
           <div class="actions">
             <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
             {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+              <a class="delete confirm-request" href="{{ app_url_base }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
             {%endif%}
           </div>
-          <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+          <form class="ui reply hide form" action="{{ app_url_base }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
             <input type="hidden" name="type" value="{{ type }}" />
             <input type="hidden" name="comment_id" value="{{ comment._id }}" />
             <input type="hidden" name="target_id" value="{{ target_id }}" />

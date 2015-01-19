@@ -1,9 +1,9 @@
 <taconite>
 	<replaceContent select="#comment-list"><![CDATA[
     <div class="ui threaded minimal comments">
-      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'time' %}
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' %}
       {% for comment in comments.rows %}
-      <div class="comment" id="comment_{{ comment._id }}">
+      <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
           <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
         </a>
