@@ -291,9 +291,14 @@
 
   $('.add-process').click(function(){
     var html = '';
-    html+='<div class="process-box two fields">';
-    html+='<div class="field"><input type="text" name="process[]" value="" /></div>';
-    html+='<div class="field"><input type="button" name="del_process_box" value="删除" /></div>';
+    html+='<div class="process-box five fields">';
+    html+='<div class="field"><input type="text" name="process[][time]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process[][title]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process[][name]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process[][position]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process[][img]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="add_process_item" value="确定" /></div>';
+    //html+='<div class="field"><input type="button" name="del_process_box" value="删除" /></div>';
     html+='</div>';
 
     $('#process-box').append(html);
@@ -495,13 +500,21 @@
 
       <h3 class="ui dividing stage header">流程</h3>
       <div id="process-box">
-        <div class="two fields">
+        <div class="five fields">
           <div class="field">
-              <label>格式要求： 时间段|名称|姓名|头像|职位 不添可留空，但保留'|'</label>
-
+              <label>时间:</label>
           </div>
           <div class="field">
-              <label>操作：</label>
+              <label>标题:</label>
+          </div>
+          <div class="field">
+              <label>名称:</label>
+          </div>
+          <div class="field">
+              <label>职位:</label>
+          </div>
+          <div class="field">
+              <label>图片：</label>
 
           </div>
 
@@ -509,9 +522,21 @@
         {% if mode == 'edit' %}
           {% if active.process %}
             {% for p in active.process %}
-              <div class="process-box two fields">
+              <div class="process-box five fields">
                 <div class="field">
-                  <input type="text" name="process[]" value="{{ p }}" />
+                  <input type="text" name="process[][time]" value="{{ p.time }}" />
+                </div>
+                <div class="field">
+                  <input type="text" name="process[][title]" value="{{ p.title }}" />
+                </div>
+                <div class="field">
+                  <input type="text" name="process[][name]" value="{{ p.name }}" />
+                </div>
+                <div class="field">
+                  <input type="text" name="process[][position]" value="{{ p.position }}" />
+                </div>
+                <div class="field">
+                  <input type="text" name="process[][img]" value="{{ p.img }}" />
                 </div>
                 <div class="field">
                   <input type="button" name="del_process_box" value="删除" />
