@@ -1,3 +1,4 @@
+{% if visitor.is_login %}
 <div class="post comment">
   <p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
   <form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
@@ -8,13 +9,12 @@
       <textarea name="content" class="comment-textarea" ></textarea>
       <div id="comment"></div>
     </div>
-  {% if visitor.is_login %}
-
     <div class="right aligned column">
       <input type="submit" class="ui small magenta button" value="添加评论" />
     </div>
 
-
+  </form>
+</div>
   {% else %}
     <div class="not login">
       <div class="ui grid">
@@ -26,7 +26,4 @@
         </div>
       </div>
     </div>
-  {% endif %}
-
-  </form>
-</div>
+{% endif %}

@@ -24,11 +24,22 @@
           </div>
           {% if visitor.is_login %}
           <div class="actions">
+            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
             {% if visitor.can_admin %}
               <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
             {%endif%}
           </div>
-
+          <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+            <input type="hidden" name="type" value="4" />
+            <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+            <input type="hidden" name="target_id" value="{{ topic._id }}" />
+            <div class="field">
+              <textarea name="content" class="reply-content"></textarea>
+            </div>
+            <div class="ui active button magenta submit labeled icon">
+              <i class="icon location"></i> 回复
+            </div>
+          </form>
           {% endif %}
         </div>
     

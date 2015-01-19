@@ -15,7 +15,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $page_tab = 'page_active';
 	protected $page_html = 'page/active/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view');
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -28,6 +28,13 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function execute(){
 		return $this->index();
+	}
+	
+	/**
+	 * 社区活动列表
+	 */
+	public function campaign(){
+		return $this->to_html_page('page/active/show_list.html');
 	}
 	
 	/**

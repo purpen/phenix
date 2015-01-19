@@ -2,9 +2,7 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .ui.reply.segment{
-    margin-bottom:1em !important;
-  }
+	
 </style>
 {% endblock %}
 {% block js %}
@@ -418,11 +416,9 @@
 					</div>
 				</div>
 				
-    <div class="ui big reply segment">
-      <!--ajax comment-->
-      <div id="comment-list"></div>
-      {% include "block/comment_box_site.html" %}
-    </div>
+    <!--ajax comment-->
+    <div class="ui big reply segment" id="comment-list"></div>
+    {% include "block/comment_box_site.html" %}
 			
 		</div>
 	</div>

@@ -5,26 +5,6 @@
   .ui.comments .comment>.content>.laud {
     float: right;
   }	
-
-  .actions{
-    opacity:1;
-  }
-  .actions a{
-    color:rgba(0,0,0,0.6);
-  }
-  #comment-list{
-    font-size:16px !important;
-  }
-  .ui.reply.segment{
-    margin-bottom:1em !important;
-  }
-
-  #postpage .ui.big.segment .actions{
-    opacity:1;
-  }
-  .ui.comments .comment .actions a{
-    color:rgba(0,0,0,0.6);
-  }
 </style>
 {% endblock %}
 
@@ -48,7 +28,7 @@
 
 {% endblock %}
 {% block content %}
-<div id="postpage">
+<div id="topicpage">
 	<section class="ui big block">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -105,16 +85,20 @@
 							{% endif %}
 						</div>
 				
-            <div class="ui big reply segment">
-              <!--ajax comment-->
-              <div id="comment-list"></div>
-              {% include "block/comment_box_wap.html" %}
-            </div>
-
 					</div>
 				</div>
+			</div>
 		</div>
 	</section>
+
+<div class="ui white background block">
+  <div class="ui responsive grid">
+    <!--ajax comment-->
+    <div class="ui big reply segment" id="comment-list"></div>
+    {% include "block/comment_box_wap.html" %}
+  </div>
+</div>
+
 
 </div>
 {% endblock %}
