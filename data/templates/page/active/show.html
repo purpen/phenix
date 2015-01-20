@@ -21,7 +21,6 @@
 }
 /*  ,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
 .ui.tabox .ui.tabs .tab{
-	border-bottom:0px solid #fff;
 	color:#fff;
 	text-align:center;
 	font-size: 0.9285rem;
@@ -29,6 +28,7 @@
 	margin-right: 1.5%;
 	padding-top:1%;
 	padding-bottom:1%;
+	margin-bottom:1px;
 }
 .ui.tabox{
 	-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
@@ -291,9 +291,9 @@ float: right;
 .flex-control-nav {display:none;}
 .flex-direction-nav {*height: 0;}
 .flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
-.flex-direction-nav .flex-prev { left: 0px; opacity: .5;}
+.flex-direction-nav .flex-prev { opacity: .5;}
 .flex-direction-nav .flex-next { right: 0px; text-align: right; opacity: .5;}
-.flexslider:hover .flex-prev { opacity: 0.7; left: 0px; }
+.flexslider:hover .flex-prev { opacity: 0.7; }
 .flexslider:hover .flex-next { opacity: 0.7; right: 0px; }
 .flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
 .flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
@@ -309,7 +309,7 @@ float: right;
 	color: #fff;
 	font-size: 16px;
 	background: rgba(0,0,0,0.5);
-	width: 590;
+	width: 590px;
 	margin:0 auto;
 	line-height: 36px;
 	text-align: left;
@@ -329,7 +329,7 @@ float: right;
 	width:100px;
 	height:100px;
 	display: inline-block;
-	padding:10 7px;
+	padding:10px 7px;
 }
 .ui.w-1180 .image img{
 	width:100px;
@@ -352,63 +352,34 @@ float: right;
   <!--引用百度地图API-->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
   <script type="text/javascript" >
-    //创建和初始化地图函数：
-    function initMap(){
-      createMap();//创建地图
-      setMapEvent();//设置地图事件
-      addMapControl();//向地图添加控件
-      addMapOverlay();//向地图添加覆盖物
-    }
-    function createMap(){ 
-      map = new BMap.Map("map"); 
-      map.centerAndZoom(new BMap.Point({{ active.map_info_arr.0 }},{{ active.map_info_arr.1 }}),{{ active.map_info_arr.2 }});
-    }
-    function setMapEvent(){
-      map.enableScrollWheelZoom();
-      map.enableKeyboard();
-      map.enableDragging();
-      map.enableDoubleClickZoom()
-    }
-    function addClickHandler(target,window){
-      target.addEventListener("click",function(){
-        target.openInfoWindow(window);
-      });
-    }
-    function addMapOverlay(){
-      var markers = [
-      {content:'{{ active.map_info_arr.6 }}',title:"{{ active.map_info_arr.5 }}",imageOffset: {width:0,height:3},position:{lat:{{ active.map_info_arr.3 }},lng:{{ active.map_info_arr.4 }} }}
-      ];
-      for(var index = 0; index < markers.length; index++ ){
-        var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
-        var marker = new BMap.Marker(point,{icon:new BMap.Icon("{{ app_url_packaged }}/images/map_icon.png",new BMap.Size(25,35),{
-          imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
-        })});
-        var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
-        var opts = {
-          width: 200,
-          title: markers[index].title,
-          enableMessage: false
-        };
-        var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
-        marker.setLabel(label);
-        addClickHandler(marker,infoWindow);
-        map.addOverlay(marker);
-      };
+		var map = new BMap.Map("map");
+		var point = new BMap.Point({{ active.map_info_arr.0 }},{{ active.map_info_arr.1 }});
+		map.centerAndZoom(point, {{ active.map_info_arr.2 }});
+		var marker = new BMap.Marker(point);  // 创建标注
+		map.addOverlay(marker);               // 将标注添加到地图中
+		//marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
+		
+		map.addControl(new BMap.MapTypeControl());	//地图 卫星 三维
+		map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));	//标尺
+		map.addControl(new BMap.NavigationControl());	//放大 移动
+		
+		var opts = {
+			  position : point,    // 指定文本标注所在的地理位置
+			  offset   : new BMap.Size(-60, -20)    //设置文本偏移量
+			}
+			var label = new BMap.Label("{{ active.map_info_arr.5 }}", opts);  // 创建文本标注对象
+				label.setStyle({
+					 color : "#666",
+					 fontSize : "14px",
+					 height : "20px",
+					 lineHeight : "20px",
+					 fontFamily:"微软雅黑",
+					 border:"1px solid #ccc",
+					 padding:"0 5px"
+				 });
+			map.addOverlay(label);
 
-
-    }
-    //向地图添加控件
-    function addMapControl(){
-      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
-      map.addControl(scaleControl);
-      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
-      map.addControl(navControl);
-      var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:false});
-      map.addControl(overviewControl);
-    }
-
-  {%endif%}
+	{%endif%}
 
   </script>
 {% endblock %}
@@ -417,10 +388,6 @@ float: right;
 
 {% endblock %}
 {% block jquery %}
-  {% if active.map_info %}
-    var map;
-    initMap();
-  {%endif%}
 
 	phenix.hook_comment_page();
 	phenix.bind_share_list();
@@ -624,7 +591,7 @@ float: right;
 {% endblock %}
 
 {% block content %}
-  <div class="ui tabox" data-70="transform:translateY(-20px);opacity:0;" data-71="transform:translateY(0px);opacity:1;">
+  <div class="ui tabox" data-70="transform:translateY(-20px);opacity:0;display:none;" data-71="transform:translateY(0px);opacity:1;display:block;">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
