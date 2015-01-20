@@ -38,11 +38,36 @@
 }
   .partner-box.two.fields .field input[type="button"],.process-box.two.fields .field input[type="button"]{
 	padding: 10px 15px;
+	margin-right:5px;
+	border: 1px solid #f36;
+	border-radius: 5px;
+}
+.partner-box.five.fields .field input[type="button"],.process-box.five.fields .field input[type="button"],.partner-box.seven.fields .field input[type="button"],.process-box.seven.fields .field input[type="button"]{
+	padding: 10px 12px;
+	margin-right:2px;
 	border: 1px solid #f36;
 	border-radius: 5px;
 }
   #map-box .one.fields .field{
 	width:98%;
+}
+.ui.form .seven.fields>.field {
+	width: 13.28% !important;
+	padding-left: .5%;
+	padding-right: .5%;
+}
+.desc-box .desc-box+.buttons{
+	padding:.8em;
+}
+.desc-box input[type="button"],.desc-box+.buttons{
+	display:inline-block;
+	float:right;
+}
+.desc-box input[type="button"]{
+	border: 1px solid #f36;
+	border-radius: 4px;
+	color: #f36;
+	cursor: pointer;
 }
 
 </style>
@@ -66,7 +91,7 @@
 
       var total_join = p_sort + '|' + p_time + '|' + p_title + '|' + p_name + '|' + p_position + '|' + p_img;
       var html = '';
-      html+='<div class="process-box five fields">';
+      html+='<div class="process-box seven fields">';
       html+='<div class="field"><label>'+ p_sort +'</label></div>';
       html+='<div class="field"><label>'+ p_time +'</label></div>';
       html+='<div class="field"><label>'+ p_title +'</label></div>';
@@ -92,7 +117,7 @@
       var arr = str.split('|');
       var html = '';
 
-      html+='<div class="process-box five fields">';
+      html+='<div class="process-box seven fields">';
       html+='<div class="field"><input type="text" name="process_temp[sort]" value="'+ arr[0] +'" /></div>';
       html+='<div class="field"><input type="text" name="process_temp[time]" value="'+ arr[1] +'" /></div>';
       html+='<div class="field"><input type="text" name="process_temp[title]" value="'+ arr[2] +'" /></div>';
@@ -428,7 +453,7 @@
   //添加process项目
   $('.add-process').click(function(){
     var html = '';
-    html+='<div class="process-box five fields">';
+    html+='<div class="process-box seven fields">';
     html+='<div class="field"><input type="text" name="process_temp[sort]" value="" /></div>';
     html+='<div class="field"><input type="text" name="process_temp[time]" value="" /></div>';
     html+='<div class="field"><input type="text" name="process_temp[title]" value="" /></div>';
@@ -715,7 +740,7 @@
 
       <h3 class="ui dividing stage header">流程</h3>
       <div id="process-box">
-        <div class="five fields">
+        <div class="seven fields">
           <div class="field">
               <label>排序:</label>
           </div>
@@ -742,7 +767,7 @@
         {% if mode == 'edit' %}
           {% if active.process %}
             {% for p in active.process %}
-              <div class="process-box five fields">
+              <div class="process-box seven fields">
                 <input type="hidden" name="process[]" value="{{ p.join_process }}" />
                 <div class="field">
                   <label>{{ p.sort }}</label>
