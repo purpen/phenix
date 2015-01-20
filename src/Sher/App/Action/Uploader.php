@@ -155,11 +155,20 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 
 	/**
-	 * 上传活动图片
+	 * 上传活动封面，头图
 	 */
 	public function active() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_ACTIVE;
 		$asset_type = Sher_Core_Model_Asset::TYPE_ACTIVE;
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+  
+	/**
+	 * 上传活动详情页列表图
+	 */
+	public function active_user() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_ACTIVE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_USER_ACTIVE;
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
 	
@@ -399,6 +408,25 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
         return $this->to_taconite_page($tpl);
     }
+
+	/**
+     * 检查指定附件的状态并返回附件列表到上传队列中---活动-详情
+     *
+     * @return void
+     */
+    public function check_upload_active_list_assets() {
+		  $assets_ids = $this->stash['assets'];
+      if (empty($assets_ids)) {
+          $result['error_message'] = '没有上传的图片';
+          $result['code'] = 401;
+          return $this->ajax_response($tpl, $result);
+      }
+      $model = new Sher_Core_Model_Asset();
+		  $this->stash['asset_list'] = $model->extend_load_all($assets_ids);
+		
+      return $this->to_taconite_page('ajax/check_active_list.html');
+    }
+
 	
 	/**
 	 * 获取图片列表

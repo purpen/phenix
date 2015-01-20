@@ -1,0 +1,24 @@
+<taconite>
+	<prepend select="#asset-list-active"><![CDATA[
+		{% for asset in asset_list %}
+		<div class="thumb item" id="{{ asset._id }}">
+			<div class="image">
+				<img src="{{ asset.thumbnails.tiny.view_url }}" />
+				<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+			</div>
+      <div class="desc-box">
+        <span>{{ asset.desc }}</span>
+        <input type="button" name="show-asset-desc" value="添加" asset_id="{{ asset._id }}" desc="{{ asset.desc }}" />
+      </div>
+			<div class="buttons">
+				<div class="ui large links">
+					<a href="{{ app_url_admin }}/asset/delete_asset?id={{ id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+						<i class="remove icon"></i>
+					</a>
+
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	]]></prepend>
+</taconite>

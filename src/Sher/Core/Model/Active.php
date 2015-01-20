@@ -162,16 +162,6 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
   protected function after_save() {
     //如果是新的记录
     if($this->insert_mode) {
-      $parent_id = (string)$this->data['_id'];
-      $assets = $this->data['asset'];
-      if (!empty($assets)) {
-			$asset_model = new Sher_Core_Model_Asset();
-			foreach($assets as $id){
-				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
-				$asset_model->update_set($id, array('parent_id' => $parent_id));
-			}
-			unset($asset_model);
-      }
       
       // 更新活动总数
       Sher_Core_Util_Tracker::update_active_counter();
@@ -228,21 +218,13 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     if(isset($row['partner'])){
       $partner_arr = array();
       if(is_array($row['partner'])){
-        foreach($row['partner'] as $v){
-          $a = explode('|', $v);
-          array_push($partner_arr, $a);
+        foreach($row['partner'] as $key=>$partner){
+          $join_partner = $partner['sort'].'|'.$partner['name'].'|'.$partner['url'].'|'.$partner['img'];
+          $row['partner'][$key]['join_partner'] = $join_partner;         
         }
       }
-      $row['partner_arr'] = $partner_arr;
     }
 
-    //转换地图信息格式
-    if(isset($row['map_info'])){
-      $map_info_arr = array();
-      $a = explode('|', $row['map_info']);
-      $row['map_info_arr'] = $a;
-    }
-		
 	}
 
 	// 分类

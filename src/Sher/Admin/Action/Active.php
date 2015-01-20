@@ -62,12 +62,17 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ACTIVE;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_ACTIVE;
 
-		// 活动图片上传
+		// 活动头图，封面图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_ACTIVE;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_ACTIVE;
+
+		// 活动列表图上传
+		$this->stash['list_pid'] = new MongoId();
+
+		$this->stash['asset_type_active'] = Sher_Core_Model_Asset::TYPE_USER_ACTIVE;
 		
 		return $this->to_html_page('admin/active/submit.html');
 	}
@@ -81,7 +86,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['sub_title'] = $this->stash['sub_title'];
-		$data['season'] = (int)$this->stash['season'];
+		//$data['season'] = (int)$this->stash['season'];
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		$data['cover_id'] = $this->stash['cover_id'];
@@ -104,8 +109,19 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['state'] = (int)$this->stash['state'];
 
     //地图信息
+    $data['map_info'] = array();
     if(isset($this->stash['map_info'])){
-      $data['map_info'] = $this->stash['map_info'];  
+      $map_info = array();
+      $map_info['x'] = $this->stash['map_info'][0]; 
+      $map_info['y'] = $this->stash['map_info'][1];
+      $map_info['matter'] = $this->stash['map_info'][2]; 
+      $map_info['p_x'] = $this->stash['map_info'][3]; 
+      $map_info['p_y'] = $this->stash['map_info'][4]; 
+      $map_info['title'] = $this->stash['map_info'][5]; 
+      $map_info['content'] = $this->stash['map_info'][6]; 
+      $map_info['img'] = $this->stash['map_info'][7]; 
+
+      $data['map_info'] = $map_info;
     }
 
     //进度安排
@@ -129,9 +145,18 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
     //合作伙伴
     $data['partner'] = array();
     if(isset($this->stash['partner'])){
-      $data['partner'] = $this->stash['partner'];
+      $p_arr = array();
+      foreach($this->stash['partner'] as $partner){
+        $s_arr = array();
+        $arr_partner = explode('|', $partner);
+        $s_arr['sort'] = $arr_partner[0];
+        $s_arr['name'] = $arr_partner[1];
+        $s_arr['url'] = $arr_partner[2];
+        $s_arr['img'] = $arr_partner[3];
+        array_push($p_arr, $s_arr);
+      }
+      $data['partner'] = $p_arr;
     }
-
 
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
@@ -164,6 +189,10 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
+			}
+			// 上传成功后，更新所属的附件--头图，封面图，其它
+			if(isset($this->stash['asset_tmp']) && !empty($this->stash['asset_tmp'])){
+				$this->update_batch_assets($this->stash['asset_tmp'], $id);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
