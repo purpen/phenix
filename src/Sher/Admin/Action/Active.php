@@ -115,11 +115,8 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
       $map_info['x'] = $this->stash['map_info'][0]; 
       $map_info['y'] = $this->stash['map_info'][1];
       $map_info['matter'] = $this->stash['map_info'][2]; 
-      $map_info['p_x'] = $this->stash['map_info'][3]; 
-      $map_info['p_y'] = $this->stash['map_info'][4]; 
-      $map_info['title'] = $this->stash['map_info'][5]; 
-      $map_info['content'] = $this->stash['map_info'][6]; 
-      $map_info['img'] = $this->stash['map_info'][7]; 
+      $map_info['title'] = $this->stash['map_info'][3]; 
+      $map_info['img'] = $this->stash['map_info'][4]; 
 
       $data['map_info'] = $map_info;
     }
