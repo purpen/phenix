@@ -305,7 +305,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 
     $result = array();
     $result['rid'] = $rid;
-    $result['order'] = $data;
+    $result['pay_money'] = $data['pay_money'];
 	    if($is_snatched){
 	    	//如果是抢购，无需支付，跳到我的订单页
         $result['is_snatched'] = 1;
