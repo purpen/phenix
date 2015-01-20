@@ -88,7 +88,7 @@
 		map.centerAndZoom(point, 12);
 		var marker = new BMap.Marker(point);  // 创建标注
 		map.addOverlay(marker);               // 将标注添加到地图中
-		marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
+		//marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
 		
 		/*****  position icon *****/
 		/*var marker = new BMap.Marker(point,{icon:new BMap.Icon("{{ app_url_packaged }}/images/map_icon.png",new BMap.Size(25,35),{
@@ -102,7 +102,7 @@
 		
 		var opts = {
 			  position : point,    // 指定文本标注所在的地理位置
-			  offset   : new BMap.Size(-60, -20)    //设置文本偏移量
+			  offset   : new BMap.Size(-70, -20)    //设置文本偏移量
 			}
 			var label = new BMap.Label("太火鸟", opts);  // 创建文本标注对象
 				label.setStyle({
