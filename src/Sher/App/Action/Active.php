@@ -121,6 +121,8 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
     $this->stash['active'] = $active;
+
+    $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30);
 		
 		return $this->to_html_page('page/active/show.html');
 	}
@@ -192,6 +194,17 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
   protected function check_user_attend($user_id, $target_id, $event=1){
     $mode_attend = new Sher_Core_Model_Attend();
     return $mode_attend->check_signup($user_id, $target_id, $event);
+  }
+
+  /**
+   * ajax获取报名列表
+   */
+  public function ajax_fetch_signup(){
+    if(!isset($this->stash['target_id'])){
+      return false;
+    }
+    $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:1;
+    return $this->to_taconite_page('ajax/fetch_active_signup.html');
   }
 
 

@@ -353,8 +353,8 @@ float: right;
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
   <script type="text/javascript" >
 		var map = new BMap.Map("map");
-		var point = new BMap.Point({{ active.map_info_arr.0 }},{{ active.map_info_arr.1 }});
-		map.centerAndZoom(point, {{ active.map_info_arr.2 }});
+		var point = new BMap.Point({{ active.map_info.x }},{{ active.map_info.y }});
+		map.centerAndZoom(point, {{ active.map_info.matter }});
 		var marker = new BMap.Marker(point);  // 创建标注
 		map.addOverlay(marker);               // 将标注添加到地图中
 		//marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
@@ -367,7 +367,7 @@ float: right;
 			  position : point,    // 指定文本标注所在的地理位置
 			  offset   : new BMap.Size(-60, -20)    //设置文本偏移量
 			}
-			var label = new BMap.Label("{{ active.map_info_arr.5 }}", opts);  // 创建文本标注对象
+			var label = new BMap.Label("{{ active.map_info.title }}", opts);  // 创建文本标注对象
 				label.setStyle({
 					 color : "#666",
 					 fontSize : "14px",
@@ -380,6 +380,13 @@ float: right;
 			map.addOverlay(label);
 
 	{%endif%}
+
+  //ajax获取报名列表
+  function fetch_signup_avatar(){
+    var url = '{{ app_url_action_base }}/active/ajax_fetch_signup';
+    var target_id = {{ active._id }};
+    $.get(url, { target_id: target_id, evt:1 });
+  }
 
   </script>
 {% endblock %}
@@ -588,6 +595,9 @@ float: right;
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
+
+  //ajax获取报名头像
+  fetch_signup_avatar();
 {% endblock %}
 
 {% block content %}
@@ -677,31 +687,23 @@ float: right;
   </div>
   <div class="ui grid" style="height:595px">
 	
-	
+  {% asset_list var:'assets' parent_id:active._id asset_type:67 size:50 %}
     <div class="ui responsive grid">
 	    <div class="row">
 	      	<div class="flexslider">
 	          <ul class="slides">
-	            <li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;123</p>
-	  	    		</li>
-	  	    		<li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;456</p>
-	  	    		</li>
-	  	    		<li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;123</p>
-	  	    		</li>
-	  	    		<li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;456</p>
-	  	    		</li>
+              {% for asset in assets.rows %}
+                <li>
+                  <img src="{{ asset.thumbnails.big.view_url }}" />
+                  <p>&nbsp;&nbsp;{{ asset.desc }}</p>
+                </li>
+              {%endfor%}
 	          </ul>
 	        </div>
 	    </div>
 	  </div>
+
+
   </div>
   <section class="ui process gray background block">
     <div class="ui responsive grid">
@@ -716,30 +718,29 @@ float: right;
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
-      {% if active.process_arr %}
-			
-      {% for p in active.process_arr %}
-        <div class="rundown-timeline-container">
-          <div class="timeline-block">
-            <div class="timeline-red-dot"></div>
-            <div class="timeline-content right">
-              <div class="time">{{ p.0 }}</div>
-              <p class="name"> {{ p.1 }}  </p>
-              <div class="title">
-                {% if p.3 %}
-                <img src="{{ p.3 }}" alt="{{ p.2 }}">
-                {%endif%}
-                <div class="content">
-                  {{ p.2 }}  
-                  <div class="text">
-                    {{ p.4 }}
-                  </div>
-                </div>	
-               </div>
+      {% if active.process %}
+        {% for p in active.process %}
+          <div class="rundown-timeline-container">
+            <div class="timeline-block">
+              <div class="timeline-red-dot"></div>
+              <div class="timeline-content right">
+                <div class="time">{{ p.time }}</div>
+                <p class="name"> {{ p.title }}  </p>
+                <div class="title">
+                  {% if p.img %}
+                  <img src="{{ p.img }}" alt="{{ p.name }}">
+                  {%endif%}
+                  <div class="content">
+                    {{ p.name }}  
+                    <div class="text">
+                      {{ p.position }}
+                    </div>
+                  </div>	
+                 </div>
+              </div>
             </div>
           </div>
-        </div>
-      {%endfor%}
+        {%endfor%}
       {%endif%}
 			
 			<div class="rundown-timeline-container bottom">
@@ -751,127 +752,17 @@ float: right;
 		</div>
 	</div>
   </div>
-  <!--<section class="ui report block">
-    <div class="ui responsive center aligned column">
-      <div class="row">
-		<div class="center aligned column">
-      <div class="attend-box">
-        {% if step_stat==0 %}
-          {% if is_attend %}
-            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
-            </a>
-          {%else%}
-            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
-                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-            </a>
-          {%endif%}
-        {%else%}
-          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-                <span>报名结束</span><i class="icon-arrow-right-sharp"></i>
-          </a>
-        {%endif%}
-      </div>
-      <p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>	
-		</div>
-	  </div>
-    </div>
-  </section>-->
  
   <section class="ui report block">
+    <!--ajax获取报名者头像-->
     <div class="ui w-1180">
-      <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/topic/150106/54abc8a63ffca262238b4577-1-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141208/54858e48621e19c87a8b5e8c-1-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141208/5485844d989a6af1698b50da-1-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141220/549515cffc8b12bc4b8b481d-4-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-byheart.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-purpen.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-zhuhong.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-bobo.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-ting.jpg">
-	  </div>
-	
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-dali.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-yonglin.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-xinyu.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-ruby.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-ping.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-dan.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-qmei.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-feng.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-liudi.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
+      <div id="signup-avatar">
+        {% for i in avatar_loop %}
+          <div class="image avatar-list">
+            <img src="http://frstatic.qiniudn.com/images/avatar_default_small.jpg">
+          </div>
+        {% endfor %}
+      </div>
 	  
 	  <div class="report-btn">
 		<div class="ui responsive center aligned column">
@@ -928,11 +819,11 @@ float: right;
 				<div class="one items">
 					<div class="item">
 						<div class="image">
-              <img src="{{ active.map_info_arr.7 }}">
+              <img src="{{ active.map_info.img }}">
 						</div>
 						<div class="content">
 							<h4 class="ui dividing header">
-                {{ active.map_info_arr.5 }}
+                {{ active.map_info.title }}
 								<div class="map-advantage">
                   {{ active.max_number_count }}人规模
 								</div>
@@ -964,10 +855,10 @@ float: right;
   <div class="ui white together background block">
     <div class="ui responsive grid">
       <div class="row">
-        {% if active.partner_arr %}
+        {% if active.partner %}
             <div class="center aligned column">
-            {% for p in active.partner_arr %}
-            <a href="{{ p.1 }}" title="{{ p.0 }}" target="_blank"><img src="{{ p.2 }}" alt="{{ p.0 }}" /></a>
+            {% for p in active.partner %}
+            <a href="{{ p.url }}" title="{{ p.title }}" target="_blank"><img src="{{ p.img }}" alt="{{ p.title }}" /></a>
             {%endfor%}
             </div>
         {%endif%}

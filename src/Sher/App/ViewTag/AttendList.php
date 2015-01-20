@@ -22,7 +22,7 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         $target_id = 0;
         $event = 0;
 		
-		$sort = 'latest';
+		    $sort = 'latest';
 		
         $var = 'list';
         $include_pager = 0;
