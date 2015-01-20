@@ -56,7 +56,7 @@
 	{% endif %}
 
   <script type="text/javascript">
-    function generate_html(obj, type=1){
+    function generate_html(obj){
       var p_sort = obj.parents('.process-box').find('[name="process_temp[sort]"]').val();
       var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
       var p_title = obj.parents('.process-box').find('[name="process_temp[title]"]').val();
@@ -80,7 +80,7 @@
       return html;
     }
 
-    function generate_html_edit(obj, type=1){
+    function generate_html_edit(obj){
       var p_sort = obj.parents('.process-box').find('label').text();
       var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
       var p_title = obj.parents('.process-box').find('[name="process_temp[title]"]').val();
@@ -105,7 +105,7 @@
       return html;
     }
 
-    function generate_partner_html(obj, type=1){
+    function generate_partner_html(obj){
       var p_sort = obj.parents('.partner-box').find('[name="partner_temp[sort]"]').val();
       var p_name = obj.parents('.partner-box').find('[name="partner_temp[name]"]').val();
       var p_url = obj.parents('.partner-box').find('[name="partner_temp[url]"]').val();
@@ -124,7 +124,7 @@
       return html;
     }
 
-    function generate_partner_html_edit(obj, type=1){
+    function generate_partner_html_edit(obj){
       var p_sort = obj.parents('.partner-box').find('label').text();
       var p_time = obj.parents('.partner-box').find('[name="partner_temp[sort]"]').val();
       var p_time = obj.parents('.partner-box').find('[name="partner_temp[name]"]').val();
