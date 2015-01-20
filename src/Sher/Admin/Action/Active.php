@@ -104,7 +104,6 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['max_number_count'] = (int)$this->stash['max_number_count'];
 		$data['pay_money'] = (float)$this->stash['pay_money'];
 		$data['step_stat'] = (int)$this->stash['step_stat'];
-		$data['published'] = (int)$this->stash['published'];
 		$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
 
