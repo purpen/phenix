@@ -560,7 +560,7 @@ float: right;
       <div class="row">
         <div class="twelve wide column">
           <div class="content">
-            <i class="flat sale icon"></i>2015-01-27  14:00 &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
+            <i class="flat sale icon"></i>{{ active.begin_time|date 'Y-m-d H:i' }} &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
           </div>
         </div>
       </div>
