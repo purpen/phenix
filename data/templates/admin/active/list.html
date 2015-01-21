@@ -47,7 +47,7 @@
 	<h3 class="ui header">活动管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/active" class="{% if !stage %}active{%endif%} item">
+		<a href="{{ app_url_admin_base }}/active" class="active item">
 			全部
 		</a>
 
@@ -123,7 +123,7 @@
 				</td>
 				<td>
 		          	<div class="header">
-                  <a href="{{ app.base.domain }}/app/site/active/view?id={{ active._id }}" class="ui link" target="_blank" title="{{ active.title }}">
+                  <a href="{{ active.view_url }}" class="ui link" target="_blank" title="{{ active.title }}">
 							{{ active.title|truncate, 32 }}
 						</a>
 					</div>

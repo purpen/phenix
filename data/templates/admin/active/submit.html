@@ -81,6 +81,10 @@
   margin-bottom: 9px;
 }
 
+.field{
+  overflow:hidden;
+}
+
 </style>
 {% endblock %}
 
@@ -320,45 +324,6 @@
 				}
 			]
 		},
-		contact_name: {
-			identifier  : 'contact_name',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '联系人不能为空'
-				},
-				{
-					type   : 'maxLength[20]',
-					prompt : '最多20个字符'
-				}
-			]
-		},
-		contact_tel: {
-			identifier  : 'contact_tel',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '联系电话不能为空'
-				},
-				{
-					type   : 'maxLength[20]',
-					prompt : '最多20个字符'
-				}
-			]
-		},
-		address: {
-			identifier  : 'address',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '地址不能为空'
-				},
-				{
-					type   : 'maxLength[150]',
-					prompt : '最多150个字符'
-				}
-			]
-		},
 		category_id: {
 			identifier  : 'category_id',
 			rules: [
@@ -367,26 +332,8 @@
 					prompt : '请选择分类'
 				}
 			]
-		},
-
-		tags: {
-			identifier  : 'tags',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '标签不能为空'
-				}
-			]
-		},
-		stage: {
-			identifier  : 'stage',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '产品阶段不能为空'
-				}
-			]
 		}
+
 	}, {
 		inline : true,
 		onSuccess: function(event){
