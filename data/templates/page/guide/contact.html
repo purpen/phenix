@@ -41,7 +41,7 @@
 	}
 	.position.row{
 		position:absolute;
-		top:40px;
+		top:50px;
 		width:360px;
 		text-align: left;
 		right:3%;
@@ -57,7 +57,7 @@
 		background:#fff;
 	}
 	.position.row .content{
-		padding:1.2em 1em 1.8em;
+		padding:0.6em 1em 1.5em;
 	}
 	.icon-place:before {
 	    content: "\f124";
@@ -85,7 +85,7 @@
     //创建和初始化地图函数：
     	var map = new BMap.Map("allmap");
 		var point = new BMap.Point(116.504988, 39.990507);
-		map.centerAndZoom(point, 12);
+		map.centerAndZoom(point, 15);
 		var marker = new BMap.Marker(point);  // 创建标注
 		map.addOverlay(marker);               // 将标注添加到地图中
 		//marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
