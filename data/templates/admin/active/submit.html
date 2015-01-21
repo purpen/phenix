@@ -1,11 +1,7 @@
 {%extends 'layout/admin.html'%}
 {% block title %}编辑活动-{% endblock %}
 {% block page_css %}
-	{% if js_use_bundle %}
-  <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.{{ css_bundle_version }}.css" title="Aqua" />
-  {%else%}
-    <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
-  {%endif%}
+<link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
 <style type="text/css">
 	.ui.ok.button {
 		margin-top: 1.7em;
@@ -74,6 +70,16 @@
 	color: #f36;
 	cursor: pointer;
 }
+.ui.segment .two.fields input[type="text"]+input[type="button"]{
+  padding: 0 0!important;
+  height: 29px;
+  width: 38px;
+  border: 0px solid rgba(0,0,0,0);
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  margin-bottom: 9px;
+}
 
 </style>
 {% endblock %}
@@ -81,11 +87,10 @@
 {% block layout_js %}
 	{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
-    <script src="{{ app_url_packaged }}/javascript/calendar.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>
 	{% else %}
 		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
-		<script src="{{ app_url_packaged }}/javascript/calendar.js" type="text/javascript"></script>
 	{% endif %}
+	<script src="{{ app_url_packaged }}/javascript/calendar.js" type="text/javascript"></script>
 
   <script type="text/javascript">
     function generate_html(obj){
