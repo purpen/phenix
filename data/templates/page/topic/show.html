@@ -31,12 +31,13 @@
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.view_url }}'});
 	
-	<!--// 显示编辑工具条 
+	// 显示编辑工具条 
+	/*
 	$('.ui.topic.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});-->
+	});*/
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
