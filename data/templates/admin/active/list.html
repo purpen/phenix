@@ -95,8 +95,9 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">名称</th>
+        <th>期数</th>
 				<th>是否发布</th>
-				<th>状态</th>
+				<th>进度</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -128,6 +129,9 @@
 					</div>
 		          	<p class="attribute">ID：{{ active._id }}</p>
 				</td>
+        <td>
+          <span class="ui small green label">{{ active.season }}</span>      
+        </td>
 				<td>
 					<p>
 						{% if active.published %}
@@ -139,15 +143,11 @@
 				</td>
 				<td>
 					<p>
-						{% if active.state %}
-							<span class="ui small green label">启用</span>
-						{% else %}
-							<span class="ui small orange label">禁用</span>
-						{% endif %}
+            <span class="ui small green label">{{ active.step_str }}</span>
 					</p>
 				</td>
 				<td>
-          <!--
+
 					<p>
 						
 						{% if !active.stick %}
@@ -161,16 +161,16 @@
 						{% endif %}
 						
 						{% if !active.published %}
-			          	<a href="{{ app_url_admin }}/active/update_onsale?id={{ active._id }}" class="ui ajax link item">
+			          	<a href="{{ app_url_admin }}/active/ajax_publish?id={{ active._id }}&evt=1" class="ui ajax link item">
 							发布
 						</a>
 						{% else %}
-			          	<a href="{{ app_url_admin }}/active/update_offline?id={{ active._id }}" class="ui ajax link item">
-							待审
+			          	<a href="{{ app_url_admin }}/active/ajax_publish?id={{ active._id }}&evt=0" class="ui ajax link item">
+							撤销
 						</a>
 						{% endif %}
 					</p>
-          -->
+
 					<p>
 						<a href="{{ app_url_admin_base }}/active/submit?id={{ active._id }}" class="ui link item">编辑</a>
 		          		<a href="{{ app_url_admin }}/active/deleted?id={{ active._id }}" class="ui confirm-request link item">

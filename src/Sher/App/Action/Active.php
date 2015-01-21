@@ -51,7 +51,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		// 获取列表
 		$category_id = isset($this->stash['category_id'])?(int)$this->stash['category_id']:0;
-		$page = $this->stash['page'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		
 		$pager_url = Sher_Core_Helper_Url::active_list_url($category_id).'p#p#';
 		

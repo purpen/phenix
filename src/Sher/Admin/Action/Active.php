@@ -101,6 +101,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['contact_tel'] = $this->stash['contact_tel'];
 		$data['contact_email'] = $this->stash['contact_email'];
 		$data['address'] = $this->stash['address'];
+    $data['conduct_city'] = $this->stash['conduct_city'];
 		$data['max_number_count'] = (int)$this->stash['max_number_count'];
 		$data['pay_money'] = (float)$this->stash['pay_money'];
 		$data['step_stat'] = (int)$this->stash['step_stat'];
@@ -109,15 +110,17 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 
     //地图信息
     $data['map_info'] = array();
-    if(isset($this->stash['map_info'])){
-      $map_info = array();
-      $map_info['x'] = $this->stash['map_info'][0]; 
-      $map_info['y'] = $this->stash['map_info'][1];
-      $map_info['matter'] = $this->stash['map_info'][2]; 
-      $map_info['title'] = $this->stash['map_info'][3]; 
-      $map_info['img'] = $this->stash['map_info'][4]; 
+    if(isset($this->stash['map_info']) && !empty($this->stash['map_info'])){
+      if(!empty($this->stash['map_info'][0]) && !empty($this->stash['map_info'][1]) && !empty($this->stash['map_info'][2])){
+        $map_info = array();
+        $map_info['x'] = $this->stash['map_info'][0]; 
+        $map_info['y'] = $this->stash['map_info'][1];
+        $map_info['matter'] = $this->stash['map_info'][2]; 
+        $map_info['title'] = $this->stash['map_info'][3]; 
+        $map_info['img'] = $this->stash['map_info'][4]; 
 
-      $data['map_info'] = $map_info;
+        $data['map_info'] = $map_info;     
+      }
     }
 
     //进度安排
@@ -260,6 +263,28 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
     return $this->to_html_page('admin/active/list.html');
   
   }
+
+	/**
+	 * 发布/撤销
+	 */
+	public function ajax_publish(){
+		$ids = $this->stash['id'];
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Active();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+			$result = $model->mark_as_published((int)$id, $evt);
+		}
+		
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+	}
 
 }
 ?>

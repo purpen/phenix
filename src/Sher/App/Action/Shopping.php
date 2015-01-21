@@ -153,6 +153,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		if(empty($product_data)){
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
 		}
+
+    //试用产品，不可购买
+    if($product_data['is_try']){
+			return $this->show_message_page('试用产品，不可购买！', true);
+    }
+
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
 		

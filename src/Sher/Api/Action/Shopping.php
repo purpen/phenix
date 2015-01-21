@@ -74,7 +74,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$product_data = $product->extend_load((int)$product_id);
 		if(empty($product_data)){
       return $this->api_json('挑选的产品不存在或被删除，请核对！', 3005);
-		}
+    }
+
+    //试用产品，不可购买
+    if($product_data['is_try']){
+      return $this->api_json('试用产品，不可购买！', 3010);
+    }
+
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
 		

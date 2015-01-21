@@ -351,7 +351,9 @@ float: right;
   {% if active.map_info %}
   <!--引用百度地图API-->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
+  {%endif%}
   <script type="text/javascript" >
+  {% if active.map_info %}
 		var map = new BMap.Map("map");
 		var point = new BMap.Point({{ active.map_info.x }},{{ active.map_info.y }});
 		map.centerAndZoom(point, {{ active.map_info.matter }});
@@ -383,7 +385,7 @@ float: right;
 
   //ajax获取报名列表
   function fetch_signup_avatar(){
-    var url = '{{ app_url_action_base }}/active/ajax_fetch_signup';
+    var url = '{{ app_url_active }}/ajax_fetch_signup';
     var target_id = {{ active._id }};
     $.get(url, { target_id: target_id, evt:1 });
   }
@@ -397,7 +399,7 @@ float: right;
 {% block jquery %}
 
 	phenix.hook_comment_page();
-	phenix.bind_share_list();
+	//phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
 	
@@ -536,7 +538,7 @@ float: right;
           <h2 class="ui header">{{ active.sub_title }}</h2>
         </div>
       </div>
-        {% if step_stat==0 %}
+        {% if active.step_stat==1 %}
         <div class="row">
           <div class="center aligned column attend-box">
           {% if is_attend %}
@@ -669,7 +671,7 @@ float: right;
 	      <div class="row">
 			<div class="center aligned column">
 	      <div class="attend-box">
-	        {% if step_stat==0 %}
+	        {% if active.step_stat==1 %}
 	          {% if is_attend %}
 	            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
 	                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
@@ -681,7 +683,7 @@ float: right;
 	          {%endif%}
 	        {%else%}
 	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	                <span>报名结束</span><i class="icon-arrow-right-sharp"></i>
+	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
 	          </a>
 	        {%endif%}
 	      </div>

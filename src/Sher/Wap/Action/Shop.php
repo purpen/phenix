@@ -236,6 +236,12 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(empty($product_data)){
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
 		}
+
+    //试用产品，不可购买
+    if($product_data['is_try']){
+      return $this->api_json('试用产品，不可购买！', 3010);
+    }
+
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
 		

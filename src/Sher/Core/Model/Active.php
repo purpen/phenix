@@ -37,6 +37,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     'contact_email' =>  null,
     #详细地址
     'address' =>  null,
+    #举办城市-字符串
+    'conduct_city'  =>  null,
     #地址坐标
     'a' =>  null,
     #城市省份
@@ -172,6 +174,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+		$row['view_url'] = Sher_Core_Helper_Url::active_view_url($row['_id']);
+		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $row['_id'], 0);
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
 			$row['content'] = htmlspecialchars_decode($row['content']);
@@ -179,6 +183,19 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		// 去除 html/php标签
     if(isset($row['summary'])){
 		  $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+    }
+
+    //进度显示字符串
+    if(isset($row['step_stat'])){
+      if($row['step_stat']==0){
+        $row['step_str'] = '暂停';
+      }elseif($row['step_stat']==1){
+        $row['step_str'] = '开始';    
+      }elseif($row['step_stat']==2){
+        $row['step_str'] = '结束';     
+      }else{
+        $row['step_str'] = '错误';       
+      }
     }
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
@@ -337,6 +354,38 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		unset($asset);
 		
 		return true;
+	}
+
+	/**
+	 * 发布
+	 */
+  public function mark_as_published($id, $published=1) {
+
+    $data = $this->extend_load((int)$id);
+
+    if(empty($data)){
+      return array('status'=>0, 'msg'=>'内容不存在');
+    }
+    if($data['published']==(int)$published){
+      return array('status'=>0, 'msg'=>'重复的操作');  
+    }
+    $ok = $this->update_set((int)$id, array('published' => $published));
+    if($ok){
+      //发布成功后执行的方法
+      if($published==1){
+        $recent_season = $this->find(array('published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
+        if(empty($recent_season)){
+          $current_season = 1;
+        }else{
+          $current_season = $recent_season[0]['season']+1;
+        }
+        $this->update_set((int)$id, array('season'=>$current_season));
+      }
+      return array('status'=>1, 'msg'=>'操作成功');  
+    }else{
+      return array('status'=>0, 'msg'=>'操作失败');   
+    }
+
 	}
 	
 }
