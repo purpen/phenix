@@ -27,7 +27,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 活动
 	 */
 	public function execute(){
-		return $this->index();
+		return $this->get_list();
 	}
 	
 	/**
@@ -48,37 +48,17 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 活动列表
 	 */
 	public function get_list(){
-		// 获取置顶列表
-		$diglist = array();
-		$dig_ids = array();
-		$current_category = array();
-		$parent_category = array();
-		
-		$digged = new Sher_Core_Model_DigList();
-		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
-		if (!empty($result) && !empty($result['items'])) {
-			$model = new Sher_Core_Model_Topic();
-			$diglist = $model->extend_load_all($result['items']);
-			
-	        for ($i=0; $i < count($result['items']); $i++) {
-				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
-	        }
-		}
 		
 		// 获取列表
-		$category_id = $this->stash['category_id'];
-		$type = $this->stash['type'];
-		$time = $this->stash['time'];
-		$sort = $this->stash['sort'];
+		$category_id = isset($this->stash['category_id'])?(int)$this->stash['category_id']:0;
 		$page = $this->stash['page'];
 		
-		$pager_url = Sher_Core_Helper_Url::topic_list_url($category_id, $type, $time, $sort).'p#p#';
+		$pager_url = Sher_Core_Helper_Url::active_list_url($category_id).'p#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('page/active/list.html');
 	}
-
 
 	
 	/**
@@ -119,7 +99,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		$model->inc_counter('view_count', $inc_ran, $id);
 
 		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::active_view_url($id, '#p#');
     $this->stash['active'] = $active;
 
     $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30);
@@ -138,6 +118,30 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
     }
     if(!isset($this->stash['target_id'])){
 			return $this->ajax_note('请求失败,缺少必要参数', true);
+    }
+
+    $mode_active = new Sher_Core_Model_Active();
+    $active = $mode_active->find_by_id((int)$this->stash['target_id']);
+    if(empty($active)){
+ 			return $this->ajax_note('活动未找到!', true); 
+    }
+
+    $max_count = $active['max_number_count'];
+
+
+
+    $mode_attend = new Sher_Core_Model_Attend();
+
+    $query['event'] = Sher_Core_Model_Attend::EVENT_ACTIVE;
+    $query['target_id'] = $active['_id'];
+    $attend_count = $mode_attend->count($query);
+    if($attend_count >= $max_count){
+  		return $this->ajax_note('名额已满!', true);   
+    }
+
+    $is_attend = $mode_attend->check_signup($this->visitor->id, (int)$this->stash['target_id'], 1);
+    if($is_attend){
+ 			return $this->ajax_note('不能重复报名!', true);  
     }
 
     if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
@@ -162,12 +166,6 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
         return $this->ajax_note("更新失败:".$e->getMessage(), true);
       }
     
-    }
-
-    $mode_attend = new Sher_Core_Model_Attend();
-    $is_attend = $mode_attend->check_signup($this->visitor->id, (int)$this->stash['target_id'], 1);
-    if($is_attend){
- 			return $this->ajax_note('不能重复报名!', true);  
     }
 
     $data = array();
