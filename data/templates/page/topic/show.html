@@ -31,12 +31,12 @@
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.view_url }}'});
 	
-	// 显示编辑工具条 
+	<!--// 显示编辑工具条 
 	$('.ui.topic.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});
+	});-->
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -382,7 +382,7 @@
 							</div>
 						</div>
 						
-						<div class="ui icon magenta editable hide buttons">
+						<div class="ui icon magenta editable buttons">
 							{% if visitor.can_admin %}
 								{% if topic.top %}
 								<div class="ui pop top active button" data-content="取消置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
