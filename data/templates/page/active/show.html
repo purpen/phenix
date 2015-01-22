@@ -408,7 +408,7 @@ float: right;
 	phenix.hook_comment_page();
 
   //分享
-	phenix.bind_share_list();
+  phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
 	
