@@ -97,6 +97,7 @@
 				<th class="five wide">名称</th>
         <th>期数</th>
 				<th>是否发布</th>
+        <th>推荐</th>
 				<th>进度</th>
 				<th>管理操作</th>
 			</tr>
@@ -143,6 +144,15 @@
 				</td>
 				<td>
 					<p>
+						{% if active.stick %}
+							<span class="ui small green label">是</span>
+						{% else %}
+							<span class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+					<p>
             <span class="ui small green label">{{ active.step_str }}</span>
 					</p>
 				</td>
@@ -151,11 +161,11 @@
 					<p>
 						
 						{% if !active.stick %}
-			          	<a href="{{ app_url_admin }}/active/ajax_stick?id={{ active._id }}" class="ui ajax link item">
+			          	<a href="{{ app_url_admin }}/active/ajax_stick?id={{ active._id }}&evt=1" class="ui ajax link item">
 							推荐
 						</a>
 						{% else %}
-			          	<a href="{{ app_url_admin }}/active/ajax_cancel_stick?id={{ active._id }}" class="ui ajax link item">
+			          	<a href="{{ app_url_admin }}/active/ajax_stick?id={{ active._id }}&evt=0" class="ui ajax link item">
 							取消推荐
 						</a>
 						{% endif %}

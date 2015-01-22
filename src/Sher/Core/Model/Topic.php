@@ -24,6 +24,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		'target_id' => 0,
 		# 所属评测
 		'try_id' => 0,
+    #所属活动
+    'active_id' => 0,
 		
 	    'title' => '',
         'description' => '',

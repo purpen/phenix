@@ -315,6 +315,43 @@
 			</div>
 		</div>
 		{% endif %}
+
+		{% if active %}
+		<div class="nopad row">
+			<div class="column">
+				<div class="ui segment">
+					<h3 class="ui dividing header">
+						所属活动
+					</h3>
+					<div class="ui grid">
+						<div class="row">
+							<div class="two wide column">
+								<a href="{{ active.view_url }}" title="{{ active.title }}">
+						      		<img src="{{ active.cover.thumbnails.tiny.view_url }}" class="ui image" />
+								</a>
+							</div>
+							<div class="eight wide column">
+						      	<h4 class="ui header">
+								  	<div class="content">
+										<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line link">
+											{{ active.title }}
+										</a>
+										<div class="sub header">
+                      <label>活动状态：</label> {{ active.step_str }}
+										</div>
+								  	</div>
+								</h4>
+								<p class="summary">
+									{{ active.summary }}
+								</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		
 		<div class="nopad row">
 			<div class="column">

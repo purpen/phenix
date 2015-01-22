@@ -279,14 +279,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['topic'] = &$topic;
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
-		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
 		
 		// 判定是否产品话题
 		if (isset($topic['target_id']) && !empty($topic['target_id'])){
 			$product = new Sher_Core_Model_Product();
 			$this->stash['product'] = & $product->extend_load($topic['target_id']);
-		}
+    }elseif(isset($topic['active_id']) && !empty($topic['active_id'])){
+			$active = new Sher_Core_Model_Active();
+ 			$this->stash['active'] = & $active->extend_load($topic['active_id']);    
+    }
 		
 		// 是否参赛作品
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
@@ -299,6 +300,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
     //评论参数
     $this->stash['comment_target_id'] = $topic['_id'];
     $this->stash['comment_type'] = 2;
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
 
 		return $this->to_html_page($tpl);
 	}

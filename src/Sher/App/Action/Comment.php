@@ -205,6 +205,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
    * ajax获取评论--site
    */
   public function ajax_fetch_comment_site(){
+    $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		return $this->to_taconite_page('ajax/comment_list_site.html');
@@ -214,6 +215,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
    * ajax获取评论--wap
    */
   public function ajax_fetch_comment_wap(){
+    $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		return $this->to_taconite_page('ajax/comment_list_wap.html');

@@ -286,5 +286,28 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		return $this->to_taconite_page('ajax/published_ok.html');
 	}
 
+  /**
+   * 推荐／取消
+   */
+  public function ajax_stick(){
+ 		$ids = $this->stash['id'];
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Active();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+			$result = $model->mark_as_stick((int)$id, $evt);
+		}
+		
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+  
+  }
+
 }
 ?>

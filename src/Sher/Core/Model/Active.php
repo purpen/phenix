@@ -48,6 +48,9 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     #分类
     'category_id' => 0,
 
+    #话题数组(以后可能关联多个话题，所以类型为数组)
+    'topic_ids'  => array(),
+
     #标题
     'title' => null,
     #子标题
@@ -188,13 +191,13 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     //进度显示字符串
     if(isset($row['step_stat'])){
       if($row['step_stat']==0){
-        $row['step_str'] = '暂停';
+        $row['step_str'] = '准备中';
       }elseif($row['step_stat']==1){
-        $row['step_str'] = '开始';    
+        $row['step_str'] = '进行中';    
       }elseif($row['step_stat']==2){
-        $row['step_str'] = '结束';     
+        $row['step_str'] = '已结束';     
       }else{
-        $row['step_str'] = '错误';       
+        $row['step_str'] = '';       
       }
     }
 
@@ -207,17 +210,6 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
       $row['state_name'] = '正常';
     }else{
       $row['state_name'] = '未定义';
-    }
-
-    //进行状态描述
-    if($row['step_stat']==0){
-      $row['step_name'] = '未开始';  
-    }elseif($row['step_stat']==1){
-      $row['step_name'] = '进行中';
-    }elseif($row['step_stat']==2){
-      $row['step_name'] = '已结束';
-    }else{
-      $row['step_name'] = '';
     }
 
     //转换进度安排格式
@@ -373,6 +365,25 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     if($ok){
       //发布成功后执行的方法
       if($published==1){
+        //自动创建话题
+        $topic_model = new Sher_Core_Model_Topic();
+        //$topic = $topic_model->first(array('active_id'=>$data['_id']));
+        if(empty($data['topic_ids'])){
+          $topic_data = array();
+          $cate_id = Doggy_Config::$vars['app.mode']=='dev' ? 12 : 24;
+          $topic_data['user_id'] = $data['user_id'];
+          $topic_data['title'] = $data['title'];
+          $topic_data['description'] = $data['summary'];
+          $topic_data['tags'] = $data['tags'];
+          $topic_data['category_id'] = $cate_id;
+          $topic_data['cover_id'] = $data['cover_id'];
+          $topic_data['active_id'] = $data['_id'];
+          $topic_ok = $topic_model->apply_and_save($topic_data);
+          if($topic_ok){
+            $this->update_set($data['_id'], array('topic_ids'=>array($topic_ok['upserted'])));
+          }
+        }
+        //自动更新第几期
         $recent_season = $this->find(array('published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
         if(empty($recent_season)){
           $current_season = 1;
@@ -387,6 +398,26 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     }
 
 	}
+
+  /**
+   * 推荐操作
+   */
+  public function mark_as_stick($id, $stick=1){
+    $data = $this->extend_load((int)$id);
+
+    if(empty($data)){
+      return array('status'=>0, 'msg'=>'内容不存在');
+    }
+    if($data['stick']==(int)$stick){
+      return array('status'=>0, 'msg'=>'重复的操作');  
+    }
+    $ok = $this->update_set((int)$id, array('stick' => $stick));
+    if($ok){
+      return array('status'=>1, 'msg'=>'操作成功');  
+    }else{
+      return array('status'=>0, 'msg'=>'操作失败');   
+    }
+  }
 	
 }
 ?>
