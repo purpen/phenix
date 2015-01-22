@@ -390,7 +390,7 @@
 					{% if ad %}
 					<div class="advert content">
 						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-				      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
 						</a>
 						<div class="bword">
 							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
