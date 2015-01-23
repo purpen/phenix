@@ -1171,10 +1171,10 @@ h3.ui.header{
 									<a href="{{ app_url_admin }}/asset/delete_asset?id={{ active.id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 										<i class="remove icon"></i>
 									</a>
-									<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == active.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+									<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == active.cover_id %}active{%endif%} pop" data-content="活动列表页缩略图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class="checkered flag icon"></i>
 									</a>
-									<a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
+									<a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class=" icon-photo-banner icon"></i>
 									</a>
 								</div>
