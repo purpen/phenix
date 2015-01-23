@@ -80,9 +80,23 @@
   top: 2px;
   margin-bottom: 9px;
 }
-
+.ui.magenta.button,.field,input[type="text"]{
+	margin-bottom:1px !important;
+}
+.ui.form .inline.fields .field>:first-child{
+	margin-left:1px;
+}
 .field{
   overflow:hidden;
+}
+.ui.form .field {
+	padding-bottom: 1em;
+}
+h3.ui.header{
+	font-weight:500;
+}
+#process-box .seven.fields:first-child .field{
+	padding-bottom:0em;
 }
 
 </style>
@@ -677,20 +691,20 @@
 		<input type="hidden" name="id" value="{{ active._id }}" id="active_id" />
 		
 		<div class="ui segment">
-			<h3 class="ui dividing header">基本信息</h3>
+			<h3 class="ui dividing header">活动基本信息填写</h3>
 			<div class="field">
-				<label>标题</label>
+				<label>活动标题</label>
 			  	<input type="text" name="title" value="{{ active.title }}" />
 			</div>
 			<div class="field">
-				<label>子标题</label>
+				<label>活动子标题</label>
 			  	<input type="text" name="sub_title" value="{{ active.sub_title }}" />
 			</div>
 
 			<div class="field">
-				<label>简述</label>
+				<label>活动介绍</label>
 			  <textarea name="summary" class="small">{{ active.summary }}</textarea>
-				<div class="description">请详细的描述</div>
+				<div class="description">请详细的描述,用于填充社区话题内容</div>
 			</div>
 			
 			<div class="field">
@@ -698,17 +712,88 @@
 			  <input type="text" name="tags" value="{{ active.tags_s }}" />
 				<div class="description">用英文状态下','分开</div>
 			</div>
+		
+		
+			<div style="margin-bottom:0.5em;">
+				<label>活动时间</label>
+			</div>
+			<div class="two fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="begin_time" value="{{ active.begin_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
+					</div>
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="end_time" value="{{ active.end_time|date 'Y-m-d H:i' }}" id="sel2" /><input type="button" value="..." onclick="return showCalendar('sel2', '%Y-%m-%d %H:%M', '24', true);" />
+              <!--<i class="calendar icon"></i>-->
+					</div>
+				</div>
+			</div>
+		
+
+		
+		
+			<!--<h3 class="ui dividing header">联系信息设置</h3>-->
+			<div style="margin-bottom:0.5em;">
+				<label>活动地点：</label>
+			</div>
+			<div class="three fields">
+				
+				<!--<div class="field">
+				  	<label>联系人：</label>
+					<input type="text" name="contact_name" value="{{ active.contact_name }}" />
+				</div>
+				<div class="field">
+				  	<label>电话：</label>
+					<input type="text" name="contact_tel" value="{{ active.contact_tel }}" />
+				</div>
+				<div class="field">
+				  	<label>邮箱：</label>
+					<input type="text" name="contact_email" value="{{ active.contact_email }}" />
+				</div>
+				<div class="field">
+				  	<label>举办城市：</label>
+					<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
+				</div>-->
+				
+				<div class="field four wide">
+					<input type="text" name="contact_tel" value=" " />
+				</div>
+				<div class="field four wide">
+					<input type="text" name="contact_tel" value=" " />
+				</div>
+				<div class="field eight wide">
+				  	<input type="text" name="address" class="small" value="{{ active.address }}" >
+				</div>
+			</div>
+			<!--<div class="field">
+				<label>详细地址</label>
+			  	<textarea name="address" class="small">{{ active.address }}</textarea>
+				<div class="description">活动的详细地址</div>
+			</div>-->
+		
+		
 			
 			<div class="field">
-				<label>分类</label>
+				<label>活动分类</label>
 				<input type="hidden" name="category_id" value="{{ active.category_id }}" id="active-category" />
 				{% for cat in categories %}
         <a class="ui{% if cat.id==active.category_id %} active{%endif%} magenta category button" data-value="{{ cat.id }}">{{ cat.name }}</a>
 				{% endfor %}
 			</div>
 			
-			<h3 class="ui dividing stage header">是否免费</h3>
+			<div class="field">
+				<label>报名人数</label>
+				<input type="text" name="max_number_count" value="{{ active.max_number_count }}" />
+			  	<div class="description">零为无上线</div>
+			</div>
+			
+			
 			<div class="grouped inline fields">
+				<label>活动费用</label>
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="free_stat" value="1" {% if active.free_stat == 1 %}checked="checked"{% endif %} /> 
@@ -718,12 +803,11 @@
 						<input type="radio" name="free_stat" value="2" {% if active.free_stat == 2 %}checked="checked"{% endif %} /> 
 						<label>收费</label>
 					</div>
-
+				</div>
 			</div>
-
-			<h3 class="ui dividing stage header">线上线下</h3>
+			
 			<div class="grouped inline fields">
-
+				<label>活动类型</label>
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="line_stat" value="2" {% if active.line_stat == 2 %}checked="checked"{% endif %} /> 
@@ -751,59 +835,13 @@
 			</div>
 
     -->
-		</div>
+		
 		
 
-		<div class="ui segment">
-			<h3 class="ui dividing header">时间设置</h3>
-			<div class="two fields">
-				<div class="field">
-				  	<label>开始时间：</label>
-					<div class="ui icon input">
-					  	<input type="text" name="begin_time" value="{{ active.begin_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
-					</div>
-				</div>
-				<div class="field">
-				  	<label>结束时间：</label>
-					<div class="ui icon input">
-					  	<input type="text" name="end_time" value="{{ active.end_time|date 'Y-m-d H:i' }}" id="sel2" /><input type="button" value="..." onclick="return showCalendar('sel2', '%Y-%m-%d %H:%M', '24', true);" />
-              <!--<i class="calendar icon"></i>-->
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
 		
-		<div class="ui segment">
-			<h3 class="ui dividing header">联系信息设置</h3>
-			<div class="four fields">
-				<div class="field">
-				  	<label>联系人：</label>
-					<input type="text" name="contact_name" value="{{ active.contact_name }}" />
-				</div>
-				<div class="field">
-				  	<label>电话：</label>
-					<input type="text" name="contact_tel" value="{{ active.contact_tel }}" />
-				</div>
-				<div class="field">
-				  	<label>邮箱：</label>
-					<input type="text" name="contact_email" value="{{ active.contact_email }}" />
-				</div>
-				<div class="field">
-				  	<label>举办城市：</label>
-					<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
-				</div>
-			</div>
-			<div class="field">
-				<label>详细地址</label>
-			  	<textarea name="address" class="small">{{ active.address }}</textarea>
-				<div class="description">活动的详细地址</div>
-			</div>
-
-		</div>
-
-		<div class="ui segment">
-			<h3 class="ui dividing header">报名设置</h3>
+			<!--<h3 class="ui dividing header">报名设置</h3>
 			<div class="three fields">
 				<div class="field">
 				  <label>名额上线：</label>
@@ -816,33 +854,37 @@
 				<div class="description">零为免费</div>
 				</div>
 
-			</div>
+			</div>-->
 
-		</div>
+		
 
-      <h3 class="ui dividing stage header">流程</h3>
+      
       <div id="process-box">
+		<div style="margin-bottom:0.5em">
+			<label>活动流程</label>
+		</div>
         <div class="seven fields">
+			
           <div class="field">
-              <label>排序:</label>
+              <label>排序</label>
           </div>
           <div class="field">
-              <label>时间:</label>
+              <label>时间</label>
           </div>
           <div class="field">
-              <label>标题:</label>
+              <label>标题</label>
           </div>
           <div class="field">
-              <label>名称:</label>
+              <label>演讲嘉宾</label>
           </div>
           <div class="field">
-              <label>职位:</label>
+              <label>工作职位</label>
           </div>
           <div class="field">
-              <label>图片：</label>
+              <label>头像</label>
           </div>
           <div class="field">
-              <label>操作：</label>
+              <label></label>
           </div>
 
         </div>
