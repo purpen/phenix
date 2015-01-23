@@ -103,24 +103,22 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['address'] = $this->stash['address'];
     $data['conduct_city'] = $this->stash['conduct_city'];
 		$data['max_number_count'] = (int)$this->stash['max_number_count'];
-		$data['pay_money'] = (float)$this->stash['pay_money'];
+		//$data['pay_money'] = (float)$this->stash['pay_money'];
 		$data['step_stat'] = (int)$this->stash['step_stat'];
 		$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
 
     //地图信息
     $data['map_info'] = array();
-    if(isset($this->stash['map_info']) && !empty($this->stash['map_info'])){
-      if(!empty($this->stash['map_info'][0]) && !empty($this->stash['map_info'][1]) && !empty($this->stash['map_info'][2])){
-        $map_info = array();
-        $map_info['x'] = $this->stash['map_info'][0]; 
-        $map_info['y'] = $this->stash['map_info'][1];
-        $map_info['matter'] = $this->stash['map_info'][2]; 
-        $map_info['title'] = $this->stash['map_info'][3]; 
-        $map_info['img'] = $this->stash['map_info'][4]; 
+    if(!empty($this->stash['map_x']) && !empty($this->stash['map_y']) && !empty($this->stash['map_matter'])){
+      $map_info = array();
+      $map_info['x'] = $this->stash['map_x']; 
+      $map_info['y'] = $this->stash['map_y'];
+      $map_info['matter'] = $this->stash['map_matter']; 
+      $map_info['title'] = $this->stash['map_title']; 
+      $map_info['img'] = $this->stash['map_img']; 
 
-        $data['map_info'] = $map_info;     
-      }
+      $data['map_info'] = $map_info;     
     }
 
     //进度安排

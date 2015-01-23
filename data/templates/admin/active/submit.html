@@ -1,7 +1,7 @@
 {%extends 'layout/admin.html'%}
 {% block title %}编辑活动-{% endblock %}
 {% block page_css %}
-<link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
+  <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
 <style type="text/css">
 	.ui.ok.button {
 		margin-top: 1.7em;
@@ -123,6 +123,7 @@ h3.ui.header{
 {% block layout_js %}
   <!--引用百度地图API-->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
+
 	{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
 	{% else %}
@@ -131,6 +132,10 @@ h3.ui.header{
 	<script src="{{ app_url_packaged }}/javascript/calendar.js" type="text/javascript"></script>
 
   <script type="text/javascript">
+
+
+
+
     function generate_html(obj){
       var p_sort = obj.parents('.process-box').find('[name="process_temp[sort]"]').val();
       var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
@@ -344,6 +349,33 @@ h3.ui.header{
 {% endblock %}
 
 {% block jquery %}
+  // 百度地图API功能
+  var map_x = 116.404;
+  var map_y = 39.915;
+  var map_matter = 15;
+  {% if active.map_info %}
+    map_x = {{ active.map_info.x }};
+    map_y = {{ active.map_info.y }};
+    map_matter = {{ active.map_info.matter }};
+  {%endif%}
+  var map = new BMap.Map("allmap");
+  var point = new BMap.Point(map_x, map_y);
+  map.centerAndZoom(point, map_matter);
+  map.addControl(new BMap.NavigationControl());
+  var marker = new BMap.Marker(point);// 创建标注
+  map.addOverlay(marker);             // 将标注添加到地图中
+  marker.enableDragging();           // 可拖拽
+
+  marker.addEventListener("dragend",function(e){
+    $("input[name='map_x']").val(e.point.lng);
+    $("input[name='map_y']").val(e.point.lat);
+  });
+
+  map.addEventListener("zoomend", function (e) {
+    $("input[name='map_matter']").val(map.getZoom());
+  });
+  $("input[name='map_matter']").val(map.getZoom());
+    
 	$('#active-form').form({
 		title: {
 			identifier  : 'title',
@@ -683,6 +715,19 @@ h3.ui.header{
       $.get(url, {asset_id: asset_id, desc: desc});
     });
 	});
+
+
+  //显示/隐藏地图
+  $('.map-box-btn').livequery(function(){
+    $(this).click(function(){
+      var is_hidden = $('#allmap').is(":hidden");
+      if(is_hidden){
+        $('#allmap').show();
+      }else{
+        $('#allmap').hide();
+      }
+    });
+  });
 	
 {% endblock %}
 
@@ -752,9 +797,16 @@ h3.ui.header{
 					</div>
 				</div>
 			</div>
-		
 
-		
+          <div class="field">
+              <label>标题</label>
+              <input type="text" name="map_title" value="{{ active.map_info.title }}" />
+          </div>
+
+          <div class="field">
+              <label>图片</label>
+              <input type="text" name="map_img" value="{{ active.map_info.img }}" />
+          </div>
 		
 			<!--<h3 class="ui dividing header">联系信息设置</h3>-->
 			<div style="margin-bottom:0.5em;">
@@ -774,10 +826,11 @@ h3.ui.header{
 				  	<label>邮箱：</label>
 					<input type="text" name="contact_email" value="{{ active.contact_email }}" />
 				</div>
+      -->
 				<div class="field">
 				  	<label>举办城市：</label>
 					<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
-				</div>-->
+				</div>
 				
 				<div class="field four wide">
 					<input type="text" name="contact_tel" value=" " />
@@ -789,14 +842,20 @@ h3.ui.header{
 				  	<input type="text" name="address" class="small" value="{{ active.address }}" >
 				</div>
 			</div>
+
+      <h3 class="ui dividing stage header">地图</h3>
+      <div id="map-box">
+
 			<!--<div class="field">
 				<label>详细地址</label>
 			  	<textarea name="address" class="small">{{ active.address }}</textarea>
 				<div class="description">活动的详细地址</div>
 			</div>-->
-		
-		
-			
+      <input type="button" value="按钮" class="map-box-btn" />
+      <div id="allmap" style="height:500px;width:500px;display:none;"></div>
+		  <input type="hidden" name="map_x" value="{{ active.map_info.x }}" />
+		  <input type="hidden" name="map_y" value="{{ active.map_info.y }}" />
+			<input type="hidden" name="map_matter" value="{{ active.map_info.matter }}" />
 			<div class="field">
 				<label>活动分类</label>
 				<input type="hidden" name="category_id" value="{{ active.category_id }}" id="active-category" />
@@ -1013,33 +1072,6 @@ h3.ui.header{
         </div>
       </div>
       
-      <h3 class="ui dividing stage header">地图</h3>
-      <div id="map-box">
-        <div class="five fields">
-          <div class="field">
-              <label>x坐标</label>
-              <input type="text" name="map_info[]" value="{{ active.map_info.x }}" />
-          </div>
-          <div class="field">
-              <label>y坐标</label>
-              <input type="text" name="map_info[]" value="{{ active.map_info.y }}" />
-          </div>
-          <div class="field">
-              <label>大小</label>
-              <input type="text" name="map_info[]" value="{{ active.map_info.matter }}" />
-          </div>
-
-          <div class="field">
-              <label>标题</label>
-              <input type="text" name="map_info[]" value="{{ active.map_info.title }}" />
-          </div>
-
-          <div class="field">
-              <label>图片</label>
-              <input type="text" name="map_info[]" value="{{ active.map_info.img }}" />
-          </div>
-
-        </div>
 
 			<h3 class="ui dividing stage header">进度</h3>
 			<div class="grouped inline fields">
