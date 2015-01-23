@@ -117,6 +117,23 @@ h3.ui.header{
 	padding-right:0;
 	padding-left:0.5%;
 }
+.process-box.seven.fields .field label,.partner-box.five.fields .field label{
+	border: 1px solid rgba(0,0,0,.15);
+	padding: .65em .8em;
+	border-radius: .2125em;
+	min-height: 19px;
+	overflow:hidden;
+}
+.map-box-btn{
+	width:34px;
+	height:34px;
+	background:url({{ app_url_packaged }}/images/active_map.png) no-repeat;
+	cursor: pointer;
+	position: relative;
+	float: right;
+	top: -37px;
+	right: 3px;
+}
 </style>
 {% endblock %}
 
@@ -797,22 +814,35 @@ h3.ui.header{
 					</div>
 				</div>
 			</div>
-
+		  <h3 class="ui header dividing">活动地图</h3>
+		  <div class="two fields">
           <div class="field">
               <label>标题</label>
               <input type="text" name="map_title" value="{{ active.map_info.title }}" />
+			<div class="description">地图标题</div>
           </div>
 
           <div class="field">
               <label>图片</label>
               <input type="text" name="map_img" value="{{ active.map_info.img }}" />
+			  <div class="description">420*240</div>
           </div>
+		  </div>
 		
 			<!--<h3 class="ui dividing header">联系信息设置</h3>-->
-			<div style="margin-bottom:0.5em;">
-				<label>活动地点：</label>
+			
+			<div class="two fields">
+			<div class="field">
+			  	<label>举办城市：</label>
+				<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
+				<div class="description">例如：北京 ；不输入“市” 详情页显示为：“北京站”</div>
 			</div>
-			<div class="three fields">
+			<div class="field">
+				<label>详细地址：</label>
+			  	<input type="text" name="address" class="small" value="{{ active.address }}" >
+			</div>
+			
+			</div>
 				
 				<!--<div class="field">
 				  	<label>联系人：</label>
@@ -827,23 +857,12 @@ h3.ui.header{
 					<input type="text" name="contact_email" value="{{ active.contact_email }}" />
 				</div>
       -->
-				<div class="field">
-				  	<label>举办城市：</label>
-					<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
-				</div>
-				
-				<div class="field four wide">
-					<input type="text" name="contact_tel" value=" " />
-				</div>
-				<div class="field four wide">
-					<input type="text" name="contact_tel" value=" " />
-				</div>
-				<div class="field eight wide">
-				  	<input type="text" name="address" class="small" value="{{ active.address }}" >
-				</div>
-			</div>
-
-      <h3 class="ui dividing stage header">地图</h3>
+		
+		<div style="margin-bottom:0.5em;">
+			<label>地图</label>
+		</div>
+		<input type="text" value=""  disabled="disabled" placeholder="点击右侧显示地图" />
+		<div type="button" value="按钮" class="map-box-btn" /></div>
       <div id="map-box">
 
 			<!--<div class="field">
@@ -851,8 +870,8 @@ h3.ui.header{
 			  	<textarea name="address" class="small">{{ active.address }}</textarea>
 				<div class="description">活动的详细地址</div>
 			</div>-->
-      <input type="button" value="按钮" class="map-box-btn" />
-      <div id="allmap" style="height:500px;width:500px;display:none;"></div>
+      
+      <div id="allmap" style="height:500px;width:100%;display:none;"></div>
 		  <input type="hidden" name="map_x" value="{{ active.map_info.x }}" />
 		  <input type="hidden" name="map_y" value="{{ active.map_info.y }}" />
 			<input type="hidden" name="map_matter" value="{{ active.map_info.matter }}" />
@@ -960,7 +979,7 @@ h3.ui.header{
               <label>工作职位</label>
           </div>
           <div class="field">
-              <label>头像</label>
+              <label>头像(50*50)</label>
           </div>
           <div class="field">
               <label></label>
@@ -1027,7 +1046,7 @@ h3.ui.header{
               <label>网站链接</label>
           </div>
           <div class="five wide field">
-              <label>图片链接</label>
+              <label>图片链接  (logo 190*50)</label>
           </div>
           <div class="two wide field">
               <label></label>
