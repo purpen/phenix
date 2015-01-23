@@ -97,9 +97,9 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['line_stat'] = (int)$this->stash['line_stat'];
 		$data['begin_time'] = $this->stash['begin_time'];
 		$data['end_time'] = $this->stash['end_time'];
-		$data['contact_name'] = $this->stash['contact_name'];
-		$data['contact_tel'] = $this->stash['contact_tel'];
-		$data['contact_email'] = $this->stash['contact_email'];
+		//$data['contact_name'] = $this->stash['contact_name'];
+		//$data['contact_tel'] = $this->stash['contact_tel'];
+		//$data['contact_email'] = $this->stash['contact_email'];
 		$data['address'] = $this->stash['address'];
     $data['conduct_city'] = $this->stash['conduct_city'];
 		$data['max_number_count'] = (int)$this->stash['max_number_count'];

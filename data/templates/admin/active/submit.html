@@ -103,6 +103,8 @@ h3.ui.header{
 {% endblock %}
 
 {% block layout_js %}
+  <!--引用百度地图API-->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
 	{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
 	{% else %}
@@ -697,7 +699,7 @@ h3.ui.header{
 			  	<input type="text" name="title" value="{{ active.title }}" />
 			</div>
 			<div class="field">
-				<label>活动子标题</label>
+				<label>活动副标题</label>
 			  	<input type="text" name="sub_title" value="{{ active.sub_title }}" />
 			</div>
 
