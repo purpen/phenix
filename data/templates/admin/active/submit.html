@@ -95,10 +95,28 @@
 h3.ui.header{
 	font-weight:500;
 }
-#process-box .seven.fields:first-child .field{
-	padding-bottom:0em;
+#process-box .seven.fields .field,#partner-box-edit .five.fields .field,#partner-box .five.fields .field{
+	padding-bottom:0.3em;
+}
+#process-box .seven.fields .field:last-child,#partner-box-edit .five.fields .field:last-child,#partner-box .five.fields .field:last-child,#process-box .seven.fields .field:last-child input[type="button"],#process-box-edit .seven.fields .field:last-child,#process-box-edit .seven.fields .field:last-child input[type="button"],#partner-box-edit .five.fields .field:last-child,#partner-box .five.fields .field:last-child,#partner-box .five.fields .field:last-child input[type="button"],#partner-box-edit .five.fields .field:last-child input[type="button"]{
+	float:right;
 }
 
+#partner-box-edit .partner-box .field:first-child,#partner-box-edit .partner-box .field:nth-child(2),#partner-box .partner-box .field:first-child,#partner-box .partner-box .field:nth-child(2){
+	width: 12.5%;
+	padding-right:0;
+	padding-left:0.5%;
+}
+#partner-box-edit .partner-box .field:nth-child(5),#partner-box .partner-box input[type="hidden"]+.field,#partner-box .partner-box .field:last-child{
+	width:11% !important;
+	padding-right:0;
+	padding-left:0.5%;
+}
+#partner-box-edit .partner-box .field:nth-child(3),#partner-box-edit .partner-box .field:nth-child(4),#partner-box .partner-box .field:nth-child(3),#partner-box .partner-box .field:nth-child(4){
+	width: 31.25%;
+	padding-right:0;
+	padding-left:0.5%;
+}
 </style>
 {% endblock %}
 
@@ -914,8 +932,9 @@ h3.ui.header{
                   <label>{{ p.img }}</label>
                 </div>
                 <div class="field">
-                  <input type="button" name="edit_process_item" value="编辑" />
+				  <input type="button" name="edit_process_item" value="编辑" />
                   <input type="button" name="del_process_box" value="删除" />
+				
                 </div>
               </div>
             {%endfor%}
@@ -934,23 +953,25 @@ h3.ui.header{
         </div>
       </div>
 
-      <h3 class="ui dividing stage header">合作伙伴</h3>
+	  <div style="margin-bottom:0.5em">
+      	<label>合作伙伴</label>
+	  </div>
       <div id="partner-box">
         <div class="five fields">
-          <div class="field">
-              <label>排序:</label>
+          <div class="two wide field">
+              <label>排序</label>
           </div>
-          <div class="field">
-              <label>名称:</label>
+          <div class="two wide field">
+              <label>名称</label>
           </div>
-          <div class="field">
-              <label>链接地址:</label>
+          <div class="five wide field">
+              <label>网站链接</label>
           </div>
-          <div class="field">
-              <label>图片地址:</label>
+          <div class="five wide field">
+              <label>图片链接</label>
           </div>
-          <div class="field">
-              <label>操作：</label>
+          <div class="two wide field">
+              <label></label>
           </div>
         </div>
 
@@ -972,8 +993,9 @@ h3.ui.header{
                   <label>{{ p.img }}</label>
                 </div>
                 <div class="field">
-                  <input type="button" name="edit_partner_item" value="编辑" />
+				  <input type="button" name="edit_partner_item" value="编辑" />
                   <input type="button" name="del_partner_box" value="删除" />
+				  
                 </div>
               </div>
             {%endfor%}
