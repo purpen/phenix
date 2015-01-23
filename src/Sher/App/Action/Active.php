@@ -99,8 +99,11 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		$model->inc_counter('view_count', $inc_ran, $id);
 
     //评论参数
-    $this->stash['comment_target_id'] = $active['topic_ids'][0];
-    $this->stash['comment_type'] = 2;
+    if(!empty($active['topic_ids'])){
+      $this->stash['comment_target_id'] = $active['topic_ids'][0];
+      $this->stash['comment_type'] = 2;   
+    }
+
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::active_view_url($id, '#p#');
     $this->stash['active'] = $active;

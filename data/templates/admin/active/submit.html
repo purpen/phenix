@@ -784,7 +784,7 @@ h3.ui.header{
 			</div>
 
 			<div class="field">
-				<label>活动介绍</label>
+				<label>活动简介</label>
 			  <textarea name="summary" class="small">{{ active.summary }}</textarea>
 				<div class="description">请详细的描述,用于填充社区话题内容</div>
 			</div>
@@ -814,6 +814,20 @@ h3.ui.header{
 					</div>
 				</div>
 			</div>
+
+			<div class="two fields">
+			<div class="field">
+			  	<label>举办城市：</label>
+				<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
+				<div class="description">例如：北京 ；不输入“市” 详情页显示为：“北京站”</div>
+			</div>
+			<div class="field">
+				<label>详细地址：</label>
+			  	<input type="text" name="address" class="small" value="{{ active.address }}" >
+			</div>
+			
+			</div>
+
 		  <h3 class="ui header dividing">活动地图</h3>
 		  <div class="two fields">
           <div class="field">
@@ -831,18 +845,6 @@ h3.ui.header{
 		
 			<!--<h3 class="ui dividing header">联系信息设置</h3>-->
 			
-			<div class="two fields">
-			<div class="field">
-			  	<label>举办城市：</label>
-				<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
-				<div class="description">例如：北京 ；不输入“市” 详情页显示为：“北京站”</div>
-			</div>
-			<div class="field">
-				<label>详细地址：</label>
-			  	<input type="text" name="address" class="small" value="{{ active.address }}" >
-			</div>
-			
-			</div>
 				
 				<!--<div class="field">
 				  	<label>联系人：</label>

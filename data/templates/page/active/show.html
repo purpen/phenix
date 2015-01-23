@@ -597,7 +597,6 @@ float: right;
     </div>
   </div>
   <div class="ui grid" style="height:595px">
-  {% if !active.step_stat==2 %}
     {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
     <div class="ui responsive grid">
 	    <div class="row">
@@ -613,7 +612,6 @@ float: right;
 	        </div>
 	    </div>
 	  </div>
-  {%endif%}
 
   </div>
   <section class="ui process gray background block">
@@ -790,6 +788,7 @@ float: right;
 
 <div class="ui white background block">
   <div class="ui responsive grid">
+    {% if active.topic_ids %}
     <div class="row">
 			<div class="column">
 				<a name="comment"></a>
@@ -800,6 +799,7 @@ float: right;
         </div>
 			</div>
 		</div>
+    {% endif %}
 
     </div>
   </div>
