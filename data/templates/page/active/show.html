@@ -597,8 +597,8 @@ float: right;
     </div>
   </div>
   <div class="ui grid" style="height:595px">
-	
-  {% asset_list var:'assets' parent_id:active._id asset_type:67 size:50 %}
+  {% if !active.step_stat==2 %}
+    {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
     <div class="ui responsive grid">
 	    <div class="row">
 	      	<div class="flexslider">
@@ -613,7 +613,7 @@ float: right;
 	        </div>
 	    </div>
 	  </div>
-
+  {%endif%}
 
   </div>
   <section class="ui process gray background block">

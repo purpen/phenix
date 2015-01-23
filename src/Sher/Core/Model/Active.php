@@ -125,7 +125,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title','category_id');
 	
-	protected $int_fields = array('user_id','kind','category_id','state','asset_count','step_stat','fav_count','love_count','max_number_count','signup_count','attend_count','view_count','begin_time','end_time','comment_count','published','stick','deleted');
+	protected $int_fields = array('user_id','kind','category_id','state','asset_count','step_stat','fav_count','love_count','max_number_count','signup_count','attend_count','view_count','comment_count','published','stick','deleted');
 	
 	protected $counter_fields = array('view_count', 'fav_count', 'love_count', 'comment_count', 'signup_count', 'attend_count');
 
@@ -147,7 +147,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		
 		// 转换为时间戳--开始时间
 		if(isset($data['begin_time'])){
-			$data['begin_time'] = strtotime($data['begin_time']);
+      $data['begin_time'] = strtotime($data['begin_time']);
 		}
 		// 转换为时间戳，结束时间
 		if(isset($data['end_time'])){
