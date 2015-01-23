@@ -535,16 +535,16 @@ float: right;
         <div class="center aligned tweleve wide column">
           <h2 class="ui header">
             <div class="content">
-              <span>NO.{{ active.season }}</span>
+              <span></span>
               <br />
-              <strong>{{ active.title }}</strong>
+              <strong></strong>
             </div>
           </h2>
         </div>
       </div>
       <div class="row">
         <div class="center aligned column">
-          <h2 class="ui header">{{ active.sub_title }}</h2>
+          <h2 class="ui header"></h2>
         </div>
       </div>
         {% if active.step_stat==1 %}
@@ -586,6 +586,7 @@ float: right;
       </div>
     </div>
   </section>
+  {% if active.step_stat==2 %}
   <div class="ui picture gray background block">
     <div class="ui responsive grid">
       <div class="row">
@@ -612,8 +613,9 @@ float: right;
 	        </div>
 	    </div>
 	  </div>
-
   </div>
+  {%endif%}
+
   <section class="ui process gray background block">
     <div class="ui responsive grid">
       <div class="row">
