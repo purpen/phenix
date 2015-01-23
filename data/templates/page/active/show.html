@@ -77,7 +77,7 @@
 }
 .space .content{
 	padding:10px 0;
-	text-align:left;
+	text-align:center;
 }
 .space .content i{
 	font-weight: 700;
@@ -138,7 +138,7 @@ hr{
 .rundown-timeline-container {
 	height: auto;
 	margin: 0 auto;
-	max-width: 800px;
+	max-width: 1000px;
 	position: relative;
 	width: 100%;
 }
@@ -159,7 +159,7 @@ hr{
 	border-radius: 14px 14px 14px 14px;
 	height: 13px;
 	left: 48%;
-	margin-left: -5px;
+	margin-left: -2px;
 	position: absolute;
 	top: 19px;
 	width: 13px;
@@ -176,7 +176,7 @@ float: right;
 }
 .timeline-content {
 float: right;
-width: 44%;
+width: 46%;
 }
 .timeline-content.right .time {
 font-weight: normal;
@@ -185,12 +185,12 @@ top: 14px;
 .timeline-content .time {
 font-size: 16px;
 font-weight: bold;
-left: 30%;
+left: 34%;
 line-height: 38px !important;
 position: absolute;
 }
 .timeline-content .name {
-font-size: 18px;
+font-size: 17px;
 font-weight: bold;
 line-height: 16px;
 margin-top: 25px !important;
@@ -567,7 +567,7 @@ float: right;
   <div class="ui space gray background block">
     <div class="ui responsive center aligned grid">
       <div class="row">
-        <div class="twelve wide column">
+        <div class="column">
           <div class="content">
             <i class="flat sale icon"></i>{{ active.begin_time|date 'Y-m-d H:i' }} &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
           </div>
