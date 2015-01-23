@@ -135,9 +135,10 @@ h3.ui.header{
 	top: -37px;
 	right: 3px;
 }
-#process-box .process-box.five.fields .field:first-child + .field{
-  width:12.5% !important;
+#partner-box .partner-box input[type="hidden"]+.field+.field {
+  width: 12.5% !important;
 }
+
 </style>
 {% endblock %}
 
@@ -175,7 +176,7 @@ h3.ui.header{
       html+='<div class="field"><label>'+ p_position +'</label></div>';
       html+='<div class="field"><img src="'+ p_img +'" width="100" height="50" /></div>';
       html+='<input type="hidden" name="process[]" value="'+ total_join +'" />';
-      html+='<div class="field"><input type="button" name="edit_process_item" value="编辑" /><input type="button" name="del_process_box" value="删除" /></div>';
+      html+='<div class="field"><input type="button" name="del_process_box" value="删除" /><input type="button" name="edit_process_item" value="编辑" /></div>';
       html+='</div>';
 
       return html;
@@ -219,7 +220,7 @@ h3.ui.header{
       html+='<div class="field"><label>'+ p_url +'</label></div>';
       html+='<div class="field"><img src="'+ p_img +'" width="100" height="50" /></div>';
       html+='<input type="hidden" name="partner[]" value="'+ total_join +'" />';
-      html+='<div class="field"><input type="button" name="edit_partner_item" value="编辑" /><input type="button" name="del_partner_box" value="删除" /></div>';
+      html+='<div class="field"><input type="button" name="del_partner_box" value="删除" /><input type="button" name="edit_partner_item" value="编辑" /></div>';
       html+='</div>';
 
       return html;
@@ -1021,9 +1022,8 @@ h3.ui.header{
                   {%endif%}
                 </div>
                 <div class="field">
-				  <input type="button" name="edit_process_item" value="编辑" />
                   <input type="button" name="del_process_box" value="删除" />
-				
+                  <input type="button" name="edit_process_item" value="编辑" />
                 </div>
               </div>
             {%endfor%}
@@ -1086,9 +1086,8 @@ h3.ui.header{
                   {%endif%}
                 </div>
                 <div class="field">
-				  <input type="button" name="edit_partner_item" value="编辑" />
                   <input type="button" name="del_partner_box" value="删除" />
-				  
+                  <input type="button" name="edit_partner_item" value="编辑" />
                 </div>
               </div>
             {%endfor%}
