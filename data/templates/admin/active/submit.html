@@ -103,7 +103,7 @@ h3.ui.header{
 }
 
 #partner-box-edit .partner-box .field:first-child,#partner-box-edit .partner-box .field:nth-child(2),#partner-box .partner-box .field:first-child,#partner-box .partner-box .field:nth-child(2){
-	width: 12.5%;
+	width: 12.5% !important;
 	padding-right:0;
 	padding-left:0.5%;
 }
@@ -122,6 +122,7 @@ h3.ui.header{
 	padding: .65em .8em;
 	border-radius: .2125em;
 	min-height: 19px;
+  max-height: 19px;
 	overflow:hidden;
 }
 .map-box-btn{
@@ -169,7 +170,7 @@ h3.ui.header{
       html+='<div class="field"><label>'+ p_title +'</label></div>';
       html+='<div class="field"><label>'+ p_name +'</label></div>';
       html+='<div class="field"><label>'+ p_position +'</label></div>';
-      html+='<div class="field"><label>'+ p_img +'</label></div>';
+      html+='<div class="field"><img src="'+ p_img +'" width="100" height="50" /></div>';
       html+='<input type="hidden" name="process[]" value="'+ total_join +'" />';
       html+='<div class="field"><input type="button" name="edit_process_item" value="编辑" /><input type="button" name="del_process_box" value="删除" /></div>';
       html+='</div>';
@@ -213,7 +214,7 @@ h3.ui.header{
       html+='<div class="field"><label>'+ p_sort +'</label></div>';
       html+='<div class="field"><label>'+ p_name +'</label></div>';
       html+='<div class="field"><label>'+ p_url +'</label></div>';
-      html+='<div class="field"><label>'+ p_img +'</label></div>';
+      html+='<div class="field"><img src="'+ p_img +'" width="100" height="50" /></div>';
       html+='<input type="hidden" name="partner[]" value="'+ total_join +'" />';
       html+='<div class="field"><input type="button" name="edit_partner_item" value="编辑" /><input type="button" name="del_partner_box" value="删除" /></div>';
       html+='</div>';
@@ -1010,7 +1011,11 @@ h3.ui.header{
                   <label>{{ p.position }}</label>
                 </div>
                 <div class="field">
-                  <label>{{ p.img }}</label>
+                  {% if p.img %}
+                    <img src="{{ p.img }}" width="100" height="50" /></label>
+                  {%else%}
+                    无
+                  {%endif%}
                 </div>
                 <div class="field">
 				  <input type="button" name="edit_process_item" value="编辑" />
@@ -1071,7 +1076,11 @@ h3.ui.header{
                   <label>{{ p.url }}</label>
                 </div>
                 <div class="field">
-                  <label>{{ p.img }}</label>
+                  {% if p.img %}
+                    <img src="{{ p.img }}" width="100" height="50" /></label>
+                  {%else%}
+                    无
+                  {%endif%}
                 </div>
                 <div class="field">
 				  <input type="button" name="edit_partner_item" value="编辑" />
