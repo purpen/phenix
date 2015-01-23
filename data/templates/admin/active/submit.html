@@ -377,9 +377,10 @@ h3.ui.header{
   {%endif%}
   var map = new BMap.Map("allmap");
   var point = new BMap.Point(map_x, map_y);
+
+  var marker = new BMap.Marker(point);// 创建标注
   map.centerAndZoom(point, map_matter);
   map.addControl(new BMap.NavigationControl());
-  var marker = new BMap.Marker(point);// 创建标注
   map.addOverlay(marker);             // 将标注添加到地图中
   marker.enableDragging();           // 可拖拽
 
@@ -392,7 +393,7 @@ h3.ui.header{
     $("input[name='map_matter']").val(map.getZoom());
   });
   $("input[name='map_matter']").val(map.getZoom());
-    
+
 	$('#active-form').form({
 		title: {
 			identifier  : 'title',
@@ -873,7 +874,7 @@ h3.ui.header{
 				<div class="description">活动的详细地址</div>
 			</div>-->
       
-      <div id="allmap" style="height:500px;width:100%;display:none;"></div>
+      <div id="allmap" style="height:500px;width:100%;"></div>
 		  <input type="hidden" name="map_x" value="{{ active.map_info.x }}" />
 		  <input type="hidden" name="map_y" value="{{ active.map_info.y }}" />
 			<input type="hidden" name="map_matter" value="{{ active.map_info.matter }}" />
