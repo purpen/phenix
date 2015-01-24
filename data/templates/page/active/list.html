@@ -67,7 +67,7 @@
 		<a href="" class="item">高校孵化基地</a>
 	</div>
   </section>
-		{% active_list var:'current_list' published:1 step_stat:2 state:2 page:1 size:1 %}
+		{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
 		{% for active in current_list.rows %}
       <section class="ui start block" style="background:url({{ active.banner.thumbnails.hd.view_url }}) no-repeat center center /cover;">
 
@@ -91,7 +91,7 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui three items">
-        {% active_list var:'old_list' published:1 step_stat:3 state:2 page:page size:6 %}
+        {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
         {% for active in old_list.rows %}
 					<div class="magenta item">
 						<div class="image">

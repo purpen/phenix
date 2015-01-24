@@ -418,6 +418,20 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
       return array('status'=>0, 'msg'=>'操作失败');   
     }
   }
+
+  /**
+   * 逻辑删除
+   */
+  public function mark_remove($id){
+    $active = $this->find_by_id((int)$id);
+    if(!empty($active)){
+      $ok = $this->update_set((int)$id, array('published'=>0, 'deleted'=>1));
+      return $ok;
+    }else{
+      return false;
+    }
+  
+  }
 	
 }
 ?>

@@ -233,10 +233,9 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 			foreach($ids as $id){
 				$active = $model->load((int)$id);
 				
-				if (!empty($active)){
-					$model->remove((int)$id);
-					// 删除关联对象
-					$model->mock_after_remove((int)$id);
+        if (!empty($active)){
+          //逻辑删除
+					$model->mark_remove((int)$id);
 				}
 			}
 			
@@ -305,6 +304,17 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		
 		return $this->to_taconite_page('ajax/published_ok.html');
   
+  }
+
+  public function get_attend_list(){
+		$page = (int)$this->stash['page'];
+    $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:1;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active/get_attend_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/active/attend_list.html');
   }
 
 }
