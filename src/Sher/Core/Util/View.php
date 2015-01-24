@@ -15,7 +15,7 @@ class Sher_Core_Util_View extends Doggy_Exception {
 	}
 	
 	/**
-	 * 替换文本域换行标识符
+	 * 替换文本域换行标识符-----nl2br()
 	 */
 	public static function replace_wrap($val){
 		return preg_replace('/\n+/', '<br>', $val);

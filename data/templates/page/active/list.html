@@ -1,197 +1,124 @@
 {%extends 'layout/sns.html'%}
-{% block title %}{{ current_category.title }}-{% endblock %}
+{% block title %}活动列表-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.tophead {
-	    background: url("{{ app_url_packaged }}/images/bg-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
-	}
+.ui.grid{
+	margin:0;
+}
+.ui.social {
+	padding: 0em;
+}
+.ui.responsive.grid{
+	width:1180px !important;
+	margin:0 auto;
+	padding:0 !important;
+}
+
+.start{
+	color:#fff;
+	padding:100px 0% 80px;
+}
+.start .ui.btn{
+	border-radius:4px !important;
+	background:#ccc;
+}
+.start .ui.attend.btn{
+	border-radius:4px !important;
+	background:rgba(0,0,0,0);
+}
+.start h2.ui.header{
+	font-weight: 400;
+}
+.start h2.ui.header .content{
+	text-align:left;
+}
+.start .row{
+	padding-top:208px;
+	margin:0;
+}
+.start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
+	font-size:30px !important;
+}
+.start .row:first-child h2.ui.header{
+	font-size:60px !important;
+}
+.camp .row .column{
+	padding:0 !important;
+}
+.camp .presell{
+	padding:0.5em 0.8em;
+}
+.camp .content{
+	padding:1em 0.5em !important;
+}
+
 </style>
 {% endblock %}
-
-{% block jquery %}
-	
-{% endblock %}
-
-
-{% block tophead %}
-<div class="ui tophead">
-	{% include "block/social/sub_menu.html" %}
-</div>
-{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block jquery %}{% endblock %}
 
 {% block content %}
-<div id="topiclist">
+  <section class="ui responsive grid">
+	<div class="ui labeled icon text magenta main-nav menu">
+		<a href="" class="item">话题</a>
+		<a href="" class="item">产品试用</a>
+		<a href="" class="item">活动</a>
+		<a href="" class="item">开放实验室</a>
+		<a href="" class="item">高校孵化基地</a>
+	</div>
+  </section>
+		{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
+		{% for active in current_list.rows %}
+      <section class="ui start block" style="background:url({{ active.banner.thumbnails.hd.view_url }}) no-repeat center center /cover;">
+
+          <div class="ui responsive center aligned grid">
+              <div class="row">
+                <div class="center aligned column attend-box">
+                  <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="{{ active.view_url }}" target="_blank">
+                    <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+                  </a>
+                </div>
+              </div>
+          </div>
+      </section>
+      <br />
+    {%endfor%}
+  <section class="ui big camp block">
 	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 社区
-					</a>
-				  	<i class="angle right icon divider"></i>
-					{% if !is_top %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-					{% endif %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
-				</div>
-			</div>
-			<div class="five wide right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ current_category._id }}" class="ui gray hide button">
-					<i class="add icon"></i> 发表话题
-				</a>
-			</div>
+		<div class="row">
+			<h3 class="ui header">历史活动</h3>
 		</div>
-		
 		<div class="row">
 			<div class="column">
-				<div class="ui magenta tiered menu">
-				  	<div class="menu">
-						{% if is_top %}
-							{% category_list var:'category' page:1 only_open:1 show_all:1 domain:domain pid:cid current:cid %}
-						{% else %}
-							{% category_list var:'category' page:1 only_open:1 show_all:1 domain:domain pid:parent_category._id current:cid %}
-						{% endif %}
-						
-						{% for cat in category.rows %}
-							{% if cat._id == 0 %}
-								<a class="ui {% if is_top %}active{% endif %} item" href="{{ parent_category.view_url }}">{{ cat.title }}</a>
-							{% else %}
-								<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }} <small>({{ cat.total_count }})</small></a>
-							{% endif %}
-						{% endfor %}
-				    	<div class="right menu">
-							<a class="ui showbox magenta item" href="#advanced-filter-topic">
-								<i class="list layout icon"></i>
-							</a>
-				    	</div>
-				  	</div>
-				</div>
-				
-				<div class="ui segment hide" id="advanced-filter-topic">
-					<div class="ui grid">
-						<div class="row">
-							<div class="sixteen wide column">
-								<div class="ui horizontal list">
-									<label class="item">类别：</label>
-								  	<a class="ui {{ css_type_stick }} item link" href="{{ links.stick_url }}">推荐</a>
-								  	<a class="ui {{ css_type_fine }} item link" href="{{ links.fine_url }}">精华</a>
-								</div>
-							</div>
-							<div class="sixteen wide column">
-								<div class="ui horizontal list"> 
-									<label class="item">时间：</label>
-								  	<a class="ui {{ css_time_all }} item link" href="{{ links.time_all_url }}">全部</a>
-								  	<a class="ui {{ css_time_day }} item link" href="{{ links.time_day_url }}">一天之内</a>
-								  	<a class="ui {{ css_time_week }} item link" href="{{ links.time_week_url }}">一周之内</a>
-									<a class="ui {{ css_time_mouth }} item link" href="{{ links.time_mouth_url }}">一个月内</a>
-									<a class="ui {{ css_time_year }} item link" href="{{ links.time_year_url }}">近一年内</a>
-								</div>
-							</div>
-							<div class="sixteen wide column">
-								<div class="ui horizontal list">
-									<label class="item">排序：</label>
-								  	<a class="ui {{ css_sort_default }} item link" href="{{ links.sort_default_url }}">默认</a>
-								  	<a class="ui {{ css_sort_update }} item link" href="{{ links.sort_updated_url }}">发帖时间</a>
-								  	<a class="ui {{ css_sort_comment }} item link" href="{{ links.sort_comment_url }}">回复最多</a>
-									<a class="ui {{ css_sort_favorite }} item link" href="{{ links.sort_favorite_url }}">收藏最多</a>
-									<a class="ui {{ css_sort_love }} item link" href="{{ links.sort_laud_url }}">最赞主题</a>
-								</div>
+				<div class="ui three items">
+        {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
+        {% for active in old_list.rows %}
+					<div class="magenta item">
+						<div class="image">
+              <a href="{{ active.view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
+							<div class="presell">
+                第{{ active.season }}期
 							</div>
 						</div>
+						<div class="content">
+              {{ active.title }}－{{ active.conduct_city }}站 
+						</div>
 					</div>
+        {%endfor%}
+
 				</div>
 				
-				<div class="ui stacked segment">
-					<table class="ui basic sortable topic table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th>浏览数</th>
-							</tr>
-						</thead>
-						<tbody>
-						{% if dig_list %}
-							{% for dig in dig_list %}
-								{% if dig %}
-								<tr>
-									<td class="hide-on-mobile">
-										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
-								      		<img src="{{ dig.user.small_avatar_url }}" alt="{{ dig.user.nickname }}" />
-										</a>
-									</td>
-									<td class="ten wide">
-								      	<h3 class="title">
-											<a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui line link">[置顶] {{ dig.title|truncate 60 }}</a>
-										</h3>
-								      	<div class="content">
-											<div class="attribute">
-												<span class="category"><a href="{{ dig.category.view_url }}" class="ui link">{{ dig.category.title }}</a></span> | 
-												<span class="author">
-													<a href="{{ dig.user.home_url }}" class="ui link">@{{ dig.user.nickname }}</a>  <i class="time icon"></i>于{{ dig.created_on|relative_datetime }}发表
-												</span>
-											</div>
-											{% if !dig.asset_count %}
-												<div class="description">
-													{{ dig.strip_description|truncate 70 }}
-												</div>
-											{% else %}
-												{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 sort:'positive' %}
-												<!--展示图片-->
-												<div class="ui mini images">
-													{% if dig.cover %}
-													<img class="ui image" src="{{ dig.cover.thumbnails.tiny.view_url }}" />
-													{% endif %}
-													{% for asset in assets.rows %}
-														{% if dig.cover._id != asset._id %}
-													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
-														{% endif %}
-													{% endfor %}
-												</div>
-											{% endif %}
-								      	</div>
-									</td>
-									<td class="hide-on-mobile">
-										{% if dig.last_user %}
-										<a class="ui link" href="{{ dig.last_user.home_url }}" title="{{ dig.last_user.nickname }}">
-									  		<img src="{{ dig.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ dig.last_user.nickname }}" />
-										</a>
-										回复于{{ dig.last_reply_time|relative_datetime }}
-										{% endif %}
-									</td>
-									<td class="hide-on-mobile">
-										<a href="{{ dig.view_url }}#comment" class="dot-irecommend">
-											<span class="dot-irecommend-count">{{ dig.view_count }}</span> 
-											<span class="dot-irecommend-suffix"></span>
-										</a>
-									</td>
-								</tr>
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-						
-						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
-						{% for topic in list.rows %}
-							{% if !topic.top %}<!--过滤置顶帖子-->
-								{% include "block/topic_item.html" %}
-							{% endif %}
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				
-				{% if list.total_page %}
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{% include 'block/pager.html' %}
-				</div>
-				{% endif %}
 				
 			</div>
 		</div>
-
 	</div>
-</div>
+	{% if old_list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+  </section>
+
+
 {% endblock %}

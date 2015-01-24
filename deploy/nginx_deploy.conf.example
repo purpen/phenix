@@ -246,6 +246,15 @@ server {
           	rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
           	rewrite ^/topic(.*)$ /app/site/topic$1 last;
         }
+
+        location /active {
+          	rewrite ^/active[/]?$ /app/site/active last;
+          	rewrite ^/active/c(\d+)[/]?$ /app/site/active/get_list?category_id=$1 last;
+          	rewrite ^/active/c(\d+)/p(\d+)[/]?$ /app/site/active?category_id=$1&page=$2 last;
+          	rewrite ^/active/view-(\d+).html$ /app/site/active/view?id=$1 last;
+          	rewrite ^/active/view-(\d+)-(\d+).html$ /app/site/active/view?id=$1&page=$2 last;
+          	rewrite ^/active(.*)$ /app/site/active$1 last;
+        }
 		
         location /fever {
           	rewrite ^/fever[/]?$ /app/site/fever last;

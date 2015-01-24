@@ -4,23 +4,27 @@
 		<div class="thumb item" id="{{ asset._id }}">
 			<div class="image">
 				<img src="{{ asset.thumbnails.tiny.view_url }}" />
-				<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+				<input type="hidden" class="asset_id_list" name="asset_tmp[]" value="{{ asset._id }}" />
 			</div>
+      <div>原图尺寸: {{ asset.width }}x{{ asset.height }}</div>
+      <div>
+        <input type="text" name="big-asset-url" value="{{ asset.thumbnails.big.view_url }}" />
+      </div>
 			<div class="buttons">
 				<div class="ui large links">
 					<a href="{{ app_url_admin }}/asset/delete_asset?id={{ id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 						<i class="flat edit_delete icon"></i>
 					</a>
 					{% if ref != 'admin' %}
-					<a href="{{ app_url_upload }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted">
+					<a href="{{ app_url_upload }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="活动列表页缩略图" data-variation="inverted">
 						<i class="flat edit_recommend icon"></i>
 					</a>
 					{% else %}
-					<a href="{{ app_url_upload }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" name="{{ asset._id }}">
+					<a href="{{ app_url_upload }}/update_cover?id={{ id }}&cover_id={{ asset._id }}" class="ui link ajax-cover pop" data-content="活动列表页缩略图" data-variation="inverted" name="{{ asset._id }}">
 						<i class="flat edit_recommend icon"></i>
 					</a>
 					{% endif %}
-          <a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
+          <a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
             <i class=" icon-photo-banner icon"></i>
           </a>
 				</div>

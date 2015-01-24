@@ -62,12 +62,17 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ACTIVE;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_ACTIVE;
 
-		// 活动图片上传
+		// 活动头图，封面图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_ACTIVE;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_ACTIVE;
+
+		// 活动列表图上传
+		$this->stash['list_pid'] = new MongoId();
+
+		$this->stash['asset_type_active'] = Sher_Core_Model_Asset::TYPE_USER_ACTIVE;
 		
 		return $this->to_html_page('admin/active/submit.html');
 	}
@@ -81,7 +86,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['sub_title'] = $this->stash['sub_title'];
-		$data['season'] = (int)$this->stash['season'];
+		//$data['season'] = (int)$this->stash['season'];
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		$data['cover_id'] = $this->stash['cover_id'];
@@ -92,34 +97,63 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['line_stat'] = (int)$this->stash['line_stat'];
 		$data['begin_time'] = $this->stash['begin_time'];
 		$data['end_time'] = $this->stash['end_time'];
-		$data['contact_name'] = $this->stash['contact_name'];
-		$data['contact_tel'] = $this->stash['contact_tel'];
-		$data['contact_email'] = $this->stash['contact_email'];
+		//$data['contact_name'] = $this->stash['contact_name'];
+		//$data['contact_tel'] = $this->stash['contact_tel'];
+		//$data['contact_email'] = $this->stash['contact_email'];
 		$data['address'] = $this->stash['address'];
+    $data['conduct_city'] = $this->stash['conduct_city'];
 		$data['max_number_count'] = (int)$this->stash['max_number_count'];
-		$data['pay_money'] = (float)$this->stash['pay_money'];
+		//$data['pay_money'] = (float)$this->stash['pay_money'];
 		$data['step_stat'] = (int)$this->stash['step_stat'];
-		$data['published'] = (int)$this->stash['published'];
 		$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
 
     //地图信息
-    if(isset($this->stash['map_info'])){
-      $data['map_info'] = $this->stash['map_info'];  
+    $data['map_info'] = array();
+    if(!empty($this->stash['map_x']) && !empty($this->stash['map_y']) && !empty($this->stash['map_matter'])){
+      $map_info = array();
+      $map_info['x'] = $this->stash['map_x']; 
+      $map_info['y'] = $this->stash['map_y'];
+      $map_info['matter'] = $this->stash['map_matter']; 
+      $map_info['title'] = $this->stash['map_title']; 
+      $map_info['img'] = $this->stash['map_img']; 
+
+      $data['map_info'] = $map_info;     
     }
 
     //进度安排
     $data['process'] = array();
     if(isset($this->stash['process'])){
-      $data['process'] = $this->stash['process'];
+      $p_arr = array();
+      foreach($this->stash['process'] as $process){
+        $s_arr = array();
+        $arr_process = explode('|', $process);
+        $s_arr['sort'] = $arr_process[0];
+        $s_arr['time'] = $arr_process[1];
+        $s_arr['title'] = $arr_process[2];
+        $s_arr['name'] = $arr_process[3];
+        $s_arr['position'] = $arr_process[4];
+        $s_arr['img'] = $arr_process[5];
+        array_push($p_arr, $s_arr);
+      }
+      $data['process'] = $p_arr;
     }
 
     //合作伙伴
     $data['partner'] = array();
     if(isset($this->stash['partner'])){
-      $data['partner'] = $this->stash['partner'];
+      $p_arr = array();
+      foreach($this->stash['partner'] as $partner){
+        $s_arr = array();
+        $arr_partner = explode('|', $partner);
+        $s_arr['sort'] = $arr_partner[0];
+        $s_arr['name'] = $arr_partner[1];
+        $s_arr['url'] = $arr_partner[2];
+        $s_arr['img'] = $arr_partner[3];
+        array_push($p_arr, $s_arr);
+      }
+      $data['partner'] = $p_arr;
     }
-
 
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
@@ -152,6 +186,10 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
+			}
+			// 上传成功后，更新所属的附件--头图，封面图，其它
+			if(isset($this->stash['asset_tmp']) && !empty($this->stash['asset_tmp'])){
+				$this->update_batch_assets($this->stash['asset_tmp'], $id);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
@@ -195,10 +233,9 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 			foreach($ids as $id){
 				$active = $model->load((int)$id);
 				
-				if (!empty($active)){
-					$model->remove((int)$id);
-					// 删除关联对象
-					$model->mock_after_remove((int)$id);
+        if (!empty($active)){
+          //逻辑删除
+					$model->mark_remove((int)$id);
 				}
 			}
 			
@@ -222,6 +259,62 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q']);
     return $this->to_html_page('admin/active/list.html');
   
+  }
+
+	/**
+	 * 发布/撤销
+	 */
+	public function ajax_publish(){
+		$ids = $this->stash['id'];
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Active();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+			$result = $model->mark_as_published((int)$id, $evt);
+		}
+		
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+	}
+
+  /**
+   * 推荐／取消
+   */
+  public function ajax_stick(){
+ 		$ids = $this->stash['id'];
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Active();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+			$result = $model->mark_as_stick((int)$id, $evt);
+		}
+		
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+  
+  }
+
+  public function get_attend_list(){
+		$page = (int)$this->stash['page'];
+    $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:1;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active/get_attend_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/active/attend_list.html');
   }
 
 }

@@ -21,7 +21,6 @@
 }
 /*  ,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
 .ui.tabox .ui.tabs .tab{
-	border-bottom:0px solid #fff;
 	color:#fff;
 	text-align:center;
 	font-size: 0.9285rem;
@@ -29,6 +28,7 @@
 	margin-right: 1.5%;
 	padding-top:1%;
 	padding-bottom:1%;
+	margin-bottom:0px;
 }
 .ui.tabox{
 	-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
@@ -63,7 +63,7 @@
 	text-align:left;
 }
 .start .row:nth-child(3){
-	padding-top:90px;
+	padding-top:208px;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -77,12 +77,12 @@
 }
 .space .content{
 	padding:10px 0;
-	text-align:left;
+	text-align:center;
 }
 .space .content i{
 	font-weight: 700;
 }
-.picture, .process, .place,.part, .comment{
+.picture, .process, .place,.part, .comment,.share{
 	padding-top: 1em;
 	padding-bottom: 1em;
 }
@@ -138,7 +138,7 @@ hr{
 .rundown-timeline-container {
 	height: auto;
 	margin: 0 auto;
-	max-width: 800px;
+	max-width: 1000px;
 	position: relative;
 	width: 100%;
 }
@@ -159,7 +159,7 @@ hr{
 	border-radius: 14px 14px 14px 14px;
 	height: 13px;
 	left: 48%;
-	margin-left: -5px;
+	margin-left: -2px;
 	position: absolute;
 	top: 19px;
 	width: 13px;
@@ -176,7 +176,7 @@ float: right;
 }
 .timeline-content {
 float: right;
-width: 44%;
+width: 46%;
 }
 .timeline-content.right .time {
 font-weight: normal;
@@ -185,12 +185,12 @@ top: 14px;
 .timeline-content .time {
 font-size: 16px;
 font-weight: bold;
-left: 30%;
+left: 34%;
 line-height: 38px !important;
 position: absolute;
 }
 .timeline-content .name {
-font-size: 18px;
+font-size: 17px;
 font-weight: bold;
 line-height: 16px;
 margin-top: 25px !important;
@@ -291,9 +291,9 @@ float: right;
 .flex-control-nav {display:none;}
 .flex-direction-nav {*height: 0;}
 .flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
-.flex-direction-nav .flex-prev { left: 0px; opacity: .5;}
+.flex-direction-nav .flex-prev { opacity: .5;}
 .flex-direction-nav .flex-next { right: 0px; text-align: right; opacity: .5;}
-.flexslider:hover .flex-prev { opacity: 0.7; left: 0px; }
+.flexslider:hover .flex-prev { opacity: 0.7; }
 .flexslider:hover .flex-next { opacity: 0.7; right: 0px; }
 .flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
 .flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
@@ -346,84 +346,69 @@ float: right;
 {% endblock %}
 
 {% block layout_js %}
-  <script defer="" src="http://flexslider.woothemes.com/js/jquery.flexslider.js"></script>
+  <script defer="" src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
 
   {% if active.map_info %}
   <!--引用百度地图API-->
   <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
-  <script type="text/javascript" >
-    //创建和初始化地图函数：
-    function initMap(){
-      createMap();//创建地图
-      setMapEvent();//设置地图事件
-      addMapControl();//向地图添加控件
-      addMapOverlay();//向地图添加覆盖物
-    }
-    function createMap(){ 
-      map = new BMap.Map("map"); 
-      map.centerAndZoom(new BMap.Point({{ active.map_info_arr.0 }},{{ active.map_info_arr.1 }}),{{ active.map_info_arr.2 }});
-    }
-    function setMapEvent(){
-      map.enableScrollWheelZoom();
-      map.enableKeyboard();
-      map.enableDragging();
-      map.enableDoubleClickZoom()
-    }
-    function addClickHandler(target,window){
-      target.addEventListener("click",function(){
-        target.openInfoWindow(window);
-      });
-    }
-    function addMapOverlay(){
-      var markers = [
-      {content:'{{ active.map_info_arr.6 }}',title:"{{ active.map_info_arr.5 }}",imageOffset: {width:0,height:3},position:{lat:{{ active.map_info_arr.3 }},lng:{{ active.map_info_arr.4 }} }}
-      ];
-      for(var index = 0; index < markers.length; index++ ){
-        var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
-        var marker = new BMap.Marker(point,{icon:new BMap.Icon("{{ app_url_packaged }}/images/map_icon.png",new BMap.Size(25,35),{
-          imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
-        })});
-        var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
-        var opts = {
-          width: 200,
-          title: markers[index].title,
-          enableMessage: false
-        };
-        var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
-        marker.setLabel(label);
-        addClickHandler(marker,infoWindow);
-        map.addOverlay(marker);
-      };
-
-
-    }
-    //向地图添加控件
-    function addMapControl(){
-      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
-      map.addControl(scaleControl);
-      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
-      map.addControl(navControl);
-      var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:false});
-      map.addControl(overviewControl);
-    }
-
   {%endif%}
+  <script type="text/javascript" >
+  {% if active.map_info %}
+		var map = new BMap.Map("map");
+		var point = new BMap.Point({{ active.map_info.x }},{{ active.map_info.y }});
+		map.centerAndZoom(point, {{ active.map_info.matter }});
+		var marker = new BMap.Marker(point);  // 创建标注
+		map.addOverlay(marker);               // 将标注添加到地图中
+		//marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
+		
+		map.addControl(new BMap.MapTypeControl());	//地图 卫星 三维
+		map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));	//标尺
+		map.addControl(new BMap.NavigationControl());	//放大 移动
+		
+		var opts = {
+			  position : point,    // 指定文本标注所在的地理位置
+			  offset   : new BMap.Size(5, -50)    //设置文本偏移量
+			}
+			var label = new BMap.Label("{{ active.map_info.title }}", opts);  // 创建文本标注对象
+				label.setStyle({
+					 color : "#666",
+					 fontSize : "14px",
+					 height : "20px",
+					 lineHeight : "20px",
+					 fontFamily:"微软雅黑",
+					 border:"1px solid #ccc",
+					 padding:"0 5px"
+				 });
+			map.addOverlay(label);
+
+	{%endif%}
+
+  //ajax获取报名列表
+  function fetch_signup_avatar(){
+    var url = '{{ app_url_active }}/ajax_fetch_signup';
+    var target_id = {{ active._id }};
+    $.get(url, { target_id: target_id, evt:1 });
+  }
+
+  //评论分页
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+    $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, per_page: per_page});
+  }
 
   </script>
 {% endblock %}
 
 {% block js %}
-
 {% endblock %}
 {% block jquery %}
-  {% if active.map_info %}
-    var map;
-    initMap();
-  {%endif%}
-
+  //ajax加载评论
+  fetch_comment(1, per_page);
 	phenix.hook_comment_page();
-	phenix.bind_share_list();
+
+  //分享
+  phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
 	
@@ -432,106 +417,6 @@ float: right;
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});
-	
-	/* 登录用户行为 */
-	{% if visitor.is_login %}
-		// 初始化互动，是否收藏、点赞
-		$.get('{{ app_url_favorite }}/ajax_done', {id: {{active._id}},type:2,event:1}, function(result){
-			if (result.success) {
-				// 验证收藏
-				if (result.data.favorited) {
-					$('.ui.favorite.button')
-						.data('content', '取消')
-						.data('mark', 'y')
-						.addClass('active');
-				}
-			}
-		}, 'json');
-		// 验证点赞
-		$.get('{{ app_url_favorite }}/ajax_done', {id: {{active._id}},type:2,event:2}, function(result){
-			if (result.success) {
-				if (result.data.loved) {
-					$('.ui.love.button')
-						.data('content', '取消')
-						.data('mark', 'y')
-						.addClass('active');
-				}
-			}
-		}, 'json');
-
-		
-		/* 登录用户行为 */
-	{% endif %}
-	
-	// 收藏
-	$('.ui.favorite.button').bind('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (mark == 'n') {
-			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:2}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '取消')
-						.data('mark', 'y')
-						.addClass('active')
-						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
-			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:2}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '收藏')
-						.data('mark', 'n')
-						.removeClass('active')
-						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
-	});
-	
-	// 喜欢
-	$('.ui.love.button').bind('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (mark == 'n') {
-			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:2}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '取消')
-						.data('mark', 'y')
-						.addClass('active')
-						.html('<i class="empty heart icon"></i> <small>'+ result.data.love_count +'</small>');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
-			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:2}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '点赞')
-						.data('mark', 'n')
-						.removeClass('active')
-						.html('<i class="empty heart icon"></i> <small>'+ result.data.love_count +'</small>');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
 	});
 	
 	$('.ui.tabox').smint({
@@ -546,21 +431,23 @@ float: right;
 			phenix.show_login_box();
 			return false;
 		}
-		
+    $('.ui.user-info-box.modal').modal('show');
+    return false; 
     //验证用户信息齐全
+    /**
     $.get('{{ app_url_action_base }}/user/ajax_check_userinfo', {}, function(result){
       if(result=='true'){
         //ajax报名
         $.get('{{ app_url_action_base }}/active/ajax_attend', { target_id: {{ active._id }} });
       }else if(result=='false'){
-    		$('.ui.user-info-box.modal').modal('show');
-		    return false; 
+
       }
     });
+    **/
 
 	});
 
-  //取消报名
+  //取消报名弹出框
 	$('.ui.deny.button').click(function(){
 		$('.ui.user-info-box.modal').modal('hide');
 	});
@@ -621,6 +508,9 @@ float: right;
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
+
+  //ajax获取报名列表头像
+  fetch_signup_avatar();
 {% endblock %}
 
 {% block content %}
@@ -647,19 +537,19 @@ float: right;
         <div class="center aligned tweleve wide column">
           <h2 class="ui header">
             <div class="content">
-              <span>NO.{{ active.season }}</span>
+              <span></span>
               <br />
-              <strong>{{ active.title }}</strong>
+              <strong></strong>
             </div>
           </h2>
         </div>
       </div>
       <div class="row">
         <div class="center aligned column">
-          <h2 class="ui header">{{ active.sub_title }}</h2>
+          <h2 class="ui header"></h2>
         </div>
       </div>
-        {% if step_stat==0 %}
+        {% if active.step_stat==1 %}
         <div class="row">
           <div class="center aligned column attend-box">
           {% if is_attend %}
@@ -679,9 +569,9 @@ float: right;
   <div class="ui space gray background block">
     <div class="ui responsive center aligned grid">
       <div class="row">
-        <div class="twelve wide column">
+        <div class="column">
           <div class="content">
-            <i class="flat sale icon"></i>2015-01-27  14:00 &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
+            <i class="flat sale icon"></i>{{ active.begin_time|date 'Y-m-d H:i' }} &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
           </div>
         </div>
       </div>
@@ -698,6 +588,7 @@ float: right;
       </div>
     </div>
   </section>
+  {% if active.step_stat==2 %}
   <div class="ui picture gray background block">
     <div class="ui responsive grid">
       <div class="row">
@@ -709,33 +600,24 @@ float: right;
     </div>
   </div>
   <div class="ui grid" style="height:595px">
-	
-	
+    {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
     <div class="ui responsive grid">
 	    <div class="row">
 	      	<div class="flexslider">
 	          <ul class="slides">
-	            <li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;123</p>
-	  	    		</li>
-	  	    		<li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;456</p>
-	  	    		</li>
-	  	    		<li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;123</p>
-	  	    		</li>
-	  	    		<li>
-	  	    	    <img src="{{ app_url_packaged }}/images/camp_1.jpg" />
-					<p>&nbsp;&nbsp;&nbsp;&nbsp;456</p>
-	  	    		</li>
+              {% for asset in assets.rows %}
+                <li>
+                  <img src="{{ asset.thumbnails.big.view_url }}" />
+                  <p>&nbsp;&nbsp;{{ asset.desc }}</p>
+                </li>
+              {%endfor%}
 	          </ul>
 	        </div>
 	    </div>
 	  </div>
   </div>
+  {%endif%}
+
   <section class="ui process gray background block">
     <div class="ui responsive grid">
       <div class="row">
@@ -749,30 +631,29 @@ float: right;
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
-      {% if active.process_arr %}
-			
-      {% for p in active.process_arr %}
-        <div class="rundown-timeline-container">
-          <div class="timeline-block">
-            <div class="timeline-red-dot"></div>
-            <div class="timeline-content right">
-              <div class="time">{{ p.0 }}</div>
-              <p class="name"> {{ p.1 }}  </p>
-              <div class="title">
-                {% if p.3 %}
-                <img src="{{ p.3 }}" alt="{{ p.2 }}">
-                {%endif%}
-                <div class="content">
-                  {{ p.2 }}  
-                  <div class="text">
-                    {{ p.4 }}
-                  </div>
-                </div>	
-               </div>
+      {% if active.process %}
+        {% for p in active.process %}
+          <div class="rundown-timeline-container">
+            <div class="timeline-block">
+              <div class="timeline-red-dot"></div>
+              <div class="timeline-content right">
+                <div class="time">{{ p.time }}</div>
+                <p class="name"> {{ p.title }}  </p>
+                <div class="title">
+                  {% if p.img %}
+                  <img src="{{ p.img }}" alt="{{ p.name }}">
+                  {%endif%}
+                  <div class="content">
+                    {{ p.name }}  
+                    <div class="text">
+                      {{ p.position }}
+                    </div>
+                  </div>	
+                 </div>
+              </div>
             </div>
           </div>
-        </div>
-      {%endfor%}
+        {%endfor%}
       {%endif%}
 			
 			<div class="rundown-timeline-container bottom">
@@ -786,106 +667,22 @@ float: right;
   </div>
  
   <section class="ui report block">
+    <!--ajax获取报名者头像-->
     <div class="ui w-1180">
-      <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/topic/150106/54abc8a63ffca262238b4577-1-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141208/54858e48621e19c87a8b5e8c-1-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141208/5485844d989a6af1698b50da-1-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141220/549515cffc8b12bc4b8b481d-4-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-byheart.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-purpen.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-zhuhong.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-bobo.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-ting.jpg">
-	  </div>
-	
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-dali.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-yonglin.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-xinyu.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-ruby.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-ping.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-dan.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-qmei.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-feng.png">
-	  </div>
-	  <div class="image">
-	    <img src="http://frstatic.qiniudn.com/images/a-liudi.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
-	  <div class="image">
-	    <img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avs.jpg">
-	  </div>
+      <div id="signup-avatar">
+        {% for i in avatar_loop %}
+          <div class="image avatar-list">
+            <img src="http://frstatic.qiniudn.com/images/avatar_default_small.jpg">
+          </div>
+        {% endfor %}
+      </div>
 	  
 	  <div class="report-btn">
 		<div class="ui responsive center aligned column">
 	      <div class="row">
 			<div class="center aligned column">
 	      <div class="attend-box">
-	        {% if step_stat==0 %}
+	        {% if active.step_stat==1 %}
 	          {% if is_attend %}
 	            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
 	                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
@@ -897,7 +694,7 @@ float: right;
 	          {%endif%}
 	        {%else%}
 	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	                <span>报名结束</span><i class="icon-arrow-right-sharp"></i>
+	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
 	          </a>
 	        {%endif%}
 	      </div>
@@ -935,11 +732,11 @@ float: right;
 				<div class="one items">
 					<div class="item">
 						<div class="image">
-              <img src="{{ active.map_info_arr.7 }}">
+              <img src="{{ active.map_info.img }}">
 						</div>
 						<div class="content">
 							<h4 class="ui dividing header">
-                {{ active.map_info_arr.5 }}
+                {{ active.map_info.title }}
 								<div class="map-advantage">
                   {{ active.max_number_count }}人规模
 								</div>
@@ -971,10 +768,10 @@ float: right;
   <div class="ui white together background block">
     <div class="ui responsive grid">
       <div class="row">
-        {% if active.partner_arr %}
+        {% if active.partner %}
             <div class="center aligned column">
-            {% for p in active.partner_arr %}
-            <a href="{{ p.1 }}" title="{{ p.0 }}" target="_blank"><img src="{{ p.2 }}" alt="{{ p.0 }}" /></a>
+            {% for p in active.partner %}
+            <a href="{{ p.url }}" title="{{ p.title }}" target="_blank"><img src="{{ p.img }}" alt="{{ p.title }}" /></a>
             {%endfor%}
             </div>
         {%endif%}
@@ -995,121 +792,34 @@ float: right;
 
 <div class="ui white background block">
   <div class="ui responsive grid">
+    {% if active.topic_ids %}
     <div class="row">
-				<div class="column">
+			<div class="column">
 				<a name="comment"></a>
-				<div class="ui big reply segment">
-					<div class="ui threaded minimal comments">
-						{% comment_list var:'comments' page:page target_id:active._id type:5 %}
-						{% for comment in comments.rows %}
-						<div class="comment" id="{{ comment._id }}">
-							<a class="avatar" href="{{ comment.user.home_url }}">
-								<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-							</a>
-							<div class="content">
-								<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-								<div class="metadata">
-									<div class="date">{{ comment.created_on }}</div>
-								</div>
-								<div class="laud">
-									<a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
-										<i class="icon empty heart"></i>
-									</a>
-								</div>
-								<div class="text">
-									{{ comment.content }}
-								</div>
-								{% if visitor.is_login %}
-								<div class="actions">
-									<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-                  {% if visitor.id==comment.user_id %}
-									  <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-                  {% endif %}
-								</div>
-								<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-									<input type="hidden" name="type" value="5" />
-									<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-									<input type="hidden" name="target_id" value="{{ active._id }}" />
-									<div class="field">
-										<textarea name="content" class="reply-content"></textarea>
-									</div>
-									<div class="ui active button magenta submit labeled icon">
-										<i class="icon location"></i> 回复
-									</div>
-								</form>
-								{% endif %}
-							</div>
-							
-							{% if comment.reply %}
-							<div class="comments">
-								{% for reply in comment.reply %}
-									<div class="comment">
-										<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-											<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-										</a>
-										<div class="content">
-											<a class="author ui magenta link" href="{{ reply.user.home_url }}">{{ reply.user.nickname }}</a>
-											<div class="metadata">
-												<div class="date">{{ reply.replied_on }}</div>
-											</div>
-											<div class="text">
-												{{ reply.content }}
-											</div>
-										</div>
-									</div>
-								{% endfor %}
-							</div>
-							{% endif %}
-							
-						</div>
-						{% endfor %}
-					</div>
-					
-					<div class="post comment">
-						<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
-						<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-							<input type="hidden" name="target_id" value="{{ active._id }}" />
-							<input type="hidden" name="type" value="5" />
-							<input type="hidden" name="star" value="0" />
-							<div class="field">
-								<textarea name="content" class="comment-textarea" ></textarea>
-								<div id="comment"></div>
-							</div>
-							<div class="right aligned column">
-								<input type="submit" class="ui small magenta button" value="添加评论" />
-							</div>
-							{% if !visitor.is_login %}
-							<div class="not login">
-								<div class="ui grid">
-									<div class="row">
-										<div class="center aligned column">
-											<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
-											<p class="ui gray text">注册登录后可发评论</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-						</form>
-					</div>
-					
-				</div>
-				{% if comments.rows %}
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-				{% endif %}
+        <div class="ui big reply segment">
+          <!--ajax comment-->
+          <div id="comment-list"></div>
+          {% include "block/comment_box_site.html" %}
+        </div>
 			</div>
-
-					
-				</div>
-
+		</div>
+    {% endif %}
 
     </div>
   </div>
 </div>
+
 <div class="ui background-30"></div>
+<section class="ui share gray background block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="center aligned column section-title">
+          <h3 class="ui header">分享</h3>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </section>
 <div class="ui big-end white background grid">
 	<div class="row">
 		<div class="center aligned column">

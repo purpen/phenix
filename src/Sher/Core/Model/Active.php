@@ -37,6 +37,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     'contact_email' =>  null,
     #详细地址
     'address' =>  null,
+    #举办城市-字符串
+    'conduct_city'  =>  null,
     #地址坐标
     'a' =>  null,
     #城市省份
@@ -45,6 +47,9 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 
     #分类
     'category_id' => 0,
+
+    #话题数组(以后可能关联多个话题，所以类型为数组)
+    'topic_ids'  => array(),
 
     #标题
     'title' => null,
@@ -120,7 +125,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title','category_id');
 	
-	protected $int_fields = array('user_id','kind','category_id','state','asset_count','step_stat','fav_count','love_count','max_number_count','signup_count','attend_count','view_count','begin_time','end_time','comment_count','published','stick','deleted');
+	protected $int_fields = array('user_id','kind','category_id','state','asset_count','step_stat','fav_count','love_count','max_number_count','signup_count','attend_count','view_count','comment_count','published','stick','deleted');
 	
 	protected $counter_fields = array('view_count', 'fav_count', 'love_count', 'comment_count', 'signup_count', 'attend_count');
 
@@ -142,7 +147,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		
 		// 转换为时间戳--开始时间
 		if(isset($data['begin_time'])){
-			$data['begin_time'] = strtotime($data['begin_time']);
+      $data['begin_time'] = strtotime($data['begin_time']);
 		}
 		// 转换为时间戳，结束时间
 		if(isset($data['end_time'])){
@@ -162,16 +167,6 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
   protected function after_save() {
     //如果是新的记录
     if($this->insert_mode) {
-      $parent_id = (string)$this->data['_id'];
-      $assets = $this->data['asset'];
-      if (!empty($assets)) {
-			$asset_model = new Sher_Core_Model_Asset();
-			foreach($assets as $id){
-				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
-				$asset_model->update_set($id, array('parent_id' => $parent_id));
-			}
-			unset($asset_model);
-      }
       
       // 更新活动总数
       Sher_Core_Util_Tracker::update_active_counter();
@@ -182,6 +177,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+		$row['view_url'] = Sher_Core_Helper_Url::active_view_url($row['_id']);
+		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $row['_id'], 0);
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
 			$row['content'] = htmlspecialchars_decode($row['content']);
@@ -189,6 +186,19 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		// 去除 html/php标签
     if(isset($row['summary'])){
 		  $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+    }
+
+    //进度显示字符串
+    if(isset($row['step_stat'])){
+      if($row['step_stat']==0){
+        $row['step_str'] = '准备中';
+      }elseif($row['step_stat']==1){
+        $row['step_str'] = '进行中';    
+      }elseif($row['step_stat']==2){
+        $row['step_str'] = '已结束';     
+      }else{
+        $row['step_str'] = '';       
+      }
     }
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
@@ -202,48 +212,28 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
       $row['state_name'] = '未定义';
     }
 
-    //进行状态描述
-    if($row['step_stat']==0){
-      $row['step_name'] = '未开始';  
-    }elseif($row['step_stat']==1){
-      $row['step_name'] = '进行中';
-    }elseif($row['step_stat']==2){
-      $row['step_name'] = '已结束';
-    }else{
-      $row['step_name'] = '';
-    }
-
     //转换进度安排格式
     if(isset($row['process'])){
       $process_arr = array();
       if(is_array($row['process'])){
-        foreach($row['process'] as $v){
-          $a = explode('|', $v);
-          array_push($process_arr, $a);
+        foreach($row['process'] as $key=>$process){
+          $join_process = $process['sort'].'|'.$process['time'].'|'.$process['title'].'|'.$process['name'].'|'.$process['position'].'|'.$process['img'];
+          $row['process'][$key]['join_process'] = $join_process;         
         }
       }
-      $row['process_arr'] = $process_arr;
     }
 
     //转换合作伙伴格式
     if(isset($row['partner'])){
       $partner_arr = array();
       if(is_array($row['partner'])){
-        foreach($row['partner'] as $v){
-          $a = explode('|', $v);
-          array_push($partner_arr, $a);
+        foreach($row['partner'] as $key=>$partner){
+          $join_partner = $partner['sort'].'|'.$partner['name'].'|'.$partner['url'].'|'.$partner['img'];
+          $row['partner'][$key]['join_partner'] = $join_partner;         
         }
       }
-      $row['partner_arr'] = $partner_arr;
     }
 
-    //转换地图信息格式
-    if(isset($row['map_info'])){
-      $map_info_arr = array();
-      $a = explode('|', $row['map_info']);
-      $row['map_info_arr'] = $a;
-    }
-		
 	}
 
 	// 分类
@@ -357,6 +347,91 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 		
 		return true;
 	}
+
+	/**
+	 * 发布
+	 */
+  public function mark_as_published($id, $published=1) {
+
+    $data = $this->extend_load((int)$id);
+
+    if(empty($data)){
+      return array('status'=>0, 'msg'=>'内容不存在');
+    }
+    if($data['published']==(int)$published){
+      return array('status'=>0, 'msg'=>'重复的操作');  
+    }
+    $ok = $this->update_set((int)$id, array('published' => $published));
+    if($ok){
+      //发布成功后执行的方法
+      if($published==1){
+        //自动创建话题
+        $topic_model = new Sher_Core_Model_Topic();
+        //$topic = $topic_model->first(array('active_id'=>$data['_id']));
+        if(empty($data['topic_ids'])){
+          $topic_data = array();
+          $cate_id = Doggy_Config::$vars['app.mode']=='dev' ? 12 : 24;
+          $topic_data['user_id'] = $data['user_id'];
+          $topic_data['title'] = $data['title'];
+          $topic_data['description'] = $data['summary'];
+          $topic_data['tags'] = $data['tags'];
+          $topic_data['category_id'] = $cate_id;
+          $topic_data['cover_id'] = $data['cover_id'];
+          $topic_data['active_id'] = $data['_id'];
+          $topic_ok = $topic_model->apply_and_save($topic_data);
+          if($topic_ok){
+            $this->update_set($data['_id'], array('topic_ids'=>array($topic_ok['upserted'])));
+          }
+        }
+        //自动更新第几期
+        $recent_season = $this->find(array('published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
+        if(empty($recent_season)){
+          $current_season = 1;
+        }else{
+          $current_season = $recent_season[0]['season']+1;
+        }
+        $this->update_set((int)$id, array('season'=>$current_season));
+      }
+      return array('status'=>1, 'msg'=>'操作成功');  
+    }else{
+      return array('status'=>0, 'msg'=>'操作失败');   
+    }
+
+	}
+
+  /**
+   * 推荐操作
+   */
+  public function mark_as_stick($id, $stick=1){
+    $data = $this->extend_load((int)$id);
+
+    if(empty($data)){
+      return array('status'=>0, 'msg'=>'内容不存在');
+    }
+    if($data['stick']==(int)$stick){
+      return array('status'=>0, 'msg'=>'重复的操作');  
+    }
+    $ok = $this->update_set((int)$id, array('stick' => $stick));
+    if($ok){
+      return array('status'=>1, 'msg'=>'操作成功');  
+    }else{
+      return array('status'=>0, 'msg'=>'操作失败');   
+    }
+  }
+
+  /**
+   * 逻辑删除
+   */
+  public function mark_remove($id){
+    $active = $this->find_by_id((int)$id);
+    if(!empty($active)){
+      $ok = $this->update_set((int)$id, array('published'=>0, 'deleted'=>1));
+      return $ok;
+    }else{
+      return false;
+    }
+  
+  }
 	
 }
 ?>

@@ -231,7 +231,7 @@
 										</a>
 									</div>
 									<div class="text">
-										{{ comment.content }}
+										{{ comment.content|safe }}
 									</div>
 									<div class="actions">
 										{% if visitor.is_login %}

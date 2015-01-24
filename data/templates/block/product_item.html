@@ -12,6 +12,13 @@
 			{% endif %}
 		</div>
     {%endif%}
+    {% if product.stage== 9 %}
+      {% if product.is_try %}
+		    <div class="presell">
+          试用
+		    </div>
+      {%endif%}
+    {%endif%}
 		<div class="image-extra">
 			<div class="extra-content">
 				<a class="inner-extra" href="{{ product.view_url }}" target="_blank">

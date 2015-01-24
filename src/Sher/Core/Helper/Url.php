@@ -71,7 +71,22 @@ class Sher_Core_Helper_Url {
 		
         return self::build_url_path('app.url.topic', $category_id, $type, $time, $sort).$page;
     }
-	
+
+	/**
+	 * 活动列表访问地址
+	 */
+    public static function active_list_url($category_id=null, $page=null) {
+        if (!is_null($category_id)) {
+            $category_id = 'c'.$category_id;
+        }
+		
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		
+        return self::build_url_path('app.url.active', $category_id).$page;
+    }
+
 	/**
 	 * 帖子列表访问地址,优化URL格式
 	 */
@@ -84,6 +99,13 @@ class Sher_Core_Helper_Url {
 	 */
     public static function topic_view_url($topic_id,$page=1){
     	return sprintf(Doggy_Config::$vars['app.url.topic.view'], $topic_id, $page);
+    }
+
+	/**
+	 * 活动查看地址
+	 */
+    public static function active_view_url($active_id,$page=1){
+    	return sprintf(Doggy_Config::$vars['app.url.active.view'], $active_id, $page);
     }
 	
 	/**

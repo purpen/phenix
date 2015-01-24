@@ -202,6 +202,21 @@
 	<div class="hero">
 		<div id="frame">
 			<ul class="slidee">
+				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/active_01.jpg'); background-color: rgb(17, 9, 7);">
+						        <div class="clearfix container">
+						        <div class="hero-main verticalize-container">
+						        <div class="verticalize" 	style="width: 100%;padding-left:345px">
+						        <span> &nbsp;</span>
+						        <h1>&nbsp;</h1>
+								<h1>&nbsp;</h1>
+
+						        <a class="ui center aligned btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/active/view-1.html">
+						        <span>立即报名</span>
+						        </a>
+						        </div>
+						        </div>
+						        </div>
+						        </li>
 
         <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/xiaodu.jpg'); background-color: rgb(1, 183, 176);">
         <div class="clearfix container">
@@ -390,7 +405,7 @@
 					{% if ad %}
 					<div class="advert content">
 						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-				      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
 						</a>
 						<div class="bword">
 							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
@@ -512,50 +527,62 @@
 			<div class="row">
 				<div class="center aligned column">
 					<div class="ui three items">
-						<div class="item" data-2100="transform: translateY(500px);opacity:0;" data-2480="transform: translateY(0px);opacity:1;">
+						<div class="magenta item">
 							<div class="image">
-								<a href="{{ app_url_action_base }}/guide/cm" title="厘米空气净化器">
-						      		<img src="{{ app_url_packaged }}/images/case-cm.jpg" class="ui image" />
+								<a href="{{ app_url_action_base }}/guide/ldm" title="全球首款智能配奶机-智能时代如何打造爆款产品
+								">
+						      		<img src="{{ app_url_packaged }}/images/case-ldm.jpg" class="ui image" />
 								</a>
 							</div>
 							<div class="content">
 								<h4 class="ui header">
-									<a href="{{ app_url_action_base }}/guide/cm" title="厘米空气净化器" class="ui link">厘米空气净化器</a>
+									<a href="{{ app_url_action_base }}/guide/ldm" title="全球首款智能配奶机-智能时代如何打造爆款产品" class="ui link">造梦者恒氧净化机
+									</a>
+									<p class="sub header">缔造淘宝众筹及净化产品众筹新神话</p>
 								</h4>
 								<div class="name">
-									众筹金额:<span class="ui text">2126,720</span>      支持人数:<span class="ui text">602</span>        达成率:<span class="ui text">4253％</span>    
+									众筹金额:<span class="ui magenta text">12,052,927
+									</span>     支持人数:<span class="ui magenta text">4842</span>      达成率:<span class="ui magenta text">2410％</span>
 								</div>
 							</div>
 						</div>
 				
-						<div class="item" data-2100="transform: translateY(500px);opacity:0;" data-2560="transform: translateY(0px);opacity:1;">
+						<div class="magenta item">
 							<div class="image">
-								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
-						      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" class="ui image" />
+								<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品
+								">
+						      		<img src="{{ app_url_packaged }}/images/case-milk.jpg" class="ui image" />
 								</a>
 							</div>
 							<div class="content">
 								<h4 class="ui header">
-									<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
+									<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品" class="ui link">婴萌智能配奶机
+									</a>
+									<p class="sub header">智能时代如何打造爆款产品</p>
 								</h4>
 								<div class="name">
-									众筹金额:<span class="ui text">1215,983</span>      支持人数:<span class="ui text">243</span>       达成率:<span class="ui text">4053％</span>    
+									众筹金额:<span class="ui magenta text">3,245,356
+									</span>     支持人数:<span class="ui magenta text">3794</span>      达成率:<span class="ui magenta text">649％</span>
 								</div>
 							</div>
 						</div>
 				
-						<div class="item" data-2100="transform: translateY(500px);opacity:0;" data-2640="transform: translateY(0px);opacity:1;">
+						<div class="magenta item">
 							<div class="image">
-								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
-						      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" class="ui image" />
+								<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯
+								">
+						      		<img src="{{ app_url_packaged }}/images/case-fifty.jpg" class="ui image" />
 								</a>
 							</div>
 							<div class="content">
 								<h4 class="ui header">
-									<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
+									<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯" class="ui link">55度杯
+									</a>
+									<p class="sub header">摇一摇变55度的魔法水杯</p>
 								</h4>
 								<div class="name">
-									众筹金额:<span class="ui text">300,000</span>      支持人数:<span class="ui text">610</span>      达成率:<span class="ui text">600％</span>
+									众筹金额:<span class="ui magenta text">1,251,374
+									</span>     支持人数:<span class="ui magenta text">3094</span>      达成率:<span class="ui magenta text">625％</span>
 								</div>
 							</div>
 						</div>

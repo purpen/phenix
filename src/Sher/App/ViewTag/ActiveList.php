@@ -23,6 +23,9 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
         $user_id = 0;
         $kind = 0;
         $state = 0;
+        $published = 0;
+        $step_stat = 0;
+        $deleted = 0;
 		
 		$sort = 'latest';
 		
@@ -61,6 +64,28 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
         $query['state'] = 1;
       }else{
         $query['state'] = 0;
+      }
+    }
+
+    if($published){
+      $query['published'] = (int)$published;
+    }
+
+    if($step_stat){
+      if((int)$step_stat==1){
+        $query['step_stat'] = 0;
+      }elseif((int)$step_stat==2){
+        $query['step_stat'] = 1;     
+      }elseif((int)$step_stat==3){
+        $query['step_stat'] = 2;     
+      }
+    }
+
+    if($deleted){
+      if((int)$deleted==1){
+        $query['deleted'] = 0;
+      }elseif((int)$deleted==2){
+        $query['deleted'] = 1;
       }
     }
 		

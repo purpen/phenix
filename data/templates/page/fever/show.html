@@ -198,11 +198,11 @@
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
 	
 	// 显示编辑工具条 
-	$('.product.params .actions').hover(function(){
+	/*$('.product.params .actions').hover(function(){
 		$('.ui.admin.buttons').removeClass('hide');
 	},function(){
 		$('.ui.admin.buttons').addClass('hide');
-	});
+	});*/
 	
 	var score = {};
 	$('.ui.point > .button').click(function(){
@@ -626,7 +626,7 @@
 							<i class="share icon"></i>
 						</div>
 						
-						<div class="ui icon admin black hide buttons">
+						<div class="ui icon admin black buttons">
 						{% if visitor.is_admin %}
 
 							{% if product.approved %}

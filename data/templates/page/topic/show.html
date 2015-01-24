@@ -32,11 +32,12 @@
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.view_url }}'});
 	
 	// 显示编辑工具条 
+	/*
 	$('.ui.topic.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});
+	});*/
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -314,6 +315,43 @@
 			</div>
 		</div>
 		{% endif %}
+
+		{% if active %}
+		<div class="nopad row">
+			<div class="column">
+				<div class="ui segment">
+					<h3 class="ui dividing header">
+						所属活动
+					</h3>
+					<div class="ui grid">
+						<div class="row">
+							<div class="two wide column">
+								<a href="{{ active.view_url }}" title="{{ active.title }}">
+						      		<img src="{{ active.cover.thumbnails.tiny.view_url }}" class="ui image" />
+								</a>
+							</div>
+							<div class="eight wide column">
+						      	<h4 class="ui header">
+								  	<div class="content">
+										<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line link">
+											{{ active.title }}
+										</a>
+										<div class="sub header">
+                      <label>活动状态：</label> {{ active.step_str }}
+										</div>
+								  	</div>
+								</h4>
+								<p class="summary">
+									{{ active.summary }}
+								</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		
 		<div class="nopad row">
 			<div class="column">
@@ -382,7 +420,7 @@
 							</div>
 						</div>
 						
-						<div class="ui icon magenta editable hide buttons">
+						<div class="ui icon black editable buttons">
 							{% if visitor.can_admin %}
 								{% if topic.top %}
 								<div class="ui pop top active button" data-content="取消置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">

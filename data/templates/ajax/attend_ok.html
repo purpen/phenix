@@ -8,6 +8,8 @@
 	<eval>
     var val = $('.attend-num').text();
     $('.attend-num').text(parseInt(val)+1);
+    //重新加载报名列表
+    fetch_signup_avatar();
     {% if is_user_info %}
       //关闭弹出层
       $('.ui.user-info-box.modal').modal('hide');
