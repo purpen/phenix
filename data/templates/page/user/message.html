@@ -1,0 +1,405 @@
+{%extends 'layout/board.html'%}
+{% block title %}{{ user.screen_name }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.user-head {
+	text-align: center;
+	background:url('{{ app_url_packaged }}/images/bg-user-home.jpg') no-repeat ;
+	min-height: 380px;
+	padding-top: 1.5em;
+	color: #fff;
+}
+.user-head .summary {
+	font-size: 0.875em;
+}
+.user-head > .ui.avatar {
+	border: 3px solid #FFFFFF;
+}
+.user.center h3 a.ui.small{
+	float: right;
+	font-weight: 400;
+	font-size: .65em;
+	margin-right:.3em;
+	line-height: 27px;
+}
+.ui.published.list .item,.ui.dynamic.list .item {
+font-size: .8125rem;
+background: #fff;
+border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.ui.published.list .item .content {
+margin-left: 0%;
+margin-right:0;
+display:block;
+}
+.ui.published.list .description {
+margin-top: .3em;
+float: right;
+}
+.ui.dynamic.list .content .ui.line.header{
+	margin-bottom:.5em;
+	margin-top:0;
+}
+.ui.dynamic.list .item .content{
+	margin-left: 0%;
+	margin-right:0;
+	display:inline-block;
+	float: left;
+}
+.ui.dynamic.list .ui.avatar.image{
+	float: left;
+	width:3em;
+	height:3em;
+	margin: 4px .5em 4px 0;
+	width: 100%;
+}
+
+
+
+
+.user .five.wide .menu{
+	padding-bottom:15px;
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.user .five.wide .menu .attention{
+	display:inline-block;
+	padding:5px 15px 5px 0;
+	border-right:1px solid rgba(0,0,0,.1);
+}
+.user .five.wide .menu .attention .content>.name a ,.user .five.wide .menu .fans .content>.name a{
+	text-decoration: none;
+	display: block;
+	font-size: 1.05em;
+	font-weight: 700;
+	margin-bottom: .2em;
+	color: rgba(0,0,0,.5);
+}
+.user .five.wide .menu .attention .content>.name a:hover ,.user .five.wide .menu .fans .content>.name a:hover{
+	color:#f36;
+}
+.user .five.wide .menu .attention .content>.description ,.user .five.wide .menu .fans .content>.description{
+clear: both;
+margin: 0;
+color: rgba(0,0,0,.45);
+}
+.user .five.wide .menu .fans{
+	display:inline-block;
+	padding:5px 15px;
+}
+.user .five.wide .news{
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.user .five.wide .news div{
+	margin:15px 0;
+}
+.user .five.wide .news div a{
+	text-decoration: none;
+	color: rgba(0,0,0,.5);
+	font-size: 1.05em;
+	font-weight: 700;
+}
+
+.user .five.wide .news div a:hover{
+	color:#f36;
+}
+.user .five.wide .browse{
+	margin:15px 0;
+	color: rgba(0,0,0,.45);
+	
+}
+.user .time,.user .date{
+	display:inline-block;
+	color:rgba(0,0,0,.3);
+	font-size: .85em;
+}
+.user .right.aligned {
+	float: right;
+}
+.user .content>.inline{
+	display:inline-block;
+	line-height: 33px;
+	margin:0 8px;
+}
+.user .right.btn>.ui.btn{
+	padding: .5em 1em;
+	margin-right: .5em;
+}
+.user .right.btn{
+	line-height: 47px;
+}
+.user .description.fsize{
+	font-size: 15px;
+	color: rgba(0,0,0,.7);
+}
+.ui.white.background{
+	background:#fff;
+}
+.meassage{
+	padding:1.5%;
+}
+.mes-text{
+	width:100;
+	padding-top:1em;
+}
+.mes-text a.ui.photo{
+	float: left; 
+	width: 50px; 
+	height: 60px; 
+	margin-right: 10px;
+}
+.mes-text a.ui.photo img{
+	height:50px;
+	width:50px;
+	border-radius: 25px;
+}
+.mes-text .news{
+	padding: 0 0 0 60px; 
+	overflow: visible;
+}
+.mes-text .news .report{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px 0;
+	height: 20px;
+}
+.mes-text .news .report .pushtime{
+	float:left;
+}
+.mes-text .news .report .count{
+	float:right;
+}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="user center">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="user-head">
+					<img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
+					<h2 class="ui header">
+						{{ user.nickname }}
+					</h2>
+					<p>
+						<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
+					</p>
+					<p class="summary">{{ user.summary }}</p>
+					{% if user._id != visitor.id %}
+					{% if !is_ship %}
+					<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
+						关注 
+					</a>
+					{% else %}
+					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+					{% endif %}
+					
+					<button class="ui small white letter button">
+						私信
+					</button>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned submenu column">
+				<div class="ui magenta buttons">
+					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} button">全部</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/submitted" class="ui {{ css_tab_submitted }} button">发起的产品</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} button">支持的产品</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/like" class="ui {{ css_tab_like }} button">喜欢的产品</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui white background message eleven wide column">
+				<h3 class="ui header dividing">私信</h3>
+				<!--<div class="ui dynamic list">
+									<div class="item">
+										<a>
+											<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+										</a>
+								    	<div class="content"style="width: 94%;">
+								      	  	<div class="ui line header">收藏了话题</div>
+											<div class="description">
+												能介绍一下这个社区吗？
+											</div>
+											<div class="sub_header" style="
+											    margin: 1em 0;
+											">
+												<div class="time" style="
+												    float: left;
+												">
+													113231
+												</div>
+												<div class="report" style="
+												    float: right;
+												">
+													1231323
+												</div>
+											</div>
+										</div>
+										<div class="time" style="padding-left: 3.8em;">
+											123123      4556
+										</div>
+										
+									</div>
+									<div class="item">
+										<a>
+											<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+										</a>
+								    	<div class="content">
+								      	  	<div class="ui line header">发表了话题</div>
+											<div class="description">
+												<a class="ui link" href="" title="">
+													深圳站【设计让产品更性感】太火鸟
+												</a>
+
+											</div>
+										</div>
+									</div>
+									<div class="item">
+										<a>
+											<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+										</a>
+								    	<div class="content">
+								      	  	<div class="ui line header">回复了话题</div>
+											<div class="description">
+												<a class="ui link" href="" title="">
+													深圳站【设计让产品更性感】太火鸟
+												</a>
+
+											</div>
+										</div>
+									</div>
+					</div>-->
+					<div class="mes-text" style="width:100%">
+						<a class="ui photo">
+							<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+						</a>
+						<div class="news">
+							产品评测
+						<div class="sub_header">产品评测</div>
+						<div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
+							<div class="pushtime">
+								4月11日 17:04
+							</div>
+							<div class="count">
+								共3条对话   | <a class="ui link">回复</a> |<a class="ui link">删除</a>
+							</div>	
+						</div>
+						</div>
+					</div>
+					
+				
+				
+				
+			</div>
+			<div class="five wide column">
+				<div class="menu">
+					<div class="attention">
+						<div class="content">
+							<div class="name"><a href="">关注</a></div>
+							<div class="description">
+								9人
+							</div>
+						</div>
+					</div>
+					<div class="fans">
+						<div class="content">
+							<div class="name"><a href="">粉丝</a></div>
+							<div class="description">
+								9人
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="news">
+					<div><a href="">动态</a></div>
+					<div><a href="">通知</a></div>
+					<div><a href="">私信</a></div>
+				</div>
+				<div class="news">
+					<div><a href="">收藏</a></div>
+					<div><a href="">发表的话题</a></div>
+				</div>
+				<div class="browse">
+					个人主页被30人浏览过
+				</div>
+				
+				<!--<h3 class="ui header">关注他</h3>
+				<div class="ui social">
+					<a href="" title="新浪微博" class="ui small red icon button">
+						<i class="flat icon_weibo icon"></i>
+					</a>
+					<a href="" title="腾讯微博" class="ui small blue icon button">
+						<i class="flat icon_qqweibo icon"></i>
+					</a>
+					<a href="" title="豆瓣" class="ui small green icon button">
+						<i class="flat icon icon_douban"></i>
+					</a>
+				</div>-->
+			</div>
+			
+			{% if list.total_rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{%include 'block/pager.html'%}
+			</div>
+			{% endif %}
+
+		</div>
+	</div>
+</div>
+
+	{% include "block/message.html" %}
+
+	{% endblock %}
+
+
+
+
+
