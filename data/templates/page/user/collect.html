@@ -65,60 +65,23 @@ color: rgba(0,0,0,.45);
 	
 }
 
-/****  meassage   ****/
+/****  collect   ****/
 .ui.white.background{
 	background:#fff;
 }
-.user .ui.message.eleven{
+.user .ui.collect{
 	padding:1.5%;
-	border:0px solid rgba(0,0,0,0) !important;
+	border:0px solid rgba(0,0,0,0);
 }
-.mes-text{
-	width:100%;
-	padding-top:1em;
+.ui.collect .ui.header{
+	margin-bottom:0;
 }
-.mes-text a.ui.photo{
-	float: left; 
-	width: 50px; 
-	height: 60px; 
-	margin-right: 10px;
-}
-.mes-text a.ui.photo img{
-	height:50px;
-	width:50px;
-	border-radius: 25px;
-}
-.mes-text .news{
-	padding: 0 0 0 60px; 
-	overflow: visible;
-	font-size: 17px;
-	font-weight: 700;
-}
-.mes-text .news .sub_header{
-	font-size: 14px;
-	font-weight: 400;
-	padding-top: 5px;
-	line-height: 20px;
-}
-.mes-text .news .report{
+.ui.collect .mes-text .report{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding: 10px 0;
-	height: 20px;
-	font-size: 15px;
-	font-weight: 400;
-	color:rgba(0,0,0,0.6);
+	padding: 10px 0 10px 10px;
 }
-.mes-text .news .report .pushtime{
-	float:left;
-}
-.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
-	color:#f36;
-}
-.mes-text .news .report .count{
-	float:right;
-	cursor:pointer;
-	padding-right:5px;
-}
+
+
 </style>
 {% endblock %}
 {% block js %}
@@ -207,26 +170,18 @@ color: rgba(0,0,0,.45);
 		</div>
 		
 		<div class="row">
-			<div class="ui white background message eleven wide column">
-				<h3 class="ui header dividing">私信</h3>
-					<div class="mes-text" style="width:100%">
-						<a class="ui photo">
-							<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-						<div class="news">
-							产品评测
-						<div class="sub_header">产品评测</div>
-						<div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
-							<div class="pushtime">
-								4月11日 17:04
-							</div>
-							<div class="count">
-								共3条对话   | <a class="ui link">回复</a> |<a class="ui link">删除</a>
-							</div>	
-						</div>
-						</div>
+			<div class="ui white background collect eleven wide column">
+				<h3 class="ui header dividing">收藏</h3>
+				<div class="mes-text">
+					<div class="report">
+						<a href="" class="ui link">游戏玩家和普通用户是 Immersis 目前定位的精准用户。Immersis 在游戏、视频和照片上有很大的想象空间。目前，Immersis 仅支持 180°透射，未来会实现 360°，让你全身心沉浸在虚拟世界中。</a>
 					</div>
-					
+				</div>
+				<div class="mes-text">
+					<div class="report">
+						<a href="" class="ui link">游戏玩家和普通用户是 Immersis 目前定位的精准用户。Immersis 在游戏、视频和照片上有很大的想象空间。目前，Immersis 仅支持 180°透射，未来会实现 360°，让你全身心沉浸在虚拟世界中。</a>
+					</div>
+				</div>
 				
 				
 				

@@ -65,13 +65,22 @@ color: rgba(0,0,0,.45);
 	
 }
 
-/****  meassage   ****/
+/****  notice   ****/
 .ui.white.background{
 	background:#fff;
 }
-.user .ui.message.eleven{
+.user .ui.notice{
 	padding:1.5%;
-	border:0px solid rgba(0,0,0,0) !important;
+	border:0px solid rgba(0,0,0,0);
+}
+.ui.notice .ui.header{
+	margin-bottom:0;
+}
+.ui.notice .mes-text{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.ui.notice .mes-text .news .report{
+	border-bottom: 0px solid rgba(0,0,0,0.1);
 }
 .mes-text{
 	width:100%;
@@ -207,26 +216,25 @@ color: rgba(0,0,0,.45);
 		</div>
 		
 		<div class="row">
-			<div class="ui white background message eleven wide column">
-				<h3 class="ui header dividing">私信</h3>
-					<div class="mes-text" style="width:100%">
-						<a class="ui photo">
-							<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-						<div class="news">
-							产品评测
-						<div class="sub_header">产品评测</div>
-						<div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
+			<div class="ui white background notice eleven wide column">
+				<h3 class="ui header dividing">通知</h3>
+				<div class="mes-text">
+					<a class="ui photo">
+						<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg">
+					</a>
+					<div class="news">
+							系统管理员
+						<div class="sub_header">游戏玩家和普通用户是 Immersis 目前定位的精准用户。Immersis 在游戏、视频和照片上有很大的想象空间。目前，Immersis 仅支持 180°透射，未来会实现 360°，让你全身心沉浸在虚拟世界中。 </div>
+						<div class="report">
 							<div class="pushtime">
 								4月11日 17:04
 							</div>
 							<div class="count">
-								共3条对话   | <a class="ui link">回复</a> |<a class="ui link">删除</a>
+								<a class="ui link">删除</a>
 							</div>	
 						</div>
-						</div>
 					</div>
-					
+				</div>	
 				
 				
 				
