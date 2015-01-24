@@ -62,8 +62,8 @@
 .start h2.ui.header .content{
 	text-align:left;
 }
-.start .row:nth-child(3){
-	padding-top:208px;
+.start .row{
+	padding-top:208px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -533,22 +533,6 @@ float: right;
   </div>
   <section class="ui start block">
     <div class="ui responsive center aligned grid">
-      <div class="row">
-        <div class="center aligned tweleve wide column">
-          <h2 class="ui header">
-            <div class="content">
-              <span></span>
-              <br />
-              <strong></strong>
-            </div>
-          </h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="center aligned column">
-          <h2 class="ui header"></h2>
-        </div>
-      </div>
         {% if active.step_stat==1 %}
         <div class="row">
           <div class="center aligned column attend-box">
@@ -742,8 +726,10 @@ float: right;
 								</div>
 							</h4>
 							<div class="clearfix">
-								<i class="icon-place icon"></i>
-								  {{ active.address }}
+								<i class="icon-place icon" style="display:inline-block;float:left;"></i>
+								<div style="display:inline-block;float:left;width:304px;">
+									{{ active.address }}
+								</div>
 							</div>
 						</div>
 					</div>
