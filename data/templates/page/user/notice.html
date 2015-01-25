@@ -70,11 +70,13 @@ color: rgba(0,0,0,.45);
 	background:#fff;
 }
 .user .ui.notice{
-	padding:1.5%;
+	padding:0 1.5%;
 	border:0px solid rgba(0,0,0,0);
 }
 .ui.notice .ui.header{
 	margin-bottom:0;
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
 .ui.notice .mes-text{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -102,6 +104,7 @@ color: rgba(0,0,0,.45);
 	overflow: visible;
 	font-size: 17px;
 	font-weight: 700;
+	min-height: 60px;
 }
 .mes-text .news .sub_header{
 	font-size: 14px;
@@ -127,6 +130,9 @@ color: rgba(0,0,0,.45);
 	float:right;
 	cursor:pointer;
 	padding-right:5px;
+}
+.mes-text:last-child{
+	border-bottom:0px solid #fff !important;
 }
 </style>
 {% endblock %}
@@ -235,6 +241,23 @@ color: rgba(0,0,0,.45);
 						</div>
 					</div>
 				</div>	
+				<div class="mes-text">
+					<a class="ui photo">
+						<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg">
+					</a>
+					<div class="news">
+							系统管理员
+						<div class="sub_header">游戏玩家和普通用户是 Immersis 目前定位的精准用户。Immersis 在游戏、视频和照片上有很大的想象空间。目前，Immersis 仅支持 180°透射，未来会实现 360°，让你全身心沉浸在虚拟世界中。 </div>
+						<div class="report">
+							<div class="pushtime">
+								4月11日 17:04
+							</div>
+							<div class="count">
+								<a class="ui link">删除</a>
+							</div>	
+						</div>
+					</div>
+				</div>
 				
 				
 				
