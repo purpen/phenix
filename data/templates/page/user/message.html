@@ -1,20 +1,8 @@
 {%extends 'layout/board.html'%}
-{% block title %}{{ user.screen_name }}-{% endblock %}
+{% block title %}私信-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.user-head {
-	text-align: center;
-	background:url('{{ app_url_packaged }}/images/bg-user-home.jpg') no-repeat ;
-	min-height: 380px;
-	padding-top: 1.5em;
-	color: #fff;
-}
-.user-head .summary {
-	font-size: 0.875em;
-}
-.user-head > .ui.avatar {
-	border: 3px solid #FFFFFF;
-}
+
 .user .five.wide .menu{
 	padding-bottom:15px;
 	border-bottom:1px solid rgba(0,0,0,.1);
@@ -125,7 +113,9 @@ color: rgba(0,0,0,.45);
 {% endblock %}
 {% block jquery %}
 	// 显示私信框
-	$('.ui.letter.button').bind('click', function(){
+	$('.reply_message').bind('click', function(){
+    $('[name=nickname]').val($(this).attr('nickname'));
+    $('[name=to]').val($(this).attr('user_id'));
 		$('.ui.letter.modal').modal('show');
 	});
 	// 隐藏私信框
@@ -169,29 +159,7 @@ color: rgba(0,0,0,.45);
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="user-head">
-					<img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
-					<h2 class="ui header">
-						{{ user.nickname }}
-					</h2>
-					<p>
-						<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
-					</p>
-					<p class="summary">{{ user.summary }}</p>
-					{% if user._id != visitor.id %}
-					{% if !is_ship %}
-					<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
-						关注 
-					</a>
-					{% else %}
-					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
-					{% endif %}
-					
-					<button class="ui small white letter button">
-						私信
-					</button>
-					{% endif %}
-				</div>
+        {% include "block/user_header.html" %}
 			</div>
 		</div>
 		
@@ -209,26 +177,32 @@ color: rgba(0,0,0,.45);
 		<div class="row">
 			<div class="ui white background message eleven wide column">
 				<h3 class="ui header dividing">私信</h3>
-					<div class="mes-text" style="width:100%">
-						<a class="ui photo">
-							<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-						<div class="news">
-							产品评测
-						<div class="sub_header">产品评测</div>
-						<div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
-							<div class="pushtime">
-								4月11日 17:04
-							</div>
-							<div class="count">
-								共3条对话   | <a class="ui link">回复</a> |<a class="ui link">删除</a>
-							</div>	
-						</div>
-						</div>
-					</div>
-					
-				
-				
+					{% message_list var:'list' page:page user_id:user._id %}
+					{% for message in list.rows %}
+            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
+              <a class="ui photo">
+                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+              </a>
+              <div class="news">
+                与
+                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
+                的对话
+
+              {% for m in message.mailbox %}
+              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
+              {% endfor %}
+              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
+                <div class="pushtime">
+                  4月11日 17:04
+                </div>
+                <div class="count">
+                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+                </div>	
+              </div>
+              </div>
+            </div>
+					{% endfor %}
+
 				
 			</div>
 			<div class="five wide column">

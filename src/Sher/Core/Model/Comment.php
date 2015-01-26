@@ -56,46 +56,47 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
       $type = $this->data['type'];
       switch($type){
         case self::TYPE_TOPIC:
-          $type = Sher_Core_Model_Timeline::TYPE_TOPIC;
+          $kind = Sher_Core_Model_Remind::KIND_TOPIC;
           $model = new Sher_Core_Model_Topic();
           //获取目标用户ID
-          $topic = $model->extend_load((int)$this->data['target_id']);
+          $topic = $model->find_by_id((int)$this->data['target_id']);
           $user_id = $topic['user_id'];
           $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
           break;
         case self::TYPE_PRODUCT:
-          $type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
+          $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
           $model = new Sher_Core_Model_Product();
           //获取目标用户ID
-          $product = $model->extend_load((int)$this->data['target_id']);
+          $product = $model->find_by_id((int)$this->data['target_id']);
           $user_id = $product['user_id'];
           $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
           break;
         case self::TYPE_TRY:
-          $type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
+          $kind = Sher_Core_Model_Remind::KIND_TRY;
           $model = new Sher_Core_Model_Try();
           //获取目标用户ID
-          $try = $model->extend_load($this->data['target_id']);
+          $try = $model->find_by_id((int)$this->data['target_id']);
           $user_id = $try['user_id'];
           $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
           break;
         default:
+          return;
           break;
       }
-      //更新动态
-      $timeline = new Sher_Core_Model_Timeline();
-      $arr = array(
-        'user_id' => $this->data['user_id'],
-        'target_id' => (string)$this->data['_id'],
-        'type' => $type,
-        'evt' => Sher_Core_Model_Timeline::EVT_COMMENT,
-        'target_user_id' => $user_id,
-      );
-      $ok = $timeline->create($arr);
       //给用户添加提醒
+      $remind = new Sher_Core_Model_Remind();
+      $arr = array(
+        'user_id'=> $user_id,
+        's_user_id'=> $this->data['user_id'],
+        'evt'=> Sher_Core_Model_Remind::EVT_COMMENT,
+        'kind'=> $kind,
+        'related_id'=> (int)$this->data['target_id'],
+        'parent_related_id'=> (string)$this->data['_id'],
+      );
+      $ok = $remind->apply_and_save($arr);
       if($ok){
         $user = new Sher_Core_Model_User();
-        $user->update_counter_byinc($user_id, 'comment_count', 1);     
+        $user->update_counter_byinc($user_id, 'alert_count', 1);     
       }
     }
   }
