@@ -365,7 +365,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 
     //正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
-    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{2,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
     if (!preg_match($e, $this->stash['nickname'])) {
       return $this->ajax_notification('格式不正确！ 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾', true);
     }

@@ -18,10 +18,10 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign');
 	
 	public function _init() {
-		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_sub_active');
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_ACTIVE;
-    }
+  }
 	
 	/**
 	 * 活动

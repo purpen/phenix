@@ -59,13 +59,7 @@
 
 {% block content %}
   <section class="ui responsive grid">
-	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="" class="item">话题</a>
-		<a href="" class="item">产品试用</a>
-		<a href="" class="item">活动</a>
-		<a href="" class="item">开放实验室</a>
-		<a href="" class="item">高校孵化基地</a>
-	</div>
+  	{%include 'block/find_nav.html'%}
   </section>
 		{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
 		{% for active in current_list.rows %}
