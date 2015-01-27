@@ -10,8 +10,8 @@ app.domain.base: 'http://taihuoniao.me'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
-#app.doggyx.class_path: '/Users/purpen/project/doggy-x'
-app.doggyx.class_path: '/opt/project/php/doggy-x'
+app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
+#app.doggyx.class_path: '/opt/project/php/doggy-x'
 
 app.url.packaged: '{$app.domain.static}'
 
@@ -21,20 +21,12 @@ app.css.use_bundle: 0
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
 ## mongodb
-#app.mongo.default:
-#  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
-#  db: 'firebird'
-#  username: 'root'
-#  password: 'Frbird#2014$Shop'
-# replicaSet: 'she_main'
-  
-##liyingweng database 
 app.mongo.default:
-  host: '127.0.0.1:27017'
+  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
   db: 'firebird'
   username: 'root'
-#  password: 'Frbird#2014$Shop'
-#  replicaSet: 'she_main'
+  password: 'Frbird#2014$Shop'
+  replicaSet: 'she_main'
 
 # redisdb
 app.redis.default: 
