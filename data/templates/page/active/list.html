@@ -33,7 +33,7 @@
 	text-align:left;
 }
 .start .row{
-	padding-top:208px;
+	padding-top:208px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -63,7 +63,7 @@
   </section>
 		{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
 		{% for active in current_list.rows %}
-      <section class="ui start block" style="background:url({{ active.banner.thumbnails.hd.view_url }}) no-repeat center center /cover;">
+      <section class="ui start block" style="background:url({{ active.banner.fileurl }}) no-repeat center center /cover;">
 
           <div class="ui responsive center aligned grid">
               <div class="row">
