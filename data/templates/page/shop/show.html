@@ -472,6 +472,17 @@
 					<div class="product content froala-element">
 						{{ product.content }}
 					</div>
+					<h3 class="ui header">
+						你可能喜欢的产品
+					</h3>
+					{% product_list var:'newest' page:1 process_presaled:1 only_approved:1 only_onsale:1 size:3 sort:'stick:latest' %}
+					{% if newest.rows %}
+					<div class="ui three items">
+						{% for product in newest.rows %}
+					  		{% include "block/product_item.html" %}
+					    {% endfor %}
+					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
