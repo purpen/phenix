@@ -1,6 +1,7 @@
 ---
 app.domain.base: 'http://www.taihuoniao.com'
 app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+app.domain.mobile: 'http://m.taihuoniao.com'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'prod'
 deploy.root: '/www/phenix'

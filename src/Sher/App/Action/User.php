@@ -270,6 +270,30 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
     );
     return $this->to_taconite_page('ajax/user_notice.html');
 	}
+
+  /**
+   * 验证用户基本资料是否齐全
+   */
+  public function ajax_check_userinfo(){
+  
+    if($this->visitor->id && !empty($this->visitor->profile)){
+      if(empty($this->visitor->profile['realname'])){
+        return $this->to_raw_json(false);
+      }
+      if(empty($this->visitor->profile['phone'])){
+        return $this->to_raw_json(false);
+      }
+      if(empty($this->visitor->profile['job'])){
+        return $this->to_raw_json(false);
+      }
+      if(empty($this->visitor->profile['address'])){
+        return $this->to_raw_json(false);
+      }
+    }else{
+      return $this->to_raw_json(false);
+    }
+    return $this->to_raw_json(true);
+  }
 	
 	
 }

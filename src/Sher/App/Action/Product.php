@@ -289,6 +289,5 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		return $this->to_html_page('page/product/api_show.html');
 	}
 	
-	
 }
 ?>

@@ -3,7 +3,7 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
+class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 5,
@@ -61,7 +61,7 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 	 * 更新用户头像
 	 */
 	public function update_avatar(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$qkey = (int)$this->stash['qkey'];
 		
 		$avatar = array(
@@ -81,7 +81,7 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 	 * 更新用户信息
 	 */
 	public function update_profile(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$nickname = $this->stash['nickname'];
 		
 		if(empty($user_id) || empty($nickname)){
@@ -130,7 +130,7 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 		$size = $this->stash['size'];
 		
 		$type = (int)$this->stash['type'];
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
 		}
@@ -189,6 +189,7 @@ class Sher_Api_Action_My extends Sher_Core_Action_Authorize {
 			if($type == 2){
 				foreach($some_fields as $key=>$value){
 					$data[$i][$key] = $result['rows'][$i]['topic'][$key];
+          $data[$i]['topic']['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['topic']['_id']);
 				}
 			}
 		}

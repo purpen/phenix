@@ -1,0 +1,4 @@
+#Production enviroment
+all:
+    default:
+        provider:'Doggy_MessageService_Provider_Db'

@@ -21,7 +21,7 @@ require $cfg_doggy_bootstrap;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
-echo "Prepare to fix order status ...\n";
+echo "Prepare to sync order_index ...\n";
 
 $order = new Sher_Core_Model_Orders();
 $order_index = new Sher_Core_Model_OrdersIndex();
@@ -41,7 +41,7 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i<$max; $i++) {
-    	$order_id = $list[$i]['_id'];
+    	$order_id = (string)$list[$i]['_id'];
 		$status = $list[$i]['status']; 
     	$rid = $list[$i]['rid'];
 

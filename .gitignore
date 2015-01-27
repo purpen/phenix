@@ -6,3 +6,4 @@ data/web/packaged
 composer.lock
 vendor/
 .gitignore
+data/web/packaged

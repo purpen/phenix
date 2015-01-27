@@ -3,7 +3,7 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
+class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 10,
@@ -65,8 +65,40 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 		
         $service = Sher_Core_Service_Advertise::instance();
         $result = $service->get_ad_list($query,$options);
-		
-		// 获取单条记录
+	
+
+    //显示的字段
+    $options['some_fields'] = array(
+      '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1,
+      'created_on'=>1,
+    );
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($options['some_fields'] as $key=>$value){
+				$data[$i][$key] = $result['rows'][$i][$key];
+      }
+      $data[$i]['item_id'] = 0;
+      $data[$i]['item_stage'] = 0;
+      $data[$i]['item_type'] = 'Product';
+      //判断是预售还是商品
+      if($result['rows'][$i]['type']==2){
+        $web_url = $result['rows'][$i]['web_url'];
+        if(!empty($web_url)){
+          $arr = explode('-', $web_url);
+          $data[$i]['item_id'] = $arr[2];
+          $data[$i]['item_stage'] = $arr[1];
+          $data[$i]['item_type'] = $arr[0];
+        }
+      }
+			// 封面图url
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+		}
+
+		$result['rows'] = $data;
+
+		// 获取单条记录 ????
 		if($size == 1 && !empty($result['rows'])){
 			$result = $result['rows'][0];
 		}
@@ -141,12 +173,12 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 	 */
 	public function got_bonus(){
 		$bonus = $this->stash['bonus'];
-		$user_id = $this->stash['uid'];
+		$user_id = $this->current_user_id;
 		if (empty($bonus) || empty($user_id)){
 			return $this->ajax_json('领取失败：缺少请求参数！', true);
 		}
 		
-		$bonus_list = preg_split('/[:]+/u', $bonus);
+		$bonus_list = preg_split('/[;]+/u', $bonus);
 		if(empty($bonus_list)){
 			return $this->ajax_json('领取失败：未获取红包信息！', true);
 		}
@@ -240,7 +272,7 @@ class Sher_Api_Action_Gateway extends Sher_Core_Action_Authorize {
 	 * 意见反馈
 	 */
 	public function feedback(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$content = $this->stash['content'];
 		$contact = $this->stash['contact'];
 		

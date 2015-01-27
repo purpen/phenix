@@ -13,6 +13,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     const TYPE_TOPIC = 2;
 	const TYPE_TRY = 3;
 	const TYPE_PRODUCT = 4;
+  const TYPE_ACTIVE = 5;
 	
     
     protected $schema = array(
@@ -115,6 +116,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				$model = new Sher_Core_Model_Try();
 				$model->dec_counter('comment_count', (int)$target_id);
 				break;
+			case self::TYPE_ACTIVE:
+				$model = new Sher_Core_Model_Active();
+				$model->dec_counter('comment_count', (int)$target_id);
+				break;
 			default:
 				break;
 		}
@@ -130,7 +135,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
         }
-        $row['content'] = Sher_Core_Util_View::safe(htmlspecialchars_decode($row['content']));
+        $row['content'] = Sher_Core_Util_View::safe($row['content']);
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if (!empty($row['reply'])) {
             for ($i=0; $i < count($row['reply']); $i++) {

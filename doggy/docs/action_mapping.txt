@@ -1,0 +1,29 @@
+Action Mapping Rules
+-----------------------------
+How to naming an action
+=====================
+每个Action的类名,应当按照如下约定命名:
+{modules_name}_Action_{action_name},如
+Doggy_Action_Default
+
+Uri mapping
+===========
+* /namespace/action_name/xxxxx
+每个uri的第一个和第2个分别是module的别名action_name
+
+* Namespace vs action_name
+Namespace用于分隔不同的action,我们约定,namespace是action所属的module的namespace的别名
+action_name是action上述Action类的{action_name}部分
+
+How to dispatch a request?
+=============================
+1. 获得Request的PathInfo
+2. 分析PathInfo的格式,按照如下规则获取相应的信息:
+/namespace/action_name/method/param1/param1_value/param2/param2_value...
+
+3. 通过查找mapping.yml,获得namespace对应的module的类空间名,Action Class则映射为{Module's namespace}_Action_ActionName,比如:
+/doggy/welcome/system_show
+将转换后的class是:
+Doggy_Action_Welcome
+Method是:
+systemShow

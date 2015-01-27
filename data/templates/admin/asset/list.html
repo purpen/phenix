@@ -21,7 +21,12 @@
 			</a>
 	    </div>
 	</div>
-	
+  <div>
+  缩略图后缀: 
+  {% for t in thumb_info %}
+    -{{ t }} |
+  {%endfor%}
+  </div>
 	{% asset_list var:'list' page:page %}
 	<table class="ui small table segment">
 		<thead>
@@ -54,14 +59,16 @@
 				</td>
 				<td>
 					ID: {{ asset._id }}<br />
-					Key: {{ asset.filepath }}
+          url: {{ asset.fileurl }}
+
 				</td>
 				<td>{{ asset.created_on|date 'Y-m-d H:i:s' }}</td>
 				<td>
 					{{ asset.size|filesize }}
 				</td>
 				<td>
-					{% if asset.asset_type == 10 %}产品：{% endif %}{{ asset.parent_id }}
+          asset_type: {{ asset.asset_type }}<br />
+          parent_id: {{ asset.parent_id }}
 				</td>
 				<td>
 					<a href="{{ app_url_admin }}/asset/delete?id={{ asset._id }}" class="ui ajax link">删除</a>

@@ -3,7 +3,7 @@
  * 社区主题API接口
  * @author purpen
  */
-class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
+class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,
@@ -87,6 +87,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+    $user_id = $this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('访问的主题不存在！', 3000);
 		}
@@ -111,11 +112,9 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		$model->increase_counter('view_count', $inc_ran, $id);
 		
 		// 当前用户是否有管理权限
-		if ($this->visitor->id){
-			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_admin){
-				$editable = true;
-			}
-		}
+    if ($this->current_user_id == $topic['user_id']){
+      $editable = true;
+    }
 		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){
@@ -126,8 +125,8 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
-    $topic['is_favorite'] = $fav->check_favorite(1, $topic['_id'], 2) ? 1 : 0;
-    $topic['is_love'] = $fav->check_loved(1, $topic['_id'], 2) ? 1 : 0;
+    $topic['is_favorite'] = $fav->check_favorite($this->current_user_id, $topic['_id'], 2) ? 1 : 0;
+    $topic['is_love'] = $fav->check_loved($this->current_user_id, $topic['_id'], 2) ? 1 : 0;
 		
 		// 获取父级分类
 		$category = new Sher_Core_Model_Category();
@@ -155,7 +154,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 	 * 提交话题
 	 */
 	public function submit(){
-		$user_id = (int)$this->stash['user_id'];
+		$user_id = $this->current_user_id;
 		$id = (int)$this->stash['_id'];
 		
 		$data = array();
@@ -241,7 +240,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 		$size = $this->stash['size'];
 		
 		// 请求参数
-        $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+        $user_id = $this->current_user_id;
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
 		if(empty($target_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
@@ -287,7 +286,7 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 			return $this->api_json('获取数据错误,请重新提交', 3000);
 		}
 		
-		$data['user_id'] = $this->visitor->id;
+		$data['user_id'] = $this->current_user_id;
 		$data['type'] = Sher_Core_Model_Comment::TYPE_TOPIC;
 		
 		try{
@@ -318,9 +317,9 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 			$type = Sher_Core_Model_Favorite::TYPE_TOPIC;
 			
 			$model = new Sher_Core_Model_Favorite();
-			if(!$model->check_favorite($this->visitor->id, $id, $type)){
+			if(!$model->check_favorite($this->current_user_id, $id, $type)){
 				$fav_info = array('type' => $type);
-				$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
+				$ok = $model->add_favorite($this->current_user_id, $id, $fav_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
@@ -345,9 +344,9 @@ class Sher_Api_Action_Topic extends Sher_Core_Action_Authorize {
 			$type = Sher_Core_Model_Favorite::TYPE_TOPIC;
 			
 			$model = new Sher_Core_Model_Favorite();
-			if (!$model->check_loved($this->visitor->id, $id, $type)) {
+			if (!$model->check_loved($this->current_user_id, $id, $type)) {
 				$fav_info = array('type' => $type);
-				$ok = $model->add_love($this->visitor->id, $id, $fav_info);
+				$ok = $model->add_love($this->current_user_id, $id, $fav_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败,请重新再试:'.$e->getMessage(), true);

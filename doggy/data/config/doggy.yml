@@ -1,0 +1,22 @@
+#Production enviroment
+all:
+    load_conifg:
+        - classes
+        - database
+        - factories
+        - logging
+        - results
+        - mapping
+        - modules
+        - runtime
+        - smarty
+        - interceptors
+        - session
+        - pre_results
+        - cache
+        - storage
+        - auth
+        - mail
+        - event
+        - message_service
+        - fast_cache

@@ -1,0 +1,6 @@
+all:
+    rules:
+        - '/(.*)html$/'
+    ttl:120
+    group:'_cache_pages_'
+            

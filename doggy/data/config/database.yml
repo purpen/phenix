@@ -1,0 +1,8 @@
+all:
+
+prod:
+    default:'adodb://mysqli://root:@localhost/doggy'
+test:
+    default:'adodb://mysqli://root:@localhost/test?charSet=utf8'
+dev:
+    default:'adodb://mysqli://root:@localhost/test?charSet=utf8'

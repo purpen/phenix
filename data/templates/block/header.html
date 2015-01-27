@@ -6,9 +6,11 @@
 		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
 			<i class="flat home icon"></i>首页
 		</a>
+    <!--
 		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item">
 			<i class="flat sale icon"></i>预售
 		</a>
+    -->
 		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
 			<i class="flat shopping icon"></i>商店
 		</a>
@@ -16,7 +18,7 @@
 			<i class="flat support icon"></i>投票
 		</a>
 		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
-			<i class="flat discover icon"></i>社区
+			<i class="flat discover icon"></i>发现
 		</a>
 	</div>
 </div>
@@ -33,9 +35,11 @@
 		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
 			<i class="flat home icon"></i>首页
 		</a>
+    <!--
 		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item">
 			<i class="flat sale icon"></i>预售
 		</a>
+    -->
 		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
 			<i class="flat shopping icon"></i>商店
 		</a>
@@ -43,7 +47,7 @@
 			<i class="flat support icon"></i>投票
 		</a>
 		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
-			<i class="flat discover icon"></i>社区
+			<i class="flat discover icon"></i>发现
 		</a>
 	</div>
 	{% include "block/header_rightside.html" %}
@@ -57,9 +61,11 @@
 		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
 			<i class="flat home icon"></i>首页
 		</a>
+    <!--
 		<a href="{{ app_url_sale }}" class="{{ css_page_sale }} item">
 			<i class="flat sale icon"></i>预售
 		</a>
+    -->
 		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
 			<i class="flat shopping icon"></i>商店
 		</a>
@@ -67,8 +73,25 @@
 			<i class="flat support icon"></i>投票
 		</a>
 		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
-			<i class="flat discover icon"></i>社区
+			<i class="flat discover icon"></i>发现
 		</a>
 	</div>
 	{% include "block/header_rightside.html" %}
 </div>
+
+
+<!--[if lt IE 9]>
+<div id="menu"> 
+<ul> 
+<li><a href="{{ app_url_domain }}" title="首页"><img src="{{ app_url_packaged }}/images/logo-home.png" alt="太火鸟" /></a></li>
+<li><a href="{{ app_url_domain }}/home"><img src="{{ app_url_packaged }}/images/ie_1.png"></a></li> 
+<li><a href="{{ app_url_sale }}"><img src="{{ app_url_packaged }}/images/ie_2.png"></a></li> 
+<li><a href="{{ app_url_shop }}"><img src="{{ app_url_packaged }}/images/ie_3.png"></a></li>
+<li><a href="{{ app_url_fever }}"><img src="{{ app_url_packaged }}/images/ie_4.png"></a></li>
+<li><a href="{{ app_url_topic }}"><img src="{{ app_url_packaged }}/images/ie_5.png"></a></li>
+<li class="word"><a href="{{ app_url_register }}">注册</a></li>
+<li class="word"><a href="{{ app_url_login }}">登录</a></li>
+</ul> 
+</div> 
+
+<![endif]-->

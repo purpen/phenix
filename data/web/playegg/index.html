@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <meta name="apple-mobile-web-app-capable" content="yes" />
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	    <meta name="format-detection" content="telephone=no" />
+	    <meta name="HandheldFriendly" content="true" />
+	    <!-- Chrome for Android web app tags -->
+	    <meta name="mobile-web-app-capable" content="yes" />
+
+	    <title>玩蛋去-太火鸟</title>
+	    <link rel="stylesheet" href="http://frstatic.qiniudn.com/css/base_v14122401.css" />
+	    <link rel="stylesheet" href="http://frstatic.qiniudn.com/css/main_v14122401.css" />
+	    <script src="http://frstatic.qiniudn.com/js/jquery_v14122401.js"></script>
+	</head>
+	
+	<body>
+	    <div class="guide">
+	        <div class="cleafix">
+	            <a href="javascript:void(0)" class="share_close fl"></a>
+	            <img alt="分享指示箭头" class="fr mr5p" src="http://frstatic.qiniudn.com/images/arrow.png" height="70" width="70" />
+	        </div>
+	        <div class="tc">
+	            <p>请点击右上角</p>
+	            <p>通过【发送给朋友】功能</p>
+	            <p>或通过【分享到朋友圈】功能</p>
+	            <p>把消息告诉给小伙伴哦~</p>
+	        </div>
+	    </div>
+	    <div class="play" ontouchstart="newgame()">
+	        <img alt="play" src="http://frstatic.qiniudn.com/images/play.png" />
+	    </div>
+	    <header>
+	        <div class="fl logo">
+	            <img alt="玩蛋去" src="http://frstatic.qiniudn.com/images/egg_logo.png" height="100%" width="100%" />
+	        </div>
+	        <div class="fl settime">
+	            <p class="f14">倒计时</p>
+	            <div id="showtime" class="fl f32 ml30p f_impact">9</div>
+	            <div class="fl mt10 time"></div>
+	        </div>
+	        <div class="fl egg_num">
+	            <p class="f14">砸蛋数</p>
+	            <span class="f32 f_impact" id="egg_acount">0</span>&nbsp;个
+	        </div>
+	        <div class="fl ml8p pr mt5">
+	            <div class="getgift">0</div>
+	            <a href="#" class="btn_gift" ontouchstart="got_bonus()"><span class="icon01 icon ml10p mr1p" ></span><span>红包</span></a>
+	            <a href="#" class="setting" ontouchstart="exit()"><span class="icon02 icon ml10p mr1p"></span><span>退出</span></a>
+	        </div>
+	    </header>
+	    <div class="p_mask">
+	        <div class="con">
+	            <audio id="myaudio" controls>
+	                <source src="http://frstatic.qiniudn.com/video/3998.mp3">
+	                    <source src="http://frstatic.qiniudn.com/video/3998.ogg">
+	            </audio>
+	            <section>
+	                <div id="grid-container">
+	                    <div class="grid-cell" id="cell0" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell1" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell2" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell3" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell4" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell5" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell6" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell7" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell8" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell9" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell10" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell11" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell12" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell13" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell14" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell15" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell16" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell17" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell18" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell19" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell20" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell21" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell22" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell23" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell24" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell25" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell26" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell27" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell28" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell29" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell30" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell31" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell32" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell33" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell34" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell35" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell36" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell37" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell38" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell39" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell40" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell41" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell42" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell43" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell44" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell45" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell46" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell47" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell48" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell49" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell50" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell51" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell52" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell53" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell54" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell55" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell56" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell57" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell58" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell59" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell60" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell61" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell62" ontouchstart="showResult(this.id)"></div>
+	                    <div class="grid-cell" id="cell63" ontouchstart="showResult(this.id)"></div>
+	                </div>
+
+	            </section>
+	            <footer></footer>
+              <input type="hidden" name="user_id" value="{{ user_id }}" />
+              <input type="hidden" name="nickname" value="{{ nickname }}" />
+              <div class="init_box" data-flag="false"></div>
+	            <div class="share_box" data-flag="false" style="height:290px">
+	                <h1>恭喜您</h1>
+	                <div class="line"></div>
+	                <p class="text"></p>
+	                <a href="javascript:share()" class="share_btn btn01"><span class="icon03 icon ml8p mr5p"></span>分享至朋友圈</a>
+	                <a href="javascript:againGame()" class="newgame btn02" id="newgamebutton"><span class="icon04 icon ml8p mr5p"></span>再挑战一次</a>
+	            </div>
+	            <div class="tips_box" data-flag="false" style="height:190px">
+	                <a href="javascript:againGame()" class="close_btn01"></a>
+	                <h1>温馨提示</h1>
+	                <div class="line"></div>
+	                <h2 class="pl10"><p class="text"></p></h2>
+	                <a href="javascript:got_bonus()" class="get_btn btn01 tc"><h3>领 取</h3></a>
+	                <a href="javascript:esc()" class="exit_btn btn02 ml5p tc"><h3>退 出</h3></a>
+	            </div>
+	            <div class="reg_box" data-flag="false" style="height:320px">
+	                <a href="javascript:againGame()" class="close_btn01"></a>
+	                <!--                <a href="javascript:close('reg_box');" class="close_btn01"></a>-->
+	                <h1>领取红包</h1>
+	                <div class="line"></div>
+	                <form id="regform">
+	                    <h2>注册成功，红包到家！</h2>
+	                    <div class="input_tips" id="reg_tips"></div>
+	                    <ul class="inputOuter">
+	                        <li>
+	                            <span class="tr f08">手机号：</span>
+	                            <span class="tr"><input type="tel" name="tel" id="tel" class="inputstyle" value="" maxlength="11" /></span>
+	                        </li>
+	                        <li>
+	                            <span class="tr f08" style="width:51px">密码：</span>
+	                            <span><input type="password" name="pwd" id="pwd" value="" class="inputstyle" maxlength="16" /></span>
+	                        </li>
+	                        <li>
+	                            <span class="tr f08">验证码：</span>
+	                            <span><input type="text" id="identifycode" value="" class="inputstyle" style="width:50px" /></span>
+	                            <span id="identifying"><a href="#" class="identifying_btn" ontouchstart="getCode()" >获取验证码</a></span>
+	                        </li>
+	                    </ul>
+
+	                    <a href="#" class="reg_btn btn01 tc" ontouchstart="register()"><h3>注册</h3></a>
+	                    <a href="#" class="reset_btn btn02 ml5p tc" ontouchstart="reset()"><h3>重置</h3></a>
+	                </form>
+	                <form id="loginform">
+	                    <h2>登录后即可获得红包！</h2>
+	                    <div class="input_tips" id="login_tips"></div>
+	                    <ul class="inputOuter">
+	                        <li>
+	                            <span class="tr f08">手机号：</span>
+	                            <span class="tr"><input type="tel" name="log_tel" id="log_tel" class="inputstyle" value="" maxlength="11" /></span>
+	                        </li>
+	                        <li>
+	                            <span class="tr f08" style="width:51px">密码：</span>
+	                            <span><input type="password" name="log_pwd" id="log_pwd" value="" class="inputstyle" maxlength="16" /></span>
+	                        </li>
+	                    </ul>
+
+	                    <a href="#" class="reg_btn btn01 tc" ontouchstart="login()"><h3>登录</h3></a>
+	                    <a href="#" class="reset_btn btn02 ml5p tc" ontouchstart="getReg()"><h3>注册</h3></a>
+	                </form>
+	                <form id="getbonusform">
+	                    <div class="got_tip" id="got_tips"></div>
+	                    <a href="#" class="newgame02 btn01 tc" ontouchstart="againGame()">再玩一局</a>
+	                    <a href="#" class="reset_btn btn02 ml5p tc" ontouchstart="exit()"><h3>退出</h3></a>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+      <script src="http://frstatic.qiniudn.com/js/main_v14122903.js"></script>
+      <!--<script src="./js/main_v14122803.js"></script>-->
+	</body>
+</html>

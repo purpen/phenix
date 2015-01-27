@@ -75,10 +75,22 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/product" method="post">
+		<form action="{{ app_url_admin_base }}/product/search" method="get">
+      <input type="hidden" name="stage" value="{{ stage }}" />
 			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="s" value="{{ s }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="1">编号</div>
+          <div class="item" data-value="2">标题</div>
+          <div class="item" data-value="3">标签</div>
+        </div>
+      </div>
+
 			<div class="ui icon input">
-				<input placeholder="Search..." type="text" name="q">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
 				<i class="flat search link icon"></i>
 			</div>
 		</form>
@@ -103,7 +115,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted size:20  %}
+	      {% if is_search %}
+				  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted s_type:s s_mark:q size:30 %}
+	      {%else%}
+				  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted size:30 %}
+	      {%endif%}
+
 			{% for product in list.rows %}
 			<tr id="{{ product._id }}">
 				<td>
@@ -133,7 +150,7 @@
 					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.sale_count|default 0 }}</span></p>
 					{% endif %}
 				</td>
-				<td>
+				<td class="center aligned">
 					{% if product.process_voted %}
 					<span>投票<i class="angle right icon"></i></span>
 					{% endif %}
@@ -143,6 +160,12 @@
 					{% if product.process_saled %}
 					<span>商店</span>
 					{% endif %}
+		            {% if product.is_try %}
+		              <p class="ui magenta text">(试用新品)</p>
+		            {%endif%}
+		            {% if product.okcase %}
+		              <p class="ui magenta text">(案例产品)</p>
+		            {%endif%}
 				</td>
 				<td>
 					{% if product.stage %}

@@ -1,0 +1,10 @@
+---
+all: 
+  uri.root:'${runtime.uri.root}'
+  uri.images:'${runtime.uri.images}'
+  uri.js:'${runtime.uri.js}'
+  uri.css:'${runtime.uri.css}'
+  error_page:
+     default:'${build.webroot}/page_error/500.html'
+     page_404:'${build.webroot}/page_error/404.html'
+     

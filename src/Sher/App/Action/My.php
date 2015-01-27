@@ -58,11 +58,20 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function profile(){
 		$this->stash['profile'] = $this->visitor->profile;
-		
 		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
 		}
-		
+
+    //有些信息visitor没有，需要再次查询user表
+    $model = new Sher_Core_Model_User();
+    $user = $model->find_by_id($this->visitor->id);
+    if(empty($user)){
+			return $this->show_message_page('系统错误！');
+    }
+    
+    //$this->stash['user'] = $user;
+    $this->stash['user']['email'] = $user['email'];
+    $this->stash['user']['tags'] = $user['tags'];
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 
@@ -109,11 +118,20 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			case 1:
 				$this->set_target_css_state('nopayed');
 				break;
+      case 2:
+        $this->set_target_css_state('ready_goods');
+        break;
 			case 9: // 已关闭订单：取消的订单、过期的订单
 				$this->set_target_css_state('closed');
 				break;
 			case 4:
 				$this->set_target_css_state('finished');
+				break;
+			case 5:
+				$this->set_target_css_state('refunding');
+				break;
+			case 6:
+				$this->set_target_css_state('refunded');
 				break;
 			default:
 				$this->set_target_css_state('all');
@@ -347,7 +365,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 
     //正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
-    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{2,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
     if (!preg_match($e, $this->stash['nickname'])) {
       return $this->ajax_notification('格式不正确！ 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾', true);
     }
@@ -404,6 +422,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         $profile['realname'] = $this->stash['realname'];
         $profile['job'] = $this->stash['job'];
 		$profile['phone'] = $this->stash['phone'];
+		$profile['address'] = $this->stash['address'];
 		
 		$user_info['profile'] = $profile;
         
@@ -537,5 +556,45 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->set_target_css_state('user_service');
 		return $this->to_html_page('page/my/service.html');
 	}
+
+  /**
+   * 申请退款
+   */
+  public function ajax_refund(){
+		$rid = $this->stash['rid'];
+    $content = $this->stash['content'];
+		if (empty($rid)) {
+			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+		}
+
+    //零元不能退款
+    if ((int)$order_info['pay_money']==0){
+ 			return $this->ajax_notification('此订单不允许退款操作！', true);  
+    }
+		
+		// 正在配货订单才允许申请
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
+    }
+    $options = array('refund_reason'=>$content);
+		try {
+			// 申请退款
+			$model->refunding_order($order_info['_id'], $options);
+    } catch (Sher_Core_Model_Exception $e) {
+        return $this->ajax_notification('申请退款失败，请联系客服:'.$e->getMessage(), true);
+    }
+		
+    $this->stash['my'] = true;
+		$this->stash['order'] = $model->find_by_rid($rid);
+		return $this->to_taconite_page('ajax/refund_ok.html');
+  }
+
 }
 ?>

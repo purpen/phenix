@@ -2,35 +2,42 @@
 {% block title %}玩蛋去-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.games.page{
-	background:#fff;
-}
-.games .play img{
-	width:100%;
-}
-.games .code{
-	padding:5em 0 !important;
-}
-.games .code h2.ui.header,.games .code h3.ui.header{
-	color:#ff5100;
-}
-.games .code .item img{
-	cursor: default;
-}
-.games .code .row:last-child .column p{
-	line-height: 27px;
-	margin: 0px;
-	padding: 3px 0;
-}
+	.games.page{
+		background:#fff;
+	}
+	.games .play img{
+		width:100%;
+	}
+	.games .code{
+		padding:5em 0 !important;
+	}
+	.games .code h2.ui.header,.games .code h3.ui.header{
+		color:#ff5100;
+	}
+	.games .code .item img{
+		cursor: default;
+	}
+	.games .code .row:last-child .column p{
+		line-height: 27px;
+		margin: 0px;
+		padding: 3px 0;
+	}
+
+  .ui.four.items>.item,.ui.four.items>.item:hover{
+    -webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+    box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+  }
 </style>
 {% endblock %}
+
 {% block jquery %}
 
 {% endblock %}
+
 {% block content %}
 <div class="games page">
 	<section class="play">
-		<img src="{{ app_url_packaged }}/images/game_1.jpg" class="ui image" ondragstart="return false;">
+		<img src="{{ app_url_packaged }}/images/game_t1.jpg" class="ui image" ondragstart="return false;">
 	</section>
 	<section class="ui big code block">
 		<div class="ui responsive grid">

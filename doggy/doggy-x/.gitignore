@@ -1,0 +1,7 @@
+.svn
+tmtags
+dev_root
+vendor
+data/web/app
+deploy/dev.yml
+deploy/test.yml

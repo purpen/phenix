@@ -11,7 +11,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }} },
+      params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }},'file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload_pictures }}'
       	},
 		text: {
@@ -32,9 +32,8 @@
 			$('#product-upload-form').addClass('error');
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
+      $('#file_path').text(result.data.asset.file_url);
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			
-			$.get('{{ app_url_upload }}/check_upload_assets', {'assets': result.data.ids});
 		}
 	});
 	
@@ -60,7 +59,10 @@
 		<h3>选择图片</h3>
 		<div id="phenix-uploader"></div>
 		
-		<div id="asset-list" class="ui four items"></div>
+		<div id="asset-list" class="ui four items">
+      图片路径: <span id="file_path"></span><br />
+      后缀: <span>-mi.jpg | -ti.jpg | -sm.jpg | -me.jpg | -la.jpg | -bi.jpg | -hu.jpg | -ma.jpg</span>
+    </div>
 	</div>
 	
 {% endblock %}

@@ -17,6 +17,8 @@ app.url.wap.social.list : '{$app.url.wap.social}/list'
 app.url.wap.social.show: '{$app.url.wap.social}/show-%s-%s.html'
 app.url.wap.shop: '{$app.url.wap}/shop'
 app.url.wap.shop.view: '{$app.url.wap}/shop/%s.html'
+app.url.wap.active: '{$app.url.wap}/active/view-%s.html'
+app.url.wap.active.view: '{$app.url.wap}/active/view-%s.html'
 app.url.wap.my: '{$app.url.wap}/my'
 app.url.wap.auth: '{$app.url.wap}/auth'
 
@@ -56,6 +58,10 @@ app.url.topic: '{$app.url.domain}/topic'
 app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
+
+# 活动
+app.url.active: '{$app.url.domain}/active'
+app.url.active.view: '{$app.url.active}/view-%s.html'
 
 # 产品编辑
 app.url.product: '{$app.url.action_base}/product'
@@ -105,6 +111,7 @@ app.url.upload: '{$app.url.qiniu.upload}'
 app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
+app.url.upload.active: '{$app.url.upload}/active'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'

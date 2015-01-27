@@ -126,10 +126,10 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		return $this->to_html_page('page/flat.html');
 	}
 	public function noodles() {		
-		return $this->to_html_page('page/noodles.html');
+		return $this->to_html_page('wap/noodles.html');
 	}
 	public function tweleve() {
-		return $this->to_html_page('page/tweleve.html');
+		return $this->to_html_page('page/dreamk.html');
 	}
 
   /**
@@ -172,21 +172,19 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //$model = new Sher_Core_Model_Product();
     //$ok = $model->update_set(1112600014, array('published' => $published));
     //$data = $model->load(1112600014);
-    $service = Sher_Core_Service_Topic::instance();
-    $model = new Sher_Core_Model_User();
-    $product = new Sher_Core_Model_Product();
-    $data = $product->find_by_id(1112600027);
-    $data = $product->extended_model_row($data);
+    //$service = Sher_Core_Service_Topic::instance();
+    //$model = new Sher_Core_Model_User();
+    //$product = new Sher_Core_Model_Product();
+    //$data = $product->find_by_id(1112600027);
+    //$data = $product->extended_model_row($data);
     //print_r($data);exit;
     //$result = $model->find_by_id(3, array('account'=>0));
-    $result = $service->query_list($model,$query=array(),array('assign_fields'=>array('account','sex','is_ok','state','role_id','avatar')));
-    print_r($result);exit;
-    if($ok){
-      echo '1111';
-    }
+    //$result = $service->query_list($model,$query=array(),array('assign_fields'=>array('account','sex','is_ok','state','role_id','avatar')));
+    //print_r($result);exit;
 
-    $model = new Sher_Core_Model_Timeline();
-    $data = $model->find_by_id('547598dd7fd32e45041bfcd8');
+
+    $model = new Sher_Core_Model_AddBooks();
+    $data = $model->find_by_id('549e72b27fd32e46042e3d5e');
     print_r($data);
   }
 
@@ -215,11 +213,37 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
   }
 
   /**
+   * 打印所有字段用于整理文档
+   */
+  public function print_model(){
+    $order = new Sher_Core_Model_Orders();
+    $data = $order->find_by_rid('114122500252');
+    if(!empty($data)){
+      foreach($data as $key=>$val){
+        echo $key;
+        echo '<br />';
+      }
+    }else{
+      echo '不存在';
+    }
+
+  }
+
+  /**
    * test function show
    */
   public function test_func(){
 
-    echo (int)'a232303'; //输出为0
+    //echo gettype((float)'12.5'); //输出为0
+    //echo date('Y-m-d H:i:s', strtotime('2014-12-22 22:20:33'));
+    //echo date('Y-m-d H:i:s');
+    //$model = new Sher_Core_Model_Orders();
+    //$model->update_set('547d8eda7fd32e4704477f69', array('pay_money'=>50));
+    //Doggy_Log_Helper::warn("=======================");
+
+    echo '<br />';
+    $a = Sher_Core_Util_View::load_block('test', 1);
+    echo $a;
   }
 
 }

@@ -15,6 +15,7 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	 * 检查用户权限
 	 */
 	public function check_visitor($invoke_method, $login_user, &$handle) {
+
 	    //匿名用户可执行方法
 	    if ($this->exclude_method_list === '*' || in_array($invoke_method, $this->exclude_method_list)) {
 	        return;

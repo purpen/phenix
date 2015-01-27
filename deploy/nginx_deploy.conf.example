@@ -9,6 +9,27 @@ server {
 
 server {
     listen       80;
+    server_name  api.taihuoniao.com;
+    charset utf-8;
+	index  app;
+    root /www/phenix/web;
+
+    error_page  404   /app/wap/index/not_found;
+
+    location / {
+		rewrite ^(.*)$ /app/api/$1 last;
+    }
+	
+	location /__file_result__/ {
+	    internal;
+	    alias /;
+	}
+	
+    include phpbackend.conf;
+}
+
+server {
+    listen       80;
     server_name  m.taihuoniao.com;
     charset utf-8;
 	index  app;
@@ -196,9 +217,10 @@ server {
         }
 		
 		location /shop {
-            rewrite ^/shop/c(\d+)[/]?$ /app/site/shop?category_id=$1 last;
-  	    	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop?category_id=$1&page=$2 last;
-  	    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop?category_id=$1&sort=$2&page=$3 last;
+			rewrite ^/shop[/]?$ /app/site/shop last;
+            rewrite ^/shop/c(\d+)[/]?$ /app/site/shop/get_list?category_id=$1 last;
+  	    	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop/get_list?category_id=$1&page=$2 last;
+  	    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop/get_list?category_id=$1&sort=$2&page=$3 last;
             rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
             rewrite ^/shop(.*)$ /app/site/shop$1 last;
         }
@@ -224,6 +246,15 @@ server {
           	rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
           	rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
           	rewrite ^/topic(.*)$ /app/site/topic$1 last;
+        }
+
+        location /active {
+          	rewrite ^/active[/]?$ /app/site/active last;
+          	rewrite ^/active/c(\d+)[/]?$ /app/site/active/get_list?category_id=$1 last;
+          	rewrite ^/active/c(\d+)/p(\d+)[/]?$ /app/site/active?category_id=$1&page=$2 last;
+          	rewrite ^/active/view-(\d+).html$ /app/site/active/view?id=$1 last;
+          	rewrite ^/active/view-(\d+)-(\d+).html$ /app/site/active/view?id=$1&page=$2 last;
+          	rewrite ^/active(.*)$ /app/site/active$1 last;
         }
 		
         location /fever {

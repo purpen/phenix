@@ -1,0 +1,606 @@
+body {
+    font-family: "Microsoft YaHei",tahoma,arial,"Hiragino Sans GB",宋体,sans-serif;
+    background: url(http://frstatic.qiniudn.com/images/egg/bg.png) repeat-y;
+    background-size: 100%;
+    position: relative;
+}
+.clear {
+    clear: left;
+}
+img {
+    max-width: 100%;
+}
+.guide {
+    width: 320px;
+    height: 480px;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.guide p {
+    color: #fff;
+    font-size: 1em;
+}
+.share_close {
+    width: 28px;
+    height: 28px;
+    background: url(http://frstatic.qiniudn.com/images/egg/share_close.png) 5px 5px no-repeat;
+    display: block;
+}
+.p_mask {
+    position: relative;
+}
+.con {
+    height: 100%;
+    margin: 0;
+}
+#grid-container {
+    padding: 3% 2.5% 2%;
+    overflow: hidden;
+}
+header .settime,
+header .egg_num {
+    width: 19.6875%;
+    text-align: center;
+}
+header .egg_num {
+    width: 22.5%;
+}
+header .settime .time {
+    width: 8px;
+    height: 8px;
+    background: url(http://frstatic.qiniudn.com/images/egg/fh.png) no-repeat top right;
+    background-size: 100%;
+    overflow: hidden;
+    margin-left: 1px;
+}
+header .getgift {
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    background: #ff4e00;
+    font-size: 0.9em;
+    border: 2px solid #ffea8d;
+    border-radius: 20px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #ffea8d;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+header .btn_gift,
+header .setting {
+    width: 58px;
+    height: 21px;
+    line-height: 21px;
+    background: #ffea8d;
+    border-radius: 3px;
+    color: #956702;
+    display: block;
+    font-size: 0.7em;
+}
+header .setting {
+    margin-top: 7px;
+}
+.icon {
+    background: url(http://frstatic.qiniudn.com/images/egg/icon.png) no-repeat;
+    background-size: 100%;
+    overflow: hidden
+}
+.icon01,
+.icon02,
+.icon03,
+.icon04 {
+    width: 18px;
+    height: 14px;
+    background-position: 0 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.icon02 {
+    height: 14px;
+    background-position: 0 -27px;
+}
+.icon03 {
+    width: 21px;
+    height: 17px;
+    background-position: 0 -54px;
+}
+.icon04 {
+    width: 21px;
+    height: 18px;
+    background-position: 0 -79px;
+}
+.grid-cell,
+.click-cell,
+.gift-cell {
+    width: 12.5%;
+    height: 58px;
+    overflow: hidden;
+    float: left;
+}
+.grid-cell {
+    background: url(http://frstatic.qiniudn.com/images/egg/egg.png) no-repeat center center;
+    background-size: 92%;
+}
+.click-cell {
+    background: url(http://frstatic.qiniudn.com/images/egg/egg_bad.png) no-repeat center center;
+    background-size: 92%;
+}
+.gift-cell {
+    background: url(http://frstatic.qiniudn.com/images/egg/egg_gift.png) no-repeat center center;
+    background-size: 92%;
+}
+.mask {
+    background: #050505;
+    opacity: 0.3;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+.share_box,
+.tips_box,
+.reg_box {
+    width: 240px;
+    background: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    border-radius: 3px;
+    display: none;
+}
+.line {
+    margin: 0 6%;
+    height: 1px;
+    border-bottom: 1px solid #edbf4a;
+}
+.share_box p,
+.share_box div,
+.share_box a,
+.tips_box p,
+.tips_box div,
+.tips_box a,
+.reg_box p,
+.reg_box div,
+.reg_box a,
+{
+    position: relative;
+}
+.share_box p {
+    height: 90px;
+    display: block;
+    font-size: 0.8em;
+    line-height: 180%;
+    color: #666;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+}
+.btn01,
+.btn02 {
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    background: #eb3a1b;
+    border-radius: 3px;
+}
+.btn01 {
+    background: #ff6600;
+}
+.share_btn,
+.newgame {
+    width: 138px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.9em;
+}
+.newgame {
+    margin-top: 14px;
+}
+.newgame02,
+.get_btn,
+.exit_btn,
+.reg_btn,
+.reset_btn {
+    width: 65px;
+    display: inline-block;
+}
+.newgame02 {
+    width: 80px;
+    margin-left: 38px;
+}
+/*
+.get_btn,
+.exit_btn {
+    margin-top: 10px;
+}
+*/
+.reg_btn,
+.get_btn {
+    margin-left: 46px;
+    margin-top: 2px;
+}
+.close_btn01 {
+    width: 24px;
+    height: 24px;
+    background: url(http://frstatic.qiniudn.com/images/egg/icon.png) no-repeat;
+    background-size: 100%;
+    background-position: 0 -120px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 999;
+    display: block;
+}
+.input_tips {
+    height: 15px;
+    font-size: 0.7em;
+    text-align: center;
+}
+.cred {
+    color: #ff6600;
+}
+.cgreen {
+    color: #68bf38;
+}
+.inputstyle {
+    width: 130px;
+    height: 22px;
+    border: 1px solid #f8c242;
+    border-radius: 2px;
+    padding-left: 3px;
+    background: #fff;
+    color: #666;
+    font-size: 1em;
+}
+ul.inputOuter {
+    width: 200px;
+    margin: 5px auto;
+    padding: 0;
+}
+ul.inputOuter li {
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+ul.inputOuter li span {
+    line-height: 30px;
+    float: left;
+    display: block;
+    color: #666;
+}
+a.identifying_btn {
+    width: 66px;
+    height: 32px;
+    margin-left: 6px;
+    border: 0;
+    background-color: #d3d3d3;
+    text-align: center;
+    color: #666;
+    display: block;
+    font-size: 0.6em;
+    border-radius: 2px
+}
+form#loginform,
+form#regform,
+form#getbonusform {
+    margin: 15px 0px 0px 0px;
+}
+form#regform,
+form#getbonusform {
+    display: none;
+}
+.got_tip {
+    height: 128px;
+    font-size: 1.2em;
+    text-align: center;
+    color: #666;
+    margin-top: 30px;
+}
+.color01 {
+    color: #ff1d00;
+}
+audio {
+    display: none;
+}
+.play {
+    width: 94px;
+    height: 94px;
+    position: absolute;
+    top: 50%;
+    margin-top: -57px;
+    left: 50%;
+    margin-left: -46px;
+    z-index: 999;
+    display: none;
+}
+@media screen and (max-width: 320px) {
+    header {
+        height: 60px;
+        background: url(http://frstatic.qiniudn.com/images/egg/header_bg.png) no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+        color: #fff;
+        padding: 6px 0 0;
+    }
+    footer {
+        width: 82px;
+        height: 14px;
+        margin: 4% auto 0 auto;
+        background: url(http://frstatic.qiniudn.com/images/egg/logo_01.png) no-repeat;
+        background-size: 100%;
+    }
+    header .logo {
+        width: 24.6875%;
+        height: 52px;
+        padding: 0 12px;
+        box-sizing: border-box;
+    }
+    .grid-cell,
+    .click-cell,
+    .gift-cell {
+        height: 50px;
+    }
+    @media screen and (max-height: 480px) {
+        .homg_bg {
+            width: 100%;
+            height: 480px;
+            background: url(http://frstatic.qiniudn.com/images/egg/loading.jpg);
+            background-size: 100%;
+            overflow: hidden;
+        }
+        .start_game {
+            width: 44.375%;
+            min-height: 37px;
+            margin: 108% auto auto auto;
+            display: block;
+            background: url(http://frstatic.qiniudn.com/images/egg/start.png) no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+        }
+        #grid-container {
+            padding: 1% 2.5% 0;
+            overflow: hidden;
+        }
+        .grid-cell {
+            background: url(http://frstatic.qiniudn.com/images/egg/egg.png) no-repeat center center;
+            background-size: 86%;
+        }
+        .click-cell {
+            background: url(http://frstatic.qiniudn.com/images/egg/egg_bad.png) no-repeat center center;
+            background-size: 86%;
+        }
+        .gift-cell {
+            background: url(http://frstatic.qiniudn.com/images/egg/egg_gift.png) no-repeat center center;
+            background-size: 86%;
+        }
+        .grid-cell,
+        .click-cell,
+        .gift-cell {
+            height: 44px;
+        }
+    }
+    @media screen and (max-height: 568px) and (min-height: 533px) {
+        .homg_bg {
+            width: 100%;
+            height: 568px;
+            background: url(http://frstatic.qiniudn.com/images/egg/loading568.jpg);
+            background-size: 100%;
+            overflow: hidden;
+        }
+        .start_game {
+            width: 44.375%;
+            min-height: 37px;
+            margin: 418px auto auto auto;
+            display: block;
+            background: url(http://frstatic.qiniudn.com/images/egg/start.png) no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+        }
+    }
+    .rule {
+        font-size: 0.7em;
+        padding: 10px 12px 0 12px;
+        color: #5e1a05;
+		text-align: center;
+    }
+    h1 {
+        font-size: 1.7em;
+        color: #ff6600;
+        text-align: center;
+    }
+    h2 {
+        font-size: 1em;
+        line-height: 110%;
+        color: #666;
+        text-align: center;
+    }
+    h3 {
+        font-size: 1em;
+        margin: 0;
+        display: inline-block;
+    }
+}
+@media screen and (min-width: 321px) and (max-width: 540px) {
+    .homg_bg {
+        width: 100%;
+        min-height: 640px;
+        height: 100%;
+        background: url(http://frstatic.qiniudn.com/images/egg/loading640.jpg);
+        background-size: 100%;
+        overflow: hidden;
+    }
+    .start_game {
+        width: 44.375%;
+        min-height: 50px;
+        margin: 458px auto auto auto;
+        display: block;
+        background: url(http://frstatic.qiniudn.com/images/egg/start.png) no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+    }
+    .rule {
+        font-size: 0.7em;
+        padding: 2px 14px;
+        color: #5e1a05;
+		text-align: center;
+    }
+    header {
+        height: 77px;
+        background: url(http://frstatic.qiniudn.com/images/egg/header_bg.png) no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+        color: #fff;
+        padding: 3% 0 0;
+        box-sizing: border-box;
+    }
+    .con {
+        height: 100%;
+        position: relative;
+        margin: 0;
+    }
+    header .logo {
+        width: 24.6875%;
+        height: 52px;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+    footer {
+        width: 92px;
+        height: 20px;
+        margin: 4% auto 0 auto;
+        background: url(http://frstatic.qiniudn.com/images/egg/logo_01.png) no-repeat;
+        background-size: 100%;
+    }
+    h1 {
+        font-size: 1.8em;
+        color: #ff6600;
+        text-align: center;
+    }
+    h2 {
+        font-size: 1em;
+        line-height: 110%;
+        color: #666;
+        text-align: center;
+    }
+    h3 {
+        font-size: 1em;
+        margin: 0;
+        display: inline-block;
+    }
+    @media screen and (min-height: 667px) {
+        .start_game {
+            width: 44.375%;
+            min-height: 50px;
+            margin: 480px auto auto auto;
+            display: block;
+            background: url(http://frstatic.qiniudn.com/images/egg/start.png) no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+        }
+    }
+    @media screen and (min-height: 736px) {
+        .homg_bg {
+            width: 100%;
+            height: 736px;
+            background: url(http://frstatic.qiniudn.com/images/egg/loading640.jpg);
+            background-size: 100%;
+            overflow: hidden;
+        }
+        .start_game {
+            width: 44.375%;
+            min-height: 64px;
+            margin: 540px auto auto auto;
+            display: block;
+            background: url(http://frstatic.qiniudn.com/images/egg/start.png) no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+        }
+        #grid-container {
+            padding: 5% 2.5% 0;
+            overflow: hidden;
+        }
+        .grid-cell,
+        .click-cell,
+        .gift-cell {
+            height: 66px;
+        }
+    }
+}
+@media screen and (min-width: 768px) {
+    .homg_bg {
+        width: 320px;
+        height: 480px;
+        margin: 0 auto;
+        background: url(http://frstatic.qiniudn.com/images/egg/loading.jpg);
+        background-size: 100%;
+        overflow: hidden;
+    }
+    .start_game {
+        width: 44.375%;
+        min-height: 40px;
+        margin: 350px auto auto auto;
+        display: block;
+        background: url(http://frstatic.qiniudn.com/images/egg/start.png) no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+    }
+    .rule {
+        font-size: 12px;
+        padding: 2px 14px;
+        color: #5e1a05;
+		text-align: center;
+    }
+    header {
+        width: 320px;
+        height: 67px;
+        margin: 0 auto;
+        background: url(http://frstatic.qiniudn.com/images/egg/header_bg.png) no-repeat;
+        background-size: 100%;
+        overflow: hidden;
+        color: #fff;
+        padding: 5px 0 0;
+        box-sizing: border-box;
+    }
+    .con {
+        width: 320px;
+        height: 480px;
+        margin: 0 auto;
+        position: relative;
+    }
+    header .logo {
+        width: 24.6875%;
+        height: 52px;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+    footer {
+        width: 92px;
+        height: 20px;
+        margin: 4% auto 0 auto;
+        background: url(http://frstatic.qiniudn.com/images/egg/logo_01.png) no-repeat;
+        background-size: 100%;
+    }
+    h1 {
+        font-size: 1.8em;
+        color: #ff6600;
+        text-align: center;
+    }
+    h2 {
+        font-size: 1em;
+        line-height: 110%;
+        color: #666;
+        text-align: center;
+    }
+    h3 {
+        font-size: 1em;
+        margin: 0;
+        display: inline-block;
+    }
+}

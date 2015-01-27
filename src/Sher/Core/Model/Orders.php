@@ -59,6 +59,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		# 取消订单标识及时间
 		'is_canceled' => 0,
 		'canceled_date' => 0,
+
+    #申请退款标识及时间
+    'is_refunding' => 0,
+    'refunding_date' => 0,
+    'refund_reason'  =>  null,
+
+    #退款成功标识及时间
+    'is_refunded' => 0,
+    'refunded_price'  =>  null,
+    'refunded_date' => 0,
 		
 		## 物流信息
 		
@@ -169,7 +179,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      */
   	protected function before_insert(&$data) {
   		//复制收货地址
-    	if(!isset($data['addbook_id'])){
+    	if(isset($data['addbook_id'])){
 	      	$model = new Sher_Core_Model_AddBooks();
 		  	if(empty($data['addbook_id'])){
 			  	throw new Sher_Core_Model_Exception('收货地址为空！');
@@ -284,47 +294,59 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	/**
 	 * 更新失败订单，等同于关闭订单
 	 */
-	public function fail_order($id){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL);
+	public function fail_order($id, $options=Array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PAY_FAIL, $options);
 	}
 	
 	/**
 	 * 取消订单
 	 */
-	public function canceled_order($id){
-		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED);
+	public function canceled_order($id, $options=Array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_CANCELED, $options);
+	}
+
+	/**
+	 * 申请退款
+	 */
+	public function refunding_order($id, $options=array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_READY_REFUND, $options);
+	}
+
+	/**
+	 * 退款成功
+	 */
+	public function refunded_order($id, $options=array()){
+		return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_REFUND_DONE, $options);
 	}
 	
 	/**
 	 * 自动关闭订单
 	 */
-	public function close_order($id){
-        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED);
+	public function close_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EXPIRED, $options);
+	}
+
+	/**
+	 * 已发货订单
+	 */
+	public function sended_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_SENDED_GOODS, $options);
 	}
 	
 	/**
 	 * 处理订单，并释放库存
 	 */
-	protected function _release_order($id, $status){
-        if(is_null($id)){
-            $id = $this->id;
-        }
-        if(empty($id)){
-            throw new Sher_Core_Model_Exception('Order id is Null');
-        }
-        if(!isset($status)){
-            throw new Sher_Core_Model_Exception('Order status is Null');
-        }
-		$row = $this->find_by_id($id);
-		
-		// 关闭订单，自动释放库存数量
-		for($i=0;$i<count($row['items']);$i++){
-			$inventory = new Sher_Core_Model_Inventory();
-			$inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity']);
-			
-			unset($inventory);
-		}
-		
+	protected function _release_order($id, $status, $options=Array()){
+    if(is_null($id)){
+        $id = $this->id;
+    }
+    if(empty($id)){
+        throw new Sher_Core_Model_Exception('Order id is Null');
+    }
+    if(!isset($status)){
+        throw new Sher_Core_Model_Exception('Order status is Null');
+    }
+
 		$updated = array(
 			'status' => $status,
 		);
@@ -339,14 +361,72 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['is_canceled'] = 1;
 			$updated['canceled_date'] = time();
 		}
+
+    //申请退款中
+    if ($status == Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			$updated['is_refunding'] = 1;
+			$updated['refunding_date'] = time();
+      if(!empty($options) && !empty($options['refund_reason'])){
+ 			  $updated['refund_reason'] = $options['refund_reason'];   
+      }
+    }
+
+    //退款成功
+    if ($status == Sher_Core_Util_Constant::ORDER_REFUND_DONE){
+      if(empty($options['refunded_price'])){
+        throw new Sher_Core_Model_Exception('refunded_price is Null'); 
+      }
+      $updated['refunded_price'] = (float)$options['refunded_price'];
+			$updated['is_refunded'] = 1;
+			$updated['refunded_date'] = time();
+    }
+
+    // 已发货订单
+		if ($status == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
+      if(empty($options['express_caty']) || empty($options['express_no'])){
+        throw new Sher_Core_Model_Exception('express_caty, express_no is Null'); 
+      }
+			$updated['express_caty'] = $options['express_caty'];
+			$updated['express_no'] = $options['express_no'];
+			$updated['sended_date'] = time();
+		}
+
+		// 关闭订单，自动释放库存数量
+    //需要释放库存的状态数组
+    $arr = array(
+      Sher_Core_Util_Constant::ORDER_PAY_FAIL,
+      Sher_Core_Util_Constant::ORDER_EXPIRED, 
+      Sher_Core_Util_Constant::ORDER_CANCELED, 
+      Sher_Core_Util_Constant::ORDER_READY_REFUND,
+    );
+    if(in_array($status, $arr)){
+		  $row = $this->find_by_id($id);
+      for($i=0;$i<count($row['items']);$i++){
+        $inventory = new Sher_Core_Model_Inventory();
+        $inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity']);
+        unset($inventory);
+      }
+    }
+
     $ok = $this->update_set($id, $updated);
     //同步订单索引状态 值 
     if($ok){
-      $order_index = new Sher_Core_Model_OrdersIndex();
-      $order_index->update_set(array('order_id'=>$id), array('status'=>$status));
+      $this->sync_order_index($id, $status);
     }
     return $ok;
 	}
+
+  /**
+   * 同步订单索引表
+   */
+  protected function sync_order_index($id, $status, $options=array()){
+    if(empty($id)){
+      return false;
+    }
+    $order_index = new Sher_Core_Model_OrdersIndex();
+    $ok = $order_index->update_set(array('order_id'=>(string)$id), array('status'=>(int)$status));
+    return $ok;
+  }
 	
 	/**
 	 * 通过rid查找
@@ -379,6 +459,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				break;
 			case Sher_Core_Util_Constant::ORDER_READY_GOODS:
 				$status_label = '正在配货';
+				break;
+			case Sher_Core_Util_Constant::ORDER_READY_REFUND:
+				$status_label = '退款中';
+				break;
+			case Sher_Core_Util_Constant::ORDER_REFUND_DONE:
+				$status_label = '已退款';
 				break;
 			case Sher_Core_Util_Constant::ORDER_SENDED_GOODS:
 				$status_label = '已发货';
@@ -727,11 +813,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('Order id is Null');
         }
 		
-		return $this->update_set($id, array('status' => (int)$status));
+        $ok = $this->update_set($id, array('status' => (int)$status));
+        if($ok){
+          $this->sync_order_index($id, $status);
+        }
+        return $ok;
     }
 	
     /**
-     * 更新订单的支付状态
+     * 更新订单的支付状态--------有争议，没有更新status 而且方法没有 被调用过
      */
     public function update_order_pay_status($id=null){
         if(is_null($id)){
@@ -777,11 +867,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['status'] = (int)$status;
 		}
 		
-		return $this->update_set($id, $updated);
+    $ok = $this->update_set($id, $updated);
+    if($ok){
+      $this->sync_order_index($id, $status);
+    }
+    return $ok;
 	}
 	
 	/**
-	 * 更新订单的已发货状态
+	 * 更新订单的已发货状态------------该方法已不用，统一改为sended_order()
 	 */
 	public function update_order_sended_status($id, $express_caty, $express_no){
         if(is_null($id)){
@@ -802,11 +896,17 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 撤销订单发货状态
 	 */
 	public function revoke_order_sended($id){
-		return $this->update_set($id, array(
+		$ok = $this->update_set($id, array(
 			'status' => (int)Sher_Core_Util_Constant::ORDER_READY_GOODS,
 			'express_caty' => '', 
 			'express_no' => '', 
-			'sended_date' => ''));
+      'sended_date' => ''
+    ));
+    if($ok){
+      $this->sync_order_index($id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+    }
+    return $ok;
+
 	}
 	
 }

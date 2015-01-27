@@ -19,13 +19,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'taobao_iid' => null,
 		# 产品名称
 	    'title'   => '',
-		# 优势
+		# 优势/亮点
 		'advantage' => '',
 		# 简述
         'summary' => '',
 		# 详情内容
 		'content' => '',
-		# 产品亮点
+		# 产品标签
     	'tags'    => array(),
 		
 		# 产品视频链接
@@ -137,6 +137,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'snatched_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
+
+	    ## 试用
+	    'trial' =>  0,
 		
 		## 计数器
 		
@@ -196,6 +199,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
 		
+		# 是否成功案例产品
+		'okcase' => 0,
+		
 		# 状态
 		'state' => 0,
     	# 删除标识
@@ -226,6 +232,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = $this->gen_view_url($row);
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
+		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $row['_id']);
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
 		$row['vote_view_url'] = Sher_Core_Helper_Url::vote_view_url($row['_id']);
 		$row['presale_view_url'] = Sher_Core_Helper_Url::sale_view_url($row['_id']);
@@ -281,6 +288,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		// 检测是否可售
 		$row['can_saled'] = $this->can_saled($row);
+
+    //是否是试用
+    if(isset($row['trial'])){
+      $row['is_try'] = $this->is_try($row['trial']);
+    }else{
+      $row['is_try'] = false;
+    }
+
 		
 	}
 	
@@ -293,6 +308,16 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}
 		return false;
 	}
+
+  /**
+   * 是否是试用
+   */
+  public function is_try($trial=0){
+    if(empty($trial)){
+      return false;
+    }
+    return true;
+  }
 	
 	/**
 	 * 获取产品的价格区间

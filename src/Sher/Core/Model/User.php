@@ -21,9 +21,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     const PERMIT_POST = 'p';
     
     // 保密性别
-    const SEX_HIDE = '未知';
-	const SEX_MALE = 'm';
-	const SEX_FEMALE = 'f';
+    const SEX_HIDE = 0;
+	const SEX_MALE = 1;
+	const SEX_FEMALE = 2;
 
     // 婚姻状况
 	const MARR_SINGLE = 11;
