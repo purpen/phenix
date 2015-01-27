@@ -1,15 +1,15 @@
 <taconite>
-	<replace select="#show-message">
+	<replaceContent select="#show-message">
     {% if stat %}
-      <span style="color:red;">{{ msg }}</span>
+      <span style="color:green;">{{ msg }}</span>
     {%else%}
-      <span style="color:blue;">{{ msg }}</span>
+      <span style="color:red;">{{ msg }}</span>
     {%endif%}
-	</replace>
+	</replaceContent>
 	
 	<eval>
     {% if stat %}
-      $('.ui.applytry.modal').modal('hide');
+      window.setTimeout($('.ui.applytry.modal').modal('hide'), 3000);
     {%endif%}
 	</eval>
 </taconite>
