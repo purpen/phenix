@@ -349,6 +349,7 @@
 							{% topic_list var:'list' try_id:try._id time:'latest' %}
 							{% for topic in list.rows %}
 								{% include "block/report_item.html" %}
+								{% include "block/wap_report_item.html" %}
 							{% endfor %}
 							</tbody>
 						</table>
