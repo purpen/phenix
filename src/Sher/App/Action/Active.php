@@ -10,6 +10,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		'cover_id' => 0,
 		'page' => 1,
 		'ref'  => null,
+    'category_id' => 0,
 	);
 	
 	protected $page_tab = 'page_active';
@@ -49,11 +50,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function get_list(){
 		
-		// 获取列表
-		$category_id = isset($this->stash['category_id'])?(int)$this->stash['category_id']:0;
-		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		
-		$pager_url = Sher_Core_Helper_Url::active_list_url($category_id).'p#p#';
+		$pager_url = Sher_Core_Helper_Url::active_list_url($this->stash['category_id']).'p#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
 		

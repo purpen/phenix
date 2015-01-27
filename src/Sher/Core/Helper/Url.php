@@ -107,6 +107,13 @@ class Sher_Core_Helper_Url {
     public static function active_view_url($active_id,$page=1){
     	return sprintf(Doggy_Config::$vars['app.url.active.view'], $active_id, $page);
     }
+
+	/**
+	 * wap活动查看地址
+	 */
+    public static function wap_active_view_url($active_id,$page=1){
+    	return sprintf(Doggy_Config::$vars['app.url.wap.active.view'], $active_id, $page);
+    }
 	
 	/**
 	 * Wap帖子查看地址
