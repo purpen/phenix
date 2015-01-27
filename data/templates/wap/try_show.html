@@ -40,8 +40,11 @@
 	.try td.hide-on-mobile + td ,.try td.two.wide{
 		display:none;
 	}
+	.try .ui.horizontal.list{
+		text-align:center;
+	}
 	.try .ui.horizontal.list .ui.larg.avatar.pop.image + .content{
-		min-width:100px;
+		min-width:60px;
 	}
 	
 	
@@ -312,7 +315,7 @@
 					    <div class="ui horizontal list">
 							{% for user in userlist  %}
 							<div class="item">
-								<a class="ui large avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+								<a class="ui small avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
 									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
 								</a>
 								<div class="content">
