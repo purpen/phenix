@@ -16,7 +16,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $page_tab = 'page_active';
 	protected $page_html = 'page/active/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign');
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign','ajax_fetch_signup');
 	
 	public function _init() {
 		$this->set_target_css_state('page_topic');

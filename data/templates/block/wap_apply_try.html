@@ -1,0 +1,69 @@
+<div class="ui applytry small modal transition">
+  	<i class="flat close icon"></i>
+	<div class="header">
+	    申请产品试用
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/app/site/try/ajax_apply" class="ui form" method="post" id="apply-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+				<input type="hidden" name="target_id" value="{{ try._id }}" />
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+							<input type="text" name="name" value="" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>手机号</label>
+							<input type="text" name="phone" value="" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+					<div class="field">
+						<label>详细地址</label>
+						<div class="ui selection province dropdown">
+							<input type="hidden" name="province" value="{{ addbook.province }}" />
+			
+						    <div class="default text">省份/自治区</div>
+						    <i class="flat arrowbottom icon"></i>
+						    <div class="menu">
+								{% for province in provinces %}
+						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+								{% endfor %}
+						    </div>
+						</div>
+		
+						<div class="ui selection district dropdown" id="district-menu">
+							<input type="hidden" name="district" value="{{ district.city }}" />
+						    <div class="default text">地区区域</div>
+						    <i class="flat arrowbottom icon"></i>
+						    <div class="menu">
+								{% for district in districts %}
+						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+								{% endfor %}
+						    </div>
+						</div>
+					</div>
+					<div class="field">
+						<input type="text" name="address" value="" placeholder="街道或小区" />
+					</div>
+					<div class="field">
+						<label>申请理由</label>
+						<textarea name="content" class="small"></textarea>
+						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
+					</div>
+				</div>
+		  	</div>
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认提交
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
