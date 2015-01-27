@@ -2,7 +2,15 @@
 {% block title %}活动-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.camp .row .column{
+		padding:0 !important;
+	}
+	.camp .presell{
+		padding:0.5em 0.8em;
+	}
+	.camp .content{
+		padding:1em 0.5em !important;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -22,10 +30,52 @@
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="column">
+				<div class="ui one items">
+        {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
+        {% for active in old_list.rows %}
+					<div class="magenta item">
+						<div class="image">
+              <a href="{{ active.view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
+							<div class="presell">
+                正在进行
+							</div>
+						</div>
+						<div class="content">
+              {{ active.title }}－{{ active.conduct_city }}站 
+						</div>
+					</div>
+        {%endfor%}
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui one items">
+        {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
+        {% for active in old_list.rows %}
+					<div class="magenta item">
+						<div class="image">
+              <a href="{{ active.view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
+							<div class="presell">
+                第{{ active.season }}期
+							</div>
+						</div>
+						<div class="content">
+              {{ active.title }}－{{ active.conduct_city }}站 
+						</div>
+					</div>
+        {%endfor%}
+
+				</div>
+			</div>
+		</div>
 		
 		
 		
 	</div>
-	
 </div>
 {% endblock %}
