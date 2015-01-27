@@ -49,6 +49,13 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 公司证书
+	 */
+	public function license(){
+		return $this->to_html_page('page/guide/license.html');
+	}
+	
+	/**
 	 * 成功案例
 	 */
 	public function succase() {
@@ -110,6 +117,38 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	public function ezon() {
 		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/ezon.html');
+	}
+
+	/**
+	 * 成功案例-Resp
+	 */
+	public function resp() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/resp.html');
+	}
+	
+	/**
+	 * 成功案例-ldm
+	 */
+	public function ldm() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/ldm.html');
+	}
+	
+	/**
+	 * 成功案例-fifty
+	 */
+	public function fifty() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/fifty.html');
+	}
+	
+	/**
+	 * 成功案例-milk
+	 */
+	public function milk() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/milk.html');
 	}
 }
 ?>

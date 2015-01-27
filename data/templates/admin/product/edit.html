@@ -122,7 +122,7 @@
 			$('#product-category').val('');
 		}else{
 			$(this)
-				.siblings('.ajax-cover.button').removeClass('active')
+				.siblings('.category.button').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
@@ -422,6 +422,17 @@
 					<input type="text" name="appoint_count" value="{{ product.appoint_count|default 0 }}" />
 				</div>
 				<div class="field"></div>
+			</div>
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">试用设置</h3>
+			<div class="inline field">
+			  	<label>是否试用：</label>
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="trial" {% if product.trial %}checked="checked"{% endif %} />
+		          	<label>开启</label>
+		        </div>
 			</div>
 		</div>
 		

@@ -171,5 +171,27 @@ class Sher_Core_Helper_Auth {
         }
         return $code;
 	}
+
+  /**
+   * 登录注册页面生成login_token
+   */
+  public static function gen_login_token() {
+    $service = DoggyX_Session_Service::instance();
+    $token = Sher_Core_Helper_Auth::generate_random_password();
+    $service->session->login_token = $token;
+    return $token;
+  }
+
+  /**
+   * 正则验证密码
+   */
+  public static function verify_pwd($value,$minLen=6,$maxLen=20){
+    $match='/^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{'.$minLen.','.$maxLen.'}$/';
+    $v = trim($value);
+    if(empty($v)) 
+      return false;
+    return preg_match($match,$v);
+  }
+
 }
 ?>

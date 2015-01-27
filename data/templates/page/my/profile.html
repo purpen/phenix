@@ -163,12 +163,12 @@
 							<div class="field">
 								<label>性别：</label>
 								<div class="ui selection dropdown">
-									<input type="hidden" name="sex" />
+                  <input type="hidden" name="sex" value="{{ user.sex }}" />
 								    <div class="default text">请选择</div>
 								    <i class="flat arrowbottom icon"></i>
 								    <div class="menu">
-								        <div data-value="1" class="{%if user.sex == 1%}active{%endif%}> item">男</div>
-								        <div data-value="2" class="{%if user.sex == 2%}active{%endif%}> item">女</div>
+								        <div data-value="1" class="{%if user.sex == 1%}active{%endif%} item">男</div>
+								        <div data-value="2" class="{%if user.sex == 2%}active{%endif%} item">女</div>
 								    </div>
 								</div>
 							</div>

@@ -17,7 +17,8 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
-    }
+		$this->set_target_css_state('page_sub_try');
+  }
 	
 	/**
 	 * 列表

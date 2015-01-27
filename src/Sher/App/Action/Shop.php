@@ -18,7 +18,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -40,7 +40,23 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$type = (int)$this->stash['type'];
 		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
-		
+    $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
+    $this->stash['all_active'] = false;
+    $this->stash['presale_active'] = false;
+    if(empty($presale)){
+      $this->stash['is_shop'] = 1;
+      $this->stash['presaled'] = 0;
+      if($category_id==0){
+        $this->stash['all_active'] = true;
+      }
+    }else{
+      $this->stash['is_shop'] = 0;
+      $this->stash['presaled'] = 1;
+      if($category_id==0){
+        $this->stash['presale_active'] = true;
+      }
+    }
+
 		$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id,$type,$sort,'#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
@@ -106,6 +122,144 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		
 		return $this->to_html_page('page/shop/show.html');
+	}
+
+  /**
+   * ajax获取评论
+   */
+  public function ajax_fetch_comment(){
+		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
+		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
+  }
+
+  /**
+   * 产品合作入口
+   */
+  public function cooperate(){
+    return $this->to_html_page('page/shop/cooperate.html');
+  }
+
+  /**
+   * 产品合作表单提交
+   */
+  public function cooperate_product(){
+  	$row = array();
+    $this->stash['mode'] = 'create';
+
+    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+
+    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+
+    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+    $this->stash['pid'] = new MongoId();
+    
+    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
+
+		$this->stash['contact'] = $row;
+		return $this->to_html_page('page/shop/cooperate_submit.html');
+  }
+
+  /**
+   * 产品合作保存
+   */
+  public function save_cooperate(){
+		// 验证数据
+		if(empty($this->stash['category_id'])){
+			return $this->ajax_json('请选择一个分类！', true);
+		}
+		if(empty($this->stash['title'])){
+			return $this->ajax_json('产品名称不能为空！', true);
+		}
+		if(empty($this->stash['content'])){
+			return $this->ajax_json('产品详情不能为空！', true);
+		}
+		if(empty($this->stash['name'])){
+			return $this->ajax_json('联系人不能为空！', true);
+		}
+		if(empty($this->stash['tel'])){
+			return $this->ajax_json('联系电话不能为空！', true);
+		}
+		if(empty($this->stash['email'])){
+			return $this->ajax_json('邮箱不能为空！', true);
+		}
+		
+		$id = (int)$this->stash['_id'];
+		
+		//保存信息
+		$data = array();
+		$data['title'] = $this->stash['title'];
+		$data['category_id'] = $this->stash['category_id'];
+		$data['content'] = $this->stash['content'];
+		$data['name'] = $this->stash['name'];
+		$data['tel'] = $this->stash['tel'];
+		$data['email'] = $this->stash['email'];
+
+		$data['cover_id'] = $this->stash['cover_id'];
+		// 检查是否有附件
+		if(isset($this->stash['asset'])){
+			$data['asset'] = $this->stash['asset'];
+			$data['asset_count'] = count($data['asset']);
+		}else{
+			$data['asset'] = array();
+			$data['asset_count'] = 0;
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Contact();
+			
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = (int)$this->visitor->id;
+					
+				$ok = $model->apply_and_save($data);
+				
+			}else{
+				$data['_id'] = $id;
+				
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			
+			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
+		}
+
+    $this->stash['is_error'] = false;
+    $this->stash['note'] = '保存成功!';
+		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
+		
+		return $this->to_taconite_page('ajax/note.html');
+    
+  }
+
+	/**
+	 * 删除某个附件
+	 */
+	public function delete_asset(){
+		$id = $this->stash['id'];
+		$asset_id = $this->stash['asset_id'];
+		if (empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Contact();
+			$model->delete_asset($id, $asset_id);
+		}else{
+			// 仅仅删除附件
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_file($id);
+		}
+		
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 	
 }

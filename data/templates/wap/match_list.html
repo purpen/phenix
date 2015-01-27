@@ -81,23 +81,12 @@
 			</div>
 		</div>
 	</section>	
-	<section class="ui big block">
-		<div class="ui responsive center aligned grid">
-			<div class="row">
-				<div class="column">
-					<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="fluid ui active magenta btn-4 btn-4c icon-arrow-right btn">
-						提交创意
-					</a>
-				</div>
-			</div>
-		</div>
-	</section>	
 	<section class="ui big products block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
 				
-					{% topic_list var:'list' category_id:dream_category_id time:time sort:sort page:page size:12 %}
+					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:page size:12 %}
 					<div class="ui one items">
 						{% for topic in list.rows %}
 						<div class="item">

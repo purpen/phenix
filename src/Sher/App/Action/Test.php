@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat');
+	protected $exclude_method_list = array('execute','flat','add_user');
 
 	/**
 	 * 默认入口
@@ -126,10 +126,125 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		return $this->to_html_page('page/flat.html');
 	}
 	public function noodles() {		
-		return $this->to_html_page('page/noodles.html');
+		return $this->to_html_page('wap/noodles.html');
 	}
 	public function tweleve() {
-		return $this->to_html_page('page/tweleve.html');
+		return $this->to_html_page('page/dreamk.html');
 	}
+
+  /**
+   * Add User
+   */
+  public function add_user(){
+		$user = new Sher_Core_Model_User();
+		$data = array(
+			'account'  => 'tian_005',
+			'password' => sha1('123456'),
+			'nickname' => 'tian_005',
+		
+			'state' => Sher_Core_Model_User::STATE_OK,
+			'role_id'  => Sher_Core_Model_User::ROLE_USER,
+		);
+    echo sha1('123456');
+    //$user->create($data);
+    echo 'ok';exit;
+  }
+
+  /**
+   * 测试正则
+   */
+  public function validate_str(){
+    $str = '悄你的aa_--_aaa悄好aaaaaaaaaaaaaaaaaa';
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}_-a-zA-Z0-9]{3,30}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    ///^[\x{4e00}-\x{9fa5}_a-zA-Z0-9]+$/u
+    if (!preg_match($e, $str)) {
+      echo 'no';
+    }else{ 
+      echo 'yes';
+    } 
+  
+  }
+
+  /**
+   * 测试mongodb方法
+   */
+  public function test_db(){
+    //$model = new Sher_Core_Model_Product();
+    //$ok = $model->update_set(1112600014, array('published' => $published));
+    //$data = $model->load(1112600014);
+    //$service = Sher_Core_Service_Topic::instance();
+    //$model = new Sher_Core_Model_User();
+    //$product = new Sher_Core_Model_Product();
+    //$data = $product->find_by_id(1112600027);
+    //$data = $product->extended_model_row($data);
+    //print_r($data);exit;
+    //$result = $model->find_by_id(3, array('account'=>0));
+    //$result = $service->query_list($model,$query=array(),array('assign_fields'=>array('account','sex','is_ok','state','role_id','avatar')));
+    //print_r($result);exit;
+
+
+    $model = new Sher_Core_Model_AddBooks();
+    $data = $model->find_by_id('549e72b27fd32e46042e3d5e');
+    print_r($data);
+  }
+
+  /**
+   * 测试redis
+   */
+  public function test_redis(){
+    $redis = new Sher_Core_Cache_Redis();
+    #$redis->set('aaa', 'aaa');
+    echo $redis->get('aaa');
+  }
+
+  /**
+   * test json
+   */
+  public function test_json(){
+    $data = array(
+      'a'=>"aa&amp;aa",
+      'b'=>'中&lt;文&#039;测试',
+      'c'=>array('a'=>'aa&amp;', 'b'=>'sdfs&nbsp;df'),
+    );
+    print_r(Sher_Core_Util_View::api_transf_html($data));exit;
+    //echo "<scrit>alert(123);</script>';
+		return $this->api_json('sssss',0,$data);
+		//return $this->ajax_json(200, false, null,htmlspecialchars_decode('aa&amp;aa', ENT_QUOTES));
+  }
+
+  /**
+   * 打印所有字段用于整理文档
+   */
+  public function print_model(){
+    $order = new Sher_Core_Model_Orders();
+    $data = $order->find_by_rid('114122500252');
+    if(!empty($data)){
+      foreach($data as $key=>$val){
+        echo $key;
+        echo '<br />';
+      }
+    }else{
+      echo '不存在';
+    }
+
+  }
+
+  /**
+   * test function show
+   */
+  public function test_func(){
+
+    //echo gettype((float)'12.5'); //输出为0
+    //echo date('Y-m-d H:i:s', strtotime('2014-12-22 22:20:33'));
+    //echo date('Y-m-d H:i:s');
+    //$model = new Sher_Core_Model_Orders();
+    //$model->update_set('547d8eda7fd32e4704477f69', array('pay_money'=>50));
+    //Doggy_Log_Helper::warn("=======================");
+
+    echo '<br />';
+    $a = Sher_Core_Util_View::load_block('test', 1);
+    echo $a;
+  }
+
 }
 ?>

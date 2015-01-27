@@ -21,9 +21,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     const PERMIT_POST = 'p';
     
     // 保密性别
-    const SEX_HIDE = '未知';
-	const SEX_MALE = 'm';
-	const SEX_FEMALE = 'f';
+    const SEX_HIDE = 0;
+	const SEX_MALE = 1;
+	const SEX_FEMALE = 2;
 
     // 婚姻状况
 	const MARR_SINGLE = 11;
@@ -174,10 +174,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	/**
 	 * 保存之后事件
 	 */
-    protected function after_save() {
-		// 更新用户总数
-		Sher_Core_Util_Tracker::update_user_counter();
+  protected function after_save() {
+    //更新用户总数
+    if($this->insert_mode){
+      Sher_Core_Util_Tracker::update_user_counter();
+      parent::after_save();
     }
+  }
 	
 	/**
 	 * 验证用户信息

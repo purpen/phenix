@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'verify_code', 'verify_forget_code','reset_passwd');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd');
 	
 	/**
 	 * 入口
@@ -243,6 +243,27 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
             return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
         }
+
+        $third_info = '';
+        //第三方绑定
+        if(isset($this->stash['third_source'])){
+          if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+            return $this->ajax_json('绑定信息有误,请重试!', true);
+          }
+
+          if($this->stash['third_source']=='weibo'){
+            $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
+          }elseif($this->stash['third_source']=='qq'){
+             $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);    
+          }else{
+            $third_info = array();
+          }
+          $third_result = $user->update_set($user_id, $third_info);
+          if($third_result){
+            $third_info = '绑定成功! ';
+          }
+
+        }
 		
         Sher_Core_Helper_Auth::create_user_session($user_id);
 		
@@ -252,7 +273,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
         $this->clear_auth_return_url();
 		
-		return $this->ajax_json('欢迎,'.$nickname.' 回来.', false, $redirect_url);
+		return $this->ajax_json($third_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
 	}
     
 	/**
@@ -309,6 +330,29 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
+
+      //第三方绑定
+      if(isset($this->stash['third_source'])){
+        if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+          return $this->ajax_json('绑定信息有误,请重试!', true);
+        }
+
+        if($this->stash['third_source']=='weibo'){
+          $user_info['sina_uid'] = (int)$this->stash['uid'];
+          $user_info['sina_access_token'] = $this->stash['access_token'];      
+        }elseif($this->stash['third_source']=='qq'){
+          $user_info['qq_uid'] = $this->stash['uid'];
+          $user_info['qq_access_token'] = $this->stash['access_token']; 
+        }else{
+          //next_third
+        }
+
+				$user_info['nickname'] = $this->stash['nickname'];
+				$user_info['summary'] = $this->stash['summary'];
+				$user_info['sex'] = $this->stash['sex'];
+				$user_info['city'] = $this->stash['city'];
+				$user_info['from_site'] = (int)$this->stash['from_site'];
+      }
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -389,6 +433,74 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		}
 		return $this->to_raw_json(true);
 	}
+
+  /**
+   * 第三方登录绑定手机--兼容老数据
+   */
+  public function do_bind_phone(){
+    session_start();
+    $service = DoggyX_Session_Service::instance();
+    $s_t = $service->session->login_token;
+    if (empty($s_t) || $s_t != $this->stash['t']) {
+        return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
+    }
+
+    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['user_id']) || empty($this->stash['verify_code']) || empty($this->stash['captcha'])) {
+        return $this->ajax_json('数据错误,请重试', true);
+    }
+  
+		Doggy_Log_Helper::warn('Register session:'.$_SESSION['m_captcha']);
+		
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);
+    }
+
+		// 验证密码是否一致
+		$password_confirm = $this->stash['password_confirm'];
+		if(empty($password_confirm) || $this->stash['password_confirm'] != $this->stash['password']){
+			return $this->ajax_json('两次输入密码不一致！', true);
+		}
+
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('短信验证码有误，请重新获取！', true);
+		}
+
+    $user = new Sher_Core_Model_User();
+    $user_id = (int)$this->stash['user_id'];
+    //验证手机号码是否重复
+    $has_phone = $user->first(array('account' => $this->stash['account']));
+    if(!empty($has_phone)){
+ 			return $this->ajax_json('该手机号已存在！', true);
+    }
+
+    try{
+      $ok = $user->update_set($user_id, array('account' => $this->stash['account'], 'password'=>sha1($this->stash['password'])));
+      if($ok){
+        // 重新更新access_token
+        $third_source = $this->stash['third_source'];
+        if($third_source=='weibo'){
+          $user->update_weibo_accesstoken($user_id, $this->stash['access_token']);  
+        }elseif($third_source=='qq'){
+          $user->update_qq_accesstoken($user_id, $this->stash['access_token']);
+        }
+
+        // 实现自动登录
+        Sher_Core_Helper_Auth::create_user_session($user_id);
+        $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+		    return $this->ajax_json("绑定成功！", false, $user_profile_url);
+      }else{
+ 			  return $this->ajax_json('绑定失败！', true);    
+      }
+    }catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("user bind phone is failed: ".$e->getMessage());
+			return $this->ajax_json('系统异常！', true);
+    }
+  
+  }
 	
 	protected function _invitation_is_ok($check_used = true) {
 	    $invite_code = $this->stash['invite_code'];

@@ -1,15 +1,21 @@
 {%extends 'layout/board.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
-<style type="text/css">
-	
-</style>
+
 {% endblock %}
 
 {% block jquery %}
 	$('.ui.cart.button').click(function(){
 		$.get($(this).attr('href'));
 		return false;
+	});
+
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
 	});
 {% endblock %}
 
@@ -19,7 +25,9 @@
 		<div class="center aligned row">
 			<div class="column">
 				<div class="ui magenta buttons">
-					{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
+					{% category_list var:'category' only_open:only_open domain:domain show_all:0 current:category_id %}
+          <a class="ui item button {% if  all_active %}active{%endif%}" href="{{ app_url_shop }}/c0">全部</a>
+          <a class="ui item button {% if presale_active %}active{%endif%}" href="{{ app_url_shop }}/c0?presale=1">预售</a>
 					{% for cat in category.rows %}
 				  		<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">{{ cat.title }}</a>
 					{% endfor %}
@@ -28,7 +36,7 @@
 		</div>
 		
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_saled:1 only_approved:1 only_onsale:1 size:15 sort:'latest' %}
+			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_approved:1 only_onsale:1 size:15 sort:'stick:latest' %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui three items">

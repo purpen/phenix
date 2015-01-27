@@ -46,7 +46,7 @@
 	});
 	phenix.bind_share_list();
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
 	
 	// 预定
 	$('.ui.booked.button').click(function(){
@@ -352,11 +352,11 @@
 			<div class="row">
 				<div class="column">
 					{% sku_list var:'presales' product_id:product._id stage:5 %}
-					<div class="ui four levels">
+					<div class="ui levels grid">
 						{% for presale in presales.rows %}
-						<div class="ui level">
+						<div class="ui level row">
 							<h3 class="ui header">{{ presale.name }}</h3>
-							<div class="content">
+							<div class="ui four wide column">
 								<p class="time">
 									{% if presale.mode %}
 										{{ presale.mode }}
@@ -365,13 +365,18 @@
 										, 限量{{ presale.limited_count }}个
 									{% endif %}
 								</p>
+							</div>
+							<div class="ui six wide column">
 								<p class="time">
 									{{ presale.summary }}
 								</p>
+							</div>
+							<div class="ui two wide column">
 								<div class="price">
 									￥ {{ presale.price }}
 								</div>
 							</div>
+							<div class="ui four wide column">
 							<div class="actions">
 								{% if !product.presale_finished %}
 									{% if presale.quantity %}
@@ -396,9 +401,11 @@
 								{% endif %}
 								<p class="small">已有{{ presale.sold }}位预定者</p>
 							</div>
+							</div>
 						</div>
-						{% endfor %}
+					{% endfor %}
 					</div>
+
 					
 				</div>
 				

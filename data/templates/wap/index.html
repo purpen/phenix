@@ -112,32 +112,21 @@
 		</div>
 	</div>
 </div>
-<!--预售商品-->
-{% product_list var:'presale' process_presaled:1 only_approved:1 only_onsale:1 only_stick:1 size:3 %}
-{% if presale.total_rows %}
-<div class="ui responsive grid" id="mpresale">
-	<div class="row">
-		<div class="column">
-			<h4 class="ui header">预售商品</h4>
-			<div class="ui one items">
-				{% for product in presale.rows %}
-			  		{% include "mm/product-presale-item.html" %}
-			    {% endfor %}
-			</div>
-		</div>
-	</div>
-</div>
-{% endif %}
+
 <!--商店商品-->
-{% product_list var:'sale' process_saled:1 only_approved:1 only_onsale:1 only_stick:1 size:5 %}
-{% if sale.total_rows %}
+{% if products %}
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
 			<h4 class="ui header">热门商品</h4>
 			<div class="ui one items">
-				{% for product in sale.rows %}
-			  		{% include "mm/product-item.html" %}
+          {% for product in products %}
+            {% if product.stage==5 %}
+			  		  {% include "mm/product-item.html" %}
+            {%endif%}
+            {% if product.stage==9 %}
+              {% include "mm/product-presale-item.html" %}
+            {%endif%}
 			    {% endfor %}
 			</div>
 		</div>

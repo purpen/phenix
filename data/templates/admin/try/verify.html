@@ -50,7 +50,7 @@
 						{{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}
 					</p>
 				</td>
-				<td class="seven wide">{{ t.content|truncate 200 }}</td>
+				<td class="seven wide">{{ t.content|truncate 1500 }}</td>
 				<td>{{ t.created_on|date 'y-m-d H:i' }}
 				</td>
 				<td>
@@ -67,5 +67,12 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
 	
 {% endblock %}

@@ -19,13 +19,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view');
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view', 'api_view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_sub_topic');
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_TOPIC;
-    }
+  }
 	
 	/**
 	 * 社区
@@ -279,18 +280,57 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['topic'] = &$topic;
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
-		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
 		
 		// 判定是否产品话题
 		if (isset($topic['target_id']) && !empty($topic['target_id'])){
 			$product = new Sher_Core_Model_Product();
 			$this->stash['product'] = & $product->extend_load($topic['target_id']);
+    }elseif(isset($topic['active_id']) && !empty($topic['active_id'])){
+			$active = new Sher_Core_Model_Active();
+ 			$this->stash['active'] = & $active->extend_load($topic['active_id']);    
+    }
+		
+		// 是否参赛作品
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		if($topic['category_id'] == $this->stash['dream_category_id']){
+			if($topic['created_on'] >= mktime(0,0,0,10,28,2014) && $topic['created_on'] <= mktime(23,59,59,12,20,2014)){
+				$this->stash['is_match_idea'] = true;
+			}
 		}
 		
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
-		
+    //评论参数
+    $this->stash['comment_target_id'] = $topic['_id'];
+    $this->stash['comment_type'] = 2;
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
+
 		return $this->to_html_page($tpl);
+	}
+
+	/**
+	 * 显示主题详情帖---手机app content
+	 */
+	public function api_view(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.topic'];
+		if(empty($id)){
+			return $this->api_json('访问的主题不存在或已被删除！', 3001);
+		}
+		
+		$model = new Sher_Core_Model_Topic();
+		$topic = $model->load($id);
+		
+		if(empty($topic) || $topic['deleted']){
+			return $this->api_json('访问的主题不存在或已被删除！', 3001);
+		}
+
+    //创建关联数据
+    $topic = $model->extended_model_row($topic);
+		
+		$this->stash['topic'] = &$topic;
+		
+		return $this->to_html_page('page/topic/api_show.html');
 	}
 	
 	/**
