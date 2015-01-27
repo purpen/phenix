@@ -4,7 +4,7 @@
 	    申请产品试用
 	</div>
 	<div class="container">
-		<form action="{{ app_url_wap }}/app/site/try/ajax_apply" class="ui form" method="post" id="apply-form">
+		<form action="{{ app_url_wap }}/try/ajax_apply" class="ui form" method="post" id="apply-form">
 		  	<div class="content">
 				<div class="ajax result"></div>
 				<input type="hidden" name="target_id" value="{{ try._id }}" />
@@ -56,6 +56,8 @@
 					</div>
 				</div>
 		  	</div>
+      <!--显示错误信息-->
+      <div id="show-message"></div>
 			<div class="right aligned action">
 			    <div class="ui gray deny button">
 					取消

@@ -1,0 +1,15 @@
+<taconite>
+	<replace select="#show-message">
+    {% if stat %}
+      <span style="color:red;">{{ msg }}</span>
+    {%else%}
+      <span style="color:blue;">{{ msg }}</span>
+    {%endif%}
+	</replace>
+	
+	<eval>
+    {% if stat %}
+      $('.ui.applytry.modal').modal('hide');
+    {%endif%}
+	</eval>
+</taconite>
