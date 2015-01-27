@@ -15,7 +15,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist');
+	protected $exclude_method_list = array('execute','getlist','view');
 	
 	/**
 	 * 入口

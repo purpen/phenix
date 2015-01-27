@@ -122,10 +122,10 @@
 			<div class="ui one items">
           {% for product in products %}
             {% if product.stage==5 %}
-			  		  {% include "mm/product-item.html" %}
+              {% include "mm/product-presale-item.html" %}
             {%endif%}
             {% if product.stage==9 %}
-              {% include "mm/product-presale-item.html" %}
+			  		  {% include "mm/product-item.html" %}
             {%endif%}
 			    {% endfor %}
 			</div>
