@@ -128,8 +128,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		$data['appoint_count'] = (int)$this->stash['appoint_count'];
 
-    //是否试用
-    $data['trial'] = isset($this->stash['trial']) ? 1 : 0;
+	    // 是否试用
+	    $data['trial'] = isset($this->stash['trial']) ? 1 : 0;
+		
+		// 是否案例产品
+		$data['okcase'] = isset($this->stash['okcase']) ? 1 : 0;
 		
 		// 商品价格
 		$data['market_price'] = $this->stash['market_price'];

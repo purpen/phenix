@@ -138,8 +138,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 预约人数
 		'appoint_count' => 0,
 
-    ##试用
-    'trial' =>  0,
+	    ## 试用
+	    'trial' =>  0,
 		
 		## 计数器
 		
@@ -198,6 +198,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+		
+		# 是否成功案例产品
+		'okcase' => 0,
 		
 		# 状态
 		'state' => 0,
