@@ -44,7 +44,7 @@
 	margin:0;
 }
 .start{
-	background:url({{ active.banner.thumbnails.hd.view_url }}) no-repeat center center /cover;
+	background:url({{ active.banner.fileurl }}) no-repeat center center /cover;
 	color:#fff;
 	padding:100px 0% 80px;
 }
@@ -414,13 +414,7 @@ float: right;
   phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
-	
-	// 显示编辑工具条 
-	$('.ui.active.segment').hover(function(){
-		$('.ui.editable.buttons').removeClass('hide');
-	},function(){
-		$('.ui.editable.buttons').addClass('hide');
-	});
+
 	
 	$('.ui.tabox').smint({
     	'scrollSpeed': 1000,

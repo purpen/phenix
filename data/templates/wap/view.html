@@ -188,9 +188,17 @@
 	<!--购买动作-->
 	<div class="row">
 		<div class="center aligned column">
-			<div class="ui active magenta labeled icon nowbuy button">
-				<i class="cart icon"></i>立即购买
-			</div>
+      {% if product.is_try %}
+        此产品为试用商品，不可销售
+      {%else%}
+        {% if product.can_saled %}
+          <div class="ui active magenta labeled icon nowbuy button">
+            <i class="cart icon"></i>立即购买
+          </div>
+        {%else%}
+          已卖光
+        {%endif%}
+      {%endif%}
 			<div class="ui active green icon share button">
 				<i class="share icon"></i>
 			</div>
