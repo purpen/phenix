@@ -21,7 +21,7 @@
 						{{ topic.strip_description|truncate 140 }}
 					</div>
 				{% else %}
-					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+					{% asset_list var:'assets' parent_id:topic._id size:3 asset_type:55 sort:'positive' %}
 					<!--展示图片-->
 					<div class="ui mini images">
 						{% if topic.cover %}

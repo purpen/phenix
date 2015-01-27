@@ -6,7 +6,7 @@
 		{% if try.banner_id %}
 		background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% else %}
-	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+	    background: no-repeat scroll -432px center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	    height: 500px;
 		color: #fff;
@@ -46,7 +46,9 @@
 	.try .ui.horizontal.list .ui.larg.avatar.pop.image + .content{
 		min-width:60px;
 	}
-	
+  .ui.mini.images img{
+    width: 100px !important;
+  }
 	
 	
 	/*.ui.tabox {
@@ -194,16 +196,6 @@
 	//ajax加载评论
 	  fetch_comment(1, per_page);
 	
-	// ajax加载更多评论
-	$('.ui.more.button').livequery(function(){
-		$(this).click(function(){
-			if (!$(this).hasClass('disabled')){
-				var p = $(this).data('page');
-				$.get('{{ app_url_wap }}/app/site/comment/ajax_fetch_list', {target_id: {{try._id}}, type:3, page:p});
-			}
-		});
-	});
-	
 	$('.ui.tabox').smint({
     	'scrollSpeed': 1000
     });
@@ -348,7 +340,6 @@
 							<tbody>
 							{% topic_list var:'list' try_id:try._id time:'latest' %}
 							{% for topic in list.rows %}
-								{% include "block/report_item.html" %}
 								{% include "block/wap_report_item.html" %}
 							{% endfor %}
 							</tbody>
@@ -369,5 +360,5 @@
 	</div>
 	
 </div>
-{% include "block/apply_try.html" %}
+{% include "wap_block/apply_try.html" %}
 {% endblock %}
