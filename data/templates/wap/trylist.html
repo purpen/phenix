@@ -24,9 +24,32 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="center aligned column">
-				<div class="ui message">
-					正在建设中，即将上线
+			<div class="column">
+				<div class="ui one items">
+					{% try_list var:'list' page:page state:1 %}
+					{% for t in list.rows %}
+					<div class="magenta item">
+						<div class="image">
+							<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
+					      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
+							</a>
+						</div>
+						<div class="content">
+							<h4 class="ui dividing header">
+								<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
+									{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
+								</a>
+								<div class="advantage">{{ t.description }}</div>
+							</h4>
+							<div class="name">
+								产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
+							</div>
+							<div class="ui text result">
+								<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>

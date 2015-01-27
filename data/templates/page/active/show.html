@@ -62,8 +62,8 @@
 .start h2.ui.header .content{
 	text-align:left;
 }
-.start .row:nth-child(3){
-	padding-top:208px;
+.start .row{
+	padding-top:208px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -325,15 +325,18 @@ float: right;
 	background:rgb(74,74,74);
 	padding: 10px 0;
 }
+.ui.w-1180 #signup-avatar{
+	padding:0 13px;
+}
 .ui.w-1180 .image{
-	width:100px;
-	height:100px;
+	width:60px;
+	height:60px;
 	display: inline-block;
-	padding:10px 7px;
+	padding:6px 4px;
 }
 .ui.w-1180 .image img{
-	width:100px;
-	height:100px;
+	width:60px;
+	height:60px;
 	opacity:0.3;
 	border-radius:50%;
 }
@@ -533,22 +536,6 @@ float: right;
   </div>
   <section class="ui start block">
     <div class="ui responsive center aligned grid">
-      <div class="row">
-        <div class="center aligned tweleve wide column">
-          <h2 class="ui header">
-            <div class="content">
-              <span></span>
-              <br />
-              <strong></strong>
-            </div>
-          </h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="center aligned column">
-          <h2 class="ui header"></h2>
-        </div>
-      </div>
         {% if active.step_stat==1 %}
         <div class="row">
           <div class="center aligned column attend-box">
@@ -663,9 +650,27 @@ float: right;
 			</div>
 			
 		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<div class="attend-box">
+					{% if active.step_stat==1 %}
+			          {% if is_attend %}
+			            <a class="ui btn-4 btn-4c magenta active icon-arrow-right btn" href="javascript:void(0);">
+			                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+			            </a>
+			          {%else%}
+			            <a class="ui btn-4 btn-4c magenta attend icon-arrow-right btn" href="javascript:void(0);">
+			                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+			            </a>
+			          {%endif%}	
+				</div>
+				<p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>
+				{%endif%}
+			</div>
+		</div>
 	</div>
   </div>
- 
+
   <section class="ui report block">
     <!--ajax获取报名者头像-->
     <div class="ui w-1180">
@@ -676,29 +681,18 @@ float: right;
           </div>
         {% endfor %}
       </div>
-	  
 	  <div class="report-btn">
 		<div class="ui responsive center aligned column">
 	      <div class="row">
 			<div class="center aligned column">
-	      <div class="attend-box">
-	        {% if active.step_stat==1 %}
-	          {% if is_attend %}
-	            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
-	            </a>
-	          {%else%}
-	            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
-	                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-	            </a>
-	          {%endif%}
-	        {%else%}
+	      <div class="aettend-box">
+	        {% if !active.step_stat==1 %}
 	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
 	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
 	          </a>
-	        {%endif%}
 	      </div>
 	      <p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>	
+		{%endif%}
 			</div>
 		  </div>
 	    </div>
@@ -742,8 +736,10 @@ float: right;
 								</div>
 							</h4>
 							<div class="clearfix">
-								<i class="icon-place icon"></i>
-								  {{ active.address }}
+								<i class="icon-place icon" style="display:inline-block;float:left;"></i>
+								<div style="display:inline-block;float:left;width:304px;">
+									{{ active.address }}
+								</div>
 							</div>
 						</div>
 					</div>
