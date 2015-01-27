@@ -15,7 +15,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist');
+	protected $exclude_method_list = array('execute','getlist','view');
 	
 	/**
 	 * 入口
@@ -38,7 +38,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 		$id = (int)$this->stash['id'];
 		$tpl = 'wap/try_show.html';
 		
-		$redirect_url = Doggy_Config::$vars['app.url.try'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap.try'];
 		if(empty($id)){
 			return $this->show_message_page('访问的公测产品不存在！', $redirect_url);
 		}

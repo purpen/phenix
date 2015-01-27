@@ -171,6 +171,11 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 			$parent_category = $category->extend_load((int)$current_category['pid']);
 		}
 
+		// 评测对象
+		if(isset($this->stash['tid'])){
+			$this->stash['try_id'] = $this->stash['tid'];
+		}
+
 		$this->stash['is_top'] = $is_top;
 		$this->stash['current_category'] = $current_category;
 		$this->stash['parent_category'] = $parent_category;
@@ -255,8 +260,8 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
 		$redirect_url = Sher_Core_Helper_Url::wap_topic_view_url($id);
