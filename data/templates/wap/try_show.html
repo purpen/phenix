@@ -354,10 +354,10 @@
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ app_url_wap }}/app/site/topic/report?tid={{ try._id }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">全部报告</a>
+          <!--<a href="{{ app_url_wap }}/social/report?tid={{ try._id }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">全部报告</a>-->
 					<!--通过审核的用户才能提交报告-->
 					{% if visitor.is_login %}
-					<a href="{{ app_url_wap }}/app/site/topic/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn" target="_blank">提交报告</a>
+					<a href="{{ app_url_wap }}/social/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn" target="_blank">提交报告</a>
 					{% endif %}
 				</div>
 			</div>
