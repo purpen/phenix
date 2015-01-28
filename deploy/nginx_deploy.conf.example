@@ -95,6 +95,12 @@ server {
         rewrite ^/try(.*)$ /app/wap/try$1 last;
     }
 
+	location /active {
+		rewrite ^/active[/]?$ /app/wap/active last;
+		rewrite ^/active/view-(\d+).html$ /app/wap/active/view?id=$1 last;
+        rewrite ^/active(.*)$ /app/wap/active$1 last;
+    }
+
     location /shop {
         rewrite ^/shop[/]?$ /app/wap/shop last;
         rewrite ^/shop/c(\d+)[/]?$ /app/wap/shop?category_id=$1 last;
