@@ -293,7 +293,7 @@ function onTouchEnd(e)
             {
                 $(page).css({
                     "-webkit-transform" : "translate(0px, " + (-deltaY) + "px)",
-                    "-webkit-transition" : "all 0.5s ease-in; transition:all 0.5s ease-in"
+                    "transition":"all 0.5s ease-in"
                 });                  
             }
 
@@ -311,7 +311,7 @@ function onTouchEnd(e)
             {
                 $(page).css({
                     "-webkit-transform" : "translate(0px, " + (pageHeight - deltaY) + "px)",
-                    "-webkit-transition" : "all 0.5s ease-in; transition:all 0.5s ease-in"
+                    "transition":"all 0.5s ease-in"
                 });             
 
 
@@ -329,7 +329,7 @@ function onTouchEnd(e)
             var page = pages[0];
             $(page).css({
                 "-webkit-transform" : "translate(0px, " +(-pageHeight - deltaY) + "px)",
-                "-webkit-transition" : "all 0.5s ease-in; transition:all 0.5s ease-in"
+                "transition":"all 0.5s ease-in"
             });             
 
             var page = pages[0];
