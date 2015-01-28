@@ -21,7 +21,7 @@ class Sher_App_Action_Redis extends Sher_App_Action_Base {
     if(empty($this->stash['key'])){
       return false;
     }
-    $key = $this->stash['key']
+    $key = $this->stash['key'];
     $redis = new Sher_Core_Cache_Redis();
     $redis->incr($key);
   }

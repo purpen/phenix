@@ -195,7 +195,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
   public function test_redis(){
     $redis = new Sher_Core_Cache_Redis();
     #$redis->set('aaa', 'aaa');
-    echo $redis->get('aaa');
+    echo $redis->incr('aaa');
   }
 
   /**
