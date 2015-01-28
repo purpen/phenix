@@ -124,9 +124,10 @@
   wx.ready(function(){
 
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-    $("input[name='my_name']").keypress(function(){
+    $("input[name='my_name']").blur(function(){
       var my_name = $('input[name=my_name]').val();
       var m_name = '我是 ' + my_name + ' 我支持中国原创设计!';
+
        wx.onMenuShareAppMessage({
         title: m_name,
         desc: desc_str,
@@ -137,17 +138,9 @@
         }
       });      
 
-
-
-
-    });
-
-
-    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareTimeline').onclick = function () {
-      var my_name = $('input[name=my_name]').val();
+      // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
       wx.onMenuShareTimeline({
-        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        title: m_name,
         desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
         imgUrl: img_url,
@@ -155,13 +148,9 @@
         }
       });
 
-    };
-
-    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareQQ').onclick = function () {
-      var my_name = $('input[name=my_name]').val();
+      // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
       wx.onMenuShareQQ({
-        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        title: m_name,
         desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
         imgUrl: img_url,
@@ -170,20 +159,17 @@
         }
       });
 
-    };
-
-    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareWeibo').onclick = function () {
-      var my_name = $('input[name=my_name]').val();
+      // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
       wx.onMenuShareWeibo({
-        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        title: m_name,
         desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
         imgUrl: img_url,
         success: function (res) {
         }
       });
-    };
+      
+    });
 
 
   });
