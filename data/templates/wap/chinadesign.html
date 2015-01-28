@@ -19,10 +19,10 @@
 		width: 100%;
 	}
 	.pp-section{
-		-webkit-transition: all 1000ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		-moz-transition: all 1000ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		-o-transition: all 1000ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		transition: all 1000ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		-webkit-transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		-moz-transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		-o-transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-webkit-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-moz-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-o-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
@@ -78,7 +78,7 @@
 		text-align: center;
 	}
 	#section9 .ui.grid{
-		padding:200px 13% 0 13%;
+		padding:150px 13% 0 13%;
 	}
 	#section9 .ui.grid input{
 		width: 100%;
@@ -90,14 +90,14 @@
 		font-size:20px;
 	}
 	#section9 .ui.grid h1{
-		font-size:30px;
+		font-size:25px;
 	}
 	
 	.section img{
 		position: absolute;
 		bottom: 10px;
 		margin-left: -20px;
-		width: 10%;
+		width: 14%;
 	}
 </style>
 {% endblock %}
@@ -119,30 +119,57 @@
 
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
     document.querySelector('#onMenuShareAppMessage').onclick = function () {
+      var my_name = $('input[name=my_name]').val();
       wx.onMenuShareAppMessage({
-        title: '互联网之子',
-        desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-        link: 'http://movie.douban.com/subject/25785114/',
+        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        desc: '',
+        link: '{{ app_url_wap }}/promo/chinadesign',
         imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-        trigger: function (res) {
-          alert("点击分享：" +JSON.stringify(res));
-            // 用户确认分享后执行的回调函数
-        },
         success: function (res) {
-          alert("分享成功：" +JSON.stringify(res));
-            // 用户确认分享后执行的回调函数
-        },
-        cancel: function (res) {
-          alert("取消分享：" +JSON.stringify(res));
-            // 用户取消分享后执行的回调函数
-        },
-        fail:function (res) {
-          alert("分享失败：" +JSON.stringify(res));
+
+        }
+      });
+    };
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    document.querySelector('#onMenuShareTimeline').onclick = function () {
+      var my_name = $('input[name=my_name]').val();
+      wx.onMenuShareTimeline({
+        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        link: '{{ app_url_wap }}/promo/chinadesign',
+        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        success: function (res) {
         }
       });
 
-      alert('已注册获取“发送给朋友”状态事件');
+    };
 
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    document.querySelector('#onMenuShareQQ').onclick = function () {
+      var my_name = $('input[name=my_name]').val();
+      wx.onMenuShareQQ({
+        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        desc: '',
+        link: '{{ app_url_wap }}/promo/chinadesign',
+        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        success: function (res) {
+
+        }
+      });
+
+    };
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    document.querySelector('#onMenuShareWeibo').onclick = function () {
+      var my_name = $('input[name=my_name]').val();
+      wx.onMenuShareWeibo({
+        title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        desc: '',
+        link: '{{ app_url_wap }}/promo/chinadesign',
+        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        success: function (res) {
+        }
+      });
     };
 
 
@@ -159,6 +186,7 @@
 
 {% endblock %}
 {% block content %}
+  <audio id="music" src="http://dn-h6app.qbox.me/data/case/micr/img/music.mp3" autoplay="" loop=""></audio>
 	<div id="pagepiling">
 	    <div class="section" id="section1">
 	    	<img src="{{ app_url_packaged}}/images/top.png">
@@ -196,7 +224,7 @@
 				<div class="row">
 					<div class="center aligned column">
 						<a class="ui btn-4 btn-4c attend magenta active icon-arrow-right btn" href="javascript:void(0);">
-				            <span id="onMenuShareAppMessage">我要支持</span>
+				            <span id="support-btn">我要支持</span>
 				          </a>
 					</div>
 				</div>
