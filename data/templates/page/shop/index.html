@@ -1,7 +1,13 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
-
+<style type="text/css">
+	.ui.viewpath {
+		background-color: #f7f7f7;
+		padding: 1rem 0;
+	}
+	
+</style>
 {% endblock %}
 
 {% block jquery %}
@@ -20,6 +26,22 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui viewpath">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui large breadcrumb">
+				  	<a class="section">Home</a>
+				  	<i class="right chevron icon divider"></i>
+				  	<a class="section">Registration</a>
+				  	<i class="right chevron icon divider"></i>
+				  	<div class="active section">Personal Information</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="shop list" id="shoplist">
 	<div class="ui responsive grid">
 		<div class="center aligned row">

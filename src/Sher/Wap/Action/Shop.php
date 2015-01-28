@@ -168,7 +168,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 		
 		// 设置已预约标识
-    $cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
+    	$cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
 		Doggy_Log_Helper::warn('Validate appoint log key: '.$cache_key);
 		
 		$redis = new Sher_Core_Cache_Redis();
@@ -237,10 +237,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
 		}
 
-    //试用产品，不可购买
-    if($product_data['is_try']){
-      return $this->api_json('试用产品，不可购买！', 3010);
-    }
+	    // 试用产品，不可购买
+	    if($product_data['is_try']){
+	      return $this->api_json('试用产品，不可购买！', 3010);
+	    }
 
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
@@ -405,6 +405,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 红包金额
 		$card_money = $order_info['card_money'];
 		
+		// 礼品卡金额
+		$gift_money = $order_info['gift_money'];
+		
 		try{
 			$orders = new Sher_Core_Model_Orders();
 			
@@ -427,8 +430,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			
 			// 商品金额
 			$order_info['total_money'] = $total_money;
+			
 			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
+			
 			// 支付金额不能为负数
 			if($pay_money < 0){
 				$pay_money = 0.0;
@@ -437,57 +442,53 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
-
-
+			
             $is_snatched = false;
-      	    //抢购产品状态，跳过付款状态
-      	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
+      	    // 抢购产品状态，跳过付款状态
+      	    if(is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
+				if((int)$order_info['items'][0]['sale_price'] == 0){
+                	// 配置文件没有配置价格为0的产品，返回错误
+                	if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
+                  		return $this->ajax_json('不允许的操作！', true);             
+                	}
 
-              if((int)$order_info['items'][0]['sale_price']==0){
-                //配置文件没有配置价格为0的产品，返回错误
-                if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
-                  return $this->ajax_json('不允许的操作！', true);             
-                }
+                	// 获取产品信息
+                	$product = new Sher_Core_Model_Product();
+                	$product_data = $product->load((int)$order_info['items'][0]['product_id']);
+                	if(empty($product_data)){
+                  		return $this->ajax_json('抢购产品不存在！', true);
+                	}
 
-                // 获取产品信息
-                $product = new Sher_Core_Model_Product();
-                $product_data = $product->load((int)$order_info['items'][0]['product_id']);
-                if(empty($product_data)){
-                  return $this->ajax_json('抢购产品不存在！', true);
-                }
+                	// 是否有库存
+                	if($product_data['inventory'] == 0){
+                  		return $this->ajax_json('该产品库存不足！', true);              
+                	}
 
-                //是否有库存
-                if($product_data['inventory']==0){
-                  return $this->ajax_json('没有库存！', true);              
-                }
+                	// 是否是抢购商品
+                	if($product_data['snatched'] != 1){
+                   		return $this->ajax_json('非抢抢购产品！', true);
+                	}
 
-                //是否是抢购商品
-                if($product_data['snatched'] != 1){
-                   return $this->ajax_json('非抢抢购产品！', true);
-                }
+                	// 在抢购时间内
+                	if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
+                    	return $this->ajax_json('抢购还没有开始！', true);
+                	}
 
-                //在抢购时间内
-                if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
-                  return $this->ajax_json('抢购还没有开始！', true);
-                }
+                	// 验证是否预约过抢购商品
+                	if(!$this->validate_appoint($product_data['_id'])){
+                  		return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
+                	}
+                	// 验证抢购商品是否重复
+                	if(!$this->validate_snatch($product_data['_id'])){
+                    	return $this->ajax_json('抱歉，不要重复抢哦！', true);
+                	}
 
-                // 验证是否预约过抢购商品
-                if(!$this->validate_appoint($product_data['_id'])){
-                  return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
-                }
-                // 验证抢购商品是否重复
-                if(!$this->validate_snatch($product_data['_id'])){
-                  return $this->ajax_json('抱歉，不要重复抢哦！', true);
-                }
-
-                $is_snatched = true;
-                // 设置订单状态为备货
-                $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-                $order_info['is_payed'] = 1;
-
-              }
-        		  
-     	      }
+                	$is_snatched = true;
+                	// 设置订单状态为备货
+                	$order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+                	$order_info['is_payed'] = 1;
+              	}
+     	    }
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
@@ -544,10 +545,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$this->stash['card_payed'] = false;
 		// 验证是否需要跳转支付		
-		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money']+$order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'])){
+		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money'] + $order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'])){
+			$trade_prefix = 'Coin';
+			if($order_info['gift_money'] > 0){
+				$trade_prefix = 'Gift';
+			}
+			if($order_info['card_money'] > 0){
+				$trade_prefix = 'Card';
+			}
 			// 自动处理支付
 			if ($order_info['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-				$trade_no = 'card'.rand();
+				$trade_no = $trade_prefix.rand();
 				$model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
 			}
 			$this->stash['card_payed'] = true;
@@ -637,6 +645,57 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		return $this->ajax_json('红包成功使用', false, null, $data);
 	}
 	
+	/**
+	 * 使用礼品码
+	 */
+	public function ajax_gift(){
+		$rid = $this->stash['rid'];
+		$code = $this->stash['code'];
+		if(empty($rid) || empty($code)){
+			return $this->ajax_json('订单编号或礼品码为空！', true);
+		}
+		
+		try{
+			// 验证订单信息
+			$model = new Sher_Core_Model_OrderTemp();
+			$order_info = $model->find_by_rid($rid);
+			if(empty($order_info)){
+				return $this->ajax_json('订单不存在！', true);
+			}
+			$items = $order_info['dict']['items'];
+			if(count($items) != 1){
+				return $this->ajax_json('礼品码仅限单一产品！', true);
+			}
+			
+			// 验证礼品码
+			$gift_money = Sher_Core_Util_Shopping::get_gift_money($code, $items[0]['product_id']);
+			
+			$data = array();
+			// 更新临时订单
+			$ok = $model->use_gift($rid, $code, $gift_money);
+			if($ok){
+				$result = $model->first(array('rid'=>$rid));
+				if (empty($result)){
+					return $this->ajax_json('订单操作失败，请重试！', true);
+				}
+				$dict = $result['dict'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'];
+				
+				// 支付金额不能为负数
+				if($pay_money < 0){
+					$pay_money = 0.0;
+				}
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $gift_money)*-1;
+				$data['pay_money'] = $pay_money;
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Gift order failed: ".$e->getMessage());
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('礼品码成功使用', false, null, $data);
+	}
+	
 	
 	/**
 	 * 生产临时订单
@@ -663,6 +722,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 红包金额
 		$card_money = 0.0;
 		
+		// 礼品码金额
+		$gift_money = 0.0;
+		
 		// 设置订单默认值
 		$default_data = array(
 	        'payment_method' => 'a',
@@ -673,6 +735,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'freight' => $freight,
 			'card_money' => $card_money,
 			'coin_money' => $coin_money,
+			'gift_money' => $gift_money,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd',
 			'event_type' => $event_type,
