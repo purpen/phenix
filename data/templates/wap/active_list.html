@@ -33,13 +33,13 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui one items">
-        {% active_list var:'list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
+        {% active_list var:'list' published:1 deleted:1 step_stat:4 state:2 page:page size:6 %}
         {% for active in list.rows %}
 					<div class="magenta item">
 						<div class="image">
               <a href="{{ active.wap_view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
 							<div class="presell">
-                正在进行
+                {{ active.step_str }}
 							</div>
 						</div>
 						<div class="content">
