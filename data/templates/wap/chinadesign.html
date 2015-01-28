@@ -106,7 +106,8 @@
   <script type="text/javascript" src="http://demo.jq22.com/pagePiling.js-master/jquery.pagepiling.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript" >
-
+    var img_url = 'http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg';
+    var desc_str = '测试';
     var fetch_name = function(){
       var my_name = $('input[name=my_name]').val();
       return '我是 ' + my_name + ' 我支持中国原创设计!';
@@ -123,24 +124,33 @@
   wx.ready(function(){
 
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-
-      wx.onMenuShareAppMessage({
-        title: fetch_name,
-        desc: '内容',
+    $("input[name='my_name']").keypress(function(){
+      var my_name = $('input[name=my_name]').val();
+      var m_name = '我是 ' + my_name + ' 我支持中国原创设计!';
+       wx.onMenuShareAppMessage({
+        title: m_name,
+        desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        imgUrl: img_url,
         success: function (res) {
 
         }
-      });
+      });      
+
+
+
+
+    });
+
 
     // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
     document.querySelector('#onMenuShareTimeline').onclick = function () {
       var my_name = $('input[name=my_name]').val();
       wx.onMenuShareTimeline({
         title: '我是 ' + my_name + ' 我支持中国原创设计!',
+        desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        imgUrl: img_url,
         success: function (res) {
         }
       });
@@ -152,9 +162,9 @@
       var my_name = $('input[name=my_name]').val();
       wx.onMenuShareQQ({
         title: '我是 ' + my_name + ' 我支持中国原创设计!',
-        desc: '',
+        desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        imgUrl: img_url,
         success: function (res) {
 
         }
@@ -167,9 +177,9 @@
       var my_name = $('input[name=my_name]').val();
       wx.onMenuShareWeibo({
         title: '我是 ' + my_name + ' 我支持中国原创设计!',
-        desc: '',
+        desc: desc_str,
         link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+        imgUrl: img_url,
         success: function (res) {
         }
       });
@@ -220,7 +230,7 @@
 				<div class="row">
 					<div class="column">
 						<p>我 是</p>
-						<input placeholder="请输入你的名字" name="my_name" type="text">
+						<input placeholder="请输入你的名字" value="" name="my_name" type="text">
 						<h1>我支持中国原创设计!</h1>
 					</div>
 				</div>
