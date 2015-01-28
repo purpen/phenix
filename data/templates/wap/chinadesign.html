@@ -110,7 +110,7 @@
   <script type="text/javascript" src="http://demo.jq22.com/pagePiling.js-master/jquery.pagepiling.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript" >
-    var m_name = '';
+    var m_name = '我是 设计师 我支持中国原创设计!';
     var img_url = 'http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg';
     var desc_str = '测试';
     var fetch_name = function(){
@@ -126,6 +126,12 @@
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/redis/incr';
+    $.get(url, { key: 'chinadeisgn_share_num' });
+  }
+
   function share_list(){
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
      wx.onMenuShareAppMessage({
@@ -134,7 +140,7 @@
       link: '{{ app_url_wap }}/promo/chinadesign',
       imgUrl: img_url,
       success: function (res) {
-
+        record_share_num();
       }
     });      
 
@@ -145,6 +151,7 @@
       link: '{{ app_url_wap }}/promo/chinadesign',
       imgUrl: img_url,
       success: function (res) {
+        record_share_num();
       }
     });
 
@@ -155,7 +162,7 @@
       link: '{{ app_url_wap }}/promo/chinadesign',
       imgUrl: img_url,
       success: function (res) {
-
+        record_share_num();
       }
     });
 
@@ -166,6 +173,7 @@
       link: '{{ app_url_wap }}/promo/chinadesign',
       imgUrl: img_url,
       success: function (res) {
+        record_share_num();
       }
     });
   }
@@ -175,7 +183,11 @@
 
     $("input[name='my_name']").blur(function(){
       var my_name = $('input[name=my_name]').val();
-      var m_name = '我是 ' + my_name + ' 我支持中国原创设计!';
+      if(my_name==''){
+        m_name = '我是 设计师 我支持中国原创设计!';       
+      }else{
+        m_name = '我是 ' + my_name + ' 我支持中国原创设计!';     
+      }
       share_list();
     });
   });
@@ -226,6 +238,7 @@
 						<h1>我支持中国原创设计!</h1>
 					</div>
 				</div>
+        <!--
 				<div class="row">
 					<div class="center aligned column">
 						<a class="ui btn-4 btn-4c attend magenta active icon-arrow-right btn" href="javascript:void(0);">
@@ -233,6 +246,7 @@
 				          </a>
 					</div>
 				</div>
+        -->
 			</div>
 	    </div>
 	
