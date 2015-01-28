@@ -204,6 +204,11 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
     if(!isset($this->stash['target_id'])){
       return false;
     }
+    if($this->stash['from']=='site'){
+      $this->stash['size'] = 80;
+    }else{
+      $this->stash['size'] = 30;
+    }
     $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:1;
     return $this->to_taconite_page('ajax/fetch_active_signup.html');
   }

@@ -390,7 +390,7 @@ float: right;
   function fetch_signup_avatar(){
     var url = '{{ app_url_active }}/ajax_fetch_signup';
     var target_id = {{ active._id }};
-    $.get(url, { target_id: target_id, evt:1 });
+    $.get(url, { target_id: target_id, evt:1, from:'site' });
   }
 
   //评论分页

@@ -40,7 +40,7 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
 	public function view(){
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.active'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap.active'];
 		if(empty($id)){
 			return $this->show_message_page('访问的活动不存在！', $redirect_url);
 		}
@@ -82,6 +82,14 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
     $this->stash['active'] = $active;
 		return $this->to_html_page('wap/active_show.html');
 	}
+
+  /**
+   * 验证用户是否已报名
+   */
+  protected function check_user_attend($user_id, $target_id, $event=1){
+    $mode_attend = new Sher_Core_Model_Attend();
+    return $mode_attend->check_signup($user_id, $target_id, $event);
+  }
 	
 }
 ?>
