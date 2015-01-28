@@ -96,7 +96,7 @@
 	.section img{
 		position: absolute;
 		bottom: 10px;
-		margin-left: -47px;
+		margin-left: -20px;
 		width: 10%;
 	}
 </style>
@@ -121,12 +121,12 @@
 
 function share() {
     if (typeof WeixinJSBridge == "undefined") {
-        alert(" 请先通过微信搜索 太火鸟 添加太火鸟为好友，通过微信分享游戏 :) ");
+        alert(" 请先通过微信搜索 太火鸟 添加太火鸟为好友 ");
     } else {
         WeixinJSBridge.invoke("shareTimeline", {
             "appid": '{{ app_id }}',
             "title": "我在《玩蛋去》中，玩碎了",
-            "desc" :"",
+            "desc" :"aaa",
             "link": "{{ app_url_wap }}/promo/chinadesign",
             "img_url": "http://frstatic.qiniudn.com/images/egg/share.jpg",
             "img_width": "640",
@@ -152,6 +152,10 @@ document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 		    sectionsColor: [ ],
 		});
 
+    $('#support-btn').click(function(){
+      alert(123);
+      share();
+    });
 
 {% endblock %}
 {% block content %}
@@ -185,7 +189,7 @@ document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 				<div class="row">
 					<div class="column">
 						<p>我 是</p>
-						<input placeholder="请输入你的名字" type="text">
+						<input placeholder="请输入你的名字" name="my_name" type="text">
 						<h1>我支持中国原创设计!</h1>
 					</div>
 				</div>
@@ -200,12 +204,5 @@ document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 	    </div>
 	
 	</div>
-
-  <div>
-    <h2>测试分享按钮</h2>
-    <input type="text" name="my_name" value="" />
-    <input type="button" name="share" value="分享" onclick="share();" />
-  </div>
-
 
 {% endblock %}
