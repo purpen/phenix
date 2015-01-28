@@ -115,7 +115,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 * 测试
 	 */
 	public function test_get(){
-		$redis = new Sher_Core_Cache_Redis();		
+    $redis = new Sher_Core_Cache_Redis();
+    $redis->set('test', 'aaaa', 20);
 		echo $redis->get('test');
 	}
 	

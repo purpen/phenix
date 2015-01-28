@@ -8,7 +8,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'cup');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign');
 	
 	/**
 	 * 网站入口
@@ -158,11 +158,17 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	}
 
   /**
-   * 55杯－专题
+   * 55杯-支持原创－专题
    */
-  public function cup(){
-    
-    return $this->to_html_page('wap/55_cup.html');
+  public function chinadesign(){
+           
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign');
+    $this->stash['wxSha1'] = sha1($wxOri);
+    return $this->to_html_page('wap/chinadesign.html');
   }
 	
 }
