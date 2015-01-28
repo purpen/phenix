@@ -166,7 +166,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign');
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
     return $this->to_html_page('wap/chinadesign.html');
   }

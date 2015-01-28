@@ -18,12 +18,15 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
     $token_key = 'wx_token';
 		$token = $redis->get($token_key);
     if (!$token) {
+      Doggy_Log_Helper::warn('wechat token is generate!');
       $app_id = Doggy_Config::$vars['app.wechat.ser_app_id'];
       $app_secret = Doggy_Config::$vars['app.wechat.ser_app_secret'];
       $res = file_get_contents('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$app_id.'&secret='.$app_secret);
       $res = json_decode($res, true);
       $token = $res['access_token'];
       $redis->set($token_key, $token, 3600);
+    }else{
+      Doggy_Log_Helper::warn('wechat token is read redis!');  
     }
     return $token;
   }
@@ -41,7 +44,10 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
     do{
       $ticket = $redis->get($ticket_key);
       if (!empty($ticket)) {
+        Doggy_Log_Helper::warn('wechat ticket is read redis!');
         break;
+      }else{
+         Doggy_Log_Helper::warn('wechat ticket is generate!');    
       }
 		  $token = $redis->get($token_key);
       if (empty($token)){
