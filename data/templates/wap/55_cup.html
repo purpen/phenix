@@ -1,0 +1,40 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}55度杯 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    function WeiXinShareBtn() { 
+      alert('test');
+       if (typeof WeixinJSBridge == "undefined") { 
+        alert("请先通过微信搜索 wow36kr 添加36氪为好友，通过微信分享文章 "); 
+       } else { 
+         var my_name = $('input[name=my_name]').val();
+         WeixinJSBridge.invoke('shareTimeline', { 
+           "title": my_name, 
+           "link": "http://www.taihuoniao.com", 
+           "desc": "支持设计师", 
+           "img_url": "http://www.36kr.com/assets/images/apple-touch-icon.png" 
+         }); 
+       } 
+     }
+  </script>
+{%endif%}
+{% block jquery %}
+
+	
+{% endblock %}
+{% block content %}
+
+  <div>
+    <h2>测试分享按钮</h2>
+    <input type="text" name="my_name" value="" />
+    <input type="button" name="share" value="分享" onclick="WeiXinShareBtn()" />
+  </div>
+
+
+{% endblock %}

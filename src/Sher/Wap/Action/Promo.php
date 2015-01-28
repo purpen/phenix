@@ -156,6 +156,14 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		return $this->to_taconite_page('ajax/bonus_ok.html');
 	}
+
+  /**
+   * 55杯－专题
+   */
+  public function 55_cup(){
+    
+    return $this->to_html_page('wap/55_cup.html');
+  }
 	
 }
 ?>
