@@ -8,7 +8,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'cup');
 	
 	/**
 	 * 网站入口
@@ -160,7 +160,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   /**
    * 55杯－专题
    */
-  public function 55_cup(){
+  public function cup(){
     
     return $this->to_html_page('wap/55_cup.html');
   }

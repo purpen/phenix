@@ -9,9 +9,8 @@
 {% block layout_js %}
   <script type="text/javascript" >
     function WeiXinShareBtn() { 
-      alert('test');
        if (typeof WeixinJSBridge == "undefined") { 
-        alert("请先通过微信搜索 wow36kr 添加36氪为好友，通过微信分享文章 "); 
+        alert("请先通过微信搜索 taihuoniao 关注太火鸟! 通过微信分享 "); 
        } else { 
          var my_name = $('input[name=my_name]').val();
          WeixinJSBridge.invoke('shareTimeline', { 
@@ -23,9 +22,8 @@
        } 
      }
   </script>
-{%endif%}
+{%endblock%}
 {% block jquery %}
-
 	
 {% endblock %}
 {% block content %}
