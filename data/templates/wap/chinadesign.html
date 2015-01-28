@@ -18,8 +18,10 @@
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
-    wx.ready(function(){
-        // 获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+
+
+  function share(){
+         // 获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
         wx.onMenuShareTimeline({
             title: '我在《玩蛋去》中，玩碎了', // 分享标题
             link: "{{ app_url_wap }}/promo/chinadesign",
@@ -32,8 +34,8 @@
             link:"{{ app_url_wap }}/promo/chinadesign",
             imgUrl: "http://frstatic.qiniudn.com/images/egg/share.jpg", // 分享图标
             type: 'link' // 分享类型,music、video或link，不填默认为link
-        });
-    });
+        });  
+  }
 
   </script>
 {%endblock%}
@@ -44,7 +46,7 @@
   <div>
     <h2>测试分享按钮</h2>
     <input type="text" name="my_name" value="" />
-    <input type="button" name="share" value="分享" onclick="" />
+    <input type="button" name="share" value="分享" onclick="share();" />
   </div>
 
 
