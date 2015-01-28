@@ -26,7 +26,7 @@
 		-webkit-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-moz-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-o-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		transition-timing-function: cubic-bezier(0.42, 0, 1.0, 1.0);
 	}	
 	#section1{
 		background-image: url({{ app_url_packaged }}/images/H5_1.jpg);
@@ -99,6 +99,10 @@
 		margin-left: -20px;
 		width: 14%;
 	}
+
+  .mmfoot{
+    display:none;
+  }
 </style>
 {% endblock %}
 
@@ -106,6 +110,7 @@
   <script type="text/javascript" src="http://demo.jq22.com/pagePiling.js-master/jquery.pagepiling.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript" >
+    var m_name = '';
     var img_url = 'http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg';
     var desc_str = '测试';
     var fetch_name = function(){
@@ -121,57 +126,58 @@
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
-  wx.ready(function(){
-
+  function share_list(){
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: '{{ app_url_wap }}/promo/chinadesign',
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: '{{ app_url_wap }}/promo/chinadesign',
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: '{{ app_url_wap }}/promo/chinadesign',
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: '{{ app_url_wap }}/promo/chinadesign',
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+  }
+
+  wx.ready(function(){
+    share_list();
+
     $("input[name='my_name']").blur(function(){
       var my_name = $('input[name=my_name]').val();
       var m_name = '我是 ' + my_name + ' 我支持中国原创设计!';
-
-       wx.onMenuShareAppMessage({
-        title: m_name,
-        desc: desc_str,
-        link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: img_url,
-        success: function (res) {
-
-        }
-      });      
-
-      // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-      wx.onMenuShareTimeline({
-        title: m_name,
-        desc: desc_str,
-        link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: img_url,
-        success: function (res) {
-        }
-      });
-
-      // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-      wx.onMenuShareQQ({
-        title: m_name,
-        desc: desc_str,
-        link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: img_url,
-        success: function (res) {
-
-        }
-      });
-
-      // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
-      wx.onMenuShareWeibo({
-        title: m_name,
-        desc: desc_str,
-        link: '{{ app_url_wap }}/promo/chinadesign',
-        imgUrl: img_url,
-        success: function (res) {
-        }
-      });
-      
+      share_list();
     });
-
-
   });
 
   </script>
