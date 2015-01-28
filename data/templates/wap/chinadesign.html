@@ -42,7 +42,21 @@
 	#content-11 .fr { float:right; }
 	#content-11 .fz-5 { font-size: 5px; }
 	#content-11 .fz-10 { font-size: 10px; }
-
+	#sec-9 .ui.grid{
+		padding:150px 13% 0 13%;
+ 	}
+	#sec-9 .ui.grid input{
+	    width: 100%;
+        height: 20px;
+        padding: .65em .85em;
+        font-size:16px;
+    }
+    #sec-9 .ui.grid p{
+        font-size:20px;
+    }
+    #sec-9 .ui.grid h1{
+    	font-size:25px;
+    }
 
 	@keyframes swipe { 
 	    0% { top: 92%; opacity: 1 }
@@ -75,7 +89,7 @@
 
 	$(function(){
 	    bgm = new Audio5js({
-	        swf_path: 'js/audio5js/swf/audio5js.swf',
+	        swf_path: 'http://name.zhixingche.me/js/audio5js/swf/audio5js.swf',
 	        ready: function () {
 	            this.load('http://dn-h6app.qbox.me/data/case/micr/img/music.mp3');
 	            this.play();
@@ -276,7 +290,7 @@
 	            {
 	                $(page).css({
 	                    "-webkit-transform" : "translate(0px, " + (-deltaY) + "px)",
-	                    "-webkit-transition" : "all 0.3s ease-in; transition:all 0.3s ease-in"
+	                    "-webkit-transition" : "all 0.5s ease-in; transition:all 0.5s ease-in"
 	                });                  
 	            }
 
@@ -294,7 +308,7 @@
 	            {
 	                $(page).css({
 	                    "-webkit-transform" : "translate(0px, " + (pageHeight - deltaY) + "px)",
-	                    "-webkit-transition" : "all 0.3s ease-in; transition:all 0.3s ease-in"
+	                    "-webkit-transition" : "all 0.5s ease-in; transition:all 0.5s ease-in"
 	                });             
 
 
@@ -312,7 +326,7 @@
 	            var page = pages[0];
 	            $(page).css({
 	                "-webkit-transform" : "translate(0px, " +(-pageHeight - deltaY) + "px)",
-	                "-webkit-transition" : "all 0.3s ease-in; transition:all 0.3s ease-in"
+	                "-webkit-transition" : "all 0.5s ease-in; transition:all 0.5s ease-in"
 	            });             
 
 	            var page = pages[0];
@@ -489,6 +503,15 @@
           <section id="sec-9" style="display:;">
               <div class="column">
                   <div class="content" id="content-9" style="background-image: url(http://frstatic.qiniudn.com/images/H5_9.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+					<div class="ui responaive grid">
+						<div class="row">
+							<div class="column">
+						 		<p>我 是</p>
+					 			<input placeholder="请输入你的名字" value="" name="my_name" type="text">
+						      	<h1>我支持中国原创设计!</h1>
+						  	</div>
+						</div>
+					</div>
                   </div>
               </div>
           </section>
