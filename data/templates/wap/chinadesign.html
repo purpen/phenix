@@ -19,10 +19,10 @@
 		width: 100%;
 	}
 	.pp-section{
-		-webkit-transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		-moz-transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		-o-transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
-		transition: all 500ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		-webkit-transition: all 800ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		-moz-transition: all 800ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		-o-transition: all 800ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+		transition: all 800ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-webkit-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-moz-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
 		-o-transition-timing-function: cubic-bezier(0.550, 0.085, 0.000, 0.990);
@@ -106,6 +106,11 @@
   <script type="text/javascript" src="http://demo.jq22.com/pagePiling.js-master/jquery.pagepiling.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript" >
+
+    function fetch_name(){
+      var my_name = $('input[name=my_name]').val();
+      return '我是 ' + my_name + ' 我支持中国原创设计!';
+    }
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: '{{ app_id }}', // 必填，公众号的唯一标识
@@ -118,18 +123,16 @@
   wx.ready(function(){
 
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-    document.querySelector('#onMenuShareAppMessage').onclick = function () {
-      var my_name = $('input[name=my_name]').val();
+
       wx.onMenuShareAppMessage({
-        title: '我是 ' + my_name + ' 我支持中国原创设计!',
-        desc: '',
+        title: fetch_name,
+        desc: '内容',
         link: '{{ app_url_wap }}/promo/chinadesign',
         imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
         success: function (res) {
 
         }
       });
-    };
 
     // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
     document.querySelector('#onMenuShareTimeline').onclick = function () {
