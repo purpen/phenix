@@ -9,8 +9,7 @@
 {% block layout_js %}
   <script type="text/javascript" >
 
-
-function share() {
+	function share() {
     if (typeof WeixinJSBridge == "undefined") {
         alert(" 请先通过微信搜索 太火鸟 添加太火鸟为好友，通过微信分享游戏 :) ");
     } else {
@@ -26,23 +25,24 @@ function share() {
 
     }
 }
+
+  </script>
+{%endblock%}
+{% block jquery %}
+
 document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
     // 分享到朋友圈
     WeixinJSBridge.on('menu:share:timeline', function(argv){
         share();
    	});
 });
-  </script>
-{%endblock%}
-{% block jquery %}
-	
 {% endblock %}
 {% block content %}
 
   <div>
     <h2>测试分享按钮</h2>
     <input type="text" name="my_name" value="" />
-    <input type="button" name="share" value="分享" onclick="_WXShare()" />
+    <input type="button" name="share" value="分享" onclick="share()" />
   </div>
 
 
