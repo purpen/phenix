@@ -11,6 +11,15 @@
 	    height: 500px;
 		color: #fff;
 	}
+	@media only screen and (min-width: 767px){
+		.try .masthead {
+			{% if try.banner_id %}
+			background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+			{% else %}
+		    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+			{% endif %}
+		}
+	}
 	.try h1.ui.header {
 		font-size: 1.5rem;
 	}
