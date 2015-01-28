@@ -2,17 +2,562 @@
 {% block title %}{{ active.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
-
+	.start{
+		padding-top:1rem !important;
+	}
+	.start .content{
+		font-size:14px;
+	}
+	.start .content span{
+		font-size:16px;
+		font-weight:700;
+	}
+	.ui.big.block{
+		padding-top:1rem !important;
+	}
+	.ui.btn:hover,.ui.btn{
+		padding: .8em 1.5em !important;
+		border-radius:4px;
+		min-width:114px;
+	}
+	.ui.btn-4:before{
+		font-size:1em;
+	}
+	.ui.abstract .ui.grid>.row:first-child{
+		margin-top:1.5% !important;
+	}
+	.ui.abstract .ui.grid>.row+.row{
+		margin-top:0 !important;
+		padding-top:0.3rem;
+	}
+	
+	
+	.rundown-timeline-container {
+		height: auto;
+		margin: 0 auto;
+		max-width: 320px;
+		position: relative;
+		width: 100%;
+	}
+	.rundown-timeline-container:before {
+		background: none repeat scroll 0 0 #DCDEE1;
+		content: "";
+		height: 75px;
+		left: 29%;
+		position: absolute;
+		top: 39px;
+		width: 3px;
+	}
+	.rundown-timeline-container.bottom {
+		height: 45px;
+	}
+	.rundown-timeline-container.bottom:before{
+		height:0;
+	}
+	.timeline-red-dot {
+		background-color: #00b6ae;
+		border-radius: 14px 14px 14px 14px;
+		height: 13px;
+		left: 26%;
+		margin-left: -2px;
+		position: absolute;
+		top: 19px;
+		width: 13px;
+		border: 7px solid #cdf5f3;
+	}
+	.timeline-block {
+		height: 100px;
+		margin: 0;
+		position: relative;
+		top: -5px;
+	}
+	.timeline-content.right {
+		float: right;
+	}
+	.timeline-content {
+		float: right;
+		width: 65%;
+	}
+	.timeline-content.right .time {
+		font-weight: normal;
+		top: 14px;
+	}
+	.timeline-content .time {
+		font-size: 12px;
+		font-weight: bold;
+		left: 0%;
+		line-height: 38px !important;
+		position: absolute;
+	}
+	.timeline-content .name {
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 16px;
+		margin-top: 25px !important;
+		margin-bottom: 0;
+		color: #222;
+	}
+	.timeline-content .name.top{
+		margin-top: 25px !important;
+		font-size: 20px;
+	}
+	.timeline-content .title {
+		font-size: 12px;
+		line-height: 16px;
+		margin: 9px 0 5px !important;
+	}
+	.title img{
+		display: block;
+		margin: 0 auto;
+		width: 3em;
+		height: 3em;
+		border-radius: 500px;
+		float: left;
+	}
+	.title .content{
+		padding-top: .25em;
+		margin-left: 3.5em;
+		font-size:12px;
+		color:#666;
+	}
+	.text {
+		margin: .25em 0 .5em;
+		word-wrap: break-word;
+		line-height: 1.325em;
+		font-size:14px;
+	}
+	
+	.ui.w-600 {
+		width: 574px;
+		margin: 0 auto;
+		position: relative;
+		background: rgb(74,74,74);
+		padding: 10px 0;
+	}
+	.ui.w-600 #signup-avatar {
+		padding: 0 0 0 7px;
+	}
+	.ui.w-600 .image {
+		width: 50px;
+		height: 50px;
+		display: inline-block;
+		padding: 6px 1px;
+	}
+	.ui.w-600 .image img {
+		width: 50px;
+		height: 50px;
+		opacity: 0.6;
+		border-radius: 50%;
+	}
+	.ui.together a img{
+		width: 77px;
+		margin: 5px;
+		border: 1px solid #ccc;
+	}
+	
+	
 </style>
 {% endblock %}
+{% block layout_js %}
+<script type="text/javascript">
+//ajax获取报名列表
+  function fetch_signup_avatar(){
+    var url = '{{ app_url_active }}/ajax_fetch_signup';
+    var target_id = {{ active._id }};
+    $.get(url, { target_id: target_id, evt:1 });
+  }
+
+//评论分页
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+    $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, per_page: per_page});
+  }
+
+</script>
+{% endblock %}
 {% block jquery %}
+	$('.ui.attend.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    $('.ui.user-info-box.modal').modal('show');
+    return false;
+	
+	// 申请表地址信息
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('#apply-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			content: {
+				identifier  : 'content',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '申请理由不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
+	phenix.hook_comment_page();
+	
+	//ajax加载评论
+	  fetch_comment(1, per_page);
+	
+	$('.ui.tabox').smint({
+    	'scrollSpeed': 1000
+    });
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
+		});
+	});
+	
+    $('textarea.comment-textarea').maxlength({
+        'feedback' : '.wordscount'
+    });
 {% endblock %}
 {% block content %}
-<div style="background: url(http://frbird.qiniudn.com/active/150123/54c1d998fc8b1285428b6322-2-hd.jpg) no-repeat center center /cover;height:500px;">
-	
-</div>
+<div class='active page'>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui breadcrumb">
+				  	<a class="section" href="{{ app_url_wap }}">
+						<i class="icon home"></i>首页
+					</a>
+				  	<div class="divider"> / </div>
+				  	<div class="active section">活动</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img src="{{ app_url_packaged }}/images/active_01.jpg" width="100%">
+	<div class="ui start responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="content">
+					<span>太火鸟线下第1期主题沙龙:设计与创业<br></span>
+					时间:2015-01-27  13:30<br>
+					地点:北京市朝阳区 751 D-PARK 北京时尚设计广场 极地创新中心<br>
+					人数:100人
+				</div>
+			</div>
+		</div>
+		
+		
+		{% if active.step_stat==1 %}
+        <div class="row">
+          <div class="center aligned column attend-box">
+          {% if is_attend %}
+            <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+              <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          {%else%}
+            <a class="ui btn-4 btn-4c attend magenta icon-arrow-right btn" href="javascript:void(0);">
+              <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          {%endif%}
+          </div>
+        </div>
+      {%endif%}
+		
+        <div class="row">
+          <div class="center aligned column attend-box">
+          
+            <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+              <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+          
+            <a class="ui btn-4 btn-4c magenta attend icon-arrow-right btn" href="javascript:void(0);">
+              <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+            </a>
+         
+          </div>
+        </div>
 
+	</div>
+	<div class="ui big abstract block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						活动介绍
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="content">
+						地点:北京市朝阳区 751 D-PARK 北京时尚设计广场 极地创新中心地点:北京市朝阳区 751 D-PARK 北京时尚设计广场 极地创新中心地点:北京市朝阳区 751 D-PARK 北京时尚设计广场 极地创新中心地点:北京市朝阳区 751 D-PARK 北京时尚设计广场 极地创新中心
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui big process block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						活动流程
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="rundown-timeline-container">
+					<div class="timeline-block">
+		            	<div class="timeline-red-dot"></div>
+			              	<div class="timeline-content right">
+			                	<div class="time">14:00-15:00</div>
+			                	<p class="name"> 《创意生态与设计创业》  </p>
+			                	<div class="title">
+			               			<img src="http://frstatic.qiniudn.com/images/fire/images/expert_1.jpg" alt="雷海波">
+			               			<div class="content">
+			                    		雷海波  
+			                    		<div class="text">
+			                      			太火鸟创始人/CEO
+			                    		</div>
+			                  		</div>	
+			                 	</div>
+			              </div>
+			    	</div>
+				</div>
+				
+				
+				<!--{% if active.process %}
+			        {% for p in active.process %}
+			          <div class="rundown-timeline-container">
+			            <div class="timeline-block">
+			              <div class="timeline-red-dot"></div>
+			              <div class="timeline-content right">
+			                <div class="time">{{ p.time }}</div>
+			                <p class="name"> {{ p.title }}  </p>
+			                <div class="title">
+			                  {% if p.img %}
+			                  <img src="{{ p.img }}" alt="{{ p.name }}">
+			                  {%endif%}
+			                  <div class="content">
+			                    {{ p.name }}  
+			                    <div class="text">
+			                      {{ p.position }}
+			                    </div>
+			                  </div>	
+			                 </div>
+			              </div>
+			            </div>
+			          </div>
+			        {%endfor%}
+			      {%endif%}-->
+				
+				<div class="rundown-timeline-container bottom">
+					<div class="timeline-block">
+						<div class="timeline-red-dot"></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+	          <div class="center aligned column attend-box">
+
+	            <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+	              <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+	            </a>
+
+	            <a class="ui btn-4 btn-4c magenta attend icon-arrow-right btn" href="javascript:void(0);">
+	              <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+	            </a>
+
+	          </div>
+	        </div>
+			
+		</div>
+	</div>
+	
+	<div class="ui big report block">
+		<div class="ui w-600">
+			<div id="signup-avatar">
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				
+				
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="ui big together background block">
+	    <div class="ui responsive grid">
+		  	<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						合作伙伴
+					</h4>
+				</div>
+			</div>
+		
+	      <div class="row">
+			{% if active.partner %}
+	            <div class="center aligned column">
+	            {% for p in active.partner %}
+	            <a href="{{ p.url }}" title="{{ p.title }}" target="_blank"><img src="{{ p.img }}" alt="{{ p.title }}" /></a>
+	            {%endfor%}
+	            </div>
+	        {%endif%}
+		
+	                   <!-- <div class="center aligned column">
+	                        <a href="http://cn.technode.com/" title="" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt=""></a>
+	                        <a href="http://www.shijue.me" title="" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt=""></a>
+	                        <a href="http://www.huodongxing.com/" title="" target="_blank"><img src="http://frbird.qiniudn.com/active/150123/54c2601920de8de6388b6361-1-bi.jpg" alt=""></a>
+	                        <a href="http://www.microsoftventures.cn/" title="" target="_blank"><img src="http://frbird.qiniudn.com/active/150123/54c2649920de8ddd328b65bc-1-bi.jpg" alt=""></a>
+	                        <a href="http://www.chuangxin.com/" title="" target="_blank"><img src="http://frbird.qiniudn.com/active/150123/54c2652320de8de6388b6366-1-bi.jpg" alt=""></a>
+	                        <a href="http://thenode.technode.com/" title="" target="_blank"><img src="http://frbird.qiniudn.com/active/150123/54c265b820de8de1328b662b-1-bi.jpg" alt=""></a>
+	                        </div>
+	        		</div>-->
+	    </div>
+	  </div>
+	
+	
+	<div class="ui comment big background block">
+	    <div class="ui responsive grid">
+	      <div class="row">
+	        <div class="center aligned column">
+	          <h4 class="ui header">活动评论</h4>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	<div class="ui white background block">
+	  <div class="ui responsive grid">
+	    {% if active.topic_ids %}
+	    <div class="row">
+				<div class="column">
+					<a name="comment"></a>
+	        <div class="ui big reply segment">
+	          <!--ajax comment-->
+	          <div id="comment-list"></div>
+	          {% include "block/comment_box_site.html" %}
+	        </div>
+				</div>
+			</div>
+	    {% endif %}
+
+	    </div>
+	  </div>
+	</div>
 
 
 
