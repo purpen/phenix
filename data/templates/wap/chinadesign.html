@@ -117,22 +117,31 @@
 
 
 
-  function share(){
-         // 获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
-        wx.onMenuShareTimeline({
-            title: '我在《玩蛋去》中，玩碎了', // 分享标题
-            link: "{{ app_url_wap }}/promo/chinadesign",
-            imgUrl: "http://frstatic.qiniudn.com/images/egg/share.jpg" // 分享图标
+
+
+function share() {
+    if (typeof WeixinJSBridge == "undefined") {
+        alert(" 请先通过微信搜索 太火鸟 添加太火鸟为好友，通过微信分享游戏 :) ");
+    } else {
+        WeixinJSBridge.invoke("shareTimeline", {
+            "appid": '{{ app_id }}',
+            "title": "我在《玩蛋去》中，玩碎了",
+            "desc" :"",
+            "link": "{{ app_url_wap }}/promo/chinadesign",
+            "img_url": "http://frstatic.qiniudn.com/images/egg/share.jpg",
+            "img_width": "640",
+            "img_height": "640"
         });
-        // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
-        wx.onMenuShareAppMessage({
-            title: '分享标题', // 分享标题
-            desc: "分享描述", // 分享描述
-            link:"{{ app_url_wap }}/promo/chinadesign",
-            imgUrl: "http://frstatic.qiniudn.com/images/egg/share.jpg", // 分享图标
-            type: 'link' // 分享类型,music、video或link，不填默认为link
-        });  
-  }
+
+    }
+}
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    // 分享到朋友圈
+    WeixinJSBridge.on('menu:share:timeline', function(argv){
+        close('init_box');
+        share();
+   	});
+});
 
   </script>
 {%endblock%}
@@ -142,6 +151,8 @@
     		anchors: [],
 		    sectionsColor: [ ],
 		});
+
+
 {% endblock %}
 {% block content %}
 	<div id="pagepiling">
@@ -181,7 +192,7 @@
 				<div class="row">
 					<div class="center aligned column">
 						<a class="ui btn-4 btn-4c attend magenta active icon-arrow-right btn" href="javascript:void(0);">
-				            <span>我要支持</span>
+				            <span id="support-btn">我要支持</span>
 				          </a>
 					</div>
 				</div>
