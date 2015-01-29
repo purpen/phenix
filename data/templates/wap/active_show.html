@@ -180,7 +180,7 @@
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+      phenix.redirect('{{ app_url_wap }}/auth/login');
 			return false;
 		}
     $('.ui.user-info-box.modal').modal('show');
