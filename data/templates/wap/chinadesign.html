@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}支持中国原创设计 -{% endblock %}
+{% block title %}为中国原创设计点赞 -{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	html, body {
@@ -79,7 +79,7 @@
 
     var m_name = '我支持中国原创设计!';
     var img_url = '{{ app_url_packaged }}/images/H5_share.jpg';
-    var desc_str = '支持中国原创设计！我们仍有信心，撑起中国设计的脊梁！';
+    var desc_str = '掀开惊天阴谋，我们仍有信心，让中国原创设计傲立!';
     var fetch_name = function(){
       var my_name = $('input[name=my_name]').val();
       return '我是 ' + my_name + ' 我支持中国原创设计!';
@@ -503,6 +503,7 @@ function onTouchEnd(e)
           <section id="sec-10" style="display:;">
               <div class="column">
                   <div class="content" id="content-10" style="background-image: url({{ app_url_packaged }}/images/H5_9.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                    <img src="{{ app_url_packaged }}/images/H5_htc.png" width="100%"; style="position:absolute;top:-29px;">
 					<div class="ui responaive grid">
 						<div class="row">
 							<div class="column">
