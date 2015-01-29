@@ -83,7 +83,7 @@ $(function(){
     bgm = new Audio5js({
         swf_path: '{{ app_url_packaged }}/wechat/js/audio5js/swf/audio5js.swf',
         ready: function () {
-            this.load('http://dn-h6app.qbox.me/data/case/micr/img/music.mp3');
+            this.load('{{ app_url_packaged }}/wechat/js/790105 Fireflies.mp3');
             this.play();
 
             this.on('canplay', function(){
