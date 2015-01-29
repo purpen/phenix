@@ -206,10 +206,10 @@
 		$(this).dropdown();
 	});
 	
-	$('#apply-form').livequery(function(){
+	$('#user-info-form').livequery(function(){
 		$(this).form({
-			name: {
-				identifier  : 'name',
+			realname: {
+				identifier  : 'realname',
 				rules: [
 					{
 						type   : 'empty',
@@ -218,15 +218,11 @@
 				]
 			},
 			phone: {
-				identifier  : 'password',
+				identifier  : 'phone',
 				rules: [
 					{
 						type   : 'empty',
 						prompt : '电话不能为空'
-					},
-					{
-						type   : 'length[11]',
-						prompt : '电话必须11位字符'
 					}
 				]
 			},
@@ -235,16 +231,16 @@
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '地址区域不能为空'
+						prompt : '地址不能为空'
 					}
 				]
 			},
-			content: {
-				identifier  : 'content',
+			job: {
+				identifier  : 'job',
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '申请理由不能为空'
+						prompt : '职位不能为空'
 					}
 				]
 			}

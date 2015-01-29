@@ -24,8 +24,8 @@
           {% if visitor.is_login %}
           <div class="actions">
             <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-            {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_base }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+            {% if visitor.can_admin || visitor.id==comment.user_id  %}
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
             {%endif%}
           </div>
           <form class="ui reply hide form" action="{{ app_url_base }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">

@@ -90,6 +90,66 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
     $mode_attend = new Sher_Core_Model_Attend();
     return $mode_attend->check_signup($user_id, $target_id, $event);
   }
+
+  /**
+   * 用户报名
+   */
+  public function ajax_attend(){
+    $result = array();
+    if(!$this->visitor->id){
+			return $this->ajax_note('请登录', true);
+    }
+    if(!isset($this->stash['target_id'])){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+    }
+
+    $mode_active = new Sher_Core_Model_Active();
+    $active = $mode_active->find_by_id((int)$this->stash['target_id']);
+    if(empty($active)){
+ 			return $this->ajax_note('活动未找到!', true); 
+    }
+
+    $max_count = $active['max_number_count'];
+
+
+
+    $mode_attend = new Sher_Core_Model_Attend();
+
+    $query['event'] = Sher_Core_Model_Attend::EVENT_ACTIVE;
+    $query['target_id'] = $active['_id'];
+    $attend_count = $mode_attend->count($query);
+    if($attend_count >= $max_count){
+  		return $this->ajax_note('名额已满!', true);   
+    }
+
+    $is_attend = $mode_attend->check_signup($this->visitor->id, (int)$this->stash['target_id'], 1);
+    if($is_attend){
+ 			return $this->ajax_note('不能重复报名!', true);  
+    }
+
+    if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
+      if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address']) || empty($this->stash['job'])){
+ 			  return $this->ajax_note('请求失败,缺少用户必要参数', true); 
+      }
+
+      $user_data = array();
+      $user_data['profile']['realname'] = $this->stash['realname'];
+      $user_data['profile']['phone'] = $this->stash['phone'];
+      $user_data['profile']['address'] = $this->stash['address'];
+      $user_data['profile']['job'] = $this->stash['job'];
+
+      try {
+        //更新基本信息
+        $user_ok = $this->visitor->save($user_data);
+        if(!$user_ok){
+          return $this->ajax_note("更新用户信息失败", true);  
+        }
+      } catch (Sher_Core_Model_Exception $e) {
+        Doggy_Log_Helper::error('Failed to active attend update profile:'.$e->getMessage());
+        return $this->ajax_note("更新失败:".$e->getMessage(), true);
+      }
+    
+    }
 	
 }
 ?>
