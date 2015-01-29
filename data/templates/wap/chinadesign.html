@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}中国原创设计 -{% endblock %}
+{% block title %}支持中国原创设计 -{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	html, body {
@@ -345,7 +345,7 @@ $(function(){
 
 
     var m_name = '我是 设计师 我支持中国原创设计!';
-    var img_url = 'http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg';
+    var img_url = '{{ app_url_packaged }}/images/H5_share.jpg';
     var desc_str = '测试';
     var fetch_name = function(){
       var my_name = $('input[name=my_name]').val();
