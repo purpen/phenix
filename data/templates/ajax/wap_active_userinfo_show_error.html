@@ -1,0 +1,15 @@
+<taconite>
+	<replaceContent select="#show-message">
+    {% if stat %}
+      <span style="color:green;">{{ msg }}</span>
+    {%else%}
+      <span style="color:red;">{{ msg }}</span>
+    {%endif%}
+	</replaceContent>
+	
+	<eval>
+    {% if stat %}
+      window.setTimeout("$('.ui.user-info-box.modal').modal('hide')", 1500);
+    {%endif%}
+	</eval>
+</taconite>

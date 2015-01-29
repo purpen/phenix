@@ -95,23 +95,25 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
    * 用户报名
    */
   public function ajax_attend(){
-    $result = array();
+    $this->stash['stat'] = 0;
+    $this->stash['msg'] = null;
     if(!$this->visitor->id){
-			return $this->ajax_note('请登录', true);
+      $this->stash['msg'] = '请登录';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
     }
     if(!isset($this->stash['target_id'])){
-			return $this->ajax_note('请求失败,缺少必要参数', true);
+      $this->stash['msg'] = '请求失败,缺少必要参数';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
     }
 
     $mode_active = new Sher_Core_Model_Active();
     $active = $mode_active->find_by_id((int)$this->stash['target_id']);
     if(empty($active)){
- 			return $this->ajax_note('活动未找到!', true); 
+      $this->stash['msg'] = '活动未找到';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
     }
 
     $max_count = $active['max_number_count'];
-
-
 
     $mode_attend = new Sher_Core_Model_Attend();
 
@@ -119,17 +121,20 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
     $query['target_id'] = $active['_id'];
     $attend_count = $mode_attend->count($query);
     if($attend_count >= $max_count){
-  		return $this->ajax_note('名额已满!', true);   
+      $this->stash['msg'] = '名额已满';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
     }
 
     $is_attend = $mode_attend->check_signup($this->visitor->id, (int)$this->stash['target_id'], 1);
     if($is_attend){
- 			return $this->ajax_note('不能重复报名!', true);  
+      $this->stash['msg'] = '不能重复报名';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
     }
 
     if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
       if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address']) || empty($this->stash['job'])){
- 			  return $this->ajax_note('请求失败,缺少用户必要参数', true); 
+        $this->stash['msg'] = '请求失败,缺少用户必要参数';
+        return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
       }
 
       $user_data = array();
@@ -142,14 +147,20 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
         //更新基本信息
         $user_ok = $this->visitor->save($user_data);
         if(!$user_ok){
-          return $this->ajax_note("更新用户信息失败", true);  
+          $this->stash['msg'] = '更新用户信息失败';
+          return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+        }else{
+          $this->stash['stat'] = 1;
+          $this->stash['msg'] = '报名成功!';
+          return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');      
         }
       } catch (Sher_Core_Model_Exception $e) {
         Doggy_Log_Helper::error('Failed to active attend update profile:'.$e->getMessage());
-        return $this->ajax_note("更新失败:".$e->getMessage(), true);
+        $this->stash['msg'] = "更新失败:".$e->getMessage();
+        return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
       }
-    
     }
+  }
 	
 }
 ?>
