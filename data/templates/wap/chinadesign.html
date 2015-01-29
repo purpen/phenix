@@ -116,7 +116,7 @@ function initPages()
     pageHeight = $(window).height();
     var img_width = pageWidth;
     var img_height = 640 * img_width / 400 
-    console.log(img_width, img_height);
+    //console.log(img_width, img_height);
 
     var tpages = $('#holder section');
     pages = [];
@@ -197,7 +197,7 @@ function onTouchMove(e, oe)
     if (e.pageY != startY)
     {
         var deltaY = e.pageY - startY;
-        console.log(deltaY);
+        //console.log(deltaY);
         if (deltaY > 0)
         {
             down = true;
@@ -284,7 +284,7 @@ function onTouchEnd(e)
                 pages = [page].concat(pages);
                 pages.pop();  
 
-                console.log('prev page');              
+                //console.log('prev page');              
             }
 
         }
@@ -301,7 +301,7 @@ function onTouchEnd(e)
             pages.push(page);
             pages.shift();  
 
-            console.log('next page');               
+            //console.log('next page');               
         }
     }
 
@@ -400,7 +400,7 @@ function onTouchEnd(e)
           this.play();
 
           this.on('canplay', function(){
-              console.log('canplay');
+              //console.log('canplay');
           });   
 
           this.on('ended', function(){
@@ -440,7 +440,7 @@ function onTouchEnd(e)
 
           <section id="sec-3" style="display:;">
               <div class="column">
-                  <div class="content" id="content-3" style="background-image: url({{ app_url_packaged }}/images/H5_3.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                  <div class="content" id="content-3" style="background-image: url({{ app_url_packaged }}/images/H5_03.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
 					  <div class="swipe"><img src="{{ app_url_packaged }}/images/swipe.png" width="28" height="16" /></div>
                   </div>
               </div>
@@ -448,7 +448,7 @@ function onTouchEnd(e)
 
           <section id="sec-4" style="display:;">
               <div class="column">
-                  <div class="content" id="content-4" style="background-image: url({{ app_url_packaged }}/images/H5_4.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                  <div class="content" id="content-4" style="background-image: url({{ app_url_packaged }}/images/H5_04.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
 					  <div class="swipe"><img src="{{ app_url_packaged }}/images/swipe.png" width="28" height="16" /></div>
                   </div>
               </div>
@@ -456,7 +456,7 @@ function onTouchEnd(e)
 
           <section id="sec-5" style="display:;">
               <div class="column">
-                  <div class="content" id="content-5" style="background-image: url({{ app_url_packaged }}/images/H5_5.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">    
+                  <div class="content" id="content-5" style="background-image: url({{ app_url_packaged }}/images/H5_05.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">    
 	                  <div class="swipe"><img src="{{ app_url_packaged }}/images/swipe.png" width="28" height="16" /></div>
                   </div>
               </div>
@@ -464,7 +464,7 @@ function onTouchEnd(e)
 
           <section id="sec-6" style="display:;">
               <div class="column">
-                  <div class="content" id="content-6" style="background-image: url({{ app_url_packaged }}/images/H5_6.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                  <div class="content" id="content-6" style="background-image: url({{ app_url_packaged }}/images/H5_06.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
 					  <div class="swipe"><img src="{{ app_url_packaged }}/images/swipe.png" width="28" height="16" /></div>
                   </div>
               </div>
@@ -472,7 +472,7 @@ function onTouchEnd(e)
 
           <section id="sec-7" style="display:;" >
               <div class="column">
-                  <div class="content" id="content-7" style="background-image: url({{ app_url_packaged }}/images/H5_7.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                  <div class="content" id="content-7" style="background-image: url({{ app_url_packaged }}/images/H5_07.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
 					  <div class="swipe"><img src="{{ app_url_packaged }}/images/swipe.png" width="28" height="16" /></div>
                   </div>
               </div>
@@ -480,7 +480,7 @@ function onTouchEnd(e)
 
           <section id="sec-8" style="display:;">
               <div class="column">
-                  <div class="content" id="content-8" style="background-image: url({{ app_url_packaged }}/images/H5_8.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                  <div class="content" id="content-8" style="background-image: url({{ app_url_packaged }}/images/H5_08.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
 					  <div class="swipe"><img src="{{ app_url_packaged }}/images/swipe.png" width="28" height="16" /></div>
                   </div>
               </div>
