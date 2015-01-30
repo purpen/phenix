@@ -14,7 +14,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){
-		return $this->coupon();
+		//return $this->coupon();
 	}
 	
 	/**
