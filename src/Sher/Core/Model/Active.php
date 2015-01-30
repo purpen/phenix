@@ -98,6 +98,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
  		'cover_id' => '',
     #banner图
     'banner_id' => '',
+    #手机banner图
+    'wap_banner_id' => '',
 		'asset' => array(),
 		# 附件图片数
 		'asset_count' => 0,

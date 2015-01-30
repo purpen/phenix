@@ -91,6 +91,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['content'] = $this->stash['content'];
 		$data['cover_id'] = $this->stash['cover_id'];
 		$data['banner_id'] = $this->stash['banner_id'];
+		$data['wap_banner_id'] = $this->stash['wap_banner_id'];
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['free_stat'] = (int)$this->stash['free_stat'];

@@ -59,6 +59,16 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
     //加载扩展数据
     $active = $model->extended_model_row($active);
 
+    //手机banner图
+    $active['wap_banner'] = null;
+    if(!empty($active['wap_banner_id'])){
+      $asset_model = new Sher_Core_Model_Asset();
+      $banner = $asset_model->extend_load($active['wap_banner_id']);
+      if($banner){
+        $active['wap_banner'] = $banner;
+      }
+    }
+
     $this->stash['is_attend'] = false;
     $this->stash['user_info'] = array();
     //验证用户是否已报名
