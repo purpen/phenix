@@ -1,12 +1,12 @@
 <div class="magenta item" id="product-{{ product._id }}">
   	<div class="image">
-		<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" title="{{ product.title }}" target="_blank">
+		<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" title="{{ product.title }}">
       		<img src="{{ product.cover.thumbnails.medium.view_url }}" />
 		</a>
   	</div>
   	<div class="content">
       	<h5 class="ui dividing header">
-			<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" title="{{ product.title }}" class="ui link" target="_blank">
+			<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" title="{{ product.title }}" class="ui link">
 				{{ product.title|truncate, 36, '' }}
 			</a>
 		</h5>
