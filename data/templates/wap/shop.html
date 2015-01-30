@@ -2,7 +2,9 @@
 {% block title%}太火鸟商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+.ui.breadcrumb{
+	margin-bottom:1.5em !important;
+}
 </style>
 {% endblock %}
 
@@ -33,7 +35,7 @@
 		<div class="column">
 			{% if process_saled %}
 			{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
-			<div class="ui selection dropdown">
+			<div class="ui selection dropdown" style="display:none;">
 				{% if current %}
 				<div class="default text">{{ current.title }}</div>
 				{% else %}
