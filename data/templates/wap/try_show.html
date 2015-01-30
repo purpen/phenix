@@ -59,6 +59,9 @@
   .ui.mini.images img{
     width: 100px !important;
   }
+  .ui.breadcrumb{
+	margin-bottom:1.5em !important;
+  }
   
 	
 	
@@ -225,6 +228,21 @@
 
 {% block content %}
 <div class="ui try" id="trypage"> 
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui breadcrumb">
+				  	<a class="section" href="{{ app_url_wap }}">
+						<i class="icon home"></i>首页
+					</a>
+				  	<div class="divider"> / </div>
+					<a class="section" href="{{ app_url_wap }}/shop">新品试用</a>
+					<div class="divider"> / </div>
+				  	<div class="active section">{{ try.title|truncate 12 }}</div>
+				</div>
+			</div>
+		</div>
+	
 	<div class="masthead">
 		<div class="masthead-cover">
 			<div class="ui responsive grid">
