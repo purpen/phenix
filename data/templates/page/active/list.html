@@ -51,6 +51,9 @@
 .camp .content{
 	padding:1em 0.5em !important;
 }
+.two-nav{
+	background:#f4f4f4;
+}
 
 </style>
 {% endblock %}
@@ -58,7 +61,7 @@
 {% block jquery %}{% endblock %}
 
 {% block content %}
-  <section class="ui responsive grid">
+  <section class="ui responsive two-nav grid">
   	{%include 'block/find_nav.html'%}
   </section>
 		{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}

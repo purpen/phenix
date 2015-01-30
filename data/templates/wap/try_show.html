@@ -52,12 +52,14 @@
 	.try .ui.horizontal.list{
 		text-align:center;
 	}
-	.try .ui.horizontal.list .ui.larg.avatar.pop.image + .content{
+	.try .ui.horizontal.list .ui.small.avatar.pop.image + .content{
 		min-width:60px;
+		display:none;
 	}
   .ui.mini.images img{
     width: 100px !important;
   }
+  
 	
 	
 	/*.ui.tabox {
@@ -307,7 +309,7 @@
 			<div class="row">
 				<div class="column">
 					<h3 class="ui dividing header">
-						试用达人
+						试用名单
 					</h3>
 					
 					{% if try.pass_users %}
