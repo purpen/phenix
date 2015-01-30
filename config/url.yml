@@ -12,9 +12,9 @@ app.url.mobile: '{$app.domain.mobile}'
 app.url.wap: '{$app.domain.mobile}'
 
 #wap
-app.url.wap.social: '{$app.url.wap}/social'
+app.url.wap.social: '{$app.url.wap}/topic'
 app.url.wap.social.list : '{$app.url.wap.social}/list'
-app.url.wap.social.show: '{$app.url.wap.social}/show-%s-%s.html'
+app.url.wap.social.show: '{$app.url.wap.social}/view-%s-%s.html'
 app.url.wap.shop: '{$app.url.wap}/shop'
 app.url.wap.shop.view: '{$app.url.wap}/shop/%s.html'
 app.url.wap.active: '{$app.url.wap}/active/list'
