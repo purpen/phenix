@@ -54,6 +54,14 @@
 		phenix.create_cookie('mode', 'mobile', 1, 'taihuoniao.com');
 		phenix.redirect('http://m.taihuoniao.com', 0);
 	});
+
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
 	
 {% endblock %}
 
@@ -84,7 +92,7 @@
 			    	<i class="time icon"></i>
 			    	新品预售
 			  	</a>
-			  	<a class="item" href="{{ app_url_wap }}/active">
+			  	<a class="item" href="{{ app_url_wap }}/topic">
 			    	<i class="basic community icon"></i>
 			    	社区话题
 			  	</a>
