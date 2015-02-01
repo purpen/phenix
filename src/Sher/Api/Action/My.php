@@ -93,11 +93,15 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$profile = array();
         $profile['job'] = $this->stash['job'];
 		$profile['phone'] = $this->stash['phone'];
+		$profile['address'] = $this->stash['address'];
+		$profile['realname'] = $this->stash['realname'];
 		
 		$user_info['profile'] = $profile;
 		
 		$user_info['sex']  = (int)$this->stash['sex'];
 		$user_info['city'] = $this->stash['city'];
+		$user_info['email'] = $this->stash['email'];
+		$user_info['summary'] = $this->stash['summary'];
 		
 		try {
 			$user = new Sher_Core_Model_User();
@@ -110,16 +114,19 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			$user_info['nickname'] = $nickname;
 			
 	        //更新基本信息
-			$user_info['_id'] = (int)$user_info;
+			$user_info['_id'] = $user_id;
 			
 			$ok = $user->apply_and_update($user_info);
+      if($ok){
+ 		    return $this->api_json('更新用户信息成功！', 0);    
+      }else{
+  		  return $this->api_json('更新失败！', 3002);    
+      }
 			
 		} catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
             return $this->api_json("更新失败:".$e->getMessage(), 4001);
-        }
-		
-		return $this->api_json('更新用户信息成功！', 0);
+    }
 	}
 	
 	/**
