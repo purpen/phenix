@@ -1,7 +1,54 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
-
+<style type="text/css">
+	.shop.submenu {
+		background-color: #f4f4f4;
+		padding:1rem 0;
+	}
+	.shop.submenu .ui.list a {
+		font-size: 1.05em;
+	}
+	.shop.tophead {
+	    background: url("{{ app_url_packaged }}/images/bgc_house.jpg") no-repeat scroll center center / cover rgba(255, 51, 102, 1);
+	    color: #fff;
+	    height: 260px;
+		margin: 0 0 1.5rem;
+	}
+	.shop.tophead .masthead > .masthead-cover.translucent {
+		background-color: rgba(0, 0, 0, 0);
+	}
+	.filter.conditions {
+		margin-top: 65px;
+	}
+	.filter.conditions .ui.list a {
+		color: rgba(0, 0, 0, 0.8);
+	    font-size: 1.15rem;
+	    font-weight: 500;
+	    text-decoration: none;
+		border-bottom: 2px solid rgba(255, 255, 255, 0);
+	    -webkit-transition: all 0.3s ease-in-out 0s;
+	    -moz-transition: all 0.3s ease-in-out 0s;
+	    -o-transition: all 0.3s ease-in-out 0s;
+	    -ms-transition: all 0.3s ease-in-out 0s;
+		transition: all 0.3s ease-in-out 0s;
+	}
+	.filter.conditions .ui.list a:hover,
+	.filter.conditions .ui.list a.active {
+		padding-bottom: 3px;
+		font-size: 1.5rem;
+		border-bottom: 2px solid rgba(0, 0, 0, 1);
+		color: rgba(0, 0, 0, 0.9);
+	}
+	.filter.conditions .ui.list a.active {
+		color: rgba(0, 0, 0, 1);
+		font-size: 2rem;
+	}
+	.filter.conditions .onerow {
+		margin-bottom: 1em;
+	}
+	
+</style>
 {% endblock %}
 
 {% block jquery %}
@@ -20,23 +67,48 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop list" id="shoplist">
-	<div class="ui responsive grid">
-		<div class="center aligned row">
-			<div class="column">
-				<div class="ui magenta buttons">
-					{% category_list var:'category' only_open:only_open domain:domain show_all:0 current:category_id %}
-          <a class="ui item button {% if  all_active %}active{%endif%}" href="{{ app_url_shop }}/c0">全部</a>
-          <a class="ui item button {% if presale_active %}active{%endif%}" href="{{ app_url_shop }}/c0?presale=1">预售</a>
-					{% for cat in category.rows %}
-				  		<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					{% endfor %}
+<div class="shop tophead">
+	<div class="masthead">
+		<div class="masthead-cover translucent">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="column">
+				
+						<div class="filter conditions">
+							<div class="onerow">
+								{% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
+								<div class="ui horizontal list">
+									<a class="{% if all_active %}active{% endif %} item" href="{{ app_url_shop }}/c0">全部</a>
+									<a class="{% if presale_active %}active{% endif %} item" href="{{ app_url_sale }}">新品预售</a>
+									{% for cat in category.rows %}
+									<a class="{{ cat.active }} item" href="{{ cat.view_url }}">
+							        	{{ cat.title }}
+							      	</a>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="onerow">
+								<div class="ui horizontal list">
+									<a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">最新</a>
+									<a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">热门</a>
+									<a class="{% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">按价格</a>
+									<a class="{% if sort == 4 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s4-p{{ page }}">按销量</a>
+								</div>
+							</div>
+						</div>
+				
+					</div>
 				</div>
 			</div>
 		</div>
-		
+	</div>
+</div>
+
+
+<div class="shop list" id="shoplist">
+	<div class="ui responsive grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_approved:1 only_onsale:1 size:15 sort:'stick:latest' %}
+			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_approved:1 only_onsale:1 size:15 sort:sort_text %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui three items">

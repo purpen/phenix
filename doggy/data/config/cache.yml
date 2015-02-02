@@ -1,0 +1,20 @@
+all:
+    provider:Doggy_Cache_Provider_Memcached
+    Doggy_Cache_Provider_FileLite:
+        cache_dir:"${build.cache.dir}"
+        ttl:3600
+    Doggy_Cache_Provider_Memcached:
+        host:192.168.80.200:11211
+        ttl:3600
+    default:
+        provider:Doggy_Cache_Provider_Memcached
+        options:
+            host:192.168.80.200:11211
+            ttl:3600
+    nginx:
+        provider:Doggy_Cache_Provider_Memcached
+        options:
+            host:192.168.80.200:11211
+            ttl:120
+            compress:false
+        

@@ -1,0 +1,1 @@
+T3{smarty_plugin doggy_util_smarty_MockPlugin}{doggy_util_smarty_MockPlugin_checkDate}

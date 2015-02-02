@@ -102,6 +102,7 @@ app.dt.extension_lib.sher_app:
     'block_list':'Sher_Core_ViewTag_BlockList'
     'active_list':'Sher_App_ViewTag_ActiveList'
     'attend_list':'Sher_App_ViewTag_AttendList'
+    'gift_list':'Sher_Core_ViewTag_GiftList'
     'pager':'Sher_App_ViewTag_Pager'
   filters: []
 

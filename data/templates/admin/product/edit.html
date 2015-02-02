@@ -426,13 +426,23 @@
 		</div>
 
 		<div class="ui segment">
-			<h3 class="ui dividing header">试用设置</h3>
-			<div class="inline field">
-			  	<label>是否试用：</label>
-				<div class="ui checkbox">
-		          	<input type="checkbox" name="trial" {% if product.trial %}checked="checked"{% endif %} />
-		          	<label>开启</label>
-		        </div>
+			<h3 class="ui dividing header">高级设置</h3>
+			<div class="two fields">
+				<div class="inline field">
+				  	<label>是否试用：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="trial" {% if product.trial %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
+				
+				<div class="inline field">
+				  	<label>案例产品：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="okcase" {% if product.okcase %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
 			</div>
 		</div>
 		

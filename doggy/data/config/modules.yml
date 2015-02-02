@@ -1,0 +1,6 @@
+---
+all: 
+  default: Doggy
+  Doggy: 
+    default_action: Doggy
+    actived: 1
