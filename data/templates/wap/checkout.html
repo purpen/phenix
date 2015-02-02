@@ -77,6 +77,8 @@
 		if(gift_code){
 			$.post('{{ app_url_wap }}/shop/ajax_gift', {rid: '{{ order_info.rid }}', code: gift_code}, function(result){
 				if(result.success){
+					alert(result.message);
+					//phenix.show_ok_note('已成功使用礼品码！', 2000);
 					$('#order-discount-money').text(result.data.discount_money);
 					$('#order-pay-money').text(result.data.pay_money);
 				}else{
@@ -84,7 +86,8 @@
 				}
 			}, 'json');
 		}else{
-			phenix.show_error_note('请输入礼品码', 3000);
+			alert('请输入礼品码');
+			//phenix.show_error_note('请输入礼品码', 3000);
 		}
 	});
 	
@@ -229,7 +232,7 @@
 							</div>
 							<div class="item">
 								<div class="right floated">
-									<small>￥</small><span class="ui text" id="order-discount-money">{{ data.discount }}</span>
+									<small>￥</small><span class="ui text" id="order-discount-money">{{ data.discount|default 0 }}</span>
 								</div>
 								<div class="content">
 									<div class="header">优惠金额：</div>
