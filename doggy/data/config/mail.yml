@@ -1,0 +1,7 @@
+all:
+    host:'mail.chinavisual.com'
+    user:'no-reply@chinavisual.com'
+    password:'sjzg#webmaster@2007'
+    smtp_auth:true
+    from:'webmaster@chinavisual.com'
+    fromName:'视觉中国系统邮件'

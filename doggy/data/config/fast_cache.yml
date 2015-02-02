@@ -1,0 +1,8 @@
+all:
+    default:
+        options:
+            host:127.0.0.1:11211
+            ttl:300
+            namespace:'doggy'
+            compress:true
+            protocol:'ascii'

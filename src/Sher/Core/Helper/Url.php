@@ -210,6 +210,13 @@ class Sher_Core_Helper_Url {
     }
 	
 	/**
+	 * wap订单详情查看地址
+	 */
+    public static function order_mm_view_url($rid){
+    	return  sprintf(Doggy_Config::$vars['app.url.my.order_mm_view'], $rid);
+    }
+	
+	/**
 	 * 跟踪推荐位查看地址
 	 */
     public static function ad_view_url($id){

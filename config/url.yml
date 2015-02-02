@@ -43,15 +43,16 @@ app.url.index:	'{$app.url.domain}'
 app.url.tags: '/tags'
 app.url.tag: '/tag'
 
-# 预售
-app.url.sale: '{$app.url.domain}/sale'
-app.url.sale.list: '{$app.url.sale}'
-app.url.sale.view: '{$app.url.sale}/%s.html'
 
 # 商店
 app.url.shop: '{$app.url.domain}/shop'
 app.url.shop.list: '{$app.url.shop}'
 app.url.shop.view: '{$app.url.shop}/%s.html'
+
+# 预售
+app.url.sale: '{$app.url.domain}/sale'
+app.url.sale.list: '{$app.url.sale}'
+app.url.sale.view: '{$app.url.sale}/%s.html'
 
 # 社区
 app.url.social: '{$app.url.domain}/social'
@@ -120,6 +121,7 @@ app.url.my:				'{$app.url.domain}/my'
 app.url.my.message:		'{$app.url.domain}/my/message'
 app.url.my.orders: '{$app.url.domain}/my/orders'
 app.url.my.order_view: '{$app.url.domain}/my/order_view?rid=%s'
+app.url.my.order_mm_view: '{$app.domain.mobile}/my/order_view?rid=%s'
 
 #个人主页
 app.url.user:			'{$app.url.domain}/user'

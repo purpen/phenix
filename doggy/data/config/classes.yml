@@ -1,0 +1,13 @@
+#Class Loader Setting
+all:
+    .class_path
+    vendor_path:
+        - "${vendor.home}"
+    class_path:
+        - "${src.dir}"
+    .auto_load
+    auto_load:
+prod:
+    auto_load:
+        - Doggy_Log_Log
+        - Doggy_Log_Factory

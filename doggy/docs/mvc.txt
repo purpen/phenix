@@ -1,0 +1,51 @@
+Doggy MVC implementation explained
+============================
+
+Overview
+--------
+
+Basic Concepts
+--------------
+
+###Doggy_Dispatcher_Server
+Doggy_Dispatcher_Server是Framework的统一入口,负责Doggy application的启动和流程控制. 因此,所有的application只有1个server实例在运行.
+###Application
+每个独立的Doggy应用程序称为一个Application.这是逻辑上的概念.通过指定不同的applicatoin id,你可以同时运行不同的application,但是需要将其映射到不同的url中.每个application的php文件,后缀名可以为默认为.app.
+
+Application bootstrap
+--------------------
+首先,要创建application的启动文件,这是一个很简单php文件,例如:
+    <?php
+        define('Doggy_APP','app1');
+        define('DOGGY_LIB_ROOT','./src');
+        define('DOGGY_DATA_ROOT','/www/data/'.Doggy_APP.'.data');
+        define('DOGGY_RUN_ENV','prod');
+        require DOGGY_LIB_ROOT.'/Doggy.php';
+        Doggy::boot(DOGGY_LIB_ROOT,DOGGY_DATA_ROOT);
+        Doggy_Dispatcher_Server::run();
+    ?>
+Doggy:boot用于启动doggy framework核心的环境.Doggy_Dispatcher_Server::run()则启动Doggy Server,开始进行请求的分发处理.
+
+Application configuation
+-------------------------
+Doggy::boot只是加载了一些核心的配置信息,这些信息都在DOGGY_DATA_ROOT定义的config子目录下.
+config子目录下有app.yml文件,这个文件用于定义application的全局配置.
+<code>
+    default:
+        runtime:/dev/shm/runtime
+</code>
+
+Runtime information
+------------------------------
+Doggy Application使用一个runtime.yml来存放运行信息,这个文件在server第一次启动的时候会在runtime目录中创建,实际上此文件相当于应用程序的注册表,比如modules的激活信息将在此文件中进行记录.
+<code>
+default:
+    modules:
+    interceptors:
+        actived:
+            - interceptor1
+            - interceptor2
+        disabed:
+            - interceptor1
+            - interceptor2
+</code>

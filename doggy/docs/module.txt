@@ -1,0 +1,40 @@
+Doggy Modulue的约定
+===========================
+
+概念
+---------------------------
+Module是一系列相关功能的集合,是Doggy应用框架的基础组件.Module由Action,Interceptor,
+Result,Model,模板文件以及与之相关的配置文件,静态文件等组成。
+
+Module namesapce and Url namespace
+---------------------------
+Module namespace是一个模块的类名空间.一个模块只能有1个类名空间.
+Url namespace是用于将url请求映射到这个module的简略缩写.和类名空间不同,一个模块可以对应多个url namespace.
+通常,url namspace和module namespace基本一致，前者是后者的小写:
+
+Community_Content  =>  community_content
+Community_Content => articles
+
+Layout
+----------------
+
+* PHP source code:
+
+<module source root>
+    /Action
+    /Result
+    /Intercepter
+    /Model
+    
+* Smarty templates    
+
+<doggy data root>
+    /templates/<Module's name>/
+    
+* Other static files
+
+<doggy data root>   
+    /web/  适当的位置
+    
+    
+       

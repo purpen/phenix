@@ -1,0 +1,30 @@
+Doggy Configuration
+========================================
+
+YAML
+------
+Doggy使用YAML作为配置文件的格式,比PHP文件更加简单和通用。SYCK or SPYC作为解析yaml文件的解释器。
+
+键值命名规范:
+--------
+* 按照 app.<package_scope>.<class_scope>.<local_key> 方式命名
+例如 
+app.memcached.default
+app.model._global.db
+
+* 所有的键名为小写,默认键名为 default
+
+Db section
+----------
+用于定义db链接配置,语法:
+app.model.<db_id>: <dsn>
+
+<db_id>是数据库的id，默认是default
+<dsn> 形式如 
+
+
+
+
+
+
+

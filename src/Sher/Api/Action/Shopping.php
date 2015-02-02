@@ -326,13 +326,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 支付订单
-	 */
-	public function payed(){
-		
-	}
-	
-	/**
 	 * 收货地址列表
 	 */
 	public function address(){
@@ -837,6 +830,45 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 				$redis->set($cache_key, 1);
 			}
 		}
+	}
+
+	/**
+	 * 处理支付
+	 */
+	public function payed(){
+		$rid = $this->stash['rid'];
+		$payaway = $this->stash['payaway'];
+		if (empty($rid)) {
+			return $this->api_json('操作不当，请查看购物帮助！', 3000);
+		}
+		if (empty($payaway)){
+			return $this->api_json('请至少选择一种支付方式！', 3001);
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 挑选支付机构
+		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
+		
+		$result = array();
+		switch($payaway){
+			case 'alipay':
+        $alipay = new Sher_App_Action_Alipay();
+        $result = $alipay->api_payment($rid);
+				break;
+			default:
+        $result = array('stat'=>0, 'msg'=>'找不到支付类型');
+				break;
+		}
+    
+    $result['payaway'] = $payaway;
+    if($result['stat']){
+ 		  return $this->api_json('请求成功', 0, $result);    
+    }else{
+ 		  return $this->api_json("请求失败: ".$result['msg'], 4000);  
+    }
+
 	}
 	
 }

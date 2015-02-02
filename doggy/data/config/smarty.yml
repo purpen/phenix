@@ -1,0 +1,4 @@
+all:
+    cache_dir:"${build.cache.dir}"
+    compile_dir:"${build.compile.dir}"
+    template_dir:"${build.data.templates}"

@@ -394,6 +394,77 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 
   }
 
+    /**
+     * 选定支付宝进行支付---Api
+     * 
+     * @return string
+     */
+	public function api_payment($rid){
+    $data = array();
+    $data['stat'] = 0;
+		if (empty($rid)){
+      $data['msg'] = '订单丢失!';
+      return $data;
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		if (empty($order_info)){
+      $data['msg'] = '抱歉，系统不存在该订单！';
+		}
+		$status = $order_info['status'];
+		
+		// 验证订单是否已经付款
+		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+      $data['msg'] = "订单[$rid]已付款！";
+			return $data;
+		}
+		
+        // 支付类型
+        $payment_type = "1";
+
+        // 商户订单号,商户网站订单系统中唯一订单号，必填
+        $out_trade_no = $rid;
+
+        // 订单名称，必填
+        $subject = '太火鸟商城'.$rid.'订单';
+
+        // 付款金额，必填
+        $total_fee = $order_info['pay_money'];
+
+        // 订单描述
+		
+        $body = '太火鸟商城'.$rid.'订单';
+		
+        // 商品展示地址,需以http://开头的完整路径
+        $show_url = Doggy_Config::$vars['app.url.shop'];
+
+        //超时时间
+        $it_b_pay = '30m';
+
+		
+		// 支付宝传递参数
+		$parameter = array(
+			"service" => "mobile.securitypay.pay",
+			"partner" => trim($this->alipay_config['partner']),
+			"payment_type"	=> $payment_type,
+			"notify_url"	=> $this->alipay_config['notify_url'],
+			"seller_email"	=> $this->alipay_config['seller_email'],
+			"out_trade_no"	=> $out_trade_no,
+			"subject"	=> $subject,
+			"total_fee"	=> $total_fee,
+			"body"	=> $body,
+      "show_url"	=> $show_url,
+      "it_b_pay"  =>  $it_b_pay,
+			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
+		);
+		
+		// 建立请求
+		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
+		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
+		echo $html_text;
+	}
+
 	
 }
 ?>

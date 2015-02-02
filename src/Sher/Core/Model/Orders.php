@@ -29,6 +29,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'card_money'  => 0,
 		# 优惠抵扣
 		'coin_money'  => 0,
+		# 礼品码金额
+		'gift_money'  => 0,
 		
 		# 物流费用
 		'freight'  => 0,
@@ -60,15 +62,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'is_canceled' => 0,
 		'canceled_date' => 0,
 
-    #申请退款标识及时间
-    'is_refunding' => 0,
-    'refunding_date' => 0,
-    'refund_reason'  =>  null,
+	    #申请退款标识及时间
+	    'is_refunding' => 0,
+	    'refunding_date' => 0,
+	    'refund_reason'  =>  null,
 
-    #退款成功标识及时间
-    'is_refunded' => 0,
-    'refunded_price'  =>  null,
-    'refunded_date' => 0,
+	    #退款成功标识及时间
+	    'is_refunded' => 0,
+	    'refunded_price'  =>  null,
+	    'refunded_date' => 0,
 		
 		## 物流信息
 		
@@ -100,6 +102,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		'card_code' => '',
 		
+		## 礼品码
+		
+		'gift_code' => '',
+		
 		## 订单状态
 		
 		'status' => 0,
@@ -128,6 +134,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::order_view_url($row['rid']);
+		$row['mm_view_url'] = Sher_Core_Helper_Url::order_mm_view_url($row['rid']);
 		if ($row['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT && $row['payment_method'] == 'a'){
 			$row['pay_url'] = Doggy_Config::$vars['app.url.alipay'];
 		}
@@ -151,6 +158,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if (isset($row['from_site'])){
 			$row['from_site_label'] = $this->get_from_label($row['from_site']);
 		}
+		// 优惠金额
+		if (!isset($row['gift_money'])){
+			$row['gift_money'] = 0;
+		}
+		$row['discount_money'] = $row['coin_money'] + $row['card_money'] + $row['gift_money'];
 	}
 	
 	/**
@@ -245,6 +257,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if(!empty($card_code)){
 			$bonus = new Sher_Core_Model_Bonus();
 			$bonus->mark_used($card_code, $this->data['user_id'], $rid);
+		}
+
+		// 更新礼品卡状态
+		$gift_code = $this->data['gift_code'];
+		if(!empty($gift_code)){
+			$gift = new Sher_Core_Model_Gift();
+			$gift->mark_used($gift_code, $this->data['user_id'], $rid);
 		}
 		
 		// 更新订单总数
@@ -900,13 +919,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			'status' => (int)Sher_Core_Util_Constant::ORDER_READY_GOODS,
 			'express_caty' => '', 
 			'express_no' => '', 
-      'sended_date' => ''
-    ));
-    if($ok){
-      $this->sync_order_index($id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
-    }
-    return $ok;
-
+		    'sended_date' => ''
+		));
+		if($ok){
+			$this->sync_order_index($id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+		}
+		
+		return $ok;
 	}
 	
 }
