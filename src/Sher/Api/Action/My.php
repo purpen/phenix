@@ -118,7 +118,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			
 			$ok = $user->apply_and_update($user_info);
       if($ok){
- 		    return $this->api_json('更新用户信息成功！', 0);    
+ 		    return $this->api_json('更新用户信息成功！', 0, $user_info);    
       }else{
   		  return $this->api_json('更新失败！', 3002);    
       }
