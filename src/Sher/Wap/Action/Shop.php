@@ -104,6 +104,18 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
 		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 获取skus及inventory
+		$inventory = new Sher_Core_Model_Inventory();
+		$skus = $inventory->find(array(
+			'product_id' => $id,
+			'stage' => $product['stage'],
+		));
+		$this->stash['skus'] = $skus;
+		$this->stash['skus_count'] = count($skus);
+		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
 		
