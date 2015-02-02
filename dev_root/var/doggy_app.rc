@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-01-28 20:42:58
+//dump on 2015-02-02 14:05:05
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -355,12 +355,12 @@ Doggy_Config::add( array (
   'app.url.index' => 'http://taihuoniao.me',
   'app.url.tags' => '/tags',
   'app.url.tag' => '/tag',
-  'app.url.sale' => 'http://taihuoniao.me/sale',
-  'app.url.sale.list' => 'http://taihuoniao.me/sale',
-  'app.url.sale.view' => 'http://taihuoniao.me/sale/%s.html',
   'app.url.shop' => 'http://taihuoniao.me/shop',
   'app.url.shop.list' => 'http://taihuoniao.me/shop',
   'app.url.shop.view' => 'http://taihuoniao.me/shop/%s.html',
+  'app.url.sale' => 'http://taihuoniao.me/sale',
+  'app.url.sale.list' => 'http://taihuoniao.me/sale',
+  'app.url.sale.view' => 'http://taihuoniao.me/sale/%s.html',
   'app.url.social' => 'http://taihuoniao.me/social',
   'app.url.topic' => 'http://taihuoniao.me/topic',
   'app.url.topic.list' => 'http://taihuoniao.me/topic/list-c%s-t%s-d%s-t%s-p%s.html',

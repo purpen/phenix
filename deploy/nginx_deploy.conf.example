@@ -209,11 +209,12 @@ server {
         }
         
         location /sale {
-            rewrite ^/sale/c(\d+)[/]?$ /app/site/sale?category_id=$1 last;
-            rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/sale?category_id=$1&page=$2 last;
-            rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/sale?category_id=$1&sort=$2&page=$3 last;
+			rewrite ^/sale[/]?$ /app/site/shop/get_list?presale=1 last;
+            rewrite ^/sale/c(\d+)[/]?$ /app/site/shop/get_list?presale=1&category_id=$1 last;
+            rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/shop/get_list?presale=1&category_id=$1&page=$2 last;
+            rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop/get_list?presale=1&category_id=$1&sort=$2&page=$3 last;
             rewrite ^/sale/(\d+).html$ /app/site/sale/view?id=$1 last;
-            rewrite ^/sale(.*)$ /app/site/sale$1 last;
+            rewrite ^/sale(.*)$ /app/site/shop$1 last;
         }
 		
 		location /shop {

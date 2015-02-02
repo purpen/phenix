@@ -108,6 +108,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	protected $thumbnails_resp = array(
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
+		'md'  => 'm.jpg',
 	);
 
     protected $required_fields = array('filepath');

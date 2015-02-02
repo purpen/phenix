@@ -10,7 +10,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		'sku'=>'',
 		'type' => 0,
 		'category_id' => 0,
-		'sort' => 0,
+		'sort' => 1,
 		'topic_id'=>'',
 		'page'=>1,
 	);
@@ -36,7 +36,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 商店首页
 	 */
 	public function index(){
-		
 		return $this->to_html_page('page/shop/home.html');
 	}
 	
@@ -53,22 +52,45 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	    $this->stash['all_active'] = false;
 	    $this->stash['presale_active'] = false;
 	    if(empty($presale)){
-	      $this->stash['is_shop'] = 1;
-	      $this->stash['presaled'] = 0;
-	      if($category_id==0){
-	        $this->stash['all_active'] = true;
-	      }
+			$this->stash['is_shop'] = 1;
+			$this->stash['presaled'] = 0;
+			if($category_id == 0){
+				$this->stash['all_active'] = true;
+			}
+			$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id, $type, $sort,'#p#');
+			$list_prefix = Doggy_Config::$vars['app.url.shop'];
 	    }else{
-	      $this->stash['is_shop'] = 0;
-	      $this->stash['presaled'] = 1;
-	      if($category_id==0){
-	        $this->stash['presale_active'] = true;
-	      }
+			$this->stash['is_shop'] = 0;
+			$this->stash['presaled'] = 1;
+			if($category_id == 0){
+				$this->stash['presale_active'] = true;
+			}
+			$pager_url = Sher_Core_Helper_Url::sale_list_url($category_id, $type, $sort,'#p#');
+			$list_prefix = Doggy_Config::$vars['app.url.sale'];
 	    }
-
-		$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id,$type,$sort,'#p#');
+		// 排序方式
+		switch($sort){
+			case 1:
+				$sort_text = 'latest';
+				break; 
+			case 2:
+				$sort_text = 'hot';
+				break;
+			case 3:
+				$sort_text = empty($presale) ? 'price' : 'money';
+				break;
+			case 4:
+				$sort_text = empty($presale) ? 'sales' : 'presales';
+				break;
+			default:
+				$sort_text = 'stick:latest';
+				break;
+		}
+		$this->stash['sort_text'] = $sort_text;
 		
 		$this->stash['pager_url'] = $pager_url;
+		$this->stash['list_prefix'] = $list_prefix;
+		
 		
 		return $this->to_html_page('page/shop/index.html');
 	}

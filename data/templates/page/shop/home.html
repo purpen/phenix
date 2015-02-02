@@ -1,15 +1,40 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	#shoplist {
+		margin-bottom: 0em;
+	}
+	.header.main {
+		border-bottom: 1px solid #dddddd;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
+	.shop.submenu {
+		background-color: #f4f4f4;
+		padding:1rem 0;
+	}
+	.shop.submenu .ui.list a {
+		font-size: 1.05em;
+	}
+	.shop.slide {
+		background-color: #fff;
+		padding:1.5em 0 0;
+	}
+	.shop.slide .ui.two.items > .item {
+		margin: 0 0.75em 1.5rem;
+	}
 	.product.list {
 		padding-top: 2em;
 	}
-	.product.list.newest {
+	.product.list.newest,
+	.product.list.okcase {
+		background-color: #f1f1f1;
+	}
+	.product.list.hotest {
 		background-color: #fff;
 	}
-	.product.list.okcase {
-		background-color: #fff;
+	#ft {
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 	}
 </style>
 {% endblock %}
@@ -30,7 +55,33 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop list" id="shoplist">
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+				<div class="ui divided horizontal list">
+					<div class="item">
+						<a class="ui active link" href="{{ app_url_shop }}">商店</a>
+					</div>
+					<div class="item">
+						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
+					</div>
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部类别</a>
+					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="shop slide">
 	<div class="ui responsive grid">
 		{% ad_list var:'ad' page:1 size:2 name:'shop_home_stick' %}
 		{% if ad.rows %}
@@ -49,7 +100,9 @@
 		</div>
 		{% endif %}
 	</div>
-	
+</div>
+
+<div class="shop list" id="shoplist">
 	<div class="product newest list">
 		<div class="ui responsive grid">
 			<div class="row">
