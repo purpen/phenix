@@ -466,7 +466,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
                 	// 是否是抢购商品
                 	if($product_data['snatched'] != 1){
-                   		return $this->ajax_json('非抢抢购产品！', true);
+                   		return $this->ajax_json('非抢购产品！', true);
                 	}
 
                 	// 在抢购时间内

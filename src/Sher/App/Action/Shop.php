@@ -169,6 +169,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    	 * 产品合作入口
    	 */
   	public function cooperate(){
+		  $this->set_target_css_state('page_cooperate');
    		return $this->to_html_page('page/shop/cooperate.html');
   	}
 
@@ -176,6 +177,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    * 产品合作表单提交
    */
   public function cooperate_product(){
+		$this->set_target_css_state('page_cooperate');
   	$row = array();
     $this->stash['mode'] = 'create';
 

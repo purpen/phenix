@@ -258,6 +258,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$bonus = new Sher_Core_Model_Bonus();
 			$bonus->mark_used($card_code, $this->data['user_id'], $rid);
 		}
+
+		// 更新礼品卡状态
+		$gift_code = $this->data['gift_code'];
+		if(!empty($gift_code)){
+			$gift = new Sher_Core_Model_Gift();
+			$gift->mark_used($gift_code, $this->data['user_id'], $rid);
+		}
 		
 		// 更新订单总数
 		Sher_Core_Util_Tracker::update_order_counter();
