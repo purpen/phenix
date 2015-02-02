@@ -542,9 +542,19 @@ float: right;
               <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
             </a>
           {%endif%}
+		  
           </div>
         </div>
       {%endif%}
+	  {% if active.step_stat==2 %}
+		<div class="row">
+          <div class="center aligned column attend-box">
+	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
+	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
+	          </a>
+		  </div>
+      	</div>
+	{%endif%}
     </div>
   </section>
   <div class="ui space gray background block">
