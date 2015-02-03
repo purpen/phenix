@@ -42,6 +42,9 @@
 									</div>
 									{% endif %}
 						          	<p class="attribute">编号：{{ item.sku }}</p>
+                        {% if admin %}
+                          <p>来源: {{ item.from_site_label }}</p>
+                        {%endif%}
 						      	</div>
 							</td>
 						</tr>
