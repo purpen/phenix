@@ -918,7 +918,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid($rid);
+		$order_info = $model->find_by_rid((int)$rid);
 		
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
