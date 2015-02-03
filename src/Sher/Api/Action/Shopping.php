@@ -851,24 +851,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
 		
-		$result = array();
 		switch($payaway){
 			case 'alipay':
-        $alipay = new Sher_App_Action_Alipay();
-        $result = $alipay->api_payment($rid);
+        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
 				break;
 			default:
-        $result = array('stat'=>0, 'msg'=>'找不到支付类型');
+			  return $this->api_json('找不到支付类型！', 3002);
 				break;
 		}
-    
-    $result['payaway'] = $payaway;
-    if($result['stat']){
- 		  return $this->api_json('请求成功', 0, $result);    
-    }else{
- 		  return $this->api_json("请求失败: ".$result['msg'], 4000);  
-    }
-
+    return $this->to_redirect($pay_url); 
 	}
 	
 }
