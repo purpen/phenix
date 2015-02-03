@@ -15,7 +15,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		// 如果签名方式设置为“MD5”时，请设置该参数
 		'key' => '',
         //卖家支付宝帐户
-		'seller_email' => 'admin@taihuoniao.com',
+		'seller_id' => 'admin@taihuoniao.com',
 		// 签名方式 不需修改
 		'sign_type'  => 'RSA',
 		// 字符编码格式 目前支持 gbk 或 utf-8
@@ -37,7 +37,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		// 合作身份者id，以2088开头的16位纯数字
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.partner'];
 		
-		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_key.pem';
+		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_pkcs8.pem';
 		//$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
@@ -103,7 +103,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 			"partner" => trim($this->alipay_config['partner']),
 			"payment_type"	=> $payment_type,
 			"notify_url"	=> $this->alipay_config['notify_url'],
-			"seller_email"	=> $this->alipay_config['seller_email'],
+			"seller_id"	=> $this->alipay_config['seller_id'],
 			"out_trade_no"	=> $out_trade_no,
 			"subject"	=> $subject,
 			"total_fee"	=> $total_fee,
