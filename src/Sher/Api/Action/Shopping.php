@@ -44,19 +44,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$user_id = $this->current_user_id;
 		
 		//验证购物车，无购物不可以去结算
-		$cart = new Sher_Core_Util_Cart();
-		if (empty($cart->com_list)){
-			return $this->show_message_page('操作不当，请查看购物帮助！', true);
-		}
 		
-        $items = $cart->getItems();
-        $total_money = $cart->getTotalAmount();
-        $items_count = $cart->getItemCount();
-		
-		// 获取省市列表
-		$areas = new Sher_Core_Model_Areas();
-		$provinces = $areas->fetch_provinces();
-		
+    $items = $cart->getItems();
+    $total_money = $cart->getTotalAmount();
+    $items_count = $cart->getItemCount();
+
 		try{
 			// 预生成临时订单
 			$model = new Sher_Core_Model_OrderTemp();
@@ -65,12 +57,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			$data['items'] = $items;
 			$data['total_money'] = $total_money;
 			$data['items_count'] = $items_count;
-		
-			// 检测是否已设置默认地址
-			$addbook = $this->get_default_addbook($user_id);
-			if (!empty($addbook)){
-				$data['addbook_id'] = (string)$addbook['_id'];
-			}
 			
 			// 获取快递费用
 			$freight = Sher_Core_Util_Shopping::getFees();

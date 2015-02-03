@@ -14,6 +14,11 @@
 		  	<div class="item">
 		      	下单时间：{{ order.created_on|date }}
 		  	</div>
+        {% if admin %}
+          <div class="item">
+              来源: {{ order.from_site_label }}
+          </div>
+        {%endif%}
 		</div>
 	</div>
 	<div class="middle aligned ui celled white grid">
@@ -42,9 +47,6 @@
 									</div>
 									{% endif %}
 						          	<p class="attribute">编号：{{ item.sku }}</p>
-                        {% if admin %}
-                          <p>来源: {{ item.from_site_label }}</p>
-                        {%endif%}
 						      	</div>
 							</td>
 						</tr>

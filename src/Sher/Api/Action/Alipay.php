@@ -60,7 +60,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		}
 		
 		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid($rid);
+		$order_info = $model->find_by_rid((int)$rid);
 		if (empty($order_info)){
 			return $this->api_json('抱歉，系统不存在该订单！', 4002);
 		}
