@@ -59,6 +59,17 @@
 				<p>
 					{{ order.payment.name }}
 				</p>
+        <p>
+          {% if admin %}
+            {% if order.card_code %}
+              红包码: {{ order.card_code }}
+            {%endif%}
+            {% if order.gift_code %}
+              <br />
+              礼品券: {{ order.gift_code }}
+            {%endif%}
+          {% endif %}
+        </p>
 			</div>
 			<div class="center aligned three wide column">
 				<div id="order-{{ order.rid }}-label" class="status-label">
