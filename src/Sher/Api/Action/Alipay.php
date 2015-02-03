@@ -33,25 +33,13 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 	public function _init() {
 		// 合作身份者id，以2088开头的16位纯数字
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.partner'];
-		// 安全检验码，以数字和字母组成的32位字符
-		//$this->alipay_config['key'] = Doggy_Config::$vars['app.alipay.key'];
-		
-		// ca证书路径地址，用于curl中ssl校验
-		//$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.cacert'];
 		
 		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_key.pem';
 		//$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
-		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/secrete_notify';
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/secrete_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数
-		
-		// 页面跳转同步通知页面路径
-		$this->alipay_config['return_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/direct_notify';
-		// 需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-		
-		// 操作中断返回地址
-		//$this->alipay_config['merchant_url'] = Doggy_Config::$vars['app.url.domain'].'/app/wap/pay/merchant';
 
   }
 	
@@ -127,6 +115,86 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		$str = $alipaySubmit->buildRequestParaToString($parameter);
 		return $this->api_json('OK', 0, $str);
   }
+
+	/**
+	 * 支付宝异步通知
+	 */
+	public function secrete_notify(){
+		Doggy_Log_Helper::warn("Alipay api secret notify updated!");
+		// 计算得出通知验证结果
+		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
+		$verify_result = $alipayNotify->verifyNotify();
+		
+		if($verify_result){//验证成功
+			Doggy_Log_Helper::warn("Alipay api secrete notify document: ".$_POST['notify_data']);
+			
+			$doc = new DOMDocument();	
+			if($this->alipay_config['sign_type'] == 'MD5'){
+				$doc->loadXML($_POST['notify_data']);
+			}
+	
+			if($this->alipay_config['sign_type'] == '0001'){
+				$doc->loadXML($alipayNotify->decrypt($_POST['notify_data']));
+			}
+			
+			if(!empty($doc->getElementsByTagName("notify")->item(0)->nodeValue)){
+				// 商户订单号
+				$out_trade_no = $doc->getElementsByTagName( "out_trade_no" )->item(0)->nodeValue;
+				// 支付宝交易号
+				$trade_no = $doc->getElementsByTagName( "trade_no" )->item(0)->nodeValue;
+				// 交易状态
+				$trade_status = $doc->getElementsByTagName( "trade_status" )->item(0)->nodeValue;
+		
+				if($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS'){
+					Doggy_Log_Helper::warn("Alipay api secrete notify [$out_trade_no][$trade_no]!");
+					return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
+				}else{
+					Doggy_Log_Helper::warn("Alipay api secrete notify trade status fail!");
+					return $this->to_raw('fail');
+				}
+			}
+			
+			Doggy_Log_Helper::warn("Alipay api secrete notify document over!");
+		}else{
+			// 验证失败
+			Doggy_Log_Helper::warn("Alipay api secrete notify verify result fail!");
+			return $this->to_raw('fail');
+		}
+	}
+	
+	/**
+	 * 支付宝直接返回
+	 */
+	public function direct_notify(){
+		// 计算得出通知验证结果
+		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
+		$verify_result = $alipayNotify->verifyReturn();
+		if($verify_result){ // 验证成功
+			// 商户订单号
+			$out_trade_no = $_GET['out_trade_no'];
+			// 支付宝交易号
+			$trade_no = $_GET['trade_no'];
+			// 交易状态
+			$trade_status = $_GET['result'];
+			
+			// 跳转订单详情
+			$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+			
+			Doggy_Log_Helper::warn("Alipay api direct notify trade_status: ".$trade_status);
+			
+			if($trade_status == 'success') {
+				// 判断该笔订单是否在商户网站中已经做过处理
+				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+				// 如果有做过处理，不执行商户的业务程序
+				return $this->update_alipay_order_process($out_trade_no, $trade_no);
+			}else{
+				return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
+			}
+		}else{
+		    // 验证失败
+			return $this->show_message_page('验证失败!', true);
+		}
+	}
 	
 }
 ?>

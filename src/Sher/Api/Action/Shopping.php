@@ -37,6 +37,92 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	}
 
 	/**
+	 * 填写订单信息--购物车
+	 */
+	public function checkout(){
+		
+		$user_id = $this->current_user_id;
+		
+		//验证购物车，无购物不可以去结算
+		$cart = new Sher_Core_Util_Cart();
+		if (empty($cart->com_list)){
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		
+        $items = $cart->getItems();
+        $total_money = $cart->getTotalAmount();
+        $items_count = $cart->getItemCount();
+		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		try{
+			// 预生成临时订单
+			$model = new Sher_Core_Model_OrderTemp();
+		
+			$data = array();
+			$data['items'] = $items;
+			$data['total_money'] = $total_money;
+			$data['items_count'] = $items_count;
+		
+			// 检测是否已设置默认地址
+			$addbook = $this->get_default_addbook($user_id);
+			if (!empty($addbook)){
+				$data['addbook_id'] = (string)$addbook['_id'];
+			}
+			
+			// 获取快递费用
+			$freight = Sher_Core_Util_Shopping::getFees();
+			
+			// 优惠活动费用
+			$coin_money = 0.0;
+			
+			// 红包金额
+			$card_money = 0.0;
+			
+			// 设置订单默认值
+			$default_data = array(
+		        'payment_method' => 'a',
+		        'transfer' => 'a',
+		        'transfer_time' => 'a',
+		        'summary' => '',
+		        'invoice_type' => 0,
+				'freight' => $freight,
+				'card_money' => $card_money,
+				'coin_money' => $coin_money,
+		        'invoice_caty' => 1,
+		        'invoice_content' => 'd'
+		    );
+			$new_data = array();
+			$new_data['dict'] = array_merge($default_data, $data);
+			
+			$new_data['user_id'] = $user_id;
+			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+			
+			$ok = $model->apply_and_save($new_data);
+			if ($ok) {
+				$order_info = $model->get_data();
+				$this->stash['order_info'] = $order_info;
+				$this->stash['data'] = $order_info['dict'];
+			}
+			
+			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			
+			$this->stash['pay_money'] = $pay_money;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
+		}
+		
+		$this->stash['provinces'] = $provinces;
+		
+		$this->set_extra_params();
+		
+		return $this->to_html_page('page/shopping/checkout.html');
+	}
+
+	/**
 	 * 立即购买
 	 */
 	public function now_buy(){

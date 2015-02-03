@@ -149,7 +149,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $fav = new Sher_Core_Model_Favorite();
     $product['is_favorite'] = $fav->check_favorite($this->current_user_id, $product['_id'], 1) ? 1 : 0;
     $product['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
-    //$product['is_try'] = empty($product['is_try'])?0:1;
+    $product['is_try'] = empty($product['is_try'])?0:1;
 
     //返回图片数据
     $assets = array();
