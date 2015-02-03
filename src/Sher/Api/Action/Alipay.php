@@ -4,6 +4,9 @@
  * @author purpen
  */
 class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Action_Initialize {
+	public $stash = array(
+		'rid' => 0,
+	);
 
  	public $alipay_config = array(
 		// 合作身份者id，以2088开头的16位纯数字
@@ -14,7 +17,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
         //卖家支付宝帐户
 		'seller_email' => 'admin@taihuoniao.com',
 		// 签名方式 不需修改
-		'sign_type'  => 'MD5',
+		'sign_type'  => 'RSA',
 		// 字符编码格式 目前支持 gbk 或 utf-8
 		'input_charset' => 'utf-8',
 		// 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
@@ -60,8 +63,8 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		}
 		
 		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid((int)$rid);
-		if (empty($order_info)){
+		$order_info = $model->find_by_rid($rid);
+		if(empty($order_info)){
 			return $this->api_json('抱歉，系统不存在该订单！', 4002);
 		}
 		$status = $order_info['status'];

@@ -473,26 +473,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
-		$data['is_default'] = $is_default;
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
 			
-			// 检测是否有默认地址
-			$ids = array();
-			if ($is_default == 1) {
-				$result = $model->find(array(
-					'user_id' => (int)$user_id,
-					'is_default' => 1,
-				));
-				for($i=0; $i<count($result); $i++){
-					$ids[] = (string)$result[$i]['_id'];
-				}
-				Doggy_Log_Helper::debug('原默认地址:'.json_encode($ids));
-			}
-			
 			if(empty($id)){
 				$data['user_id'] = (int)$user_id;
+
+        //如果没有默认地址，则自动设为默认
+        $result = $model->find(array(
+          'user_id' => (int)$user_id,
+          'is_default' => 1,
+        ));
+        if(empty($result)){
+ 		      $data['is_default']  = 1;       
+        }
 				
 				$ok = $model->apply_and_save($data);
 				 
@@ -508,16 +503,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			
 			if(!$ok){
 				return $this->api_json('新地址保存失败,请重新提交', 3003);
-			}
-			
-			// 更新默认地址
-			if (!empty($ids)){
-				for($i=0; $i<count($ids); $i++){
-					if ($ids[$i] != $id){
-						Doggy_Log_Helper::debug('原默认地址:'.$ids[$i]);
-						$model->update_set($ids[$i], array('is_default' => 0));
-					}
-				}
 			}
 			
 			$result = $model->extend_load($id);
@@ -542,7 +527,53 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		}
 		
 		return $this->api_json('请求成功', 0, $new_data);
-	}
+  }
+
+  /**
+   * 设为默认地址
+   */
+  public function set_default_address(){
+    $id = $this->stash['id'];
+    $user_id = $this->current_user_id;
+    if(empty($id)){
+ 			return $this->api_json('参数错误', 3001);  
+    }
+		$model = new Sher_Core_Model_AddBooks();
+    $addbook = $model->find_by_id((string)$id);
+    if(empty($addbook)){
+ 			return $this->api_json('未找到地址', 3002);  
+    }
+    if($addbook['user_id'] != (int)$user_id){
+  		return $this->api_json('权限错误', 3003);    
+    }
+    // 检测是否有默认地址
+    $ids = array();
+    $result = $model->find(array(
+      'user_id' => (int)$user_id,
+      'is_default' => 1,
+    ));
+    for($i=0; $i<count($result); $i++){
+      $ids[] = (string)$result[$i]['_id'];
+    }
+
+    // 更新默认地址
+    if (!empty($ids)){
+      for($i=0; $i<count($ids); $i++){
+        if ($ids[$i] != $id){
+          $model->update_set($ids[$i], array('is_default' => 0));
+        }
+      }
+    }
+
+    //设置默认地址
+    $ok = $model->update_set((string)$id, array('is_default' => 1));
+    if($ok){
+  	  return $this->api_json('设置成功!', 0);   
+    }else{
+   	  return $this->api_json('设置失败!', 3005);   
+    }
+  
+  }
 	
 	/**
 	 * 删除某地址
@@ -916,9 +947,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		if (empty($payaway)){
 			return $this->api_json('请至少选择一种支付方式！', 3001);
 		}
-		
-		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid((int)$rid);
 		
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
