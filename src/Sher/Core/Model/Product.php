@@ -284,18 +284,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['presale_finished'] = ($row['presale_finish_time'] < time()) ? true : false;
 		
 		// 抢购开启
-		$row['snatched_start'] = ($row['snatched_time'] && ($row['snatched_time'] < time())) ? true : false;
+		if(isset($row['snatched_time'])){
+			$row['snatched_start'] = ($row['snatched_time'] && ($row['snatched_time'] < time())) ? true : false;
+		}
 		
 		// 检测是否可售
 		$row['can_saled'] = $this->can_saled($row);
 
-    //是否是试用
-    if(isset($row['trial'])){
-      $row['is_try'] = $this->is_try($row['trial']);
-    }else{
-      $row['is_try'] = false;
-    }
-
+	    // 是否是试用
+	    if(isset($row['trial'])){
+	    	$row['is_try'] = $this->is_try($row['trial']);
+	    }else{
+	    	$row['is_try'] = false;
+	    }
 		
 	}
 	

@@ -62,8 +62,12 @@ class Sher_Core_ViewTag_AdList extends Doggy_Dt_Tag {
         $result = $service->get_ad_list($query,$options);
 		
 		// 获取单条记录
-		if($size == 1 && !empty($result['rows'])){
-			$result = $result['rows'][0];
+		if($size == 1){
+			if(!empty($result['rows'])){
+				$result = $result['rows'][0];
+			}else{
+				$result = array();
+			}
 		}
 		
         $context->set($var, $result);

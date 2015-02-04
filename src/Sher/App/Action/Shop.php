@@ -91,6 +91,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = $pager_url;
 		$this->stash['list_prefix'] = $list_prefix;
 		
+		// 获取当前类别
+		$current_category = array();
+		if($category_id){
+			$category = new Sher_Core_Model_Category();
+			$current_category = $category->load((int)$category_id);
+		}
+		$this->stash['current_category'] = $current_category;
 		
 		return $this->to_html_page('page/shop/index.html');
 	}
@@ -264,8 +271,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
 		}
 
-    $this->stash['is_error'] = false;
-    $this->stash['note'] = '保存成功!';
+    	$this->stash['is_error'] = false;
+    	$this->stash['note'] = '保存成功!';
 		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
 		
 		return $this->to_taconite_page('ajax/note.html');

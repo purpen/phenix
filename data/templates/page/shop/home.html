@@ -2,38 +2,7 @@
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	#shoplist {
-		margin-bottom: 0em;
-	}
-	.header.main {
-		border-bottom: 1px solid #dddddd;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	}
-	.shop.submenu {
-		background-color: #f4f4f4;
-		padding:1rem 0;
-	}
-	.shop.submenu .ui.list a {
-		font-size: 1.05em;
-	}
-	.shop.slide {
-		background-color: #fff;
-		padding:1.5em 0 0;
-	}
-
-	.product.list {
-		padding-top: 2em;
-	}
-	.product.list.newest,
-	.product.list.okcase {
-		background-color: #f1f1f1;
-	}
-	.product.list.hotest {
-		background-color: #fff;
-	}
-	#ft {
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	}
+	
 </style>
 {% endblock %}
 
@@ -79,10 +48,10 @@
 	</div>
 </div>
 
+{% ad_list var:'ad' page:1 size:2 name:'shop_home_stick' state:2 %}
+{% if ad.rows %}
 <div class="shop slide">
 	<div class="ui responsive grid">
-		{% ad_list var:'ad' page:1 size:2 name:'shop_home_stick' %}
-		{% if ad.rows %}
 		<div class="row">
 			<div class="column">
 				<div class="ui two items">
@@ -96,9 +65,9 @@
 				</div>
 			</div>
 		</div>
-		{% endif %}
 	</div>
 </div>
+{% endif %}
 
 <div class="shop list" id="shoplist">
 	<div class="product newest list">
