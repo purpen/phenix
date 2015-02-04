@@ -116,10 +116,10 @@ hr{
 .ui.report{
 	color:#fff;
 }
-.report .ui.btn{
-	background:#ccc;
-	border-radius:4px !important;
-	border:0px;
+.report .ui.btn {
+background: rgba(0,0,0,0);
+border-radius: 4px !important;
+border: 1px solid #fff;
 }
 .report .ui.attend.btn{
 	border-radius:4px !important;
@@ -234,11 +234,11 @@ font-size:14px;
 	padding-bottom:1rem;
 }
 h4.ui.header .map-advantage {
-font-size: 1em;
-font-weight: 400;
-color:#666;
-display: inline-block;
-float: right;
+	font-size: 1em;
+	font-weight: 400;
+	color:#666;
+	display: inline-block;
+	float: right;
 }
 .position.row{
 	position:absolute;
@@ -261,7 +261,7 @@ float: right;
 	padding:1.2em 1em 1.8em;
 }
 .icon-place:before {
-    content: "\f124";
+  content: "\f124";
 	color:#f36;
 	font-size: 1.5em;
 }
@@ -547,15 +547,6 @@ float: right;
           </div>
         </div>
       {%endif%}
-	  {% if active.step_stat==2 %}
-		<div class="row">
-          <div class="center aligned column attend-box">
-	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
-	          </a>
-		  </div>
-      	</div>
-	{%endif%}
     </div>
   </section>
   <div class="ui space gray background block">
