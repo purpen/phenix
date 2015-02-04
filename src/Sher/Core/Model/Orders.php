@@ -465,10 +465,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	protected function get_order_status_label($status){
 		switch($status){
 			case Sher_Core_Util_Constant::ORDER_EXPIRED:
-				$status_label = '已过期订单';
+				$status_label = '已过期';
 				break;
 			case Sher_Core_Util_Constant::ORDER_CANCELED:
-				$status_label = '已取消订单';
+				$status_label = '已取消';
 				break;
 			case Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT:
 				$status_label = '等待付款';

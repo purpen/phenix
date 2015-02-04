@@ -14,6 +14,11 @@
 		  	<div class="item">
 		      	下单时间：{{ order.created_on|date }}
 		  	</div>
+        {% if admin %}
+          <div class="item">
+              来源: {{ order.from_site_label }}
+          </div>
+        {%endif%}
 		</div>
 	</div>
 	<div class="middle aligned ui celled white grid">
@@ -59,6 +64,16 @@
 				<p>
 					{{ order.payment.name }}
 				</p>
+        <p>
+          {% if admin %}
+            {% if order.card_code %}
+              红包码: {{ order.card_code }}
+            {%endif%}
+            {% if order.gift_code %}
+              礼品券: {{ order.gift_code }}
+            {%endif%}
+          {% endif %}
+        </p>
 			</div>
 			<div class="center aligned three wide column">
 				<div id="order-{{ order.rid }}-label" class="status-label">

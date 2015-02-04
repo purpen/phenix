@@ -402,6 +402,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				$order_info['invoice_caty'] = $this->stash['invoice_caty'];
 			}
 		}
+
+    //备注
+    if(isset($this->stash['summary'])){
+      $order_info['summary'] = $this->stash['summary'];
+    }
 		
 		// 预售订单
 		if($event_type == 2){
