@@ -115,7 +115,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		// 建立请求
 		$alipaySubmit = new Sher_Core_Util_AlipayMobileSubmit($this->alipay_config);
 		$str = $alipaySubmit->buildRequestParaToString($parameter);
-		return $this->api_json('OK', 0, htmlspecialchars($str));
+		return $this->api_json('OK', 0, urldecode($str));
   }
 
 	/**
