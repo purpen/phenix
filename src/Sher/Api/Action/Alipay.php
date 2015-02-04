@@ -38,7 +38,6 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.partner'];
 		
 		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_pkcs8.pem';
-		//$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
 		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/secrete_notify';
@@ -124,6 +123,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 	 */
 	public function secrete_notify(){
 		Doggy_Log_Helper::warn("Alipay api secret notify updated!");
+    Doggy_Log_Helper::warn($this->alipay_config['notify_url']);
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
@@ -134,6 +134,10 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 			$doc = new DOMDocument();	
 			if($this->alipay_config['sign_type'] == 'MD5'){
 				$doc->loadXML($_POST['notify_data']);
+			}
+
+			if($this->alipay_config['sign_type'] == 'RSA'){
+				$doc->loadXML($alipayNotify->decrypt($_POST['notify_data']));
 			}
 	
 			if($this->alipay_config['sign_type'] == '0001'){

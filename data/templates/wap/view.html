@@ -355,78 +355,80 @@ position: fixed !important;
 		</div>
 	</div>
 	{% if product.stage == 9 %}
-	<!--商品评价-->
-	<div class="row">
-		<div class="column">
-			<div class="ui big reply segment">
-				<h5 class="ui dividing header">
-					用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-				</h5>
-				<div class="ui threaded minimal comments">
-					{% comment_list var:'comments' page:page target_id:product._id %}
-					{% for comment in comments.rows %}
-					<div class="comment" id="{{ comment._id }}">
-						<a class="avatar" href="{{ comment.user.home_url }}">
-							<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-						</a>
-						<div class="content">
-							<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-							<div class="metadata">
-								<div class="date">{{ comment.created_on }}</div>
-								{% include "block/star.html" %}
-							</div>
-							
-							<div class="text">
-								{{ comment.content }}
-							</div>
-							{% if visitor.is_login %}
-							<div class="actions">
-								<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-								<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-							</div>
-							<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-								<input type="hidden" name="type" value="2" />
-								<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-								<input type="hidden" name="target_id" value="{{ topic._id }}" />
-								<div class="field">
-									<textarea name="content" class="reply-content"></textarea>
-								</div>
-								<div class="ui active button magenta submit labeled icon">
-									<i class="icon location"></i> 回复
-								</div>
-							</form>
-							{% endif %}
-						</div>
-				
-						{% if comment.reply %}
-						<div class="comments">
-							{% for reply in comment.reply %}
-								<div class="comment">
-									<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-										<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-									</a>
-									<div class="content">
-										<a class="author">{{ reply.user.nickname }}</a>
-										<div class="metadata">
-											<div class="date">{{ reply.replied_on }}</div>
-										</div>
-										<div class="text">
-											{{ reply.content }}
-										</div>
-									</div>
-								</div>
-							{% endfor %}
-						</div>
-						{% endif %}
-				
-					</div>
-					{% endfor %}
-				</div>
-				
-			</div>
-		</div>
-	</div>
-	{% endif %}
+    {% if product.comment_count %}
+    <!--商品评价-->
+    <div class="row">
+      <div class="column">
+        <div class="ui big reply segment">
+          <h5 class="ui dividing header">
+            用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+          </h5>
+          <div class="ui threaded minimal comments">
+            {% comment_list var:'comments' page:page target_id:product._id %}
+            {% for comment in comments.rows %}
+            <div class="comment" id="{{ comment._id }}">
+              <a class="avatar" href="{{ comment.user.home_url }}">
+                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+              </a>
+              <div class="content">
+                <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+                <div class="metadata">
+                  <div class="date">{{ comment.created_on }}</div>
+                  {% include "block/star.html" %}
+                </div>
+                
+                <div class="text">
+                  {{ comment.content }}
+                </div>
+                {% if visitor.is_login %}
+                <div class="actions">
+                  <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+                  <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+                </div>
+                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+                  <input type="hidden" name="type" value="2" />
+                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
+                  <div class="field">
+                    <textarea name="content" class="reply-content"></textarea>
+                  </div>
+                  <div class="ui active button magenta submit labeled icon">
+                    <i class="icon location"></i> 回复
+                  </div>
+                </form>
+                {% endif %}
+              </div>
+          
+              {% if comment.reply %}
+              <div class="comments">
+                {% for reply in comment.reply %}
+                  <div class="comment">
+                    <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+                      <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+                    </a>
+                    <div class="content">
+                      <a class="author">{{ reply.user.nickname }}</a>
+                      <div class="metadata">
+                        <div class="date">{{ reply.replied_on }}</div>
+                      </div>
+                      <div class="text">
+                        {{ reply.content }}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+          
+            </div>
+            {% endfor %}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    {% endif %}<!--if product.comment_count-->
+  {% endif %}<!--if stage==9-->
 </div>
 {% include "block/sharebox.html" %}
 {% endblock %}

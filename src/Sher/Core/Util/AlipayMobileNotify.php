@@ -39,6 +39,10 @@ class Sher_Core_Util_AlipayMobileNotify extends Doggy_Object {
 			if ($this->alipay_config['sign_type'] == '0001') {
 				$decrypt_post_para['notify_data'] = Sher_Core_Util_Alipay::rsaDecrypt($decrypt_post_para['notify_data'], $this->alipay_config['private_key_path']);
 			}
+
+			if ($this->alipay_config['sign_type'] == 'RSA') {
+				$decrypt_post_para['notify_data'] = Sher_Core_Util_Alipay::rsaDecrypt($decrypt_post_para['notify_data'], $this->alipay_config['private_key_path']);
+			}
 			
 			//notify_id从decrypt_post_para中解析出来（也就是说decrypt_post_para中已经包含notify_id的内容）
 			$doc = new DOMDocument();
