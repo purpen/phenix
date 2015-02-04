@@ -13,6 +13,14 @@
 		<div class="name">
 			<span class="unit">￥</span>
 			<span class="price">{{ product.sale_price }}</span>
+			<span class="like">
+      	{% if product.love_count %}
+	      <i class="icon heart"></i>
+	      {% else %}
+	      <i class="icon empty heart"></i>
+	      {% endif %}
+	      <span class="count">{{ product.love_count }}</span>
+    	</span>
 		</div>
   	</div>
 </div>
