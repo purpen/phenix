@@ -44,7 +44,8 @@
 	margin:0;
 }
 .start{
-	background:url({{ active.banner.fileurl }}) no-repeat center center /cover;
+	background:url({{ active.banner.fileurl }}) no-repeat center center;
+  background-size:cover;
 	color:#fff;
 	padding:100px 0% 80px;
 }
@@ -351,7 +352,7 @@ float: right;
 {% endblock %}
 
 {% block layout_js %}
-  <script defer="" src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
+  <script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
 
   {% if active.map_info %}
   <!--引用百度地图API-->
