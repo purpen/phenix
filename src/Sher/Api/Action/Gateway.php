@@ -173,7 +173,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 */
 	public function got_bonus(){
 		$bonus = $this->stash['bonus'];
-		$user_id = $this->current_user_id;
+		$user_id = $this->stash['uid'];
 		if (empty($bonus) || empty($user_id)){
 			return $this->ajax_json('领取失败：缺少请求参数！', true);
 		}
