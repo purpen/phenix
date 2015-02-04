@@ -55,8 +55,8 @@ app.comeon.product_id: 1120800090
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'
-app.alipay.cacert: '/Users/xiaoyi/project/phenix/vendor/cacert.pem'
-app.alipay.pendir: '/Users/xiaoyi/project/phenix/vendor'
+app.alipay.cacert: '/opt/project/php/phenix/vendor/cacert.pem'
+app.alipay.pendir: '/opt/project/php/phenix/vendor'
 
 # 淘宝
 app.taobao.key: '21781655'

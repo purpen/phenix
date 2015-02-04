@@ -31,9 +31,10 @@
 			  	<div class="item">
 			      	实付总额：<span class="ui magenta text">￥{{ order_info.pay_money }}</span>
 			  	</div>
-				{% if !order_info.is_payed %}
+				{% if order_info.status==1 %}
 				<div class="ui center aligned item">
 					<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui active small magenta button">现在支付</a>
+					<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order_info.rid }}" class="ui ajax active small magenta button">取消订单</a>
 				</div>
 				{% endif %}
 				{% if order_info.status == 15 %}

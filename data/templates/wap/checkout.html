@@ -112,7 +112,7 @@
 										<i class="circle right icon"></i>
 									</a>
 								</div>
-								<div class="content">
+								<div class="content" style="max-width: 196px;">
 									{% if default_addbook %}
 									<div class="header">{{ default_addbook.name }} ({{ default_addbook.phone }})</div>
 									{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} {{ default_addbook.address }} ({{ default_addbook.zip }})
@@ -153,6 +153,13 @@
 									<label><span class="ui text">星期六、日</span></label>
 								</div>
 							</div>
+						</div>
+					</div>
+
+					<div class="ui segment">
+						<label>备注信息:</label>
+						<div class="field">
+							<textarea name="summary" class="mini" maxlength="140"></textarea>
 						</div>
 					</div>
 				

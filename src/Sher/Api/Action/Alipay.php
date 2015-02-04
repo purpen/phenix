@@ -1,0 +1,203 @@
+<?php
+/**
+ * API 接口
+ * @author purpen
+ */
+class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Action_Initialize {
+	public $stash = array(
+		'rid' => 0,
+	);
+
+ 	public $alipay_config = array(
+		// 合作身份者id，以2088开头的16位纯数字
+		'partner' => '',
+		// 安全检验码，以数字和字母组成的32位字符
+		// 如果签名方式设置为“MD5”时，请设置该参数
+		'key' => '',
+        //卖家支付宝帐户
+		'seller_id' => 'admin@taihuoniao.com',
+		// 签名方式 不需修改
+		'sign_type'  => 'RSA',
+		// 字符编码格式 目前支持 gbk 或 utf-8
+		'input_charset' => 'utf-8',
+		// 访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
+		'transport' => 'http',
+		// 商户的私钥（后缀是.pen）文件相对路径
+		// 如果签名方式设置为“0001”时，请设置该参数
+		'private_key_path' => '',
+		// 支付宝公钥（后缀是.pen）文件相对路径
+		// 如果签名方式设置为“0001”时，请设置该参数
+		'ali_public_key_path' => '',
+	); 
+
+	/**
+	 * 预先执行init
+	 */
+	public function _init() {
+		// 合作身份者id，以2088开头的16位纯数字
+		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.partner'];
+		
+		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_pkcs8.pem';
+		//$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
+		
+		// 服务器异步通知页面路径
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/secrete_notify';
+		// 需http://格式的完整路径，不能加?id=123这类自定义参数
+
+  }
+	
+	/**
+	 * 入口
+	 */
+	public function execute(){
+		return $this->payment();
+	}
+	
+	/**
+	 * 支付
+	 */
+  public function payment(){
+    $rid = $this->stash['rid'];
+		if (empty($rid)){
+			return $this->api_json('订单丢失！', 4001);
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		if(empty($order_info)){
+			return $this->api_json('抱歉，系统不存在该订单！', 4002);
+		}
+		$status = $order_info['status'];
+		
+		// 验证订单是否已经付款
+		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->api_json("订单[$rid]已付款！", 4003);
+		}
+		
+        // 支付类型
+        $payment_type = "1";
+
+        // 商户订单号,商户网站订单系统中唯一订单号，必填
+        $out_trade_no = $rid;
+
+        // 订单名称，必填
+        $subject = '太火鸟商城'.$rid.'订单';
+
+        // 付款金额，必填
+        $total_fee = $order_info['pay_money'];
+
+        // 订单描述
+		
+        $body = '太火鸟商城'.$rid.'订单';
+		
+        // 商品展示地址,需以http://开头的完整路径
+        $show_url = Doggy_Config::$vars['app.url.shop'];
+
+        //超时时间
+        $it_b_pay = '30m';
+
+		
+		// 支付宝传递参数
+		$parameter = array(
+			"service" => "mobile.securitypay.pay",
+			"partner" => trim($this->alipay_config['partner']),
+			"payment_type"	=> $payment_type,
+			"notify_url"	=> $this->alipay_config['notify_url'],
+			"seller_id"	=> $this->alipay_config['seller_id'],
+			"out_trade_no"	=> $out_trade_no,
+			"subject"	=> $subject,
+			"total_fee"	=> $total_fee,
+			"body"	=> $body,
+      "show_url"	=> $show_url,
+      "it_b_pay"  =>  $it_b_pay,
+			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
+		);
+		
+		// 建立请求
+		$alipaySubmit = new Sher_Core_Util_AlipayMobileSubmit($this->alipay_config);
+		$str = $alipaySubmit->buildRequestParaToString($parameter);
+		return $this->api_json('OK', 0, $str);
+  }
+
+	/**
+	 * 支付宝异步通知
+	 */
+	public function secrete_notify(){
+		Doggy_Log_Helper::warn("Alipay api secret notify updated!");
+		// 计算得出通知验证结果
+		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
+		$verify_result = $alipayNotify->verifyNotify();
+		
+		if($verify_result){//验证成功
+			Doggy_Log_Helper::warn("Alipay api secrete notify document: ".$_POST['notify_data']);
+			
+			$doc = new DOMDocument();	
+			if($this->alipay_config['sign_type'] == 'MD5'){
+				$doc->loadXML($_POST['notify_data']);
+			}
+	
+			if($this->alipay_config['sign_type'] == '0001'){
+				$doc->loadXML($alipayNotify->decrypt($_POST['notify_data']));
+			}
+			
+			if(!empty($doc->getElementsByTagName("notify")->item(0)->nodeValue)){
+				// 商户订单号
+				$out_trade_no = $doc->getElementsByTagName( "out_trade_no" )->item(0)->nodeValue;
+				// 支付宝交易号
+				$trade_no = $doc->getElementsByTagName( "trade_no" )->item(0)->nodeValue;
+				// 交易状态
+				$trade_status = $doc->getElementsByTagName( "trade_status" )->item(0)->nodeValue;
+		
+				if($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS'){
+					Doggy_Log_Helper::warn("Alipay api secrete notify [$out_trade_no][$trade_no]!");
+					return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
+				}else{
+					Doggy_Log_Helper::warn("Alipay api secrete notify trade status fail!");
+					return $this->to_raw('fail');
+				}
+			}
+			
+			Doggy_Log_Helper::warn("Alipay api secrete notify document over!");
+		}else{
+			// 验证失败
+			Doggy_Log_Helper::warn("Alipay api secrete notify verify result fail!");
+			return $this->to_raw('fail');
+		}
+	}
+	
+	/**
+	 * 支付宝直接返回
+	 */
+	public function direct_notify(){
+		// 计算得出通知验证结果
+		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
+		$verify_result = $alipayNotify->verifyReturn();
+		if($verify_result){ // 验证成功
+			// 商户订单号
+			$out_trade_no = $_GET['out_trade_no'];
+			// 支付宝交易号
+			$trade_no = $_GET['trade_no'];
+			// 交易状态
+			$trade_status = $_GET['result'];
+			
+			// 跳转订单详情
+			$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+			
+			Doggy_Log_Helper::warn("Alipay api direct notify trade_status: ".$trade_status);
+			
+			if($trade_status == 'success') {
+				// 判断该笔订单是否在商户网站中已经做过处理
+				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+				// 如果有做过处理，不执行商户的业务程序
+				return $this->update_alipay_order_process($out_trade_no, $trade_no);
+			}else{
+				return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
+			}
+		}else{
+		    // 验证失败
+			return $this->show_message_page('验证失败!', true);
+		}
+	}
+	
+}
+?>

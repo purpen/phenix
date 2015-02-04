@@ -22,7 +22,7 @@
 	max-height:216px !important;
 }
 
-.buy.box .ui.basic.table tbody tr {
+.ui.basic.table tbody tr {
 border-bottom: 0px solid rgba(0,0,0,0) !important;
 }
 .ui.buy.action.table td {
@@ -32,6 +32,12 @@ box-shadow: 0 0px 0 0 rgba(0,0,0,0)!important;
 .product.attrs {
 display: inline-block;
 margin-top: 5px;
+}
+#gritter-notice-wrapper {
+position: fixed !important;
+}
+.six.wide .price .ui.magenta.text{
+	font-size:20px !important;
 }
 </style>
 {% endblock %}
@@ -113,7 +119,7 @@ margin-top: 5px;
 		if (choosed_sku){
 			phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
 		} else {
-			phenix.show_error_note('请选择一个型号或颜色', 3000);
+			phenix.show_error_note('请选择一个型号或颜色', 2000);
 		}
 	});
 	
@@ -188,6 +194,8 @@ margin-top: 5px;
 			</h5>
 		</div>
 	</div>
+
+  {% if skus %}
 	<div class="row">
 		<div class="center aligned column">
 			<table class="ui basic buy action table">
@@ -203,6 +211,8 @@ margin-top: 5px;
 			</table>
 		</div>
 	</div>
+  {%endif%}
+
 	{% if product.stage == 9 %}
 	<div class="row">
 		<div class="six wide column">
