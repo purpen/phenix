@@ -1,10 +1,10 @@
 <?php
-//deployed on: Mon Feb  2 17:38:24 2015
+//deployed on: Tue Feb  3 09:51:14 2015
 define('DOGGY_VERSION','v1.4.2');
-define('DOGGY_APP_ROOT','/opt/project/php/phenix/dev_root');
-define('DOGGY_APP_CLASS_PATH','/opt/project/php/phenix/vendor:/opt/project/php/phenix/src:/opt/project/php/doggy-x/src');
-require '/opt/project/php/doggy/src/Doggy.php';
-@require '/opt/project/php/phenix/dev_root/var/doggy_app.rc';
+define('DOGGY_APP_ROOT','/Users/xiaoyi/Project/phenix/dev_root');
+define('DOGGY_APP_CLASS_PATH','/Users/xiaoyi/Project/phenix/vendor:/Users/xiaoyi/Project/phenix/src:/Users/xiaoyi/Project/doggy-x/src');
+require '/Users/xiaoyi/Project/doggy/src/Doggy.php';
+@require '/Users/xiaoyi/Project/phenix/dev_root/var/doggy_app.rc';
 @require 'autoload.php';
 Doggy_Dispatcher_Server::run();
 ?>
