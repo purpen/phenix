@@ -123,7 +123,6 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 	 */
 	public function secrete_notify(){
 		Doggy_Log_Helper::warn("Alipay api secret notify updated!");
-    Doggy_Log_Helper::warn($this->alipay_config['notify_url']);
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
