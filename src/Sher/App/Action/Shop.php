@@ -6,13 +6,15 @@
 class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
-		'id'=>'',
-		'sku'=>'',
+		'id' => '',
+		'sku' => '',
 		'type' => 0,
 		'category_id' => 0,
 		'sort' => 1,
-		'topic_id'=>'',
-		'page'=>1,
+		'topic_id' => '',
+		'page' => 1,
+		'size' => 3,
+		'sword' => '',
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -161,7 +163,29 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		return $this->to_html_page('page/shop/show.html');
 	}
-
+	
+	/**
+	 * 获取推荐产品
+	 */
+	public function ajax_guess_product(){
+		$sword = $this->stash['sword'];
+		$size = $this->stash['size'] || 3;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+		);
+		if(!empty($sword)){
+			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', array('type' => 1), $options);
+		}
+		
+		$this->stash['result'] = $result;
+		
+		return $this->to_taconite_page('ajax/guess_products.html');
+	}
+	
 	/**
 	 * ajax获取评论
 	 */
@@ -176,36 +200,37 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    	 * 产品合作入口
    	 */
   	public function cooperate(){
-		  $this->set_target_css_state('page_cooperate');
+        $this->set_target_css_state('page_cooperate');
    		return $this->to_html_page('page/shop/cooperate.html');
   	}
 
-  /**
-   * 产品合作表单提交
-   */
-  public function cooperate_product(){
+  	/**
+   	 * 产品合作表单提交
+     */
+    public function cooperate_product(){
 		$this->set_target_css_state('page_cooperate');
-  	$row = array();
-    $this->stash['mode'] = 'create';
+		
+	  	$row = array();
+	    $this->stash['mode'] = 'create';
 
-    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+	    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+	    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+	    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
 
-    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-
-    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-    $this->stash['pid'] = new MongoId();
+	    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+	    $this->stash['pid'] = new MongoId();
     
-    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
+	    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
 
 		$this->stash['contact'] = $row;
-		return $this->to_html_page('page/shop/cooperate_submit.html');
-  }
+		
+	    return $this->to_html_page('page/shop/cooperate_submit.html');
+  	}
 
-  /**
-   * 产品合作保存
-   */
-  public function save_cooperate(){
+    /**
+     * 产品合作保存
+     */
+    public function save_cooperate(){
 		// 验证数据
 		if(empty($this->stash['category_id'])){
 			return $this->ajax_json('请选择一个分类！', true);
@@ -267,7 +292,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			
 			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
 		}
 
@@ -276,8 +300,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
 		
 		return $this->to_taconite_page('ajax/note.html');
-    
-  }
+    }
 
 	/**
 	 * 删除某个附件
@@ -297,7 +320,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			$asset = new Sher_Core_Model_Asset();
 			$asset->delete_file($id);
 		}
-		
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
