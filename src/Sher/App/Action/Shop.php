@@ -6,13 +6,15 @@
 class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
-		'id'=>'',
-		'sku'=>'',
+		'id' => '',
+		'sku' => '',
 		'type' => 0,
 		'category_id' => 0,
 		'sort' => 1,
-		'topic_id'=>'',
-		'page'=>1,
+		'topic_id' => '',
+		'page' => 1,
+		'size' => 3,
+		'sword' => '',
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -47,6 +49,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$type = (int)$this->stash['type'];
 		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
+		$current_category = array();
 		
 	    $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
 	    $this->stash['all_active'] = false;
@@ -56,6 +59,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			$this->stash['presaled'] = 0;
 			if($category_id == 0){
 				$this->stash['all_active'] = true;
+				$current_category = array('name' => 'all');
 			}
 			$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id, $type, $sort,'#p#');
 			$list_prefix = Doggy_Config::$vars['app.url.shop'];
@@ -67,6 +71,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			$pager_url = Sher_Core_Helper_Url::sale_list_url($category_id, $type, $sort,'#p#');
 			$list_prefix = Doggy_Config::$vars['app.url.sale'];
+			
+			$current_category = array('name'=>'presale');
 	    }
 		// 排序方式
 		switch($sort){
@@ -91,6 +97,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = $pager_url;
 		$this->stash['list_prefix'] = $list_prefix;
 		
+		// 获取当前类别
+		if($category_id){
+			$category = new Sher_Core_Model_Category();
+			$current_category = $category->load((int)$category_id);
+		}
+		$this->stash['current_category'] = $current_category;
 		
 		return $this->to_html_page('page/shop/index.html');
 	}
@@ -154,7 +166,29 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		return $this->to_html_page('page/shop/show.html');
 	}
-
+	
+	/**
+	 * 获取推荐产品
+	 */
+	public function ajax_guess_product(){
+		$sword = $this->stash['sword'];
+		$size = $this->stash['size'] || 3;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+		);
+		if(!empty($sword)){
+			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', array('type' => 1), $options);
+		}
+		
+		$this->stash['result'] = $result;
+		
+		return $this->to_taconite_page('ajax/guess_products.html');
+	}
+	
 	/**
 	 * ajax获取评论
 	 */
@@ -169,36 +203,37 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    	 * 产品合作入口
    	 */
   	public function cooperate(){
-		  $this->set_target_css_state('page_cooperate');
+        $this->set_target_css_state('page_cooperate');
    		return $this->to_html_page('page/shop/cooperate.html');
   	}
 
-  /**
-   * 产品合作表单提交
-   */
-  public function cooperate_product(){
+  	/**
+   	 * 产品合作表单提交
+     */
+    public function cooperate_product(){
 		$this->set_target_css_state('page_cooperate');
-  	$row = array();
-    $this->stash['mode'] = 'create';
+		
+	  	$row = array();
+	    $this->stash['mode'] = 'create';
 
-    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+	    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+	    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+	    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
 
-    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-
-    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-    $this->stash['pid'] = new MongoId();
+	    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+	    $this->stash['pid'] = new MongoId();
     
-    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
+	    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
 
 		$this->stash['contact'] = $row;
-		return $this->to_html_page('page/shop/cooperate_submit.html');
-  }
+		
+	    return $this->to_html_page('page/shop/cooperate_submit.html');
+  	}
 
-  /**
-   * 产品合作保存
-   */
-  public function save_cooperate(){
+    /**
+     * 产品合作保存
+     */
+    public function save_cooperate(){
 		// 验证数据
 		if(empty($this->stash['category_id'])){
 			return $this->ajax_json('请选择一个分类！', true);
@@ -260,17 +295,15 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			
 			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
 		}
 
-    $this->stash['is_error'] = false;
-    $this->stash['note'] = '保存成功!';
+    	$this->stash['is_error'] = false;
+    	$this->stash['note'] = '保存成功!';
 		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
 		
 		return $this->to_taconite_page('ajax/note.html');
-    
-  }
+    }
 
 	/**
 	 * 删除某个附件
@@ -290,7 +323,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			$asset = new Sher_Core_Model_Asset();
 			$asset->delete_file($id);
 		}
-		
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}

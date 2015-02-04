@@ -401,7 +401,7 @@
 			</div>
 			<div class="two column row">
 				<div class="column">
-					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' %}
+					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
 					{% if ad %}
 					<div class="advert content">
 						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
@@ -599,23 +599,23 @@
 		</div>
 	</section>
 
-  <section class="ui big together block">
-    <div class="ui responsive grid">
-      <div class="row">
-      <h3 class="ui center aligned header">合作伙伴</h3>
-      </div>
-      <div class="row">
-        <div class="center aligned column">
-          <a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_technode.jpg" alt="动点科技"></a>
-          <a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="{{ app_url_packaged }}/images/logo_geekpark.jpg" alt="极客公园"></a>
-          <a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_leikeji.jpg" alt="雷科技"></a>
-          <a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="{{ app_url_packaged }}/images/logo_shijue.jpg" alt="视觉中国"></a>
-          <a href="http://techcrunch.cn" title="TC" target="_blank"><img src="{{ app_url_packaged }}/images/logo_tech.jpg" alt="TC"></a>
-          <a href="http://www.huodongxing.com/" title="活动行" target="_blank"><img src="{{ app_url_packaged }}/images/logo_huodongxing.jpg" alt="活动行"></a>
-        </div>
-      </div>
-    </div>
-  </section>
+  	<section class="ui big together white background block">
+    	<div class="ui responsive grid">
+      	  	<div class="row">
+      		  	<h3 class="ui center aligned header">合作伙伴</h3>
+      	  	</div>
+      	  	<div class="row">
+        		<div class="center aligned column">
+          			<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_technode.jpg" alt="动点科技"></a>
+          		  	<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="{{ app_url_packaged }}/images/logo_geekpark.jpg" alt="极客公园"></a>
+          		  	<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_leikeji.jpg" alt="雷科技"></a>
+          		  	<a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="{{ app_url_packaged }}/images/logo_shijue.jpg" alt="视觉中国"></a>
+          		  	<a href="http://techcrunch.cn" title="TC" target="_blank"><img src="{{ app_url_packaged }}/images/logo_tech.jpg" alt="TC"></a>
+          		  	<a href="http://www.huodongxing.com/" title="活动行" target="_blank"><img src="{{ app_url_packaged }}/images/logo_huodongxing.jpg" alt="活动行"></a>
+        		</div>
+      	  	</div>
+    	</div>
+  	</section>
 	
 </div>
 {% endblock %}

@@ -1,6 +1,7 @@
 <?php
 /**
  * 全文检索标签
+ * @author purpen
  */
 class Sher_App_ViewTag_SearchList extends Doggy_Dt_Tag {
     protected $argstring;
@@ -48,7 +49,7 @@ class Sher_App_ViewTag_SearchList extends Doggy_Dt_Tag {
         $result = $service->search($search_word, $index_name, $query, $options);
         $context->set($var, $result);
 		
-        if ($include_pager) {
+        if($include_pager){
             $context->set($pager_var, $result['pager']);
         }
     }

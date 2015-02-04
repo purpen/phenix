@@ -185,6 +185,21 @@
 				  	<div class="active section">{{ product.title }}</div>
 				</div>
 			</div>
+			<div class="right aligned five wide column">
+				<div class="ui top right pointing quickly dropdown">
+				  	<i class="block layout icon"></i>
+					{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+					<div class="menu">
+						<a class="item" href="{{ app_url_sale }}">新品预售</a>
+						<a class="item" href="{{ app_url_shop }}/c0">全部类别</a>
+						{% for cat in category.rows %}
+						<a class="item" href="{{ cat.view_url }}">
+				        	{{ cat.title }}
+				      	</a>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	
