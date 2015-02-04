@@ -177,7 +177,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				$label = '微信小店';
 				break;
 			case Sher_Core_Util_Constant::FROM_WAP:
-				$label = '手机';
+				$label = '手机网页';
+				break;
+			case Sher_Core_Util_Constant::FROM_IAPP:
+				$label = '手机应用';
 				break;
 			default:
 				$label = '其他';
