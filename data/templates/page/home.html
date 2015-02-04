@@ -401,7 +401,7 @@
 			</div>
 			<div class="two column row">
 				<div class="column">
-					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' %}
+					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
 					{% if ad %}
 					<div class="advert content">
 						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
