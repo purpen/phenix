@@ -49,6 +49,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$type = (int)$this->stash['type'];
 		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
+		$current_category = array();
 		
 	    $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
 	    $this->stash['all_active'] = false;
@@ -58,6 +59,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			$this->stash['presaled'] = 0;
 			if($category_id == 0){
 				$this->stash['all_active'] = true;
+				$current_category = array('name' => 'all');
 			}
 			$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id, $type, $sort,'#p#');
 			$list_prefix = Doggy_Config::$vars['app.url.shop'];
@@ -69,6 +71,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			$pager_url = Sher_Core_Helper_Url::sale_list_url($category_id, $type, $sort,'#p#');
 			$list_prefix = Doggy_Config::$vars['app.url.sale'];
+			
+			$current_category = array('name'=>'presale');
 	    }
 		// 排序方式
 		switch($sort){
@@ -94,7 +98,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['list_prefix'] = $list_prefix;
 		
 		// 获取当前类别
-		$current_category = array();
 		if($category_id){
 			$category = new Sher_Core_Model_Category();
 			$current_category = $category->load((int)$category_id);

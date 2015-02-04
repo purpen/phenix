@@ -2,21 +2,7 @@
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.shop.tophead {
-	    background: url("{{ app_url_packaged }}/images/bgc_house.jpg") no-repeat scroll center center / cover rgba(255, 51, 102, 1);
-	    color: #fff;
-	    height: 260px;
-		margin: 0 0 1.5rem;
-	}
-	.shop.electronic.tophead {
-	    background: url("{{ app_url_packaged }}/images/bgc-shuma.jpg") no-repeat scroll center center / cover rgba(255, 28, 127, 1);
-	}
-	.shop.entertainment.tophead {
-	    background: url("{{ app_url_packaged }}/images/bgc-yule.jpg") no-repeat scroll center center / cover rgba(13, 170, 127, 1);
-	}
-	.shop.tophead .masthead > .masthead-cover.translucent {
-		background-color: rgba(0, 0, 0, 0);
-	}
+	
 </style>
 {% endblock %}
 
@@ -92,7 +78,11 @@
 			</div>
 			{% else %}
 			<div class="center aligned column">
-				没有更多鸟~~
+				<div class="empty result">
+					<div class="ui danger message">
+						没有更多鸟，可选择其他产品~~
+					</div>
+				</div>
 			</div>
 			{% endif %}
 		</div>
