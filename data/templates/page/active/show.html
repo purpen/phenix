@@ -416,8 +416,7 @@ h4.ui.header .map-advantage {
   //分享
   phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
-
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.wap_view_url }}'});
 	
 	$('.ui.tabox').smint({
     	'scrollSpeed': 1000,
@@ -828,4 +827,5 @@ h4.ui.header .map-advantage {
 	</div>
 </div>
 {% include "block/attend_user_info.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}
