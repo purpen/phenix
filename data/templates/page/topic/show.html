@@ -238,7 +238,7 @@
 			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
 				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 社区
+						<i class="basic icon community"></i> 话题
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
@@ -456,11 +456,11 @@
 					</div>
 				</div>
 				
-    <div class="ui big reply segment">
-      <!--ajax comment-->
-      <div id="comment-list"></div>
-      {% include "block/comment_box_site.html" %}
-    </div>
+    			<div class="ui big reply segment">
+      			<!--ajax comment-->
+      		  	<div id="comment-list"></div>
+      		  	{% include "block/comment_box_site.html" %}
+    		</div>
 			
 		</div>
 	</div>

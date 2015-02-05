@@ -1,0 +1,150 @@
+{%extends 'layout/column.html'%}
+{% block title %}产品灵感-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.social.slide {
+		background-color: rgba(255,255,255, 1);
+		padding: 1rem 0;
+	}
+	.ui.advert {
+		margin-bottom: 1rem;
+		height: 200px;
+		overflow: hidden;
+	}
+	.slide.content {
+		height: 420px;
+		overflow: hidden;
+	}
+	.social.people {
+		background-color: #ffffff;
+		padding: 1rem 0;
+	}
+	.social.products,
+	.social.topic {
+		background-color: #f1f1f1;
+		padding: 1rem 0;
+	}
+	.social.topic {
+		padding: 0rem 0 1.5rem;
+	}
+	.social.people > .ui.grid > .row,
+	.social.products > .ui.grid > .row,
+	.social.topic > .ui.grid > .row {
+		padding-top: 0rem;
+	}
+	.social.productist {
+		background-color: #ffffff;
+		padding: 1rem 0;
+	}
+	.block.title {
+		font-size: 1.75rem;
+		color: rgba(0,0,0,0.85);
+		font-weight: normal;
+		margin: 0;
+	}
+	.block.title > small {
+		font-size: 0.875rem;
+		color: rgba(0,0,0,0.65);
+	}
+	
+	.ui.count.text {
+		color: rgba(0,0,0,0.35);
+	}
+	.ui.table td.avatar {
+		vertical-align: top;
+	}
+	.social.topic .subcate.list > .item {
+		font-size: 1.75rem;
+		color: rgba(0,0,0,0.85);
+	}
+	.social.topic .subcate.list > .active.item {
+		color: rgba(255,51,102,1);
+	}
+	.social.people .ui.items > .item {
+		text-align: center;
+		box-shadow: 0 0 rgba(0, 0, 0, 0.05) inset;
+		box-sizing: border-box;
+		transition: all 0.3s ease 0.1s;
+	}
+	.social.people .ui.items > .item:hover {
+		background-color: #f36;
+		color: #fff;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.special.cards .image').dimmer({
+	  on: 'hover'
+	});
+{% endblock %}
+
+
+{% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social productist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui segment">
+					<div class="ui horizontal link list">
+					  <a class="item">
+					  	全部
+					  </a>
+					  <a class="item">
+					    智能硬件
+					  </a>
+					  <a class="item">
+					    可穿戴设备
+					  </a>
+					</div>
+				</div>
+				{% topic_list var:'list' category_id:55 sort:0 %}
+				<div class="ui three cards">
+					{% for topic in list.rows %}
+				  	<div class="card">
+				    	<div class="image">
+				      	  	<img src="{{ topic.cover.thumbnails.md.view_url }}" />
+				    	</div>
+				    	<div class="content">
+				      	  	<div class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
+							</div>
+				      	  	<div class="description">
+				        		{{ topic.strip_description|truncate 70 }}
+				      	  	</div>
+				    	</div>
+				    	<div class="extra content">
+				      	  	<a class="right floated created">
+				        		<i class="heart icon"></i>{{ topic.love_count }} <i class="user icon"></i>{{ topic.view_count }}
+							</a>
+							<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" class="ui avatar image" /> {{ topic.user.nickname }}
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% if list.total_page %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{% include 'block/pager.html' %}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
