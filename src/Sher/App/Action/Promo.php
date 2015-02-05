@@ -164,5 +164,11 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->to_html_page('page/games.html');
 	}
 	
+	/**
+	 * 情人节
+	 */
+	public function valentine(){
+		return $this->to_html_page('page/valentine.html');
+	}
 }
 ?>
