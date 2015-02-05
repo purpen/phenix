@@ -38,6 +38,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.partner'];
 		
 		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/rsa_private_pkcs8.pem';
+		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.pendir'].'/alipay_public_key.pem';
 		
 		// 服务器异步通知页面路径
 		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/secrete_notify';

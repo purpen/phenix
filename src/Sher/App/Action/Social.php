@@ -48,7 +48,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	public function dream2(){
 		$this->set_target_css_state('index');
 		
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream2_category_id'];
 
 		$this->stash['start_time'] = mktime(0,0,0,2,6,2015);
 		$this->stash['end_time'] = mktime(23,59,59,3,20,2015);
