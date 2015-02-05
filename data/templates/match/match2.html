@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}十万火计-{% endblock %}
+{% block title %}十万火计 第2季-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	@media screen and (max-width:1140px){
@@ -371,20 +371,28 @@
 </style>
 {% endblock %}
 {% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream";
+    phenix.redirect(url);
+  });
+
 	skrollr.init({
 		forceHeight: false,
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
 	
-	/*$('.ui.tabox').smint({
+	/*
+  $('.ui.tabox').smint({
     	'scrollSpeed': 1000,
 		'mySelector' : 'section'
-    });
+  });
 
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
-	phenix.bind_share_list(pic_url);*/
+	phenix.bind_share_list(pic_url);
+  */
 	
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream'});
@@ -407,7 +415,7 @@
 			</div>
 		</div>
 		<div class="right aligned four wide column">
-			<a href="javascript:void(0);" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+			<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
 				提交作品
 				<i class="icon-arrow-right-sharp"></i>
 			</a>

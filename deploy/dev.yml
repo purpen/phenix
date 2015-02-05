@@ -36,7 +36,7 @@ app.mongo.default:
 
 # redisdb
 app.redis.default: 
-    host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
+    host: '127.0.0.1'
     port: 6379
 
 app.cache.memcached.default:
@@ -48,6 +48,8 @@ app.cache.memcached.default:
 
 # 十万火计
 app.topic.dream_category_id: 64
+# 十万火计--第二季
+app.topic.dream2_category_id: 65
 
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
