@@ -135,6 +135,9 @@
 				  	<div class="item">
 				      	下单时间：{{ item.order.created_on|date }}
 				  	</div>
+          <div class="item">
+              来源: {{ item.order.from_site_label }}
+          </div>
 				</div>
 			</div>
 			<div class="middle aligned ui celled white grid">

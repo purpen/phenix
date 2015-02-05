@@ -124,6 +124,9 @@ class Sher_Core_Util_AlipayNotify extends Doggy_Object {
 			case "MD5" :
 				$isSgin = Sher_Core_Util_Alipay::md5Verify($prestr, $sign, $this->alipay_config['key']);
 				break;
+			case "RSA" :
+				$isSgin = Sher_Core_Util_Alipay::rsaVerify($prestr, trim($this->alipay_config['ali_public_key_path']), $sign);
+				break;
 			default :
 				$isSgin = false;
 		}
