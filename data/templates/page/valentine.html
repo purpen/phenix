@@ -161,8 +161,18 @@
 
 </style>
 {% endblock %}
+
 {% block jquery %}
+	$('#free-luck').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_domain }}/app/site/bonus/valentine');
+	});
 {% endblock %}
+
 {% block content %}
 <div class="valentine page">
 	<div class="w-1180">
@@ -170,9 +180,13 @@
 			<div class="ui image">
 				<img src="{{ app_url_packaged }}/images/valentine_3.jpg" draggable="false">
 				<div class="hbao">
-					<img src="{{ app_url_packaged }}/images/valentine_4.jpg" draggable="false">
-					<a href=" ">
-					</a>
+          {% if is_got %}
+            <img src="{{ app_url_packaged }}/images/valentine_4.jpg" draggable="false">
+          {%else%}
+            <img src="{{ app_url_packaged }}/images/valentine_4.jpg" draggable="false">
+            <a href="javascript:void(0);" id="free-luck"></a>
+          {%endif%}
+
 				</div>
 			</div>
 		</div>
@@ -300,6 +314,14 @@
 		<div class="bott">
 			<img src="{{ app_url_packaged }}/images/valentine_2.jpg" draggable="false">
 		</div>
+	</div>
+</div>
+
+<!--弹出层-->
+<div class="ui small luck modal">
+  	<i class="flat close icon"></i>
+	<div class="container">
+	  	<div class="content" id="luck-modal-content"></div>
 	</div>
 </div>
 {% endblock %}
