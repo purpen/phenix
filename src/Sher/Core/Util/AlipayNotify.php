@@ -118,6 +118,7 @@ class Sher_Core_Util_AlipayNotify extends Doggy_Object {
 		
 		//把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
 		$prestr = Sher_Core_Util_Alipay::createLinkstring($para_sort);
+    Doggy_Log_Helper::warn($prestr);
 		
 		$isSgin = false;
 		switch (strtoupper(trim($this->alipay_config['sign_type']))) {
