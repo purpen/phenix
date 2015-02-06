@@ -157,39 +157,31 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 			return $this->to_raw('fail');
 		}
 	}
-	
+
 	/**
-	 * 支付宝直接返回
+	 * 更新订单状态
 	 */
-	public function direct_notify(){
-		// 计算得出通知验证结果
-		$alipayNotify = new Sher_Core_Util_AlipayMobileNotify($this->alipay_config);
-		$verify_result = $alipayNotify->verifyReturn();
-		if($verify_result){ // 验证成功
-			// 商户订单号
-			$out_trade_no = $_GET['out_trade_no'];
-			// 支付宝交易号
-			$trade_no = $_GET['trade_no'];
-			// 交易状态
-			$trade_status = $_GET['result'];
-			
-			// 跳转订单详情
-			$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
-			
-			Doggy_Log_Helper::warn("Alipay api direct notify trade_status: ".$trade_status);
-			
-			if($trade_status == 'success') {
-				// 判断该笔订单是否在商户网站中已经做过处理
-				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				// 如果有做过处理，不执行商户的业务程序
-				return $this->update_alipay_order_process($out_trade_no, $trade_no);
-			}else{
-				return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
-			}
-		}else{
-		    // 验证失败
-			return $this->show_message_page('验证失败!', true);
+	protected function update_alipay_order_process($out_trade_no, $trade_no, $sync=false){
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($out_trade_no);
+		if (empty($order_info)){
+			Doggy_Log_Helper::warn('not have order: '.$out_trade_no);
+			return $this->to_raw('fail');
 		}
+		$status = $order_info['status'];
+		$is_presaled = $order_info['is_presaled'];
+		$order_id = (string)$order_info['_id'];
+		
+		Doggy_Log_Helper::warn("Alipay order[$out_trade_no] status[$status] updated!");
+		
+		// 验证订单是否已经付款
+		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			// 更新支付状态,付款成功并配货中
+			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+			return $this->to_raw('success');
+		}
+
+		return $this->to_raw('success');
 	}
 	
 }
