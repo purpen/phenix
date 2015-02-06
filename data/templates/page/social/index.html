@@ -2,76 +2,17 @@
 {% block title %}发现-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.social.slide {
-		background-color: rgba(255,255,255, 1);
-		padding: 1rem 0;
-	}
-	.ui.advert {
-		margin-bottom: 1rem;
-		height: 200px;
-		overflow: hidden;
-	}
-	.slide.content {
-		height: 420px;
-		overflow: hidden;
-	}
-	.social.people {
-		background-color: #ffffff;
-		padding: 1rem 0;
-	}
-	.social.products,
-	.social.topic {
-		background-color: #f1f1f1;
-		padding: 1rem 0;
-	}
-	.social.topic {
-		padding: 0rem 0 1.5rem;
-	}
-	.social.people > .ui.grid > .row,
-	.social.products > .ui.grid > .row,
-	.social.topic > .ui.grid > .row {
-		padding-top: 0rem;
-	}
-	.block.title {
-		font-size: 1.75rem;
-		color: rgba(0,0,0,0.85);
-		font-weight: normal;
-		margin: 0;
-	}
-	.block.title > small {
-		font-size: 0.875rem;
-		color: rgba(0,0,0,0.65);
-	}
 	
-	.ui.count.text {
-		color: rgba(0,0,0,0.35);
-	}
-	.ui.table td.avatar {
-		vertical-align: top;
-	}
-	.social.topic .subcate.list > .item {
-		font-size: 1.75rem;
-		color: rgba(0,0,0,0.85);
-	}
-	.social.topic .subcate.list > .active.item {
-		color: rgba(255,51,102,1);
-	}
-	.social.people .ui.items > .item {
-		text-align: center;
-		box-shadow: 0 0 rgba(0, 0, 0, 0.05) inset;
-		box-sizing: border-box;
-		transition: all 0.3s ease 0.1s;
-	}
-	.social.people .ui.items > .item:hover {
-		background-color: #f36;
-		color: #fff;
-	}
 </style>
 {% endblock %}
 
 {% block jquery %}
 	$('.special.cards .image').dimmer({
 	  on: 'hover'
+	});
+	
+	$('#sticktopic .list .item').tab({
+	    context: $('#sticktopic')
 	});
 {% endblock %}
 
@@ -88,7 +29,7 @@
 </div>
 
 <div class="social slide">
-	<div class="ui responsive grid">
+	<div class="ui responsive compact grid">
 		<div class="row">
 			<div class="ten wide column">
 				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
@@ -136,7 +77,7 @@
 				    	</div>
 				    	<div class="content">
 				      	  	<div class="header">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">{{ topic.title|truncate 60 }}</a>
 							</div>
 				      	  	<div class="description">
 				        		{{ topic.strip_description|truncate 70 }}
@@ -156,28 +97,24 @@
 	</div>
 </div>
 
-<div class="social topic">
+<div class="social topic" id="sticktopic">
 	<div class="ui responsive grid">
 		<div class="two column middle aligned row">
 			<div class="column">
 				<div class="ui horizontal divided subcate list">
-				  	<a class="active item">
-				    	精选话题
-				  	</a>
-				  	<a class="item">
-				    	最新话题
-				  	</a>
+					<a class="item active" data-tab="featured">精选话题</a>
+					<a class="item" data-tab="newest">最新话题</a>
 				</div>
 			</div>
 			<div class="right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit" class="ui magenta button">
+				<a href="{{ app_url_action_base }}/topic/submit" class="ui black button">
 					<i class="add icon"></i> 发表话题
 				</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="column">
-				<div class="ui segment">
+				<div class="ui tab active segment" data-tab="featured">
 					<table class="ui basic topic striped table">
 						<thead>
 							<tr>
@@ -199,13 +136,13 @@
 									</td>
 									<td class="ten wide">
 								      	<h3 class="title">
-											<a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui line link">[置顶] {{ dig.title|truncate 60 }}</a>
+											<a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui line link">{{ dig.title|truncate 60 }}</a>
 										</h3>
 								      	<div class="content">
 											<div class="attribute">
 												<span class="category"><a href="{{ dig.category.view_url }}" class="ui link">{{ dig.category.title }}</a></span> | 
 												<span class="author">
-													<a href="{{ dig.user.home_url }}" class="ui magenta link">@{{ dig.user.nickname }}</a>  <i class="time icon"></i>于{{ dig.created_on|relative_datetime }}发表
+													<a href="{{ dig.user.home_url }}" class="ui magenta link">@{{ dig.user.nickname }}</a>  <i class="time icon"></i>{{ dig.created_on|relative_datetime }} 发表
 												</span>
 											</div>
 											{% if !dig.asset_count %}
@@ -252,6 +189,28 @@
 						</tbody>
 					</table>
 				</div>
+				
+				<div class="ui tab segment" data-tab="newest">
+					<table class="ui basic topic striped table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>浏览数</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% topic_list var:'list' time:0 sort:0 %}
+							{% for topic in list.rows %}
+								{% if !topic.top %}<!--过滤置顶帖子-->
+									{% include "block/topic_item.html" %}
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				
 			</div>
 		</div>
 	</div>

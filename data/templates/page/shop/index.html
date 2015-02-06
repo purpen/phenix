@@ -70,11 +70,12 @@
 				  		{% include "block/product_item.html" %}
 				    {% endfor %}
 				</div>
-				
+				{% if list.total_page > 1 %}
 				<div class="ui pagination grid">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{%include 'block/pager.html'%}
 				</div>
+				{% endif %}
 			</div>
 			{% else %}
 			<div class="center aligned column">
