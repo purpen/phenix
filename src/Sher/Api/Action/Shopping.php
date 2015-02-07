@@ -40,9 +40,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 	 * 填写订单信息--购物车
 	 */
 	public function checkout(){
-
 		$user_id = $this->current_user_id;
-		
+    if(!isset($this->stash['array']) || empty($this->stash['array'])){
+      return $this->api_json('购物车为空！', 3001); 
+    }
+    $cart_arr = json_decode($this->stash['array']);
+
 		//验证购物车，无购物不可以去结算
     $result = array();
     $items = array();
@@ -51,12 +54,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 
 		$inventory_mode = new Sher_Core_Model_Inventory();
 		$product_mode = new Sher_Core_Model_Product();
-    foreach($items as $key=>$val){
-      $arr = explode('|', $val);
+    foreach($cart_arr as $key=>$val){
+      $val = (array)$val;
       $item = array();
-      $sku_id = (int)$arr[0];
-      $product_id = (int)$arr[1];
-      $n = (int)$arr[2];
+      $sku_id = (int)$val['sku_id'];
+      $product_id = (int)$val['product_id'];
+      $n = (int)$val['n'];
       //sku
       if(!empty($sku_id)){
         // 验证库存数量
@@ -64,7 +67,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
         if(!$enoughed){
           continue;
         }
-        $sku = $inventory_mode->load((int)$sku);
+        $sku = $inventory_mode->load((int)$sku_id);
         if(empty($sku)){
           continue; 
         }
@@ -93,7 +96,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
         $total_count += 1;
       //product
       }elseif(!empty($product_id)){
-        $product = $product_mode->extend_load((int)$sku['product_id']);
+        $product = $product_mode->extend_load($product_id);
         if(empty($product)){
           continue;
         }
@@ -120,6 +123,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
       if(!empty($item)){
         array_push($items, $item);     
       }
+    }
+
+    //如果购物车为空，返回
+    if(empty($total_money) || empty($items)){
+      return $this->api_json('购物车异常！', 3002);  
     }
 
 		try{
