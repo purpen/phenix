@@ -65,6 +65,9 @@
 		margin-bottom: .5em;
 	}
 	
+	.ui.about{
+		padding-bottom:240px !important;
+	}
 	.ui.about .ui.responsive.grid,.ui.about .column{
 		position:relative;
 	}
@@ -88,7 +91,7 @@
 	}
 	.ui.about img.img-3{
 		right:5%;
-		bottom:-2%;
+		bottom:-10%;
 	}
 	.ui.about img.img-4{
 		right:5%;
@@ -299,6 +302,20 @@
 		margin-left: 1%;
 		margin-right: 1%;
 	}
+	.judges .ptop {
+		padding-top: 2em;
+		padding-bottom: 3em;
+	}
+	.ui.judges .item .image {
+		width: 75%;
+		margin: auto;
+	}
+	.ui.judges .content h4 {
+		margin: .6em 0 5px;
+	}
+	.ui.judges .content h5 {
+		margin: 0;
+	}
 	/*.judges .ui.items .item .content{
 		min-height:125px;
 		background:#091f35;
@@ -317,32 +334,46 @@
 		position:relative;
 		color:#fff;
 	}
-	.ui.stars hr{
+	.ui.stars hr,.ui.repay hr{
 		background:#fff !important;
 	}
-	.ui.stars p{
+	.ui.stars p,.ui.repay p{
 		margin:0;
 	}
-	.ui.stars .ui.three.items>.item {
-		width: 15.333%;
-		margin-left: 9%;
-		margin-right: 9%;
+	.ui.stars .ui.three.items>.item ,.ui.repay .ui.three.items>.item{
+		width: 16.333%;
+		margin-left: 8.5%;
+		margin-right: 8.5%;
 		background:rgba(0,0,0,0);
 		cursor:auto;
 	}
-	.ui.stars .content h4 {
+	.ui.stars .content h4 ,.ui.repay .content h4{
 		margin: .8em 0 5px;
 	}
-	.ui.stars .ui.items>.item>.content {
+	.ui.stars .ui.items>.item>.content, .ui.repay .ui.items>.item>.content {
 		padding: 13px 0 !important;
 	}
-	.ui.stars .content h5{
+	.ui.stars .content h5,.ui.repay .content h5{
 		font-size:13px;
 		margin-top: 12px;
 		line-height: 20px;
 	}
 	.ui.stars .row:last-child{
-		padding-top: 50px;
+		padding-top: 60px;
+	}
+	.ui.repay{
+		background:url({{ app_url_packaged }}/images/match_19.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:4rem 0 4rem;
+		position:relative;
+		color:#fff;
+	}
+	.ui.repay .row:nth-child(2){
+		padding-top:60px !important;
+	}
+	.ui.repay .item .image img{
+		width: 60% !important;
+		padding-left: 20%;
 	}
 	.ui.coope .row+.row{
 		width: 90% !important;
@@ -366,6 +397,60 @@
 	}
 	.ui.orga hr{
 		background:#fff !important;
+	}
+	
+	
+	.ui.realize{
+		background:url({{ app_url_packaged }}/images/match_18.jpg) scroll center center no-repeat;
+		background-size:cover;
+		color:#fff;
+		padding:15% 0 5%;
+		position:relative;
+	}
+	.ui.realize > .ui.grid > .column > img{
+		width:325px;
+		height:325px;
+		position:absolute;
+		top:-162.5px;
+		left: 38%;
+	}
+	
+	.ui.products .ui.allist .item {
+	border-bottom: 0 solid rgba(0,0,0,0);
+	box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+	background-color: #f0f0f0;
+	min-height: 320px;
+	}
+	.ui.allist .ui.four.items .item .content {
+	padding-top: 1.75em;
+	}
+	.ui.allist .ui.items .item .full.advantage {
+	display: block;
+	box-sizing: border-box;
+	max-height: 100%;
+	overflow: hidden;
+	margin-top: 0.8em;
+	min-height: 285px;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing .image {
+	background-color: rgba(0,0,0,0);
+	border-radius: 0;
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	margin: 12px auto;
+	height: 200px;
+	max-height: 100%;
+	overflow: hidden;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing .image img {
+	width: 100%;
+	}
+	.ui.allist .ui.items .item .like {
+	font-size: 0.875em;
+	}
+	.ui.allist .ui.items .item .like {
+	font-size: 0.875em;
 	}
 	
 </style>
@@ -443,6 +528,26 @@
 			</div>
 		</div>
 	</div>
+</section>
+<section class="ui realize block">
+	<div class="ui responsive grid">
+		<div class="center aligned column">
+			<p>“十万火计”为太火鸟精品长线创意征集大赛活动，</p>
+			<p>大赛第一季首期即开启就取得了社会的广泛关注，</p>
+			<p>此次为第二季校园专属季，面向全国广大校园学生群体特别开展，多维度征集产品创意。</p>
+			<p>自古英雄出少年，少年英雄多创意！</p>
+			<p><br></p>
+			<p>恰同学少年，风华正茂，</p>
+			<p>太火鸟广发英雄帖欢迎各位在校师生以个人或团队形式参加十万火计，</p>
+			<p>如果你是设计学院专业出身我们欢迎你，</p>
+			<p>如果你是财经、人文、理工其他非设计专业的同学我们更加欢迎你！</p>
+			<p>不需要你那么懂设计，只需要你有想法，</p>
+			<p>在十万火计里，是每个有创意有梦想的人的主场，</p>
+			<p>太火鸟邀请你们一起用右脑思维缔造性感产品！</p>
+			<img src="{{ app_url_packaged }}/images/match_23.png" draggable="false">
+		</div>
+	</div>
+	
 </section>
 <section class="ui big collection white background block">
 	<div class="ui responsive grid">
@@ -565,18 +670,112 @@
 			</div>
 		</div>
 		
+		
 		<div class="row">
-			<div class="column">
+			<div class="ui ptop center aligned column">
+				
 				<div class="ui five items">
-					<!--<div class="item">
+					<div class="item">
 						<div class="image">
-							<img src="{{ app_url_packaged }}/images/fire/images/expert_1.jpg">
+							<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">徐小平</h4>
+							<h5>真格天使投资基金创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">黎万强</h4>
+							<h5>小米科技联合创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">贾伟</h4>
+							<h5>洛可可设计集团创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
 						</div>
 						<div class="content">
 							<h4 class="ui header">童玮亮</h4>
-							<h5>梧桐树资本创始合伙人资本创始合伙人</h5>
+							<h5>梧桐树资本创始合伙人</h5>
 						</div>
-					</div>-->
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">雷海波</h4>
+							<h5>太火鸟创始人\CEO</h5>
+						</div>
+					</div>
+				</div>
+			
+				<div class="ui five items">
+					<div class="item">
+						<div class="image">
+							<img alt="卢刚" src="{{ app_url_packaged }}/images/match_25.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">刘毅</h4>
+							<h5>广州美术学院交互设计工作室</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="付志勇" src="{{ app_url_packaged }}/images/match_26.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">付志勇</h4>
+							<h5>清华美院信息艺术设计系副主任</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="孙远波"src="{{ app_url_packaged }}/images/match_27.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">孙远波</h4>
+							<h5>北京理工大学设计与艺术学院 工业设计系主任</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="王昀"src="{{ app_url_packaged }}/images/match_28.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">王昀</h4>
+							<h5>中国美院设计艺术学院副院长</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="彦风" src="{{ app_url_packaged }}/images/match_29.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">彦风</h4>
+							<h5>国家数字媒体创新设计 研究中心主任</h5>
+						</div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+		<!--<div class="row">
+			<div class="column">
+				<div class="ui five items">
 					
 					<div class="item">
 						<div class="image">
@@ -700,11 +899,254 @@
 			
 				</div>
 			</div>
-		</div>
+		</div>-->
 	
 	
 	</div>
 </section>
+<section class="ui repay block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					梦想回报 / REPAY
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui three center aligned items">
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">一等奖（1名）</h4>
+						<h5> 奖金（￥10000元）+ 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">二等奖（2名）</h4>
+						<h5> ipad mini  64G+ 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">三等奖（3名）</h4>
+						<h5> wacom Bamboo绘图板+ 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">入围奖（30名）</h4>
+						<h5> 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">校园组织奖（3名）</h4>
+						<h5> 荣誉证书</h5>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<p>＊所有获奖作品太火鸟会根据团队及产品的实际情况进行优先孵化</p>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui big products block">
+	<div class="ui responsive allist grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					推荐作品 / PRODUCTS
+				</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui four items">
+					
+					<div class="item">
+						<div class="content">
+							<h4 class="ui dividing header">
+								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
+									空间节约变形桌
+								</a>
+																	<div class="image">
+									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
+								</div>
+								<div class="advantage">
+									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
+								</div>
+																</h4>
+							<div class="schedule">
+								<div class="status clearfix">
+									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
+									</a>
+									<span class="count">
+										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+											15120070751
+										</a>
+									</span>
+									<span class="like">
+										<i class="heart icon"></i>
+										<span class="count">1</span>
+										<i class="unhide icon"></i>
+										<span class="count">696</span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="content">
+							<h4 class="ui dividing header">
+								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
+									空间节约变形桌
+								</a>
+																	<div class="image">
+									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
+								</div>
+								<div class="advantage">
+									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
+								</div>
+																</h4>
+							<div class="schedule">
+								<div class="status clearfix">
+									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
+									</a>
+									<span class="count">
+										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+											15120070751
+										</a>
+									</span>
+									<span class="like">
+										<i class="heart icon"></i>
+										<span class="count">1</span>
+										<i class="unhide icon"></i>
+										<span class="count">696</span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="content">
+							<h4 class="ui dividing header">
+								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
+									空间节约变形桌
+								</a>
+																	<div class="image">
+									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
+								</div>
+								<div class="advantage">
+									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
+								</div>
+																</h4>
+							<div class="schedule">
+								<div class="status clearfix">
+									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
+									</a>
+									<span class="count">
+										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+											15120070751
+										</a>
+									</span>
+									<span class="like">
+										<i class="heart icon"></i>
+										<span class="count">1</span>
+										<i class="unhide icon"></i>
+										<span class="count">696</span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="item">
+						<div class="content">
+							<h4 class="ui dividing header">
+								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
+									空间节约变形桌
+								</a>
+																	<div class="image">
+									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
+								</div>
+								<div class="advantage">
+									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
+								</div>
+																</h4>
+							<div class="schedule">
+								<div class="status clearfix">
+									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
+									</a>
+									<span class="count">
+										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+											15120070751
+										</a>
+									</span>
+									<span class="like">
+										<i class="heart icon"></i>
+										<span class="count">1</span>
+										<i class="unhide icon"></i>
+										<span class="count">696</span>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="center aligned row">
+			<div class="center aligned column">
+				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					全部创意
+				</a>
+				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					提交创意
+				</a>
+			</div>
+		</div>
+	</div>
+	
+</section>
+
 
 <section class="ui stars block">
 	<div class="ui responsive grid">
@@ -727,31 +1169,31 @@
 			<div class="ui three center aligned items">
 				<div class="item">
 					<div class="image">
-						<img alt="谢勇" src="http://frstatic.qiniudn.com/images/match/judges_13.png">
+						<img alt="陈清华" src="{{ app_url_packaged }}/images/match_30.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">谢勇</h4>
-						<h5>中关村工业设计产业协会秘书长</h5>
+						<h4 class="ui header">陈清华</h4>
+						<h5>婴萌科技创始人 / 清华大学毕业<br>婴萌配奶机</h5>
 					</div>
 				</div>
 				
 				<div class="item">
 					<div class="image">
-						<img alt="谢勇" src="http://frstatic.qiniudn.com/images/match/judges_13.png">
+						<img alt="邱懿武" src="{{ app_url_packaged }}/images/match_31.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">谢勇</h4>
-						<h5>中关村工业设计产业协会秘书长</h5>
+						<h4 class="ui header">邱懿武</h4>
+						<h5>云造科技创始人 / 浙江大学毕业<br>云造智行车</h5>
 					</div>
 				</div>
 				
 				<div class="item">
 					<div class="image">
-						<img alt="谢勇" src="http://frstatic.qiniudn.com/images/match/judges_13.png">
+						<img alt="李一舟" src="{{ app_url_packaged }}/images/match_32.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">谢勇</h4>
-						<h5>中关村工业设计产业协会秘书长</h5>
+						<h4 class="ui header">李一舟</h4>
+						<h5> 匙悟科技创始人 / 清华大学毕业<br> 睡眠灯</h5>
 					</div>
 				</div>
 				
@@ -791,6 +1233,16 @@
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="center aligned column">
+				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					查看更多
+				</a>
+			
+				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					提交合作
+				</a>
+			</div>
 		
 	</div>
 </section>
