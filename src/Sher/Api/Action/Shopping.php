@@ -114,7 +114,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
           'view_url'  =>  $product['view_url'],
           'subtotal'  =>  $n*$product['sale_price'],
         );
-        $total_money += $n*$sku['price'];
+        $total_money += $n*$product['sale_price'];
         $total_count += 1;
       //null
       }else{
@@ -297,12 +297,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		// 是否立即购买订单
 		$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : false;
 		
-		// 验证购物车，无购物不可以去结算
-		$cart = new Sher_Core_Util_Cart();
-		if (!$is_presaled && !$is_nowbuy && empty($cart->com_list)){
-      return $this->api_json('订单产品缺失，请重试！', 3003);
-		}
-		
 		// 订单用户
 		$user_id = $this->current_user_id;
 		
@@ -320,11 +314,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$order_info['rid'] = $result['rid'];
 		
 		// 获取购物金额
-		if ($is_presaled || $is_nowbuy){
-			$total_money = $order_info['total_money'];
-		}else{
-			$total_money = $cart->getTotalAmount();
-		}
+		$total_money = $order_info['total_money'];
+
 		
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $this->stash['payment_method'];
