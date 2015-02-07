@@ -396,7 +396,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 */
 	public function ajax_cancel_love(){
     $id = $this->stash['id'];
-    $user_id = $this->current_uesr_id;
+    $user_id = $this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}
