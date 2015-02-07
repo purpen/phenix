@@ -137,7 +137,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			$data = array();
 			$data['items'] = $items;
 			$data['total_money'] = $total_money;
-			$data['items_count'] = $items_count;
+			$data['items_count'] = $total_count;
 			
 			// 获取快递费用
 			$freight = Sher_Core_Util_Shopping::getFees();
@@ -427,12 +427,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 			
 			Doggy_Log_Helper::debug("Save Order [ $rid ] is OK!");
 			
-			// 购物车购物方式
-			if (!$is_presaled) {
-				// 清空购物车
-				$cart->clearCookie();
-			}
-			
 			// 设置缓存限制
 			$this->check_have_snatch($order_info['items']);
 			
@@ -444,7 +438,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
         return $this->api_json('订单处理异常，请重试！', 3011);
-    	}
+    }catch(Exception $e){
+ 			Doggy_Log_Helper::warn("confirm again order failed: ".$e->getMessage());
+      return $this->api_json('不能重复下订单！', 3012); 
+    }
 
     $result = array();
     $result['rid'] = $rid;
