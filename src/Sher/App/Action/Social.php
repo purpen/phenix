@@ -15,7 +15,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','dream2');
+	protected $exclude_method_list = array('execute','dream','allist','dream2','about2');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -54,6 +54,13 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		$this->stash['end_time'] = mktime(23,59,59,3,20,2015);
 		
 		return $this->to_html_page('match/match2.html');
+	}
+	
+	/**
+	 * 十万火计--第二季 活动介绍
+	 */
+	public function about2() {		
+		return $this->to_html_page('match/about2.html');
 	}
 	
 	/**
