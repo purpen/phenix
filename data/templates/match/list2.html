@@ -138,6 +138,12 @@
 </style>
 {% endblock %}
 {% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream";
+    phenix.redirect(url);
+  });
+
 	var s=e(window).width();
 	e("#frslide > .ui.slide > .item").width(s);
 	
@@ -198,12 +204,12 @@
 		<div class="middle aligned row">
 			<div class="twelve wide column">
 				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_domain }}/dream" class="ui link item">首页</a>
-					<a href="{{ app_url_domain }}/about2" class="ui link {{ css_index }} item">活动介绍</a>
-					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">入围作品</a>
-					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_social }}/dream2" class="ui link item">首页</a>
+					<a href="{{ app_url_social }}/about2" class="ui link {{ css_index }} item">活动介绍</a>
+					<a href="{{ app_url_social }}/dream#judges" class="ui link item">入围作品</a>
+					<a href="{{ app_url_social }}/allist2" class="ui link {{ css_allist }} item">全部作品</a>
 					<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">话题讨论</a>
-					<a href="{{ app_url_domain }}/dream2#coop" class="ui link item" target="_blank">合作资源</a>
+					<a href="{{ app_url_social }}/dream2#coop" class="ui link item" target="_blank">合作资源</a>
 				</div>
 			</div>
 			<div class="right aligned four wide column">
