@@ -47,7 +47,7 @@ app.cache.memcached.default:
       weight: 1
 
 # 十万火计
-app.topic.dream_category_id: 64
+app.topic.dream_category_id: 9
 
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
