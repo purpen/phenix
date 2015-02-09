@@ -447,41 +447,10 @@
 	}
 	
 	.ui.products .ui.allist .item {
-	border-bottom: 0 solid rgba(0,0,0,0);
-	box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-	background-color: #f0f0f0;
-	min-height: 320px;
-	}
-	.ui.allist .ui.four.items .item .content {
-	padding-top: 1.75em;
-	}
-	.ui.allist .ui.items .item .full.advantage {
-	display: block;
-	box-sizing: border-box;
-	max-height: 100%;
-	overflow: hidden;
-	margin-top: 0.8em;
-	min-height: 285px;
-	}
-	.ui.allist .ui.four.items .item .ui.dividing .image {
-	background-color: rgba(0,0,0,0);
-	border-radius: 0;
-	position: relative;
-	display: block;
-	box-sizing: border-box;
-	margin: 12px auto;
-	height: 200px;
-	max-height: 100%;
-	overflow: hidden;
-	}
-	.ui.allist .ui.four.items .item .ui.dividing .image img {
-	width: 100%;
-	}
-	.ui.allist .ui.items .item .like {
-	font-size: 0.875em;
-	}
-	.ui.allist .ui.items .item .like {
-	font-size: 0.875em;
+		border-bottom: 0 solid rgba(0,0,0,0);
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		background-color: #f0f0f0;
+		min-height: 320px;
 	}
 	
 	.right.nav{
@@ -516,6 +485,56 @@
 		-webkit-transition-duration: .3s;
 		-o-transition-duration: .3s;
 	}
+	
+	
+	.ui.allist .ui.four.items .item .content{
+		padding-top:1.75em;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing .image{
+		background-color: rgba(0,0,0,0);
+		border-radius: 0;
+		position: relative;
+		display: block;
+		box-sizing: border-box;
+		margin: 12px auto;
+		max-height: 100%;
+		overflow: hidden;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing .image img{
+		width:100%;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing.header{
+		border-bottom: 1px solid rgba(0,0,0,0); 
+		overflow: hidden;
+		-webkit-text-overflow: ellipsis;
+		-moz-text-overflow: ellipsis;
+		-ms-text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+		text-overflow: ellipsis;
+		margin-bottom: 14px;
+		height: 327px;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing.header a.ui.link{
+		white-space: nowrap;
+	}
+	.ui.allist .ui.four.items .item .i-stats .schedule{
+		border-top: 1px solid rgba(0,0,0,.1);
+	}
+	.ui.allist .ui.four.items .item .i-stats .schedule .status{
+		max-height: 30px;
+	}
+	.ui.allist .ui.items .item .full.advantage {
+		display: block;
+		box-sizing: border-box;
+		overflow: hidden;
+		margin-top: 0.8em;
+	}
+	.ui.allist .ui.items .item .like {
+		font-size: 0.875em;
+	}
+	
+	
+	
 </style>
 {% endblock %}
 {% block jquery %}
@@ -920,141 +939,86 @@
 			<div class="column">
 				<div class="ui four items">
 					
-					<div class="item">
-						<div class="content">
-							<h4 class="ui dividing header">
-								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
-									空间节约变形桌
-								</a>
-																	<div class="image">
-									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
-								</div>
-								<div class="advantage">
-									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
-								</div>
-																</h4>
-							<div class="schedule">
-								<div class="status clearfix">
-									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
-									</a>
-									<span class="count">
-										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-											15120070751
-										</a>
-									</span>
-									<span class="like">
-										<i class="heart icon"></i>
-										<span class="count">1</span>
-										<i class="unhide icon"></i>
-										<span class="count">696</span>
-									</span>
-								</div>
-							</div>
+					<div class="item"> 
+				   <div class="content"> 
+				    <h4 class="ui dividing header"> <a class="ui link" href="http://dev.taihuoniao.com/topic/view-101510-1.html" target="_blank"> 养生挂坠 </a> 
+				     <div class="image"> 
+				      <img src="http://frbird.qiniudn.com/topic/141208/54857cf7621e19f47a8b644b-2-me.jpg" alt="养生挂坠" /> 
+				     </div> 
+				     <div class="advantage">
+				       中国人对挂坠的喜好自古有之，我国古代就以挂坠作为护身符，驱灾避险。养生挂坠以血龙木为材质，血龙木是树木之王，有王者木之称号，血龙木众树之... 
+				     </div> </h4> 
+						<div class="i-stats">
+				    	<div class="schedule"> 
+					     <div class="status clearfix"> 
+					      <a class="ui avatar image" href="http://dev.taihuoniao.com/user/80570/" target="_blank"> <img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="M698" /> </a> 
+					      <span class="count"> <a class="ui small link" href="http://dev.taihuoniao.com/user/80570/" target="_blank"> M698 </a> </span> 
+					      <span class="like"> <i class="heart icon"></i> <span class="count">1</span> <i class="unhide icon"></i> <span class="count">29</span> </span> 
+					     </div> 
+					    </div> 
 						</div>
-					</div>
+				   </div> 
+				  </div>
 					
-					<div class="item">
-						<div class="content">
-							<h4 class="ui dividing header">
-								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
-									空间节约变形桌
-								</a>
-																	<div class="image">
-									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
-								</div>
-								<div class="advantage">
-									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
-								</div>
-																</h4>
-							<div class="schedule">
-								<div class="status clearfix">
-									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
-									</a>
-									<span class="count">
-										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-											15120070751
-										</a>
-									</span>
-									<span class="like">
-										<i class="heart icon"></i>
-										<span class="count">1</span>
-										<i class="unhide icon"></i>
-										<span class="count">696</span>
-									</span>
-								</div>
-							</div>
+					<div class="item"> 
+				   <div class="content"> 
+				    <h4 class="ui dividing header"> <a class="ui link" href="http://dev.taihuoniao.com/topic/view-101511-1.html" target="_blank"> 无声闹钟，睡眠的好伙伴 无声闹钟，睡眠的好伙伴 </a> 
+				     <div class="full advantage">
+				       遇到的问题：睡觉不想起来，闹钟响起又关掉继续睡觉，又或者任它响个四五次。才及不情愿的爬起来。解决的想法：这是一个晴朗凉快的夏日，一上午不停的工作让我非常疲惫，于是饭后我尽快躺在了我的无声闹钟床上，并且设定睡眠时间九十分钟。休息的时间总是那么的短暂，九十分钟到了，（与以往不同的是烦躁吵闹的闹钟来突然打破我的美梦）无声闹钟立刻启动了它该用的服务，整个床由原来的0度，慢慢整体一端提高，到达它指定的75度，在这个过程中由于床的提高，人也慢慢的竖起来，并且双脚开始受力，整个人由原来的睡眠状态到自然的清醒状态。于是我又精神饱满的开始走向我的未来。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;nbs... 
+				     </div> </h4> 
+						<div class="i-stats">
+				    	<div class="schedule"> 
+					     <div class="status clearfix"> 
+					      <a class="ui avatar image" href="http://dev.taihuoniao.com/user/21596/" target="_blank"> <img src="http://frbird.qiniudn.com/avatar/141204/54802988621e194f648b5454-avn.jpg" alt="不要镜面模糊双眼" /> </a> 
+					      <span class="count"> <a class="ui small link" href="http://dev.taihuoniao.com/user/21596/" target="_blank"> 不要镜面模糊双眼 </a> </span> 
+					      <span class="like"> <i class="heart icon"></i> <span class="count">0</span> <i class="unhide icon"></i> <span class="count">32</span> </span> 
+					     </div> 
+					    </div> 
 						</div>
-					</div>
+				   </div> 
+				  </div>
 					
-					<div class="item">
-						<div class="content">
-							<h4 class="ui dividing header">
-								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
-									空间节约变形桌
-								</a>
-																	<div class="image">
-									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
-								</div>
-								<div class="advantage">
-									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
-								</div>
-																</h4>
-							<div class="schedule">
-								<div class="status clearfix">
-									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
-									</a>
-									<span class="count">
-										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-											15120070751
-										</a>
-									</span>
-									<span class="like">
-										<i class="heart icon"></i>
-										<span class="count">1</span>
-										<i class="unhide icon"></i>
-										<span class="count">696</span>
-									</span>
-								</div>
-							</div>
+					<div class="item"> 
+				   <div class="content"> 
+				    <h4 class="ui dividing header"> <a class="ui link" href="http://dev.taihuoniao.com/topic/view-101510-1.html" target="_blank"> 养生挂坠 </a> 
+				     <div class="image"> 
+				      <img src="http://frbird.qiniudn.com/topic/141208/54857cf7621e19f47a8b644b-2-me.jpg" alt="养生挂坠" /> 
+				     </div> 
+				     <div class="advantage">
+				       
+				     </div> </h4> 
+						<div class="i-stats">
+				    	<div class="schedule"> 
+					     <div class="status clearfix"> 
+					      <a class="ui avatar image" href="http://dev.taihuoniao.com/user/80570/" target="_blank"> <img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="M698" /> </a> 
+					      <span class="count"> <a class="ui small link" href="http://dev.taihuoniao.com/user/80570/" target="_blank"> M698 </a> </span> 
+					      <span class="like"> <i class="heart icon"></i> <span class="count">1</span> <i class="unhide icon"></i> <span class="count">29</span> </span> 
+					     </div> 
+					    </div> 
 						</div>
-					</div>
+				   </div> 
+				  </div>
 					
-					<div class="item">
-						<div class="content">
-							<h4 class="ui dividing header">
-								<a class="ui link" href="http://www.taihuoniao.com/topic/view-102304-1.html" target="_blank">
-									空间节约变形桌
-								</a>
-																	<div class="image">
-									<img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌">
-								</div>
-								<div class="advantage">
-									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
-								</div>
-																</h4>
-							<div class="schedule">
-								<div class="status clearfix">
-									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
-									</a>
-									<span class="count">
-										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-											15120070751
-										</a>
-									</span>
-									<span class="like">
-										<i class="heart icon"></i>
-										<span class="count">1</span>
-										<i class="unhide icon"></i>
-										<span class="count">696</span>
-									</span>
-								</div>
-							</div>
+					<div class="item"> 
+				   <div class="content"> 
+				    <h4 class="ui dividing header"> <a class="ui link" href="http://dev.taihuoniao.com/topic/view-101510-1.html" target="_blank"> 养生挂坠 </a> 
+				     <div class="image"> 
+				      <img src="http://frbird.qiniudn.com/topic/141208/54857cf7621e19f47a8b644b-2-me.jpg" alt="养生挂坠" /> 
+				     </div> 
+				     <div class="advantage">
+				       中国人对挂坠的喜好自古有之，我国古代就以挂坠作为护身符，驱灾避险。养生挂坠以血龙木为材质，血龙木是树木之王，有王者木之称号，血龙木众树之... 
+				     </div> </h4> 
+						<div class="i-stats">
+				    	<div class="schedule"> 
+					     <div class="status clearfix"> 
+					      <a class="ui avatar image" href="http://dev.taihuoniao.com/user/80570/" target="_blank"> <img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="M698" /> </a> 
+					      <span class="count"> <a class="ui small link" href="http://dev.taihuoniao.com/user/80570/" target="_blank"> M698 </a> </span> 
+					      <span class="like"> <i class="heart icon"></i> <span class="count">1</span> <i class="unhide icon"></i> <span class="count">29</span> </span> 
+					     </div> 
+					    </div> 
 						</div>
-					</div>
+				   </div> 
+				  </div>
 					
 					
 					
