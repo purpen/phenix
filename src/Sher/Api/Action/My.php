@@ -204,6 +204,37 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+	/**
+	 * 取消订单
+	 */
+	public function cancel_order(){
+		$rid = $this->stash['rid'];
+    $user_id = $this->current_user_id;
+		if (empty($rid)) {
+			return $this->api_json('缺少请求参数！', 3000);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+    //订单不存在
+    if(empty($order_info)){
+ 			return $this->api_json('订单不存在！', 3001);   
+    }
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+ 			return $this->api_json('该订单出现异常，请联系客服！', 3002);   
+		}
+		try {
+			// 关闭订单
+			$model->canceled_order($order_info['_id']);
+    } catch (Sher_Core_Model_Exception $e) {
+ 		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3003);   
+    }
+		
+		$orders = $model->find_by_rid($rid);
+ 		return $this->api_json('操作成功！', 0, $orders); 
+	}
 	
 }
 ?>
