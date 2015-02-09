@@ -44,6 +44,7 @@ app.dispatcher.result.map:
 app.dispatcher.interceptors.run:
   - Doggy_Dispatcher_Interceptor_Parameters
   - Doggy_Dispatcher_Interceptor_UploadSupport
+  - Sher_Core_Interceptor_ValidSign
   - Sher_Core_Interceptor_XSession
   - DoggyX_Interceptor_BeforeInvoke
 
