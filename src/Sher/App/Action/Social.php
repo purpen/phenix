@@ -48,10 +48,10 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	public function dream2(){
 		$this->set_target_css_state('index');
 		
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream2_category_id'];
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
 
-		$this->stash['start_time'] = mktime(0,0,0,2,6,2015);
-		$this->stash['end_time'] = mktime(23,59,59,3,20,2015);
+		$this->stash['start_time'] = mktime(0,0,0,2,8,2015);
+		$this->stash['end_time'] = mktime(23,59,59,4,30,2015);
 		
 		return $this->to_html_page('match/match2.html');
 	}
@@ -61,7 +61,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
   public function about2() {
 		$this->set_target_css_state('about');
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream2_category_id'];
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
 		return $this->to_html_page('match/about2.html');
 	}
 	
@@ -95,10 +95,10 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.social', 'allist2').$page;
 		$this->stash['pager_url'] = $pager_url;
 		
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream2_category_id'];
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
 		
-		$this->stash['start_time'] = mktime(0,0,0,10,28,2014);
-		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
+		$this->stash['start_time'] = mktime(0,0,0,2,8,2015);
+		$this->stash['end_time'] = mktime(23,59,59,4,30,2015);
 		return $this->to_html_page('match/list2.html');
 	}
 	
