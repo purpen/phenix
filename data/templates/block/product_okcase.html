@@ -20,7 +20,7 @@
 			</a>
 			<div class="advantage">{{ product.advantage }}</div>
 			<div class="result">
-				众筹金额：<span class="count">{{ product.presale_money }}</span>元 支持人数：<span class="count">{{ product.presale_people }}</span> 达成率：<span class="count">{{ product.presale_percent }}％</span>
+				众筹金额：<span class="count">{{ product.presale_money }}</span>元 支持人数：<span class="count">{{ product.presale_people|default 0 }}</span> 达成率：<span class="count">{{ product.presale_percent }}％</span>
 			</div>
 		</h4>
 		<div class="schedule p-sell">

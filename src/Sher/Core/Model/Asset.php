@@ -62,7 +62,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
         'width' => 0,
         'height' => 0,
 		'mime' => null,
-    'desc'  =>  null,
+    	'desc'  =>  null,
 		
 		## 缩略图组
 		/*

@@ -2,7 +2,7 @@
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+	
 </style>
 {% endblock %}
 
@@ -69,19 +69,18 @@
 </div>
 {% endif %}
 
-<div class="shop list" id="shoplist">
+<div class="shop list" id="shopindex">
 	<div class="product newest list">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui black header">
-						首发新品
-						<div class="ui divided horizontal sticklink list">
-						  	<div class="item">
-								<a href="{{ app_url_shop }}/c0?presale=1" class="ui link" title="预售">预售</a>
-							</div>
-						</div>
-					</h3>
+					<h2 class="block title">
+						首发新品 <small><a href="{{ app_url_shop }}/c0?presale=1" class="ui link" title="预售">预售</a></small>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
 					{% product_list var:'newest' page:1 process_presaled:1 only_approved:1 only_onsale:1 size:3 sort:'stick:latest' %}
 					{% if newest.rows %}
 					<div class="ui three items">
@@ -100,17 +99,19 @@
 		<div class="ui responsive grid">
 			<div class="middle aligned row">
 				<div class="ten wide column">
-					<h3 class="ui black header">
-						热门推荐
-						{% category_list var:'category' only_open:1 domain:domain show_all:1 %}
-						<div class="ui divided horizontal sticklink list">
-							{% for cat in category.rows %}
-						  	<div class="item">
-								<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					<h2 class="block title">
+						热门推荐 
+						<small>
+							{% category_list var:'category' only_open:1 domain:domain show_all:1 %}
+							<div class="ui divided horizontal sticklink list">
+								{% for cat in category.rows %}
+							  	<div class="item">
+									<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+								</div>
+								{% endfor %}
 							</div>
-							{% endfor %}
-						</div>
-					</h3>
+						</small>
+					</h2>
 				</div>
 				<div class="six wide right aligned column">
 					<a class="ui small black basic button" href="{{ app_url_domain }}/shop/c0">更多</a>
@@ -133,13 +134,17 @@
 	
 	<!--案例推荐-->
 	<div class="product okcase list">
-		<div class="ui responsive grid">	
+		<div class="ui responsive grid">
 			<div class="row">
-				<div class="column section-title">
-					<h3 class="ui black header">
+				<div class="column">
+					<h2 class="block title">
 						成功案例
 						<small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
-					</h3>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
 					{% product_list var:'best' page:1 only_approved:1 only_onsale:1 size:3 only_okcase:1 sort:'stick:latest' %}
 					{% if best.rows %}
 					<div class="ui three items">
