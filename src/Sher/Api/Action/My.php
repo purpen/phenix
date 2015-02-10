@@ -3,14 +3,12 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_My extends Sher_Api_Action_Base {
+class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	public $stash = array(
 		'page' => 1,
 		'size' => 5,
 		'type' => 1,
 	);
-
-	protected $exclude_method_list = array('execute', 'upload_token', 'update_avatar', 'update_profile', 'favorite');
 	
 	/**
 	 * 入口
