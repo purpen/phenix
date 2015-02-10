@@ -15,7 +15,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 
 			$current_user_id = $request->get('current_user_id');
 			if($current_user_id == 0){
-				return $this->deny_anonymous($action);
+				//return $this->deny_anonymous($action);
 			}
 			
 			$stash = $action->stash;
@@ -23,14 +23,14 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 			$sign = $action->sign;
 
       if(empty($client_id) || empty($sign)){
-        return $this->mismatch_sign($action);
+        //return $this->mismatch_sign($action);
       }
 
 			// 验证签名
 			$valid_sign = $this->get_signature($stash, $client_id);
 			Doggy_Log_Helper::warn("Request sign: $sign & valid sign: $valid_sign!");
 			if($sign != $valid_sign){
-				return $this->mismatch_sign($action);
+				//return $this->mismatch_sign($action);
 			}
         }
 		

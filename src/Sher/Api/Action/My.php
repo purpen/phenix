@@ -5,9 +5,7 @@
  */
 class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	public $stash = array(
-		'page' => 1,
-		'size' => 5,
-		'type' => 1,
+
 	);
 	
 	/**
@@ -21,6 +19,15 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 * 客户端上传Token
 	 */
 	public function upload_token(){
+
+    Doggy_Log_Helper::warn('begnin.......');
+    $file = base64_decode($this->stash['tmp']);
+    Doggy_Log_Helper::warn($file);
+    $image_info = Sher_Core_Util_Image::image_info($file);
+    Doggy_Log_Helper::warn($image_info['format']);
+    if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+		  return $this->api_json('图片格式不正确！', 3001);
+    }
 		$type = (int)$this->stash['type'];
 		
 		switch($type){
@@ -131,10 +138,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 * 我的收藏
 	 */
 	public function favorite(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
 		
-		$type = (int)$this->stash['type'];
+		$type = isset($this->stash['type'])?(int)$this->stash['type']:1;
 		$user_id = $this->current_user_id;
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
