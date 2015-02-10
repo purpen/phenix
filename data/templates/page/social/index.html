@@ -1,19 +1,264 @@
-{%extends 'layout/board.html'%}
-{% block title %}提交创意-{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}发现-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+	
+</style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
+	$('.special.cards .image').dimmer({
+	  on: 'hover'
+	});
+	
+	$('#sticktopic .list .item').tab({
+	    context: $('#sticktopic')
+	});
 {% endblock %}
 
 
 {% block content %}
-<div class="social">
+<div class="shop submenu">
 	<div class="ui responsive grid">
-		<div class="ui column">
-			社区
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
 		</div>
 	</div>
 </div>
+
+<div class="social slide">
+	<div class="ui responsive compact grid">
+		<div class="row">
+			<div class="ten wide column">
+				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
+				{% if ad %}
+				<div class="slide content">
+					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+					</a>
+				</div>
+				{% endif %}
+			</div>
+			<div class="six wide column">
+				{% ad_list var:'stkad' page:1 size:2 name:'shop_home_stick' state:2 %}
+				{% if stkad.total_rows %}
+					{% for skad in stkad.rows %}
+					<div class="ui advert">
+						<a href="{{ skad.view_url }}" title="{{ skad.title }}" target="_blank">
+				      		<img src="{{ skad.cover.fileurl }}" class="ui image" alt="{{ skad.title }}" />
+						</a>
+					</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social products">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h2 class="block title">
+					产品灵感 <small>各行业专家汇聚，创造未来伟大的产品</small>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% topic_list var:'list' category_id:55 size:3 sort:0 %}
+				<div class="ui three cards">
+					{% for topic in list.rows %}
+				  	<div class="card">
+				    	<div class="image">
+				      	  	<img src="{{ topic.cover.thumbnails.md.view_url }}" />
+				    	</div>
+				    	<div class="content">
+				      	  	<div class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">{{ topic.title|truncate 60 }}</a>
+							</div>
+				      	  	<div class="description">
+				        		{{ topic.strip_description|truncate 70 }}
+				      	  	</div>
+				    	</div>
+				    	<div class="extra content">
+				      	  	<a class="right floated created">
+				        		<i class="heart icon"></i>{{ topic.love_count }} <i class="user icon"></i>{{ topic.view_count }}
+							</a>
+							<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" class="ui avatar image" /> {{ topic.user.nickname }}
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social topic" id="sticktopic">
+	<div class="ui responsive grid">
+		<div class="two column middle aligned row">
+			<div class="column">
+				<div class="ui horizontal divided subcate list">
+					<a class="item active" data-tab="featured">精选话题</a>
+					<a class="item" data-tab="newest">最新话题</a>
+				</div>
+			</div>
+			<div class="right aligned column">
+				<a href="{{ app_url_action_base }}/topic/submit" class="ui black button">
+					<i class="add icon"></i> 发表话题
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui tab active segment" data-tab="featured">
+					<table class="ui basic topic striped table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>浏览数</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% if dig_list %}
+							{% for dig in dig_list %}
+								{% if dig %}
+								<tr>
+									<td class="hide-on-mobile avatar">
+										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
+								      		<img src="{{ dig.user.small_avatar_url }}" alt="{{ dig.user.nickname }}" />
+										</a>
+									</td>
+									<td class="ten wide">
+								      	<h3 class="title">
+											<a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui line link">{{ dig.title|truncate 60 }}</a>
+										</h3>
+								      	<div class="content">
+											<div class="attribute">
+												<span class="category"><a href="{{ dig.category.view_url }}" class="ui link">{{ dig.category.title }}</a></span> | 
+												<span class="author">
+													<a href="{{ dig.user.home_url }}" class="ui magenta link">@{{ dig.user.nickname }}</a>  <i class="time icon"></i>{{ dig.created_on|relative_datetime }} 发表
+												</span>
+											</div>
+											{% if !dig.asset_count %}
+												<div class="description">
+													{{ dig.strip_description|truncate 140 }}
+												</div>
+											{% else %}
+												{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 sort:'positive' %}
+												<!--展示图片-->
+												<div class="ui mini images">
+													{% if dig.cover %}
+													<img class="ui image" src="{{ dig.cover.thumbnails.tiny.view_url }}" />
+													{% endif %}
+													{% for asset in assets.rows %}
+														{% if dig.cover._id != asset._id %}
+													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+														{% endif %}
+													{% endfor %}
+												</div>
+												<div class="ui center aligned count text">
+													<small>12张图片</small>
+												</div>
+											{% endif %}
+								      	</div>
+									</td>
+									<td class="hide-on-mobile">
+										{% if dig.last_user %}
+										<a class="ui link" href="{{ dig.last_user.home_url }}" title="{{ dig.last_user.nickname }}">
+									  		<img src="{{ dig.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ dig.last_user.nickname }}" />
+										</a>
+										回复于{{ dig.last_reply_time|relative_datetime }}
+										{% endif %}
+									</td>
+									<td class="hide-on-mobile">
+										<a href="{{ dig.view_url }}#comment" class="dot-irecommend">
+											<span class="dot-irecommend-count">{{ dig.view_count }}</span> 
+											<span class="dot-irecommend-suffix"></span>
+										</a>
+									</td>
+								</tr>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="ui tab segment" data-tab="newest">
+					<table class="ui basic topic striped table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>浏览数</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% topic_list var:'list' time:0 sort:0 %}
+							{% for topic in list.rows %}
+								{% if !topic.top %}<!--过滤置顶帖子-->
+									{% include "block/topic_item.html" %}
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social people">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h2 class="block title">
+					资深专家 <small>超过 2000个行业专家在创造未来</small>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% user_list var:'users' only_ok:1 size:10 sort:'time' %}
+				<div class="ui special five cards">
+					{% for user in users.rows %}
+				  	<div class="card">
+				    	<div class="dimmable image">
+				      	  	<div class="ui dimmer">
+				        		<div class="content">
+				          		  	<div class="center">
+				            			<div class="ui inverted button">+ 关注</div>
+				          		  	</div>
+				        		</div>
+				      	  	</div>
+				      	  	<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" />
+				    	</div>
+				    	<div class="content">
+				      	  	<a class="header">{{ user.nickname }}</a>
+				      	  	<div class="meta">
+				        		<span class="date">{{ user.profile.job }}</span>
+				      	  	</div>
+				    	</div>
+				    	<div class="extra content">
+				      	  	<a>
+				        		<i class="users icon"></i>
+				        		2 个好友
+				      	  	</a>
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

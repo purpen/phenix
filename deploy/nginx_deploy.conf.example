@@ -207,7 +207,7 @@ server {
         }
 		
         location /dream {
-            rewrite ^/dream(.*)$ /app/site/social/$1 last;
+            rewrite ^/dream(.*)$ /app/site/social/dream/$1 last;
         }
 		
         location /api {
