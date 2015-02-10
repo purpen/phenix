@@ -11,7 +11,27 @@
 	.two-nav{
 		background:#f4f4f4;
 	}
-	
+	.ui.try .ui.three.items .magenta.item .image+.content{
+			margin-left: 0;
+			padding: 10px !important;
+			padding-bottom: 55px !important;
+			height: 140px;
+	}
+	.ui.try .i-stats {
+		position: absolute;
+		padding-top: 25px;
+		bottom: 10px;
+		left: 10px;
+		right: 10px;
+		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
+	}
+	.ui.try .i-stats .trycm{
+		padding-top: 10px;
+		border-top: 1px solid rgba(0,0,0,.1);
+	}
+	.ui.try .i-stats .trycm .name{
+		margin-bottom: .3em;
+	}
 </style>
 {% endblock %}
 
@@ -71,17 +91,21 @@
 									</a>
 								</div>
 								<div class="content">
-									<h4 class="ui dividing header">
+									<h4 class="ui header">
 										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
 											{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
 										</a>
 										<div class="advantage">{{ t.description }}</div>
 									</h4>
-									<div class="name">
-										产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
-									</div>
-									<div class="ui text result">
-										<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
+									<div class="i-stats">
+										<div class="trycm">
+											<div class="name">
+												产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
+											</div>
+											<div class="ui text result">
+												<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
