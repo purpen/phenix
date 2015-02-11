@@ -34,6 +34,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		$sex = 0;
 		// 用户推荐
 		$last_login = 0;
+    //是否验证好友关系
+    $has_ship = 0;
+    //传入当前用户
+    $current_user_id = 0;
 		
         $search_id = 0;
         $search_passport = 0;
@@ -138,7 +142,19 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
             $service = Sher_Core_Service_User::instance();
             $result = $service->get_user_list($query, $options);
         }
-		
+
+        // 验证关注关系
+        if($has_ship){
+          if(!empty($result['rows'])){
+            $ship = new Sher_Core_Model_Follow();
+
+            for($i=0;$i<count($result['rows']);$i++){
+              $is_ship = $ship->has_exist_ship((int)$current_user_id, $result['rows'][$i]['_id']);
+              $result['rows'][$i]['is_ship'] = $is_ship;
+            }
+            unset($ship);
+          }
+		    }
         $context->set($var,$result);
 		
         if ($include_pager) {

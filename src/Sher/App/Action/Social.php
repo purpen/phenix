@@ -48,6 +48,13 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		}
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
+
+    //传入当前用户
+    if ($this->visitor->id){
+      $this->stash['current_user_id'] = $this->visitor->id;
+    }else{
+      $this->stash['current_user_id'] = 0;  
+    }
 		
 		return $this->to_html_page('page/social/index.html');
 	}
