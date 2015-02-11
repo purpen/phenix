@@ -21,12 +21,16 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	public function upload_token(){
 
     Doggy_Log_Helper::warn('begnin.......');
-    $file = base64_decode($this->stash['tmp']);
+    if(empty($this->stash['tmp'])){
+ 		  return $this->api_json('请选择图片！', 3001);  
+    }
+    $file = base64_decode(str_replace('data:image/png;base64,', '', $this->stash['tmp']));
     Doggy_Log_Helper::warn($file);
     $image_info = Sher_Core_Util_Image::image_info($file);
     Doggy_Log_Helper::warn($image_info['format']);
+    Doggy_Log_Helper::warn($image_info['format']);
     if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-		  return $this->api_json('图片格式不正确！', 3001);
+		  return $this->api_json('图片格式不正确！', 3002);
     }
 		$type = (int)$this->stash['type'];
 		

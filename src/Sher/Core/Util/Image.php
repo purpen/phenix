@@ -347,7 +347,6 @@ class Sher_Core_Util_Image {
       }catch(Exception $e){
         echo $e->getMessage();exit;
       }
-        $gm = new Gmagick($file);
 		
 		$info = array();
 		$info['width'] = $gm->getimagewidth();
