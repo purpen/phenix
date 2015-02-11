@@ -1,0 +1,147 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}十万火计 第2季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+		margin-top: 0;
+	}
+	.match-app body{
+		background:#fff;
+	}
+	.match-app .ui.big.block{
+		padding-top:2.5em;
+	}
+	.match-app .ui.header{
+		font-weight: 400;
+	}
+	.match-app .ui.products{
+		padding:2.5em auto;
+	}
+	.match-app .ui.products .ui.magenta.active.btn{
+		background:#ffde00;
+		color: #5e5e5e;
+	}
+	.match-app .ui.products .ui.magenta.btn {
+	border-color: #ffde00;
+	}
+	
+	.match-app .ui.products.block .ui.items > .item {
+	    border-radius: 0.3125em;
+	}
+	.match-app .ui.products.block .ui.items > .item a.link {
+		display: inline-block;
+	    margin-bottom: 0.5em;
+	}
+	.match-app .ui.products.block .ui.items > .item .advantage {
+	    color: rgba(0, 0, 0, 0.6);
+	    font-size: 14px;
+	    line-height: 1.2;
+	    margin-top: 0.5em;
+		margin-bottom: 0.5em;
+	}
+	.match-app .ui.btn {
+		border-radius: 0.3125em;
+	}
+
+	.idea.section-title {
+		margin-bottom: 1.5em;
+	}
+	.idea.section-title h3,
+	.idea.section-title p {
+		margin-bottom: 0.5rem;
+	}
+	.idea.section-title p {
+		margin-top: 0.5rem;
+		font-size: 1.175em;
+	}
+	.idea.section-title hr {
+		background: none repeat scroll 0 0 #ff3366;
+	    border: medium none;
+	    height: 1px;
+	    margin: 0 auto;
+	    width: 80px;
+	}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="match-app">
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui magenta horizontal divided list">
+						<a href="{{ app_url_wap }}/dream2" class="ui link {{ css_index }} item">首页</a>
+						<a href="{{ app_url_wap }}/dream/allist2" class="ui link {{ css_allist }} item">全部作品</a>
+						<a href="{{ app_url_wap }}/social/c23/" class="ui link item" target="_blank">社区话题</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+	<section class="ui big products block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+				
+					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:page size:12 %}
+					<div class="ui one items">
+						{% for topic in list.rows %}
+						<div class="item">
+							<div class="content">
+								<h4 class="ui dividing header">
+									<a class="ui link" href="{{ topic.wap_view_url }}" target="_blank">
+										{{ topic.title|truncate 32 }}
+									</a>
+									{% if topic.cover %}
+									<div class="image">
+										<img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" class="ui image" />
+									</div>
+									<div class="advantage">
+										{{ topic.strip_description|truncate 140 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ topic.strip_description|truncate 280 }}
+									</div>
+									{% endif %}
+								</h4>
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
+								      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
+												{{ topic.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ topic.view_count }}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					{% if list.total_page %}
+					<div class="ui pagination">
+						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+						{% include 'block/pager.html' %}
+					</div>
+					{% endif %}
+				<div>
+			</div>	
+		</div>
+	</section>
+</div>
+{% endblock %}
