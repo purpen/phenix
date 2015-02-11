@@ -180,9 +180,16 @@
 						<p>
 							<small>（运费：{{ item.order.freight }} 元）</small>
 						</p>
-						<p>
-							{{ item.order.payment.name }}
-						</p>
+            <p>
+              {% if admin %}
+                {% if item.order.card_code %}
+                  红包码: {{ item.order.card_code }}
+                {%endif%}
+                {% if item.order.gift_code %}
+                  礼品券: {{ item.order.gift_code }}
+                {%endif%}
+              {% endif %}
+            </p>
 					</div>
 					<div class="center aligned three wide column">
 						<div id="order-{{ item.order.rid }}-label" class="status-label">

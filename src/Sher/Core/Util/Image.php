@@ -357,6 +357,40 @@ class Sher_Core_Util_Image {
 		
         return $info;
 	}
+
+	/**
+	 * Read image string(binary) info(formate,size)---for api
+	 *
+	 * @param string $file 
+	 * @return array
+	 */
+	public static function image_info_binary($str) {
+    if (empty($str)) {
+      $info['stat'] = 0;
+      $info['msg'] = '获取图像失败!';
+      return $info;
+    }
+    try{
+      $gm = new Gmagick();
+      $img = $gm->readimageblob();
+    }catch(Exception $e){
+      $info['stat'] = 0;
+      $info['msg'] = '获取图像失败!'.$e->getMessage();
+      return $info;
+    }
+    $info = array();
+    if($img){
+      $info['stat'] = 1;
+      $info['width'] = $gm->getimagewidth();
+      $info['height'] = $gm->getimageheight();
+      $info['format'] = $gm->getimageformat();    
+    }else{
+      $info['stat'] = 0;
+      $info['msg'] = '获取图像失败!';
+    }
+    $gm->destroy();
+    return $info;
+	}
 	
 	/**
 	 * 等宽生成照片

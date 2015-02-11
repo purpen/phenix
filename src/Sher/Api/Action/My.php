@@ -20,17 +20,18 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 */
 	public function upload_token(){
 
-    Doggy_Log_Helper::warn('begnin.......');
+    Doggy_Log_Helper::warn('api begnin.save img......');
     if(empty($this->stash['tmp'])){
  		  return $this->api_json('请选择图片！', 3001);  
     }
-    $file = base64_decode(str_replace('data:image/png;base64,', '', $this->stash['tmp']));
-    Doggy_Log_Helper::warn($file);
-    $image_info = Sher_Core_Util_Image::image_info($file);
-    Doggy_Log_Helper::warn($image_info['format']);
+    $file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
+    $image_info = Sher_Core_Util_Image::image_info_binary($file);
+    if($image_info['stat']==0){
+      return $this->api_json($image_info['msg'], 3002);
+    }
     Doggy_Log_Helper::warn($image_info['format']);
     if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-		  return $this->api_json('图片格式不正确！', 3002);
+		  return $this->api_json('图片格式不正确！', 3003);
     }
 		$type = (int)$this->stash['type'];
 		
@@ -43,7 +44,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 				$domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
 				$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
 				break;
-			case 4:
+			case 3:
 				$domain = Sher_Core_Util_Constant::STROAGE_AVATAR;
 				$asset_type = Sher_Core_Model_Asset::TYPE_AVATAR;
 				break;
