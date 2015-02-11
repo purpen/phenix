@@ -155,19 +155,18 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 */
 	public function submit(){
 		$user_id = $this->current_user_id;
-		$id = (int)$this->stash['_id'];
+		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
+    $data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
-		$data['asset'] = $this->stash['asset'];
+		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
-		if(empty($user_id) || empty($data['title']) || empty($data['description'])){
+		if(empty($data['title']) || empty($data['description']) || empty($data['category_id'])){
 			return $this->api_json('请求参数不能为空', 3000);
 		}
-		
-		$data['category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
 		
 		try{
 			$model = new Sher_Core_Model_Topic();
@@ -201,8 +200,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 				$this->update_batch_assets($data['asset'], $id);
 			}*/			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
-			return $this->api_json('创意保存失败:'.$e->getMessage(), 4001);
+			Doggy_Log_Helper::warn("api主题保存失败：".$e->getMessage());
+			return $this->api_json('主题保存失败:'.$e->getMessage(), 4001);
 		}
 		
 		return $this->api_json('提交成功', 0, array('id'=>$id));
