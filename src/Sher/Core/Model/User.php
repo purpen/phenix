@@ -151,7 +151,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1);
 	
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
