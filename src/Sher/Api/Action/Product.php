@@ -283,15 +283,21 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			if (!$model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->cancel_love($user_id, $id, $type);
-			}
+        if($ok){
+        	// 获取计数
+          $love_count = $this->remath_count($id, 'love_count');
+          return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
+        }else{
+          return $this->api_json('操作失败', 3003);
+        }
+      }else{
+        return $this->api_json('已点赞', 3004);     
+      }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
 		
-		// 获取计数
-		$love_count = $this->remath_count($id, 'love_count');
-		
-		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
+
 	}
 	
 	/**
