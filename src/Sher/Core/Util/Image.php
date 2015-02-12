@@ -372,7 +372,7 @@ class Sher_Core_Util_Image {
     }
     try{
       $gm = new Gmagick();
-      $img = $gm->readimageblob();
+      $img = $gm->readimageblob($str);
     }catch(Exception $e){
       $info['stat'] = 0;
       $info['msg'] = '获取图像失败!'.$e->getMessage();
@@ -386,7 +386,7 @@ class Sher_Core_Util_Image {
       $info['format'] = $gm->getimageformat();    
     }else{
       $info['stat'] = 0;
-      $info['msg'] = '获取图像失败!';
+      $info['msg'] = '获取图像失败.!';
     }
     $gm->destroy();
     return $info;
@@ -460,6 +460,16 @@ class Sher_Core_Util_Image {
       if (!empty($old_avatar)) {
           $asset->delete_file($old_avatar['_id']);
       }
+
+      $avatar = array(
+        'big' => $img_info['filepath'],
+        'medium' => $img_info['filepath'],
+        'small' => $img_info['filepath'],
+        'mini' => $img_info['filepath']
+      );
+      
+      $user = new Sher_Core_Model_User();
+      $ok = $user->update_avatar($avatar, $img_info['parent_id']);
             
       $result['asset'] = array(
         'id' => $avatar_id,

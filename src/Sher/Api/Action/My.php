@@ -39,7 +39,6 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		$params = array();
     $result = array();
 		$new_file_id = new MongoId();
-		$params['pid'] = (string)$new_file_id;
 		switch($type){
 			case 1:
 				$params['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
