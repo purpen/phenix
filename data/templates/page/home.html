@@ -82,12 +82,6 @@
   .ui.together.block {
     padding-bottom: 4.5rem;
   }
-  #homepage .ui.block{
-    padding-top:2.5em;
-  }
-  #homepage .ui.block .ui.grid .row+.row{
-    padding:0;
-  }
   .ui.small.vote.block {
     padding-bottom: 2.5em;
     padding-top: 0.5em !important;
@@ -98,59 +92,9 @@
   #ft {
     padding:0 0 2em;
   }
-
-  #homepage .ui.small.topic .two.column.row{
-    text-align:center;
+  #homepage .sticktopic .block.title {
+	  margin-bottom: 2rem;
   }
-  #homepage .ui.small.topic .two.column.row .column{
-    width:48.5% !important;
-  }
-  
-  #fixedslide {
-    margin-bottom: 20px;
-  	max-height: 500px;
-	height: 500px;
-    position: relative;
-  }
-  #fixedslide > .ui.slide {
-  	height: 100%;
-  	width: 100%;
-  }
-  #fixedslide > .ui.slide > .item {
-  	display: inline-block;
-	height: 100%;
-  	width: 100%;
-  	float: left;
-	position: relative;
-	background-position: center center;
-	background-repeat: no-repeat;
-  }
-  #fixedslide > .ui.slide > .item > a {
-	display: block;
-	width: 100%;
-	height: 100%;
-  }
-  #fixedslide .pages {
-  	bottom: 0.5em;
-    margin: 0 auto;
-    position: absolute;
-    width: 100%;
-  	text-align: center;
-  }
-  #fixedslide .pages > a {
-  	border: 1px solid #5f5953;
-    border-radius: 2em;
-    display: inline-block;
-    height: 0.85em;
-    margin-right: 0.65em;
-    text-indent: -999em;
-    width: 0.85em;
-  }
-  #fixedslide .pages > a.active,
-  #fixedslide .pages > a:hover {
-  	background-color: #6d6d6d;
-  }
-
 </style>
 {% endblock %}
 
@@ -166,19 +110,32 @@
 		smart: 1,
 		activateMiddle: 1,
 		activateOn: 'click',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 3500,
+		pauseOnHover: 1,
+		
+		// Dragging
 		mouseDragging: 1,
 		touchDragging: 1,
 		releaseSwing: 1,
-		startAt: 0,
+		
+		prev: "#fixedslide .prev",
+		next: "#fixedslide .next",
+		
 		pagesBar: $frame.find('.pages'),
-		pageItem: 'pages',
+		pageItem: 'items',
 		activatePageOn: 'click',
-		pageBuilder: function (index) {
-			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
 		},
+		
+		// Mixed options
+		startAt: 0,
 		speed: 300,
 		elasticBounds: 1,
-		easing: 'easeOutExpo',
+		easing: 'easeInOutExpo',
 		dragHandle: 1,
 		dynamicHandle: 1,
 		clickBar: 1,
@@ -223,9 +180,9 @@
 		</div>
 	</div>
 	<div id="fixedslide" class="frame">
-		{% ad_list var:'ad' page:1 size:5 name:'web_index_slide' %}
+		{% ad_list var:'adslide' page:1 size:6 name:'web_index_slide' %}
 		<div class="ui slide">
-			{% for ad in ad.rows %}
+			{% for ad in adslide.rows %}
 			<div class="item" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
 				<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}"><!--{{ ad.title }}--></a>
 			</div>
@@ -239,77 +196,14 @@
 			<i class="flat arrow_right icon"></i>
 		</a>
 	</div>
-	<!--
-	<div class="hero">
-		<div id="frame">
-			<ul class="slidee">
-				<li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/h-autobot.jpg'); background-color: rgb(1, 183, 176);">
-        			<div class="clearfix container">
-        				<div class="hero-main verticalize-container">
-        					<div class="verticalize">
-        						<span>用行动保卫健康 给生活多点关怀</span>
-        						<h1>手机健康屋试用</h1>
-        						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/try/view-6.html">
-        							<span>了解更多</span>
-        						</a>
-        						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/try/view-6.html">
-        							<span>免费试用</span>
-        						</a>
-       					 	</div>
-        				</div>
-        			</div>
-        		</li>
-
-        		<li class="slide-2" style="background-image: url('{{ app_url_packaged }}/images/h-love.jpg'); background-color: rgb(102, 90, 154);">
-        			<div class="clearfix container">
-        				<div class="hero-main verticalize-container">
-        					<div class="verticalize">
-        						<span>旅游户外出行好伴侣</span>
-        						<h1>JOUR CAM运动相机</h1>
-        						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121170354.html">
-        							<span>了解更多</span>
-        						</a>
-        						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121170354.html">
-        							<span>火热预定</span>
-        						</a>
-        					</div>
-        				</div>
-        			</div>
-        		</li>
-
-        		<li class="slide-3" style="background-image: url('{{ app_url_packaged }}/images/exerbike.jpg'); background-color: rgb(255, 116, 105);">
-        			<div class="clearfix container">
-        				<div class="hero-main verticalize-container">
-        					<div class="verticalize">
-        						<span>世界上最好玩的健身车</span>
-        						<h1>智能健身车</h1>
-        						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121112074.html">
-        							<span>了解更多</span>
-        						</a>
-        						<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121112074.html">
-        							<span>火热预定</span>
-        						</a>
-        					</div>
-        				</div>
-        			</div>
-        		</li>
-				
-			</ul>
-		</div>
-		<a class="prev" href="#">
-			<i class="flat arrow_left icon"></i>
-		</a>
-		<a class="next" href="#">
-			<i class="flat arrow_right icon"></i>
-		</a>
-	</div>
-	-->
 
 	<section class="ui small block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small></h3>
+					<h2 class="block title">
+						热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
+					</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -328,7 +222,9 @@
 		<div class="ui responsive grid" id="votelist">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small></h3>
+					<h2 class="block title">
+						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
+					</h2>
 				</div>
 			</div>
 			<div class="content row">
@@ -353,12 +249,16 @@
 	</section>
 	
 	<section class="ui small topic white background block">
-		<div class="ui responsive grid">
+		<div class="ui responsive sticktopic grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">社区话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small></h3>
+					<h2 class="block title">
+						社区话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
+					</h2>
 				</div>
 			</div>
+		</div>
+		<div class="ui responsive compact grid">
 			<div class="two column row">
 				<div class="column">
 					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
@@ -380,7 +280,7 @@
 					  	<div class="item">
 							<div class="right floated compact ui label">{{ topic.view_count }}</div>
 					    	<div class="content">
-					      	  	<a class="ui header link" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
+					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
 					      		<div class="description">
 									<ul class="ui horizontal bulleted link list">
 										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
@@ -480,8 +380,10 @@
 	<section class="ui big succase block">
 		<div class="ui responsive grid">
 			<div class="row">
-				<div class="column section-title">
-					<h3 class="ui header">成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small></h3>
+				<div class="column">
+					<h2 class="block title">
+						成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
+					</h2>
 				</div>
 			</div>
 			<div class="row">
