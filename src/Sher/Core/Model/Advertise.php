@@ -24,6 +24,9 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
         'web_url' => '',
 		'summary' => '',
 		
+		# 背景色
+		'bgcolor' => '',
+		
 		# 类型
 		'type' => self::TYPE_URL,
 		
@@ -55,6 +58,9 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
     protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = Sher_Core_Helper_Url::ad_view_url($row['_id']);
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap'].'/tracker?kid=%d', $row['_id']);
+		if(!isset($row['bgcolor'])){
+			$row['bgcolor'] = '#000000';
+		}
     }
 	
 	/**
