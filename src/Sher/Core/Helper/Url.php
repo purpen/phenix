@@ -86,7 +86,7 @@ class Sher_Core_Helper_Url {
 		
         return self::build_url_path('app.url.active', $category_id).$page;
     }
-
+	
 	/**
 	 * 帖子列表访问地址,优化URL格式
 	 */
@@ -222,6 +222,13 @@ class Sher_Core_Helper_Url {
     public static function ad_view_url($id){
     	return  sprintf(Doggy_Config::$vars['app.url.advertise.view'], $id);
     }
+	
+	/**
+	 * 产品灵感列表
+	 */
+	public static function idea_list_url($id, $page){
+		return sprintf(Doggy_Config::$vars['app.url.idea.list'], $id, $page);
+	}
 	
     /**
      * 他人喜欢的列表地址

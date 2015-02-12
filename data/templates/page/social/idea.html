@@ -21,8 +21,26 @@
 <div class="shop submenu">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="column">
+			<div class="ten wide column">
 				{%include 'block/find_nav.html'%}
+			</div>
+			<div class="six wide right aligned column">
+				<div class="ui top right pointing quickly dropdown">
+				  	<i class="block layout icon"></i>
+					<div class="menu">
+						{% for cate in all_category %}
+							{% if cate.id == cid %}
+						  	<a class="item" href="{{ app_url_idea }}/{{ cate.id }}">
+						    	{{ cate.name }}
+						  	</a>
+							{% else %}
+						  	<a class="item" href="{{ app_url_idea }}/{{ cate.id }}">
+						    	{{ cate.name }}
+						  	</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,21 +50,9 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui segment">
-					<div class="ui horizontal link list">
-					  <a class="item">
-					  	全部
-					  </a>
-					  <a class="item">
-					    智能硬件
-					  </a>
-					  <a class="item">
-					    可穿戴设备
-					  </a>
-					</div>
-				</div>
-				{% topic_list var:'list' category_id:55 sort:0 %}
-				<div class="ui three cards">
+				
+				{% topic_list var:'list' category_id:idea_category_id sort:0 size:15 page:page %}
+				<div class="ui three white cards">
 					{% for topic in list.rows %}
 				  	<div class="card">
 				    	<div class="image">
@@ -69,6 +75,7 @@
 				  	</div>
 					{% endfor %}
 				</div>
+				
 			</div>
 		</div>
 		<div class="row">
@@ -79,6 +86,10 @@
 					{% include 'block/pager.html' %}
 				</div>
 				{% endif %}
+				
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ idea_category_id }}" class="ui inverted magenta button">
+					<i class="add icon"></i> 分享产品
+				</a>
 			</div>
 		</div>
 	</div>
