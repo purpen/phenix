@@ -304,7 +304,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
 		$model = new Sher_Core_Model_OrderTemp();
 		$result = $model->load($rrid);
 		if(empty($result)){
-      return $this->api_json('订单预处理失败，请重试！', 3004);
+      return $this->api_json('订单已失效，请重新下单！', 3004);
 		}
 		
 		// 订单临时信息

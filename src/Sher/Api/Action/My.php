@@ -14,7 +14,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	public function execute(){
 		
 	}
-	
+
 	/**
 	 * 客户端上传Token
 	 */
@@ -34,37 +34,42 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		  return $this->api_json('图片格式不正确！', 3003);
     }
 		$type = (int)$this->stash['type'];
-		
+    $user_id = $this->current_user_id;
+		// 图片上传参数
+		$params = array();
+    $result = array();
+		$new_file_id = new MongoId();
+		$params['pid'] = (string)$new_file_id;
 		switch($type){
 			case 1:
-				$domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
-				$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT;
+				$params['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+				$params['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+        $result = array();
 				break;
 			case 2:
 				$domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
 				$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
 				break;
 			case 3:
-				$domain = Sher_Core_Util_Constant::STROAGE_AVATAR;
-				$asset_type = Sher_Core_Model_Asset::TYPE_AVATAR;
+				$params['domain'] = Sher_Core_Util_Constant::STROAGE_AVATAR;
+				$params['asset_type'] = Sher_Core_Model_Asset::TYPE_AVATAR;
+        $params['parent_id'] = $user_id;
+        $params['filename'] = $new_file_id.'.jpg';
+        $params['image_info'] = $image_info;
+        $result = Sher_Core_Util_Image::api_avatar($file, $params);
 				break;
 			default:
 				$domain = Sher_Core_Util_Constant::STROAGE_ASSET;
 				$asset_type = Sher_Core_Model_Asset::TYPE_ASSET;
 				break;
 		}
-		
-		// 图片上传参数
-		$params = array();
-		
-		$params['token'] = Sher_Core_Util_Image::qiniu_token();
-		$params['domain'] = $domain;
-		$params['asset_type'] = $asset_type;
-		
-		$new_file_id = new MongoId();
-		$params['new_file_id'] = (string)$new_file_id;
-		
-		return $this->api_json('请求成功', 0, $params);
+    
+    if($result['stat']){
+      return $this->api_json('上传成功!', 0, $result['result']);
+    }else{
+ 		  return $this->api_json('上传失败!', 3005); 
+    }
+
 	}
 	
 	/**

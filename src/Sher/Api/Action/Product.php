@@ -280,7 +280,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
 			
 			$model = new Sher_Core_Model_Favorite();
-			if (!$model->check_loved($user_id, $id, $type)) {
+			if ($model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->cancel_love($user_id, $id, $type);
         if($ok){
