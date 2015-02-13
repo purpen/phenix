@@ -3,7 +3,7 @@
  * 购物流程 API 接口
  * @author purpen
  */
-class Sher_Api_Action_Shopping extends Sher_Api_Action_Base {
+class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	
 	public $stash = array(
 		'sku' => 0,

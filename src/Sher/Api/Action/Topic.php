@@ -3,12 +3,10 @@
  * 社区主题API接口
  * @author purpen
  */
-class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
+class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	
 	public $stash = array(
-		'page' => 1,
-		'size' => 10,
-		'id' => 0,
+
 	);
 	
 	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'replis', 'submit');
@@ -24,8 +22,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 * 主题列表
 	 */
 	public function getlist(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
 		// 请求参数
 		$category_id = isset($this->stash['category_id']) ? $this->stash['category_id'] : 0;
 		$user_id   = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
@@ -86,7 +84,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 * 主题详情
 	 */
 	public function view(){
-		$id = (int)$this->stash['id'];
+		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
     $user_id = $this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('访问的主题不存在！', 3000);

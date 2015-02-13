@@ -155,9 +155,6 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
 		}
-		if(empty($user_id)){
-			return $this->api_json('缺少请求参数！', 3000);
-		}
 		
 		if($type == 1){
 			$some_fields = array(
