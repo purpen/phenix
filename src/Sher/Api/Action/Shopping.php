@@ -5,6 +5,7 @@
  */
 class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	
+  /**
 	public $stash = array(
 		'sku' => 0,
 		'id' => 0,
@@ -14,7 +15,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		'payaway' => '', // 支付机构
 		'page' => 1,
 		'size' => 10,
-	);
+  );
+   */
 	
 	
   /**
@@ -188,8 +190,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 立即购买
 	 */
 	public function now_buy(){
-		$sku = $this->stash['sku'];
-		$quantity = $this->stash['n'];
+		$sku = isset($this->stash['sku'])?$this->stash['sku']:0;
+		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
     $result = array();
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -273,7 +275,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 确认订单
 	 */
 	public function confirm(){
-		$rrid = (int)$this->stash['rrid'];
+		$rrid = isset($this->stash['rrid'])?(int)$this->stash['rrid']:0;
 		if(empty($rrid)){
 			// 没有临时订单编号，为非法操作
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
@@ -463,8 +465,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 收货地址列表
 	 */
 	public function address(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'area'=>1,'address'=>1,'zip'=>1,'is_default'=>1,
 		);
@@ -692,8 +694,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 未支付、待发货、已完成
 	 */
 	public function orders(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		// 请求参数
         $user_id = $this->current_user_id;
@@ -1002,7 +1004,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 */
 	public function payed(){
 		$rid = $this->stash['rid'];
-		$payaway = $this->stash['payaway'];
+		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
 		}

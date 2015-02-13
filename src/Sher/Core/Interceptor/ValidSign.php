@@ -19,8 +19,8 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 			}
 			
 			$stash = $action->stash;
-			$client_id = $action->client_id;
-			$sign = $action->sign;
+			$client_id = $stash['client_id'];
+			$sign = $stash['sign'];
 
       if(empty($client_id) || empty($sign)){
         return $this->mismatch_sign($action);
