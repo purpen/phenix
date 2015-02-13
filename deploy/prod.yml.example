@@ -44,6 +44,9 @@ app.product.topic_category_id: 19
 # 十万火计
 app.topic.dream_category_id: 21
 
+# 产品灵感
+app.topic.idea_category_id: 16
+
 # 就现在商品
 app.comeon.product_id: 1112616234
 

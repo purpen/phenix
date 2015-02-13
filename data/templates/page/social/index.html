@@ -29,7 +29,7 @@
 </div>
 
 <div class="social slide">
-	<div class="ui responsive compact grid">
+	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ten wide column">
 				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
@@ -68,7 +68,7 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% topic_list var:'list' category_id:55 size:3 sort:0 %}
+				{% topic_list var:'list' category_id:idea_category_id size:3 sort:0 %}
 				<div class="ui three cards">
 					{% for topic in list.rows %}
 				  	<div class="card">
@@ -107,7 +107,7 @@
 				</div>
 			</div>
 			<div class="right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit" class="ui black button">
+				<a href="{{ app_url_action_base }}/topic/submit" class="ui inverted gray button">
 					<i class="add icon"></i> 发表话题
 				</a>
 			</div>
@@ -228,7 +228,7 @@
 		<div class="row">
 			<div class="column">
 				{% user_list var:'users' only_ok:1 size:10 sort:'time' %}
-				<div class="ui special five cards">
+				<div class="ui special five white cards">
 					{% for user in users.rows %}
 				  	<div class="card">
 				    	<div class="dimmable image">

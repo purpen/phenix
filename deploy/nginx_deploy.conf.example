@@ -298,7 +298,14 @@ server {
           rewrite ^/shopping[/]?$ /app/site/shopping last;
           rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
         }
-
+		
+	    location /idea {
+		    rewrite /idea(\/*)$ /app/site/social/idea last;
+			rewrite /idea/(\d+)/p(\d+)[/]?$ /app/site/social/idea?cid=$1&page=$2 last;
+		    rewrite /idea/(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/social/idea?cid=$1&page=$2&sort=$3 last;
+		    rewrite /idea/(\d+)[/]?$ /app/site/social/idea?cid=$1 last;
+		}
+		
 		location /search {
 		     rewrite ^/search[/]?$ /app/site/search last;
 		     rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;

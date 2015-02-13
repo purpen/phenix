@@ -1,6 +1,7 @@
 <?php
 /**
- * 图片
+ * 产品分享
+ * @author purpen
  */
 class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 

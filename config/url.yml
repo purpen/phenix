@@ -62,6 +62,10 @@ app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
+# 产品灵感
+app.url.idea: '{$app.url.domain}/idea'
+app.url.idea.list: '{$app.url.domain}/idea/%s/p%s'
+
 # 活动
 app.url.active: '{$app.url.domain}/active'
 app.url.active.view: '{$app.url.active}/view-%s.html'
