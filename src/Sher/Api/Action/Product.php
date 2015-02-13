@@ -5,10 +5,12 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	
+  /**
 	public $stash = array(
 		'page' => 1,
 		'size' => 10,
-	);
+  );
+   */
 	
 	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment');
 	
@@ -23,8 +25,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 	 * 分类
 	 */
 	public function category(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$query   = array();
 		$options = array();
@@ -46,8 +48,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 	 * 商品列表
 	 */
 	public function getlist(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
@@ -305,8 +307,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 	 */
 	public function comments(){
 		$type = Sher_Core_Model_Comment::TYPE_PRODUCT;
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		// 请求参数
         $user_id = $this->current_user_id;

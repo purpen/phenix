@@ -14,15 +14,21 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	        // 验证传递参数
 
 			$current_user_id = $request->get('current_user_id');
-			if($current_user_id == 0){
-				return $this->deny_anonymous($action);
-			}
+      $no_check_user_arr = $action->no_check_user_ids;
+      $current_method_name = $action->current_method_name;
+      //是否要过滤用户ＩＤ
+      if(!in_array($current_method_name, $no_check_user_arr)){
+        if($current_user_id == 0){
+          return $this->deny_anonymous($action);
+        }    
+      }
+
 			
 			$stash = $action->stash;
 			$client_id = $stash['client_id'];
 			$sign = $stash['sign'];
 
-      if(empty($client_id) || empty($sign)){
+      if(empty($client_id)){
         return $this->mismatch_sign($action);
       }
 
@@ -36,6 +42,13 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 		
         return $invocation->invoke();
     }
+
+  /**
+   * 判断参数值是否都为空
+   */
+  public function judge_param(){
+    
+  }
 	
 	/**
 	 * 生成签名
@@ -71,6 +84,9 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 			// 返回为空
 			return;
 		}
+    if(empty($paramstring)){
+      return '';
+    }
 		Doggy_Log_Helper::warn("Sign params: $paramstring ");
 		$sign = md5(md5($paramstring.$sercet.$client_id));
 		Doggy_Log_Helper::warn("Sign: $sign ");

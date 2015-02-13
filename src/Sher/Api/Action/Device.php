@@ -4,9 +4,11 @@
  * @author purpen
  */
 class Sher_Api_Action_Device extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+  /**
 	public $stash = array(
 		'page'=>1,
-	);
+  );
+   */
 
 	/**
 	 * 入口

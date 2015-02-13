@@ -4,14 +4,14 @@
  * @author purpen
  */
 class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
+
+  /**
 	public $stash = array(
 		'page' => 1,
 		'uid' => 0,
 		'bonus' => '',
-	);
-	
-	protected $exclude_method_list = array('execute', 'login', 'register', 'logout', 'verify_code', 'user');
-    protected $ignore_check_method_list = array('login', 'register', 'verify_code');
+  );
+   */
 	
 	/**
 	 * 入口
