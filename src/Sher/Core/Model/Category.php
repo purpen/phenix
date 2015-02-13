@@ -60,11 +60,23 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		),
 		array(
 			'id' => 10030,
-			'name' => '智能家居',
+			'name' => '智能手环',
 		),
 		array(
 			'id' => 10040,
 			'name' => '智能手表',
+		),
+		array(
+			'id' => 10050,
+			'name' => '健康监测',
+		),
+		array(
+			'id' => 10060,
+			'name' => '智能家居',
+		),
+		array(
+			'id' => 10070,
+			'name' => '体感车',
 		),
 	);
 	
