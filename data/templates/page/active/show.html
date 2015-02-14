@@ -44,7 +44,8 @@
 	margin:0;
 }
 .start{
-	background:url({{ active.banner.fileurl }}) no-repeat center center /cover;
+	background:url({{ active.banner.fileurl }}) no-repeat center center;
+  background-size:cover;
 	color:#fff;
 	padding:100px 0% 80px;
 }
@@ -351,7 +352,7 @@ h4.ui.header .map-advantage {
 {% endblock %}
 
 {% block layout_js %}
-  <script defer="" src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
+  <script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
 
   {% if active.map_info %}
   <!--引用百度地图API-->
@@ -415,8 +416,7 @@ h4.ui.header .map-advantage {
   //分享
   phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
-
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.wap_view_url }}'});
 	
 	$('.ui.tabox').smint({
     	'scrollSpeed': 1000,
@@ -544,6 +544,13 @@ h4.ui.header .map-advantage {
               <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
             </a>
           {%endif%}
+          </div>
+        </div>
+      {%endif%}
+      {% if active.step_stat==2 %}
+        <div class="row">
+          <div class="center aligned column attend-box" style="height:50px;">
+
           </div>
         </div>
       {%endif%}
@@ -820,4 +827,5 @@ h4.ui.header .map-advantage {
 	</div>
 </div>
 {% include "block/attend_user_info.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}

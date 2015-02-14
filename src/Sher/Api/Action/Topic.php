@@ -155,19 +155,18 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 */
 	public function submit(){
 		$user_id = $this->current_user_id;
-		$id = (int)$this->stash['_id'];
+		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
+    $data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
-		$data['asset'] = $this->stash['asset'];
+		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
-		if(empty($user_id) || empty($data['title']) || empty($data['description'])){
+		if(empty($data['title']) || empty($data['description']) || empty($data['category_id'])){
 			return $this->api_json('请求参数不能为空', 3000);
 		}
-		
-		$data['category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
 		
 		try{
 			$model = new Sher_Core_Model_Topic();
@@ -201,8 +200,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 				$this->update_batch_assets($data['asset'], $id);
 			}*/			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
-			return $this->api_json('创意保存失败:'.$e->getMessage(), 4001);
+			Doggy_Log_Helper::warn("api主题保存失败：".$e->getMessage());
+			return $this->api_json('主题保存失败:'.$e->getMessage(), 4001);
 		}
 		
 		return $this->api_json('提交成功', 0, array('id'=>$id));
@@ -330,6 +329,39 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 		
 		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
 	}
+
+	/**
+	 * 取消收藏
+	 */
+	public function ajax_cancel_favorite(){
+    $id = $this->stash['id'];
+    $user_id = $this->current_user_id;
+		if(empty($id)){
+			return $this->api_json('缺少请求参数！', 3000);
+		}
+		if(empty($user_id)){
+			return $this->api_json('缺少用户ID！', 3001);
+		}
+		
+		try{
+			$type = Sher_Core_Model_Favorite::TYPE_TOPIC;
+			
+			$model = new Sher_Core_Model_Favorite();
+			if($model->check_favorite($user_id, $id, $type)){
+				$ok = $model->remove_favorite($user_id, $id, $type);
+        if(!$ok){
+     			return $this->api_json('操作失败', 3002);   
+        }
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
+		}
+		
+		// 获取新计数
+		$favorite_count = $this->remath_count($id, 'favorite_count');
+		
+		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
+	}
 	
 	/**
 	 * 点赞
@@ -349,7 +381,37 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 				$ok = $model->add_love($this->current_user_id, $id, $fav_info);
 			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败,请重新再试:'.$e->getMessage(), true);
+			return $this->api_json('操作失败,请重新再试:'.$e->getMessage(), 3001);
+		}
+		
+		// 获取计数
+		$love_count = $this->remath_count($id, 'love_count');
+		
+		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
+	}
+
+	/**
+	 * 取消点赞
+	 */
+	public function ajax_cancel_love(){
+    $id = $this->stash['id'];
+    $user_id = $this->current_user_id;
+		if(empty($id)){
+			return $this->api_json('缺少请求参数！', 3000);
+		}
+		
+		try{
+			$type = Sher_Core_Model_Favorite::TYPE_TOPIC;
+			
+			$model = new Sher_Core_Model_Favorite();
+			if ($model->check_loved($user_id, $id, $type)) {
+				$ok = $model->cancel_love($user_id, $id, $type);
+        if(!$ok){
+ 			    return $this->api_json('操作失败', 3002);       
+        }
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败,请重新再试:'.$e->getMessage(), 3003);
 		}
 		
 		// 获取计数

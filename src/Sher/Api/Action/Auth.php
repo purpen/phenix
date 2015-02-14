@@ -223,8 +223,11 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		
 		$model = new Sher_Core_Model_User();
 		$result = $model->extend_load((int)$id);
+    if(empty($result)){
+ 			return $this->api_json('用户未找到！', 3001);  
+    }
 		
-		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1);
+		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1);
 		
 		// 重建数据结果
 		$data = array();

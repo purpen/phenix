@@ -227,15 +227,23 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' only_ok:1 size:10 sort:'time' %}
-				<div class="ui special five white cards">
+				{% user_list var:'users' only_ok:1 size:10 sort:'time' has_ship:1 current_user_id:current_user_id %}
+				<div class="ui special five cards">
 					{% for user in users.rows %}
 				  	<div class="card">
 				    	<div class="dimmable image">
 				      	  	<div class="ui dimmer">
 				        		<div class="content">
 				          		  	<div class="center">
-				            			<div class="ui inverted button">+ 关注</div>
+                            {% if user._id != current_user_id %}
+                              {% if !user.is_ship %}
+                              <a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui inverted button ajax" id="user_{{ user._id }}_ship">
+                               + 关注 
+                              </a>
+                              {% else %}
+                              <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                              {% endif %}
+                            {% endif %}
 				          		  	</div>
 				        		</div>
 				      	  	</div>
@@ -250,7 +258,7 @@
 				    	<div class="extra content">
 				      	  	<a>
 				        		<i class="users icon"></i>
-				        		2 个好友
+                    {{ user.fans_count }} 个好友
 				      	  	</a>
 				    	</div>
 				  	</div>

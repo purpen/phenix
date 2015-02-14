@@ -11,7 +11,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'topic', 'allist', 'get_list', 'show');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show');
 	
 	/**
 	 * 社区入口
@@ -30,6 +30,17 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/match.html');
 	}
+
+	/**
+	 * 十万火计 第２季
+	 */
+	public function dream2(){
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		$this->stash['start_time'] = mktime(0,0,0,2,10,2015);
+		$this->stash['end_time'] = mktime(23,59,59,6,20,2015);
+		
+		return $this->to_html_page('wap/match2.html');
+	}
 	
 	/**
 	 * 全部创意列表
@@ -47,6 +58,24 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
 		
 		return $this->to_html_page('wap/match_list.html');
+	}
+
+	/**
+	 * 全部创意列表 第２季
+	 */
+	public function allist2(){
+		$this->set_target_css_state('allist');
+		
+		$page = "?page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap', 'dream', 'allist2').$page;
+		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		
+		$this->stash['start_time'] = mktime(0,0,0,10,28,2014);
+		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
+		
+		return $this->to_html_page('wap/match_list2.html');
 	}
 	
 	/**

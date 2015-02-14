@@ -568,6 +568,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
+
+    if(empty($order_info)){
+      return $this->ajax_notification('订单不存在!', true);
+    }
 		
 		// 检查是否具有权限
 		if ($order_info['user_id'] != $this->visitor->id) {
