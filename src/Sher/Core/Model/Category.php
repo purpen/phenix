@@ -52,6 +52,34 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		),
 	);
 	
+	// 灵感分类
+	protected $ideas = array(
+		array(
+			'id' => 10020,
+			'name' => '智能硬件',
+		),
+		array(
+			'id' => 10030,
+			'name' => '智能手环',
+		),
+		array(
+			'id' => 10040,
+			'name' => '智能手表',
+		),
+		array(
+			'id' => 10050,
+			'name' => '健康监测',
+		),
+		array(
+			'id' => 10060,
+			'name' => '智能家居',
+		),
+		array(
+			'id' => 10070,
+			'name' => '体感车',
+		),
+	);
+	
     protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state');
 
 	protected $required_fields = array('name','title');
@@ -89,6 +117,21 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		}
 		return $this->groups;
 	}
+	
+	/**
+	 * 获取灵感分类或单个类别
+	 */
+	public function find_idea_category($id=0){
+		if($id){
+			for($i=0;$i<count($this->ideas);$i++){
+				if ($this->ideas[$i]['id'] == $id){
+					return $this->ideas[$i];
+				}
+			}
+		}
+		return $this->ideas;
+	}
+	
 	
 	/**
 	 * 获取顶级分类
