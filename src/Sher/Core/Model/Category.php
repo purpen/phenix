@@ -34,7 +34,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1);
 	
 	// 类组
 	protected $groups = array(
@@ -49,6 +49,34 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		array(
 			'id' => 3,
 			'name' => '我是鸟粉',
+		),
+	);
+	
+	// 灵感分类
+	protected $ideas = array(
+		array(
+			'id' => 10020,
+			'name' => '智能硬件',
+		),
+		array(
+			'id' => 10030,
+			'name' => '智能手环',
+		),
+		array(
+			'id' => 10040,
+			'name' => '智能手表',
+		),
+		array(
+			'id' => 10050,
+			'name' => '健康监测',
+		),
+		array(
+			'id' => 10060,
+			'name' => '智能家居',
+		),
+		array(
+			'id' => 10070,
+			'name' => '体感车',
 		),
 	);
 	
@@ -89,6 +117,21 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		}
 		return $this->groups;
 	}
+	
+	/**
+	 * 获取灵感分类或单个类别
+	 */
+	public function find_idea_category($id=0){
+		if($id){
+			for($i=0;$i<count($this->ideas);$i++){
+				if ($this->ideas[$i]['id'] == $id){
+					return $this->ideas[$i];
+				}
+			}
+		}
+		return $this->ideas;
+	}
+	
 	
 	/**
 	 * 获取顶级分类

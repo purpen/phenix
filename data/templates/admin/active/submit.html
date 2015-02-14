@@ -602,6 +602,18 @@ h3.ui.header{
 		});
 	});
 
+	// 设置手机Banner图
+	$('#asset-list .ajax-wap-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-wap-banner.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_wap_banner_id').val(id);
+			return false;
+		});
+	});
 
 	// 添加活动图片描述
 	$('#asset-list-active .ajax-show-desc').livequery(function(){
@@ -1147,6 +1159,7 @@ h3.ui.header{
 				<label>上传活动头图，封面图,合作伙伴,头像等--带图片地址</label>
 				<input type="hidden" name="cover_id" id="active_cover_id" value="{{ active.cover_id }}" />
 				<input type="hidden" name="banner_id" id="active_banner_id" value="{{ active.banner_id }}" />
+        <input type="hidden" name="wap_banner_id" id="active_wap_banner_id" value="{{ active.wap_banner_id }}" />
 			  	<div id="phenix-uploader"></div>
 			
 				<div id="asset-list" class="ui four items">
@@ -1173,6 +1186,9 @@ h3.ui.header{
 									<a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class=" icon-photo-banner icon"></i>
 									</a>
+									<a href="javascript:void(0);" class="ui link ajax-wap-banner {%if asset._id == active.wap_banner_id %}active{%endif%} pop" data-content="手机详情大图(960x640)" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="mobile icon-photo-banner icon"></i>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -1185,7 +1201,7 @@ h3.ui.header{
       <!--活动列表图-->
 		<div class="ui segment">
 			<div class="field">
-				<label>上传活动列表图片-带图片描述</label>
+				<label>上传活动列表图片-带图片描述,图片尺寸: 590x360</label>
 			  	<div id="phenix-uploader-active"></div>
 			
 				<div id="asset-list-active" class="ui four items">

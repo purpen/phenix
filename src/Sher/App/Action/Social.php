@@ -15,7 +15,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -25,7 +25,78 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 社区
 	 */
 	public function execute(){
-		return $this->dream();
+		return $this->index();
+	}
+	
+	/**
+	 * 社区首页
+	 */
+	public function index(){
+		$this->set_target_css_state('page_find');
+		// 获取精选列表
+		$diglist = array();
+		$dig_ids = array();
+		
+		$digged = new Sher_Core_Model_DigList();
+		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
+		if (!empty($result) && !empty($result['items'])) {
+			$model = new Sher_Core_Model_Topic();
+			$diglist = $model->extend_load_all($result['items']);
+			
+	        for ($i=0; $i < count($result['items']); $i++) {
+				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
+	        }
+		}
+		$this->stash['dig_ids']  = $dig_ids;
+		$this->stash['dig_list'] = $diglist;
+
+    //传入当前用户
+    if ($this->visitor->id){
+      $this->stash['current_user_id'] = $this->visitor->id;
+    }else{
+      $this->stash['current_user_id'] = 0;  
+    }
+		
+		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
+		
+		return $this->to_html_page('page/social/index.html');
+	}
+	
+	/**
+	 * 社区列表
+	 */
+	public function get_list(){		
+		return $this->to_html_page('page/social/list.html');
+	}
+	
+	/**
+	 * 产品灵感
+	 */
+	public function idea(){
+		$this->set_target_css_state('page_sub_idea');
+		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
+		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
+		$query_word = '';
+		
+		// 获取类别
+		$category = new Sher_Core_Model_Category();
+		$all_category = $category->find_idea_category();
+		// 添加全部类别
+		$all_cate = array('id'=>0, 'name'=>'全部');
+		array_unshift($all_category, $all_cate);
+		
+		// 获取搜索关键词
+		if($cid){
+			$category_list = $category->find_idea_category($cid);
+			$query_word = $category_list['name'];
+		}
+		
+		$this->stash['all_category'] = $all_category;
+		$this->stash['query_word'] = $query_word;
+		
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::idea_list_url($cid, '#p#');
+		
+		return $this->to_html_page('page/social/idea.html');
 	}
 	
 	/**
@@ -41,9 +112,32 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		return $this->to_html_page('page/match.html');
 	}
+
+	/**
+	 * 十万火计--第二季
+	 */
+	public function dream2(){
+		$this->set_target_css_state('index');
+		
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+
+		$this->stash['start_time'] = mktime(0,0,0,2,8,2015);
+		$this->stash['end_time'] = mktime(23,59,59,4,30,2015);
+		
+		return $this->to_html_page('match/match2.html');
+	}
 	
 	/**
-	 * 全部创意列表
+	 * 十万火计--第二季 活动介绍
+	 */
+  public function about2() {
+		$this->set_target_css_state('about');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		return $this->to_html_page('match/about2.html');
+	}
+	
+	/**
+	 * 十万火计 全部创意列表
 	 */
 	public function allist(){
 		$this->set_target_css_state('allist');
@@ -61,14 +155,23 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		return $this->to_html_page('match/list.html');
 	}
 	
-	
 	/**
-	 * 社区列表
+	 * 十万火计--第二季 列表页
 	 */
-	public function get_list() {		
-		return $this->to_html_page('page/social/list.html');
+  public function allist2() {
+		$this->set_target_css_state('allist');
+		$sort = $this->stash['st'];
+		
+		$page = "?st=${sort}&page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.social', 'allist2').$page;
+		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		
+		$this->stash['start_time'] = mktime(0,0,0,2,8,2015);
+		$this->stash['end_time'] = mktime(23,59,59,4,30,2015);
+		return $this->to_html_page('match/list2.html');
 	}
-	
 	
 }
 ?>

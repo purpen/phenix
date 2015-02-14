@@ -2,28 +2,8 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .ui.comments .comment>.content>.laud {
-    float: right;
-  }	
-
-  .actions{
-    opacity:1;
-  }
-  .actions a{
-    color:rgba(0,0,0,0.6);
-  }
   #comment-list{
     font-size:16px !important;
-  }
-  .ui.reply.segment{
-    margin-bottom:1em !important;
-  }
-
-  #postpage .ui.big.segment .actions{
-    opacity:1;
-  }
-  .ui.comments .comment .actions a{
-    color:rgba(0,0,0,0.6);
   }
 </style>
 {% endblock %}
@@ -83,7 +63,7 @@
 							{% if is_match_idea %}
 							<div class="post">
 								<div class="ui contest">
-									<a href="{{ app_url_wap }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
+									<a href="{{ app_url_wap }}/dream" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
 								</div>
 							</div>
 							{% endif %}

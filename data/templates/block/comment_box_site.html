@@ -1,32 +1,31 @@
 <div class="post comment">
-  <p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
-  <form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-    <input type="hidden" name="target_id" value="{{ comment_target_id }}" />
-    <input type="hidden" name="type" value="{{ comment_type }}" />
-    <input type="hidden" name="star" value="0" />
-    <div class="field">
-      <textarea name="content" class="comment-textarea" ></textarea>
-      <div id="comment"></div>
-    </div>
-  {% if visitor.is_login %}
-
-    <div class="right aligned column">
-      <input type="submit" class="ui small magenta button" value="添加评论" />
-    </div>
-
-
-  {% else %}
-    <div class="not login">
-      <div class="ui grid">
-        <div class="row">
-          <div class="center aligned column">
-            <a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
-            <p class="ui gray text">注册登录后可发评论</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
-  </form>
+  	<p>
+		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表回应
+	</p>
+  	<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+    	<input type="hidden" name="target_id" value="{{ comment_target_id }}" />
+    	<input type="hidden" name="type" value="{{ comment_type }}" />
+    	<input type="hidden" name="star" value="0" />
+		
+    	<div class="field">
+      	  	<textarea name="content" class="comment-textarea"></textarea>
+      	  	<div id="comment"></div>
+    	</div>
+  	  	{% if visitor.is_login %}
+    	<div class="right aligned column">
+      	  	<input type="submit" class="ui small magenta button" value="添加评论" />
+    	</div>
+  	  	{% else %}
+    	<div class="not login">
+      		<div class="ui grid">
+        		<div class="row">
+          		  	<div class="center aligned column">
+            			<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
+            			<p class="ui gray text">注册登录后可发评论</p>
+          		  	</div>
+        		</div>
+      	  	</div>
+    	</div>
+  	  	{% endif %}
+  	</form>
 </div>

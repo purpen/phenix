@@ -24,8 +24,11 @@
 						<i class="flat edit_recommend icon"></i>
 					</a>
 					{% endif %}
-          <a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
+          <a href="javascript:void(0);" class="ui link ajax-banner pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
             <i class=" icon-photo-banner icon"></i>
+          </a>
+          <a href="javascript:void(0);" class="ui link ajax-wap-banner pop" data-content="手机详情大图(960x640)" data-variation="inverted" data-value="{{ asset._id }}">
+            <i class=" icon-photo-banner mobile icon"></i>
           </a>
 				</div>
 			</div>

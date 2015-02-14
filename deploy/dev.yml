@@ -10,8 +10,8 @@ app.domain.base: 'http://taihuoniao.me'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
-app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
-#app.doggyx.class_path: '/opt/project/php/doggy-x'
+#app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
+app.doggyx.class_path: '/opt/project/php/doggy-x'
 
 app.url.packaged: '{$app.domain.static}'
 
@@ -21,12 +21,18 @@ app.css.use_bundle: 0
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
 ## mongodb
+#app.mongo.default:
+#  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
+#  db: 'firebird'
+#  username: 'root'
+#  password: 'Frbird#2014$Shop'
+#  replicaSet: 'she_main'
+
+## mongodb
+##tianshuai
 app.mongo.default:
-  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
+  host: '127.0.0.1'
   db: 'firebird'
-  username: 'root'
-  password: 'Frbird#2014$Shop'
-  replicaSet: 'she_main'
 
 # redisdb
 app.redis.default: 
@@ -41,7 +47,10 @@ app.cache.memcached.default:
       weight: 1
 
 # 十万火计
-app.topic.dream_category_id: 64
+app.topic.dream_category_id: 9
+
+# 产品灵感
+app.topic.idea_category_id: 55
 
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
@@ -49,8 +58,8 @@ app.comeon.product_id: 1120800090
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'
-app.alipay.cacert: '/Users/xiaoyi/project/phenix/vendor/cacert.pem'
-app.alipay.pendir: '/Users/xiaoyi/project/phenix/vendor'
+app.alipay.cacert: '/opt/project/php/phenix/vendor/cacert.pem'
+app.alipay.pendir: '/opt/project/php/phenix/vendor'
 
 # 淘宝
 app.taobao.key: '21781655'

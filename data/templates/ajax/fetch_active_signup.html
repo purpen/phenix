@@ -1,10 +1,10 @@
 <taconite>
-	<eval>
-		{% attend_list var:'list' target_id:target_id event:evt page:1 size:80 %}
+	<eval><![CDATA[
+		{% attend_list var:'list' target_id:target_id event:evt page:1 size:size %}
 		{% for attend in list.rows %}
       {% if attend.user %}
         $('.avatar-list:eq({{ loop.counter0 }}) img').attr('src', '{{ attend.user.big_avatar_url }}');
       {% endif %}
     {%endfor%}
-	</eval>
+    ]]></eval>
 </taconite>

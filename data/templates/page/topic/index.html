@@ -21,6 +21,9 @@
 	.ui.tophead .introduction .trychannel a:hover {
 		text-decoration: none;
 	}
+	.two-nav{
+		background:#f4f4f4;
+	}
 </style>
 {% endblock %}
 
@@ -33,9 +36,15 @@
 {% endblock %}
 
 {% block tophead %}
-  <section class="ui responsive grid">
-  	{%include 'block/find_nav.html'%}
-  </section>
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
 <div class="ui tophead">
 	<div class="masthead">
 		<div class="masthead-cover transparent">

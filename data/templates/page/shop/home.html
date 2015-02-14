@@ -1,8 +1,10 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.okcase.list.ui.three.items .magenta.item .image+.content {
+	height: 150px;
+}
 </style>
 {% endblock %}
 
@@ -22,10 +24,36 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop list" id="shoplist">
+<div class="shop submenu">
 	<div class="ui responsive grid">
-		{% ad_list var:'ad' page:1 size:2 name:'shop_home_stick' %}
-		{% if ad.rows %}
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui active link" href="{{ app_url_shop }}">商店</a>
+					</div>
+					<div class="item">
+						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
+					</div>
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部类别</a>
+					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% ad_list var:'ad' page:1 size:2 name:'shop_home_stick' state:2 %}
+{% if ad.rows %}
+<div class="shop slide">
+	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
 				<div class="ui two items">
@@ -39,71 +67,97 @@
 				</div>
 			</div>
 		</div>
-		{% endif %}
 	</div>
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<h3 class="ui black header">
-					首发新品
-					<div class="ui divided horizontal sticklink list">
-					  	<div class="item">
-							<a href="{{ app_url_shop }}/c0?presale=1" class="ui link" title="预售">预售</a>
-						</div>
+</div>
+{% endif %}
+
+<div class="shop list" id="shoplist">
+	<div class="product newest list">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h2 class="block title">
+						首发新品 <small><a href="{{ app_url_shop }}/c0?presale=1" class="ui link" title="预售">预售</a></small>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					{% product_list var:'newest' page:1 process_presaled:1 only_approved:1 only_onsale:1 size:3 sort:'stick:latest' %}
+					{% if newest.rows %}
+					<div class="ui three items">
+						{% for product in newest.rows %}
+					  		{% include "block/product_item.html" %}
+					    {% endfor %}
 					</div>
-				</h3>
-				{% product_list var:'newest' page:1 process_presaled:1 only_approved:1 only_onsale:1 size:3 sort:'stick:latest' %}
-				{% if newest.rows %}
-				<div class="ui three items">
-					{% for product in newest.rows %}
-				  		{% include "block/product_item.html" %}
-				    {% endfor %}
+					{% endif %}
 				</div>
-				{% endif %}
 			</div>
 		</div>
-		
-		<div class="row">
-			<div class="column">
-				<h3 class="ui black header">
-					热门推荐
-					{% category_list var:'category' only_open:1 domain:domain show_all:1 %}
-					<div class="ui divided horizontal sticklink list">
-						{% for cat in category.rows %}
-					  	<div class="item">
-							<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-						</div>
-						{% endfor %}
+	</div>
+	
+	<!--热门推荐-->
+	<div class="product hotest white list">
+		<div class="ui responsive grid">
+			<div class="middle aligned row">
+				<div class="ten wide column">
+					<h2 class="block title">
+						热门推荐 
+						<small>
+							{% category_list var:'category' only_open:1 domain:domain show_all:1 %}
+							<div class="ui divided horizontal sticklink list">
+								{% for cat in category.rows %}
+							  	<div class="item">
+									<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+								</div>
+								{% endfor %}
+							</div>
+						</small>
+					</h2>
+				</div>
+				<div class="six wide right aligned column">
+					<a class="ui inverted black button" href="{{ app_url_domain }}/shop/c0">更多</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					{% product_list var:'hotest' page:1 process_saled:1 only_approved:1 only_onsale:1 size:9 sort:'stick:latest' %}
+					{% if hotest.rows %}
+					<div class="ui three items">
+						{% for product in hotest.rows %}
+					  		{% include "block/product_item.html" %}
+					    {% endfor %}
 					</div>
-				</h3>
-				{% product_list var:'hotest' page:1 process_saled:1 only_approved:1 only_onsale:1 size:9 sort:'stick:latest' %}
-				{% if hotest.rows %}
-				<div class="ui three items">
-					{% for product in hotest.rows %}
-				  		{% include "block/product_item.html" %}
-				    {% endfor %}
+					{% endif %}
 				</div>
-				{% endif %}
 			</div>
 		</div>
-		
-		<div class="row">
-			<div class="column section-title">
-				<h3 class="ui black header">
-					成功案例
-					<small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
-				</h3>
-				{% product_list var:'best' page:1 only_approved:1 only_onsale:1 size:3 only_okcase:1 sort:'stick:latest' %}
-				{% if best.rows %}
-				<div class="ui three items">
-					{% for product in best.rows %}
-				  		{% include "block/product_okcase.html" %}
-				    {% endfor %}
+	</div>
+	
+	<!--案例推荐-->
+	<div class="product okcase list">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h2 class="block title">
+						成功案例
+						<small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
+					</h2>
 				</div>
-				{% endif %}
+			</div>
+			<div class="row">
+				<div class="column">
+					{% product_list var:'best' page:1 only_approved:1 only_onsale:1 size:3 only_okcase:1 sort:'stick:latest' %}
+					{% if best.rows %}
+					<div class="ui three items">
+						{% for product in best.rows %}
+					  		{% include "block/product_okcase.html" %}
+					    {% endfor %}
+					</div>
+					{% endif %}
+				</div>
 			</div>
 		</div>
-		
 	</div>
 	
 </div>

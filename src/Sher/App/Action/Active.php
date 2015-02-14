@@ -16,10 +16,10 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $page_tab = 'page_active';
 	protected $page_html = 'page/active/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign');
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign','ajax_fetch_signup');
 	
 	public function _init() {
-		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_sub_active');
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_ACTIVE;
   }
@@ -203,6 +203,11 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
   public function ajax_fetch_signup(){
     if(!isset($this->stash['target_id'])){
       return false;
+    }
+    if($this->stash['from']=='site'){
+      $this->stash['size'] = 80;
+    }else{
+      $this->stash['size'] = 30;
     }
     $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:1;
     return $this->to_taconite_page('ajax/fetch_active_signup.html');

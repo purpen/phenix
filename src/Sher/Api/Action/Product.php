@@ -53,7 +53,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
 			'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
-			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1,
+			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
 		);
 		
 		// 请求参数
@@ -149,7 +149,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $fav = new Sher_Core_Model_Favorite();
     $product['is_favorite'] = $fav->check_favorite($this->current_user_id, $product['_id'], 1) ? 1 : 0;
     $product['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
-    //$product['is_try'] = empty($product['is_try'])?0:1;
+    $product['is_try'] = empty($product['is_try'])?0:1;
 
     //返回图片数据
     $assets = array();
@@ -211,6 +211,33 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
 	}
+
+	/**
+	 * 取消收藏
+	 */
+	public function ajax_cancel_favorite(){
+    $id = $this->stash['id'];
+    $user_id = $this->current_user_id;
+		if(empty($id)){
+			return $this->api_json('缺少请求参数！', 3000);
+		}
+		
+		try{
+			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
+			
+			$model = new Sher_Core_Model_Favorite();
+			if($model->check_favorite($user_id, $id, $type)){
+				$ok = $model->remove_favorite($user_id, $id, $type);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+		}
+		
+		// 获取新计数
+		$favorite_count = $this->remath_count($id, 'favorite_count');
+		
+		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
+	}
 	
 	/**
 	 * 点赞
@@ -228,6 +255,34 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			if (!$model->check_loved($this->current_user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->add_love($this->current_user_id, $id, $love_info);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+		}
+		
+		// 获取计数
+		$love_count = $this->remath_count($id, 'love_count');
+		
+		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
+	}
+
+	/**
+	 * 取消点赞
+	 */
+	public function ajax_cancel_love(){
+    $id = $this->stash['id'];
+    $user_id = $this->current_user_id;
+		if(empty($id)){
+			return $this->api_json('缺少请求参数！', 3000);
+		}
+		
+		try{
+			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
+			
+			$model = new Sher_Core_Model_Favorite();
+			if (!$model->check_loved($user_id, $id, $type)) {
+				$love_info = array('type' => $type);
+				$ok = $model->cancel_love($user_id, $id, $type);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);

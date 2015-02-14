@@ -15,7 +15,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist');
+	protected $exclude_method_list = array('execute','getlist','view');
 	
 	/**
 	 * 入口
@@ -38,7 +38,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 		$id = (int)$this->stash['id'];
 		$tpl = 'wap/try_show.html';
 		
-		$redirect_url = Doggy_Config::$vars['app.url.try'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap.try'];
 		if(empty($id)){
 			return $this->show_message_page('访问的公测产品不存在！', $redirect_url);
 		}
@@ -87,8 +87,11 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	 * 提交申请
 	 */
 	public function ajax_apply(){
+    $this->stash['stat'] = 0;
+    $this->stash['msg'] = null;
 		if (!isset($this->stash['target_id'])){
-			return $this->ajax_modal('缺少请求参数！', true);
+      $this->stash['msg'] = '缺少请求参数';
+			return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 		}
 		
 		$target_id = $this->stash['target_id'];
@@ -99,13 +102,15 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			$try = new Sher_Core_Model_Try();
 			$row = $try->extend_load((int)$target_id);
 			if($row['is_end']){
-				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
+        $this->stash['msg'] = '抱歉，活动已结束，等待下次再来！';
+			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
 			
 			// 检测是否已提交过申请
 			$model = new Sher_Core_Model_Apply();
 			if(!$model->check_reapply($user_id,$target_id)){
-				return $this->ajax_modal('你已提交过申请，无需重复提交！', true);
+        $this->stash['msg'] = '你已提交过申请，无需重复提交！';
+			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
 			
 			if(empty($this->stash['_id'])){
@@ -118,10 +123,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
-			return $this->ajax_modal('提交失败，请重试！', true);
+      $this->stash['msg'] = '提交失败，请重试！';
+      return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 		}
-		
-		return $this->ajax_modal('申请提交成功，等待审核.');
+		$this->stash['stat'] = 1;
+    $this->stash['msg'] = '申请提交成功，等待审核.';
+    return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 	}
 }
 ?>

@@ -10,6 +10,9 @@
 	<div class="ui social page">
 		{% block content %}{% endblock %}
 	</div>
+	{% if !visitor.is_login %}
+		{% include "block/loginbox.html" %}
+	{% endif %}
 {% endblock %}
 
 {% block layout_footer %}

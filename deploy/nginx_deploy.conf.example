@@ -95,6 +95,12 @@ server {
         rewrite ^/try(.*)$ /app/wap/try$1 last;
     }
 
+	location /active {
+		rewrite ^/active[/]?$ /app/wap/active last;
+		rewrite ^/active/view-(\d+).html$ /app/wap/active/view?id=$1 last;
+        rewrite ^/active(.*)$ /app/wap/active$1 last;
+    }
+
     location /shop {
         rewrite ^/shop[/]?$ /app/wap/shop last;
         rewrite ^/shop/c(\d+)[/]?$ /app/wap/shop?category_id=$1 last;
@@ -105,6 +111,12 @@ server {
         rewrite ^/shop/(.*)$ /app/wap/shop/$1 last;
     }
 
+    #预售详情页wap端与web端保持一致
+    location /sale {
+        rewrite ^/sale/(\d+).html$ /app/wap/shop/view?id=$1 last;
+    }
+
+    #以后会去掉，使用topic代替
     location /social {
         rewrite ^/social[/]?$ /app/wap/social last;
       	rewrite ^/social/c(\d+)[/]?$ /app/wap/social/get_list?category_id=$1 last;
@@ -115,6 +127,18 @@ server {
         rewrite ^/social/show-(\d+).html$ /app/wap/social/show?id=$1 last;
         rewrite ^/social/show-(\d+)-(\d+).html$ /app/wap/social/show?id=$1&page=$2 last;
         rewrite ^/social/(.*)$ /app/wap/social/$1 last;
+    }
+
+    location /topic {
+        rewrite ^/topic[/]?$ /app/wap/social last;
+      	rewrite ^/topic/c(\d+)[/]?$ /app/wap/social/get_list?category_id=$1 last;
+      	rewrite ^/topic/c(\d+)/t(\d+)[/]?$ /app/wap/social/get_list?category_id=$1&type=$2 last;
+      	rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/wap/social/get_list?category_id=$1&page=$2 last;
+      	rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/wap/social/get_list?category_id=$1&type=$2&page=$3 last;
+      	rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/social/get_list?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
+        rewrite ^/topic/view-(\d+).html$ /app/wap/social/show?id=$1 last;
+        rewrite ^/topic/view-(\d+)-(\d+).html$ /app/wap/social/show?id=$1&page=$2 last;
+        rewrite ^/topic/(.*)$ /app/wap/social/$1 last;
     }
 
     location /dream {
@@ -183,7 +207,7 @@ server {
         }
 		
         location /dream {
-            rewrite ^/dream(.*)$ /app/site/social/$1 last;
+            rewrite ^/dream(.*)$ /app/site/social/dream/$1 last;
         }
 		
         location /api {
@@ -209,11 +233,12 @@ server {
         }
         
         location /sale {
-            rewrite ^/sale/c(\d+)[/]?$ /app/site/sale?category_id=$1 last;
-            rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/sale?category_id=$1&page=$2 last;
-            rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/sale?category_id=$1&sort=$2&page=$3 last;
+			rewrite ^/sale[/]?$ /app/site/shop/get_list?presale=1 last;
+            rewrite ^/sale/c(\d+)[/]?$ /app/site/shop/get_list?presale=1&category_id=$1 last;
+            rewrite ^/sale/c(\d+)/p(\d+).*$ /app/site/shop/get_list?presale=1&category_id=$1&page=$2 last;
+            rewrite ^/sale/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop/get_list?presale=1&category_id=$1&sort=$2&page=$3 last;
             rewrite ^/sale/(\d+).html$ /app/site/sale/view?id=$1 last;
-            rewrite ^/sale(.*)$ /app/site/sale$1 last;
+            rewrite ^/sale(.*)$ /app/site/shop$1 last;
         }
 		
 		location /shop {
@@ -273,7 +298,14 @@ server {
           rewrite ^/shopping[/]?$ /app/site/shopping last;
           rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
         }
-
+		
+	    location /idea {
+		    rewrite /idea(\/*)$ /app/site/social/idea last;
+			rewrite /idea/(\d+)/p(\d+)[/]?$ /app/site/social/idea?cid=$1&page=$2 last;
+		    rewrite /idea/(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/social/idea?cid=$1&page=$2&sort=$3 last;
+		    rewrite /idea/(\d+)[/]?$ /app/site/social/idea?cid=$1 last;
+		}
+		
 		location /search {
 		     rewrite ^/search[/]?$ /app/site/search last;
 		     rewrite ^/search/([^/]+)[/]?$ /app/site/search?q=$1 last;

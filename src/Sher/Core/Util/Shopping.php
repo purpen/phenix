@@ -54,6 +54,32 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		return $product['title'].'('.$sku['mode'].')';
 	}
 	
+	/**
+	 * 获取礼品码
+	 */
+	public static function get_gift_money($code, $product_id){
+		$model = new Sher_Core_Model_Gift();
+		$gift = $model->find_by_code($code);
+		
+		if(empty($gift)){
+			throw new Sher_Core_Model_Exception('礼品码不存在！');
+		}
+		// 是否对应产品id
+		if($gift['product_id'] != $product_id){
+			throw new Sher_Core_Model_Exception('此礼品码不能购买该产品！');
+		}
+		// 是否使用过
+		if($gift['used'] == Sher_Core_Model_Gift::USED_OK){
+			throw new Sher_Core_Model_Exception('礼品码已被使用！');
+		}
+		// 是否过期
+		if($gift['expired_at'] && $gift['expired_at'] < time()){
+			throw new Sher_Core_Model_Exception('礼品码已被过期！');
+		}
+		$gift_money = $gift['amount'];
+		
+		return $gift_money;
+	}
 	
 	/**
 	 * 获取红包金额

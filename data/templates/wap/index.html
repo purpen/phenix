@@ -54,6 +54,14 @@
 		phenix.create_cookie('mode', 'mobile', 1, 'taihuoniao.com');
 		phenix.redirect('http://m.taihuoniao.com', 0);
 	});
+
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
 	
 {% endblock %}
 
@@ -63,7 +71,7 @@
 	<div class="ui slide">
 		{% for ad in ad.rows %}
 		<div class="item">
-			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" target="_blank">
+			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
 	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
 			</a>
 		</div>
@@ -84,7 +92,7 @@
 			    	<i class="time icon"></i>
 			    	新品预售
 			  	</a>
-			  	<a class="item" href="{{ app_url_wap }}/social">
+			  	<a class="item" href="{{ app_url_wap }}/topic">
 			    	<i class="basic community icon"></i>
 			    	社区话题
 			  	</a>
@@ -118,14 +126,14 @@
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
-			<h4 class="ui header">热门商品</h4>
+			<h4 class="ui header" style="margin-top: 1rem !important;">热门商品</h4>
 			<div class="ui one items">
           {% for product in products %}
             {% if product.stage==5 %}
-			  		  {% include "mm/product-item.html" %}
+              {% include "mm/product-presale-item.html" %}
             {%endif%}
             {% if product.stage==9 %}
-              {% include "mm/product-presale-item.html" %}
+			  		  {% include "mm/product-item.html" %}
             {%endif%}
 			    {% endfor %}
 			</div>

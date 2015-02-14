@@ -30,13 +30,13 @@
 					{% for t in list.rows %}
 					<div class="magenta item">
 						<div class="image">
-							<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
+							<a href="{{ t.wap_view_url }}" title="{{ t.title }}">
 					      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
 							</a>
 						</div>
 						<div class="content">
 							<h4 class="ui dividing header">
-								<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
+								<a href="{{ t.wap_view_url }}" title="{{ t.title }}" class="ui link">
 									{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
 								</a>
 								<div class="advantage">{{ t.description }}</div>

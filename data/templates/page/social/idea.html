@@ -1,0 +1,115 @@
+{%extends 'layout/column.html'%}
+{% block title %}产品灵感-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.social.ideaheader .masthead {
+	    background: url("http://static.taihuoniao.me/images/bgc-idea.jpg") no-repeat scroll center center / cover rgba(82, 180, 227, 1);
+	    color: #fff;
+	    height: 260px;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.special.cards .image').dimmer({
+	  on: 'hover'
+	});
+{% endblock %}
+
+
+{% block content %}
+<div class="social ideaheader">
+	<div class="masthead">
+		<div class="masthead-cover">
+			<div class="ui responsive grid">
+				<div class="middle aligned row">
+					<div class="twelve wide column">						
+						<h1 class="ui header">
+						  	<div class="content">
+						    	产品灵感
+						    	<div class="sub header">“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</div>
+						  </div>
+						</h1>
+						
+						<div class="subcate">
+							{% for cate in all_category %}
+								{% if cate.id == cid %}
+							  	<a class="ui active button" href="{{ app_url_idea }}/{{ cate.id }}">
+							    	{{ cate.name }}
+							  	</a>
+								{% else %}
+							  	<a class="ui button" href="{{ app_url_idea }}/{{ cate.id }}">
+							    	{{ cate.name }}
+							  	</a>
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+					<div class="four wide center aligned column">
+						<a href="{{ app_url_action_base }}/topic/submit?cid={{ idea_category_id }}" class="ui inverted yellow share button">
+							<i class="add icon"></i> 分享产品
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social productist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% topic_list var:'list' category_id:idea_category_id sort:0 size:15 page:page %}
+				<div class="ui three cards">
+					{% for topic in list.rows %}
+				  	<div class="card">
+				    	<div class="image">
+				      	  	<img src="{{ topic.cover.thumbnails.md.view_url }}" />
+				    	</div>
+				    	<div class="content">
+				      	  	<div class="header">
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">{{ topic.title|truncate 60 }}</a>
+							</div>
+				      	  	<div class="description">
+				        		{{ topic.strip_description|truncate 70 }}
+				      	  	</div>
+				    	</div>
+				    	<div class="extra content">
+				      	  	<a class="right floated created">
+				        		<i class="heart icon"></i>{{ topic.love_count }} <i class="user icon"></i>{{ topic.view_count }}
+							</a>
+							<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" class="ui avatar image" /> {{ topic.user.nickname }}
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% if list.total_page %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{% include 'block/pager.html' %}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i>
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_social }}">发现</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">产品灵感</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

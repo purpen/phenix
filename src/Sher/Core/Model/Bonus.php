@@ -24,6 +24,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	public $names = array(
 		'T9', # 上线红包
 		'TG', # 玩蛋去活动
+    'VA', #情人节红包20
 	);
 	
     protected $schema = array(
@@ -79,12 +80,20 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	/**
 	 * 获取一个红包，同时锁定红包
 	 */
-	public function pop(){
-		$query = array(
-			'used' => self::USED_DEFAULT,
-			'status' => self::STATUS_OK,
-		);
-		
+	public function pop($xname=0){
+    if($xname){
+      $query = array(
+        'used' => self::USED_DEFAULT,
+        'status' => self::STATUS_OK,
+        'xname' => $xname,
+      );    
+    }else{
+      $query = array(
+        'used' => self::USED_DEFAULT,
+        'status' => self::STATUS_OK,
+      );  
+    }
+
 		$updated = array(
 			'$set' => array(
 				'status' => self::STATUS_PENDING,
@@ -191,7 +200,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_batch_bonus($count=100, $xname='T9'){
+	public function create_batch_bonus($count=100, $xname='T9', $char=0){
 		# 红包金额
 	    $bonus = array(
 			//'A' => 100,
@@ -201,9 +210,15 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 			'E' => 5
 		);
 		
-		for($i=0; $i<$count; $i++){
-		    $char = $this->_get_random_chance();
-		    $amount = $bonus[$char];
+      for($i=0; $i<$count; $i++){
+        //生成指定金额
+        if($char){
+          $amount = $bonus[$char];       
+        }else{
+          $char = $this->_get_random_chance();
+          $amount = $bonus[$char];       
+        }
+
 			$code = self::rand_number_str(8);
 			
 			try{

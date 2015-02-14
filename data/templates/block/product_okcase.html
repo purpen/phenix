@@ -1,7 +1,7 @@
 <div class="magenta item" id="product-{{ product._id }}">
   	<div class="image">
 		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
-      		<img src="{{ product.cover.thumbnails.resp.view_url }}" alt="{{ product.title }}" />
+      		<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />
 		</a>
 		<div class="image-extra">
 			<div class="extra-content">
@@ -20,10 +20,11 @@
 			</a>
 			<div class="advantage">{{ product.advantage }}</div>
 			<div class="result">
-				众筹金额：<span class="count">{{ product.presale_money }}</span>元 支持人数：<span class="count">{{ product.presale_people }}</span> 达成率：<span class="count">{{ product.presale_percent }}％</span>
+				众筹金额：<span class="count">{{ product.presale_money }}</span>元 支持人数：<span class="count">{{ product.presale_people|default 0 }}</span> 达成率：<span class="count">{{ product.presale_percent }}％</span>
 			</div>
 		</h4>
-		<div class="schedule p-sell">
+		<div class="i-stats">
+			<div class="schedule p-sell">
         	<div class="ui magenta progress">
           		<div class="bar" style="width:100%;"></div>
         	</div>
@@ -44,6 +45,7 @@
 			<a href="{{ product.view_url }}" class="link-extra" target="_blank">
 				{{ product.title }}
 			</a>
+			</div>
   		</div>
   	</div>
 </div>

@@ -26,6 +26,10 @@
             <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
             {% if visitor.can_admin %}
               <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+            {%else%}
+              {% if visitor.id==comment.user_id %}
+                <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+              {%endif%}
             {%endif%}
           </div>
           <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">

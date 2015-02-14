@@ -3,14 +3,10 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_My extends Sher_Api_Action_Base {
+class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	public $stash = array(
-		'page' => 1,
-		'size' => 5,
-		'type' => 1,
-	);
 
-	protected $exclude_method_list = array('execute', 'upload_token', 'update_avatar', 'update_profile', 'favorite');
+	);
 	
 	/**
 	 * 入口
@@ -23,6 +19,20 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	 * 客户端上传Token
 	 */
 	public function upload_token(){
+
+    Doggy_Log_Helper::warn('api begnin.save img......');
+    if(empty($this->stash['tmp'])){
+ 		  return $this->api_json('请选择图片！', 3001);  
+    }
+    $file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
+    $image_info = Sher_Core_Util_Image::image_info_binary($file);
+    if($image_info['stat']==0){
+      return $this->api_json($image_info['msg'], 3002);
+    }
+    Doggy_Log_Helper::warn($image_info['format']);
+    if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+		  return $this->api_json('图片格式不正确！', 3003);
+    }
 		$type = (int)$this->stash['type'];
 		
 		switch($type){
@@ -34,7 +44,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 				$domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
 				$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
 				break;
-			case 4:
+			case 3:
 				$domain = Sher_Core_Util_Constant::STROAGE_AVATAR;
 				$asset_type = Sher_Core_Model_Asset::TYPE_AVATAR;
 				break;
@@ -93,11 +103,15 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$profile = array();
         $profile['job'] = $this->stash['job'];
 		$profile['phone'] = $this->stash['phone'];
+		$profile['address'] = $this->stash['address'];
+		$profile['realname'] = $this->stash['realname'];
 		
 		$user_info['profile'] = $profile;
 		
 		$user_info['sex']  = (int)$this->stash['sex'];
 		$user_info['city'] = $this->stash['city'];
+		$user_info['email'] = $this->stash['email'];
+		$user_info['summary'] = $this->stash['summary'];
 		
 		try {
 			$user = new Sher_Core_Model_User();
@@ -110,26 +124,29 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			$user_info['nickname'] = $nickname;
 			
 	        //更新基本信息
-			$user_info['_id'] = (int)$user_info;
+			$user_info['_id'] = $user_id;
 			
 			$ok = $user->apply_and_update($user_info);
+      if($ok){
+ 		    return $this->api_json('更新用户信息成功！', 0, $user_info);    
+      }else{
+  		  return $this->api_json('更新失败！', 3002);    
+      }
 			
 		} catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
             return $this->api_json("更新失败:".$e->getMessage(), 4001);
-        }
-		
-		return $this->api_json('更新用户信息成功！', 0);
+    }
 	}
 	
 	/**
 	 * 我的收藏
 	 */
 	public function favorite(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
 		
-		$type = (int)$this->stash['type'];
+		$type = isset($this->stash['type'])?(int)$this->stash['type']:1;
 		$user_id = $this->current_user_id;
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
@@ -196,6 +213,37 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$result['rows'] = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
+	}
+
+	/**
+	 * 取消订单
+	 */
+	public function cancel_order(){
+		$rid = $this->stash['rid'];
+    $user_id = $this->current_user_id;
+		if (empty($rid)) {
+			return $this->api_json('缺少请求参数！', 3000);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+    //订单不存在
+    if(empty($order_info)){
+ 			return $this->api_json('订单不存在！', 3001);   
+    }
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+ 			return $this->api_json('该订单出现异常，请联系客服！', 3002);   
+		}
+		try {
+			// 关闭订单
+			$model->canceled_order($order_info['_id']);
+    } catch (Sher_Core_Model_Exception $e) {
+ 		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3003);   
+    }
+		
+		$orders = $model->find_by_rid($rid);
+ 		return $this->api_json('操作成功！', 0, $orders); 
 	}
 	
 }
