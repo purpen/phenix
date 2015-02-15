@@ -1004,7 +1004,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
 				// 设置缓存
 				$redis = new Sher_Core_Cache_Redis();
-				$redis->set($cache_key, 1);
+        $redis->set($cache_key, 1);
       }
     }
   }
