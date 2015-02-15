@@ -1005,34 +1005,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 				// 设置缓存
 				$redis = new Sher_Core_Cache_Redis();
 				$redis->set($cache_key, 1)
-	/**
-	 * 处理支付
-	 */
-	public function payed(){
-    $rid = $this->stash['rid'];
-    $user_id = $this->current_user_id;
-		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
-		if (empty($rid)) {
-			return $this->api_json('操作不当，请查看购物帮助！', 3000);
-		}
-		if (empty($payaway)){
-			return $this->api_json('请至少选择一种支付方式！', 3001);
-		}
-		
-		// 挑选支付机构
-		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
-		
-		switch($payaway){
-			case 'alipay':
-        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/p
-		
-		// 仅查看本人的订单
-		if($user_id != $order_info['user_id']){
-			return $this->api_json('你没有权限查看此订单！', 5000);
-		}
-		
-		return $this->api_json('请求成功', 0, $order_info);
-	}
+      }
+    }
+  }
 	
 	/**
 	 * 生产临时订单
