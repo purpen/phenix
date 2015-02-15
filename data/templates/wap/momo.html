@@ -20,10 +20,18 @@
 {% endblock %}
 
 {% block content %}
-<img src="{{ app_url_packaged }}/images/momo-banner.jpg" class="ui image" alt="2015智能新品" />
+<img src="{{ app_url_packaged }}/images/momo-header.jpg" class="ui image" alt="2015智能新品" />
+
 <!--专题商品-->
 <div class="shop stick">
 	<div class="ui responsive grid" id="mproducts">
+		<div class="row">
+			<div class="column">
+				<div class="ui danger message">
+					<b>温馨贴士：</b>太火鸟春节期间 2月14 -- 3月1日 暂停发货，3月2号统一发货。
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="column">
 				{% product_list var:'salelist' process_saled:1 only_approved:1 only_onsale:1 product_ids:product_ids sort:'stick:latest' %}
