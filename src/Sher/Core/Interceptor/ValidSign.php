@@ -14,15 +14,9 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	        // 验证传递参数
 
 			$current_user_id = $request->get('current_user_id');
-      $no_check_user_arr = $action->no_check_user_ids;
-      $current_method_name = $action->current_method_name;
-      //是否要过滤用户ＩＤ
-      if(!in_array($current_method_name, $no_check_user_arr)){
-        if($current_user_id == 0){
-          return $this->deny_anonymous($action);
-        }    
-      }
-
+			if($current_user_id == 0){
+				return $this->deny_anonymous($action);
+			}
 			
 			$stash = $action->stash;
 			$client_id = $stash['client_id'];
@@ -62,7 +56,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 		$paramstring = '';
 		foreach($arrdata as $key => $value){
 			// 空参数值不参与签名
-			if(empty($value)){
+			if(!isset($value)){
 				continue;
       }
       //不参与签名的字段

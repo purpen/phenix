@@ -41,7 +41,7 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Actio
 	/**
 	 * 参与签名的key
 	 */
-	public $resparams = array('client_id','uuid','channel','time');
+	public function $resparams = array('client_id','uuid','channel','time');
 	
     /**
      * 忽略不需要传的当前用户ID(current_user_id)
