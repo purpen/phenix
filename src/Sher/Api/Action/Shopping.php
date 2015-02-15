@@ -1003,7 +1003,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 处理支付
 	 */
 	public function payed(){
-		$rid = $this->stash['rid'];
+    $rid = $this->stash['rid'];
+    $user_id = $this->current_user_id;
 		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
@@ -1017,7 +1018,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		
 		switch($payaway){
 			case 'alipay':
-        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
+        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?current_user_id='.$user_id.'&rid='.$rid;
 				break;
 			default:
 			  return $this->api_json('找不到支付类型！', 3002);
