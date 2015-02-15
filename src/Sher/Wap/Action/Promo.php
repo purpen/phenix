@@ -180,8 +180,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 陌陌新年专题
 	 */
 	public function momo(){
-		$product_ids = array(1092169929,1082995029,1011468351,1060500658,1060600664,1120700122);
-		$relate_ids = array(1111556004,1120700195,1120666085,1060600660,1121112153,1120874607);
+		$product_ids = array(1082995029,1011468351,1060500658,1060600664,1120700122);
+		$relate_ids = array(1111556004,1120700195,1120666085,1092169929,1121112153,1120874607);
 		
 		$this->stash['product_ids'] = $product_ids;
 		$this->stash['relate_ids'] = $relate_ids;
