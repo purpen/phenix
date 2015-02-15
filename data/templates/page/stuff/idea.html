@@ -31,6 +31,7 @@
 						  </div>
 						</h1>
 						
+						{% category_list var:'category' only_open:1 domain:4 show_all:1 current:category_id pid:idea_category_id %}
 						<div class="subcate">
 							{% for cate in all_category %}
 								{% if cate.id == cid %}

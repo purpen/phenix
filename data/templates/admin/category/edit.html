@@ -113,14 +113,15 @@
 			        	<input type="radio" name="is_open" value="1" {% if category.is_open == 1 %}checked="checked"{% endif %} />
 						<label></label> 
 			      	</div>
-			      	<label>公开</label>
-			    </div>
-			    <div class="field">
+			      	<label class="checkbox title">公开</label>
 			      	<div class="ui radio checkbox">
 			        	<input type="radio" name="is_open" value="-1" {% if category.is_open < 1 %}checked="checked"{% endif %} /> 
 			        	<label></label>
 			      	</div>
-			      	<label>隐藏</label>
+			      	<label class="checkbox title">隐藏</label>
+			    </div>
+			    <div class="field">
+			      	
 			    </div>
 			</div>
 			<div class="inline field">
@@ -142,8 +143,8 @@
 				<textarea rows="3" name="summary" class="small">{{ category.summary }}</textarea>
 			</div>
 			
-			<input type="submit" class="ui magenta button" value="确认保存">
-			<input type="button" class="ui gray button" value="取消">
+			<input type="submit" class="ui magenta inverted button" value="确认保存">
+			<input type="button" class="ui gray inverted button" value="取消">
 		</form>
 	</div>
 {% endblock %}

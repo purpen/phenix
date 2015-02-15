@@ -223,13 +223,6 @@ class Sher_Core_Helper_Url {
     	return  sprintf(Doggy_Config::$vars['app.url.advertise.view'], $id);
     }
 	
-	/**
-	 * 产品灵感列表
-	 */
-	public static function idea_list_url($id, $page){
-		return sprintf(Doggy_Config::$vars['app.url.idea.list'], $id, $page);
-	}
-	
     /**
      * 他人喜欢的列表地址
      */
@@ -376,23 +369,23 @@ class Sher_Core_Helper_Url {
     }
     
 	/**
-	 * 分类访问地址
+	 * 产品分类访问地址
 	 */
-    public static function stuff_list_url($category_id=null,$page=null) {
+    public static function stuff_list_url($category_id=null, $page=null) {
         if (!is_null($category_id)) {
             $category_id = 'c'.$category_id;
         }
         if (!empty($page)) {
             $page = "p${page}.html";
         }
-        return self::build_url_path('app.url.stuff',$category_id).$page;
+        return self::build_url_path('app.url.stuff', $category_id).$page;
     }
-
+	
     /**
-     * 分享浏览地址
+     * 产品分享浏览地址
      */
     public static function stuff_view_url($stuff_id){
-    	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'],$stuff_id);
+    	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'], $stuff_id);
     }
 
     /**

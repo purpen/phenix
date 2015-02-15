@@ -299,11 +299,13 @@ server {
           rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
         }
 		
-	    location /idea {
-		    rewrite /idea(\/*)$ /app/site/social/idea last;
-			rewrite /idea/(\d+)/p(\d+)[/]?$ /app/site/social/idea?cid=$1&page=$2 last;
-		    rewrite /idea/(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/social/idea?cid=$1&page=$2&sort=$3 last;
-		    rewrite /idea/(\d+)[/]?$ /app/site/social/idea?cid=$1 last;
+	    location /stuff {
+		    rewrite ^/stuff(\/*)$ /app/site/stuff last;
+			rewrite ^/stuff/(\d+)[/]?$ /app/site/stuff/zlist?cid=$1 last;
+			rewrite ^/stuff/(\d+)/p(\d+)[/]?$ /app/site/stuff/zlist?cid=$1&page=$2 last;
+		    rewrite ^/stuff/(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/stuff/zlist?cid=$1&page=$2&sort=$3 last;
+		  	rewrite ^/stuff/view-(\d+).html$ /app/site/stuff/view?id=$1 last;
+          	rewrite ^/stuff/view-(\d+)-(\d+).html$ /app/site/stuff/view?id=$1&page=$2 last;
 		}
 		
 		location /search {
