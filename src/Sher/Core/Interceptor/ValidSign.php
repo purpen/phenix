@@ -98,7 +98,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	 * 签名验证不匹配
 	 */
 	public function mismatch_sign($action){
-		//return $action->api_json('请求签名验证错误,请重试---!', 3000);
+		return $action->api_json('请求签名验证错误,请重试---!', 3000);
 	}
 	
 }
