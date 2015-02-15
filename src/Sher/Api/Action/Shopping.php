@@ -1222,7 +1222,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		
 		switch($payaway){
 			case 'alipay':
-        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment'?rid='.$rid;
+        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
 				break;
 			default:
 			  return $this->api_json('找不到支付类型！', 3002);
