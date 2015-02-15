@@ -17,7 +17,6 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 			if($current_user_id == 0){
 				return $this->deny_anonymous($action);
 			}
-			return;
 			$stash = $action->stash;
 			$client_id = $stash['client_id'];
 			$sign = $stash['sign'];
