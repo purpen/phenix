@@ -87,6 +87,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'topic_count'   => 0,
 		# 产品数量
 		'product_count' => 0,
+		# 灵感数量
+		'stuff_count'   => 0,
 		
 		## 初次登录导向
 		'first_login'   => 1,
@@ -155,7 +157,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	
     protected $required_fields = array('account','password');
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
-	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count');
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count', 'stuff_count');
 	
 	protected $joins = array();
 	

@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}{{ page_title }}-{% endblock %}
+{% block title %}提交产品-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -32,16 +32,16 @@
 		typingTimer: 5000,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
-		defaultImageAlt: '{{ topic.title }}',
+		defaultImageAlt: '{{ stuff.title }}',
 		{% else %}
 		defaultImageAlt: '太火鸟',
 		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
 		maxImageSize: 1024 * 1024 * 3, // 3M
-		imageErrorCallback:  function (error) {
+		imageErrorCallback: function (error) {
 			if (error.code == 5){
 				error.message = '图片太大，请选择小于3M！';
 			}
@@ -54,7 +54,7 @@
 			file_count++;
 			
 			// 重置参数
-			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
+			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
 		},
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	    // Catch image removal from the editor.
@@ -67,17 +67,17 @@
         }
 	});
 	
-	$('#topic-form').form({
+	$('#stuff-form').form({
 		title: {
 			identifier  : 'title',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标题不能为空'
+					prompt : '名称不能为空'
 				},
 				{
 					type   : 'maxLength[75]',
-					prompt : '标题最多75个字符'
+					prompt : '名称最多75个字符'
 				}
 			]
 		},
@@ -86,7 +86,7 @@
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '详细内容不能为空'
+					prompt : '详细描述不能为空'
 				}
 			]
 		}
@@ -117,8 +117,8 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload_topic }}'
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_stuff }}'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -135,8 +135,7 @@
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
-			$('#product-upload-form').addClass('error');
-			phenix.show_error_message(result.message, $('#product-upload-form'));
+			phenix.show_error_note(result.message);
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
@@ -151,13 +150,13 @@
 			$(this)
 				.removeClass('active');
 				
-			$('#topic-category').val('');
+			$('#stuff-category').val('');
 		}else{
 			$(this)
 				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
-			$('#topic-category').val(id);
+			$('#stuff-category').val(id);
 		}
 	});
 	
@@ -170,7 +169,7 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#topic_cover_id').val(id);
+			$('#stuff_cover_id').val(id);
 			return false;
 		});
 	});
@@ -183,17 +182,13 @@
 		<div class="row">
 			<div class="ui column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 社区
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
 					</a>
 				  	<i class="angle right icon divider"></i>
-					{% if !is_top %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+				  	<a class="ui section link" href="{{ app_url_stuff }}">产品灵感</a>
 				  	<i class="angle right icon divider"></i>
-					{% endif %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ page_title }}</div>
+				  	<div class="active section">提交产品</div>
 				</div>
 			</div>
 		</div>
@@ -202,38 +197,27 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						{{ page_title }}
-						{% if !ref %}
-						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看发帖帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
-						{% endif %}
+						提交产品
+						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
 				
 				<div class="ui segment">
-					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
-						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
+						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-						<input type="hidden" name="try_id" value="{{ try_id }}" />
 						
-						<div class="ui {{ hide }} field">
+						<div class="ui field">
 							<label>类别</label>
 						   	<div class="ui options">
 								{% if mode == 'edit' %}
-						    		<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+						    		<input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
 								{% else %}
-									{% if !is_top %}
-										<input type="hidden" name="category_id" value="{{ cid }}" id="topic-category" />
-									{% else %}
-										<input type="hidden" name="category_id" id="topic-category" />
-									{% endif %}
+									<input type="hidden" name="category_id" id="stuff-category" />
 								{% endif %}
 								
-								{% if !is_top %}
-									{% category_list var:'category' only_open:1 domain:2 pid:parent_category._id current:cid %}
-								{% else %}
-									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
-								{% endif %}
+								{% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
 						   	 		<div class="icon">
@@ -246,29 +230,24 @@
 						</div>
 					
 						<div class="field">
-							<label for="title">标题</label>
-						  	<input type="text" name="title" value="{{ topic.title }}" />
-						</div>
-					
-						<div class="field">
-							<label for="description">描述</label>
-						  	<textarea name="description" placeholder="此处无需省略一万字..." id="editor">{{ topic.description }}</textarea>
+							<label for="title">名称</label>
+						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
 						
 						<div class="field">
 							<label>标签</label>
-						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
+						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
 						
 						<div class="field">
-							<label>上传封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
-							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
+							<label>封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
-							<div id="asset-list" class="ui four items">
+							<div id="asset-list" class="ui six items">
 								{% if mode == 'edit' %}
-									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
+									{% asset_list var:'assets' parent_id:stuff._id asset_type:50 %}
 									{% for asset in assets.rows %}
 									<div class="thumb item" id="{{ asset._id }}">
 										<div class="image">
@@ -277,10 +256,10 @@
 										</div>
 										<div class="buttons">
 											<div class="ui large links">
-												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+												<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 													<i class="remove icon"></i>
 												</a>
-												<a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+												<a href="javascript:void(0);" class="ui link {%if stuff.cover_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 													<i class="checkered flag icon"></i>
 												</a>
 											</div>
@@ -291,10 +270,15 @@
 							</div>
 						</div>
 						
+						<div class="field">
+							<label for="description">详细描述</label>
+						  	<textarea name="description" placeholder="此处输入产品描述..." id="editor">{{ stuff.description }}</textarea>
+						</div>
+						
 						<div class="ui right floated aligned grid">
 							<div class="column">
-								<div class="ui gray cancel button">取消</div>
-								<div class="ui magenta submit button">确认提交</div>
+								<div class="ui gray cancel big inverted button">取消</div>
+								<div class="ui magenta big submit inverted button">确认提交</div>
 							</div>
 						</div>
 					

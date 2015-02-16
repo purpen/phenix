@@ -64,8 +64,9 @@ app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
 # 产品灵感
 app.url.stuff: '{$app.url.domain}/stuff'
-app.url.stuff.list: '{$app.url.stuff}/%s/p%s'
-app.url.stuff.view: '{$app.url.stuff}/view-%s.html'
+app.url.stuff.list: '{$app.url.stuff}/c%d/p%s'
+app.url.stuff.view: '{$app.url.stuff}/view-%d.html'
+app.url.stuff.comment: '{$app.url.stuff}/view-%d-%d.html'
 
 # 活动
 app.url.active: '{$app.url.domain}/active'
@@ -120,6 +121,7 @@ app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
+app.url.upload.stuff: '{$app.url.upload}/stuff'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
