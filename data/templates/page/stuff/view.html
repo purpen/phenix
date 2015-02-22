@@ -213,6 +213,9 @@
 		}
 	});
 	
+	// 加载推荐商品 
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ stuff.tags_s }}', size: 3});
+	
 {% endblock %}
 
 {% block content %}
@@ -377,5 +380,11 @@
 		</div>
 	</div>
 </div>
+
+<!--你可能喜欢的产品-->
+<div id="product_guess_list">
+	<!--ajax fetch-->
+</div>
+
 {% include "block/qrcode.html" %}
 {% endblock %}

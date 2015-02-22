@@ -14,7 +14,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		'sort' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','zlist','view');
+	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view');
+	
+	protected $page_html = 'page/stuff/zlist.html';
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -25,20 +27,47 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 产品灵感入口
 	 */
 	public function execute(){
-		return $this->zlist();
+		return $this->latest();
+	}
+	
+	/**
+	 * 最新列表
+	 */
+	public function latest(){
+		return $this->zlist('latest');
+	}
+	
+	/**
+	 * 精选列表
+	 */
+	public function featured(){
+		$this->stash['featured'] = 1;
+		return $this->zlist('featured');
+	}
+	
+	/**
+	 * 推荐列表
+	 */
+	public function sticked(){
+		$this->stash['sticked'] = 1;
+		return $this->zlist('sticked');
 	}
 	
 	/**
 	 * 产品灵感
 	 */
-	public function zlist(){
+	protected function zlist($list_tab='latest'){
 		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
-		
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_list_url($cid, '#p#');
-		
+		if(!$cid){
+			$this->stash['all_stuff'] = 'active';
+		}
 		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
 		
-		return $this->to_html_page('page/stuff/zlist.html');
+		// 分页链接
+		$page = 'p#p#';
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.stuff', $list_tab, 'c'.$cid).$page;
+		
+		return $this->display_tab_page($list_tab);
 	}
 	
 	/**

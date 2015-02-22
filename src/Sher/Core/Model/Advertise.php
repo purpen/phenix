@@ -19,6 +19,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
     protected $schema = array(
         'space_id' => 0,
 		
+		'cate_title' => '',
 		'title' => '',
 		'sub_title' => '',
         'web_url' => '',
@@ -26,6 +27,10 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		
 		# 背景色
 		'bgcolor' => '',
+		# 按钮标题
+		'btn_title' => '',
+		# 文字对齐方式
+		'text_align' => 'left',
 		
 		# 类型
 		'type' => self::TYPE_URL,
@@ -60,6 +65,12 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap'].'/tracker?kid=%d', $row['_id']);
 		if(!isset($row['bgcolor'])){
 			$row['bgcolor'] = '#000000';
+		}
+		if(!isset($row['text_align'])){
+			$row['text_align'] = 'left';
+		}
+		if(!isset($row['btn_title'])){
+			$row['btn_title'] = '了解详情';
 		}
     }
 	

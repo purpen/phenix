@@ -18,6 +18,12 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	const FEATURED_DEFAULT = 0;
 	const FEATURED_OK = 1;
 	
+	# 产品阶段
+	const PROCESS_DESIGN = 1;
+	const PROCESS_DEVELOP = 2;
+	const PROCESS_PERSALE = 5;
+	const PROCESS_SALE = 9;
+	
     protected $schema = array(
 	    'user_id' => 0,
 		
@@ -30,6 +36,17 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'description' => '',
     	'tags' => array(),
         'like_tags' => array(),
+		
+		# 品牌名称
+		'brand' => '',
+		# 所属国家
+		'country' => '',
+		# 上市时间
+		'market_time' => '',
+		# 指导价格
+		'official_price' => 0,
+		# 产品阶段
+		'processed' => self::PROCESS_SALE,
 		
  		'cover_id' => '',
 		'asset_count' => 0,

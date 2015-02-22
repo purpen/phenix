@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
 	.social.ideaheader .masthead {
-	    background: url("http://static.taihuoniao.me/images/bgc-idea.jpg") no-repeat scroll center center / cover rgba(82, 180, 227, 1);
+	    background: url("") no-repeat scroll center center / cover rgba(82, 180, 227, 1);
 	    color: #fff;
 	    height: 260px;
 	}
@@ -19,6 +19,8 @@
 
 {% block content %}
 <div class="social ideaheader">
+	
+	
 	<div class="masthead">
 		<div class="masthead-cover">
 			<div class="ui responsive grid">
@@ -27,23 +29,13 @@
 						<h1 class="ui header">
 						  	<div class="content">
 						    	产品灵感
-						    	<div class="sub header">“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</div>
+						    	<div class="sub header"></div>
 						  </div>
 						</h1>
 						
-						{% category_list var:'category' only_open:1 domain:4 show_all:1 current:category_id pid:idea_category_id %}
+						
 						<div class="subcate">
-							{% for cate in all_category %}
-								{% if cate.id == cid %}
-							  	<a class="ui active button" href="{{ app_url_idea }}/{{ cate.id }}">
-							    	{{ cate.name }}
-							  	</a>
-								{% else %}
-							  	<a class="ui button" href="{{ app_url_idea }}/{{ cate.id }}">
-							    	{{ cate.name }}
-							  	</a>
-								{% endif %}
-							{% endfor %}
+							
 						</div>
 					</div>
 					<div class="four wide center aligned column">

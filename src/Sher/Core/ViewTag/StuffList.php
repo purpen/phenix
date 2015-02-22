@@ -27,7 +27,7 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		// 二级分类
 		$category_id = 0;
 		
-		$stick = 0;
+		$sticked = 0;
 		$featured = 0;
 		$time = 0;
 		$sort = 0;
@@ -68,8 +68,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         }
 		
 		// 推荐
-		if($stick){
-			$query['stick'] = (int)$stick;
+		if($sticked){
+			$query['stick'] = (int)$sticked;
 		}
 		// 精选
 		if($featured){
