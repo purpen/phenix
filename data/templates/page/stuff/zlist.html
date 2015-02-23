@@ -1,0 +1,153 @@
+{%extends 'layout/column.html'%}
+{% block title %}产品灵感-{% endblock %}
+{% block page_css %}
+<style type="text/css">	
+	.social.submitbox {
+		background-color: rgba(56, 67, 77, 0.9);
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-image: url('http://static.taihuoniao.me/images/banner-trial.jpg');
+		color: white;
+		padding: 40px 0 50px;
+	}
+	.social.submitbox h2 {
+		color: white;
+		padding-top: 12px;
+		line-height: 32px;
+		padding-bottom: 0.5rem;
+		margin-bottom: 0.5rem;
+		font-weight: 800;
+	}
+	.social.submitbox h2 + p {
+		margin-bottom: 2rem;
+	}
+	.social.submitbox .ui.share.button {
+		padding: 0.8em 3.5rem;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.special.cards .image').dimmer({
+	  on: 'hover'
+	});
+{% endblock %}
+
+
+{% block content %}
+<div class="social catemenu ideaheader">
+	<div class="category header" style="background-image: url('http://static.taihuoniao.me/images/banner-labs.jpg');">
+		<div class="ui responsive grid">
+			<div class="center aligned row">
+				<div class="column">
+					<div class="inner">
+						<h1>
+							<a href="{{ app_url_stuff }}" class="{{ all_stuff }}">
+								产品灵感
+							</a>
+						</h1>
+						{% category_list var:'all_category' only_open:1 domain:4 current:cid pid:idea_category_id %}
+						<div class="children">
+							{% for cate in all_category.rows %}
+								<h2>
+									<a href="{{ app_url_stuff }}/c{{ cate._id }}" class="{{ cate.active }}">
+										{{ cate.title }}
+									</a>
+								</h2>
+							{% endfor %}
+				
+						</div>
+						<p class="discription"><small>“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</small></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social sortby">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui horizontal bulleted list">
+				  <a class="ui link {{ css_featured }} item" href="{{ app_url_stuff }}/featured">
+				    精选
+				  </a>
+				  <a class="ui link {{ css_sticked }} item" href="{{ app_url_stuff }}/sticked">
+				    推荐
+				  </a>
+				  <a class="ui link {{ css_latest }} item" href="{{ app_url_stuff }}/latest">
+				    最新
+				  </a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social stuffist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% stuff_list var:'stufflist' category_id:cid sort:sort sticked:sticked featured:featured page:page size:40 %}
+				<div class="ui four cards">
+					{% for stuff in stufflist.rows %}
+				  	<div class="card">
+				    	<div class="image">
+				      	  	<a href="{{ stuff.view_url }}" title="{{ stuff.title }}">
+								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+							</a>
+				    	</div>
+				    	<div class="content">
+				      	  	<div class="header">
+								<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+							</div>
+				      	  	<div class="description">
+				        		{{ stuff.strip_description|truncate 60 '' }}
+				      	  	</div>
+				    	</div>
+				    	<div class="extra">
+				      	  	<a class="right floated created">
+								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+							</a>
+							<a href="{{ stuff.user.home_url }}" class="ui icon link">
+								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+							</a>
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% if stufflist.total_page > 1 %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:stufflist.total_rows,total_page:stufflist.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{% include 'block/pager.html' %}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social submitbox">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h2 class="ui header">
+					去发现、去支持、去分享
+				</h2>
+				<p>无论您是谁，让我们用创意和梦想，去改变这个平凡无奇的世界</p>
+				<a href="{{ app_url_stuff }}/submit" class="ui inverted share button">
+					<i class="add icon"></i> 提交产品
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

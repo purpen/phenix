@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-02-14 22:36:50
+//dump on 2015-02-16 14:01:46
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -199,6 +199,7 @@ Doggy_Config::add( array (
       'category_list' => 'Sher_Core_ViewTag_CategoryList',
       'topic_list' => 'Sher_App_ViewTag_TopicList',
       'product_list' => 'Sher_App_ViewTag_ProductList',
+      'stuff_list' => 'Sher_Core_ViewTag_StuffList',
       'like_list' => 'Sher_App_ViewTag_LikeList',
       'support_list' => 'Sher_App_ViewTag_SupportList',
       'asset_list' => 'Sher_App_ViewTag_AssetList',
@@ -366,8 +367,10 @@ Doggy_Config::add( array (
   'app.url.topic.list' => 'http://taihuoniao.me/topic/list-c%s-t%s-d%s-t%s-p%s.html',
   'app.url.topic.view' => 'http://taihuoniao.me/topic/view-%s-%s.html',
   'app.url.product.subject' => 'http://taihuoniao.me/topic/subject?id=%s&page=%s',
-  'app.url.idea' => 'http://taihuoniao.me/idea',
-  'app.url.idea.list' => 'http://taihuoniao.me/idea/%s/p%s',
+  'app.url.stuff' => 'http://taihuoniao.me/stuff',
+  'app.url.stuff.list' => 'http://taihuoniao.me/stuff/%d/p%s',
+  'app.url.stuff.view' => 'http://taihuoniao.me/stuff/view-%d.html',
+  'app.url.stuff.comment' => 'http://taihuoniao.me/stuff/view-%d-%d.html',
   'app.url.active' => 'http://taihuoniao.me/active',
   'app.url.active.view' => 'http://taihuoniao.me/active/view-%s.html',
   'app.url.product' => 'http://taihuoniao.me/app/site/product',
@@ -399,6 +402,7 @@ Doggy_Config::add( array (
   'app.url.upload.topic' => 'http://taihuoniao.me/app/site/uploader/topic',
   'app.url.upload.pictures' => 'http://taihuoniao.me/app/site/uploader/pictures',
   'app.url.upload.active' => 'http://taihuoniao.me/app/site/uploader/active',
+  'app.url.upload.stuff' => 'http://taihuoniao.me/app/site/uploader/stuff',
   'app.url.my' => 'http://taihuoniao.me/my',
   'app.url.my.message' => 'http://taihuoniao.me/my/message',
   'app.url.my.orders' => 'http://taihuoniao.me/my/orders',
@@ -438,13 +442,11 @@ Doggy_Config::add( array (
   'app.url.contact' => 'http://taihuoniao.me/app/site/guide/contact',
   'app.url.join' => 'http://taihuoniao.me/app/site/guide/join',
   'app.url.share' => 'http://taihuoniao.me/share',
-  'app.url.stuff' => 'http://taihuoniao.me/idea',
-  'app.url.stuff.view' => 'http://taihuoniao.me/idea/%s',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b15021401',
-  'app.version.jquery_bundle_version' => 'v0.10b15021401',
-  'app.version.css_bundle_version' => 'v0.10b15021401',
+  'app.version.sher' => 'v0.10b15021402',
+  'app.version.jquery_bundle_version' => 'v0.10b15021402',
+  'app.version.css_bundle_version' => 'v0.10b15021402',
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
   'app.doggyx.class_path' => '/Users/xiaoyi/Project/doggy-x',
   'app.redis.default' => 
@@ -453,7 +455,7 @@ Doggy_Config::add( array (
     'port' => 6379,
   ),
   'app.topic.dream_category_id' => 9,
-  'app.topic.idea_category_id' => 55,
+  'app.topic.idea_category_id' => 76,
   'app.comeon.product_id' => 1120800090,
   'app.alipay.partner' => '2088411237666512',
   'app.alipay.key' => '8igqejramxdbw53yvlp8aukvbt9s5rnd',

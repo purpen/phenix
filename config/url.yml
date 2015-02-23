@@ -63,8 +63,10 @@ app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
 # 产品灵感
-app.url.idea: '{$app.url.domain}/idea'
-app.url.idea.list: '{$app.url.domain}/idea/%s/p%s'
+app.url.stuff: '{$app.url.domain}/stuff'
+app.url.stuff.list: '{$app.url.stuff}/c%d/p%s'
+app.url.stuff.view: '{$app.url.stuff}/view-%d.html'
+app.url.stuff.comment: '{$app.url.stuff}/view-%d-%d.html'
 
 # 活动
 app.url.active: '{$app.url.domain}/active'
@@ -119,6 +121,7 @@ app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
+app.url.upload.stuff: '{$app.url.upload}/stuff'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
@@ -184,8 +187,6 @@ app.url.join: '{$app.url.guide}/join'
 
 # 图片分享
 app.url.share: '{$app.url.domain}/share'
-app.url.stuff: '{$app.url.domain}/idea'
-app.url.stuff.view: '{$app.url.stuff}/%s'
 
 # guide
 app.url.guide: '{$app.url.action_base}/guide'
