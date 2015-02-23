@@ -157,6 +157,12 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->to_taconite_page('ajax/bonus_ok.html');
 	}
 	
+	public function egg(){
+		return $this->to_html_page('page/egg.html');
+	}
+	
+	
+	
 	/**
 	 * 玩蛋去
 	 */
