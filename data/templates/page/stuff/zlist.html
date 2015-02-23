@@ -47,7 +47,7 @@
 								产品灵感
 							</a>
 						</h1>
-						{% category_list var:'all_category' only_open:1 domain:4 current:cid pid:idea_category_id %}
+						{% category_list var:'all_category' only_open:1 domain:4 current:cid pid:top_category_id %}
 						<div class="children">
 							{% for cate in all_category.rows %}
 								<h2>
@@ -56,7 +56,11 @@
 									</a>
 								</h2>
 							{% endfor %}
-				
+							<h2>
+								<a target="_blank" href="{{ app_url_birdegg }}">
+									蛋年创新大会
+								</a>
+							</h2>
 						</div>
 						<p class="discription"><small>“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</small></p>
 					</div>
@@ -90,7 +94,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% stuff_list var:'stufflist' category_id:cid sort:sort sticked:sticked featured:featured page:page size:40 %}
+				{% stuff_list var:'stufflist' category_id:cid is_top:is_top sort:sort sticked:sticked featured:featured page:page size:40 %}
 				<div class="ui four cards">
 					{% for stuff in stufflist.rows %}
 				  	<div class="card">

@@ -98,6 +98,8 @@ app.url.asset: '{$app.url.action_base}/asset'
 # 推荐广告
 app.url.advertise.view: '{$app.url.action_base}/tracker?kid=%s'
 
+# 蛋年活动
+app.url.birdegg: '{$app.url.domain}/birdegg'
 
 # 微信
 app.url.wechat: '{$app.url.domain}/wechat'
