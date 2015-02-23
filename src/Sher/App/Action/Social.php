@@ -63,6 +63,13 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	}
 	
 	/**
+	 * 资深专家/导师
+	 */
+	public function mentors(){
+		return $this->to_html_page('page/social/mentors.html');
+	}
+	
+	/**
 	 * 社区列表
 	 */
 	public function get_list(){		

@@ -1,0 +1,80 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#user-form').form({
+		mentor: {
+			identifier  : 'mentor',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '专家身份不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">用户管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
+		<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活</a>
+		<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活</a>
+		<a href="{{ app_url_admin }}/user?state=3&time={{ time }}" class="{{ css_pending }} item">已禁用</a>
+		<a class="{{ css_admin }} item" href="{{ app_url_admin }}/user?role=admin">管理员</a>
+		<a class="{{ css_editor }} item" href="{{ app_url_admin }}/user?role=editor">编辑人员</a>
+	  	<div class="right menu">
+	    	<div class="ui dropdown item">
+	      	  	筛选时间
+	      	  	<div class="menu">
+					<a href="{{ app_url_admin }}/user?time=" class="item">全部</a>
+					<a href="{{ app_url_admin }}/user?time=yesterday" class="{{ css_yesterday }} item">昨天</a>
+					<a href="{{ app_url_admin }}/user?time=week" class="{{ css_week }} item">最近一周</a>
+					<a href="{{ app_url_admin }}/user?time=mouth" class="{{ css_mouth }} item">最近一月</a>
+	      	  	</div>
+	    	</div>
+	    </div>
+	</div>
+	<div class="ui nopad grid">
+		<div class="right floated five wide column">
+			<form action="{{ app_url_admin_base }}/user" class="ui form" method="post">
+				<div class="field">
+					<input placeholder="Search..." type="text" name="q" />
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="ui form segment">
+		<h4>编辑用户信息</h4>
+		
+		<form action="{{ app_url_admin_base }}/user/modify" class="ajax-form" method="post" id="user-form">
+			<input type="hidden" name="_id" value="{{ user._id }}" id="target_id" />
+			
+			<div class="inline field">
+				<label for="pid">专家身份：</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="mentor" value="{{ user.mentor }}" />
+				    <div class="default text">请选择</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+						{% for mentor in mentors %}
+						<div data-value="{{ mentor.id }}" class="{% if mentor.id == user.mentor %}active {% endif %}item">{{ mentor.name }}</div>
+						{% endfor %}
+				    </div>
+				</div>
+			</div>
+			
+			<input type="submit" class="ui magenta inverted button" value="确认保存">
+			<input type="button" class="ui gray inverted button" value="取消">
+		</form>
+	</div>
+{% endblock %}
