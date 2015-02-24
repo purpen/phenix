@@ -169,40 +169,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui shop show" id="shoppage">
+<div class="shop submenu">
 	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domain }}">
-						<i class="home icon"></i> 首页
-					</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_sale }}">预售</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_domain }}/sale/c{{ product.category._id }}">{{ product.category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ product.title }}</div>
-				</div>
-			</div>
-			<div class="right aligned five wide column">
-				<div class="ui top right pointing quickly dropdown">
-				  	<i class="block layout icon"></i>
-					{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-					<div class="menu">
-						<a class="item" href="{{ app_url_sale }}">新品预售</a>
-						<a class="item" href="{{ app_url_shop }}/c0">全部类别</a>
-						{% for cat in category.rows %}
-						<a class="item" href="{{ cat.view_url }}">
-				        	{{ cat.title }}
-				      	</a>
-						{% endfor %}
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain current:product.category._id show_all:0 %}
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
 					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui {{ cat.active }} link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
-	
+</div>
+
+<div class="ui shop show" id="shoppage">
 	<div class="product cover">
 		<div class="ui responsive grid">
 			<div class="center aligned row">
@@ -262,12 +249,14 @@
 					<h3 class="ui dark header">
 						<div class="content">
 							{{ product.title }}
+							{% if product.designer %}
 							<div class="sub header">
 								<a href="{{ product.designer.home_url }}" class="ui link" title="设计师">
 									{{ product.designer.nickname }}
 								</a>
 								<i class="map marker icon"></i>{{ product.designer.city }} {{ product.designer.profile.job }}
 							</div>
+							{% endif %}
 						</div>
 					</h3>
 					<div class="attributes">
@@ -362,11 +351,13 @@
 		</div>
 	</div>
 	
+	{% sku_list var:'presales' product_id:product._id stage:5 %}
+	{% if presales.total_rows %}
 	<div class="product dream">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					{% sku_list var:'presales' product_id:product._id stage:5 %}
+					
 					<div class="ui levels grid">
 						{% for presale in presales.rows %}
 						<div class="ui level row">
@@ -428,6 +419,7 @@
 			
 		</div>
 	</div>
+	{% endif %}
 	
 	{% if product._id == 1100197074 %}
 	<div class="product promotion">
@@ -572,6 +564,28 @@
 		</div>
 	</div>
 	
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_sale }}">预售</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_domain }}/sale/c{{ product.category._id }}">{{ product.category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">{{ product.title }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}

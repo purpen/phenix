@@ -3,10 +3,13 @@
 
 {% block page_css %}
 <style class="text/css">
-	.try .masthead {
-		background: url("{{ app_url_packaged }}/images/try_banner.jpg") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
-	    height: 300px;
-		color: #fff;
+	.try.masthead {
+		color: white;
+		padding: 100px 0 60px;
+		background: url("{{ app_url_packaged }}/images/banner-trial.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
+	}
+	.try.masthead .buttons {
+		margin-top: 3rem;
 	}
 	.two-nav{
 		background:#f4f4f4;
@@ -40,43 +43,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
+<div class="try masthead">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
+		<div class="center aligned column white section-title">
+			<h2 class="block title">申请成为试用达人</h2>
+			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
+			<hr>
+			<div class="buttons">
+				<a href="{{ app_url_helper }}/itry" class="ui inverted gift button">
+					<i class="certificate icon"></i> 试用规则
+				</a>
 			</div>
 		</div>
 	</div>
 </div>
-
+	
 <div class="ui try">
-	<div class="masthead">
-		<div class="masthead-cover">
-			<div class="ui responsive grid">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							申请成为试用达人
-							<div class="sub header">
-								每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。
-							</div>
-						</div>
-					</h2>
-					<div class="ui buttons">
-						{% if !visitor.is_login %}
-						<a href="{{ app_url_domain }}/auth/signup" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
-							现在申请
-						</a>
-						{% endif %}
-						<a href="{{ app_url_helper }}/try" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
-							试用规则
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="mainlist">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -114,6 +96,22 @@
 				</div>
 			</div>
 		</div><!--end responsive grid-->
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">新品试用</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
