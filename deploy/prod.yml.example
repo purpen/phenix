@@ -46,6 +46,8 @@ app.topic.dream_category_id: 21
 
 # 产品灵感
 app.topic.idea_category_id: 16
+# 蛋年活动
+app.birdegg.category_id: 80
 
 # 就现在商品
 app.comeon.product_id: 1112616234
@@ -106,6 +108,7 @@ app.url.upload.pictures: '{$app.url.upload}'
 app.url.upload.avatar: '{$app.url.upload}'
 app.url.upload.dotry: '{$app.url.upload}'
 app.url.upload.advertise: '{$app.url.upload}/advertise'
+app.url.upload.stuff: '{$app.url.upload}'
 
 # 银联支付
 app.quickpay.key: '898111153990242'

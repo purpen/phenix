@@ -3,12 +3,14 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Product extends Sher_Api_Action_Base {
+class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 	
+  /**
 	public $stash = array(
 		'page' => 1,
 		'size' => 10,
-	);
+  );
+   */
 	
 	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment');
 	
@@ -23,8 +25,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	 * 分类
 	 */
 	public function category(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$query   = array();
 		$options = array();
@@ -46,8 +48,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	 * 商品列表
 	 */
 	public function getlist(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
@@ -280,18 +282,24 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
 			
 			$model = new Sher_Core_Model_Favorite();
-			if (!$model->check_loved($user_id, $id, $type)) {
+			if ($model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->cancel_love($user_id, $id, $type);
-			}
+        if($ok){
+        	// 获取计数
+          $love_count = $this->remath_count($id, 'love_count');
+          return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
+        }else{
+          return $this->api_json('操作失败', 3003);
+        }
+      }else{
+        return $this->api_json('已点赞', 3004);     
+      }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
 		
-		// 获取计数
-		$love_count = $this->remath_count($id, 'love_count');
-		
-		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
+
 	}
 	
 	/**
@@ -299,8 +307,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	 */
 	public function comments(){
 		$type = Sher_Core_Model_Comment::TYPE_PRODUCT;
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		// 请求参数
         $user_id = $this->current_user_id;

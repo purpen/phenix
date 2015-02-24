@@ -6,7 +6,24 @@
 class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
     protected $collection = "stuff";
+	
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 
+	# 编辑推荐,首页推荐
+	const STICK_DEFAULT = 0;
+	const STICK_EDITOR = 1;
+	const STICK_HOME = 2;
+	
+	# 精选
+	const FEATURED_DEFAULT = 0;
+	const FEATURED_OK = 1;
+	
+	# 产品阶段
+	const PROCESS_DESIGN = 1;
+	const PROCESS_DEVELOP = 2;
+	const PROCESS_PERSALE = 5;
+	const PROCESS_SALE = 9;
+	
     protected $schema = array(
 	    'user_id' => 0,
 		
@@ -20,25 +37,45 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     	'tags' => array(),
         'like_tags' => array(),
 		
- 		'asset_id' => '',
+		# 品牌名称
+		'brand' => '',
+		# 所属国家
+		'country' => '',
+		# 上市时间
+		'market_time' => '',
+		# 指导价格
+		'official_price' => 0,
+		# 产品阶段
+		'processed' => self::PROCESS_SALE,
+		
+ 		'cover_id' => '',
+		'asset_count' => 0,
 		
     	'view_count' => 0,
-        'favorite_count' => 0, #收藏数
-        'love_count' => 0, #喜欢数
-    	'comment_count' => 0, #回应数
+		# 收藏数
+        'favorite_count' => 0,
+		# 喜欢数
+        'love_count' => 0,
+		# 回应数
+    	'comment_count' => 0,
 		
     	'deleted' => 0,
     	'published' => 1,
 		
-		'random' => 0
+		# 编辑推荐
+		'stick' => self::STICK_DEFAULT,
+		# 精选
+		'featured' => self::FEATURED_DEFAULT,
+		
+		'random' => 0,
     );
-
-	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','deleted','view_count','favorite_count','comment_count');
+	
+	protected $required_fields = array('user_id', 'title');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
-	    'asset' => array('asset_id' => 'Sher_Core_Model_Asset'),
+	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 		'category' => array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
@@ -53,6 +90,14 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		}else{
 	        $row['thumb_small_view_url'] = Doggy_Config::$vars['app.url.default_thumb_small'];
 	        $row['thumb_big_view_url'] = Doggy_Config::$vars['app.url.default_thumb_big'];
+		}
+		
+		if(isset($row['description'])){
+			// 转码
+			$row['description'] = htmlspecialchars_decode($row['description']);
+		
+			// 去除 html/php标签
+			$row['strip_description'] = strip_tags($row['description']);
 		}
 	}
 	
@@ -98,7 +143,57 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
       	  	}
     	}
   	}
-  
+  	
+    /**
+     * 标记为编辑推荐,首页推荐
+     */
+    public function mark_as_stick($id, $value=self::STICK_EDITOR) {
+        return $this->update_set($id, array('stick' => $value));
+    }
+	
+    /**
+     * 取消编辑推荐
+     */
+	public function mark_cancel_stick($id){
+		return $this->update_set($id, array('stick' => 0));
+	}
+	
+    /**
+     * 标记 精选
+     */
+	public function mark_as_featured($id){
+		return $this->update_set($id, array('featured' => 1));
+	}
+	
+    /**
+     * 取消精选
+     */
+	public function mark_cancel_featured($id){
+		return $this->update_set($id, array('featured' => 0));
+	}
+	
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id) {
+		// 删除Asset
+		$asset = new Sher_Core_Model_Asset();
+		$asset->remove_and_file(array('parent_id' => $id));
+		unset($asset);
+		
+		// 删除Comment
+		$comment = new Sher_Core_Model_Comment();
+		$comment->remove(array('target_id' => $id));
+		unset($asset);
+		
+		// 删除TextIndex
+		$textindex = new Sher_Core_Model_TextIndex();
+		$textindex->remove(array('target_id' => $id));
+		unset($textindex);
+		
+		return true;
+	}
+	
 	/**
 	 * 更新喜欢数据
 	 *
@@ -133,7 +228,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	/**
 	 * 增加计数
 	 */
-	public function inc_counter($count_name, $stuff_id=null){
+	public function inc_counter($count_name, $inc=1, $stuff_id=null){
 		if(is_null($stuff_id)){
 			$stuff_id = $this->id;
 		}
@@ -141,7 +236,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 			return false;
 		}
 		
-		return $this->inc($stuff_id, $count_name);
+		return $this->inc($stuff_id, $count_name, $inc);
 	}
 	
 	/**

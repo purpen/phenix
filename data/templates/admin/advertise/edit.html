@@ -126,18 +126,26 @@
 			<input type="hidden" name="_id" value="{{ advertise._id }}" />
 			<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
 			
-			<div class="inline field">
-				<label for="space_id">所属位置：</label>
-				{% space_list var:'spacelist' page:page %}
-				<div class="ui selection dropdown">
-					<input type="hidden" name="space_id" value="{{ advertise.space_id }}" />
-				    <div class="default text">请选择</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-						{% for space in spacelist.rows %}
-						<div data-value="{{ space._id }}" class="{% if space._id == advertise.space_id %}active {% endif %}item">{{ space.title }}</div>
-						{% endfor %}
-				    </div>
+			<div class="two fields">
+				<div class="field">
+					<label for="space_id">所属位置：</label>
+					{% space_list var:'spacelist' page:page %}
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="space_id" value="{{ advertise.space_id }}" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for space in spacelist.rows %}
+							<div data-value="{{ space._id }}" class="{% if space._id == advertise.space_id %}active {% endif %}item">{{ space.title }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui pointing top label">必须选择一个投放位置!</div>
+				</div>
+				<div class="field">
+				  	<label for="ordby">排序：</label>
+					<input type="text" name="ordby" value="{{ advertise.ordby|default 0 }}" />
+					<div class="ui pointing top label">数字越大越靠前!</div>
 				</div>
 			</div>
 			<div class="two fields">
@@ -145,20 +153,14 @@
 				  	<label for="title">标题：</label>
 					<input type="text" name="title" value="{{ advertise.title }}" />
 				</div>
-			</div>
-			<div class="two fields">
 				<div class="field">
-				  	<label for="sub_title">子标题：</label>
-					<input type="text" name="sub_title" value="{{ advertise.sub_title }}" />
+				  	<label for="cate_title">类别标题：</label>
+					<input type="text" name="cate_title" value="{{ advertise.cate_title }}" placeholder="精选商品/火爆预售/免费试用" />
 				</div>
 			</div>
-			
-			<div class="two fields">
-				<div class="field">
-				  	<label for="ordby">排序：</label>
-					<input type="text" name="ordby" value="{{ advertise.ordby|default 0 }}" />
-					<small class="ui magenta text">数字越大越靠前!</small>
-				</div>
+			<div class="field">
+			  	<label for="sub_title">副标题：</label>
+				<input type="text" name="sub_title" value="{{ advertise.sub_title }}" />
 			</div>
 			
 			<p><label for="type">链接类型：</label></p>
@@ -217,10 +219,26 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="two fields">
+			<div class="three fields">
 				<div class="field">
 				  	<label for="bgcolor">扩展背景色值：</label>
 					<input type="text" name="bgcolor" value="{{ advertise.bgcolor }}" placeholder="#000000" />
+				</div>
+				<div class="field">
+				  	<label for="btn_title">按钮名称：</label>
+					<input type="text" name="btn_title" value="{{ advertise.btn_title }}" placeholder="了解详情/火热预定/立即抢购/立即参加" />
+				</div>
+				<div class="field">
+				  	<label for="text_align">对齐方式：</label>
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="text_align" value="{{ advertise.text_align }}" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							<div data-value="left" class="{% if advertise.text_align == 'left' %}active {% endif %}item">左对齐</div>
+							<div data-value="center" class="{% if advertise.text_align == 'center' %}active {% endif %}item">居中对齐</div>
+					    </div>
+					</div>
 				</div>
 			</div>
 			<div class="field">

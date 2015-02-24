@@ -299,11 +299,29 @@ server {
           rewrite ^/shopping(.*)$ /app/site/shopping$1 last;
         }
 		
-	    location /idea {
-		    rewrite /idea(\/*)$ /app/site/social/idea last;
-			rewrite /idea/(\d+)/p(\d+)[/]?$ /app/site/social/idea?cid=$1&page=$2 last;
-		    rewrite /idea/(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/social/idea?cid=$1&page=$2&sort=$3 last;
-		    rewrite /idea/(\d+)[/]?$ /app/site/social/idea?cid=$1 last;
+	    location /stuff {
+		    rewrite ^/stuff(\/*)$ /app/site/stuff last;
+			rewrite ^/stuff/c(\d+)[/]?$ /app/site/stuff?cid=$1 last;
+			rewrite ^/stuff/c(\d+)/p(\d+)[/]?$ /app/site/stuff?cid=$1&page=$2 last;
+			rewrite ^/stuff/c(\d+)/p(\d+).html$ /app/site/stuff?cid=$1&page=$2 last;
+		    rewrite ^/stuff/c(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/stuff?cid=$1&page=$2&sort=$3 last;
+			rewrite ^/stuff/(featured|sticked|latest)[/]?$ /app/site/stuff/$1 last;
+			rewrite ^/stuff/(featured|sticked|latest)/c(\d+)[/]?$ /app/site/stuff/$1?cid=$2 last;
+			rewrite ^/stuff/(featured|sticked|latest)/c(\d+)/p(\d+)[/]?$ /app/site/stuff/$1?cid=$2&page=$3 last;			
+		  	rewrite ^/stuff/view-(\d+).html$ /app/site/stuff/view?id=$1 last;
+          	rewrite ^/stuff/view-(\d+)-(\d+).html$ /app/site/stuff/view?id=$1&page=$2 last;
+			rewrite ^/stuff(.*)$ /app/site/stuff$1 last;
+		}
+		
+	    location /birdegg {
+		    rewrite ^/birdegg(\/*)$ /app/site/birdegg last;
+			rewrite ^/birdegg/c(\d+)[/]?$ /app/site/birdegg/zlist?cid=$1 last;
+			rewrite ^/birdegg/c(\d+)/p(\d+)[/]?$ /app/site/birdegg/zlist?cid=$1&page=$2 last;
+			rewrite ^/birdegg/c(\d+)/p(\d+).html$ /app/site/birdegg/zlist?cid=$1&page=$2 last;
+		    rewrite ^/birdegg/c(\d+)/p(\d+)/([a-zA-Z_]+)[/]?$ /app/site/birdegg/zlist?cid=$1&page=$2&sort=$3 last;			
+		  	rewrite ^/birdegg/(\d+).html$ /app/site/birdegg/view?id=$1 last;
+          	rewrite ^/birdegg/(\d+)-(\d+).html$ /app/site/birdegg/view?id=$1&page=$2 last;
+			rewrite ^/birdegg(.*)$ /app/site/birdegg$1 last;
 		}
 		
 		location /search {

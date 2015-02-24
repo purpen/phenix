@@ -52,6 +52,9 @@ http://www.phptext.net/article_view.php?id=185
 
 5、Hello world!
 
+6、css特性
+animation: 2s linear 0s normal none infinite running sh-mousedown
+
 ###
 froala_editor v1.1.7 普通上传默认设置了key,与七牛云存储key冲突.
 

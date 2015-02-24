@@ -225,45 +225,31 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui shop show" id="shoppage">
+<div class="shop submenu">
 	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domain }}">
-						<i class="home icon"></i> 首页
-					</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_domain }}/shop/c{{ product.category._id }}">{{ product.category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ product.title }}</div>
-				</div>
-			</div>
-			<div class="right aligned five wide column">
-				<div class="ui top right pointing quickly dropdown">
-				  	<i class="block layout icon"></i>
-					{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-					<div class="menu">
-						<a class="item" href="{{ app_url_sale }}">新品预售</a>
-						<a class="item" href="{{ app_url_shop }}/c0">全部类别</a>
-						{% for cat in category.rows %}
-						<a class="item" href="{{ cat.view_url }}">
-				        	{{ cat.title }}
-				      	</a>
-						{% endfor %}
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain current:product.category._id show_all:0 %}
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
 					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui {{ cat.active }} link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
-	
+</div>
+
+<div class="ui shop show" id="shoppage">
 	<div class="product cover">
 		<div class="ui responsive grid">
 			<div class="center aligned row">
 				<div class="column">
-					
 					<div class="slidebox">
 						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 					
@@ -591,7 +577,27 @@
 	
 	<!--你可能喜欢的产品-->
 	<div id="product_guess_list"><!--ajax fetch--></div>
-	
+
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_domain }}/shop/c{{ product.category._id }}">{{ product.category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">{{ product.title }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}

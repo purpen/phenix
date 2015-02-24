@@ -4,11 +4,10 @@
  * @author purpen
  */
 class Sher_App_Action_Helper extends Sher_App_Action_Base {
-	public $stash = array(
-		
-	);
 	
-	protected $exclude_method_list = array('execute','rule','question','standard','agreement','law');
+	public $stash = array();
+	
+	protected $exclude_method_list = array('execute','rule','question','standard','agreement','law','itry');
 
 	/**
 	 * 默认入口
@@ -80,6 +79,13 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 	public function law() {
 		$this->set_target_css_state('page_law');
 		return $this->to_html_page('page/helper/law.html');
+	}
+	
+	/**
+	 * 试用规则说明
+	 */
+	public function itry(){
+		return $this->to_html_page('page/helper/try.html');
 	}
 	
 	/**

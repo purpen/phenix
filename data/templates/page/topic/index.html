@@ -15,12 +15,6 @@
 	.ui.tophead .introduction .trychannel {
 		margin: 0 0 0.35em;
 	}
-	.ui.tophead .introduction .trychannel a {
-		color: rgba(255,255,255,0.85);
-	}
-	.ui.tophead .introduction .trychannel a:hover {
-		text-decoration: none;
-	}
 	.two-nav{
 		background:#f4f4f4;
 	}
@@ -36,15 +30,6 @@
 {% endblock %}
 
 {% block tophead %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
 <div class="ui tophead">
 	<div class="masthead">
 		<div class="masthead-cover transparent">
@@ -53,7 +38,7 @@
 					<div class="column">
 						<div class="introduction">
 							<h2 class="trychannel">
-                <!--<a href="{{ app_url_domain }}/dream" class="ui link" data-0="border-bottom:2px solid rgba(255,255,255,0);" data-30="border-bottom:2px solid rgba(255,255,255,0.85);color:rgba(255,255,255,0.85);">创意征集</a>-->
+                				<!--<a href="{{ app_url_domain }}/dream" class="ui link" data-0="border-bottom:2px solid rgba(255,255,255,0);" data-30="border-bottom:2px solid rgba(255,255,255,0.85);color:rgba(255,255,255,0.85);">创意征集</a>-->
 							</h2>
 							<h2 class="ui header">
 							  	<div class="content">
@@ -62,10 +47,7 @@
 							  	</div>
 							</h2>
 							<div class="actions">
-								<a href="{{ app_url_domain }}/sale/1121112074.html" class="ui white btn-4 btn-4c icon-arrow-right btn" data-0="background-color:rgba(255,255,255,0);color:rgba(255,255,255,1);" data-50="background-color:rgba(255,255,255,1);color:rgba(235, 97, 122, 1);" target="_blank">
-									了解更多
-								</a>
-								<a href="{{ app_url_domain }}/sale/1121112074.html" class="ui white btn-4 btn-4c icon-arrow-right btn" data-0="background-color:rgba(255,255,255,0);color:rgba(255,255,255,1);" data-50="background-color:rgba(255,255,255,1);color:rgba(235, 97, 122, 1);" target="_blank">
+								<a href="{{ app_url_domain }}/sale/1121112074.html" class="ui inverted button" target="_blank">
 									火热预订
 								</a>
 							</div>
@@ -155,6 +137,21 @@
 						</div>
 					</div>
 				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">话题</div>
+				</div>
 			</div>
 		</div>
 	</div>

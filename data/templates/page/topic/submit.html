@@ -104,7 +104,7 @@
 					
 					if(data.is_error){
 						$(event.target).addClass('error');
-						phenix.show_error_message(data.message, event.target);
+						phenix.show_error_note(data.message, event.target);
 					}else{
 						phenix.redirect(data.redirect_url);
 					}
