@@ -1,52 +1,107 @@
 {%extends 'layout/base.html'%}
 {% block title %}蛋年-{% endblock %}
+
 {% block page_css %}
 <style type="text/css">
-body{
-	background:#2b0649;
-}
-.ui.tabox ,.ui.tabox.smint.fxd{
-	background: none repeat scroll 0 0 #343028;
-  width: 100%;
-	z-index: 9999;
-	border:0px solid #fff;
-	margin:0;
-}
-.ui.tabox .ui.tabs {
-	display: inline-block;
-	text-align:center;
-}
-/*  ,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
-.ui.tabox .ui.tabs .tab{
-	color:#fff;
-	text-align:center;
-	font-size: 0.9285rem;
-	margin-left: 1.5%;
-	margin-right: 1.5%;
-	padding-top:1%;
-	padding-bottom:1%;
-	margin-bottom:0px;
-}
-.ui.tabox{
-	-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-o-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
-	transition:opacity 0.25s ease,translateY 0.25s ease;
-}
-.ui.tabs .tab:hover{
-	color:#f36 !important;
-}
-.ui.tabox a.ui.btn,.ui.tabox a.ui.btn:hover{
-	padding: 0.4em 2em;
-	margin-top: 0.29em;
-	border-radius: 4px;
-	float:right;
-}
-.ui.tabox .ui.btn-4c:before {
-	top: -9px;
-}
-
+	body{
+		background: #1c0318;
+	}
+	.ui.tabox ,.ui.tabox.smint.fxd{
+		background: none repeat scroll 0 0 #343028;
+	  	width: 100%;
+		z-index: 9999;
+		border:0px solid #fff;
+		margin:0;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.ui.tabox .ui.tabs {
+		display: inline-block;
+		text-align:center;
+	}
+	/*  ,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
+	.ui.tabox .ui.tabs .tab{
+		color:#fff;
+		text-align:center;
+		font-size: 0.9285rem;
+		margin-left: 1.5%;
+		margin-right: 1.5%;
+		padding-top: 1.25%;
+		padding-bottom: 1.25%;
+		margin-bottom: 0px;
+	}
+	.ui.tabox{
+		-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
+		-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
+		-o-transition: opacity 0.25s ease,translateY 0.25s ease;
+		-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
+		transition:opacity 0.25s ease,translateY 0.25s ease;
+	}
+	.ui.tabs .tab:hover{
+		color:#f36 !important;
+	}
+	.ui.tabox a.ui.btn,.ui.tabox a.ui.btn:hover{
+		border-radius: 0.2875em;
+	    float: right;
+	    margin-top: 0.525em;
+	    padding: 0.5em 2.5em;
+	}
+	.ui.tabox .ui.btn-4c:before {
+		top: -9px;
+	}
+	
+	
+	.section.instro {
+		background-image: url("{{ app_url_packaged }}/images/egg-desc-stars.png");
+		background-position: right center;
+		background-repeat: no-repeat;
+	}
+	.section.instro .left-text,
+	.section.instro .right-text {
+		display: inline-block;
+		box-sizing: border-box;
+		vertical-align: top;
+	}
+	.section.instro .left-text {
+		padding-left: 5%;
+	    padding-right: 5%;
+		margin-top: 6%;
+	    width: 35%;
+	}
+	.section.instro .left-text .summary {
+		color: #8c4a8c;
+		line-height: 1.5;
+	    margin-bottom: 1.5rem;
+	}
+	.section.instro .left-text .date,
+	.section.instro .left-text b {			
+		color: #fff;
+	}
+	.section.instro .right-text {
+		width: 55%;
+	}
+	
+	.section.stuffs .featured {
+		margin-bottom: 2rem;
+		margin-top: 2rem;
+	}
+	.section.stuffs .buttons {
+		text-align: center;
+	}
+	.section.stuffs .tips {
+		color: rgba(255, 255, 255, 0.7);
+		line-height: 2;
+		padding: 2rem 6rem;
+	}
+	
+	.section.stuffs {
+		padding: 60px 0 50px;
+		background-image: url("{{ app_url_packaged }}/images/egg-bgline.png");
+		background-repeat: no-repeat;
+		background-position: right center;
+	}
+	
 
 .page{
 	position: relative;
@@ -63,11 +118,7 @@ body{
 	color:#fff;
 	padding-top:20px !important;
 }
-.left-text,.right-text{
-	display:inline-block;
-	float:left;
-	margin-top:20px;
-}
+
 .w-252{
 	width:252px;
 	height:252px;
@@ -292,16 +343,6 @@ body{
 	margin-left:78px;
 }
 
-
-/*.left-text{
-	width:418px;
-	height:554px;
-}
-.right-text{
-	width:726px;
-	height:578px;
-}*/
-
 </style>
 {% endblock %}
 
@@ -318,10 +359,10 @@ body{
 
 {% block jquery %}
 
-	
+	/*
 		$('#dowebok').fullpage({
 			sectionsColor: [],
-		});
+		});*/
 
 
 
@@ -341,44 +382,60 @@ body{
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream2'});
 
 {% endblock %}
+
+
 {% block content %}
 <div class="ui tabox">
-  <div class="ui responsive grid">
-    <div class="row">
-      <div class="column">
-        <div class="ui tabs">
-            <a class="active tab" href="#start">首页</a>
-            <a class="tab" href="#abstract">关于蛋年</a>
-          <a class="tab" href="#report">活动嘉宾</a>
-          <a class="tab" href="#process">活动日期</a>
-          <a class="tab" href="#place">活动简介</a>
-          <a class="tab" href="#part">联系我们</a>
-          <a class="tab" href="#comment">合作伙伴</a>
-
-					<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	          <span>产品提交</span><i class="icon-arrow-right-sharp"></i>
-	        </a>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui tabs">
+					<a class="active tab" href="#start">首页</a>
+					<a class="tab" href="#abstract">关于蛋年</a>
+					<a class="tab" href="#report">活动嘉宾</a>
+					<a class="tab" href="#process">活动日期</a>
+					<a class="tab" href="#place">活动简介</a>
+					<a class="tab" href="{{ app_url_birdegg }}/zlist">产品列表</a>
+					<a class="tab" href="#part">联系我们</a>
+					<a class="tab" href="#comment">合作伙伴</a>
+					<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
+	          			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
+	        		</a>
+        		</div>
+      	  </div>
+    	</div>
+  	</div>
 </div>
+
 <div id="dowebok">
 	<div class="section">
 		<section class="page">
-			<img src="{{ app_url_packaged }}/images/egg_1.jpg" class="ui image">
+			<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image">
 		</section>
 	</div>
-	<div class="section">
+	<div class="section instro">
 		<section clas="page">
 			<div class="w-1180">
 				<h3 class="ui header center aligned">开启蛋年之旅</h3>
 				<img src="{{ app_url_packaged }}/images/egg_line.png">
 				<div class="left-text">
-					<img src="{{ app_url_packaged }}/images/egg_2.jpg">
+					<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
+
+					<div class="summary">蛋即诞!让我们携手并进,从蛋出发,只为有天破壳而出,翱翔九天。</div>
+
+					<div class="date">2015年3月1日- 4月1日</div>
+					<div class="summary">征集全球最火爆智能硬件（预计1500件）</div>
+
+					<div class="date">2015年4月11日 13:00 - 16:00</div>
+					<div class="summary">聚焦智能，畅聊发展</div>
+					<div class="summary">北京. 751D-PARK广场</div>
+
+					<div class="date">2015年4月11日 16:00 - 17:00</div>
+					<div class="summary">掩埋现在,憧憬明天,共同创造吉尼斯世</div>
+					<div class="summary">北京. 751D-PARK广场</div>
 				</div>
 				<div class="right-text">
-					<img src="{{ app_url_packaged }}/images/egg_3.jpg">
+					<img src="{{ app_url_packaged }}/images/egg-five.png" class="ui image" />
 				</div>
 				</div>
 		</section>
@@ -540,6 +597,56 @@ body{
 		</section>
 	</div>
 	
+	<div class="section stuffs">
+		<section class="page">
+			<div class="w-1180">
+				<h3 class="ui header center aligned">精选产品</h3>
+				<img src="{{ app_url_packaged }}/images/egg_line.png" />
+				
+				<div class="featured">
+					{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 sort:sort size:8 %}
+					<div class="ui four cards">
+						{% for stuff in stufflist.rows %}
+					  	<div class="card">
+					    	<div class="image">
+					      	  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}">
+									<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+								</a>
+					    	</div>
+					    	<div class="content">
+					      	  	<div class="header">
+									<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+								</div>
+					      	  	<div class="description">
+					        		{{ stuff.strip_description|truncate 60 '' }}
+					      	  	</div>
+					    	</div>
+					    	<div class="extra">
+					      	  	<a class="right floated created">
+									<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+									<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+								</a>
+								<a href="{{ stuff.user.home_url }}" class="ui icon link">
+									<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+								</a>
+					    	</div>
+					  	</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="buttons">
+					<a href="{{ app_url_birdegg }}/submit" class="ui inverted button" target="_blank">产品提交</a>
+					<a href="{{ app_url_birdegg }}/zlist" class="ui inverted button">
+						<i class="layout grid icon"></i>全部产品列表
+					</a>
+				</div>
+				
+				<p class="tips"><b>Tips:</b> 现面向全世界征集最火爆的智能硬件产品,无论是样机还是已经面市的智能产品均可参加,只需将智能硬件的名称、产品图及简介上传到太火鸟专题页面即可。<br />
+获得用户支持数量前100名的智能硬件产品获得在 中国智能硬件.蛋年创新大会 展示的机会，并被收入时光蛋中，亲身经历中国智能硬件蛋年开启的历史时刻。</p>
+			</div>
+		</section>
+	</div>
+	
 	<div class="section comment">
 		<section class="page">
 			<div class="w-1180">
@@ -614,6 +721,15 @@ body{
 		</section>
 	</div>
 
+	<div class="section contact">
+		<section class="page">
+			<div class="w-1180">
+				<h3 class="ui header center aligned">联系我们</h3>
+				<img src="{{ app_url_packaged }}/images/egg_line.png" />
+				
+			</div>
+		</section>
+	</div>
 
 </div>
 

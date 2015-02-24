@@ -51,6 +51,8 @@ app.topic.dream_category_id: 9
 
 # 产品灵感
 app.topic.idea_category_id: 76
+# 蛋年活动
+app.birdegg.category_id: 80
 
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090

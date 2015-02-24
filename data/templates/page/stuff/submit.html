@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}提交产品-{% endblock %}
+{% block title %}产品提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -186,9 +186,9 @@
 						<i class="basic icon community"></i> 发现
 					</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_stuff }}">产品灵感</a>
+				  	<a class="ui section link" href="{{ parent_category.view_url }}">{{ parent_category.title }}</a>
 				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">提交产品</div>
+				  	<div class="active section">产品提交</div>
 				</div>
 			</div>
 		</div>
@@ -197,7 +197,7 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						提交产品
+						产品提交
 						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
@@ -209,7 +209,7 @@
 						<input type="hidden" name="file_count" id="file_count" />
 						
 						<div class="ui field">
-							<label>类别</label>
+							<label>所属类别</label>
 						   	<div class="ui options">
 								{% if mode == 'edit' %}
 						    		<input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
@@ -230,18 +230,18 @@
 						</div>
 					
 						<div class="field">
-							<label for="title">名称</label>
+							<label for="title">产品名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
 						
 						<div class="field">
-							<label>标签</label>
+							<label>产品标签</label>
 						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
 						
 						<div class="field">
-							<label>封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						

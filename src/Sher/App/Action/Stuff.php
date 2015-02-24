@@ -58,10 +58,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	protected function zlist($list_tab='latest'){
 		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
-		if(!$cid){
+		$top_category_id = Doggy_Config::$vars['app.topic.idea_category_id'];
+		$is_top = false;
+		if(!$cid || ($cid == $top_category_id)){
 			$this->stash['all_stuff'] = 'active';
+			$cid = $top_category_id;
+			$is_top = true;
 		}
-		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
+		$this->stash['is_top'] = $is_top;
+		$this->stash['top_category_id'] = $top_category_id;
+		$this->stash['cid'] = $cid;
 		
 		// 分页链接
 		$page = 'p#p#';
@@ -131,14 +137,15 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 提交入口
 	 */
 	public function submit(){
-		$cid = $this->stash['cid'];
+		$top_category_id = Doggy_Config::$vars['app.topic.idea_category_id'];
 		
-		// 默认产品灵感,也可以十万火计、蛋年活动
-		if(empty($cid)){
-			$cid = Doggy_Config::$vars['app.topic.idea_category_id'];
-		}
-		$this->stash['cid'] = $cid;
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$top_category_id);
+		$parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
+		$this->stash['parent_category'] = $parent_category;
 		
+		$this->stash['cid'] = $top_category_id;
 		$this->stash['mode'] = 'create';
 		// 图片上传参数
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
