@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-02-16 14:01:46
+//dump on 2015-02-23 20:00:25
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -368,7 +368,7 @@ Doggy_Config::add( array (
   'app.url.topic.view' => 'http://taihuoniao.me/topic/view-%s-%s.html',
   'app.url.product.subject' => 'http://taihuoniao.me/topic/subject?id=%s&page=%s',
   'app.url.stuff' => 'http://taihuoniao.me/stuff',
-  'app.url.stuff.list' => 'http://taihuoniao.me/stuff/%d/p%s',
+  'app.url.stuff.list' => 'http://taihuoniao.me/stuff/c%d/p%s',
   'app.url.stuff.view' => 'http://taihuoniao.me/stuff/view-%d.html',
   'app.url.stuff.comment' => 'http://taihuoniao.me/stuff/view-%d-%d.html',
   'app.url.active' => 'http://taihuoniao.me/active',
@@ -385,6 +385,7 @@ Doggy_Config::add( array (
   'app.url.favorite' => 'http://taihuoniao.me/app/site/favorite',
   'app.url.asset' => 'http://taihuoniao.me/app/site/asset',
   'app.url.advertise.view' => 'http://taihuoniao.me/app/site/tracker?kid=%s',
+  'app.url.birdegg' => 'http://taihuoniao.me/birdegg',
   'app.url.wechat' => 'http://taihuoniao.me/wechat',
   'app.url.mm_shop.view' => 'http://taihuoniao.me/wechat/%s.html',
   'app.url.jsapi.wxpay' => 'http://taihuoniao.me/wxpay/',
@@ -456,6 +457,7 @@ Doggy_Config::add( array (
   ),
   'app.topic.dream_category_id' => 9,
   'app.topic.idea_category_id' => 76,
+  'app.birdegg.category_id' => 80,
   'app.comeon.product_id' => 1120800090,
   'app.alipay.partner' => '2088411237666512',
   'app.alipay.key' => '8igqejramxdbw53yvlp8aukvbt9s5rnd',
