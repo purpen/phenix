@@ -1,19 +1,30 @@
-{%extends 'layout/board.html'%}
-{% block title %}投票规则演示-{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}投票规则说明-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+	
+</style>
+{% endblock %}
 {% block jquery %}
 {% endblock %}
 
 {% block content %}
-<section class="ui big block">
+<section class="ui big helper block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">投票规则</h3>
+			<div class="center aligned column white section-title">
+				<h2 class="block title">投票规则说明</h2>
+				<p></p>
 				<hr>
 			</div>
 		</div>
+	</div>
+</section>
+
+<section class="ui white background big about block">
+	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide center aligned column">
+			<div class="center aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">
@@ -43,5 +54,5 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section>	
 {% endblock %}

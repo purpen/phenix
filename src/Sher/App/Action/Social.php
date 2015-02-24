@@ -50,12 +50,12 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
 
-    //传入当前用户
-    if ($this->visitor->id){
-      $this->stash['current_user_id'] = $this->visitor->id;
-    }else{
-      $this->stash['current_user_id'] = 0;  
-    }
+	    //传入当前用户
+	    if ($this->visitor->id){
+	      $this->stash['current_user_id'] = $this->visitor->id;
+	    }else{
+	      $this->stash['current_user_id'] = 0;  
+	    }
 		
 		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
 		
@@ -63,40 +63,17 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	}
 	
 	/**
+	 * 资深专家/导师
+	 */
+	public function mentors(){
+		return $this->to_html_page('page/social/mentors.html');
+	}
+	
+	/**
 	 * 社区列表
 	 */
 	public function get_list(){		
 		return $this->to_html_page('page/social/list.html');
-	}
-	
-	/**
-	 * 产品灵感
-	 */
-	public function idea(){
-		$this->set_target_css_state('page_sub_idea');
-		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
-		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
-		$query_word = '';
-		
-		// 获取类别
-		$category = new Sher_Core_Model_Category();
-		$all_category = $category->find_idea_category();
-		// 添加全部类别
-		$all_cate = array('id'=>0, 'name'=>'全部');
-		array_unshift($all_category, $all_cate);
-		
-		// 获取搜索关键词
-		if($cid){
-			$category_list = $category->find_idea_category($cid);
-			$query_word = $category_list['name'];
-		}
-		
-		$this->stash['all_category'] = $all_category;
-		$this->stash['query_word'] = $query_word;
-		
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::idea_list_url($cid, '#p#');
-		
-		return $this->to_html_page('page/social/idea.html');
 	}
 	
 	/**

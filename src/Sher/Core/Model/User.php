@@ -37,6 +37,26 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	const FROM_ALIPAY = 4;
 	const FROM_WEIXIN = 5;
 	
+	// 专家身份
+	protected $mentors = array(
+		array(
+			'id' => 1,
+			'name' => '工业设计师'
+		),
+		array(
+			'id' => 2,
+			'name' => '视觉设计师'
+		),
+		array(
+			'id' => 5,
+			'name' => '软件工程师'
+		),
+		array(
+			'id' => 9,
+			'name' => '硬件工程师'
+		),
+	);
+	
     protected $roles = array(
         'user' => self::ROLE_USER,
 		'editor' => self::ROLE_EDITOR,
@@ -58,6 +78,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
         'role_id'    => self::ROLE_USER,
 		'permission' => array(),
+		
+		# 专家身份，默认为0
+		'mentor' => 0,
 		
         # sina weibo
         'sina_uid' => null,
@@ -87,6 +110,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'topic_count'   => 0,
 		# 产品数量
 		'product_count' => 0,
+		# 灵感数量
+		'stuff_count'   => 0,
 		
 		## 初次登录导向
 		'first_login'   => 1,
@@ -151,11 +176,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1);
 	
     protected $required_fields = array('account','password');
-    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight');
-	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count');
+    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor');
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count', 'stuff_count');
 	
 	protected $joins = array();
 	
@@ -315,7 +340,40 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if (!empty($row['permission']) && in_array(self::PERMIT_POST,$row['permission'])) {
             $row['can_post'] = true;
         }
+		
+		if(empty($row['mentor'])){
+			$row['mentor_info'] = array('name' => $row['profile']['job']);
+		}else{
+			$row['mentor_info'] = $this->find_mentors($row['mentor']);
+		}
     }
+	
+	/**
+	 * 获取全部组或某个
+	 */
+	public function find_mentors($id=0){
+		if($id){
+			for($i=0;$i<count($this->mentors);$i++){
+				if ($this->mentors[$i]['id'] == $id){
+					return $this->mentors[$i];
+				}
+			}
+			return array();
+		}
+		return $this->mentors;
+	}
+	
+	/**
+	 * 设置用户身份
+	 */
+	public function update_mentor($id, $mentor){
+		// 验证是否设定身份
+		$result = $this->find_mentors((int)$mentor);
+		if(empty($result)){
+			throw new Sher_Core_Model_Exception('Update user mentor ['.$mentor.'] not defined!');
+		}
+		return $this->update_set((int)$id, array('mentor' => (int)$mentor));
+	}
 	
     /**
      * 判断是否是编辑

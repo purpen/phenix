@@ -2,15 +2,11 @@
 {% block title %}发现-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('.special.cards .image').dimmer({
-	  on: 'hover'
-	});
-	
 	$('#sticktopic .list .item').tab({
 	    context: $('#sticktopic')
 	});
@@ -68,26 +64,31 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% topic_list var:'list' category_id:idea_category_id size:3 sort:0 %}
-				<div class="ui three cards">
-					{% for topic in list.rows %}
+				{% stuff_list var:'stufflist' sticked:1 size:4 %}
+				<div class="ui four cards">
+					{% for stuff in stufflist.rows %}
 				  	<div class="card">
 				    	<div class="image">
-				      	  	<img src="{{ topic.cover.thumbnails.md.view_url }}" />
+				      	  	<a href="{{ stuff.view_url }}" title="{{ stuff.title }}">
+								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+							</a>
 				    	</div>
 				    	<div class="content">
 				      	  	<div class="header">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">{{ topic.title|truncate 60 }}</a>
+								<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
 							</div>
 				      	  	<div class="description">
-				        		{{ topic.strip_description|truncate 70 }}
+				        		{{ stuff.strip_description|truncate 60 '' }}
 				      	  	</div>
 				    	</div>
-				    	<div class="extra content">
+				    	<div class="extra">
 				      	  	<a class="right floated created">
-				        		<i class="heart icon"></i>{{ topic.love_count }} <i class="user icon"></i>{{ topic.view_count }}
+								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
 							</a>
-							<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" class="ui avatar image" /> {{ topic.user.nickname }}
+							<a href="{{ stuff.user.home_url }}" class="ui icon link">
+								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+							</a>
 				    	</div>
 				  	</div>
 					{% endfor %}
@@ -227,43 +228,26 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' only_ok:1 size:10 sort:'time' has_ship:1 current_user_id:current_user_id %}
-				<div class="ui special five cards">
+				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+				<div class="ui mentors four cards">
 					{% for user in users.rows %}
 				  	<div class="card">
-				    	<div class="dimmable image">
-				      	  	<div class="ui dimmer">
-				        		<div class="content">
-				          		  	<div class="center">
-                            {% if user._id != current_user_id %}
-                              {% if !user.is_ship %}
-                              <a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui inverted button ajax" id="user_{{ user._id }}_ship">
-                               + 关注 
-                              </a>
-                              {% else %}
-                              <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
-                              {% endif %}
-                            {% endif %}
-				          		  	</div>
-				        		</div>
-				      	  	</div>
-				      	  	<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" />
-				    	</div>
-				    	<div class="content">
-				      	  	<a class="header">{{ user.nickname }}</a>
-				      	  	<div class="meta">
-				        		<span class="date">{{ user.profile.job }}</span>
-				      	  	</div>
-				    	</div>
-				    	<div class="extra content">
-				      	  	<a>
-				        		<i class="users icon"></i>
-                    {{ user.fans_count }} 个好友
-				      	  	</a>
-				    	</div>
+						<div class="mentor">
+							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
+							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+							<h3>{{ user.nickname }}</h3>
+							<p>{{ user.mentor_info.name }} {{ user.city }}</p>
+						</div>
 				  	</div>
 					{% endfor %}
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_social }}/mentors" class="ui inverted gray button">
+					<i class="search icon"></i>浏览全部专家
+				</a>
 			</div>
 		</div>
 	</div>

@@ -22,27 +22,6 @@
 {% block content %}
 <div id="topiclist">
 	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 话题
-					</a>
-				  	<i class="angle right icon divider"></i>
-					{% if !is_top %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-					{% endif %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
-				</div>
-			</div>
-			<div class="five wide right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ current_category._id }}" class="ui gray hide button">
-					<i class="add icon"></i> 发表话题
-				</a>
-			</div>
-		</div>
-		
 		<div class="row">
 			<div class="column">
 				<div class="ui magenta tiered menu">
@@ -194,4 +173,29 @@
 
 	</div>
 </div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_topic }}">
+						话题
+					</a>
+				  	<i class="angle right icon divider"></i>
+					{% if !is_top %}
+				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+					{% endif %}
+					<div class="active section">{{ current_category.title }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

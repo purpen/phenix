@@ -203,6 +203,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
+	 * 上传灵感图片
+	 */
+	public function stuff() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$asset_type = Sher_Core_Model_Asset::TYPE_STUFF;
+
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+	
+	/**
 	 * 处理图片的上传
 	 */
 	protected function handle_upload($asset_type, $asset_domain) {
