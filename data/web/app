@@ -1,5 +1,5 @@
 <?php
-//deployed on: Sun Feb 15 13:29:02 2015
+//deployed on: Tue Feb 24 15:11:18 2015
 define('DOGGY_VERSION','v1.4.2');
 define('DOGGY_APP_ROOT','/Users/xiaoyi/Project/phenix/dev_root');
 define('DOGGY_APP_CLASS_PATH','/Users/xiaoyi/Project/phenix/vendor:/Users/xiaoyi/Project/phenix/src:/Users/xiaoyi/Project/doggy-x/src');

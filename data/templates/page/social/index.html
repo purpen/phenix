@@ -38,7 +38,7 @@
 				{% endif %}
 			</div>
 			<div class="six wide column">
-				{% ad_list var:'stkad' page:1 size:2 name:'shop_home_stick' state:2 %}
+				{% ad_list var:'stkad' page:1 size:2 name:'find_right_stick' state:2 %}
 				{% if stkad.total_rows %}
 					{% for skad in stkad.rows %}
 					<div class="ui advert">
@@ -164,7 +164,7 @@
 													{% endfor %}
 												</div>
 												<div class="ui center aligned count text">
-													<small>12张图片</small>
+													<small>{{ dig.asset_count }}张图片</small>
 												</div>
 											{% endif %}
 								      	</div>
