@@ -237,8 +237,12 @@
 		<div class="middle aligned row">
 			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 话题
+						话题
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
@@ -251,11 +255,11 @@
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
 				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui black button">
-					<i class="add icon"></i> 发表话题
+					<i class="edit icon"></i> 发表新话题
 				</a>
 				{% else %}
 				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="add icon"></i> 发表话题
+					<i class="edit icon"></i> 发表新话题
 				</a>
 				{% endif %}
 			</div>
