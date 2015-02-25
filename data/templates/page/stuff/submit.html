@@ -236,7 +236,7 @@
 						
 						<div class="field">
 							<label>产品标签</label>
-						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" />
+						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="产品特性/亮点/别名等优化搜索词" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
 						
@@ -247,7 +247,7 @@
 						
 							<div id="asset-list" class="ui six items">
 								{% if mode == 'edit' %}
-									{% asset_list var:'assets' parent_id:stuff._id asset_type:50 %}
+									{% asset_list var:'assets' parent_id:stuff._id asset_type:70 %}
 									{% for asset in assets.rows %}
 									<div class="thumb item" id="{{ asset._id }}">
 										<div class="image">
@@ -272,7 +272,7 @@
 						
 						<div class="field">
 							<label for="description">详细描述</label>
-						  	<textarea name="description" placeholder="此处输入产品描述..." id="editor">{{ stuff.description }}</textarea>
+						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
 						</div>
 						
 						<div class="ui right floated aligned grid">
