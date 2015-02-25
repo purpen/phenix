@@ -41,11 +41,19 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	protected $mentors = array(
 		array(
 			'id' => 1,
-			'name' => '工业设计师'
+			'name' => '工业设计'
 		),
 		array(
 			'id' => 2,
-			'name' => '视觉设计师'
+			'name' => '视觉设计'
+		),
+		array(
+			'id' => 3,
+			'name' => '交互设计'
+		),
+		array(
+			'id' => 4,
+			'name' => '用户研究'
 		),
 		array(
 			'id' => 5,
@@ -54,6 +62,34 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		array(
 			'id' => 9,
 			'name' => '硬件工程师'
+		),
+		array(
+			'id' => 11,
+			'name' => '市场营销'
+		),
+		array(
+			'id' => 15,
+			'name' => 'VC投资'
+		),
+		array(
+			'id' => 20,
+			'name' => '渠道销售'
+		),
+		array(
+			'id' => 25,
+			'name' => '生产供应商'
+		),
+		array(
+			'id' => 30,
+			'name' => '零组件供应商'
+		),
+		array(
+			'id' => 35,
+			'name' => '方案解决商'
+		),
+		array(
+			'id' => 40,
+			'name' => '其他'
 		),
 	);
 	
