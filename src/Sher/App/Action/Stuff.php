@@ -187,6 +187,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$category = new Sher_Core_Model_Category();
 		// 获取当前分类信息
 		$current_category = $category->load((int)$stuff['category_id']);
+		
+		// 获取父级分类
+		$parent_category = $category->extend_load((int)$stuff['fid']);
+		$parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
+		$this->stash['parent_category'] = $parent_category;
 
 		$this->stash['is_top'] = $is_top;
 		$this->stash['current_category'] = $current_category;
@@ -426,6 +431,21 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['ids'] = array($id);
 		
 		return $this->to_taconite_page('ajax/delete.html');
+	}
+	
+	/**
+	 * 删除某个附件
+	 */
+	public function delete_asset(){
+		$id = $this->stash['id'];
+		$asset_id = $this->stash['asset_id'];
+		if (empty($id) || empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		$model = new Sher_Core_Model_Stuff();
+		$model->delete_asset($id, $asset_id);
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 	
 	/**

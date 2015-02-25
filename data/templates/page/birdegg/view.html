@@ -297,7 +297,7 @@
 						</p>
 						{% endif %}
 						<!--附件列表-->
-						{% asset_list var:'assets' parent_id:stuff._id asset_type:70 %}
+						{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
 						{% if assets.total_rows %}
 							{% for asset in assets.rows %}
 								{% if asset._id != stuff.cover_id %}

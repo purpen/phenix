@@ -99,6 +99,25 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 			// 去除 html/php标签
 			$row['strip_description'] = strip_tags($row['description']);
 		}
+		// 验证是否指定封面图
+		if(empty($row['cover_id'])){
+			$this->mock_cover($row);
+			
+		}
+	}
+	
+	/**
+	 * 获取第一个附件作为封面图
+	 */
+	protected function mock_cover(&$row){
+		$asset = new Sher_Core_Model_Asset();
+		$cover = $asset->first(array(
+			'parent_id' => $row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_STUFF,
+		));
+		
+		$row['cover_id'] = (string)$cover['_id'];
+		$row['cover'] = $asset->extended_model_row($cover);
 	}
 	
 	/**
@@ -143,6 +162,18 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
       	  	}
     	}
   	}
+	
+	/**
+	 * 删除某附件
+	 */
+	public function delete_asset($id, $asset_id){		
+		$this->dec_counter('asset_count', $id);
+		
+		// 删除Asset
+		$asset = new Sher_Core_Model_Asset();
+		$asset->delete_file($asset_id);
+		unset($asset);
+	}
   	
     /**
      * 标记为编辑推荐,首页推荐
