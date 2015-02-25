@@ -3,21 +3,16 @@
 {% block page_css %}
 <style type="text/css">	
 	.social.submitbox {
-		background-color: rgba(56, 67, 77, 0.9);
-		background-size: cover;
-		background-position: center center;
-		background-repeat: no-repeat;
-		background-image: url('http://static.taihuoniao.me/images/banner-trial.jpg');
-		color: white;
+		background-color: #f1f1f1;
 		padding: 40px 0 50px;
 	}
 	.social.submitbox h2 {
-		color: white;
 		padding-top: 12px;
 		line-height: 32px;
 		padding-bottom: 0.5rem;
 		margin-bottom: 0.5rem;
 		font-weight: 800;
+		color: #444;
 	}
 	.social.submitbox h2 + p {
 		margin-bottom: 2rem;
@@ -43,7 +38,7 @@
 				<div class="column">
 					<div class="inner">
 						<h1>
-							<a href="{{ app_url_stuff }}" class="{{ all_stuff }}">
+							<a href="{{ app_url_stuff }}" class="{{ all_stuff }} cate">
 								产品灵感
 							</a>
 						</h1>
@@ -51,7 +46,7 @@
 						<div class="children">
 							{% for cate in all_category.rows %}
 								<h2>
-									<a href="{{ app_url_stuff }}/c{{ cate._id }}" class="{{ cate.active }}">
+									<a href="{{ app_url_stuff }}/c{{ cate._id }}" class="{{ cate.active }} cate">
 										{{ cate.title }}
 									</a>
 								</h2>
@@ -142,7 +137,7 @@
 					去发现、去支持、去分享
 				</h2>
 				<p>无论您是谁，让我们用创意和梦想，去改变这个平凡无奇的世界</p>
-				<a href="{{ app_url_stuff }}/submit" class="ui inverted share button">
+				<a href="{{ app_url_stuff }}/submit" class="ui inverted share magenta active button">
 					<i class="add icon"></i> 提交产品
 				</a>
 			</div>

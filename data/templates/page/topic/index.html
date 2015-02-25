@@ -1,5 +1,5 @@
 {%extends 'layout/sns.html'%}
-{% block title %}社区-{% endblock %}
+{% block title %}话题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.ui.tophead {
@@ -14,9 +14,6 @@
 	}
 	.ui.tophead .introduction .trychannel {
 		margin: 0 0 0.35em;
-	}
-	.two-nav{
-		background:#f4f4f4;
 	}
 </style>
 {% endblock %}
@@ -69,7 +66,7 @@
 				{% for cat in category.rows %}
 					<div class="ui block segment">
 						<h3 class="ui dividing header">
-							<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+							<a class="ui cat link" href="{{ cat.view_url }}">{{ cat.title }}</a>
 						</h3>
 						{% category_list var:'children' page:1 only_open:1 domain:domain pid:cat._id %}
 						<div class="ui three items">

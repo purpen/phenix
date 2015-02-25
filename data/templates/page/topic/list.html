@@ -1,10 +1,8 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}{{ current_category.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.tophead {
-	    background: url("{{ app_url_packaged }}/images/bg-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
-	}
+	
 </style>
 {% endblock %}
 
@@ -12,41 +10,99 @@
 	
 {% endblock %}
 
-
-{% block tophead %}
-<div class="ui tophead">
-	{% include "block/social/sub_menu.html" %}
-</div>
-{% endblock %}
-
 {% block content %}
-<div id="topiclist">
+
+<div class="topics catemenu masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/tp-{%if is_top%}{{ current_category.name }}{%else%}{{ parent_category.name }}{%endif%}.jpg');">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="twelve wide column">
+				{% if is_top %}
+					<h1 class="block title">
+						<a href="{{ app_url_topic }}/c{{current_category._id}}" class="active cate">
+							{{ current_category.title }}
+						</a>
+					</h1>
+					{% category_list var:'category' only_open:1 domain:domain pid:cid current:cid %}
+				{% else %}
+					<h1 class="block title">
+						<a href="{{ app_url_topic }}/c{{parent_category._id}}" class="cate">
+							{{ parent_category.title }}
+						</a>
+					</h1>
+					{% category_list var:'category' only_open:1 domain:domain pid:parent_category._id current:cid %}
+				{% endif %}
+				<p>{{ current_category.summary }}</p>
+				<hr>
+			</div>
+			<div class="right aligned four wide column">
+				<div class="stast">
+					<div class="ui horizontal bulleted list">
+						<span class="item">话题</span>
+						<span class="item">
+							{{ current_category.total_count|deault 0 }} 
+						</span>
+					</div>
+					<span class="space"> / </span>
+					<div class="ui horizontal bulleted list">
+						<span class="item">回帖</span>
+						<span class="item">
+							{{ current_category.reply_count|default 0 }} 
+						</span>
+					</div>
+				</div>
+				
+				{% if visitor.is_login %}
+					<a href="{{ app_url_topic }}/submit?cid={{ cid }}" class="ui inverted button" target="_blank">
+						<i class="edit icon"></i>发表新话题
+					</a>
+				{% else %}
+					<a href="{{ app_url_login }}" class="ui inverted pop button" data-content="先登录后，可发表话题" target="_blank">
+						发表新话题
+					</a>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="children">
+					{% for cate in category.rows %}
+						{% if cate.active %}
+							<a href="{{ cate.view_url }}" class="ui inverted magenta active button">
+								<i class="flat s_{{ cate.name }} icon"></i> {{ cate.title }}
+							</a>
+						{% else %}
+							<a href="{{ cate.view_url }}" class="ui inverted button">
+								<i class="flat s_{{ cate.name }} icon"></i> {{ cate.title }}
+							</a>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social sortby actions">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui magenta tiered menu">
-				  	<div class="menu">
-						{% if is_top %}
-							{% category_list var:'category' page:1 only_open:1 show_all:1 domain:domain pid:cid current:cid %}
-						{% else %}
-							{% category_list var:'category' page:1 only_open:1 show_all:1 domain:domain pid:parent_category._id current:cid %}
-						{% endif %}
-						
-						{% for cat in category.rows %}
-							{% if cat._id == 0 %}
-								<a class="ui {% if is_top %}active{% endif %} item" href="{{ parent_category.view_url }}">{{ cat.title }}</a>
-							{% else %}
-								<a class="ui {{ cat.active }} item" href="{{ cat.view_url }}">{{ cat.title }} <small>({{ cat.total_count }})</small></a>
-							{% endif %}
-						{% endfor %}
-				    	<div class="right menu">
-							<a class="ui showbox magenta item" href="#advanced-filter-topic">
-								<i class="list layout icon"></i>
-							</a>
-				    	</div>
-				  	</div>
+				<div class="ui horizontal bulleted list">
+				  <a class="ui link {{ css_type_fine }} item" href="{{ links.fine_url }}">
+				    精华
+				  </a>
+				  <a class="ui link {{ css_type_stick }} item" href="{{ links.stick_url }}">
+				    推荐
+				  </a>
 				</div>
-				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui social page" id="topiclist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
 				<div class="ui segment hide" id="advanced-filter-topic">
 					<div class="ui grid">
 						<div class="row">
@@ -80,9 +136,9 @@
 						</div>
 					</div>
 				</div>
-				
+			
 				<div class="ui stacked segment">
-					<table class="ui basic sortable topic table">
+					<table class="ui basic topic table">
 						<thead>
 							<tr>
 								<th>发布者</th>
@@ -96,7 +152,7 @@
 							{% for dig in dig_list %}
 								{% if dig %}
 								<tr>
-									<td class="hide-on-mobile">
+									<td class="hide-on-mobile author">
 										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
 								      		<img src="{{ dig.user.small_avatar_url }}" alt="{{ dig.user.nickname }}" />
 										</a>
@@ -150,7 +206,7 @@
 								{% endif %}
 							{% endfor %}
 						{% endif %}
-						
+					
 						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
 						{% for topic in list.rows %}
 							{% if !topic.top %}<!--过滤置顶帖子-->
@@ -160,17 +216,18 @@
 						</tbody>
 					</table>
 				</div>
-				
-				{% if list.total_page %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% if list.total_page > 1 %}
 				<div class="ui pagination">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{% include 'block/pager.html' %}
 				</div>
 				{% endif %}
-				
 			</div>
 		</div>
-
 	</div>
 </div>
 
