@@ -239,8 +239,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	 * 批量更新附件所属对象
 	 */
 	public function update_batch_assets($ids=array(), $parent_id){
-		$criteria = array('_id' => array('$in' => $ids));
-		return $this->update_set($criteria, array('parent_id' => $parent_id));
+		for($i=0; $i<count($ids); $i++){
+			$this->update_set($ids[$i], array('parent_id' => $parent_id));
+		}
+		return true;
 	}
 	
 	/**
