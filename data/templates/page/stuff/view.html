@@ -253,11 +253,11 @@
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
 				<a href="{{ app_url_action_base }}/stuff/submit" class="ui black button">
-					<i class="add icon"></i> 分享产品
+					<i class="add icon"></i> 提交产品
 				</a>
 				{% else %}
 				<a href="{{ app_url_action_base }}/stuff/submit" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="add icon"></i> 分享产品
+					<i class="add icon"></i> 提交产品
 				</a>
 				{% endif %}
 			</div>
@@ -288,17 +288,25 @@
 						{{ stuff.description }}
 					</div>
 					
-					<!--附件列表-->
-					{% asset_list var:'assets' parent_id:stuff._id asset_type:70 %}
-					{% if assets.rows %}
 					<div class="post froala-element clearfix">
-						{% for asset in assets.rows %}
+						{% if stuff.cover %}
 						<p>
-							<img width="" src="{{ asset.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
+							<img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
 						</p>
-						{% endfor %}
+						{% endif %}
+						<!--附件列表-->
+						{% asset_list var:'assets' parent_id:stuff._id asset_type:70 %}
+						{% if assets.total_rows %}
+							{% for asset in assets.rows %}
+								{% if asset._id != stuff.cover_id %}
+									<p>
+										<img width="" src="{{ asset.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
+									</p>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
 					</div>
-					{% endif %}
+					
 					
 					{% if stuff.tags %}
 					<div class="idea tags">
