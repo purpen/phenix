@@ -68,6 +68,36 @@
 		padding-top: 20px !important;
 	}
 	
+	@keyframes mymove {
+		0%   { padding-bottom: 0px; .opacity(0.8); }
+		50%  { padding-bottom: 15px; .opacity(0.35); }
+		100% { padding-bottom: 0px; .opacity(0.8); }
+	}
+
+	@-webkit-keyframes mymove {
+		0%   { padding-bottom: 0px; .opacity(0.8); }
+		50%  { padding-bottom: 15px; .opacity(0.35); }
+		100% { padding-bottom: 0px; .opacity(0.8); }
+	}
+	
+	.pagex {
+		text-align: center;
+		position: relative;
+	}
+	.section .pagex .arrow a {
+		position: absolute;
+		bottom: -1rem;
+		color: white;
+		font-size: 2rem;
+		text-decoration: none;
+		-webkit-animation: mymove 1.75s ease-in-out infinite;
+		-moz-animation: mymove 1.75s ease-in-out infinite;
+		animation: mymove 1.75s ease-in-out infinite;
+	}
+	.section .pagex .arrow a.icon {
+		opacity: 1;
+	}
+	
 	#eggBox .section.instro {
 		background-image: url("{{ app_url_packaged }}/images/egg-desc-stars.png");
 		background-position: right center;
@@ -527,7 +557,88 @@
 {% endblock %}
 
 {% block private_js %}
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/egg.min.js"></script>
+	<script type="text/javascript">
+		phenix.birdegg = {
+			init: function(){
+				var _this = this;
+				_this.pageIndex = 1;
+				_this.loadPage();
+				
+				$('.ui.more').click(function(){
+					$.fn.fullpage.moveTo(2);
+				});
+		
+				$('#eggPage').fullpage({
+					menu: '#eggmenu',
+				    anchors: ['topbanner', 'instro', 'specially', 'guest', 'process', 'stuffs', 'partners', 'contact'],
+					onLeave: function(index, nextIndex, direction){
+						phenix.birdegg.hideHeader();
+						if(index == 1 && direction == 'down'){
+							phenix.birdegg.showTabox();
+						}else if(index == 2 && direction == 'up'){
+							phenix.birdegg.hideTabox();
+						}
+					},
+					afterLoad: function(anchorLink, index){
+						
+					}
+				});
+				$.fn.fullpage.moveTo(1);
+		
+				$('body').on('mousewheel', function(e, delta){
+					if (e.preventDefault() || window.mousewheelStart === true){
+						 return false;
+					}
+					window.mousewheelStart = true;
+					_this.listenMousewheeEvent();
+			
+					var g = delta > 0 ? true : false,
+					h = 0 > delta ? true : false;
+					if(1 === _this.pageIndex){
+						if(g){
+							_this.showHeader();
+						}else if(h && window.headerIsShow){
+							return _this.hideHeader();
+						}
+					}
+				});
+			},
+			loadPage: function(){
+				var eggboxHeight = function(){
+					var h = $(window).height();
+					$('#eggBox').height(h);
+				}
+		
+				eggboxHeight();
+		
+				$(window).on('resize', function(){
+					eggboxHeight();
+				});
+		
+				this.hideHeader();
+			},
+			showTabox: function(){
+				$('.ui.tabox').addClass('fxd');
+			},
+			hideTabox: function(){
+				$('.ui.tabox').removeClass('fxd');
+			},
+			hideHeader: function(){
+				$('.header.main').addClass('fp-easing').css({'margin-top': '-130px'});
+				window.headerIsShow = false;
+			},
+			showHeader: function(){
+				$('.header.main').css({'margin-top': '0'});
+				window.headerIsShow = true;
+			},
+			listenMousewheeEvent: function(){
+				window.listenMousewheel && clearTimeout(window.listenMousewheel),
+				window.listenMousewheel = setTimeout(function(){
+					window.mousewheelStart = false;
+				}, 800);
+			},
+		};
+	</script>
 {% endblock %}
 
 
@@ -581,6 +692,11 @@
 		<div class="section active" data-anchor="topbanner">
 			<section class="pagex">
 				<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image" />
+				<p class="arrow">
+					<a href="javascript:void(0);" class="ui more pop" data-content="滚动查看更多" data-variation="inverted">
+						<i class="flat arrow403 icon"></i>
+					</a>
+				</p>
 			</section>
 		</div>
 	
