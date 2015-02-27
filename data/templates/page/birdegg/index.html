@@ -67,6 +67,9 @@
 		color: #fff;
 		padding-top: 20px !important;
 	}
+	#eggBox section.page .w-1180 > h3.ui.header small {
+		font-size: 0.5em;
+	}
 	
 	@keyframes mymove {
 		0%   { padding-bottom: 0px; .opacity(0.8); }
@@ -555,6 +558,7 @@
 {% endblock %}
 
 {% block layout_js %}
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.gsap.min.js"></script>
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fullPage.min.js"></script>
 {% endblock %}
 
@@ -579,6 +583,13 @@
 							phenix.birdegg.showTabox();
 						}else if(index == 2 && direction == 'up'){
 							phenix.birdegg.hideTabox();
+						}
+						if(index == 1){
+							console.log('index:'+ index);
+							TweenLite.from('#instro-text', 2, {
+								transform: 'translateX(-300px)',
+								opacity: 0,
+		                    });
 						}
 					},
 					afterLoad: function(anchorLink, index){
@@ -705,7 +716,7 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">开启蛋年之旅</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="left-text">
+					<div class="left-text" id="instro-text">
 						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
 
 						<div class="summary">蛋即诞!让我们携手并进,从蛋出发,只为有天破壳而出,翱翔九天。</div>
@@ -731,7 +742,7 @@
 		<div class="section" data-anchor="specially">
 			<section class="page">
 				<div class="w-1180">
-					<h3 class="ui header center aligned">特邀嘉宾</h3>
+					<h3 class="ui header center aligned">特邀嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="h-252 mt-15">
 						<div class="w-252 mt-25">
@@ -769,7 +780,7 @@
 		<div class="section" data-anchor="guest">
 			<section class="page">
 				<div class="w-1180">
-					<h3 class="ui header center aligned">嘉宾</h3>
+					<h3 class="ui header center aligned">嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="h-179">
 						<div class="w-179">
