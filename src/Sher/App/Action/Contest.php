@@ -9,6 +9,9 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base {
 		'id' => '',
 		'page' => 1,
 		'step' => 0,
+		'pid'  => 0,
+		'cid'  => 0,
+		'sort' => 0,
 		'st' => 0,
 	);
 	
