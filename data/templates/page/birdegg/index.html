@@ -52,7 +52,7 @@
 	}
 	
 	#eggBox section.page {
-		margin-top: 50px;
+		padding-top: 125px;
 		position: relative;
 		height: 100%;
 		overflow:hidden;
@@ -80,13 +80,15 @@
 		100% { padding-bottom: 0px; .opacity(0.8); }
 	}
 	
-	.pagex {
+	#eggBox section.pagex {
+		position: relative;
+		height: 100%;
 		text-align: center;
 		position: relative;
 	}
-	.section .pagex .arrow a {
+	.section .pagex a.arrow {
 		position: absolute;
-		bottom: -1rem;
+		bottom: 1rem;
 		color: white;
 		font-size: 2rem;
 		text-decoration: none;
@@ -94,8 +96,9 @@
 		-moz-animation: mymove 1.75s ease-in-out infinite;
 		animation: mymove 1.75s ease-in-out infinite;
 	}
-	.section .pagex .arrow a.icon {
+	.section .pagex a.arrow .icon {
 		opacity: 1;
+		margin-right: 0;
 	}
 	
 	#eggBox .section.instro {
@@ -129,7 +132,6 @@
 	}
 	
 	#eggBox .section.stuffs {
-		padding: 60px 0 50px;
 		background-repeat: no-repeat;
 		background-position: right center;
 	}
@@ -692,11 +694,9 @@
 		<div class="section active" data-anchor="topbanner">
 			<section class="pagex">
 				<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image" />
-				<p class="arrow">
-					<a href="javascript:void(0);" class="ui more pop" data-content="滚动查看更多" data-variation="inverted">
-						<i class="flat arrow403 icon"></i>
-					</a>
-				</p>
+				<a href="javascript:void(0);" class="ui more arrow pop" data-content="滚动查看更多" data-variation="inverted">
+					<i class="flat arrow403 icon"></i>
+				</a>
 			</section>
 		</div>
 	
