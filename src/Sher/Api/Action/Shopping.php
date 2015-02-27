@@ -994,16 +994,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
 				// 设置缓存
 				$redis = new Sher_Core_Cache_Redis();
-				$redis->set($cache_key, 1);
-			}
-		}
-	}
+        $redis->set($cache_key, 1);
+      }
+    }
+  }
 
 	/**
 	 * 处理支付
 	 */
 	public function payed(){
-		$rid = $this->stash['rid'];
+    $rid = $this->stash['rid'];
+    $user_id = $this->current_user_id;
 		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);

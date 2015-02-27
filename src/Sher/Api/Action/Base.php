@@ -36,7 +36,7 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Actio
   /**
    * 当前方法名
    */
-  public function $current_method_name = '';
+  public $current_method_name = '';
 	
 	/**
 	 * 参与签名的key

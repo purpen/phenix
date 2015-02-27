@@ -10,8 +10,8 @@ app.domain.base: 'http://taihuoniao.me'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
-app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
-#app.doggyx.class_path: '/opt/project/php/doggy-x'
+#app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
+app.doggyx.class_path: '/opt/project/php/doggy-x'
 
 app.url.packaged: '{$app.domain.static}'
 
@@ -49,10 +49,13 @@ app.cache.memcached.default:
 # 十万火计
 app.topic.dream_category_id: 9
 
+# 十万火计2
+app.contest.dream2_category_id: 18
+
 # 产品灵感
-app.topic.idea_category_id: 76
+app.topic.idea_category_id: 22
 # 蛋年活动
-app.birdegg.category_id: 80
+app.birdegg.category_id: 25
 
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
