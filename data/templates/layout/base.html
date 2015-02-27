@@ -21,7 +21,7 @@
 		<style type="text/css">
 
 			body {
-			    background: #eee;
+			    background: #f7f7f7;
 			    color: #5d6266;
 			    min-width: 320px;
 				margin: 0;
@@ -156,7 +156,7 @@
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
 			{% endif %}
 		{% endblock %}
-
+		{% block private_js %}{% endblock %}
 		<script type="text/javascript">
 		<!--
 		$(function(e){

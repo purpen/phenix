@@ -297,7 +297,7 @@
 						<div class="fluid ui gray more button" data-page="2" id="more-comments">更多评论</div>
 						{% endif %}
 						<div class="ui post segment">
-							<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表评论</p>
+							<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论</p>
 							<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
 								<input type="hidden" name="target_id" value="{{ try._id }}" />
 								<input type="hidden" name="type" value="3" />
@@ -384,7 +384,24 @@
 			</div>
 		</div>
 	</div>
-	
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<a href="{{ app_url_try }}" class="ui section link">新品试用</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">{{ try.title }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% include "block/apply_try.html" %}
 {% endblock %}

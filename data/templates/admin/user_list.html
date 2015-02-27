@@ -97,14 +97,16 @@
 					<p class="actions">
 						{% if visitor.role_id == 9 %}
 						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=admin" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为管理员</a>
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为普通会员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为编辑</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为会员</a>
 						{% endif %}
 						
 						{% if visitor.role_id == 8 %}
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为编辑人员</a>
-						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为普通会员</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=editor" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为编辑</a>
+						<a href="{{ app_url_admin }}/user/upgrade?id={{ user._id }}&role=user" class="ui link ajax" id="user_{{ user._id }}_upgrade">设为会员</a>
 						{% endif %}
+						
+						<a href="{{ app_url_admin }}/user/edit?id={{ user._id }}" class="ui link">更新</a>
 						
 						{% if user.state != 2 %}
 						<a href="{{ app_url_admin }}/user/activtion?id={{ user._id }}" class="ui link ajax">激活</a>

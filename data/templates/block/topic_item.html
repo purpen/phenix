@@ -1,5 +1,5 @@
 <tr id="{{ topic._id }}">
-	<td class="hide-on-mobile">
+	<td class="hide-on-mobile author">
 		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 		</a>
@@ -32,6 +32,9 @@
 						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 							{% endif %}
 						{% endfor %}
+					</div>
+					<div class="ui center aligned count text">
+						<small>{{ topic.asset_count }}张图片</small>
 					</div>
 				{% endif %}
 			</div>

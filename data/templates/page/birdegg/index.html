@@ -1,0 +1,1058 @@
+{%extends 'layout/base.html'%}
+{% block title %}蛋年创新大会-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	body{
+		background: #1c0318;
+	}
+	.ui.tabox {
+		background: none repeat scroll 0 0 #190019;
+	  	width: 100%;
+		border: 0px solid #fff;
+		margin: 0;
+		position: relative;
+		-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
+		-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
+		-o-transition: opacity 0.25s ease,translateY 0.25s ease;
+		-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
+		transition: opacity 0.25s ease,translateY 0.25s ease;
+	}
+	.ui.tabox.fxd {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 9999;
+	}
+	.ui.tabox > .ui.grid > .row {
+		margin-bottom: 0rem;
+	}
+	.ui.tabox .ui.tabs {
+		display: inline-block;
+	}
+	/* .ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
+	.ui.tabox .ui.tabs .tab{
+		color:#fff;
+		text-align:center;
+		font-size: 0.9285rem;
+		margin: 0 1rem;
+		padding: 1rem 0;
+		margin-bottom: 0px;
+	}
+	.ui.tabs .tab:hover{
+		color:#f36 !important;
+	}
+	.ui.tabox a.ui.btn,
+	.ui.tabox a.ui.btn:hover {
+		border-radius: 0.2875em;
+	    padding: 0.5em 2.5em;
+	}
+	.ui.tabox .ui.btn-4c:before {
+		top: -9px;
+	}
+	
+	#eggBox section.page {
+		padding-top: 125px;
+		position: relative;
+		height: 100%;
+		overflow:hidden;
+	}
+	#eggBox section.page .w-1180 {
+		width: 1180px;
+		height: 100%;
+		margin: 0 auto;
+		overflow-y: hidden;
+	}
+	#eggBox section.page .w-1180 > h3.ui.header{
+		color: #fff;
+		padding-top: 20px !important;
+	}
+	#eggBox section.page .w-1180 > h3.ui.header small {
+		font-size: 0.5em;
+	}
+	
+	@keyframes mymove {
+		0%   { padding-bottom: 0px; .opacity(0.8); }
+		50%  { padding-bottom: 15px; .opacity(0.35); }
+		100% { padding-bottom: 0px; .opacity(0.8); }
+	}
+
+	@-webkit-keyframes mymove {
+		0%   { padding-bottom: 0px; .opacity(0.8); }
+		50%  { padding-bottom: 15px; .opacity(0.35); }
+		100% { padding-bottom: 0px; .opacity(0.8); }
+	}
+	
+	#eggBox section.pagex {
+		position: relative;
+		height: 100%;
+		text-align: center;
+		position: relative;
+	}
+	.section .pagex a.arrow {
+		position: absolute;
+		bottom: 1rem;
+		color: white;
+		font-size: 2rem;
+		text-decoration: none;
+		-webkit-animation: mymove 1.75s ease-in-out infinite;
+		-moz-animation: mymove 1.75s ease-in-out infinite;
+		animation: mymove 1.75s ease-in-out infinite;
+	}
+	.section .pagex a.arrow .icon {
+		opacity: 1;
+		margin-right: 0;
+	}
+	
+	#eggBox .section.instro {
+		background-image: url("{{ app_url_packaged }}/images/egg-desc-stars.png");
+		background-position: right center;
+		background-repeat: no-repeat;
+	}
+	#eggBox .section.instro .left-text,
+	#eggBox .section.instro .right-text {
+		display: inline-block;
+		box-sizing: border-box;
+		vertical-align: top;
+	}
+	#eggBox .section.instro .left-text {
+		padding-left: 5%;
+	    padding-right: 5%;
+		margin-top: 6%;
+	    width: 35%;
+	}
+	#eggBox .section.instro .left-text .summary {
+		color: #8c4a8c;
+		line-height: 1.5;
+	    margin-bottom: 1.5rem;
+	}
+	#eggBox .section.instro .left-text .date,
+	#eggBox .section.instro .left-text b {			
+		color: #fff;
+	}
+	#eggBox .section.instro .right-text {
+		width: 55%;
+	}
+	
+	#eggBox .section.stuffs {
+		background-repeat: no-repeat;
+		background-position: right center;
+	}
+	#eggBox .section.stuffs .featured {
+		margin-bottom: 2rem;
+		margin-top: 2rem;
+	}
+	#eggBox .section.stuffs .buttons {
+		text-align: center;
+	}
+	#eggBox .section.stuffs .tips {
+		color: rgba(255, 255, 255, 0.7);
+		line-height: 2;
+		padding: 2rem 6rem;
+	}
+	
+	#eggBox .section.contact .ui.grid {
+		padding: 0 12%;
+		margin: 4rem auto;
+		color: white;
+	}
+	#eggBox .section.contact .ui.grid img {
+		width: 80%;
+	}
+	#eggBox .section.contact .share.box {
+		margin: 4rem 0;
+	}
+	#eggBox .section.contact .share.box .ui.icon.button {
+		background-color: transparent;
+	    border: medium none;
+	    color: white;
+	    font-size: 2rem;
+	}
+.w-252{
+	width:252px;
+	height:252px;
+	display:inline-block;
+	float:left;
+	margin-left:21.5px;
+	margin-right:21.5px;
+}
+.xxp{
+	background:url({{ app_url_packaged }}/images/egg_xxp.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.lkf{
+	background:url({{ app_url_packaged }}/images/egg_lkf.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.hhq{
+	background:url({{ app_url_packaged }}/images/egg_hhq.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.lwq{
+	background:url({{ app_url_packaged }}/images/egg_lwq.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.ldh{
+	background:url({{ app_url_packaged }}/images/egg_ldh.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.so{
+	background:url({{ app_url_packaged }}/images/egg_so.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.mcw{
+	background:url({{ app_url_packaged }}/images/egg_mcw.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.zp{
+	background:url({{ app_url_packaged }}/images/egg_zp.jpg) no-repeat;
+	width:252px;
+	height:252px;
+}
+.h-252{
+	height:252px;
+}
+.mt-15{
+	margin-top:15px;
+}
+.mt-25{
+	margin-top:25px;
+}
+
+
+.h-179{
+	height:179px;
+}
+.w-179{
+	width:179px;
+	height:179px;
+	margin:10px 8.8333px;
+	float:left;
+	display:inline-block;
+}
+.w-179+p{
+	text-align:center;
+}
+.lg{
+	background:url({{ app_url_packaged }}/images/egg_lg.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.ch{
+	background:url({{ app_url_packaged }}/images/egg_ch.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.sc{
+	background:url({{ app_url_packaged }}/images/egg_sc.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.ghs{
+	background:url({{ app_url_packaged }}/images/egg_ghs.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.twl{
+	background:url({{ app_url_packaged }}/images/egg_twl.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.ysy{
+	background:url({{ app_url_packaged }}/images/egg_ysy.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.twm{
+	background:url({{ app_url_packaged }}/images/egg_twm.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.fch{
+	background:url({{ app_url_packaged }}/images/egg_fch.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.jw{
+	background:url({{ app_url_packaged }}/images/egg_jw.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+.lhb{
+	background:url({{ app_url_packaged }}/images/egg_lhb.jpg) no-repeat;
+	width:179px;
+	height:179px;
+}
+
+.process{
+	background:url({{ app_url_packaged }}/images/egg_4.jpg) no-repeat center center;
+	background-size:cover;
+}
+.h-234{
+	height:234px;
+}
+.w-276{
+	width:276px;
+	float:left;
+	display:inline-block;
+}
+.w-384{
+	width:384px;
+	float:left;
+	display:inline-block;
+}
+.w-520{
+	width:520px;
+	float:left;
+	display:inline-block;
+}
+.c-egg{
+	background:url({{ app_url_packaged }}/images/egg_5.png) no-repeat;
+	width:276px;
+	height:234px;
+}
+.c-egg-z{
+	background:url({{ app_url_packaged }}/images/egg_6.png) no-repeat;
+	width:384px;
+	height:234px;	
+}
+.c-egg-r{
+	background:url({{ app_url_packaged }}/images/egg_7.png) no-repeat;
+	width:520px;
+	height:234px;
+}
+.l-egg{
+	background:url({{ app_url_packaged }}/images/egg_8.png) no-repeat;
+	width:276px;
+	height:234px;
+}
+.l-egg-z{
+	background:url({{ app_url_packaged }}/images/egg_9.png) no-repeat;
+	width:384px;
+	height:234px;	
+}
+.l-egg-r{
+	background:url({{ app_url_packaged }}/images/egg_10.png) no-repeat;
+	width:520px;
+	height:234px;
+}
+.z-egg{
+	background:url({{ app_url_packaged }}/images/egg_11.png) no-repeat;
+	width:276px;
+	height:234px;
+}
+.z-egg-z{
+	background:url({{ app_url_packaged }}/images/egg_12.png) no-repeat;
+	width:384px;
+	height:234px;	
+}
+.z-egg-r{
+	background:url({{ app_url_packaged }}/images/egg_13.png) no-repeat;
+	width:520px;
+	height:234px;
+}
+
+.partners {
+	background:url({{ app_url_packaged }}/images/egg_14.jpg) no-repeat center center;
+	background-size:cover;
+}
+.section.partners .logo {
+	padding: 20px 0 0;
+	display:block;
+	width:1180px;
+	min-height:160px;
+}
+.section.partners .logo.one {
+	min-height:70px;
+}
+.section.partners .logo p{
+	display: inline-block;
+	width: 78px;
+	height: 62px;
+	float: left;
+	line-height: 83px;
+	font-size: 20px;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+}
+.section.partners .logo img {
+	float: left;
+	display: inline-block;
+	padding: 10px 5px;
+}
+.ml-78{
+	margin-left:78px;
+}
+
+.fp-section {
+    position: relative;
+    -webkit-box-sizing: border-box; /* Safari<=5 Android<=3 */
+    -moz-box-sizing: border-box; /* <=28 */
+    box-sizing: border-box;
+}
+.fp-slide {
+    float: left;
+}
+.fp-slide, .fp-slidesContainer {
+    height: 100%;
+    display: block;
+}
+.fp-slides {
+    z-index:1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out; /* Safari<=6 Android<=4.3 */
+    transition: all 0.3s ease-out;
+}
+.fp-section.fp-table, .fp-slide.fp-table {
+    display: table;
+    table-layout:fixed;
+    width: 100%;
+}
+.fp-tableCell {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+.fp-slidesContainer {
+    float: left;
+    position: relative;
+}
+.fp-controlArrow {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: -38px;
+    -webkit-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+.fp-controlArrow.fp-prev {
+    left: 15px;
+    width: 0;
+    border-width: 38.5px 34px 38.5px 0;
+    border-color: transparent #fff transparent transparent;
+}
+.fp-controlArrow.fp-next {
+    right: 15px;
+    border-width: 38.5px 0 38.5px 34px;
+    border-color: transparent transparent transparent #fff;
+}
+.fp-scrollable {
+    overflow: scroll;
+
+}
+.fp-notransition {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+#fp-nav {
+    position: fixed;
+    z-index: 100;
+    margin-top: -32px;
+    top: 50%;
+    opacity: 1;
+    -webkit-transform: translate3d(0,0,0);
+}
+#fp-nav.right {
+    right: 17px;
+}
+#fp-nav.left {
+    left: 17px;
+}
+.fp-slidesNav{
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    opacity: 1;
+}
+.fp-slidesNav.bottom {
+    bottom: 17px;
+}
+.fp-slidesNav.top {
+    top: 17px;
+}
+#fp-nav ul,
+.fp-slidesNav ul {
+  margin: 0;
+  padding: 0;
+}
+#fp-nav ul li,
+.fp-slidesNav ul li {
+    display: block;
+    width: 14px;
+    height: 13px;
+    margin: 7px;
+    position:relative;
+}
+.fp-slidesNav ul li {
+    display: inline-block;
+}
+#fp-nav ul li a,
+.fp-slidesNav ul li a {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+#fp-nav ul li a.active span,
+.fp-slidesNav ul li a.active span {
+    background: #333;
+}
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #000;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+}
+#fp-nav ul li .fp-tooltip {
+    position: absolute;
+    top: -2px;
+    color: #fff;
+    font-size: 14px;
+    font-family: arial, helvetica, sans-serif;
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    width: 0;
+}
+#fp-nav ul li:hover .fp-tooltip {
+    -webkit-transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
+    width: auto;
+    opacity: 1;
+}
+#fp-nav ul li .fp-tooltip.right {
+    right: 20px;
+}
+#fp-nav ul li .fp-tooltip.left {
+    left: 20px;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.gsap.min.js"></script>
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fullPage.min.js"></script>
+{% endblock %}
+
+{% block private_js %}
+	<script type="text/javascript">
+		phenix.birdegg = {
+			init: function(){
+				var _this = this;
+				_this.pageIndex = 1;
+				_this.loadPage();
+				
+				$('.ui.more').click(function(){
+					$.fn.fullpage.moveTo(2);
+				});
+		
+				$('#eggPage').fullpage({
+					menu: '#eggmenu',
+				    anchors: ['topbanner', 'instro', 'specially', 'guest', 'process', 'stuffs', 'partners', 'contact'],
+					onLeave: function(index, nextIndex, direction){
+						phenix.birdegg.hideHeader();
+						if(index == 1 && direction == 'down'){
+							phenix.birdegg.showTabox();
+						}else if(index == 2 && direction == 'up'){
+							phenix.birdegg.hideTabox();
+						}
+						if(index == 1){
+							console.log('index:'+ index);
+							TweenLite.from('#instro-text', 2, {
+								transform: 'translateX(-300px)',
+								opacity: 0,
+		                    });
+						}
+					},
+					afterLoad: function(anchorLink, index){
+						
+					}
+				});
+				$.fn.fullpage.moveTo(1);
+		
+				$('body').on('mousewheel', function(e, delta){
+					if (e.preventDefault() || window.mousewheelStart === true){
+						 return false;
+					}
+					window.mousewheelStart = true;
+					_this.listenMousewheeEvent();
+			
+					var g = delta > 0 ? true : false,
+					h = 0 > delta ? true : false;
+					if(1 === _this.pageIndex){
+						if(g){
+							_this.showHeader();
+						}else if(h && window.headerIsShow){
+							return _this.hideHeader();
+						}
+					}
+				});
+			},
+			loadPage: function(){
+				var eggboxHeight = function(){
+					var h = $(window).height();
+					$('#eggBox').height(h);
+				}
+		
+				eggboxHeight();
+		
+				$(window).on('resize', function(){
+					eggboxHeight();
+				});
+		
+				this.hideHeader();
+			},
+			showTabox: function(){
+				$('.ui.tabox').addClass('fxd');
+			},
+			hideTabox: function(){
+				$('.ui.tabox').removeClass('fxd');
+			},
+			hideHeader: function(){
+				$('.header.main').addClass('fp-easing').css({'margin-top': '-130px'});
+				window.headerIsShow = false;
+			},
+			showHeader: function(){
+				$('.header.main').css({'margin-top': '0'});
+				window.headerIsShow = true;
+			},
+			listenMousewheeEvent: function(){
+				window.listenMousewheel && clearTimeout(window.listenMousewheel),
+				window.listenMousewheel = setTimeout(function(){
+					window.mousewheelStart = false;
+				}, 800);
+			},
+		};
+	</script>
+{% endblock %}
+
+
+{% block jquery %}
+	phenix.birdegg.init();
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
+	phenix.bind_share_list(pic_url);
+
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/birdegg'});
+
+{% endblock %}
+
+{% block layout_header %}
+<div class="header main">
+	<div class="ui responsive grid">
+		{% include "block/header.html" %}
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="ui tabox">
+	<div class="ui responsive grid">
+		<div class="two column middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui tabs" id="eggmenu">
+					<a class="active tab" data-menuanchor="topbanner" href="#topbanner">首页</a>
+					<a class="tab" data-menuanchor="instro" href="#instro">关于蛋年</a>
+					<a class="tab" data-menuanchor="specially" href="#specially">特邀嘉宾</a>
+					<a class="tab" data-menuanchor="guest" href="#guest">活动嘉宾</a>
+					<a class="tab" data-menuanchor="process" href="#process">活动流程</a>
+					<a class="tab" data-menuanchor="stuffs" href="#stuffs">精选产品</a>
+					<a class="tab" data-menuanchor="partners" href="#partners">合作伙伴</a>
+					<a class="tab" data-menuanchor="contact" href="#contact">联系我们</a>
+        		</div>
+      	  	</div>
+			<div class="four wide right aligned column">
+				<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
+          			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
+        		</a>
+			</div>
+    	</div>
+  	</div>
+</div>
+
+<div id="eggBox">
+	<div id="eggPage">
+		<div class="section active" data-anchor="topbanner">
+			<section class="pagex">
+				<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image" />
+				<a href="javascript:void(0);" class="ui more arrow pop" data-content="滚动查看更多" data-variation="inverted">
+					<i class="flat arrow403 icon"></i>
+				</a>
+			</section>
+		</div>
+	
+		<div class="section instro" data-anchor="instro">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">开启蛋年之旅</h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png">
+					<div class="left-text" id="instro-text">
+						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
+
+						<div class="summary">蛋即诞!让我们携手并进,从蛋出发,只为有天破壳而出,翱翔九天。</div>
+
+						<div class="date">2015年3月1日- 4月1日</div>
+						<div class="summary">征集全球最火爆智能硬件（预计1500件）</div>
+
+						<div class="date">2015年4月11日 13:00 - 16:00</div>
+						<div class="summary">聚焦智能，畅聊发展</div>
+						<div class="summary">北京. 751D-PARK广场</div>
+
+						<div class="date">2015年4月11日 16:00 - 17:00</div>
+						<div class="summary">掩埋现在,憧憬明天,共同创造吉尼斯世</div>
+						<div class="summary">北京. 751D-PARK广场</div>
+					</div>
+					<div class="right-text">
+						<img src="{{ app_url_packaged }}/images/egg-five.png" class="ui image" />
+					</div>
+					</div>
+			</section>
+		</div>
+
+		<div class="section" data-anchor="specially">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">特邀嘉宾 <small>（拟）</small></h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png">
+					<div class="h-252 mt-15">
+						<div class="w-252 mt-25">
+							<div class="xxp"></div>
+						</div>
+						<div class="w-252">
+							<div class="lkf"></div>
+						</div>
+						<div class="w-252 mt-25">
+							<div class="hhq"></div>
+						</div>
+						<div class="w-252">
+							<div class="lwq"></div>
+						</div>
+					</div>
+					<div class="h-252 mt-25">
+						<div class="w-252 mt-25">
+							<div class="ldh"></div>
+						</div>
+						<div class="w-252 mt-15">
+							<div class="so"></div>
+						</div>
+						<div class="w-252 mt-25">
+							<div class="mcw"></div>
+						</div>
+						<div class="w-252 mt-15">
+							<div class="zp"></div>
+						</div>
+					</div>
+				
+				</div>
+			</section>
+		</div>
+
+		<div class="section" data-anchor="guest">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">嘉宾 <small>（拟）</small></h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png">
+					<div class="h-179">
+						<div class="w-179">
+							<div class="lg"></div>
+						</div>
+						<div class="w-179">
+							<div class="lg"></div>
+						</div>
+						<div class="w-179">
+							<div class="lg"></div>
+						</div>
+						<div class="w-179">
+							<div class="ch"></div>
+						</div>
+						<div class="w-179">
+							<div class="sc"></div>
+						</div>
+						<div class="w-179">
+							<div class="lg"></div>
+						</div>
+					</div>
+				
+					<div class="h-179">
+						<div class="w-179">
+							<div class="lg"></div>
+						</div>
+						<div class="w-179">
+							<div class="ghs"></div>
+						</div>
+						<div class="w-179">
+							<div class="lg"></div>
+						</div>
+						<div class="w-179">
+							<div class="ch"></div>
+						</div>
+						<div class="w-179">
+							<div class="sc"></div>
+						</div>
+						<div class="w-179">
+							<div class="twl"></div>
+						</div>
+					</div>
+				
+					<div class="h-179">
+						<div class="w-179">
+							<div class="ysy"></div>
+						</div>
+						<div class="w-179">
+							<div class="twm"></div>
+						</div>
+						<div class="w-179">
+							<div class="fch"></div>
+						</div>
+						<div class="w-179">
+							<div class="fch"></div>
+						</div>
+						<div class="w-179">
+							<div class="jw"></div>
+						</div>
+						<div class="w-179">
+							<div class="lhb"></div>
+						</div>
+						<p>排名不分先后，更多嘉宾持续更新中......</p>
+					</div>
+				
+				</div>
+			</section>
+		</div>
+	
+		<div class="section process" data-anchor="process">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">活动流程</h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png">
+					<div class="h-234" style="margin-top:-20px;">
+						<div class="w-276">
+							<div class="c-egg"></div>
+						</div>
+						<div class="w-384">
+							<div class="c-egg-z"></div>
+						</div>
+						<div class="w-520">
+							<div class="c-egg-r"></div>
+						</div>
+					</div>
+				
+					<div class="h-234">
+						<div class="w-276">
+							<div class="l-egg"></div>
+						</div>
+						<div class="w-384">
+							<div class="l-egg-z"></div>
+						</div>
+						<div class="w-520">
+							<div class="l-egg-r"></div>
+						</div>
+					</div>
+				
+					<div class="h-234">
+						<div class="w-276">
+							<div class="z-egg"></div>
+						</div>
+						<div class="w-384">
+							<div class="z-egg-z"></div>
+						</div>
+						<div class="w-520">
+							<div class="z-egg-r"></div>
+						</div>
+					</div>
+				
+				</div>
+			</section>
+		</div>
+	
+		<div class="section stuffs" data-anchor="stuffs">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">精选产品</h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png" />
+				
+					<div class="featured">
+						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 sort:sort size:8 %}
+						<div class="ui four cards">
+							{% for stuff in stufflist.rows %}
+						  	<div class="card">
+						    	<div class="image">
+						      	  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}">
+										<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+									</a>
+						    	</div>
+						    	<div class="content">
+						      	  	<div class="header">
+										<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+									</div>
+						      	  	<div class="description">
+						        		{{ stuff.strip_description|truncate 60 '' }}
+						      	  	</div>
+						    	</div>
+						    	<div class="extra">
+						      	  	<a class="right floated created">
+										<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+										<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+									</a>
+									<a href="{{ stuff.user.home_url }}" class="ui icon link">
+										<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+									</a>
+						    	</div>
+						  	</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="buttons">
+						<a href="{{ app_url_birdegg }}/submit" class="ui inverted button" target="_blank">产品提交</a>
+						<a href="{{ app_url_birdegg }}/zlist" class="ui inverted button">
+							<i class="layout grid icon"></i>全部产品列表
+						</a>
+					</div>
+				
+					<p class="tips"><b>Tips:</b> 现面向全世界征集最火爆的智能硬件产品,无论是样机还是已经面市的智能产品均可参加,只需将智能硬件的名称、产品图及简介上传到太火鸟专题页面即可。<br />
+	获得用户支持数量前100名的智能硬件产品获得在 中国智能硬件.蛋年创新大会 展示的机会，并被收入时光蛋中，亲身经历中国智能硬件蛋年开启的历史时刻。</p>
+				</div>
+			</section>
+		</div>
+	
+		<div class="section partners" data-anchor="partners">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">联合主办</h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png">
+					<div class="logo">
+						<p>媒体圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_bd.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tn.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_36k.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tai.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkj.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_panda.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_btv.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ifeng.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_sohu.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_163.jpg" class="ui image ml-78">
+						<img src="{{ app_url_packaged }}/images/egg_qq.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_sina.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mans.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_fast.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tc.jpg" class="ui image">
+					</div>
+				
+					<div class="logo">
+						<p>硬件圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_ml.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_haier.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_intel.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkk.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_fox.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ycb.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_misfit.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mk.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tm.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_auto.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image ml-78">
+						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_f.jpg" class="ui image">
+					
+					</div>
+					
+					<div class="logo one">
+						<p>投资圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_zf.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_cxgc.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_go.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_wts.jpg">
+					</div>
+				
+					<div class="logo one">
+						<p>平台圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_jd.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_tb.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sn.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_thn.jpg">
+					</div>
+				
+					<div class="logo one">
+						<p>学术圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_zhd.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_qhmy.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_bj.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_cida.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sida.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_gzmy.jpg">
+					</div>
+					
+				</div>
+			</section>
+		</div>
+
+		<div class="section contact" data-anchor="contact">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">联系我们</h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png" />
+					
+					<div class="ui relaxed grid">
+						<div class="three column middle aligned row">
+							<div class="center aligned column">
+								<img src="http://static.taihuoniao.me/images/dimension.jpg" class="太火鸟" />
+								<p>扫一扫 <b>太火鸟</b> 官方微信号</p>
+							</div>
+							<div class="column">
+								<h4>媒体合作</h4>
+								<p>Phone: +8610 8459 9374</p>
+								<p>E-mail: support@taihuoniao.com</p>
+							</div>
+							<div class="column">
+								<h4>商品合作</h4>
+								<p>Phone: +8610 8459 9384</p>
+								<p>E-mail: products@taihuoniao.com</p>
+							</div>
+						</div>
+						<div class="center aligned row">
+							<div class="column">
+								<div class="share box">
+									{% include "block/big-circel-share.html" %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
+{% endblock %}
