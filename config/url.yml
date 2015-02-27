@@ -62,6 +62,12 @@ app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
 app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
 
+# 产品灵感
+app.url.stuff: '{$app.url.domain}/stuff'
+app.url.stuff.list: '{$app.url.stuff}/c%d/p%s'
+app.url.stuff.view: '{$app.url.stuff}/view-%d.html'
+app.url.stuff.comment: '{$app.url.stuff}/view-%d-%d.html'
+
 # 活动
 app.url.active: '{$app.url.domain}/active'
 app.url.active.view: '{$app.url.active}/view-%s.html'
@@ -92,6 +98,8 @@ app.url.asset: '{$app.url.action_base}/asset'
 # 推荐广告
 app.url.advertise.view: '{$app.url.action_base}/tracker?kid=%s'
 
+# 蛋年活动
+app.url.birdegg: '{$app.url.domain}/birdegg'
 
 # 微信
 app.url.wechat: '{$app.url.domain}/wechat'
@@ -115,6 +123,7 @@ app.url.upload.product: '{$app.url.upload}/product'
 app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
+app.url.upload.stuff: '{$app.url.upload}/stuff'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
@@ -180,8 +189,6 @@ app.url.join: '{$app.url.guide}/join'
 
 # 图片分享
 app.url.share: '{$app.url.domain}/share'
-app.url.stuff: '{$app.url.domain}/idea'
-app.url.stuff.view: '{$app.url.stuff}/%s'
 
 # guide
 app.url.guide: '{$app.url.action_base}/guide'

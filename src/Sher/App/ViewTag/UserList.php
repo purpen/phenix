@@ -16,6 +16,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $only_ok = 0;
         $only_blocked = 0;
         
+		// 专家
+		$mentor = 0;
+		$all_mentors = 0;
+		
         $only_system = 0;
         $only_admin = 0;
 		$only_editor = 0;
@@ -34,10 +38,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		$sex = 0;
 		// 用户推荐
 		$last_login = 0;
-    //是否验证好友关系
-    $has_ship = 0;
-    //传入当前用户
-    $current_user_id = 0;
+    	// 是否验证好友关系
+    	$has_ship = 0;
+    	// 传入当前用户
+    	$current_user_id = 0;
 		
         $search_id = 0;
         $search_passport = 0;
@@ -90,6 +94,17 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         if ($only_system) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_SYSTEM;
         }
+		
+		// 获取全部专家
+		if($all_mentors){
+			$query['mentor'] = array(
+				'$gt' => (int)$mentor,
+			);
+		}
+		// 获取某类专家
+		if($mentor){
+			$query['mentor'] = (int)$mentor;
+		}
 		
 		// 获取某个时段内
 		if ($start_time) {

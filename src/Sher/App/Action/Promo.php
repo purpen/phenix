@@ -157,12 +157,6 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->to_taconite_page('ajax/bonus_ok.html');
 	}
 	
-	public function egg(){
-		return $this->to_html_page('page/egg.html');
-	}
-	
-	
-	
 	/**
 	 * 玩蛋去
 	 */
@@ -174,14 +168,14 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 * 情人节
 	 */
 	public function valentine(){
-    // 验证是否领取
-    $is_got = false;
-    if($this->visitor->id){
-      $cache_key = sprintf('valentine_20_%d', $this->visitor->id);
-      $redis = new Sher_Core_Cache_Redis();
-      $is_got = $redis->get($cache_key);  
-    }
-    $this->stash['is_got'] = $is_got;
+    	// 验证是否领取
+    	$is_got = false;
+    	if($this->visitor->id){
+      		$cache_key = sprintf('valentine_20_%d', $this->visitor->id);
+      	  	$redis = new Sher_Core_Cache_Redis();
+      	  	$is_got = $redis->get($cache_key);  
+    	}
+    	$this->stash['is_got'] = $is_got;
 
 		return $this->to_html_page('page/valentine.html');
 	}

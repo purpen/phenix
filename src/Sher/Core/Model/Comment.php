@@ -16,6 +16,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	const TYPE_TRY = 3;
 	const TYPE_PRODUCT = 4;
   	const TYPE_ACTIVE = 5;
+	const TYPE_STUFF  = 6;
 	
     protected $schema = array(
         'user_id' => 0,
@@ -70,6 +71,14 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           		  	$user_id = $product['user_id'];
           		  	$model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
           		  	break;
+        		case self::TYPE_STUFF:
+          	  		$type = Sher_Core_Model_Timeline::TYPE_STUFF;
+          		  	$model = new Sher_Core_Model_Stuff();
+          		  	// 获取目标用户ID
+          		  	$stuff = $model->extend_load($this->data['target_id']);
+          		  	$user_id = $stuff['user_id'];
+					$model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+          		  	break;
         		case self::TYPE_TRY:
           	  		$type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
           		  	$model = new Sher_Core_Model_Try();
@@ -117,6 +126,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				break;
 			case self::TYPE_ACTIVE:
 				$model = new Sher_Core_Model_Active();
+				$model->dec_counter('comment_count', (int)$target_id);
+				break;
+			case self::TYPE_STUFF:
+				$model = new Sher_Core_Model_Stuff();
 				$model->dec_counter('comment_count', (int)$target_id);
 				break;
 			default:

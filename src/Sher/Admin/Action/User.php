@@ -133,6 +133,49 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	}
 	
 	/**
+	 * 编辑用户信息
+	 */
+	public function edit(){
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_User();
+		$user = $model->load((int)$this->stash['id']);
+		
+		$mentors = $model->find_mentors();
+		
+		$this->stash['user'] = $user;
+		$this->stash['mentors'] = $mentors;
+		
+		return $this->to_html_page('admin/user/edit.html');
+	}
+	
+	/**
+	 * 更新用户信息
+	 */
+	public function modify(){
+		if(empty($this->stash['_id']) || empty($this->stash['mentor'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		$user_id = (int)$this->stash['_id'];
+		$model = new Sher_Core_Model_User();
+		// 验证是否有某人
+		$user = $model->load($user_id);
+		if(empty($user)){
+			return $this->ajax_notification('没有该用户！', true);
+		}
+		
+		try{
+			$ok = $model->update_mentor($user_id, (int)$this->stash['mentor']);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('Update failed: '.$e->getMessage(), true);
+		}
+		
+		return $this->ajax_notification('更新成功！');
+	}
+	
+	/**
 	 * 手动激活用户
 	 */
 	public function activtion() {

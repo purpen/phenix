@@ -2,15 +2,11 @@
 {% block title %}发现-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('.special.cards .image').dimmer({
-	  on: 'hover'
-	});
-	
 	$('#sticktopic .list .item').tab({
 	    context: $('#sticktopic')
 	});
@@ -29,7 +25,7 @@
 </div>
 
 <div class="social slide">
-	<div class="ui responsive compact grid">
+	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ten wide column">
 				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
@@ -42,7 +38,7 @@
 				{% endif %}
 			</div>
 			<div class="six wide column">
-				{% ad_list var:'stkad' page:1 size:2 name:'shop_home_stick' state:2 %}
+				{% ad_list var:'stkad' page:1 size:2 name:'find_right_stick' state:2 %}
 				{% if stkad.total_rows %}
 					{% for skad in stkad.rows %}
 					<div class="ui advert">
@@ -68,26 +64,31 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% topic_list var:'list' category_id:55 size:3 sort:0 %}
-				<div class="ui three cards">
-					{% for topic in list.rows %}
+				{% stuff_list var:'stufflist' sticked:1 size:4 %}
+				<div class="ui four cards">
+					{% for stuff in stufflist.rows %}
 				  	<div class="card">
 				    	<div class="image">
-				      	  	<img src="{{ topic.cover.thumbnails.md.view_url }}" />
+				      	  	<a href="{{ stuff.view_url }}" title="{{ stuff.title }}">
+								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+							</a>
 				    	</div>
 				    	<div class="content">
 				      	  	<div class="header">
-								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">{{ topic.title|truncate 60 }}</a>
+								<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
 							</div>
 				      	  	<div class="description">
-				        		{{ topic.strip_description|truncate 70 }}
+				        		{{ stuff.strip_description|truncate 60 '' }}
 				      	  	</div>
 				    	</div>
-				    	<div class="extra content">
+				    	<div class="extra">
 				      	  	<a class="right floated created">
-				        		<i class="heart icon"></i>{{ topic.love_count }} <i class="user icon"></i>{{ topic.view_count }}
+								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
 							</a>
-							<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" class="ui avatar image" /> {{ topic.user.nickname }}
+							<a href="{{ stuff.user.home_url }}" class="ui icon link">
+								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+							</a>
 				    	</div>
 				  	</div>
 					{% endfor %}
@@ -107,8 +108,8 @@
 				</div>
 			</div>
 			<div class="right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit" class="ui black button">
-					<i class="add icon"></i> 发表话题
+				<a href="{{ app_url_action_base }}/topic/submit" class="ui inverted gray button">
+					<i class="edit icon"></i> 发表新话题
 				</a>
 			</div>
 		</div>
@@ -125,67 +126,10 @@
 							</tr>
 						</thead>
 						<tbody>
-						{% if dig_list %}
-							{% for dig in dig_list %}
-								{% if dig %}
-								<tr>
-									<td class="hide-on-mobile avatar">
-										<a class="ui small avatar image" href="{{ dig.user.home_url }}">
-								      		<img src="{{ dig.user.small_avatar_url }}" alt="{{ dig.user.nickname }}" />
-										</a>
-									</td>
-									<td class="ten wide">
-								      	<h3 class="title">
-											<a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui line link">{{ dig.title|truncate 60 }}</a>
-										</h3>
-								      	<div class="content">
-											<div class="attribute">
-												<span class="category"><a href="{{ dig.category.view_url }}" class="ui link">{{ dig.category.title }}</a></span> | 
-												<span class="author">
-													<a href="{{ dig.user.home_url }}" class="ui magenta link">@{{ dig.user.nickname }}</a>  <i class="time icon"></i>{{ dig.created_on|relative_datetime }} 发表
-												</span>
-											</div>
-											{% if !dig.asset_count %}
-												<div class="description">
-													{{ dig.strip_description|truncate 140 }}
-												</div>
-											{% else %}
-												{% asset_list var:'assets' parent_id:dig._id size:6 asset_type:55 sort:'positive' %}
-												<!--展示图片-->
-												<div class="ui mini images">
-													{% if dig.cover %}
-													<img class="ui image" src="{{ dig.cover.thumbnails.tiny.view_url }}" />
-													{% endif %}
-													{% for asset in assets.rows %}
-														{% if dig.cover._id != asset._id %}
-													  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
-														{% endif %}
-													{% endfor %}
-												</div>
-												<div class="ui center aligned count text">
-													<small>12张图片</small>
-												</div>
-											{% endif %}
-								      	</div>
-									</td>
-									<td class="hide-on-mobile">
-										{% if dig.last_user %}
-										<a class="ui link" href="{{ dig.last_user.home_url }}" title="{{ dig.last_user.nickname }}">
-									  		<img src="{{ dig.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ dig.last_user.nickname }}" />
-										</a>
-										回复于{{ dig.last_reply_time|relative_datetime }}
-										{% endif %}
-									</td>
-									<td class="hide-on-mobile">
-										<a href="{{ dig.view_url }}#comment" class="dot-irecommend">
-											<span class="dot-irecommend-count">{{ dig.view_count }}</span> 
-											<span class="dot-irecommend-suffix"></span>
-										</a>
-									</td>
-								</tr>
-								{% endif %}
+							{% topic_list var:'sticklist' time:0 type:1 size:8 %}
+							{% for topic in sticklist.rows %}
+								{% include "block/topic_item.html" %}
 							{% endfor %}
-						{% endif %}
 						</tbody>
 					</table>
 				</div>
@@ -201,11 +145,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% topic_list var:'list' time:0 sort:0 %}
+							{% topic_list var:'list' time:0 sort:0 size:8 %}
 							{% for topic in list.rows %}
-								{% if !topic.top %}<!--过滤置顶帖子-->
-									{% include "block/topic_item.html" %}
-								{% endif %}
+								{% include "block/topic_item.html" %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -227,43 +169,26 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' only_ok:1 size:10 sort:'time' has_ship:1 current_user_id:current_user_id %}
-				<div class="ui special five cards">
+				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+				<div class="ui mentors four cards">
 					{% for user in users.rows %}
 				  	<div class="card">
-				    	<div class="dimmable image">
-				      	  	<div class="ui dimmer">
-				        		<div class="content">
-				          		  	<div class="center">
-                            {% if user._id != current_user_id %}
-                              {% if !user.is_ship %}
-                              <a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui inverted button ajax" id="user_{{ user._id }}_ship">
-                               + 关注 
-                              </a>
-                              {% else %}
-                              <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
-                              {% endif %}
-                            {% endif %}
-				          		  	</div>
-				        		</div>
-				      	  	</div>
-				      	  	<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" />
-				    	</div>
-				    	<div class="content">
-				      	  	<a class="header">{{ user.nickname }}</a>
-				      	  	<div class="meta">
-				        		<span class="date">{{ user.profile.job }}</span>
-				      	  	</div>
-				    	</div>
-				    	<div class="extra content">
-				      	  	<a>
-				        		<i class="users icon"></i>
-                    {{ user.fans_count }} 个好友
-				      	  	</a>
-				    	</div>
+						<div class="mentor">
+							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
+							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+							<h3>{{ user.nickname }}</h3>
+							<p>{{ user.mentor_info.name }} {{ user.city }}</p>
+						</div>
 				  	</div>
 					{% endfor %}
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_social }}/mentors" class="ui inverted gray button">
+					<i class="search icon"></i>浏览全部专家
+				</a>
 			</div>
 		</div>
 	</div>

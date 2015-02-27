@@ -37,7 +37,7 @@
 						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
 					</div>
 					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/c0">全部类别</a>
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
 					</div>
 					{% for cat in category.rows %}
 				  	<div class="item">
@@ -104,7 +104,7 @@
 					<h2 class="block title">
 						热门推荐 
 						<small>
-							{% category_list var:'category' only_open:1 domain:domain show_all:1 %}
+							{% category_list var:'category' only_open:1 domain:domain %}
 							<div class="ui divided horizontal sticklink list">
 								{% for cat in category.rows %}
 							  	<div class="item">
@@ -116,7 +116,7 @@
 					</h2>
 				</div>
 				<div class="six wide right aligned column">
-					<a class="ui small black basic button" href="{{ app_url_domain }}/shop/c0">更多</a>
+					<a class="ui inverted gray button" href="{{ app_url_domain }}/shop/c0">更多</a>
 				</div>
 			</div>
 			<div class="row">

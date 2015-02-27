@@ -86,7 +86,7 @@ class Sher_Core_Helper_Url {
 		
         return self::build_url_path('app.url.active', $category_id).$page;
     }
-
+	
 	/**
 	 * 帖子列表访问地址,优化URL格式
 	 */
@@ -369,24 +369,31 @@ class Sher_Core_Helper_Url {
     }
     
 	/**
-	 * 分类访问地址
+	 * 产品分类访问地址
 	 */
-    public static function stuff_list_url($category_id=null,$page=null) {
+    public static function stuff_list_url($category_id=null, $page=null) {
         if (!is_null($category_id)) {
             $category_id = 'c'.$category_id;
         }
         if (!empty($page)) {
             $page = "p${page}.html";
         }
-        return self::build_url_path('app.url.stuff',$category_id).$page;
+        return self::build_url_path('app.url.stuff', $category_id).$page;
     }
-
+	
     /**
-     * 分享浏览地址
+     * 产品分享浏览地址
      */
     public static function stuff_view_url($stuff_id){
-    	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'],$stuff_id);
+    	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'], $stuff_id);
     }
+	
+	/**
+	 * 产品灵感评论链接
+	 */
+	public static function stuff_comment_url($stuff_id, $page='#p#'){
+		return  sprintf(Doggy_Config::$vars['app.url.stuff.comment'], $stuff_id, $page);
+	}
 
     /**
      * 举报分享地址

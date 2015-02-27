@@ -10,11 +10,15 @@
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
 	}
+	.hero {
+		height: 500px;
+	}
 	.hero .slidee li > div.container {
 	    margin: 0 auto;
-	    max-width: 1920px;
 	}
-	
+	.hero .slidee li {
+		width: 100%;
+	}
 	@media only screen and (min-width: 990px) and (max-width:1040px){
 		.ui.grid>.column{
 			padding-right:0 !important;
@@ -78,12 +82,6 @@
   .ui.together.block {
     padding-bottom: 4.5rem;
   }
-  #homepage .ui.block{
-    padding-top:2.5em;
-  }
-  #homepage .ui.block .ui.grid .row+.row{
-    padding:0;
-  }
   .ui.small.vote.block {
     padding-bottom: 2.5em;
     padding-top: 0.5em !important;
@@ -94,12 +92,8 @@
   #ft {
     padding:0 0 2em;
   }
-
-  #homepage .ui.small.topic .two.column.row{
-    text-align:center;
-  }
-  #homepage .ui.small.topic .two.column.row .column{
-    width:48.5% !important;
+  #homepage .sticktopic .block.title {
+	  margin-bottom: 2rem;
   }
 	
 	#homepage .ui.small.block .ui.three.items .magenta.item .image+.content{
@@ -116,69 +110,55 @@
 		right: 10px;
 		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
 	}
-	
 </style>
 {% endblock %}
 
 {% block jquery %}
-	var a=e(window).height(),s=e(window).width();
-	if(s > 960 && s <= 1024){
-		a = 690;
-	}else if(s > 768 && s <= 960){
-		a = 500;
-	}else if(s <= 768){
-		a = 450;
-	}
-	e(".hero").height(a-80);
-	e(".hero .slidee li").width(s);
+	var s = e(window).width();
+	e("#fixedslide > .ui.slide > .item").width(s);
 	
-	var $frame = $('#frame');
-	var $wrap = $frame.parent();
-	
+	var $frame = $('#fixedslide');
 	// Call Sly on frame
 	$frame.sly({
 		horizontal: 1,
-		itemNav: 'forceCentered',
-		itemSelector: '.hero .slidee li',
-		smart:1,
-		
-		activateMiddle:1,
-		activateOn:"click",
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
 		
 		// Automated cycling
 		cycleBy: "items",
 		cycleInterval: 3500,
-		pauseOnHover:1,
-		
-		prev:".hero .prev",
-		next:".hero .next",
+		pauseOnHover: 1,
 		
 		// Dragging
 		mouseDragging: 1,
 		touchDragging: 1,
-		elasticBounds: 1,
 		releaseSwing: 1,
 		
-		// Mixed options
-		startAt:0,
-		speed: 1200,
-		easing: "easeOutExpo",
-		keyboardNavBy: "items"
+		prev: "#fixedslide .prev",
+		next: "#fixedslide .next",
 		
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'items',
+		activatePageOn: 'click',
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+		},
+		
+		// Mixed options
+		startAt: 0,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeInOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
 	});
 	
-	$(window).resize(function(e) {
-		var s=$(window).width(),a=$(window).height();
-		if(s > 960 && s <= 1024){
-			a = 690;
-		}else if(s > 768 && s <= 960){
-			a = 500;
-		}else if(s <= 768){
-			a = 450;
-		}
-		
-		$(".hero").height(a-80);
-		$(".hero .slidee li").width(s);
+	$(window).resize(function() {
+		var s=$(window).width();
+		e("#fixedslide > .ui.slide > .item").width(s);
 		
 		$frame.sly('reload');
 	});
@@ -214,118 +194,27 @@
 			关注太火鸟
 		</div>
 	</div>
-	<div class="hero">
-		<div id="frame">
-			<ul class="slidee">
-
-        <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/valentine_lb3.jpg'); background-color: #bf1015;">
-        <div style="position:relative;">
-        <a href="{{ app_url_domain }}/promo/valentine" style="position:absolute;width:100%;height:100%;top:0"></a>
-        </div>
-        </li>
-
-        <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/jourcam.jpg'); background-color: rgb(102, 90, 154);">
-        <div class="clearfix container">
-        <div class="hero-main verticalize-container">
-        <div class="verticalize">
-        <span>旅游户外出行好伴侣</span>
-        <h1>JOUR CAM运动相机</h1>
-        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121170354.html">
-        <span>了解更多</span>
-        </a>
-        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121170354.html">
-        <span>火热预定</span>
-        </a>
-        </div>
-        </div>
-        </div>
-        </li>
-
-        <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/exerbike.jpg'); background-color: rgb(255, 116, 105);">
-        <div class="clearfix container">
-        <div class="hero-main verticalize-container">
-        <div class="verticalize">
-        <span>世界上最好玩的健身车</span>
-        <h1>智能健身车</h1>
-        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121112074.html">
-        <span>了解更多</span>
-        </a>
-        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/sale/1121112074.html">
-        <span>火热预定</span>
-        </a>
-        </div>
-        </div>
-        </div>
-        </li>
-
-
-      <li class="slide-1" style="background-image: url('{{ app_url_packaged }}/images/playegg.jpg'); background-color: rgb(235, 97, 122);">
-					<div class="clearfix container">
-						<div class="hero-main verticalize-container">
-		                    <div class="verticalize">
-		                        <span>砸蛋不停止，红包送不停！</span>
-		                        <h1>赶紧“玩蛋去”</h1>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/promo/playegg">
-									<span>马上开始</span><i class="icon-arrow-right-sharp"></i>
-								</a>
-		                    </div>
-		                </div>
+	<div id="fixedslide" class="frame">
+		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
+		<div class="ui slide">
+			{% for ad in adslide.rows %}
+			<div class="item">
+				<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+					<div class="overlay">
+						{% if ad.cate_title %}
+						<h3>{{ ad.cate_title }}</h3>
+						{% endif %}
+						<h1>{{ ad.title }}</h1>
+						<p class="snippet">
+							{{ ad.sub_title }}
+						</p>
+						<a class="ui inverted button" href="{{ ad.mm_view_url }}">{{ ad.btn_title }}</a>
 					</div>
-				</li>
-				
-				<li class="slide-2" style="background-image: url('{{ app_url_packaged }}/images/milk.jpg'); background-color: rgb(133, 175, 75);">
-					<div class="clearfix container">
-						<div class="hero-main verticalize-container">
-		                    <div class="verticalize">
-		                        <span>解决新手爸妈的喂奶问题</span>
-		                        <h1>婴萌首款智能配奶机</h1>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://www.taihuoniao.com/sale/1111546391.html">
-									<span>了解更多</span>
-								</a>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?spm=a215p.1260087.0.0.7qBDsK&id=4528" target="_blank">
-									<span>火热预定</span>
-								</a>
-		                    </div>
-		                </div>
-					</div>
-				</li>
-				
-				<li class="slide-3" style="background-image: url('{{ app_url_packaged }}/images/newair.jpg'); background-color: rgb(0, 172, 255);">
-					<div class="clearfix container">
-						<div class="hero-main verticalize-container">
-		                    <div class="verticalize">
-		                        <span>把世界最好的空气带回家</span>
-		                        <h1>造梦者迷你新风机</h1>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://www.taihuoniao.com/sale/1111545979.html">
-									<span>了解更多</span>
-								</a>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://hi.taobao.com/market/hi/detail2014.php?spm=a215p.1260087.0.0.7qBDsK&id=4585" target="_blank">
-									<span>火热预定</span>
-								</a>
-		                    </div>
-		                </div>
-					</div>
-				</li>
-				
-				<li class="slide-6" style="background-image: url('{{ app_url_packaged }}/images/fire.jpg'); background-color: rgb(255, 47, 81);">
-					<div class="clearfix container">
-						<div class="hero-main verticalize-container">
-		                    <div class="verticalize">
-								<span>我们一起，让创意之火燎原</span>
-								<h1>点火•产品创意征集令</h1>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/fire">
-									<span>了解更多</span><i class="icon-arrow-right-sharp"></i>
-								</a>
-		                        <a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_about }}">
-									<span>关于太火鸟</span><i class="icon-arrow-right-sharp"></i>
-								</a>
-		                    </div>
-		                </div>
-					</div>
-				</li>
-				
-			</ul>
+				</div>
+			</div>
+			{% endfor %}
 		</div>
+		<div class="pages"></div>
 		<a class="prev" href="#">
 			<i class="flat arrow_left icon"></i>
 		</a>
@@ -338,7 +227,9 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small></h3>
+					<h2 class="block title">
+						热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
+					</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -357,7 +248,9 @@
 		<div class="ui responsive grid" id="votelist">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small></h3>
+					<h2 class="block title">
+						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
+					</h2>
 				</div>
 			</div>
 			<div class="content row">
@@ -382,12 +275,16 @@
 	</section>
 	
 	<section class="ui small topic white background block">
-		<div class="ui responsive grid">
+		<div class="ui responsive sticktopic grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui header">社区话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small></h3>
+					<h2 class="block title">
+						社区话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
+					</h2>
 				</div>
 			</div>
+		</div>
+		<div class="ui responsive grid">
 			<div class="two column row">
 				<div class="column">
 					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
@@ -409,7 +306,7 @@
 					  	<div class="item">
 							<div class="right floated compact ui label">{{ topic.view_count }}</div>
 					    	<div class="content">
-					      	  	<a class="ui header link" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
+					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
 					      		<div class="description">
 									<ul class="ui horizontal bulleted link list">
 										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
@@ -509,8 +406,10 @@
 	<section class="ui big succase block">
 		<div class="ui responsive grid">
 			<div class="row">
-				<div class="column section-title">
-					<h3 class="ui header">成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small></h3>
+				<div class="column">
+					<h2 class="block title">
+						成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
+					</h2>
 				</div>
 			</div>
 			<div class="row">

@@ -90,6 +90,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		return $this->groups;
 	}
 	
+	
 	/**
 	 * 获取顶级分类
 	 */

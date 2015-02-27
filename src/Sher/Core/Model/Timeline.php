@@ -45,24 +45,26 @@ class Sher_Core_Model_Timeline extends Sher_Core_Model_Base  {
   const EVT_VOTE_OPPOSE = 14;
 
 	
-	  ## 类型定义
+	## 类型定义
 	
     const TYPE_TOPIC = 1;
     const TYPE_PRODUCT = 2;
     const TYPE_USER = 3;
 
-    //回复评论,给评论点攒用到这个类型
+    // 回复评论,给评论点攒用到这个类型
     const TYPE_COMMENT = 4;
-    //投票
+    // 投票
     const TYPE_SUPPORT = 5;
+	
+	const TYPE_STUFF = 6;
 
     protected $schema = array(
       'user_id' => 0,
       'target_id' => null,
-		  'type' => self::TYPE_TOPIC,
+	  'type' => self::TYPE_TOPIC,
 		
-		  # 目标对象所属的用户(字段不是必添)
-		  'target_user_id' => 0,
+	  # 目标对象所属的用户(字段不是必添)
+	  'target_user_id' => 0,
 		
       'evt' => 0,
       'data' => array(),
