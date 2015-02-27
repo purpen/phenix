@@ -41,8 +41,11 @@ app.redis.default:
 # 产品话题类别
 app.product.topic_category_id: 19
 
-# 十万火计
-app.topic.dream_category_id: 21
+# 十万火计(old)
+app.topic.dream_category_id: 49
+
+# 十万火计2
+app.contest.dream2_category_id: 49
 
 # 产品灵感
 app.topic.idea_category_id: 16

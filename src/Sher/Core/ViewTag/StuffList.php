@@ -120,6 +120,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 			case 5:
 				$options['sort_field'] = 'update';
 				break;
+      case 6:
+        $options['sort_field'] = 'view';
 		}
 		
         $result = $service->get_stuff_list($query, $options);

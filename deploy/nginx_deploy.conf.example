@@ -145,6 +145,11 @@ server {
         rewrite ^/dream[/]?$ /app/wap/social/dream last;
         rewrite ^/dream/(.*)$ /app/wap/social/$1 last;
     }
+
+    location /contest {
+        rewrite ^/contest[/]?$ /app/wap/contest last;
+		    rewrite ^/contest/(.*)$ /app/wap/contest/$1 last;
+    }
 	
 	location /__file_result__/ {
 	    internal;
@@ -323,6 +328,11 @@ server {
           	rewrite ^/birdegg/(\d+)-(\d+).html$ /app/site/birdegg/view?id=$1&page=$2 last;
 			rewrite ^/birdegg(.*)$ /app/site/birdegg$1 last;
 		}
+
+    location /contest {
+        rewrite ^/contest[/]?$ /app/site/contest last;
+		    rewrite ^/contest/(.*)$ /app/site/contest/$1 last;
+    }
 		
 		location /search {
 		     rewrite ^/search[/]?$ /app/site/search last;
