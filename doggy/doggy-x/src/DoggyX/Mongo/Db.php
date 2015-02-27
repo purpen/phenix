@@ -52,9 +52,10 @@ class DoggyX_Mongo_Db {
     /**
      * Returns true if the value passed appears to be a Mongo database reference
      *
-     * @param mixed $obj
-     * @return boolean
-     **/
+     * @param $value
+     * @return bool
+     * @internal param mixed $obj
+     */
     public static function is_ref($value) {
         if (!is_array($value)) {
             return false;
@@ -525,7 +526,7 @@ class DoggyX_Mongo_Db {
     }
     /**
      * Wrapper of findAndModfiy command:
-     * 
+     *
      * Options:
      * query	 a filter for the query,default is	{}
      * sort	     if multiple docs match, choose the first one in the specified sort order as the object to manipulate,default is {}
@@ -535,9 +536,9 @@ class DoggyX_Mongo_Db {
      * fields	 see Retrieving a Subset of Fields (1.5.0+)	 default is All fields.
      * upsert	 create object if it doesn't exist.
      *
-     * @param string $collection 
-     * @param string $options 
-     * @return void
+     * @param string $collection
+     * @param array $options
+     * @return mixed
      */
     public function find_and_modify($collection,$options = array()) {
         $result = $this->db->command(array('findAndModify' => $collection) + $options);
