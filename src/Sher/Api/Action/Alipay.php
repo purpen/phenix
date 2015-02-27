@@ -3,7 +3,7 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel, DoggyX_Action_Initialize {
+class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'rid' => 0,
 	);
