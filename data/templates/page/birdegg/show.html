@@ -103,7 +103,7 @@ body{
 	
 	phenix.bind_share_list();
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
 	
 	$('.flexslider').flexslider({
 	      animation: "slide",
@@ -149,7 +149,7 @@ body{
 					<span class="like">
 						<i class="icon heart"></i>
 					</span>
-					13人支持
+          {{ stuff.love_count }}人支持
 				</div>
 				<div class="tab">
 					<div class="ui share">
