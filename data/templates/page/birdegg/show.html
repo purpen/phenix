@@ -330,7 +330,7 @@ body{
 		<div class="ui tabox">
 			<div class="ui four tabs">
 				<div class="active tab">团队介绍</div>
-				<div class="tab" href="#pro" name="pro">产品介绍</div>
+				<div class="tab" name="pro">产品介绍</div>
 				<div class="tab">
 					<span class="like">
 						<i class="icon heart"></i>
@@ -351,7 +351,8 @@ body{
       <p>{{ stuff.team_introduce }}</p>
 		</div>
 
-		<div class="parent" name="pro">
+		<div class="parent">
+			<a href="#pro"></a>
 			<h3>产品介绍</h3>
       <p>{{ stuff.description }}</p>
 		</div>
@@ -430,11 +431,11 @@ body{
 			</div>
 		</div>
     -->
-    <div class="ui big reply segment" style="margin-bottom: 20px;">
+    <div class="ui big reply segment" style="margin-bottom: 20px;padding: 2.5em;">
       
-      {% include "block/comment_box_site.html" %}
-      <!--ajax comment-->
+			<!--ajax comment-->
       <div id="comment-list"></div>
+      {% include "block/comment_box_site.html" %}
     </div>
 		
 	</section>
