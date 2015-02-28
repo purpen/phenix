@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-02-24 15:11:18
+//dump on 2015-02-27 17:11:37
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -445,9 +445,9 @@ Doggy_Config::add( array (
   'app.url.share' => 'http://taihuoniao.me/share',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b15022401',
-  'app.version.jquery_bundle_version' => 'v0.10b15022401',
-  'app.version.css_bundle_version' => 'v0.10b15022401',
+  'app.version.sher' => 'v0.10b15022701',
+  'app.version.jquery_bundle_version' => 'v0.10b15022701',
+  'app.version.css_bundle_version' => 'v0.10b15022701',
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
   'app.doggyx.class_path' => '/Users/xiaoyi/Project/doggy-x',
   'app.redis.default' => 
