@@ -12,7 +12,7 @@
 		return file_count++;
 	};
 	
-	$('#topic-form').form({
+	$('#stuff-form').form({
 		title: {
 			identifier  : 'title',
 			rules: [
@@ -62,8 +62,8 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload_topic }}'
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_stuff }}'
       	},
 		text: {
             uploadButton: '<a class="ui fluid green labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -96,13 +96,13 @@
 			$(this)
 				.removeClass('active');
 				
-			$('#topic-category').val('');
+			$('#stuff-category').val('');
 		}else{
 			$(this)
 				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
-			$('#topic-category').val(id);
+			$('#stuff-category').val(id);
 		}
 	});
 	
@@ -115,7 +115,7 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#topic_cover_id').val(id);
+			$('#stuff_cover_id').val(id);
 			return false;
 		});
 	});
@@ -133,8 +133,8 @@
 					</h2>
 				</div>
 				
-				<form action="{{ app_url_wap }}/social/save" class="ui form" method="post" id="topic-form">
-					<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+				<form action="{{ app_url_wap }}/social/save" class="ui form" method="post" id="stuff-form">
+					<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 					<input type="hidden" name="file_count" id="file_count" />
 					<input type="hidden" name="try_id" value="{{ try_id }}" />
@@ -144,20 +144,16 @@
 							<label>类别</label>
 						   	<div class="ui options">
 								{% if mode == 'edit' %}
-						    		<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+						    		<input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
 								{% else %}
 									{% if !is_top %}
-										<input type="hidden" name="category_id" value="{{ cid }}" id="topic-category" />
+										<input type="hidden" name="category_id" value="{{ cid }}" id="stuff-category" />
 									{% else %}
-										<input type="hidden" name="category_id" id="topic-category" />
+										<input type="hidden" name="category_id" id="stuff-category" />
 									{% endif %}
 								{% endif %}
 							
-								{% if !is_top %}
-									{% category_list var:'category' only_open:1 domain:2 pid:parent_category._id current:cid %}
-								{% else %}
-									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
-								{% endif %}
+								{% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
 						   	 		<div class="icon">
@@ -171,29 +167,29 @@
 						
 						<div class="field">
 							<label for="title">标题</label>
-						  	<input type="text" name="title" value="{{ topic.title }}" />
+						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
 				
 						<div class="field">
 							<label for="description">描述</label>
-						  	<textarea name="description" placeholder="此处无需省略一万字..." id="editor">{{ topic.description }}</textarea>
+						  	<textarea name="description" placeholder="此处无需省略一万字..." id="editor">{{ stuff.description }}</textarea>
 							<div class="description">更详细的内容可以登录电脑版更新！</div>
 						</div>
 						
-						<div class="ui hide field">
+						<div class="ui field">
 							<label>标签</label>
-						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
+						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
 						
 						<div class="field">
 							<label>上传封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
-							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
+							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 					
 							<div id="asset-list" class="ui four items">
 								{% if mode == 'edit' %}
-									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
+									{% asset_list var:'assets' parent_id:stuff._id asset_type:70 %}
 									{% for asset in assets.rows %}
 									<div class="thumb item" id="{{ asset._id }}">
 										<div class="image">
@@ -202,7 +198,7 @@
 										</div>
 										<div class="buttons">
 											<div class="ui large links">
-												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+												<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 													<i class="remove icon"></i>
 												</a>
 												<a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
