@@ -118,6 +118,175 @@ body{
 	      animation: "slide",
 	});
 
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		// 精选
+		$('.ui.top.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_stuff }}/ajax_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消精选')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_stuff }}/ajax_cancel_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '精选')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+	
+		// 编辑推荐
+		$('.ui.stick.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_stuff }}/ajax_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消推荐')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_stuff }}/ajax_cancel_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '编辑推荐')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+		
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_stuff }}/edit?id='+id);
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			if(confirm('确认执行删除操作吗?')){
+				$.post('{{ app_url_stuff }}/deleted', {id: {{stuff._id}} });
+			}
+		});
+
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '我支持')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 {% block content %}
 <div class="egg show">
@@ -183,6 +352,62 @@ body{
 			<h3>产品介绍</h3>
       <p>{{ stuff.description }}</p>
 		</div>
+    
+    <div class="ui grid">
+						<div class="row">
+							<div class="center aligned column">
+								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+								  	<i class="thumbs outline up icon"></i>
+									<div class="love count">
+										{{ stuff.love_count|default 0 }}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="column">
+								<div class="admin post actions clearfix">
+									<div class="ui icon black editable buttons">
+										<div class="ui pop favorite magenta button" data-content="收藏" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+											<i class="empty star icon"></i> <small>{{ stuff.favorite_count }}</small>
+										</div>
+										{% if visitor.can_admin %}
+											{% if stuff.featured %}
+											<div class="ui pop top active button" data-content="取消精选" data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+												<i class="bookmark icon"></i>
+											</div>
+											{% else %}
+											<div class="ui pop top button" data-content="精选" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+												<i class="bookmark icon"></i>
+											</div>
+											{% endif %}
+											{% if stuff.stick %}
+											<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+												<i class="pin icon"></i>
+											</div>
+											{% else %}
+											<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+												<i class="pin icon"></i>
+											</div>
+											{% endif %}
+										{% endif %}
+							
+										{% if editable %}
+										<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
+											<i class="edit icon"></i>
+										</div>
+										<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
+											<i class="remove icon"></i>
+										</div>
+										{% endif %}
+									</div>
+					
+								</div>
+							</div>
+						</div>
+
+    </div>
 		
     <!--
 		<div class="say">
