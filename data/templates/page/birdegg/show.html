@@ -1,6 +1,7 @@
 {%extends 'layout/column.html'%}
 {% block title %}蛋年-{% endblock %}
 {% block page_css %}
+<link href="{{ app_url_packaged }}/css/jquery.sliderTabs.min.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
 body{
 	background-color:#1b0217;
@@ -89,10 +90,22 @@ body{
 .say+.right.column p{
 	display:inline-block;
 }
+.ui-slider-tabs-content-container{
+	background:rgba(0,0,0,0);
+	border:0px solid #fff;
+}
+#demoSlider img{
+	width:590px;
+	margin-left:295px;
+}
+.ui-slider-tabs-indicator-container{
+	bottom:15px;
+}
 </style>
 {% endblock %}
 
 {% block layout_js %}
+	<script src="{{ app_url_packaged }}/javascript/jquery.sliderTabs.min.js"></script>
 	<script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
   <script type="text/javascript">
     var per_page = 10;
@@ -101,6 +114,19 @@ body{
       $.get(url, {target_id: {{ stuff._id }}, type: 6, page: current_page, per_page: per_page});
     }
   </script>
+	<script>
+	$(function(){
+		var demo = $("div#demoSlider").sliderTabs({
+		  indicators: true,
+		  panelArrows: true,
+		  panelArrowsShowOnHover: true,
+		  tabs: false,
+		  classes: {
+			panel: 'demoPanel'
+		  }
+		});
+	});
+	</script>
 {% endblock %}
 
 
@@ -307,16 +333,37 @@ body{
       		</a>
 		</div>
 		
-		<div style="height:500px;background:rgba(255,255,255,0.4);">
+		<div id="demoSlider" style="padding-top:20px;">
+		  <ul>
+		    <li><a href="#pyramid"></a></li>
+		    <li><a href="#gardens"></a></li>
+		    <li><a href="#zeus"></a></li>
+		    <li><a href="#temple"></a></li>
+		    <li><a href="#mausoleum"></a></li>
+		    <li><a href="#colossus"></a></li>
+		  </ul>
+		  <div id="pyramid"><img src="http://frbird.qiniudn.com/stuff/150228/-1-hd.jpg"></div>
+		  <div id="gardens"><img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1"></div>
+		  <div id="zeus"><img src="http://frbird.qiniudn.com/stuff/150228/-1-hd.jpg"></div>
+		  <div id="temple"><img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1"></div>
+		  <div id="mausoleum"><img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1"></div>
+		  <div id="colossus"><img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1"></div>
+		</div>
+		<!--<div style="height:500px;background:rgba(255,255,255,0.4);">
 			<div class="flexslider">
 	      <ul class="slides">
-          {% if stuff.cover %}
+					
+					<li>
+						<img src="http://frbird.qiniudn.com/stuff/150228/-1-hd.jpg">
+					</li>-->
+		
+          <!--{% if stuff.cover %}
           <li>
             <img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
           </li>
-          {% endif %}
+          {% endif %}-->
           <!--附件列表-->
-          {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+          <!--{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
           {% if assets.total_rows %}
             {% for asset in assets.rows %}
               {% if asset._id != stuff.cover_id %}
@@ -329,12 +376,12 @@ body{
 
 	      </ul>
 	    </div>
-		</div>
+		</div>-->
 		
 		<div class="ui tabox">
 			<div class="ui four tabs">
 				<div class="active tab">团队介绍</div>
-				<div class="tab" name="pro">产品介绍</div>
+				<div class="tab">产品介绍</div>
 				<div class="tab">
 					<span class="like">
 						<i class="icon heart"></i>
@@ -356,7 +403,6 @@ body{
 		</div>
 
 		<div class="parent">
-			<a href="#pro"></a>
 			<h3>产品介绍</h3>
       <p>{{ stuff.description }}</p>
 		</div>
