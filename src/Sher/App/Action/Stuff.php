@@ -230,7 +230,17 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
 		
-		$data['cover_id'] = $this->stash['cover_id'];
+    $data['cover_id'] = $this->stash['cover_id'];
+
+    //所属
+    if(isset($this->stash['from_to'])){
+      $data['from_to'] = (int)$this->stash['from_to'];
+    }
+
+    //团队介绍-蛋年
+    if(isset($this->stash['team_introduce'])){
+      $data['team_introduce'] = $this->stash['team_introduce'];
+    }
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
@@ -281,7 +291,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);
+    if(isset($data['from_to']) && $data['from_to']==2){
+      $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+    }else{
+ 		  $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);   
+    }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}

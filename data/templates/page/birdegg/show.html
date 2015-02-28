@@ -91,19 +91,28 @@ body{
 
 {% block layout_js %}
 	<script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
-	
+  <script type="text/javascript">
+    var per_page = 10;
+    function fetch_comment(current_page, per_page){
+      var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+      $.get(url, {target_id: {{ stuff._id }}, type: 6, page: current_page, per_page: per_page});
+    }
+  </script>
 {% endblock %}
 
 
-
 {% block jquery %}
+	phenix.hook_comment_page();
+  //ajax加载评论
+  fetch_comment(1, per_page);
+
 	$('.ui.share').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 	
 	phenix.bind_share_list();
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{{ stuff._id }}.html'});
 	
 	$('.flexslider').flexslider({
 	      animation: "slide",
@@ -117,7 +126,7 @@ body{
 	</section>
 	<section class="w-1180">
 		<div class="h-40">
-			<a class="ui magenta active btn-4 btn-4c btn" href="{{ app_url_birdegg }}/index" target="_blank">
+			<a class="ui magenta active btn-4 btn-4c btn" href="{{ app_url_birdegg }}/index">
         			<i class="angle left icon"></i><span> 返回蛋年主页</span>
       		</a>
 		</div>
@@ -125,18 +134,23 @@ body{
 		<div style="height:500px;background:rgba(255,255,255,0.4);">
 			<div class="flexslider">
 	      <ul class="slides">
-	          <li>
-	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
-	          </li>
-						<li>
-	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
-	          </li>
-						<li>
-	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
-	          </li>
-						<li>
-	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
-	          </li>
+          {% if stuff.cover %}
+          <li>
+            <img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
+          </li>
+          {% endif %}
+          <!--附件列表-->
+          {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+          {% if assets.total_rows %}
+            {% for asset in assets.rows %}
+              {% if asset._id != stuff.cover_id %}
+                <li>
+                  <img width="" src="{{ asset.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
+                </li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
 	      </ul>
 	    </div>
 		</div>
@@ -161,11 +175,16 @@ body{
 		</div>
 		
 		<div class="parent">
-			<h3>像素背照式相机</h3>
-			<p>800 万像素的背照式相机支持 HDR、特效滤镜、全景、连拍、声控快门等多种拍摄玩法，让拍照更加有趣。你也可以使用前置 200 万像素相机自拍，第二代 36 级智能美颜会根据年龄与性别自动美化，保留更多细节让美颜更真实。</p>
-			
+			<h3>团队介绍</h3>
+      <p>{{ stuff.team_introduce }}</p>
+		</div>
+
+		<div class="parent">
+			<h3>产品介绍</h3>
+      <p>{{ stuff.description }}</p>
 		</div>
 		
+    <!--
 		<div class="say">
 			<h2>我有话说</h2>
 			<form class="ui reply form">
@@ -182,14 +201,17 @@ body{
 				评论
 			</div>
 		</div>
-		
-		
+    -->
+    <div class="ui big reply segment">
+      
+      {% include "block/comment_box_site.html" %}
+      <!--ajax comment-->
+      <div id="comment-list"></div>
+    </div>
 		
 	</section>
-	
 
 </div>
-
 
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}

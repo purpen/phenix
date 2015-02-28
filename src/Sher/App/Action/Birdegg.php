@@ -133,7 +133,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		
 		$this->_editor_params();
 		
-		return $this->to_html_page('page/stuff/submit.html');
+		return $this->to_html_page('page/birdegg/submit.html');
 	}
 	
 	/**
