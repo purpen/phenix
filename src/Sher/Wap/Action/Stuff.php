@@ -154,8 +154,6 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
-		$this->_editor_params();
-		
 		return $this->to_html_page('wap/stuff/submit.html');
 	}
 	
@@ -175,7 +173,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
         }
 		// 仅管理员或本人具有删除权限
 		if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
-			return $this->show_message_page('你没有权限编辑的该主题！', true);
+			return $this->show_message_page('你没有权限编辑的该产品！', true);
 		}
         
 		$stuff = $model->extended_model_row($stuff);
@@ -205,8 +203,6 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
 		
 		$this->stash['pid'] = new MongoId();
-		
-		$this->_editor_params();
 		
 		return $this->to_html_page('wap/stuff/submit.html');
 	}
