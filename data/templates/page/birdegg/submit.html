@@ -207,7 +207,7 @@
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-            <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
+						<input type="hidden" name="from_to" value="2" />
 						
 						<div class="ui field">
 							<label>所属类别</label>
@@ -234,14 +234,11 @@
 							<label for="title">产品名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-            {% if mode=='edit' %}
-              {% if stuff.from_to==2 %}
-                <div class="field">
-                  <label for="description">团队介绍</label>
-                    <textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
-                </div>
-              {%endif%}
-            {%endif%}
+
+						<div class="field">
+							<label for="description">团队介绍</label>
+						  	<textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
+						</div>
 						
 						<div class="field">
 							<label>产品标签</label>

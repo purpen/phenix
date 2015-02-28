@@ -137,13 +137,13 @@
 					{% for stuff in stufflist.rows %}
 				  	<div class="card">
 				    	<div class="image">
-				      	  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}">
+				      	  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
 								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
 							</a>
 				    	</div>
 				    	<div class="content">
 				      	  	<div class="header">
-								<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+								<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
 							</div>
 				      	  	<div class="description">
 				        		{{ stuff.strip_description|truncate 60 '' }}

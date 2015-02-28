@@ -23,6 +23,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	const PROCESS_DEVELOP = 2;
 	const PROCESS_PERSALE = 5;
 	const PROCESS_SALE = 9;
+
+  #所属
+  const FROM_NULL = 0;
+  const FROM_SWHJ = 1;
+  const FROM_EGG = 2;
 	
     protected $schema = array(
 	    'user_id' => 0,
@@ -36,6 +41,9 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'description' => '',
     	'tags' => array(),
         'like_tags' => array(),
+
+    #团队介绍
+    'team_introduce' => '',
 		
 		# 品牌名称
 		'brand' => '',
@@ -66,7 +74,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-		
+    # 属于1.十万火计;2.蛋年;3.;4.;
+    'from_to' => 0,
 		'random' => 0,
     );
 	
@@ -100,6 +109,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 			// 去除 html/php标签
 			$row['strip_description'] = strip_tags($row['description']);
 		}
+
+		// 去除 html/php标签
+    if(isset($row['team_introduce'])){
+		  $row['strip_team_introduce'] = strip_tags(htmlspecialchars_decode($row['team_introduce']));
+    }
 		// 验证是否指定封面图
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);
