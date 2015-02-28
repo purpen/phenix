@@ -77,6 +77,9 @@ body{
 .parent p{
 	line-height: 20px;
 }
+.right.aligned.column,.laud{
+	float:right;
+}
 .say{
 	color:#fff;
 }
@@ -158,7 +161,7 @@ body{
 		<div class="ui tabox">
 			<div class="ui four tabs">
 				<div class="active tab">团队介绍</div>
-				<div class="tab">产品介绍</div>
+				<div class="tab" href="#pro" name="pro">产品介绍</div>
 				<div class="tab">
 					<span class="like">
 						<i class="icon heart"></i>
@@ -179,7 +182,7 @@ body{
       <p>{{ stuff.team_introduce }}</p>
 		</div>
 
-		<div class="parent">
+		<div class="parent" name="pro">
 			<h3>产品介绍</h3>
       <p>{{ stuff.description }}</p>
 		</div>
@@ -202,7 +205,7 @@ body{
 			</div>
 		</div>
     -->
-    <div class="ui big reply segment">
+    <div class="ui big reply segment" style="margin-bottom: 20px;">
       
       {% include "block/comment_box_site.html" %}
       <!--ajax comment-->
