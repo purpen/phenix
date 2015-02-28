@@ -133,11 +133,9 @@
 					</h2>
 				</div>
 				
-				<form action="{{ app_url_wap }}/social/save" class="ui form" method="post" id="stuff-form">
+				<form action="{{ app_url_wap }}/stuff/save" class="ui form" method="post" id="stuff-form">
 					<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
-					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 					<input type="hidden" name="file_count" id="file_count" />
-					<input type="hidden" name="try_id" value="{{ try_id }}" />
 					
 					<div class="ui segment">
 						<div class="ui {{ hide }} field">
