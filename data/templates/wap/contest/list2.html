@@ -91,12 +91,14 @@
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
-									<a class="ui link" href="{{ stuff.wap_view_url }}" target="_blank">
+									<a class="ui link" href="{{ stuff.wap_view_url }}">
 										{{ stuff.title|truncate 32 }}
 									</a>
 									{% if stuff.cover %}
 									<div class="image">
-										<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
+                    <a href="{{ stuff.wap_view_url }}">
+										  <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
+                    </a>
 									</div>
 									<div class="advantage">
 										{{ stuff.strip_description|truncate 140 }}

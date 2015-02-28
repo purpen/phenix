@@ -56,7 +56,6 @@ body{
 
 .slides img{
 	width: 590px;
-	height:360px;
 }
 .tab{
 	color:#fff !important;
@@ -114,11 +113,18 @@ body{
 	});
 	
 	phenix.bind_share_list();
+
+  //分享
+  phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{{ stuff._id }}.html'});
 	
 	$('.flexslider').flexslider({
 	      animation: "slide",
+        slideshow: true,
+        before: function(s){
+          //alert(s);
+        }
 	});
 
 	/* 登录用户行为 */
@@ -307,9 +313,9 @@ body{
       		</a>
 		</div>
 		
-		<div style="height:500px;background:rgba(255,255,255,0.4);">
-			<div class="flexslider">
-	      <ul class="slides">
+		<div style="background:rgba(255,255,255,0.4);">
+			<div class="flexslider" style="">
+	      <ul class="slides" style="displaytable-cell;text-aligncenter;vertical-alignmiddle;">
           {% if stuff.cover %}
           <li>
             <img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />

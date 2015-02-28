@@ -41,6 +41,9 @@
   fetch_comment(1, per_page);
 
 	phenix.bind_share_list();
+
+  //分享
+  phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.view_url }}'});
 	

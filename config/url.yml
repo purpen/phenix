@@ -27,6 +27,7 @@ app.url.wap.stuff: '{$app.url.wap}/stuff'
 app.url.wap.stuff.list: '{$app.url.wap.stuff}/c%d/p%s'
 app.url.wap.stuff.view: '{$app.url.wap.stuff}/view-%d.html'
 app.url.wap.contest: '{$app.url.wap}/contest'
+app.url.wap.birdegg: '{$app.url.wap}/birdegg'
 
 app.url.static: '{$app.domain.static}'
 app.url.packaged: '{$app.domain.static}/packaged'
