@@ -81,6 +81,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);
+		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
 		$row['fav_tags'] = !empty($row['like_tags']) ? implode(',', $row['like_tags']) : '';
 

@@ -50,6 +50,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			'id' => 3,
 			'name' => '我是鸟粉',
 		),
+		array(
+			'id' => 4,
+			'name' => '大赛专区',
+		),
 	);
 	
     protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state');

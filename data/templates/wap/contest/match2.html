@@ -552,42 +552,42 @@
 			</div>
 			<div class="row">
 				<div class="column">
-				{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:1 size:8 %}
+		      {% stuff_list var:'list' is_top:true category_id:dream_category_id sticked:1 page:1 size:4 %}
 					<div class="ui one items">
 						
-						{% for topic in list.rows %}
+						{% for stuff in list.rows %}
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
-									<a class="ui link" href="{{ topic.wap_view_url }}" target="_blank">
-										{{ topic.title|truncate 32 }}
+									<a class="ui link" href="{{ stuff.wap_view_url }}" target="_blank">
+										{{ stuff.title|truncate 32 }}
 									</a>
-									{% if topic.cover %}
+									{% if stuff.cover %}
 									<div class="image">
-										<img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" class="ui image" />
+										<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
 									</div>
 									<div class="advantage">
-										{{ topic.strip_description|truncate 140 }}
+										{{ stuff.strip_description|truncate 140 }}
 									</div>
 									{% else %}
 									<div class="full advantage">
-										{{ topic.strip_description|truncate 280 }}
+										{{ stuff.strip_description|truncate 280 }}
 									</div>
 									{% endif %}
 								</h4>
 								<div class="schedule">
 									<div class="status clearfix">
-										<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
-								      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+										<a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank">
+								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
 										</a>
 										<span class="count">
-											<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
-												{{ topic.user.nickname }}
+											<a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank">
+												{{ stuff.user.nickname }}
 											</a>
 										</span>
 										<span class="like">
 											<i class="icon unhide"></i>
-											<span class="count">{{ topic.view_count }}</span>
+											<span class="count">{{ stuff.view_count }}</span>
 										</span>
 									</div>
 								</div>
@@ -599,11 +599,11 @@
 			</div>
 			<div class="center aligned row">
 				<div class="column">
-					<a href="{{ app_url_wap }}/dream/allist2" class="fluid ui magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_wap }}/contest/allist2" class="fluid ui magenta btn-4 btn-4c icon-arrow-right btn">
 						全部创意
 					</a>
 					<br>
-          <a href="{{ app_url_wap }}/social/submit?cid={{ dream_category_id }}&ref=dream" class="fluid ui magenta btn-4 btn-4c icon-arrow-right btn">
+          <a href="{{ app_url_wap }}/contest/submit?season=dream2" class="fluid ui magenta btn-4 btn-4c icon-arrow-right btn">
 						提交创意
 					</a>
 				</div>
@@ -650,7 +650,7 @@
 					<p>太火鸟与广州美术学院工业设计学院整合双方优势资源，共同组织华南地区的创意产业孵化平台。并在该平台之上定期组织相关的产品创意概念演示、评审、推介等的服务。为华南地区的创意创业人士提供新产品体验、创意信息交流的场地。</p>
 				</div>
 			</div>
-
+      <!--
 			<div class="row">
 				<div class="center aligned column">
 					<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
@@ -662,6 +662,7 @@
 					</a>
 				</div>
 			</div>
+      -->
 		</div>
 	</section>
 

@@ -73,9 +73,8 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui magenta horizontal divided list">
-						<a href="{{ app_url_wap }}/dream2" class="ui link {{ css_index }} item">首页</a>
-						<a href="{{ app_url_wap }}/dream/allist2" class="ui link {{ css_allist }} item">全部作品</a>
-						<a href="{{ app_url_wap }}/social/c23/" class="ui link item" target="_blank">社区话题</a>
+						<a href="{{ app_url_wap }}/contest/dream2" class="ui link {{ css_index }} item">首页</a>
+						<a href="{{ app_url_wap }}/contest/allist2" class="ui link {{ css_allist }} item">全部作品</a>
 					</div>
 				</div>
 			</div>
@@ -86,41 +85,41 @@
 			<div class="row">
 				<div class="column">
 				
-					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:page size:12 %}
+          {% stuff_list var:'list' is_top:true category_id:dream_category_id sort:0 page:page size:8 %}
 					<div class="ui one items">
-						{% for topic in list.rows %}
+						{% for stuff in list.rows %}
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
-									<a class="ui link" href="{{ topic.wap_view_url }}" target="_blank">
-										{{ topic.title|truncate 32 }}
+									<a class="ui link" href="{{ stuff.wap_view_url }}" target="_blank">
+										{{ stuff.title|truncate 32 }}
 									</a>
-									{% if topic.cover %}
+									{% if stuff.cover %}
 									<div class="image">
-										<img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" class="ui image" />
+										<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
 									</div>
 									<div class="advantage">
-										{{ topic.strip_description|truncate 140 }}
+										{{ stuff.strip_description|truncate 140 }}
 									</div>
 									{% else %}
 									<div class="full advantage">
-										{{ topic.strip_description|truncate 280 }}
+										{{ stuff.strip_description|truncate 280 }}
 									</div>
 									{% endif %}
 								</h4>
 								<div class="schedule">
 									<div class="status clearfix">
-										<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
-								      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+										<a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank">
+								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
 										</a>
 										<span class="count">
-											<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
-												{{ topic.user.nickname }}
+											<a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank">
+												{{ stuff.user.nickname }}
 											</a>
 										</span>
 										<span class="like">
 											<i class="icon unhide"></i>
-											<span class="count">{{ topic.view_count }}</span>
+											<span class="count">{{ stuff.view_count }}</span>
 										</span>
 									</div>
 								</div>
