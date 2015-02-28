@@ -3,7 +3,7 @@
  * 产品灵感
  * @author purpen
  */
-class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
+class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 	
 	public $stash = array(
 		'id'   => '',
@@ -71,7 +71,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 分页链接
 		$page = 'p#p#';
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.stuff', $list_tab, 'c'.$cid).$page;
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.wap.stuff', $list_tab, 'c'.$cid).$page;
 		
 		return $this->display_tab_page($list_tab);
 	}
@@ -82,7 +82,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	public function view(){
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.stuff'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap.stuff'];
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
@@ -130,7 +130,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
 		
-		return $this->to_html_page('page/stuff/view.html');
+		return $this->to_html_page('wap/stuff/show.html');
 	}
 	
 	/**
@@ -154,9 +154,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
-		$this->_editor_params();
-		
-		return $this->to_html_page('page/stuff/submit.html');
+		return $this->to_html_page('wap/stuff/submit.html');
 	}
 	
 	/**
@@ -175,7 +173,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         }
 		// 仅管理员或本人具有删除权限
 		if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
-			return $this->show_message_page('你没有权限编辑的该主题！', true);
+			return $this->show_message_page('你没有权限编辑的该产品！', true);
 		}
         
 		$stuff = $model->extended_model_row($stuff);
@@ -206,9 +204,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['pid'] = new MongoId();
 		
-		$this->_editor_params();
-		
-		return $this->to_html_page('page/stuff/submit.html');
+		return $this->to_html_page('wap/stuff/submit.html');
 	}
 	
 	/**
@@ -230,20 +226,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
 		
-    $data['cover_id'] = $this->stash['cover_id'];
+		$data['cover_id'] = $this->stash['cover_id'];
 
     //所属
     if(isset($this->stash['from_to'])){
       $data['from_to'] = (int)$this->stash['from_to'];
     }
-
     //团队介绍-蛋年
     if(isset($this->stash['team_introduce'])){
       $data['team_introduce'] = $this->stash['team_introduce'];
     }
-		
-		// 检测编辑器图片数
-		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
 		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
@@ -291,10 +283,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
+
     if(isset($data['from_to']) && $data['from_to']==2){
       $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
     }else{
- 		  $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);   
+		  $redirect_url = Sher_Core_Helper_Url::wap_stuff_view_url($id); 
     }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
@@ -460,19 +453,6 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$model->delete_asset($id, $asset_id);
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
-	}
-	
-	/**
-	 * 编辑器参数
-	 */
-	protected function _editor_params() {
-		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
-		$new_pic_id = new MongoId();
-		$this->stash['editor_pid'] = (string)$new_pic_id;
-
-		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
-		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
 	}
 	
 }

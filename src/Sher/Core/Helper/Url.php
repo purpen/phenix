@@ -387,6 +387,13 @@ class Sher_Core_Helper_Url {
     public static function stuff_view_url($stuff_id){
     	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'], $stuff_id);
     }
+
+    /**
+     * 产品分享浏览地址
+     */
+    public static function wap_stuff_view_url($stuff_id){
+    	return  sprintf(Doggy_Config::$vars['app.url.wap.stuff.view'], $stuff_id);
+    }
 	
 	/**
 	 * 产品灵感评论链接
