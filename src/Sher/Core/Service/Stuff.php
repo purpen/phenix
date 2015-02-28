@@ -12,6 +12,7 @@ class Sher_Core_Service_Stuff extends Sher_Core_Service_Base {
 		'comment' => array('comment_count' => -1),
 		'favorite' => array('favorite_count' => -1),
 		'love' => array('love_count' => -1),
+    'view' => array('view_count' => -1),
 	);
 
     protected static $instance;

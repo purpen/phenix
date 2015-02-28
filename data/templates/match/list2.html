@@ -108,7 +108,7 @@
 {% block jquery %}
   //提交作品按钮
   $('#submit-idea').click(function(){
-    var url = "{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream";
+    var url = "{{ app_url_contest }}/submit?season=dream2";
     phenix.redirect(url);
   });
 
@@ -172,12 +172,11 @@
 		<div class="middle aligned row">
 			<div class="twelve wide column">
 				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_social }}/dream2" class="ui link item">首页</a>
-					<a href="{{ app_url_social }}/about2" class="ui link {{ css_index }} item">活动介绍</a>
-          <!--<a href="{{ app_url_social }}/dream#judges" class="ui link item">入围作品</a>-->
-					<a href="{{ app_url_social }}/allist2" class="ui link {{ css_allist }} item">全部作品</a>
-          <!--<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">话题讨论</a>-->
-					<a href="{{ app_url_social }}/dream2#coop" class="ui link item" target="_blank">合作资源</a>
+					<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+					<a href="{{ app_url_contest }}/about2" class="ui link {{ css_index }} item">活动介绍</a>
+          <!--<a href="{{ app_url_contest }}/dream#judges" class="ui link item">入围作品</a>-->
+					<a href="{{ app_url_contest }}/allist2" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_contest }}/dream2#coop" class="ui link item">合作资源</a>
 				</div>
 			</div>
 			<div class="right aligned four wide column">
@@ -208,19 +207,19 @@
 					<div class="ui divided horizontal list">
 					  	<div class="item">排序：</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_social }}/allist?st=4" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=4" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_social }}/allist?st=5" class="ui {% if st == 5 %}active{% endif %} link">浏览</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=6" class="ui {% if st == 6 %}active{% endif %} link">浏览</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_social }}/allist?st=2" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=2" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_social }}/allist?st=3" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=3" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_social }}/allist?st=0" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=0" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
 					  	</div>
 					</div>
 				</div>
@@ -228,28 +227,28 @@
 		</div>
 		<div class="ui responsive media allist grid">
 			<div class="row">
-					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:st page:page size:12 %}
+					{% stuff_list var:'list' is_top:true category_id:dream_category_id sort:st page:page size:12 %}
 			
 			<div class="column">
 		
 				<div class="ui four items">
-					{% for topic in list.rows %}
-            {% if topic.cover %}
+					{% for stuff in list.rows %}
+            {% if stuff.cover %}
               <div class="item"> 
                <div class="content"> 
-                 <h4 class="ui dividing header"> <a class="ui link" href="{{ topic.view_url }}" target="_blank">{{ topic.title|truncate 28 }}</a> 
+                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
                  <div class="image"> 
-                   <img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" /> 
+                   <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
                  </div> 
                  <div class="advantage">
-                  {{ topic.strip_description|truncate 140 }} 
+                  {{ stuff.strip_description|truncate 140 }} 
                  </div> </h4> 
                 <div class="i-stats">
                   <div class="schedule"> 
                    <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank"> <img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.user.nickname }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ topic.user.home_url }}" target="_blank"> {{ topic.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ topic.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ topic.view_count }}</span> </span> 
+                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
+                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
                    </div> 
                   </div> 
                 </div>
@@ -258,16 +257,16 @@
             {%else%}
               <div class="item"> 
                <div class="content"> 
-                <h4 class="ui dividing header"> <a class="ui link" href="{{ topic.view_url }}" target="_blank"> {{ topic.title|truncate 28 }} </a> 
+                <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
                  <div class="full advantage">
-                   {{ topic.strip_description|truncate 580 }} 
+                   {{ stuff.strip_description|truncate 580 }} 
                  </div> </h4> 
                 <div class="i-stats">
                   <div class="schedule"> 
                    <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank"> <img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.view_url }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ topic.user.home_url }}" target="_blank"> {{ topic.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ topic.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ topic.view_count }}</span> </span> 
+                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
+                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
                    </div> 
                   </div> 
                 </div>
