@@ -31,6 +31,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 产品视频链接
 		'video' => array(),
 		
+		# 访问地址
+		'view_url' => '',
+		
 		# 封面图
  		'cover_id' => '',
 		'asset' => array(),
@@ -230,7 +233,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		$row['view_url'] = $this->gen_view_url($row);
+		if(!isset($row['view_url']) || empty($row['view_url'])){
+			$row['view_url'] = $this->gen_view_url($row);
+		}
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
 		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $row['_id']);
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);

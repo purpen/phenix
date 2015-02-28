@@ -1,0 +1,65 @@
+{%extends 'layout/column.html'%}
+{% block title %}合作资源-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+	.cooperate.masthead {
+		color: white;
+		padding: 100px 0 60px;
+		background: url("{{ app_url_packaged }}/images/banner-trial.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
+	}
+	.cooperate.masthead .buttons {
+		margin-top: 3rem;
+	}
+	.cooperate.mainlist {
+		padding: 3rem 0;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="cooperate masthead">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">合作资源</h2>
+			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
+			<hr>
+			<div class="buttons">
+				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
+					<i class="edit icon"></i> 申请合作
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<div class="cooperate mainlist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				
+			</div>
+		</div>
+	</div><!--end responsive grid-->
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">合作资源</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

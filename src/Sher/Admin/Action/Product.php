@@ -36,7 +36,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				break;
 		}
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
-    $this->stash['is_search'] = false;
+    	$this->stash['is_search'] = false;
 		
         return $this->to_html_page('admin/product/list.html');
     }
@@ -109,6 +109,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['content'] = $this->stash['content'];
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
+		$data['view_url'] = $this->stash['view_url'];
 		
 		// 投票时间
 		$data['voted_start_time'] = $this->stash['voted_start_time'];
