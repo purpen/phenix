@@ -287,7 +287,12 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Sher_Core_Helper_Url::wap_stuff_view_url($id);
+
+    if(isset($data['from_to']) && $data['from_to']==2){
+      $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+    }else{
+		  $redirect_url = Sher_Core_Helper_Url::wap_stuff_view_url($id); 
+    }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}

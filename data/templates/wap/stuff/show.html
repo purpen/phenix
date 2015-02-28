@@ -56,14 +56,14 @@
 		// 编辑
 		$('.ui.edit.button').bind('click', function(){
 			var id = $(this).data('id');
-			phenix.redirect('{{ app_url_stuff }}/edit?id='+id);
+			phenix.redirect('{{ app_url_wap }}/stuff/edit?id='+id);
 		});
 	
 		// 删除
 		$('.ui.remove.button').bind('click', function(){
 			var id = $(this).data('id');
 			if(confirm('确认执行删除操作吗?')){
-				$.post('{{ app_url_stuff }}/deleted', {id: {{stuff._id}} });
+				$.post('{{ app_url_wap }}/stuff/deleted', {id: {{stuff._id}} });
 			}
 		});
 		

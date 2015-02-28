@@ -136,7 +136,7 @@
 				<form action="{{ app_url_wap }}/stuff/save" class="ui form" method="post" id="stuff-form">
 					<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 					<input type="hidden" name="file_count" id="file_count" />
-					<input type="hidden" name="from_to" value="1" />
+          <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
 					
 					<div class="ui segment">
 						<div class="ui {{ hide }} field">
