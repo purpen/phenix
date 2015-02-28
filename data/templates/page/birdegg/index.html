@@ -2,171 +2,10 @@
 {% block title %}蛋年创新大会-{% endblock %}
 
 {% block page_css %}
+<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs.min.css" type="text/css" />
 <style type="text/css">
 	body{
 		background: #1c0318;
-	}
-	.ui.tabox {
-		background: none repeat scroll 0 0 #190019;
-	  	width: 100%;
-		border: 0px solid #fff;
-		margin: 0;
-		position: relative;
-		-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
-		-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
-		-o-transition: opacity 0.25s ease,translateY 0.25s ease;
-		-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
-		transition: opacity 0.25s ease,translateY 0.25s ease;
-	}
-	.ui.tabox.fxd {
-		position: fixed;
-		left: 0;
-		top: 0;
-		z-index: 9999;
-	}
-	.ui.tabox > .ui.grid > .row {
-		margin-bottom: 0rem;
-	}
-	.ui.tabox .ui.tabs {
-		display: inline-block;
-	}
-	/* .ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
-	.ui.tabox .ui.tabs .tab{
-		color:#fff;
-		text-align:center;
-		font-size: 0.9285rem;
-		margin: 0 1rem;
-		padding: 1rem 0;
-		margin-bottom: 0px;
-	}
-	.ui.tabs .tab:hover{
-		color:#f36 !important;
-	}
-	.ui.tabox a.ui.btn,
-	.ui.tabox a.ui.btn:hover {
-		border-radius: 0.2875em;
-	    padding: 0.5em 2.5em;
-	}
-	.ui.tabox .ui.btn-4c:before {
-		top: -9px;
-	}
-	
-	#eggBox section.page {
-		padding-top: 125px;
-		position: relative;
-		height: 100%;
-		overflow:hidden;
-	}
-	#eggBox section.page .w-1180 {
-		width: 1180px;
-		height: 100%;
-		margin: 0 auto;
-		overflow-y: hidden;
-	}
-	#eggBox section.page .w-1180 > h3.ui.header{
-		color: #fff;
-		padding-top: 20px !important;
-	}
-	#eggBox section.page .w-1180 > h3.ui.header small {
-		font-size: 0.5em;
-	}
-	
-	@keyframes mymove {
-		0%   { padding-bottom: 0px; .opacity(0.8); }
-		50%  { padding-bottom: 15px; .opacity(0.35); }
-		100% { padding-bottom: 0px; .opacity(0.8); }
-	}
-
-	@-webkit-keyframes mymove {
-		0%   { padding-bottom: 0px; .opacity(0.8); }
-		50%  { padding-bottom: 15px; .opacity(0.35); }
-		100% { padding-bottom: 0px; .opacity(0.8); }
-	}
-	
-	#eggBox section.pagex {
-		position: relative;
-		height: 100%;
-		text-align: center;
-		position: relative;
-	}
-	.section .pagex a.arrow {
-		position: absolute;
-		bottom: 1rem;
-		color: white;
-		font-size: 2rem;
-		text-decoration: none;
-		-webkit-animation: mymove 1.75s ease-in-out infinite;
-		-moz-animation: mymove 1.75s ease-in-out infinite;
-		animation: mymove 1.75s ease-in-out infinite;
-	}
-	.section .pagex a.arrow .icon {
-		opacity: 1;
-		margin-right: 0;
-	}
-	
-	#eggBox .section.instro {
-		background-image: url("{{ app_url_packaged }}/images/egg-desc-stars.png");
-		background-position: right center;
-		background-repeat: no-repeat;
-	}
-	#eggBox .section.instro .left-text,
-	#eggBox .section.instro .right-text {
-		display: inline-block;
-		box-sizing: border-box;
-		vertical-align: top;
-	}
-	#eggBox .section.instro .left-text {
-		padding-left: 5%;
-	    padding-right: 5%;
-		margin-top: 6%;
-	    width: 35%;
-	}
-	#eggBox .section.instro .left-text .summary {
-		color: #8c4a8c;
-		line-height: 1.5;
-	    margin-bottom: 1.5rem;
-	}
-	#eggBox .section.instro .left-text .date,
-	#eggBox .section.instro .left-text b {			
-		color: #fff;
-	}
-	#eggBox .section.instro .right-text {
-		width: 55%;
-	}
-	
-	#eggBox .section.stuffs {
-		background-repeat: no-repeat;
-		background-position: right center;
-	}
-	#eggBox .section.stuffs .featured {
-		margin-bottom: 2rem;
-		margin-top: 2rem;
-	}
-	#eggBox .section.stuffs .buttons {
-		text-align: center;
-	}
-	#eggBox .section.stuffs .tips {
-		color: rgba(255, 255, 255, 0.7);
-		line-height: 2;
-		padding: 2rem 6rem;
-	}
-	
-	#eggBox .section.contact .ui.grid {
-		padding: 0 12%;
-		margin: 4rem auto;
-		color: white;
-	}
-	#eggBox .section.contact .ui.grid img {
-		width: 80%;
-	}
-	#eggBox .section.contact .share.box {
-		margin: 4rem 0;
-	}
-	#eggBox .section.contact .share.box .ui.icon.button {
-		background-color: transparent;
-	    border: medium none;
-	    color: white;
-	    font-size: 2rem;
 	}
 .w-252{
 	width:252px;
@@ -226,77 +65,80 @@
 	margin-top:25px;
 }
 
-
-.h-179{
-	height:179px;
+.h-180{
+	height:180px;
+	margin-left:45px;
 }
-.w-179{
-	width:179px;
-	height:179px;
-	margin:10px 8.8333px;
+.h-160{
+	height:160px;
+}
+.w-160{
+	width:160px;
+	height:160px;
+	margin:10px;
 	float:left;
 	display:inline-block;
 }
-.w-179+p{
+.h-180+p{
 	text-align:center;
 }
 .lg{
-	background:url({{ app_url_packaged }}/images/egg_lg.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_lg1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .ch{
-	background:url({{ app_url_packaged }}/images/egg_ch.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_ch1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .sc{
-	background:url({{ app_url_packaged }}/images/egg_sc.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_sc1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .ghs{
-	background:url({{ app_url_packaged }}/images/egg_ghs.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_ghs1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .twl{
-	background:url({{ app_url_packaged }}/images/egg_twl.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_twl1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .ysy{
-	background:url({{ app_url_packaged }}/images/egg_ysy.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_ysy1.jpg) no-repeat;
+	width:160px;
+	height:159px;
 }
 .twm{
-	background:url({{ app_url_packaged }}/images/egg_twm.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_twm1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .fch{
-	background:url({{ app_url_packaged }}/images/egg_fch.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_fch1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .jw{
-	background:url({{ app_url_packaged }}/images/egg_jw.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_jw1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 .lhb{
-	background:url({{ app_url_packaged }}/images/egg_lhb.jpg) no-repeat;
-	width:179px;
-	height:179px;
+	background:url({{ app_url_packaged }}/images/egg_lhb1.jpg) no-repeat;
+	width:160px;
+	height:160px;
 }
 
 .process{
 	background:url({{ app_url_packaged }}/images/egg_4.jpg) no-repeat center center;
 	background-size:cover;
 }
-.h-234{
-	height:234px;
+.h-205{
+	height:205px;
 }
 .w-276{
 	width:276px;
@@ -316,47 +158,47 @@
 .c-egg{
 	background:url({{ app_url_packaged }}/images/egg_5.png) no-repeat;
 	width:276px;
-	height:234px;
+	height:205px;
 }
 .c-egg-z{
 	background:url({{ app_url_packaged }}/images/egg_6.png) no-repeat;
 	width:384px;
-	height:234px;	
+	height:205px;	
 }
 .c-egg-r{
 	background:url({{ app_url_packaged }}/images/egg_7.png) no-repeat;
 	width:520px;
-	height:234px;
+	height:205px;
 }
 .l-egg{
 	background:url({{ app_url_packaged }}/images/egg_8.png) no-repeat;
 	width:276px;
-	height:234px;
+	height:205px;
 }
 .l-egg-z{
 	background:url({{ app_url_packaged }}/images/egg_9.png) no-repeat;
 	width:384px;
-	height:234px;	
+	height:205px;	
 }
 .l-egg-r{
 	background:url({{ app_url_packaged }}/images/egg_10.png) no-repeat;
 	width:520px;
-	height:234px;
+	height:205px;
 }
 .z-egg{
 	background:url({{ app_url_packaged }}/images/egg_11.png) no-repeat;
 	width:276px;
-	height:234px;
+	height:205px;
 }
 .z-egg-z{
 	background:url({{ app_url_packaged }}/images/egg_12.png) no-repeat;
 	width:384px;
-	height:234px;	
+	height:205px;	
 }
 .z-egg-r{
 	background:url({{ app_url_packaged }}/images/egg_13.png) no-repeat;
 	width:520px;
-	height:234px;
+	height:205px;
 }
 
 .partners {
@@ -364,20 +206,20 @@
 	background-size:cover;
 }
 .section.partners .logo {
-	padding: 20px 0 0;
+	padding: 0 0;
 	display:block;
 	width:1180px;
-	min-height:160px;
+	min-height:144px;
 }
 .section.partners .logo.one {
-	min-height:70px;
+	min-height:78px;
 }
 .section.partners .logo p{
 	display: inline-block;
 	width: 78px;
-	height: 62px;
+	height: 72px;
 	float: left;
-	line-height: 83px;
+	line-height: 64px;
 	font-size: 20px;
 	color: #fff;
 	margin: 0;
@@ -386,10 +228,9 @@
 .section.partners .logo img {
 	float: left;
 	display: inline-block;
-	padding: 10px 5px;
-}
-.ml-78{
-	margin-left:78px;
+	padding: 7px;
+	width: 90px;
+	height: 50px;
 }
 
 .fp-section {
@@ -563,95 +404,7 @@
 {% endblock %}
 
 {% block private_js %}
-	<script type="text/javascript">
-		phenix.birdegg = {
-			init: function(){
-				var _this = this;
-				_this.pageIndex = 1;
-				_this.loadPage();
-				
-				$('.ui.more').click(function(){
-					$.fn.fullpage.moveTo(2);
-				});
-		
-				$('#eggPage').fullpage({
-					menu: '#eggmenu',
-				    anchors: ['topbanner', 'instro', 'specially', 'guest', 'process', 'stuffs', 'partners', 'contact'],
-					onLeave: function(index, nextIndex, direction){
-						phenix.birdegg.hideHeader();
-						if(index == 1 && direction == 'down'){
-							phenix.birdegg.showTabox();
-						}else if(index == 2 && direction == 'up'){
-							phenix.birdegg.hideTabox();
-						}
-						if(index == 1){
-							console.log('index:'+ index);
-							TweenLite.from('#instro-text', 2, {
-								transform: 'translateX(-300px)',
-								opacity: 0,
-		                    });
-						}
-					},
-					afterLoad: function(anchorLink, index){
-						
-					}
-				});
-				$.fn.fullpage.moveTo(1);
-		
-				$('body').on('mousewheel', function(e, delta){
-					if (e.preventDefault() || window.mousewheelStart === true){
-						 return false;
-					}
-					window.mousewheelStart = true;
-					_this.listenMousewheeEvent();
-			
-					var g = delta > 0 ? true : false,
-					h = 0 > delta ? true : false;
-					if(1 === _this.pageIndex){
-						if(g){
-							_this.showHeader();
-						}else if(h && window.headerIsShow){
-							return _this.hideHeader();
-						}
-					}
-				});
-			},
-			loadPage: function(){
-				var eggboxHeight = function(){
-					var h = $(window).height();
-					$('#eggBox').height(h);
-				}
-		
-				eggboxHeight();
-		
-				$(window).on('resize', function(){
-					eggboxHeight();
-				});
-		
-				this.hideHeader();
-			},
-			showTabox: function(){
-				$('.ui.tabox').addClass('fxd');
-			},
-			hideTabox: function(){
-				$('.ui.tabox').removeClass('fxd');
-			},
-			hideHeader: function(){
-				$('.header.main').addClass('fp-easing').css({'margin-top': '-130px'});
-				window.headerIsShow = false;
-			},
-			showHeader: function(){
-				$('.header.main').css({'margin-top': '0'});
-				window.headerIsShow = true;
-			},
-			listenMousewheeEvent: function(){
-				window.listenMousewheel && clearTimeout(window.listenMousewheel),
-				window.listenMousewheel = setTimeout(function(){
-					window.mousewheelStart = false;
-				}, 800);
-			},
-		};
-	</script>
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/egg.min.js"></script>
 {% endblock %}
 
 
@@ -676,7 +429,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui tabox">
+<div class="ui eggs tabox">
 	<div class="ui responsive grid">
 		<div class="two column middle aligned row">
 			<div class="twelve wide column">
@@ -733,7 +486,15 @@
 						<div class="summary">北京. 751D-PARK广场</div>
 					</div>
 					<div class="right-text">
-						<img src="{{ app_url_packaged }}/images/egg-five.png" class="ui image" />
+						<img src="{{ app_url_packaged }}/images/ball.png" class="ball" />
+						<img src="{{ app_url_packaged }}/images/platfam.png" class="platfam" />
+						<div class="five">
+							<span id="highlight">5</span>大阵营 强强联手
+						</div>
+						<div class="smart">
+							<span>1500</span>件智能产品
+						</div>
+						<div class="vc"></div>
 					</div>
 					</div>
 			</section>
@@ -744,7 +505,7 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">特邀嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-252 mt-15">
+					<div class="h-252 mt-15" id="specialer01">
 						<div class="w-252 mt-25">
 							<div class="xxp"></div>
 						</div>
@@ -758,7 +519,7 @@
 							<div class="lwq"></div>
 						</div>
 					</div>
-					<div class="h-252 mt-25">
+					<div class="h-252 mt-25" id="specialer02">
 						<div class="w-252 mt-25">
 							<div class="ldh"></div>
 						</div>
@@ -782,69 +543,70 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-179">
-						<div class="w-179">
+					<div class="h-180">
+						<div class="w-160">
 							<div class="lg"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="lg"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="lg"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="ch"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="sc"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="lg"></div>
 						</div>
 					</div>
 				
-					<div class="h-179">
-						<div class="w-179">
+					<div class="h-180">
+						<div class="w-160">
 							<div class="lg"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="ghs"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="lg"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="ch"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="sc"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="twl"></div>
 						</div>
 					</div>
 				
-					<div class="h-179">
-						<div class="w-179">
+					<div class="h-180">
+						<div class="w-160">
 							<div class="ysy"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="twm"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="fch"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="fch"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="jw"></div>
 						</div>
-						<div class="w-179">
+						<div class="w-160">
 							<div class="lhb"></div>
 						</div>
-						<p>排名不分先后，更多嘉宾持续更新中......</p>
+						
 					</div>
+					<p>排名不分先后，更多嘉宾持续更新中......</p>
 				
 				</div>
 			</section>
@@ -855,7 +617,7 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">活动流程</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-234" style="margin-top:-20px;">
+					<div class="h-205" style="margin-top:-20px;">
 						<div class="w-276">
 							<div class="c-egg"></div>
 						</div>
@@ -867,7 +629,7 @@
 						</div>
 					</div>
 				
-					<div class="h-234">
+					<div class="h-205">
 						<div class="w-276">
 							<div class="l-egg"></div>
 						</div>
@@ -879,7 +641,7 @@
 						</div>
 					</div>
 				
-					<div class="h-234">
+					<div class="h-205">
 						<div class="w-276">
 							<div class="z-egg"></div>
 						</div>
@@ -950,7 +712,7 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">联合主办</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="logo">
+					<div class="logo" style="padding-top:20px;">
 						<p>媒体圈</p>
 						<img src="{{ app_url_packaged }}/images/egg_bd.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image">
@@ -962,7 +724,7 @@
 						<img src="{{ app_url_packaged }}/images/egg_btv.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_ifeng.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_sohu.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_163.jpg" class="ui image ml-78">
+						<img src="{{ app_url_packaged }}/images/egg_163.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_qq.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_sina.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_mans.jpg" class="ui image">
@@ -982,7 +744,7 @@
 						<img src="{{ app_url_packaged }}/images/egg_mk.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_tm.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_auto.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image ml-78">
+						<img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_f.jpg" class="ui image">
 					

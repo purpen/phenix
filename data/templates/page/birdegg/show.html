@@ -1,0 +1,196 @@
+{%extends 'layout/column.html'%}
+{% block title %}蛋年-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+body{
+	background-color:#1b0217;
+}
+.egg_s_header{
+	background:url({{ app_url_packaged }}/images/egg_s_header.jpg) no-repeat center center;
+	background-size:cover;
+	height:175px;
+}
+.w-1180{
+	width:1180px;
+	margin:0 auto;
+}
+.h-40{
+	height:40px;
+	padding:5px;
+}
+.h-40 .ui.btn,.h-40 .ui.btn:hover{
+	padding:.65em 1.5em;
+}
+.flexslider {
+
+  margin: 0; 
+  padding: 0;
+
+    }
+
+.slides li.flex-active-slide{
+	margin-left:-40px;
+}
+
+.flexslider{
+	text-align:center;
+	position:relative;
+	padding:20px 0;
+}
+
+.flex-control-nav {width: 90%; position: absolute; bottom: -40px; text-align: center;}
+.flex-control-nav li {margin: 0 6px; display: inline-block; zoom: 1; *display: inline;}
+.flex-control-paging li a {width: 11px; height: 11px; display: block; background: #666; background: rgba(0,0,0,0.5); cursor: pointer; text-indent: -9999px; -webkit-border-radius: 20px; -moz-border-radius: 20px; -o-border-radius: 20px; border-radius: 20px; -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); -moz-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); -o-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); box-shadow: inset 0 0 3px rgba(0,0,0,0.3); }
+.flex-control-paging li a:hover { background: #333; background: rgba(0,0,0,0.7); }
+.flex-control-paging li a.flex-active { background: #000; background: rgba(0,0,0,0.9); cursor: default; }
+.flex-direction-nav {*height: 0;list-style: none;}
+.flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
+.flex-direction-nav .flex-prev { opacity: .5;left: 10px;}
+.flex-direction-nav .flex-next { right: 10px; text-align: right; opacity: .5;}
+.flexslider:hover .flex-prev { opacity: 0.7; }
+.flexslider:hover .flex-next { opacity: 0.7; right: 10px; }
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
+.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
+.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
+.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
+
+.slides img{
+	width: 590px;
+	height:360px;
+}
+.tab{
+	color:#fff !important;
+}
+.tab:hover,.tab.active,.tab .like .icon.heart,.tab .share.icon{
+	color:#f36 !important;
+}
+.ui.tabox .ui.tabs .tab:nth-child(3),.ui.tabox .ui.tabs .tab:nth-child(4){
+	text-align:right;
+}
+
+.parent{
+	color:#fff;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #e4e5e7;
+}
+.parent p{
+	line-height: 20px;
+}
+.say{
+	color:#fff;
+}
+.say+.right.column{
+	padding-bottom:20px;
+}
+.say+.right.column p{
+	display:inline-block;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
+	
+{% endblock %}
+
+
+
+{% block jquery %}
+	$('.ui.share').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	
+	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
+	
+	$('.flexslider').flexslider({
+	      animation: "slide",
+	});
+
+{% endblock %}
+{% block content %}
+<div class="egg show">
+	<section class="egg_s_header">
+		
+	</section>
+	<section class="w-1180">
+		<div class="h-40">
+			<a class="ui magenta active btn-4 btn-4c btn" href="{{ app_url_birdegg }}/index" target="_blank">
+        			<i class="angle left icon"></i><span> 返回蛋年主页</span>
+      		</a>
+		</div>
+		
+		<div style="height:500px;background:rgba(255,255,255,0.4);">
+			<div class="flexslider">
+	      <ul class="slides">
+	          <li>
+	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
+	          </li>
+						<li>
+	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
+	          </li>
+						<li>
+	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
+	          </li>
+						<li>
+	            <img src="http://frbird.qiniudn.com/asset/150224/54ec2693fc8b12d8418b6c8c-1" />
+	          </li>
+	      </ul>
+	    </div>
+		</div>
+		
+		<div class="ui tabox">
+			<div class="ui four tabs">
+				<div class="active tab">团队介绍</div>
+				<div class="tab">产品介绍</div>
+				<div class="tab">
+					<span class="like">
+						<i class="icon heart"></i>
+					</span>
+					13人支持
+				</div>
+				<div class="tab">
+					<div class="ui share">
+					<i class="share icon"></i>
+					分享到
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="parent">
+			<h3>像素背照式相机</h3>
+			<p>800 万像素的背照式相机支持 HDR、特效滤镜、全景、连拍、声控快门等多种拍摄玩法，让拍照更加有趣。你也可以使用前置 200 万像素相机自拍，第二代 36 级智能美颜会根据年龄与性别自动美化，保留更多细节让美颜更真实。</p>
+			
+		</div>
+		
+		<div class="say">
+			<h2>我有话说</h2>
+			<form class="ui reply form">
+				
+				<div class="field">
+					<textarea name="content" placeholder="我期待此产品未来会是什么样？" class="comment-textarea"></textarea>
+				
+				</div>
+			<form>
+		</div>
+		<div class="ui right aligned column">
+			<p>bob747 &nbsp;&nbsp;北京 &nbsp;&nbsp; </p>
+			<div class="ui magenta submit labeled btn">
+				评论
+			</div>
+		</div>
+		
+		
+		
+	</section>
+	
+
+</div>
+
+
+{% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
+{% endblock %}

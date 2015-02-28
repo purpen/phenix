@@ -126,7 +126,7 @@
 			<input type="hidden" name="_id" value="{{ advertise._id }}" />
 			<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
 			
-			<div class="two fields">
+			<div class="three fields">
 				<div class="field">
 					<label for="space_id">所属位置：</label>
 					{% space_list var:'spacelist' page:page %}
@@ -146,6 +146,18 @@
 				  	<label for="ordby">排序：</label>
 					<input type="text" name="ordby" value="{{ advertise.ordby|default 0 }}" />
 					<div class="ui pointing top label">数字越大越靠前!</div>
+				</div>
+				<div class="field">
+				  	<label for="mode">显示方式：</label>
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="mode" value="{{ advertise.mode }}" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							<div data-value="2" class="{% if advertise.mode == 2 %}active {% endif %}item">图文模式</div>
+							<div data-value="1" class="{% if advertise.mode == 1 %}active {% endif %}item">单图模式</div>	
+					    </div>
+					</div>
 				</div>
 			</div>
 			<div class="two fields">
