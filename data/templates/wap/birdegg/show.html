@@ -168,7 +168,7 @@
 							<i class="icon home"></i>首页
 						</a>
 					  	<div class="divider"> / </div>
-					  	<a class="section" href="{{ app_url_wap }}/social">社区</a>
+					  	<a class="section" href="{{ app_url_wap }}/birdegg/zlist">蛋年</a>
 					  	<div class="divider"> / </div>
 					  	<a class="section" href="{{ app_url_wap }}/birdegg">{{ stuff.category.title }}</a>
 					  	<div class="divider"> / </div>
@@ -251,24 +251,18 @@
 							{% endif %}
 						</div>
 
+          <div class="ui grid">
 						<div class="row">
-							<div class="column">
-								<div class="admin post actions clearfix">
-									<div class="ui icon black editable buttons">
-										<div class="ui pop favorite magenta button" data-content="收藏" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
-											<i class="empty star icon"></i> <small>{{ stuff.favorite_count }}</small>
-										</div>
-							
-										{% if editable %}
-										<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
-											<i class="remove icon"></i>
-										</div>
-										{% endif %}
+							<div class="center aligned column">
+								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+								  	<i class="thumbs outline up icon"></i>
+									<div class="love count">
+										{{ stuff.love_count|default 0 }}
 									</div>
-					
 								</div>
 							</div>
 						</div>
+          </div>
 
           </div>
 				

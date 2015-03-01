@@ -105,7 +105,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
 		
-		return $this->to_html_page('wap/birdegg/view.html');
+		return $this->to_html_page('wap/birdegg/show.html');
 	}
 	
 	/**
