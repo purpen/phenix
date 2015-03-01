@@ -33,6 +33,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     );
     protected $required_fields = array('user_id','content');
     protected $int_fields = array('user_id','target_user_id','star');
+	  protected $counter_fields = array('love_count');
 	
 	/**
 	 * 验证数据
@@ -202,6 +203,41 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		}
 	   	return null;
     }
+
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$comment = $this->find_by_id((string)$id);
+			if(!isset($comment[$field_name]) || $comment[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name, $count);
+	}
+
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
 
     /**
      * 删除某评论的回复

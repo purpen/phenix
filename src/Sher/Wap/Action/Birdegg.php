@@ -45,7 +45,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		
 		// 分页链接
 		$page = 'p#p#';
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.birdegg', 'c'.$cid).$page;
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.wap', 'birdegg', 'zlist', 'c'.$cid).$page;
 		
 		return $this->to_html_page('wap/birdegg/zlist.html');
 	}
@@ -56,7 +56,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	public function view(){
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.birdegg'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg';
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
@@ -133,7 +133,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		
 		$this->_editor_params();
 		
-		return $this->to_html_page('wap/stuff/submit.html');
+		return $this->to_html_page('wap/birdegg/submit.html');
 	}
 	
 }

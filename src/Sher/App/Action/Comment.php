@@ -97,27 +97,69 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		
 		return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}
+
+	/**
+	 * 点赞
+	 */
+	public function ajax_laud(){
+		$id = $this->stash['id'];
+		$type = Sher_Core_Model_Favorite::TYPE_COMMENT;
+		if(empty($id)){
+			return $this->ajax_note('缺少请求参数！', true);
+		}
+
+		$this->stash['mode'] = 'create';
+		try{
+			$model = new Sher_Core_Model_Favorite();
+			$fav_info = array(
+				'type' => $type,
+			);
+			if (!$model->check_loved($this->visitor->id, (string)$id, $type)) {
+				$ok = $model->add_love($this->visitor->id, (string)$id, $fav_info);
+        if($ok){
+          // 获取计数
+          $model = new Sher_Core_Model_Comment();
+          $comment = $model->find_by_id($id);
+          $this->stash['love_count'] = $comment['love_count'];
+		      return $this->to_taconite_page('ajax/laud_ok.html');
+        }else{
+        	return $this->ajax_note('添加失败！', true);
+        }
+      }else{
+ 			  return $this->ajax_note('已添加喜欢', true);     
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('操作失败,请重新再试:'.$e->getMessage(), true);
+		}
+		
+	}
 	
 	/**
-	 * 点赞回应
+	 * 取消点赞
 	 */
-	public function ajax_laud() {
-		$comment_id = $this->stash['id'];
-		
-		// 验证数据
-		if(empty($comment_id)){
-			return $this->ajax_notification('获取数据错误,请重新提交', true);
+	public function ajax_cancel_laud(){
+		$id = $this->stash['id'];
+		$type = Sher_Core_Model_Favorite::TYPE_COMMENT;
+		if(empty($id) || empty($type)){
+			return $this->ajax_note('缺少请求参数！', true);
 		}
-		
+
+		$this->stash['mode'] = 'cancel';
 		try{
-			$model = new Sher_Core_Model_Comment();
-			$model->inc($comment_id,'love_count');
+			$model = new Sher_Core_Model_Favorite();
+			$ok = $model->cancel_love($this->visitor->id, $id, $type);
+			if($ok){
+				$model->mock_after_remove($this->visitor->id, $id, $type, Sher_Core_Model_Favorite::EVENT_LOVE);
+        // 获取计数
+        $model = new Sher_Core_Model_Comment();
+        $comment = $model->find_by_id($id);
+        $this->stash['love_count'] = $comment['love_count'];
+        return $this->to_taconite_page('ajax/laud_ok.html');
+			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_note('操作失败,请重新再试', true);
 		}
-		$this->stash['mode'] = 'create';
 		
-		return $this->to_taconite_page('ajax/laud_ok.html');
 	}
 	
 	/**
@@ -205,9 +247,11 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
    * ajax获取评论--site
    */
   public function ajax_fetch_comment_site(){
+    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
     $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+    $this->stash['current_user_id'] = $current_user_id;
 		return $this->to_taconite_page('ajax/comment_list_site.html');
   }
 
@@ -215,9 +259,11 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
    * ajax获取评论--wap
    */
   public function ajax_fetch_comment_wap(){
+    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
     $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+    $this->stash['current_user_id'] = $current_user_id;
 		return $this->to_taconite_page('ajax/comment_list_wap.html');
   }
 	
