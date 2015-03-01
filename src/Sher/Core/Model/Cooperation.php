@@ -35,14 +35,15 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
 		'email'      => '',
 		'phone'      => '',
-		'mobile'     => '',
 		# 所在城市
 		'province'   => '',
 		'city'       => '',
 		'address'    => '',
 		
 		# 联系人
-		'contact'   => array(),
+		'people'   	 => '',
+		'mobile'     => '',
+		'wechat'     => '',
 		
 		# 网站
 		'site_url'   => '',
@@ -59,7 +60,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		'state'      => self::STATE_DISABLED,
     );
 	
-    protected $required_fields = array('name','summary','city');
+    protected $required_fields = array('name','summary');
     protected $int_fields = array('user_id','rank','type','stick','state');
 	
 	protected $joins = array();
@@ -85,6 +86,13 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
+		if(isset($row['summary'])){
+			// 转码
+			$row['summary'] = htmlspecialchars_decode($row['summary']);
+		
+			// 去除 html/php标签
+			$row['strip_summary'] = strip_tags($row['summary']);
+		}
     }
 	
 }

@@ -14,6 +14,9 @@
 	.cooperate.mainlist {
 		padding: 3rem 0;
 	}
+	.keywords {
+		margin: 1rem 0 2rem;
+	}
 </style>
 {% endblock %}
 
@@ -39,11 +42,35 @@
 	
 <div class="cooperate mainlist">
 	<div class="ui responsive grid">
+		{% cooperate_list var:'list' size:15 page:page %}
+		{% for b in list.rows %}
 		<div class="row">
-			<div class="column">
+			<div class="five wide column">
 				
 			</div>
+			<div class="eleven wide column">
+				<h2 class="ui black header">{{ b.name }}</h2>
+				<div class="content">
+					{{ b.summary }}
+				</div>
+				{% if b.keywords %}
+				<div class="keywords">
+					{% for tag in b.keywords %}
+						{% if tag %}
+						<label class="ui magenta label">
+							{{ tag }}
+						</label>
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% endif %}
+				
+				<a href="" class="ui line">
+					查看更多
+				</a>
+			</div>
 		</div>
+		{% endfor %}
 	</div><!--end responsive grid-->
 </div>
 

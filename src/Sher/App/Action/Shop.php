@@ -18,7 +18,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	);
 	
 	protected $page_tab = 'page_sns';
-	protected $page_html = 'page/topic/index.html';
+	protected $page_html = 'page/shop/index.html';
 	
 	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment');
 	
