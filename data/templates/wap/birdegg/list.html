@@ -1,0 +1,93 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}蛋年-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+		margin-top: 0;
+	}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="birdegg list">
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui magenta horizontal divided list">
+						<a href="{{ app_url_wap }}/birdegg" class="ui link {{ css_index }} item">首页</a>
+						<a href="{{ app_url_wap }}/birdegg/list" class="ui link {{ css_allist }} item">全部作品</a>
+						<a href="{{ app_url_wap }}/social/c23/" class="ui link item" target="_blank">社区话题</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+	<section class="ui big products block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+				
+					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:page size:12 %}
+					<div class="ui one items">
+						{% for topic in list.rows %}
+						<div class="item">
+							<div class="content">
+								<h4 class="ui dividing header">
+									<a class="ui link" href="{{ topic.wap_view_url }}" target="_blank">
+										{{ topic.title|truncate 32 }}
+									</a>
+									{% if topic.cover %}
+									<div class="image">
+										<a class="ui link" href="{{ topic.wap_view_url }}" target="_blank">
+											<img src="{{ topic.cover.thumbnails.medium.view_url }}" alt="{{ topic.title }}" class="ui image" />
+										</a>
+									</div>
+									<div class="advantage">
+										{{ topic.strip_description|truncate 140 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ topic.strip_description|truncate 280 }}
+									</div>
+									{% endif %}
+								</h4>
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ topic.user.home_url }}" target="_blank">
+								      		<img src="{{ topic.user.mini_avatar_url }}" alt="{{ topic.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ topic.user.home_url }}" target="_blank">
+												{{ topic.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ topic.view_count }}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					{% if list.total_page %}
+					<div class="ui pagination">
+						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+						{% include 'block/pager.html' %}
+					</div>
+					{% endif %}
+				<div>
+			</div>	
+		</div>
+	</section>
+</div>
+{% endblock %}
