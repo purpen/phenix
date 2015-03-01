@@ -71,7 +71,7 @@
 	.flexslider{
 		text-align:center;
 		position:relative;
-		height: 70%;
+		height: 75%;
 		padding-top:30px;
 		padding-bottom:10px;
 	}
@@ -86,6 +86,12 @@
 	.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
 	.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
 	.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
+	.flexslider+.column{
+		text-align:center;
+	}
+	.flexslider+.column a.ui.btn{
+		padding: 1em 2em !important;
+	}
 </style>
 {% endblock %}
 
@@ -421,21 +427,55 @@ function onTouchEnd(e)
 														
 					                </li>
 													<li>
-														<p>45678</p>
+														<div class="ui grid">
+															<div class="column">
+																<div class="ui one items">
+																	<div class="item">
+																								<div class="content">
+																									<h4 class="ui dividing header">
+																										<a class="ui link" href="http://m.taihuoniao.com/topic/view-102298-0.html" target="_blank">
+																											“智慧树”一款介于U盘与移动硬盘...
+																										</a>
+																																			<div class="image">
+																											<img src="http://frbird.qiniudn.com/topic/141220/549599e420de8d95468b496b-1-me.jpg" alt="“智慧树”一款介于U盘与移动硬盘之间的产品" class="ui image">
+																										</div>
+																										<div class="advantage">
+																											一款介于U盘与移动硬盘之间的产品。U盘储存量太小，故需多个，但多则易丢失及不易管理。移动硬盘，太大，不易携带。“智慧树”的设计解决这两个问题...
+																										</div>
+																																		</h4>
+																									<div class="schedule">
+																										<div class="status clearfix">
+																											<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+																									      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
+																											</a>
+																											<span class="count">
+																												<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+																													15120070751
+																												</a>
+																											</span>
+																											<span class="like">
+																												<i class="icon unhide"></i>
+																												<span class="count">607</span>
+																											</span>
+																										</div>
+																									</div>
+																								</div>
+																							</div>
+																<div>
+															</div>
+														</div>
 													</li>
 						          </ul>
 						        </div>
                  
 										
 										<div class="center aligned column">
-											<div class="column">
 												<a href="http://m.taihuoniao.com/dream/allist" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 													提交创意
 												</a>
 																<a href="http://m.taihuoniao.com/dream/allist" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 																	全部创意
 																</a>
-															</div>
 											
 										</div>
 										
