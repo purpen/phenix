@@ -131,8 +131,6 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
-		$this->_editor_params();
-		
 		return $this->to_html_page('wap/birdegg/submit.html');
 	}
 	

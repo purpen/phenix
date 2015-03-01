@@ -86,7 +86,7 @@
 
 
   //大图沦换
-	var demo = $("div#demoSlider").sliderTabs({
+	$("div#demoSlider").sliderTabs({
 	  indicators: true,
 	  panelArrows: true,
 	  panelArrowsShowOnHover: true,
@@ -167,7 +167,8 @@
 					</div>
 				</div>
 			</div>
-			
+			  <!--附件列表-->
+        {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
 			<div id="demoSlider">
         <ul>
           {% if stuff.cover %}
