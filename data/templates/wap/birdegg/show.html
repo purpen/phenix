@@ -70,6 +70,19 @@
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.sliderTabs.min.js"></script>
 <script type="text/javascript">
+  $(function(){
+    //大图沦换
+    $("div#demoSlider").sliderTabs({
+      indicators: true,
+      panelArrows: true,
+      panelArrowsShowOnHover: true,
+      tabs: true,
+      classes: {
+      panel: 'demoPanel'
+      }
+    });    
+  });
+
   var per_page = 10;
   function fetch_comment(current_page, per_page){
     var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
@@ -83,18 +96,6 @@
 
   //ajax加载评论
   fetch_comment(1, per_page);
-
-
-  //大图沦换
-	$("div#demoSlider").sliderTabs({
-	  indicators: true,
-	  panelArrows: true,
-	  panelArrowsShowOnHover: true,
-	  tabs: true,
-	  classes: {
-		panel: 'demoPanel'
-	  }
-	});
 
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
