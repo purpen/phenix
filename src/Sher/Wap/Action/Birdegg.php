@@ -3,7 +3,7 @@
  * 蛋年活动专题页面
  * @author purpen
  */
-class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
+class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
 	);
@@ -24,7 +24,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		$top_category_id = Doggy_Config::$vars['app.birdegg.category_id'];
 		$this->stash['top_category_id'] = $top_category_id;
 		
-		return $this->to_html_page('page/birdegg/index.html');
+		return $this->to_html_page('wap/birdegg/index.html');
 	}
 	
 	/**
@@ -45,9 +45,9 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		
 		// 分页链接
 		$page = 'p#p#';
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.birdegg', 'c'.$cid).$page;
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.wap.birdegg', 'c'.$cid).$page;
 		
-		return $this->to_html_page('page/birdegg/zlist.html');
+		return $this->to_html_page('wap/birdegg/list.html');
 	}
 	
 	/**
@@ -56,7 +56,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 	public function view(){
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.birdegg'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg';
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
@@ -105,7 +105,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
 		
-		return $this->to_html_page('page/birdegg/show.html');
+		return $this->to_html_page('wap/birdegg/show.html');
 	}
 	
 	/**
@@ -131,24 +131,8 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
-		$this->_editor_params();
-		
-		return $this->to_html_page('page/birdegg/submit.html');
+		return $this->to_html_page('wap/birdegg/submit.html');
 	}
-	
-	/**
-	 * 编辑器参数
-	 */
-	protected function _editor_params() {
-		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
-		$new_pic_id = new MongoId();
-		$this->stash['editor_pid'] = (string)$new_pic_id;
-
-		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
-		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
-	}
-	
 	
 }
 ?>

@@ -136,7 +136,7 @@
 				<form action="{{ app_url_wap }}/stuff/save" class="ui form" method="post" id="stuff-form">
 					<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 					<input type="hidden" name="file_count" id="file_count" />
-					<input type="hidden" name="from_to" value="1" />
+          <input type="hidden" name="from_to" value="2" />
 					
 					<div class="ui segment">
 						<div class="ui {{ hide }} field">
@@ -167,6 +167,11 @@
 						<div class="field">
 							<label for="title">标题</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
+						</div>
+
+						<div class="field">
+							<label for="team_introduce">团队介绍</label>
+						  	<textarea name="team_introduce" placeholder="">{{ stuff.team_introduce }}</textarea>
 						</div>
 				
 						<div class="field">

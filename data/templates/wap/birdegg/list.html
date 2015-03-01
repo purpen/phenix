@@ -1,80 +1,27 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}十万火计 第2季-{% endblock %}
+{% block title %}蛋年-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	#mfrbird {
 		margin-top: 0;
 	}
-	.match-app body{
-		background:#fff;
-	}
-	.match-app .ui.big.block{
-		padding-top:2.5em;
-	}
-	.match-app .ui.header{
-		font-weight: 400;
-	}
-	.match-app .ui.products{
-		padding:2.5em auto;
-	}
-	.match-app .ui.products .ui.magenta.active.btn{
-		background:#ffde00;
-		color: #5e5e5e;
-	}
-	.match-app .ui.products .ui.magenta.btn {
-	border-color: #ffde00;
-	}
-	
-	.match-app .ui.products.block .ui.items > .item {
-	    border-radius: 0.3125em;
-	}
-	.match-app .ui.products.block .ui.items > .item a.link {
-		display: inline-block;
-	    margin-bottom: 0.5em;
-	}
-	.match-app .ui.products.block .ui.items > .item .advantage {
-	    color: rgba(0, 0, 0, 0.6);
-	    font-size: 14px;
-	    line-height: 1.2;
-	    margin-top: 0.5em;
-		margin-bottom: 0.5em;
-	}
-	.match-app .ui.btn {
-		border-radius: 0.3125em;
-	}
-
-	.idea.section-title {
-		margin-bottom: 1.5em;
-	}
-	.idea.section-title h3,
-	.idea.section-title p {
-		margin-bottom: 0.5rem;
-	}
-	.idea.section-title p {
-		margin-top: 0.5rem;
-		font-size: 1.175em;
-	}
-	.idea.section-title hr {
-		background: none repeat scroll 0 0 #ff3366;
-	    border: medium none;
-	    height: 1px;
-	    margin: 0 auto;
-	    width: 80px;
-	}
+  .ui.big.block {
+    padding-top: 2.5em;
+  }
 
 </style>
 {% endblock %}
 {% block jquery %}
 {% endblock %}
 {% block content %}
-<div class="match-app">
+<div class="birdegg list">
 	<section class="ui big block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
 					<div class="ui magenta horizontal divided list">
-						<a href="{{ app_url_wap }}/contest/dream2" class="ui link {{ css_index }} item">首页</a>
-						<a href="{{ app_url_wap }}/contest/allist2" class="ui link {{ css_allist }} item">全部作品</a>
+						<a href="{{ app_url_wap }}/birdegg" class="ui link {{ css_index }} item">首页</a>
+						<a href="{{ app_url_wap }}/birdegg/zlist" class="ui link {{ css_allist }} item">全部作品</a>
 					</div>
 				</div>
 			</div>
@@ -85,20 +32,20 @@
 			<div class="row">
 				<div class="column">
 				
-          {% stuff_list var:'list' is_top:true category_id:dream_category_id sort:0 page:page size:8 %}
+				{% stuff_list var:'list' category_id:cid is_top:is_top sort:sort page:page size:8 %}
 					<div class="ui one items">
 						{% for stuff in list.rows %}
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
-									<a class="ui link" href="{{ stuff.wap_view_url }}">
+									<a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
 										{{ stuff.title|truncate 32 }}
 									</a>
 									{% if stuff.cover %}
 									<div class="image">
-                    <a href="{{ stuff.wap_view_url }}">
-										  <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
-                    </a>
+                    <a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+											<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
+										</a>
 									</div>
 									<div class="advantage">
 										{{ stuff.strip_description|truncate 140 }}
@@ -111,11 +58,11 @@
 								</h4>
 								<div class="schedule">
 									<div class="status clearfix">
-										<a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank">
+										<a class="ui avatar image" href="{{ stuff.user.home_url }}">
 								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
 										</a>
 										<span class="count">
-											<a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank">
+											<a class="ui small link" href="{{ stuff.user.home_url }}">
 												{{ stuff.user.nickname }}
 											</a>
 										</span>

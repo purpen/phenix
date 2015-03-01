@@ -1,0 +1,276 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{{ stuff.title }}-{% endblock %}
+{% block page_css %}
+<link href="http://frstatic.qiniudn.com/css/jquery.sliderTabs.min.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+  #comment-list{
+    font-size:16px !important;
+  }
+
+
+	.flexslider{
+		text-align:center;
+		position:relative;
+		padding:20px 0;
+	}
+	.ui-slider-tabs-content-container{
+		background:rgba(0,0,0,0);
+		border:0px solid #fff;
+	}
+	#demoSlider img{
+		width:100%;
+	}
+	.ui-slider-tabs-indicator-container{
+		bottom:15px;
+	}
+	.ui-slider-tabs-leftPanelArrow{
+		left:10px;
+	}
+	.ui-slider-tabs-rightPanelArrow{
+		right:10px;
+	}
+	.ui-slider-tabs-indicator{
+	background-image: url('http://frstatic.qiniudn.com/images/indicator.png');
+	}
+	.ui-slider-tabs-indicator.selected{
+	background-image: url('http://frstatic.qiniudn.com/images/indicatorActive.png');
+	}
+	.ui-slider-tabs-leftPanelArrow{
+	background-image: url('http://frstatic.qiniudn.com/images/leftPanelArrow.png');
+	}
+	.ui-slider-tabs-rightPanelArrow{
+	background-image: url('http://frstatic.qiniudn.com/images/rightPanelArrow.png');
+	}
+	.ui-slider-tabs-list{
+	display: none;
+	}
+	.ui.team.header .content {
+		display: inline-block;
+		vertical-align: top;
+		font-size: 16px;
+		margin:1% 2.5% 0;
+	}
+	.ui.team.header .content p{
+		word-wrap: break-word;
+		line-height: 140%;
+		font-weight: 400;
+	}
+	.ui.zan{
+		font-size: 20px;
+		text-align: center;
+		line-height: 30px;
+	}
+	.like .icon.heart{
+		color:#f36;
+	}
+
+  .ui-slider-right-arrow,.ui-slider-left-arrow{
+    display:none;
+  }
+	
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/javascript/jquery.sliderTabs.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+    //大图沦换
+    $("div#demoSlider").sliderTabs({
+      indicators: true,
+      panelArrows: true,
+      panelArrowsShowOnHover: true,
+      tabs: true,
+      classes: {
+      panel: 'demoPanel'
+      }
+    });    
+  });
+
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
+    $.get(url, {target_id: {{ stuff._id }}, type: 6, page: current_page, per_page: per_page});
+  }
+</script>
+{% endblock %}
+
+{% block jquery %}
+	phenix.hook_comment_page();
+
+  //ajax加载评论
+  fetch_comment(1, per_page);
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+	{% endif %}
+
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '我支持')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+
+{% endblock %}
+{% block content %}
+<div id="postpage">
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui breadcrumb">
+					  	<a class="section" href="{{ app_url_wap }}">
+							<i class="icon home"></i>首页
+						</a>
+					  	<div class="divider"> / </div>
+					  	<a class="section" href="{{ app_url_wap }}/birdegg">蛋年</a>
+					  	<div class="divider"> / </div>
+					  	<a class="section" href="{{ app_url_wap }}/birdegg/zlist">{{ stuff.category.title }}</a>
+					  	<div class="divider"> / </div>
+					  	<div class="active section">{{ stuff.title|truncate 30 }}</div>
+					</div>
+				</div>
+			</div>
+			  <!--附件列表-->
+        {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+			<div id="demoSlider">
+        <ul>
+          {% if stuff.cover %}
+            <li><a href="#{{ stuff.cover_id }}"></a></li>
+          {% endif %}
+
+          {% if assets.total_rows %}
+            {% for asset in assets.rows %}
+              {% if asset._id != stuff.cover_id %}
+                <li><a href="#{{ asset._id }}"></a></li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </ul>
+
+        {% if stuff.cover %}
+          <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.hd.view_url }}"></div>
+        {% endif %}
+
+        {% if assets.total_rows %}
+          {% for asset in assets.rows %}
+            {% if asset._id != stuff.cover_id %}
+              <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.hd.view_url }}"></div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+			</div>
+			
+			<div class="ui zan">
+				<span class="like">
+					<i class="icon heart"></i>
+				</span>
+        {{ stuff.love_count }}人支持
+			</div>
+			
+			<div class="ui team header">
+				<div class="content">
+					团队介绍
+          <p>{{ stuff.team_introduce }}</p>
+				</div>
+				
+			</div>
+			
+			<div class="row">
+				<div class="column">
+						<div class="ui big topic segment">
+							<div class="ui header">
+								<div class="content">
+									{{ stuff.title }}
+									<div class="sub header attribute">
+										<span class="category"><a href="" class="ui magenta link">{{ stuff.category.title }}</a></span> | 
+										<span class="date">{{ stuff.user.nickname }} 发表于 {{ stuff.created_on|relative_datetime }}</span> | 
+										<span class="count">浏览数: {{ stuff.view_count }}</span>
+									</div>
+								</div>
+							</div>
+					
+							<div class="post froala-element clearfix">
+								{{ stuff.description }}
+							</div>
+					
+							{% if stuff.tags %}
+							<div class="tags">
+								{% for tag in stuff.tags %}
+									{% if tag %}
+									<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
+										<i class="tag icon"></i>{{ tag }}
+									</a>
+									{% endif %}
+								{% endfor %}
+							</div>
+							{% endif %}
+						</div>
+
+          <div class="ui grid">
+						<div class="row">
+							<div class="center aligned column">
+								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+								  	<i class="thumbs outline up icon"></i>
+									<div class="love count">
+										{{ stuff.love_count|default 0 }}
+									</div>
+								</div>
+							</div>
+						</div>
+          </div>
+
+            <div class="ui big reply segment">
+              <!--ajax comment-->
+              <div id="comment-list"></div>
+              {% include "block/comment_box_wap.html" %}
+            </div>
+
+					</div>
+				</div>
+		</div>
+	</section>
+
+</div>
+{% endblock %}

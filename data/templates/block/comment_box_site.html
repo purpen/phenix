@@ -8,11 +8,12 @@
     	<input type="hidden" name="star" value="0" />
 		
     	<div class="field">
-      	  	<textarea name="content" class="comment-textarea"></textarea>
+      	  	<textarea name="content" class="comment-textarea" maxlength="140" placeholder="输入评论..."></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
     	<div class="right aligned column">
+			<small>还可以输入<span class="wordscount">140</span> 字</small>
 			<div class="ui active button magenta submit labeled icon">
               	<i class="icon edit"></i> 添加评论
             </div>
