@@ -63,10 +63,6 @@
 	.like .icon.heart{
 		color:#f36;
 	}
-
-#frslide{
-	max-height:216px !important;
-}
 	
 </style>
 {% endblock %}
@@ -74,6 +70,18 @@
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.sliderTabs.min.js"></script>
 <script type="text/javascript">
+  $(function(){
+    //大图沦换
+    $("div#demoSlider").sliderTabs({
+      indicators: true,
+      panelArrows: true,
+      panelArrowsShowOnHover: true,
+      tabs: true,
+      classes: {
+      panel: 'demoPanel'
+      }
+    });    
+  });
 
   var per_page = 10;
   function fetch_comment(current_page, per_page){
@@ -88,49 +96,6 @@
 
   //ajax加载评论
   fetch_comment(1, per_page);
-
-	var s=e(window).width();
-	e("#frslide > .ui.slide > .item").width(s);
-	
-	var $frame = $('#frslide');
-	// Call Sly on frame
-	$frame.sly({
-		horizontal: 1,
-		itemNav: 'basic',
-		smart: 1,
-		activateMiddle: 1,
-		activateOn: 'click',
-		mouseDragging: 1,
-		touchDragging: 1,
-		releaseSwing: 1,
-		startAt: 0,
-		pagesBar: $frame.find('.pages'),
-		pageItem: 'pages',
-		activatePageOn: 'click',
-		pageBuilder: function (index) {
-			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
-		},
-		speed: 300,
-		elasticBounds: 1,
-		easing: 'easeOutExpo',
-		
-		// Automated cycling
-		//cycleBy: "items",
-		//cycleInterval: 3000,
-		//pauseOnHover:1,
-		
-		dragHandle: 1,
-		dynamicHandle: 1,
-		clickBar: 1,
-	});
-	
-	$(window).resize(function() {
-		var s=$(window).width();
-		e("#frslide > .ui.slide > .item").width(s);
-		
-		$frame.sly('reload');
-	});
-
 
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -182,12 +147,7 @@
 		}
 	});
 
-	$(window).resize(function() {
-		var s=$(window).width();
-		e("#demoSlider > img").width(s);
-		
-		demo.reload;
-	});
+
 {% endblock %}
 {% block content %}
 <div id="postpage">
@@ -210,30 +170,33 @@
 			</div>
 			  <!--附件列表-->
         {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
-<!--产品图片-->
-<div class="ui grid">
-	<div class="row">
-		<div class="column">
-			{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
-			<div id="frslide" class="frame">
-				<div class="ui slide">
-					<div class="item">
-						<img src="{{ stuff.cover.thumbnails.big.view_url }}"  alt="{{ stuff.title }}" class="ui image" />
-					</div>
-					{% for asset in assets.rows %}
-						{% if asset._id != stuff.cover_id %}
-						<div class="item">
-							<img src="{{ asset.thumbnails.big.view_url }}"  alt="{{ stuff.title }}" class="ui image"  />
-						</div>
-						{% endif %}
-					{% endfor %}
-				</div>
-				<div class="pages"></div>
-			</div>
-		</div>
-	</div>
-</div>
+			<div id="demoSlider">
+        <ul>
+          {% if stuff.cover %}
+            <li><a href="#{{ stuff.cover_id }}"></a></li>
+          {% endif %}
 
+          {% if assets.total_rows %}
+            {% for asset in assets.rows %}
+              {% if asset._id != stuff.cover_id %}
+                <li><a href="#{{ asset._id }}"></a></li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </ul>
+
+        {% if stuff.cover %}
+          <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.hd.view_url }}"></div>
+        {% endif %}
+
+        {% if assets.total_rows %}
+          {% for asset in assets.rows %}
+            {% if asset._id != stuff.cover_id %}
+              <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.hd.view_url }}"></div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+			</div>
 			
 			<div class="ui zan">
 				<span class="like">
