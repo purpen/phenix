@@ -70,15 +70,6 @@
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.sliderTabs.min.js"></script>
 <script type="text/javascript">
-
-  var per_page = 10;
-  function fetch_comment(current_page, per_page){
-    var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
-    $.get(url, {target_id: {{ stuff._id }}, type: 2, page: current_page, per_page: per_page});
-  }
-
-</script>
-<script>
   var per_page = 10;
   function fetch_comment(current_page, per_page){
     var url = '{{ app_url_comment }}/ajax_fetch_comment_wap';
@@ -168,9 +159,9 @@
 							<i class="icon home"></i>首页
 						</a>
 					  	<div class="divider"> / </div>
-					  	<a class="section" href="{{ app_url_wap }}/birdegg/zlist">蛋年</a>
+					  	<a class="section" href="{{ app_url_wap }}/birdegg">蛋年</a>
 					  	<div class="divider"> / </div>
-					  	<a class="section" href="{{ app_url_wap }}/birdegg">{{ stuff.category.title }}</a>
+					  	<a class="section" href="{{ app_url_wap }}/birdegg/zlist">{{ stuff.category.title }}</a>
 					  	<div class="divider"> / </div>
 					  	<div class="active section">{{ stuff.title|truncate 30 }}</div>
 					</div>
@@ -264,8 +255,6 @@
 						</div>
           </div>
 
-          </div>
-				
             <div class="ui big reply segment">
               <!--ajax comment-->
               <div id="comment-list"></div>
