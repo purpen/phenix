@@ -47,7 +47,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		$page = 'p#p#';
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.wap', 'birdegg', 'zlist', 'c'.$cid).$page;
 		
-		return $this->to_html_page('wap/birdegg/zlist.html');
+		return $this->to_html_page('wap/birdegg/list.html');
 	}
 	
 	/**

@@ -15,12 +15,12 @@
           <div class="laud">
 
             {% if comment.is_loved %}
-            <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
             <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
               <i class="icon heart"></i>
             </a>
             {%else%}
-              <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
             <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
               <i class="icon empty heart"></i>
             </a>          
@@ -41,7 +41,7 @@
               {%endif%}
             {%endif%}
           </div>
-          <form class="ui reply hide form" action="{{ app_url_base }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
+          <form class="ui reply hide form" action="{{ app_url_wap }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
             <input type="hidden" name="type" value="{{ type }}" />
             <input type="hidden" name="comment_id" value="{{ comment._id }}" />
             <input type="hidden" name="target_id" value="{{ target_id }}" />
