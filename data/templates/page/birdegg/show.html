@@ -117,6 +117,7 @@ background-image: url('http://frstatic.qiniudn.com/images/rightPanelArrow.png');
 display: none;
 }
 
+
 </style>
 {% endblock %}
 
@@ -365,13 +366,13 @@ display: none;
 		  </ul>
 
       {% if stuff.cover %}
-        <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.hd.view_url }}"></div>
+        <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.big.view_url }}"></div>
       {% endif %}
 
       {% if assets.total_rows %}
         {% for asset in assets.rows %}
           {% if asset._id != stuff.cover_id %}
-            <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.hd.view_url }}"></div>
+            <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.big.view_url }}"></div>
           {% endif %}
         {% endfor %}
       {% endif %}

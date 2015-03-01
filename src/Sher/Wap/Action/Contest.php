@@ -17,7 +17,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	 * 社区入口
 	 */
 	public function execute(){
-		return $this->topic();
+		return $this->dream2();
 	}
 	
 	/**
@@ -67,7 +67,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		$this->set_target_css_state('allist');
 		
 		$page = "?page=#p#";
-		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap', 'dream', 'allist2').$page;
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap', 'contest', 'allist2').$page;
 		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];

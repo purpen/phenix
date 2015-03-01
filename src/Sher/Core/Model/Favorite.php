@@ -31,7 +31,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id','target_id','private','type', 'event');
+    protected $int_fields = array('user_id', 'private', 'type', 'event');
 	
 	
     protected function before_save(&$data) {
@@ -95,6 +95,14 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
           		    $product = $model->extend_load((int)$this->data['target_id']);
           		    $user_id = $product['user_id'];
           		  	$type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
+          		    break;
+        		case self::TYPE_COMMENT:
+          	  	    $model = new Sher_Core_Model_Comment();
+          		    $model->inc_counter($field, 1, (string)$this->data['target_id']);
+          		    // 获取目标用户ID
+          		    $comment = $model->find_by_id((string)$this->data['target_id']);
+          		    $user_id = $comment['user_id'];
+          		  	$type = Sher_Core_Model_Timeline::TYPE_COMMENT;
           		    break;
         		case self::TYPE_STUFF:
           	  	    $model = new Sher_Core_Model_Stuff();
@@ -168,7 +176,12 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
      */
 	public function check_loved($user_id, $target_id,$type){
 		$query['user_id'] = (int) $user_id;
-        $query['target_id'] = (int) $target_id;
+    if((int)$type==self::TYPE_COMMENT){
+      $target_id = (string)$target_id;
+    }else{
+      $target_id = (int)$target_id;
+    }
+    $query['target_id'] = $target_id;
 		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_LOVE;
 		
@@ -180,21 +193,31 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     /**
      * 添加到喜欢、赞
      */
-    public function add_love($user_id, $target_id, $info=array()) {		
+  public function add_love($user_id, $target_id, $info=array()) {		
+    if((int)$info['type']==self::TYPE_COMMENT){
+      $target_id = (string)$target_id;
+    }else{
+      $target_id = (int)$target_id;
+    }
 		$info['user_id']   = (int) $user_id;
-        $info['target_id'] = (int) $target_id;
+        $info['target_id'] = $target_id;
 		$info['type'] = (int)$info['type'];
 		$info['event']     = self::EVENT_LOVE;
 		
         return $this->apply_and_save($info);
-    }
+  }
 	
 	/**
 	 * 取消喜欢
 	 */
 	public function cancel_love($user_id, $target_id,$type){
+    if((int)$type==self::TYPE_COMMENT){
+      $target_id = (string)$target_id;
+    }else{
+      $target_id = (int)$target_id;
+    }
 		$query['user_id'] = (int)$user_id;
-        $query['target_id'] = (int)$target_id;
+        $query['target_id'] = $target_id;
 		$query['type'] = (int)$type;
 		$query['event']  = self::EVENT_LOVE;
 		
@@ -223,6 +246,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			case self::TYPE_PRODUCT:
 				$model = new Sher_Core_Model_Product();
 				$model->dec_counter($field, (int)$target_id);
+				break;
+			case self::TYPE_COMMENT:
+				$model = new Sher_Core_Model_Comment();
+				$model->dec_counter($field, (string)$target_id);
 				break;
 			case self::TYPE_STUFF:
 				$model = new Sher_Core_Model_Stuff();

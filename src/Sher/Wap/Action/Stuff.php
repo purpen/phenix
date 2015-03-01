@@ -285,7 +285,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		
 
     if(isset($data['from_to']) && $data['from_to']==2){
-      $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/'.$id.'.html';
     }else{
 		  $redirect_url = Sher_Core_Helper_Url::wap_stuff_view_url($id); 
     }
