@@ -195,9 +195,9 @@
 	float:left;
 	display:inline-block;
 }
-.w-384{
-	width:384px;
-	float:left;
+.w-875{
+	width:875px;
+	float:right;
 	display:inline-block;
 }
 .w-520{
@@ -210,44 +210,14 @@
 	width:276px;
 	height:205px;
 }
-.c-egg-z{
-	background:url({{ app_url_packaged }}/images/egg_6.png) no-repeat;
-	width:384px;
-	height:205px;	
-}
-.c-egg-r{
-	background:url({{ app_url_packaged }}/images/egg_7.png) no-repeat;
-	width:520px;
-	height:205px;
-}
 .l-egg{
 	background:url({{ app_url_packaged }}/images/egg_8.png) no-repeat;
 	width:276px;
 	height:205px;
 }
-.l-egg-z{
-	background:url({{ app_url_packaged }}/images/egg_9.png) no-repeat;
-	width:384px;
-	height:205px;	
-}
-.l-egg-r{
-	background:url({{ app_url_packaged }}/images/egg_10.png) no-repeat;
-	width:520px;
-	height:205px;
-}
 .z-egg{
 	background:url({{ app_url_packaged }}/images/egg_11.png) no-repeat;
 	width:276px;
-	height:205px;
-}
-.z-egg-z{
-	background:url({{ app_url_packaged }}/images/egg_12.png) no-repeat;
-	width:384px;
-	height:205px;	
-}
-.z-egg-r{
-	background:url({{ app_url_packaged }}/images/egg_13.png) no-repeat;
-	width:520px;
 	height:205px;
 }
 
@@ -450,7 +420,49 @@
 .pagex .ui.image{
 	margin:0 auto;
 }
-
+.w-750{
+	width:750px;
+	margin:auto;
+}
+.fa-circle-o:before{
+	background:#fff;
+	border-radius: 50%;
+	padding: 0 1px;
+}
+.fa{
+	padding-right:15px;
+}
+.fa+h3{
+	display:inline-block;
+	font-size: 28px;
+	vertical-align: middle;
+	margin:0;
+	font-weight: 400;
+}
+.timme{
+	display: inline-block;
+	margin: 0 0 2px 15px;
+	vertical-align: bottom;
+	font-size: 16px;
+}
+.timme+h3{
+	font-size: 24px;
+	margin:0;
+	font-weight: 400;
+	margin-left:34px;
+	line-height: 37px;
+	border-bottom: 1px solid #c87bc0;
+	width: 270px;
+}
+p.econtent{
+	margin-left:34px;
+	line-height: 20px;
+	color:#c87bc0;
+}
+.w-875 .pass{
+	margin:55px 0 0 20px;
+	color: rgba(255,255,255,0.9);
+}
 </style>
 {% endblock %}
 
@@ -676,15 +688,21 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">活动流程</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-205" style="margin-top:-20px;">
+					
+					<div class="w-1180">
+					
+					<div class="h-205">
 						<div class="w-276">
 							<div class="c-egg"></div>
 						</div>
-						<div class="w-384">
-							<div class="c-egg-z"></div>
-						</div>
-						<div class="w-520">
-							<div class="c-egg-r"></div>
+						<div class="w-875">
+							<div class="pass">
+								<i class="fa fa-circle-o"></i>
+								<h3>采&nbsp;蛋</h3>
+								<p class="timme">03月01日- 04月01日</p>
+								<h3>征集全球最火爆智能硬件</h3>
+								<p class="econtent">在全球范围内征集智能硬件，共分10个品类：智能家居 、母婴用品、宠物设备、智能情趣、智能穿戴、汽车周 美颜瘦身、智能影音、户外休闲、健康周边。每个品类中，投票数前十名即可获选最火爆智能硬件TOP100。</p>
+							</div>
 						</div>
 					</div>
 				
@@ -692,11 +710,14 @@
 						<div class="w-276">
 							<div class="l-egg"></div>
 						</div>
-						<div class="w-384">
-							<div class="l-egg-z"></div>
-						</div>
-						<div class="w-520">
-							<div class="l-egg-r"></div>
+						<div class="w-875">
+							<div class="pass">
+								<i class="fa fa-circle-o"></i>
+								<h3>论&nbsp;蛋</h3>
+								<p class="timme">04月11日 / 13:00 - 16:00</p>
+								<h3 style="width: 220px;">聚焦智能，畅聊发展</h3>
+								<p class="econtent">徐小平、李开复、胡海泉、黎万强、刘东华……超豪华大咖阵容，硬件、媒体、投资、平台、机构近百个平台机构，五大超凡阵容倾情联手，聚焦中国智能硬件的发展趋势，畅聊智能硬件发展未来。</p>
+							</div>
 						</div>
 					</div>
 				
@@ -704,14 +725,18 @@
 						<div class="w-276">
 							<div class="z-egg"></div>
 						</div>
-						<div class="w-384">
-							<div class="z-egg-z"></div>
-						</div>
-						<div class="w-520">
-							<div class="z-egg-r"></div>
+						<div class="w-875">
+							<div class="pass">
+								<i class="fa fa-circle-o"></i>
+								<h3>种&nbsp;蛋</h3>
+								<p class="timme">04月11日 / 16:00 - 17:00</p>
+								<h3>共同创造吉尼斯世界纪录</h3>
+								<p class="econtent">中国智能硬件蛋年已然开启,全球最具人气超火爆智能硬件汇集于此,硬件圈大咖齐出手,将智能硬件的希望亲手种下,5年、10年、100年，当岁月模糊了时光，当年的梦想重见天日时，有多少我们引以为傲的智能硬件产品被时间沙漏掩埋,又有多少智能硬件被光阴瓦砾打磨得更加闪亮！</p>
+							</div>
 						</div>
 					</div>
 				
+					</div>
 				</div>
 			</section>
 		</div>
