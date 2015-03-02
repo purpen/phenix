@@ -137,8 +137,12 @@
 					{% for stuff in stufflist.rows %}
 				  	<div class="card">
 				    	<div class="image">
-				      	  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+				      	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+                  {% if stuff.cover %}
+								    <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+                  {%else%}
+								    <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+                  {%endif%}
 							</a>
 				    	</div>
 				    	<div class="content">
