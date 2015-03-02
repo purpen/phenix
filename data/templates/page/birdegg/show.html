@@ -367,7 +367,7 @@ display: none;
     {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
     {% if stuff.cover %}
       {% if assets.total_rows==1 %}
-        <div style="text-align:center;margin:0 auto;padding-top:20px;"><img src="{{ stuff.cover.thumbnails.big.view_url }}"></div>
+        <div style="text-align:center;margin:0 auto;padding-top:20px;"><img src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
       {%else%}
         <div id="demoSlider" style="padding-top:20px;">
 
@@ -386,13 +386,13 @@ display: none;
           </ul>
 
           {% if stuff.cover_id %}
-            <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.big.view_url }}"></div>
+            <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
           {% endif %}
 
           {% if assets.total_rows %}
             {% for asset in assets.rows %}
               {% if asset._id != stuff.cover_id %}
-                <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.big.view_url }}"></div>
+                <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.huge.view_url }}"></div>
               {% endif %}
             {% endfor %}
           {% endif %}
