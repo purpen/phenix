@@ -25,6 +25,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		'T9', # 上线红包
 		'TG', # 玩蛋去活动
     'VA', #情人节红包20
+    'RE', #注册送
+    'IV', #邀请送
 	);
 	
     protected $schema = array(
