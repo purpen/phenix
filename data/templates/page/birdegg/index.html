@@ -7,11 +7,12 @@
 	body{
 		background: #1c0318;
 	}
-.ui.eggs.tabox a.ui.btn, .ui.eggs.tabox a.ui.btn:hover {
-	border-radius: .2875em;
-	padding: .5em 0em;
-	width: 47%;
-}
+	#eggBox section.page {
+		padding-top: 65px;
+		position: relative;
+		height: 100%;
+		overflow:hidden;
+	}
 .w-252{
 	width:252px;
 	height:252px;
@@ -238,168 +239,6 @@
 	height: 50px;
 }
 
-.fp-section {
-    position: relative;
-    -webkit-box-sizing: border-box; /* Safari<=5 Android<=3 */
-    -moz-box-sizing: border-box; /* <=28 */
-    box-sizing: border-box;
-}
-.fp-slide {
-    float: left;
-}
-.fp-slide, .fp-slidesContainer {
-    height: 100%;
-    display: block;
-}
-.fp-slides {
-    z-index:1;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    -webkit-transition: all 0.3s ease-out; /* Safari<=6 Android<=4.3 */
-    transition: all 0.3s ease-out;
-}
-.fp-section.fp-table, .fp-slide.fp-table {
-    display: table;
-    table-layout:fixed;
-    width: 100%;
-}
-.fp-tableCell {
-    display: table-cell;
-    vertical-align: middle;
-    width: 100%;
-    height: 100%;
-}
-.fp-slidesContainer {
-    float: left;
-    position: relative;
-}
-.fp-controlArrow {
-    position: absolute;
-    z-index: 4;
-    top: 50%;
-    cursor: pointer;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    margin-top: -38px;
-    -webkit-transform: translate3d(0,0,0);
-    -ms-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-}
-.fp-controlArrow.fp-prev {
-    left: 15px;
-    width: 0;
-    border-width: 38.5px 34px 38.5px 0;
-    border-color: transparent #fff transparent transparent;
-}
-.fp-controlArrow.fp-next {
-    right: 15px;
-    border-width: 38.5px 0 38.5px 34px;
-    border-color: transparent transparent transparent #fff;
-}
-.fp-scrollable {
-    overflow: scroll;
-
-}
-.fp-notransition {
-    -webkit-transition: none !important;
-    transition: none !important;
-}
-#fp-nav {
-    position: fixed;
-    z-index: 100;
-    margin-top: -32px;
-    top: 50%;
-    opacity: 1;
-    -webkit-transform: translate3d(0,0,0);
-}
-#fp-nav.right {
-    right: 17px;
-}
-#fp-nav.left {
-    left: 17px;
-}
-.fp-slidesNav{
-    position: absolute;
-    z-index: 4;
-    left: 50%;
-    opacity: 1;
-}
-.fp-slidesNav.bottom {
-    bottom: 17px;
-}
-.fp-slidesNav.top {
-    top: 17px;
-}
-#fp-nav ul,
-.fp-slidesNav ul {
-  margin: 0;
-  padding: 0;
-}
-#fp-nav ul li,
-.fp-slidesNav ul li {
-    display: block;
-    width: 14px;
-    height: 13px;
-    margin: 7px;
-    position:relative;
-}
-.fp-slidesNav ul li {
-    display: inline-block;
-}
-#fp-nav ul li a,
-.fp-slidesNav ul li a {
-    display: block;
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    text-decoration: none;
-}
-#fp-nav ul li a.active span,
-.fp-slidesNav ul li a.active span {
-    background: #333;
-}
-#fp-nav ul li a span,
-.fp-slidesNav ul li a span {
-    top: 2px;
-    left: 2px;
-    width: 8px;
-    height: 8px;
-    border: 1px solid #000;
-    background: rgba(0, 0, 0, 0);
-    border-radius: 50%;
-    position: absolute;
-    z-index: 1;
-}
-#fp-nav ul li .fp-tooltip {
-    position: absolute;
-    top: -2px;
-    color: #fff;
-    font-size: 14px;
-    font-family: arial, helvetica, sans-serif;
-    white-space: nowrap;
-    max-width: 220px;
-    overflow: hidden;
-    display: block;
-    opacity: 0;
-    width: 0;
-}
-#fp-nav ul li:hover .fp-tooltip {
-    -webkit-transition: opacity 0.2s ease-in;
-    transition: opacity 0.2s ease-in;
-    width: auto;
-    opacity: 1;
-}
-#fp-nav ul li .fp-tooltip.right {
-    right: 20px;
-}
-#fp-nav ul li .fp-tooltip.left {
-    left: 20px;
-}
-
 </style>
 {% endblock %}
 
@@ -409,12 +248,18 @@
 {% endblock %}
 
 {% block private_js %}
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/egg.min.js"></script>
+	<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/egg.min.js"></script>-->
+	<script type="text/javascript">
+		
+	</script>
 {% endblock %}
 
 
 {% block jquery %}
-	phenix.birdegg.init();
+    $('.ui.eggmenu').smint({
+    	'scrollSpeed' : 1000,
+		'selectClass' : 'smt',
+    });
 	
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
@@ -425,37 +270,28 @@
 
 {% endblock %}
 
-{% block layout_header %}
-<div class="header main">
-	<div class="ui responsive grid">
-		{% include "block/header.html" %}
-	</div>
-</div>
-{% endblock %}
-
 {% block content %}
-<div class="ui eggs tabox">
+<div class="ui eggmenu">
 	<div class="ui responsive grid">
 		<div class="two column middle aligned row">
 			<div class="twelve wide column">
-				<div class="ui tabs" id="eggmenu">
-					<a class="active tab" data-menuanchor="topbanner" href="#topbanner">首页</a>
-					<a class="tab" data-menuanchor="instro" href="#instro">关于蛋年</a>
-					<a class="tab" data-menuanchor="specially" href="#specially">特邀嘉宾</a>
-					<a class="tab" data-menuanchor="guest" href="#guest">活动嘉宾</a>
-					<a class="tab" data-menuanchor="process" href="#process">活动流程</a>
-					<a class="tab" data-menuanchor="stuffs" href="#stuffs">精选产品</a>
-					<a class="tab" data-menuanchor="partners" href="#partners">合作伙伴</a>
-					<a class="tab" data-menuanchor="contact" href="#contact">联系我们</a>
+				<div class="ui tabs">
+					<a class="tab smt" href="#topbanner">首页</a>
+					<a class="tab smt" href="#instro">关于蛋年</a>
+					<a class="tab smt" href="#specially">特邀嘉宾</a>
+					<a class="tab smt" href="#process">活动流程</a>
+					<a class="tab smt" href="#stuffs">精选产品</a>
+					<a class="tab smt" href="#partners">合作伙伴</a>
+					<a class="tab" target="_blank" href="{{ app_url_domain }}">太火鸟</a>
         		</div>
       	  	</div>
 			<div class="four wide right aligned column">
 				<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/zlist" target="_blank">
           			<span>全部作品</span><i class="icon-arrow-right-sharp"></i>
         		</a>
-						<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
-		          			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
-		        		</a>
+				<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
+          			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
+        		</a>
 			</div>
     	</div>
   	</div>
@@ -463,7 +299,7 @@
 
 <div id="eggBox">
 	<div id="eggPage">
-		<div class="section active" data-anchor="topbanner">
+		<div class="section topbanner" data-anchor="topbanner">
 			<section class="pagex">
 				<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image" />
 				<a href="javascript:void(0);" class="ui more arrow pop" data-content="滚动查看更多" data-variation="inverted">
@@ -508,7 +344,7 @@
 			</section>
 		</div>
 
-		<div class="section" data-anchor="specially">
+		<div class="section specially" data-anchor="specially">
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">特邀嘉宾 <small>（拟）</small></h3>
@@ -665,7 +501,7 @@
 			</section>
 		</div>
 	
-		<div class="section stuffs" data-anchor="stuffs">
+		<div class="section stuffs">
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">精选产品</h3>
@@ -715,7 +551,7 @@
 			</section>
 		</div>
 	
-		<div class="section partners" data-anchor="partners">
+		<div class="section partners">
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">联合主办</h3>
