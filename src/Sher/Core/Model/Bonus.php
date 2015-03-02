@@ -53,6 +53,9 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		
 		# 活动代号
 		'xname' => 'T9',
+
+    #限制最低使用金额
+    'min_amount' => 0,
 		
 		# 状态
 		'status' => self::STATUS_OK,

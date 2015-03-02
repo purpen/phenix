@@ -423,6 +423,58 @@ function onTouchEnd(e)
                   <div class="content" id="content-6" style="background-image: url({{ app_url_packaged }}/images/eg_h6.jpg);background-size: cover; background-position: center; width: 100%; height: 100%;">
 					  				<div class="flexslider">
 						          <ul class="slides">
+
+				{% stuff_list var:'list' category_id:cid is_top:is_top sort:sort page:page size:8 %}
+          
+						{% for stuff in list.rows %}
+<li>
+						<div class="item">
+							<div class="content">
+								<h4 class="ui dividing header">
+									<a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+										{{ stuff.title|truncate 32 }}
+									</a>
+									{% if stuff.cover %}
+									<div class="image">
+                    <a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+											<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
+										</a>
+									</div>
+									<div class="advantage">
+										{{ stuff.strip_description|truncate 140 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ stuff.strip_description|truncate 280 }}
+									</div>
+									{% endif %}
+								</h4>
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ stuff.user.home_url }}">
+								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ stuff.user.home_url }}">
+												{{ stuff.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ stuff.view_count }}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+            </li>
+						{% endfor %}
+
+
+
+
+
+<!--
 					                <li>
 						<div class="ui grid">
 							<div class="column">
@@ -506,6 +558,7 @@ function onTouchEnd(e)
 															</div>
 														</div>
 													</li>
+                          -->
 						          </ul>
 						        </div>
                  
