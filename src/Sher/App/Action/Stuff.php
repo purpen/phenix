@@ -151,6 +151,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
@@ -166,6 +167,14 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['id'])){
 			return $this->show_message_page('缺少请求参数！', true);
 		}
+    $this->stash['from_to'] = 0;
+    if(isset($this->stash['from'])){
+      if($this->stash['from']=='birdegg'){
+        $this->stash['from_to'] = 2;
+      }elseif($this->stash['from']=='swhj'){
+        $this->stash['from_to'] = 1;    
+      }
+    }
 		
 		$model = new Sher_Core_Model_Stuff();
 		$stuff = $model->load((int)$this->stash['id']);

@@ -217,6 +217,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
+    $this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		// 判断来源
 		if($cid == Doggy_Config::$vars['app.topic.dream_category_id'] || (isset($this->stash['ref']) && $this->stash['ref'] == 'dream')){

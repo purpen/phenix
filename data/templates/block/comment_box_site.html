@@ -8,7 +8,7 @@
     	<input type="hidden" name="star" value="0" />
 		
     	<div class="field">
-      	  	<textarea name="content" class="comment-textarea" maxlength="140" placeholder="输入评论..."></textarea>
+        <textarea name="content" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}

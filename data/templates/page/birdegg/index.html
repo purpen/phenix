@@ -32,7 +32,7 @@
 	height:252px;
 }
 .hhq{
-	background:url({{ app_url_packaged }}/images/egg_hhq.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_hhq1.jpg) no-repeat;
 	width:252px;
 	height:252px;
 }
@@ -47,7 +47,7 @@
 	height:252px;
 }
 .so{
-	background:url({{ app_url_packaged }}/images/egg_so.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_lgz.jpg) no-repeat;
 	width:252px;
 	height:252px;
 }
@@ -94,7 +94,7 @@
 	height:160px;
 }
 .ch{
-	background:url({{ app_url_packaged }}/images/egg_ch1.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_chz.jpg) no-repeat;
 	width:160px;
 	height:160px;
 }
@@ -104,7 +104,7 @@
 	height:160px;
 }
 .ghs{
-	background:url({{ app_url_packaged }}/images/egg_ghs1.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_ghs2.jpg) no-repeat;
 	width:160px;
 	height:160px;
 }
@@ -114,7 +114,7 @@
 	height:160px;
 }
 .ysy{
-	background:url({{ app_url_packaged }}/images/egg_ysy1.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_ysyz.jpg) no-repeat;
 	width:160px;
 	height:159px;
 }
@@ -138,6 +138,51 @@
 	width:160px;
 	height:160px;
 }
+.jp{
+	background:url({{ app_url_packaged }}/images/egg_jp.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.su{
+	background:url({{ app_url_packaged }}/images/egg_su.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.zhj{
+	background:url({{ app_url_packaged }}/images/egg_zhj.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.wy{
+	background:url({{ app_url_packaged }}/images/egg_wy.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.chf{
+	background:url({{ app_url_packaged }}/images/egg_chf.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.tm{
+	background:url({{ app_url_packaged }}/images/egg_tm1.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.lxl{
+	background:url({{ app_url_packaged }}/images/egg_lxl.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.zl{
+	background:url({{ app_url_packaged }}/images/egg_zl.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
+.bliu{
+	background:url({{ app_url_packaged }}/images/egg_bliu.jpg) no-repeat;
+	width:160px;
+	height:160px;
+}
 
 .process{
 	background:url({{ app_url_packaged }}/images/egg_4.jpg) no-repeat center center;
@@ -151,9 +196,9 @@
 	float:left;
 	display:inline-block;
 }
-.w-384{
-	width:384px;
-	float:left;
+.w-875{
+	width:875px;
+	float:right;
 	display:inline-block;
 }
 .w-520{
@@ -166,29 +211,9 @@
 	width:276px;
 	height:205px;
 }
-.c-egg-z{
-	background:url({{ app_url_packaged }}/images/egg_6.png) no-repeat;
-	width:384px;
-	height:205px;	
-}
-.c-egg-r{
-	background:url({{ app_url_packaged }}/images/egg_7.png) no-repeat;
-	width:520px;
-	height:205px;
-}
 .l-egg{
 	background:url({{ app_url_packaged }}/images/egg_8.png) no-repeat;
 	width:276px;
-	height:205px;
-}
-.l-egg-z{
-	background:url({{ app_url_packaged }}/images/egg_9.png) no-repeat;
-	width:384px;
-	height:205px;	
-}
-.l-egg-r{
-	background:url({{ app_url_packaged }}/images/egg_10.png) no-repeat;
-	width:520px;
 	height:205px;
 }
 .z-egg{
@@ -196,21 +221,8 @@
 	width:276px;
 	height:205px;
 }
-.z-egg-z{
-	background:url({{ app_url_packaged }}/images/egg_12.png) no-repeat;
-	width:384px;
-	height:205px;	
-}
-.z-egg-r{
-	background:url({{ app_url_packaged }}/images/egg_13.png) no-repeat;
-	width:520px;
-	height:205px;
-}
 
-.partners {
-	background:url({{ app_url_packaged }}/images/egg_14.jpg) no-repeat center center;
-	background-size:cover;
-}
+
 .section.partners .logo {
 	padding: 0 0;
 	display:block;
@@ -238,13 +250,12 @@
 	width: 90px;
 	height: 50px;
 }
-
 </style>
 {% endblock %}
 
 {% block layout_js %}
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.gsap.min.js"></script>
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fullPage.min.js"></script>
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fullPage1.min.js"></script>
 {% endblock %}
 
 {% block private_js %}
@@ -314,20 +325,9 @@
 					<h3 class="ui header center aligned">开启蛋年之旅</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="left-text" id="instro-text">
-						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
+						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b><br/> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
 
-						<div class="summary">蛋即诞!让我们携手并进,从蛋出发,只为有天破壳而出,翱翔九天。</div>
-
-						<div class="date">2015年3月1日- 4月1日</div>
-						<div class="summary">征集全球最火爆智能硬件（预计1500件）</div>
-
-						<div class="date">2015年4月11日 13:00 - 16:00</div>
-						<div class="summary">聚焦智能，畅聊发展</div>
-						<div class="summary">北京. 751D-PARK广场</div>
-
-						<div class="date">2015年4月11日 16:00 - 17:00</div>
-						<div class="summary">掩埋现在,憧憬明天,共同创造吉尼斯世</div>
-						<div class="summary">北京. 751D-PARK广场</div>
+					
 					</div>
 					<div class="right-text">
 						<img src="{{ app_url_packaged }}/images/ball.png" class="ball" />
@@ -349,31 +349,31 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">特邀嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-252 mt-15" id="specialer01">
-						<div class="w-252 mt-25">
+					<div class="h-252 mt-25" id="specialer01">
+						<div class="w-252">
 							<div class="xxp"></div>
 						</div>
 						<div class="w-252">
 							<div class="lkf"></div>
 						</div>
-						<div class="w-252 mt-25">
+						<div class="w-252">
 							<div class="hhq"></div>
 						</div>
 						<div class="w-252">
 							<div class="lwq"></div>
 						</div>
 					</div>
-					<div class="h-252 mt-25" id="specialer02">
+					<div class="h-252 mt-15" id="specialer02">
 						<div class="w-252 mt-25">
 							<div class="ldh"></div>
 						</div>
-						<div class="w-252 mt-15">
+						<div class="w-252 mt-25">
 							<div class="so"></div>
 						</div>
 						<div class="w-252 mt-25">
 							<div class="mcw"></div>
 						</div>
-						<div class="w-252 mt-15">
+						<div class="w-252 mt-25">
 							<div class="zp"></div>
 						</div>
 					</div>
@@ -387,42 +387,42 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-180">
+					<div class="h-180 mt-25">
 						<div class="w-160">
-							<div class="lg"></div>
+							<div class="jp"></div>
 						</div>
 						<div class="w-160">
-							<div class="lg"></div>
-						</div>
-						<div class="w-160">
-							<div class="lg"></div>
+							<div class="su"></div>
 						</div>
 						<div class="w-160">
 							<div class="ch"></div>
 						</div>
 						<div class="w-160">
+							<div class="zhj"></div>
+						</div>
+						<div class="w-160">
 							<div class="sc"></div>
 						</div>
 						<div class="w-160">
-							<div class="lg"></div>
+							<div class="wy"></div>
 						</div>
 					</div>
 				
 					<div class="h-180">
 						<div class="w-160">
-							<div class="lg"></div>
+							<div class="chf"></div>
 						</div>
 						<div class="w-160">
 							<div class="ghs"></div>
 						</div>
 						<div class="w-160">
-							<div class="lg"></div>
+							<div class="tm"></div>
 						</div>
 						<div class="w-160">
-							<div class="ch"></div>
+							<div class="ysy"></div>
 						</div>
 						<div class="w-160">
-							<div class="sc"></div>
+							<div class="lxl"></div>
 						</div>
 						<div class="w-160">
 							<div class="twl"></div>
@@ -431,7 +431,7 @@
 				
 					<div class="h-180">
 						<div class="w-160">
-							<div class="ysy"></div>
+							<div class="zl"></div>
 						</div>
 						<div class="w-160">
 							<div class="twm"></div>
@@ -440,7 +440,7 @@
 							<div class="fch"></div>
 						</div>
 						<div class="w-160">
-							<div class="fch"></div>
+							<div class="bliu"></div>
 						</div>
 						<div class="w-160">
 							<div class="jw"></div>
@@ -461,15 +461,21 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">活动流程</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-205" style="margin-top:-20px;">
+					
+					<div class="w-1180">
+					
+					<div class="h-205">
 						<div class="w-276">
 							<div class="c-egg"></div>
 						</div>
-						<div class="w-384">
-							<div class="c-egg-z"></div>
-						</div>
-						<div class="w-520">
-							<div class="c-egg-r"></div>
+						<div class="w-875">
+							<div class="pass">
+								<i class="fa fa-circle-o"></i>
+								<h3>采&nbsp;蛋</h3>
+								<p class="timme">03月01日- 04月01日</p>
+								<h3>征集全球最火爆智能硬件</h3>
+								<p class="econtent">在全球范围内征集智能硬件，共分10个品类：智能家居 、母婴用品、宠物设备、智能情趣、智能穿戴、汽车周 美颜瘦身、智能影音、户外休闲、健康周边。每个品类中，投票数前十名即可获选最火爆智能硬件TOP100。</p>
+							</div>
 						</div>
 					</div>
 				
@@ -477,11 +483,14 @@
 						<div class="w-276">
 							<div class="l-egg"></div>
 						</div>
-						<div class="w-384">
-							<div class="l-egg-z"></div>
-						</div>
-						<div class="w-520">
-							<div class="l-egg-r"></div>
+						<div class="w-875">
+							<div class="pass">
+								<i class="fa fa-circle-o"></i>
+								<h3>论&nbsp;蛋</h3>
+								<p class="timme">04月11日 / 13:00 - 16:00</p>
+								<h3 style="width: 220px;">聚焦智能，畅聊发展</h3>
+								<p class="econtent">徐小平、李开复、胡海泉、黎万强、刘东华……超豪华大咖阵容，硬件、媒体、投资、平台、机构近百个平台机构，五大超凡阵容倾情联手，聚焦中国智能硬件的发展趋势，畅聊智能硬件发展未来。</p>
+							</div>
 						</div>
 					</div>
 				
@@ -489,14 +498,18 @@
 						<div class="w-276">
 							<div class="z-egg"></div>
 						</div>
-						<div class="w-384">
-							<div class="z-egg-z"></div>
-						</div>
-						<div class="w-520">
-							<div class="z-egg-r"></div>
+						<div class="w-875">
+							<div class="pass">
+								<i class="fa fa-circle-o"></i>
+								<h3>种&nbsp;蛋</h3>
+								<p class="timme">04月11日 / 16:00 - 17:00</p>
+								<h3>共同创造吉尼斯世界纪录</h3>
+								<p class="econtent">中国智能硬件蛋年已然开启,全球最具人气超火爆智能硬件汇集于此,硬件圈大咖齐出手,将智能硬件的希望亲手种下,5年、10年、100年，当岁月模糊了时光，当年的梦想重见天日时，有多少我们引以为傲的智能硬件产品被时间沙漏掩埋,又有多少智能硬件被光阴瓦砾打磨得更加闪亮！</p>
+							</div>
 						</div>
 					</div>
 				
+					</div>
 				</div>
 			</section>
 		</div>
@@ -513,9 +526,13 @@
 							{% for stuff in stufflist.rows %}
 						  	<div class="card">
 						    	<div class="image">
-						      	  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}">
-										<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-									</a>
+                  <a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+                    {% if stuff.cover %}
+                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+                    {%else%}
+                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+                    {%endif%}
+                </a>
 						    	</div>
 						    	<div class="content">
 						      	  	<div class="header">
@@ -590,7 +607,6 @@
 						<img src="{{ app_url_packaged }}/images/egg_auto.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_f.jpg" class="ui image">
 					
 					</div>
 					
@@ -612,7 +628,7 @@
 					</div>
 				
 					<div class="logo one">
-						<p>学术圈</p>
+						<p>机构圈</p>
 						<img src="{{ app_url_packaged }}/images/egg_zhd.jpg">
 						<img src="{{ app_url_packaged }}/images/egg_qhmy.jpg">
 						<img src="{{ app_url_packaged }}/images/egg_bj.jpg">

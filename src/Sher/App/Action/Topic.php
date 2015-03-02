@@ -479,6 +479,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		// 评测对象
 		if(isset($this->stash['tid'])){

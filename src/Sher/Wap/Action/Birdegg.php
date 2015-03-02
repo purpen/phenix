@@ -6,6 +6,7 @@
 class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
+    'sort'=>0,
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
@@ -21,8 +22,12 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	 * 智能硬件蛋年活动
 	 */
 	public function index(){
+		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
 		$top_category_id = Doggy_Config::$vars['app.birdegg.category_id'];
+		$is_top = false;
+		$this->stash['is_top'] = $is_top;
 		$this->stash['top_category_id'] = $top_category_id;
+		$this->stash['cid'] = $cid;
 		
 		return $this->to_html_page('wap/birdegg/index.html');
 	}
@@ -130,6 +135,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
+    $this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		return $this->to_html_page('wap/birdegg/submit.html');
 	}

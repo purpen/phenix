@@ -98,9 +98,11 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
 		
-    	// 评论参数
-    	$this->stash['comment_target_id'] = (int)$stuff['_id'];
-    	$this->stash['comment_type'] = Sher_Core_Model_Comment::TYPE_STUFF;
+    // 评论参数
+    $this->stash['comment_target_id'] = (int)$stuff['_id'];
+    $this->stash['comment_type'] = Sher_Core_Model_Comment::TYPE_STUFF;
+    $comment_alert = '你是不是智能时代的预言家？未来的它，惊艳、颠覆、消失……写下你的想法，就有机会被封存到时光胶囊中，接受时间的洗礼！';
+    $this->stash['comment_alert'] = $comment_alert;
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
@@ -130,6 +132,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		$this->_editor_params();
 		
