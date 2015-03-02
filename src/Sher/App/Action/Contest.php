@@ -135,6 +135,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		$this->_editor_params();
 		

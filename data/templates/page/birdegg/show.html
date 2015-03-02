@@ -6,13 +6,16 @@
 body{
 	background-color:#1b0217;
 }
+.ui.tabox .ui.tabs{
+	margin-bottom:-1px;
+}
 .egg_s_header{
 	background:url({{ app_url_packaged }}/images/egg_s_header.jpg) no-repeat center center;
 	background-size:cover;
 	height:175px;
 }
 .w-1180{
-	width:1180px;
+	width:1024px;
 	margin:0 auto;
 }
 .h-40{
@@ -95,18 +98,12 @@ body{
 }
 #demoSlider img{
 	width:590px;
-	margin-left:295px;
+	margin-left:217px;
 }
 .ui-slider-tabs-indicator-container{
-	bottom:15px;
+	bottom:25px;
 }
 
-.ui-slider-tabs-indicator{
-background-image: url('http://frstatic.qiniudn.com/images/indicator.png');
-}
-.ui-slider-tabs-indicator.selected{
-background-image: url('http://frstatic.qiniudn.com/images/indicatorActive.png');
-}
 .ui-slider-tabs-leftPanelArrow{
 background-image: url('http://frstatic.qiniudn.com/images/leftPanelArrow.png');
 }
@@ -116,7 +113,26 @@ background-image: url('http://frstatic.qiniudn.com/images/rightPanelArrow.png');
 .ui-slider-tabs-list{
 display: none;
 }
-
+.ui-slider-right-arrow,.ui-slider-left-arrow{
+  display:none;
+}
+.ui-slider-tabs-indicator {
+	height: 6px;
+	width: 6px;
+	background: rgba(255,255,255,0.6);
+	cursor: pointer;
+	border-radius: 50%;
+	margin: 0 5px;
+	vertical-align: middle;
+}
+.ui-slider-tabs-indicator:hover{
+	background:#fff;
+}
+.ui-slider-tabs-indicator.selected{
+	height:10px;
+	width:10px;
+	background:#fff;
+}
 
 </style>
 {% endblock %}
@@ -131,7 +147,6 @@ display: none;
       $.get(url, {target_id: {{ stuff._id }}, type: 6, page: current_page, per_page: per_page});
     }
   </script>
-
 {% endblock %}
 
 
@@ -144,15 +159,16 @@ display: none;
 		$('.ui.share.modal').modal('show');
 	});
 
-  $("div#demoSlider").sliderTabs({
-    indicators: true,
-    panelArrows: true,
-    panelArrowsShowOnHover: true,
-    tabs: true,
-    classes: {
-    panel: 'demoPanel'
-    }
-  });
+  if($("div#demoSlider").length>0){
+    $("div#demoSlider").sliderTabs({
+      mouseWheel: false,
+      indicators: true,
+      panelArrows: true,
+      panelArrowsShowOnHover: false,
+      tabs: true
+    });
+  }
+
 	
 	phenix.bind_share_list();
 
@@ -347,37 +363,43 @@ display: none;
         			<i class="angle left icon"></i><span> 返回蛋年主页</span>
       		</a>
 		</div>
-        <!--附件列表-->
-        {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
-		<div id="demoSlider" style="padding-top:20px;">
+    <!--附件列表-->
+    {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+    {% if stuff.cover %}
+      {% if assets.total_rows==1 %}
+        <div style="text-align:center;margin:0 auto;padding-top:20px;"><img src="{{ stuff.cover.thumbnails.big.view_url }}"></div>
+      {%else%}
+        <div id="demoSlider" style="padding-top:20px;">
 
-		  <ul>
-        {% if stuff.cover %}
-          <li><a href="#{{ stuff.cover_id }}"></a></li>
-        {% endif %}
-
-        {% if assets.total_rows %}
-          {% for asset in assets.rows %}
-            {% if asset._id != stuff.cover_id %}
-              <li><a href="#{{ asset._id }}"></a></li>
+          <ul>
+            {% if stuff.cover_id %}
+              <li><a href="#{{ stuff.cover_id }}"></a></li>
             {% endif %}
-          {% endfor %}
-        {% endif %}
-		  </ul>
 
-      {% if stuff.cover %}
-        <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.big.view_url }}"></div>
-      {% endif %}
+            {% if assets.total_rows %}
+              {% for asset in assets.rows %}
+                {% if asset._id != stuff.cover_id %}
+                  <li><a href="#{{ asset._id }}"></a></li>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </ul>
 
-      {% if assets.total_rows %}
-        {% for asset in assets.rows %}
-          {% if asset._id != stuff.cover_id %}
-            <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.big.view_url }}"></div>
+          {% if stuff.cover_id %}
+            <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.big.view_url }}"></div>
           {% endif %}
-        {% endfor %}
-      {% endif %}
 
-		</div>
+          {% if assets.total_rows %}
+            {% for asset in assets.rows %}
+              {% if asset._id != stuff.cover_id %}
+                <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.big.view_url }}"></div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+        </div>
+      {%endif%}
+    {%endif%}
 		
 		<div class="ui tabox">
 			<div class="ui four tabs">
