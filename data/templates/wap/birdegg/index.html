@@ -427,7 +427,11 @@ function onTouchEnd(e)
 				{% stuff_list var:'list' category_id:cid is_top:is_top sort:sort page:page size:8 %}
           
 						{% for stuff in list.rows %}
+
 <li>
+						<div class="ui grid">
+							<div class="column">
+					                  <div class="ui one items">
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
@@ -467,12 +471,11 @@ function onTouchEnd(e)
 								</div>
 							</div>
 						</div>
+          </div>
+        </div>
+      </div>
             </li>
 						{% endfor %}
-
-
-
-
 
 <!--
 					                <li>
@@ -519,45 +522,7 @@ function onTouchEnd(e)
 														
 														
 					                </li>
-													<li>
-														<div class="ui grid">
-															<div class="column">
-																<div class="ui one items">
-																	<div class="item">
-																								<div class="content">
-																									<h4 class="ui dividing header">
-																										<a class="ui link" href="http://m.taihuoniao.com/topic/view-102298-0.html" target="_blank">
-																											“智慧树”一款介于U盘与移动硬盘...
-																										</a>
-																																			<div class="image">
-																											<img src="http://frbird.qiniudn.com/topic/141220/549599e420de8d95468b496b-1-me.jpg" alt="“智慧树”一款介于U盘与移动硬盘之间的产品" class="ui image">
-																										</div>
-																										<div class="advantage">
-																											一款介于U盘与移动硬盘之间的产品。U盘储存量太小，故需多个，但多则易丢失及不易管理。移动硬盘，太大，不易携带。“智慧树”的设计解决这两个问题...
-																										</div>
-																																		</h4>
-																									<div class="schedule">
-																										<div class="status clearfix">
-																											<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-																									      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
-																											</a>
-																											<span class="count">
-																												<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
-																													15120070751
-																												</a>
-																											</span>
-																											<span class="like">
-																												<i class="icon unhide"></i>
-																												<span class="count">607</span>
-																											</span>
-																										</div>
-																									</div>
-																								</div>
-																							</div>
-																<div>
-															</div>
-														</div>
-													</li>
+
                           -->
 						          </ul>
 						        </div>
