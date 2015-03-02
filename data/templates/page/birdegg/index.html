@@ -399,6 +399,9 @@
 #fp-nav ul li .fp-tooltip.left {
     left: 20px;
 }
+#eggBox .section.stuffs .tips{
+	padding: 1rem 5rem !important;
+}
 
 </style>
 {% endblock %}
@@ -672,7 +675,7 @@
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 				
 					<div class="featured">
-						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 sort:sort size:8 %}
+						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 sort:sort size:4 %}
 						<div class="ui four cards">
 							{% for stuff in stufflist.rows %}
 						  	<div class="card">
