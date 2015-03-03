@@ -70,6 +70,12 @@
 			}
 		}, 'json');
 	});
+
+  //插入已存在的红包
+  $('.code-select').click(function(){
+    var code = $(this).attr('val');
+    $("input[name='bonus_code']").val(code);
+  });
 	
 	// 选择填写礼品码
 	$('#submit-gift').click(function(){
@@ -192,8 +198,11 @@
 							<div class="bonus item">
 								<div class="field">
 									<div class="ui radio checkbox">
-										<input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />
-										<label><span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }}</small></label>
+                    <!--<input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />-->
+                    <label>
+                      <span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
+                      <a href="javascript:void(0);" name="code-select" code="{{ b.code }}"> 插入</a>
+                    </label>
 									</div>
 								</div>
 							</div>
