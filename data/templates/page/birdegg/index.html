@@ -87,9 +87,8 @@
 	margin-top:25px;
 }
 
-.h-180{
-	height:180px;
-	margin-left:45px;
+.h-196{
+	height:196px;
 }
 .h-160{
 	height:160px;
@@ -97,12 +96,16 @@
 .w-160{
 	width:160px;
 	height:160px;
-	margin:10px;
+	margin:18px;
 	float:left;
 	display:inline-block;
 }
-.h-180+p{
+.h-196+p{
 	text-align:center;
+	color:#c87bc0;
+	margin: 0;
+	line-height: 22px;
+	margin-top: 15px;
 }
 .lg{
 	background:url({{ app_url_packaged }}/images/egg_lg1.jpg) no-repeat;
@@ -264,16 +267,19 @@
 	background:url({{ app_url_packaged }}/images/egg_5.png) no-repeat;
 	width:276px;
 	height:205px;
+	background-position-x: -50px;
 }
 .l-egg{
 	background:url({{ app_url_packaged }}/images/egg_8.png) no-repeat;
 	width:276px;
 	height:205px;
+	background-position-x: -50px;
 }
 .z-egg{
 	background:url({{ app_url_packaged }}/images/egg_11.png) no-repeat;
 	width:276px;
 	height:205px;
+	background-position-x: -50px;
 }
 
 
@@ -556,6 +562,10 @@ p.econtent{
 h4.ui.header small{
 	font-size:0.5em;
 }
+.logo + p,.logo+p+p{
+	text-align:center;
+	color:#c87bc0;
+}
 </style>
 {% endblock %}
 
@@ -736,7 +746,7 @@ h4.ui.header small{
 				<div class="w-1180">
 					<h3 class="ui header center aligned">嘉宾</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-180 mt-25">
+					<div class="h-196 mt-25">
 						<div class="w-160">
 							<div class="jp">
 								<div class="guest-word">
@@ -787,7 +797,7 @@ h4.ui.header small{
 						</div>
 					</div>
 				
-					<div class="h-180">
+					<div class="h-196">
 						<div class="w-160">
 							<div class="chf">
 								<div class="guest-word">
@@ -838,7 +848,7 @@ h4.ui.header small{
 						</div>
 					</div>
 				
-					<div class="h-180">
+					<div class="h-196">
 						<div class="w-160">
 							<div class="bliu">
 								<div class="guest-word">
@@ -1006,72 +1016,79 @@ h4.ui.header small{
 		<div class="section partners" data-anchor="partners">
 			<section class="page">
 				<div class="w-1180">
-					<h3 class="ui header center aligned">联合主办</h3>
+					<h3 class="ui header center aligned">联合主办<small>（更新中......）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="logo" style="padding-top:20px;">
 						<p>媒体圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_bd.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tn.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_36k.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tai.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_lkj.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_panda.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_btv.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ifeng.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_sohu.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_163.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_qq.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_sina.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_mans.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_fast.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tc.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_taio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_btvo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_pandao.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_36ko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkjo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tco.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ifengo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_sohuo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_wangyio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qqo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_sinao.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_meno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_fasto.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_bdo.jpg" class="ui image">
 					</div>
 				
 					<div class="logo">
 						<p>硬件圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_ml.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_haier.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_intel.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_lkk.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_fox.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ycb.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_misfit.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_mk.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tm.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_auto.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg" class="ui image">
-					
+						<img src="{{ app_url_packaged }}/images/egg_intelo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_foxo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_haiero.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ycbo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_miso.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tmo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_autoo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_pico.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ino.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_yuno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ingo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_keyo.jpg" class="ui image">
 					</div>
 					
 					<div class="logo one">
 						<p>投资圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_zf.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_cxgc.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_go.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_wts.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_zfo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_chuango.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_goo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_wtso.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_dffo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_ctqo.jpg">
 					</div>
 				
 					<div class="logo one">
 						<p>平台圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_jd.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_tb.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_sn.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_thn.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_jdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_tbo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sno.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_thno.jpg">
 					</div>
 				
 					<div class="logo one">
 						<p>机构圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_zhd.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_qhmy.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_bj.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_cida.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_sida.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_gzmy.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_zhdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_chinao.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sidao.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_weeko.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_desino.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_qhmyo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_gzmyo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_13o.jpg">
 					</div>
 					
+					<p class="mt-25">本活动由太火鸟科技发起</p>
+					<p>排名不分先后，更多主办方持续更新中......</p>
 				</div>
 			</section>
 		</div>
