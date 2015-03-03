@@ -1,4 +1,4 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}蛋年创新大会-{% endblock %}
 
 {% block page_css %}
@@ -482,7 +482,7 @@
 	margin:auto;
 }
 .fa-circle-o:before{
-	background:#fff;
+	background:#c87bc0;
 	border-radius: 50%;
 	padding: 0 1px;
 }
@@ -509,6 +509,7 @@
 	font-weight: 400;
 	margin-left:34px;
 	line-height: 37px;
+	margin-top:10px;
 }
 p.econtent{
 	margin-left:34px;
@@ -577,7 +578,6 @@ h4.ui.header small{
 
 {% block layout_js %}
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.gsap.min.js"></script>
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fullPage1.min.js"></script>
 {% endblock %}
 
 {% block private_js %}
