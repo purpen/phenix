@@ -3,12 +3,16 @@
  * 蛋年活动专题页面
  * @author purpen
  */
-class Sher_App_Action_Birdegg extends Sher_App_Action_Base {
+class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'page'=>1,
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
+
+	public function _init() {
+		$this->set_target_css_state('page_social');
+  }
 	
 	/**
 	 * 默认入口

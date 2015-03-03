@@ -105,7 +105,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 			throw new Sher_Core_Model_Exception('红包已被过期！');
     }
     //是否满足限额条件
-    if(!empty($bonus['min_amount']) && $bonus['min_amount'] > $total_money){
+    if(!empty($bonus['min_amount']) && (int)$bonus['min_amount'] > (int)$total_money){
  			throw new Sher_Core_Model_Exception('此红包满'.$bonus['min_amount'].'元才可使用！');   
     }
 		$card_money = $bonus['amount'];
