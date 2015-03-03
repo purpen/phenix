@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-03-02 14:58:28
+//dump on 2015-03-03 00:50:08
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -451,9 +451,9 @@ Doggy_Config::add( array (
   'app.url.share' => 'http://taihuoniao.me/share',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b15022701',
-  'app.version.jquery_bundle_version' => 'v0.10b15022701',
-  'app.version.css_bundle_version' => 'v0.10b15022701',
+  'app.version.sher' => 'v0.10b15030204',
+  'app.version.jquery_bundle_version' => 'v0.10b15030204',
+  'app.version.css_bundle_version' => 'v0.10b15030204',
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
   'app.doggyx.class_path' => '/Users/xiaoyi/Project/doggy-x',
   'app.redis.default' => 
@@ -464,7 +464,7 @@ Doggy_Config::add( array (
   'app.topic.dream_category_id' => 9,
   'app.contest.dream2_category_id' => 18,
   'app.topic.idea_category_id' => 22,
-  'app.birdegg.category_id' => 25,
+  'app.birdegg.category_id' => 80,
   'app.comeon.product_id' => 1120800090,
   'app.alipay.partner' => '2088411237666512',
   'app.alipay.key' => '8igqejramxdbw53yvlp8aukvbt9s5rnd',

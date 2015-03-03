@@ -2,17 +2,282 @@
 {% block title %}蛋年创新大会-{% endblock %}
 
 {% block page_css %}
-<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs.min.css" type="text/css" />
+<!--<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs.min.css" type="text/css" />-->
 <style type="text/css">
 	body{
 		background: #1c0318;
 	}
-	#eggBox section.page {
-		padding-top: 65px;
+	@keyframes rotation36 {
+		from {
+			-webkit-transform:rotate(0deg);
+			-moz-transform:rotate(0deg);
+			-ms-transform:rotate(0deg);
+			-o-transform:rotate(0deg);
+			transform:rotate(0deg)
+		}
+		to {
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg)
+		}
+	}
+	@-o-keyframes rotation36 {
+		from {
+			-webkit-transform:rotate(0deg);
+			-moz-transform:rotate(0deg);
+			-ms-transform:rotate(0deg);
+			-o-transform:rotate(0deg);
+			transform:rotate(0deg)
+		}
+		to {
+			-webkit-transform: rotate(360deg);
+			-moz-transform: rotate(360deg);
+			-ms-transform: rotate(360deg);
+			-o-transform: rotate(360deg);
+			transform: rotate(360deg)
+		}
+	}
+	@keyframes mymove {
+		0%   { padding-bottom: 0px; opacity: 0.8; }
+		50%  { padding-bottom: 15px; opacity: 0.35; }
+		100% { padding-bottom: 0px; opacity: 0.8; }
+	}
+
+	@-webkit-keyframes mymove {
+		0%   { padding-bottom: 0px; opacity: 0.8; }
+		50%  { padding-bottom: 15px; opacity: 0.35; }
+		100% { padding-bottom: 0px; opacity: 0.8; }
+	}
+	.ui.eggmenu {
+		background: none repeat scroll 0 0 rgba(25,0,25,1);
+	  	width: 100%;
+		border: 0px solid #fff;
+		margin: 0;
+		-webkit-transition: display 0.25s ease;
+		-moz-transition: display 0.25s ease;
+		-o-transition: display 0.25s ease;
+		-ms-transition: display 0.25s ease;
+		transition: display 0.25s ease;
+		display: none;
+	}
+	.ui.eggmenu.fxd {
+		background: none repeat scroll 0 0 rgba(25,0,25,0.8);
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 9999;
+		display: block;
+	}
+	.ui.eggmenu > .ui.grid > .row {
+		margin-bottom: 0rem;
+	}
+	.ui.eggmenu .ui.tabs {
+		display: inline-block;
+	}
+	.ui.eggmenu .ui.tabs .tab{
+		color: #fff;
+	    display: inline-block;
+	    font-size: 0.9285rem;
+	    margin: 0 1rem;
+	    padding: 1rem 0;
+	    text-align: center;
+	    text-decoration: none;
+		border-bottom: 2px solid transparent;
+	}
+	.ui.eggmenu .ui.tabs .tab:hover,
+	.ui.eggmenu .ui.tabs .tab.active {
+		color:#f36 !important;
+		border-bottom: 2px solid #ff3366;
+	}
+	.ui.eggmenu a.ui.btn,
+	.ui.eggmenu a.ui.btn:hover {
+		border-radius: 0.2875em;
+		padding: .5em 0em;
+		width: 47%;
+	}
+	.ui.eggmenu .ui.btn-4c:before {
+		top: -9px;
+	}
+
+	#eggBox .section {
+		padding-top: 80px;
 		position: relative;
 		height: 100%;
 		overflow:hidden;
 	}
+	#eggBox .section.topbanner {
+		padding-top: 0px;
+	}
+	#eggBox .section .pagex,
+	#eggBox section .page {
+		position: relative;
+		height: 100%;
+		text-align: center;
+		position: relative;
+	}
+	#eggBox .section .pagex a.arrow {
+		position: absolute;
+		bottom: 0rem;
+		left: 48.5%;
+		color: white;
+		font-size: 2rem;
+		text-decoration: none;
+		-webkit-animation: mymove 1.75s ease-in-out infinite;
+		-moz-animation: mymove 1.75s ease-in-out infinite;
+		animation: mymove 1.75s ease-in-out infinite;
+	}
+	#eggBox .section .pagex a.arrow .icon {
+		opacity: 1;
+		margin-right: 0;
+	}
+	#eggBox .section .page .w-1180 {
+		width: 1180px;
+		height: 100%;
+		margin: 0 auto;
+		overflow-y: hidden;
+	}
+	#eggBox .section .page .w-1180 + .w-1180 {
+		margin-top: 2rem;
+	}
+	#eggBox .section .page .w-1180 > h3.ui.header{
+		color: #fff;
+		padding-top: 20px !important;
+	}
+	#eggBox .section .page .w-1180 > h3.ui.header small {
+		font-size: 0.5em;
+	}
+	
+	#eggBox .section.instro {
+		background-image: url("{{ app_url_packaged }}/images/egg-desc-stars.png");
+		background-position: right center;
+		background-repeat: no-repeat;
+	}
+	#eggBox .section.instro .left-text,
+	#eggBox .section.instro .right-text {
+		display: inline-block;
+		box-sizing: border-box;
+		vertical-align: top;
+		position: relative;
+	}
+	#eggBox .section.instro .left-text {
+		padding-left: 5%;
+	    padding-right: 5%;
+		margin-top: 6%;
+	    width: 35%;
+	}
+	#eggBox .section.instro .left-text h2 {
+		margin-bottom: 1rem;
+	}
+	#eggBox .section.instro .left-text .summary {
+		color: #8c4a8c;
+		line-height: 2;
+	    margin-bottom: 1.5rem;
+	}
+	#eggBox .section.instro .left-text .date,
+	#eggBox .section.instro .left-text b {			
+		color: #fff;
+		font-size: 1.25rem;
+	}
+	#eggBox .section.instro .right-text {
+		width: 55%;
+	}
+
+	#eggBox .section.instro .right-text .platfam {
+		left: 20px;
+	    position: absolute;
+	    top: 50px;
+	    width: 90%;
+	    z-index: 99;
+	}
+
+	#eggBox .section.instro .right-text .ball {
+		left: 200px;
+	    position: absolute;
+	    top: 175px;
+	    width: 40%;
+	    z-index: 90;
+		-moz-animation: rotation36 20s linear infinite;
+		-o-animation: rotation36 20s linear infinite;
+		-webkit-animation: rotation36 20s linear infinite;
+		animation: rotation36 20s linear infinite
+	}
+	#eggBox .section.instro .right-text .five {
+		color: white;
+	    font-size: 0.875rem;
+	    left: 370px;
+	    position: absolute;
+	    top: 275px;
+	    width: 135px;
+	    z-index: 100;
+	}
+	#eggBox .section.instro .right-text .five span {
+		font-size: 3rem;
+	}
+	#eggBox .section.instro .right-text .smart {
+		background: url("{{ app_url_packaged }}/images/platfam-line.png") no-repeat scroll left bottom transparent;
+	    color: white;
+	    font-size: 0.875rem;
+	    left: 0;
+	    padding-bottom: 8px;
+	    position: absolute;
+	    top: 210px;
+	    width: 55%;
+	    z-index: 100;
+	}
+	#eggBox .section.instro .right-text .smart span {
+		font-size: 1.5rem;
+	}
+	#eggBox .section.instro .right-text .vc {
+		background: url("{{ app_url_packaged }}/images/platfam-line.png") no-repeat scroll left bottom transparent;
+	    color: white;
+	    height: 6px;
+	    left: 56px;
+	    position: absolute;
+	    top: 300px;
+	    width: 50%;
+	    z-index: 100;
+	}
+
+	#eggBox .section.stuffs {
+		background-repeat: no-repeat;
+		background-position: right center;
+	}
+	#eggBox .section.stuffs .featured {
+		margin-bottom: 2rem;
+		margin-top: 2rem;
+	}
+	#eggBox .section.stuffs .buttons {
+		text-align: center;
+	}
+	#eggBox .section.stuffs .tips {
+		color: rgba(255, 255, 255, 0.7);
+		line-height: 2;
+		padding: 2rem 6rem;
+	}
+
+	#eggBox .section.contact .ui.grid {
+		padding: 0 12%;
+		margin: 4rem auto;
+		color: white;
+	}
+	#eggBox .section.contact .ui.grid img {
+		width: 80%;
+	}
+	#eggBox .section.contact .share.box {
+		margin: 4rem 0;
+	}
+	#eggBox .section.contact .share.box .ui.icon.button {
+		background-color: transparent;
+	    border: medium none;
+	    color: white;
+	    font-size: 2rem;
+	}
+	#eggBox .section.instro .left-text, #eggBox .section.instro .right-text {
+		min-height: 500px;
+	}
+	
 .w-252{
 	width:252px;
 	height:252px;
@@ -268,9 +533,20 @@
 
 {% block jquery %}
     $('.ui.eggmenu').smint({
-    	'scrollSpeed' : 1000,
+		'scrollSpeed' : 1000,
 		'selectClass' : 'smt',
     });
+	
+	$('.pagex a.arrow').click(function(){
+		$("html, body").stop().animate({ scrollTop: $(window).height() + $('.ui.eggmenu').height() }, 500);
+		return false;
+	});
+	
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
 	
 	// 分享按钮
 	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
@@ -293,14 +569,14 @@
 					<a class="tab smt" href="#process">活动流程</a>
 					<a class="tab smt" href="#stuffs">精选产品</a>
 					<a class="tab smt" href="#partners">合作伙伴</a>
-					<a class="tab" target="_blank" href="{{ app_url_domain }}">太火鸟</a>
+					<a class="tab extLink" target="_blank" href="{{ app_url_domain }}">太火鸟</a>
         		</div>
       	  	</div>
 			<div class="four wide right aligned column">
-				<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/zlist" target="_blank">
+				<a class="ui magenta extLink btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/zlist" target="_blank">
           			<span>全部作品</span><i class="icon-arrow-right-sharp"></i>
         		</a>
-				<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
+				<a class="ui magenta extLink btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
           			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
         		</a>
 			</div>
@@ -324,12 +600,11 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">开启蛋年之旅</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="left-text" id="instro-text">
-						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b><br/> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
-
-					
+					<div class="left-text">
+						<h2 class="block title" data-450="transform: translateX(-200px);opacity: 0;" data-600="transform: translateX(0px);opacity: 1;"><b>中国智能硬件 . 蛋年创新大会</b></h2>
+						<div class="summary" data-450="transform: translateX(-200px);opacity: 0;" data-600="transform: translateX(0px);opacity: 1;"> 中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。</div>
 					</div>
-					<div class="right-text">
+					<div class="right-text" data-450="transform: translateX(200px);opacity: 0;" data-600="transform: translateX(0px);opacity: 1;">
 						<img src="{{ app_url_packaged }}/images/ball.png" class="ball" />
 						<img src="{{ app_url_packaged }}/images/platfam.png" class="platfam" />
 						<div class="five">
@@ -349,103 +624,99 @@
 				<div class="w-1180">
 					<h3 class="ui header center aligned">特邀嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="h-252 mt-25" id="specialer01">
-						<div class="w-252">
+					<div class="h-252 mt-25">
+						<div class="w-252" data-1000="transform: scale(0.2);opacity: 0;" data-1200="transform: scale(1);opacity: 1;">
 							<div class="xxp"></div>
 						</div>
-						<div class="w-252">
+						<div class="w-252" data-1000="transform: scale(0.6);opacity: 0;" data-1200="transform: scale(1);opacity: 1;">
 							<div class="lkf"></div>
 						</div>
-						<div class="w-252">
+						<div class="w-252" data-1000="transform: scale(0.2);opacity: 0;" data-1200="transform: scale(1);opacity: 1;">
 							<div class="hhq"></div>
 						</div>
-						<div class="w-252">
+						<div class="w-252" data-1000="transform: scale(0.6);opacity: 0;" data-1200="transform: scale(1);opacity: 1;">
 							<div class="lwq"></div>
 						</div>
 					</div>
-					<div class="h-252 mt-15" id="specialer02">
-						<div class="w-252 mt-25">
+					<div class="h-252 mt-15">
+						<div class="w-252 mt-25" data-1200="transform: scale(0.6);opacity: 0;" data-1400="transform: scale(1);opacity: 1;">
 							<div class="ldh"></div>
 						</div>
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1200="transform: scale(0.2);opacity: 0;" data-1400="transform: scale(1);opacity: 1;">
 							<div class="so"></div>
 						</div>
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1200="transform: scale(0.6);opacity: 0;" data-1400="transform: scale(1);opacity: 1;">
 							<div class="mcw"></div>
 						</div>
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1200="transform: scale(0.2);opacity: 0;" data-1400="transform: scale(1);opacity: 1;">
 							<div class="zp"></div>
 						</div>
 					</div>
 				
 				</div>
-			</section>
-		</div>
-
-		<div class="section" data-anchor="guest">
-			<section class="page">
+				
 				<div class="w-1180">
 					<h3 class="ui header center aligned">嘉宾 <small>（拟）</small></h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="h-180 mt-25">
-						<div class="w-160">
+						<div class="w-160" data-1600="transform: scale(0.1);opacity: 0.4;" data-2000="transform: scale(1);opacity: 1;">
 							<div class="jp"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1600="transform: scale(0.7);opacity: 0.1;" data-2000="transform: scale(1);opacity: 1;">
 							<div class="su"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1600="transform: scale(0.4);opacity: 0.3;" data-2000="transform: scale(1);opacity: 1;">
 							<div class="ch"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1600="transform: scale(0.1);opacity: 0;" data-2000="transform: scale(1);opacity: 1;">
 							<div class="zhj"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1600="transform: scale(0.7);opacity: 0;" data-2000="transform: scale(1);opacity: 1;">
 							<div class="sc"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1600="transform: scale(0.4);opacity: 0;" data-2000="transform: scale(1);opacity: 1;">
 							<div class="wy"></div>
 						</div>
 					</div>
 				
 					<div class="h-180">
-						<div class="w-160">
+						<div class="w-160" data-1700="transform: scale(0.7);opacity: 0.1;" data-2100="transform: scale(1);opacity: 1;">
 							<div class="chf"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1700="transform: scale(0.4);opacity: 0.3;" data-2100="transform: scale(1);opacity: 1;">
 							<div class="ghs"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1700="transform: scale(0.1);opacity: 0.4;" data-2100="transform: scale(1);opacity: 1;">
 							<div class="tm"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1700="transform: scale(0.7);opacity: 0.1;" data-2100="transform: scale(1);opacity: 1;">
 							<div class="ysy"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1700="transform: scale(0.4);opacity: 0.3;" data-2100="transform: scale(1);opacity: 1;">
 							<div class="lxl"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1700="transform: scale(0.1);opacity: 0.4;" data-2100="transform: scale(1);opacity: 1;">
 							<div class="twl"></div>
 						</div>
 					</div>
 				
 					<div class="h-180">
-						<div class="w-160">
+						<div class="w-160" data-1800="transform: scale(0.4);opacity: 0.3;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="zl"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1800="transform: scale(0.1);opacity: 0.4;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="twm"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1800="transform: scale(0.7);opacity: 0.1;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="fch"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1800="transform: scale(0.4);opacity: 0.3;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="bliu"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1800="transform: scale(0.1);opacity: 0.4;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="jw"></div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-1800="transform: scale(0.7);opacity: 0.1;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="lhb"></div>
 						</div>
 						
@@ -526,13 +797,13 @@
 							{% for stuff in stufflist.rows %}
 						  	<div class="card">
 						    	<div class="image">
-                  <a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-                    {% if stuff.cover %}
-                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-                    {%else%}
-                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
-                    {%endif%}
-                </a>
+				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+				                    {% if stuff.cover %}
+				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+				                    {%else%}
+				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+				                    {%endif%}
+				                	</a>
 						    	</div>
 						    	<div class="content">
 						      	  	<div class="header">
@@ -555,13 +826,14 @@
 							{% endfor %}
 						</div>
 					</div>
+					
 					<div class="buttons">
 						<a href="{{ app_url_birdegg }}/submit" class="ui inverted button" target="_blank">产品提交</a>
 						<a href="{{ app_url_birdegg }}/zlist" class="ui inverted button">
 							<i class="layout grid icon"></i>全部产品列表
 						</a>
 					</div>
-				
+					
 					<p class="tips"><b>Tips:</b> 现面向全世界征集最火爆的智能硬件产品,无论是样机还是已经面市的智能产品均可参加,只需将智能硬件的名称、产品图及简介上传到太火鸟专题页面即可。<br />
 	获得用户支持数量前100名的智能硬件产品获得在 中国智能硬件.蛋年创新大会 展示的机会，并被收入时光蛋中，亲身经历中国智能硬件蛋年开启的历史时刻。</p>
 				</div>
@@ -572,78 +844,85 @@
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">联合主办</h3>
-					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="logo" style="padding-top:20px;">
-						<p>媒体圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_bd.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tn.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_36k.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tai.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_lkj.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_panda.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_btv.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ifeng.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_sohu.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_163.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_qq.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_sina.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_mans.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_fast.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tc.jpg" class="ui image">
-					</div>
-				
-					<div class="logo">
-						<p>硬件圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_ml.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_haier.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_intel.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_lkk.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_fox.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ycb.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_misfit.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_mk.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tm.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_auto.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg" class="ui image">
+					<img src="{{ app_url_packaged }}/images/egg_line.png" />
+					<table>
+						<tr>
+							<td><p>媒体圈</p></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_bd.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_tn.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_36k.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_tai.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_lkj.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_panda.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_btv.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_ifeng.jpg" class="ui image"></td>
+						</tr>
+						<tr>
+							<td><img src="{{ app_url_packaged }}/images/egg_sohu.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_163.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_qq.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_sina.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_mans.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_fast.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_tc.jpg" class="ui image"></td>
+						</tr>
+					</table>
 					
-					</div>
+					<table>
+						<tr>
+							<td><p>硬件圈</p></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_ml.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_haier.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_intel.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_lkk.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_fox.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_ycb.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_misfit.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_mk.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_tm.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_auto.jpg" class="ui image"></td>							
+						</tr>
+						<tr>
+							<td><img src="{{ app_url_packaged }}/images/egg_oc.jpg" class="ui image"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_ctq.jpg" class="ui image"></td>
+						</tr>
+					</table>
 					
-					<div class="logo one">
-						<p>投资圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_zf.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_cxgc.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_go.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_ctq.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_wts.jpg">
-					</div>
-				
-					<div class="logo one">
-						<p>平台圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_jd.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_tb.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_sn.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_thn.jpg">
-					</div>
-				
-					<div class="logo one">
-						<p>机构圈</p>
-						<img src="{{ app_url_packaged }}/images/egg_zhd.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_qhmy.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_bj.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_cida.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_sida.jpg">
-						<img src="{{ app_url_packaged }}/images/egg_gzmy.jpg">
-					</div>
+					<table>
+						<tr>
+							<td><p>投资圈</p></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_zf.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_cxgc.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_go.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_ctq.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_wts.jpg"></td>
+						</tr>
+					</table>
 					
+					<table>
+						<tr>
+							<td><p>平台圈</p></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_jd.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_tb.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_sn.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_thn.jpg"></td>
+						</tr>
+					</table>
+					
+					<table>
+						<tr>
+							<td><p>机构圈</p></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_zhd.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_qhmy.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_bj.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_cida.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_sida.jpg"></td>
+							<td><img src="{{ app_url_packaged }}/images/egg_gzmy.jpg"></td>
+						</tr>
+					</table>
 				</div>
-			</section>
-		</div>
-
-		<div class="section contact" data-anchor="contact">
-			<section class="page">
-				<div class="w-1180">
+				<div class="w-1180 contact">
 					<h3 class="ui header center aligned">联系我们</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 					
@@ -675,6 +954,7 @@
 				</div>
 			</section>
 		</div>
+		
 	</div>
 </div>
 {% endblock %}
