@@ -797,7 +797,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         return $this->ajax_json('找不到订单表！', true);
       }
       //验证红包是否有效
-      $total_moeny = $result['dict']['total_money'];
+      $total_money = $result['dict']['total_money'];
       $card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money);
 
 			// 更新临时订单

@@ -83,6 +83,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       $data[$i]['item_stage'] = 0;
       $data[$i]['item_type'] = 'Product';
       //判断是预售还是商品
+      //eg: Product-0-1122877465
       if($result['rows'][$i]['type']==2){
         $web_url = $result['rows'][$i]['web_url'];
         if(!empty($web_url)){
