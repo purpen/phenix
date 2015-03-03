@@ -5,9 +5,9 @@
 <style class="text/css">
 	.incubator.masthead {
 		color: white;
-		padding: 100px 0 60px;
+		padding: 8% 0;
 		background-color: rgba(56, 67, 77, 0.9);
-		background-image: url("{{ app_url_packaged }}/images/incubator/inbatbg01.jpg");
+		background-image: url("{{ app_url_packaged }}/images/incubator/bgbird.jpg");
 		background-position: left top;
 		background-attachment: fixed;
 	}
@@ -21,19 +21,187 @@
 		margin-top: 5rem;
 	}
 	.incubator.service {
+		color: white;
+		padding: 3% 8%;
 		background-color: #d82545;
 	}
-	.incubator.design {
-		background-color: #ff3366;
-		color: white;
+	.incubator.service .ui.four.items {
+		margin-top: 5%;
 	}
-	.incubator.marketing,
+	.incubator.service .ui.four.items > .item {
+		border-radius: 500%;
+		margin-right: 2.5rem;
+	    height: 200px;
+	    width: 200px;
+	}
+	.incubator.service .ui.four.items > .item > a {
+		display: inline-block;
+		font-size: 28px;
+	    font-weight: 500;
+	    margin-top: 80px;
+	}
+	.incubator.service .ui.four.items > .item:hover > a {
+		color: #ff3366;
+		padding-bottom: 3px;
+		border-bottom: 2px solid #ff3366;
+	}
+	
+	.incubator.cases {
+		padding: 3% 8%;
+		background-color: #eee;
+	}
+	.incubator.cases .container {
+		position: relative;
+		min-height: 500px;
+	}
+	.incubator.cases .container > .think {
+		background-color: #fff;
+	    border-radius: 500%;
+	    bottom: 5%;
+		color: #ff3366;
+	    height: 200px;
+	    left: 38%;
+	    padding: 15px;
+	    position: absolute;
+	    width: 200px;
+	}
+	.incubator.cases .container > .think > h3 {
+		font-size: 28px;
+	    font-weight: 500;
+	    margin-bottom: 10px;
+	    margin-top: 50px;
+	}
+	
+	.incubator.cases .container > .product {
+		height: 135px;
+	    padding: 15px;
+	    position: absolute;
+	    width: 135px;
+	}
+	.incubator.cases .container > .product > .summary {
+		left: -230px;
+	    line-height: 1.5;
+	    position: absolute;
+	    text-align: left;
+	    top: 35px;
+	    width: 240px;
+	    z-index: 100;
+	}
+	.incubator.cases .container > .product:hover > .summary {
+		color: #333;
+	}
+	.incubator.cases .container > .product > img {
+		border-radius: 500px;
+		width: 80%;
+	}
+	.incubator.cases .container > .miaoxing {
+		bottom: 0;
+	    left: 18%;
+	}
+	.incubator.cases .container > .yunma {
+		bottom: 35%;
+	    left: 22%;
+	}
+	.incubator.cases .container > .peinaiji {
+		bottom: 54%;
+	    left: 42%;
+	}
+	.incubator.cases .container > .peinaiji > .summary {
+		left: 160px;
+		top: 25px;
+	}
+	.incubator.cases .container > .shiguangji {
+		bottom: 35%;
+	    left: 62%;
+	}
+	.incubator.cases .container > .shiguangji > .summary {
+		left: 160px;
+	}
+	.incubator.cases .container > .sleep {
+		bottom: 0%;
+		left: 67%;
+	}
+	.incubator.cases .container > .sleep > .summary {
+		left: 160px;
+	}
+	
+	.incubator.design {
+		background-color: #d82545;
+		color: white;
+		padding: 3% 5%;
+	}
+	.incubator.design .ui.items {
+		margin-top: 5%;
+	}
+	.incubator.design .ui.items > .item {
+		background-color: transparent;
+		color: #222;
+	}
+	.incubator.design .ui.items > .item > .avatar {
+		border-radius: 500px;
+	}
+	.incubator.design .ui.items > .item > h3 {
+	    font-size: 22px;
+	    font-weight: 500;
+	    margin: 0;
+	    padding: 0.5rem 0;
+	}
+	.incubator.design .ui.items > .item > hr {
+		background: none repeat scroll 0 0 #ef9b9e;
+	    border: medium none;
+	    height: 2px;
+	    margin: 0 auto;
+	    width: 30px;
+	}
+	.incubator.design .ui.items > .item:hover {
+		color: #fff;
+	}
+	
+	.incubator.marketing {
+		padding: 3% 5%;
+		color: white;
+		background-color: #222;
+	}
+	.incubator.marketing .ui.items > .item {
+	    color: #222;
+	    font-size: 1.5rem;
+	    margin-bottom: 0;
+	    margin-left: 0;
+	    margin-right: 0;
+	    padding: 5rem 0;
+	    text-align: center;
+	    width: 15%;
+	}
+	.incubator.marketing .ui.bott.items {
+		
+	}
+	.incubator.marketing .ui.items > .item.ma {
+		background-color: #f8cc8b;
+	}
+	.incubator.marketing .ui.items > .item.mb {
+		background-color: #fff79c;
+	}
+	.incubator.marketing .ui.items > .item.mc {
+		background-color: #cbe19a;
+	}
+	.incubator.marketing .ui.items > .item.md {
+		background-color: #8ac797;
+	}
+	
+	.incubator.marketing .ui.items > .item > i.icon {
+		display: block;
+	    font-size: 4rem;
+	    margin: 0 auto 1rem;
+	    width: 50px;
+	}
+	
 	.incubator.sales {
 		padding: 1rem 0;
 		background-color: #fff;
 	}
-	.incubator.marketing .section-title h2.block.title,
-	.incubator.sales .section-title h2.block.title {
+	
+	.incubator.cases .section-title h2.title,
+	.incubator.sales .section-title h2.title {
 		color: #444;
 	}
 	
@@ -53,6 +221,9 @@
 	    position: absolute;
 	    width: 60%;
 	    z-index: 99;
+	}
+	.incubator.funds .column:hover .highlight {
+		background-color: rgba(0, 0, 0, 0.9);
 	}
 	.incubator.sales .ui.grid {
 		padding: 0 15%;
@@ -117,6 +288,9 @@
 	.incubator.submit .buttons {
 		margin: 5rem 0 2rem;
 	}
+	
+	
+	
 </style>
 {% endblock %}
 
@@ -126,6 +300,13 @@
       	  	tabs : '.ui.button'
     	}
 	});
+	
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -148,9 +329,82 @@
 <div class="incubator service">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
-			<h2 class="block title">我们为您，提供全方位的孵化支持服务</h2>
+			<h2 class="block title">我们为您提供全方位的孵化支持服务</h2>
+			<hr>
+			<p>产品过程任何阶段都可以与太火鸟密切合作</p>
+			<div class="ui four items">
+				<div class="item" data-500="transform: translate(400px,150px);background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">设计创新</a>
+				</div>
+				<div class="item" data-500="transform: translate(158px,150px);background-color:rgba(34,34,34,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">营销推广</a>
+				</div>
+				<div class="item" data-500="transform: translate(-85px,150px);background-color:rgba(254,172,88,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">众筹平台</a>
+				</div>
+				<div class="item" data-500="transform: translate(-328px,150px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">销售渠道</a>
+				</div>
+				<div class="item" data-500="transform: translate(400px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">供应链</a>
+				</div>
+				<div class="item" data-500="transform: translate(158px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">孵化基地</a>
+				</div>
+				<div class="item" data-500="transform: translate(-85px,-88px);background-color:rgba(36,57,55,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">风投支持</a>
+				</div>
+				<div class="item" data-500="transform: translate(-328px,-88px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<a href="" class="ui line">媒体合作</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator cases">
+	<div class="ui responsive grid">
+		<div class="center aligned column section-title">
+			<h2 class="block title">太火鸟联合设计师孵化产品</h2>
+			<hr>
+			<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</p>
 			
-			
+			<div class="container">
+				<div class="think">
+					<h3>设计创新</h3>
+					<p>互联网思维与设计思维结合成就智能硬件火爆单品</p>
+				</div>
+				<div class="product miaoxing" data-1150="transform: translate(220px, -50px);opacity:0;" data-1250="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>喵小瞳：</b>智能车载摄像头，是喵星科技与国内顶尖的工业设计公司洛可可联合之作
+					</div>
+					<img src="{{ app_url_packaged }}/images/miaoxing.jpg" />
+				</div>
+				<div class="product yunma" data-1160="transform: translate(190px, 125px);opacity:0;" data-1260="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>云马智行车：</b>满足你所有想象的智能代步工具，其创始人邱懿武是浙江大学工业设计系的硕士
+					</div>
+					<img src="{{ app_url_packaged }}/images/yunma.jpg" />
+				</div>
+				<div class="product peinaiji" data-1170="transform: translate(0px, 225px);opacity:0;" data-1270="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>婴萌配奶机：</b>婴萌创始人陈清华毕业于清华工业设计专业
+					</div>
+					<img src="{{ app_url_packaged }}/images/peinaiji.jpg" />
+				</div>
+				<div class="product shiguangji" data-1180="transform: translate(-200px, 130px);opacity:0;" data-1280="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>时光机：</b>帮助用户养成健康生活方式，其创始人胡木石是极致设计与极简生活的追求者 
+					</div>
+					<img src="{{ app_url_packaged }}/images/shiguangji.jpg" />
+				</div>
+				<div class="product sleep" data-1190="transform: translate(-250px, -45px);opacity:0;" data-1290="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>12sleep：</b>全方位解决睡眠管理和优化问题，其创始人李一舟是清华大学设计学博士，资深用户体验设计师
+					</div>
+					<img src="{{ app_url_packaged }}/images/sleep.jpg" />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -158,21 +412,136 @@
 <div class="incubator design">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
-			<h2 class="block title">设计服务</h2>
+			<h2 class="block title">明星设计师</h2>
 			<hr>
 			<p>中国最顶级工业设计师团队提供外观设计，设计团队囊获包括德国红点、iF、日本G-Mark、美国IDEA等至高荣誉。</p>
-			
+			<div class="ui six items">
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/yangmingjie.jpg" class="avatar" data-2000="transform[bounce]: scale(0.25);opacity:0.25;" data-2100="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>杨明洁</h3>
+					<hr>
+					<p>YANG DESIGN创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/fengchanghong.jpg" class="avatar" data-2000="transform[bounce]: scale(0.25);opacity:0.25;" data-2100="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>封昌红</h3>
+					<hr>
+					<p>深圳市工业设计行业协会<br />
+执行副会长兼秘书长</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/dingwei.jpg" class="avatar" data-2000="transform[bounce]: scale(0.25);opacity:0.25;" data-2100="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>丁伟</h3>
+					<hr>
+					<p>上海木马 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/jiawei.jpg" class="avatar" data-2000="transform[bounce]: scale(0.25);opacity:0.25;" data-2100="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>贾伟</h3>
+					<hr>
+					<p>洛可可 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/liuguanzhong.jpg" class="avatar" data-2000="transform[bounce]: scale(0.25);opacity:0.25;" data-2100="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>柳冠中</h3>
+					<hr>
+					<p>工业设计学术带头人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/luocheng.jpg" class="avatar" data-2000="transform[bounce]: scale(0.25);opacity:0.25;" data-2100="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>罗成</h3>
+					<hr>
+					<p>浪尖设计 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/zhangjianming.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>张建民</h3>
+					<hr>
+					<p>中世纵横 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/liqi.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>李琦</h3>
+					<hr>
+					<p>瑞德设计 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/zhongrong.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>钟荣</h3>
+					<hr>
+					<p>瑞德设计 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/lilicheng.jpg" class="avatar"  data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>李立成</h3>
+					<hr>
+					<p>凸凹设计 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/weimin.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>魏民</h3>
+					<hr>
+					<p>佳简几何 创始人</p>
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/avatar/wangshaoqiang.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>王绍强</h3>
+					<hr>
+					<p>三度传媒机构 董事长</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
 <div class="incubator marketing">
 	<div class="ui responsive grid">
-		<div class="center aligned column section-title">
-			<h2 class="block title">营销推广</h2>
-			<hr>
-			<p></p>
-			
+		<div class="row">
+			<div class="center aligned column white section-title">
+				<h2 class="block title">营销推广</h2>
+				<hr>
+				<p></p>
+				<div class="ui four items">
+					<div class="item ma">
+						<i class="flat icon_about_01 icon"></i>
+						<span>消费人群定位</span>
+					</div>
+					<div class="item mb">
+						<i class="flat icon_about_01 icon"></i>
+						<span>产品卖点提炼</span>
+					</div>
+					<div class="item mc">
+						<i class="flat icon_about_01 icon"></i>
+						<span>营销推广策划</span>
+					</div>
+					<div class="item md">
+						<i class="flat icon_about_01 icon"></i>
+						<span>众筹方案制定</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="right aligned column">
+				<div class="ui four bott items">
+					<div class="item ma">
+						<i class="flat icon_about_01 icon"></i>
+						<span>线下新品发布</span>
+					</div>
+					<div class="item mb">
+						<i class="flat icon_about_01 icon"></i>
+						<span>线上活动推广</span>
+					</div>
+					<div class="item mc">
+						<i class="flat icon_about_01 icon"></i>
+						<span>媒体试用评测</span>
+					</div>
+					<div class="item md">
+						<i class="flat icon_about_01 icon"></i>
+						<span>在线销售</span>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -185,8 +554,8 @@
 			<p>整合京东、淘宝、KICKSTARTER等国内外三大权威众筹平台</p>
 			<img src="{{ app_url_packaged }}/images/incubator/funds-site.png" />
 			<div class="highlight">
-				<p>不到一年时间，太火鸟共完成众筹项目40个，筹得资金超2500万元，</p>
-				<p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破1200万众筹金额产品。</p>
+				<p>不到一年时间，太火鸟共完成众筹项目<b>40</b>个，筹得资金超<b>2500万</b>元，</p>
+				<p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破<b>1200万</b>众筹金额产品。</p>
 			</div>
 		</div>
 	</div>
