@@ -1,4 +1,4 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}蛋年创新大会-{% endblock %}
 
 {% block page_css %}
@@ -10,6 +10,9 @@
 	.featured .ui.cards{
 		margin-left:0 !important;
 		margin-right:0 !important;
+	}
+	.ui.tabox{
+		background:#000!important;
 	}
 .ui.eggs.tabox a.ui.btn, .ui.eggs.tabox a.ui.btn:hover {
 	border-radius: .2875em;
@@ -201,7 +204,7 @@
 	position:relative;
 }
 .tm{
-	background:url({{ app_url_packaged }}/images/egg_tmoo.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_tmooo.jpg) no-repeat;
 	width:160px;
 	height:160px;
 	position:relative;
@@ -482,7 +485,7 @@
 	margin:auto;
 }
 .fa-circle-o:before{
-	background:#fff;
+	background:#c87bc0;
 	border-radius: 50%;
 	padding: 0 1px;
 }
@@ -509,6 +512,7 @@
 	font-weight: 400;
 	margin-left:34px;
 	line-height: 37px;
+	margin-top:10px;
 }
 p.econtent{
 	margin-left:34px;
@@ -569,23 +573,24 @@ h4.ui.header small{
 .flat.sale,.flat.position{
 	vertical-align: bottom;
 	margin-right: 0 !important;
-	margin-bottom: 2px !important;
+	margin-bottom: 4px !important;
 	font-size: 17px;
+}
+.pagex{
+	height:700px !important;
 }
 </style>
 {% endblock %}
 
-{% block layout_js %}
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.gsap.min.js"></script>
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.fullPage1.min.js"></script>
-{% endblock %}
-
-{% block private_js %}
-	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/egg.min.js"></script>
-{% endblock %}
-
-
 {% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$('.ui.tabox').smint({
+  	'scrollSpeed' : 1000
+  });
 	phenix.birdegg.init();
 	
 	// 分享按钮
@@ -635,7 +640,7 @@ h4.ui.header small{
 
 <div id="eggBox">
 	<div id="eggPage">
-		<div class="section active" data-anchor="topbanner">
+		<div class="section active topbanner" data-anchor="topbanner">
 			<section class="pagex">
 				<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image" />
 				<a href="javascript:void(0);" class="ui more arrow pop" data-content="滚动查看更多" data-variation="inverted">
@@ -650,7 +655,7 @@ h4.ui.header small{
 					<h3 class="ui header center aligned">开启蛋年之旅</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="left-text" id="instro-text">
-						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b><br/> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵营和衷共济，携手开启中国智能硬件蛋年。<br>
+						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b><br/> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵容和衷共济，携手开启中国智能硬件蛋年。<br>
 						<br>
 						<b style="line-height: 25px;">·&nbsp;&nbsp;1500+件智能硬件申请吉尼斯<br>
 						·&nbsp;&nbsp;甄选最火爆TOP100<br>
@@ -674,7 +679,7 @@ h4.ui.header small{
 			</section>
 		</div>
 
-		<div class="section" data-anchor="specially">
+		<div class="section specially" data-anchor="specially">
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">特邀嘉宾</h3>
@@ -752,10 +757,10 @@ h4.ui.header small{
 			</section>
 		</div>
 
-		<div class="section" data-anchor="guest">
+		<div class="section guest" data-anchor="guest">
 			<section class="page">
 				<div class="w-1180">
-					<h3 class="ui header center aligned">重要嘉宾<small>（拟）</small></h3>
+					<h3 class="ui header center aligned">重要嘉宾</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="h-196 mt-25">
 						<div class="w-160">
@@ -813,7 +818,7 @@ h4.ui.header small{
 							<div class="chf">
 								<div class="guest-word">
 									<h5 class="ui header">陈慧芳</h5>
-									<h5>苏宁</h5>
+									<h5>苏宁众包</h5>
 								</div>
 							</div>
 						</div>
@@ -821,7 +826,7 @@ h4.ui.header small{
 							<div class="ghs">
 								<div class="guest-word">
 									<h5 class="ui header">高洪偲</h5>
-									<h5>京东</h5>
+									<h5>京东众筹</h5>
 								</div>
 							</div>
 						</div>
@@ -829,7 +834,7 @@ h4.ui.header small{
 							<div class="tm">
 								<div class="guest-word">
 									<h5 class="ui header">唐沐</h5>
-									<h5>小米</h5>
+									<h5>小米科技</h5>
 								</div>
 							</div>
 						</div>
@@ -970,14 +975,14 @@ h4.ui.header small{
 						<div class="w-875">
 							<div class="pass">
 								<i class="fa fa-circle-o"></i>
-								<h3>种&nbsp;蛋</h3>
+								<h3>孵&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">04月11日 / 16:00 - 17:00</p>
 								<i class="flat position icon"></i>
 								<p class="timme">751火车头广场·北京</p>
 								<div style="background:#c87bc0;height:1px;width:445px;margin:3px 33px;"></div>
 								<h3 class="timm-line">共同创造吉尼斯世界纪录</h3>
-								<p class="econtent">中国智能硬件蛋年已然开启,全球最具人气超火爆智能硬件汇集于此,硬件圈大咖齐出手,将智能硬件的希望亲手种下,5年、10年、100年，当岁月模糊了时光，当年的梦想重见天日时，有多少我们引以为傲的智能硬件产品被时间沙漏掩埋,又有多少智能硬件被光阴瓦砾打磨得更加闪亮！</p>
+								<p class="econtent">中国智能硬件蛋年已然开启,全球最具人气超火爆智能硬件汇集于此,硬件圈大咖齐出手,将智能硬件的希望亲手封存,5年、10年、100年，当岁月模糊了时光，当年的梦想重见天日时，有多少我们引以为傲的智能硬件产品被时间沙漏掩埋,又有多少智能硬件被光阴瓦砾打磨得更加闪亮！</p>
 							</div>
 						</div>
 					</div>
