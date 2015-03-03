@@ -123,7 +123,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		
 		// 获取红包
 		$bonus = new Sher_Core_Model_Bonus();
-		$result = $bonus->pop();
+		$result = $bonus->pop('T9');
 		
 		if(empty($result)){
 			return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
