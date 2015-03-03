@@ -581,7 +581,6 @@ h4.ui.header small{
 }
 </style>
 {% endblock %}
-
 {% block jquery %}
 	skrollr.init({
 		forceHeight: false,
@@ -591,6 +590,11 @@ h4.ui.header small{
 	$('.ui.tabox').smint({
   	'scrollSpeed' : 1000
   });
+	
+	$('.pagex a.arrow').click(function(){
+			$("html, body").stop().animate({ scrollTop: $(window).height() + $('.ui.eggmenu').height() }, 500);
+			return false;
+		});
 	phenix.birdegg.init();
 	
 	// 分享按钮
@@ -654,7 +658,7 @@ h4.ui.header small{
 				<div class="w-1180">
 					<h3 class="ui header center aligned">开启蛋年之旅</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
-					<div class="left-text" id="instro-text">
+					<div class="left-text" id="instro-text"  data-700="transform: translateX(-200px);opacity: 0;" data-900="transform: translateX(0px);opacity: 1;">
 						<div class="summary"><b>中国智能硬件 . 蛋年创新大会</b><br/> 是中国首个集合多阵营的业内创新交流活动,物联网时代,单兵作战的力量已经完全不足以掀起智能硬件的大潮。为此,硬件、媒体、投资、平台、机构五大阵容和衷共济，携手开启中国智能硬件蛋年。<br>
 						<br>
 						<b style="line-height: 25px;">·&nbsp;&nbsp;1500+件智能硬件申请吉尼斯<br>
@@ -664,7 +668,7 @@ h4.ui.header small{
 						
 					
 					</div>
-					<div class="right-text">
+					<div class="right-text"  data-700="transform: translateX(200px);opacity: 0;" data-900="transform: translateX(0px);opacity: 1;">
 						<img src="{{ app_url_packaged }}/images/ball.png" class="ball" />
 						<img src="{{ app_url_packaged }}/images/platfam.png" class="platfam" />
 						<div class="five">
@@ -685,7 +689,7 @@ h4.ui.header small{
 					<h3 class="ui header center aligned">特邀嘉宾</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="h-252 mt-50" id="specialer01">
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1450="transform: scale(0.2);opacity: 0;" data-1600="transform: scale(1);opacity: 1;">
 							<div class="xxp">
 								<div class="word">
 									<h4 class="ui header">徐小平</h4>
@@ -693,7 +697,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-252">
+						<div class="w-252" data-1450="transform: scale(0.6);opacity: 0;" data-1600="transform: scale(1);opacity: 1;">
 							<div class="lkf">
 								<div class="word">
 									<h4 class="ui header">李开复</h4>
@@ -701,7 +705,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1450="transform: scale(0.2);opacity: 0;" data-1600="transform: scale(1);opacity: 1;">
 							<div class="hhq">
 								<div class="word">
 									<h4 class="ui header">胡海泉<small>（拟）</small></h4>
@@ -709,7 +713,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-252">
+						<div class="w-252" data-1450="transform: scale(0.6);opacity: 0;" data-1600="transform: scale(1);opacity: 1;">
 							<div class="lwq">
 								<div class="word">
 									<h4 class="ui header">黎万强</h4>
@@ -719,7 +723,7 @@ h4.ui.header small{
 						</div>
 					</div>
 					<div class="h-252 mt-50" id="specialer02">
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1600="transform: scale(0.2);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
 							<div class="ldh">
 								<div class="word">
 									<h4 class="ui header">刘东华</h4>
@@ -727,7 +731,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-50">
+						<div class="w-252 mt-50" data-1600="transform: scale(0.6);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
 							<div class="so">
 								<div class="word">
 									<h4 class="ui header">卢刚</h4>
@@ -735,7 +739,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-25">
+						<div class="w-252 mt-25" data-1600="transform: scale(0.2);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
 							<div class="mcw">
 								<div class="word">
 									<h4 class="ui header">麻长炜</h4>
@@ -743,7 +747,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-50">
+						<div class="w-252 mt-50" data-1600="transform: scale(0.6);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
 							<div class="zp">
 								<div class="word">
 									<h4 class="ui header">张鹏</h4>
@@ -763,7 +767,7 @@ h4.ui.header small{
 					<h3 class="ui header center aligned">重要嘉宾</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					<div class="h-196 mt-25">
-						<div class="w-160">
+						<div class="w-160" data-2000="transform: scale(0.1);opacity: 0.4;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="jp">
 								<div class="guest-word">
 									<h5 class="ui header">季鹏</h5>
@@ -771,7 +775,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2000="transform: scale(0.7);opacity: 0.1;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="su">
 								<div class="guest-word">
 									<h5 class="ui header">Sonny Vu</h5>
@@ -779,7 +783,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2000="transform: scale(0.4);opacity: 0.3;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="ch">
 								<div class="guest-word">
 									<h5 class="ui header">常虹</h5>
@@ -787,7 +791,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2000="transform: scale(0.1);opacity: 0.4;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="zhj">
 								<div class="guest-word">
 									<h5 class="ui header">赵何娟</h5>
@@ -795,7 +799,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2000="transform: scale(0.7);opacity: 0.1;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="sc">
 								<div class="guest-word">
 									<h5 class="ui header">申晨</h5>
@@ -803,7 +807,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2000="transform: scale(0.4);opacity: 0.3;" data-2200="transform: scale(1);opacity: 1;">
 							<div class="wy">
 								<div class="guest-word">
 									<h5 class="ui header">未远</h5>
@@ -814,7 +818,7 @@ h4.ui.header small{
 					</div>
 				
 					<div class="h-196">
-						<div class="w-160">
+						<div class="w-160" data-2250="transform: scale(0.7);opacity: 0.1;" data-2450="transform: scale(1);opacity: 1;">
 							<div class="chf">
 								<div class="guest-word">
 									<h5 class="ui header">陈慧芳</h5>
@@ -822,7 +826,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160"  data-2250="transform: scale(0.4);opacity: 0.3;" data-2450="transform: scale(1);opacity: 1;">
 							<div class="ghs">
 								<div class="guest-word">
 									<h5 class="ui header">高洪偲</h5>
@@ -830,7 +834,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2250="transform: scale(0.1);opacity: 0.4;" data-2450="transform: scale(1);opacity: 1;">
 							<div class="tm">
 								<div class="guest-word">
 									<h5 class="ui header">唐沐</h5>
@@ -838,7 +842,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2250="transform: scale(0.7);opacity: 0.1;" data-2450="transform: scale(1);opacity: 1;">
 							<div class="ysy">
 								<div class="guest-word">
 									<h5 class="ui header">杨世毅</h5>
@@ -846,7 +850,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160"  data-2250="transform: scale(0.4);opacity: 0.3;" data-2450="transform: scale(1);opacity: 1;">
 							<div class="lxl">
 								<div class="guest-word">
 									<h5 class="ui header">赖晓凌</h5>
@@ -854,7 +858,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2250="transform: scale(0.1);opacity: 0.4;" data-2450="transform: scale(1);opacity: 1;">
 							<div class="twl">
 								<div class="guest-word">
 									<h5 class="ui header">童玮亮</h5>
@@ -865,7 +869,7 @@ h4.ui.header small{
 					</div>
 				
 					<div class="h-196">
-						<div class="w-160">
+						<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2800="transform: scale(1);opacity: 1;">
 							<div class="bliu">
 								<div class="guest-word">
 									<h5 class="ui header">Bill liu</h5>
@@ -873,7 +877,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2800="transform: scale(1);opacity: 1;">
 							<div class="twm">
 								<div class="guest-word">
 									<h5 class="ui header">田文苗</h5>
@@ -881,7 +885,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2800="transform: scale(1);opacity: 1;">
 							<div class="fch">
 								<div class="guest-word">
 									<h5 class="ui header">封昌红</h5>
@@ -889,7 +893,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2800="transform: scale(1);opacity: 1;">
 							<div class="zl">
 								<div class="guest-word">
 									<h5 class="ui header">张路</h5>
@@ -897,7 +901,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2800="transform: scale(1);opacity: 1;">
 							<div class="jw">
 								<div class="guest-word">
 									<h5 class="ui header">贾伟</h5>
@@ -905,7 +909,7 @@ h4.ui.header small{
 								</div>
 							</div>
 						</div>
-						<div class="w-160">
+						<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2800="transform: scale(1);opacity: 1;">
 							<div class="lhb">
 								<div class="guest-word">
 									<h5 class="ui header">雷海波</h5>
