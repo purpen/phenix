@@ -209,8 +209,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
 	 * 分类
 	 */
 	public function category(){
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$query   = array();
 		$options = array();
@@ -224,6 +224,13 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
 		
         $service = Sher_Core_Service_Category::instance();
         $result = $service->get_category_list($query, $options);
+
+      // 重建数据结果
+      $data = array();
+      for($i=0;$i<count($result['rows']);$i++){
+        //特殊字符转换$amp;
+        $result['rows'][$i]['title'] = htmlspecialchars_decode($result['rows'][$i]['title']);
+      }
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
@@ -233,8 +240,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
 	 */
 	public function replis(){
 		$type = Sher_Core_Model_Comment::TYPE_TOPIC;
-		$page = $this->stash['page'];
-		$size = $this->stash['size'];
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		// 请求参数
         $user_id = $this->current_user_id;
@@ -262,7 +269,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
         $options['size'] = $size;
         $options['sort_field'] = 'earliest';
 		
-		// 开启查询
+		  // 开启查询
         $service = Sher_Core_Service_Comment::instance();
         $result = $service->get_comment_list($query, $options);
 		

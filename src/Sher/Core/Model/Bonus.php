@@ -123,13 +123,17 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	/**
 	 * 赠送给某人
 	 */
-	public function give_user($code, $user_id){
+	public function give_user($code, $user_id, $expired_time=0){
 		$crt = array('code' => $code);
-		
+    if($expired_time){
+      $expired_at = (int)$expired_time;
+    }else{
+      $expired_at = time() + 30*24*60*60;
+    }
 		return $this->update_set($crt, array(
 			'user_id' => (int)$user_id,
 			'get_at'  => time(),
-			'expired_at' => time() + 30*24*60*60,
+			'expired_at' => $expired_at,
 			# 标识所属状态
 			'status' => self::STATUS_GOT,
 		));
@@ -232,6 +236,43 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 					'code'   => $code,
 					'amount' => $amount,
 					'xname'  => $xname,
+				));
+			}catch(Sher_Core_Model_Exception $e){
+				Doggy_Log_Helper::error('Failed to create bonus:'.$e->getMessage());
+			}
+		}
+	}
+
+	/**
+	 * 批量生成指定限额红包
+	 * @var $count 默认生成红包数量
+	 */
+	public function create_specify_bonus($count=5, $xname='RE', $char='A', $min_char='A'){
+		# 红包金额
+	  $bonus = array(
+			'A' => 50,
+			'B' => 100, 
+    );
+
+    #最低限额
+    $min_amounts = array(
+      'A' =>  99,
+      'B' =>  199,
+    );
+		
+    for($i=0; $i<$count; $i++){
+      //生成指定金额
+      $amount = $bonus[$char]; 
+      $min_amount = $min_amounts[$min_char];
+			$code = self::rand_number_str(8);
+			
+			try{
+				// 生成新红包
+				$this->create(array(
+					'code'   => $code,
+					'amount' => $amount,
+          'xname'  => $xname,
+          'min_amount'  => $min_amount,
 				));
 			}catch(Sher_Core_Model_Exception $e){
 				Doggy_Log_Helper::error('Failed to create bonus:'.$e->getMessage());
