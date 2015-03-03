@@ -634,13 +634,18 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		try{
 			$data = array();
-			$card_money = Sher_Core_Util_Shopping::get_card_money($code);
-			// 更新临时订单
 			$model = new Sher_Core_Model_OrderTemp();
+      $result = $model->first(array('rid'=>$rid));
+      if (empty($result)){
+        return $this->ajax_json('找不到订单！', true);
+      }
+      $total_money = $result['dict']['total_money'];
+			$card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money);
+
+			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
 			if($ok){
 				$data['card_money'] = $card_money*-1;
-				
 				$result = $model->first(array('rid'=>$rid));
 				if (empty($result)){
 					return $this->ajax_json('订单操作失败，请重试！', true);

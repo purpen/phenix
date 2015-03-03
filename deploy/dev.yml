@@ -46,7 +46,7 @@ app.cache.memcached.default:
       port: 11211
       weight: 1
 
-# 周年庆送红包活动 开关
+# 周年庆送红包活动(包括注册,邀请送红包) 开关
 app.anniversary2015.switch: 1
 
 # 十万火计

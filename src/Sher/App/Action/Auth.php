@@ -364,6 +364,27 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove($code['_id']);
+
+        //周年庆活动送100红包
+        if(Doggy_Config::$vars['app.anniversary2015.switch']){
+          // 获取红包
+          $bonus = new Sher_Core_Model_Bonus();
+          $result_code = $bonus->pop('RE');
+          
+          // 获取为空，重新生产红包
+          while(empty($result_code)){
+            //指定生成xname为RE, 100元红包
+            $bonus->create_specify_bonus(2, 'RE', 'B', 'B');
+            $result_code = $bonus->pop('RE');
+            // 跳出循环
+            if(!empty($result_code)){
+              break;
+            }
+          }
+          
+          // 赠与红包
+          $code_ok = $bonus->give_user($result_code['code'], $user_id);
+        }
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}

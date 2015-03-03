@@ -133,7 +133,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		/*
 		while(empty($result)){
 			$bonus->create_batch_bonus(100);
-			$result = $bonus->pop();
+			$result = $bonus->pop('T9');
 			// 跳出循环
 			if(!empty($result)){
 				break;

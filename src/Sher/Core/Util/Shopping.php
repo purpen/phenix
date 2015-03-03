@@ -84,7 +84,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 	/**
 	 * 获取红包金额
 	 */
-	public static function get_card_money($code){
+	public static function get_card_money($code, $total_money=0){
 		$model = new Sher_Core_Model_Bonus();
 		$bonus = $model->find_by_code($code);
 		$card_money = 0.0;
@@ -103,7 +103,11 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		// 是否过期
 		if ($bonus['expired_at'] && $bonus['expired_at'] < time()){
 			throw new Sher_Core_Model_Exception('红包已被过期！');
-		}
+    }
+    //是否满足限额条件
+    if(!empty($bonus['min_amount']) && $bonus['min_amount'] > $total_money){
+ 			throw new Sher_Core_Model_Exception('此红包满'.$bonus['min_amount'].'元才可使用！');   
+    }
 		$card_money = $bonus['amount'];
 		
 		return $card_money;
