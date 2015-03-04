@@ -11,6 +11,9 @@
 		margin-left:0 !important;
 		margin-right:0 !important;
 	}
+	.ui.eggmenu{
+		display:block;
+	}
 	.ui.tabox{
 		background:#000!important;
 	}
@@ -18,6 +21,11 @@
 	border-radius: .2875em;
 	padding: .5em 0em;
 	width: 47%;
+}
+.contact .ui.grid{
+	padding: 0 12%;
+	margin: 4rem auto;
+	color: #fff;
 }
 .w-252{
 	width:252px;
@@ -579,6 +587,18 @@ h4.ui.header small{
 .pagex{
 	height:700px !important;
 }
+.position+.timme{
+	margin-left:-2px !important;
+}
+.fa{
+	width: 29px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: -15px;
+}
+.stuffs .ui.cards>.card>.image,.stuffs .ui.cards>.card>.image:hover{
+	overflow: visible !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -592,10 +612,7 @@ h4.ui.header small{
   		'scrollSpeed' : 1000
   	});
 	
-	$('.pagex a.arrow').click(function(){
-			$("html, body").stop().animate({ scrollTop: $(window).height() + $('.ui.eggmenu').height() }, 500);
-			return false;
-	});
+	
 	phenix.birdegg.init();
 
 	
@@ -609,12 +626,12 @@ h4.ui.header small{
 {% endblock %}
 
 {% block content %}
-<div class="ui eggmenu">
+<div class="ui eggmenu tabox">
 	<div class="ui responsive grid">
 		<div class="two column middle aligned row">
 			<div class="twelve wide column">
 				<div class="ui tabs">
-					<a class="tab smt" href="#topbanner">首页</a>
+					<a class="tab active smt" href="#topbanner">首页</a>
 					<a class="tab smt" href="#instro">关于蛋年</a>
 					<a class="tab smt" href="#specially">特邀嘉宾</a>
 					<a class="tab smt" href="#process">活动流程</a>
@@ -932,7 +949,9 @@ h4.ui.header small{
 						</div>
 						<div class="w-875">
 							<div class="pass">
-								<i class="fa fa-circle-o"></i>
+								<div class="fa">
+									<img src="{{ app_url_packaged }}/images/egg_round.png" width="100%">
+								</div>
 								<h3>采&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">03月01日- 04月01日</p>
@@ -952,7 +971,9 @@ h4.ui.header small{
 						</div>
 						<div class="w-875">
 							<div class="pass">
-								<i class="fa fa-circle-o"></i>
+								<div class="fa">
+									<img src="{{ app_url_packaged }}/images/egg_round.png" width="100%">
+								</div>
 								<h3>论&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">04月11日 / 13:00 - 16:00</p>
@@ -971,7 +992,9 @@ h4.ui.header small{
 						</div>
 						<div class="w-875">
 							<div class="pass">
-								<i class="fa fa-circle-o"></i>
+								<div class="fa">
+									<img src="{{ app_url_packaged }}/images/egg_round.png" width="100%">
+								</div>
 								<h3>孵&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">04月11日 / 16:00 - 17:00</p>
@@ -1061,12 +1084,12 @@ h4.ui.header small{
 						<img src="{{ app_url_packaged }}/images/egg_tco.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_ifengo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_sohuo.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_wangyio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_wangyioo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_qqo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_sinao.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_meno.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_fasto.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_bdo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_bdoo.jpg" class="ui image">
 					</div>
 				
 					<div class="logo">
@@ -1078,11 +1101,8 @@ h4.ui.header small{
 						<img src="{{ app_url_packaged }}/images/egg_haiero.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_ycbo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_miso.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_mko.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_tmo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_autoo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_pico.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_ino.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_yuno.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_ingo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_keyo.jpg" class="ui image">
@@ -1109,6 +1129,7 @@ h4.ui.header small{
 					<div class="logo one">
 						<p>机构圈</p>
 						<img src="{{ app_url_packaged }}/images/egg_zhdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_751.jpg">
 						<img src="{{ app_url_packaged }}/images/egg_chinao.jpg">
 						<img src="{{ app_url_packaged }}/images/egg_sidao.jpg">
 						<img src="{{ app_url_packaged }}/images/egg_weeko.jpg">
@@ -1119,7 +1140,7 @@ h4.ui.header small{
 					</div>
 					
 					<p class="mt-25">本活动由太火鸟科技发起</p>
-					<p>排名不分先后，更多主办方持续更新中......</p>
+					<p>排名不分先后，联合主办方持续更新中......</p>
 				</div>
 				<div class="w-1180 contact">
 					<h3 class="ui header center aligned">联系我们</h3>
