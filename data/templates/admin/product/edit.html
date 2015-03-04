@@ -350,6 +350,11 @@
 			</div>
 			
 			<div class="field">
+				<label>产品链接</label>
+			  	<input type="text" name="view_url" value="{{ product.view_url }}" />
+			</div>
+			
+			<div class="field">
 				<label>类别</label>
 				<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
 				{% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
@@ -602,10 +607,10 @@
 		
 		<div class="ui right aligned grid">
 			<div class="column">
-				<div class="ui gray cancel button">
+				<div class="ui gray cancel inverted button">
 					取消
 				</div>
-				<div class="ui magenta submit button">
+				<div class="ui magenta submit inverted button">
 					确认提交
 				</div>
 			</div>

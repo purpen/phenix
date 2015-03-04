@@ -45,6 +45,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     #团队介绍
     'team_introduce' => '',
 		
+		# 品牌ID
+		'cooperate_id' => '',
 		# 品牌名称
 		'brand' => '',
 		# 所属国家
@@ -53,6 +55,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'market_time' => '',
 		# 指导价格
 		'official_price' => 0,
+		
 		# 产品阶段
 		'processed' => self::PROCESS_SALE,
 		

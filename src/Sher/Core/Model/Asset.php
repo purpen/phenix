@@ -53,6 +53,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 产品灵感
 	const TYPE_STUFF = 70;
 	const TYPE_STUFF_EDITOR = 71;
+	
+	# 合作资源
+	const TYPE_COOPERATE = 80;
+	const TYPE_COOPERATE_EDITOR = 81;
 
     protected $schema = array(
 		'user_id' => '',

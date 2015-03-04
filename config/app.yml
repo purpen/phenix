@@ -88,6 +88,7 @@ app.dt.extension_lib.sher_app:
     'order_list':'Sher_Core_ViewTag_OrderList'
     'try_list':'Sher_Core_ViewTag_TryList'
     'apply_list':'Sher_Core_ViewTag_ApplyList'
+    'cooperate_list':'Sher_Core_ViewTag_CooperateList'
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
     'user_list':'Sher_App_ViewTag_UserList'

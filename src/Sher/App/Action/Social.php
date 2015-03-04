@@ -15,7 +15,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist');
+	protected $exclude_method_list = array('execute','index','mentors','get_list','dream','allist');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
