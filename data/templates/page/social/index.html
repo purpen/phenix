@@ -64,8 +64,8 @@
 		</div>
 		<div class="row">
 			<div class="column">
-				{% stuff_list var:'stufflist' sticked:1 size:4 %}
-				<div class="ui four cards">
+				{% stuff_list var:'stufflist' sticked:1 size:3 %}
+				<div class="ui three cards">
 					{% for stuff in stufflist.rows %}
 				  	<div class="card">
 				    	<div class="image">
@@ -122,7 +122,7 @@
 								<th>发布者</th>
 								<th>主题</th>
 								<th>最后回应</th>
-								<th>浏览数</th>
+								<th class="center aligned">浏览数</th>
 							</tr>
 						</thead>
 						<tbody>
