@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-03-04 11:04:46
+//dump on 2015-03-04 12:05:28
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -367,7 +367,7 @@ Doggy_Config::add( array (
   'app.url.advertise.view' => 'http://taihuoniao.me/app/site/tracker?kid=%s',
   'app.url.birdegg' => 'http://taihuoniao.me/birdegg',
   'app.url.cooperate' => 'http://taihuoniao.me/app/site/cooperate',
-  'app.url.incubator' => 'http://taihuoniao.me/app/site/incubator',
+  'app.url.incubator' => 'http://taihuoniao.me/incubator',
   'app.url.wechat' => 'http://taihuoniao.me/wechat',
   'app.url.mm_shop.view' => 'http://taihuoniao.me/wechat/%s.html',
   'app.url.jsapi.wxpay' => 'http://taihuoniao.me/wxpay/',
@@ -427,9 +427,9 @@ Doggy_Config::add( array (
   'app.url.share' => 'http://taihuoniao.me/share',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b15030401',
-  'app.version.jquery_bundle_version' => 'v0.10b15030401',
-  'app.version.css_bundle_version' => 'v0.10b15030401',
+  'app.version.sher' => 'v0.10b15030402',
+  'app.version.jquery_bundle_version' => 'v0.10b15030402',
+  'app.version.css_bundle_version' => 'v0.10b15030402',
   'app.email.domains' => 
   array (
     '163.com' => 'http://mail.163.com/',
@@ -457,7 +457,6 @@ Doggy_Config::add( array (
     'sogou.com' => 'http://mail.sogou.com/',
     '189.cn' => 'http://webmail3.189.cn/webmail/',
   ),
-  0 => '{0VIM 7.4' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . 'ÒuöT.Ú' . "\0" . 'ý',
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
   'app.doggyx.class_path' => '/opt/project/php/doggy-x',
   'app.redis.default' => 
