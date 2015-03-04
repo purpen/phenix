@@ -1,8 +1,8 @@
 <?php
-//deployed on: Tue Dec  9 21:34:02 2014
+//deployed on: Tue Mar  3 13:28:38 2015
 define('DOGGY_VERSION','v1.4.2');
 define('DOGGY_APP_ROOT','/Users/xiaoyi/Project/phenix/dev_root');
-define('DOGGY_APP_CLASS_PATH','/Users/xiaoyi/Project/phenix/vendor:/Users/xiaoyi/Project/phenix/src:/Users/xiaoyi/project/doggy-x/src');
+define('DOGGY_APP_CLASS_PATH','/Users/xiaoyi/Project/phenix/vendor:/Users/xiaoyi/Project/phenix/src:/Users/xiaoyi/Project/doggy-x/src');
 require '/Users/xiaoyi/Project/doggy/src/Doggy.php';
 @require '/Users/xiaoyi/Project/phenix/dev_root/var/doggy_app.rc';
 @require 'autoload.php';

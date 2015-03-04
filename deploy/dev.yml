@@ -10,7 +10,7 @@ app.domain.base: 'http://taihuoniao.me'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
-app.doggyx.class_path: '/Users/xiaoyi/project/doggy-x'
+app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
 #app.doggyx.class_path: '/opt/project/php/doggy-x'
 
 app.url.packaged: '{$app.domain.static}'
@@ -21,20 +21,18 @@ app.css.use_bundle: 0
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
 ## mongodb
-app.mongo.default:
-  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
-  db: 'firebird'
-  username: 'root'
-  password: 'Frbird#2014$Shop'
-  replicaSet: 'she_main'
-  
-##liyingweng database 
 #app.mongo.default:
-#  host: '127.0.0.1:27017'
+#  host: '127.0.0.1:27028,127.0.0.1:27027,127.0.0.1:27029'
 #  db: 'firebird'
 #  username: 'root'
 #  password: 'Frbird#2014$Shop'
 #  replicaSet: 'she_main'
+
+## mongodb
+##tianshuai
+app.mongo.default:
+  host: '127.0.0.1'
+  db: 'firebird'
 
 # redisdb
 app.redis.default: 
@@ -48,17 +46,28 @@ app.cache.memcached.default:
       port: 11211
       weight: 1
 
-# 十万火计
-app.topic.dream_category_id: 64
+# 周年庆送红包活动(包括注册,邀请送红包) 开关
+app.anniversary2015.switch: 1
 
-# 就现在商品
+# 十万火计
+app.topic.dream_category_id: 9
+
+# 十万火计2
+app.contest.dream2_category_id: 18
+
+# 产品灵感
+app.topic.idea_category_id: 22
+# 蛋年活动
+app.birdegg.category_id: 80
+
+#抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'
-app.alipay.cacert: '/Users/xiaoyi/project/phenix/vendor/cacert.pem'
-app.alipay.pendir: '/Users/xiaoyi/project/phenix/vendor'
+app.alipay.cacert: '/opt/project/php/phenix/vendor/cacert.pem'
+app.alipay.pendir: '/opt/project/php/phenix/vendor'
 
 # 淘宝
 app.taobao.key: '21781655'
@@ -94,4 +103,6 @@ app.url.back_pay_url: 'http://202.101.25.184/UpopWeb/api/BSPay.action'
 app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
 
 # 临时数据存储目录
-app.storage.tmpdir: '/Users/xiaoyi/data/export'
+#app.storage.tmpdir: '/Users/xiaoyi/data/export'
+app.storage.tmpdir: '/opt/tmp'
+

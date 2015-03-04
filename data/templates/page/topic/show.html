@@ -2,23 +2,42 @@
 {% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+  .ui.reply.segment{
+    margin-bottom:1em !important;
+  }
 </style>
 {% endblock %}
 {% block js %}
 {% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+    $.get(url, {target_id: {{ topic._id }}, type: 2, page: current_page, per_page: per_page});
+  }
+
+</script>
+{% endblock %}
+
 {% block jquery %}
 	phenix.hook_comment_page();
+  //ajax加载评论
+  fetch_comment(1, per_page);
+
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.view_url }}'});
 	
 	// 显示编辑工具条 
+	/*
 	$('.ui.topic.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});
+	});*/
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -196,11 +215,15 @@
 		});
 	});
 	
+	$('textarea.comment-textarea').maxlength({
+      'feedback' : '.wordscount'
+  });
+	
 {% endblock %}
 
 {% block content %}
 <div id="postpage">
-	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' %}
+	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
 	{% if ad %}
 	<div class="ui responsive grid">
 		<div class="row">
@@ -218,8 +241,12 @@
 		<div class="middle aligned row">
 			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 社区
+						话题
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
@@ -232,11 +259,11 @@
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
 				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui black button">
-					<i class="add icon"></i> 发表话题
+					<i class="edit icon"></i> 发表新话题
 				</a>
 				{% else %}
 				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="add icon"></i> 发表话题
+					<i class="edit icon"></i> 发表新话题
 				</a>
 				{% endif %}
 			</div>
@@ -296,6 +323,43 @@
 			</div>
 		</div>
 		{% endif %}
+
+		{% if active %}
+		<div class="nopad row">
+			<div class="column">
+				<div class="ui segment">
+					<h3 class="ui dividing header">
+						所属活动
+					</h3>
+					<div class="ui grid">
+						<div class="row">
+							<div class="two wide column">
+								<a href="{{ active.view_url }}" title="{{ active.title }}">
+						      		<img src="{{ active.cover.thumbnails.tiny.view_url }}" class="ui image" />
+								</a>
+							</div>
+							<div class="eight wide column">
+						      	<h4 class="ui header">
+								  	<div class="content">
+										<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line link">
+											{{ active.title }}
+										</a>
+										<div class="sub header">
+                      <label>活动状态：</label> {{ active.step_str }}
+										</div>
+								  	</div>
+								</h4>
+								<p class="summary">
+									{{ active.summary }}
+								</p>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		
 		<div class="nopad row">
 			<div class="column">
@@ -318,7 +382,7 @@
 						</a>
 					</div>
 					
-					{% if topic.category_id == dream_category_id %}
+					{% if is_match_idea %}
 					<div class="post">
 						<div class="ui contest">
 							<a href="{{ app_url_domain }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
@@ -364,7 +428,7 @@
 							</div>
 						</div>
 						
-						<div class="ui icon magenta editable hide buttons">
+						<div class="ui icon black editable buttons">
 							{% if visitor.can_admin %}
 								{% if topic.top %}
 								<div class="ui pop top active button" data-content="取消置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
@@ -400,109 +464,11 @@
 					</div>
 				</div>
 				
-				
-				<a name="comment"></a>
-				<div class="ui big reply segment">
-					<div class="ui threaded minimal comments">
-						{% comment_list var:'comments' page:page target_id:topic._id %}
-						{% for comment in comments.rows %}
-						<div class="comment" id="{{ comment._id }}">
-							<a class="avatar" href="{{ comment.user.home_url }}">
-								<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-							</a>
-							<div class="content">
-								<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-								<div class="metadata">
-									<div class="date">{{ comment.created_on }}</div>
-								</div>
-								<div class="laud">
-									<a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
-										<i class="icon empty heart"></i>
-									</a>
-								</div>
-								<div class="text">
-									{{ comment.content }}
-								</div>
-								{% if visitor.is_login %}
-								<div class="actions">
-									<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-									<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-								</div>
-								<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-									<input type="hidden" name="type" value="2" />
-									<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-									<input type="hidden" name="target_id" value="{{ topic._id }}" />
-									<div class="field">
-										<textarea name="content" class="reply-content"></textarea>
-									</div>
-									<div class="ui active button magenta submit labeled icon">
-										<i class="icon location"></i> 回复
-									</div>
-								</form>
-								{% endif %}
-							</div>
-							
-							{% if comment.reply %}
-							<div class="comments">
-								{% for reply in comment.reply %}
-									<div class="comment">
-										<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-											<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-										</a>
-										<div class="content">
-											<a class="author ui magenta link" href="{{ reply.user.home_url }}">{{ reply.user.nickname }}</a>
-											<div class="metadata">
-												<div class="date">{{ reply.replied_on }}</div>
-											</div>
-											<div class="text">
-												{{ reply.content }}
-											</div>
-										</div>
-									</div>
-								{% endfor %}
-							</div>
-							{% endif %}
-							
-						</div>
-						{% endfor %}
-					</div>
-					
-					<div class="post comment">
-						<p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
-						<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-							<input type="hidden" name="target_id" value="{{ topic._id }}" />
-							<input type="hidden" name="type" value="2" />
-							<input type="hidden" name="star" value="0" />
-							<div class="field">
-								<textarea name="content" class="comment-textarea" ></textarea>
-								<div id="comment"></div>
-							</div>
-							<div class="right aligned column">
-								<input type="submit" class="ui small magenta button" value="添加评论" />
-							</div>
-							{% if !visitor.is_login %}
-							<div class="not login">
-								<div class="ui grid">
-									<div class="row">
-										<div class="center aligned column">
-											<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
-											<p class="ui gray text">注册登录后可发评论</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-						</form>
-					</div>
-					
-				</div>
-				{% if comments.rows %}
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-				{% endif %}
-			</div>
+    			<div class="ui big reply segment">
+      			<!--ajax comment-->
+      		  	<div id="comment-list"></div>
+      		  	{% include "block/comment_box_site.html" %}
+    		</div>
 			
 		</div>
 	</div>

@@ -1,0 +1,351 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第2季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.start{
+		background:url({{ app_url_packaged }}/images/match_1.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:25% 0;
+	}
+	.ui.nav {
+		border-top: 1px solid #e4e5e7;
+		border-bottom: 1px solid #e4e5e7;
+		background:#000;
+	}
+	.ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	
+	.ui.big.block{
+		padding:4rem 0 4rem;
+	}
+	p{
+		line-height:1.4em;
+	}
+	h3.ui.header{
+		margin: 2em 0 1.2rem;
+	}
+	.ui.five.items .item .image img{
+		width:75%;
+		margin:0 auto;
+	}
+	.ui.five.items>.item{
+		margin-bottom:0;
+		cursor:auto;
+	}
+	.ptop {
+		padding-top: 25px;
+	}
+	.ora img,h4+img{
+		border:1px solid #ccc;
+		margin-right: 14px;
+		margin-bottom: 7px;
+	}
+	p.last{
+		font-size: 17px;
+		margin: .3em 0;
+	}
+	.right.nav{
+		width: 80px;
+		position: fixed;
+		top: 20%;
+		right:5%;
+		z-index: 9999;
+	}
+	.right.nav .ui.items .item:first-child{
+		margin-bottom:1rem;
+	}
+	.right.nav .ui.items .item{
+		background:rgba(0,0,0,0);
+		cursor:auto;
+		text-align:center;
+		margin-bottom: .5rem;
+	}
+	.right.nav .ui.items .ui.button{
+		border-radius:0 !important;
+		background-color:#f36 !important;
+		color:#fff !important;
+		border:1px solid rgba(0,0,0,0);
+	}
+	.right.nav{
+		transition-timing-function: ease-out;
+		-moz-transition-timing-function: ease-out;
+		-webkit-transition-timing-function: ease-out;
+		-o-transition-timing-function: ease-out;
+		transition-duration: .3s;
+		-moz-transition-duration: .3s;
+		-webkit-transition-duration: .3s;
+		-o-transition-duration: .3s;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
+
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	/*
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
+	phenix.bind_share_list(pic_url);
+  */
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream2'});
+
+{% endblock %}
+{% block content %}
+<section class="start">
+	<!--<img src="{{ app_url_packaged }}/images/match_1.jpg" width="100%" height="100%" draggable="false">-->
+</section>
+<section class="ui nav responsive grid">
+	<div class="middle aligned row">
+		<div class="twelve wide column">
+			<div class="ui magenta horizontal divided list">
+				<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+        <a href="{{ app_url_contest }}/dream2/about2" class="ui link item active">活动介绍</a>
+        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+				<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+				<a href="{{ app_url_contest }}/dream2#coop" class="ui link item">合作资源</a>
+			</div>
+		</div>
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+				提交作品
+				<i class="icon-arrow-right-sharp"></i>
+			</a>
+		</div>
+	</div>
+</section>
+<section class="ui big white background block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">
+					关于大赛／ABOUT
+				</h3>
+				<p>
+	有没有这样一个大赛项目——能真正实现创意征集全民化？推崇全民参与，拒绝专业垄断？能真的做到许可征稿不设限？设计稿也好，说明文稿也罢，照单全收？能真正识别优秀产品创意并实现生产制造落地？令想法变成实物？能斥资一百万只为寻找十万个绝佳创意？创意不死，灵感永生！你只需要负责想，我们来帮你做！梦想还是要有的，万一要是实现了呢？ 或许有一天，万万没想到的是，你不经意的一个创意或许将影响整个世界！
+				</p>
+				<p>		“十万火计”为太火鸟精品长线创意征集大赛活动，大赛第一季首期即开启就取得了社会的广泛关注，此次为第二季校园专属季，面向全国广大校园学生群体特别开展，多维度征集产品创意。自古英雄出少年，少年英雄多创意！恰同学少年，风华正茂，太火鸟广发英雄帖欢迎各位在校师生以个人或团队形式参加十万火计，如果你是设计学院专业出身我们欢迎你，如果你是财经、人文、理工其他非设计专业的同学我们更加欢迎你！不需要你那么懂设计，只需要你有想法，在十万火计里，是每个有创意有梦想的人的主场，太火鸟邀请你们一起用右脑思维缔造性感产品！
+				</p>
+				<h3 class="ui header">征集内容 / COLLECTION</h3>	<p>产品设计创意（包含且不仅限于智能硬件产品、科技产品、创意相关产品）可穿戴、智能硬件、智能家居、医疗健康、创意产品、生活周边……（以具体代表产品图形形式来呈现）表现形式不限，以清晰传达理念为标准，可以使未成形的创意点子，也可以是已成型的产品，可以是设计图稿，也可以仅仅只是说明文稿。只要能保证受众可以轻松看懂并领会精神即可。</p>
+				<p>作品须符合以下要求：<br/>
+					1、设计作品须紧扣以上所述产品类型提交；<br/>
+					2、作品为参赛者原创，可以团体或多人合作，需标明学校、作者及合作者姓名；<br/>
+				</p>
+				<h3 class="ui header">关于大赛／ABOUT</h3>
+				<p>
+					征集阶段：2015年02月08日-06月20日<br/>
+					入围公示：2015年06月22日<br/>
+					评审阶段：2015年06月25日<br/>
+					获奖公示：2015年06月29日<br/>
+				</p>
+				<h3 class="ui header">评审专家 / JUDGES</h3>
+				<div class="ui five ptop center aligned items">
+					<div class="item">
+						<div class="image">
+							<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">徐小平</h4>
+							<h5>真格天使投资基金创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">黎万强</h4>
+							<h5>小米科技联合创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">贾伟</h4>
+							<h5>洛可可设计集团创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">童玮亮</h4>
+							<h5>梧桐树资本创始合伙人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">雷海波</h4>
+							<h5>太火鸟创始人\CEO</h5>
+						</div>
+					</div>
+				</div>
+				
+				<div class="ui five center aligned items">
+					<div class="item">
+						<div class="image">
+							<img alt="刘毅" src="{{ app_url_packaged }}/images/match_25.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">刘毅</h4>
+							<h5>广州美术学院交互设计工作室</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="付志勇" src="{{ app_url_packaged }}/images/match_26.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">付志勇</h4>
+							<h5>清华美院信息艺术设计系副主任</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="孙远波"src="{{ app_url_packaged }}/images/match_27.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">孙远波</h4>
+							<h5>北京理工大学设计与艺术学院 工业设计系主任</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="王昀"src="{{ app_url_packaged }}/images/match_28.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">王昀</h4>
+							<h5>中国美院设计艺术学院副院长</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img alt="彦风" src="{{ app_url_packaged }}/images/match_29.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">彦风</h4>
+							<h5>国家数字媒体创新设计 研究中心主任</h5>
+						</div>
+					</div>
+				</div>
+				
+				<h3 class="ui header">梦想回报 / REPAY</h3>
+				<p>
+					1、一等奖（1名），奖金10000元＋荣誉证书<br/>
+					2、二等奖（2名），ipad mini 64G＋荣誉证书<br>
+					3、三等奖（3名），wacom Bamboo绘图板＋荣誉证书
+				</p>
+				<h3 class="ui header">组织机构 / ORGANIZATION</h3>
+				<h4>主办单位</h4>
+				<img src="{{ app_url_packaged }}/images/thn_logo.jpg">
+				<h4>合作伙伴</h4>
+				<div class="ora">
+					<img src="{{ app_url_packaged }}/images/zymy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/qhmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/gzmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/zgmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/hbmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/xamy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/lxmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/scmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/tjmy_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/zjdx_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/bjlg_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/xhckh_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/ckkj_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/shijue_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/zcool_logo.jpg">
+					<img src="{{ app_url_packaged }}/images/billwang_logo.jpg">
+				</div>
+				<h3 class="ui header">
+					版权声明 / COPYRIGHT
+				</h3>
+				<p>依据国家有关法律法规，凡主动提交作品的“参赛者”或“作者”，</p>
+				<p>
+					特此承诺对其所提交的作品版权归属作如下不可撤销之声明：<br/>
+					1 / 原创声明参赛作品是参赛者原创作品，未侵犯任何他人的任何专利、著作权、商标权及其他知识产权；该作品未在报刊、杂志、网站及其它媒体公开发表，未申请专利或进行版权登记的作品，未参加过其他比赛，未以任何形式进入商业渠道。获奖设计师保证参赛作品终身不以同一作品形式参加其他的设计比赛或转让给他方。否则，主办单位将取消其参赛、入围与获奖资格，收回奖金、奖品及并保留追究法律责任的权利,由此给主办方及其附属单位造成损失的，参赛者应当赔偿。
+				</p>
+				<p>
+					2 / 参赛作品知识产权归属：获奖作品作为委托创作作品，其全部著作权归大赛主办方所有（即太火鸟所有）。包括但不限于以下方式行使著作权：享有对所属大赛作品方案进行再设计、生产、销售、展示、出版和宣传等权利。大赛主办方对所有获奖作品拥有展示和宣传等权利。其它任何单位和个人（包括作者本人）未经授权不得以任何形式对作品转让、复制、转载、传播、摘编、出版、发行、许可使用等。
+				</p>
+				<p>
+					3 / 参赛者提交作品之前，已仔细阅读上述条款，充分理解并表示同意。
+				</p>	
+				<p>
+					本次大赛的评委会拥有对所有获奖作品的最终裁定权
+				</p>
+				<h3 class="ui header">
+					联系方式 / CONTACT
+				</h3>
+				<p class="last">大赛组委会联络人：柳笛</p>
+				<p class="last">Tel： 010-84599328</p>
+				<p class="last">E-mail： liudi @ taihuoniao.com</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="right nav" data-1380="transform: translateX(300px);-webkit-transform: translateX(300px);" data-1381="transform: translateX(0px);-webkit-transform: translateX(0px);">
+	<div class="ui grid">
+		<div class="row">
+			<div class="ui one items">
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/match_0033.gif" width="100%">
+				</div>
+				<div class="item">
+					<a href="http://weibo.com/taihuoniao" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
+										<i class="flat icon_weibo icon"></i>
+									</a>
+				</div>
+				<div class="item">
+					<a href="http://t.qq.com/taihuoniao" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
+										<i class="flat icon_qqweibo icon"></i>
+									</a>
+				</div>
+				<div class="item">
+					<a href="javascript:void(0);" id="douban-share" class="ui douban circular share icon button" title="豆瓣">
+						<i class="flat icon_douban icon"></i>
+					</a>
+				</div>
+				<div class="item">
+					<a href="" class="ui green circular share wechat icon button" title="微信">
+										<i class="flat icon_weixin icon"></i>
+									</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

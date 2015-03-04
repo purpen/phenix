@@ -14,6 +14,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_TOPIC   = 'topic';
 	const STROAGE_TRY     = 'try';
 	const STROAGE_ASSET   = 'asset';
+    const STROAGE_ACTIVE  = 'active';
+	const STROAGE_STUFF   = 'stuff';
+	const STROAGE_COOPERATE = 'cooperate';
 	
 	/**
 	 * 类型的常量
@@ -21,6 +24,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TYPE_DEFAULT = 0;
 	const TYPE_PRODUCT = 1;
 	const TYPE_TOPIC   = 2;
+    const TYPE_ACTIVE  = 3;
+	const TYPE_STUFF   = 4;
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
@@ -52,6 +57,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	 * DigList推荐Id
 	 */
 	const DIG_TOPIC_TOP = 'dig_topic_top';  // 全部置顶主题列表
+	
+	const FEATURED_STUFF = 'featured_stuff_list';
 	
 	
 	/**
@@ -110,6 +117,20 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * @var int
      */
     const ORDER_READY_GOODS = 10;
+
+    /**
+     * 申请退款
+     * 
+     * @var int
+     */
+    const ORDER_READY_REFUND = 12;
+
+    /**
+     * 已退款成功
+     * 
+     * @var int
+     */
+    const ORDER_REFUND_DONE = 13;
 	
     /**
      * 订单已发货状态

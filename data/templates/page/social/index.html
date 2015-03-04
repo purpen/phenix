@@ -1,19 +1,197 @@
-{%extends 'layout/board.html'%}
-{% block title %}提交创意-{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}发现-{% endblock %}
 {% block page_css %}
+<style type="text/css">
+
+</style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
+	$('#sticktopic .list .item').tab({
+	    context: $('#sticktopic')
+	});
 {% endblock %}
 
 
 {% block content %}
-<div class="social">
+<div class="shop submenu">
 	<div class="ui responsive grid">
-		<div class="ui column">
-			社区
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
 		</div>
 	</div>
 </div>
+
+<div class="social slide">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ten wide column">
+				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
+				{% if ad %}
+				<div class="slide content">
+					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+					</a>
+				</div>
+				{% endif %}
+			</div>
+			<div class="six wide column">
+				{% ad_list var:'stkad' page:1 size:2 name:'find_right_stick' state:2 %}
+				{% if stkad.total_rows %}
+					{% for skad in stkad.rows %}
+					<div class="ui advert">
+						<a href="{{ skad.view_url }}" title="{{ skad.title }}" target="_blank">
+				      		<img src="{{ skad.cover.fileurl }}" class="ui image" alt="{{ skad.title }}" />
+						</a>
+					</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social products">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h2 class="block title">
+					产品灵感 <small>各行业专家汇聚，创造未来伟大的产品</small>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% stuff_list var:'stufflist' sticked:1 size:4 %}
+				<div class="ui four cards">
+					{% for stuff in stufflist.rows %}
+				  	<div class="card">
+				    	<div class="image">
+				      	  	<a href="{{ stuff.view_url }}" title="{{ stuff.title }}">
+								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+							</a>
+				    	</div>
+				    	<div class="content">
+				      	  	<div class="header">
+								<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+							</div>
+				      	  	<div class="description">
+				        		{{ stuff.strip_description|truncate 60 '' }}
+				      	  	</div>
+				    	</div>
+				    	<div class="extra">
+				      	  	<a class="right floated created">
+								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+							</a>
+							<a href="{{ stuff.user.home_url }}" class="ui icon link">
+								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+							</a>
+				    	</div>
+				  	</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social topic" id="sticktopic">
+	<div class="ui responsive grid">
+		<div class="two column middle aligned row">
+			<div class="column">
+				<div class="ui horizontal divided subcate list">
+					<a class="item active" data-tab="featured">精选话题</a>
+					<a class="item" data-tab="newest">最新话题</a>
+				</div>
+			</div>
+			<div class="right aligned column">
+				<a href="{{ app_url_action_base }}/topic/submit" class="ui inverted gray button">
+					<i class="edit icon"></i> 发表新话题
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui tab active segment" data-tab="featured">
+					<table class="ui basic topic striped table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>浏览数</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% topic_list var:'sticklist' time:0 type:1 size:8 %}
+							{% for topic in sticklist.rows %}
+								{% include "block/topic_item.html" %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="ui tab segment" data-tab="newest">
+					<table class="ui basic topic striped table">
+						<thead>
+							<tr>
+								<th>发布者</th>
+								<th>主题</th>
+								<th>最后回应</th>
+								<th>浏览数</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% topic_list var:'list' time:0 sort:0 size:8 %}
+							{% for topic in list.rows %}
+								{% include "block/topic_item.html" %}
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social people">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h2 class="block title">
+					资深专家 <small>超过 2000个行业专家在创造未来</small>
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+				<div class="ui mentors four cards">
+					{% for user in users.rows %}
+				  	<div class="card">
+						<div class="mentor">
+							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
+							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+							<h3>{{ user.nickname }}</h3>
+							<p>{{ user.mentor_info.name }} {{ user.city }}</p>
+						</div>
+				  	</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_social }}/mentors" class="ui inverted gray button">
+					<i class="search icon"></i>浏览全部专家
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

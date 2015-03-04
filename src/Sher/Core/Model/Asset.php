@@ -37,6 +37,27 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 话题编辑器图片
 	const TYPE_EDITOR_TOPIC = 55;
 
+    # 合作联系图片,1.产品合作
+    const TYPE_CONTACT = 60;
+
+    # 后台区块编辑器图片
+    const TYPE_EDITOR_BLOCK = 63;
+
+    # 活动图片
+    const TYPE_ACTIVE = 65;
+    # 活动编辑器图
+    const TYPE_EDITOR_ACTIVE = 66;
+    # 活动用户上传图
+    const TYPE_USER_ACTIVE = 67;
+	
+	# 产品灵感
+	const TYPE_STUFF = 70;
+	const TYPE_STUFF_EDITOR = 71;
+	
+	# 合作资源
+	const TYPE_COOPERATE = 80;
+	const TYPE_COOPERATE_EDITOR = 81;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',
@@ -49,6 +70,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
         'width' => 0,
         'height' => 0,
 		'mime' => null,
+    	'desc'  =>  null,
 		
 		## 缩略图组
 		/*
@@ -78,7 +100,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	protected $thumbnails = array('mini','tiny','small','medium','large','big','huge','massive');
 	
 	protected $thumbnails_styles = array(
-		'mini' => 'mi.jpg', 
+		'mini' => 's.jpg', 
 		'tiny' => 'ti.jpg', 
 		'small' => 'sm.jpg', 
 		'medium' => 'me.jpg',
@@ -88,12 +110,13 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'massive' => 'ma.jpg',
 	);
 	
-	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1);
+	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1,'asset_type'=>1,'parent_id'=>1, 'size'=>1, 'desc'=>1, 'width'=>1, 'height'=>1);
 	
 	# 响应式设计所需图
 	protected $thumbnails_resp = array(
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
+		'md'  => 'm.jpg',
 	);
 
     protected $required_fields = array('filepath');
@@ -217,6 +240,24 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     }
 	
 	/**
+	 * 批量更新附件所属对象
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		for($i=0; $i<count($ids); $i++){
+			$this->update_set($ids[$i], array('parent_id' => $parent_id));
+		}
+		return true;
+	}
+	
+	/**
+	 * 更新编辑器上传附件
+	 */
+	public function update_editor_asset($file_id, $parent_id){
+		$criteria = array('file_id'=>$file_id);
+		return $this->update_set($criteria, array('parent_id' => $parent_id), false, true, true);
+	}
+	
+	/**
 	 * 删除附件记录及附件文件
 	 */
 	public function remove_and_file($query=array()) {
@@ -300,6 +341,13 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	public function file_content(){
 		return $this->file_content;
 	}
+
+  /**
+   * 返回所有缩略图后缀
+   */
+  public function thumb_info(){
+    return $this->thumbnails_styles;
+  }
 	
 	
 }

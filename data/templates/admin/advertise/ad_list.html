@@ -28,14 +28,14 @@
 		</form>
 	</div>
 	
-	{% ad_list var:'list' page:page space_id:space_id %}
+	{% ad_list var:'list' page:page space_id:space_id sort_field:'latest' %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th></th>
 				<th>图片</th>
-				<th>标题</th>
-				<th>链接</th>
+				<th>标题/链接</th>
+        <th>排序</th>
 				<th>点击数量</th>
 				<th>所属位置</th>
 				<th>状态</th>
@@ -52,19 +52,20 @@
 					</div>
 				</td>
 				<td>
-					
+					<div class="ui image">
+						<img src="{{ ad.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
 				</td>
 				<td>
 		          	<div class="header">
 						<a href="{{ ad.view_url }}" class="ui link" target="_blank">
-							{{ ad.title|truncate, 16 }}
+							{{ ad.title|truncate, 30 }}
 						</a>
 					</div>
+              <p><a href="{{ ad.view_url }}" class="ui link" target="_blank">{{ ad.web_url|truncate 30 }}</a></p>
 		          	<p class="attribute">编号：{{ ad._id }}</p>
 				</td>
-				<td>
-					<a href="{{ ad.view_url }}" class="ui link" target="_blank">{{ ad.web_url|truncate 30 }}</a>
-				</td>
+        <td>{{ ad.ordby }}</td>
 				<td>{{ ad.click_count }}</td>
 				<td>
 					<a href="{{ app_url_admin }}/advertise?space_id={{ ad.space._id}}" class="ui link item">{{ ad.space.title }}</a>

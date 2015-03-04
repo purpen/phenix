@@ -7,10 +7,9 @@
 		    	编辑地址
 		  	</div>
 			<div class="container">
-				<form action="{{ app_url_address }}/ajax_address" class="ui form" method="post" id="addbook-form">
+        <form action="{{ action_url }}" class="ui form" method="post" id="addbook-form">
 				  	<div class="content">
 						<input type="hidden" name="_id" value="{{ addbook._id }}" />
-						<input type="hidden" name="is_default" value="{{ addbook.is_default }}" />
 						<input type="hidden" name="plat" value="{{ plat }}" />
 				
 						<div class="two fields">
@@ -63,10 +62,17 @@
 							  	<input type="text" name="zip" value="{{ addbook.zip }}" />
 							</div>
 						</div>
+						
+						<div class="inline field">
+							<div class="ui checkbox">
+								<input name="is_default" type="checkbox" style="width:100%;cursor:pointer;" {%if addbook.is_default==1%}checked="checked"{%endif%} value="1" />
+								<label>设为默认地址</label>
+						    </div>
+						</div>
 		
 						<div class="field">
 							<div class="ui active magenta submit button">确定</div>
-					        <div class="ui gray cancel button">取消</div>
+					        <div class="ui gray cancel close-btn button">取消</div>
 						</div>
 				
 					</div>				
@@ -76,6 +82,12 @@
 	</replace>
 	<eval>
 		$('.ui.addbook.modal').modal('show');
+
+    $('.close-btn').livequery(function(){
+      $(this).click(function(){
+        $('.ui.addbook.modal').modal('hide');
+      });
+    });
 	</eval>
 	{% endif %}
 	

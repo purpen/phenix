@@ -30,6 +30,14 @@ class Sher_Core_Util_Tracker extends Doggy_Object {
 		$tracker = new Sher_Core_Model_Tracker();
 		return $tracker->tracker_sitedata_counter(self::SITEDATA_ID, 'products_count', $cnt);
 	}
+
+	/**
+	 * 更新活动总数
+	 */
+	public static function update_active_counter($cnt=0) {
+		$tracker = new Sher_Core_Model_Tracker();
+		return $tracker->tracker_sitedata_counter(self::SITEDATA_ID, 'actives_count', $cnt);
+	}
 	
 	/**
 	 * 更新订单总数

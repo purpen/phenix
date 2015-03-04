@@ -6,19 +6,21 @@
 class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
-		'id'=>'',
-		'sku'=>'',
+		'id' => '',
+		'sku' => '',
 		'type' => 0,
 		'category_id' => 0,
-		'sort' => 0,
-		'topic_id'=>'',
-		'page'=>1,
+		'sort' => 1,
+		'topic_id' => '',
+		'page' => 1,
+		'size' => 3,
+		'sword' => '',
 	);
 	
 	protected $page_tab = 'page_sns';
-	protected $page_html = 'page/topic/index.html';
+	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -29,7 +31,14 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 社区
 	 */
 	public function execute(){
-		return $this->get_list();
+		return $this->index();
+	}
+	
+	/**
+	 * 商店首页
+	 */
+	public function index(){
+		return $this->to_html_page('page/shop/home.html');
 	}
 	
 	/**
@@ -40,10 +49,60 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$type = (int)$this->stash['type'];
 		$sort = (int)$this->stash['sort'];
 		$page = (int)$this->stash['page'];
+		$current_category = array();
 		
-		$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id,$type,$sort,'#p#');
+	    $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
+	    $this->stash['all_active'] = false;
+	    $this->stash['presale_active'] = false;
+	    if(empty($presale)){
+			$this->stash['is_shop'] = 1;
+			$this->stash['presaled'] = 0;
+			if($category_id == 0){
+				$this->stash['all_active'] = true;
+				$current_category = array('name' => 'all');
+			}
+			$pager_url = Sher_Core_Helper_Url::shop_list_url($category_id, $type, $sort,'#p#');
+			$list_prefix = Doggy_Config::$vars['app.url.shop'];
+	    }else{
+			$this->stash['is_shop'] = 0;
+			$this->stash['presaled'] = 1;
+			if($category_id == 0){
+				$this->stash['presale_active'] = true;
+			}
+			$pager_url = Sher_Core_Helper_Url::sale_list_url($category_id, $type, $sort,'#p#');
+			$list_prefix = Doggy_Config::$vars['app.url.sale'];
+			
+			$current_category = array('name'=>'presale');
+	    }
+		// 排序方式
+		switch($sort){
+			case 1:
+				$sort_text = 'latest';
+				break; 
+			case 2:
+				$sort_text = 'hot';
+				break;
+			case 3:
+				$sort_text = empty($presale) ? 'price' : 'money';
+				break;
+			case 4:
+				$sort_text = empty($presale) ? 'sales' : 'presales';
+				break;
+			default:
+				$sort_text = 'stick:latest';
+				break;
+		}
+		$this->stash['sort_text'] = $sort_text;
 		
 		$this->stash['pager_url'] = $pager_url;
+		$this->stash['list_prefix'] = $list_prefix;
+		
+		// 获取当前类别
+		if($category_id){
+			$category = new Sher_Core_Model_Category();
+			$current_category = $category->load((int)$category_id);
+		}
+		$this->stash['current_category'] = $current_category;
 		
 		return $this->to_html_page('page/shop/index.html');
 	}
@@ -106,6 +165,68 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		
 		return $this->to_html_page('page/shop/show.html');
+	}
+	
+	/**
+	 * 获取推荐产品
+	 */
+	public function ajax_guess_product(){
+		$sword = $this->stash['sword'];
+		$size = $this->stash['size'] || 3;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+		);
+		if(!empty($sword)){
+			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', array('type' => 1), $options);
+		}
+		
+		$this->stash['result'] = $result;
+		
+		return $this->to_taconite_page('ajax/guess_products.html');
+	}
+	
+	/**
+	 * ajax获取评论
+	 */
+	public function ajax_fetch_comment(){
+		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
+		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
+	}
+
+  	/**
+   	 * 产品合作入口
+   	 */
+  	public function cooperate(){
+        $this->set_target_css_state('page_cooperate');
+   		return $this->to_html_page('page/shop/cooperate.html');
+  	}
+
+	/**
+	 * 删除某个附件
+	 */
+	public function delete_asset(){
+		$id = $this->stash['id'];
+		$asset_id = $this->stash['asset_id'];
+		if (empty($asset_id)){
+			return $this->ajax_note('附件不存在！', true);
+		}
+		
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Contact();
+			$model->delete_asset($id, $asset_id);
+		}else{
+			// 仅仅删除附件
+			$asset = new Sher_Core_Model_Asset();
+			$asset->delete_file($id);
+		}
+		
+		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 	
 }

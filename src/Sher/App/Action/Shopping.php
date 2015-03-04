@@ -62,13 +62,35 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return true;
 		}
 		
-		// 设置已预约标识
+		// 设置已抢购标识
 		$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
 		Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
 		
 		$redis = new Sher_Core_Cache_Redis();
 		$buyed = $redis->get($cache_key);
 		if($buyed){
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * 如果是抢购商品，验证是否预约过
+	 */
+	protected function validate_appoint($sku){
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		if($sku != $product_id){
+			return true;
+		}
+		
+		// 设置已预约标识
+    $cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
+		Doggy_Log_Helper::warn('Validate appoint log key: '.$cache_key);
+		
+		$redis = new Sher_Core_Cache_Redis();
+		$buyed = $redis->get($cache_key);
+		if(!$buyed){
 			return false;
 		}
 		
@@ -104,6 +126,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('操作异常，请重试！');
 		}
 		
+		// 验证是否预约过抢购商品
+		if(!$this->validate_appoint($sku)){
+			//return $this->show_message_page('抱歉，您还没有预约，不能参加本次抢购！');
+		}
 		// 验证抢购商品是否重复
 		if(!$this->validate_snatch($sku)){
 			return $this->show_message_page('抱歉，不要重复抢哦！');
@@ -127,6 +153,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		if(empty($product_data)){
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
 		}
+
+    //试用产品，不可购买
+    if($product_data['is_try']){
+			return $this->show_message_page('试用产品，不可购买！', true);
+    }
+
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
 		
@@ -568,6 +600,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     if(empty($add_book)){
 			return $this->ajax_json('地址不存在！', true);
     }
+
 		
 		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
 		// 是否预售订单
@@ -655,17 +688,55 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
+            $is_snatched = false;
+      	    //抢购产品状态，跳过付款状态
+      	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
 
-      	    //抢购产品状态，跳过付款状态，跳过付款状态
-      	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id']) && Doggy_Config::$vars['app.comeon.product_id'] == $order_info['items'][0]['product_id'] && (int)$order_info['items'][0]['sale_price']==0){
+              if((float)$order_info['items'][0]['sale_price']==0){
+                //配置文件没有配置价格为0的产品，返回错误
+                if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
+                  return $this->ajax_json('不允许的操作！', true);             
+                }
 
-        		$is_snatched = true;
-       		    // 设置订单状态为备货
-        		$order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-        		$order_info['is_payed'] = 1;
-      	    }else{
-        		$is_snatched = false;
-     	    }
+                // 获取产品信息
+                $product = new Sher_Core_Model_Product();
+                $product_data = $product->load((int)$order_info['items'][0]['product_id']);
+                if(empty($product_data)){
+                  return $this->ajax_json('抢购产品不存在！', true);
+                }
+
+                //是否有库存
+                if($product_data['inventory']==0){
+                  return $this->ajax_json('没有库存！', true);              
+                }
+
+                //是否是抢购商品
+                if($product_data['snatched'] != 1){
+                   return $this->ajax_json('非抢抢购产品！', true);
+                }
+
+                //在抢购时间内
+                if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
+                  return $this->ajax_json('抢购还没有开始！', true);
+                }
+
+                // 验证是否预约过抢购商品
+                if(!$this->validate_appoint($product_data['_id'])){
+                  //return $this->ajax_json('抱歉，您还没有预约，不能参加本次抢购！', true);
+                }
+                // 验证抢购商品是否重复
+                if(!$this->validate_snatch($product_data['_id'])){
+                  return $this->ajax_json('抱歉，不要重复抢哦！', true);
+                }
+
+                $is_snatched = true;
+                // 设置订单状态为备货
+                $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+                $order_info['is_payed'] = 1;
+
+              }
+        		  
+     	      }
 			
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
@@ -716,12 +787,20 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$code = $this->stash['code'];
 		if (empty($rid) || empty($code)) {
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
-		}
+    }
+
 		try{
 			$data = array();
-			$card_money = Sher_Core_Util_Shopping::get_card_money($code);
-			// 更新临时订单
 			$model = new Sher_Core_Model_OrderTemp();
+      $result = $model->first(array('rid'=>$rid));
+      if (empty($result)){
+        return $this->ajax_json('找不到订单表！', true);
+      }
+      //验证红包是否有效
+      $total_money = $result['dict']['total_money'];
+      $card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money);
+
+			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
 			if($ok){
 				$data['card_money'] = $card_money*-1;

@@ -1,0 +1,26 @@
+<taconite>
+  {% if state==1 %}
+  <replace select="#contact_{{ id }} .ui.set-state"><![CDATA[
+      <a href="{{ app_url_admin }}/product/set_cooperate?id={{ id }}&state=2" class="ui ajax link item set-state">
+          设已读
+      </a>
+  ]]></replace>
+  <replaceContent select="#contact_{{ id }} .state-name"><![CDATA[
+    未读
+  ]]></replaceContent>
+  {%endif%}
+  {% if state==2 %}
+  <replace select="#contact_{{ id }} .ui.set-state"><![CDATA[
+      <a href="{{ app_url_admin }}/product/set_cooperate?id={{ id }}&state=1" class="ui ajax link item set-state">
+          设未读
+      </a>
+  ]]></replace>
+  <replaceContent select="#contact_{{ id }} .state-name"><![CDATA[
+    已读
+  ]]></replaceContent>
+  {%endif%}
+
+
+	<eval>
+	</eval>
+</taconite>

@@ -1,0 +1,555 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}蛋年 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	html, body {
+	    overflow:hidden;
+	    margin:0;
+	    padding:0;
+	}
+	.ui.wap{
+		display:none;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	* { -webkit-appearance: none; }
+
+	html, body { height: 100%; width: 100%; margin: 0px; background: #000; }
+	section { display: block; height: 100%; overflow: hidden;  }
+
+	* { border: none; outline: none; margin: 0px; padding: 0px;}
+
+	#music-control { width: 30px; height: 30px; position: fixed; right: 5px; top: 5px; z-index: 100000; }
+
+	#holder { width: 100%; height: 100%; position: absolute; }
+	#holder section { width: 100%; height: 100%; position: absolute; background: #000; }
+	#holder section .img { position: absolute; display: none; }
+	#holder section .column { margin: auto; width: 100%; height: 100%; }
+	#holder section.index { z-index: 10000; }
+
+	.swipe { position: absolute; width: 28px; height: 16px; top: 90%; left: 50%; margin-left: -14px; }
+
+	
+	#sec-10 .ui.grid{
+		padding:150px 13% 0 13%;
+		color:#fff;
+ 	}
+	#sec-10 .ui.grid input{
+	    width: 100%;
+        height: 20px;
+        padding: .65em .85em;
+        font-size:16px;
+    }
+    #sec-10 .ui.grid p{
+        font-size:20px;
+		padding:10px 0;
+    }
+    #sec-10 .ui.grid h1{
+    	font-size:25px;
+		padding:15px 0;
+    }
+
+	@keyframes swipe { 
+	    0% { top: 92%; opacity: 1 }
+	    100% { top: 90%; opacity: 0}  
+	}
+	@-webkit-keyframes swipe { 
+	    0% { top: 92%; opacity: 1 }
+	    100% { top: 90%; opacity: 0} 
+	}
+
+	.swipe { 
+	    animation: swipe 1s linear 0 infinite;
+	    -webkit-animation: swipe 1s linear 0 infinite;
+	}
+
+    .mmfoot{
+    display:none;
+  }
+
+	.flexslider{
+		text-align:center;
+		position:relative;
+		height: 75%;
+		padding-top:30px;
+		padding-bottom:10px;
+	}
+	.flex-control-nav {display:none;}
+	.flex-direction-nav {*height: 0;}
+	.flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
+	.flex-direction-nav .flex-prev { opacity: .5;}
+	.flex-direction-nav .flex-next { right: 0px; text-align: right; opacity: .5;}
+	.flexslider:hover .flex-prev { opacity: 0.7; }
+	.flexslider:hover .flex-next { opacity: 0.7; right: 0px; }
+	.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
+	.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
+	.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
+	.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
+	.flexslider+.column{
+		text-align:center;
+	}
+	.flexslider+.column a.ui.btn{
+		padding: 1em 2em !important;
+	}
+
+  .flexslider .image img{
+    margin:0 auto;
+  }
+  .flexslider .image+.advantage{
+    word-break: break-all;
+  }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
+  <script src="{{ app_url_packaged }}/wechat/js/zepto.js" type="text/javascript"></script>
+  <script src="{{ app_url_packaged }}/wechat/js/hammer.min.js" type="text/javascript"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" >
+
+
+var bgm;
+var done = false;
+
+function play()
+{
+    if (done) return;
+    bgm.play();
+    done = true;
+}
+
+function IsPC()  
+{  
+   var userAgentInfo = navigator.userAgent;  
+   var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  
+   var flag = true;  
+   for (var v = 0; v < Agents.length; v++) {  
+       if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }  
+   }  
+   return flag;  
+}
+
+var jumpPc = IsPC();
+if(jumpPc!=false){
+    // window.location.href = "http://up.qq.com";
+}
+
+var pages = [];
+var startY = 0, endY = 0;
+var touchDown = true;
+var scrollPrevent = false, movePrevent = false, touchDown = false;
+var down = true;
+var pageHeight, pageWidth;
+
+function initPages()
+{
+
+    pageWidth = $(window).width();
+    pageHeight = $(window).height();
+    var img_width = pageWidth;
+    var img_height = 640 * img_width / 400 
+    //console.log(img_width, img_height);
+
+    var tpages = $('#holder section');
+    pages = [];
+    for (var i = 0; i < tpages.length; i++)
+    {
+        var page = tpages[i];
+        // $(page).css('width', pageWidth + 'px');
+        // $(page).css('height', pageHeight + 'px');
+        pages.push(page);
+    }
+
+    resetPages();
+
+    //updatePageY(pages[0], 0);
+    if (pageHeight < 600)
+    {
+        $('#sec-4 .title').css('top', '-45px');
+        $('#sec-5 .title').css('position', 'absolute');
+        $('#sec-5 .title').css('bottom', '20px');
+    }
+    else
+    {
+        $('#sec-4 .title').css('top', '20px');
+    }
+}
+
+function resetPages()
+{
+    for (var i = 0; i < pages.length; i++)
+    {
+        var page = pages[i];
+        $(page).css('z-index', 1000 - i);
+        $(page).css('top', '0px');
+        $(page).css('-webkit-transform', '');
+        $(page).css('-webkit-transition', '');
+    }    
+}
+
+
+document.body.addEventListener('touchstart', function (e) {
+    //console.log("target:"+e.target.className);
+    e = e.changedTouches[0];
+    onTouchStart(e);
+    play();
+});
+
+document.body.addEventListener('touchmove', function (e) {
+    onTouchMove(e.changedTouches[0], e);
+    // console.log('touch move', e)
+});
+
+document.body.addEventListener('touchend', function (e) {
+    onTouchEnd(e.changedTouches[0]);
+});
+
+function onTouchStart(e)
+{
+    if( movePrevent == true)
+    {
+        e.preventDefault();
+        return false;
+    }
+
+    touchDown = true;
+
+    startY = e.pageY;
+    down = true;
+}
+
+function onTouchMove(e, oe)
+{
+    if (movePrevent == true || touchDown != true)
+    {
+        oe.preventDefault();
+        return false;
+    }
+    oe.preventDefault();
+    if (e.pageY != startY)
+    {
+        var deltaY = e.pageY - startY;
+        //console.log(deltaY);
+        if (deltaY > 0)
+        {
+            down = true;
+            var page = pages[pages.length - 1];
+            if (!$(pages[0]).hasClass('index'))
+            {
+                $(page).css('z-index', '10000');
+                $(page).css('top', '-' + (pageHeight - deltaY) + 'px');
+            }
+        }
+        else
+        {
+            down = false;
+            var page = pages[0];         
+            $(page).css('z-index', '10000');
+            $(page).css('top', deltaY + 'px');
+        }
+    }
+}
+
+function updatePageY(page, y)
+{
+    $(page).css({
+        "-webkit-transform": "matrix(1, 0, 0, 1, 0, " + y + ")",
+        "-webkit-transition" : "all 0.5s linear; transition:all 0.5s linear"
+    });    
+}
+
+function onTouchEnd(e)
+{
+    if (movePrevent == true)
+    {
+        e.preventDefault();
+        return false;
+    }
+
+    touchDown = false;
+
+    var deltaY = e.pageY - startY;
+    // small move
+    if (Math.abs(deltaY) <= 50) 
+    {
+        if (deltaY > 0)
+        {
+            /*
+            var page = pages[pages.length - 1];
+            $(page).css({
+                "-webkit-transform" : "translate(0px, " +(-deltaY) + "px)",
+                "-webkit-transition" : "all 0.3s ease-in; transition:all 0.3s ease-in"
+            });              
+            */
+        }
+        else
+        {
+            var page = pages[0];
+            if (!$(page).hasClass('index'))
+            {
+                $(page).css({
+                    "-webkit-transform" : "translate(0px, " + (-deltaY) + "px)",
+                    "transition":"all 0.3s ease-in"
+                });                  
+            }
+
+        }
+
+    }
+    // whole page
+    else
+    {
+        // swipe down, go to prev page
+        if(deltaY > 0)
+        {
+            var page = pages[pages.length - 1];
+            if (!$(pages[0]).hasClass('index'))
+            {
+                $(page).css({
+                    "-webkit-transform" : "translate(0px, " + (pageHeight - deltaY) + "px)",
+                    "transition":"all 0.3s ease-in"
+                });             
+
+                var page = pages[pages.length - 1];
+                pages = [page].concat(pages);
+                pages.pop();  
+
+                //console.log('prev page');              
+            }
+
+        }
+        // swipe up, go to next page
+        else
+        {
+            var page = pages[0];
+            $(page).css({
+                "-webkit-transform" : "translate(0px, " +(-pageHeight - deltaY) + "px)",
+                "transition":"all 0.3s ease-in"
+            });             
+
+            var page = pages[0];
+            pages.push(page);
+            pages.shift();  
+
+            //console.log('next page');               
+        }
+    }
+
+    setTimeout(resetPages, 300);
+}
+
+
+
+</script>
+{%endblock%}
+{% block jquery %}
+  /*bgm = new Audio5js({
+      swf_path: '{{ app_url_packaged }}/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('{{ app_url_packaged }}/wechat/js/790105 Fireflies.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+      bgm.playPause();
+  });*/
+
+	$('.flexslider').flexslider({
+	      animation: "slide",
+				slideshow:true,
+				slideshowSpeed:6000,
+	});
+
+  $('#svg').show();
+
+  initPages();
+{% endblock %}
+{% block content %}
+  <!--避免 网速，优先加载 -->
+  <script type="javascript/text">
+
+
+  </script> 
+  
+  <div class="wrap" id="scene">
+      <div id="holder" class="section-holder">
+		  <section id="sec-1" style="display:;" class="index">
+							
+              <div class="column">
+                  <div class="content" id="content-1" style="background-image: url({{ app_url_packaged }}/images/eg_h1.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                      
+                  </div>
+              </div>
+          </section>
+
+          <section id="sec-2" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-2" style="background-image: url({{ app_url_packaged }}/images/eg_h2.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+					  
+                  </div>
+              </div>
+          </section>
+
+          <section id="sec-3" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-3" style="background-image: url({{ app_url_packaged }}/images/eg_h3.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+					  
+                  </div>
+              </div>
+          </section>
+			
+		  <section id="sec-4" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-4" style="background-image: url({{ app_url_packaged }}/images/eg_h4.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+					  
+                  </div>
+              </div>
+          </section>
+
+          <section id="sec-5" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-5" style="background-image: url({{ app_url_packaged }}/images/eg_h5.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">    
+	                  
+                  </div>
+              </div>
+          </section>
+		  
+          <section id="sec-6" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-6" style="background-image: url({{ app_url_packaged }}/images/eg_h6.jpg);background-size: cover; background-position: center; width: 100%; height: 100%;">
+					  				<div class="flexslider">
+						          <ul class="slides">
+
+				{% stuff_list var:'list' category_id:cid is_top:is_top sort:sort page:page size:8 %}
+          
+						{% for stuff in list.rows %}
+
+<li>
+						<div class="ui grid">
+							<div class="column">
+					                  <div class="ui one items">
+						<div class="item">
+							<div class="content">
+								<h4 class="ui dividing header">
+									<a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+										{{ stuff.title|truncate 32 }}
+									</a>
+									{% if stuff.cover %}
+									<div class="image">
+                    <a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+											<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
+										</a>
+									</div>
+									<div class="advantage">
+										{{ stuff.strip_description|truncate 140 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ stuff.strip_description|truncate 280 }}
+									</div>
+									{% endif %}
+								</h4>
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ stuff.user.home_url }}">
+								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ stuff.user.home_url }}">
+												{{ stuff.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ stuff.view_count }}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+          </div>
+        </div>
+      </div>
+            </li>
+						{% endfor %}
+
+<!--
+					                <li>
+						<div class="ui grid">
+							<div class="column">
+					                  <div class="ui one items">
+																
+															<div class="item">
+																						<div class="content">
+																							<h4 class="ui dividing header">
+																								<a class="ui link" href="http://m.taihuoniao.com/topic/view-102304-0.html" target="_blank">
+																									空间节约变形桌
+																								</a>
+																																	<div class="image">
+																									<a href="http://m.taihuoniao.com/topic/view-102304-0.html"><img src="http://frbird.qiniudn.com/topic/141220/54959ca920de8d93468b493c-1-me.jpg" alt="空间节约变形桌" class="ui image"></a>
+																								</div>
+																								<div class="advantage">
+																									该产品可变为两种形态，即茶几与饭桌，达到一桌两用的使用效果。不仅节省了用户买桌子的开销，也大大释放了室内空间，故名为空间节约桌。利用铰链...
+																								</div>
+																																</h4>
+																							<div class="schedule">
+																								<div class="status clearfix">
+																									<a class="ui avatar image" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+																							      		<img src="http://frstatic.qiniudn.com/images/avatar_default_mini.jpg" alt="15120070751">
+																									</a>
+																									<span class="count">
+																										<a class="ui small link" href="http://www.taihuoniao.com/user/87188/" target="_blank">
+																											15120070751
+																										</a>
+																									</span>
+																									<span class="like">
+																										<i class="icon unhide"></i>
+																										<span class="count">871</span>
+																									</span>
+																								</div>
+																							</div>
+																						</div>
+															</div>
+																
+														</div>
+											<div>			
+									</div>
+														
+														
+														
+					                </li>
+
+                          -->
+						          </ul>
+						        </div>
+                 
+										
+										<div class="center aligned column">
+                      <a href="{{ app_url_wap }}/birdegg/submit" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+													提交创意
+												</a>
+																<a href="{{ app_url_wap }}/birdegg/zlist" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+																	全部创意
+																</a>
+											
+										</div>
+										
+ 									</div>
+              </div>
+          </section>
+		  
+	  </div>
+  </div>
+
+{% endblock %}

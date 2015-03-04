@@ -122,7 +122,7 @@
 			$('#product-category').val('');
 		}else{
 			$(this)
-				.siblings('.ajax-cover.button').removeClass('active')
+				.siblings('.category.button').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
@@ -346,6 +346,12 @@
 			<div class="field">
 				<label>产品标签</label>
 			  	<input type="text" name="tags" value="{{ product.tags_s }}" />
+				<div class="description">标签之间使用，逗号隔开</div>
+			</div>
+			
+			<div class="field">
+				<label>产品链接</label>
+			  	<input type="text" name="view_url" value="{{ product.view_url }}" />
 			</div>
 			
 			<div class="field">
@@ -422,6 +428,27 @@
 					<input type="text" name="appoint_count" value="{{ product.appoint_count|default 0 }}" />
 				</div>
 				<div class="field"></div>
+			</div>
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">高级设置</h3>
+			<div class="two fields">
+				<div class="inline field">
+				  	<label>是否试用：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="trial" {% if product.trial %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
+				
+				<div class="inline field">
+				  	<label>案例产品：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="okcase" {% if product.okcase %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
 			</div>
 		</div>
 		
@@ -580,10 +607,10 @@
 		
 		<div class="ui right aligned grid">
 			<div class="column">
-				<div class="ui gray cancel button">
+				<div class="ui gray cancel inverted button">
 					取消
 				</div>
-				<div class="ui magenta submit button">
+				<div class="ui magenta submit inverted button">
 					确认提交
 				</div>
 			</div>

@@ -19,22 +19,31 @@
 		<div class="twelve wide column">
 			<div class="ui middle aligned grid">
 				<div class="row">
-					<div class="six wide column">
+					<div class="three wide column">
 						<h3 class="ui header">我的订单</h3>
 					</div>
-					<div class="right aligned ten wide column">
+					<div class="right aligned thirteen wide column">
 						<div class="ui horizontal bulleted list">
 							<div class="item">
 								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付订单</a>
+								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成订单</a>
+								<a href="{{ app_url_my }}/orders?s=2" class="ui {{ css_ready_goods }} link">待发货</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭订单</a>
+								<a href="{{ app_url_my }}/orders?s=5" class="ui {{ css_refunding }} link">退款中</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=6" class="ui {{ css_refunded }} link">已退款</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭</a>
 							</div>
 						</div>
 					</div>
@@ -60,7 +69,7 @@
 							</div>
 						</div>
 						<div class="right aligned four wide column">
-							{% if !order_info.is_payed %}
+							{% if order_info.status == 1 %}
 							<a href="{{ app_url_shopping }}/success?rid={{ order_info.rid }}" class="ui small magenta button">立即支付</a>
 							{% endif %}
 							
@@ -124,7 +133,7 @@
 					<div class="right aligned column">
 						<p><b id="cart_items_count">{{ order_info.items_count }}</b>件产品，金额合计： <b id="order_total_money">{{ order_info.total_money }}</b>元</p>
 				
-						<p>优惠：<b id="order_coin_money">-{{ order_info.card_money }}</b>元</p>
+						<p>优惠：<b id="order_coin_money">-{{ order_info.discount_money }}</b>元</p>
 						<p>运费：<b id="order_freight_money">{{ order_info.freight }}</b>元</p>
 				
 						<p>实付金额：<b id="order_pay_money">{{ order_info.pay_money }}</b>元</p>

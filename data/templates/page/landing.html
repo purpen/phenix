@@ -1,10 +1,10 @@
 {%extends 'layout/auth.html'%}
-{% block title %}现在登陆-{% endblock %}
+{% block title %}绑定账号-{% endblock %}
 
 
 {% block jquery %}
 	phenix.build_auth_page();
-	
+
 	var wait = 60,can_send=true;
 	var limitime = function(){
 		if(wait == 0){
@@ -23,7 +23,7 @@
 	}
 		
 	$('#fetch-verify-code').click(function(){
-		var phone = $('#account').val();
+		var phone = $('#reg_account').val();
 		if(!can_send){
 		    return false;
 		}
@@ -68,7 +68,7 @@
 
 {% block content %}
 <div class="ui responsive grid">
-	<div class="ui column">
+	<div class="ui column width">
 		<div class="ui log-in signup">
 			<div class="ui top attached header logo">
 				<a href="{{ app_url_domain }}" title="返回首页">
@@ -76,25 +76,28 @@
 				</a>
 			</div>
 			<div class="ui bottom attached segment">
-				<form action="{{ app_url_action_base }}/auth/do_register" class="ui  form" method="post" id="register-form">
-					<input type="hidden" name="t" value="{{ login_token }}" />
-					<div class="center aligned ui header">
+				<div class="center aligned ui header">
 						注册太火鸟
-					</div>
-					<div class="two fields">
-						<div class="field active" data-tab="first">
-							<a class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
+				</div>
+				<div class="two fields">
+					<div class="field active" data-tab="first">
+						<a class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
 								 已有账号
-							</a>
-						</div>
-						<div class="field" data-tab="two">
-							<a class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
-								 注册账号
-							</a>
-						</div>
+						</a>
 					</div>
-					
-					
+					<div class="field" data-tab="two">
+						<a class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
+								 注册账号
+						</a>
+					</div>
+				</div>
+
+		<form action="{{ app_url_action_base }}/auth/do_login" class="ui  form" method="post" id="login-form">
+			<input type="hidden" name="t" value="{{ login_token }}" />
+			<input type="hidden" name="third_source" value="{{ third_source }}" />
+			<input type="hidden" name="uid" value="{{ uid }}" />
+			<input type="hidden" name="access_token" value="{{ access_token }}" />
+
 				<div class="ui active tab" data-tab="first">
 					<div class="field">
 					  	<input type="text" name="account" placeholder="邮箱或手机号码" />
@@ -115,9 +118,21 @@
 						<div class="fluid ui big active magenta submit button" >登录</div>
 					</div>
 				</div>
+			</form>
+			<form action="{{ app_url_action_base }}/auth/do_register" class="ui  form" method="post" id="register-form">
+				<input type="hidden" name="t" value="{{ login_token }}" />
+        <input type="hidden" name="third_source" value="{{ third_source }}" />
+        <input type="hidden" name="uid" value="{{ uid }}" />
+        <input type="hidden" name="access_token" value="{{ access_token }}" />
+        <input type="hidden" name="nickname" value="{{ nickname }}" />
+        <input type="hidden" name="sex" value="{{ sex }}" />
+        <input type="hidden" name="city" value="{{ city }}" />
+        <input type="hidden" name="summary" value="{{ summary }}" />
+        <input type="hidden" name="from_site" value="{{ from_site }}" />
+				
 				<div class="ui tab" data-tab="two">
 					<div class="inline field">
-						<input type="text" name="account" placeholder="手机号码" id="account" style="margin-top: -25px;" />
+						<input type="text" name="account" placeholder="手机号码" id="reg_account" style="margin-top: -25px;" />
 					</div>
 					<div class="inline field">
 						<input type="text" name="captcha" placeholder="验证码" id="captcha" />
@@ -148,7 +163,8 @@
 
 
 				</div>
-				</form>
+			</from>
+			
 			
 			</div>	
 			<div class="sign-up">

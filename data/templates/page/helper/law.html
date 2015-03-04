@@ -1,8 +1,10 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}用户注册服务协议-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	ol.ui.list > li > ol.list > li > ol.list >li{
+		padding-left:.8em;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -12,14 +14,19 @@
 {% endblock %}
 
 {% block content %}
-<section class="ui big block">
+<section class="ui big helper block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">用户注册服务协议</h3>
+			<div class="center aligned column white section-title">
+				<h2 class="block title">用户注册服务协议</h2>
+				<p></p>
 				<hr>
 			</div>
 		</div>
+	</div>
+</section>
+<section class="ui big block">
+	<div class="ui responsive center aligned grid">
 		<div class="row">
 			<div class="fourteen wide column">
 				<div class="content-box">

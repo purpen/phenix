@@ -1,14 +1,34 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}社区话题-{% endblock %}
+{% block title %}{{ topic.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+  #comment-list{
+    font-size:16px !important;
+  }
 </style>
 {% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
+    $.get(url, {target_id: {{ topic._id }}, type: 2, page: current_page, per_page: per_page});
+  }
+
+</script>
+{% endblock %}
+
 {% block jquery %}
+	phenix.hook_comment_page();
+
+  //ajax加载评论
+  fetch_comment(1, per_page);
+
 {% endblock %}
 {% block content %}
-<div id="topicpage">
+<div id="postpage">
 	<section class="ui big block">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -40,10 +60,10 @@
 								</div>
 							</div>
 					
-							{% if topic.category_id == dream_category_id %}
+							{% if is_match_idea %}
 							<div class="post">
 								<div class="ui contest">
-									<a href="{{ app_url_wap }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
+									<a href="{{ app_url_wap }}/dream" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
 								</div>
 							</div>
 							{% endif %}
@@ -65,10 +85,16 @@
 							{% endif %}
 						</div>
 				
+            <div class="ui big reply segment">
+              <!--ajax comment-->
+              <div id="comment-list"></div>
+              {% include "block/comment_box_wap.html" %}
+            </div>
+
 					</div>
 				</div>
-			</div>
 		</div>
 	</section>
+
 </div>
 {% endblock %}

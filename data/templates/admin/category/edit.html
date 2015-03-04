@@ -68,7 +68,7 @@
 				<div class="ui selection dropdown">
 					<input type="hidden" name="pid" value="{{ category.pid }}" />
 				    <div class="default text">请选择</div>
-				    <i class="flat arrowbottom icon"></i>
+				    <i class="angle down icon"></i>
 				    <div class="menu">
 						{% for cate in top_category %}
 						<div data-value="{{ cate._id }}" class="{% if cate._id == category.pid %}active {% endif %}item">{{ cate.title }}</div>
@@ -82,7 +82,7 @@
 				<div class="ui selection dropdown">
 					<input type="hidden" name="gid" value="{{ category.gid }}" />
 				    <div class="default text">请选择</div>
-				    <i class="flat arrowbottom icon"></i>
+				    <i class="angle down icon"></i>
 				    <div class="menu">
 						{% for g in groups %}
 						<div data-value="{{ g.id }}" class="{% if g.id == cate.gid %}active {% endif %}item">{{ g.name }}</div>
@@ -96,10 +96,13 @@
 				<div class="ui selection dropdown">
 					<input type="hidden" name="domain" value="{{ category.domain }}" />
 				    <div class="default text">请选择</div>
-				    <i class="flat arrowbottom icon"></i>
+				    <i class="angle down icon"></i>
 				    <div class="menu">
-				        <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">产品类</div>
-				        <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区类</div>
+
+				        <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">商品类域</div>
+				        <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区类域</div>
+				        <div data-value="3" class="{% if category.domain == 3%}active {% endif %}item">活动类域</div>
+						<div data-value="4" class="{% if category.domain == 4%}active {% endif %}item">产品类域</div>
 				    </div>
 				</div>
 			</div>
@@ -111,14 +114,15 @@
 			        	<input type="radio" name="is_open" value="1" {% if category.is_open == 1 %}checked="checked"{% endif %} />
 						<label></label> 
 			      	</div>
-			      	<label>公开</label>
-			    </div>
-			    <div class="field">
+			      	<label class="checkbox title">公开</label>
 			      	<div class="ui radio checkbox">
 			        	<input type="radio" name="is_open" value="-1" {% if category.is_open < 1 %}checked="checked"{% endif %} /> 
 			        	<label></label>
 			      	</div>
-			      	<label>隐藏</label>
+			      	<label class="checkbox title">隐藏</label>
+			    </div>
+			    <div class="field">
+			      	
 			    </div>
 			</div>
 			<div class="inline field">
@@ -140,8 +144,8 @@
 				<textarea rows="3" name="summary" class="small">{{ category.summary }}</textarea>
 			</div>
 			
-			<input type="submit" class="ui magenta button" value="确认保存">
-			<input type="button" class="ui gray button" value="取消">
+			<input type="submit" class="ui magenta inverted button" value="确认保存">
+			<input type="button" class="ui gray inverted button" value="取消">
 		</form>
 	</div>
 {% endblock %}

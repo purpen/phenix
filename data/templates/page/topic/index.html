@@ -1,9 +1,9 @@
 {%extends 'layout/sns.html'%}
-{% block title %}社区-{% endblock %}
+{% block title %}话题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.ui.tophead {
-	    background: url("{{ app_url_packaged }}/images/dreamx1180.jpg") no-repeat scroll center center / cover rgba(235, 97, 122, 1);
+	    background: url("{{ app_url_packaged }}/images/jsc_banner.jpg") no-repeat scroll center center / cover rgba(235, 97, 122, 1);
 		height: 300px;
 	}
 	.ui.tophead .introduction {
@@ -14,12 +14,6 @@
 	}
 	.ui.tophead .introduction .trychannel {
 		margin: 0 0 0.35em;
-	}
-	.ui.tophead .introduction .trychannel a {
-		color: rgba(255,255,255,0.85);
-	}
-	.ui.tophead .introduction .trychannel a:hover {
-		text-decoration: none;
 	}
 </style>
 {% endblock %}
@@ -41,20 +35,17 @@
 					<div class="column">
 						<div class="introduction">
 							<h2 class="trychannel">
-								<a href="{{ app_url_domain }}/dream" class="ui link" data-0="border-bottom:2px solid rgba(255,255,255,0);" data-30="border-bottom:2px solid rgba(255,255,255,0.85);color:rgba(255,255,255,0.85);">创意征集</a>
+                				<!--<a href="{{ app_url_domain }}/dream" class="ui link" data-0="border-bottom:2px solid rgba(255,255,255,0);" data-30="border-bottom:2px solid rgba(255,255,255,0.85);color:rgba(255,255,255,0.85);">创意征集</a>-->
 							</h2>
 							<h2 class="ui header">
 							  	<div class="content">
-							    	￥1，000，000梦想资金 坐等你的创意！
-							    	<div class="sub header">创意不死，灵感永生！下一个创意界新星就是你！</div>
+							    	世界上最好玩的健身车
+							    	<div class="sub header">RUNRUNFAST燃速智能健身车</div>
 							  	</div>
 							</h2>
 							<div class="actions">
-								<a href="{{ app_url_domain }}/dream" class="ui white btn-4 btn-4c icon-arrow-right btn" data-0="background-color:rgba(255,255,255,0);color:rgba(255,255,255,1);" data-50="background-color:rgba(255,255,255,1);color:rgba(235, 97, 122, 1);" target="_blank">
-									了解更多
-								</a>
-								<a href="{{ app_url_domain }}/topic/submit?cid=64&ref=dream" class="ui white btn-4 btn-4c icon-arrow-right btn" data-0="background-color:rgba(255,255,255,0);color:rgba(255,255,255,1);" data-50="background-color:rgba(255,255,255,1);color:rgba(235, 97, 122, 1);" target="_blank">
-									立即参与
+								<a href="{{ app_url_domain }}/sale/1121112074.html" class="ui inverted button" target="_blank">
+									火热预订
 								</a>
 							</div>
 						</div>
@@ -75,7 +66,7 @@
 				{% for cat in category.rows %}
 					<div class="ui block segment">
 						<h3 class="ui dividing header">
-							<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+							<a class="ui cat link" href="{{ cat.view_url }}">{{ cat.title }}</a>
 						</h3>
 						{% category_list var:'children' page:1 only_open:1 domain:domain pid:cat._id %}
 						<div class="ui three items">
@@ -143,6 +134,21 @@
 						</div>
 					</div>
 				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">话题</div>
+				</div>
 			</div>
 		</div>
 	</div>

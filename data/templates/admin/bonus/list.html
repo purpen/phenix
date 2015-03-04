@@ -60,7 +60,9 @@
 				<th></th>
 				<th>红包码</th>
 				<th>红包金额</th>
+        <th>使用条件</th>
 				<th>所属用户</th>
+        <th>代号</th>
 				<th>状 态</th>
 				<th>管理操作</th>
 			</tr>
@@ -81,7 +83,9 @@
 					<small>过期时间：{{ b.expired_at|date 'Y-m-d H:i' }}</small>
 				</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
+        <td>{{ b.min_amount }}元</td>
 				<td>{{ b.user_id }} / {{ b.used_by }}</td>
+        <td>{{ b.xname }}</td>
 				<td>
 					{% if b.used == 2 %}
 						<span class="ui magenta label">已使用</span>

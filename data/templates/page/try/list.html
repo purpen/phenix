@@ -3,10 +3,37 @@
 
 {% block page_css %}
 <style class="text/css">
-	.try .masthead {
-		background: url("{{ app_url_packaged }}/images/try_banner.jpg") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
-	    height: 300px;
-		color: #fff;
+	.try.masthead {
+		color: white;
+		padding: 100px 0 60px;
+		background: url("{{ app_url_packaged }}/images/banner-trial.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
+	}
+	.try.masthead .buttons {
+		margin-top: 3rem;
+	}
+	.two-nav{
+		background:#f4f4f4;
+	}
+	.ui.try .ui.three.items .magenta.item .image+.content{
+			margin-left: 0;
+			padding: 10px !important;
+			padding-bottom: 55px !important;
+			height: 140px;
+	}
+	.ui.try .i-stats {
+		position: absolute;
+		padding-top: 25px;
+		bottom: 10px;
+		left: 10px;
+		right: 10px;
+		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
+	}
+	.ui.try .i-stats .trycm{
+		padding-top: 10px;
+		border-top: 1px solid rgba(0,0,0,.1);
+	}
+	.ui.try .i-stats .trycm .name{
+		margin-bottom: .3em;
 	}
 </style>
 {% endblock %}
@@ -16,35 +43,22 @@
 {% endblock %}
 
 {% block content %}
-
-
-<div class="ui try">
-	<div class="masthead">
-		<div class="masthead-cover">
-			<div class="ui responsive grid">
-				<div class="column">
-					<h2 class="ui header">
-						<div class="content">
-							申请成为试用达人
-							<div class="sub header">
-								每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。
-							</div>
-						</div>
-					</h2>
-					<div class="ui buttons">
-						{% if !visitor.is_login %}
-						<a href="{{ app_url_domain }}/auth/signup" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
-							现在申请
-						</a>
-						{% endif %}
-						<a href="{{ app_url_helper }}/try" class="ui white btn-4 btn-4c icon-arrow-right gift btn">
-							试用规则
-						</a>
-					</div>
-				</div>
+<div class="try masthead">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">申请成为试用达人</h2>
+			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
+			<hr>
+			<div class="buttons">
+				<a href="{{ app_url_helper }}/itry" class="ui inverted gift button">
+					<i class="certificate icon"></i> 试用规则
+				</a>
 			</div>
 		</div>
 	</div>
+</div>
+	
+<div class="ui try">
 	<div class="mainlist">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -52,24 +66,28 @@
 					<div class="ui three items">
 						{% try_list var:'list' page:page state:1 %}
 						{% for t in list.rows %}
-							<div class="item">
+							<div class="magenta item">
 								<div class="image">
 									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 							      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
 									</a>
 								</div>
 								<div class="content">
-									<h4 class="ui dividing header">
+									<h4 class="ui header">
 										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
 											{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
 										</a>
 										<div class="advantage">{{ t.description }}</div>
 									</h4>
-									<div class="name">
-										产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
-									</div>
-									<div class="ui text result">
-										<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
+									<div class="i-stats">
+										<div class="trycm">
+											<div class="name">
+												产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
+											</div>
+											<div class="ui text result">
+												<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -78,6 +96,22 @@
 				</div>
 			</div>
 		</div><!--end responsive grid-->
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">新品试用</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

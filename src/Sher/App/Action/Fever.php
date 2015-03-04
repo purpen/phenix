@@ -17,7 +17,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('execute', 'get_list', 'view');
+	protected $exclude_method_list = array('execute', 'get_list', 'view', 'ajax_fetch_support');
 	
 	public function _init() {
 		$this->set_target_css_state('page_fever');
@@ -536,6 +536,11 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		if (!$this->visitor->can_admin() && $product['user_id'] != $this->visitor->id){
 			return $this->show_message_page('抱歉，你没有编辑权限！', $redirect_url);
 		}
+
+    //如果是通过审核状态禁止用户修改
+    if($product['user_id']==$this->visitor->id && !empty($product['published'])){
+ 			return $this->show_message_page('您的创意产品已经进入投票阶段，如要修改，请联系管理员！', $redirect_url); 
+    }
 		
         if (!empty($product)) {
             $product = $model->extended_model_row($product);
@@ -714,6 +719,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 仅管理员或本人具有删除权限
 			if ($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id){
+        //如果是通过审核状态禁止用户修改
+        if($product['user_id']==$this->visitor->id && !empty($product['published'])){
+          return $this->ajax_notification('您的创意产品已经进入投票阶段，如要修改，请联系管理员！', true); 
+        }
 				$model->remove((int)$id);
 				
 				// 删除关联对象
@@ -756,6 +765,16 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
+
+  /**
+   * ajax获取支持者
+   */
+  public function ajax_fetch_support(){
+		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
+		return $this->to_taconite_page('ajax/fetch_support.html');
+  }
 	
 }
 ?>

@@ -1,0 +1,1193 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第2季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	@media screen and (max-width:1140px){
+		.circles-container{
+			left:25% !important;
+		}
+	}
+	@media screen and (max-width:1200px){
+		.ui.times{
+			padding:4rem 0 52% !important;
+		}
+	}
+	
+	.ui.big.block {
+		padding-top: 4rem !important;
+		padding-bottom: 4rem;
+	}
+	.start{
+		background:url({{ app_url_packaged }}/images/match_1.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:25% 0;
+	}
+	.ui.nav {
+		border-top: 1px solid #e4e5e7;
+		border-bottom: 1px solid #e4e5e7;
+		background:#091f35;
+	}
+	.ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	
+	.ui.about{
+		padding-bottom:240px !important;
+	}
+	.ui.about .ui.responsive.grid,.ui.about .column{
+		position:relative;
+		z-index:999;
+	}
+	.ui.about p {
+		margin: 0 auto;
+		line-height: 3;
+	}
+	.ui.about h3.ui.header{
+		font-weight:400;
+	}
+	.ui.about img{
+		position:absolute;
+	}
+	.ui.about img.img-1{
+		left:15%;
+		top:0;
+		z-index:-1;
+	}
+	.ui.about img.img-2{
+		left:5%;
+		bottom:0;
+		z-index:-1;
+	}
+	.ui.about img.img-3{
+		right:5%;
+		bottom:-10%;
+		z-index:-1;
+	}
+	.ui.about img.img-4{
+		right:5%;
+		top:0;
+		z-index:-1;
+	}
+	hr{
+		width:210px !important;
+		background:#222 !important;
+		height:2px !important;
+	}
+	
+	
+
+	.circles-container {
+	position: absolute;
+	top: 358px;
+	left: 33%;
+	overflow: visible;
+	}
+	.circles-container .circle {
+	background: #ffda00;
+	position: absolute;
+	-webkit-transform-origin: center center;
+	}
+	.circles-container #c4 {
+	top: -279px;
+	left: 73px;
+	width: 244px;
+	height: 244px;
+	border-radius: 122px;
+	}
+	.circles-container #c5 {
+	top: -183px;
+	left: -279px;
+	width: 200px;
+	height: 200px;
+	border-radius: 100px;
+	}
+	.circles-container #c9 {
+	top: -283px;
+	left: 516px;
+	width: 214px;
+	height: 214px;
+	border-radius: 107px;
+	}
+	.circles-container #c11 {
+	top: -108px;
+	left: 314px;
+	width: 200px;
+	height: 200px;
+	border-radius: 100px;
+	}
+	.circles-container #c14 {
+	top: -71px;
+	left: -67px;
+	width: 165px;
+	height: 165px;
+	border-radius: 90px;
+	}
+	.circles-container #c18 {
+	top: -326px;
+	left: 323px;
+	width: 184px;
+	height: 184px;
+	border-radius: 92px;
+	}
+	.circles-container .text {
+	position: absolute;
+	text-align: center;
+	color: #222;
+	width: 200px;
+	}
+	.circles-container .text h3 {
+	font-weight: normal;
+	margin-bottom: 10px;
+	letter-spacing: 2px;
+	font-size: 1.2rem;
+	}
+	.circles-container #t2 {
+		left: -279px;
+		top: -147px;
+	}
+	.circles-container #t3 {
+		left: 86px;
+		top: -241px;
+		width: 220px;
+	}
+	.circles-container #t4 {
+		left: 521px;
+		top: -276px;
+	}
+	.circles-container #t5 {
+		left: -83px;
+		top: -57px;
+	}
+	.circles-container #t6 {
+		left: 315px;
+		top: -309px;
+	}
+	.circles-container #t7 {
+		left: 314px;
+		top: -81px;
+	}
+	.ui.times{
+		background:url({{ app_url_packaged }}/images/match_12.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:4rem 0 42%;
+		position:relative;
+		color:#fff;
+	}
+	.ui.times hr{
+		background:#fff !important;
+	}
+	.ui.times .circles-container{
+		position: absolute;
+		top: 400px;
+		left: 33%;
+		overflow: visible;
+	}
+	.ui.times .circles-container .image{
+		position:absolute;
+	}
+	.img1{
+		top: -251px;
+		width: 212px;
+		left: 197px;
+	}
+	img.image.img2 {
+		left: -205px;
+		top: 96px;
+	}
+	img.image.img3{
+		width: 265px;
+		top: 35px;
+		left: -145px;
+	}
+	img.image.img4{
+		left: 429px;
+		top: -133px;
+		width: 222px;
+	}
+	img.image.img5{
+		top: 96px;
+		left: 67px;
+	}
+	img.image.img6{
+		width: 265px;
+		top: 35px;
+		left: 128px;
+	}
+	img.image.img7 {
+		top: 96px;
+		left: 347px;
+	}
+	img.image.img8 {
+		width: 265px;
+		top: 35px;
+		left: 405px;
+	}
+	img.image.img9 {
+		top: 96px;
+		left: 620px;
+	}
+	.ui.times .circles-container .text {
+		position: absolute;
+		text-align: center;
+		color: #fff;
+		width: 200px;
+		font-size:1rem;
+		top:169px;
+		line-height:24px;
+	}
+	.text.cont-1 {
+		left: -246px;
+	}
+	.text.cont-2 {
+		left: 24px;
+	}
+	.text.cont-3 {
+		left: 308px;
+	}
+	.text.cont-4 {
+		left: 580px;
+	}
+	
+	.ui.judges .row+.row{
+		width: 90% !important;
+		margin: 1.5% auto;
+	}
+	.judges .ui.items .item .content{
+		padding:0 !important;
+	}
+	.judges .ui.items .item{
+		-webkit-transition: all .8s cubic-bezier(0.175,.885,.32,1) .15s;
+		transition: all .8s cubic-bezier(0.175,.885,.32,1) .15s;
+		-moz-transition: all .8s cubic-bezier(0.175,.885,.32,1) .15s;
+		cursor:auto;
+	}
+	.judges .ui.items .item:hover .visible.content{
+		position:absolute;
+		top:100% !important;
+	}
+	.judges .ui.reveal{
+		display:block;
+	}
+	.judges .ui.five.items>.item {
+		width: 18%;
+		margin-left: 1%;
+		margin-right: 1%;
+	}
+	.judges .ptop {
+		padding-top: 2em;
+		padding-bottom: 3em;
+	}
+	.ui.judges .item .image {
+		width: 75%;
+		margin: auto;
+	}
+	.ui.judges .content h4 {
+		margin: .6em 0 5px;
+	}
+	.ui.judges .content h5 {
+		margin: 0;
+	}
+	
+	.ui.stars{
+		background:url({{ app_url_packaged }}/images/match_12.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:4rem 0 4rem;
+		position:relative;
+		color:#fff;
+	}
+	.ui.stars hr,.ui.repay hr{
+		background:#fff !important;
+	}
+	.ui.stars p,.ui.repay p{
+		margin:0;
+	}
+	.ui.stars .ui.three.items>.item ,.ui.repay .ui.three.items>.item{
+		width: 16.333%;
+		margin-left: 8.5%;
+		margin-right: 8.5%;
+		background:rgba(0,0,0,0);
+		cursor:auto;
+	}
+	.ui.stars .content h4 ,.ui.repay .content h4{
+		margin: .8em 0 5px;
+	}
+	.ui.stars .ui.items>.item>.content, .ui.repay .ui.items>.item>.content {
+		padding: 13px 0 !important;
+	}
+	.ui.stars .content h5,.ui.repay .content h5{
+		font-size:13px;
+		margin-top: 12px;
+		line-height: 20px;
+	}
+	.ui.stars .row:last-child{
+		padding-top: 60px;
+	}
+	.ui.repay{
+		background:url({{ app_url_packaged }}/images/match_19.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:4rem 0 4rem;
+		position:relative;
+		color:#fff;
+	}
+	.ui.repay .row:nth-child(2){
+		padding-top:60px !important;
+	}
+	.ui.repay .item .image img{
+		width: 60% !important;
+		padding-left: 20%;
+	}
+	.ui.coope .row+.row{
+		width: 90% !important;
+		margin: 1.5% auto;
+	}
+	.ui.coope .row+.row h3{
+		margin-top:0;
+	}
+	.ui.coope .row+.row h3+p{
+		line-height:22px;
+	}
+	.ui.coope .row:nth-child(2){
+		padding-top:40px;
+	}
+	
+	.ui.orga{
+		background:url({{ app_url_packaged }}/images/match_12.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:4rem 0 15rem;
+		color:#fff;
+	}
+	.ui.orga hr{
+		background:#fff !important;
+	}
+	.ui.orga img{
+		margin:7px auto;
+	}
+	.ui.orga .row img{
+		padding-left:1em;
+	}
+	.ui.orga .row p{
+		font-size:18px;
+		padding-left:0.8em;
+	}
+	.ui.orga .row{
+		width:95% !important;
+		margin:auto;
+	}
+	
+	.ui.copy .row{
+		width:90% !important;
+		margin:auto;
+	}
+	.ui.copy p{
+		line-height:24px;
+	}
+	.ui.copy .ui.grid .row .column{
+		position:relative;
+		z-index: 999;
+	}
+	.ui.copy img{
+		position:absolute;
+	}
+	.ui.copy .row:nth-child(2){
+		padding-top:40px;
+	}
+	.ui.copy img.img-1{
+		left:15%;
+		top:0;
+		z-index:-1;
+	}
+	.ui.copy img.img-2{
+		left: -6%;
+		top: 40%;
+		z-index:-1;
+	}
+	.ui.copy .img-3{
+		width:85px;
+		height:47px;
+		background:url({{ app_url_packaged }}/images/match_4.png) center center no-repeat;
+		right: 2%;
+		top: 53%;
+		position:absolute;
+		z-index:-1;
+	}
+	.ui.copy img.img-4{
+		right:5%;
+		top:0;
+		z-index:-1;
+	}
+	.ui.contact{
+		background:url({{ app_url_packaged }}/images/match_020.jpg) scroll center center no-repeat;
+		background-size:cover;
+		color:#fff;
+		padding:4rem 0 33rem;
+	}
+	.ui.contact hr{
+		background:#fff !important;
+	}
+	
+	.ui.realize{
+		background:url({{ app_url_packaged }}/images/match_18.jpg) scroll center center no-repeat;
+		background-size:cover;
+		color:#fff;
+		padding:15% 0 5%;
+		position:relative;
+	}
+	.ui.realize > .ui.grid > .column > img{
+		width:420px;
+		height:420px;
+		position:absolute;
+		top:-210px;
+		left: 36%;
+	}
+	
+	.right.nav{
+		width: 80px;
+		position: fixed;
+		top: 20%;
+		right:5%;
+		z-index: 9999;
+	}
+	.right.nav .ui.items .item:first-child{
+		margin-bottom:1rem;
+	}
+	.right.nav .ui.items .item{
+		background:rgba(0,0,0,0);
+		cursor:auto;
+		text-align:center;
+		margin-bottom: .5rem;
+	}
+	.right.nav .ui.items .ui.button{
+		border-radius:0 !important;
+		background-color:#f36 !important;
+		color:#fff !important;
+		border:1px solid rgba(0,0,0,0);
+	}
+	.right.nav,.ui.collection .row:last-child,.ui.times .row:last-child,.ui.judges .row:last-child .image,.ui.judges .row:last-child .content{
+		transition-timing-function: ease-out;
+		-moz-transition-timing-function: ease-out;
+		-webkit-transition-timing-function: ease-out;
+		-o-transition-timing-function: ease-out;
+		transition-duration: .3s;
+		-moz-transition-duration: .3s;
+		-webkit-transition-duration: .3s;
+		-o-transition-duration: .3s;
+	}
+	
+	.ui.allist .ui.items > .item{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		background-color: #fff;
+		border-radius: 0.3125em;
+		min-height:320px;
+		border: 1px solid rgba(0,0,0,0.1);
+		cursor:auto;
+	}
+	.ui.sort.grid > .row {
+		margin-bottom: 2%;
+	}
+	
+	
+	
+</style>
+{% endblock %}
+{% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
+
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	/*
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
+	phenix.bind_share_list(pic_url);
+  */
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream2'});
+
+{% endblock %}
+{% block content %}
+
+<section class="start">
+	<!--<img src="{{ app_url_packaged }}/images/match_1.jpg" width="100%" height="100%" draggable="false">-->
+</section>
+<section class="ui nav responsive grid">
+	<div class="middle aligned row">
+		<div class="twelve wide column">
+			<div class="ui magenta horizontal divided list">
+				<a href="{{ app_url_contest }}/dream2" class="ui link active item">首页</a>
+				<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+				<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+				<a href="{{ app_url_contest }}/dream2#coop" class="ui link item">合作资源</a>
+			</div>
+		</div>
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+				提交作品
+				<i class="icon-arrow-right-sharp"></i>
+			</a>
+		</div>
+	</div>
+</section>
+<section class="ui about white background big block">
+	<a name="plan"></a>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<p>有没有这样一个大赛项目——</p>
+				<p>能真正实现创意征集全民化？推崇全民参与，拒绝专业垄断？</p>
+				<p>能真的做到许可征稿不设限？设计稿也好，说明文稿也罢，照单全收？</p>
+				<p>能真正识别优秀产品创意并实现生产制造落地？令想法变成实物？</p>
+				<p>能斥资一百万只为寻找十万个绝佳创意？</p>
+				<h3 class="ui header">创意不死，灵感永生！</h3>
+				<h3 class="ui header">你只需要负责想，我们来帮你做！</h3>
+				<p>梦想还是要有的，万一要是实现了呢？ </p>
+				<p>或许有一天，万万没想到的是，</p>
+				<p>你不经意的一个创意或许将影响整个世界！</p>
+				<img class="img-1" src="{{ app_url_packaged }}/images/match_2.png">
+				<img class="img-2" src="{{ app_url_packaged }}/images/match_3.png">
+				<img class="img-3" src="{{ app_url_packaged }}/images/match_4.png">
+				<img class="img-4" src="{{ app_url_packaged }}/images/match_5.png">
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui realize block">
+	<div class="ui responsive grid">
+		<div class="center aligned column">
+			<p>“十万火计”为太火鸟精品长线创意征集大赛活动，</p>
+			<p>大赛第一季首期即开启就取得了社会的广泛关注，</p>
+			<p>此次为第二季校园专属季，面向全国广大校园学生群体特别开展，多维度征集产品创意。</p>
+			<p>自古英雄出少年，少年英雄多创意！</p>
+			<p><br></p>
+			<p>恰同学少年，风华正茂，</p>
+			<p>太火鸟广发英雄帖欢迎各位在校师生以个人或团队形式参加十万火计，</p>
+			<p>如果你是设计学院专业出身我们欢迎你，</p>
+			<p>如果你是财经、人文、理工其他非设计专业的同学我们更加欢迎你！</p>
+			<p>不需要你那么懂设计，只需要你有想法，</p>
+			<p>在十万火计里，是每个有创意有梦想的人的主场，</p>
+			<p>太火鸟邀请你们一起用右脑思维缔造性感产品！</p>
+			<img src="{{ app_url_packaged }}/images/match_023.png" draggable="false">
+		</div>
+	</div>
+	
+</section>
+<section class="ui big collection white background block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					征集内容 / COLLECTION
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<p>我们珍视你每一次的灵感闪现，欢迎毕业生提交毕业设计，这将是你最有意义的一次毕业展</p>
+				<p>表现形式不限，以清晰传达理念为标准，</p>
+				<p>可以是未成形的创意点子，也可以是已成型的产品，可以是设计图稿，也可以仅仅只是说明文稿。</p>	
+				<p>只要能保证受众可以轻松看懂并领会精神即可。</p>
+				<p>产品设计创意包含且不仅限于智能硬件产品、科技产品、创意相关产品</p>
+			</div>
+		</div>
+		
+		<div class="row" style="position: relative;height: 465px;">
+			
+			<div class="circles-container">
+				<div id="c4" class="circle"></div>
+				<div id="c5" class="circle"></div>
+				<div id="c9" class="circle"></div>
+				<div id="c11" class="circle"></div>
+				<div id="c14" class="circle"></div>
+				<div id="c18" class="circle"></div>
+				<div id="t2" class="text">
+					<h3>生活周边</h3>
+					<img src="{{ app_url_packaged }}/images/match_6.png">
+				</div>
+				<div id="t3" class="text">
+					<h3>智能硬件</h3>
+					<img src="{{ app_url_packaged }}/images/match_8.png">
+				</div>
+				<div id="t4" class="text">
+					<h3>可穿戴</h3>
+					<img src="{{ app_url_packaged }}/images/match_11.png">
+				</div>
+				<div id="t5" class="text">
+					<h3>医疗健康</h3>
+					<img src="{{ app_url_packaged }}/images/match_7.png">
+				</div>
+				<div id="t6" class="text">
+					<h3>智能家居</h3>
+					<img src="{{ app_url_packaged }}/images/match_9.png">
+				</div>
+				<div id="t7" class="text">
+					<h3>创意产品</h3>
+					<img src="{{ app_url_packaged }}/images/match_10.png">
+				</div>
+			</div>
+			
+		</div>
+		<div class="row" data-2630="transform: translateY(300px);-webkit-transform: translateY(300px);" data-2631="transform: translateY(0px);-webkit-transform: translateY(0px);">
+			<div class="center aligned column" style="border: 1px solid #f36;color: #f36;">
+				<p>1 / 设计作品须紧扣以上所述产品类型提交； </p>
+				<p>2 / 作品为参赛者原创，可以团体或多人合作，需标明学校、作者及合作者姓名；</p>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui big times grid">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					大赛日程 / TIMES
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="circles-container">
+					<img data-3270="display:none;" data-3271="display:block;" class="image img1" src="{{ app_url_packaged }}/images/match_15.png">
+					<img data-3200="display:none;" data-3201="display:block;" class="image img2" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img3" data-3205="display:none;" data-3206="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img4" data-3260="display:none;" data-3261="display:block;" src="{{ app_url_packaged }}/images/match_14.png">
+					<img class="image img5" data-3210="display:none;" data-3211="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img6" data-3220="display:none;" data-3221="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img7" data-3230="display:none;" data-3231="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img8" data-3240="display:none;" data-3241="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img9" data-3250="display:none;" data-3251="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<div class="text cont-1" data-3200="display:none;" data-3201="display:block;">
+						<p>提交作品<br>
+						2015.02.08-06.20</p>
+					</div>
+					<div class="text cont-2" data-3210="display:none;" data-3211="display:block;">
+						<p>入围公示<br>
+							2015.06.22</p>
+					</div>
+					<div class="text cont-3" data-3230="display:none;" data-3231="display:block;">
+						<p>作品评审<br>
+							2015.06.25</p>
+					</div>
+					<div class="text cont-4" data-3250="display:none;" data-3251="display:block;">
+						<p>获奖公示<br>
+							2015.06.29</p>
+					</div>
+			
+			</div>
+		</div>
+	
+	
+	</div>
+</section>
+<section class="ui big judges white background block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					评审专家 / JUDGES
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="ui ptop center aligned column">
+				
+				<div class="ui five items">
+					<div class="item">
+						<div class="image" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
+						</div>
+						<div class="content" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">徐小平</h4>
+							<h5>真格天使投资基金创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
+						</div>
+						<div class="content" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">黎万强</h4>
+							<h5>小米科技联合创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
+						</div>
+						<div class="content" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">贾伟</h4>
+							<h5>洛可可设计集团创始人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
+						</div>
+						<div class="content" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">童玮亮</h4>
+							<h5>梧桐树资本创始合伙人</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
+						</div>
+						<div class="content" data-3700="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3701="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">雷海波</h4>
+							<h5>太火鸟创始人\CEO</h5>
+						</div>
+					</div>
+				</div>
+			
+				<div class="ui five items">
+					<div class="item">
+						<div class="image" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="刘毅" src="{{ app_url_packaged }}/images/match_25.png">
+						</div>
+						<div class="content" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">刘毅</h4>
+							<h5>广州美术学院交互设计工作室</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="付志勇" src="{{ app_url_packaged }}/images/match_26.png">
+						</div>
+						<div class="content" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">付志勇</h4>
+							<h5>清华美院信息艺术设计系副主任</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="孙远波"src="{{ app_url_packaged }}/images/match_27.png">
+						</div>
+						<div class="content" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">孙远波</h4>
+							<h5>北京理工大学设计与艺术学院 工业设计系主任</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="王昀"src="{{ app_url_packaged }}/images/match_28.png">
+						</div>
+						<div class="content" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">王昀</h4>
+							<h5>中国美院设计艺术学院副院长</h5>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<img alt="彦风" src="{{ app_url_packaged }}/images/match_29.png">
+						</div>
+						<div class="content" data-3900="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3901="-webkit-transform: scale(1); transform: scale(1)">
+							<h4 class="ui header">彦风</h4>
+							<h5>国家数字媒体创新设计 研究中心主任</h5>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui repay block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					梦想回报 / REPAY
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui three center aligned items">
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">一等奖（1名）</h4>
+						<h5> 奖金（￥10000元）+ 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">二等奖（2名）</h4>
+						<h5> ipad mini  64G+ 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">三等奖（3名）</h4>
+						<h5> wacom Bamboo绘图板+ 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">入围奖（30名）</h4>
+						<h5> 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">校园组织奖（3名）</h4>
+						<h5> 荣誉证书</h5>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<p>＊所有获奖作品太火鸟会根据团队及产品的实际情况进行优先孵化</p>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui big white background products block">
+	<div class="ui responsive allist grid">
+		{% stuff_list var:'list' is_top:true category_id:dream_category_id sticked:1 page:1 size:8 %}
+    {% if list.rows %}
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					推荐作品 / PRODUCTS
+				</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+
+				<div class="ui four items">
+
+					{% for stuff in list.rows %}
+            {% if stuff.cover %}
+              <div class="item"> 
+               <div class="content"> 
+                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
+                 <div class="image"> 
+                   <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
+                 </div> 
+                 <div class="advantage">
+                  {{ stuff.strip_description|truncate 140 }} 
+                 </div> </h4> 
+                <div class="i-stats">
+                  <div class="schedule"> 
+                   <div class="status clearfix"> 
+                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
+                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                   </div> 
+                  </div> 
+                </div>
+               </div> 
+              </div>
+            {%else%}
+              <div class="item"> 
+               <div class="content"> 
+                <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
+                 <div class="full advantage">
+                   {{ stuff.strip_description|truncate 580 }} 
+                 </div> </h4> 
+                <div class="i-stats">
+                  <div class="schedule"> 
+                   <div class="status clearfix"> 
+                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
+                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                   </div> 
+                  </div> 
+                </div>
+               </div> 
+              </div>
+            {%endif%}
+          {%endfor%}
+					
+				</div>
+			</div>
+		</div>
+    {% endif %}
+		<div class="center aligned row">
+			<div class="center aligned column">
+				<a href="{{ app_url_contest }}/allist2" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					全部创意
+				</a>
+				<a href="{{ app_url_contest }}/submit?season=dream2" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					提交创意
+				</a>
+			</div>
+		</div>
+	</div>
+	
+</section>
+<section class="ui stars block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					院校之星 / Academy Stars
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<p>他们曾经也和你们一样，在太火鸟帮助与扶持下，将创意点燃落地成为了产品，经过孵化已成功走向市场</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui three center aligned items">
+				<div class="item">
+					<div class="image">
+						<img alt="陈清华" src="{{ app_url_packaged }}/images/match_30.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">陈清华</h4>
+						<h5>婴萌科技创始人 / 清华大学毕业<br>婴萌配奶机</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img alt="邱懿武" src="{{ app_url_packaged }}/images/match_31.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">邱懿武</h4>
+						<h5>云造科技创始人 / 浙江大学毕业<br>云造智行车</h5>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="image">
+						<img alt="李一舟" src="{{ app_url_packaged }}/images/match_32.png">
+					</div>
+					<div class="content">
+						<h4 class="ui header">李一舟</h4>
+						<h5> 匙悟科技创始人 / 清华大学毕业<br> 睡眠灯</h5>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+		
+	</div>
+</section>
+<section class="ui big coope white background block">
+	<a name="coop"></a>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					合作资源  /  Cooperation resources
+				</h3>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/match_0016.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>清华大学美术学院服务设计研究所</h3>
+				<p>清华美院服务设计研究所作为具有国际影响力的创新平台，研究所的三个模块包括：智慧城市研究（设计北京实验室、Living Lab创意社区平台）探究国际化的人本城市与服务设计解决方案，构建政产学研商协同的伙伴社区。设计创新孵化（设计合伙人、Designow设计力创新）提供创新模式的设计服务，构建设计生态圈。创客教育平台（清华创客空间、青橙创客教育） 通过创客课程、比赛、工作坊与项目孵化，将设计与科技互融的创意变为现实。</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/match_17.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>广州美院太火鸟联合孵化实验室</h3>
+				<p>太火鸟与广州美术学院工业设计学院整合双方优势资源，共同组织华南地区的创意产业孵化平台。并在该平台之上定期组织相关的产品创意概念演示、评审、推介等的服务。为华南地区的创意创业人士提供新产品体验、创意信息交流的场地。</p>
+			</div>
+		</div>
+    <!--
+		<div class="row">
+			<div class="center aligned column">
+				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					查看更多
+				</a>
+			
+				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					提交合作
+				</a>
+			</div>
+		</div>
+    -->
+	</div>
+</section>
+<section class="ui orga grid">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					组织机构 / ORGANIZATION
+				</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<p>主办单位</p>
+				<img src="{{ app_url_packaged }}/images/thn_logo.jpg">
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<p>合作伙伴</p>
+				<img src="{{ app_url_packaged }}/images/zymy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/qhmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/gzmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/zgmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/hbmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/xamy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/lxmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/scmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/tjmy_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/zjdx_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/bjlg_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/xhckh_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/ckkj_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/shijue_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/zcool_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/billwang_logo.jpg">
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui copy white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					版权声明 / COPYRIGHT
+				</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<p>依据国家有关法律法规，凡主动提交作品的“参赛者”或“作者”，</p>
+				<p>特此承诺对其所提交的作品版权归属作如下不可撤销之声明：</p>
+				<img class="img-1" src="{{ app_url_packaged }}/images/match_21.jpg">
+				<img class="img-4" src="{{ app_url_packaged }}/images/match_5.png">
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<p>1 / 原创声明参赛作品是参赛者原创作品，未侵犯任何他人的任何专利、著作权、商标权及其他知识产权；
+				该作品未在报刊、杂志、网站及其它媒体公开发表，未申请专利或进行版权登记的作品，未参加过其他比赛，未以任何形式进入商业渠道。
+				</p>
+				<p>获奖设计师保证参赛作品终身不以同一作品形式参加其他的设计比赛或转让给他方。否则，主办单位将取消其参赛、入围与获奖资格，收回奖金、奖品及并保留追究法律责任的权利,由此给主办方及其附属单位造成损失的，参赛者应当赔偿。
+				</p>
+				<p><br></p>
+				<p>2 / 参赛作品知识产权归属：获奖作品作为委托创作作品，其全部著作权归大赛主办方所有（即太火鸟所有）。包括但不限于以下方式行使著作权：享有对所属大赛作品方案进行再设计、生产、销售、展示、出版和宣传等权利。
+				</p>
+				<p>大赛主办方对所有获奖作品拥有展示和宣传等权利。其它任何单位和个人（包括作者本人）未经授权不得以任何形式对作品转让、复制、转载、传播、摘编、出版、发行、许可使用等。</p>
+				<p><br></p>
+				<p>3 / 参赛者提交作品之前，已仔细阅读上述条款，充分理解并表示同意。</p>
+				<p><br></p>
+				<p>本次大赛的评委会拥有对所有获奖作品的最终裁定权</p>		
+				<img class="img-2" src="{{ app_url_packaged }}/images/match_22.png">
+				<div class="img-3"></div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui contact block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h3 class="ui header">
+					联系方式 / CONTACT
+				</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<p>大赛组委会联络人</p>
+				<p>Name / 柳笛</p>
+				<p>Tel / 010-84599328</p>
+				<p>E-mail / liudi @ taihuoniao.com</p>
+			</div>
+		</div>
+	</div>
+	</div>
+</section>
+<div class="right nav" data-1380="transform: translateX(300px);-ms-transform: translateX(300px);-moz-transform: translateX(300px);-webkit-transform: translateX(300px);-o-transform: translateX(300px);" data-1381="transform: translateX(0px);-ms-transform: translateX(0px);-moz-transform: translateX(0px);-webkit-transform: translateX(0px);-o-transform: translateX(0px);">
+	<div class="ui grid">
+		<div class="row">
+			<div class="ui one items">
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/match_0033.gif" width="100%">
+				</div>
+				<div class="item">
+					<a href="http://weibo.com/taihuoniao" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
+										<i class="flat icon_weibo icon"></i>
+									</a>
+				</div>
+				<div class="item">
+					<a href="http://t.qq.com/taihuoniao" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
+										<i class="flat icon_qqweibo icon"></i>
+									</a>
+				</div>
+				<div class="item">
+					<a href="javascript:void(0);" id="douban-share" class="ui douban circular share icon button" title="豆瓣">
+						<i class="flat icon_douban icon"></i>
+					</a>
+				</div>
+				<div class="item">
+					<a href="" class="ui green circular share wechat icon button" title="微信">
+										<i class="flat icon_weixin icon"></i>
+									</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -12,7 +12,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 	
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/product/index.html';
-	
+	protected $exclude_method_list = array('api_view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_sale');
@@ -70,7 +70,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 	/**
 	 * 保存产品预售销售信息
 	 */
-	public function save_product_presale_info(){		
+	public function save_product_presale_info(){
 		$id = (int)$this->stash['_id'];
 		$redirect_url = Doggy_Config::$vars['app.url.sale'];
 		if(empty($id)){
@@ -263,7 +263,31 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
-	
+
+	/**
+	 * app商品描述部分html5展示
+	 */
+	public function api_view(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('访问的产品不存在！', 3000);
+		}
+		
+		$product = array();
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$id);
+
+		if($product['deleted']){
+			return $this->api_json('访问的产品不存在或已被删除！', 3001);
+		}
+
+    //加载model扩展数据
+    $product = $model->extended_model_row($product);
+
+		$this->stash['product'] = &$product;
+		return $this->to_html_page('page/product/api_show.html');
+	}
 	
 }
 ?>

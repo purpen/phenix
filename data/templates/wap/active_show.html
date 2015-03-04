@@ -1,0 +1,554 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{{ active.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.start{
+		padding-top:1rem !important;
+	}
+	.start .content{
+		font-size:14px;
+		line-height:23px;
+	}
+	.start .content span{
+		font-size:16px;
+		font-weight:700;
+	}
+	.ui.big.block{
+		padding-top:1.5rem !important;
+	}
+	.ui.btn:hover,.ui.btn{
+		padding: .8em 1.5em !important;
+		border-radius:4px;
+		min-width:114px;
+	}
+	.ui.btn-4:before{
+		font-size:1em;
+	}
+	.ui.abstract .ui.grid>.row:first-child{
+		margin-top:1.5% !important;
+	}
+	.ui.abstract .ui.grid>.row+.row{
+		margin-top:0 !important;
+		padding-top:0.3rem;
+	}
+	h4.ui.header{
+		margin-bottom:0.5rem !important;
+	}
+	.ui.breadcrumb{
+		margin-bottom:1.5em !important;
+	}
+	
+	
+	.rundown-timeline-container {
+		height: auto;
+		margin: 0 auto;
+		max-width: 320px;
+		position: relative;
+		width: 100%;
+	}
+	.rundown-timeline-container:before {
+		background: none repeat scroll 0 0 #DCDEE1;
+		content: "";
+		height: 75px;
+		left: 29%;
+		position: absolute;
+		top: 39px;
+		width: 3px;
+	}
+	.rundown-timeline-container.bottom {
+		height: 45px;
+	}
+	.rundown-timeline-container.bottom:before{
+		height:0;
+	}
+	.timeline-red-dot {
+		background-color: #00b6ae;
+		border-radius: 14px 14px 14px 14px;
+		height: 13px;
+		left: 26%;
+		margin-left: -2px;
+		position: absolute;
+		top: 19px;
+		width: 13px;
+		border: 7px solid #cdf5f3;
+	}
+	.timeline-block {
+		height: 100px;
+		margin: 0;
+		position: relative;
+		top: -5px;
+	}
+	.timeline-content.right {
+		float: right;
+	}
+	.timeline-content {
+		float: right;
+		width: 65%;
+	}
+	.timeline-content.right .time {
+		font-weight: normal;
+		top: 14px;
+		min-width: 65px;
+		text-align: center;
+	}
+	.timeline-content .time {
+		font-size: 12px;
+		font-weight: bold;
+		left: 0%;
+		line-height: 38px !important;
+		position: absolute;
+	}
+	.timeline-content .name {
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 16px;
+		margin-top: 25px !important;
+		margin-bottom: 0;
+		color: #222;
+	}
+	.timeline-content .name.top{
+		margin-top: 25px !important;
+		font-size: 20px;
+	}
+	.timeline-content .title {
+		font-size: 12px;
+		line-height: 16px;
+		margin: 9px 0 5px !important;
+	}
+	.title img{
+		display: block;
+		margin: 0 auto;
+		width: 3em;
+		height: 3em;
+		border-radius: 500px;
+		float: left;
+	}
+	.title .content{
+		padding-top: .25em;
+		margin-left: 3.5em;
+		font-size:12px;
+		color:#666;
+	}
+	.text {
+		margin: .25em 0 .5em;
+		word-wrap: break-word;
+		line-height: 1.325em;
+		font-size:14px;
+	}
+	
+	.ui.w-600 {
+		width: 350px;
+		margin: 0 auto;
+		position: relative;
+		background: rgb(74,74,74);
+		padding: 10px 0;
+	}
+	.ui.w-600 #signup-avatar {
+		padding: 0 0 0 7px;
+	}
+	.ui.w-600 .image {
+		width: 50px;
+		height: 50px;
+		display: inline-block;
+		padding: 6px 1px;
+	}
+	.ui.w-600 .image img {
+		width: 50px;
+		height: 50px;
+		opacity: 0.6;
+		border-radius: 50%;
+	}
+	.ui.together a img{
+		width: 77px;
+		margin: 5px;
+		border: 1px solid #ccc;
+	}
+	
+	hr{
+		border: medium none;
+		height: 1px;
+		margin: 0 auto;
+		width: 30px;
+		background: #f36 !important;
+	}
+	
+</style>
+{% endblock %}
+{% block layout_js %}
+<script type="text/javascript">
+//ajax获取报名列表
+  function fetch_signup_avatar(){
+    var url = '{{ app_url_wap }}/app/site/active/ajax_fetch_signup';
+    var target_id = {{ active._id }};
+    $.get(url, { target_id: target_id, evt:1, from:'wap' });
+  }
+
+//评论分页
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
+    $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, per_page: per_page});
+  }
+
+</script>
+{% endblock %}
+{% block jquery %}
+	$('.ui.attend.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect('{{ app_url_wap }}/auth/login');
+			return false;
+		}
+    $('.ui.user-info-box.modal').modal('show');
+    return false;
+  });
+	
+	// 申请表地址信息
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+
+  //报名按钮
+	$('.ui.attend.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    $('.ui.user-info-box.modal').modal('show');
+    return false; 
+
+	});
+
+  //取消报名弹出框
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+	
+	phenix.hook_comment_page();
+	//ajax加载评论
+	fetch_comment(1, per_page);
+	
+	$('.ui.tabox').smint({
+    	'scrollSpeed': 1000
+  });
+
+  //ajax获取报名列表头像
+  fetch_signup_avatar();
+{% endblock %}
+{% block content %}
+<div class='active page'>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui breadcrumb">
+				  	<a class="section" href="{{ app_url_wap }}">
+						<i class="icon home"></i>首页
+					</a>
+				  	<div class="divider"> / </div>
+				  	<div class="active section">活动</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img src="{{ active.wap_banner.fileurl }}" width="100%">
+	<div class="ui start responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="content">
+					<span>{{ active.title }}<br></span>
+					时间:{{ active.begin_time|date 'Y-m-d H:i' }}<br>
+					地点:{{ active.address }}<br>
+					人数:{{ active.max_number_count }}人
+				</div>
+			</div>
+		</div>
+		
+		
+		{% if active.step_stat==1 %}
+      <div class="row">
+        <div class="center aligned column attend-box">
+        {% if is_attend %}
+          <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+            <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        {%else%}
+          <a class="ui btn-4 btn-4c attend magenta icon-arrow-right btn" href="javascript:void(0);">
+            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        {%endif%}
+        </div>
+      </div>
+    {%endif%}
+		{% if active.step_stat==2 %}
+		<div class="row">
+			<div class="center aligned column attend-box">
+				<a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);" style="background:#ccc;">
+					<span>活动结束</span><i class="icon-arrow-right-sharp"></i>
+				</a>
+			</div>
+		</div>
+		{%endif%}
+
+	</div>
+	<div class="ui big abstract block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						活动介绍
+					</h4>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="content">
+            {{ active.content }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui big process block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						活动流程
+					</h4>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+        {% if active.process %}
+              {% for p in active.process %}
+                <div class="rundown-timeline-container">
+                  <div class="timeline-block">
+                    <div class="timeline-red-dot"></div>
+                    <div class="timeline-content right">
+                      <div class="time">{{ p.time }}</div>
+                      <p class="name"> {{ p.title }}  </p>
+                      <div class="title">
+                        {% if p.img %}
+                        <img src="{{ p.img }}" alt="{{ p.name }}">
+                        {%endif%}
+                        <div class="content">
+                          {{ p.name }}  
+                          <div class="text">
+                            {{ p.position }}
+                          </div>
+                        </div>	
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              {%endfor%}
+            {%endif%}
+				
+				<div class="rundown-timeline-container bottom">
+					<div class="timeline-block">
+						<div class="timeline-red-dot"></div>
+					</div>
+				</div>
+			</div>
+			
+		{% if active.step_stat==1 %}
+      <div class="row">
+        <div class="center aligned column attend-box">
+        {% if is_attend %}
+          <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+            <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        {%else%}
+          <a class="ui btn-4 btn-4c attend magenta icon-arrow-right btn" href="javascript:void(0);">
+            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        {%endif%}
+        </div>
+      </div>
+    {%endif%}
+			
+		</div>
+	</div>
+	
+	<div class="ui big report block">
+		<div class="ui w-600">
+			<div id="signup-avatar">
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				          <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+		          </div>
+				<div class="image avatar-list">
+				            <img src="http://frstatic.qiniudn.com/images/avatar_default_big.jpg">
+				 </div>
+				
+				
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="ui big together background block">
+	    <div class="ui responsive grid">
+		  	<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						合作伙伴
+					</h4>
+					<hr>
+				</div>
+			</div>
+		
+	      <div class="row">
+			    {% if active.partner %}
+            <div class="center aligned column">
+            {% for p in active.partner %}
+              <a href="{{ p.url }}" title="{{ p.title }}" target="_blank"><img src="{{ p.img }}" alt="{{ p.title }}" /></a>
+            {%endfor%}
+            </div>
+	        {%endif%}
+
+	    </div>
+	  </div>
+	
+	<div class="ui comment big background block">
+	    <div class="ui responsive grid">
+	      <div class="row">
+	        <div class="center aligned column">
+	          <h4 class="ui header">活动评论</h4>
+			  <hr>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	<div class="ui white background block">
+	  <div class="ui responsive grid">
+	    {% if active.topic_ids %}
+	    <div class="row">
+				<div class="column">
+					<a name="comment"></a>
+	        <div class="ui big reply segment">
+	          <!--ajax comment-->
+	          <div id="comment-list"></div>
+	          {% include "block/comment_box_wap.html" %}
+	        </div>
+				</div>
+			</div>
+	    {% endif %}
+
+	    </div>
+	  </div>
+	</div>
+{% include "block/wap_attend_user_info.html" %}
+{% endblock %}

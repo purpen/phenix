@@ -1,6 +1,7 @@
 ---
 app.domain.base: 'http://www.taihuoniao.com'
 app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+app.domain.mobile: 'http://m.taihuoniao.com'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'prod'
 deploy.root: '/www/phenix'
@@ -37,11 +38,22 @@ app.redis.default:
     host: '10.9.29.163'
     port: 6379
 
+# 周年庆送红包活动 开关
+app.anniversary2015.switch: 0
+
 # 产品话题类别
 app.product.topic_category_id: 19
 
-# 十万火计
-app.topic.dream_category_id: 21
+# 十万火计(old)
+app.topic.dream_category_id: 49
+
+# 十万火计2
+app.contest.dream2_category_id: 49
+
+# 产品灵感
+app.topic.idea_category_id: 16
+# 蛋年活动
+app.birdegg.category_id: 80
 
 # 就现在商品
 app.comeon.product_id: 1112616234
@@ -102,6 +114,7 @@ app.url.upload.pictures: '{$app.url.upload}'
 app.url.upload.avatar: '{$app.url.upload}'
 app.url.upload.dotry: '{$app.url.upload}'
 app.url.upload.advertise: '{$app.url.upload}/advertise'
+app.url.upload.stuff: '{$app.url.upload}'
 
 # 银联支付
 app.quickpay.key: '898111153990242'

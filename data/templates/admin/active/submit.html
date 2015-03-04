@@ -1,0 +1,1256 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑活动-{% endblock %}
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
+<style type="text/css">
+	.ui.ok.button {
+		margin-top: 1.7em;
+	}
+	.ui.add.button {
+		padding: 0.3em;
+		margin-left: 1em;
+	}
+	.ui.close.button {
+		margin-top: 1.65em;
+	}
+	.ui.close.button > .icon {
+		margin-top: 0.4em;
+	}
+	.ui.stage.header {
+		margin-top: 2.5em;
+	}
+	.ui.items .item .actions {
+		text-align: center;
+	}
+	.field > .ui.checkbox {
+		margin-right: 1em;
+	}
+	.ui.checkbox .box, .ui.checkbox label {
+		padding-left: 1.5em;
+	}
+  .icon-photo-banner:before {
+    content: "\f03e";
+  }
+  .partner-box.two.fields .field:first-child,.process-box.two.fields .field:first-child{
+	width:90%;
+}
+  .partner-box.two.fields .field:nth-child(2),.process-box.two.fields .field:nth-child(2){
+	width:10%;
+}
+  .partner-box.two.fields .field input[type="button"],.process-box.two.fields .field input[type="button"]{
+	padding: 10px 15px;
+	margin-right:5px;
+	border: 1px solid #f36;
+	border-radius: 5px;
+}
+.partner-box.five.fields .field input[type="button"],.process-box.five.fields .field input[type="button"],.partner-box.seven.fields .field input[type="button"],.process-box.seven.fields .field input[type="button"]{
+	padding: 10px 12px;
+	margin-right:2px;
+	border: 1px solid #f36;
+	border-radius: 5px;
+}
+  #map-box .one.fields .field{
+	width:98%;
+}
+.ui.form .seven.fields>.field {
+	width: 13.28% !important;
+	padding-left: .5%;
+	padding-right: .5%;
+}
+.desc-box .desc-box+.buttons{
+	padding:.8em;
+}
+.desc-box input[type="button"],.desc-box+.buttons{
+	display:inline-block;
+	float:right;
+}
+.desc-box input[type="button"]{
+	border: 1px solid #f36;
+	border-radius: 4px;
+	color: #f36;
+	cursor: pointer;
+}
+.ui.segment .two.fields input[type="text"]+input[type="button"]{
+  padding: 0 0!important;
+  height: 29px;
+  width: 38px;
+  border: 0px solid rgba(0,0,0,0);
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  margin-bottom: 9px;
+}
+.ui.magenta.button,.field,input[type="text"]{
+	margin-bottom:1px !important;
+}
+.ui.form .inline.fields .field>:first-child{
+	margin-left:1px;
+}
+.field{
+  overflow:hidden;
+}
+.ui.form .field {
+	padding-bottom: 1em;
+}
+h3.ui.header{
+	font-weight:500;
+}
+#process-box .seven.fields .field,#partner-box-edit .five.fields .field,#partner-box .five.fields .field{
+	padding-bottom:0.3em;
+}
+#process-box .seven.fields .field:last-child,#partner-box-edit .five.fields .field:last-child,#partner-box .five.fields .field:last-child,#process-box .seven.fields .field:last-child input[type="button"],#process-box-edit .seven.fields .field:last-child,#process-box-edit .seven.fields .field:last-child input[type="button"],#partner-box-edit .five.fields .field:last-child,#partner-box .five.fields .field:last-child,#partner-box .five.fields .field:last-child input[type="button"],#partner-box-edit .five.fields .field:last-child input[type="button"]{
+	float:right;
+}
+
+#partner-box-edit .partner-box .field:first-child,#partner-box-edit .partner-box .field:nth-child(2),#partner-box .partner-box .field:first-child,#partner-box .partner-box .field:nth-child(2){
+	width: 12.5% !important;
+	padding-right:0;
+	padding-left:0.5%;
+}
+#partner-box-edit .partner-box .field:nth-child(5),#partner-box .partner-box input[type="hidden"]+.field,#partner-box .partner-box .field:last-child{
+	width:14% !important;
+	padding-right:0;
+	padding-left:0.5%;
+}
+#partner-box-edit .partner-box .field:nth-child(3),#partner-box-edit .partner-box .field:nth-child(4),#partner-box .partner-box .field:nth-child(3),#partner-box .partner-box .field:nth-child(4){
+	width: 30%;
+	padding-right:0;
+	padding-left:0.5%;
+}
+.process-box.seven.fields .field label,.partner-box.five.fields .field label{
+	border: 1px solid rgba(0,0,0,.15);
+	padding: .65em .8em;
+	border-radius: .2125em;
+	min-height: 19px;
+  max-height: 19px;
+	overflow:hidden;
+}
+.map-box-btn{
+	width:34px;
+	height:34px;
+	background:url({{ app_url_packaged }}/images/active_map.png) no-repeat;
+	cursor: pointer;
+	position: relative;
+	float: right;
+	top: -37px;
+	right: 3px;
+}
+#partner-box .partner-box input[type="hidden"]+.field+.field {
+  width: 12.5% !important;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <!--引用百度地图API-->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=N8Y86jHulT4qDOAmLb47vU7y"></script>
+
+	{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
+	<script src="{{ app_url_packaged }}/javascript/calendar.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+
+
+
+
+    function generate_html(obj){
+      var p_sort = obj.parents('.process-box').find('[name="process_temp[sort]"]').val();
+      var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
+      var p_title = obj.parents('.process-box').find('[name="process_temp[title]"]').val();
+      var p_name = obj.parents('.process-box').find('[name="process_temp[name]"]').val();
+      var p_position = obj.parents('.process-box').find('[name="process_temp[position]"]').val();
+      var p_img = obj.parents('.process-box').find('[name="process_temp[img]"]').val();
+
+      var total_join = p_sort + '|' + p_time + '|' + p_title + '|' + p_name + '|' + p_position + '|' + p_img;
+      var html = '';
+      html+='<div class="process-box seven fields">';
+      html+='<div class="field" style="display:none;"><label>'+ p_sort +'</label></div>';
+      html+='<div class="field"><label>'+ p_time +'</label></div>';
+      html+='<div class="field"><label>'+ p_title +'</label></div>';
+      html+='<div class="field"><label>'+ p_name +'</label></div>';
+      html+='<div class="field"><label>'+ p_position +'</label></div>';
+      html+='<div class="field"><img src="'+ p_img +'" width="100" height="50" /></div>';
+      html+='<input type="hidden" name="process[]" value="'+ total_join +'" />';
+      html+='<div class="field"><input type="button" name="del_process_box" value="删除" /><input type="button" name="edit_process_item" value="编辑" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+    function generate_html_edit(obj){
+      var p_sort = obj.parents('.process-box').find('label').text();
+      var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
+      var p_title = obj.parents('.process-box').find('[name="process_temp[title]"]').val();
+      var p_name = obj.parents('.process-box').find('[name="process_temp[name]"]').val();
+      var p_position = obj.parents('.process-box').find('[name="process_temp[position]"]').val();
+      var p_img = obj.parents('.process-box').find('[name="process_temp[img]"]').val();
+
+      var str = obj.parents('.process-box').find('[name="process[]"]').val();
+      var arr = str.split('|');
+      var html = '';
+
+      html+='<div class="process-box seven fields">';
+      html+='<div class="field" style="display:none;"><input type="text" name="process_temp[sort]" value="'+ arr[0] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[time]" value="'+ arr[1] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[title]" value="'+ arr[2] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[name]" value="'+ arr[3] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[position]" value="'+ arr[4] +'" /></div>';
+      html+='<div class="field"><input type="text" name="process_temp[img]" value="'+ arr[5] +'" /></div>';
+      html+='<div class="field"><input type="button" name="save_process_item" value="保存" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+    function generate_partner_html(obj){
+      var p_sort = obj.parents('.partner-box').find('[name="partner_temp[sort]"]').val();
+      var p_name = obj.parents('.partner-box').find('[name="partner_temp[name]"]').val();
+      var p_url = obj.parents('.partner-box').find('[name="partner_temp[url]"]').val();
+      var p_img = obj.parents('.partner-box').find('[name="partner_temp[img]"]').val();
+      var total_join = p_sort + '|' + p_name + '|' + p_url + '|' + p_img;
+      var html = '';
+      html+='<div class="partner-box five fields">';
+      html+='<div class="field" style="display:none;"><label>'+ p_sort +'</label></div>';
+      html+='<div class="field"><label>'+ p_name +'</label></div>';
+      html+='<div class="field"><label>'+ p_url +'</label></div>';
+      html+='<div class="field"><img src="'+ p_img +'" width="100" height="50" /></div>';
+      html+='<input type="hidden" name="partner[]" value="'+ total_join +'" />';
+      html+='<div class="field"><input type="button" name="del_partner_box" value="删除" /><input type="button" name="edit_partner_item" value="编辑" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+    function generate_partner_html_edit(obj){
+      var p_sort = 0;
+      var p_time = obj.parents('.partner-box').find('[name="partner_temp[sort]"]').val();
+      var p_time = obj.parents('.partner-box').find('[name="partner_temp[name]"]').val();
+      var p_title = obj.parents('.partner-box').find('[name="partner_temp[url]"]').val();
+      var p_name = obj.parents('.partner-box').find('[name="partner_temp[img]"]').val();
+
+      var str = obj.parents('.partner-box').find('[name="partner[]"]').val();
+      var arr = str.split('|');
+      var html = '';
+
+      html+='<div class="partner-box five fields">';
+      html+='<div class="field" style="display:none;"><input type="text" name="partner_temp[sort]" value="'+ arr[0] +'" /></div>';
+      html+='<div class="field"><input type="text" name="partner_temp[name]" value="'+ arr[1] +'" /></div>';
+      html+='<div class="field"><input type="text" name="partner_temp[url]" value="'+ arr[2] +'" /></div>';
+      html+='<div class="field"><input type="text" name="partner_temp[img]" value="'+ arr[3] +'" /></div>';
+      html+='<div class="field"><input type="button" name="save_partner_item" value="保存" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+
+
+  var oldLink = null;
+  // code to change the active stylesheet
+  function setActiveStyleSheet(link, title) {
+    var i, a, main;
+    for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+      if(a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+        a.disabled = true;
+        if(a.getAttribute("title") == title) a.disabled = false;
+      }
+    }
+    if (oldLink) oldLink.style.fontWeight = 'normal';
+    oldLink = link;
+    link.style.fontWeight = 'bold';
+    return false;
+  }
+
+  // This function gets called when the end-user clicks on some date.
+  function selected(cal, date) {
+    cal.sel.value = date; // just update the date in the input field.
+    if (cal.dateClicked && (cal.sel.id == "sel1" || cal.sel.id == "sel2"))
+      // if we add this call we close the calendar on single-click.
+      // just to exemplify both cases, we are using this only for the 1st
+      // and the 3rd field, while 2nd and 4th will still require double-click.
+      cal.callCloseHandler();
+  }
+
+  // And this gets called when the end-user clicks on the _selected_ date,
+  // or clicks on the "Close" button.  It just hides the calendar without
+  // destroying it.
+  function closeHandler(cal) {
+    cal.hide();                        // hide the calendar
+  //  cal.destroy();
+    _dynarch_popupCalendar = null;
+  }
+
+  // This function shows the calendar under the element having the given id.
+  // It takes care of catching "mousedown" signals on document and hiding the
+  // calendar if the click was outside.
+  function showCalendar(id, format, showsTime, showsOtherMonths) {
+    var el = document.getElementById(id);
+    if (_dynarch_popupCalendar != null) {
+      // we already have some calendar created
+      _dynarch_popupCalendar.hide();                 // so we hide it first.
+    } else {
+      // first-time call, create the calendar.
+      var cal = new Calendar(1, null, selected, closeHandler);
+      // uncomment the following line to hide the week numbers
+      // cal.weekNumbers = false;
+      if (typeof showsTime == "string") {
+        cal.showsTime = true;
+        cal.time24 = (showsTime == "24");
+      }
+      if (showsOtherMonths) {
+        cal.showsOtherMonths = true;
+      }
+      _dynarch_popupCalendar = cal;                  // remember it in the global var
+      cal.setRange(1900, 2070);        // min/max year allowed.
+      cal.create();
+    }
+    _dynarch_popupCalendar.setDateFormat(format);    // set the specified date format
+    _dynarch_popupCalendar.parseDate(el.value);      // try to parse the text in field
+    _dynarch_popupCalendar.sel = el;                 // inform it what input field we use
+
+    // the reference element that we pass to showAtElement is the button that
+    // triggers the calendar.  In this example we align the calendar bottom-right
+    // to the button.
+    _dynarch_popupCalendar.showAtElement(el.nextSibling, "Br");        // show the calendar
+
+    return false;
+  }
+
+  var MINUTE = 60 * 1000;
+  var HOUR = 60 * MINUTE;
+  var DAY = 24 * HOUR;
+  var WEEK = 7 * DAY;
+
+  // If this handler returns true then the "date" given as
+  // parameter will be disabled.  In this example we enable
+  // only days within a range of 10 days from the current
+  // date.
+  // You can use the functions date.getFullYear() -- returns the year
+  // as 4 digit number, date.getMonth() -- returns the month as 0..11,
+  // and date.getDate() -- returns the date of the month as 1..31, to
+  // make heavy calculations here.  However, beware that this function
+  // should be very fast, as it is called for each day in a month when
+  // the calendar is (re)constructed.
+  function isDisabled(date) {
+    var today = new Date();
+    return (Math.abs(date.getTime() - today.getTime()) / DAY) > 10;
+  }
+
+  function flatSelected(cal, date) {
+    var el = document.getElementById("preview");
+    el.innerHTML = date;
+  }
+
+  function showFlatCalendar() {
+    var parent = document.getElementById("display");
+
+    // construct a calendar giving only the "selected" handler.
+    var cal = new Calendar(0, null, flatSelected);
+
+    // hide week numbers
+    cal.weekNumbers = false;
+
+    // We want some dates to be disabled; see function isDisabled above
+    cal.setDisabledHandler(isDisabled);
+    cal.setDateFormat("%A, %B %e");
+
+    // this call must be the last as it might use data initialized above; if
+    // we specify a parent, as opposite to the "showCalendar" function above,
+    // then we create a flat calendar -- not popup.  Hidden, though, but...
+    cal.create(parent);
+
+    // ... we can show it here.
+    cal.show();
+  }
+  </script>
+{% endblock %}
+
+{% block jquery %}
+  // 百度地图API功能
+  var map_x = 116.404;
+  var map_y = 39.915;
+  var map_matter = 15;
+  {% if active.map_info %}
+    map_x = {{ active.map_info.x }};
+    map_y = {{ active.map_info.y }};
+    map_matter = {{ active.map_info.matter }};
+  {%endif%}
+  var map = new BMap.Map("allmap");
+  var point = new BMap.Point(map_x, map_y);
+
+  var marker = new BMap.Marker(point);// 创建标注
+  map.centerAndZoom(point, map_matter);
+  map.addControl(new BMap.NavigationControl());
+  map.addOverlay(marker);             // 将标注添加到地图中
+  marker.enableDragging();           // 可拖拽
+
+  marker.addEventListener("dragend",function(e){
+    $("input[name='map_x']").val(e.point.lng);
+    $("input[name='map_y']").val(e.point.lat);
+  });
+
+  map.addEventListener("zoomend", function (e) {
+    $("input[name='map_matter']").val(map.getZoom());
+  });
+  $("input[name='map_matter']").val(map.getZoom());
+
+	$('#active-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '标题最多30个字符'
+				}
+			]
+		},
+		category_id: {
+			identifier  : 'category_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择分类'
+				}
+			]
+		}
+
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#active-category').val('');
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#active-category').val(id);
+		}
+		
+        return false;
+	});
+	
+	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#editor').editable({
+		inlineMode: false,
+		toolbarFixed: false,
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		minHeight: 300,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 2000,
+		imageMargin: '20px',
+		{% if mode == 'edit' %}
+		defaultImageAlt: '{{ active.title }}',
+		{% else %}
+		defaultImageAlt: '太火鸟',
+		{% endif %}
+		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		imageUploadURL: "{{ app_url_upload_pictures }}",
+		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' },
+		defaultImageWidth: '',
+		maxImageSize: 1024 * 1024 * 3, // 3M
+		imageErrorCallback:  function (error) {
+			if (error.code == 5){
+				error.message = '图片太大，请选择小于3M！';
+			}
+			phenix.show_error_note(error.message, 5000);
+		},
+		insertImageCallback: function (imageURL) {
+			file_count++;
+			// 重置参数
+			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
+		},
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+	    // Catch image removal from the editor.
+        afterRemoveImageCallback: function ($img) {
+          // Set the image source to the image delete params.
+          this.options.imageDeleteParams = {file_url: $img.attr('src')};
+		  
+          // Make the delete request.
+          this.deleteImage($img);
+        }
+	});
+	
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_active }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#active-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#active-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ active._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
+	$('#phenix-uploader-active').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ list_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type_active }},'x:parent_id': '{{ active._id }}','file_id': '{{ list_pid }}' },
+        	endpoint: '{{ app_url_upload }}/active_user'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#active-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#active-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_active_list_assets', {'id': '{{ active._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_cover_id').val(id);
+			return false;
+		});
+	});
+
+	// 设置Banner图
+	$('#asset-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_banner_id').val(id);
+			return false;
+		});
+	});
+
+	// 设置手机Banner图
+	$('#asset-list .ajax-wap-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-wap-banner.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_wap_banner_id').val(id);
+			return false;
+		});
+	});
+
+	// 添加活动图片描述
+	$('#asset-list-active .ajax-show-desc').livequery(function(){
+		$(this).click(function(){
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			$('#active_cover_id').val(id);
+			return false;
+		});
+	});
+	
+	$('.datepicker').pickadate();
+
+
+  //添加process项目
+  $('.add-process').click(function(){
+    var html = '';
+    html+='<div class="process-box seven fields">';
+    html+='<div class="field" style="display:none;"><input type="text" name="process_temp[sort]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[time]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[title]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[name]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[position]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="process_temp[img]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="add_process_item" value="确定" /></div>';
+    //html+='<div class="field"><input type="button" name="del_process_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#process-box-edit').append(html);
+  });
+
+  //添加process
+	$("input[name='add_process_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      $('#process-box').append(html);
+      $(this).parents('.process-box').remove();
+		});
+	});
+
+  //编辑process
+	$("input[name='edit_process_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html_edit($(this));
+      $(this).parents('.process-box').replaceWith(html);
+		});
+	});
+
+  //保存编辑process
+	$("input[name='save_process_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      $(this).parents('.process-box').replaceWith(html);
+		});
+	});
+
+  //删除process
+	$("input[name='del_process_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.process-box').remove();
+		});
+	});
+
+
+
+  //添加partner项目
+  $('.add-partner').click(function(){
+    var html = '';
+    html+='<div class="partner-box five fields">';
+    html+='<div class="field" style="display:none;"><input type="text" name="partner_temp[sort]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="partner_temp[name]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="partner_temp[url]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="partner_temp[img]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="add_partner_item" value="确定" /></div>';
+    //html+='<div class="field"><input type="button" name="del_partner_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#partner-box-edit').append(html);
+  });
+
+  //添加partner
+	$("input[name='add_partner_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_partner_html($(this));
+      $('#partner-box').append(html);
+      $(this).parents('.partner-box').remove();
+		});
+	});
+
+  //编辑partner
+	$("input[name='edit_partner_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_partner_html_edit($(this));
+      $(this).parents('.partner-box').replaceWith(html);
+		});
+	});
+
+  //保存编辑partner
+	$("input[name='save_partner_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_partner_html($(this));
+      $(this).parents('.partner-box').replaceWith(html);
+		});
+	});
+
+  //删除partner
+	$("input[name='del_partner_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.partner-box').remove();
+		});
+	});
+
+
+  //添加图片描述box
+	$("input[name='show-asset-desc']").livequery(function(){
+    $(this).click(function(){
+      var desc = $(this).attr('desc');
+      var asset_id = $(this).attr('asset_id');
+      var html = '';
+      html += '<input type="text" name="asset-desc-text" value="'+ desc +'" />';
+      html += '<input type="button" name="save-asset-desc" value="保存" asset_id="'+ asset_id +'" />';
+      $(this).parents('.desc-box').html(html);
+    });
+	});
+
+  //保存活动描述图片
+	$("input[name='save-asset-desc']").livequery(function(){
+    $(this).click(function(){
+      var asset_id = $(this).attr('asset_id');
+      var desc = $(this).parents().find("[name='asset-desc-text']").val();
+      var url = '{{ app_url_admin }}/asset/save_asset_desc';
+      $.get(url, {asset_id: asset_id, desc: desc});
+    });
+	});
+
+
+  //显示/隐藏地图
+  $('.map-box-btn').livequery(function(){
+    $(this).click(function(){
+      var is_hidden = $('#allmap').is(":hidden");
+      if(is_hidden){
+        $('#allmap').show();
+      }else{
+        $('#allmap').hide();
+      }
+    });
+  });
+	
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">活动管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/active" class="item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i>编辑活动
+			</div>
+			{% endif %}		
+			<a href="{{ app_url_admin_base }}/active/submit" class="item">
+				<i class="add icon"></i>新增活动
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/active/save" class="ui form" method="post" id="active-form">
+		<input type="hidden" name="id" value="{{ active._id }}" id="active_id" />
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">活动基本信息填写</h3>
+			<div class="field">
+				<label>活动标题</label>
+			  	<input type="text" name="title" value="{{ active.title }}" />
+			</div>
+			<div class="field">
+				<label>活动副标题</label>
+			  	<input type="text" name="sub_title" value="{{ active.sub_title }}" />
+			</div>
+
+			<div class="field">
+				<label>活动简介</label>
+			  <textarea name="summary" class="small">{{ active.summary }}</textarea>
+				<div class="description">请详细的描述,用于填充社区话题内容</div>
+			</div>
+			
+			<div class="field">
+				<label>标签</label>
+			  <input type="text" name="tags" value="{{ active.tags_s }}" />
+				<div class="description">用英文状态下','分开</div>
+			</div>
+		
+		
+			<div style="margin-bottom:0.5em;">
+				<label>活动时间</label>
+			</div>
+			<div class="two fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="begin_time" value="{{ active.begin_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
+					</div>
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="end_time" value="{{ active.end_time|date 'Y-m-d H:i' }}" id="sel2" /><input type="button" value="..." onclick="return showCalendar('sel2', '%Y-%m-%d %H:%M', '24', true);" />
+              <!--<i class="calendar icon"></i>-->
+					</div>
+				</div>
+			</div>
+
+			<div class="two fields">
+			<div class="field">
+			  	<label>举办城市：</label>
+				<input type="text" name="conduct_city" value="{{ active.conduct_city }}" />
+				<div class="description">例如：北京 ；不输入“市” 详情页显示为：“北京站”</div>
+			</div>
+			<div class="field">
+				<label>详细地址：</label>
+			  	<input type="text" name="address" class="small" value="{{ active.address }}" >
+			</div>
+			
+			</div>
+
+		  <h3 class="ui header dividing">活动地图</h3>
+		  <div class="two fields">
+          <div class="field">
+              <label>标题</label>
+              <input type="text" name="map_title" value="{{ active.map_info.title }}" />
+			<div class="description">地图标题</div>
+          </div>
+
+          <div class="field">
+              <label>图片</label>
+              <input type="text" name="map_img" value="{{ active.map_info.img }}" />
+			  <div class="description">420*240</div>
+          </div>
+		  </div>
+		
+			<!--<h3 class="ui dividing header">联系信息设置</h3>-->
+			
+				
+				<!--<div class="field">
+				  	<label>联系人：</label>
+					<input type="text" name="contact_name" value="{{ active.contact_name }}" />
+				</div>
+				<div class="field">
+				  	<label>电话：</label>
+					<input type="text" name="contact_tel" value="{{ active.contact_tel }}" />
+				</div>
+				<div class="field">
+				  	<label>邮箱：</label>
+					<input type="text" name="contact_email" value="{{ active.contact_email }}" />
+				</div>
+      -->
+		
+		<div style="margin-bottom:0.5em;">
+			<label>地图</label>
+		</div>
+		<input type="text" value=""  disabled="disabled" placeholder="点击右侧显示地图" />
+		<div type="button" value="按钮" class="map-box-btn" /></div>
+      <div id="map-box">
+
+			<!--<div class="field">
+				<label>详细地址</label>
+			  	<textarea name="address" class="small">{{ active.address }}</textarea>
+				<div class="description">活动的详细地址</div>
+			</div>-->
+      
+      <div id="allmap" style="height:400px;width:100%;"></div>
+		  <input type="hidden" name="map_x" value="{{ active.map_info.x }}" />
+		  <input type="hidden" name="map_y" value="{{ active.map_info.y }}" />
+			<input type="hidden" name="map_matter" value="{{ active.map_info.matter }}" />
+			<div class="field">
+				<label>活动分类</label>
+				<input type="hidden" name="category_id" value="{{ active.category_id }}" id="active-category" />
+				{% for cat in categories %}
+        <a class="ui{% if cat.id==active.category_id %} active{%endif%} magenta category button" data-value="{{ cat.id }}">{{ cat.name }}</a>
+				{% endfor %}
+			</div>
+			
+			<div class="field">
+				<label>报名人数</label>
+				<input type="text" name="max_number_count" value="{{ active.max_number_count }}" />
+			  	<div class="description">零为无上线</div>
+			</div>
+			
+			
+			<div class="grouped inline fields">
+				<label>活动费用</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="free_stat" value="1" {% if active.free_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>免费</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="free_stat" value="2" {% if active.free_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>收费</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="grouped inline fields">
+				<label>活动类型</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="line_stat" value="2" {% if active.line_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>线上</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="line_stat" value="1" {% if active.line_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>线下</label>
+					</div>
+				</div>
+
+			</div>
+			
+      <!--
+			<h3 class="ui dividing stage header">官方/个人</h3>
+			<div class="inline field">
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="process_voted" {% if active.kind %}checked="checked"{% endif %} />
+		          	<label>官方</label>
+		        </div>
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="process_presaled" {% if active.kind %}checked="checked"{% endif %} />
+		          	<label>个人</label>
+		        </div>
+			</div>
+
+    -->
+		
+		
+
+		
+
+		
+			<!--<h3 class="ui dividing header">报名设置</h3>
+			<div class="three fields">
+				<div class="field">
+				  <label>名额上线：</label>
+					<input type="text" name="max_number_count" value="{{ active.max_number_count }}" />
+				  <div class="description">零为无上线</div>
+				</div>
+				<div class="field">
+				  	<label>费用：</label>
+					<input type="text" name="pay_money" value="{{ active.pay_money }}" />
+				<div class="description">零为免费</div>
+				</div>
+
+			</div>-->
+
+		
+
+      
+      <div id="process-box">
+		<div style="margin-bottom:0.5em">
+			<label>活动流程</label>
+		</div>
+        <div class="seven fields">
+          <div class="field" style="display:none;">
+              <label>排序</label>
+          </div>
+          <div class="field">
+              <label>时间</label>
+          </div>
+          <div class="field">
+              <label>标题</label>
+          </div>
+          <div class="field">
+              <label>演讲嘉宾</label>
+          </div>
+          <div class="field">
+              <label>工作职位</label>
+          </div>
+          <div class="field">
+              <label>头像(50*50)</label>
+          </div>
+          <div class="field">
+              <label></label>
+          </div>
+
+        </div>
+        {% if mode == 'edit' %}
+          {% if active.process %}
+            {% for p in active.process %}
+              <div class="process-box seven fields">
+                <input type="hidden" name="process[]" value="{{ p.join_process }}" />
+                <div class="field" style="display:none;">
+                  <label>{{ p.sort }}</label>
+                </div>
+                <div class="field">
+                  <label>{{ p.time }}</label>
+                </div>
+                <div class="field">
+                  <label>{{ p.title }}</label>
+                </div>
+                <div class="field">
+                  <label>{{ p.name }}</label>
+                </div>
+                <div class="field">
+                  <label>{{ p.position }}</label>
+                </div>
+                <div class="field">
+                  {% if p.img %}
+                    <img src="{{ p.img }}" width="100" height="50" /></label>
+                  {%else%}
+                    无
+                  {%endif%}
+                </div>
+                <div class="field">
+                  <input type="button" name="del_process_box" value="删除" />
+                  <input type="button" name="edit_process_item" value="编辑" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+
+      <!--ajax追加-->
+      <div id="process-box-edit"></div>
+
+      <div class="ui right aligned grid">
+        <div class="column">
+          <div class="ui magenta add-process button">
+            追加
+          </div>
+        </div>
+      </div>
+
+	  <div style="margin-bottom:0.5em">
+      	<label>合作伙伴</label>
+	  </div>
+      <div id="partner-box">
+        <div class="five fields">
+          <div class="two wide field" style="display:none;">
+              <label>排序</label>
+          </div>
+          <div class="two wide field">
+              <label>名称</label>
+          </div>
+          <div class="five wide field">
+              <label>网站链接</label>
+          </div>
+          <div class="five wide field">
+              <label>图片链接  (logo 190*50)</label>
+          </div>
+          <div class="two wide field">
+              <label></label>
+          </div>
+        </div>
+
+        {% if mode == 'edit' %}
+          {% if active.partner %}
+            {% for p in active.partner %}
+              <div class="partner-box five fields">
+                <input type="hidden" name="partner[]" value="{{ p.join_partner }}" />
+                <div class="field" style="display:none;">
+                  <label>{{ p.sort }}</label>
+                </div>
+                <div class="field">
+                  <label>{{ p.name }}</label>
+                </div>
+                <div class="field">
+                  <label>{{ p.url }}</label>
+                </div>
+                <div class="field">
+                  {% if p.img %}
+                    <img src="{{ p.img }}" width="100" height="50" /></label>
+                  {%else%}
+                    无
+                  {%endif%}
+                </div>
+                <div class="field">
+                  <input type="button" name="del_partner_box" value="删除" />
+                  <input type="button" name="edit_partner_item" value="编辑" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+      <!--ajax追加-->
+      <div id="partner-box-edit"></div>
+
+      <div class="ui right aligned grid">
+        <div class="column">
+          <div class="ui magenta add-partner button">
+            追加
+          </div>
+        </div>
+      </div>
+      
+
+			<h3 class="ui dividing stage header">进度</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="0" {% if active.step_stat == 0 %}checked="checked"{% endif %} /> 
+						<label>暂停</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="1" {% if active.step_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>开始</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="2" {% if active.step_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>结束</label>
+					</div>
+				</div>
+
+			</div>
+
+			<h3 class="ui dividing stage header">状态</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="0" {% if active.state == 0 %}checked="checked"{% endif %} /> 
+						<label>禁用</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="1" {% if active.state == 1 %}checked="checked"{% endif %} /> 
+						<label>正常</label>
+					</div>
+				</div>
+
+			</div>
+		
+      <!--活动封面图，头图，-->
+		<div class="ui segment">
+			<div class="field">
+				<label>上传活动头图，封面图,合作伙伴,头像等--带图片地址</label>
+				<input type="hidden" name="cover_id" id="active_cover_id" value="{{ active.cover_id }}" />
+				<input type="hidden" name="banner_id" id="active_banner_id" value="{{ active.banner_id }}" />
+        <input type="hidden" name="wap_banner_id" id="active_wap_banner_id" value="{{ active.wap_banner_id }}" />
+			  	<div id="phenix-uploader"></div>
+			
+				<div id="asset-list" class="ui four items">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:active._id asset_type:65 size:20 %}
+						{% for asset in assets.rows %}
+						<div class="thumb item" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+                <input type="hidden" class="asset_id_list" name="asset_tmp[]" value="{{ asset._id }}" />
+							</div>
+              <div>原图尺寸: {{ asset.width }}x{{ asset.height }}</div>
+              <div>
+                <input type="text" name="big-asset-url" value="{{ asset.thumbnails.big.view_url }}" />
+              </div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_admin }}/asset/delete_asset?id={{ active._id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == active.cover_id %}active{%endif%} pop" data-content="活动列表页缩略图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class=" icon-photo-banner icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-wap-banner {%if asset._id == active.wap_banner_id %}active{%endif%} pop" data-content="手机详情大图(960x640)" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="mobile icon-photo-banner icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+      <!--活动列表图-->
+		<div class="ui segment">
+			<div class="field">
+				<label>上传活动列表图片-带图片描述,图片尺寸: 590x360</label>
+			  	<div id="phenix-uploader-active"></div>
+			
+				<div id="asset-list-active" class="ui four items">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
+						{% for asset in assets.rows %}
+						<div class="thumb item" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_active_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+              <div class="desc-box">
+                <span>{{ asset.desc }}</span>
+                <input type="button" name="show-asset-desc" value="添加" asset_id="{{ asset._id }}" desc="{{ asset.desc }}" />
+              </div>
+
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_admin }}/asset/delete_asset?id={{ active._id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+    </div>
+
+    <div class="field">
+      <label>活动介绍</label>
+      <textarea name="content" placeholder="活动介绍" id="editor">
+        {{ active.content }}
+      </textarea>
+    </div>
+		
+		<div class="ui right aligned grid">
+			<div class="column">
+				<div class="ui gray cancel button">
+					取消
+				</div>
+				<div class="ui magenta submit button">
+					确认提交
+				</div>
+			</div>
+		</div>
+		
+	</form>
+</div>
+{% include "block/shopping/skubox.html" %}
+{% endblock %}

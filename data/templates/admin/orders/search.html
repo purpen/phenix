@@ -42,6 +42,12 @@
 		<a href="{{ app_url_admin_base }}/orders?s=2" class="{% if s == 2 %}active{%endif%} item">
 			待发货
 		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=5" class="{% if s == 5 %}active{%endif%} item">
+			申请退款
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=6" class="{% if s == 6 %}active{%endif%} item">
+			已退款
+		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
 			已发货
 		</a>
@@ -95,6 +101,8 @@
 							<div data-value="0" class="{% if !s %}active {% endif %}item">全部订单</div>
 							<div data-value="1" class="{% if s == 1 %}active {% endif %}item">未支付订单</div>
 							<div data-value="2" class="{% if s == 2 %}active {% endif %}item">待发货订单</div>
+							<div data-value="5" class="{% if s == 5 %}active {% endif %}item">申请退款订单</div>
+							<div data-value="6" class="{% if s == 6 %}active {% endif %}item">已退款订单</div>
 							<div data-value="3" class="{% if s == 3 %}active {% endif %}item">已发货订单</div>
 							<div data-value="4" class="{% if s == 4 %}active {% endif %}item">已完成订单</div>
 					    </div>
@@ -127,6 +135,9 @@
 				  	<div class="item">
 				      	下单时间：{{ item.order.created_on|date }}
 				  	</div>
+          <div class="item">
+              来源: {{ item.order.from_site_label }}
+          </div>
 				</div>
 			</div>
 			<div class="middle aligned ui celled white grid">
@@ -169,9 +180,16 @@
 						<p>
 							<small>（运费：{{ item.order.freight }} 元）</small>
 						</p>
-						<p>
-							{{ item.order.payment.name }}
-						</p>
+            <p>
+              {% if admin %}
+                {% if item.order.card_code %}
+                  红包码: {{ item.order.card_code }}
+                {%endif%}
+                {% if item.order.gift_code %}
+                  礼品券: {{ item.order.gift_code }}
+                {%endif%}
+              {% endif %}
+            </p>
 					</div>
 					<div class="center aligned three wide column">
 						<div id="order-{{ item.order.rid }}-label" class="status-label">

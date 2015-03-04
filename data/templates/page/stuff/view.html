@@ -1,0 +1,402 @@
+{%extends 'layout/sns.html'%}
+{% block title %}{{ stuff.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .ui.reply.segment{
+    margin-bottom:1em !important;
+  }
+  .ui.support.button {
+	  border-radius: 100rem;
+      font-size: 3rem;
+      height: 125px;
+      width: 125px;
+	  padding: 0.8em;
+  }
+  .love.count {
+	  font-size: 1.15rem;
+      font-weight: normal;
+      margin-top: 0.45rem;
+  }
+  #comment-list {
+	  margin-top: 1.5rem;
+  }
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+  var per_page = 10;
+  function fetch_comment(current_page, per_page){
+    var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+    $.get(url, {target_id: {{ stuff._id }}, type: 6, page: current_page, per_page: per_page});
+  }
+</script>
+{% endblock %}
+
+{% block jquery %}
+	phenix.hook_comment_page();
+  //ajax加载评论
+  fetch_comment(1, per_page);
+
+	phenix.bind_share_list();
+
+  //分享
+  phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.view_url }}'});
+	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 精选
+		$('.ui.top.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_stuff }}/ajax_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消精选')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_stuff }}/ajax_cancel_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '精选')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+	
+		// 编辑推荐
+		$('.ui.stick.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_stuff }}/ajax_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消推荐')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_stuff }}/ajax_cancel_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '编辑推荐')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+		
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_stuff }}/edit?id='+id);
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			if(confirm('确认执行删除操作吗?')){
+				$.post('{{ app_url_stuff }}/deleted', {id: {{stuff._id}} });
+			}
+		});
+		
+		/* 登录用户行为 */
+	{% endif %}
+	
+	// 收藏
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '我支持')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 加载推荐商品 
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ stuff.tags_s }}', size: 3});
+	
+{% endblock %}
+
+{% block content %}
+<div id="postpage">
+	{% ad_list var:'ad' page:1 size:1 name:'stuff_view_page_t1' sort_field:'latest' state:2 %}
+	{% if ad %}
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="advert bottom content">
+					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	<div class="ui responsive grid">
+		<div class="middle aligned row">
+			<div class="eleven wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_stuff }}">产品灵感</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">{{ stuff.category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">{{ stuff.title }}</div>
+				</div>
+			</div>
+			<div class="five wide right aligned column">
+				{% if visitor.is_login %}
+				<a href="{{ app_url_action_base }}/stuff/submit" class="ui black button">
+					<i class="add icon"></i> 提交产品
+				</a>
+				{% else %}
+				<a href="{{ app_url_action_base }}/stuff/submit" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
+					<i class="add icon"></i> 提交产品
+				</a>
+				{% endif %}
+			</div>
+		</div>
+		
+		<div class="nopad row">
+			<div class="column">
+				<div class="ui big topic top attached segment">
+					<div class="ui header">
+						<a class="ui small avatar image" href="{{ stuff.user.home_url }}">
+				      		<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" />
+						</a>
+						<div class="content">
+							{{ stuff.title }}
+							<div class="sub header attribute">
+								<span class="category"><a href="{{ app_url_stuff }}/c{{ stuff.category._id }}" class="ui magenta link">{{ stuff.category.title }}</a></span> | 
+								<span class="date">{{ stuff.user.nickname }} 发表于 {{ stuff.created_on|relative_datetime }}</span> | 
+								<span class="count">浏览数: {{ stuff.view_count }}</span>
+							</div>
+						</div>
+						<a class="dot-irecommend" href="#comment">
+							<span class="dot-irecommend-count">{{ stuff.view_count }}</span> 
+							<span class="dot-irecommend-suffix"></span>
+						</a>
+					</div>
+					
+					<div class="post froala-element clearfix">
+						{{ stuff.description }}
+					</div>
+					
+					<div class="post froala-element clearfix">
+						{% if stuff.cover %}
+						<p>
+							<img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
+						</p>
+						{% endif %}
+						<!--附件列表-->
+						{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+						{% if assets.total_rows %}
+							{% for asset in assets.rows %}
+								{% if asset._id != stuff.cover_id %}
+									<p>
+										<img width="" src="{{ asset.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
+									</p>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					</div>
+					
+					
+					{% if stuff.tags %}
+					<div class="idea tags">
+						{% for tag in stuff.tags %}
+							{% if tag %}
+							<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui line">
+								# {{ tag }}
+							</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+				<div class="ui big topic bottom attached segment">
+					<div class="ui grid">
+						<div class="row">
+							<div class="center aligned column">
+								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+								  	<i class="thumbs outline up icon"></i>
+									<div class="love count">
+										{{ stuff.love_count|default 0 }}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column">
+								<div class="admin post actions clearfix">
+									<div class="ui icon black editable buttons">
+										<div class="ui pop favorite magenta button" data-content="收藏" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+											<i class="empty star icon"></i> <small>{{ stuff.favorite_count }}</small>
+										</div>
+										{% if visitor.can_admin %}
+											{% if stuff.featured %}
+											<div class="ui pop top active button" data-content="取消精选" data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+												<i class="bookmark icon"></i>
+											</div>
+											{% else %}
+											<div class="ui pop top button" data-content="精选" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+												<i class="bookmark icon"></i>
+											</div>
+											{% endif %}
+											{% if stuff.stick %}
+											<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+												<i class="pin icon"></i>
+											</div>
+											{% else %}
+											<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+												<i class="pin icon"></i>
+											</div>
+											{% endif %}
+										{% endif %}
+							
+										{% if editable %}
+										<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
+											<i class="edit icon"></i>
+										</div>
+										<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
+											<i class="remove icon"></i>
+										</div>
+										{% endif %}
+									</div>
+					
+									{%include 'block/share.html'%}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+    			<div class="ui big reply segment">
+      			
+	      		  	{% include "block/comment_box_site.html" %}
+				
+	      			<!--ajax comment-->
+	      		  	<div id="comment-list"></div>
+	    		</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--你可能喜欢的产品-->
+<div id="product_guess_list">
+	<!--ajax fetch-->
+</div>
+
+{% include "block/qrcode.html" %}
+{% endblock %}

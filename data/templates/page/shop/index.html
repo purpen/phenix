@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -11,24 +11,58 @@
 		$.get($(this).attr('href'));
 		return false;
 	});
+
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
 {% endblock %}
 
 {% block content %}
-<div class="shop list" id="shoplist">
-	<div class="ui responsive grid">
-		<div class="center aligned row">
-			<div class="column">
-				<div class="ui magenta buttons">
-					{% category_list var:'category' only_open:only_open domain:domain show_all:1 current:category_id %}
-					{% for cat in category.rows %}
-				  		<a class="ui {{ cat.active }} item button" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					{% endfor %}
+<div class="shop {{ current_category.name }} tophead">
+	<div class="masthead">
+		<div class="masthead-cover translucent">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="column">
+				
+						<div class="filter conditions">
+							<div class="onerow">
+								{% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
+								<div class="ui horizontal list">
+									<a class="{% if all_active %}active{% endif %} item" href="{{ app_url_shop }}/c0">全部</a>
+									<a class="{% if presale_active %}active{% endif %} item" href="{{ app_url_sale }}">新品预售</a>
+									{% for cat in category.rows %}
+									<a class="{{ cat.active }} item" href="{{ cat.view_url }}">
+							        	{{ cat.title }}
+							      	</a>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="onerow">
+								<div class="ui horizontal list">
+									<a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">最新</a>
+									<a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">热门</a>
+									<a class="{% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">按价格</a>
+									<a class="{% if sort == 4 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s4-p{{ page }}">按销量</a>
+								</div>
+							</div>
+						</div>
+				
+					</div>
 				</div>
 			</div>
 		</div>
-		
+	</div>
+</div>
+
+<div class="shop list" id="shoplist">
+	<div class="ui responsive grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_saled:1 only_approved:1 only_onsale:1 size:15 sort:'latest' %}
+			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_approved:1 only_onsale:1 size:15 sort:sort_text %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui three items">
@@ -36,15 +70,20 @@
 				  		{% include "block/product_item.html" %}
 				    {% endfor %}
 				</div>
-				
+				{% if list.total_page > 1 %}
 				<div class="ui pagination grid">
 					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{%include 'block/pager.html'%}
 				</div>
+				{% endif %}
 			</div>
 			{% else %}
 			<div class="center aligned column">
-				没有更多鸟~~
+				<div class="empty result">
+					<div class="ui danger message">
+						没有更多鸟，可选择其他产品~~
+					</div>
+				</div>
 			</div>
 			{% endif %}
 		</div>

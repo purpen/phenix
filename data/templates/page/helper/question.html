@@ -24,6 +24,9 @@
 		padding: 1em;
 		line-height: 1.5em;
 	}
+  .ui.white.background>.ui.grid>.row:nth-child(2)>.center.aligned.aligned{
+    width:68%;
+  }
 </style>
 {% endblock %}
 {% block js %}
@@ -36,14 +39,20 @@
 {% endblock %}
 
 {% block content %}
-<section class="ui white background big block">
+<section class="ui big helper block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">常见问题</h3>
+			<div class="center aligned column white section-title">
+				<h2 class="block title">常见问题</h2>
+				<p></p>
 				<hr>
 			</div>
 		</div>
+	</div>
+</section>
+
+<section class="ui white background big about block">
+	<div class="ui responsive center aligned grid">
 		<div class="row">
 			<div class="center aligned column">
 				<div class="ui tabbox">
@@ -58,15 +67,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
-
-<section class="ui white background big about block">
-	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide left aligned column">
+			<div class="left aligned column">
 				<div class="content-box">
-					<div class="ui selection list">
+					<div class="ui selection animated list">
 						<div class="item">
 							<h4 class="ui magenta header">太火鸟是什么？</h4>
 							<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。</p>
@@ -123,7 +127,7 @@
 <section class="ui big account block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide left aligned column">
+			<div class="left aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">
@@ -151,7 +155,7 @@
 <section class="ui big white background voted block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide left aligned column">
+			<div class="left aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">
@@ -182,7 +186,7 @@
 <section class="ui big presale block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide left aligned column">
+			<div class="left aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">
@@ -243,7 +247,7 @@
 <section class="ui big white background shop block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide left aligned column">
+			<div class="left aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">
@@ -276,7 +280,7 @@
 <section class="ui big social block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="fourteen wide left aligned column">
+			<div class="left aligned column">
 				<div class="content-box">
 					<div class="ui selection list">
 						<div class="item">

@@ -16,16 +16,30 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	const TYPE_ID   = 2;
 	const TYPE_WORD = 3;
 	
+	# 显示方式
+	const MODE_IMAGE = 1;
+	const MODE_TXTANDIMA = 2;
+	
     protected $schema = array(
         'space_id' => 0,
 		
+		'cate_title' => '',
 		'title' => '',
 		'sub_title' => '',
         'web_url' => '',
 		'summary' => '',
 		
+		# 背景色
+		'bgcolor' => '',
+		# 按钮标题
+		'btn_title' => '',
+		# 文字对齐方式
+		'text_align' => 'left',
+		
 		# 类型
 		'type' => self::TYPE_URL,
+		# 图片或文本显示方式
+		'mode' => self::MODE_TXTANDIMA,
 		
 		# 附件图片
 		'cover_id' => '',
@@ -44,17 +58,29 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'web_url');
 	
-    protected $int_fields = array('space_id', 'view_count', 'click_count', 'ordby', 'state');
+    protected $int_fields = array('space_id', 'view_count', 'click_count', 'ordby', 'state', 'mode');
     
 	
 	protected $joins = array(
-	    'space'  => array('space_id'  => 'Sher_Core_Model_Space'),
+	    'space'  => array('space_id' => 'Sher_Core_Model_Space'),
 		'cover'  => array('cover_id' => 'Sher_Core_Model_Asset'),
 	);
 	
     protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = Sher_Core_Helper_Url::ad_view_url($row['_id']);
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap'].'/tracker?kid=%d', $row['_id']);
+		if(!isset($row['bgcolor'])){
+			$row['bgcolor'] = '#000000';
+		}
+		if(!isset($row['text_align'])){
+			$row['text_align'] = 'left';
+		}
+		if(!isset($row['btn_title'])){
+			$row['btn_title'] = '了解详情';
+		}
+		if(!isset($row['mode'])){
+			$row['mode'] = self::MODE_TXTANDIMA;
+		}
     }
 	
 	/**

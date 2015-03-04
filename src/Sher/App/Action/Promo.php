@@ -8,7 +8,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine');
 	
 	/**
 	 * 网站入口
@@ -50,10 +50,56 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 
 	/**
-	 *造梦者空气净化器
+	 * 造梦者空气净化器
 	 */
 	public function dreamk(){
-		return $this->to_html_page('page/dream.html');
+		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$product_id);
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
+		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 增加pv++
+		$model->inc_counter('view_count', 1, $product_id);
+		
+		$this->stash['product'] = $product;
+
+    	$this->stash['is_time'] = false;
+    	if($product['can_saled']){
+      	  if($product['snatched_time']<time()){
+        	  $this->stash['is_time'] = true;
+      	}
+    	}
+		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		$this->stash['provinces'] = $provinces;
+   	 	$this->stash['has_address'] = false;
+		
+		// 验证是否预约
+		if($this->visitor->id){
+			$cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
+			$redis = new Sher_Core_Cache_Redis();
+      $appointed = $redis->get($cache_key);
+      //是否有默认地址
+      $addbook_model = new Sher_Core_Model_AddBooks();
+      $addbook = $addbook_model->first(array('user_id'=>$this->visitor->id));
+      if(!empty($addbook)){
+        $this->stash['has_address'] = true;
+      }
+		}else{
+			$appointed = false;
+		}
+		$this->stash['appointed'] = $appointed;
+		
+		return $this->to_html_page('page/dreamk.html');
 	}
 	
 	/**
@@ -77,7 +123,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		
 		// 获取红包
 		$bonus = new Sher_Core_Model_Bonus();
-		$result = $bonus->pop();
+		$result = $bonus->pop('T9');
 		
 		if(empty($result)){
 			return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
@@ -87,7 +133,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		/*
 		while(empty($result)){
 			$bonus->create_batch_bonus(100);
-			$result = $bonus->pop();
+			$result = $bonus->pop('T9');
 			// 跳出循环
 			if(!empty($result)){
 				break;
@@ -111,5 +157,27 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->to_taconite_page('ajax/bonus_ok.html');
 	}
 	
+	/**
+	 * 玩蛋去
+	 */
+	public function playegg(){
+		return $this->to_html_page('page/games.html');
+	}
+	
+	/**
+	 * 情人节
+	 */
+	public function valentine(){
+    	// 验证是否领取
+    	$is_got = false;
+    	if($this->visitor->id){
+      		$cache_key = sprintf('valentine_20_%d', $this->visitor->id);
+      	  	$redis = new Sher_Core_Cache_Redis();
+      	  	$is_got = $redis->get($cache_key);  
+    	}
+    	$this->stash['is_got'] = $is_got;
+
+		return $this->to_html_page('page/valentine.html');
+	}
 }
 ?>

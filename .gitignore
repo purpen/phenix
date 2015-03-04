@@ -2,6 +2,8 @@
 deploy/app_config.php
 dev_root/
 data/web/app
+data/web/packaged
 composer.lock
 vendor/
 .gitignore
+data/web/packaged

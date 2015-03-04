@@ -161,7 +161,11 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&page=#p#';
+		
 		$id = (int)$this->stash['id'];
+
+		$this->stash['pager_url'] = sprintf($pager_url, $id);
 		
 		$model = new Sher_Core_Model_Try();
 		$try = &$model->extend_load($id);

@@ -47,7 +47,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$this->stash['end_time'] = strtotime($this->stash['end_date']);
 		}
 		if(!empty($this->stash['s'])){
-			$params['status'] = $this->stash['s'];
+			$params['s'] = $this->stash['s'];
 		}
 		
 		$arg = "";
@@ -61,7 +61,11 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		// 处理分页链接
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/orders/search?';
-		$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
+		if(empty($arg)){
+			$this->stash['pager_url'] = $pager_url.'page=#p#';
+		}else{
+			$this->stash['pager_url'] = $pager_url.$arg.'&page=#p#';
+		}
 		
 		return $this->to_html_page('admin/orders/search.html');
 	}
@@ -89,6 +93,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 					break;
 				case 4: // 已完成订单
 					$query['status'] = Sher_Core_Util_Constant::ORDER_PUBLISHED;
+					break;
+				case 5: // 申请退款订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_READY_REFUND;
+					break;
+				case 6: // 已退款订单
+					$query['status'] = Sher_Core_Util_Constant::ORDER_REFUND_DONE;
 					break;
 				case 9: // 已关闭订单：取消的订单、过期的订单
 					$query['status'] = array(
@@ -154,6 +164,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// header('Content-Disposition: attachment;filename="'.$export_file.'"');
 		// header('Cache-Control: max-age=0');
 		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
 		// 打开PHP文件句柄，php://output表示直接输出到浏览器
 		$fp = fopen($export_file, 'w');
 
@@ -404,7 +416,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
-			$ok = $model->update_order_sended_status($id, $express_caty, $express_no);
+      $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
 			
 			// 微信订单，调用发货通知
 			if ($ok && $order_info['from_site'] == Sher_Core_Util_Constant::FROM_WEIXIN) {
@@ -444,5 +456,78 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		return $this->get_list();
 	}
+
+  /**
+   * 确认退款操作
+   */
+  public function ajax_do_refund(){
+ 		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('订单不存在！', true);
+		}
+
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+		}
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+    //订单不存在
+    if(empty($order_info)){
+ 			return $this->ajax_notification('订单未找到！', true);     
+    }
+		
+		// 申请退款的订单才允许退款操作
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			return $this->ajax_notification('订单状态不正确！', true);
+    }
+
+		// 现在只支持支付宝退款
+		if ($order_info['trade_site'] != Sher_Core_Util_Constant::TRADE_ALIPAY){
+			return $this->show_message_page('只支持支付宝退款', true);
+    }
+
+    $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
+    return $this->to_redirect($refund_url);
+  
+  }
+
+  /**
+   * 强制退款操作－不退款，更改订单状态，用于非支付宝支付的订单或需要人工退款操作的
+   */
+  public function ajax_do_refund_force(){
+ 		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_notification('订单不存在！', true);
+		}
+		
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+    }
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+
+    //订单不存在
+    if(empty($order_info)){
+ 			return $this->ajax_notification('订单未找到！', true);
+    }
+		
+		// 申请退款的订单才允许退款操作
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			return $this->ajax_notification('订单状态不正确！', true);
+    }
+
+    $ok = $model->refunded_order($order_info['_id'], array('refunded_price'=>$order_info['pay_money']));
+    if($ok){
+		  return $this->ajax_json('操作成功', false, '', array('is_error'=>false, 'message'=>'操作成功'));
+    }else{
+ 		  return $this->ajax_json('操作失败', false, '', array('is_error'=>true, 'message'=>'操作失败'));  
+    }
+  
+  }
+
 }
 ?>

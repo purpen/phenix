@@ -1,0 +1,124 @@
+{%extends 'layout/sns.html'%}
+{% block title %}活动列表-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.grid{
+	margin:0;
+}
+.ui.social {
+	padding: 0em;
+}
+/*.ui.responsive.grid{
+	width:1180px !important;
+	margin:0 auto;
+	padding:0 !important;
+}*/
+
+.start{
+	color:#fff;
+	padding:100px 0% 80px;
+}
+.start .ui.btn{
+	border-radius:4px !important;
+	background:#ccc;
+}
+.start .ui.attend.btn{
+	border-radius:4px !important;
+	background:rgba(0,0,0,0);
+}
+.start h2.ui.header{
+	font-weight: 400;
+}
+.start h2.ui.header .content{
+	text-align:left;
+}
+.start .row{
+	padding-top:208px !important;
+	margin:0;
+}
+.start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
+	font-size:30px !important;
+}
+.start .row:first-child h2.ui.header{
+	font-size:60px !important;
+}
+.camp .row .column{
+	padding:0 !important;
+}
+.camp .presell{
+	padding:0.5em 0.8em;
+}
+.camp .content{
+	padding:1em 0.5em !important;
+}
+.two-nav{
+	background:#f4f4f4;
+}
+
+</style>
+{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block jquery %}{% endblock %}
+
+{% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
+{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
+{% for active in current_list.rows %}
+<section class="ui start block" style="background:url({{ active.banner.fileurl }}) no-repeat center center /cover;">
+	<div class="ui responsive center aligned grid">
+      <div class="row">
+        <div class="center aligned column attend-box">
+          <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="{{ active.view_url }}" target="_blank">
+            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        </div>
+      </div>
+  </div>
+</section>
+<br />
+{%endfor%}
+<section class="ui big camp block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<h3 class="ui header">历史活动</h3>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui three items">
+        {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
+        {% for active in old_list.rows %}
+					<div class="magenta item">
+						<div class="image">
+              <a href="{{ active.view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
+							<div class="presell">
+                第{{ active.season }}期
+							</div>
+						</div>
+						<div class="content">
+              {{ active.title }}－{{ active.conduct_city }}站 
+						</div>
+					</div>
+        {%endfor%}
+
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	{% if old_list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+</section>
+{% endblock %}

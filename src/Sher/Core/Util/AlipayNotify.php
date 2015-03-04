@@ -118,11 +118,15 @@ class Sher_Core_Util_AlipayNotify extends Doggy_Object {
 		
 		//把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
 		$prestr = Sher_Core_Util_Alipay::createLinkstring($para_sort);
+    Doggy_Log_Helper::warn($prestr);
 		
 		$isSgin = false;
 		switch (strtoupper(trim($this->alipay_config['sign_type']))) {
 			case "MD5" :
 				$isSgin = Sher_Core_Util_Alipay::md5Verify($prestr, $sign, $this->alipay_config['key']);
+				break;
+			case "RSA" :
+				$isSgin = Sher_Core_Util_Alipay::rsaVerify($prestr, trim($this->alipay_config['ali_public_key_path']), $sign);
 				break;
 			default :
 				$isSgin = false;

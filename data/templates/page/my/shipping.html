@@ -11,6 +11,11 @@
 	$('.ui.addbook.btn').click(function(){
 		$('.ui.addbook.modal').modal('show');
 	});
+
+	// 关闭地址框
+	$('.ui.close-btn.button').click(function(){
+		$('.ui.addbook.modal').modal('hide');
+	});
 	
 	// 选择地址
 	$('.address').on('click', '.item', function(){
@@ -157,8 +162,8 @@
 			  	</div>
 				{% endfor %}
 				<div class="center aligned item" id="create-new-address" data-id="0">
-					<a class="ui magenta addbook icon btn" href="javascript:void(0);">
-						<i class="flat add icon"></i> 添加新地址
+					<a class="ui magenta addbook inverted button" href="javascript:void(0);">
+						<i class="location arrow icon"></i> 添加新地址
 					</a>
 				</div>
 			</div>

@@ -1,9 +1,9 @@
 {%if pager%}
-<div class="ui borderless pagination menu">
+<div class="ui pagination menu">
     {% if pager.show_prev %}
     <a class="icon prev item" href="{{pager.prev_url}}"><i class="left arrow icon"></i></a>
     {% else %}
-	<div class="icon disabled prev item"><i class="left arrow icon"></i></div>
+	<div class="icon disabled prev item"><i class="arrow left icon"></i></div>
     {% endif %}
 
     {%for p in pager.pages%}

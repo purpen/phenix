@@ -1,0 +1,29 @@
+{%if pager%}
+<div class="ui borderless pagination menu">
+    {% if pager.show_prev %}
+    <a class="icon prev item" href="javascript:fetch_comment(({{page}}-1), {{per_page}});"><i class="left arrow icon"></i></a>
+    {% else %}
+	<div class="icon disabled prev item"><i class="left arrow icon"></i></div>
+    {% endif %}
+
+    {%for p in pager.pages%}
+    {% if p.prefix_text %}
+	<div class="item">{{ p.prefix_text }}</div>
+	{% endif %}
+  <a class="{{p.css}} item" href="javascript:fetch_comment({{p.page_index}}, {{per_page}});">{{p.page_index}}</a>
+
+    {% if p.suffix_text %}
+	<div class="item">{{ p.suffix_text }}</div>	
+	{% endif %}
+
+    {%endfor%}
+
+    {% if pager.show_next %}
+	<a class="icon next item" href="javascript:fetch_comment(({{page}}+1), {{per_page}});"><i class="right arrow icon"></i></a>
+    {% else %}
+	<div class="icon disabled next item">
+    	<i class="right arrow icon"></i>
+	</div >
+    {% endif %}
+</div>
+{%endif%}

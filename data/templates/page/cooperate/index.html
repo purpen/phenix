@@ -1,0 +1,92 @@
+{%extends 'layout/column.html'%}
+{% block title %}合作资源-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+	.cooperate.masthead {
+		color: white;
+		padding: 100px 0 60px;
+		background: url("{{ app_url_packaged }}/images/banner-trial.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
+	}
+	.cooperate.masthead .buttons {
+		margin-top: 3rem;
+	}
+	.cooperate.mainlist {
+		padding: 3rem 0;
+	}
+	.keywords {
+		margin: 1rem 0 2rem;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="cooperate masthead">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">合作资源</h2>
+			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
+			<hr>
+			<div class="buttons">
+				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
+					<i class="edit icon"></i> 申请合作
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<div class="cooperate mainlist">
+	<div class="ui responsive grid">
+		{% cooperate_list var:'list' size:15 page:page %}
+		{% for b in list.rows %}
+		<div class="row">
+			<div class="five wide column">
+				
+			</div>
+			<div class="eleven wide column">
+				<h2 class="ui black header">{{ b.name }}</h2>
+				<div class="content">
+					{{ b.summary }}
+				</div>
+				{% if b.keywords %}
+				<div class="keywords">
+					{% for tag in b.keywords %}
+						{% if tag %}
+						<label class="ui magenta label">
+							{{ tag }}
+						</label>
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% endif %}
+				
+				<a href="" class="ui line">
+					查看更多
+				</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div><!--end responsive grid-->
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">合作资源</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

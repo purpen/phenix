@@ -192,8 +192,8 @@
 				</div>
 			</div>
 			<div class="right aligned four wide column">
-				<a href="{{ app_url_topic }}/submit?cid={{ dream_category_id }}&ref=dream" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-					提交创意
+				<a href="javascript:void(0);" class="ui gray btn-4 btn-4c btn">
+					提交已结束
 				</a>
 			</div>
 		</div>
@@ -236,7 +236,7 @@
 		<div class="ui responsive media allist grid">
 			<div class="row">
 				<div class="column">
-					{% topic_list var:'list' category_id:dream_category_id time:time sort:st page:page size:12 %}
+					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:st page:page size:12 %}
 					<div class="ui four items">
 						{% for topic in list.rows %}
 						<div class="item">

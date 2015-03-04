@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games');
 	
 	/**
 	 * 商城入口
@@ -28,6 +28,21 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 * 首页
 	 */
 	public function home(){
+    	// 商品推荐列表---取块内容
+    	$product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
+    	$products = array();
+    	if($product_ids){
+      		$product_model = new Sher_Core_Model_Product();
+      	    $id_arr = explode(',', $product_ids);
+      	  	foreach(array_slice($id_arr, 0, 8) as $i){
+        		$product = $product_model->extend_load((int)$i);
+        		if(!empty($product)){
+          			array_push($products, $product);
+        		}
+      	  	}
+    	}
+    	$this->stash['products'] = $products;
+		
 		return $this->to_html_page('wap/index.html');
 	}
 	
@@ -49,7 +64,16 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 * 游戏
 	 */
 	public function games(){
-		return $this->to_html_page('wap/games.html');
+    //直接跳转游戏页面
+    if($this->visitor->id){
+      $this->stash['user_id'] = $this->visitor->id;
+      $this->stash['nickname'] = $this->visitor->nickname;
+    }else{
+      $this->stash['user_id'] = 0;
+      $this->stash['nickname'] = '';
+    }
+		return $this->to_html_page('../web/playegg/index.html');
+		//return $this->to_html_page('wap/games.html');
 	}
 	
 	/**
@@ -97,5 +121,6 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/noodles.html');
 	}
+
 }
 ?>
