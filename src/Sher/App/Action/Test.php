@@ -241,10 +241,9 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //$model = new Sher_Core_Model_Orders();
     //$model->update_set('547d8eda7fd32e4704477f69', array('pay_money'=>50));
     //Doggy_Log_Helper::warn("=======================");
-    //$a = Sher_Core_Util_View::fetch_invite_user_id('1d1dj3pxDHw30+Nf0+6siFc7ijLpqc+rHbxKiZ3raACiAxhIOA');
-    //echo $a;
-            $invite_mode = new Sher_Core_Model_InviteRecord();
-            $invite_mode->add_invite_user(1, 2);
+    //440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8
+    $a = Sher_Core_Util_View::fetch_invite_user_id('440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8');
+    echo $a;
   }
 
 }

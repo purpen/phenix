@@ -71,6 +71,7 @@
 			<div class="ui bottom attached segment">
 				<form action="{{ app_url_action_base }}/auth/do_register" class="ui  form" method="post" id="register-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
+          <input type="hidden" name="user_invite_code" value="{{ user_invite_code }}" />
 					<div class="center aligned ui header">
 						注册太火鸟
 					</div>

@@ -369,6 +369,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
           //通过邀请码获取邀请者ID
           $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+
           //统计邀请记录
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
