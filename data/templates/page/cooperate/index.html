@@ -46,12 +46,27 @@
 		{% for b in list.rows %}
 		<div class="row">
 			<div class="five wide column">
+				<div class="ui pointing vertical fluid navigation menu">
+					<div class="header item">
+					    <i class="user icon"></i>合作资源
+					</div>
+					<a href="" class="{{ css_user_account }} item">
+						<i class="flat account_settings icon"></i> 设计机构
+					</a>
+					<a href="" class="{{ css_user_profile }} item">
+						<i class="flat profile icon"></i> 技术开发
+					</a>
+					<a href="" class="{{ css_user_shipping }} item">
+						<i class="flat position icon"></i> 高校基地
+					</a>
+					
+				</div>
 				
 			</div>
 			<div class="eleven wide column">
-				<h2 class="ui black header">{{ b.name }}</h2>
+				<h2 class="ui black header">清华大学美术学院服务设计研究所</h2>
 				<div class="content">
-					{{ b.summary }}
+					清华美院服务设计研究所作为具有国际影响力的创新平台，研究所的三个模块包括：智慧城市研究（设计北京实验室、Living Lab创意社区平台）探究国际化的人本城市与服务设计解决方案，构建政产学研商协同的伙伴社区。设计创新孵化（设计合伙人、Designow设计力创新）提供创新模式的设计服务，构建设计生态圈。创客教育平台（清华创客空间、青橙创客教育） 通过创客课程、比赛、工作坊与项目孵化，将设计与科技互融的创意变为现实。
 				</div>
 				{% if b.keywords %}
 				<div class="keywords">
@@ -64,10 +79,11 @@
 					{% endfor %}
 				</div>
 				{% endif %}
-				
+			
 				<a href="" class="ui line">
 					查看更多
 				</a>
+				
 			</div>
 		</div>
 		{% endfor %}

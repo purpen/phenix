@@ -251,13 +251,15 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		# 红包金额
 	  $bonus = array(
 			'A' => 50,
-			'B' => 100, 
+      'B' => 100,
+      'C' => 31, 
     );
 
     #最低限额
     $min_amounts = array(
       'A' =>  99,
       'B' =>  199,
+      'C' =>  0,
     );
 		
     for($i=0; $i<$count; $i++){

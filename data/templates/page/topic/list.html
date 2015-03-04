@@ -144,7 +144,7 @@
 								<th>发布者</th>
 								<th>主题</th>
 								<th>最后回应</th>
-								<th>浏览数</th>
+								<th class="center aligned">浏览数</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -157,7 +157,7 @@
 								      		<img src="{{ dig.user.small_avatar_url }}" alt="{{ dig.user.nickname }}" />
 										</a>
 									</td>
-									<td class="ten wide">
+									<td class="nine wide">
 								      	<h3 class="title">
 											<a href="{{ dig.view_url }}" title="{{ dig.title }}" class="ui line link">[置顶] {{ dig.title|truncate 60 }}</a>
 										</h3>
@@ -188,7 +188,7 @@
 											{% endif %}
 								      	</div>
 									</td>
-									<td class="hide-on-mobile">
+									<td class="hide-on-mobile four wide">
 										{% if dig.last_user %}
 										<a class="ui link" href="{{ dig.last_user.home_url }}" title="{{ dig.last_user.nickname }}">
 									  		<img src="{{ dig.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ dig.last_user.nickname }}" />
@@ -196,7 +196,7 @@
 										回复于{{ dig.last_reply_time|relative_datetime }}
 										{% endif %}
 									</td>
-									<td class="hide-on-mobile">
+									<td class="hide-on-mobile two wide center aligned">
 										<a href="{{ dig.view_url }}#comment" class="dot-irecommend">
 											<span class="dot-irecommend-count">{{ dig.view_count }}</span> 
 											<span class="dot-irecommend-suffix"></span>
