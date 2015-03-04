@@ -2,7 +2,7 @@
 {% block title %}蛋年创新大会-{% endblock %}
 
 {% block page_css %}
-<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs.min.css" type="text/css" />
+<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs01.min.css" type="text/css" />
 <style type="text/css">
 	body{
 		background: #1c0318;
@@ -11,6 +11,9 @@
 		margin-left:0 !important;
 		margin-right:0 !important;
 	}
+	.ui.eggmenu{
+		display:block;
+	}
 	.ui.tabox{
 		background:#000!important;
 	}
@@ -18,6 +21,11 @@
 	border-radius: .2875em;
 	padding: .5em 0em;
 	width: 47%;
+}
+.contact .ui.grid{
+	padding: 0 12%;
+	margin: 4rem auto;
+	color: #fff;
 }
 .w-252{
 	width:252px;
@@ -579,64 +587,62 @@ h4.ui.header small{
 .pagex{
 	height:700px !important;
 }
+.position+.timme{
+	margin-left:-2px !important;
+}
+.fa{
+	width: 29px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: -15px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
-	skrollr.init({
-		forceHeight: false,
-		mobileCheck:function(){},
-		mobileDeceleration:0.004,
-	});
-	$('.ui.tabox').smint({
-  	'scrollSpeed' : 1000
-  });
-	
-	$('.pagex a.arrow').click(function(){
-			$("html, body").stop().animate({ scrollTop: $(window).height() + $('.ui.eggmenu').height() }, 500);
-			return false;
-		});
-	phenix.birdegg.init();
-	
+
 	// 分享按钮
-	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
+	var pic_url = 'http://frstatic.qiniudn.com/images/egg-header.jpg';
 	phenix.bind_share_list(pic_url);
 
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/birdegg'});
 
-{% endblock %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
 
-{% block layout_header %}
-<div class="header main">
-	<div class="ui responsive grid">
-		{% include "block/header.html" %}
-	</div>
-</div>
+	$('.ui.tabox').smint({
+  		'scrollSpeed' : 1000
+  	});
+	
+	phenix.birdegg.init();
+
 {% endblock %}
 
 {% block content %}
-<div class="ui eggs tabox">
+<div class="ui eggmenu tabox">
 	<div class="ui responsive grid">
 		<div class="two column middle aligned row">
 			<div class="twelve wide column">
-				<div class="ui tabs" id="eggmenu">
-					<a class="active tab" data-menuanchor="topbanner" href="#topbanner">首页</a>
-					<a class="tab" data-menuanchor="instro" href="#instro">关于蛋年</a>
-					<a class="tab" data-menuanchor="specially" href="#specially">特邀嘉宾</a>
-					<a class="tab" data-menuanchor="guest" href="#guest">活动嘉宾</a>
-					<a class="tab" data-menuanchor="process" href="#process">活动流程</a>
-					<a class="tab" data-menuanchor="stuffs" href="#stuffs">精选产品</a>
-					<a class="tab" data-menuanchor="partners" href="#partners">合作伙伴</a>
-					<a class="tab" data-menuanchor="contact" href="#contact">联系我们</a>
+				<div class="ui tabs">
+					<a class="tab active smt" href="#topbanner">首页</a>
+					<a class="tab smt" href="#instro">关于蛋年</a>
+					<a class="tab smt" href="#specially">特邀嘉宾</a>
+					<a class="tab smt" href="#process">活动流程</a>
+					<a class="tab smt" href="#stuffs">精选产品</a>
+					<a class="tab smt" href="#partners">合作伙伴</a>
+					<a class="tab extLink" target="_blank" href="{{ app_url_domain }}">太火鸟</a>
         		</div>
       	  	</div>
 			<div class="four wide right aligned column">
-				<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/zlist" target="_blank">
+				<a class="ui magenta extLink btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/zlist" target="_blank">
           			<span>全部作品</span><i class="icon-arrow-right-sharp"></i>
         		</a>
-						<a class="ui magenta btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
-		          			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
-		        		</a>
+				<a class="ui magenta extLink btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/submit" target="_blank">
+          			<span>产品提交</span><i class="icon-arrow-right-sharp"></i>
+        		</a>
 			</div>
     	</div>
   	</div>
@@ -939,7 +945,9 @@ h4.ui.header small{
 						</div>
 						<div class="w-875">
 							<div class="pass">
-								<i class="fa fa-circle-o"></i>
+								<div class="fa">
+									<img src="{{ app_url_packaged }}/images/egg_round.png" width="100%">
+								</div>
 								<h3>采&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">03月01日- 04月01日</p>
@@ -959,7 +967,9 @@ h4.ui.header small{
 						</div>
 						<div class="w-875">
 							<div class="pass">
-								<i class="fa fa-circle-o"></i>
+								<div class="fa">
+									<img src="{{ app_url_packaged }}/images/egg_round.png" width="100%">
+								</div>
 								<h3>论&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">04月11日 / 13:00 - 16:00</p>
@@ -978,7 +988,9 @@ h4.ui.header small{
 						</div>
 						<div class="w-875">
 							<div class="pass">
-								<i class="fa fa-circle-o"></i>
+								<div class="fa">
+									<img src="{{ app_url_packaged }}/images/egg_round.png" width="100%">
+								</div>
 								<h3>孵&nbsp;蛋</h3>
 								<i class="flat sale icon"></i>
 								<p class="timme">04月11日 / 16:00 - 17:00</p>
@@ -996,7 +1008,7 @@ h4.ui.header small{
 			</section>
 		</div>
 	
-		<div class="section stuffs" data-anchor="stuffs">
+		<div class="section stuffs">
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">精选产品</h3>
@@ -1008,13 +1020,13 @@ h4.ui.header small{
 							{% for stuff in stufflist.rows %}
 						  	<div class="card">
 						    	<div class="image">
-                  <a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-                    {% if stuff.cover %}
-                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-                    {%else%}
-                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
-                    {%endif%}
-                </a>
+				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+				                    {% if stuff.cover %}
+				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+				                    {%else%}
+				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+				                    {%endif%}
+				                	</a>
 						    	</div>
 						    	<div class="content">
 						      	  	<div class="header">
@@ -1037,20 +1049,21 @@ h4.ui.header small{
 							{% endfor %}
 						</div>
 					</div>
+					
 					<div class="buttons">
 						<a href="{{ app_url_birdegg }}/submit" class="ui inverted button" target="_blank">产品提交</a>
 						<a href="{{ app_url_birdegg }}/zlist" class="ui inverted button">
 							<i class="layout grid icon"></i>全部产品列表
 						</a>
 					</div>
-				
+					
 					<p class="tips"><b>Tips:</b> 现面向全世界征集最火爆的智能硬件产品,无论是样机还是已经面市的智能产品均可参加,只需将智能硬件的名称、产品图及简介上传到太火鸟专题页面即可。<br />
 	获得用户支持数量前100名的智能硬件产品获得在 中国智能硬件.蛋年创新大会 展示的机会，并被收入时光蛋中，亲身经历中国智能硬件蛋年开启的历史时刻。</p>
 				</div>
 			</section>
 		</div>
 	
-		<div class="section partners" data-anchor="partners">
+		<div class="section partners">
 			<section class="page">
 				<div class="w-1180">
 					<h3 class="ui header center aligned">联合主办<small>（更新中......）</small></h3>
@@ -1127,12 +1140,7 @@ h4.ui.header small{
 					<p class="mt-25">本活动由太火鸟科技发起</p>
 					<p>排名不分先后，更多主办方持续更新中......</p>
 				</div>
-			</section>
-		</div>
-
-		<div class="section contact" data-anchor="contact">
-			<section class="page">
-				<div class="w-1180">
+				<div class="w-1180 contact">
 					<h3 class="ui header center aligned">联系我们</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 					
@@ -1164,6 +1172,8 @@ h4.ui.header small{
 				</div>
 			</section>
 		</div>
+		
 	</div>
 </div>
+{% include "block/qrcode.html" %}
 {% endblock %}

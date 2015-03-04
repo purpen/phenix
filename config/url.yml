@@ -109,6 +109,12 @@ app.url.advertise.view: '{$app.url.action_base}/tracker?kid=%s'
 # 蛋年活动
 app.url.birdegg: '{$app.url.domain}/birdegg'
 
+# 合作资源
+app.url.cooperate: '{$app.url.action_base}/cooperate'
+
+# 孵化
+app.url.incubator: '{$app.url.domain}/incubator'
+
 # 微信
 app.url.wechat: '{$app.url.domain}/wechat'
 app.url.mm_shop.view: '{$app.url.wechat}/%s.html'

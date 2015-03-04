@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-03-03 13:28:38
+//dump on 2015-03-04 12:21:24
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -209,6 +209,7 @@ Doggy_Config::add( array (
       'order_list' => 'Sher_Core_ViewTag_OrderList',
       'try_list' => 'Sher_Core_ViewTag_TryList',
       'apply_list' => 'Sher_Core_ViewTag_ApplyList',
+      'cooperate_list' => 'Sher_Core_ViewTag_CooperateList',
       'search_list' => 'Sher_App_ViewTag_SearchList',
       'follow_list' => 'Sher_App_ViewTag_FollowList',
       'user_list' => 'Sher_App_ViewTag_UserList',
@@ -365,6 +366,8 @@ Doggy_Config::add( array (
   'app.url.asset' => 'http://taihuoniao.me/app/site/asset',
   'app.url.advertise.view' => 'http://taihuoniao.me/app/site/tracker?kid=%s',
   'app.url.birdegg' => 'http://taihuoniao.me/birdegg',
+  'app.url.cooperate' => 'http://taihuoniao.me/app/site/cooperate',
+  'app.url.incubator' => 'http://taihuoniao.me/incubator',
   'app.url.wechat' => 'http://taihuoniao.me/wechat',
   'app.url.mm_shop.view' => 'http://taihuoniao.me/wechat/%s.html',
   'app.url.jsapi.wxpay' => 'http://taihuoniao.me/wxpay/',
@@ -424,9 +427,9 @@ Doggy_Config::add( array (
   'app.url.share' => 'http://taihuoniao.me/share',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b15030204',
-  'app.version.jquery_bundle_version' => 'v0.10b15030204',
-  'app.version.css_bundle_version' => 'v0.10b15030204',
+  'app.version.sher' => 'v0.10b15030402',
+  'app.version.jquery_bundle_version' => 'v0.10b15030402',
+  'app.version.css_bundle_version' => 'v0.10b15030402',
   'app.email.domains' => 
   array (
     '163.com' => 'http://mail.163.com/',
@@ -465,7 +468,7 @@ Doggy_Config::add( array (
   'app.topic.dream_category_id' => 9,
   'app.contest.dream2_category_id' => 18,
   'app.topic.idea_category_id' => 22,
-  'app.birdegg.category_id' => 25,
+  'app.birdegg.category_id' => 80,
   'app.comeon.product_id' => 1120800090,
   'app.alipay.partner' => '2088411237666512',
   'app.alipay.key' => '8igqejramxdbw53yvlp8aukvbt9s5rnd',
