@@ -241,9 +241,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //$model = new Sher_Core_Model_Orders();
     //$model->update_set('547d8eda7fd32e4704477f69', array('pay_money'=>50));
     //Doggy_Log_Helper::warn("=======================");
-
-    echo '<br />';
-    $a = Sher_Core_Util_View::load_block('test', 1);
+    $a = Sher_Core_Util_View::light_encrypt('zg9IDCu528/C', 'D');
     echo $a;
   }
 
