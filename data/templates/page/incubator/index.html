@@ -3,397 +3,11 @@
 
 {% block page_css %}
 <style class="text/css">
-	.incubator.masthead {
-		color: white;
-		padding: 8% 0;
-		background-color: rgba(56, 67, 77, 0.9);
-		background-image: url("{{ app_url_packaged }}/images/incubator/bgbird.jpg");
-		background-position: left top;
-		background-attachment: fixed;
-	}
-	.incubator.masthead .ui.grid {
-		padding: 0 15%;
-	}
-	.incubator.masthead .ui.grid p {
-		line-height: 1.5;
-	}
-	.incubator.masthead .buttons {
-		margin-top: 5rem;
-	}
-	.incubator.service {
-		color: white;
-		padding: 3% 8%;
-		background-color: #d82545;
-	}
-	.incubator.service .ui.items {
-		margin-top: 5%;
-	}
-	.incubator.service .ui.items > .item {
-		background: transparent;
-	}
-	.incubator.service .ui.items > .item > .wtitle {
-		border-radius: 500%;
-		margin-right: 2.5rem;
-	    height: 200px;
-	    width: 200px;
-	}
-	.incubator.service .ui.items > .item > .wtitle > a {
-		display: inline-block;
-		font-size: 28px;
-	    font-weight: 500;
-	    margin-top: 80px;
-	}
-	.incubator.service .ui.items > .item:hover > .wtitle > a {
-		color: #ff3366;
-		padding-bottom: 3px;
-		border-bottom: 2px solid #ff3366;
-	}
-	
-	.incubator.cases {
-		padding: 3% 8%;
-		background-color: #eee;
-	}
-	.incubator.cases .container {
-		position: relative;
-		min-height: 500px;
-	}
-	.incubator.cases .container > .think {
-		background-color: #fff;
-	    border-radius: 500%;
-	    bottom: 5%;
-		color: #ff3366;
-	    height: 200px;
-	    left: 38%;
-	    padding: 15px;
-	    position: absolute;
-	    width: 200px;
-	}
-	.incubator.cases .container > .think > h3 {
-		font-size: 28px;
-	    font-weight: 500;
-	    margin-bottom: 10px;
-	    margin-top: 50px;
-	}
-	
-	.incubator.cases .container > .product {
-		height: 135px;
-	    padding: 15px;
-	    position: absolute;
-	    width: 135px;
-	}
-	.incubator.cases .container > .product > .summary {
-		left: -230px;
-	    line-height: 1.5;
-	    position: absolute;
-	    text-align: left;
-	    top: 35px;
-	    width: 240px;
-	    z-index: 100;
-	}
-	.incubator.cases .container > .product:hover > .summary {
-		color: #333;
-	}
-	.incubator.cases .container > .product > img {
-		border-radius: 500px;
-		width: 80%;
-	}
-	.incubator.cases .container > .miaoxing {
-		bottom: 0;
-	    left: 18%;
-	}
-	.incubator.cases .container > .yunma {
-		bottom: 35%;
-	    left: 22%;
-	}
-	.incubator.cases .container > .peinaiji {
-		bottom: 54%;
-	    left: 42%;
-	}
-	.incubator.cases .container > .peinaiji > .summary {
-		left: 160px;
-		top: 25px;
-	}
-	.incubator.cases .container > .shiguangji {
-		bottom: 35%;
-	    left: 62%;
-	}
-	.incubator.cases .container > .shiguangji > .summary {
-		left: 160px;
-	}
-	.incubator.cases .container > .sleep {
-		bottom: 0%;
-		left: 67%;
-	}
-	.incubator.cases .container > .sleep > .summary {
-		left: 160px;
-	}
-	
-	.incubator.design {
-		background-color: #d82545;
-		color: white;
-		padding: 3% 5%;
-	}
-	.incubator.design .ui.items {
-		margin-top: 5%;
-	}
-	.incubator.design .ui.items > .item {
-		background-color: transparent;
-		color: #222;
-	}
-	.incubator.design .ui.items > .item > .avatar {
-		border-radius: 500px;
-	}
-	.incubator.design .ui.items > .item > h3 {
-	    font-size: 22px;
-	    font-weight: 500;
-	    margin: 0;
-	    padding: 0.5rem 0;
-	}
-	.incubator.design .ui.items > .item > hr {
-		background: none repeat scroll 0 0 #ef9b9e;
-	    border: medium none;
-	    height: 2px;
-	    margin: 0 auto;
-	    width: 30px;
-	}
-	.incubator.design .ui.items > .item:hover {
-		color: #fff;
-	}
-	
-	.incubator.marketing {
-		padding: 3% 5%;
-		color: white;
-		background-color: #222;
-		position: relative;
-	}
-	.incubator.marketing .ui.items > .item {
-		background: none repeat scroll 0 0 transparent;
-	    color: #222;
-	    font-size: 1.5rem;
-	    margin-bottom: 0;
-	    margin-left: 0;
-	    margin-right: 0;
-	    padding: 5rem 0;
-	    text-align: center;
-	}
-	.incubator.marketing .ui.stepone.items {
-		margin-top: 5%;
-	}
-	.incubator.marketing .ui.steptwo.items {
-		margin-bottom: 2.5rem;
-		margin-top: 0;
-	}
-	.incubator.marketing .ui.items > .item.ma {
-		background-color: #f8cc8b;
-	}
-	.incubator.marketing .ui.items > .item.mb {
-		background-color: #fff79c;
-	}
-	.incubator.marketing .ui.items > .item.mc {
-		background-color: #cbe19a;
-	}
-	.incubator.marketing .ui.items > .item.md {
-		background-color: #8ac797;
-	}
-	.incubator.marketing .ui.items > .item.me {
-		background-color: #81ccf2;
-	}
-	.incubator.marketing .ui.items > .item.mf {
-		background-color: #c18fbc;
-	}
-	.incubator.marketing .ui.items > .item.mg {
-		background-color: #ef9b9e;
-	}
-	.incubator.marketing .ui.items > .item.mk {
-		background-color: #efe29b;
-	}
-	.incubator.marketing .ui.items > .item > i.icon {
-		display: block;
-	    font-size: 4rem;
-	    margin: 0 auto 1rem;
-	    width: 50px;
-	}
-	
-	.incubator.sales {
-		padding: 3% 5%;
-		background-color: #fff;
-	}
-	.incubator.cases .section-title h2.title,
-	.incubator.sales .section-title h2.title,
-	.incubator.media .section-title h2.title {
-		color: #444;
-	}
-	
-	.incubator.funds {
-		padding: 3% 5%;
-		background-color: #feac58;
-		color: white;
-		position: relative;
-	}
-	.incubator.funds img {
-		margin-top: 2rem;
-	}
-	.incubator.funds .highlight {
-		background-color: rgba(0, 0, 0, 0.75);
-	    bottom: 15rem;
-	    left: 20%;
-	    padding: 1rem;
-	    position: absolute;
-	    width: 60%;
-	    z-index: 99;
-	}
-	.incubator.funds .column:hover .highlight {
-		background-color: rgba(0, 0, 0, 0.9);
-	}
-	
-	.incubator.sales .ui.grid {
-		padding: 0 15%;
-	}
-	
-	
-	.incubator.supply {
-		background-color: #2fc194;
-		color: white;
-		position: relative;
-		padding: 3% 0;
-	}
-	.incubator.supply .ui.grid {
-		padding: 0 12%;
-	}
-	.incubator.supply .buttons {
-		margin: 2rem auto;
-	}
-	.incubator.supply .buttons .button:hover,
-	.incubator.supply .buttons .button.active {
-		color: #2fc194;
-	}
-	.incubator.supply .supplies {
-		text-align: left;
-	}
-	.incubator.supply .supplies .image {
-	    float: left;
-		width: 400px;
-		overflow: hidden;
-		margin-right: 3rem;
-		margin-top: 0.5rem;
-	}
-	.incubator.supply .supplies .content {
-	    float: right;
-		width: 450px;
-	}
-	.incubator.supply .supplies .ui.list > .item {
-		line-height: 2;
-	}
-	.incubator.supply .supplies .ui.divided.list > .item {
-		border-top: 1px solid rgba(255, 255, 255, 0.2);
-	}
-	.incubator.supply .supplies .ui.divided.list > .item:first-child {
-		border-top: none;
-	}
-	.incubator.supply .labs,
-	.incubator.supply .supplies {
-		padding: 0 15%;
-	}
-	.incubator.supply .frames {
-	    height: 450px;
-	    margin-bottom: 20px;
-	    max-height: 500px;
-	    overflow: hidden;
-	    position: relative;
-	}
-	.incubator.supply .frames > .slide {
-	    height: 100%;
-	    width: 100%;
-	}
-	.incubator.supply .frames > .slide > .item {
-		box-sizing: border-box;
-	    display: inline-block;
-	    float: left;
-	    height: 100%;
-	    position: relative;
-	    width: 100%;
-	}
-	.incubator.supply .frames .next, .incubator.supply .frames .prev {
-	  top: 215px;
-	  color: #FFFFFF;
-	  font-size: 40px;
-	  position: absolute;
-		text-decoration: none;
-	  -webkit-transition: all 0.3s ease-in-out 0s;
-	  -moz-transition: all 0.3s ease-in-out 0s;
-	  -o-transition: all 0.3s ease-in-out 0s;
-	  -ms-transition: all 0.3s ease-in-out 0s;
-	  transition: all 0.3s ease-in-out 0s;
-	}
-	.incubator.supply .frames .prev {
-	  left: -50px;
-	}
-	.incubator.supply .frames .next {
-	  right: -50px;
-	}
-	.incubator.supply .frames:hover .prev {
-	  left: 40px;
-	}
-	.incubator.supply .frames:hover .next {
-	  right: 40px;
-	}
-	.incubator.supply .frames .next.disabled, .incubator.supply .frames .prev.disabled {
-	  color: rgba(255, 255, 255, 0.65);
-	  cursor: default;
-	}	
-	
-	.incubator.vc {
-		padding: 3% 10%;
-		background-color: rgba(56, 67, 77, 0.9);
-		background-image: url("{{ app_url_packaged }}/images/incubator/bgdff.jpg");
-		background-position: left top;
-		background-attachment: fixed;
-		color: white;
-	}
-	.incubator.vc p {
-		line-height: 1.5;
-	}
-	.incubator.vc .ui.images {
-		margin-top: 8%;
-	}
-	.incubator.vc .ui.images img {
-		margin-right: 1%;
-	}
-	.incubator.media {
-		padding: 3% 5%;
-		background-color: #eee;
-	}
-	.incubator.media .ui.images {
-		margin-top: 8%;
-	}
-	.incubator.media .ui.images img {
-		margin-bottom: 1%;
-	    margin-right: 1%;
-	}
-	.incubator.submit {
-		padding: 3% 5%;
-		background-color: #273c67;
-		color: white;
-	}
-	.incubator.submit .ui.grid {
-		padding: 0 15%;
-	}
-	.incubator.submit .buttons {
-		margin: 5rem 0 2rem;
-	}
-	
-	
 	
 </style>
 {% endblock %}
 
-{% block jquery %}
-	$('.incubator.supply .ui.buttons .button').tab({
-		selector : {
-      	  	tabs : '.ui.button'
-    	}
-	});
-	
+{% block jquery %}	
 	skrollr.init({
 		forceHeight: false,
 		mobileCheck:function(){},
@@ -452,7 +66,7 @@
 			<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意在帮设计师创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及设计师的大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
 			<p>太火鸟创始人雷海波说：“我希望未来100个智能硬件爆款，有60个都是太火鸟孵化的，那么我的使命就完成了！”</p>
 			<div class="buttons">
-				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
+				<a href="{{ app_url_shop }}/cooperate_product" class="ui inverted button" target="_blank">
 					<i class="edit icon"></i> 提交孵化项目合作
 				</a>
 			</div>
@@ -469,42 +83,42 @@
 			<div class="ui four items">
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(400px,150px);background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">设计创新</a>
+						<a href="#.design" class="ui line">设计创新</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(158px,150px);background-color:rgba(34,34,34,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">营销推广</a>
+						<a href="#.marketing" class="ui line">营销推广</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(-85px,150px);background-color:rgba(254,172,88,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">众筹平台</a>
+						<a href="#.funds" class="ui line">众筹平台</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(-328px,150px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">销售渠道</a>
+						<a href="#.sales" class="ui line">销售渠道</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(400px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">供应链</a>
+						<a href="#.supply" class="ui line">供应链</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(158px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">孵化基地</a>
+						<a href="#.vc" class="ui line">风投支持</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(-85px,-88px);background-color:rgba(36,57,55,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">风投支持</a>
+						<a href="#.media" class="ui line">媒体合作</a>
 					</div>
 				</div>
 				<div class="item">
 					<div class="wtitle" data-500="transform: translate(-328px,-88px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
-						<a href="" class="ui line">媒体合作</a>
+						<a href="#.submit" class="ui line">孵化提交</a>
 					</div>
 				</div>
 			</div>
@@ -880,7 +494,7 @@
 			<p>三人以上的创业团队或平台，由一个以上的设计师作为联合创始人；具备智能硬件的研发技术（软件/硬件）、供应链等任意资源，澎湃的创业激情及互联网思维。</p>
 			
 			<div class="buttons">
-				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
+				<a href="{{ app_url_shop }}/cooperate_product" class="ui inverted button" target="_blank">
 					<i class="edit icon"></i> 提交孵化项目合作
 				</a>
 			</div>
