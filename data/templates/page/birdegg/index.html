@@ -2,7 +2,7 @@
 {% block title %}蛋年创新大会-{% endblock %}
 
 {% block page_css %}
-<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs.min.css" type="text/css" />
+<link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs01.min.css" type="text/css" />
 <style type="text/css">
 	body{
 		background: #1c0318;
@@ -602,6 +602,14 @@ h4.ui.header small{
 </style>
 {% endblock %}
 {% block jquery %}
+
+	// 分享按钮
+	var pic_url = 'http://frstatic.qiniudn.com/images/egg-header.jpg';
+	phenix.bind_share_list(pic_url);
+
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/birdegg'});
+
 	skrollr.init({
 		forceHeight: false,
 		mobileCheck:function(){},
@@ -612,16 +620,7 @@ h4.ui.header small{
   		'scrollSpeed' : 1000
   	});
 	
-	
 	phenix.birdegg.init();
-
-	
-	// 分享按钮
-	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
-	phenix.bind_share_list(pic_url);
-
-	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/birdegg'});
 
 {% endblock %}
 
@@ -1177,4 +1176,5 @@ h4.ui.header small{
 		
 	</div>
 </div>
+{% include "block/qrcode.html" %}
 {% endblock %}
