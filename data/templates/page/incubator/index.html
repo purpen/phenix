@@ -3,7 +3,7 @@
 
 {% block page_css %}
 <style class="text/css">
-	
+
 </style>
 {% endblock %}
 
@@ -19,7 +19,7 @@
 	
 	var $frame = $('.frames');
 	// Call Sly on frame
-	$frame.sly({
+	var sly = new Sly($frame, {
 		horizontal: 1,
 		itemNav: 'basic',
 		smart: 1,
@@ -28,7 +28,7 @@
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 3500,
+		cycleInterval: 35000,
 		pauseOnHover: 1,
 		
 		// Dragging
@@ -47,7 +47,7 @@
 		dragHandle: 1,
 		dynamicHandle: 1,
 		clickBar: 1,
-	});
+	}).init();
 	
 	$(window).resize(function() {
 		var s=$(window).width();
@@ -55,6 +55,19 @@
 		
 		$frame.sly('reload');
 	});
+	
+	$('.ui.gy.button').click(function(){
+		sly.activate(0);
+		$(this).addClass('active');
+		$('.ui.fh.button').removeClass('active');
+	});
+	
+	$('.ui.fh.button').click(function(){
+		sly.activate(1);
+		$(this).addClass('active');
+		$('.ui.gy.button').removeClass('active');
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -359,10 +372,10 @@
 				<p>指导初创团队进行智能硬件产品的技术攻关，协助成熟团队进行智能硬件产品的深度打磨</p>
 				
 				<div class="ui white large buttons">
-					<div class="ui inverted active button">
+					<div class="ui inverted gy button">
 						供应链
 					</div>
-					<div class="ui inverted button">
+					<div class="ui inverted fh button">
 						孵化基地
 					</div>
 				</div>
@@ -414,6 +427,8 @@
 					<p>开拓清华大学、中央美院、广州美院、浙江大学 、西安美院 、四川美院 、天津美院、 鲁迅美院 、湖北美院等高等院校创业新生力量，深入校园，培养新生设计创业团队。</p>
 
 					<p>联手北京创客空间、西湖创客汇等创新平台，营造全方位多角度的孵化环境。</p>
+					
+					<img src="{{ app_url_packaged }}/images/incubator/school.png" class="ui image" />
 				</div>
 			</div>
 		</div>
