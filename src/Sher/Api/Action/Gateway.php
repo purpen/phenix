@@ -83,6 +83,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       $data[$i]['item_stage'] = 0;
       $data[$i]['item_type'] = 'Product';
       //判断是预售还是商品
+      //eg: Product-0-1122877465
       if($result['rows'][$i]['type']==2){
         $web_url = $result['rows'][$i]['web_url'];
         if(!empty($web_url)){
@@ -111,12 +112,12 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 */
 	public function bonus(){
 		$bonus = new Sher_Core_Model_Bonus();
-		$result = $bonus->pop();
+		$result = $bonus->pop('T9');
 		
 		# 获取为空，重新生产红包
 		while (empty($result)){
 			$bonus->create_batch_bonus(100);
-			$result = $bonus->pop();
+			$result = $bonus->pop('T9');
 			// 跳出循环
 			if(!empty($result)){
 				break;

@@ -123,7 +123,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		// 获取红包
 		$bonus = new Sher_Core_Model_Bonus();
-		$result = $bonus->pop();
+		$result = $bonus->pop('T9');
 		
 		if(empty($result)){
 			return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
@@ -133,7 +133,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		/*
 		while(empty($result)){
 			$bonus->create_batch_bonus(100);
-			$result = $bonus->pop();
+			$result = $bonus->pop('T9');
 			// 跳出循环
 			if(!empty($result)){
 				break;

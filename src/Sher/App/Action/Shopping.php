@@ -787,12 +787,20 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$code = $this->stash['code'];
 		if (empty($rid) || empty($code)) {
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
-		}
+    }
+
 		try{
 			$data = array();
-			$card_money = Sher_Core_Util_Shopping::get_card_money($code);
-			// 更新临时订单
 			$model = new Sher_Core_Model_OrderTemp();
+      $result = $model->first(array('rid'=>$rid));
+      if (empty($result)){
+        return $this->ajax_json('找不到订单表！', true);
+      }
+      //验证红包是否有效
+      $total_money = $result['dict']['total_money'];
+      $card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money);
+
+			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
 			if($ok){
 				$data['card_money'] = $card_money*-1;
