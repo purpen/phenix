@@ -167,28 +167,26 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			if($ok){
 				$user_id = $user->id;
 
-        //周年庆活动送100红包
-        if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          // 获取红包
-          $bonus = new Sher_Core_Model_Bonus();
-          $result_code = $bonus->pop('RE');
-          
-          // 获取为空，重新生产红包
-          while(empty($result_code)){
-            //指定生成xname为RE, 100元红包
-            $bonus->create_specify_bonus(2, 'RE', 'B', 'B');
-            $result_code = $bonus->pop('RE');
-            // 跳出循环
-            if(!empty($result_code)){
-              break;
+        //统计好友邀请
+        if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+          $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+          //统计邀请记录
+          if($user_invite_id){
+            $invite_mode = new Sher_Core_Model_InviteRecord();
+            $invite_ok = $invite_mode->add_invite_user($user_id, $user_invite_id);
+            //送邀请人红包
+            if(Doggy_Config::$vars['app.anniversary2015.switch']){
+              $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
             }
           }
-          
-          // 赠与红包
-          $code_ok = $bonus->give_user($result_code['code'], $user_id);
+        
         }
 
-				
+        //周年庆活动送100红包
+        if(Doggy_Config::$vars['app.anniversary2015.switch']){
+          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+        }
+
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove($code['_id']);
@@ -247,6 +245,30 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         $service->session->login_token = $token;
         $this->stash['login_token'] = $token;
     }
+
+  //红包赠于
+  protected function give_bonus($user_id, $xname, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成xname为RE, 100元红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包
+    $code_ok = $bonus->give_user($result_code['code'], $user_id);
+  }
 	
 }
 ?>
