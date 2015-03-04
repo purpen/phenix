@@ -113,7 +113,7 @@ app.url.birdegg: '{$app.url.domain}/birdegg'
 app.url.cooperate: '{$app.url.action_base}/cooperate'
 
 # 孵化
-app.url.incubator: '{$app.url.action_base}/incubator'
+app.url.incubator: '{$app.url.domain}/incubator'
 
 # 微信
 app.url.wechat: '{$app.url.domain}/wechat'
