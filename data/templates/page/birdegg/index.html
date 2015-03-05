@@ -774,6 +774,54 @@ background-color: #fff;
 	height:10px;
 	width:10px;
 }
+#eggBox .section.instro{
+	background-image:none;
+}
+.egg-roundo{
+	position: absolute;
+	top: 371px;
+	left: 104px;
+	width: 16%;
+	z-index: 90;
+	-webkit-animation: rotation360 20s linear infinite;
+	animation: rotation360 20s linear infinite;
+}
+@-webkit-keyframes rotation360 {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotation360 {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+  }
+}
+#eggBox .section.instro .right-text .vc{
+	top: 270px;
+	height:auto;
+	font-size: .875rem;
+	padding-bottom: 8px;
+}
+#eggBox .section.instro .right-text .vc span{
+	font-size: 1.5rem;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -902,15 +950,19 @@ background-color: #fff;
 					
 					</div>
 					<div class="right-text"  data-700="transform: translateX(200px);opacity: 0;" data-900="transform: translateX(0px);opacity: 1;">
-						<img src="{{ app_url_packaged }}/images/ball.png" class="ball" />
-						<img src="{{ app_url_packaged }}/images/platfam.png" class="platfam" />
+						<img src="{{ app_url_packaged }}/images/ballo.png" class="ball" />
+						<img src="{{ app_url_packaged }}/images/platfamo.png" class="platfam" />
+						<img src="{{ app_url_packaged }}/images/egg_roundo.png" class="egg-roundo" />
+						<img src="{{ app_url_packaged }}/images/egg_xing.png" class="egg-xing">
 						<div class="five">
 							<span id="highlight">5</span>大阵容 强强联手
 						</div>
 						<div class="smart">
-							<span>1500</span>件智能产品
+							<span>1500</span> 件智能产品
 						</div>
-						<div class="vc"></div>
+						<div class="vc">
+							<span>500W</span> KOL
+						</div>
 					</div>
 				</div>
 			</section>
