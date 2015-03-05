@@ -1,6 +1,7 @@
 <?php
 /**
  * InviteRecord 邀请记录
+ * @author tianshuai
  */
 class Sher_Core_Model_InviteRecord extends Sher_Core_Model_Base  {
   protected $collection = "invite_record";

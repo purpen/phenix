@@ -247,6 +247,8 @@ EOF;
    *
    *   $a = authcode('abc', 'ENCODE', 'key', 3600);
    *   $b = authcode('abc', 'DECODE', 'key'); // 在一个小时内，$b(abc)，否则 $b 为空
+   *   可以替换特殊字符
+   *   $txt = str_replace(array('+','/','='),array('-','_','.'),$invite_code);
    */
   public static function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
    
@@ -300,18 +302,40 @@ EOF;
   }
 
   /**
+   * 短网址
+   * 
+   */
+  public static function url_short($url){
+    if(!is_string( $url )) return false;
+    $result   = sprintf("%u", crc32($url) );
+    $shortUrl = '';
+    $digitMsp = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','w','z',0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','W','Z');
+    while( $result > 0 ){
+        $s        = $result % 62;
+        $result   = floor( $result / 62 );
+        if( $s > 9 && $s < 36 )
+            $s    += 10;
+        $shortUrl .= $digitMsp[$s];
+    }
+
+    return $shortUrl;
+  }
+
+  /**
    * 通过邀请码获取用户ID
    */
   public static function fetch_invite_user_id($invite_code){
     if(empty($invite_code)){
       return false;
     }
-    $user_str = self::authcode($invite_code, 'DECODE', 'invite_code');
-    $user_arr = explode('-', $user_str);
-    if($user_arr[1] != 'invite'){
+    $mode = new Sher_Core_Model_User();
+    $user = $mode->load(array('invite_code'=>$invite_code));
+    if($user){
+      return $user['_id'];
+    }else{
       return false;
     }
-    return (int)$user_arr[0];
+
   }
 
   /**
@@ -321,9 +345,25 @@ EOF;
     if(empty($user_id)){
       return false;
     }
-    $uncode = (string)$user_id . '-invite';
-    $code = self::authcode($uncode, 'ENCODE', 'invite_code');
-    return $code;
+    $mode = new Sher_Core_Model_User();
+    $user = $mode->find_by_id((int)$user_id);
+    if($user){
+      if(!empty($user['invite_code'])){
+        return $user['invite_code'];
+      }else{
+        //生成邀请码
+        $code = self::url_short((string)$user['_id'].'-invite');
+        //存入用户表
+        $ok = $mode->update_set($user['_id'],array('invite_code' => $code));
+        if($ok){
+          return $code;     
+        }else{
+          return false;
+        }
+      }  
+    }else{
+      return false;
+    }
   }
 
 	
