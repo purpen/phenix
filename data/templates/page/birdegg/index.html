@@ -711,7 +711,7 @@ h4.ui.header small{
 	overflow: visible !important;
 }
 .frames{
-	height: 613px;
+	height: 645px;
 	position: relative;
 }
 .frames .next.disabled,.frames .prev.disabled {
@@ -746,6 +746,34 @@ transition: all .3s ease-in-out 0s;
 	float: left;
 	position: relative;
 }
+.frames .pages {
+bottom: 0em;
+margin: 0 auto;
+position: absolute;
+width: 100%;
+text-align: center;
+}
+.frames .pages>a {
+vertical-align: middle;
+cursor: pointer;
+display: inline-block;
+text-indent: -9999px;
+height: 6px;
+margin: 0 5px;
+width: 6px;
+background-color: rgba(255,255,255,.6);
+border-radius: 50%;
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99FFFFFF,endColorstr=#99FFFFFF)";
+filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99FFFFFF,endColorstr=#99FFFFFF)";
+zoom: 1;
+}
+.frames .pages>a.active, .frames .pages>a:hover {
+background-color: #fff;
+}
+.frames .pages>a.active{
+	height:10px;
+	width:10px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -774,6 +802,13 @@ transition: all .3s ease-in-out 0s;
 		
 		prev: ".frames .prev",
 		next: ".frames .next",
+		
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'items',
+		activatePageOn: 'click',
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+		},
 		
 		// Mixed options
 		startAt: 0,
@@ -921,7 +956,7 @@ transition: all .3s ease-in-out 0s;
 						</div>
 					</div>
 					<div class="h-252 mt-50" id="specialer02">
-						<div class="w-252 mt-25" data-1600="transform: scale(0.2);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
+						<div class="w-252 mt-25" data-1600="transform: scale(0.2);opacity: 0;" data-1750="transform: scale(1);opacity: 1;">
 							<div class="ldh">
 								<div class="word">
 									<h4 class="ui header">刘东华</h4>
@@ -929,7 +964,7 @@ transition: all .3s ease-in-out 0s;
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-50" data-1600="transform: scale(0.6);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
+						<div class="w-252 mt-50" data-1600="transform: scale(0.6);opacity: 0;" data-1750="transform: scale(1);opacity: 1;">
 							<div class="so">
 								<div class="word">
 									<h4 class="ui header">卢刚</h4>
@@ -937,7 +972,7 @@ transition: all .3s ease-in-out 0s;
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-25" data-1600="transform: scale(0.2);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
+						<div class="w-252 mt-25" data-1600="transform: scale(0.2);opacity: 0;" data-1750="transform: scale(1);opacity: 1;">
 							<div class="mcw">
 								<div class="word">
 									<h4 class="ui header">麻长炜</h4>
@@ -945,7 +980,7 @@ transition: all .3s ease-in-out 0s;
 								</div>
 							</div>
 						</div>
-						<div class="w-252 mt-50" data-1600="transform: scale(0.6);opacity: 0;" data-1800="transform: scale(1);opacity: 1;">
+						<div class="w-252 mt-50" data-1600="transform: scale(0.6);opacity: 0;" data-1750="transform: scale(1);opacity: 1;">
 							<div class="zp">
 								<div class="word">
 									<h4 class="ui header">张鹏</h4>
@@ -1073,7 +1108,7 @@ transition: all .3s ease-in-out 0s;
 								</div>
 				
 								<div class="h-196">
-									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="bliu">
 											<div class="guest-word">
 												<h5 class="ui header">Bill liu</h5>
@@ -1081,7 +1116,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="twm">
 											<div class="guest-word">
 												<h5 class="ui header">田文苗</h5>
@@ -1089,7 +1124,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="fch">
 											<div class="guest-word">
 												<h5 class="ui header">封昌红</h5>
@@ -1097,7 +1132,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="zl">
 											<div class="guest-word">
 												<h5 class="ui header">张路</h5>
@@ -1105,7 +1140,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="jw">
 											<div class="guest-word">
 												<h5 class="ui header">贾伟</h5>
@@ -1113,7 +1148,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="lhb">
 											<div class="guest-word">
 												<h5 class="ui header">雷海波</h5>
@@ -1232,7 +1267,7 @@ transition: all .3s ease-in-out 0s;
 								</div>
 
 								<div class="h-196">
-									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="hky">
 											<div class="guest-word">
 												<h5 class="ui header">侯魁宇</h5>
@@ -1240,7 +1275,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="csj">
 											<div class="guest-word">
 												<h5 class="ui header">陈圣杰</h5>
@@ -1248,7 +1283,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="cwl">
 											<div class="guest-word">
 												<h5 class="ui header">陈威廉</h5>
@@ -1256,7 +1291,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.4);opacity: 0.3;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="xd">
 											<div class="guest-word">
 												<h5 class="ui header">谢迪</h5>
@@ -1264,7 +1299,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.1);opacity: 0.4;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="xgc">
 											<div class="guest-word">
 												<h5 class="ui header">熊庚超</h5>
@@ -1272,7 +1307,7 @@ transition: all .3s ease-in-out 0s;
 											</div>
 										</div>
 									</div>
-									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2800="transform: scale(1);opacity: 1;">
+									<div class="w-160" data-2500="transform: scale(0.7);opacity: 0.1;" data-2650="transform: scale(1);opacity: 1;">
 										<div class="bh">
 											<div class="guest-word">
 												<h5 class="ui header">白海</h5>
@@ -1285,6 +1320,7 @@ transition: all .3s ease-in-out 0s;
 						</div>
 						
 					</div>
+					<div class="pages"></div>
 					<a class="prev" href="#">
 						<i class="flat arrow_left icon"></i>
 					</a>
