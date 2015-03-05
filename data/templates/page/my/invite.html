@@ -1,19 +1,107 @@
 {%extends 'layout/board.html'%}
+{%extends 'layout/sns.html'%}
 {% block title %}邀请好友-{% endblock %}
 {% block page_css %}
 {% endblock %}
 {% block js %}
 {% endblock %}
-{% block jquery %}
-	$('.copy-code').zclip({
-        path : '/js/ZeroClipboard.swf',
-        copy : function(){
-			return $(this).attr('name');
-       	},
-		afterCopy:function(){
-			$(this).addClass('btn-success').text('复制成功');
-		}
+
+{% block layout_js %}
+<script type="text/javascript">
+  // 社会化分享
+  function social_share(link, title, pic_url) {
+    // 链接，标题，网站名称，子窗口别称，网站链接
+    //var link = encodeURIComponent(document.location),title = encodeURIComponent(document.title.substring(0,100));
+    var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+    
+    var getParamsOfShareWindow = function(width, height) {
+      return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+    
+    $('#wechat-share').click(function() {
+      $('.ui.qrcode.modal').modal('show');
+      return false;
     });
+    
+    $('#sina-share').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    // 同一个页面出现2个
+    $('#o-share-weibo').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#tencent-share').click(function() {
+      var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(634, 668);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#douban-share').click(function() {
+      var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(450, 350);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#renren-share').click(function() {
+      var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#kaixin001-share').click(function() {
+      var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(540, 342);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#netease-share').click(function() {
+      var url = 'http://t.163.com/article/user/checkLogin.do?link=' + link + 'source=' + source + '&info='+ title + ' ' + link;
+      var params = getParamsOfShareWindow(642, 468);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#facebook-share').click(function() {
+      var url = 'http://facebook.com/share.php?u=' + link + '&t=' + title;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#twitter-share').click(function() {
+      var url = 'http://twitter.com/share?url=' + link + '&text=' + title;
+      var params = getParamsOfShareWindow(500, 375);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#delicious-share').click(function() {
+      var url = 'http://delicious.com/post?url=' + link + '&title=' + title;
+      var params = getParamsOfShareWindow(550, 550);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+  };
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+  //分享
+  var share_title = '我已成功注册跻身太火鸟英雄汇，这里林子好大，小伙伴们快来哇，成功邀请好友还有红包领取，快来注册并邀请身边好友吧！你们靠谱，我的红包也鼓~~';
+  var share_url = '{{ app_url_register }}?user_invite_code={{ user_invite_code }}';
+  var share_pic = '';
+  social_share(share_url, share_title, share_pic);
+	// 生成二维码
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/auth/signup?user_invite_code={{ user_invite_code }}'});
 {% endblock %}
 {% block content %}
 <div class="account profile">
@@ -22,63 +110,64 @@
 			{% include "block/user/sub_menu.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我的邀请码</h2>
+			<h2 class="ui header">我的邀请</h2>
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
 						<div class="ui column">
 							<div class="ui success message">
-								邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券；
+                <!--邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券；-->
+                活动期间,每成功邀请一个朋友,将获得31元购物红包
 							</div>
 							<h5>
-								剩余 <b>{{ free_invites_cnt }}</b> 个未使用, 已使用 <b>{{ used_invites_cnt }}</b> 个</h5>
+                邀请链接: {{ app_url_register }}?user_invite_code={{ user_invite_code }}</h5>
 						</div>
 					</div>
 					<div class="row">
 						<div class="ten wide column">
 							<h4>复制链接地址，通过微博、QQ、或邮件分享给朋友</h4>
+<div class="ui big-end white background grid">
+	<div class="row">
+		<div class="center aligned column">
+			{% include "block/big-circel-share.html" %}
+		</div>
+	</div>
+</div>
+              <h3>邀请记录:</h3>
 							<table class="ui celled table segment">
 								<thead>
 									<tr>
-										<td>邀请码</td>
-										<td>操作</td>
+										<td>用户</td>
+										<td>时间</td>
+										<td>状态</td>
 									</tr>
 								</thead>
+                {% invite_record_list var:'list' user_id:user._id kind:1 size:10 page:page %}
 								<tbody>
-									{% for code in free_invites %}
+									{% for i in list.rows %}
 									<tr>
-										<td>{{ app_url_shop }}?r={{ code._id }}</td>
-										<td>
-											<div class="zclip-box">
-												<button class="ui small green button copy-code" name="{{ app_url_domain }}/?l={{ code._id }}" >复制</button>
-											</div>
-										</td>
-									</tr>
-									{% endfor %}
-									{% for code in used_invites %}
-									<tr>
-										<td></td>
-										<td>{% if code.used_by %}已使用{% else %}未使用{% endif %}</td>
-										<td><a href="{{ code.invited_user.home_url }}" target="_blank">{{ code.invited_user.nickname }}</a></td>
+                    <td><a href="{{ i.invited_user.home_url }}" target="_blank">{{ i.invited_user.nickname }}</a></td>
+                    <td>{{ i.created_on|date }}</td>
+                    <td>邀请成功</td>
 									</tr>
 									{% endfor %}
 								</tbody>
 							</table>
+		<div class="row">
+			<div class="column">
+				{% if list.total_rows %}
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				{% endif %}
+			</div>
+		</div>
 						</div>
-						<div class="five wide column">
-							
-							<a href="" class="fluid ui weibo btn-4 btn-4c icon-arrow-right icon btn">
-								<i class="flat sina_weibo_plane icon"></i> 用微博账号
-							</a>
-							
-							<a href="" class="fluid ui qq btn-4 btn-4c icon-arrow-right icon btn">
-								<i class="flat tt_weibo_plane icon"></i> 用QQ账号
-							</a>
-						</div>
+
 					</div>
 				
 			</div>
 		</div>
 	</div>
 </div>
+{% include "block/qrcode.html" %}
 {% endblock %}

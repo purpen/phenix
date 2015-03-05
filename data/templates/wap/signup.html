@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}现在注册-{% endblock %}
+{% block title%}注册-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .sign-up {
@@ -14,13 +14,22 @@
 	$('#fetch-verify-code').click(function(){
 		var phone = $('#account').val();
 		if(phone){
-			$(this).addClass('disabled').text('正在发送');
-			$this = $('#fetch-verify-code');
-			$.getJSON('/app/wap/auth/verify_code', {'phone': phone}, function(result){
-				if(result.errorCode == 200){
-					$this.removeClass('disabled').text('获取验证码');
-				}
-			});
+      //验证手机是否注册过
+      var check_phone_url = '/app/wap/auth/check_account';
+      $.get(check_phone_url, {phone: phone}, function(r){
+        if(r == 1){
+          phenix.show_error_note('手机号已存在！');
+          return false;     
+          }else{
+              $(this).addClass('disabled').text('正在发送');
+              $this = $('#fetch-verify-code');
+              $.getJSON('/app/wap/auth/verify_code', {'phone': phone}, function(result){
+                if(result.errorCode == 200){
+                  $this.removeClass('disabled').text('获取验证码');
+                }
+              });    
+          }
+      });
 		}else{
 			phenix.show_error_note('请正确填写手机号码！');
 		}

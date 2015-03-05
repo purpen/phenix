@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'forget', 'logout', 'verify_code');
+	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'forget', 'logout', 'verify_code', 'check_account');
 	
 	/**
 	 * 入口
@@ -173,7 +173,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           //统计邀请记录
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
-            $invite_ok = $invite_mode->add_invite_user($user_id, $user_invite_id);
+            $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
             //送邀请人红包
             if(Doggy_Config::$vars['app.anniversary2015.switch']){
               $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
@@ -238,6 +238,20 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		
 		return $this->to_json(200, '正在发送');
 	}
+
+	/**
+	 * 验证手机是否存在
+	 */
+  public function check_account(){
+    //验证手机号码是否重复
+		$user = new Sher_Core_Model_User();
+    $has_phone = $user->first(array('account' => $this->stash['phone']));
+    if(!empty($has_phone)){
+      return $this->to_raw('1');
+    }else{
+      return $this->to_raw('0');
+    }
+  }
 
     protected function gen_login_token() {
         $service = DoggyX_Session_Service::instance();
