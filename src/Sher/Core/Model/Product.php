@@ -379,7 +379,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		// 转换为时间戳, +12小时
 		if(isset($data['snatched_time'])){
-			$data['snatched_time'] = strtotime($data['snatched_time']) + 12*60*60;
+			$data['snatched_time'] = strtotime($data['snatched_time']);
 		}
 		// 预售开始时间，结束时间
 		if(isset($data['presale_start_time'])){
