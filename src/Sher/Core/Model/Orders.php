@@ -9,6 +9,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
 	# 3 days
 	const WAIT_TIME = 3;
+
+  #订单类型
+  # 普通订单
+  const KIND_NORMAL = 1;
+  # 抢购订单
+  const KIND_SNATCH = 2;
 	
     protected $schema = array(
 		# 订单编号
@@ -119,6 +125,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'is_presaled' => 0,
 		# 过期时间,(普通订单、预售订单)
 		'expired_time' => 0,
+
+    #订单类型
+    'kind' => self::KIND_NORMAL,
 		
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,

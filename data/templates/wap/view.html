@@ -103,9 +103,10 @@ position: fixed !important;
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		
-		$('#current-price').html('<small>￥</small>'+$(this).data('price'));
-				
+		{% if !product.snatched %}
+		  $('#current-price').html('<small>￥</small>'+$(this).data('price'));
+		{%endif%}		
+
 		return false;
 	});
 	
@@ -214,7 +215,7 @@ position: fixed !important;
 	<div class="row">
 		<div class="six wide column">
 			<label class="price">
-				<span id="current-price" class="ui magenta text"><small>￥</small>{{ product.sale_price }}</span>
+				<span id="current-price" class="ui magenta text"><small>￥</small>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 			</label>
 		</div>
 		<div class="right aligned ten wide column">

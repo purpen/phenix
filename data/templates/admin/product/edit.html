@@ -411,7 +411,7 @@
 		          	<label>开启</label>
 		        </div>
 			</div>
-			<div class="four fields">
+			<div class="five fields">
 				<div class="field">
 				  	<label>开始抢购日期：</label>
 					<div class="ui icon input">
@@ -424,10 +424,17 @@
 					<input type="text" name="snatched_hour" value="12:00" readonly />
 				</div>
 				<div class="field">
+				  	<label>抢购价：</label>
+					<input type="text" name="snatched_price" value="{{ product.snatched_price|default 0 }}" />
+				</div>
+				<div class="field">
+				  	<label>抢购数量：</label>
+					<input type="text" name="snatched_count" value="{{ product.snatched_count|default 0 }}" />
+				</div>
+				<div class="field">
 				  	<label>预约人数：</label>
 					<input type="text" name="appoint_count" value="{{ product.appoint_count|default 0 }}" />
 				</div>
-				<div class="field"></div>
 			</div>
 		</div>
 

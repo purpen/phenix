@@ -8,7 +8,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine','year');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year');
 	
 	/**
 	 * 网站入口
@@ -181,7 +181,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 玩蛋去
+	 * 周年秒杀
 	 */
 	public function year(){
 		return $this->to_html_page('page/oneyear.html');

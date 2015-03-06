@@ -140,6 +140,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'snatched_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
+    # 抢购价
+    'snatched_price' => 0,
+    # 抢购数量
+    'snatched_count' => 0,
 
 	    ## 试用
 	    'trial' =>  0,
@@ -215,9 +219,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title');
 	
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count');
 	
-	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals');
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price');
 	
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -309,7 +313,15 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 验证是否能够销售
 	 */
 	public function can_saled($data){
-		if(isset($data['inventory'])){
+    if(isset($data['inventory'])){
+      //验证抢购数量
+      if(!empty($data['snatched'])){
+        if(isset($data['snatched_count']) && $data['snatched_count']>0 && $data['inventory']>0){
+          return true;      
+        }else{
+          return false;
+        }
+      }
 			return $data['inventory'] > 0;
 		}
 		return false;
@@ -624,6 +636,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 				$updated = array(
 					'$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1),
 				);
+        //如果是抢购,减少数量
+        if($row['snatched']){
+          $updated = array(
+            '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'snatched_count'=>-1),
+          );
+        }
 			}
 			
 			return $this->update((int)$id, $updated);
@@ -660,6 +678,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$updated = array(
 				'$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity),
 			);
+      //恢复抢购数量
+      if($row['snatched']){
+        $updated = array(
+				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'snatched_count'=>1),
+        );
+      }
 		}
 		
 		return $this->update((int)$id, $updated);

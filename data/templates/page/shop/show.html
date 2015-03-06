@@ -34,18 +34,21 @@
 		var choosed_sku = {{ product._id }};
 	{% endif %}
 	
+
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		
-		$('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
-				
+    //抢购商品sku价格均为抢购价
+    {% if !product.snatched %}
+		  $('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
+		{%endif%}		
 		return false;
 	});
+
 	
-	// 现在预约--口罩
+	// 现在预约
   	$('.appoint.btn').click(function(){
     	phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
   	});
@@ -394,12 +397,17 @@
 									<span class="unit">￥</span>{{ product.market_price }}
 								</span>
 								<span class="price" id="current-price">
-									<span class="unit">￥</span>{{ product.sale_price }}
+                  {% if product.snatched %}
+									  <span class="unit">￥</span>{{ product.snatched_price }}
+                  {%else%}
+									  <span class="unit">￥</span>{{ product.sale_price }}
+                  {%endif%}
+
 								</span>
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy appoint btn">
-										<i class="ticket icon"></i>立即预约
+										<i class="ticket icon"></i>准备抢购
 									</div>
 									{% else %}
 										{% if product.can_saled %}
