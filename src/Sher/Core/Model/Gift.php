@@ -47,7 +47,7 @@ class Sher_Core_Model_Gift extends Sher_Core_Model_Base {
 		'status' => self::STATUS_OK,
     );
 	
-    protected $required_fields = array('code','amount','product_id');
+    protected $required_fields = array('code','amount');
     protected $int_fields = array('product_id','user_id','used_by','used_at','used','expired_at');
 	
     protected $joins = array();

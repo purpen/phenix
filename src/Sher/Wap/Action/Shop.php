@@ -424,6 +424,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 礼品卡金额
 		$gift_money = $order_info['gift_money'];
+
+    //红包和礼品卡不能同时 使用
+    if(!empty($card_money) && !empty($gift_money)){
+			return 	$this->ajax_json('红包和礼品卡不能同时使用！', true);
+    }
 		
 		try{
 			$orders = new Sher_Core_Model_Orders();
