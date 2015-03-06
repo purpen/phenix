@@ -751,7 +751,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
                 $is_snatched = true;
                 $snatch_product_id = $product_data['_id'];
                 // 如果抢购价为0,设置订单状态为备货
-                if((int)$pay_money==0){
+                if((float)$pay_money==0){
                   $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
                   $order_info['is_payed'] = 1;              
                 }
@@ -796,7 +796,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     	}
 
 	    //如果是抢购并且为0元抢，无需支付，跳到我的订单页
-	    if($is_snatched && (int)$pay_money==0){
+	    if($is_snatched && (float)$pay_money==0){
 	    	$next_url = Doggy_Config::$vars['app.url.my'].'/order_view?rid='.$rid;
 	    }else{
 	    	$next_url = Doggy_Config::$vars['app.url.shopping'].'/success?rid='.$rid;
