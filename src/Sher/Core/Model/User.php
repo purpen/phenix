@@ -381,7 +381,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }
 		
 		if(empty($row['mentor'])){
-			$row['mentor_info'] = array('name' => $row['profile']['job']);
+      if(!empty($row['profile']['job'])){
+        $user_job = $row['profile']['job'];
+      }else{
+        $user_job = '';
+      }
+			$row['mentor_info'] = array('name' => $user_job);
 		}else{
 			$row['mentor_info'] = $this->find_mentors($row['mentor']);
 		}

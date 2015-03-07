@@ -8,7 +8,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch');
 	
 	/**
 	 * 网站入口
@@ -179,5 +179,89 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 
 		return $this->to_html_page('page/valentine.html');
 	}
+	
+	/**
+	 * 周年秒杀
+	 */
+	public function year(){
+		return $this->to_html_page('page/oneyear.html');
+	}
+	
+	/**
+	 * watch
+	 */
+	public function watch(){
+		$this->set_target_css_state('page_social');
+    $model = new Sher_Core_Model_SubjectRecord();
+    $query['target_id'] = 1;
+		$query['event'] = Sher_Core_Model_SubjectRecord::EVENT_APPOINTMENT;
+    //统计预约数量---有性能问题,时间紧迫,过后再调整
+    $this->stash['appoint_count'] = $model->count($query);
+
+    //判断当前用户是否预约过
+    $is_appoint = false;
+    if($this->visitor->id){
+      $this->stash['user_info'] = &$this->stash['visitor'];
+      $is_appoint = $model->check_appoint($this->visitor->id, 1);
+    }
+
+    $this->stash['is_appoint'] = $is_appoint;
+		return $this->to_html_page('page/promo/watch.html');
+	}
+
+  /**
+   * 用户补全资料并预约
+   */
+  public function ajax_appoint(){
+    if(!isset($this->stash['target_id'])){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+    }
+
+    $r_model = new Sher_Core_Model_SubjectRecord();
+
+    $is_appoint = $r_model->check_appoint($this->visitor->id, (int)$this->stash['target_id']);
+    if($is_appoint){
+ 			return $this->ajax_note('不能重复预约!', true);  
+    }
+
+    if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
+      if(empty($this->stash['realname']) || empty($this->stash['phone'])){
+ 			  return $this->ajax_note('请求失败,缺少用户必要参数', true); 
+      }
+
+      $user_data = array();
+      $user_data['profile']['realname'] = $this->stash['realname'];
+      $user_data['profile']['phone'] = $this->stash['phone'];
+
+      try {
+        //更新基本信息
+        $user_ok = $this->visitor->save($user_data);
+        if(!$user_ok){
+          return $this->ajax_note("更新用户信息失败", true);  
+        }
+      } catch (Sher_Core_Model_Exception $e) {
+        Doggy_Log_Helper::error('Failed to active attend update profile:'.$e->getMessage());
+        return $this->ajax_note("更新失败:".$e->getMessage(), true);
+      }
+    
+    }
+
+    $data = array();
+    $data['user_id'] = (int)$this->visitor->id;
+    $data['target_id'] = (int)$this->stash['target_id'];
+    $data['event'] = Sher_Core_Model_SubjectRecord::EVENT_APPOINTMENT;
+    try{
+      $ok = $r_model->add_appoint($data['user_id'], $data['target_id']);
+      if($ok){
+		    return $this->to_taconite_page('ajax/promo_appoint_ok.html');
+      }else{
+  			return $this->ajax_note('预约失败!', true);   
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Save subject_record appoint failed: ".$e->getMessage());
+ 			return $this->ajax_note('预约失败.!', true); 
+    }
+  }
+
 }
 ?>

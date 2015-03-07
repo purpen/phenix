@@ -34,20 +34,23 @@
 		var choosed_sku = {{ product._id }};
 	{% endif %}
 	
+
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		
-		$('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
-				
+    //抢购商品sku价格均为抢购价
+    {% if !product.snatched %}
+		  $('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
+		{%endif%}		
 		return false;
 	});
+
 	
-	// 现在预约--口罩
+	// 现在预约
   	$('.appoint.btn').click(function(){
-    	phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
+    	//phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
   	});
 	
 	// 加入购物车
@@ -60,18 +63,20 @@
 	});
 	
 	// 立即购买
-	$('.ui.nowbuy.btn').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (choosed_sku){
-			phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
-		} else {
-			phenix.show_error_note('请选择一个型号或颜色', 3000);
-		}
-	});
+  $('.ui.nowbuy.btn').livequery(function(){
+     $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 3000);
+      }
+    }); 
+  });
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -206,14 +211,48 @@
 		$('.ui.share.modal').modal('show');
 	});
 
-	{% if product.snatched %}
-		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
-			var $this = $(this).html(event.strftime(''
-			+ '<span class="count">%D</span> 天 '
-			+ '<span class="count">%H</span> 时 '
-			+ '<span class="count">%M</span> 分 '
-			+ '<span class="count">%S</span> 秒'));
-		});
+	{% if is_snatch %}
+    var times = {{ snatch_time }} ;
+    var SysSecond;
+    var InterValObj;
+    //倒计时
+    //SysSecond = parseInt($("#remainSeconds").html()); //这里获取倒计时的起始时间
+    SysSecond = parseInt(times);
+    InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行
+
+    //将时间减去1秒，计算天、时、分、秒
+    function SetRemainTime() {
+    if (SysSecond > 0) {
+      SysSecond = SysSecond - 1;
+      var second = Math.floor(SysSecond % 60);             // 计算秒
+      var minite = Math.floor((SysSecond / 60) % 60);      //计算分
+      var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时
+      var day = Math.floor((SysSecond / 3600) / 24);        //计算天
+
+      var time_show = ''
+        + '<span class="count">'+ day +'</span> 天 '
+        + '<span class="count">'+ hour +'</span> 时 '
+        + '<span class="count">'+ minite +'</span> 分 '
+        + '<span class="count">'+ second +'</span> 秒';
+      $("#clock").html(time_show);
+    } else {
+      //剩余时间小于或等于0的时候，就停止间隔函数
+      window.clearInterval(InterValObj);
+      //这里可以添加倒计时时间为0后需要执行的事件
+          var product_id = {{ product._id }};
+          $.get('{{ app_url_shop }}/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
+            var r = $.parseJSON(r);
+            if(r.success){
+              $('.tobuy').html('立即抢购').addClass('nowbuy');
+              $('.snatched').html('<span class="ui black text">正在抢购中...</span>');
+            }else{
+              //alert(r.message);
+              window.location.reload();
+            }
+          });
+      }
+    }
+
 	{% endif %}
 	
   	// ajax加载评论
@@ -370,7 +409,7 @@
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="product snatched">
-										<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>
+                    <!--<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>-->
 										<span class="ui text">倒计时：<span id="clock"></span></span>
 									</div>
 									{% else %}
@@ -394,17 +433,22 @@
 									<span class="unit">￥</span>{{ product.market_price }}
 								</span>
 								<span class="price" id="current-price">
-									<span class="unit">￥</span>{{ product.sale_price }}
+                  {% if product.snatched %}
+									  <span class="unit">￥</span>{{ product.snatched_price }}
+                  {%else%}
+									  <span class="unit">￥</span>{{ product.sale_price }}
+                  {%endif%}
+
 								</span>
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy appoint btn">
-										<i class="ticket icon"></i>立即预约
+										准备开抢
 									</div>
 									{% else %}
 										{% if product.can_saled %}
 										<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
-											<i class="flat shopping57 icon"></i>立即抢购
+											立即抢购
 										</div>
 										{% else %}
 										<div class="ui active gray btn-4 btn-4c locknotice btn">

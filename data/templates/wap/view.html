@@ -103,25 +103,28 @@ position: fixed !important;
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		
-		$('#current-price').html('<small>￥</small>'+$(this).data('price'));
-				
+		{% if !product.snatched %}
+		  $('#current-price').html('<small>￥</small>'+$(this).data('price'));
+		{%endif%}		
+
 		return false;
 	});
 	
 	// 立即购买
-	$('.ui.nowbuy.button').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.redirect('{{ app_url_wap }}/auth/login');
-			return false;
-		}
-		if (choosed_sku){
-			phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
-		} else {
-			phenix.show_error_note('请选择一个型号或颜色', 2000);
-		}
-	});
+  $('.ui.nowbuy.button').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login');
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
 	
 	// 预定
 	$('.ui.booked.button').click(function(){
@@ -133,6 +136,50 @@ position: fixed !important;
 		var r_id = $(this).data('id');
 		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+r_id);
 	});
+
+	{% if is_snatch %}
+    var times = {{ snatch_time }} ;
+    var SysSecond;
+    var InterValObj;
+    //倒计时
+    //SysSecond = parseInt($("#remainSeconds").html()); //这里获取倒计时的起始时间
+    SysSecond = parseInt(times);
+    InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行
+
+    //将时间减去1秒，计算天、时、分、秒
+    function SetRemainTime() {
+    if (SysSecond > 0) {
+      SysSecond = SysSecond - 1;
+      var second = Math.floor(SysSecond % 60);             // 计算秒
+      var minite = Math.floor((SysSecond / 60) % 60);      //计算分
+      var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时
+      var day = Math.floor((SysSecond / 3600) / 24);        //计算天
+
+      var time_show = ''
+        + '<span class="count">'+ day +'</span> 天 '
+        + '<span class="count">'+ hour +'</span> 时 '
+        + '<span class="count">'+ minite +'</span> 分 '
+        + '<span class="count">'+ second +'</span> 秒';
+      $("#clock").html(time_show);
+    } else {
+      //剩余时间小于或等于0的时候，就停止间隔函数
+      window.clearInterval(InterValObj);
+      //这里可以添加倒计时时间为0后需要执行的事件
+          var product_id = {{ product._id }};
+          $.get('{{ app_url_wap }}/app/site/shop/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
+            var r = $.parseJSON(r);
+            if(r.success){
+              $('.tobuy').html('立即抢购').addClass('nowbuy');
+              $('.snatched').html('<span class="ui black text">正在抢购中...</span>');
+            }else{
+              window.location.reload();
+            }
+          });
+
+      }
+    }
+
+	{% endif %}
 	
 {% endblock %}
 
@@ -214,7 +261,7 @@ position: fixed !important;
 	<div class="row">
 		<div class="six wide column">
 			<label class="price">
-				<span id="current-price" class="ui magenta text"><small>￥</small>{{ product.sale_price }}</span>
+				<span id="current-price" class="ui magenta text"><small>￥</small>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 			</label>
 		</div>
 		<div class="right aligned ten wide column">
@@ -231,17 +278,41 @@ position: fixed !important;
 	<!--购买动作-->
 	<div class="row">
 		<div class="center aligned column">
-      {% if product.is_try %}
-        此产品为试用商品，不可销售
-      {%else%}
-        {% if product.can_saled %}
-          <div class="ui active magenta labeled icon nowbuy button">
-            <i class="cart icon"></i>立即购买
+
+      {% if product.snatched %}
+        {% if !product.snatched_start %}
+          <div class="product snatched">
+            <!--<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>-->
+            <span class="ui text">倒计时：<span id="clock"></span></span>
+          </div>
+          <div class="ui active magenta labeled tobuy icon button">
+            准备开抢
           </div>
         {%else%}
-          已卖光
+          {% if product.can_saled %}
+            <div class="ui active magenta labeled tobuy nowbuy icon button">
+              立即抢购
+            </div>
+          {%else%}
+            <div class="ui active magenta labeled icon button">
+              已抢完
+            </div>
+          {%endif%}
+        {%endif%}
+      {%else%}
+        {% if product.is_try %}
+          此产品为试用商品，不可销售
+        {%else%}
+          {% if product.can_saled %}
+            <div class="ui active magenta labeled icon nowbuy button">
+              <i class="cart icon"></i>立即购买
+            </div>
+          {%else%}
+            已卖光
+          {%endif%}
         {%endif%}
       {%endif%}
+
 			<div class="ui active green icon share button">
 				<i class="share icon"></i>
 			</div>

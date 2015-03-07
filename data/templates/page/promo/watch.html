@@ -1,0 +1,295 @@
+{%extends 'layout/sns.html'%}
+{% block title %}iphone-watch -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	body{
+		background:#fff;
+	}
+	.yue{
+		background:url({{ app_url_packaged }}/images/watch/w_bg.jpg) center bottom no-repeat;
+		background-size:cover;
+		padding: 5% 0 24%;
+	}
+	.advantage{
+		font-size: .55em;
+		margin: .35em 0;
+		font-weight: 400;
+	}
+	.wtime{
+		background-color:#ff1a39;
+	}
+	.mt-25{
+		margin-top: 25px;
+		margin-bottom: 0;
+	}
+	p.mt-25 span{
+		font-weight:bold;
+	}
+	.target{
+		background-color:#3f3f3f;
+		color:#fff;
+	}
+	.target p a {
+		text-decoration: none;
+		color: #f36;
+		font-weight: 700;
+	}
+	.target p{
+		margin: 26px 0 31px;
+	}
+	.f2f{
+		background-color:#f2f2f2;
+		margin-top: -6px;
+	}
+  .ui.big-end{
+padding: 3rem 0 5rem;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+  //分享
+  phenix.bind_share_list('{{ app_url_packaged }}/images/watch/w_2.jpg');
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/watch'});
+
+  //预约按钮
+	$('.ui.appoint.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    $('.ui.user-info-box.modal').modal('show');
+    return false; 
+  });
+
+  //取消报名弹出框
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+{% endblock %}
+
+{% block content %}
+<div class="watch page">
+	<div class="yue">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h2 class="ui header">
+						Apple Watch强势登陆太火鸟！
+						<div class="advantage">
+							至今最贴近你的个人装置，让你第一时间闪耀
+						</div>
+					</h2>
+					
+          <div class="appoint-box">
+            {% if is_appoint %}
+              <div class="ui active btn-4 btn-4c green btn">
+                <span>已预约</span>
+              </div>
+            {% else %}
+              <div class="ui active appoint btn-4 btn-4c black btn">
+                <span>预约 / 到货通知</span>
+              </div>
+            {% endif %}
+          </div>
+					
+          <p class="mt-25">已有  <span class="appoint-num">{{ appoint_count }}</span> 人参与预约</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="wtime">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_0.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="target">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<p>在评论区<a href="http://www.taihuoniao.com/topic/view-102650-1.html" target="_blank" >点击这里</a>告诉我们你想要的颜色/款型，票数最多的颜色/款型我们会安排优先上线，带你闪耀不一样的光芒！</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="f2f">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_1.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="white background">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_2.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="f2f">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_3.jpg" width="100%" style="margin-bottom:-6px;">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="white background">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_7.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="f2f">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_4.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="white background">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_5.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="f2f">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_6.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="white background">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_8.jpg" width="100%">
+					<img src="{{ app_url_packaged }}/images/watch/w_9.jpg" width="100%">
+					<img src="{{ app_url_packaged }}/images/watch/w_10.jpg" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <section class="ui share gray background block">
+      <div class="ui responsive grid">
+        <div class="row">
+          <div class="center aligned column section-title">
+            <h3 class="ui header">分享</h3>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </section>
+  <div class="ui big-end white background grid">
+    <div class="row">
+      <div class="center aligned column">
+        {% include "block/big-circel-share.html" %}
+      </div>
+    </div>
+  </div>
+	
+</div>
+
+<div class="ui user-info-box small modal transition">
+  	<i class="flat close icon"></i>
+	<div class="header">
+	    补全用户信息
+	</div>
+	<div class="container">
+		<form action="{{ app_url_action_base }}/promo/ajax_appoint" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+				<input type="hidden" name="is_user_info" value="1" />
+				<input type="hidden" name="target_id" value="1" />
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+              <input type="text" name="realname" value="{{ user_info.profile.realname }}" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>手机号</label>
+							<input type="text" name="phone" value="{{ user_info.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+
+				</div>
+		  	</div>
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认预约
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% include "block/qrcode.html" %}
+{% endblock %}
+
+
+
+
+
+
+
