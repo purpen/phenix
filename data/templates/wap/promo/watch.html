@@ -301,6 +301,51 @@ function onTouchEnd(e)
 {%endblock%}
 {% block jquery %}
 
+  //预约按钮
+	$('.ui.appoint.btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    $('.ui.user-info-box.modal').modal('show');
+    return false; 
+  });
+
+  //取消报名弹出框
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+
   $('#svg').show();
 
   initPages();
@@ -328,11 +373,19 @@ function onTouchEnd(e)
 																	</div>
 																</h5>
 
-																<div class="ui active btn-4 btn-4c black btn">
-																	<span>预约 / 到货通知</span>
-																</div>
+                                <div class="appoint-box">
+                                  {% if is_appoint %}
+                                    <div class="ui active btn-4 btn-4c green btn">
+                                      <span>已预约</span>
+                                    </div>
+                                  {% else %}
+                                    <div class="ui active appoint btn-4 btn-4c black btn">
+                                      <span>预约 / 到货通知</span>
+                                    </div>
+                                  {% endif %}
+                                </div>
 
-																<p class="mt-25">已有  <span>258</span> 人参与预约!</p>
+                                <p class="mt-25">已有  <span class="appoint-num">{{ appoint_count }}</span> 人参与预约!</p>
 															</div>
 														</div>
 													</div>
@@ -448,6 +501,44 @@ function onTouchEnd(e)
 	  </div>
   </div>
 
+<div class="ui user-info-box small modal transition">
+  	<i class="flat close icon"></i>
+	<div class="header">
+	    补全用户信息
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}app/site/promo/ajax_appoint" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+				<input type="hidden" name="is_user_info" value="1" />
+				<input type="hidden" name="target_id" value="1" />
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+              <input type="text" name="realname" value="{{ user_info.profile.realname }}" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>手机号</label>
+							<input type="text" name="phone" value="{{ user_info.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+
+				</div>
+		  	</div>
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认预约
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
 {% endblock %}
 
 
