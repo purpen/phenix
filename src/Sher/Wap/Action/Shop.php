@@ -22,7 +22,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop','presale','view','cart');
+	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire');
 	
 	/**
 	 * 商城入口
@@ -982,6 +982,23 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       return true;
     }else{
       return false;
+    }
+  }
+
+  /**
+   * 抢购倒计时确认
+   */
+  public function check_snatch_expire(){
+    $id = $this->stash['product_id'];
+		$model = new Sher_Core_Model_Product();
+    $product = $model->load((int)$id);
+    if(empty($product)){
+      return $this->ajax_json('商品未找到!', true);
+    }
+    if($product['snatched_time'] <= time()){
+      return $this->ajax_json('操作成功', false);
+    }else{
+      return $this->ajax_json('您的系统时间不准确,请刷新页面查看结果!', true);
     }
   }
 	

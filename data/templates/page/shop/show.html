@@ -63,18 +63,20 @@
 	});
 	
 	// 立即购买
-	$('.ui.nowbuy.btn').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (choosed_sku){
-			phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
-		} else {
-			phenix.show_error_note('请选择一个型号或颜色', 3000);
-		}
-	});
+  $('.ui.nowbuy.btn').livequery(function(){
+     $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 3000);
+      }
+    }); 
+  });
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -210,13 +212,27 @@
 	});
 
 	{% if product.snatched %}
-		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
-			var $this = $(this).html(event.strftime(''
-			+ '<span class="count">%D</span> 天 '
-			+ '<span class="count">%H</span> 时 '
-			+ '<span class="count">%M</span> 分 '
-			+ '<span class="count">%S</span> 秒'));
-		});
+		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}')
+      .on('update.countdown', function(event){
+        var $this = $(this).html(event.strftime(''
+        + '<span class="count">%D</span> 天 '
+        + '<span class="count">%H</span> 时 '
+        + '<span class="count">%M</span> 分 '
+        + '<span class="count">%S</span> 秒'));
+      })
+      .on('finish.countdown', function(event){
+        //var url = '/app/site/shop/check_snatch_expire';
+        var product_id = {{ product._id }};
+        $.get('{{ app_url_shop }}/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
+          var r = $.parseJSON(r);
+          if(r.success){
+            $('.tobuy').html('立即抢购').addClass('nowbuy');
+            $('#clock').html('正在抢购中...');
+          }else{
+            alert(r.message);
+          }
+        });
+      });
 	{% endif %}
 	
   	// ajax加载评论
@@ -373,7 +389,7 @@
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="product snatched">
-										<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>
+                    <!--<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>-->
 										<span class="ui text">倒计时：<span id="clock"></span></span>
 									</div>
 									{% else %}
@@ -407,12 +423,12 @@
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy appoint btn">
-										<i class="ticket icon"></i>准备开购
+										准备开抢
 									</div>
 									{% else %}
 										{% if product.can_saled %}
 										<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
-											<i class="flat shopping57 icon"></i>立即抢购
+											立即抢购
 										</div>
 										{% else %}
 										<div class="ui active gray btn-4 btn-4c locknotice btn">
