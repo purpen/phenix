@@ -28,6 +28,17 @@
 	.ui.checkbox .box, .ui.checkbox label {
 		padding-left: 1.5em;
 	}
+
+  .ui.segment .four.fields .ui.icon.input input[type="text"]+input[type="button"]{
+  padding: 0 0!important;
+  height: 29px;
+  width: 38px;
+  border: 0px solid rgba(0,0,0,0);
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  margin-bottom: 9px;
+  }
 </style>
 {% endblock %}
 
@@ -538,7 +549,6 @@
 				  	<label>开始抢购日期：</label>
 					<div class="ui icon input">
               <input type="text" name="snatched_time" value="{{ product.snatched_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
-					  	<i class="calendar icon"></i>
 					</div>
 				</div>
 				<div class="field">

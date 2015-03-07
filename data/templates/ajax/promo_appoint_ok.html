@@ -1,0 +1,17 @@
+<taconite>
+	<replace select=".appoint-box">
+    <div class="ui active btn-4 btn-4c green btn">
+      <span>已预约</span>
+    </div>
+	</replace>
+	
+	<eval>
+    var val = $('.appoint-num').text();
+    $('.appoint-num').text(parseInt(val)+1);
+    //重新加载报名列表
+    {% if is_user_info %}
+      //关闭弹出层
+      $('.ui.user-info-box.modal').modal('hide');
+    {%endif%}
+	</eval>
+</taconite>
