@@ -81,11 +81,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
 		
-		// 抢购商品返回专题页
-		if($id == Doggy_Config::$vars['app.comeon.product_id']){
-			return $this->to_redirect(Doggy_Config::$vars['app.url.wap'].'/comeon');
-		}
-		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
 		if(empty($product) || $product['deleted']){

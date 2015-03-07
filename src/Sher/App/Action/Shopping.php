@@ -241,10 +241,26 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}
 		
 		// 抢购商品不能加入购物车
-		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
-		if($sku == $product_id){
-			return $this->ajax_note('此产品为活动商品！', true);
+		$inventory = new Sher_Core_Model_Inventory();
+		$enoughed = $inventory->verify_enough_quantity($sku, $quantity);
+		if(!$enoughed){
+			return $this->ajax_note('挑选的产品已售完！', true);
 		}
+		$item = $inventory->load((int)$sku);
+		
+		$product_id = !empty($item) ? $item['product_id'] : $sku;
+
+		// 获取产品信息
+		$product = new Sher_Core_Model_Product();
+		$product_data = $product->extend_load((int)$product_id);
+		if(empty($product_data)){
+			return $this->ajax_note('挑选的产品不存在或被删除，请核对！', true);
+    }
+
+    //如果是抢购Start
+    if($product_data['snatched']){
+			return $this->ajax_note('此产品为活动商品！', true);
+    }
 		
 		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
@@ -435,12 +451,6 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
 		
-		// 抢购商品不能加入购物车
-		$comeon_id = Doggy_Config::$vars['app.comeon.product_id'];
-		if($r_id == $comeon_id){
-			return $this->show_message_page('此产品为活动商品！', true);
-		}
-		
 		$default_quantity = 1;
 		$user_id = $this->visitor->id;
 		
@@ -463,6 +473,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 检测预售是否结束
 		if($product_data['presale_finished']){
 			return $this->show_message_page('此产品预售已结束！', true);
+		}
+
+		// 抢购商品不能加入购物车
+		if($product_data['snatched']){
+			return $this->show_message_page('此产品为活动商品！', true);
 		}
 		
 		$items = array(
