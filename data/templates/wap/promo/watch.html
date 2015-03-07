@@ -323,51 +323,6 @@ function onTouchEnd(e)
       bgm.playPause();
   });*/
 
-  //预约按钮
-	$('.ui.appoint.btn').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			//phenix.show_login_box();
-      alert('请登录太火鸟官网!');
-			return false;
-		}
-    $('.ui.user-info-box.modal').modal('show');
-    return false; 
-  });
-
-  //取消报名弹出框
-	$('.ui.deny.button').click(function(){
-		$('.ui.user-info-box.modal').modal('hide');
-	});
-
-	$('#user-info-form').livequery(function(){
-		$(this).form({
-			realname: {
-				identifier  : 'realname',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '姓名不能为空'
-					}
-				]
-			},
-			phone: {
-				identifier  : 'phone',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '电话不能为空'
-					}
-				]
-			}
-		}, {
-			inline : true,
-			onSuccess: function(event){
-				event.preventDefault();
-				$(this).ajaxSubmit();
-			}
-		});
-	});
 
   $('#svg').show();
 
@@ -566,7 +521,7 @@ function onTouchEnd(e)
     </section>
   </div>
 </div>
-<!--
+
 <div class="ui user-info-box small modal transition">
   	<i class="flat close icon"></i>
 	<div class="header">
@@ -605,7 +560,7 @@ function onTouchEnd(e)
 		</form>
 	</div>
 </div>
--->
+
 {% endblock %}
 
 
