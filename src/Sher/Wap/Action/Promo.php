@@ -188,5 +188,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		return $this->to_html_page('wap/momo.html');
 	}
 	
+	/**
+	 * watch
+	 */
+	public function watch(){
+		return $this->to_html_page('wap/promo/watch.html');
+	}
+	
 }
 ?>
