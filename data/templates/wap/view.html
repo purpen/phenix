@@ -134,6 +134,16 @@ position: fixed !important;
 		var r_id = $(this).data('id');
 		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+r_id);
 	});
+
+	{% if product.snatched %}
+		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
+			var $this = $(this).html(event.strftime(''
+			+ '<span class="count">%D</span> 天 '
+			+ '<span class="count">%H</span> 时 '
+			+ '<span class="count">%M</span> 分 '
+			+ '<span class="count">%S</span> 秒'));
+		});
+	{% endif %}
 	
 {% endblock %}
 
@@ -232,17 +242,41 @@ position: fixed !important;
 	<!--购买动作-->
 	<div class="row">
 		<div class="center aligned column">
-      {% if product.is_try %}
-        此产品为试用商品，不可销售
-      {%else%}
-        {% if product.can_saled %}
-          <div class="ui active magenta labeled icon nowbuy button">
-            <i class="cart icon"></i>立即购买
+
+      {% if product.snatched %}
+        {% if !product.snatched_start %}
+          <div class="product snatched">
+            <span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>
+            <span class="ui text">倒计时：<span id="clock"></span></span>
+          </div>
+          <div class="ui active magenta labeled icon button">
+            <i class="cart icon"></i>准备开购
           </div>
         {%else%}
-          已卖光
+          {% if product.can_saled %}
+            <div class="ui active magenta labeled nowbuy icon button">
+              <i class="cart icon"></i>立即抢购
+            </div>
+          {%else%}
+            <div class="ui active magenta labeled icon button">
+              <i class="cart icon"></i>已抢完
+            </div>
+          {%endif%}
+        {%endif%}
+      {%else%}
+        {% if product.is_try %}
+          此产品为试用商品，不可销售
+        {%else%}
+          {% if product.can_saled %}
+            <div class="ui active magenta labeled icon nowbuy button">
+              <i class="cart icon"></i>立即购买
+            </div>
+          {%else%}
+            已卖光
+          {%endif%}
         {%endif%}
       {%endif%}
+
 			<div class="ui active green icon share button">
 				<i class="share icon"></i>
 			</div>
