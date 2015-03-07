@@ -195,8 +195,16 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     $model = new Sher_Core_Model_SubjectRecord();
     $query['target_id'] = 1;
 		$query['event'] = Sher_Core_Model_SubjectRecord::EVENT_APPOINTMENT;
+
+    //预约虚拟数量---取块内容
+    $invented_num = Sher_Core_Util_View::load_block('apple_watch_invented_num', 1);
+    if(!empty($invented_num)){
+      $invented_num = (int)$invented_num;
+    }else{
+      $invented_num = 0;   
+    }
     //统计预约数量---有性能问题,时间紧迫,过后再调整
-    $this->stash['appoint_count'] = $model->count($query);
+    $this->stash['appoint_count'] = $model->count($query) + $invented_num;
 
     //判断当前用户是否预约过
     $is_appoint = false;
