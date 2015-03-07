@@ -43,7 +43,7 @@
 	.target{
 			color:#fff;
 			position: absolute;
-			bottom: 200px;
+			bottom: 110px;
 		}
 		.target p a {
 			text-decoration: none;
@@ -374,20 +374,84 @@ function onTouchEnd(e)
 {% endblock %}
 {% block content %}
   
-<div class="wrap" id="scene">
-  <div id="holder" class="section-holder">
-    <section id="sec-1" style="display:;" class="index">
-      <div class="column">
-        <div class="content" id="content-1" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap1.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
-          <div class="ui responsive grid" style="padding-top: 40%;">
-            <div class="row">
-              <div class="center aligned column">
-                <h5 class="ui header">
-                  Apple Watch
-                  <br />
-                  强势登陆太火鸟！
-                  <div class="advantage">
-                    至今最贴近你的个人装置，让你第一时间闪耀
+  <div class="wrap" id="scene">
+      <div id="holder" class="section-holder">
+		  <section id="sec-1" style="display:;" class="index">
+              <div class="column">
+                  <div class="content" id="content-1" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap1.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+                      <div class="ui responsive grid" style="padding-top: 40%;">
+														<div class="row">
+															<div class="center aligned column">
+																<h5 class="ui header">
+																	Apple Watch<br />
+																	强势登陆太火鸟！
+																	<div class="advantage">
+																		至今最贴近你的个人装置，让你第一时间闪耀
+																	</div>
+																</h5>
+
+                                <div class="appoint-box">
+                                  {% if is_appoint %}
+                                    <div class="ui active btn-4 btn-4c green btn">
+                                      <span>已预约</span>
+                                    </div>
+                                  {% else %}
+                                    <div class="ui active appoint btn-4 btn-4c black btn">
+                                      <span>预约 / 到货通知</span>
+                                    </div>
+                                  {% endif %}
+                                </div>
+
+                                <p class="mt-25">已有  <span class="appoint-num">{{ appoint_count }}</span> 人参与预约!</p>
+														</div>
+													</div>
+												</div>
+                  </div>
+              </div>
+          </section>
+
+          <section id="sec-2" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-2" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap02.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">						
+					 					<div class="ui responsive target grid">
+											<div class="row">
+												<div class="center aligned column">
+													<p>在评论区<a href="http://m.taihuoniao.com/topic/view-102650-1.html" target="_blank" >点击这里</a>告诉我们你想要的颜色/款型，票数最多的颜色/款型我们会安排优先上线，带你闪耀不一样的光芒！</p>
+												</div>
+											</div>
+										</div>
+                  </div>
+              </div>
+          </section>
+
+          <section id="sec-3" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-3" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap3.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+					  
+                  </div>
+              </div>
+          </section>
+			
+		  <section id="sec-4" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-4" style="background-image:url({{ app_url_packaged }}/images/watch/w_ap4.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+					  
+                  </div>
+              </div>
+          </section>
+
+          <section id="sec-5" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-5" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap5.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">    
+	                 
+                  </div>
+              </div>
+          </section>
+		  
+          <section id="sec-6" style="display:;">
+              <div class="column">
+                  <div class="content" id="content-6" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap6.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
+
                   </div>
                 </h5>
                 <div class="ui active btn-4 btn-4c black btn">
