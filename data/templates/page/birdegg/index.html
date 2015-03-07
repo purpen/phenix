@@ -16,6 +16,12 @@
 	}
 	.ui.tabox{
 		background:#000!important;
+		opacity:0;
+	}
+	.ui.tabox.fxd{
+		opacity:1;
+		-webkit-transition: all .3s ease-in-out 0s;
+		transition: all .3s ease-in-out 0s;
 	}
 .ui.eggs.tabox a.ui.btn, .ui.eggs.tabox a.ui.btn:hover {
 	border-radius: .2875em;
@@ -923,7 +929,7 @@ background-color: #fff;
   </div>
 </div>
 
-<div id="eggBox">
+<div id="eggBox" style="margin-top:-51px;">
 	<div id="eggPage">
 		<div class="section active topbanner" data-anchor="topbanner">
 			<section class="pagex">
