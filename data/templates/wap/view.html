@@ -149,7 +149,7 @@ position: fixed !important;
       .on('finish.countdown', function(event){
         //var url = '/app/site/shop/check_snatch_expire';
         var product_id = {{ product._id }};
-        $.get('{{ app_url_shop }}/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
+        $.get('{{ app_url_wap }}/app/site/shop/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
           var r = $.parseJSON(r);
           if(r.success){
             $('.tobuy').html('立即抢购').addClass('nowbuy');
