@@ -67,8 +67,10 @@
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
 
+
 var bgm;
 var done = false;
+
 function play()
 {
     if (done) return;
@@ -297,20 +299,35 @@ function onTouchEnd(e)
 }
 
 
+
 </script>
 {%endblock%}
 {% block jquery %}
+  /*bgm = new Audio5js({
+      swf_path: '{{ app_url_packaged }}/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('{{ app_url_packaged }}/wechat/js/790105 Fireflies.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+      bgm.playPause();
+  });*/
 
   $('#svg').show();
 
   initPages();
 {% endblock %}
 {% block content %}
-  <!--避免 网速，优先加载 -->
-  <script type="javascript/text">
-
-
-  </script>  
   
   <div class="wrap" id="scene">
       <div id="holder" class="section-holder">
