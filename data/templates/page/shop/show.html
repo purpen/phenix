@@ -244,7 +244,7 @@
             var r = $.parseJSON(r);
             if(r.success){
               $('.tobuy').html('立即抢购').addClass('nowbuy');
-              $('#clock').html('正在抢购中...');
+              $('#snatched').html('<span class="ui black text">正在抢购中...</span>');
             }else{
               //alert(r.message);
               window.location.reload();
