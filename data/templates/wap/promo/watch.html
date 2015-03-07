@@ -327,7 +327,8 @@ function onTouchEnd(e)
 	$('.ui.appoint.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+			//phenix.show_login_box();
+      alert('请登录太火鸟官网!');
 			return false;
 		}
     $('.ui.user-info-box.modal').modal('show');
@@ -565,7 +566,7 @@ function onTouchEnd(e)
     </section>
   </div>
 </div>
-
+<!--
 <div class="ui user-info-box small modal transition">
   	<i class="flat close icon"></i>
 	<div class="header">
@@ -604,10 +605,7 @@ function onTouchEnd(e)
 		</form>
 	</div>
 </div>
-
-	{% if !visitor.is_login %}
-		{% include "block/loginbox.html" %}
-	{% endif %}
+-->
 {% endblock %}
 
 
