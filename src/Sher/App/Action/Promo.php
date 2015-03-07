@@ -181,10 +181,18 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 玩蛋去
+	 * 1周年
 	 */
 	public function year(){
 		return $this->to_html_page('page/oneyear.html');
+	}
+	
+	/**
+	 * watch
+	 */
+	public function watch(){
+		$this->set_target_css_state('page_social');
+		return $this->to_html_page('page/promo/watch.html');
 	}
 }
 ?>
