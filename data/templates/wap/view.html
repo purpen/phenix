@@ -166,14 +166,13 @@ position: fixed !important;
       window.clearInterval(InterValObj);
       //这里可以添加倒计时时间为0后需要执行的事件
           var product_id = {{ product._id }};
-          $.get('{{ app_url_shop }}/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
+          $.get('{{ app_url_wap }}/app/site/shop/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
             var r = $.parseJSON(r);
             if(r.success){
               $('.tobuy').html('立即抢购').addClass('nowbuy');
               $('#clock').html('正在抢购中...');
             }else{
-              alert(r.message);
-              //window.location.reload();
+              window.location.reload();
             }
           });
 
