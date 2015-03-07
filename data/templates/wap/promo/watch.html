@@ -326,7 +326,7 @@ function onTouchEnd(e)
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			//phenix.show_login_box();
-      alert('请登录太火鸟官网!');
+      alert('请先登录太火鸟官网!');
 			return false;
 		}
     $('.ui.user-info-box.modal').modal('show');
@@ -372,7 +372,6 @@ function onTouchEnd(e)
   initPages();
 {% endblock %}
 {% block content %}
-  
 
 <div class="wrap" id="scene">
   <div id="holder" class="section-holder">
@@ -390,18 +389,19 @@ function onTouchEnd(e)
                     至今最贴近你的个人装置，让你第一时间闪耀
                   </div>
                 </h5>
-                <div class="ui active btn-4 btn-4c black btn">
-                  <span>
-                    预约 / 到货通知
-                  </span>
-                </div>
-                <p class="mt-25">
-                  已有
-                  <span>
-                    258
-                  </span>
-                  人参与预约!
-                </p>
+                                <div class="appoint-box">
+                                  {% if is_appoint %}
+                                    <div class="ui active btn-4 btn-4c green btn">
+                                      <span>已预约</span>
+                                    </div>
+                                  {% else %}
+                                    <div class="ui active appoint btn-4 btn-4c black btn">
+                                      <span>预约 / 到货通知</span>
+                                    </div>
+                                  {% endif %}
+                                </div>
+
+                                <p class="mt-25">已有  <span class="appoint-num">{{ appoint_count }}</span> 人参与预约!</p>
               </div>
             </div>
           </div>
