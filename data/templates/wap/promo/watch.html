@@ -1,0 +1,189 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}watch-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird{
+		margin-top:0;
+		margin-bottom:0;
+	}
+	.yue{
+		background:url({{ app_url_packaged }}/images/watch/w_ap1.jpg) center bottom no-repeat;
+		background-size:cover;
+		padding:8% 0 50%;
+	}
+	.advantage{
+		font-size: .55em;
+		margin: .35em 0;
+		font-weight: 400;
+	}
+	img{
+		margin: -2px 0;
+	}
+	
+	
+	.wtime{
+		background-color:#ff1a39;
+	}
+	.mt-25{
+		margin-top: 25px;
+		margin-bottom: 0;
+	}
+	p.mt-25 span{
+		font-weight:bold;
+	}
+	.target{
+		background-color:#3f3f3f;
+		color:#fff;
+	}
+	.target p a {
+		text-decoration: none;
+		color: #f36;
+		font-weight: 700;
+	}
+	.target p{
+		margin: 26px 0 31px;
+	}
+	
+	
+	
+</style>
+{% endblock %}
+{% block jquery %}
+
+
+{% endblock %}
+
+{% block content %}
+<div class="watch page">
+	<div class="yue">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h5 class="ui header">
+						Apple Watch<br />
+						强势登陆太火鸟！
+						<div class="advantage">
+							至今最贴近你的个人装置，让你第一时间闪耀
+						</div>
+					</h5>
+					
+					<div class="ui active btn-4 btn-4c black btn">
+						<span>预约 / 到货通知</span>
+					</div>
+					
+					<p class="mt-25">已有  <span>258</span> 人参与预约!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="wtime">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/watch/w_0.jpg" width="100%" style="margin:0;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="target">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<p>在评论区<a href="http://m.taihuoniao.com/topic/view-102650-1.html" target="_blank" >点击这里</a>告诉我们你想要的颜色/款型，票数最多的颜色/款型我们会安排优先上线，带你闪耀不一样的光芒！</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<img src="{{ app_url_packaged }}/images/watch/w_2.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_3.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_7.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_4.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_5.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_6.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_8.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_9.jpg" width="100%">
+	<img src="{{ app_url_packaged }}/images/watch/w_10.jpg" width="100%">
+</div>
+
+
+
+
+
+
+
+<!--预约填写收货地址-->
+<div class="ui small addbook modal" id="addbook-form-box">
+  	<i class="flat close icon"></i>
+	<div class="ui header" id="modal-header">
+    	<span class="ui magenta text">线</span>在预约：填写收货地址，登录即抢
+  	</div>
+	<div class="container">
+		<form action="{{ app_url_address }}/ajax_appoint" class="ui form" method="post" id="addbook-form">
+		  	<div class="content">
+				<input type="hidden" name="_id" />
+				<input type="hidden" name="is_default" value="1" />
+				<input type="hidden" name="product_id" value="{{ product._id }}" />
+				
+				<div class="two fields">
+					<div class="field">
+						<label>收货人姓名</label>
+				  		<input type="text" name="name" />
+					</div>
+				</div>
+				
+				<div class="two fields">
+					<div class="field">
+						<label>联系电话</label>
+					  	<input type="text" name="phone" placeholder="11位手机号码" />
+					</div>
+				</div>
+				
+				<div class="field">
+					<label>地址</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+		
+					    <div class="default text">省份/自治区</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+	
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="flat arrowbottom icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+				</div>
+				
+				<div class="field">
+					<textarea name="address" class="small">{{ addbook.address }}</textarea>
+				</div>
+		
+				<div class="two fields">
+					<div class="field">
+						<label>邮政编码</label>
+					  	<input type="text" name="zip" />
+					</div>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+		
+	</div>
+</div>
+
+{% endblock %}
