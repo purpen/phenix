@@ -98,6 +98,19 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
+
+    //判断是否为秒杀产品 
+    $snatch_time = 0;
+    if($product['snatched']){
+      $is_snatch = true;
+      if(!$product['snatched_start']){
+        $snatch_time = $product['snatched_time'] - time();
+      }
+    }else{
+      $is_snatch = false;
+    }
+    $this->stash['is_snatch'] = $is_snatch;
+    $this->stash['snatch_time'] = $snatch_time;
 		
 		// 验证是否还有库存
 		$product['can_saled'] = $model->can_saled($product);
