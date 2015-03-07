@@ -40,6 +40,19 @@
 	p.mt-25 span{
 		font-weight:bold;
 	}
+	.target{
+			color:#fff;
+			position: absolute;
+			bottom: 200px;
+		}
+		.target p a {
+			text-decoration: none;
+			color: #f36;
+			font-weight: 700;
+		}
+		.target p{
+			margin: 26px 0 31px;
+		}
 
 
     .mmfoot{
@@ -54,6 +67,8 @@
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
 
+var bgm;
+var done = false;
 function play()
 {
     if (done) return;
@@ -328,8 +343,14 @@ function onTouchEnd(e)
 
           <section id="sec-2" style="display:;">
               <div class="column">
-                  <div class="content" id="content-2" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap2.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">
-					 
+                  <div class="content" id="content-2" style="background-image: url({{ app_url_packaged }}/images/watch/w_ap02.jpg); background-size: cover; background-position: center; width: 100%; height: 100%;">						
+					 					<div class="ui responsive target grid">
+											<div class="row">
+												<div class="center aligned column">
+													<p>在评论区<a href="http://m.taihuoniao.com/topic/view-102650-1.html" target="_blank" >点击这里</a>告诉我们你想要的颜色/款型，票数最多的颜色/款型我们会安排优先上线，带你闪耀不一样的光芒！</p>
+												</div>
+											</div>
+										</div>
                   </div>
               </div>
           </section>
