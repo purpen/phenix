@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %} 1周年-{% endblock %}
+{% block title %} 周年庆-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .year{
@@ -546,12 +546,11 @@ img.mis{
 			<div class="row mbg" style="width:97% !important;">
 				<div class="column">
 					
-					{% product_list var:'newest' page:1 process_presaled:1 only_approved:1 only_onsale:1 size:5 sort:'stick:latest' %}
-					{% if newest.rows %}
+					{% if snatch_products %}
 					
 					<div class="ui five items">
 						
-						{% for product in newest.rows %}
+						{% for product in snatch_products %}
 						
 						<div class="magenta item" id="product-{{ product._id }}">
 						  	<div class="image">
