@@ -150,7 +150,7 @@ img.mis{
 			<div class="row">
 			  <div class="column">
 				
-					{% product_list var:'newest' page:1 process_presaled:1 only_approved:1 only_onsale:1 size:6 sort:'stick:latest' %}
+					{% product_list var:'newest' page:1 only_approved:1 only_onsale:1 stage:9 size:6 sort:'stick:latest' %}
 					{% if newest.rows %}
 					<div class="ui three items">
 						{% for product in newest.rows %}
