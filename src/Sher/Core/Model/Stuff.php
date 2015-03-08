@@ -42,13 +42,15 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     	'tags' => array(),
         'like_tags' => array(),
 
-    #团队介绍
-    'team_introduce' => '',
+	    #团队介绍
+	    'team_introduce' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',
 		# 品牌名称
 		'brand' => '',
+		# 设计师
+		'designer' => '',
 		# 所属国家
 		'country' => '',
 		# 上市时间
