@@ -576,7 +576,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     
     // 获取为空，重新生产红包
     while(empty($result_code)){
-      //指定生成xname为RE, 100元红包
+      //指定生成红包
       $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
       $result_code = $bonus->pop($xname);
       // 跳出循环
@@ -585,8 +585,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       }
     }
     
-    // 赠与红包
-    $code_ok = $bonus->give_user($result_code['code'], $user_id);
+    // 赠与红包 结束日期:2015-6-30
+    $end_time = strtotime('2015-06-30 23:59');
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
 	
 }

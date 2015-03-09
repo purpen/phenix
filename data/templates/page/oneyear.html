@@ -185,11 +185,9 @@ $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{
 			
 			<div class="row">
 			  <div class="column">
-				
-					{% product_list var:'newest' page:1 only_approved:1 only_onsale:1 stage:9 size:6 sort:'stick:latest' %}
-					{% if newest.rows %}
+					{% if stick_products %}
 					<div class="ui three items">
-						{% for product in newest.rows %}
+						{% for product in stick_products %}
 					  		{% include "block/product_item.html" %}
 					    {% endfor %}
 					</div>
@@ -232,8 +230,9 @@ $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{
 								<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
 						      		<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />
 								</a>
+
 								<div class="presell">
-								 	开始日期:3月10日
+                  {{ product.snatch_str }}
 								</div>
 								<div class="image-extra">
 									<div class="extra-content">
