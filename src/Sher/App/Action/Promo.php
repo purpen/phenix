@@ -208,6 +208,19 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
       foreach(array_slice($id_arr, 0, 30) as $i){
         $product = $product_model->extend_load((int)$i);
         if(!empty($product)){
+          if($product['snatched']){
+            if($product['snatched_time']>time()){
+              $product['snatch_str'] = '今晚9点马上开抢';
+            }else{
+              $product['snatch_str'] = '抢购中...';
+            }         
+          }else{
+            if($product['snatched_time']>time()){
+              $product['snatch_str'] = '抢购时间: '. date('m-d H:i');
+            }else{
+              $product['snatch_str'] = '已结束';
+            }
+          }
           array_push($products, $product);
         }
       }

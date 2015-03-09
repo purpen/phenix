@@ -377,7 +377,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$data['random'] = Sher_Core_Helper_Util::gen_random();
 		}
 		
-		// 转换为时间戳, +12小时
+		// 转换为时间戳
 		if(isset($data['snatched_time'])){
 			$data['snatched_time'] = strtotime($data['snatched_time']);
 		}

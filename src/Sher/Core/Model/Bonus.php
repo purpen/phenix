@@ -252,7 +252,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	  $bonus = array(
 			'A' => 50,
       'B' => 100,
-      'C' => 31, 
+      'C' => 30, 
     );
 
     #最低限额
