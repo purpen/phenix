@@ -46,6 +46,7 @@ bottom:0;
 </style>
 {% endblock %}
 {% block content %}
+<div display:none;><img src="http://frstatic.qiniudn.com/images/y_logo.png" /></div>
 <section class="invite">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -57,6 +58,15 @@ bottom:0;
 					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%" />
           <p>{{ user.nickname }}</p>
 				</div>
+          {% if is_current_user %}
+            <div class="me">
+              <p>
+                成功邀请一位好友将获得30元红包！
+              </p>
+            </div>
+          {%else%}
+            <img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
+          {%endif%}
 				<img src="{{ app_url_packaged }}/images/y_as3.png" width="100%" />
 
         {% if !yes_login %}
@@ -68,16 +78,7 @@ bottom:0;
         {%else%}
           {% if !is_current_user %}
             您已是登录用户,不能参与此活动
-          {%endif%}
-        {%endif%}
-				
-				<!--  -->
-        {% if is_current_user %}
-				<div class="me">
-					<p>
-						成功邀请一位好友将获得30元红包！
-					</p>
-				</div>
+          {%else%}
         {%endif%}
 				
           <div class="bto">
