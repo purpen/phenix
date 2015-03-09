@@ -46,7 +46,7 @@ bottom:0;
 </style>
 {% endblock %}
 {% block content %}
-<div display:none;><img src="http://frstatic.qiniudn.com/images/y_logo.png" /></div>
+<div style="display:none;"><img src="http://frstatic.qiniudn.com/images/y_logo.png" /></div>
 <section class="invite">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -58,27 +58,25 @@ bottom:0;
 					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%" />
           <p>{{ user.nickname }}</p>
 				</div>
-          {% if is_current_user %}
-            <div class="me">
-              <p>
-                成功邀请一位好友将获得30元红包！
-              </p>
-            </div>
-          {%else%}
-            <img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
-          {%endif%}
-				<img src="{{ app_url_packaged }}/images/y_as3.png" width="100%" />
+
+        <img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
 
         {% if !yes_login %}
-				<a href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
-					<div class="ui active btn-4 btn-4c magenta btn">
-            <span>立即注册</span>
-          </div>
-				</a>
+          <a href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
+            <div class="ui active btn-4 btn-4c magenta btn">
+              <span>立即注册</span>
+            </div>
+          </a>
         {%else%}
           {% if !is_current_user %}
             您已是登录用户,不能参与此活动
           {%else%}
+            <div class="me">
+              <p>
+                分享到朋友圈,成功邀请一位好友将获得30元红包！
+              </p>
+            </div>
+          {%endif%}
         {%endif%}
 				
           <div class="bto">
