@@ -47,7 +47,7 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 
 		$this->stash['contact'] = $row;
 		
-	    return $this->to_html_page('page/shop/cooperate_submit.html');
+	    return $this->to_html_page('page/cooperate/cooperate_submit.html');
   	}
 	
     /**
@@ -120,7 +120,7 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 
     	$this->stash['is_error'] = false;
     	$this->stash['note'] = '保存成功!';
-		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
+		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.incubator'];
 		
 		return $this->to_taconite_page('ajax/note.html');
     }
