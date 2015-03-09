@@ -2,11 +2,26 @@
 {% block title %}{{ active.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+body{
+	padding-top:0 !important;
+}
 .ui.grid{
 	margin:0;
 }
 .ui.social {
 	padding: 0em;
+}
+.ui.tabox{
+	background:#000!important;
+	opacity:0;
+}
+.ui.tabox.fxd{
+	opacity:1;
+	-webkit-transition: all .3s ease-in-out 0.1s;
+	transition: all .3s ease-in-out 0.1s;
+	-moz-transition: all .3s ease-in-out 0.1s;
+	-o-transition: all .3s ease-in-out 0.1s;
+	-ms-transition: all .3s ease-in-out 0.1s;
 }
 .ui.tabox ,.ui.tabox.smint.fxd{
 	background: none repeat scroll 0 0 #343028;
@@ -29,13 +44,6 @@
 	padding-top:1%;
 	padding-bottom:1%;
 	margin-bottom:0px;
-}
-.ui.tabox{
-	-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-o-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
-	transition:opacity 0.25s ease,translateY 0.25s ease;
 }
 .ui.tabs .tab:hover{
 	color:#f36 !important;
@@ -517,7 +525,7 @@ h4.ui.header .map-advantage {
 {% endblock %}
 
 {% block content %}
-  <div class="ui tabox" data-70="transform:translateY(-20px);opacity:0;display:none;" data-71="transform:translateY(0px);opacity:1;display:block;">
+  <div class="ui tabox">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
@@ -534,7 +542,7 @@ h4.ui.header .map-advantage {
       </div>
     </div>
   </div>
-  <section class="ui start block">
+  <section class="ui start block" style="margin-top:-40px;">
     <div class="ui responsive center aligned grid">
         {% if active.step_stat==1 %}
         <div class="row">
