@@ -231,7 +231,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     }else{
       $invite_code = 0;
     }
-    $this->stash['user_invite_code'] = $invite_code;
+    $this->stash['my_invite_code'] = $invite_code;
 
     $this->stash['snatch_products'] = $products;
 		return $this->to_html_page('page/oneyear.html');

@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}邀请好友 -{% endblock %}
+{% block title %}太火鸟周年庆,注册即送100元红包~ 快来加入吧! -{% endblock %}
 {% block page_css %}
 <style type="text/css">
 html, body {
@@ -23,7 +23,7 @@ display:none;
 }
 
 .invite{
-	background:url({{ app_url_packaged }}/images/y_as1.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/y_as6.jpg) no-repeat;
 	background-size:cover;
 }
 .y_name p{
@@ -41,6 +41,10 @@ display:none;
 	line-height: 32px;
 	font-weight: 700;
 }
+.bto{
+position:absolute;
+bottom:0;
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -51,26 +55,34 @@ display:none;
 				<img src="{{ app_url_packaged }}/images/y_as2.png" width="100%">
 				
 				<!-- 邀请 -->
-				<!--<div class="y_name">
-					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%">
-					<p>孤独的风中一匹狼</p>
+				<div class="y_name">
+					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%" />
+          <p>{{ user.nickname }}</p>
 				</div>
-				<img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
+				<img src="{{ app_url_packaged }}/images/y_as3.png" width="100%" />
+
+        {% if !yes_login %}
 				<a href="http://m.taihuoniao.com/auth/signup">
 					<div class="ui active btn-4 btn-4c magenta btn">
             <span>立即注册</span>
           </div>
-				</a>-->
+				</a>
+        {%else%}
+          您已是登录用户,不能参与此活动
+        {%endif%}
 				
 				<!--  -->
-				
+        {% if is_current_user %}
 				<div class="me">
 					<p>
 						成功邀请一位好友将获得30元红包！
 					</p>
 				</div>
+        {%endif%}
 				
-				
+          <div class="bto">
+            <img src="{{ app_url_packaged }}/images/y_as5.png" width="100%">
+          </div>
 				
 			</div>
 		</div>

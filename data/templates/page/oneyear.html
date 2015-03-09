@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %} 太火鸟周年庆,注册或邀请即送红包,快来加入吧!-{% endblock %}
+{% block title %} 太火鸟周年庆,注册即送100元红包,快来加入吧!-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .year{
@@ -109,6 +109,88 @@ img.mis{
 
 {% block layout_js %}
 <script type="text/javascript">
+  // 社会化分享
+  function social_share(link, title, pic_url) {
+    // 链接，标题，网站名称，子窗口别称，网站链接
+    //var link = encodeURIComponent(document.location),title = encodeURIComponent(document.title.substring(0,100));
+    var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+    
+    var getParamsOfShareWindow = function(width, height) {
+      return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+    
+    $('#wechat-share').click(function() {
+      $('.ui.qrcode.modal').modal('show');
+      return false;
+    });
+    
+    $('#sina-share').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    // 同一个页面出现2个
+    $('#o-share-weibo').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#tencent-share').click(function() {
+      var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(634, 668);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#douban-share').click(function() {
+      var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(450, 350);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#renren-share').click(function() {
+      var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#kaixin001-share').click(function() {
+      var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(540, 342);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#netease-share').click(function() {
+      var url = 'http://t.163.com/article/user/checkLogin.do?link=' + link + 'source=' + source + '&info='+ title + ' ' + link;
+      var params = getParamsOfShareWindow(642, 468);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#facebook-share').click(function() {
+      var url = 'http://facebook.com/share.php?u=' + link + '&t=' + title;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#twitter-share').click(function() {
+      var url = 'http://twitter.com/share?url=' + link + '&text=' + title;
+      var params = getParamsOfShareWindow(500, 375);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#delicious-share').click(function() {
+      var url = 'http://delicious.com/post?url=' + link + '&title=' + title;
+      var params = getParamsOfShareWindow(550, 550);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+  };
 
 </script>
 {% endblock %}
@@ -119,10 +201,13 @@ $('.ui.share').bind('click', function(){
 });
 
   //分享
-  phenix.bind_share_list('http://frstatic.qiniudn.com/images/y-share.jpg');
+  var share_title = '太火鸟周年庆,注册即送100元红包,快来加入吧!-太火鸟';
+  var share_url = '{{ app_url_promo }}/year?user_invite_code={{ user_invite_code }}';
+  var share_pic = 'http://frstatic.qiniudn.com/images/y-share.jpg';
+  social_share(share_url, share_title, share_pic);
 
   // 生成二维码
-  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/year_invite?invite_code={{ user_invite_code }}'});
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/year_invite?invite_code={{ my_invite_code }}'});
 {% endblock %}
 
 {% block content %}
