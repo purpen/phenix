@@ -6,6 +6,8 @@
 	background:url({{ app_url_packaged }}/images/y_zbg.jpg );
 	height:100%;
 	width:100%;
+	margin-top: 2px;
+	color:#fff;
 }
 .year .top{
 	background:url({{ app_url_packaged }}/images/y_bg.jpg) no-repeat center center;
@@ -97,20 +99,49 @@ img.mis{
 	padding: .8em 0;
 	text-align: center;
 }
+.add.row{
+	position: relative;
+	top: -100px;
+	padding:0 !important;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+$('.ui.share').bind('click', function(){
+	$('.ui.share.modal').modal('show');
+});
 
+//分享
+phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
+// 生成二维码
+$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{{ stuff._id }}.html'});
 {% endblock %}
 
 {% block content %}
 <div class="year">
 	<div class="top">
 		<div class="ui responsive grid">
+			<div class="row">
 			<div class="center aligned column">
-				<img src="{{ app_url_packaged }}/images/y_one1.png" width="70%">
+				<img src="{{ app_url_packaged }}/images/y_one2.png" width="70%">
+				
+				
 			</div>
+			</div>
+			<div class="add row">
+				<div class="center aligned column">
+					<a href="">
+					<div class="ui active share appoint btn-4 btn-4c green btn">
+		        <span>邀请好友</span>
+		      </div>
+					</a>
+					<div class="ui active share appoint btn-4 btn-4c green btn">
+		        <span>邀请好友</span>
+		      </div>
+				</div>
+			</div>
+	
 		</div>
 	</div>
 	
@@ -310,4 +341,6 @@ img.mis{
 
 
 </div>
+{% include "block/sharebox-y.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}
