@@ -226,13 +226,13 @@ $('.ui.share').bind('click', function(){
           {% if !visitor %}
             {% if user_invite_code %}
               <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" target="_blank">
-              <div class="ui active appoint btn-4 btn-4c green btn" style="margin-right: 5em;">
+              <div class="ui active appoint btn-4 btn-4c green btn">
                 <span>立即注册</span>
               </div>
               </a>
             {%else%}
               <a href="{{ app_url_register }}" target="_blank">
-              <div class="ui active appoint btn-4 btn-4c green btn" style="margin-right: 5em;">
+              <div class="ui active appoint btn-4 btn-4c green btn">
                 <span>立即注册</span>
               </div>
               </a>
