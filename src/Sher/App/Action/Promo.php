@@ -225,6 +225,14 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
         }
       }
     }
+    //当前用户邀请码
+    if($this->visitor->id){
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);   
+    }else{
+      $invite_code = 0;
+    }
+    $this->stash['user_invite_code'] = $invite_code;
+
     $this->stash['snatch_products'] = $products;
 		return $this->to_html_page('page/oneyear.html');
 	}

@@ -107,15 +107,107 @@ img.mis{
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript">
+  // 社会化分享
+  function social_share(link, title, pic_url) {
+    // 链接，标题，网站名称，子窗口别称，网站链接
+    //var link = encodeURIComponent(document.location),title = encodeURIComponent(document.title.substring(0,100));
+    var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+    
+    var getParamsOfShareWindow = function(width, height) {
+      return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+    
+    $('#wechat-share').click(function() {
+      $('.ui.qrcode.modal').modal('show');
+      return false;
+    });
+    
+    $('#sina-share').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    // 同一个页面出现2个
+    $('#o-share-weibo').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#tencent-share').click(function() {
+      var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(634, 668);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#douban-share').click(function() {
+      var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(450, 350);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#renren-share').click(function() {
+      var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#kaixin001-share').click(function() {
+      var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(540, 342);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#netease-share').click(function() {
+      var url = 'http://t.163.com/article/user/checkLogin.do?link=' + link + 'source=' + source + '&info='+ title + ' ' + link;
+      var params = getParamsOfShareWindow(642, 468);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#facebook-share').click(function() {
+      var url = 'http://facebook.com/share.php?u=' + link + '&t=' + title;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#twitter-share').click(function() {
+      var url = 'http://twitter.com/share?url=' + link + '&text=' + title;
+      var params = getParamsOfShareWindow(500, 375);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#delicious-share').click(function() {
+      var url = 'http://delicious.com/post?url=' + link + '&title=' + title;
+      var params = getParamsOfShareWindow(550, 550);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+  };
+
+</script>
+{% endblock %}
+
 {% block jquery %}
 $('.ui.share').bind('click', function(){
 	$('.ui.share.modal').modal('show');
 });
 
-//分享
-phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
-// 生成二维码
-$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{{ stuff._id }}.html'});
+  //分享
+  var share_title = '邀请好友注册都送红包~周年庆-太火鸟';
+  var share_url = '{{ app_url_register }}?user_invite_code={{ user_invite_code }}';
+  var share_pic = 'http://frstatic.qiniudn.com/images/y-share.jpg';
+  social_share(share_url, share_title, share_pic);
+
+  // 生成二维码
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/year_invite?invite_code={{ user_invite_code }}'});
 {% endblock %}
 
 {% block content %}
@@ -131,14 +223,17 @@ $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{
 			</div>
 			<div class="add row">
 				<div class="center aligned column">
-					<a href="http://www.taihuoniao.com/auth/signup" target="_blank">
+          {% if !visitor %}
+					<a href="{{ app_url_register }}" target="_blank">
 					<div class="ui active appoint btn-4 btn-4c green btn" 	style="margin-right: 5em;">
 		        <span>立即注册</span>
 		      </div>
 					</a>
+          {%else%}
 					<div class="ui active share appoint btn-4 btn-4c green btn">
 		        <span>邀请好友</span>
 		      </div>
+          {%endif%}
 				</div>
 			</div>
 	
@@ -331,13 +426,8 @@ $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{
 				<img src="{{ app_url_packaged }}/images/y32.jpg" width="100%" />
 			</div>
 			
-			
 		</div>
 	</div>
-
-
-
-
 
 </div>
 {% include "block/sharebox-y.html" %}
