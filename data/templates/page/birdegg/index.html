@@ -69,7 +69,7 @@
 	background-position-x: 1px;
 }
 .ldh{
-	background:url({{ app_url_packaged }}/images/egg_ldho.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_ldho.jpg) no-repeat scroll 1px 0 transparent;
 	width:252px;
 	height:252px;
 	position:relative;
@@ -160,28 +160,28 @@ p.line{
 	position:relative;
 }
 .twm{
-	background:url({{ app_url_packaged }}/images/egg_twmo.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_twmo.jpg) no-repeat scroll 0 1px transparent;
 	width:160px;
 	height:160px;
 	background-position-y: 1px;
 	position:relative;
 }
 .fch{
-	background:url({{ app_url_packaged }}/images/egg_fcho.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_fcho.jpg) no-repeat scroll 0 1px transparent;
 	width:160px;
 	height:160px;
 	background-position-y: 1px;
 	position:relative;
 }
 .jw{
-	background:url({{ app_url_packaged }}/images/egg_jwo.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_jwo.jpg) no-repeat scroll 0 1px transparent;
 	width:160px;
 	height:160px;
 	background-position-y: 1px;
 	position:relative;
 }
 .lhb{
-	background:url({{ app_url_packaged }}/images/egg_lhbo.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_lhbo.jpg) no-repeat scroll 0 1px transparent;
 	width:160px;
 	height:160px;
 	background-position-y: 1px;
@@ -230,14 +230,14 @@ p.line{
 	position:relative;
 }
 .zl{
-	background:url({{ app_url_packaged }}/images/egg_zlo.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_zlo.jpg) no-repeat scroll 0 1px transparent;
 	width:160px;
 	height:160px;
 	background-position-y: 1px;
 	position:relative;
 }
 .bliu{
-	background:url({{ app_url_packaged }}/images/egg_bliuo.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/egg_bliuo.jpg) no-repeat scroll 0 1px transparent;
 	width:160px;
 	height:160px;
 	background-position-y: 1px;
@@ -266,6 +266,7 @@ p.line{
 	width:160px;
 	height:160px;
 	position:relative;
+	background-position-y: 1px;
 }
 .ly{
 	background:url({{ app_url_packaged }}/images/egg_lyo.jpg) no-repeat;
@@ -789,17 +790,25 @@ background-color: #fff;
 	left: 104px;
 	width: 16%;
 	z-index: 90;
-	-webkit-animation: rotation360 20s linear infinite;
+	-webkit-transition: rotation360 20s linear infinite;
+	transition: rotation360 20s linear infinite;
+	-moz-transition: rotation360 20s linear infinite;
+	-o-transition: rotation360 20s linear infinite;
+	-ms-transition: rotation360 20s linear infinite;
 	animation: rotation360 20s linear infinite;
 }
 @-webkit-keyframes rotation360 {
   from {
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
 
   to {
+		-moz-transform: rotate(-360deg);
+		-o-transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
     -ms-transform: rotate(-360deg);
     transform: rotate(-360deg);

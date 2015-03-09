@@ -228,6 +228,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
+    if(empty($this->stash['category_id'])){
+ 			return $this->ajax_json('请选择一个类别！', true); 
+    }
 		$id = (int)$this->stash['_id'];
 		$mode = 'create';
 		
