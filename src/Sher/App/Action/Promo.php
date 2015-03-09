@@ -216,7 +216,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
             }         
           }else{
             if($product['snatched_time']>time()){
-              $product['snatch_str'] = '抢购时间: '. date('m-d H:i');
+              $product['snatch_str'] = '抢购时间: '. date('m-d H:i', $product['snatched_time']);
             }else{
               $product['snatch_str'] = '已结束';
             }
@@ -225,6 +225,14 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
         }
       }
     }
+    //当前用户邀请码
+    if($this->visitor->id){
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);   
+    }else{
+      $invite_code = 0;
+    }
+    $this->stash['my_invite_code'] = $invite_code;
+
     $this->stash['snatch_products'] = $products;
 		return $this->to_html_page('page/oneyear.html');
 	}
