@@ -1,0 +1,79 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}邀请好友 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+html, body {
+    overflow:hidden;
+    margin:0;
+    padding:0;
+}
+.ui.wap{
+	display:none;
+}
+#mfrbird{
+	margin:0;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px; background: #000; }
+section { display: block; height: 100%; overflow: hidden;  }
+
+.mmfoot{
+display:none;
+}
+
+.invite{
+	background:url({{ app_url_packaged }}/images/y_as1.jpg) no-repeat;
+	background-size:cover;
+}
+.y_name p{
+	color:#fff;
+	position:relative;
+	top: -50px !important;
+	margin: 0;
+}
+.me{
+	padding-top:20%;
+}
+.me p{
+	font-size: 20px;
+	color: #fff;
+	line-height: 32px;
+	font-weight: 700;
+}
+</style>
+{% endblock %}
+{% block content %}
+<section class="invite">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/y_as2.png" width="100%">
+				
+				<!-- 邀请 -->
+				<!--<div class="y_name">
+					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%">
+					<p>孤独的风中一匹狼</p>
+				</div>
+				<img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
+				<a href="http://m.taihuoniao.com/auth/signup">
+					<div class="ui active btn-4 btn-4c magenta btn">
+            <span>立即注册</span>
+          </div>
+				</a>-->
+				
+				<!--  -->
+				
+				<div class="me">
+					<p>
+						成功邀请一位好友将获得30元红包！
+					</p>
+				</div>
+				
+				
+				
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
