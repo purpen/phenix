@@ -281,7 +281,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     }
     
     // 赠与红包 结束日期:2015-6-30
-    $end_time = strtotime('2015-07-01 00:00');
+    $end_time = strtotime('2015-06-30 23:59');
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
 	
