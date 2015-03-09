@@ -216,7 +216,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
             }         
           }else{
             if($product['snatched_time']>time()){
-              $product['snatch_str'] = '抢购时间: '. date('m-d H:i');
+              $product['snatch_str'] = '抢购时间: '. date('m-d H:i', $product['snatched_time']);
             }else{
               $product['snatch_str'] = '已结束';
             }
