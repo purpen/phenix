@@ -184,6 +184,21 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 * 周年秒杀
 	 */
 	public function year(){
+    //商品推荐列表
+    $product_ids = Sher_Core_Util_View::load_block('one_year_stick_products', 1);
+    $products = array();
+    if($product_ids){
+      $product_model = new Sher_Core_Model_Product();
+      $id_arr = explode(',', $product_ids);
+      foreach(array_slice($id_arr, 0, 30) as $i){
+        $product = $product_model->extend_load((int)$i);
+        if(!empty($product)){
+          array_push($products, $product);
+        }
+      }
+    }
+    $this->stash['stick_products'] = $products;
+
     //商品秒杀商品列表---取块内容
     $product_ids = Sher_Core_Util_View::load_block('one_year_snatch_list', 1);
     $products = array();
