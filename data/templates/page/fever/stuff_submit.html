@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}产品提交-{% endblock %}
+{% block title %}产品灵感提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .ui.fluid.dropdown .down.icon {
@@ -218,7 +218,7 @@
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-            <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
+            <input type="hidden" name="fever_id" value="{{ fever_id }}" />
 						
 						<div class="ui field">
 							<label>所属类别</label>
@@ -245,14 +245,6 @@
 							<label for="title">产品名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-            {% if mode=='edit' %}
-              {% if from_to==2 %}
-                <div class="field">
-                  <label for="description">团队介绍</label>
-                    <textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
-                </div>
-              {%endif%}
-            {%endif%}
 
 			      <div class="four fields">
                 <div class="field">
@@ -271,23 +263,6 @@
                     <label>指导价格</label>
                   <input type="text" name="official_price" value="{{ stuff.official_price }}" />
                 </div>
-            </div>
-			      <div class="five fields">
-              <div class="field">
-                <label for="processed">产品阶段</label>
-                <div class="ui fluid selection dropdown">
-                  <input type="hidden" name="processed" value="{{ stuff.processed }}" />
-                    <div class="default text">请选择</div>
-                    <i class="angle down icon"></i>
-                    <div class="menu">
-                    <div data-value="1" class="{% if stuff.processed==1 %}active {% endif %}item">设计</div>
-                    <div data-value="2" class="{% if stuff.processed==2 %}active {% endif %}item">开发</div>
-                    <div data-value="5" class="{% if stuff.processed==5 %}active {% endif %}item">预售</div>
-                    <div data-value="9" class="{% if stuff.processed==9 %}active {% endif %}item">销售</div>
-                    </div>
-                </div>
-                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
-              </div>
             </div>
 						
 						<div class="field">

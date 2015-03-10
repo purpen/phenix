@@ -231,6 +231,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     if(empty($this->stash['category_id'])){
  			return $this->ajax_json('请选择一个类别！', true); 
     }
+    if(empty($this->stash['cover_id'])){
+ 			return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+    }
 		$id = (int)$this->stash['_id'];
 		$mode = 'create';
 		
@@ -252,6 +255,32 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     //团队介绍-蛋年
     if(isset($this->stash['team_introduce'])){
       $data['team_introduce'] = $this->stash['team_introduce'];
+    }
+
+    //设计师
+    if(isset($this->stash['designer'])){
+      $data['designer'] = $this->stash['designer'];
+    }
+    //所属国家
+    if(isset($this->stash['country'])){
+      $data['country'] = $this->stash['country'];
+    }
+    //上市时间
+    if(isset($this->stash['market_time'])){
+      $data['market_time'] = $this->stash['market_time'];
+    }
+    //指导价格
+    if(isset($this->stash['official_price'])){
+      $data['official_price'] = $this->stash['official_price'];
+    }
+    //产品阶段
+    if(isset($this->stash['processed'])){
+      $data['processed'] = (int)$this->stash['processed'];
+    }
+
+    //如果是关联投票产品
+    if(isset($this->stash['fever_id'])){
+      $data['fever_id'] = (int)$this->stash['fever_id'];
     }
 		
 		// 检测编辑器图片数

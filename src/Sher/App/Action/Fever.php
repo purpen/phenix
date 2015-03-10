@@ -775,6 +775,51 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
 		return $this->to_taconite_page('ajax/fetch_support.html');
   }
+
+	/**
+	 * 相似灵感提交入口
+	 */
+	public function stuff_submit(){
+		$redirect_url = Doggy_Config::$vars['app.url.fever'];
+    if(empty($this->stash['fever_id'])){
+			return $this->show_message_page('缺少投票ID！', $redirect_url);
+    }
+		$top_category_id = Doggy_Config::$vars['app.topic.idea_category_id'];
+		
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$top_category_id);
+		$parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
+		$this->stash['parent_category'] = $parent_category;
+		
+		$this->stash['cid'] = $top_category_id;
+		$this->stash['mode'] = 'create';
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+		
+		return $this->to_html_page('page/fever/stuff_submit.html');
+	}
+
+
+	/**
+	 * 编辑器参数
+	 */
+	protected function _editor_params() {
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$new_pic_id = new MongoId();
+		$this->stash['editor_pid'] = (string)$new_pic_id;
+
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
+	}
 	
 }
 ?>

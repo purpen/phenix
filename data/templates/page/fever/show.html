@@ -687,6 +687,7 @@
 					  	<a class="active tab" href="#overview">创意介绍</a>
 					  	<a class="tab" href="#inventor">设计者</a>
 						<a class="tab" href="#reviews">讨论话题 ({{ product.topic_count }})</a>
+						<a class="tab" href="#stuffs">相似灵感 ({{ product.stuff_count|default 0 }})</a>
 						<a class="tab" href="#supporter">支持者 ({{ product.vote_count }})</a>
 					</div>
 				</div>
@@ -772,6 +773,36 @@
 					</a>
 					<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 						发表新话题
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="product stuffs">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui dividing header">
+						相似灵感 <small>（{{ product.stuff_count|default 0 }}）</small>
+					</h3>
+				  {% stuff_list var:'list' sort:1 fever_id:product._id page:1 size:4 %}
+          <div class="ui three cards">
+            {% for stuff in list.rows %}
+              {% include "block/stuff_item.html" %}
+            {%endfor%}
+          </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+          <!--
+					<a href="{{ product.subject_view_url }}" class="ui black btn-4 btn-4c icon-arrow-right btn">
+						查看更多
+					</a>
+          -->
+          <a href="{{ app_url_fever }}/stuff_submit?fever_id={{ product._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+						发表相似灵感
 					</a>
 				</div>
 			</div>
