@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}邀请好友 -{% endblock %}
+{% block title %}太火鸟周年庆,注册即送100元红包~ 快来加入吧! -{% endblock %}
 {% block page_css %}
 <style type="text/css">
 html, body {
@@ -23,27 +23,34 @@ display:none;
 }
 
 .invite{
-	background:url({{ app_url_packaged }}/images/y_as1.jpg) no-repeat;
+	background:url({{ app_url_packaged }}/images/y_as6.jpg) no-repeat;
 	background-size:cover;
 }
+.y_name{
+position:relative;
+}
 .y_name p{
-	color:#fff;
-	position:relative;
-	top: -50px !important;
-	margin: 0;
+color:#fff;
+position:absolute;
+top: 8px;
+width:100%;
+margin: 0;
 }
-.me{
-	padding-top:20%;
-}
+
 .me p{
 	font-size: 20px;
 	color: #fff;
 	line-height: 32px;
 	font-weight: 700;
 }
+.bto{
+position:absolute;
+bottom:0;
+}
 </style>
 {% endblock %}
 {% block content %}
+<div style="display:none;"><img src="http://frstatic.qiniudn.com/images/y_logo.png" /></div>
 <section class="invite">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -51,26 +58,34 @@ display:none;
 				<img src="{{ app_url_packaged }}/images/y_as2.png" width="100%">
 				
 				<!-- 邀请 -->
-				<!--<div class="y_name">
-					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%">
-					<p>孤独的风中一匹狼</p>
+				<div class="y_name">
+					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%" />
+          <p>{{ user.nickname }}</p>
 				</div>
-				<img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
-				<a href="http://m.taihuoniao.com/auth/signup">
-					<div class="ui active btn-4 btn-4c magenta btn">
-            <span>立即注册</span>
+
+        <img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
+
+        {% if !yes_login %}
+          <a href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
+            <div class="ui active btn-4 btn-4c magenta btn">
+              <span>立即注册</span>
+            </div>
+          </a>
+        {%else%}
+          {% if !is_current_user %}
+            您已是登录用户,不能参与此活动
+          {%else%}
+            <div class="me">
+              <p>
+                分享到朋友圈,成功邀请一位好友将获得30元红包！
+              </p>
+            </div>
+          {%endif%}
+        {%endif%}
+				
+          <div class="bto">
+            <img src="{{ app_url_packaged }}/images/y_as5.png" width="100%">
           </div>
-				</a>-->
-				
-				<!--  -->
-				
-				<div class="me">
-					<p>
-						成功邀请一位好友将获得30元红包！
-					</p>
-				</div>
-				
-				
 				
 			</div>
 		</div>

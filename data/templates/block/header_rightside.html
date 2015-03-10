@@ -175,7 +175,11 @@
 	  	</div>
 	</div>
 	{% else %}
-	<a href="{{ app_url_login }}" class="ui magenta login button">登录</a>
-	<a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
+    <a href="{{ app_url_login }}" class="ui magenta login button">登录</a>
+    {% if user_invite_code %}
+      <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" class="ui magenta signup button">注册</a>
+    {%else%}
+      <a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
+    {%endif%}
 	{% endif %}
 </div>

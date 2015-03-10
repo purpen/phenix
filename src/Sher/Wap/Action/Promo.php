@@ -275,7 +275,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    */
   public function year_invite(){
     $code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
-    $this->stash['user'] = array();
+    $this->stash['user'] = null;
     $this->stash['is_current_user'] = false;
     $this->stash['yes_login'] = false;
     //通过邀请码获取邀请者ID
@@ -288,10 +288,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
           $this->stash['user'] = $user;
           //判断是否为当前用户
           if($this->visitor->id){
+            $this->stash['yes_login'] = true;
             if((int)$this->visitor->id==$user['_id']){
               $this->stash['is_current_user'] = true;
-            }else{
-              $this->stash['yes_login'] = true;
             }
           }
         }
