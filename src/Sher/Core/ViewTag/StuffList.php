@@ -29,6 +29,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		
 		$sticked = 0;
 		$featured = 0;
+    $verified = 0;
+    $fever_id = 0;
 		$time = 0;
 		$sort = 0;
 		
@@ -75,6 +77,14 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		if($featured){
 			$query['featured'] = (int)$featured;
 		}
+    // 已审核的
+    if($verified){
+      $query['verified'] = 1;
+    }
+    // 关联投票产品
+    if($fever_id){
+      $query['fever_id'] = (int)$fever_id;
+    }
 		
 		// 限制时间
 		$day = 24 * 60 * 60;
