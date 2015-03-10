@@ -219,6 +219,9 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     if(empty($this->stash['category_id'])){
  			return $this->ajax_json('请选择一个类别！', true); 
     }
+    if(empty($this->stash['cover_id'])){
+ 			return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+    }
 		$id = (int)$this->stash['_id'];
 		$mode = 'create';
 		

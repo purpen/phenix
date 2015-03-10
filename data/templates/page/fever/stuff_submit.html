@@ -1,8 +1,10 @@
 {%extends 'layout/column.html'%}
-{% block title %}产品提交-{% endblock %}
+{% block title %}产品灵感提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+  .ui.fluid.dropdown .down.icon {
+    float: right;
+  }	
 </style>
 {% endblock %}
 
@@ -81,6 +83,15 @@
 				}
 			]
 		},
+		processed: {
+			identifier  : 'processed',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择产品阶段'
+				}
+			]
+		},
 		description: {
 			identifier  : 'description',
 			rules: [
@@ -117,7 +128,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
         	endpoint: '{{ app_url_upload_stuff }}'
       	},
 		text: {
@@ -207,7 +218,7 @@
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-						<input type="hidden" name="from_to" value="2" />
+            <input type="hidden" name="fever_id" value="{{ fever_id }}" />
 						
 						<div class="ui field">
 							<label>所属类别</label>
@@ -233,11 +244,6 @@
 						<div class="field">
 							<label for="title">产品名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
-						</div>
-
-						<div class="field">
-							<label for="description">团队介绍</label>
-						  	<textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
 						</div>
 
 			      <div class="four fields">
