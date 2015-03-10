@@ -44,6 +44,9 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
     #团队介绍
     'team_introduce' => '',
+
+    #设计师
+    'designer' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',

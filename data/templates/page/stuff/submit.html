@@ -81,6 +81,15 @@
 				}
 			]
 		},
+		processed: {
+			identifier  : 'processed',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择产品阶段'
+				}
+			]
+		},
 		description: {
 			identifier  : 'description',
 			rules: [
@@ -242,6 +251,42 @@
                 </div>
               {%endif%}
             {%endif%}
+
+			      <div class="four fields">
+                <div class="field">
+                    <label>设计师</label>
+                  <input type="text" name="designer" value="{{ stuff.designer }}" />
+                </div>
+                <div class="field">
+                    <label>所属国家</label>
+                  <input type="text" name="country" value="{{ stuff.country }}" />
+                </div>
+                <div class="field">
+                    <label>上市时间</label>
+                  <input type="text" name="market_time" value="{{ stuff.market_time }}" />
+                </div>
+                <div class="field">
+                    <label>指导价格</label>
+                  <input type="text" name="official_price" value="{{ stuff.official_price }}" />
+                </div>
+            </div>
+			      <div class="five fields">
+              <div class="field">
+                <label for="processed">产品阶段</label>
+                <div class="ui fluid selection dropdown">
+                  <input type="hidden" name="processed" value="{{ stuff.processed }}" />
+                    <div class="default text">请选择</div>
+                    <i class="angle down icon"></i>
+                    <div class="menu">
+                    <div data-value="1" class="{% if stuff.processed==1 %}active {% endif %}item">设计</div>
+                    <div data-value="2" class="{% if stuff.processed==2 %}active {% endif %}item">开发</div>
+                    <div data-value="5" class="{% if stuff.processed==5 %}active {% endif %}item">预售</div>
+                    <div data-value="9" class="{% if stuff.processed==9 %}active {% endif %}item">销售</div>
+                    </div>
+                </div>
+                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
+              </div>
+            </div>
 						
 						<div class="field">
 							<label>产品标签</label>

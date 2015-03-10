@@ -253,6 +253,27 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     if(isset($this->stash['team_introduce'])){
       $data['team_introduce'] = $this->stash['team_introduce'];
     }
+
+    //设计师
+    if(isset($this->stash['designer'])){
+      $data['designer'] = $this->stash['designer'];
+    }
+    //所属国家
+    if(isset($this->stash['country'])){
+      $data['country'] = $this->stash['country'];
+    }
+    //上市时间
+    if(isset($this->stash['market_time'])){
+      $data['market_time'] = $this->stash['market_time'];
+    }
+    //指导价格
+    if(isset($this->stash['official_price'])){
+      $data['official_price'] = $this->stash['official_price'];
+    }
+    //产品阶段
+    if(isset($this->stash['processed'])){
+      $data['processed'] = (int)$this->stash['processed'];
+    }
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
