@@ -149,7 +149,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             return;
         }
         //$row['content'] = Sher_Core_Util_View::safe($row['content']);
-        $row['content'] = $this->trans_content($row['content']);
+        $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if (!empty($row['reply'])) {
             for ($i=0; $i < count($row['reply']); $i++) {
@@ -277,7 +277,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
       $merge,
       function($s){
         $a = explode('::', $s[1]);
-        $img = '<img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" />';
+        $img = '<p><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" /></p>';
         return $img;
       },
       $c
