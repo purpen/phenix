@@ -98,7 +98,7 @@
 				dataType: 'json',
 				beforeSubmit: function(){
 					phenix.before_submit();
-          if($('[name=cover_id]')==''){
+          if($('input[name=cover_id]').val()==''){
             phenix.show_error_note('请至少上传一张图片并设置为封面图!');
           }
 				},
