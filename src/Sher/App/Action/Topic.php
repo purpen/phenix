@@ -299,10 +299,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
     //评论参数
-    $this->stash['comment_target_id'] = $topic['_id'];
-    $this->stash['comment_type'] = 2;
-		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
+    $comment_options = array(
+      'comment_target_id' =>  $topic['_id'],
+      'comment_type'  =>  2,
+      'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
 
 		return $this->to_html_page($tpl);
 	}
@@ -768,5 +772,24 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+    //是否显示图文并茂
+    $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
+
 }
 ?>

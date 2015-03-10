@@ -148,7 +148,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
         }
-        $row['content'] = Sher_Core_Util_View::safe($row['content']);
+        //$row['content'] = Sher_Core_Util_View::safe($row['content']);
+        $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if (!empty($row['reply'])) {
             for ($i=0; $i < count($row['reply']); $i++) {
@@ -250,6 +251,46 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		
         return self::$_db->pull($this->collection, $criteria, 'reply', $removed_reply);
     }
+
+  /**
+   * 转换评论内容(解析图片和链接)
+   */
+  protected function trans_content($c){
+    if(empty($c)){
+      return;
+    }
+
+    $c = $this->trans_img($c);
+    $c = $this->trans_link($c);
+    return $c;
+  }
+
+  /**
+   * 转换图片格式
+   */
+  protected function trans_img($c){
+    if(empty($c)){
+      return;
+    }
+    $merge = '/\[i:(.*):\]/U';
+    $c = preg_replace_callback(
+      $merge,
+      function($s){
+        $a = explode('::', $s[1]);
+        $img = '<p><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" /></p>';
+        return $img;
+      },
+      $c
+    );
+    return $c;
+  }
+
+  /**
+   * 转换链接格式
+   */
+  protected function trans_link($c){
+    return $c;
+  }
 	
 }
 ?>

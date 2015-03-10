@@ -102,11 +102,17 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
 		
-    // 评论参数
-    $this->stash['comment_target_id'] = (int)$stuff['_id'];
-    $this->stash['comment_type'] = Sher_Core_Model_Comment::TYPE_STUFF;
+
     $comment_alert = '你是不是智能时代的预言家？未来的它，惊艳、颠覆、消失……写下你的想法，就有机会被封存到时光胶囊中，接受时间的洗礼！';
-    $this->stash['comment_alert'] = $comment_alert;
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_alert' =>  $comment_alert,
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
@@ -156,6 +162,24 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
 	}
 	
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+    $this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+    $this->stash['comment_alert'] = isset($options['comment_alert'])?$options['comment_alert']:0;
+
+    //是否显示图文并茂
+    $this->stash['comment_show_rich'] = $options['comment_show_rich'];
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 	
 }
 ?>

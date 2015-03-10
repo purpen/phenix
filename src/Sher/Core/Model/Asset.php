@@ -58,6 +58,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_COOPERATE = 80;
 	const TYPE_COOPERATE_EDITOR = 81;
 
+  # 评论图片
+  const TYPE_COMMENT = 85;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',
