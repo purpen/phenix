@@ -8,6 +8,7 @@ class Sher_Core_Service_Bonus extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'time' => array('created_on' => 1),
+        'latest' => array('created_on' => -1),
     );
 	
     /**
