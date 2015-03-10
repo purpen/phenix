@@ -5,7 +5,7 @@
     <input type="hidden" name="type" value="{{ comment_type }}" />
     <input type="hidden" name="star" value="0" />
     <div class="field">
-      <textarea name="content" class="comment-textarea" ></textarea>
+      <textarea name="content" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
       <div id="comment"></div>
     </div>
 
