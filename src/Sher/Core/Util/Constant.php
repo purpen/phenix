@@ -17,6 +17,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const STROAGE_ACTIVE  = 'active';
 	const STROAGE_STUFF   = 'stuff';
 	const STROAGE_COOPERATE = 'cooperate';
+  const STROAGE_COMMENT = 'comment';
 	
 	/**
 	 * 类型的常量

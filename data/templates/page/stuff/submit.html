@@ -129,7 +129,7 @@
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
-        	endpoint: '{{ app_url_upload_stuff }}'
+        	endpoint: '{{ app_url_upload }}/stuff'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'

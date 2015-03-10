@@ -132,7 +132,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		// 获取为空，重新生产红包
 		/*
 		while(empty($result)){
-			$bonus->create_batch_bonus(100);
+			$bonus->create_batch_bonus(10);
 			$result = $bonus->pop('T9');
 			// 跳出循环
 			if(!empty($result)){
