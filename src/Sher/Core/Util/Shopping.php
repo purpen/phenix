@@ -102,7 +102,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		}
 		// 是否过期
 		if ($bonus['expired_at'] && $bonus['expired_at'] < time()){
-			throw new Sher_Core_Model_Exception('红包已被过期！');
+			throw new Sher_Core_Model_Exception('红包已过期！');
     }
     //是否满足限额条件
     if(!empty($bonus['min_amount']) && (int)$bonus['min_amount'] > (int)$total_money){

@@ -277,7 +277,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
       $merge,
       function($s){
         $a = explode('::', $s[1]);
-        $img = '<p><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" /></p>';
+        $img = '<p class="comment-img-box" show-type="1"><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" style="cursor: -webkit-zoom-in;" /></p>';
         return $img;
       },
       $c
@@ -289,6 +289,19 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
    * 转换链接格式
    */
   protected function trans_link($c){
+    if(empty($c)){
+      return;
+    }
+    $merge = '/\[l:(.*):\]/U';
+    $c = preg_replace_callback(
+      $merge,
+      function($s){
+        $a = explode('::', $s[1]);
+        $img = ' <a href="'.$a[0].'" title="'.$a[1].'" target="_blank" >'.$a[1].'</a> ';
+        return $img;
+      },
+      $c
+    );
     return $c;
   }
 	

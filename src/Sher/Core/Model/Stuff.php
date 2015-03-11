@@ -21,6 +21,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	# 产品阶段
 	const PROCESS_DESIGN = 1;
 	const PROCESS_DEVELOP = 2;
+  const PROCESS_RAISE = 3;
 	const PROCESS_PERSALE = 5;
 	const PROCESS_SALE = 9;
 
