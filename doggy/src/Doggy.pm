@@ -8,7 +8,7 @@ use File::Copy;
 use Cwd;
 use Carp;
 use Term::ANSIColor qw(:constants);
-use File::Temp qw(tempfile);
+use File::Temp qw(tempfile tempdir);
 use YAML;
 use Data::Dumper;
 use constant {
@@ -22,6 +22,7 @@ use Shell qw(php env prove);
 my $project_mark = '';
 my %project_path = ();
 my %doggy_path = ();
+my $child_pid;
 
 our $VERSION='1.3.x-dev';
 
@@ -32,6 +33,13 @@ my %doggy_helper = (
     MK_MODEL_AR => 'mk_model_ar.php',
     PHPT_RUNNER => 'run-tests.php',
     );
+
+sub sigint {
+    $SIG{INT} = \&sigint;
+    if ($child_pid) {
+        kill INT => $child_pid;
+    }
+}
 
 sub load_doggy {
     my($root) = shift;
@@ -899,6 +907,101 @@ sub run {
     system(('php',$include_path,$php_file));
 }
 
+sub server {
+    init;
+    my $bind_addr = shift;
+    $bind_addr = 'localhost:8088' unless $bind_addr;
+    my $php_fpm_addr = shift;
+    $php_fpm_addr = '127.0.0.1:9000' unless $php_fpm_addr;
+    my $webroot = File::Spec->catdir($project_path{dev_root}, 'web');
+    my $varroot = File::Spec->catdir($project_path{dev_root}, 'var');
+    my $prefix_dir = tempdir(DIR =>$varroot, CLEANUP => 1);
+    my $logs_dir = File::Spec->catfile($prefix_dir, "logs");
+    mkdir $logs_dir or die "failed to mkdir $logs_dir: $!";
+    my $conf_dir = File::Spec->catfile($prefix_dir, "conf");
+    mkdir $conf_dir or die "failed to mkdir $conf_dir: $!";
+    my $conf_file = File::Spec->catfile($conf_dir, "nginx.conf");
+    open my $out, ">$conf_file"
+        or die "Cannot open $conf_file for writing: $!\n";
+
+    print $out <<_EOC_;
+    daemon off;
+    master_process off;
+    worker_processes 1;
+    pid logs/nginx.pid;
+    error_log /dev/stderr warn;
+    #error_log /dev/stderr debug;
+    events {
+        worker_connections 64;
+    }
+    http {
+        access_log /dev/stderr;
+        error_log /dev/stderr;
+        server {
+            listen $bind_addr;
+            server_name default;
+            index app;
+            client_max_body_size 60m;
+            root $webroot;
+            location /app {
+                fastcgi_split_path_info ^(/app)(.*)\$;
+                fastcgi_pass  $php_fpm_addr;
+                fastcgi_pass_request_body off;
+                client_body_in_file_only clean;
+                fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+                fastcgi_param  SERVER_SOFTWARE    nginx;
+                fastcgi_param  QUERY_STRING       \$query_string;
+                fastcgi_param  REQUEST_METHOD     \$request_method;
+                fastcgi_param  CONTENT_TYPE       \$content_type;
+                fastcgi_param  CONTENT_LENGTH     \$content_length;
+                fastcgi_param  SCRIPT_FILENAME    \$document_root\$fastcgi_script_name;
+                fastcgi_param  SCRIPT_NAME        \$fastcgi_script_name;
+                fastcgi_param  PATH_INFO          \$fastcgi_path_info;
+                fastcgi_param  REQUEST_URI        \$request_uri;
+                fastcgi_param  DOCUMENT_URI       \$document_uri;
+                fastcgi_param  DOCUMENT_ROOT      \$document_root;
+                fastcgi_param  SERVER_PROTOCOL    \$server_protocol;
+                fastcgi_param  REMOTE_ADDR        \$remote_addr;
+                fastcgi_param  REMOTE_PORT        \$remote_port;
+                fastcgi_param  SERVER_ADDR        \$server_addr;
+                fastcgi_param  SERVER_PORT        \$server_port;
+                fastcgi_param  SERVER_NAME        \$server_name;
+                fastcgi_param  REQUEST_BODY_FILE  \$request_body_file;
+            }
+        	location /__file_result__/ {
+        	    internal;
+        	    alias /;
+        	}
+        }
+    }
+_EOC_
+    close $out;
+    my $nginx_path = 'nginx';
+    my $cmd = "$nginx_path -p $prefix_dir/ -c conf/nginx.conf";
+    $SIG{INT} = \&sigint;
+    my $pid = fork();
+    if (!defined $pid) {
+        die "fork() failed: $!\n";
+    }
+    if ($pid == 0) {  # child process
+        #warn "exec $cmd...";
+        exec $cmd or die "Failed to run command \"$cmd\": $!\n";
+    } else {
+        $child_pid = $pid;
+        print "========================================================\n";
+        print GREEN, "Nginx server running on PID:$pid, Runtime DIR: $prefix_dir\n", RESET;
+        print "\n\nWeb address: ", BOLD, ON_MAGENTA, "http://$bind_addr \n\n", RESET;
+        print 'PHP-FPM backend: ', BOLD, ON_CYAN, "$php_fpm_addr \n\n", RESET;
+        print "========================================================\n";
+        waitpid($child_pid, 0);
+        my $rc = 0;
+        if (defined $?) {
+            $rc = ($? >> 8);
+        }
+        exit($rc);
+    }
+}
+
 sub show_version{
     print "Doggy framework,","version:$VERSION, ";
     print "Copyright 2001-2010 by Night Sailer\n";
@@ -967,6 +1070,13 @@ The most commonly used doggy commands are:
     
     run  php_file_path
         Run php script in current project dev enviroment.
+
+    server [addr:port, DEFAULT:127.0.0.1:8088] [php-fpm-backend-addr:port, DEFAULT: 127.0.0.1:9000]
+        Run openresty/nginx frontend, bind to addr:port(DEFAULT: 127.0.0.1:8088).
+        You can specific alternated php-fpm backend address, default is: 127.0.0.1:9000 .
+        Examples:
+            doggy server localhost:8008
+            doggy server 127.0.0.1:8009 127.0.0.1:9001
         
     -h , --help
         Show this usage message.
