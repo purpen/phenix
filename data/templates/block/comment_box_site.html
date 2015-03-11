@@ -1,12 +1,22 @@
 <style type="text/css">
   .ui.threaded.comments .content .text img{
-    max-width: 100%;
+    max-width: 150px;
     max-height: 800px;
     overflow: hidden;
     padding: 10px 10px 0 0;
   }
   .ui.threaded.comments .content .text p{
     margin:0;
+  }
+
+  .ui.threaded.comments .content .text a{
+    text-decoration:none;
+    color:#f36;
+  }
+
+  .ui.threaded.comments .content .text a:hover{
+    text-decoration:underline;
+    color:#f36;
   }
 
   .ui.reply.form .left {
@@ -19,6 +29,14 @@
   .ui.reply.form .right.aligned.column{
   display:inline-block;
   float:right;
+  }
+
+  .img-tab{
+    margin:5px;
+  }
+  .img-tab a{
+    margin:5px;
+    text-decoration:none;
   }
 </style>
 
@@ -38,10 +56,8 @@
   	  	{% if visitor.is_login %}
       <div class="left">
         <a href="javascript:void(0);" class="comment-upload-btn" >插入图片</a>
-        <!--
         |
         <a href="javascript:void(0);" class="comment-link-btn">插入链接</a>
-        -->
       </div>
     	<div class="right aligned column">
 			<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>
@@ -73,24 +89,32 @@
 	    插入图片
 	</div>
 	<div class="container">
+    <div class="img-tab"><a href="javascript:void(0);" class="img-url-btn">链接地址</a>|<a href="javascript:void(0);" class="img-upload-btn">本地上传</a></div>
 		<form action="" class="ui form" method="post" id="comment-upload-form">
 		  	<div class="content">
-
-				<div class="ui signup-box">
-
-							<div id="phenix-comment-uploader"></div>
-						
-							<div id="asset-list" class="ui four items">
-
-							</div>
-
+        <input type="hidden" name="img-type" value="1" />
+				<div class="ui signup-box" id="img-link-box">
+          <div class="field">
+            <label>图片地址</label>
+            <input type="text" name="comment-img-url" value="" placeholder="http://" />
+          </div>
+          <div class="field">
+            <label>图片描述</label>
+            <input type="text" name="comment-img-title" value="" />
+          </div>
 				</div>
+
+				<div class="ui signup-box" id="img-upload-box" style="display:none;">
+							<div id="phenix-comment-uploader"></div>
+							<div id="asset-list" class="ui four items"></div>
+				</div>
+
 		  	</div>
 			<div class="right aligned action">
 			    <div class="ui gray deny button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit button">
+			    <div class="ui magenta comment-submit img button">
 					插入
 			    </div>
 			</div>
@@ -108,15 +132,21 @@
 		  	<div class="content">
 
 				<div class="ui signup-box">
-
-
+          <div class="field">
+            <label>链接地址</label>
+            <input type="text" name="comment-link-url" value="" placeholder="http://" />
+          </div>
+          <div class="field">
+            <label>链接名称</label>
+            <input type="text" name="comment-link-title" value="" />
+          </div>
 				</div>
 		  	</div>
 			<div class="right aligned action">
 			    <div class="ui gray deny button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit button">
+			    <div class="ui magenta comment-submit url button">
 					插入
 			    </div>
 			</div>
@@ -126,7 +156,7 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-  //编辑器指定插入
+  //编辑器指定插入位置
   (function($){
       $.fn.extend({
           insertAtCaret: function(myValue){
@@ -158,6 +188,18 @@
 
   $(function(){
 
+    //图片上传方式切换
+    $('.img-url-btn').click(function(){
+      $('#img-link-box').show();
+      $('#img-upload-box').hide();
+      $(':input[name=img-type]').val(1);
+    });
+    $('.img-upload-btn').click(function(){
+      $('#img-upload-box').show();
+      $('#img-link-box').hide();
+      $(':input[name=img-type]').val(2);
+    });
+
     //图片上传弹出按钮
     $('.comment-upload-btn').click(function(){
       $('.comment-insert-img').modal('show');
@@ -174,14 +216,23 @@
     //取消插入弹出框
     $('.ui.deny.button').click(function(){
       $('.comment-insert-img').modal('hide');
+      $('.comment-insert-link').modal('hide');
     });
 
 
 		//插入图片到编辑器
-    $('.ui.comment-submit').on('click', function(){
-      var i = 0;
-      //var assets = $('input[name=comment-asset]');
-      var img_descs = $(":input[name='comment-asset-desc']");
+    $('.ui.comment-submit.img').on('click', function(){
+      var img_type = $(':input[name=img-type]').val();
+      if(img_type==1){
+        var img_url = $(":input[name='comment-img-url']").val();
+        var img_title = $(":input[name='comment-img-title']").val();
+        if(img_url != ''){
+          var img_info = "[i:"+img_url+"::"+img_title+":]";
+          $('#comment-area').insertAtCaret(img_info);   
+        }
+      }else{
+        var i = 0;
+        var img_descs = $(":input[name='comment-asset-desc']");
         $(":input[name='comment-asset']").each(function(){
           var img_url = $(this).attr('img_url');
           var img_desc = $(img_descs[i]).val();
@@ -189,13 +240,22 @@
           $('#comment-area').insertAtCaret(img_info);
           i++;
         });
-        $('#asset-list').html('');
-			  $('.comment-insert-img').modal('hide');
-
+        $('#asset-list').html('');     
+      }
+			$('.comment-insert-img').modal('hide');
         
     });
 
-
+		//插入链接到编辑器
+    $('.ui.comment-submit.url').on('click', function(){
+      var link_url = $(":input[name='comment-link-url']").val();
+      var link_title = $(":input[name='comment-link-title']").val();
+      if(link_url != '' || link_title != ''){
+        var link_info = "[l:"+link_url+"::"+link_title+":]";
+        $('#comment-area').insertAtCaret(link_info);     
+      }
+      $('.comment-insert-link').modal('hide');
+    });
 
 
     var comment_file_count = 1;

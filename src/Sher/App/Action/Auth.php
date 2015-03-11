@@ -395,7 +395,12 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             return $this->ajax_json("注册失败:".$e->getMessage(), true);
         }
 		
-		$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+    $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+
+    //如果是周年庆,跳转页面后提示送红包画面
+    if(Doggy_Config::$vars['app.anniversary2015.switch']){
+      $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile?first_year=1';  
+    }
 		
 		return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_profile_url);
 	}
