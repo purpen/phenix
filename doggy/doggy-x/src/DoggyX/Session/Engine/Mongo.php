@@ -9,7 +9,9 @@
  */
 class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements DoggyX_Session_Engine {
     protected $collection = 'session';
-    
+
+    protected $mongo_id_style = self::MONGO_ID_CUSTOM;
+
     protected $schema = array();
     protected $required_fields = array();
     

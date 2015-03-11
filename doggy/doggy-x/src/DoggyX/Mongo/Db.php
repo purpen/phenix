@@ -12,7 +12,7 @@ class DoggyX_Mongo_Db {
     public function __construct($options=array()) {
         $host = isset($options['host'])?$options['host']:'mongodb://127.0.0.1';
         unset($options['host']);
-        $mongo = new Mongo($host, $options);
+        $mongo = new MongoClient($host, $options);
         if (isset($options['slaveOk'])) {
             $mongo->setSlaveOkay($options['slaveOk']);
         }
