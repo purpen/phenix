@@ -1,4 +1,4 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}孵化-{% endblock %}
 
 {% block page_css %}
@@ -9,6 +9,12 @@
 	}
 	p.line{
 		line-height: 21px;
+	}
+	.egg-banner{
+		background-color:rgb(21,12,15);
+		margin:0 auto;
+		text-align: center;
+		position: relative;
 	}
 </style>
 {% endblock %}
@@ -77,6 +83,20 @@
 {% endblock %}
 
 {% block content %}
+<div class="egg-banner">
+	<a href="http://www.taihuoniao.com/birdegg">
+		<div class="ui responsive grid">
+			<img src="{{ app_url_packaged }}/images/egg_banner.jpg" width="100%">
+			
+		</div>
+	</a>
+</div>
+
+<div class="header main">
+	<div class="ui responsive grid">
+		{% include "block/header.html" %}
+	</div>
+</div>
 <div class="incubator masthead">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
