@@ -54,10 +54,11 @@ class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements Dog
             throw new DoggyX_Session_Exception('session is started, please close it first!');
         }
         $this->reset();
-        $data['_id'] = $this->build_session_id();
+        $data['_id'] = $sid;
         $data['created_on'] = $data['alive'] = time();
         $this->create($data);
         $this->opened = true;
+        Doggy_Log_Helper::debug("New session $sid is open");
     }
     
     public function load_session($sid) {
@@ -68,6 +69,7 @@ class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements Dog
         $this->reset();
         $data = $this->load($sid);
         if (empty($data)) {
+            Doggy_Log_Helper::debug("session $sid is NULL");
             return false;
         }
         if ($data['alive'] < ( time() - $this->ttl ) ) {
