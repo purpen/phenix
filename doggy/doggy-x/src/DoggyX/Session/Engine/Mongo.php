@@ -34,10 +34,10 @@ class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements Dog
         if (!empty(Doggy_Config::$vars['app.session.secret_key'])) {
             $this->secret_key = Doggy_Config::$vars['app.session.secret_key'];
             if ($this->secret_key == $this::BLANK_SECRET_KEY) {
-                throw new DoggyX_Session_Exception('Session secret_key is initial value, you MUST manual set it in <config/session.yml>');
+                throw new DoggyX_Session_Exception('Session secret_key is initial value, you MUST manual set it in [app.session.secret_key]');
             }
         } else {
-            throw new DoggyX_Session_Exception('Session secret_key is NULL, you MUST set it in <config/session.yml>');
+            throw new DoggyX_Session_Exception('Session secret_key is NULL, you MUST set it in [app.session.secret_key]');
         }
         parent::__construct();
     }
