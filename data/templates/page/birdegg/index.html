@@ -1489,7 +1489,7 @@ background-color: #fff;
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 				
 					<div class="featured">
-						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 sort:sort size:8 %}
+						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:sort size:8 %}
 						<div class="ui four cards">
 							{% for stuff in stufflist.rows %}
 						  	<div class="card">
@@ -1512,8 +1512,8 @@ background-color: #fff;
 						    	</div>
 						    	<div class="extra">
 						      	  	<a class="right floated created">
-										<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
-										<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+                          <!--<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>-->
+										<small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
 									</a>
 									<a href="{{ stuff.user.home_url }}" class="ui icon link">
 										<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
