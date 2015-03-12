@@ -261,9 +261,19 @@ class DoggyX_Mongo_Db {
      * @param mixed $safe default is false
      * @return void
      **/
-    public function update($collection, $criteria, $newobj, $upsert = false, $multiple = false,$safe = false) {
+    public function update($collection, $criteria, $newobj, $upsert = false, $multiple = false,$safe = false, $w=null) {
         $col = $this->db->selectCollection($collection);
-        return $col->update($criteria, $newobj, array('upsert' => $upsert, 'multiple' => $multiple,'safe' => $safe));
+        $options = array(
+            'upsert' => $upsert,
+            'multiple' => $multiple,
+        );
+        if ($safe) {
+            $options['w'] = 1;
+        }
+        if (!is_null($w)) {
+            $options['w'] = (int) $w;
+        }
+        return $col->update($criteria, $newobj, $options);
     }
     /**
      * Update all matched rows
@@ -274,7 +284,7 @@ class DoggyX_Mongo_Db {
      * @param string $upsert
      * @return void
      */
-    public function update_all($collection,$criteria,$newobj,$upsert = false,$safe = false) {
+    public function update_all($collection,$criteria,$newobj,$upsert = false, $safe = false) {
         return $this->update($collection,$criteria,$newobj,$upsert,true,$safe);
     }
 

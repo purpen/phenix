@@ -239,6 +239,14 @@ sub _read_deploy_schema {
     return YAML::LoadFile($schema_file);
 }
 
+sub _read_file {
+    my $input_file = shift;
+    open(my $input_fh, "<", $input_file ) || die "can't read file $input_file \n";
+    my $text = join('', <$input_fh>);
+    close($input_fh);
+    return $text;
+}
+
 sub fatal{
     print RED,"FATAL Error:",shift,RESET,"\n";
     exit 1;
@@ -924,6 +932,11 @@ sub server {
     open my $out, ">$conf_file"
         or die "Cannot open $conf_file for writing: $!\n";
 
+    my $app_nginx_conf = File::Spec->catfile($project_path{root}, 'deploy', 'nginx.doggy.conf');
+    my $extra_conf_content = '';
+    if (-e $app_nginx_conf) {
+        $extra_conf_content = _read_file($app_nginx_conf);
+    }
     print $out <<_EOC_;
     daemon off;
     master_process off;
@@ -972,6 +985,7 @@ sub server {
         	    internal;
         	    alias /;
         	}
+            $extra_conf_content
         }
     }
 _EOC_
