@@ -42,7 +42,7 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $invented_love_count = rand(5,50);
     $view_count = $list[$i]['view_count'] + $invented_love_count + 100;
-		$model->update_set($list[$i]['_id'], array('invented_love_count'=>$invented_love_count, 'view_count'=>$view_count));
+		$model->update_set($list[$i]['_id'], array('invented_love_count'=>$invented_love_count, 'view_count'=>$view_count, 'verified'=>1));
 		echo "set stuff[".$list[$i]['_id']."]..........\n";
 		$total++;
 	}

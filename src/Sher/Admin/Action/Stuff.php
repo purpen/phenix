@@ -22,17 +22,106 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 	
 	/**
-	 * 列表
+	 * 列表--全部
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $this->set_target_css_state('all_list');
 		$page = (int)$this->stash['page'];
+
+    $this->stash['category_id'] = 0;
+    $this->stash['is_top'] = true;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff?page=#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
+	 * 列表--蛋年
+	 */
+	public function egg_list() {
+    $this->set_target_css_state('egg_list');
+		$page = (int)$this->stash['page'];
+		
+    $category_id = Doggy_Config::$vars['app.birdegg.category_id'];
+    $this->stash['category_id'] = $category_id;
+    $this->stash['is_top'] = true;
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/egg_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
+	 * 列表--十万火计2
+	 */
+	public function swhj2_list() {
+    $this->set_target_css_state('swhj2_list');
+		$page = (int)$this->stash['page'];
+
+    $category_id = Doggy_Config::$vars['app.contest.dream2_category_id'];
+    $this->stash['category_id'] = $category_id;
+    $this->stash['is_top'] = true;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/swhj2_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
+	 * 创建/更新
+	 */
+	public function submit(){
+		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
+		$mode = 'create';
+		
+		$model = new Sher_Core_Model_Stuff();
+
+		if(!empty($id)){
+			$mode = 'edit';
+			$stuff = $model->find_by_id($id);
+      $stuff = $model->extended_model_row($stuff);
+			$this->stash['stuff'] = $stuff;
+		}
+    $this->stash['mode'] = $mode;
+		
+		return $this->to_html_page('admin/stuff/submit.html');
+	}
+
+	/**
+	 * 保存
+	 */
+	public function save() {
+		
+		$model = new Sher_Core_Model_Stuff();
+		try{
+      $data = array();
+			if(empty($this->stash['_id'])){
+				$mode = 'create';
+				$ok = $model->apply_and_save($this->stash);
+			}else{
+				$mode = 'edit';
+        $data['_id'] = (int)$this->stash['_id'];
+        $data['invented_love_count'] = (int)$this->stash['invented_love_count'];
+        $data['view_count'] = (int)$this->stash['view_count'];
+				$ok = $model->apply_and_update($data);
+			}
+			if(!$ok){
+				return $this->ajax_note('保存失败,请重新提交', true);
+			}		
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('保存失败:'.$e->getMessage(), true);
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/stuff';
+		
+		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
 
 	/**
@@ -53,8 +142,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 				$stuff = $model->load((int)$id);
 				
         if (!empty($stuff)){
-          //逻辑删除
-					$model->mark_remove((int)$id);
+		      $model->remove((int)$id);
 				}
 			}
 			
@@ -94,7 +182,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
 		
 		foreach($ids as $id){
-			$result = $model->mark_as_published((int)$id, $evt);
+			$result = $model->mark_as_verified((int)$id, $evt);
 		}
 		
 		$this->stash['note'] = '操作成功！';

@@ -231,10 +231,17 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	public function mark_cancel_stick($id){
 		return $this->update_set($id, array('stick' => 0));
 	}
+
+  /**
+   * 通过/取消审核
+   */
+	public function mark_as_verified($id, $value=1){
+		return $this->update_set($id, array('verified' => (int)$value));
+	}
 	
-    /**
-     * 标记 精选
-     */
+  /**
+   * 标记 精选
+   */
 	public function mark_as_featured($id){
 		return $this->update_set($id, array('featured' => 1));
 	}
