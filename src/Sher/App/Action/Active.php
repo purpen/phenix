@@ -10,18 +10,19 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		'cover_id' => 0,
 		'page' => 1,
 		'ref'  => null,
+    'category_id' => 0,
 	);
 	
 	protected $page_tab = 'page_active';
 	protected $page_html = 'page/active/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign');
+	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign','ajax_fetch_signup');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
-		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_sub_active');
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_ACTIVE;
-    }
+  }
 	
 	/**
 	 * 活动
@@ -49,11 +50,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function get_list(){
 		
-		// 获取列表
-		$category_id = isset($this->stash['category_id'])?(int)$this->stash['category_id']:0;
-		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		
-		$pager_url = Sher_Core_Helper_Url::active_list_url($category_id).'p#p#';
+		$pager_url = Sher_Core_Helper_Url::active_list_url($this->stash['category_id']).'p#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -100,15 +97,19 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 
     //评论参数
     if(!empty($active['topic_ids'])){
-      $this->stash['comment_target_id'] = $active['topic_ids'][0];
-      $this->stash['comment_type'] = 2;   
+      $comment_options = array(
+        'comment_target_id' =>  $active['topic_ids'][0],
+        'comment_type'  =>  2,
+        'comment_pager' =>  Sher_Core_Helper_Url::active_view_url($id, '#p#'),
+        //是否显示上传图片/链接
+        'comment_show_rich' => 1,
+      );
+      $this->_comment_param($comment_options);
     }
 
-		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::active_view_url($id, '#p#');
     $this->stash['active'] = $active;
 
-    $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30);
+    $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80);
 		
 		return $this->to_html_page('page/active/show.html');
 	}
@@ -207,10 +208,32 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
     if(!isset($this->stash['target_id'])){
       return false;
     }
+    if($this->stash['from']=='site'){
+      $this->stash['size'] = 80;
+    }else{
+      $this->stash['size'] = 30;
+    }
     $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:1;
     return $this->to_taconite_page('ajax/fetch_active_signup.html');
   }
 
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = $options['comment_pager'];
+
+    //是否显示图文并茂
+    $this->stash['comment_show_rich'] = $options['comment_show_rich'];
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 
 }
 ?>

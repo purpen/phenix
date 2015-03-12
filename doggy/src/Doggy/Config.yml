@@ -1,0 +1,274 @@
+---
+# ***********************************************
+# Doggy Configuration 
+#
+# *********************************************** 
+# 键值命名规范:
+# * 按照 app.<package_scope>.<class_scope>.<local_key> 方式命名
+# 例如 
+# app.memcached.default
+# app.model._global.db
+# 
+# * 所有的键名为小写,默认键名为 default
+#--------------------------
+#app.dispatcher section
+
+# Dispatcher Result Mapping
+# ---------------------------
+# Syntax:
+#  app.dispatcher.result.map:
+#   <result_code> : <result_class_name>
+#
+app.dispatcher.result.map:
+  smarty: 'Doggy_Dispatcher_Result_Smarty'
+  redirect: 'Doggy_Dispatcher_Result_Redirect'
+  json: 'Doggy_Dispatcher_Result_Json'
+  file: 'Doggy_Dispatcher_Result_File'
+  raw: 'Doggy_Dispatcher_Result_Raw'
+  jquery: 'Doggy_Dispatcher_Result_JQuery'
+  dt: 'Doggy_Dispatcher_Result_Dt'
+
+
+# Dispatcher interceptor list
+#-----------------------------
+# Syntax:
+# app.dispatcher.interceptors.run:
+#   - <interceptor_class_name>
+
+app.dispatcher.interceptors.run:
+  - Doggy_Dispatcher_Interceptor_Parameters
+# - Doggy_Dispatcher_Interceptor_Auth  
+#  - Doggy_Dispatcher_Interceptor_ModelDriven
+
+# Auth interceptor setting
+#-----------------------------
+# syntax:
+#  app.dispatcher.interceptors.auth:
+#   authen_action: <authentication_action_class_name>
+app.dispatcher.interceptors.auth:
+  authen_action: 'Doggy_Auth_Authentication_SimpleAction'
+
+# Dispatcher Filter list
+#-----------------------------
+# syntax:
+# app.dispatcher.filters.run:
+  # before:
+  #   - <filter_class_name>
+  # after:
+  #   - <filter_class_name>
+# before filter will be invoke before any server dispatching      
+# after filter will be invoke after result render
+app.dispatcher.filters.run:
+  before:
+    - Doggy_Dispatcher_Filter_Cache
+  after:
+    - Doggy_Dispatcher_Filter_Cache
+    - Doggy_Dispatcher_Filter_NginxMemCache
+
+# Dispatcher cacher filter config
+#-----------------------------  
+# syntax:
+# app.dispatcher.filters.cache:
+  # rules:
+    - <rule1>
+    - <ruleN>
+  # ttl: 100(seconds)
+  # group: 'cache_group_name>
+
+app.dispatcher.filters.cache:
+  rules:
+      - '/(.*)html$/'
+  ttl: 120
+  group: '_cache_pages_'
+
+#-----------------------------
+app.dispatcher.routes:
+# syntax:
+#  app.dispatcher.routes:
+#   url_path_folder: 'module_id'     
+#
+#///////////////////////////////
+# end app.dispatcher section
+
+
+#--------------------------
+#app.session section
+#
+app.session:
+  class: 'Doggy_Session_Storage_Php'
+#  session_name:
+  cookie_path: '/'
+#  cookie_domain:
+  ttl: 0
+
+#////////////////////////////
+# end app.session section
+
+#--------------------------
+#app.storage  section
+#
+app.storage.default:
+    class: 'Doggy_Storage_Provider_FileSystem'
+    options:
+      root: '/tmp'
+      url: ''
+# default_mogilefs:
+  # class: ''
+  # root: ''
+  # url: ''
+
+#--------------------------
+#app.auth  section
+#
+app.auth.provider.default:
+  class: 'Doggy_Auth_Authentication_SessionProvider'
+  # options:
+
+#////////////////////////////
+#end app.auth
+
+# Application logging setting
+#--------------------------
+# syntax:
+# app.log.<logger_id>:
+#   class: <Logger_Class>
+#   options:
+#     output: <output>
+#     level: <log_level>      
+app.log.default:
+  class: 'Doggy_Log_FileLog'
+  options:
+    output: 'dev.log'
+    level: 'debug'
+
+app.log.trace:
+  class: 'Doggy_Log_FileLog'
+  options:
+    output: 'trace.log'
+    level: 'debug'
+
+#////////////////////////////
+#end app.log
+
+#--------------------------
+#app.cache_manager  section
+#
+app.cache_manager.default:
+  provider: 'Doggy_Cache_Provider_Memcached'
+  options:
+    host: '127.0.0.1:11211'
+    ttl: 3600
+
+#////////////////////////////
+#end app.cache_manager
+
+#--------------------------
+#app.dba  section
+#
+app.dba.default: 'mysql://root:@localhost/test?charset=utf8'
+app.model.dba: 'default'
+#////////////////////////////
+#end app.dba
+
+# Application db pool
+#--------------------------
+# syntax:
+# app.db.<pool_id>: <pool_dsn>
+# <dsn> format: driver_name://db_user:db_pass@db_host/db_name?charset=<charset>
+app.db.default: 'mysql://root:@localhost/test?charset=utf8'
+#end app.db
+
+#
+#dtemplate enginer
+#--------------------------
+#app.dt  section
+#
+app.dt:
+  cache: XCache
+  adapter_id: default
+
+app.dt.extension_lib.core:
+  tags:
+#   tag_id: tag_class
+  filters:
+#  - filter_lib_class
+
+#////////////////////////////
+#end app.dt
+
+#memcached server cluster
+#--------------------------
+#app.cache.memcached  section
+#
+app.cache.memcached.default:
+  servers:
+    - 
+      host: '127.0.0.1'
+      port: 11211
+      weight: 10
+  tag: 'global'
+
+#////////////////////////////
+#end app.cache.memcached
+
+
+#--------------------------
+#app.util section
+#mail setting
+app.util.mail.default:
+  host: 'localhost'
+  user: 'no-reply@localhost'
+  password: ''
+  smtp_auth: false
+  from: 'no-reply@localhost'
+  from_name: 'system'
+
+#--------------------------
+#app.modules section
+#
+app.modules.doggy:
+  default_action: "Doggy_Action_Doggy"
+  state: 'on'
+  namespace: 'Doggy'
+  index_action: 'Doggy'
+
+app.modules.boot: 'doggy'
+#--------------------------
+#////////////////////////////
+#end app.modules
+
+
+#--------------------------
+#app.model section
+#------------------------------
+#app.model.<model_name>.db
+#app.model.<model_name>.map: 'alternate_dhash_id'
+
+#--------------------------
+#app.seq_generator section
+#
+app.seq_generator:
+# default is Doggy_Sequence_ModelDbGenerator  
+# alternate, is Doggy_Sequence_FlareGenerator, as follow:
+#  class: 'Doggy_Sequence_FlareGenerator'
+#  options:
+#   host: '127.0.0.1'
+#   port: 12121
+#  
+
+# app global section
+app.id: 'doggy-framework'
+app.mode: 'dev'
+
+#runtime section
+app.runtime.error_page:
+
+#app.runtime.uri.root: ''
+#app.runtime.uri.images: ''
+#app.runtime.uri.css: ''
+#app.runtime.uri.js: ''
+#app.runtime.uri.action: ''
+
+#////////////////////////////
+#global config end
+

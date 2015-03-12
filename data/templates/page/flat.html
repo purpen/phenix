@@ -116,7 +116,19 @@ b, strong {
     position: absolute;
     top: 50%;
 }
-
+.avatarbox {
+	position: relative;
+}
+.avatarbox .overlay {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#2074af), to(#2c91d2));
+	background: -moz-linear-gradient(top, rgba(205,132,211,0.3), rgba(182,105,187,0.3));
+}
 </style>
 {% endblock %}
 {% block page_js %}
@@ -180,50 +192,14 @@ b, strong {
 		<div class="icon"><i class="fa fa-thumbs-o-up"></i></div>
 		<strong>Great!</strong> Can you say supercalifragilisticoexpialidoso?
 	</div>
-	
-	<div class="ui alert alert-primary alert-white-alt2 rounded">
-		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-		<div class="icon"><i class="fa fa-check"></i></div>
-		<strong>Great!</strong> Can you say supercalifragilisticoexpialidoso?
+	 
+	 <div class="avatarbox">
+		 <div class="overlay"></div>
+	 	<img src="{{ app_url_packaged}}/images/contact-1.jpg" />
 	 </div>
 	 
-	 <div class="ui alert alert-primary alert-white-alt rounded">
-		<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-		<div class="icon"><i class="fa fa-check"></i></div>
-		<strong>Great!</strong> Can you say supercalifragilisticoexpialidoso?
-	 </div>
 	 
-	 <div class="ui options">
-	  	<div class="ui primary alt option">
-	  		<div class="icon">
-	 			<i class="fa fa-check"></i>
-	 		</div>
-	  		灵感之源
-	  	</div>
-	 	<div class="ui magenta alt option">
-	 		<div class="icon">
-				<i class="fa fa-check"></i>
-			</div>
-	 		产品评测
-	 	</div>
-	 	<div class="ui active magenta alt option">
-	 		<div class="icon">
-				<i class="fa fa-check"></i>
-			</div>
-	 		产品评测
-	 	</div>
-	 	<div class="ui active green alt option">
-	 		<div class="icon">
-				<i class="fa fa-check"></i>
-			</div>
-	 		话题讨论
-	 	</div>
-	 </div>
-	 
- 	<h3 class="ui header">
-		订单信息 
-		<small><a href="" class="ui link">清空订单</a></small>
-	</h3>
+
 	 
 </div>
 {% endblock %}

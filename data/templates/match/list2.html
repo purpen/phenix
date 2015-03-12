@@ -1,0 +1,216 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第二季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	body{background:#fff;}
+	.match.page .ui.header{
+		font-weight:400;
+	}
+	.match.page .ui.logo{
+		margin:1em auto;	
+	}
+	.match.page > .ui.nav{
+		border-bottom: 1px solid #e4e5e7;
+	}
+	.ui.nav .ui.main-nav .item{
+		padding-left: 1em;
+		padding-right: 1em;
+		border-bottom: 2px solid #e4e5e7;
+		margin: 0;
+		font-weight: 700;
+		opacity: .9;
+		padding-bottom: 1rem;
+		margin-bottom: -3.7rem;
+	}
+	/*.ui.nav .column{
+		margin-top:.5em;
+		margin-bottom:.5em;
+	}*/
+	.ui.nav {
+		border-bottom: 1px solid #e4e5e7;
+		background:#091f35;
+	}
+	.ui.nav .ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	.pages{
+		background:url({{ app_url_packaged }}/images/match_1.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:25% 0;
+	}
+	
+	.idea.section-title {
+		margin-bottom: 1.5em;
+	}
+	.idea.section-title h3,
+	.idea.section-title p {
+		margin-bottom: 0.5rem;
+	}
+	.idea.section-title p {
+		margin-top: 0.5rem;
+	}
+	.idea.section-title hr {
+		width: 80px;
+		background-color: #ff3366;
+	}
+	
+	.match.page .ui.pagination {
+		margin-top: 1.5rem;
+	}
+	.match.page .ui.allist .ui.items > .item{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		background-color: #fff;
+		border-radius: 0.3125em;
+		min-height:320px;
+		border: 1px solid rgba(0,0,0,0.1);
+		cursor:auto;
+	}
+	.ui.sort.grid > .row {
+		margin-bottom: 2%;
+	}
+	a#submit-idea {
+		margin: .5em 0;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
+	
+{% endblock %}
+
+{% block content %}
+<div class="match page">
+	<div class="pages">
+	</div>
+
+	<section class="ui nav responsive grid">
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+					<a href="{{ app_url_contest }}/about2" class="ui link {{ css_index }} item">活动介绍</a>
+          <!--<a href="{{ app_url_contest }}/dream#judges" class="ui link item">入围作品</a>-->
+					<a href="{{ app_url_contest }}/allist2" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_contest }}/dream2#coop" class="ui link item">合作资源</a>
+				</div>
+			</div>
+			<div class="right aligned four wide column">
+				<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+								提交作品
+								<i class="icon-arrow-right-sharp"></i>
+				</a>
+				<!--<a href="javascript:void(0);" class="ui gray btn-4 btn-4c btn">
+					提交已结束
+				</a>-->
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column idea section-title">
+					<h3 class="ui magenta header">全部作品</h3>
+					<hr>
+					<p class="ui magenta text">Products</p>
+				</div>
+			</div>
+		</div>
+		<div class="ui responsive sort grid">
+			<div class="row">
+				<div class="center aligned column">
+					<div class="ui divided horizontal list">
+					  	<div class="item">排序：</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/allist2?st=4" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/allist2?st=6" class="ui {% if st == 6 %}active{% endif %} link">浏览</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/allist2?st=2" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/allist2?st=3" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/allist2?st=0" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui responsive media allist grid">
+			<div class="row">
+					{% stuff_list var:'list' is_top:true category_id:dream_category_id sort:st page:page size:12 %}
+			
+			<div class="column">
+		
+				<div class="ui four items">
+					{% for stuff in list.rows %}
+            {% if stuff.cover %}
+              <div class="item"> 
+               <div class="content"> 
+                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
+                 <div class="image"> 
+                   <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
+                 </div> 
+                 <div class="advantage">
+                  {{ stuff.strip_description|truncate 140 }} 
+                 </div> </h4> 
+                <div class="i-stats">
+                  <div class="schedule"> 
+                   <div class="status clearfix"> 
+                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
+                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.total_love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                   </div> 
+                  </div> 
+                </div>
+               </div> 
+              </div>
+            {%else%}
+              <div class="item"> 
+               <div class="content"> 
+                <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
+                 <div class="full advantage">
+                   {{ stuff.strip_description|truncate 580 }} 
+                 </div> </h4> 
+                <div class="i-stats">
+                  <div class="schedule"> 
+                   <div class="status clearfix"> 
+                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
+                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.total_love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                   </div> 
+                  </div> 
+                </div>
+               </div> 
+              </div>
+            {%endif%}
+          {%endfor%}
+
+				</div>
+				  {% if list.total_page %}
+					<div class="ui pagination">
+						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+						{% include 'block/pager.html' %}
+					</div>
+					{% endif %}
+			</div>
+		</div>
+		
+	</section>
+	
+</div>
+{% endblock %}

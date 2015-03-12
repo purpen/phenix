@@ -115,11 +115,11 @@
 			</tr>
 		</thead>
 		<tbody>
-      {% if is_search %}
-			  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted s_type:s s_mark:q size:30 %}
-      {%else%}
-			  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted size:30 %}
-      {%endif%}
+	      {% if is_search %}
+				  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted s_type:s s_mark:q size:30 %}
+	      {%else%}
+				  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted size:30 %}
+	      {%endif%}
 
 			{% for product in list.rows %}
 			<tr id="{{ product._id }}">
@@ -139,9 +139,6 @@
 						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
 							{{ product.title|truncate, 32 }}
 						</a>
-            {% if product.is_try %}
-              <span style="color:red;">试</span>
-            {%endif%}
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
@@ -153,7 +150,7 @@
 					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.sale_count|default 0 }}</span></p>
 					{% endif %}
 				</td>
-				<td>
+				<td class="center aligned">
 					{% if product.process_voted %}
 					<span>投票<i class="angle right icon"></i></span>
 					{% endif %}
@@ -163,6 +160,12 @@
 					{% if product.process_saled %}
 					<span>商店</span>
 					{% endif %}
+		            {% if product.is_try %}
+		              <p class="ui magenta text">(试用新品)</p>
+		            {%endif%}
+		            {% if product.okcase %}
+		              <p class="ui magenta text">(案例产品)</p>
+		            {%endif%}
 				</td>
 				<td>
 					{% if product.stage %}

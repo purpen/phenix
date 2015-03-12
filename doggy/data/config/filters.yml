@@ -1,0 +1,6 @@
+all:
+    before:
+        - Doggy_Dispatcher_Filter_Cache
+    after:
+        - Doggy_Dispatcher_Filter_Cache
+        - Doggy_Dispatcher_Filter_NginxMemCache

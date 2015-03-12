@@ -1,0 +1,19 @@
+---
+app.dispatcher.result.map:
+  redirect: 'Doggy_Dispatcher_Result_Redirect'
+  json: 'Doggy_Dispatcher_Result_Json'
+  file: 'Doggy_Dispatcher_Result_File'
+  raw: 'Doggy_Dispatcher_Result_Raw'
+  jquery: 'Doggy_Dispatcher_Result_JQuery'
+  dt: 'DoggyX_View_HtmlPage'
+  html: 'DoggyX_View_HtmlPage'
+  taconite: 'DoggyX_View_TaconitePage'
+  rss: 'DoggyX_View_RssPage'
+  mongofs: 'DoggyX_View_MongoFs'
+
+app.session.ttl: 1800
+# app.session.service: 'DoggyX_Session_Service'
+app.session.engine: 'DoggyX_Session_Engine_Mongo'
+app.session.engine.options:
+  # mongodb session optional:
+  # 'collection': 'session'

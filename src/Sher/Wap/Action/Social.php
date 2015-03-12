@@ -11,7 +11,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'topic', 'allist', 'get_list', 'show');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show');
 	
 	/**
 	 * 社区入口
@@ -30,6 +30,17 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/match.html');
 	}
+
+	/**
+	 * 十万火计 第２季
+	 */
+	public function dream2(){
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		$this->stash['start_time'] = mktime(0,0,0,2,10,2015);
+		$this->stash['end_time'] = mktime(23,59,59,6,20,2015);
+		
+		return $this->to_html_page('wap/match2.html');
+	}
 	
 	/**
 	 * 全部创意列表
@@ -47,6 +58,24 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
 		
 		return $this->to_html_page('wap/match_list.html');
+	}
+
+	/**
+	 * 全部创意列表 第２季
+	 */
+	public function allist2(){
+		$this->set_target_css_state('allist');
+		
+		$page = "?page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap', 'dream', 'allist2').$page;
+		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
+		
+		$this->stash['start_time'] = mktime(0,0,0,10,28,2014);
+		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
+		
+		return $this->to_html_page('wap/match_list2.html');
 	}
 	
 	/**
@@ -171,6 +200,11 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 			$parent_category = $category->extend_load((int)$current_category['pid']);
 		}
 
+		// 评测对象
+		if(isset($this->stash['tid'])){
+			$this->stash['try_id'] = $this->stash['tid'];
+		}
+
 		$this->stash['is_top'] = $is_top;
 		$this->stash['current_category'] = $current_category;
 		$this->stash['parent_category'] = $parent_category;
@@ -183,6 +217,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
+    $this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		// 判断来源
 		if($cid == Doggy_Config::$vars['app.topic.dream_category_id'] || (isset($this->stash['ref']) && $this->stash['ref'] == 'dream')){
@@ -255,8 +290,8 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
 		$redirect_url = Sher_Core_Helper_Url::wap_topic_view_url($id);

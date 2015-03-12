@@ -1,0 +1,11 @@
+all:
+    default:Doggy_Storage_Provider_FileSystem
+    Doggy_Storage_Provider_FileSystem:
+        root:"${build.dir}/web/storage"
+        root_url:'/storage'
+        hash_dir:true
+    Doggy_Storage_Provider_MogileFs:
+        hosts:
+            - 192.168.80.200:7001
+        domain:'demo'
+        class:'file'    

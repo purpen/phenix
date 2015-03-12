@@ -1,0 +1,3 @@
+all:
+    run:
+        - Doggy_Dispatcher_PreResultListener_JsonView

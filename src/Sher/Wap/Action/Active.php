@@ -1,0 +1,192 @@
+<?php
+/**
+ * 活动
+ * @author purpen
+ */
+class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
+	
+	public $stash = array(
+		'page' => 1,
+    'category_id' => 0,
+	);
+	
+	protected $page_tab = 'page_index';
+	protected $page_html = 'page/index.html';
+	
+	protected $exclude_method_list = array('execute','getlist','view');
+	
+	/**
+	 * 入口
+	 */
+	public function execute(){
+		return $this->getlist();
+	}
+	
+	/**
+	 * 列表
+	 */
+	public function getlist(){
+		//$this->set_target_css_state('getlist');
+		// 获取列表
+		$pager_url = Sher_Core_Helper_Url::active_list_url($this->stash['category_id']).'p#p#';
+		
+		$this->stash['pager_url'] = $pager_url;
+		return $this->to_html_page('wap/active_list.html');
+	}
+
+	/**
+	 * 详情
+	 */
+	public function view(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.wap.active'];
+		if(empty($id)){
+			return $this->show_message_page('访问的活动不存在！', $redirect_url);
+		}
+		
+		$model = new Sher_Core_Model_Active();
+		$active = $model->load($id);
+		
+		if(empty($active) || $active['deleted']){
+			return $this->show_message_page('访问的活动不存在或已被删除！', $redirect_url);
+    }
+
+    if($active['state']==0){
+ 			return $this->show_message_page('该活动已被禁用！', $redirect_url); 
+    }
+
+    //加载扩展数据
+    $active = $model->extended_model_row($active);
+
+    //手机banner图
+    $active['wap_banner'] = null;
+    if(!empty($active['wap_banner_id'])){
+      $asset_model = new Sher_Core_Model_Asset();
+      $banner = $asset_model->extend_load($active['wap_banner_id']);
+      if($banner){
+        $active['wap_banner'] = $banner;
+      }
+    }
+
+    $this->stash['is_attend'] = false;
+    $this->stash['user_info'] = array();
+    //验证用户是否已报名
+    if ($this->visitor->id){
+      $this->stash['user_info'] = &$this->stash['visitor'];
+      $this->stash['is_attend'] = $this->check_user_attend($this->visitor->id, $active['_id'], 1);
+    }
+
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+
+    //评论参数
+    if(!empty($active['topic_ids'])){
+      $this->stash['comment_target_id'] = $active['topic_ids'][0];
+      $this->stash['comment_type'] = 2;   
+    }
+
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::wap_active_view_url($id, '#p#');
+    $this->stash['active'] = $active;
+		return $this->to_html_page('wap/active_show.html');
+	}
+
+  /**
+   * 验证用户是否已报名
+   */
+  protected function check_user_attend($user_id, $target_id, $event=1){
+    $mode_attend = new Sher_Core_Model_Attend();
+    return $mode_attend->check_signup($user_id, $target_id, $event);
+  }
+
+  /**
+   * 用户报名
+   */
+  public function ajax_attend(){
+    $this->stash['stat'] = 0;
+    $this->stash['msg'] = null;
+    if(!$this->visitor->id){
+      $this->stash['msg'] = '请登录';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+    }
+    if(!isset($this->stash['target_id'])){
+      $this->stash['msg'] = '请求失败,缺少必要参数';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+    }
+
+    $mode_active = new Sher_Core_Model_Active();
+    $active = $mode_active->find_by_id((int)$this->stash['target_id']);
+    if(empty($active)){
+      $this->stash['msg'] = '活动未找到';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+    }
+
+    $max_count = $active['max_number_count'];
+
+    $mode_attend = new Sher_Core_Model_Attend();
+
+    $query['event'] = Sher_Core_Model_Attend::EVENT_ACTIVE;
+    $query['target_id'] = $active['_id'];
+    $attend_count = $mode_attend->count($query);
+    if($attend_count >= $max_count){
+      $this->stash['msg'] = '名额已满';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+    }
+
+    $is_attend = $mode_attend->check_signup($this->visitor->id, (int)$this->stash['target_id'], 1);
+    if($is_attend){
+      $this->stash['msg'] = '不能重复报名';
+			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+    }
+
+    if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
+      if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address']) || empty($this->stash['job'])){
+        $this->stash['msg'] = '请求失败,缺少用户必要参数';
+        return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+      }
+
+      $user_data = array();
+      $user_data['profile']['realname'] = $this->stash['realname'];
+      $user_data['profile']['phone'] = $this->stash['phone'];
+      $user_data['profile']['address'] = $this->stash['address'];
+      $user_data['profile']['job'] = $this->stash['job'];
+
+      try {
+        //更新基本信息
+        $user_ok = $this->visitor->save($user_data);
+        if(!$user_ok){
+          $this->stash['msg'] = '更新用户信息失败';
+          return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+        }
+      } catch (Sher_Core_Model_Exception $e) {
+        Doggy_Log_Helper::error('Failed to active attend update profile:'.$e->getMessage());
+        $this->stash['msg'] = "更新失败:".$e->getMessage();
+        return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+      }
+    }
+
+    $data = array();
+    $data['user_id'] = (int)$this->visitor->id;
+    $data['target_id'] = (int)$this->stash['target_id'];
+    $data['event'] = 1;
+    try{
+      $ok = $mode_attend->apply_and_save($data);
+      if($ok){
+        $this->stash['stat'] = 1;
+        $this->stash['msg'] = '报名成功!';
+        return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+      }else{
+        $this->stash['msg'] = '报名失败';
+        return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Save active attend failed: ".$e->getMessage());
+      $this->stash['msg'] = '报名失败.!';
+      return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
+    }
+  }
+	
+}
+?>

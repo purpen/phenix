@@ -9,6 +9,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
 	# 3 days
 	const WAIT_TIME = 3;
+
+  #订单类型
+  # 普通订单
+  const KIND_NORMAL = 1;
+  # 抢购订单
+  const KIND_SNATCH = 2;
 	
     protected $schema = array(
 		# 订单编号
@@ -29,6 +35,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'card_money'  => 0,
 		# 优惠抵扣
 		'coin_money'  => 0,
+		# 礼品码金额
+		'gift_money'  => 0,
 		
 		# 物流费用
 		'freight'  => 0,
@@ -60,15 +68,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'is_canceled' => 0,
 		'canceled_date' => 0,
 
-    #申请退款标识及时间
-    'is_refunding' => 0,
-    'refunding_date' => 0,
-    'refund_reason'  =>  null,
+	    #申请退款标识及时间
+	    'is_refunding' => 0,
+	    'refunding_date' => 0,
+	    'refund_reason'  =>  null,
 
-    #退款成功标识及时间
-    'is_refunded' => 0,
-    'refunded_price'  =>  null,
-    'refunded_date' => 0,
+	    #退款成功标识及时间
+	    'is_refunded' => 0,
+	    'refunded_price'  =>  null,
+	    'refunded_date' => 0,
 		
 		## 物流信息
 		
@@ -100,6 +108,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		'card_code' => '',
 		
+		## 礼品码
+		
+		'gift_code' => '',
+		
 		## 订单状态
 		
 		'status' => 0,
@@ -113,6 +125,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'is_presaled' => 0,
 		# 过期时间,(普通订单、预售订单)
 		'expired_time' => 0,
+
+    #订单类型
+    'kind' => self::KIND_NORMAL,
 		
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
@@ -128,6 +143,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::order_view_url($row['rid']);
+		$row['mm_view_url'] = Sher_Core_Helper_Url::order_mm_view_url($row['rid']);
 		if ($row['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT && $row['payment_method'] == 'a'){
 			$row['pay_url'] = Doggy_Config::$vars['app.url.alipay'];
 		}
@@ -151,6 +167,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if (isset($row['from_site'])){
 			$row['from_site_label'] = $this->get_from_label($row['from_site']);
 		}
+		// 优惠金额
+		if (!isset($row['gift_money'])){
+			$row['gift_money'] = 0;
+		}
+		$row['discount_money'] = $row['coin_money'] + $row['card_money'] + $row['gift_money'];
 	}
 	
 	/**
@@ -165,7 +186,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				$label = '微信小店';
 				break;
 			case Sher_Core_Util_Constant::FROM_WAP:
-				$label = '手机';
+				$label = '手机网页';
+				break;
+			case Sher_Core_Util_Constant::FROM_IAPP:
+				$label = '手机应用';
 				break;
 			default:
 				$label = '其他';
@@ -245,6 +269,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if(!empty($card_code)){
 			$bonus = new Sher_Core_Model_Bonus();
 			$bonus->mark_used($card_code, $this->data['user_id'], $rid);
+		}
+
+		// 更新礼品卡状态
+		$gift_code = $this->data['gift_code'];
+		if(!empty($gift_code)){
+			$gift = new Sher_Core_Model_Gift();
+			$gift->mark_used($gift_code, $this->data['user_id'], $rid);
 		}
 		
 		// 更新订单总数
@@ -446,10 +477,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	protected function get_order_status_label($status){
 		switch($status){
 			case Sher_Core_Util_Constant::ORDER_EXPIRED:
-				$status_label = '已过期订单';
+				$status_label = '已过期';
 				break;
 			case Sher_Core_Util_Constant::ORDER_CANCELED:
-				$status_label = '已取消订单';
+				$status_label = '已取消';
 				break;
 			case Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT:
 				$status_label = '等待付款';
@@ -900,13 +931,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			'status' => (int)Sher_Core_Util_Constant::ORDER_READY_GOODS,
 			'express_caty' => '', 
 			'express_no' => '', 
-      'sended_date' => ''
-    ));
-    if($ok){
-      $this->sync_order_index($id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
-    }
-    return $ok;
-
+		    'sended_date' => ''
+		));
+		if($ok){
+			$this->sync_order_index($id, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+		}
+		
+		return $ok;
 	}
 	
 }

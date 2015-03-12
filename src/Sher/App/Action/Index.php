@@ -50,10 +50,10 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
      */
     public function home() {
 		$this->gen_login_token();
-		$this->set_target_css_state('page_home');
-    $product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
+    $this->set_target_css_state('page_home');
 
     //商品推荐列表---取块内容
+    $product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
     $products = array();
     if($product_ids){
       $product_model = new Sher_Core_Model_Product();

@@ -8,11 +8,11 @@
 .ui.social {
 	padding: 0em;
 }
-.ui.responsive.grid{
+/*.ui.responsive.grid{
 	width:1180px !important;
 	margin:0 auto;
 	padding:0 !important;
-}
+}*/
 
 .start{
 	color:#fff;
@@ -33,7 +33,7 @@
 	text-align:left;
 }
 .start .row{
-	padding-top:208px;
+	padding-top:208px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -51,6 +51,9 @@
 .camp .content{
 	padding:1em 0.5em !important;
 }
+.two-nav{
+	background:#f4f4f4;
+}
 
 </style>
 {% endblock %}
@@ -58,32 +61,31 @@
 {% block jquery %}{% endblock %}
 
 {% block content %}
-  <section class="ui responsive grid">
-	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="" class="item">话题</a>
-		<a href="" class="item">产品试用</a>
-		<a href="" class="item">活动</a>
-		<a href="" class="item">开放实验室</a>
-		<a href="" class="item">高校孵化基地</a>
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
 	</div>
-  </section>
-		{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
-		{% for active in current_list.rows %}
-      <section class="ui start block" style="background:url({{ active.banner.thumbnails.hd.view_url }}) no-repeat center center /cover;">
-
-          <div class="ui responsive center aligned grid">
-              <div class="row">
-                <div class="center aligned column attend-box">
-                  <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="{{ active.view_url }}" target="_blank">
-                    <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-                  </a>
-                </div>
-              </div>
-          </div>
-      </section>
-      <br />
-    {%endfor%}
-  <section class="ui big camp block">
+</div>
+{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
+{% for active in current_list.rows %}
+<section class="ui start block" style="background:url({{ active.banner.fileurl }}) no-repeat center center /cover;">
+	<div class="ui responsive center aligned grid">
+      <div class="row">
+        <div class="center aligned column attend-box">
+          <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="{{ active.view_url }}" target="_blank">
+            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+          </a>
+        </div>
+      </div>
+  </div>
+</section>
+<br />
+{%endfor%}
+<section class="ui big camp block">
 	<div class="ui responsive grid">
 		<div class="row">
 			<h3 class="ui header">历史活动</h3>
@@ -118,7 +120,5 @@
 		{%include 'block/pager.html'%}
 	</div>
 	{% endif %}
-  </section>
-
-
+</section>
 {% endblock %}

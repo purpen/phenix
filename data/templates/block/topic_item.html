@@ -1,10 +1,10 @@
 <tr id="{{ topic._id }}">
-	<td class="hide-on-mobile">
+	<td class="hide-on-mobile author">
 		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 		</a>
 	</td>
-	<td class="ten wide">
+	<td class="nine wide">
       	<h3 class="title">
 			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
 		</h3>
@@ -12,7 +12,7 @@
 			<div class="attribute">
 				<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
 				<span class="author">
-					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>于{{ topic.created_on|relative_datetime }}发表
+					<a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }} 发表
 				</span>
 			</div>
 			<div class="hide-on-mobile">
@@ -33,11 +33,14 @@
 							{% endif %}
 						{% endfor %}
 					</div>
+					<div class="ui center aligned count text">
+						<small>{{ topic.asset_count }}张图片</small>
+					</div>
 				{% endif %}
 			</div>
       	</div>
 	</td>
-	<td class="hide-on-mobile">
+	<td class="hide-on-mobile four wide">
 		{% if topic.last_user %}
 		<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
 	  		<img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" />
@@ -45,7 +48,7 @@
 		回复于{{ topic.last_reply_time|relative_datetime }}
 		{% endif %}
 	</td>
-	<td class="hide-on-mobile">
+	<td class="hide-on-mobile two center aligned wide">
 		<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
 			<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
 			<span class="dot-irecommend-suffix"></span>

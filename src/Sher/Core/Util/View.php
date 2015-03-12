@@ -233,7 +233,139 @@ EOF;
     }
     return null;
   }
-    
+
+  /**
+   *
+   * @param string $string 原文或者密文
+   * @param string $operation 操作(ENCODE | DECODE), 默认为 DECODE
+   * @param string $key 密钥
+   * @param int $expiry 密文有效期, 加密时候有效， 单位 秒，0 为永久有效
+   * @return string 处理后的 原文或者 经过 base64_encode 处理后的密文
+   * @example
+   *   $a = authcode('abc', 'ENCODE', 'key');
+   *   $b = authcode($a, 'DECODE', 'key');  // $b(abc)
+   *
+   *   $a = authcode('abc', 'ENCODE', 'key', 3600);
+   *   $b = authcode('abc', 'DECODE', 'key'); // 在一个小时内，$b(abc)，否则 $b 为空
+   *   可以替换特殊字符
+   *   $txt = str_replace(array('+','/','='),array('-','_','.'),$invite_code);
+   */
+  public static function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
+   
+      $ckey_length = 4;
+   
+      $key = md5($key ? $key : "thn");
+      $keya = md5(substr($key, 0, 16));
+      $keyb = md5(substr($key, 16, 16));
+      $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
+   
+      $cryptkey = $keya.md5($keya.$keyc);
+      $key_length = strlen($cryptkey);
+   
+      $string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
+      $string_length = strlen($string);
+   
+      $result = '';
+      $box = range(0, 255);
+   
+      $rndkey = array();
+      for($i = 0; $i <= 255; $i++) {
+          $rndkey[$i] = ord($cryptkey[$i % $key_length]);
+      }
+   
+      for($j = $i = 0; $i < 256; $i++) {
+          $j = ($j + $box[$i] + $rndkey[$i]) % 256;
+          $tmp = $box[$i];
+          $box[$i] = $box[$j];
+          $box[$j] = $tmp;
+      }
+   
+      for($a = $j = $i = 0; $i < $string_length; $i++) {
+          $a = ($a + 1) % 256;
+          $j = ($j + $box[$a]) % 256;
+          $tmp = $box[$a];
+          $box[$a] = $box[$j];
+          $box[$j] = $tmp;
+          $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
+      }
+   
+      if($operation == 'DECODE') {
+          if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) {
+              return substr($result, 26);
+          } else {
+              return '';
+          }
+      } else {
+          return $keyc.str_replace('=', '', base64_encode($result));
+      }
+   
+  }
+
+  /**
+   * 短网址
+   * 
+   */
+  public static function url_short($url){
+    if(!is_string( $url )) return false;
+    $result   = sprintf("%u", crc32($url) );
+    $shortUrl = '';
+    $digitMsp = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','w','z',0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','W','Z');
+    while( $result > 0 ){
+        $s        = $result % 62;
+        $result   = floor( $result / 62 );
+        if( $s > 9 && $s < 36 )
+            $s    += 10;
+        $shortUrl .= $digitMsp[$s];
+    }
+
+    return $shortUrl;
+  }
+
+  /**
+   * 通过邀请码获取用户ID
+   */
+  public static function fetch_invite_user_id($invite_code){
+    if(empty($invite_code)){
+      return false;
+    }
+    $mode = new Sher_Core_Model_User();
+    $user = $mode->load(array('invite_code'=>$invite_code));
+    if($user){
+      return $user['_id'];
+    }else{
+      return false;
+    }
+
+  }
+
+  /**
+   * 通过用户ID获取邀请码
+   */
+  public static function fetch_invite_user_code($user_id){
+    if(empty($user_id)){
+      return false;
+    }
+    $mode = new Sher_Core_Model_User();
+    $user = $mode->find_by_id((int)$user_id);
+    if($user){
+      if(!empty($user['invite_code'])){
+        return $user['invite_code'];
+      }else{
+        //生成邀请码
+        $code = self::url_short((string)$user['_id'].'-invite');
+        //存入用户表
+        $ok = $mode->update_set($user['_id'],array('invite_code' => $code));
+        if($ok){
+          return $code;     
+        }else{
+          return false;
+        }
+      }  
+    }else{
+      return false;
+    }
+  }
+
 	
 }
 ?>

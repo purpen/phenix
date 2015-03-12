@@ -1,0 +1,7 @@
+#Production enviroment
+all:
+    'subjects':
+        message_service:'Doggy_Event_Subject_Basic'
+    'observers':
+        'Doggy_Event_Observer_MessageService':
+            - 'message_service'

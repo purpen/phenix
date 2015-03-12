@@ -41,16 +41,26 @@
 				  // 刷新验证码
 	          	  $('#captcha-img img').click();
 	          	  return false;
-	          }else{
-		  		  // 添加发送频率
-		  		  limitime();
-				  
-			      $this = $('#fetch-verify-code');
-				  $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
-				      if(result.errorCode == 200){
-					      $this.removeClass('disabled').text('获取验证码');
-					  }
-				  });
+	        }else{
+            //验证手机是否注册过
+            var check_phone_url = '/app/site/auth/check_account';
+            $.get(check_phone_url, {phone: phone}, function(r){
+              if(r == 1){
+         			  phenix.show_error_note('手机号已存在！');
+	    	        return false;     
+              }else{
+                // 添加发送频率
+                limitime();
+            
+                $this = $('#fetch-verify-code');
+                $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+                  if(result.errorCode == 200){
+                    $this.removeClass('disabled').text('获取验证码');
+                  }
+                });            
+              }
+            });
+
 			  }
 	        });
 		}else{
@@ -71,6 +81,7 @@
 			<div class="ui bottom attached segment">
 				<form action="{{ app_url_action_base }}/auth/do_register" class="ui  form" method="post" id="register-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
+          <input type="hidden" name="user_invite_code" value="{{ user_invite_code }}" />
 					<div class="center aligned ui header">
 						注册太火鸟
 					</div>

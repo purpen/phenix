@@ -23,20 +23,30 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Actio
 	 */
 	public $sign;
 
+  	/**
+   	 * 用户ID
+     */
+    public $current_user_id;
+
   /**
-   * 用户ID
+   * 不验证用户ＩＤ的action
    */
-  public $current_user_id;
+  public $no_check_user_ids = array('login', 'register', 'verify_code', 'find_pwd');
+
+  /**
+   * 当前方法名
+   */
+  public $current_method_name = '';
 	
 	/**
 	 * 参与签名的key
 	 */
 	public $resparams = array('client_id','uuid','channel','time');
 	
-  /**
-   * 忽略不需要传的当前用户ID(current_user_id)
-   */
-  protected $ignore_check_method_list = array();
+    /**
+     * 忽略不需要传的当前用户ID(current_user_id)
+     */
+    protected $ignore_check_method_list = array();
 
 	/**
 	 * 初始化验证
@@ -46,27 +56,27 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Actio
 		$this->uuid = isset($this->stash['uuid'])?$this->stash['uuid']:0;
 		$this->channel = isset($this->stash['channel'])?$this->stash['channel']:'';
 		$this->sign = isset($this->stash['sign'])?$this->stash['sign']:'';
-    $this->check_current_user();
-  }
-
-  //检察用户ID参数
-  public function check_current_user(){
     $this->current_user_id = isset($this->stash['current_user_id'])?(int)$this->stash['current_user_id']:0;
-    $method = substr( $_SERVER['PHP_SELF'] , strrpos($_SERVER['PHP_SELF'], '/')+1 );
-    if(in_array($method, $this->ignore_check_method_list)){
-      if($this->current_user_id==0){
-        return $this->api_json('a用户ID不存在！', 3000);
-
-      }
-    } 
-  }
+    //当前方法名
+    $this->current_method_name = substr($_SERVER['PHP_SELF'], strrpos($_SERVER['PHP_SELF'], '/') + 1);
+    }
+    
+    /**
+	 * 检察用户ID参数
+	 */
+    public function check_current_user(){
+        $method = substr($_SERVER['PHP_SELF'], strrpos($_SERVER['PHP_SELF'], '/') + 1);
+        if(in_array($method, $this->ignore_check_method_list)){
+            if($this->current_user_id == 0){
+                return $this->api_json('a用户ID不存在！', 3000);
+            }
+        } 
+    }
 	
 	/**
 	 * 重建结果集
 	 */
-	public function rebuild_result($result, $some_fields){
-		
-	}
+	public function rebuild_result($result, $some_fields){}
 	
 }
 ?>

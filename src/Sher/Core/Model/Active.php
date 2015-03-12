@@ -98,6 +98,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
  		'cover_id' => '',
     #banner图
     'banner_id' => '',
+    #手机banner图
+    'wap_banner_id' => '',
 		'asset' => array(),
 		# 附件图片数
 		'asset_count' => 0,
@@ -178,7 +180,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::active_view_url($row['_id']);
-		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $row['_id'], 0);
+		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.active.view'], $row['_id']);
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
 			$row['content'] = htmlspecialchars_decode($row['content']);

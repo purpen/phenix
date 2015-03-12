@@ -1,0 +1,333 @@
+{%extends 'layout/column.html'%}
+{% block title %} 情人节-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.valentine.page{
+	background:#bf1015;
+}
+.valentine.page .ui.grid{
+	margin:15px 0  0!important;
+}
+.right.aligned{
+	float:right;
+}
+.left.aligned{
+	float:left;
+}
+.w-1180{
+	width:1180px;
+	margin:0 auto;
+}
+.w-1180 .top{
+	background:url({{ app_url_packaged }}/images/valentine_1.jpg) center center no-repeat;
+	background-size:cover;
+	padding:40px 0;
+}
+.w-1180 .top .ui.image{
+	width:301px;
+	height:419px;
+	position:relative;
+	left:438px;
+}
+.top .ui.image .hbao{
+	position:absolute;
+	bottom:0;
+	width:301px;
+	height:147px;
+}
+.top .ui.image .hbao a{
+	height:57px;
+	width:214px;
+	position:absolute;
+	top:52px;
+	left:44px;
+}
+.product{
+	position:relative;
+}
+.product .pro-1{
+	width:780px;
+	height:461px;
+}
+.product .pro-2{
+	width:373px;
+	height:769px;
+}
+.product .pro-3{
+	width:366px;
+	height:763px;
+}
+.product .pro-4{
+	width:787px;
+	height:452px;
+}
+.product .pro-5{
+	width:779px;
+	height:463px;
+}
+.product .pro-6{
+	width:375px;
+	height:773px;
+}
+.product .pro-7{
+	width:367px;
+	height:766px;
+}
+.product .pro-8{
+	width:790px;
+	height:454px;
+}
+.product .pro-9{
+	width:779px;
+	height:463px;
+}
+.product .pro-10{
+	width:375px;
+	height:794px;
+}
+.product .pro-11{
+	width:369px;
+	height:786px;
+}
+.product .pro-12{
+	width:787px;
+	height:454px;
+}
+.product .pro-13{
+	width:779px;
+	height:461px;
+}
+.product .pro-14{
+	width:375px;
+	height:808px;
+}
+.product .pro-15{
+	width:369px;
+	height:795px;
+}
+.product .pro-16{
+	width:787px;
+	height:454px;
+}
+.mt-27{
+	margin-top:27px;
+}
+
+.mt-30{
+	margin-top:30px;
+}
+.mb-30{
+	margin-bottom:30px;
+}
+.red.line{
+	width: 1130px;
+	height: 12px;
+	background: #bf1015;
+	margin: 0 auto;
+}
+.white.background{
+	background:#fff;
+}
+.white.background+.ui.grid{
+	margin:0 !important;
+}
+.bott{
+	height:655px;
+	padding-bottom:90px;
+}
+.w-485{
+	position:absolute;
+	height:485px;
+	width:485px;
+	transition:All 0.2s ease-in-out;
+	-webkit-transition:All 0.2s ease-in-out;
+	-moz-transition:All 0.2s ease-in-out;
+	-o-transition:All 0.2s ease-in-out;
+}
+.p1{
+	top:390px;
+	left:350px;
+}
+.w-485:hover{
+	transform:scale(1.1);
+	-webkit-transform:scale(1.1);
+	-moz-transform:scale(1.1);
+	-o-transform:scale(1.1);
+	-ms-transform:scale(1.1);
+}
+.ui.white.grid + .white.background{
+	padding:18px 0;
+}
+
+.ui.small.modal{
+  margin-top: -300px !important;
+}
+.ui.small.modal img{
+  width:100% !important;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('#free-luck').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_domain }}/app/site/bonus/valentine');
+	});
+{% endblock %}
+
+{% block content %}
+<div class="valentine page">
+	<div class="w-1180">
+		<div class="top">
+			<div class="ui image">
+				<img src="{{ app_url_packaged }}/images/valentine_3.jpg" draggable="false">
+				<div class="hbao" id="pay-btn">
+          {% if is_got %}
+            <img src="{{ app_url_packaged }}/images/valentine_04.jpg" draggable="false">
+          {%else%}
+            <img src="{{ app_url_packaged }}/images/valentine_4.jpg" draggable="false">
+            <a href="javascript:void(0);" id="free-luck"></a>
+          {%endif%}
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="ui white background product grid">
+			<div class="left aligned pro-1">
+				<a href="{{ app_url_domain }}/shop/1120665495.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_5.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-2">
+				<a href="{{ app_url_domain }}/shop/1092169929.html"  target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_6.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="left aligned pro-3 mt-27">
+				<a href="{{ app_url_domain }}/shop/1120700122.html"  target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_7.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-4 mt-30">
+				<a href="{{ app_url_domain }}/shop/1060600662.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_8.jpg" draggable="false">
+				</a>
+			</div>
+			
+			<div class="w-485 p1">
+				<img src="{{ app_url_packaged }}/images/valentine_21.png" draggable="false">
+			</div>
+		</div>
+		
+		<div class="white background">
+			<div class="red line">
+			</div>
+		</div>
+		
+		<div class="ui white background product grid">
+			<div class="left aligned pro-5">
+				<a href="{{ app_url_domain }}/shop/1121931156.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_9.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-6">
+				<a href="{{ app_url_domain }}/shop/1060500658.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_10.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="left aligned pro-7 mt-27">
+				<a href="{{ app_url_domain }}/shop/1111556004.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_11.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-8 mt-30">
+				<a href="{{ app_url_domain }}/shop/1061100669.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_12.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="w-485 p1">
+				<img src="{{ app_url_packaged }}/images/valentine_22.png" draggable="false">
+			</div>
+		</div>
+		
+		<div class="white background">
+			<div class="red line">
+			</div>
+		</div>
+		
+		<div class="ui white background product grid">
+			<div class="left aligned pro-9">
+				<a href="{{ app_url_domain }}/shop/1060600664.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_13.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-10">
+				<a href="{{ app_url_domain }}/shop/1011468351.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_14.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="left aligned pro-11 mt-27">
+				<a href="{{ app_url_domain }}/shop/1121170354.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_15.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-12 mt-30">
+				<a href="{{ app_url_domain }}/shop/1120661038.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_16.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="w-485 p1">
+				<img src="{{ app_url_packaged }}/images/valentine_23.png" draggable="false">
+			</div>
+		</div>
+		
+		<div class="white background">
+			<div class="red line">
+			</div>
+		</div>
+		
+		<div class="ui white background product grid">
+			<div class="left aligned pro-13">
+				<a href="{{ app_url_domain }}/shop/1120820113.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_17.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-14">
+				<a href="{{ app_url_domain }}/shop/1120688980.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_18.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="left aligned pro-15 mt-30">
+				<a href="{{ app_url_domain }}/shop/1080959172.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_19.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="right aligned pro-16 mt-27 mb-30">
+				<a href="{{ app_url_domain }}/shop/1080959165.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/valentine_20.jpg" draggable="false">
+				</a>
+			</div>
+			<div class="w-485 p1">
+				<img src="{{ app_url_packaged }}/images/valentine_24.png" draggable="false">
+			</div>
+		</div>
+		
+		<div class="bott">
+			<img src="{{ app_url_packaged }}/images/valentine_2.jpg" draggable="false">
+		</div>
+	</div>
+</div>
+
+<!--弹出层-->
+<div class="ui small luck modal">
+  	<i class="flat close icon"></i>
+	<div class="container">
+	  	<div class="content" id="luck-modal-content"></div>
+	</div>
+</div>
+{% endblock %}

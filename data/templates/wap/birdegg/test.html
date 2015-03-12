@@ -1,0 +1,275 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}蛋年 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	header.ui.wap{
+		display:none !important;
+		opacity:0;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	.mmfoot{
+		display:none;
+	}
+	* { -webkit-appearance: none; }
+
+	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+	.wrap {
+	width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+	}
+	@media only screen and (max-width: 768px){
+	.wrap {
+	width: 100%;
+	}
+	img.s1-1{
+		width: 302px;
+		margin-top: -210px;
+		margin-left: -123.5px;
+	}
+}
+	@media only screen and (max-width: 667px){
+		img.s1-1{
+			width: 266px;
+			margin-top: -182px;
+		}
+	}
+	@media only screen and (max-width: 568px){
+	img.s1-1{
+		width: 262px;
+		margin-top: -167px;
+	}
+}
+	
+.section.s1{
+	background: url(http://frstatic.qiniudn.com/images/egg/egg_bg.jpg) no-repeat;
+	background-size:cover;
+}
+.section.s2{
+	background: url(http://frstatic.qiniudn.com/images/egg/egg_2.jpg) no-repeat;
+	background-size:cover;
+}
+.section.s3{
+	background: url(http://frstatic.qiniudn.com/images/egg/egg_3.jpg) no-repeat;
+	background-size:cover;
+}
+.section.s4{
+	background: url(http://frstatic.qiniudn.com/images/egg/egg_4.jpg) no-repeat;
+	background-size:cover;
+}
+.section.s5{
+	background: url(http://frstatic.qiniudn.com/images/egg/egg_5.jpg) no-repeat;
+	background-size:cover;
+}
+
+
+img.s1-1 {
+	position: absolute;
+	opacity: 1;
+	width: 249px;
+	margin-top: -160px;
+	top: 50%;
+	left: 50%;
+	margin-left: -117.5px;
+	z-index:1;
+}
+.active .page-bounceIn{
+	-webkit-animation:bounceIn 1s .2s ease both;
+	-moz-animation:bounceIn 1s .2s ease both;
+	animation:bounceIn 1s .2s ease both;
+}
+@-webkit-keyframes bounceIn{
+	0% 		{opacity:0;-webkit-transform:scale(.3)}
+	50% 	{opacity:1;-webkit-transform:scale(1.05)}
+	70% 	{-webkit-transform:scale(.9)}
+	100% 	{opacity:1;-webkit-transform:scale(1)}
+}
+@-moz-keyframes bounceIn{
+	0% 		{opacity:0;-moz-transform:scale(.3)}
+	50% 	{opacity:1;-moz-transform:scale(1.05)}
+	70% 	{-moz-transform:scale(.9)}
+	100% 	{opacity:1;-moz-transform:scale(1)}
+}
+@keyframes bounceIn{
+	0% 		{opacity:0;transform:scale(.3)}
+	50% 	{opacity:1;transform:scale(1.05)}
+	70% 	{transform:scale(.9)}
+	100% 	{opacity:1;transform:scale(1)}
+}
+
+
+.active .page-fadeInDown {
+-webkit-animation: fadeInDown 1s ease both;
+-moz-animation: fadeInDown 1s ease both;
+animation: fadeInDown 1s ease both;
+}
+
+@-webkit-keyframes fadeInDown{
+	0% 		{opacity:0;-webkit-transform:translateY(-40px)}
+	100% 	{opacity:1;-webkit-transform:translateY(0)}
+}
+@-moz-keyframes fadeInDown{
+	0% 		{opacity:0;-moz-transform:translateY(-40px)}
+	100% 	{opacity:1;-moz-transform:translateY(0)}
+}
+@keyframes fadeInDown{
+	0% 		{opacity:0;-moz-transform:translateY(-40px)}
+	100% 	{opacity:1;-moz-transform:translateY(0)}
+}
+
+
+#superContainer {
+height: 100%;
+position: relative;
+}
+.section.table {
+display: table;
+width: 100%;
+}
+.tableCell {
+display: table-cell;
+width: 100%;
+height: 100%;
+position:relative;
+}
+
+
+.menu{
+	opacity: 0;
+	margin-top: -300px;
+	width:100%;
+	height:160px;
+	background:url(http://frstatic.qiniudn.com/images/egg/egg_menu.png) no-repeat;
+	background-size:cover;
+	transition: all .7s;
+}
+.active .menu{
+	margin-top:0;
+	opacity: 1;
+	transition-delay: 0.7s;
+}
+.s2-2{
+	position: absolute;
+	right:-300px;
+	opacity: 0;
+	transition: all .7s;
+}
+.active .s2-2{
+	right:50%;
+	margin-right:-100px;
+	opacity: 1;
+	transition-delay: 0.7s;
+}
+.s2-3{
+	position: absolute;
+	top:-100px;
+	right:0%;
+	margin-right:-100px;
+	opacity: 0;
+	transition: all .7s;
+}
+.active .s2-3{
+	top:50%;
+	right:50%;
+	margin-top:-80px;
+	opacity: 1;
+	transition-delay: 0.7s;
+}
+.s2-4{
+	position: absolute;
+	bottom:-100px;
+	right:50%;
+	margin-right:-185px;
+	opacity: 0;
+	transition: all .7s;
+}
+.active .s2-4{
+	top:50%;
+	opacity: 1;
+	transition-delay: 0.7s;
+}
+.s2-5{
+	position: absolute;
+	left:0px;
+	opacity: 0;
+	transition: all .7s;
+}
+.active .s2-5{
+	right:50%;
+	margin-right:-100px;
+	opacity: 1;
+	transition-delay: 0.7s;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://www.dowebok.com/demo/2014/77/js/jquery.fullPage.min.js"></script>
+	<script type="text/javascript" >
+		$('.wrap').fullpage({
+			'sectionsColor':['#fff','#fff','#fff','#fff','#fff','#fff'],
+			'navigation': false,
+			'css3':true,
+			afterRender: function(){
+						$('.s1-1').addClass('page-bounceIn');
+						$('.s1-3').addClass('page-fadeInDown');
+			},
+			
+		});
+	
+	
+	</script>
+	
+{% endblock %}
+{% block content %}
+<div class="wrap">
+	<div class="section table s1">
+		<img src="http://frstatic.qiniudn.com/images/egg/egg_1.png" class="s1-1 page-bounceIn">
+		<img src="http://frstatic.qiniudn.com/images/egg/egg_f.png" width="100%" class="s1-3 page-fadeInDown">
+	</div>
+	
+	<div class="section table s2">
+		<div class="menu"></div>
+		
+		<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="s2-2">
+		<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="s2-3">
+		<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="s2-4">
+		<img src="http://frstatic.qiniudn.com/images/egg/line.png" class="s2-5">
+		
+	</div>
+	<div class="section table s3">
+		
+		
+	</div>
+	<div class="section table s4">
+		
+		
+	</div>
+	<div class="section table s5">
+		
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+{%endblock%}

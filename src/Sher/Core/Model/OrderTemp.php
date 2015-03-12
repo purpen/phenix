@@ -60,6 +60,18 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
     }
 	
 	/**
+	 * 通过rid查找
+	 */
+	public function find_by_rid($rid){
+		$row = $this->first(array('rid'=>$rid));
+        if (!empty($row)) {
+            $row = $this->extended_model_row($row);
+        }
+		
+		return $row;
+	}
+	
+	/**
 	 * 使用红包
 	 */
 	public function use_bonus($rid, $code, $money) {
@@ -69,6 +81,20 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
 		$updated = array(
 			'dict.card_code'  => $code,
 			'dict.card_money' => $money,
+		);
+		return $this->update_set($criteria, $updated);
+	}
+	
+	/**
+	 * 使用礼品码
+	 */
+	public function use_gift($rid, $code, $money) {
+		$criteria = array(
+			'rid' => $rid
+		);
+		$updated = array(
+			'dict.gift_code'  => $code,
+			'dict.gift_money' => $money,
 		);
 		return $this->update_set($criteria, $updated);
 	}

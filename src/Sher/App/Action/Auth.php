@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd', 'check_account');
 	
 	/**
 	 * 入口
@@ -364,6 +364,28 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove($code['_id']);
+
+        //统计好友邀请
+        if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+          //通过邀请码获取邀请者ID
+          $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+
+          //统计邀请记录
+          if($user_invite_id){
+            $invite_mode = new Sher_Core_Model_InviteRecord();
+            $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+            //送邀请人红包
+            if(Doggy_Config::$vars['app.anniversary2015.switch']){
+              $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+            }
+          }
+        
+        }
+
+        //周年庆活动送100红包
+        if(Doggy_Config::$vars['app.anniversary2015.switch']){
+          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+        }
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -373,7 +395,12 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             return $this->ajax_json("注册失败:".$e->getMessage(), true);
         }
 		
-		$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+    $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
+
+    //如果是周年庆,跳转页面后提示送红包画面
+    if(Doggy_Config::$vars['app.anniversary2015.switch']){
+      $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile?first_year=1';  
+    }
 		
 		return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_profile_url);
 	}
@@ -501,6 +528,20 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     }
   
   }
+
+	/**
+	 * 验证手机是否存在
+	 */
+  public function check_account(){
+    //验证手机号码是否重复
+		$user = new Sher_Core_Model_User();
+    $has_phone = $user->first(array('account' => $this->stash['phone']));
+    if(!empty($has_phone)){
+      return $this->to_raw('1');
+    }else{
+      return $this->to_raw('0');
+    }
+  }
 	
 	protected function _invitation_is_ok($check_used = true) {
 	    $invite_code = $this->stash['invite_code'];
@@ -528,6 +569,31 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $invitation = new Sher_Core_Model_Invitation();
         $invitation->mark_used($this->stash['invite_code'],$user_id);
     }
+
+  //红包赠于
+  protected function give_bonus($user_id, $xname, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 结束日期:2015-6-30
+    $end_time = strtotime('2015-06-30 23:59');
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+  }
 	
 }
 ?>

@@ -75,6 +75,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	 */
     protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = sprintf(Doggy_Config::$vars['app.url.try.view'], $row['_id']);
+    	$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.try.view'], $row['_id']);
 		
 		# 审核通过人数
 		$row['pass_count'] = count($row['pass_users']);

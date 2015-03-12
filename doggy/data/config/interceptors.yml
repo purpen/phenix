@@ -1,0 +1,4 @@
+all:
+    run:
+        - Doggy_Dispatcher_Interceptor_Parameters
+        - Doggy_Dispatcher_Interceptor_ModelDriven

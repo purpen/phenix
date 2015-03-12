@@ -45,11 +45,16 @@
 	// 选择填写红包
 	$('#submit-bonus').click(function(){
 		var bonus_code = $('#bonus-code').val();
+    var gift_val =  $('#gift-code').val();
+    if(gift_val){
+ 			phenix.show_error_note('礼品码和红包不能同时使用!', 3000);
+      return false;
+    }
 		if(bonus_code){
 			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
 				if(result.success){
-					$('#order-coin-money').text('￥'+result.data.card_money);
-					$('#order-pay-money').text('￥'+result.data.pay_money);
+					$('#order-discount-money').text(result.data.discount_money);
+					$('#order-pay-money').text(result.data.pay_money);
 				}else{
 					phenix.show_error_note(result.message, 3000);
 				}
@@ -63,13 +68,45 @@
 		var code = $('.inbonus:checked').val();
 		$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
 			if(result.success){
-				$('#order-coin-money').text('￥'+result.data.card_money);
-				$('#order-pay-money').text('￥'+result.data.pay_money);
+				$('#order-discount-money').text(result.data.discount_money);
+				$('#order-pay-money').text(result.data.pay_money);
 			}else{
 				phenix.show_error_note(result.message, 3000);
 			}
 		}, 'json');
 	});
+
+  //插入已存在的红包
+  $('.code-select').click(function(){
+    var code = $(this).attr('code');
+    $("input[name='bonus_code']").val(code);
+  });
+	
+	// 选择填写礼品码
+	$('#submit-gift').click(function(){
+		var gift_code = $('#gift-code').val();
+		var bonus_val = $('#bonus-code').val();
+    if(bonus_val){
+ 			phenix.show_error_note('礼品码和红包不能同时使用!', 3000);
+      return false;
+    }
+		if(gift_code){
+			$.post('{{ app_url_wap }}/shop/ajax_gift', {rid: '{{ order_info.rid }}', code: gift_code}, function(result){
+				if(result.success){
+					alert(result.message);
+					//phenix.show_ok_note('已成功使用礼品码！', 2000);
+					$('#order-discount-money').text(result.data.discount_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+		}else{
+			alert('请输入礼品码');
+			//phenix.show_error_note('请输入礼品码', 3000);
+		}
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -91,7 +128,7 @@
 										<i class="circle right icon"></i>
 									</a>
 								</div>
-								<div class="content">
+								<div class="content" style="max-width: 196px;">
 									{% if default_addbook %}
 									<div class="header">{{ default_addbook.name }} ({{ default_addbook.phone }})</div>
 									{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} {{ default_addbook.address }} ({{ default_addbook.zip }})
@@ -109,7 +146,7 @@
 								<label>支付方式：</label> <span class="ui magenta text">在线支付</span>
 							</div>
 							<div class="item">
-								配送方式： <span class="ui magenta text">圆通快递 (默认)</span>
+								配送方式： <span class="ui magenta text">免费配送</span>
 							</div>
 							<div class="item">
 								送货时间：
@@ -134,6 +171,13 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="ui segment">
+						<label>备注信息:</label>
+						<div class="field">
+							<textarea name="summary" class="mini" maxlength="140"></textarea>
+						</div>
+					</div>
 				
 					<div class="ui segment">
 						<label>商品清单：<small>共<b id="cart-items-count" class="money">{{ data.items_count }}</b>件商品</small></label>
@@ -151,45 +195,54 @@
 							{% endfor %}
 						</div>
 					</div>
-				
-					<div class="ui segment">
-						<div class="ui very relaxed divided money list">
-							<div class="item">
-								<div class="right floated">
-									<a href="" class="ui magenta link">
-										<i class="circle down icon" ></i>
-									</a>
-								</div>
-								<div class="content">
-									<div class="header">使用红包：</div>
-								</div>
-							</div>
+					
+					<div class="ui styled fluid accordion">
+						<div class="active title">
+							<i class="dropdown icon"></i>
+							使用红包
+						</div>
+						<div class="active content">
+							<p></p>
 							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
 							{% for b in bonus.rows %}
 							<div class="bonus item">
 								<div class="field">
 									<div class="ui radio checkbox">
-										<input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />
-										<label><span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }}</small></label>
+                    <!--<input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />-->
+                    <label>
+                      <span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
+                      <a href="javascript:void(0);" class="code-select" code="{{ b.code }}"> 插入</a>
+                    </label>
 									</div>
 								</div>
 							</div>
 							{% endfor %}
-							<div class="item">
-								<div class="ui fluid action input">
-								  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" />
-								  <div class="ui active magenta button" id="submit-bonus">确定</div>
-								</div>
+							
+							<div class="ui fluid action input">
+							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" />
+							  <div class="ui active magenta button" id="submit-bonus">确定</div>
 							</div>
+					    </div>
+						
+						<div class="title">
+							<i class="dropdown icon"></i>
+							使用礼品码
 						</div>
-					
+						<div class="content">
+							<div class="ui fluid action input">
+							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" />
+							  <div class="ui active magenta button" id="submit-gift">确定</div>
+							</div>
+					    </div>
+						
 					</div>
+			
 				
 					<div class="ui segment">
 						<div class="ui very relaxed divided money list">
 							<div class="item">
 								<div class="right floated">
-									￥{{ data.total_money }}
+									<small>￥</small>{{ data.total_money }}
 								</div>
 								<div class="content">
 									<div class="header">商品金额：</div>
@@ -197,7 +250,7 @@
 							</div>
 							<div class="item">
 								<div class="right floated">
-									￥{{ data.freight }}
+									<small>￥</small>{{ data.freight }}
 								</div>
 								<div class="content">
 									<div class="header">运费：</div>
@@ -205,15 +258,15 @@
 							</div>
 							<div class="item">
 								<div class="right floated">
-									<span class="ui text" id="order-coin-money">￥{{ data.card_money }}</span>
+									<small>￥</small><span class="ui text" id="order-discount-money">{{ data.discount|default 0 }}</span>
 								</div>
 								<div class="content">
-									<div class="header">优惠：</div>
+									<div class="header">优惠金额：</div>
 								</div>
-							</div>
+							</div>	
 							<div class="item">
 								<div class="right floated">
-									<span class="ui magenta text" id="order-pay-money">￥{{ pay_money }}</span>
+									<small>￥</small><span class="ui magenta text" id="order-pay-money">{{ pay_money }}</span>
 								</div>
 								<div class="content">
 									<div class="header">订单金额：</div>

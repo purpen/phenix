@@ -186,7 +186,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$order_info = $model->find_by_rid($rid);
 		
 		// 检查是否具有权限
-		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
+		if ($order_info['user_id'] != $this->visitor->id) {
 			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
 		}
 		
@@ -201,10 +201,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
             return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
         }
 		
-		$this->stash['order'] = $model->find_by_rid($rid);
-		$this->stash['my'] = true;
-		
-		return $this->to_taconite_page('ajax/order_ok.html');
+		return $this->to_taconite_page('ajax/reload.html');
 	}
 	
 	/**

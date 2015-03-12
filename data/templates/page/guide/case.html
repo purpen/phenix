@@ -1,9 +1,27 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}成功案例-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	#succase .ui.items .item > .content > .name {
+	#succase .magenta.item .content {
+		margin-left: 0;
+		padding: 10px !important;
+		padding-bottom: 32px !important;
+		height: 96px;
+	}
+	#succase .i-stats .name{
+		display: block;
 		font-size: 1em;
+		font-weight: 700;
+		margin-bottom: .2em;
+		color: rgba(0,0,0,.7);
+	}
+	#succase .i-stats {
+		position: absolute;
+		padding-top: 9px;
+		bottom: 10px;
+		left: 10px;
+		right: 10px;
+		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
 	}
 </style>
 {% endblock %}
@@ -12,15 +30,20 @@
 {% endblock %}
 
 {% block content %}
-<section class="ui small block" id="succase">
+<section class="ui big frbird block">
 	<div class="ui responsive center aligned grid">
 		<div class="row">
-			<div class="center aligned column section-title">
-				<h3 class="ui header">成功案例</h3>
-				<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</p>
+			<div class="center aligned column white section-title">
+				<h2 class="block title">成功案例</h2>
+				<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>
 				<hr>
 			</div>
 		</div>
+	</div>
+</section>
+
+<section class="ui big block" id="succase">
+	<div class="ui responsive center aligned grid">
 		<div class="row">
 			<div class="center aligned column">
 				<div class="ui two items">
@@ -37,9 +60,11 @@
 								</a>
 								<p class="sub header">缔造淘宝众筹及净化产品众筹新神话</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">12,052,927
-								</span>     支持人数:<span class="ui magenta text">4842</span>      达成率:<span class="ui magenta text">2410％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">12,052,927
+									</span>     支持人数:<span class="ui magenta text">4842</span>      达成率:<span class="ui magenta text">2410％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -57,9 +82,11 @@
 								</a>
 								<p class="sub header">全球首款智能配奶机-智能时代如何打造爆款产品</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">3,245,356
-								</span>     支持人数:<span class="ui magenta text">3794</span>      达成率:<span class="ui magenta text">649％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">3,245,356
+									</span>     支持人数:<span class="ui magenta text">3794</span>      达成率:<span class="ui magenta text">649％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -77,9 +104,11 @@
 								</a>
 								<p class="sub header">摇一摇变55度的魔法水杯</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">1,251,374
-								</span>     支持人数:<span class="ui magenta text">3094</span>      达成率:<span class="ui magenta text">625％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">1,251,374
+									</span>     支持人数:<span class="ui magenta text">3094</span>      达成率:<span class="ui magenta text">625％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -97,9 +126,11 @@
 								</a>
 								<p class="sub header">20天获得745人支持</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">88,283
-								</span>     支持人数:<span class="ui magenta text">745</span>      达成率:<span class="ui magenta text">882％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">88,283
+									</span>     支持人数:<span class="ui magenta text">745</span>      达成率:<span class="ui magenta text">882％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -117,9 +148,11 @@
 								</a>
 								<p class="sub header">20天销售200万，创淘宝众筹之最</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">2,126,720
-								</span>     支持人数:<span class="ui magenta text">602</span>      达成率:<span class="ui magenta text">4253％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">2,126,720
+									</span>     支持人数:<span class="ui magenta text">602</span>      达成率:<span class="ui magenta text">4253％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -135,8 +168,10 @@
 								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
 								<p class="sub header">限量版2天内售罄，突破30万!</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">300,000</span>     支持人数:<span class="ui magenta text">610</span>      达成率:<span class="ui magenta text">600％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">300,000</span>     支持人数:<span class="ui magenta text">610</span>      达成率:<span class="ui magenta text">600％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -152,8 +187,10 @@
 								<a href="{{ app_url_action_base }}/guide/light" title="Goccia－全球最小的智能可穿戴" class="ui link">世界首款太阳能电子蜡烛灯</a>
 								<p class="sub header">极短时间筹得近17万,销售已突破约3000台!</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">166,767</span>     支持人数:<span class="ui magenta text">1537</span>      达成率:<span class="ui magenta text">833％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">166,767</span>     支持人数:<span class="ui magenta text">1537</span>      达成率:<span class="ui magenta text">833％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -169,8 +206,10 @@
 								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
 								<p class="sub header">京东众筹目前唯一超过百万的智能硬件产品!</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">1,215,983</span>     支持人数:<span class="ui magenta text">243</span>        达成率:<span class="ui magenta text">4053％</span>    
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">1,215,983</span>     支持人数:<span class="ui magenta text">243</span>        达成率:<span class="ui magenta text">4053％</span>    
+								</div>
 							</div>
 						</div>
 					</div>
@@ -186,8 +225,10 @@
 								<a href="{{ app_url_action_base }}/guide/loving" title="连爱智能手环" class="ui link">连爱智能手环</a>
 								<p class="sub header">10天内突破27万，就是这样！</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">329,006</span>     支持人数:<span class="ui magenta text">1902</span>      达成率:<span class="ui magenta text">3209％</span>
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">329,006</span>     支持人数:<span class="ui magenta text">1902</span>      达成率:<span class="ui magenta text">3209％</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -203,8 +244,10 @@
 								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
 								<p class="sub header">国内一款针对母婴群体的智能手表！</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">311,826</span>     支持人数:<span class="ui magenta text">639</span>        达成率:<span class="ui magenta text">3118％</span>    
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">311,826</span>     支持人数:<span class="ui magenta text">639</span>        达成率:<span class="ui magenta text">3118％</span>    
+								</div>
 							</div>
 						</div>
 					</div>
@@ -220,8 +263,10 @@
 								<a href="{{ app_url_action_base }}/guide/ezon" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">EZON宜准蓝牙智能S3运动表</a>
 								<p class="sub header">最高端智能运动表-中国智能运动表领跑者！</p>
 							</h4>
-							<div class="name">
-								众筹金额:<span class="ui magenta text">115,270</span>     支持人数:<span class="ui magenta text">230</span>        达成率:<span class="ui magenta text">1152％</span>    
+							<div class="i-stats">
+								<div class="name">
+									众筹金额:<span class="ui magenta text">115,270</span>     支持人数:<span class="ui magenta text">230</span>        达成率:<span class="ui magenta text">1152％</span>    
+								</div>
 							</div>
 						</div>
 					</div>

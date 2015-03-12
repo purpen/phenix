@@ -1,0 +1,18 @@
+#Production enviroment
+all:
+    # 调度器监测时间(微秒)
+    executor_interval:
+    executor_class:'Doggy_Service_Executor_ThreadPool'
+    executor_name:'MainService'
+    # 线程最大的空闲时间（秒)
+    thread_alive_time:300
+    thread_size:10
+    pid_path:'/tmp'
+    ipc_path:'/tmp'
+    tasks:
+# 任何实现runnable的类    
+#        '':
+            #运行前需要延迟的时间秒
+#            delay:false,
+            #运行周期(秒),0为只运行一次
+#            period:    

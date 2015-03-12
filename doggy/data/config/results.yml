@@ -1,0 +1,7 @@
+all:
+    smarty:Doggy_Dispatcher_Result_Smarty
+    redirect:Doggy_Dispatcher_Result_Redirect
+    json:Doggy_Dispatcher_Result_Json
+    file:Doggy_Dispatcher_Result_File
+    raw:Doggy_Dispatcher_Result_Raw
+    jquery:Doggy_Dispatcher_Result_JQuery

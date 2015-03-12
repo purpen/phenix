@@ -7,7 +7,13 @@
 {% endblock %}
 
 {% block jquery %}
-	
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
 {% endblock %}
 
 {% block content %}
@@ -55,7 +61,7 @@
 </div>
 
 <!--商店商品-->
-{% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 category_id:cid page:page %}
+{% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
 {% if sale.total_rows %}
 <div class="ui responsive grid" id="mproducts">
 	<div class="row">
