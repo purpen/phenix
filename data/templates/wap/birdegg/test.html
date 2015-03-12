@@ -147,6 +147,7 @@ position:relative;
 }
 .menu.p2{
 	background:url(http://frstatic.qiniudn.com/images/egg/egg_menu.png) no-repeat;
+	background-size: 100%;
 }
 .active .menu{
 	margin-left:0;
@@ -157,12 +158,21 @@ position:relative;
 	position: absolute;
 	right:-300px;
 	transform: rotate(360deg);
+	-ms-transform:rotate(360deg); 	/* IE 9 */
+	-moz-transform:rotate(360deg); 	/* Firefox */
+	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(360deg);
 	opacity: 0;
 	transition: all .7s;
 }
 .active .s2-2{
 	right:50%;
+	top: 150px;
 	transform: rotate(-360deg);
+	-ms-transform:rotate(-360deg); 	/* IE 9 */
+	-moz-transform:rotate(-360deg); 	/* Firefox */
+	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(-360deg);
 	margin-right:-100px;
 	opacity: 1;
 	transition-delay: 0.7s;
@@ -178,22 +188,30 @@ position:relative;
 .active .s2-3{
 	top:50%;
 	right:50%;
-	margin-top:-80px;
+	margin-top:-40px;
 	opacity: 1;
 	transition-delay: 0.7s;
 }
 .s2-4{
 	position: absolute;
-	bottom:-100px;
 	right:50%;
 	margin-right:-105px;
 	opacity: 0;
-	transform: scale(0);
+	transform:scale(0);
+	-ms-transform:scale(0); 	/* IE 9 */
+	-moz-transform:scale(0); 	/* Firefox */
+	-webkit-transform:scale(0); /* Safari 和 Chrome */
+	-o-transform:scale(0);
 	transition: all .7s;
 }
 .active .s2-4{
 	top:50%;
+	margin-top: 20px;
 	transform: scale(1);
+	-ms-transform:scale(1); 	/* IE 9 */
+	-moz-transform:scale(1); 	/* Firefox */
+	-webkit-transform:scale(1); /* Safari 和 Chrome */
+	-o-transform:scale(1);
 	opacity: 1;
 	transition-delay: 0.7s;
 }
@@ -241,7 +259,7 @@ position:relative;
 	</div>
 	
 	<div class="section table s2">
-		<div class="menu"></div>
+		<div class="menu p2"></div>
 		
 		<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="s2-2">
 		<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="s2-3">
