@@ -256,7 +256,7 @@ position:relative;
 	margin:0 auto;
 	height:auto;
 }
-.s3 .w-2{
+.s3 .w-2,.s4 .w-2{
 	text-align:center;
 	width:310px;
 	position:relative;
@@ -286,7 +286,7 @@ position:relative;
 }
 .active .s3-1{
 	opacity:1;
-	transition-delay: 0.5s;
+	transition-delay: 0.3s;
 }
 .s3-2{
 	opacity:0;
@@ -294,7 +294,7 @@ position:relative;
 }
 .active .s3-2{
 	opacity:1;
-	transition-delay: 1s;
+	transition-delay: 0.6s;
 }
 .s3-3{
 	opacity:0;
@@ -302,7 +302,7 @@ position:relative;
 }
 .active .s3-3{
 	opacity:1;
-	transition-delay: 1.5s;
+	transition-delay: 0.9s;
 }
 .s3-4{
 	opacity:0;
@@ -310,7 +310,7 @@ position:relative;
 }
 .active .s3-4{
 	opacity:1;
-	transition-delay: 2s;
+	transition-delay: 1.2s;
 }
 .s3-5{
 	opacity:0;
@@ -318,7 +318,7 @@ position:relative;
 }
 .active .s3-5{
 	opacity:1;
-	transition-delay: 2.5s;
+	transition-delay: 1.5s;
 }
 
 .s4 .w-2{
@@ -426,6 +426,7 @@ position: absolute;
 z-index: 4;
 top: 66%;
 cursor: pointer;
+display: none !important;
 /*width: 0;
 height: 0;
 border-style: solid;
@@ -434,11 +435,45 @@ margin-top: -38px;
 -ms-transform: translate3d(0,0,0);
 transform: translate3d(0,0,0);*/
 }
+
+.s5-1{
+	opacity:0;
+	transition: all .7s;
+	margin-top:1000px;
+}
+.active .s5-1{
+	opacity:1;
+	transition-delay: .2s;
+	margin-top:0;
+}
+.s5-2{
+	opacity:0;
+	transition: all .7s;
+	margin-top:800px;
+}
+.active .s5-2{
+	opacity:1;
+	transition-delay: .4s;
+	margin-top:0;
+}
+.s5-3{
+	opacity:0;
+	transition: all .7s;
+	margin-top:500px;
+}
+.active .s5-3{
+	opacity:1;
+	transition-delay: .6s;
+	margin-top:0;
+}
+.s5 .w-2 img{
+	width:80%;
+}
+
 </style>
 {% endblock %}
 
 {% block layout_js %}
-	<script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
@@ -564,13 +599,16 @@ transform: translate3d(0,0,0);*/
 				<p>极客公园 创始人</p>
 			</div>
 		</div>
-		
-		
-		
+	
 	</div>
 	<div class="section s5">
-		
-		
+		<div class="menu p5"></div>
+		<div class="w-2">
+			<img src="http://frstatic.qiniudn.com/images/egg/ct.png" class="s5-1">
+			<img src="http://frstatic.qiniudn.com/images/egg/cz.png" class="s5-2">
+			<img src="http://frstatic.qiniudn.com/images/egg/cb.png" class="s5-3">
+			
+		</div>
 	</div>
 	
 	
