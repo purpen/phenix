@@ -368,6 +368,8 @@ sub _generate_bootstrap {
     my $bootstrap_path = shift;
     my $app_rc = shift;
     my $deploy_root = shift;
+    my $bootstrap_extra_file = shift;
+    $bootstrap_extra_file = File::Spec->catfile($project_path{root}, 'deploy', 'app.bootstrap_extras.php') unless $bootstrap_extra_file;
     open FH,">$bootstrap_path" or fatal("Could'nt create file:$bootstrap_path.");
     my $stamp = localtime();
     print FH <<"EOF";
@@ -377,7 +379,15 @@ define('DOGGY_VERSION','$VERSION');
 define('DOGGY_APP_ROOT','$deploy_root');
 define('DOGGY_APP_CLASS_PATH','$project_path{vendor}:$project_path{src}');
 require '$doggy_path{src}/Doggy.php';
+// ---------------BEGIN INCLUDE deploy/app.include.php
 EOF
+
+    if (-e $bootstrap_extra_file) {
+        my $bootstrap_content = _read_file($bootstrap_extra_file);
+        print FH "$bootstrap_content" if $bootstrap_content;
+    }
+    print FH "\n\n";
+    print FH "// ---------------END INCLUDE deploy/app.include.php\n\n";
     print FH "\@require '$doggy_path{compiled_class}';\n" if -e $doggy_path{compiled_class};
     print FH "\@require '$project_path{compiled_class}';\n" if -e $project_path{compiled_class};
     print FH "\@require '$app_rc';\n";
