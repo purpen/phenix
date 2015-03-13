@@ -33,6 +33,9 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
     $fever_id = 0;
 		$time = 0;
 		$sort = 0;
+    $is_shop = 0;
+    // 搜索类型
+    $s_type = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -104,6 +107,21 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 				$query['created_on'] = array('$gte'=> time() - 365*$day);
 				break;
 		}
+
+    // 搜索
+    if($s_type){
+      switch ((int)$s_type){
+        case 1:
+          $query['_id'] = (int)$s_mark;
+          break;
+        case 2:
+          $query['title'] = array('$regex'=>$s_mark);
+          break;
+        case 3:
+          $query['tags'] = array('$all'=>array($s_mark));
+          break;
+      }
+    }
 		
 		
 		$service = Sher_Core_Service_Stuff::instance();

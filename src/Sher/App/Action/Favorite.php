@@ -115,7 +115,11 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				break;
 		}
 		if(!empty($result)){
-			$count = $result[$filed];
+      if((int)$type==4){
+        $count = $result[$filed] + $result['invented_love_count'];
+      }else{
+ 			  $count = $result[$filed];     
+      }
 		}
 		return $count;
 	}
@@ -143,7 +147,12 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		}
 		
 		// 获取计数
-		$love_count = $this->remath_count($id, $type, 'love_count');
+    if((int)$type==4){
+      $field_name = 'love_count';
+    }else{
+      $field_name = 'love_count';
+    }
+		$love_count = $this->remath_count($id, $type, $field_name);
 		
 		return $this->ajax_json('操作成功',false,'',array('love_count'=>$love_count));
 	}

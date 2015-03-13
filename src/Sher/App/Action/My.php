@@ -60,6 +60,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['profile'] = $this->visitor->profile;
 		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
+
+      //周年庆送红包提示
+      if(Doggy_Config::$vars['app.anniversary2015.switch'] && isset($this->stash['first_year'])){
+        $this->stash['year_celebration'] = true;
+      }
 		}
 
     //有些信息visitor没有，需要再次查询user表

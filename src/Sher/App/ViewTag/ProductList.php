@@ -37,10 +37,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_published = 0;
 		$only_onsale = 0;
 		$only_stick = 0;
-	    $is_shop = 0;
-	    // 搜索类型
-	    $s_type = 0;
-	    $s_mark = null;
+    $is_shop = 0;
+    // 搜索类型
+    $s_type = 0;
+    $s_mark = null;
 		// 是否成功案例
 		$only_okcase = 0;
 		
