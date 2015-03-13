@@ -70,10 +70,12 @@
 .section.s3,.section.s6{
 	background: url(http://frstatic.qiniudn.com/images/egg/egg_3.jpg) no-repeat;
 	background-size:cover;
+	position:relative;
 }
 .section.s4{
 	background: url(http://frstatic.qiniudn.com/images/egg/egg_4.jpg) no-repeat;
 	background-size:cover;
+	position:relative;
 }
 .section.s5{
 	background: url(http://frstatic.qiniudn.com/images/egg/egg_5.jpg) no-repeat;
@@ -369,11 +371,10 @@ box-sizing: border-box;
 -webkit-box-sizing: border-box;
 }
 .fp-controlArrow.fp-next {
-	right: 15px;
+	right: -60px;
 	display: inline-block;
 	opacity: .75;
 	color: #FFF;
-	font-size: 40px;
 	margin: 0 .25em 0 0;
 	width: 1.23em;
 	height: 1em;
@@ -399,12 +400,17 @@ box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
+.fp-slides:hover .fp-controlArrow.fp-prev{
+	left:0;
+}
+.fp-slides:hover .fp-controlArrow.fp-next{
+	right:0;
+}
 .fp-controlArrow.fp-prev {
-	left: 15px;
+	left: -60px;
 	display: inline-block;
 	opacity: .75;
 	color: #FFF;
-	font-size: 40px;
 	margin: 0 .25em 0 0;
 	width: 1.23em;
 	height: 1em;
@@ -424,12 +430,15 @@ box-sizing: border-box;
 	font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+.s4 .fp-controlArrow{
+	top: 66%;
+	font-size: 27px;
+}
 .fp-controlArrow {
 position: absolute;
 z-index: 4;
-top: 66%;
+
 cursor: pointer;
-display: none !important;
 /*width: 0;
 height: 0;
 border-style: solid;
@@ -438,7 +447,9 @@ margin-top: -38px;
 -ms-transform: translate3d(0,0,0);
 transform: translate3d(0,0,0);*/
 }
-
+.s6 .fp-controlArrow {
+	display: none !important;
+}
 .s5-1{
 	opacity:0;
 	transition: all .7s;
@@ -472,43 +483,15 @@ transform: translate3d(0,0,0);*/
 }
 
 
-.flexslider{
-	text-align:center;
-	position:relative;
-	height: 75%;
-	padding-top:30px;
-	padding-bottom:10px;
-}
-.flex-control-nav {display:none;}
-.flex-direction-nav {*height: 0;}
-.flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
-.flex-direction-nav .flex-prev { opacity: .5;}
-.flex-direction-nav .flex-next { right: 0px; text-align: right; opacity: .5;}
-.flexslider:hover .flex-prev { opacity: 0.7; }
-.flexslider:hover .flex-next { opacity: 0.7; right: 0px; }
-.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
-.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
-.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
-.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
-.flexslider+.column{
-	text-align:center;
-}
-.flexslider+.column a.ui.btn{
-	padding: 1em 2em !important;
-}
 
-.flexslider .image img{
-  margin:0 auto;
+.slide-list{
+	width:100%;
+	margin-top: -16px;
 }
-.flexslider .image+.advantage{
-  word-break: break-all;
-}
-
 </style>
 {% endblock %}
 
 {% block layout_js %}
-	<script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
@@ -654,7 +637,7 @@ transform: translate3d(0,0,0);*/
 	<div class="section s6">
 		<div class="menu p6"></div>
 		<div class="slide">
-			<div style="width:100%">
+			<div class="slide-list">
 				<div class="ui grid">
 											<div class="column">
 									                  <div class="ui one items">
@@ -698,7 +681,7 @@ transform: translate3d(0,0,0);*/
 		</div>
 		
 		<div class="slide">
-			<div style="width:100%;margin-top: -16px;">
+			<div class="slide-list">
 				<div class="ui grid">
 											<div class="column">
 									                  <div class="ui one items">
