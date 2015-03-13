@@ -121,15 +121,15 @@ animation: fadeInDown 1s ease both;
 }
 
 
-#superContainer {
+.fp-viewing-firstPage {
 height: 100%;
 position: relative;
 }
-.section.table {
+.fp-table {
 display: table;
 width: 100%;
 }
-.tableCell {
+.fp-tableCell {
 display: table-cell;
 width: 100%;
 height: 100%;
@@ -234,12 +234,13 @@ position:relative;
 {% endblock %}
 
 {% block layout_js %}
-	<script src="http://www.dowebok.com/demo/2014/77/js/jquery.fullPage.min.js"></script>
+	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
-			'sectionsColor':['#fff','#fff','#fff','#fff','#fff','#fff'],
-			'navigation': false,
-			'css3':true,
+			'verticalCentered': true,
+			'sectionsColor':['#fff','#fff','#fff','#fff','#fff'],
+			'css3':false,
+			'scrollingSpeed':400,
 			afterRender: function(){
 						$('.s1-1').addClass('page-bounceIn');
 						$('.s1-3').addClass('page-fadeInDown');
@@ -253,12 +254,12 @@ position:relative;
 {% endblock %}
 {% block content %}
 <div class="wrap">
-	<div class="section table s1">
+	<div class="section s1">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_1.png" class="s1-1 page-bounceIn">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_f.png" width="100%" class="s1-3 page-fadeInDown">
 	</div>
 	
-	<div class="section table s2">
+	<div class="section s2">
 		<div class="menu p2"></div>
 		
 		<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="s2-2">
@@ -267,15 +268,15 @@ position:relative;
 		<img src="http://frstatic.qiniudn.com/images/egg/line.png" class="s2-5">
 		
 	</div>
-	<div class="section table s3">
+	<div class="section s3">
 		
 		
 	</div>
-	<div class="section table s4">
+	<div class="section s4">
 		
 		
 	</div>
-	<div class="section table s5">
+	<div class="section s5">
 		
 		
 	</div>
