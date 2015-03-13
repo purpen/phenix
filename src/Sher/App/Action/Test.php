@@ -241,10 +241,41 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //$model = new Sher_Core_Model_Orders();
     //$model->update_set('547d8eda7fd32e4704477f69', array('pay_money'=>50));
     //Doggy_Log_Helper::warn("=======================");
-
-    echo '<br />';
-    $a = Sher_Core_Util_View::load_block('test', 1);
+    //440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8
+    //$a = Sher_Core_Util_View::fetch_invite_user_id('440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8');
+    $a = Sher_Core_Util_View::url_short('1');
     echo $a;
+  }
+
+  public function test_preg(){
+  
+    $a = 'aa[i:http://frbird.qiniudn.com/comment/150311/54ff1cd17fd32e5e11bf22bb-bi.jpg::eee:]bbbef[i:http://frbird.qiniudn.com/comment/150311/54ff1cd17fd32e5e11bf22bb-bi.jpg::fff:]ggg';
+    $m = '/\[i:(.*):\]/U';
+    $aa = preg_replace_callback($m, function($z){
+        $arr = explode('::', $z[1]);
+        $new_img = '<img src="'.$arr[0].'" alt="'.$arr[1].'" title="'.$arr[1].'" />';
+        return $new_img;
+    }, $a);
+    echo $aa;
+    exit;
+    //var_dump($matchs);
+    if($matchs){
+      $n_arr = array();
+      foreach($matchs[1] as $val){
+        $arr = explode('::', $val);
+        $new_img = '<img src="'.$arr[0].'" alt="'.$arr[1].'" title="'.$arr[1].'" />';
+        array_push($n_arr, $new_img);
+
+      }
+      //替换
+      foreach($matchs[0] as $key=>$val){
+        //echo $val;
+        $a = preg_replace($m, $n_arr[$key], $a);
+        //echo $a;
+      }
+      //echo $a;
+    }
+    exit;
   }
 
 }

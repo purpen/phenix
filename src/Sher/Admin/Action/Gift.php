@@ -56,12 +56,20 @@ class Sher_Admin_Action_Gift extends Sher_Admin_Action_Base implements DoggyX_Ac
 	/**
 	 * 生成
 	 */
-	public function ajax_save(){
+  public function ajax_save(){
+    $expired_days = 7;
+    $before_prefix = 'G';
 		$total_count = $this->stash['total_count'];
 		$amount = $this->stash['amount'];
-		$product_id = $this->stash['product_id'];
+		$product_id = $this->stash['product_id']||0;
+    if(!empty($this->stash['expired_day'])){
+      $expired_days = (int)$this->stash['expired_day'];
+    }
+    if(!empty($this->stash['before_prefix'])){
+      $before_prefix = $this->stash['before_prefix'];
+    }
 		
-		if(empty($total_count) || empty($amount) || empty($product_id)){
+		if(empty($total_count) || empty($amount)){
 			return $this->ajax_json('缺少请求参数！', true);
 		}
 		
@@ -72,7 +80,7 @@ class Sher_Admin_Action_Gift extends Sher_Admin_Action_Base implements DoggyX_Ac
 			}
 			
 			$model = new Sher_Core_Model_Gift();
-			$ok = $model->create_batch_gift($product_id, $amount, $this->visitor->id, $total_count, 'Lkk55');
+			$ok = $model->create_batch_gift($product_id, $amount, $this->visitor->id, $total_count, $before_prefix, $expired_days);
 			
 			$next_url = Doggy_Config::$vars['app.url.admin'].'/gift';
 			

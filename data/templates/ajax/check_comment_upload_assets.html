@@ -1,0 +1,20 @@
+<taconite>
+	<prepend select="#asset-list"><![CDATA[
+		{% for asset in asset_list %}
+		<div class="thumb item" id="{{ asset._id }}">
+			<div class="image">
+				<img src="{{ asset.thumbnails.tiny.view_url }}" />
+        <input type="hidden" class="asset_id_list" name="comment-asset" value="{{ asset._id }}" img_url="{{ asset.thumbnails.big.view_url }}" />
+			</div>
+			<div class="buttons">
+				<div class="ui links" style="position: relative;">
+          <input type="text" name="comment-asset-desc" placeholder="标题" />
+					<a href="{{ app_url_fever }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}&asset_domain={{ asset_domain }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+						<i class="remove icon" style="position: absolute;top: 11px;right: 0;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	]]></prepend>
+</taconite>

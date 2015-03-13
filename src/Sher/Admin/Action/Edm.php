@@ -6,6 +6,7 @@
 class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
+    'id' => 0,
 		'page' => 1,
 		'size' => 20,
 	);

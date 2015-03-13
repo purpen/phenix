@@ -1,0 +1,442 @@
+{%extends 'layout/column.html'%}
+{% block title %} 太火鸟周年庆,注册即送100元红包,快来加入吧!-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.year{
+	background:url({{ app_url_packaged }}/images/y_zbg.jpg );
+	height:100%;
+	width:100%;
+	color:#fff;
+}
+.year .top{
+	background:url({{ app_url_packaged }}/images/y_bg.jpg) no-repeat center center;
+	background-size:cover;
+}
+.i-stats {
+	position: absolute;
+	padding-top: 33px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
+}
+.ui.three.items .magenta.item .image+.content{
+	margin-left: 0;
+	padding: 10px !important;
+	padding-bottom: 55px !important;
+	height: 140px;
+}
+.mt-0{
+	margin-top:0 !important;
+}
+.more{
+	background:#ff9a00;
+	color:#fff;
+	width: 97% !important;
+	margin-left: 1.5%;
+}
+.miao{
+	padding-bottom: 2.5em;
+}
+.miao .ui.grid>.row>img{
+	width:107% !important;
+}
+img.mis{
+	width: 107% !important;
+	margin-left: -3.8%;
+	margin-top: -1%;
+}
+.mbg{
+	background:#fff;
+	width: 97% !important;
+	margin-left: 1.5%;
+}
+.row.mbg{
+	margin-top:0 !important;
+	padding-bottom: 20px !important;
+}
+.row.mbg .items .item{
+	margin-bottom:0.8em;
+}
+.ui.shop.block{
+	padding-top:2.5em;
+}
+/*.ui.shop.block .ui.items>.item{
+	margin: .8em 0.5em !important;
+}*/
+.row.mbg .item .content{
+	background:#edf1f2;
+	margin-left: 0;
+	padding: 10px !important;
+	padding-bottom: 40px !important;
+	height: 140px;
+	overflow: hidden;
+}
+.row.mbg .item .content h4.ui.header{
+	font-size:1.1rem;
+}
+.i-stats1 {
+	position: absolute;
+	padding-top: 22px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #edf1f2 26%);
+}
+.mt-0 a{
+	text-decoration: none;
+	color: #fff;
+}
+.mt-0 a:hover{
+	text-decoration: underline;
+}
+.ui.shop .ui.image{
+	width: 100% !important;
+}
+.row.mbg .ui.five.items .item .presell{
+	width: 100%;
+	padding: .8em 0;
+	text-align: center;
+}
+.add.row{
+	position: relative;
+	top: -100px;
+	padding:0 !important;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+  // 社会化分享
+  function social_share(link, title, pic_url) {
+    // 链接，标题，网站名称，子窗口别称，网站链接
+    //var link = encodeURIComponent(document.location),title = encodeURIComponent(document.title.substring(0,100));
+    var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+    
+    var getParamsOfShareWindow = function(width, height) {
+      return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+    
+    $('#wechat-share').click(function() {
+      $('.ui.qrcode.modal').modal('show');
+      return false;
+    });
+    
+    $('#sina-share').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    // 同一个页面出现2个
+    $('#o-share-weibo').click(function() {
+      var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#tencent-share').click(function() {
+      var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(634, 668);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#douban-share').click(function() {
+      var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(450, 350);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#renren-share').click(function() {
+      var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+    $('#kaixin001-share').click(function() {
+      var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+      var params = getParamsOfShareWindow(540, 342);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#netease-share').click(function() {
+      var url = 'http://t.163.com/article/user/checkLogin.do?link=' + link + 'source=' + source + '&info='+ title + ' ' + link;
+      var params = getParamsOfShareWindow(642, 468);
+      window.open(url, windowName, params);
+      return false;
+    });
+    
+    $('#facebook-share').click(function() {
+      var url = 'http://facebook.com/share.php?u=' + link + '&t=' + title;
+      var params = getParamsOfShareWindow(626, 436);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#twitter-share').click(function() {
+      var url = 'http://twitter.com/share?url=' + link + '&text=' + title;
+      var params = getParamsOfShareWindow(500, 375);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+    $('#delicious-share').click(function() {
+      var url = 'http://delicious.com/post?url=' + link + '&title=' + title;
+      var params = getParamsOfShareWindow(550, 550);
+      window.open(url, windowName, params);
+      return false;
+    });
+   
+  };
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+$('.ui.share').bind('click', function(){
+	$('.ui.share.modal').modal('show');
+});
+
+  //分享
+  var share_title = '太火鸟周年庆,注册即送100元红包,快来加入吧!-太火鸟';
+  var share_url = '{{ app_url_promo }}/year?user_invite_code={{ my_invite_code }}';
+  var share_pic = 'http://frstatic.qiniudn.com/images/y-share.jpg';
+  social_share(share_url, share_title, share_pic);
+
+  // 生成二维码
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/year_invite?invite_code={{ my_invite_code }}'});
+{% endblock %}
+
+{% block content %}
+<div class="year">
+	<div class="top">
+		<div class="ui responsive grid">
+			<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/y_one2.png" width="70%">
+				
+				
+			</div>
+			</div>
+			<div class="add row">
+				<div class="center aligned column">
+          {% if !visitor %}
+            {% if user_invite_code %}
+              <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" target="_blank">
+              <div class="ui active appoint btn-4 btn-4c green btn">
+                <span>立即注册</span>
+              </div>
+              </a>
+            {%else%}
+              <a href="{{ app_url_register }}" target="_blank">
+              <div class="ui active appoint btn-4 btn-4c green btn">
+                <span>立即注册</span>
+              </div>
+              </a>
+            {%endif%}
+          {%else%}
+					<div class="ui active share appoint btn-4 btn-4c green btn">
+		        <span>邀请好友</span>
+		      </div>
+          {%endif%}
+				</div>
+			</div>
+	
+		</div>
+	</div>
+	
+	<div class="ui shop block">
+	  <div class="ui responsive grid">
+	    <div class="row">
+	      <div class="column">
+	        <div class="ui two items">
+	          <div class="item">
+	            <a href="http://www.taihuoniao.com/shop/1120820113.html" title="快乐妈咪胎语仪"
+	            target="_blank">
+	              <img src="{{ app_url_packaged }}/images/y_shop1.jpg" class="ui image" alt="快乐妈咪胎语仪">
+	            </a>
+	          </div>
+	          <div class="item">
+	            <a href="http://www.taihuoniao.com/shop/1120700122.html" title="iMagic V2蓝牙智能灯 七彩灯 音乐"
+	            target="_blank">
+	              <img src="{{ app_url_packaged }}/images/y_shop2.jpg" class="ui image" alt="iMagic V2蓝牙智能灯 七彩灯 音乐">
+	            </a>
+	          </div>
+						<div class="item">
+	            <a href="http://www.taihuoniao.com/shop/1011468351.html" title="AutoBot mini全球最小的汽车穿戴设备"
+	            target="_blank">
+	              <img src="{{ app_url_packaged }}/images/y_shop3.jpg" class="ui image" alt="AutoBot mini全球最小的汽车穿戴设备">
+	            </a>
+	          </div>
+	          <div class="item">
+	            <a href="http://www.taihuoniao.com/shop/1082995029.html" title="肌肤管家—您的智能肌肤测试仪"
+	            target="_blank">
+	              <img src="{{ app_url_packaged }}/images/y_shop4.jpg" class="ui image" alt="肌肤管家—您的智能肌肤测试仪">
+	            </a>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div class="ui big y-product block">
+		<div class="ui responsive grid">
+			
+			<div class="row">
+			  <div class="column">
+					{% if stick_products %}
+					<div class="ui three items">
+						{% for product in stick_products %}
+					  		{% include "block/product_item.html" %}
+					    {% endfor %}
+					</div>
+					{% endif %}
+			   
+			  </div>
+			</div>
+			
+			<div class="row mt-0" style="padding-top:0;">
+				<div class="center aligned more column">
+						<p><a href="http://www.taihuoniao.com/shop">更多精彩产品请点击进入  >  </a></p>
+				
+				</div>
+			</div>
+			
+			
+			
+		</div>
+	</div>
+	
+	<div class="ui miao block">
+		<div class="ui responsive grid">
+			
+			<div class="mbg">
+				
+				<img src="{{ app_url_packaged }}/images/y_m1.png" class="mis">
+			</div>
+			
+			<div class="row mbg" style="width:97% !important;">
+				<div class="column">
+					
+					{% if snatch_products %}
+					
+					<div class="ui five items">
+						
+						{% for product in snatch_products %}
+						
+						<div class="magenta item" id="product-{{ product._id }}">
+						  	<div class="image">
+								<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
+						      		<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />
+								</a>
+
+								<div class="presell">
+                  {{ product.snatch_str }}
+								</div>
+								<div class="image-extra">
+									<div class="extra-content">
+										<a class="inner-extra" href="{{ product.view_url }}" target="_blank">
+											<div class="single-image plus-icon">
+												<span class="curtain"></span>
+											</div>
+										</a>
+									</div>
+								</div>
+						  	</div>
+						  	<div class="content">
+						      <h4 class="ui header">
+									<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
+										{{ product.title|truncate, 32, '' }}
+									</a>
+									<div class="advantage">{{ product.advantage }}</div>
+								</h4>
+								<div class="i-stats1">
+									<div class="schedule p-sell">
+							      {% if product.stage==9 %}
+							        <div class="status clearfix">
+							          <div class="name">
+							            <span class="unit">RMB /</span>
+							            <span class="price">{{ product.sale_price }}</span>
+							        </div>
+							      </div>
+							      {%endif%}
+									<a href="{{ product.view_url }}" class="link-extra" target="_blank">
+										{{ product.title }}
+									</a>
+								</div>
+						  	</div>
+						  </div>
+						</div>
+						{% endfor %}
+					</div>
+					{% endif %}
+						
+						<!--<div class="magenta item" id="product-1111545979">
+			        <div class="image">
+			          <a href="http://www.taihuoniao.com/shop/1111545979.html" title="造梦者迷你新风机"
+			          target="_blank">
+			            <img src="http://frbird.qiniudn.com/product/141118/546b3142621e1972648b48f7-1-m.jpg"
+			            alt="造梦者迷你新风机">
+			          </a>
+			          <div class="image-extra">
+			            <div class="extra-content">
+			              <a class="inner-extra" href="http://www.taihuoniao.com/shop/1111545979.html"
+			              target="_blank">
+			                <div class="single-image plus-icon">
+			                  <span class="curtain">
+			                  </span>
+			                </div>
+			              </a>
+			            </div>
+			          </div>
+			        </div>
+			        <div class="content">
+			          <h4 class="ui header">
+			            <a href="http://www.taihuoniao.com/shop/1111545979.html" title="造梦者迷你新风机"
+			            class="ui link">
+			              造梦者迷你新风机
+			            </a>
+			            <div class="advantage">
+			              把世界最好的空气带回家
+			            </div>
+			          </h4>
+			          <div class="i-stats1">
+			            <div class="schedule p-sell">
+			              <div class="status clearfix">
+			                <div class="name">
+			                  <span class="unit">
+			                    RMB /
+			                  </span>
+			                  <span class="price">
+			                    8999
+			                  </span>
+			                </div>
+			              </div>
+			              <a href="http://www.taihuoniao.com/shop/1111545979.html" class="link-extra"
+			              target="_blank">
+			                造梦者迷你新风机
+			              </a>
+			            </div>
+			          </div>
+			        </div>
+			      </div>
+						-->
+				</div>
+			</div>
+			
+			<div class="mbg">
+				
+				<img src="{{ app_url_packaged }}/images/y31.jpg" width="100%" />
+				<img src="{{ app_url_packaged }}/images/y32.jpg" width="100%" />
+			</div>
+			
+		</div>
+	</div>
+
+</div>
+{% include "block/sharebox-y.html" %}
+{% include "block/qrcode.html" %}
+{% endblock %}

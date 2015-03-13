@@ -42,8 +42,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     	'tags' => array(),
         'like_tags' => array(),
 
-	    #团队介绍
-	    'team_introduce' => '',
+    #团队介绍
+    'team_introduce' => '',
+
+    #设计师
+    'designer' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',
@@ -82,6 +85,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     # 属于1.十万火计;2.蛋年;3.;4.;
     'from_to' => 0,
 		'random' => 0,
+    # 关联产品
+    'fever_id' => 0,
+
+    # 已审核的
+    'verified' => 0,
     );
 	
 	protected $required_fields = array('user_id', 'title');
@@ -170,16 +178,25 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
   	protected function after_save() {
     	// 如果是新的记录
     	if($this->insert_mode){
-      	  	$category_id = $this->data['category_id'];
-      	  	$fid = $this->data['fid'];
-      
-      	  	$category = new Sher_Core_Model_Category();
-      	  	if(!empty($category_id)){
-        		$category->inc_counter('total_count', 1, $category_id);
-      	  	}
-      	  	if(!empty($fid)){
-        		$category->inc_counter('total_count', 1, $fid);
-      	  	}
+        $category_id = $this->data['category_id'];
+        $fid = $this->data['fid'];
+  
+        $category = new Sher_Core_Model_Category();
+        if(!empty($category_id)){
+          $category->inc_counter('total_count', 1, $category_id);
+        }
+        if(!empty($fid)){
+          $category->inc_counter('total_count', 1, $fid);
+        }
+
+        //更新关联投票产品数量
+        if($this->data['fever_id']){
+          $product_mode = new Sher_Core_Model_Product();
+          $product = $product_mode->find_by_id((int)$this->data['fever_id']);
+          if($product){
+            $product_mode->inc_counter('stuff_count', 1, $product['_id']);
+          }
+        }
     	}
   	}
 	

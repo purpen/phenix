@@ -28,6 +28,7 @@ app.url.wap.stuff.list: '{$app.url.wap.stuff}/c%d/p%s'
 app.url.wap.stuff.view: '{$app.url.wap.stuff}/view-%d.html'
 app.url.wap.contest: '{$app.url.wap}/contest'
 app.url.wap.birdegg: '{$app.url.wap}/birdegg'
+app.url.wap.promo: '{$app.url.wap}/promo'
 
 app.url.static: '{$app.domain.static}'
 app.url.packaged: '{$app.domain.static}/packaged'
@@ -79,6 +80,9 @@ app.url.stuff.comment: '{$app.url.stuff}/view-%d-%d.html'
 # 活动
 app.url.active: '{$app.url.domain}/active'
 app.url.active.view: '{$app.url.active}/view-%s.html'
+
+# 专题页面
+app.url.promo: '{$app.url.domain}/promo'
 
 # 产品编辑
 app.url.product: '{$app.url.action_base}/product'

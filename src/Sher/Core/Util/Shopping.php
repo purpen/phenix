@@ -65,7 +65,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 			throw new Sher_Core_Model_Exception('礼品码不存在！');
 		}
 		// 是否对应产品id
-		if($gift['product_id'] != $product_id){
+		if(!empty($gift['product_id']) && $gift['product_id'] != $product_id){
 			throw new Sher_Core_Model_Exception('此礼品码不能购买该产品！');
 		}
 		// 是否使用过
@@ -74,7 +74,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		}
 		// 是否过期
 		if($gift['expired_at'] && $gift['expired_at'] < time()){
-			throw new Sher_Core_Model_Exception('礼品码已被过期！');
+			throw new Sher_Core_Model_Exception('礼品码已过期！');
 		}
 		$gift_money = $gift['amount'];
 		

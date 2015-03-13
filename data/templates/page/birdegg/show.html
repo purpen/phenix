@@ -133,6 +133,10 @@ display: none;
 	width:10px;
 	background:#fff;
 }
+.phenix-share{
+	float:right;
+	color:#fff;
+}
 
 </style>
 {% endblock %}
@@ -154,10 +158,6 @@ display: none;
 	phenix.hook_comment_page();
   //ajax加载评论
   fetch_comment(1, per_page);
-
-	$('.ui.share').bind('click', function(){
-		$('.ui.share.modal').modal('show');
-	});
 
   if($("div#demoSlider").length>0){
     $("div#demoSlider").sliderTabs({
@@ -412,12 +412,12 @@ display: none;
 					</span>
           {{ stuff.love_count }}人支持
 				</div>
-				<div class="tab">
-					<div class="ui share">
-					<i class="share icon"></i>
-					分享到
-					</div>
-				</div>
+				<a href="#sha"><div class="tab" style="text-align:right;">
+					<!--<div class="ui share">
+					<i class="share icon"></i>-->
+					分享
+					<!--</div>-->
+				</div></a>
 			</div>
 		</div>
 		
@@ -443,10 +443,17 @@ display: none;
 								</div>
 							</div>
 						</div>
+						
+						<div class="row" style="margin: 0;padding: 0;color: #fff;">
+						  <div class="center aligned column">
+						  	<p>为你喜欢的产品点赞也许你的一票，能够帮助产品永载吉尼斯</p>
+						  </div>
+						</div>
 
 						<div class="row">
 							<div class="column">
 								<div class="admin post actions clearfix">
+									<a name="sha"></a>
 									<div class="ui icon black editable buttons">
 										<div class="ui pop favorite magenta button" data-content="收藏" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
 											<i class="empty star icon"></i> <small>{{ stuff.favorite_count }}</small>
@@ -482,7 +489,9 @@ display: none;
 										{% endif %}
 									</div>
 					
+									{%include 'block/share.html'%}
 								</div>
+							
 							</div>
 						</div>
 
@@ -517,6 +526,5 @@ display: none;
 
 </div>
 
-{% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}

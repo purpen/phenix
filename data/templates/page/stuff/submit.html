@@ -2,7 +2,9 @@
 {% block title %}产品提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+  .ui.fluid.dropdown .down.icon {
+    float: right;
+  }	
 </style>
 {% endblock %}
 
@@ -81,6 +83,15 @@
 				}
 			]
 		},
+		processed: {
+			identifier  : 'processed',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择产品阶段'
+				}
+			]
+		},
 		description: {
 			identifier  : 'description',
 			rules: [
@@ -118,7 +129,7 @@
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
-        	endpoint: '{{ app_url_upload_stuff }}'
+        	endpoint: '{{ app_url_upload }}/stuff'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -242,6 +253,42 @@
                 </div>
               {%endif%}
             {%endif%}
+
+			      <div class="four fields">
+                <div class="field">
+                    <label>设计师</label>
+                  <input type="text" name="designer" value="{{ stuff.designer }}" />
+                </div>
+                <div class="field">
+                    <label>所属国家</label>
+                  <input type="text" name="country" value="{{ stuff.country }}" />
+                </div>
+                <div class="field">
+                    <label>上市时间</label>
+                  <input type="text" name="market_time" value="{{ stuff.market_time }}" />
+                </div>
+                <div class="field">
+                    <label>指导价格</label>
+                  <input type="text" name="official_price" value="{{ stuff.official_price }}" />
+                </div>
+            </div>
+			      <div class="five fields">
+              <div class="field">
+                <label for="processed">产品阶段</label>
+                <div class="ui fluid selection dropdown">
+                  <input type="hidden" name="processed" value="{{ stuff.processed }}" />
+                    <div class="default text">请选择</div>
+                    <i class="angle down icon"></i>
+                    <div class="menu">
+                    <div data-value="1" class="{% if stuff.processed==1 %}active {% endif %}item">设计</div>
+                    <div data-value="2" class="{% if stuff.processed==2 %}active {% endif %}item">开发</div>
+                    <div data-value="5" class="{% if stuff.processed==5 %}active {% endif %}item">预售</div>
+                    <div data-value="9" class="{% if stuff.processed==9 %}active {% endif %}item">销售</div>
+                    </div>
+                </div>
+                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
+              </div>
+            </div>
 						
 						<div class="field">
 							<label>产品标签</label>

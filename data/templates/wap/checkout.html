@@ -45,6 +45,11 @@
 	// 选择填写红包
 	$('#submit-bonus').click(function(){
 		var bonus_code = $('#bonus-code').val();
+    var gift_val =  $('#gift-code').val();
+    if(gift_val){
+ 			phenix.show_error_note('礼品码和红包不能同时使用!', 3000);
+      return false;
+    }
 		if(bonus_code){
 			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
 				if(result.success){
@@ -80,6 +85,11 @@
 	// 选择填写礼品码
 	$('#submit-gift').click(function(){
 		var gift_code = $('#gift-code').val();
+		var bonus_val = $('#bonus-code').val();
+    if(bonus_val){
+ 			phenix.show_error_note('礼品码和红包不能同时使用!', 3000);
+      return false;
+    }
 		if(gift_code){
 			$.post('{{ app_url_wap }}/shop/ajax_gift', {rid: '{{ order_info.rid }}', code: gift_code}, function(result){
 				if(result.success){

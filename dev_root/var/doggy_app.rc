@@ -1,5 +1,5 @@
 <?php
-//dump on 2015-03-04 14:22:55
+//dump on 2015-03-11 02:18:09
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -227,6 +227,7 @@ Doggy_Config::add( array (
       'active_list' => 'Sher_App_ViewTag_ActiveList',
       'attend_list' => 'Sher_App_ViewTag_AttendList',
       'gift_list' => 'Sher_Core_ViewTag_GiftList',
+      'invite_record_list' => 'Sher_Core_ViewTag_InviteRecordList',
       'pager' => 'Sher_App_ViewTag_Pager',
     ),
     'filters' => 
@@ -324,6 +325,7 @@ Doggy_Config::add( array (
   'app.url.wap.stuff.view' => 'http://m.taihuoniao.me/stuff/view-%d.html',
   'app.url.wap.contest' => 'http://m.taihuoniao.me/contest',
   'app.url.wap.birdegg' => 'http://m.taihuoniao.me/birdegg',
+  'app.url.wap.promo' => 'http://m.taihuoniao.me/promo',
   'app.url.static' => 'http://static.taihuoniao.me',
   'app.url.packaged' => 'http://static.taihuoniao.me',
   'app.url.uncompressed' => 'http://static.taihuoniao.me/uncompressed',
@@ -353,6 +355,7 @@ Doggy_Config::add( array (
   'app.url.stuff.comment' => 'http://taihuoniao.me/stuff/view-%d-%d.html',
   'app.url.active' => 'http://taihuoniao.me/active',
   'app.url.active.view' => 'http://taihuoniao.me/active/view-%s.html',
+  'app.url.promo' => 'http://taihuoniao.me/promo',
   'app.url.product' => 'http://taihuoniao.me/app/site/product',
   'app.url.fever' => 'http://taihuoniao.me/fever',
   'app.url.fever.list' => 'http://taihuoniao.me/fever/list-c%s-t%s-s%s-p%s.html',
@@ -427,9 +430,36 @@ Doggy_Config::add( array (
   'app.url.share' => 'http://taihuoniao.me/share',
   'app.url.goccia' => 'http://taihuoniao.me/goccia',
   'app.url.goccia.rule' => 'http://taihuoniao.me/activity/goccia',
-  'app.version.sher' => 'v0.10b15030204',
-  'app.version.jquery_bundle_version' => 'v0.10b15030204',
-  'app.version.css_bundle_version' => 'v0.10b15030204',
+  'app.version.sher' => 'v0.10b15030701',
+  'app.version.jquery_bundle_version' => 'v0.10b15030701',
+  'app.version.css_bundle_version' => 'v0.10b15030701',
+  'app.email.domains' => 
+  array (
+    '163.com' => 'http://mail.163.com/',
+    '126.com' => 'http://www.126.com/',
+    'gmail.com' => 'http://mail.google.com/',
+    'sina.com.cn' => 'http://mail.sina.com.cn/',
+    'sina.cn' => 'http://mail.sina.com.cn/',
+    'vip.sina.cn' => 'http://mail.sina.com.cn/',
+    '2008.sina.com' => 'http://mail.2008.sina.com.cn/',
+    'sohu.com' => 'http://mail.sohu.com/',
+    'tom.com' => 'http://mail.tom.com/',
+    '139.com' => 'http://mail.139.com/',
+    'qq.com' => 'http://mail.qq.com/',
+    'vip.qq.com' => 'http://mail.qq.com/',
+    'foxmail.com' => 'http://foxmail.com/',
+    'hotmail.com' => 'http://www.hotmail.com/',
+    'live.com' => 'http://mail.live.com/',
+    'yahoo.com.cn' => 'http://mail.cn.yahoo.com/',
+    'yahoo.cn' => 'http://mail.cn.yahoo.com/',
+    'yahoo.com' => 'http://mail.yahoo.com/',
+    'eyou.com' => 'http://www.eyou.com/',
+    '21cn.com' => 'http://mail.21cn.com/',
+    'yeah.net' => 'http://www.yeah.net/',
+    '188.com' => 'http://www.188.com/',
+    'sogou.com' => 'http://mail.sogou.com/',
+    '189.cn' => 'http://webmail3.189.cn/webmail/',
+  ),
   'app.url.upload_url' => 'http://taihuoniao.me/uploader',
   'app.doggyx.class_path' => '/opt/project/php/doggy-x',
   'app.redis.default' => 
@@ -441,7 +471,7 @@ Doggy_Config::add( array (
   'app.topic.dream_category_id' => 9,
   'app.contest.dream2_category_id' => 18,
   'app.topic.idea_category_id' => 22,
-  'app.birdegg.category_id' => 80,
+  'app.birdegg.category_id' => 25,
   'app.comeon.product_id' => 1120800090,
   'app.alipay.partner' => '2088411237666512',
   'app.alipay.key' => '8igqejramxdbw53yvlp8aukvbt9s5rnd',

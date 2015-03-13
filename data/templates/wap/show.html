@@ -26,6 +26,71 @@
   //ajax加载评论
   fetch_comment(1, per_page);
 
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{topic._id}},type:2,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{topic._id}},type:2,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:2}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消赞')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:2}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 {% block content %}
 <div id="postpage">
@@ -84,6 +149,19 @@
 							</div>
 							{% endif %}
 						</div>
+
+          <div class="ui grid" style="margin-bottom:10px;">
+						<div class="row">
+							<div class="center aligned column">
+								<div class="ui pop icon support inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+								  	<i class="thumbs outline up icon"></i>
+									<div class="love count">
+										{{ topic.love_count|default 0 }}
+									</div>
+								</div>
+							</div>
+						</div>
+          </div>
 				
             <div class="ui big reply segment">
               <!--ajax comment-->

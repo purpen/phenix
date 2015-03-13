@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="image">
+        <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" target="_blank">
+    <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+  </a>
+  </div>
+  <div class="content">
+        <div class="header">
+    <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
+  </div>
+        <div class="description">
+        {{ stuff.strip_description|truncate 60 '' }}
+        </div>
+  </div>
+  <div class="extra">
+        <a class="right floated created">
+    <small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
+    <small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+  </a>
+  <a href="{{ stuff.user.home_url }}" class="ui icon link">
+    <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+  </a>
+  </div>
+</div>
