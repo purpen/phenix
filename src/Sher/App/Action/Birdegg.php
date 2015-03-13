@@ -6,6 +6,7 @@
 class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'page'=>1,
+    'st'=>0,
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
@@ -49,7 +50,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		
 		// 分页链接
 		$page = 'p#p#';
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.birdegg', 'c'.$cid).$page;
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.birdegg', 'c'.$cid).$page.'?st='.$this->stash['st'];
 		
 		return $this->to_html_page('page/birdegg/zlist.html');
 	}

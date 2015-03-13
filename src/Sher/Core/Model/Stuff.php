@@ -139,7 +139,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 			
 		}
     // 总共赞的数量,真实+虚拟
-    $row['total_love_count'] = $row['love_count'] + $row['invented_love_count'];
+    $row['total_love_count'] = $row['love_count'];
 	}
 	
 	/**
