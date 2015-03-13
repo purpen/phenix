@@ -366,12 +366,15 @@ float: left;
 
 .fp-controlArrow.fp-next:before {
 	font-family: "FontFlatIcons";
-	font-size: 24px;
+	font-size: 27px;
 	line-height: 1;
 	display: inline-block;
 	content: '\e0d3';
 }
 .fp-controlArrow.fp-next {
+	-webkit-animation: arrowRt 1.5s linear infinite;
+	-moz-animation: arrowRt 1.5s linear infinite;
+	animation: arrowRt 1.5s linear infinite;
 	right: 0px;
 	display: inline-block;
 	opacity: .75;
@@ -397,12 +400,15 @@ float: left;
 }
 .fp-controlArrow.fp-prev:before{
 	font-family: "FontFlatIcons";
-	font-size: 24px;
+	font-size: 27px;
 	line-height: 1;
 	display: inline-block;
 	content: '\e010';
 }
 .fp-controlArrow.fp-prev {
+	-webkit-animation: arrowUp 1.5s linear infinite;
+	-moz-animation: arrowUp 1.5s linear infinite;
+	animation: arrowUp 1.5s linear infinite;
 	left: 0px;
 	display: inline-block;
 	opacity: .75;
@@ -436,14 +442,40 @@ position: absolute;
 z-index: 4;
 
 cursor: pointer;
-/*width: 0;
-height: 0;
-border-style: solid;
-margin-top: -38px;
--webkit-transform: translate3d(0,0,0);
--ms-transform: translate3d(0,0,0);
-transform: translate3d(0,0,0);*/
+
 }
+@-webkit-keyframes arrowRt {
+	0%{-webkit-transform:translateX(-40px);opacity:0}
+	60%{-webkit-transform:translateX(-12px);opacity:1}
+	100%{-webkit-transform:translateX(-0px);opacity:0}
+}
+@-moz-keyframes arrowRt {
+	0%{-webkit-transform:translateX(-40px);opacity:0}
+	60%{-webkit-transform:translateX(-12px);opacity:1}
+	100%{-webkit-transform:translateX(-0px);opacity:0}
+}
+@keyframes arrowRt {
+	0%{-webkit-transform:translateX(-40px);opacity:0}
+	60%{-webkit-transform:translateX(-12px);opacity:1}
+	100%{-webkit-transform:translateX(-0px);opacity:0}
+}
+
+@-webkit-keyframes arrowUp {
+	0%{-webkit-transform:translateX(40px);opacity:0}
+	60%{-webkit-transform:translateX(12px);opacity:1}
+	100%{-webkit-transform:translateX(0px);opacity:0}
+}
+@-moz-keyframes arrowUp {
+	0%{-webkit-transform:translateX(40px);opacity:0}
+	60%{-webkit-transform:translateX(12px);opacity:1}
+	100%{-webkit-transform:translateX(0px);opacity:0}
+}
+@keyframes arrowUp {
+	0%{-webkit-transform:translateX(40px);opacity:0}
+	60%{-webkit-transform:translateX(12px);opacity:1}
+	100%{-webkit-transform:translateX(0px);opacity:0}
+}
+
 .s6 .fp-controlArrow {
 	top: 50%;
 	margin-top: -50px;
@@ -495,7 +527,7 @@ transform: translate3d(0,0,0);*/
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
 			'verticalCentered': true,
-			'sectionsColor':['#fff','#fff','#fff','#fff','#fff','#190119'],
+			'sectionsColor':['#000','#000','#000','#000','#000','#190119'],
 			'css3':false,
 			'slidesNavigation': true,
 			afterRender: function(){
