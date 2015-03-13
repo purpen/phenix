@@ -513,7 +513,14 @@ cursor: pointer;
 	width:80%;
 }
 
-
+#music-control {
+width: 30px;
+height: 30px;
+position: fixed;
+right: 5px;
+top: 5px;
+z-index: 100000;
+}
 
 .slide-list{
 	width:100%;
@@ -523,6 +530,7 @@ cursor: pointer;
 {% endblock %}
 
 {% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
@@ -536,23 +544,33 @@ cursor: pointer;
 			},
 			
 		});
-		
-		$('.flexslider').flexslider({
-		      animation: "slide",
-					slideshow:true,
-					slideshowSpeed:6000,
-		});
-		
-	
-	
 	</script>
 	
 {% endblock %}
 
 {% block jquery %}
-	
+	bgm = new Audio5js({
+      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('http://frstatic.qiniudn.com/wechat/js/790105 Fireflies.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+      bgm.playPause();
+  });
 {% endblock %}
 {% block content %}
+<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section s1">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_1.png" class="s1-1 page-bounceIn">
@@ -755,8 +773,71 @@ cursor: pointer;
 			</div>
 		</div>
 		
- 
-		
+		<!--{% stuff_list var:'list' category_id:cid is_top:is_top verified:1 sort:4 page:page size:8 %}
+      
+				{% for stuff in list.rows %}
+				
+				<div class="slide">
+					<div class="slide-list">
+						
+						<div class="ui grid">
+							<div class="column">
+					                  <div class="ui one items">
+						<div class="item">
+							<div class="content">
+								<h4 class="ui dividing header">
+									<a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+										{{ stuff.title|truncate 32 }}
+									</a>
+									{% if stuff.cover %}
+									<div class="image">
+                    <a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
+											<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
+										</a>
+									</div>
+									<div class="advantage">
+										{{ stuff.strip_description|truncate 80 }}
+									</div>
+									{% else %}
+									<div class="full advantage">
+										{{ stuff.strip_description|truncate 280 }}
+									</div>
+									{% endif %}
+								</h4>
+								<div class="schedule">
+									<div class="status clearfix">
+										<a class="ui avatar image" href="{{ stuff.user.home_url }}">
+								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
+										</a>
+										<span class="count">
+											<a class="ui small link" href="{{ stuff.user.home_url }}">
+												{{ stuff.user.nickname }}
+											</a>
+										</span>
+										<span class="like">
+											<i class="icon unhide"></i>
+											<span class="count">{{ stuff.view_count }}</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+          </div>
+        </div>
+      </div>
+						
+					</div>
+				</div>
+			{% endfor %}-->
+				
+				
+				
+				
+				
+				
+				
+				
+				
 		<div class="center aligned column" style="position: absolute;bottom: 10px;text-align: center;width: 100%;z-index:1111;">
       <a href="{{ app_url_wap }}/birdegg/submit" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 					提交创意
