@@ -21,6 +21,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	# 产品阶段
 	const PROCESS_DESIGN = 1;
 	const PROCESS_DEVELOP = 2;
+  const PROCESS_RAISE = 3;
 	const PROCESS_PERSALE = 5;
 	const PROCESS_SALE = 9;
 
@@ -52,6 +53,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'cooperate_id' => '',
 		# 品牌名称
 		'brand' => '',
+		# 设计师
+		'designer' => '',
 		# 所属国家
 		'country' => '',
 		# 上市时间
@@ -70,6 +73,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'favorite_count' => 0,
 		# 喜欢数
         'love_count' => 0,
+    # 虚拟喜欢数
+        'invented_love_count' => 0,
 		# 回应数
     	'comment_count' => 0,
 		
@@ -88,10 +93,13 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
     # 已审核的
     'verified' => 0,
+
+    # 删除标识
+    'deleted' => 0,
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','invented_love_count');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
@@ -130,6 +138,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 			$this->mock_cover($row);
 			
 		}
+    // 总共赞的数量,真实+虚拟
+    $row['total_love_count'] = $row['love_count'];
 	}
 	
 	/**
@@ -223,10 +233,17 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	public function mark_cancel_stick($id){
 		return $this->update_set($id, array('stick' => 0));
 	}
+
+  /**
+   * 通过/取消审核
+   */
+	public function mark_as_verified($id, $value=1){
+		return $this->update_set($id, array('verified' => (int)$value));
+	}
 	
-    /**
-     * 标记 精选
-     */
+  /**
+   * 标记 精选
+   */
 	public function mark_as_featured($id){
 		return $this->update_set($id, array('featured' => 1));
 	}
@@ -348,6 +365,20 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		
 		return true;
 	}
+
+  /**
+   * 逻辑删除--现在 不用
+   */
+  public function mark_remove($id){
+    $stuff = $this->find_by_id((int)$id);
+    if(!empty($stuff)){
+      $ok = $this->update_set((int)$id, array('deleted'=>1));
+      return $ok;
+    }else{
+      return false;
+    }
+  
+  }
 
 }
 ?>

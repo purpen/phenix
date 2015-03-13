@@ -115,7 +115,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				break;
 		}
 		if(!empty($result)){
-			$count = $result[$filed];
+ 		  $count = $result[$filed];     
 		}
 		return $count;
 	}
