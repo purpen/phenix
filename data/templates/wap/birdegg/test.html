@@ -27,20 +27,20 @@
 	}
 	img.s1-1{
 		width: 302px;
-		margin-top: -210px;
+		margin-top: -202px;
 		margin-left: -123.5px;
 	}
 }
-	@media only screen and (max-width: 667px){
+	@media only screen and (max-width: 414px){
 		img.s1-1{
-			width: 266px;
-			margin-top: -182px;
+			width: 302px;
+			margin-top: -202px;
 		}
 	}
-	@media only screen and (max-width: 568px){
+	@media only screen and (max-width: 375px){
 	img.s1-1{
-		width: 262px;
-		margin-top: -167px;
+		width: 256px;
+		margin-top: -157px;
 	}
 }
 	
@@ -121,15 +121,15 @@ animation: fadeInDown 1s ease both;
 }
 
 
-#superContainer {
+.fp-viewing-firstPage {
 height: 100%;
 position: relative;
 }
-.section.table {
+.fp-table {
 display: table;
 width: 100%;
 }
-.tableCell {
+.fp-tableCell {
 display: table-cell;
 width: 100%;
 height: 100%;
@@ -139,57 +139,78 @@ position:relative;
 
 .menu{
 	opacity: 0;
-	margin-top: -300px;
+	margin-left: -300px;
 	width:100%;
-	height:160px;
+	height:120px;
+	background-size:100%;
+	transition: all .2s;
+}
+.menu.p2{
 	background:url(http://frstatic.qiniudn.com/images/egg/egg_menu.png) no-repeat;
-	background-size:cover;
-	transition: all .7s;
+	background-size: 100%;
+}
+.menu.p3{
+	background:url(http://frstatic.qiniudn.com/images/egg/egg_menu.png) no-repeat;
+	background-size: 100%;
 }
 .active .menu{
-	margin-top:0;
+	margin-left:0;
 	opacity: 1;
 	transition-delay: 0.7s;
 }
 .s2-2{
-	position: absolute;
-	right:-300px;
+	position: relative;
+	transform: rotate(360deg);
+	-ms-transform:rotate(360deg); 	/* IE 9 */
+	-moz-transform:rotate(360deg); 	/* Firefox */
+	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(360deg);
 	opacity: 0;
-	transition: all .7s;
+	transition: all .3s;
 }
 .active .s2-2{
-	right:50%;
-	margin-right:-100px;
+	transform: rotate(-360deg);
+	-ms-transform:rotate(-360deg); 	/* IE 9 */
+	-moz-transform:rotate(-360deg); 	/* Firefox */
+	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(-360deg);
 	opacity: 1;
 	transition-delay: 0.7s;
 }
 .s2-3{
-	position: absolute;
-	top:-100px;
+	position: relative;
+	top:0px;
 	right:0%;
 	margin-right:-100px;
 	opacity: 0;
+	transform:scale(0);
+	-ms-transform:scale(0); 	/* IE 9 */
+	-moz-transform:scale(0); 	/* Firefox */
+	-webkit-transform:scale(0); /* Safari 和 Chrome */
+	-o-transform:scale(0);
 	transition: all .7s;
 }
 .active .s2-3{
-	top:50%;
-	right:50%;
-	margin-top:-80px;
+	margin-top: 0px;
+	margin-left: 0;
 	opacity: 1;
-	transition-delay: 0.7s;
+	transform: scale(1);
+	-ms-transform:scale(1); 	/* IE 9 */
+	-moz-transform:scale(1); 	/* Firefox */
+	-webkit-transform:scale(1); /* Safari 和 Chrome */
+	-o-transform:scale(1);
+	transition-delay: .9s;
 }
 .s2-4{
-	position: absolute;
-	bottom:-100px;
-	right:50%;
-	margin-right:-185px;
+	position:relative;
 	opacity: 0;
 	transition: all .7s;
+	margin-bottom: -300px;
 }
 .active .s2-4{
-	top:50%;
 	opacity: 1;
-	transition-delay: 0.7s;
+	transition-delay: 1.4s;
+	margin-bottom: 0;
 }
 .s2-5{
 	position: absolute;
@@ -203,16 +224,136 @@ position:relative;
 	opacity: 1;
 	transition-delay: 0.7s;
 }
+.s2 img,.s3 img{
+	width:80%;
+}
+.s3-1{
+	position:relative;
+	margin-top:-100px;
+	opacity:0;
+	transform:scale(0);
+	-ms-transform:scale(0); 	/* IE 9 */
+	-moz-transform:scale(0); 	/* Firefox */
+	-webkit-transform:scale(0); /* Safari 和 Chrome */
+	-o-transform:scale(0);
+	transition: all .7s;	
+}
+.active .s3-1{
+	margin-top:0;
+	opacity:1;
+	transform:scale(1);
+	-ms-transform:scale(1); 	/* IE 9 */
+	-moz-transform:scale(1); 	/* Firefox */
+	-webkit-transform:scale(1); /* Safari 和 Chrome */
+	-o-transform:scale(1);
+	transition-delay: 0.7s;
+}
+.s3-2{
+	position:relative;
+	margin-bottom:-200px;
+	opacity:0;
+	transform:scale(0);
+	-ms-transform:scale(0); 	/* IE 9 */
+	-moz-transform:scale(0); 	/* Firefox */
+	-webkit-transform:scale(0); /* Safari 和 Chrome */
+	-o-transform:scale(0);	
+	transition: all .7s;
+}
+.active .s3-2{
+	margin-bottom:0px;
+	opacity:1;
+	transform:scale(1);
+	-ms-transform:scale(1); 	/* IE 9 */
+	-moz-transform:scale(1); 	/* Firefox */
+	-webkit-transform:scale(1); /* Safari 和 Chrome */
+	-o-transform:scale(1);
+	transition-delay: 0.9s;
+}
+
+.w-2{
+	width:280px;
+	margin:0 auto;
+	height:auto;
+}
+.s3 .w-2{
+	text-align:center;
+	
+	position:relative;
+}
+.s3 .w-2 img{
+	position:absolute;
+	right: 50%;
+	margin-right: -117px;
+}
+.s4-1,.s4-2,.s4-3,.s4-4,.s4-5{
+	transform:scale(0);
+	-ms-transform:scale(0); 	/* IE 9 */
+	-moz-transform:scale(0); 	/* Firefox */
+	-webkit-transform:scale(0); /* Safari 和 Chrome */
+	-o-transform:scale(0);
+}
+.active .s4-1,.active .s4-2,.active .s4-3,.active .s4-4,.active .s4-5{
+	transform:scale(1);
+	-ms-transform:scale(1); 	/* IE 9 */
+	-moz-transform:scale(1); 	/* Firefox */
+	-webkit-transform:scale(1); /* Safari 和 Chrome */
+	-o-transform:scale(1);
+}
+.s4-1{
+	opacity:0;
+	transition: all .7s;
+}
+.active .s4-1{
+	opacity:1;
+	transition-delay: 0.5s;
+}
+.s4-2{
+	opacity:0;
+	transition: all .7s;
+}
+.active .s4-2{
+	opacity:1;
+	transition-delay: 1s;
+}
+.s4-3{
+	opacity:0;
+	transition: all .7s;
+}
+.active .s4-3{
+	opacity:1;
+	transition-delay: 1.5s;
+}
+.s4-4{
+	opacity:0;
+	transition: all .7s;
+}
+.active .s4-4{
+	opacity:1;
+	transition-delay: 2s;
+}
+.s4-5{
+	opacity:0;
+	transition: all .7s;
+}
+.active .s4-5{
+	opacity:1;
+	transition-delay: 2.5s;
+}
+
+
+
 </style>
 {% endblock %}
 
 {% block layout_js %}
-	<script src="http://www.dowebok.com/demo/2014/77/js/jquery.fullPage.min.js"></script>
+http://frstatic.qiniudn.com/images/egg/pr2.png
+	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
-			'sectionsColor':['#fff','#fff','#fff','#fff','#fff','#fff'],
-			'navigation': false,
-			'css3':true,
+			'verticalCentered': true,
+			'sectionsColor':['#fff','#fff','#fff','#fff','#fff'],
+			'css3':false,
+			'scrollingSpeed':400,
 			afterRender: function(){
 						$('.s1-1').addClass('page-bounceIn');
 						$('.s1-3').addClass('page-fadeInDown');
@@ -226,29 +367,46 @@ position:relative;
 {% endblock %}
 {% block content %}
 <div class="wrap">
-	<div class="section table s1">
+	<div class="section s1">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_1.png" class="s1-1 page-bounceIn">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_f.png" width="100%" class="s1-3 page-fadeInDown">
 	</div>
 	
-	<div class="section table s2">
-		<div class="menu"></div>
-		
+	<div class="section s2">
+		<div class="menu p2"></div>
+		<div class="w-2">
 		<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="s2-2">
 		<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="s2-3">
 		<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="s2-4">
-		<img src="http://frstatic.qiniudn.com/images/egg/line.png" class="s2-5">
+		<!--<img src="http://frstatic.qiniudn.com/images/egg/line.png" class="s2-5">-->
+		</div>
+	</div>
+	<!--<div class="section s3">
+		<div class="menu p3"></div>
+		<div class="w-2">
+		<img src="{{ app_url_packaged }}/images/egg_wap/pon-t.png" class="s3-1">
+		<img src="{{ app_url_packaged }}/images/egg_wap/pon-b.png" class="s3-2">
+		</div>
+		
+	</div>-->
+	
+	<div class="section s3">
+		<div class="menu p3"></div>
+		<div class="w-2">
+			<img src="http://frstatic.qiniudn.com/images/egg/pl1.png" class="s4-1">
+			<img src="http://frstatic.qiniudn.com/images/egg/pl2.png" class="s4-2">
+			<img src="http://frstatic.qiniudn.com/images/egg/pr1.png" class="s4-3">
+			<img src="http://frstatic.qiniudn.com/images/egg/pr2.png" class="s4-4">
+			<img src="http://frstatic.qiniudn.com/images/egg/pd.png" class="s4-5">
+		</div>
+	</div>
+	
+	
+	<div class="section s4">
+		
 		
 	</div>
-	<div class="section table s3">
-		
-		
-	</div>
-	<div class="section table s4">
-		
-		
-	</div>
-	<div class="section table s5">
+	<div class="section s5">
 		
 		
 	</div>

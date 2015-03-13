@@ -32,7 +32,7 @@ while(!$is_end){
   $fid = Doggy_Config::$vars['app.birdegg.category_id'];
 	$query = array('fid'=>(int)$fid);
   echo "category_id: $fid\n";
-	$options = array('field' => array('_id', 'view_count'),'page'=>$page,'size'=>$size);
+	$options = array('field' => array('_id', 'love_count', 'invented_love_count'),'page'=>$page,'size'=>$size);
 	$list = $model->find($query, $options);
 	if(empty($list)){
 		echo "get stuff list is null,exit......\n";
@@ -40,9 +40,8 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
-    $invented_love_count = rand(5,50);
-    $view_count = $list[$i]['view_count'] + $invented_love_count + 100;
-		$model->update_set($list[$i]['_id'], array('invented_love_count'=>$invented_love_count, 'view_count'=>$view_count, 'verified'=>1));
+    $invented_love_count = $list[$i]['invented_love_count'] + $list[$i]['love_count'];
+		$model->update_set($list[$i]['_id'], array('love_count'=>$invented_love_count, 'invented_love_count'=>0));
 		echo "set stuff[".$list[$i]['_id']."]..........\n";
 		$total++;
 	}
