@@ -62,19 +62,19 @@
             {% include "block/user/sub_menu.html" %}
         </div>
         <div class="twelve wide column">
-            <h2 class="ui header">我的积分</h2>
+            <h2 class="ui header">我的等级</h2>
             <div class="ui segment">
                 <div class="ui grid">
                     <div class="integral row">
                         <div class="three wide column">
-                            <img src="http://static.taihuoniao.me/images/avatar_default_big.jpg" class="ui big avatar image">
+                            <img src="{{ visitor.big_avatar_url }}" class="ui big avatar image">
                         </div>
                         <div class="thirteen wide column">
-                            <h3 class="ui header">boc747</h3>
+                            <h3 class="ui header">{{user.nickname}}</h3>
                             <p>鸟列兵，</p>
                             <p> 我的等级: 3  </p>
                             <p> 经验值: 300 </p>
-                            <p><a href="">经验纪录</a></p>
+                            <!--<p><a href="">经验纪录</a></p>-->
                         </div>
                     </div>
                     <div class="mach row">
