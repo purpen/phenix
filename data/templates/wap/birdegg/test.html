@@ -550,9 +550,19 @@ cursor: pointer;
 	width:80%;
 }
 .s7 .w-2{
-	margin-top: -100px;
+	margin-top: -20px;
 	padding-top: 50%;
 	text-align: center;
+}
+.s7-2{
+	opacity:0;
+	margin-bottom:-700px;
+	transition: all .7s;
+}
+.active .s7-2{
+	opacity:1;
+	margin-bottom:0;
+	transition-delay: .7s;
 }
 
 #music-control {
@@ -918,7 +928,7 @@ z-index: 100000;
 	<div class="section s7">
 		
 		<div class="w-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/411.png" class="s7-1">
+			<img src="http://frstatic.qiniudn.com/images/egg/411.png" class="s7-1 page-bounceIn">
 			<img src="http://frstatic.qiniudn.com/images/egg/751.png" class="s7-2">
 		</div>
 	</div>
