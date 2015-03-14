@@ -530,6 +530,21 @@ z-index: 100000;
 	width:100%;
 	margin-top: -16px;
 }
+
+@keyframes swipe { 
+    0% { top: 92%; opacity: 1 }
+    100% { top: 90%; opacity: 0}  
+}
+@-webkit-keyframes swipe { 
+    0% { top: 92%; opacity: 1 }
+    100% { top: 90%; opacity: 0} 
+}
+
+.swipe { 
+    animation: swipe 1s linear 0 infinite;
+    -webkit-animation: swipe 1s linear 0 infinite;
+}
+.swipe { position: absolute; width: 28px; height: 16px; bottom: 20px; left: 50%; margin-left: -14px; }
 </style>
 {% endblock %}
 
@@ -579,6 +594,8 @@ z-index: 100000;
 	<div class="section s1">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_1.png" class="s1-1 page-bounceIn">
 		<img src="http://frstatic.qiniudn.com/images/egg/egg_f.png" width="100%" class="s1-3 page-fadeInDown">
+		
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
 	<div class="section s2">
@@ -589,6 +606,7 @@ z-index: 100000;
 		<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="s2-4">
 		<!--<img src="http://frstatic.qiniudn.com/images/egg/line.png" class="s2-5">-->
 		</div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
 	<div class="section s3">
@@ -600,26 +618,13 @@ z-index: 100000;
 			<img src="http://frstatic.qiniudn.com/images/egg/pr2.png" class="s3-4">
 			<img src="http://frstatic.qiniudn.com/images/egg/pd.png" class="s3-5">
 		</div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
 	
 	<div class="section s4">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		<div class="menu p4"></div>
-			<!--<div id="frslide" class="frame">
-				<div class="ui slide">
-					<div class="item">
-						<img src="http://frbird.qiniudn.com/product/150305/54f84037fc8b12941c8b4f8a-1-bi.jpg" alt="【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享" class="ui image">
-					</div>
-					<div class="item">
-						<img src="http://frbird.qiniudn.com/product/150305/54f84037fc8b12941c8b4f8a-1-bi.jpg" alt="【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享" class="ui image">
-					</div>
-					<div class="item">
-						<img src="http://frbird.qiniudn.com/product/150305/54f84037fc8b12941c8b4f8a-1-bi.jpg" alt="【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享" class="ui image">
-					</div>
-				
-				
-				</div>
-			</div>-->
 		<div class="slide">
 			<div class="w-2">
 				<img src="http://frstatic.qiniudn.com/images/egg_xxpo.jpg">
@@ -679,6 +684,7 @@ z-index: 100000;
 	
 	</div>
 	<div class="section s5">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		<div class="menu p5"></div>
 		<div class="w-2">
 			<img src="http://frstatic.qiniudn.com/images/egg/ct.png" class="s5-1">
@@ -688,6 +694,7 @@ z-index: 100000;
 		</div>
 	</div>
 	<div class="section s6">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		<div class="menu p6"></div>
 		<div class="slide">
 			<div class="slide-list">
