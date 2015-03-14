@@ -555,16 +555,69 @@ cursor: pointer;
 	text-align: center;
 }
 .s7-2{
-	opacity:0;
-	margin-bottom:-700px;
-	transition: all .7s;
+	opacity: 0;
+	transform: scale(0);
+	transition: all 1.5s;
 }
 .active .s7-2{
-	opacity:1;
-	margin-bottom:0;
-	transition-delay: .7s;
+	opacity: 1;
+	transition-delay: 1.5s;
+	transform: scale(1);
 }
-
+img.s7-4, img.s7-g, img.s7-11 {
+	display: inline-block;
+	width: 25% !important;
+}
+.s7-4{
+	transform: rotate(360deg);
+	-ms-transform:rotate(360deg); 	/* IE 9 */
+	-moz-transform:rotate(360deg); 	/* Firefox */
+	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(360deg);
+	opacity: 0;
+	transition: all .3s;
+	margin-left:-60%;
+}
+.active .s7-4{
+	transform: rotate(-360deg);
+	-ms-transform:rotate(-360deg); 	/* IE 9 */
+	-moz-transform:rotate(-360deg); 	/* Firefox */
+	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(-360deg);
+	opacity: 1;
+	transition-delay: .3s;
+	margin-left:0;
+}
+.s7-11{
+	transform: rotate(-360deg);
+	-ms-transform:rotate(-360deg); 	/* IE 9 */
+	-moz-transform:rotate(-360deg); 	/* Firefox */
+	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(-360deg);
+	transition: all .6s;
+	opacity: 0;
+	margin-right:-60%;
+}
+.active .s7-11{
+	transform: rotate(360deg);
+	-ms-transform:rotate(360deg); 	/* IE 9 */
+	-moz-transform:rotate(360deg); 	/* Firefox */
+	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+	-o-transform:rotate(360deg);
+	transition-delay: .6s;
+	margin-right:0;
+	opacity: 1;
+}
+.s7-g{
+	opacity: 0;
+	transition: all 1.2s;
+	transform: scale(0);
+}
+.active .s7-g{
+	opacity: 1;
+	transition-delay: 1.2s;
+	transform: scale(1);
+}
 #music-control {
 width: 30px;
 height: 30px;
@@ -926,10 +979,12 @@ z-index: 100000;
 	
 	
 	<div class="section s7">
-		
 		<div class="w-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/411.png" class="s7-1 page-bounceIn">
+			<img src="http://frstatic.qiniudn.com/images/egg/4.png" class="s7-4">
+			<img src="http://frstatic.qiniudn.com/images/egg/g.png" class="s7-g">
+			<img src="http://frstatic.qiniudn.com/images/egg/11.png" class="s7-11">
 			<img src="http://frstatic.qiniudn.com/images/egg/751.png" class="s7-2">
+			
 		</div>
 	</div>
 	
