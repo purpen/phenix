@@ -20,6 +20,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	/**
 	 * 千万红包
 	 */
+	public function year(){
+		return $this->to_html_page('wap/promo/oneyear.html');
+	}
+	
+	/**
+	 * 千万红包
+	 */
 	public function coupon(){
 		$total_times = 3;
 		
