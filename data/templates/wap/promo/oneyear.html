@@ -1,0 +1,173 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}太火鸟周年庆,注册即送100元红包,快来加入吧!-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+@media only screen and (min-width: 561px){
+	.w-2{
+		width:380px;
+	}
+}
+@media only screen and (max-width: 560px){
+	.wrap {
+	width: 100%;
+	}
+	.w-2{
+		width:380px;
+	}
+}
+@media only screen and (max-width: 414px){
+	.w-2{
+		width:310px;
+	}
+}
+@media only screen and (max-width: 375px){
+	.w-2{
+		width:280px;
+	}
+}
+@media only screen and (max-width: 320px){
+	.w-2{
+		width:310px;
+	}
+}
+
+
+  header.ui.wap{
+		display:none !important;
+		opacity:0;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	.mmfoot{
+		display:none;
+	}
+	* { -webkit-appearance: none; }
+
+	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+	.wrap {
+		width: 640px;
+		margin: 0 auto;
+		height: 100%;
+		overflow: hidden;
+	}
+	.logo{
+		position:absolute;
+		bottom:80px;
+		width: 18%;
+		right: 50%;
+		margin-right: -60px;
+	}
+	
+	.section.s1{
+		background:url({{ app_url_packaged }}/images/year/1.jpg) no-repeat;
+		background-size:cover;
+		position: relative;
+	}
+	.section.s2{
+		background:url({{ app_url_packaged }}/images/year/5.jpg) no-repeat;
+		background-size:cover;
+		position: relative;
+	}
+	
+	
+	.s1-1{
+		padding:20px 0;
+	}
+	.s2-1,.s2-2{
+		padding:20px 0;
+		width:120% !important;
+		margin-left:-10%;
+	}
+
+
+	.w-2{
+		margin:0 auto;
+		height:auto;
+		text-align:center;
+	}
+	img{
+		width:100%;
+	}
+	.w-2 .content{
+		width:80%;
+		margin:0 auto;
+		text-align:center;
+		padding:8px 0;
+		border: 1px dashed #fff;
+		border-radius:15px;
+		color:#fff;
+	}
+	.content h2,.content p{
+		margin:0;
+		padding:0;
+		line-height: 28px;
+	}
+	.content+.content{
+		margin-top:20px;
+	}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+	<script type="text/javascript" >
+		$('.wrap').fullpage({
+			'verticalCentered': true,
+			'sectionsColor':['#000','#000','#000','#000','#000','#190119'],
+			'css3':false,
+			'slidesNavigation': true,
+			afterRender: function(){
+						$('.s1-1').addClass('page-bounceIn');
+						$('.s1-3').addClass('page-fadeInDown');
+			},
+		
+		});
+	</script>
+
+
+{% endblock %}
+
+{% block jquery %}
+
+
+{% endblock %}
+{% block content %}
+<div class="wrap">
+	<div class="section s1">
+		<div class="w-2">
+			<img src="{{ app_url_packaged }}/images/year/2.png" class="s1-1">
+			<div class="content">
+				<h2>营销40款智能硬件</h2>
+				<p>创销售额2500W</p>
+			</div>
+			<div class="content">
+				<h2>投资孵化8个初创团队</h2>
+				<p>2个获A轮融资</p>
+			</div>
+			<div class="content">
+				<h2>官方网站正式运营7个月</h2>
+				<p>粉丝达30W</p>
+			</div>
+		
+			<img src="{{ app_url_packaged }}/images/year/logo.png" class="logo">
+		</div>
+	</div>
+	<div class="section s2">
+		<div class="w-2">
+			<img src="{{ app_url_packaged }}/images/year/3.png" class="s2-1">
+			<img src="{{ app_url_packaged }}/images/year/4.png" class="s2-2">
+		
+			<img src="{{ app_url_packaged }}/images/year/logo.png" class="logo">
+		</div>
+	</div>
+	<div class="section s3">
+		
+		
+	</div>
+
+
+
+
+</div>
+{% endblock %}
