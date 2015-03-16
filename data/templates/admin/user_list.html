@@ -120,7 +120,9 @@
 						<a href="{{ app_url_admin }}/user/remove?id={{ user._id }}" class="ui link confirm-request">删除</a>
 						{% endif %}
 					</p>
-					{% endif %}
+					{% else %}
+            <a href="{{ app_url_admin }}/user/undisabled?id={{ user._id }}" class="ui link ajax">解禁</a>
+          {%endif%}
 				</td>
 			</tr>
 			{% endfor %}
