@@ -830,8 +830,7 @@ a.line:hover{
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		<div class="menu p6"></div>
 		
-		{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
-		{% for stuff in stufflist.rows %}
+		{% for stuff in stuffs %}
 		<div class="slide">
 			<div class="slide-list">
 				<div class="ui grid" style="padding:0 15%;">
