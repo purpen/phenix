@@ -11,7 +11,8 @@ app.domain.base: 'http://taihuoniao.me'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
 #app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
-app.doggyx.class_path: '/opt/project/php/doggy-x'
+app.doggyx.class_path: '/Users/purpen/project/doggy-x'
+#app.doggyx.class_path: '/opt/project/php/doggy-x'
 
 app.url.packaged: '{$app.domain.static}'
 

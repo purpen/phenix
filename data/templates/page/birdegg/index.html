@@ -897,6 +897,14 @@ background-color: #fff;
 	font-size: 35px;
 	font-family: FontIcons;
 }
+
+.image-extra > a{
+	position: absolute;
+	width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1545,30 +1553,32 @@ background-color: #fff;
 				<div class="w-1180">
 					<h3 class="ui header center aligned">产品提交</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
-				
+					
 					<div class="featured">
 						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
 						<div class="ui four cards">
 							{% for stuff in stufflist.rows %}
 						  	<div class="card">
 						    	<div class="image">
-				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-														<div class="image-extra">
-															<div class="extra-content">
-																<a class="inner-extra" href=" ">
-																					<div class="single-image plus-icon">
-																						<span class="like"></span>
-																					</div>
-																				</a>
-																				
-															</div>
-														</div>
+				                  	
+														
 				                    {% if stuff.cover %}
 				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
 				                    {%else%}
 				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
 				                    {%endif%}
-				                	</a>
+														
+														<div class="image-extra">
+														<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank"></a>
+															<div class="extra-content">
+																<a class="inner-extra">
+																					<div class="single-image plus-icon">
+																						<a href="www.taihuoniao.com">
+																							<span class="like"></span>
+																						</a>
+																					</div>
+															</div>
+														</div>
 						    	</div>
 						    	<div class="content">
 						      	  	<div class="header">
@@ -1591,6 +1601,8 @@ background-color: #fff;
 							{% endfor %}
 						</div>
 					</div>
+					
+					
 					
 					<div class="buttons">
 						<a href="{{ app_url_birdegg }}/submit" class="ui inverted button" target="_blank">产品提交</a>
