@@ -7,6 +7,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 	public $stash = array(
 		'page'=>1,
     'st'=>0,
+    'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
