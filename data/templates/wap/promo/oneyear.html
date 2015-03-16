@@ -70,8 +70,7 @@
 		position:absolute;
 		bottom:80px;
 		width: 18%;
-		right: 50%;
-		margin-right: -60px;
+		right: 41%;
 	}
 	
 	.section.s1{
@@ -84,12 +83,19 @@
 		background-size:cover;
 		position: relative;
 	}
+	.section.s3{
+		background:url({{ app_url_packaged }}/images/year/7.jpg) no-repeat;
+		background-size:cover;
+		position: relative;
+	}
 	
 	
 	.s1-1{
 		padding:20px 0;
+		width: 130%;
+		margin-left: -15%;
 	}
-	.s2-1,.s2-2{
+	.s2-1,.s2-2,.s3-2{
 		padding:20px 0;
 		width:120% !important;
 		margin-left:-10%;
@@ -105,7 +111,7 @@
 		width:100%;
 	}
 	.w-2 .content{
-		width:80%;
+		width:90%;
 		margin:0 auto;
 		text-align:center;
 		padding:8px 0;
@@ -120,6 +126,12 @@
 	}
 	.content+.content{
 		margin-top:20px;
+	}
+	.text{
+		width:98%;
+		text-align:center;
+		margin:0 auto;
+		color:#f36;
 	}
 </style>
 {% endblock %}
@@ -177,8 +189,18 @@
 		</div>
 	</div>
 	<div class="section s3">
-		
-		
+		<div class="w-2">
+			<img src="{{ app_url_packaged }}/images/year/3.png" class="s2-1">
+			<img src="{{ app_url_packaged }}/images/year/6.png" class="s3-2">
+			<div class="text">
+				<a href="{{ app_url_wap }}/auth/signup" class="ui magenta active btn-4 btn-4c icon-arrow-right btn">
+						加入我们
+					</a>
+					<p>领取100元任性红包，为心中的梦想加油！</p>
+			</div>
+			
+			<img src="{{ app_url_packaged }}/images/year/logo.png" class="logo">
+		</div>
 	</div>
 
 
