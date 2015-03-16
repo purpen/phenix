@@ -35,7 +35,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		$this->stash['cid'] = $cid;
 
     //作品推荐列表---取块内容
-    $stuff_ids = Sher_Core_Util_View::load_block('birdegg_index_stick_wap', 1);
+    $stuff_ids = Sher_Core_Util_View::load_block('birdegg_index_stick', 1);
     $stuffs = array();
     if($stuff_ids){
       $stuff_model = new Sher_Core_Model_Stuff();

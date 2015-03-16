@@ -1489,9 +1489,8 @@ background-color: #fff;
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 				
 					<div class="featured">
-						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
 						<div class="ui four cards">
-							{% for stuff in stufflist.rows %}
+							{% for stuff in stuffs %}
 						  	<div class="card">
 						    	<div class="image">
 				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
