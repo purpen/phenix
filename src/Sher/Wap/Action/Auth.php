@@ -199,7 +199,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             return $this->ajax_json($e->getMessage(), true);
         }
 		
-		$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);
+    //周年庆活动跳到提示分享页面
+    if(Doggy_Config::$vars['app.anniversary2015.switch']){
+      //当前用户邀请码
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+    }else{
+ 		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
+    }
+
 		
 		$this->clear_auth_return_url();
 		

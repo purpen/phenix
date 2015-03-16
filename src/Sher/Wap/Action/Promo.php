@@ -37,8 +37,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	        if($user){
 	          $this->stash['user'] = $user;
 	          //判断是否为当前用户
-	          if($this->visitor->id && (int)$this->visitor->id==$user['_id']){
-	            $this->stash['is_current_user'] = true;
+	          if($this->stash['yes_login']==true){
+	            if((int)$this->visitor->id==$user['_id']){
+	              $this->stash['is_current_user'] = true;
+              }else{
+                //如果邀请码不是当前用户,刷新页面换为自己的邀请码
+                $current_invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+                $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$current_invite_code; 
+                return $this->to_redirect($redirect_url);
+              }
 	          }
 	        }
 	      }
