@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block layout_js %}
+  <script src="{{ app_url_packaged }}/javascript/jquery.zclip.min.js"></script>
 <script type="text/javascript">
   // 社会化分享
   function social_share(link, title, pic_url) {
@@ -102,6 +103,17 @@
   social_share(share_url, share_title, share_pic);
 	// 生成二维码
   $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/auth/signup?user_invite_code={{ user_invite_code }}'});
+
+  //复制邀请链接
+    $('#copyBtn').zclip({
+    path: "{{ app_url_packaged }}/images/swf/ZeroClipboard.swf",
+        copy: function(){
+            return $('#invite_link').val();
+　　　 　　},
+        afterCopy:function(){
+          phenix.show_ok_note('复制成功',2000);
+        }
+    });
 {% endblock %}
 {% block content %}
 <div class="account profile">
@@ -117,10 +129,19 @@
 						<div class="ui column">
 							<div class="ui success message">
                 <!--邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券；-->
-                <!--活动期间,每成功邀请一个朋友,将获得31元购物红包-->
+                3月10日-4月10日太火鸟周年庆活动期间,每成功邀请一个朋友,将获得30元购物红包
 							</div>
 							<h5>
-                邀请链接: {{ app_url_register }}?user_invite_code={{ user_invite_code }}</h5>
+                邀请链接: </h5>
+                <form action="" method="post" class="ui fluid form">
+<div class="two fields">
+							<div class="field">
+								<input type="text" disabled="disabled" name="invite_link" id="invite_link" value="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" />
+
+							</div>
+              <input type="button" id="copyBtn" class="ui active magenta button" value="复制" />
+            </div>
+            </form>
 						</div>
 					</div>
 					<div class="row">
