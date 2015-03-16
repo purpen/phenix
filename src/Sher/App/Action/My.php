@@ -591,5 +591,87 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		return $this->to_taconite_page('ajax/refund_ok.html');
   }
 
+  /**
+   * 关注的人
+   */
+  public function follows(){
+  
+  
+  }
+
+  /**
+   * 我的粉丝
+   */
+  public function fans(){
+  
+  
+  }
+
+  /**
+   * 我的收藏
+   */
+  public function favorites(){
+  
+  
+  }
+
+  /**
+   * 我的喜欢
+   */
+  public function loves(){
+  
+  
+  }
+
+  /**
+   * 我的私信
+   */
+  public function messages(){
+  
+    return $this->to_html_page('page/user/message.html');
+  
+  }
+
+  /**
+   * 我的通知
+   */
+  public function notices(){
+  
+  }
+
+  /**
+   * 我的提醒
+   */
+  public function reminds(){
+  
+  }
+
+  /**
+   * 删除私信
+   */
+  public function delete_message(){
+    $id = $this->stash['id'];
+    if(empty($id)){
+      return $this->ajax_note('id不存在!', true); 
+    }
+    $message = new Sher_Core_Model_Message();
+    $data = $message->find_by_id($id);
+    if(empty($data)){
+      return $this->ajax_note('私信不存在!', true);    
+    }
+    if(is_array($data['users']) && in_array((int)$this->visitor->id, $data['users'])){
+      $ok = $message->remove($id);
+      if($ok){
+        return $this->to_taconite_page('ajax/del_message.html');
+      }else{
+        return $this->ajax_note('操作失败!', true);   
+      }
+    }else{
+      return $this->ajax_note('没有权限!', true);
+    }
+
+  }
+
+
 }
 ?>

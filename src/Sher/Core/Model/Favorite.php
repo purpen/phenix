@@ -69,69 +69,65 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     protected function after_save() {
 		$type = $this->data['type'];
 		$event = $this->data['event'];
-		
-		// 如果是新的记录
-    	if($this->insert_mode){
-      		if($event == self::EVENT_FAVORITE){
-        		$field = 'favorite_count';
-        		$evt = Sher_Core_Model_Timeline::EVT_FAVORITE;
-      	    }elseif($event == self::EVENT_LOVE){
-        		$field = 'love_count';
-        		$evt = Sher_Core_Model_Timeline::EVT_LOVE;
-      	  	}
-      	    switch($type){
-        		case self::TYPE_TOPIC:
-          	  		$model = new Sher_Core_Model_Topic();
-          		    $model->increase_counter($field, 1, (int)$this->data['target_id']);
-          		    // 获取目标用户ID
-          		    $topic = $model->extend_load((int)$this->data['target_id']);
-          		    $user_id = $topic['user_id'];
-          		  	$type = Sher_Core_Model_Timeline::TYPE_TOPIC;
-          		    break;
-        		case self::TYPE_PRODUCT:
-          	  	    $model = new Sher_Core_Model_Product();
-          		    $model->inc_counter($field, 1, (int)$this->data['target_id']);
-          		    // 获取目标用户ID
-          		    $product = $model->extend_load((int)$this->data['target_id']);
-          		    $user_id = $product['user_id'];
-          		  	$type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
-          		    break;
-        		case self::TYPE_COMMENT:
-          	  	    $model = new Sher_Core_Model_Comment();
-          		    $model->inc_counter($field, 1, (string)$this->data['target_id']);
-          		    // 获取目标用户ID
-          		    $comment = $model->find_by_id((string)$this->data['target_id']);
-          		    $user_id = $comment['user_id'];
-          		  	$type = Sher_Core_Model_Timeline::TYPE_COMMENT;
-          		    break;
-        		case self::TYPE_STUFF:
-          	  	    $model = new Sher_Core_Model_Stuff();
-          		    $model->inc_counter($field, 1, (int)$this->data['target_id']);
-          		    // 获取目标用户ID
-          		    $product = $model->extend_load((int)$this->data['target_id']);
-          		    $user_id = $product['user_id'];
-          		  	$type = Sher_Core_Model_Timeline::TYPE_STUFF;
-          		    break;
-      		}
+		//如果是新的记录
+    if($this->insert_mode) {
+      if ($event == self::EVENT_FAVORITE){
+        $field = 'favorite_count';
+        $evt = Sher_Core_Model_Remind::EVT_FAVORITE;
+      }elseif ($event == self::EVENT_LOVE){
+        $field = 'love_count';
+        $evt = Sher_Core_Model_Remind::EVT_LOVE;
+      }
+      switch($type){
+        case self::TYPE_TOPIC:
+          $model = new Sher_Core_Model_Topic();
+          $model->increase_counter($field, 1, (int)$this->data['target_id']);
+          $kind = Sher_Core_Model_Remind::KIND_TOPIC;
+          //获取目标用户ID
+          $topic = $model->extend_load((int)$this->data['target_id']);
+          $user_id = $topic['user_id'];
+          break;
+        case self::TYPE_PRODUCT:
+          $model = new Sher_Core_Model_Product();
+          $model->inc_counter($field, 1, (int)$this->data['target_id']);
+          //获取目标用户ID
+          $product = $model->extend_load((int)$this->data['target_id']);
+          $user_id = $product['user_id'];
+          $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
+          break;
+        default:
+          return;
+      }
 
-      	    // 添加动态
-      	    $timeline = new Sher_Core_Model_Timeline();
-      	    $arr = array(
-        		'user_id' => $this->data['user_id'],
-        		'target_id' => (string)$this->data['_id'],
-        		'type' => $type,
-        		'evt' => $evt,
-        		'target_user_id' => $user_id,
-      	    );
-      	    $ok = $timeline->create($arr);
-			
-      	    // 给用户添加提醒
-      	    if($ok){
-        		$user = new Sher_Core_Model_User();
-        		$user->update_counter_byinc($user_id, 'alert_count', 1); 
-      	  	}
-    	}
-  	}
+      //添加动态
+      /**
+      $timeline = new Sher_Core_Model_Timeline();
+      $arr = array(
+        'user_id' => $this->data['user_id'],
+        'target_id' => (string)$this->data['_id'],
+        'type' => $type,
+        'evt' => $evt,
+        'target_user_id' => $user_id,
+      );
+      $ok = $timeline->create($arr);
+      */
+      //给用户添加提醒
+      $remind = new Sher_Core_Model_Remind();
+      $arr = array(
+        'user_id'=> $user_id,
+        's_user_id'=> $this->data['user_id'],
+        'evt'=> $evt,
+        'kind'=> $kind,
+        'related_id'=> (int)$this->data['target_id'],
+        'parent_related_id'=> (string)$this->data['_id'],
+      );
+      $ok = $remind->apply_and_save($arr);
+      if($ok){
+        $user = new Sher_Core_Model_User();
+        $user->update_counter_byinc($user_id, 'alert_count', 1);     
+      }
+    }
+  }
 	
     /**
      * 添加到收藏
