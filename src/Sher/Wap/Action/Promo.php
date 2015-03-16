@@ -24,7 +24,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		$code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
 	    $this->stash['user'] = null;
 	    $this->stash['is_current_user'] = false;
-	    $this->stash['yes_login'] = true;
+	    $this->stash['yes_login'] = false;
+      if($this->visitor->id){
+        $this->stash['yes_login'] = true;
+      }
 	    //通过邀请码获取邀请者ID
 	    if($code){
 	      $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
@@ -34,11 +37,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	        if($user){
 	          $this->stash['user'] = $user;
 	          //判断是否为当前用户
-	          if($this->visitor->id){
-	            $this->stash['yes_login'] = true;
-	            if((int)$this->visitor->id==$user['_id']){
-	              $this->stash['is_current_user'] = true;
-	            }
+	          if($this->visitor->id && (int)$this->visitor->id==$user['_id']){
+	            $this->stash['is_current_user'] = true;
 	          }
 	        }
 	      }
