@@ -100,6 +100,22 @@
 		width:120% !important;
 		margin-left:-10%;
 	}
+	.s2-2{
+		transform:scale(0);
+		-ms-transform:scale(0); 	/* IE 9 */
+		-moz-transform:scale(0); 	/* Firefox */
+		-webkit-transform:scale(0); /* Safari 和 Chrome */
+		-o-transform:scale(0);
+		transition: all .7s;
+	}
+	.active .s2-2{
+		transform: scale(1);
+		-ms-transform:scale(1); 	/* IE 9 */
+		-moz-transform:scale(1); 	/* Firefox */
+		-webkit-transform:scale(1); /* Safari 和 Chrome */
+		-o-transform:scale(1);
+		transition-delay: .7s;
+	}
 
 
 	.w-2{
@@ -133,6 +149,42 @@
 		margin:0 auto;
 		color:#f36;
 	}
+	
+	.active .page-bounceIn{
+		-webkit-animation:bounceIn 1s .2s ease both;
+		-moz-animation:bounceIn 1s .2s ease both;
+		animation:bounceIn 1s .2s ease both;
+	}
+	@-webkit-keyframes bounceIn{
+		0% 		{opacity:0;-webkit-transform:scale(0)}0
+		100% 	{opacity:1;-webkit-transform:scale(1)}
+	}
+	@-moz-keyframes bounceIn{
+		0% 		{opacity:0;-moz-transform:scale(0)}
+		100% 	{opacity:1;-moz-transform:scale(1)}
+	}
+	@keyframes bounceIn{
+		0% 		{opacity:0;transform:scale(0)}
+		100% 	{opacity:1;transform:scale(1)}
+	}
+	.active .page-fadeInDown {
+	-webkit-animation: fadeInDown 1s ease both;
+	-moz-animation: fadeInDown 1s ease both;
+	animation: fadeInDown 1s ease both;
+	}
+
+	@-webkit-keyframes fadeInDown{
+		0% 		{opacity:0;-webkit-transform:translateY(600px)}
+		100% 	{opacity:1;-webkit-transform:translateY(0)}
+	}
+	@-moz-keyframes fadeInDown{
+		0% 		{opacity:0;-moz-transform:translateY(600px)}
+		100% 	{opacity:1;-moz-transform:translateY(0)}
+	}
+	@keyframes fadeInDown{
+		0% 		{opacity:0;-moz-transform:translateY(600px)}
+		100% 	{opacity:1;-moz-transform:translateY(0)}
+	}
 </style>
 {% endblock %}
 
@@ -146,7 +198,7 @@
 			'slidesNavigation': true,
 			afterRender: function(){
 						$('.s1-1').addClass('page-bounceIn');
-						$('.s1-3').addClass('page-fadeInDown');
+						$('.content').addClass('page-fadeInDown');
 			},
 		
 		});
@@ -163,16 +215,16 @@
 <div class="wrap">
 	<div class="section s1">
 		<div class="w-2">
-			<img src="{{ app_url_packaged }}/images/year/2.png" class="s1-1">
-			<div class="content">
+			<img src="{{ app_url_packaged }}/images/year/2.png" class="s1-1 page-bounceIn">
+			<div class="content page-fadeInDown">
 				<h2>营销40款智能硬件</h2>
 				<p>创销售额2500W</p>
 			</div>
-			<div class="content">
+			<div class="content page-fadeInDown">
 				<h2>投资孵化8个初创团队</h2>
 				<p>2个获A轮融资</p>
 			</div>
-			<div class="content">
+			<div class="content page-fadeInDown">
 				<h2>官方网站正式运营7个月</h2>
 				<p>粉丝达30W</p>
 			</div>
