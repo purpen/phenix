@@ -2,6 +2,12 @@
 {% block title %}太火鸟周年庆,注册即送100元红包,快来加入吧!-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+.wrap {
+	width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+}
 @media only screen and (min-width: 561px){
 	.w-2{
 		width:380px;
@@ -45,11 +51,20 @@
 	* { -webkit-appearance: none; }
 
 	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
-	.wrap {
-		width: 640px;
-		margin: 0 auto;
+	.fp-table {
+		display: table;
+		width: 100%;
+	}
+	.fp-tableCell {
+		display: table-cell;
+		width: 100%;
 		height: 100%;
-		overflow: hidden;
+		position:relative;
+	}
+	.fp-section.fp-table{
+		display: table;
+		table-layout: fixed;
+		width: 100%;
 	}
 	.logo{
 		position:absolute;
