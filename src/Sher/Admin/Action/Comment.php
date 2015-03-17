@@ -145,9 +145,9 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
    */
   public function get_attend_list(){
 		$page = (int)$this->stash['page'];
-    $this->stash['target_id'] = isset($this->stash['target_id'])?$this->stash['target_id']:1;
+    $this->stash['target_id'] = isset($this->stash['target_id'])?$this->stash['target_id']:0;
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/comment/get_attend_list?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/comment/get_attend_list?target_id=%s&page=#p#', $this->stash['target_id']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
