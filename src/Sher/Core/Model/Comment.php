@@ -32,7 +32,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
-    protected $int_fields = array('user_id','target_user_id','star');
+    protected $int_fields = array('user_id','target_user_id','star','love_count');
 	  protected $counter_fields = array('love_count');
 	
 	/**
@@ -148,7 +148,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
         }
-        //$row['content'] = Sher_Core_Util_View::safe($row['content']);
+        $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
         $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if (!empty($row['reply'])) {

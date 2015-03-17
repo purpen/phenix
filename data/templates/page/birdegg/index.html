@@ -839,75 +839,65 @@ background-color: #fff;
 .stuffs .ui.four.cards .card  .extra small{
 	cursor: auto;
 }
-
-.image-extra{
-	background-color: rgba(0,0,0,.1);
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	width: 100%;
-	z-index: 3;
-}
-.image:hover .image-extra,.ui.cards .card:hover .image-extra{
-	background-color: rgba(0,0,0,.5);
-	opacity:1;
-}
-.plus-icon .like {
-	border: 1px solid #FFF;
-	border-radius: 50%;
-	display: inline-block;
-	height: 50px;
-	-webkit-transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	width: 50px;
-}
-.single-image.plus-icon .like {
- 	-webkit-transform: translateX(-300%);
-	-ms-transform: translateX(-300%);
-	transform: translateX(-300%); 
-}
-.ui.cards .card:hover .like{
-	-webkit-transform: translateX(0%);
-	-ms-transform: translateX(0%);
-	transform: translateX(0%);
-}
-.plus-icon .like:after{
-	border-radius: 50%;
-	color: #FFF;
-	display: block;
-	font-size: 18px;
-	height: 100%;
-	left: 0;
-	line-height: 57px;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: color .25s ease-in-out 0s;
-	transition: color .25s ease-in-out 0s;
-	width: 100%;
-}
-.plus-icon .like:after {
-	content: "\f004";
-	font-size: 35px;
-	font-family: FontIcons;
-}
-
-.image-extra > a{
-	position: absolute;
-	width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
 </style>
 {% endblock %}
 {% block jquery %}
+
+	/* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
 
 	var s = e(window).width();
 	e(".frames > .slide > .item").width(s);
@@ -1555,8 +1545,9 @@ background-color: #fff;
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 					
 					<div class="featured">
-						<div class="ui four cards">
+						<div id="item-list" class="ui four cards">
 							{% for stuff in stuffs %}
+<<<<<<< HEAD
 						  	<div class="card">
 						    	<div class="image">
 <<<<<<< HEAD
@@ -1612,6 +1603,9 @@ background-color: #fff;
 									</a>
 						    	</div>
 						  	</div>
+=======
+                {% include "block/birdegg_item.html" %}
+>>>>>>> origin/ts
 							{% endfor %}
 						</div>
 					</div>
