@@ -41,7 +41,6 @@
 			{% favorite_list var:'list' target_id:target_id type:3 page:page size:50 %}
 
 			{% for f in list.rows %}
-      aaa
         {% if f.user %}
           <tr id="{{ f._id }}">
             <td>
