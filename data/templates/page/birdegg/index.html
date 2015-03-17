@@ -1555,11 +1555,11 @@ background-color: #fff;
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 					
 					<div class="featured">
-						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
 						<div class="ui four cards">
-							{% for stuff in stufflist.rows %}
+							{% for stuff in stuffs %}
 						  	<div class="card">
 						    	<div class="image">
+<<<<<<< HEAD
 				                  	
 														
 				                    {% if stuff.cover %}
@@ -1568,6 +1568,10 @@ background-color: #fff;
 				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
 				                    {%endif%}
 														
+=======
+				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+                              <!--
+>>>>>>> origin/ts
 														<div class="image-extra">
 														<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank"></a>
 															<div class="extra-content">
@@ -1579,6 +1583,16 @@ background-color: #fff;
 																					</div>
 															</div>
 														</div>
+<<<<<<< HEAD
+=======
+                            -->
+				                    {% if stuff.cover %}
+				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+				                    {%else%}
+				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+				                    {%endif%}
+				                	</a>
+>>>>>>> origin/ts
 						    	</div>
 						    	<div class="content">
 						      	  	<div class="header">

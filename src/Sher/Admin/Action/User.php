@@ -195,6 +195,20 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
+
+	/**
+	 * 解禁用户
+	 */
+	public function undisabled() {
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_User();
+		$ok = $model->active_account($this->stash['id']);
+		
+		return $this->to_taconite_page('admin/del_ok.html');
+	}
 	
 	/**
 	 * 删除用户

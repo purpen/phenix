@@ -18,11 +18,11 @@
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标题不能为空'
+					prompt : '名称不能为空'
 				},
 				{
 					type   : 'maxLength[75]',
-					prompt : '标题最多75个字符'
+					prompt : '名称最多75个字符'
 				}
 			]
 		},
@@ -31,7 +31,7 @@
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '详细内容不能为空'
+					prompt : '详细描述不能为空'
 				}
 			]
 		}
@@ -49,7 +49,7 @@
 					
 					if(data.is_error){
 						$(event.target).addClass('error');
-						phenix.show_error_message(data.message, event.target);
+						phenix.show_error_note(data.message, event.target);
 					}else{
 						phenix.redirect(data.redirect_url);
 					}
