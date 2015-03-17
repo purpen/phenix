@@ -39,7 +39,7 @@
 		<div class="column">
 			{% if process_saled %}
 			{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
-			<div class="ui selection dropdown">
+			<div class="ui fluid selection dropdown">
 				{% if current %}
 				<div class="default text">{{ current.title }}</div>
 				{% else %}
