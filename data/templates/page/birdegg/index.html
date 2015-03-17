@@ -1547,7 +1547,65 @@ background-color: #fff;
 					<div class="featured">
 						<div id="item-list" class="ui four cards">
 							{% for stuff in stuffs %}
+<<<<<<< HEAD
+						  	<div class="card">
+						    	<div class="image">
+<<<<<<< HEAD
+				                  	
+														
+				                    {% if stuff.cover %}
+				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+				                    {%else%}
+				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+				                    {%endif%}
+														
+=======
+				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+                              <!--
+>>>>>>> origin/ts
+														<div class="image-extra">
+														<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank"></a>
+															<div class="extra-content">
+																<a class="inner-extra">
+																					<div class="single-image plus-icon">
+																						<a href="www.taihuoniao.com">
+																							<span class="like"></span>
+																						</a>
+																					</div>
+															</div>
+														</div>
+<<<<<<< HEAD
+=======
+                            -->
+				                    {% if stuff.cover %}
+				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+				                    {%else%}
+				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+				                    {%endif%}
+				                	</a>
+>>>>>>> origin/ts
+						    	</div>
+						    	<div class="content">
+						      	  	<div class="header">
+										<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+									</div>
+						      	  	<div class="description">
+						        		{{ stuff.strip_description|truncate 60 '' }}
+						      	  	</div>
+						    	</div>
+						    	<div class="extra">
+						      	  	<a class="right floated created">
+                          <!--<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>-->
+										<small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
+									</a>
+									<a href="{{ stuff.user.home_url }}" class="ui icon link">
+										<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+									</a>
+						    	</div>
+						  	</div>
+=======
                 {% include "block/birdegg_item.html" %}
+>>>>>>> origin/ts
 							{% endfor %}
 						</div>
 					</div>
