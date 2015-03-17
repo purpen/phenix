@@ -260,13 +260,20 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * @return string
 	 */
 	public function ajax_fetch_counter(){
+    $model = new Sher_Core_Model_User();
+    $user = $model->load((int)$this->visitor->id);
+    if(empty){
+      $this->stash['error'] = true;
+      return $this->to_taconite_page('ajax/user_notice.html');
+    }
+    $this->stash['error'] = false;
     $this->stash['total_count'] = (
-		  ($this->stash['message_count'] = $this->visitor->counter['message_count']) +
-		  ($this->stash['alert_count'] = $this->visitor->counter['alert_count']) +
-		  ($this->stash['notice_count'] = $this->visitor->counter['notice_count']) +
-		  ($this->stash['fans_count'] = $this->visitor->counter['fans_count']) +
-		  ($this->stash['comment_count'] = $this->visitor->counter['comment_count']) +
-		  ($this->stash['people_count'] = $this->visitor->counter['people_count'])
+		  ($this->stash['message_count'] = $user['counter']['message_count']) +
+		  ($this->stash['alert_count'] = $user['counter']['alert_count']) +
+		  ($this->stash['notice_count'] = $user['counter']['notice_count']) +
+		  ($this->stash['fans_count'] = $user['counter']['fans_count']) +
+		  ($this->stash['comment_count'] = $user['counter']['comment_count']) +
+		  ($this->stash['people_count'] = $user['counter']['people_count'])
     );
     return $this->to_taconite_page('ajax/user_notice.html');
 	}
