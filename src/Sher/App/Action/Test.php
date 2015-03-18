@@ -243,8 +243,9 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //Doggy_Log_Helper::warn("=======================");
     //440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8
     //$a = Sher_Core_Util_View::fetch_invite_user_id('440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8');
-    $a = Sher_Core_Util_View::url_short('1');
-    echo $a;
+    //$a = Sher_Core_Util_View::url_short('1');
+    $a = -5;
+    echo (int)$a;
   }
 
   public function test_preg(){

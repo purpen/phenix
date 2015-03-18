@@ -839,6 +839,10 @@ background-color: #fff;
 .stuffs .ui.four.cards .card  .extra small{
 	cursor: auto;
 }
+.ui.cards>.card, .ui.card,.ui.cards>.card:hover, .ui.card:hover{
+	-webkit-box-shadow: 0 0px 0px #C7C7C7 !important;
+	box-shadow: 0 0px 0px #C7C7C7 !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -880,6 +884,7 @@ background-color: #fff;
 				if (result.success) {
 					obj.attr('loved', 1);
           obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
           $('.item-'+id).find('.love-count').text(result.data.love_count);
 				} else {
 					phenix.show_error_note(result.message);
@@ -1591,7 +1596,7 @@ background-color: #fff;
 						<img src="{{ app_url_packaged }}/images/egg_fasto.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_bdoo.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_hdx.jpg" class="ui image">
-						<img src="{{ app_url_packaged }}/images/egg_qhx.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qhxo.jpg" class="ui image">
 					</div>
 				
 					<div class="logo">
