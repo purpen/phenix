@@ -175,13 +175,13 @@ color: rgba(0,0,0,.45);
               </a>
               <div class="news">
                 与
-                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
+                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
                 的对话
 
               {% for m in message.mailbox %}
               <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
               {% endfor %}
-              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
+              <div class="report">
                 <div class="pushtime">
                   {{ message.created_on|relative_datetime }}
                 </div>

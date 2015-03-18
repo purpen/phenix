@@ -64,85 +64,34 @@ color: rgba(0,0,0,.45);
 	color: rgba(0,0,0,.45);
 	
 }
+
+/****  collect   ****/
 .ui.white.background{
 	background:#fff;
 }
-.user .ui.attention.eleven{
+.user .ui.push{
 	padding:0 1.5%;
-	border:0px solid rgba(0,0,0,0) !important;
+	border:0px solid rgba(0,0,0,0);
 }
-.ui.attention .ui.header{
+.ui.push .ui.header{
 	margin-bottom:0;
-	padding-bottom: 1em;
-	padding-top: 1em;
-}
-.ui.attention.eleven .mes-text{
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding-bottom: .3em;
-}
-.ui.attention .mes-text .news .report{
-	border-bottom: 0px solid rgba(0,0,0,0.1);
-	padding: 3px 0 10px;
-}
-.mes-text{
-	width:100%;
 	padding-top:1em;
+	padding-bottom:1em;
 }
-.mes-text a.ui.photo{
-	float: left; 
-	width: 50px; 
-	height: 60px; 
-	margin-right: 10px;
-}
-.mes-text a.ui.photo img{
-	height:50px;
-	width:50px;
-	border-radius: 25px;
-}
-.mes-text .news{
-	padding: 0 0 0 60px; 
-	overflow: visible;
-	font-size: 17px;
-	font-weight: 700;
-	min-height: 60px;
-}
-.mes-text .news .sub_header{
-	font-size: 14px;
-	font-weight: 400;
-	padding-top: 5px;
-	line-height: 20px;
-}
-.mes-text .news .report{
+.ui.push .mes-text .report{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding: 10px 0;
-	height: 20px;
-	font-size: 15px;
-	font-weight: 400;
-	color:rgba(0,0,0,0.6);
+	padding: 10px 0 10px 10px;
 }
-.mes-text .news .report .pushtime{
-	float:left;
+.ui.push .mes-text:last-child .report{
+	border-bottom: 0px solid #fff !important;
 }
-.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
-	color:#f36;
-}
-.mes-text .news .report .count{
+.ui.push .mes-text .report .count{
 	float:right;
 	cursor:pointer;
 	padding-right:5px;
 }
-.mes-text:last-child{
-	border-bottom:0px solid #fff !important;
-}
-.mes-text .fans-btn{
-	float:right;
-	margin: 8px 5px 0 0;
-}
-.mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
-	padding: 0.5em 1.5em;
-	border-radius: 5px;
-	min-width:113px;
-}
+
+
 
 </style>
 {% endblock %}
@@ -232,51 +181,24 @@ color: rgba(0,0,0,.45);
 		</div>
 		
 		<div class="row">
-			<div class="ui white background attention eleven wide column">
-				<h3 class="ui header dividing">我关注了2213人</h3>
+			<div class="ui white background push eleven wide column">
+				<h3 class="ui header dividing">发表的话题</h3>
 				<div class="mes-text">
-					<div class="fans-btn">
-						<a href="" class="ui magenta btn-4 btn-4c btn">
-							已关注
-						</a>
-					</div>
-					<a class="ui photo">
-						<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-					</a>
-					<div class="news">
-						<a href="" class="ui link">Huang Kate</a>
-						<div class="report">
-							<div class="pushtime">
-								粉丝 20  ｜  话题 30
-							</div>
+					<div class="report">
+						<a href="" class="ui link">游戏玩家和普通用户是 Immersis 目前定位的精准用户。Immersis 在游戏、视频和照片上有很大的想象空间。目前，Immersis 仅支持 180°透射，未来会实现 360°，让你全身心沉浸在虚拟世界中。</a>
+						<div class="count">
+							2015-01-20
 						</div>
-						
-						
 					</div>
 				</div>
 				<div class="mes-text">
-					<div class="fans-btn">
-						<a href="" class="ui magenta btn-4 btn-4c btn">
-							已关注
-						</a>
-					</div>
-					<a class="ui photo">
-						<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-					</a>
-					<div class="news">
-						<a href="" class="ui link">Huang Kate</a>
-						<div class="report">
-							<div class="pushtime">
-								粉丝 20  ｜  话题 30
-							</div>
+					<div class="report">
+						<a href="" class="ui link">游戏玩家和普通用户是 Immersis 目前定位的精准用户。Immersis 在游戏、视频和照片上有很大的想象空间。目前，Immersis 仅支持 180°透射，未来会实现 360°，让你全身心沉浸在虚拟世界中。</a>
+						<div class="count">
+							2015-01-20
 						</div>
-						
-						
 					</div>
 				</div>
-				
-				
-				
 				
 				
 				
@@ -341,6 +263,3 @@ color: rgba(0,0,0,.45);
 	{% include "block/message.html" %}
 
 	{% endblock %}
-		
-		
-		
