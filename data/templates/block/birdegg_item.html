@@ -84,9 +84,28 @@
 }
 .add-active{
 	top: -60px;
-	opacity: 0;
 	color:#f36;
 	transition-delay: .3s;
+	-webkit-animation: arrow 1s ease both;
+	-moz-animation: arrow 1s ease both;
+	animation: arrow 1s ease both;
+}
+
+
+@-webkit-keyframes arrow {
+	0%{opacity:1}
+	90%{opacity:1}
+	100%{opacity:0}
+}
+@-moz-keyframes arrow {
+	0%{opacity:1}
+	90%{opacity:1}
+	100%{opacity:0}
+}
+@keyframes arrow {
+	0%{opacity:1}
+	90%{opacity:1}
+	100%{opacity:0}
 }
 
 </style>
