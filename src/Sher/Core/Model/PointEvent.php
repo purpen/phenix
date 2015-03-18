@@ -7,39 +7,19 @@ class Sher_Core_Model_PointEvent extends Sher_Core_Model_Base {
     protected $collection = 'points.event';
 
     protected $schema = array(
-        'evt_code' => null,
-        'evt_group' => null,
+        'name' => null,
+        'code' => null,
 //      周期限定
-        'freq_constraint' => array(
-//            每日上限
-            'daily' => 0,
-//            每月上限
-            'month' => 0,
-//            特定天数
-            'period' => array('days' => 20, 'max' => 0)
-        ),
-//        积分限定
-        'point_constraint' => array(
-            'daily' => array(
-                # point_type => max_val
-            ),
-            'month' => array(),
-            'period' => array(
-                array(
-//                    'point_type' => array( 'days'=> 3, 'max' => 0),
-                )
-            )
-        ),
+        'daily_limit' => 0,
+        'month_limit' => 0,
         # 奖励
-        'award' =>  array(
-            'point_type' => null,
-            'point_val' => 0,
-        )
+        'award_point_type' =>  null,
+        'award_point_amount' => 0,
     );
     protected $joins = array(
     );
-    protected $required_fields = array();
-    protected $ini_fields = array();
+    protected $required_fields = array('name', 'code');
+    protected $ini_fields = array('daily_limit', 'month_limit');
 
     // protected $auto_update_timestamp = true;
     // protected $created_timestamp_fields = array('created_on');
@@ -54,6 +34,12 @@ class Sher_Core_Model_PointEvent extends Sher_Core_Model_Base {
     protected function after_save() {
     }
     protected function validate() {
+        if ($this->insert_mode) {
+            $code = $this->data['code'];
+            if ($this->count(array('code' => $code))) {
+                throw new Doggy_Model_ValidateException("code:$code not unique");
+            }
+        }
         return true;
     }
 }

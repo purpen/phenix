@@ -1,0 +1,54 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">积分记录</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
+	</div>
+	{% user_list var:'list' page:page  %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>用户名</th>
+				<th>事件</th>
+				<th>数额</th>
+				<th>时间</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for record in list.rows %}
+			<tr id="{{ user._id }}">
+				<td>
+				</td>
+				<td>
+					<a class="ui image label link" href="{{ user.home_url }}" target="_blank">
+					  	{{ user.nickname }}
+					</a>
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

@@ -8,7 +8,7 @@ class Sher_Core_Model_PointType extends Sher_Core_Model_Base {
     
     protected $schema = array(
         'code' => null,
-        'title' => null,
+        'name' => null,
         'note' => null,
     );
     protected $joins = array(
@@ -29,9 +29,12 @@ class Sher_Core_Model_PointType extends Sher_Core_Model_Base {
     protected function after_save() {
     }
     protected function validate() {
+        if ($this->insert_mode) {
+            $code = $this->data['code'];
+            if ($this->count(array('code' => $code))) {
+                throw new Doggy_Model_ValidateException("code:$code not unique");
+            }
+        }
         return true;
     }
-    
-    
 }
-?>
