@@ -895,6 +895,7 @@ background-color: #fff;
 				if (result.success) {
 					obj.attr('loved', 0);
           obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
           $('.item-'+id).find('.love-count').text(result.data.love_count);
 				} else {
 					phenix.show_error_note(result.message);

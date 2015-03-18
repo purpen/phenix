@@ -72,23 +72,38 @@
 }
 .add{
 	position: absolute;
-	display:none;
 	top: 14px;
 	text-align: center;
-	left:0;
-	color: #f36;
+	left: 0;
+	color: rgba(0,0,0,0);
 	width: 100%;
-	font-size: 18px;
-	z-index: -1;
+	font-size: 22px;
 	opacity: 1;
-	transition: all 0.7s;
+	z-index:-1;
+	transition: all 1s;
 }
 .add-active{
-	top:-21px;
-	opacity:0;
-	display:block;
-	z-index: 2;
-	transition-delay: 0.7s;
+	top:-70px;
+	color:#f36;
+	transition-delay: .3s;
+	-webkit-animation: arrow 1.2s ease both;
+	-moz-animation: arrow 1.2s ease both;
+	animation: arrow 1.2s ease both;
+}
+@-webkit-keyframes arrow {
+	0%{opacity:1}
+	95%{opacity:1}
+	100%{opacity:0}
+}
+@-moz-keyframes arrow {
+	0%{opacity:1}
+	95%{opacity:1}
+	100%{opacity:0}
+}
+@keyframes arrow {
+	0%{opacity:1}
+	95%{opacity:1}
+	100%{opacity:0}
 }
 
 </style>
@@ -108,7 +123,7 @@
       <div class="extra-content">
         <div class="inner-extra">
           <div class="single-image plus-icon">
-            <a href="javascript:void(0);" class="love-btn" item-id="{{stuff._id}}" loved="0" style="z-index:2;">
+            <a href="javascript:void(0);" class="love-btn" item-id="{{stuff._id}}" loved="0">
               <span class="like"></span>
             </a>
 						<div class="add">
