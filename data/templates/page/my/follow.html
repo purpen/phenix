@@ -3,7 +3,68 @@
 
 {% block page_css %}
 <style type="text/css">
-
+	.ui.selection.list .item {
+		cursor: pointer;
+		color: rgba(0,0,0,.4);
+		padding: .5em;
+		-webkit-transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
+		transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
+	}
+	.ui.dynamic.list .item {
+		font-size: .8125rem;
+		background: rgba(0,0,0,.02);
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		cursor: auto;
+		position:relative;
+	}
+	.ui.dynamic.list .content .ui.line.header{
+		margin-bottom:0;
+		margin-top:0;
+		padding-bottom: 0;
+	}
+	.ui.dynamic.list .item .content{
+		margin-left: 0%;
+		margin-right:0;
+		display:inline-block;
+		float: left;
+	}
+	.ui.dynamic.list .ui.avatar.image{
+		float: left;
+		width:3em;
+		height:3em;
+		margin: 4px .5em 4px 0;
+	}
+	.ui.dynamic.list .content>.inline {
+		display: inline-block;
+		line-height: 33px;
+		margin-left: 8px;
+		margin-right: 8px;
+	}
+	.ui.dynamic.list .right.btn {
+		line-height: 47px;
+	}
+	.ui.dynamic.list .right.aligned {
+		float: right;
+	}
+	.ui.dynamic.list .right.btn>.ui.btn {
+		padding: .5em 1em;
+		margin-right: .5em;
+	}
+	.ui.list .content .description {
+		margin-top: .5em;
+	}
+	.ui.dynamic.list .description.fsize {
+		font-size: 15px;
+		color: rgba(0,0,0,.7);
+	}
+	.item .new{
+		color:#f36;
+		position:absolute;
+		top:0;
+		left:0;
+		font-size:13px;
+	}
+	
 </style>
 {% endblock %}
 
@@ -23,35 +84,52 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-					{% message_list var:'list' page:page user_id:user._id %}
-					{% for message in list.rows %}
-            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
-              <a class="ui photo">
-                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
-              </a>
-              <div class="news">
-                与
-                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
-                的对话
-
-              {% for m in message.mailbox %}
-              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
-              {% endfor %}
-              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
-                <div class="pushtime">
-                  4月11日 17:04
-                </div>
-                <div class="count">
-                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
-                </div>	
-              </div>
-              </div>
-            </div>
-					{% endfor %}
+							
+							<div class="ui dynamic selection list">
+								<div class="item">
+							    <a href="" target="_black">
+										<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+									</a>
+							    <div class="content">
+							      <a href="" target="_black" class="ui line header inline">noofoo</a>
+										<div class="description fsize inline">
+												关注了你
+										</div>
+									</div>
+									<div class="right aligned btn">
+										<a href="" class="ui magenta btn-4 btn-4c btn">
+											+ 关注
+										</a>
+									</div>
+								
+									<div class="new">
+										new
+									</div>
+								
+								</div>
+								
+								<div class="item">
+							    <a href="" target="_black">
+										<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+									</a>
+							    <div class="content">
+							      <a href="" target="_black" class="ui line header inline">noofoo</a>
+										<div class="description fsize inline">
+												关注了你
+										</div>
+									</div>
+									<div class="right aligned btn">
+										<a href="" class="ui magenta btn-4 btn-4c btn">
+											+ 关注
+										</a>
+									</div>
+								</div>
+								
+								
 							</div>
 							
-
-						</div>
+							
+            </div>
 					</div>
 				</div>
 			</div>
