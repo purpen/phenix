@@ -28,12 +28,12 @@
 	transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
 	width: 50px;
 }
-.single-image.plus-icon .like,.single-image.plus-icon .add {
+.single-image.plus-icon .like {
  	-webkit-transform: translateX(-300%);
 	-ms-transform: translateX(-300%);
 	transform: translateX(-300%); 
 }
-.ui.cards .card:hover .like,.ui.cards .card:hover .add{
+.ui.cards .card:hover .like{
 	-webkit-transform: translateX(0%);
 	-ms-transform: translateX(0%);
 	transform: translateX(0%);
@@ -75,7 +75,7 @@
 	top: 14px;
 	text-align: center;
 	left: 0;
-	color: #f36;
+	color: rgba(0,0,0,0);
 	width: 100%;
 	font-size: 18px;
 	opacity: 1;
@@ -85,6 +85,7 @@
 .add-active{
 	top: -60px;
 	opacity: 0;
+	color:#f36;
 	transition-delay: .3s;
 }
 
