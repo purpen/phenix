@@ -119,8 +119,9 @@ color: rgba(0,0,0,.45);
 		$('.ui.letter.modal').modal('show');
 	});
 	// 隐藏私信框
-	$('.ui.cancel.button').bind('click', function(){
+	$('.ui.cancel').bind('click', function(){
 		$('.ui.letter.modal').modal('hide');
+    return;
 	});
 	
 	$('#message-form').form({
@@ -182,7 +183,7 @@ color: rgba(0,0,0,.45);
               {% endfor %}
               <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
                 <div class="pushtime">
-                  4月11日 17:04
+                  {{ message.created_on|relative_datetime }}
                 </div>
                 <div class="count">
                   共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>

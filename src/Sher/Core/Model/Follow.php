@@ -19,6 +19,7 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
         'user_id'   => null,
         'follow_id' => 0,
         'group_id'  => 0,
+        'is_read'   => 0,
         'type' => self::ONE_TYPE,
     );
     

@@ -18,8 +18,8 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
     protected $required_fields = array('_id');
     protected $int_fields = array('s_readed', 'b_readed');
     
-    protected $created_timestamp_fields = array('created_on');
-    protected $updated_timestamp_fields = array('updated_on');
+    //protected $created_timestamp_fields = array('created_on');
+    //protected $updated_timestamp_fields = array('updated_on');
 
     protected $joins = array();
 
@@ -57,6 +57,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			'from' => (int)$from_user,
 			'to'   => (int)$to_user,
 			'content' => $content,
+      'is_read' => 0,
 			'created_on' => time(),
 		);
 		$some_data = array();
@@ -72,6 +73,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$some_data['_id'] = $_id;
 			$some_data['users'] = array((int)$from_user,(int)$to_user);
 			$some_data['mailbox'] = array($item);
+      $some_data['created_on'] = time();
 			
 			$this->create($some_data);
 		}else{
