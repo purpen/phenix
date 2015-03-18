@@ -40,12 +40,12 @@ class Sher_App_ViewTag_FollowList extends Doggy_Dt_Tag {
         
         $options['sort_field'] = $sort;
         
-        $options['query_count_cache_key'] = $query_count_cache_key;
-        $options['query_count_cache_ttl'] = $ttl;
+        //$options['query_count_cache_key'] = $query_count_cache_key;
+        //$options['query_count_cache_ttl'] = $ttl;
         $options['page'] = $page;
         $options['size'] = $size;
         
-        $service = Sher_Core_Service_User::instance();
+        $service = Sher_Core_Service_Follow::instance();
         $result = $service->get_follow_list($query, $options);
         $context->set($var, $result);
         if ($include_pager) {

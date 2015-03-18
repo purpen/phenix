@@ -18,8 +18,8 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
     protected $required_fields = array('_id');
     protected $int_fields = array('s_readed', 'b_readed');
     
-    //protected $created_timestamp_fields = array('created_on');
-    //protected $updated_timestamp_fields = array('updated_on');
+    protected $created_timestamp_fields = array('created_on');
+    protected $updated_timestamp_fields = array('updated_on');
 
     protected $joins = array();
 

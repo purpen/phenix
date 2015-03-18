@@ -138,6 +138,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	public function ajax_follow(){
 		$user_id = $this->visitor->id;
 		$follow_id = $this->stash['id'];
+    $this->stash['follow_type'] = isset($this->stash['follow_type'])?(int)$this->stash['follow_type']:1;
 		
 		if(empty($follow_id) || empty($user_id)){
 			return $this->ajax_note('请求失败,缺少必要参数', true);
@@ -192,6 +193,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	public function ajax_cancel_follow(){
 		$user_id = $this->visitor->id;
         $follow_id = $this->stash['id'];
+        $this->stash['follow_type'] = isset($this->stash['follow_type'])?(int)$this->stash['follow_type']:1;
         
         if(empty($follow_id) || empty($user_id)){
             return $this->ajax_note('请求失败,缺少必要参数',true);
