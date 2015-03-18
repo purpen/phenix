@@ -263,11 +263,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	public function ajax_fetch_counter(){
     $model = new Sher_Core_Model_User();
     $user = $model->load((int)$this->visitor->id);
+    $this->stash['page_notice_success'] = false;
     if(empty($user)){
-      $this->stash['success'] = false;
       return $this->to_taconite_page('ajax/user_notice.html');
     }
-    $this->stash['success'] = true;
     $this->stash['total_count'] = (
 		  ($this->stash['message_count'] = $user['counter']['message_count']) +
 		  ($this->stash['alert_count'] = $user['counter']['alert_count']) +
@@ -276,6 +275,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		  ($this->stash['comment_count'] = $user['counter']['comment_count']) +
 		  ($this->stash['people_count'] = $user['counter']['people_count'])
     );
+
+    if((int)$this->stash['total_count']>0){
+      $this->stash['page_notice_success'] = true;   
+    }
     return $this->to_taconite_page('ajax/user_notice.html');
 	}
 

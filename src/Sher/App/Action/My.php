@@ -594,56 +594,66 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   /**
    * 关注的人
    */
-  public function follows(){
-  
-  
+  public function follow(){
+  	$this->set_target_css_state('user_follow');
+    return $this->to_html_page('page/my/follow.html');
   }
 
   /**
    * 我的粉丝
    */
-  public function fans(){
-  
-  
+  public function fan(){
+  	$this->set_target_css_state('user_fan');
+    return $this->to_html_page('page/my/fan.html');
   }
 
   /**
    * 我的收藏
    */
-  public function favorites(){
-  
-  
+  public function favorite(){
+  	$this->set_target_css_state('user_favorite');
+    return $this->to_html_page('page/my/favorite.html');
   }
 
   /**
    * 我的喜欢
    */
-  public function loves(){
-  
-  
+  public function love(){
+  	$this->set_target_css_state('user_love');
+    return $this->to_html_page('page/my/love.html');
   }
 
   /**
    * 我的私信
    */
-  public function messages(){
-  
-    return $this->to_html_page('page/user/message.html');
+  public function message(){
+  	$this->set_target_css_state('user_message');
+    return $this->to_html_page('page/my/message.html');
   
   }
 
   /**
    * 我的通知
    */
-  public function notices(){
-  
+  public function notice(){
+    $this->set_target_css_state('user_notice');
+    return $this->to_html_page('page/my/notice.html');
   }
 
   /**
    * 我的提醒
    */
-  public function reminds(){
-  
+  public function remind(){
+  	$this->set_target_css_state('user_remind');
+    return $this->to_html_page('page/my/remind.html'); 
+  }
+
+  /**
+   * 我的评论
+   */
+  public function comment(){
+  	$this->set_target_css_state('user_comment');
+    return $this->to_html_page('page/my/comment.html'); 
   }
 
   /**

@@ -1,0 +1,67 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的关注-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">我的关注</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+					{% message_list var:'list' page:page user_id:user._id %}
+					{% for message in list.rows %}
+            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
+              <a class="ui photo">
+                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+              </a>
+              <div class="news">
+                与
+                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
+                的对话
+
+              {% for m in message.mailbox %}
+              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
+              {% endfor %}
+              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
+                <div class="pushtime">
+                  4月11日 17:04
+                </div>
+                <div class="count">
+                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+                </div>	
+              </div>
+              </div>
+            </div>
+					{% endfor %}
+							</div>
+							
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+
+
