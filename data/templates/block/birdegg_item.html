@@ -70,6 +70,24 @@
   top: 0;
   left: 0;
 }
+.add{
+	position: absolute;
+	top: 14px;
+	text-align: center;
+	left:0;
+	color: #f36;
+	width: 100%;
+	font-size: 18px;
+	z-index: -1;
+	opacity: 1;
+	transition: all 0.7s;
+}
+.add-active{
+	top:-21px;
+	opacity:0;
+	z-index: 2;
+	transition-delay: 0.7s;
+}
 
 </style>
 {% endblock %}
@@ -88,9 +106,12 @@
       <div class="extra-content">
         <div class="inner-extra">
           <div class="single-image plus-icon">
-            <a href="javascript:void(0);" class="love-btn" item-id="{{stuff._id}}" loved="0">
+            <a href="javascript:void(0);" class="love-btn" item-id="{{stuff._id}}" loved="0" style="z-index:2;">
               <span class="like"></span>
             </a>
+						<div class="add">
+						              +1      
+						</div>
           </div>
         </div>
       </div>
