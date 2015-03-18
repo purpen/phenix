@@ -462,6 +462,14 @@ class Sher_Core_Helper_Util {
 		$string = str_replace('href', '', $string);
 	    return $string;
 	}
+
+  /**
+   * 生成随机数(MongoId)
+   */
+  public static function generate_mongo_id() {
+    $mongo_object = new MongoId();
+    return (string)$mongo_object;
+  }
 	
 }
 ?>

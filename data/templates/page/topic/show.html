@@ -13,6 +13,7 @@
 {% block layout_js %}
 <script type="text/javascript">
 
+
   var per_page = 10;
   function fetch_comment(current_page, per_page){
     var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
@@ -215,11 +216,15 @@
 		});
 	});
 	
+	$('textarea.comment-textarea').maxlength({
+      'feedback' : '.wordscount'
+  });
+	
 {% endblock %}
 
 {% block content %}
 <div id="postpage">
-	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' %}
+	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
 	{% if ad %}
 	<div class="ui responsive grid">
 		<div class="row">
@@ -237,8 +242,12 @@
 		<div class="middle aligned row">
 			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 社区
+						话题
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
@@ -250,12 +259,12 @@
 			</div>
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui black button">
-					<i class="add icon"></i> 发表话题
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui gray inverted button">
+					<i class="edit icon"></i> 发表新话题
 				</a>
 				{% else %}
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="add icon"></i> 发表话题
+				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
+					<i class="edit icon"></i> 发表新话题
 				</a>
 				{% endif %}
 			</div>
@@ -456,11 +465,11 @@
 					</div>
 				</div>
 				
-    <div class="ui big reply segment">
-      <!--ajax comment-->
-      <div id="comment-list"></div>
-      {% include "block/comment_box_site.html" %}
-    </div>
+    			<div class="ui big reply segment">
+      			<!--ajax comment-->
+      		  	<div id="comment-list"></div>
+      		  	{% include "block/comment_box_site.html" %}
+    		</div>
 			
 		</div>
 	</div>

@@ -1,0 +1,51 @@
+<div class="ui user-info-box small modal transition">
+  	<i class="flat close icon"></i>
+	<div class="header">
+	    补全用户信息
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/active/ajax_attend" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+				<input type="hidden" name="is_user_info" value="1" />
+				<input type="hidden" name="target_id" value="{{ active._id }}" />
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+              <input type="text" name="realname" value="{{ user_info.profile.realname }}" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>手机号</label>
+							<input type="text" name="phone" value="{{ user_info.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+
+					<div class="field">
+						<label>职位</label>
+            <input type="text" name="job" value="{{ user_info.profile.job }}" placeholder="" />
+					</div>
+					<div class="field">
+						<label>地址</label>
+            <textarea name="address" class="small">{{ user_info.profile.address }}</textarea>
+						<div class="description">你的详细地址</div>
+					</div>
+				</div>
+		  	</div>
+      <!--显示错误信息-->
+			<div class="field">
+        <div id="show-message"></div>
+      </div>
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认报名
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>

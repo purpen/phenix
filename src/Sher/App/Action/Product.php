@@ -70,7 +70,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 	/**
 	 * 保存产品预售销售信息
 	 */
-	public function save_product_presale_info(){		
+	public function save_product_presale_info(){
 		$id = (int)$this->stash['_id'];
 		$redirect_url = Doggy_Config::$vars['app.url.sale'];
 		if(empty($id)){

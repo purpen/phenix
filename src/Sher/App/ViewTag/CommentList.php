@@ -16,7 +16,9 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		
         $user_id = 0;
         $target_id = 0;
-		    $type = 0;
+        $type = 0;
+        $check_loved = 0;
+        $current_user_id = 0;
 		
         $sort = 'earliest';
         $var = 'list';
@@ -46,6 +48,18 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 
         $service = Sher_Core_Service_Comment::instance();
         $result = $service->get_comment_list($query,$options);
+
+        // 验证当前用户是否点赞了
+        if(!empty($check_loved) && !empty($current_user_id)){
+          if(!empty($result['rows'])){
+            $favorite = new Sher_Core_Model_Favorite();
+            for($i=0;$i<count($result['rows']);$i++){
+              $is_loved = $favorite->check_loved((int)$current_user_id, (string)$result['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
+              $result['rows'][$i]['is_loved'] = $is_loved;
+            }
+            unset($favorite);
+          }
+		    }
 		
     	$context->set($var,$result);
         if ($include_pager) {

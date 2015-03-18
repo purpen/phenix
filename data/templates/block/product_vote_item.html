@@ -1,7 +1,7 @@
 <div class="magenta item" id="product-{{ product._id }}">
   	<div class="image">
 		<a href="{{ product.vote_view_url }}" title="{{ product.title }}" target="_blank">
-      		<img src="{{ product.cover.thumbnails.resp.view_url }}" />
+      		<img src="{{ product.cover.thumbnails.md.view_url }}" />
 		</a>
 		<div class="image-extra">
 			<div class="extra-content">
@@ -14,25 +14,27 @@
 		</div>
   	</div>
   	<div class="content">
-      	<h4 class="ui dividing header">
+      	<h4 class="ui header">
 			<a href="{{ product.vote_view_url }}" title="{{ product.title }}" class="ui link" target="_blank">
 				{{ product.title|truncate, 32, '' }}
 			</a>
 			<div class="advantage">{{ product.advantage }}</div>
 		</h4>
-		<div class="vote clearfix">
-			{% if product.voted_finished %}
-			<div class="ui divided horizontal vstatus list">
-				<div class="item">投票已结束</div>
+		<div class="i-stats">
+			<div class="vote clearfix">
+				{% if product.voted_finished %}
+				<div class="ui divided horizontal vstatus list">
+					<div class="item">投票已结束</div>
+				</div>
+				{% else %}
+				<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
+				{% endif %}
+				<div class="progress">
+					<span class="count">{{ product.vote_percent }}%</span>
+					<span class="description">{{ product.vote_count }} 人投票</span>
+				</div>
 			</div>
-			{% else %}
-			<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-			{% endif %}
-			<div class="progress">
-				<span class="count">{{ product.vote_percent }}%</span>
-				<span class="description">{{ product.vote_count }} 人投票</span>
+			<a href="{{ product.vote_view_url }}" class="link-extra" target="_blank">{{ product.title }}</a>
 			</div>
-		</div>
-		<a href="{{ product.vote_view_url }}" class="link-extra" target="_blank">{{ product.title }}</a>
   	</div>
 </div>

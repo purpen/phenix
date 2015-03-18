@@ -60,6 +60,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['profile'] = $this->visitor->profile;
 		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
+
+      //周年庆送红包提示
+      if(Doggy_Config::$vars['app.anniversary2015.switch'] && isset($this->stash['first_year'])){
+        $this->stash['year_celebration'] = true;
+      }
 		}
 
     //有些信息visitor没有，需要再次查询user表
@@ -274,25 +279,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 * 邀请好友
 	 */
 	public function invite(){
-		$invitation = new Sher_Core_Model_Invitation();
-        $my_invites = $invitation->find(array('user_id' => $this->visitor->id),array('sort' => array('used_at' => -1)));
-        $my_used_invites = array();
-        $my_free_invites = array();
-        if (!empty($my_invites)) {
-            for ($i=0; $i < count($my_invites); $i++) {
-                if ($my_invites[$i]['used']) {
-                    $my_used_invites[] = $invitation->extend_load($my_invites[$i]['_id']);
-                }
-                else {
-                    $my_free_invites[] = $my_invites[$i];
-                }
-            }
-        }
-        
-        $this->stash['free_invites_cnt'] = count($my_free_invites);
-        $this->stash['free_invites'] = $my_free_invites;
-        $this->stash['used_invites_cnt'] = count($my_used_invites);
-        $this->stash['used_invites'] = $my_used_invites;
+		$this->set_target_css_state('user_invite');
+		$invite = new Sher_Core_Model_InviteRecord();
+    //当前用户邀请码
+    $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+    $this->stash['user_invite_code'] = $invite_code;
 		
 		return $this->to_html_page("page/my/invite.html");
 	}
@@ -365,7 +356,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 
     //正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
-    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{2,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
     if (!preg_match($e, $this->stash['nickname'])) {
       return $this->ajax_notification('格式不正确！ 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾', true);
     }
@@ -568,6 +559,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
+
+    if(empty($order_info)){
+      return $this->ajax_notification('订单不存在!', true);
+    }
 		
 		// 检查是否具有权限
 		if ($order_info['user_id'] != $this->visitor->id) {
@@ -595,6 +590,99 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['order'] = $model->find_by_rid($rid);
 		return $this->to_taconite_page('ajax/refund_ok.html');
   }
+
+  /**
+   * 关注的人
+   */
+  public function follow(){
+  	$this->set_target_css_state('user_follow');
+    return $this->to_html_page('page/my/follow.html');
+  }
+
+  /**
+   * 我的粉丝
+   */
+  public function fan(){
+  	$this->set_target_css_state('user_fan');
+    return $this->to_html_page('page/my/fan.html');
+  }
+
+  /**
+   * 我的收藏
+   */
+  public function favorite(){
+  	$this->set_target_css_state('user_favorite');
+    return $this->to_html_page('page/my/favorite.html');
+  }
+
+  /**
+   * 我的喜欢
+   */
+  public function love(){
+  	$this->set_target_css_state('user_love');
+    return $this->to_html_page('page/my/love.html');
+  }
+
+  /**
+   * 我的私信
+   */
+  public function message(){
+  	$this->set_target_css_state('user_message');
+    return $this->to_html_page('page/my/message.html');
+  
+  }
+
+  /**
+   * 我的通知
+   */
+  public function notice(){
+    $this->set_target_css_state('user_notice');
+    return $this->to_html_page('page/my/notice.html');
+  }
+
+  /**
+   * 我的提醒
+   */
+  public function remind(){
+  	$this->set_target_css_state('user_remind');
+    return $this->to_html_page('page/my/remind.html'); 
+  }
+
+  /**
+   * 我的评论
+   */
+  public function comment(){
+  	$this->set_target_css_state('user_comment');
+    return $this->to_html_page('page/my/comment.html'); 
+  }
+
+  /**
+   * 删除私信
+   */
+  public function delete_message(){
+    $id = $this->stash['id'];
+    if(empty($id)){
+      return $this->ajax_note('id不存在!', true); 
+    }
+    $message = new Sher_Core_Model_Message();
+    $data = $message->find_by_id($id);
+    if(empty($data)){
+      return $this->ajax_note('私信不存在!', true);    
+    }
+    if(is_array($data['users']) && in_array((int)$this->visitor->id, $data['users'])){
+      $ok = $message->remove($id);
+      if($ok){
+        return $this->to_taconite_page('ajax/del_message.html');
+      }else{
+        return $this->ajax_note('操作失败!', true);   
+      }
+    }else{
+      return $this->ajax_note('没有权限!', true);
+    }
+
+  }
+
+
 
 }
 ?>

@@ -347,7 +347,6 @@ class Sher_Core_Util_Image {
       }catch(Exception $e){
         echo $e->getMessage();exit;
       }
-        $gm = new Gmagick($file);
 		
 		$info = array();
 		$info['width'] = $gm->getimagewidth();
@@ -357,6 +356,40 @@ class Sher_Core_Util_Image {
         $gm->destroy();
 		
         return $info;
+	}
+
+	/**
+	 * Read image string(binary) info(formate,size)---for api
+	 *
+	 * @param string $file 
+	 * @return array
+	 */
+	public static function image_info_binary($str) {
+    if (empty($str)) {
+      $info['stat'] = 0;
+      $info['msg'] = '获取图像失败!';
+      return $info;
+    }
+    try{
+      $gm = new Gmagick();
+      $img = $gm->readimageblob($str);
+    }catch(Exception $e){
+      $info['stat'] = 0;
+      $info['msg'] = '获取图像失败!'.$e->getMessage();
+      return $info;
+    }
+    $info = array();
+    if($img){
+      $info['stat'] = 1;
+      $info['width'] = $gm->getimagewidth();
+      $info['height'] = $gm->getimageheight();
+      $info['format'] = $gm->getimageformat();    
+    }else{
+      $info['stat'] = 0;
+      $info['msg'] = '获取图像失败.!';
+    }
+    $gm->destroy();
+    return $info;
 	}
 	
 	/**
@@ -392,6 +425,66 @@ class Sher_Core_Util_Image {
 		
 		return $result;
 	}
+
+  //api upload avatar
+  public static function api_avatar($file_str, $arr){
+    $asset = new Sher_Core_Model_Asset();
+    $s = array();
+    $s['stat'] = 0;
+    $s['msg'] = null;
+
+		// 获取是否存在旧记录
+    $old_avatar = $asset->first(
+			array(
+				'parent_id' => $arr['parent_id'],
+				'asset_type' => Sher_Core_Model_Asset::TYPE_AVATAR
+			)
+		);
+    
+    $asset->set_file_content($file_str);
+
+    $img_type = Doggy_Util_File::mime_content_type($arr['filename']);
+		$img_info['size'] = 0;
+    $img_info['mime'] = $img_type;
+    $img_info['filename'] = $arr['filename'];
+		$img_info['filepath'] = Sher_Core_Util_Image::gen_path($arr['filename'], 'avatar');
+    $img_info['asset_type'] = Sher_Core_Model_Asset::TYPE_AVATAR;
+    $img_info['parent_id'] = $arr['parent_id'];
+    $img_info['width'] = $arr['image_info']['width'];
+    $img_info['height'] = $arr['image_info']['height'];
+    $img_info['format'] = $arr['image_info']['format'];
+		
+		$ok = $asset->apply_and_save($img_info);
+    if ($ok) {
+      $avatar_id = (string)$asset->id;
+      if (!empty($old_avatar)) {
+          $asset->delete_file($old_avatar['_id']);
+      }
+
+      $avatar = array(
+        'big' => $img_info['filepath'],
+        'medium' => $img_info['filepath'],
+        'small' => $img_info['filepath'],
+        'mini' => $img_info['filepath']
+      );
+      
+      $user = new Sher_Core_Model_User();
+      $ok = $user->update_avatar($avatar, $img_info['parent_id']);
+            
+      $result['asset'] = array(
+        'id' => $avatar_id,
+				'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath),
+				'width'  => $image_info['width'],
+				'height' => $image_info['height']
+      );
+			
+      $s['stat'] = 1;
+      $s['result'] = $result;
+    } else {
+			$s['msg'] = '上传失败!';
+    }
+    return $s;
+  }
 	
 }
 ?>

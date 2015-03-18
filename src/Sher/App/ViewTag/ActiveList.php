@@ -77,7 +77,10 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
       }elseif((int)$step_stat==2){
         $query['step_stat'] = 1;     
       }elseif((int)$step_stat==3){
-        $query['step_stat'] = 2;     
+        $query['step_stat'] = 2;
+      //进行中与结束两种状态 
+      }elseif((int)$step_stat==4){
+        $query['step_stat'] = array('$in'=>array(1,2));
       }
     }
 

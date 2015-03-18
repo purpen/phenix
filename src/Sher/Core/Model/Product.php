@@ -31,6 +31,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 产品视频链接
 		'video' => array(),
 		
+		# 访问地址
+		'view_url' => '',
+		
 		# 封面图
  		'cover_id' => '',
 		'asset' => array(),
@@ -137,9 +140,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'snatched_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
+    # 抢购价
+    'snatched_price' => 0,
+    # 抢购数量
+    'snatched_count' => 0,
 
-    ##试用
-    'trial' =>  0,
+	    ## 试用
+	    'trial' =>  0,
 		
 		## 计数器
 		
@@ -159,6 +166,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'vote_favor_count' => 0,
 		# 反对数
 		'vote_oppose_count' => 0,
+    # 相关灵感数
+    'stuff_count' => 0,
 		
 		## 专家评分
 		
@@ -199,6 +208,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
 		
+		# 是否成功案例产品
+		'okcase' => 0,
+		
 		# 状态
 		'state' => 0,
     	# 删除标识
@@ -209,11 +221,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title');
 	
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count');
 	
-	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals');
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price');
 	
-	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count');
+	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count');
 	protected $retrieve_fields = array('content'=>0);
 	
 	protected $joins = array(
@@ -227,7 +239,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		$row['view_url'] = $this->gen_view_url($row);
+		if(!isset($row['view_url']) || empty($row['view_url'])){
+			$row['view_url'] = $this->gen_view_url($row);
+		}
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
 		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $row['_id']);
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
@@ -281,18 +295,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['presale_finished'] = ($row['presale_finish_time'] < time()) ? true : false;
 		
 		// 抢购开启
-		$row['snatched_start'] = ($row['snatched_time'] && ($row['snatched_time'] < time())) ? true : false;
+		if(isset($row['snatched_time'])){
+			$row['snatched_start'] = ($row['snatched_time'] && ($row['snatched_time'] < time())) ? true : false;
+		}
 		
 		// 检测是否可售
 		$row['can_saled'] = $this->can_saled($row);
 
-    //是否是试用
-    if(isset($row['trial'])){
-      $row['is_try'] = $this->is_try($row['trial']);
-    }else{
-      $row['is_try'] = false;
-    }
-
+	    // 是否是试用
+	    if(isset($row['trial'])){
+	    	$row['is_try'] = $this->is_try($row['trial']);
+	    }else{
+	    	$row['is_try'] = false;
+	    }
 		
 	}
 	
@@ -300,7 +315,15 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 验证是否能够销售
 	 */
 	public function can_saled($data){
-		if(isset($data['inventory'])){
+    if(isset($data['inventory'])){
+      //验证抢购数量
+      if(!empty($data['snatched'])){
+        if(isset($data['snatched_count']) && $data['snatched_count']>0 && $data['inventory']>0){
+          return true;      
+        }else{
+          return false;
+        }
+      }
 			return $data['inventory'] > 0;
 		}
 		return false;
@@ -356,9 +379,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$data['random'] = Sher_Core_Helper_Util::gen_random();
 		}
 		
-		// 转换为时间戳, +12小时
+		// 转换为时间戳
 		if(isset($data['snatched_time'])){
-			$data['snatched_time'] = strtotime($data['snatched_time']) + 12*60*60;
+			$data['snatched_time'] = strtotime($data['snatched_time']);
 		}
 		// 预售开始时间，结束时间
 		if(isset($data['presale_start_time'])){
@@ -615,6 +638,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 				$updated = array(
 					'$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1),
 				);
+        //如果是抢购,减少数量
+        if($row['snatched']){
+          $updated = array(
+            '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'snatched_count'=>-1),
+          );
+        }
 			}
 			
 			return $this->update((int)$id, $updated);
@@ -651,6 +680,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$updated = array(
 				'$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity),
 			);
+      //恢复抢购数量
+      if($row['snatched']){
+        $updated = array(
+				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'snatched_count'=>1),
+        );
+      }
 		}
 		
 		return $this->update((int)$id, $updated);

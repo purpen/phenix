@@ -1,0 +1,94 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}太火鸟周年庆,注册即送100元红包~ 快来加入吧! -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+html, body {
+    overflow:hidden;
+    margin:0;
+    padding:0;
+}
+.ui.wap{
+	display:none;
+}
+#mfrbird{
+	margin:0;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px; background: #000; }
+section { display: block; height: 100%; overflow: hidden;  }
+
+.mmfoot{
+display:none;
+}
+
+.invite{
+	background:url({{ app_url_packaged }}/images/y_as6.jpg) no-repeat;
+	background-size:cover;
+}
+.y_name{
+position:relative;
+}
+.y_name p{
+color:#fff;
+position:absolute;
+top: 8px;
+width:100%;
+margin: 0;
+}
+
+.me p{
+	font-size: 20px;
+	color: #fff;
+	line-height: 32px;
+	font-weight: 700;
+}
+.bto{
+position:absolute;
+bottom:0;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div style="display:none;"><img src="http://frstatic.qiniudn.com/images/y_logo.png" /></div>
+<section class="invite">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/y_as2.png" width="100%">
+				
+				<!-- 邀请 -->
+				<div class="y_name">
+					<img src="{{ app_url_packaged }}/images/y_as4.png" width="100%" />
+          <p>{{ user.nickname }}</p>
+				</div>
+
+        <img src="{{ app_url_packaged }}/images/y_as3.png" width="100%">
+
+        {% if !yes_login %}
+          <a href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
+            <div class="ui active btn-4 btn-4c magenta btn">
+              <span>立即注册</span>
+            </div>
+          </a>
+        {%else%}
+          {% if !is_current_user %}
+            您已是登录用户,不能参与此活动
+          {%else%}
+            <div class="me">
+              <p>
+                分享到朋友圈,成功邀请一位好友将获得30元红包！
+              </p>
+            </div>
+          {%endif%}
+        {%endif%}
+				
+          <div class="bto">
+            <img src="{{ app_url_packaged }}/images/y_as5.png" width="100%">
+          </div>
+				
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

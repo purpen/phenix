@@ -393,7 +393,6 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		}
 
   }
-
 	
 }
 ?>

@@ -1,0 +1,140 @@
+{%extends 'layout/column.html'%}
+{% block title %}产品灵感-{% endblock %}
+{% block page_css %}
+<style type="text/css">	
+	.social.submitbox {
+		background-color: #f1f1f1;
+		padding: 40px 0 50px;
+	}
+	.social.submitbox h2 {
+		padding-top: 12px;
+		line-height: 32px;
+		padding-bottom: 0.5rem;
+		margin-bottom: 0.5rem;
+		font-weight: 800;
+		color: #444;
+	}
+	.social.submitbox h2 + p {
+		margin-bottom: 2rem;
+	}
+	.social.submitbox .ui.share.button {
+		padding: 0.8em 3.5rem;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.special.cards .image').dimmer({
+	  on: 'hover'
+	});
+{% endblock %}
+
+
+{% block content %}
+<div class="social catemenu ideaheader">
+	<div class="category header" style="background-image: url('{{ app_url_packaged }}/images/banner-labs.jpg');">
+		<div class="ui responsive grid">
+			<div class="center aligned row">
+				<div class="column">
+					<div class="inner">
+						<h1>
+							<a href="{{ app_url_stuff }}" class="{{ all_stuff }} cate">
+								产品灵感
+							</a>
+						</h1>
+						{% category_list var:'all_category' only_open:1 domain:4 current:cid pid:top_category_id %}
+						<div class="children">
+							{% for cate in all_category.rows %}
+								<h2>
+									<a href="{{ app_url_stuff }}/c{{ cate._id }}" class="{{ cate.active }} cate">
+										{{ cate.title }}
+									</a>
+								</h2>
+							{% endfor %}
+						</div>
+						<p class="discription"><small>“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</small></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social sortby">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui horizontal bulleted list">
+				  <a class="ui link {{ css_featured }} item" href="{{ app_url_stuff }}/featured">
+				    精选
+				  </a>
+				  <a class="ui link {{ css_sticked }} item" href="{{ app_url_stuff }}/sticked">
+				    推荐
+				  </a>
+				  <a class="ui link {{ css_latest }} item" href="{{ app_url_stuff }}/latest">
+				    最新
+				  </a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social stuffist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% stuff_list var:'stufflist' category_id:cid is_top:is_top sort:sort sticked:sticked featured:featured page:page size:36 %}
+				<div class="ui three cards">
+					{% for stuff in stufflist.rows %}
+            {% include "block/stuff_item.html" %}
+					{% endfor %}
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				{% if stufflist.total_page > 1 %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:stufflist.total_rows,total_page:stufflist.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{% include 'block/pager.html' %}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social submitbox">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h2 class="ui header">
+					去发现、去支持、去分享
+				</h2>
+				<p>无论您是谁，让我们用创意和梦想，去改变这个平凡无奇的世界</p>
+				<a href="{{ app_url_stuff }}/submit" class="ui inverted share magenta active button">
+					<i class="add icon"></i> 提交产品
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">产品灵感</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

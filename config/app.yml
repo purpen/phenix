@@ -44,6 +44,7 @@ app.dispatcher.result.map:
 app.dispatcher.interceptors.run:
   - Doggy_Dispatcher_Interceptor_Parameters
   - Doggy_Dispatcher_Interceptor_UploadSupport
+  - Sher_Core_Interceptor_ValidSign
   - Sher_Core_Interceptor_XSession
   - DoggyX_Interceptor_BeforeInvoke
 
@@ -77,6 +78,7 @@ app.dt.extension_lib.sher_app:
     'category_list':'Sher_Core_ViewTag_CategoryList'
     'topic_list':'Sher_App_ViewTag_TopicList'
     'product_list':'Sher_App_ViewTag_ProductList'
+    'stuff_list':'Sher_Core_ViewTag_StuffList'
     'like_list':'Sher_App_ViewTag_LikeList'
     'support_list':'Sher_App_ViewTag_SupportList'
     'asset_list':'Sher_App_ViewTag_AssetList'
@@ -86,6 +88,7 @@ app.dt.extension_lib.sher_app:
     'order_list':'Sher_Core_ViewTag_OrderList'
     'try_list':'Sher_Core_ViewTag_TryList'
     'apply_list':'Sher_Core_ViewTag_ApplyList'
+    'cooperate_list':'Sher_Core_ViewTag_CooperateList'
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
     'user_list':'Sher_App_ViewTag_UserList'
@@ -102,7 +105,10 @@ app.dt.extension_lib.sher_app:
     'block_list':'Sher_Core_ViewTag_BlockList'
     'active_list':'Sher_App_ViewTag_ActiveList'
     'attend_list':'Sher_App_ViewTag_AttendList'
+    'gift_list':'Sher_Core_ViewTag_GiftList'
+    'invite_record_list':'Sher_Core_ViewTag_InviteRecordList'
     'pager':'Sher_App_ViewTag_Pager'
+
   filters: []
 
 app.js.use_bundle: false

@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}{{ topic.title }}-{% endblock %}
+{% block title %}发现-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 
@@ -18,7 +18,7 @@
 					  		<i class="icon home"></i>首页
 					  	</a>
 					  	<div class="divider"> / </div>
-					  	<div class="active section">社区</div>
+					  	<div class="active section">发现</div>
 					</div>
 				</div>
 			</div>
@@ -32,8 +32,8 @@
 							{% for child in children.rows %}
 							<div class="item">
 								<div class="content">
-							    	<div class="header"><a href="{{ category_prefix_url }}{{ child._id }}" title="{{ child.title }}" class="ui line link">{{ child.title|truncate 60 }}</a> <small>（{{ child.total_count }}）</small></div>
-							        <small>{{ child.summary|truncate 40 }}</small>
+							    	<div class="header"><a href="{{ category_prefix_url }}{{ child._id }}" title="{{ child.title }}" class="ui line link">{{ child.title }}</a> <small>（{{ child.total_count }}）</small></div>
+							        <small>{{ child.summary }}</small>
 								</div>
 							</div>
 							{% endfor %}

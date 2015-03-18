@@ -1,0 +1,104 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#gift-form').form({
+		user_id: {
+			identifier  : 'user_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '用户不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">礼品卡管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/gift" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/gift?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/gift?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/gift" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="礼品码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<div class="ui large segment">
+		<form class="ui form" action="{{ app_url_admin_base }}/gift/ajax_save" method="post" id="gift-form">
+			<input name="_id" type="hidden" value="{{ gift._id }}" />
+			
+			<div class="inline field">
+				<label>前缀名称:</label>
+				<input type="text" name="before_prefix" />
+				<span class="description">可不添</span>
+			</div>
+			<div class="inline field">
+				<label>生成数量:</label>
+				<input type="text" name="total_count" value="100" />
+			</div>
+			<div class="inline field">
+				<label>抵扣金额:</label>
+				<input type="text" name="amount" />
+			</div>
+			<div class="inline field">
+				<label>关联产品:</label>
+				<input type="text" name="product_id" />
+				<span class="description">产品ID</span>
+			</div>
+			<div class="inline field">
+				<label>过期时间:</label>
+				<input type="text" name="expired_day" />
+				<span class="description">默认7天</span>
+			</div>
+		
+			<div class="inline field">
+				<div class="ui magenta submit button">
+					确认提交
+				</div>
+				<div class="ui gray cancel button">
+					取消
+				</div>
+			</div>
+		</form>
+	</div>
+	
+{% endblock %}

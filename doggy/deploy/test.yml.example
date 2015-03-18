@@ -1,0 +1,8 @@
+---
+app.id: 'doggy-test'
+app.mode: 'test'
+db.test: 'mysql://root:@localhost/test?charset=utf8'
+app.dba:
+  default: 'mysql://root:@localhost/test?charset=utf8'
+
+app.model.dba: 'default'

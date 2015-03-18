@@ -1,0 +1,530 @@
+{%extends 'layout/column.html'%}
+{% block title %}蛋年-{% endblock %}
+{% block page_css %}
+<link href="http://frstatic.qiniudn.com/css/jquery.sliderTabs.min.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+body{
+	background-color:#1b0217;
+}
+.ui.tabox .ui.tabs{
+	margin-bottom:-1px;
+}
+.egg_s_header{
+	background:url({{ app_url_packaged }}/images/egg_s_header.jpg) no-repeat center center;
+	background-size:cover;
+	height:175px;
+}
+.w-1180{
+	width:1024px;
+	margin:0 auto;
+}
+.h-40{
+	height:40px;
+	padding:5px;
+}
+.h-40 .ui.btn,.h-40 .ui.btn:hover{
+	padding:.65em 1.5em;
+}
+.flexslider {
+
+  margin: 0; 
+  padding: 0;
+
+    }
+
+.slides li.flex-active-slide{
+	margin-left:-40px;
+}
+
+.flexslider{
+	text-align:center;
+	position:relative;
+	padding:20px 0;
+}
+
+.flex-control-nav {width: 90%; position: absolute; bottom: -40px; text-align: center;}
+.flex-control-nav li {margin: 0 6px; display: inline-block; zoom: 1; *display: inline;}
+.flex-control-paging li a {width: 11px; height: 11px; display: block; background: #666; background: rgba(0,0,0,0.5); cursor: pointer; text-indent: -9999px; -webkit-border-radius: 20px; -moz-border-radius: 20px; -o-border-radius: 20px; border-radius: 20px; -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); -moz-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); -o-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); box-shadow: inset 0 0 3px rgba(0,0,0,0.3); }
+.flex-control-paging li a:hover { background: #333; background: rgba(0,0,0,0.7); }
+.flex-control-paging li a.flex-active { background: #000; background: rgba(0,0,0,0.9); cursor: default; }
+.flex-direction-nav {*height: 0;list-style: none;}
+.flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
+.flex-direction-nav .flex-prev { opacity: .5;left: 10px;}
+.flex-direction-nav .flex-next { right: 10px; text-align: right; opacity: .5;}
+.flexslider:hover .flex-prev { opacity: 0.7; }
+.flexslider:hover .flex-next { opacity: 0.7; right: 10px; }
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
+.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
+.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
+.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
+
+.slides img{
+	width: 590px;
+}
+.tab{
+	color:#fff !important;
+}
+.tab:hover,.tab.active,.tab .like .icon.heart,.tab .share.icon{
+	color:#f36 !important;
+}
+.ui.tabox .ui.tabs .tab:nth-child(3),.ui.tabox .ui.tabs .tab:nth-child(4){
+	text-align:right;
+}
+
+.parent{
+	color:#fff;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #e4e5e7;
+}
+.parent p{
+	line-height: 20px;
+}
+.right.aligned.column,.laud{
+	float:right;
+}
+.say{
+	color:#fff;
+}
+.say+.right.column{
+	padding-bottom:20px;
+}
+.say+.right.column p{
+	display:inline-block;
+}
+.ui-slider-tabs-content-container{
+	background:rgba(0,0,0,0);
+	border:0px solid #fff;
+}
+#demoSlider img{
+	width:590px;
+	margin-left:217px;
+}
+.ui-slider-tabs-indicator-container{
+	bottom:25px;
+}
+
+.ui-slider-tabs-leftPanelArrow{
+background-image: url('http://frstatic.qiniudn.com/images/leftPanelArrow.png');
+}
+.ui-slider-tabs-rightPanelArrow{
+background-image: url('http://frstatic.qiniudn.com/images/rightPanelArrow.png');
+}
+.ui-slider-tabs-list{
+display: none;
+}
+.ui-slider-right-arrow,.ui-slider-left-arrow{
+  display:none;
+}
+.ui-slider-tabs-indicator {
+	height: 6px;
+	width: 6px;
+	background: rgba(255,255,255,0.6);
+	cursor: pointer;
+	border-radius: 50%;
+	margin: 0 5px;
+	vertical-align: middle;
+}
+.ui-slider-tabs-indicator:hover{
+	background:#fff;
+}
+.ui-slider-tabs-indicator.selected{
+	height:10px;
+	width:10px;
+	background:#fff;
+}
+.phenix-share{
+	float:right;
+	color:#fff;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="http://frstatic.qiniudn.com/javascript/jquery.sliderTabs1.min.js"></script>
+
+  <script type="text/javascript">
+    var per_page = 10;
+    function fetch_comment(current_page, per_page){
+      var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+      $.get(url, {target_id: {{ stuff._id }}, type: 6, page: current_page, per_page: per_page});
+    }
+  </script>
+{% endblock %}
+
+
+{% block jquery %}
+	phenix.hook_comment_page();
+  //ajax加载评论
+  fetch_comment(1, per_page);
+
+  if($("div#demoSlider").length>0){
+    $("div#demoSlider").sliderTabs({
+      mouseWheel: false,
+      indicators: true,
+      panelArrows: true,
+      autoplay: 5000,
+      panelArrowsShowOnHover: false,
+      tabs: true
+    });
+  }
+
+	
+	phenix.bind_share_list();
+
+  //分享
+  phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap_birdegg }}/{{ stuff._id }}.html'});
+
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		// 精选
+		$('.ui.top.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_stuff }}/ajax_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消精选')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_stuff }}/ajax_cancel_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '精选')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+	
+		// 编辑推荐
+		$('.ui.stick.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_stuff }}/ajax_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消推荐')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_stuff }}/ajax_cancel_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '编辑推荐')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+		
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_stuff }}/edit?id='+id+'&from=birdegg');
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			if(confirm('确认执行删除操作吗?')){
+				$.post('{{ app_url_stuff }}/deleted', {id: {{stuff._id}} });
+			}
+		});
+
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '我支持')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+	$('textarea.comment-textarea').maxlength({
+      'feedback' : '.wordscount'
+  });
+
+{% endblock %}
+{% block content %}
+<div class="egg show">
+	<section class="egg_s_header">
+		
+	</section>
+	<section class="w-1180">
+		<div class="h-40">
+			<a class="ui magenta active btn-4 btn-4c btn" href="{{ app_url_birdegg }}/index">
+        			<i class="angle left icon"></i><span> 返回蛋年主页</span>
+      		</a>
+		</div>
+    <!--附件列表-->
+    {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+    {% if stuff.cover %}
+      {% if assets.total_rows==1 %}
+        <div style="text-align:center;margin:0 auto;padding-top:20px;"><img src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
+      {%else%}
+        <div id="demoSlider" style="padding-top:20px;">
+
+          <ul>
+            {% if stuff.cover_id %}
+              <li><a href="#{{ stuff.cover_id }}"></a></li>
+            {% endif %}
+
+            {% if assets.total_rows %}
+              {% for asset in assets.rows %}
+                {% if asset._id != stuff.cover_id %}
+                  <li><a href="#{{ asset._id }}"></a></li>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </ul>
+
+          {% if stuff.cover_id %}
+            <div id="{{ stuff.cover_id }}"><img src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
+          {% endif %}
+
+          {% if assets.total_rows %}
+            {% for asset in assets.rows %}
+              {% if asset._id != stuff.cover_id %}
+                <div id="{{ asset._id }}"><img src="{{ asset.thumbnails.huge.view_url }}"></div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+        </div>
+      {%endif%}
+    {%endif%}
+		
+		<div class="ui tabox">
+			<div class="ui four tabs">
+				<div class="active tab">团队介绍</div>
+				<a href="#par"><div class="tab">产品介绍</div></a>
+				<div class="tab">
+					<span class="like">
+						<i class="icon heart"></i>
+					</span>
+          {{ stuff.total_love_count }}人支持
+				</div>
+				<a href="#sha"><div class="tab" style="text-align:right;">
+					<!--<div class="ui share">
+					<i class="share icon"></i>-->
+					分享
+					<!--</div>-->
+				</div></a>
+			</div>
+		</div>
+		
+		<div class="parent">
+			<h3>团队介绍</h3>
+      <p>{{ stuff.team_introduce }}</p>
+		</div>
+
+		<div class="parent">
+			<a name="par"></a>
+			<h3>产品介绍</h3>
+      <p>{{ stuff.description }}</p>
+		</div>
+    
+    <div class="ui grid">
+						<div class="row">
+							<div class="center aligned column">
+								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+								  	<i class="thumbs outline up icon"></i>
+									<div class="love count">
+										{{ stuff.total_love_count|default 0 }}
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row" style="margin: 0;padding: 0;color: #fff;">
+						  <div class="center aligned column">
+						  	<p>为你喜欢的产品点赞也许你的一票，能够帮助产品永载吉尼斯</p>
+						  </div>
+						</div>
+
+						<div class="row">
+							<div class="column">
+								<div class="admin post actions clearfix">
+									<a name="sha"></a>
+									<div class="ui icon black editable buttons">
+										<div class="ui pop favorite magenta button" data-content="收藏" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+											<i class="empty star icon"></i> <small>{{ stuff.favorite_count }}</small>
+										</div>
+										{% if visitor.can_admin %}
+											{% if stuff.featured %}
+											<div class="ui pop top active button" data-content="取消精选" data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+												<i class="bookmark icon"></i>
+											</div>
+											{% else %}
+											<div class="ui pop top button" data-content="精选" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+												<i class="bookmark icon"></i>
+											</div>
+											{% endif %}
+											{% if stuff.stick %}
+											<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+												<i class="pin icon"></i>
+											</div>
+											{% else %}
+											<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+												<i class="pin icon"></i>
+											</div>
+											{% endif %}
+										{% endif %}
+							
+										{% if editable %}
+										<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
+											<i class="edit icon"></i>
+										</div>
+										<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
+											<i class="remove icon"></i>
+										</div>
+										{% endif %}
+									</div>
+					
+									{%include 'block/share.html'%}
+								</div>
+							
+							</div>
+						</div>
+
+    </div>
+		
+    <!--
+		<div class="say">
+			<h2>我有话说</h2>
+			<form class="ui reply form">
+				
+				<div class="field">
+					<textarea name="content" placeholder="我期待此产品未来会是什么样？" class="comment-textarea"></textarea>
+				
+				</div>
+			<form>
+		</div>
+		<div class="ui right aligned column">
+			<p>bob747 &nbsp;&nbsp;北京 &nbsp;&nbsp; </p>
+			<div class="ui magenta submit labeled btn">
+				评论
+			</div>
+		</div>
+    -->
+    <div class="ui big reply segment" style="margin-bottom: 20px;padding: 2.5em;">
+      
+			<!--ajax comment-->
+      <div id="comment-list"></div>
+      {% include "block/comment_box_site.html" %}
+    </div>
+		
+	</section>
+
+</div>
+
+{% include "block/qrcode.html" %}
+{% endblock %}

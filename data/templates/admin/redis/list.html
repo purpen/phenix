@@ -1,0 +1,37 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style class="text/css">
+	
+</style>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">Redis缓存</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+	  	<a class="active item" href="{{ app_url_admin_base }}/redis">全部</a>
+	  	<div class="right menu">
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/redis" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+        <th>55杯分享人数: {{ cup }}</th>
+			</tr>
+		</tbody>
+	</table>
+	
+{% endblock %}

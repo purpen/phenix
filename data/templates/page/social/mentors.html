@@ -1,0 +1,91 @@
+{%extends 'layout/column.html'%}
+{% block title %}资深专家-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.social.mentors {
+		background-color: rgba(56, 67, 77, 0.9);
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-image: url('http://static.taihuoniao.me/images/mentors-avatar.jpg');
+		color: white;
+		padding: 100px 0 60px;
+	}
+	.social.people.all {
+		background-color: #f1f1f1;
+		padding: 2rem 0 5rem;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.special.cards .image').dimmer({
+	  on: 'hover'
+	});
+	
+	$('#sticktopic .list .item').tab({
+	    context: $('#sticktopic')
+	});
+{% endblock %}
+
+
+{% block content %}
+<div class="social mentors">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column white section-title">
+				<h2 class="block title">资深专家</h2>
+				<p>超过 2000个行业专家在创造未来</p>
+				<hr>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social people all">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+				<div class="ui mentors four cards">
+					{% for user in users.rows %}
+				  	<div class="card">
+						<div class="mentor">
+							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
+							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+							<h3>{{ user.nickname }}</h3>
+							<p>{{ user.mentor_info.name }} {{ user.city }}</p>
+						</div>
+				  	</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<h2 class="block title">十分感兴趣成为专家团？</h2>
+				<p></p>
+				<a href="{{ app_url_login }}" class="ui inverted gray button">
+					<i class="user icon"></i>现在加入
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						<i class="basic icon community"></i> 发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">行业专家</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

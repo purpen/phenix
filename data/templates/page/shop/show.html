@@ -2,7 +2,9 @@
 {% block title %}{{ product.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">	
-	
+	.product.guess {
+		padding-top: 1rem;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -10,16 +12,13 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-
-  var per_page = 10;
-
-  function fetch_comment(current_page, per_page){
-    var total_count = {{ product.comment_count }};
-    var total_page = Math.ceil(total_count/per_page);
-    var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
-    $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
-  }
-
+    var per_page = 10;
+	function fetch_comment(current_page, per_page){
+        var total_count = {{ product.comment_count }};
+        var total_page = Math.ceil(total_count/per_page);
+        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
+        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
+    }
 </script>
 {% endblock %}
 
@@ -35,21 +34,24 @@
 		var choosed_sku = {{ product._id }};
 	{% endif %}
 	
+
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		
-		$('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
-				
+    //抢购商品sku价格均为抢购价
+    {% if !product.snatched %}
+		  $('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
+		{%endif%}		
 		return false;
 	});
+
 	
-	// 现在预约--口罩
-  $('.appoint.btn').click(function(){
-    phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
-  });
+	// 现在预约
+  	$('.appoint.btn').click(function(){
+    	//phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
+  	});
 	
 	// 加入购物车
 	$('.ui.buy.btn').click(function(){
@@ -61,18 +63,20 @@
 	});
 	
 	// 立即购买
-	$('.ui.nowbuy.btn').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (choosed_sku){
-			phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
-		} else {
-			phenix.show_error_note('请选择一个型号或颜色', 3000);
-		}
-	});
+  $('.ui.nowbuy.btn').livequery(function(){
+     $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 3000);
+      }
+    }); 
+  });
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -88,6 +92,7 @@
 				}
 			}
 		}, 'json');
+		
 		// 验证点赞
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
 			if (result.success) {
@@ -172,7 +177,6 @@
 		}
 	});
 	
-	
 	var $frame = $('#procover');
 	var $wrap = $frame.parent();
 	$frame.sly({
@@ -207,47 +211,84 @@
 		$('.ui.share.modal').modal('show');
 	});
 
-  //ajax加载评论
-  fetch_comment(1, per_page);
+	{% if is_snatch %}
+    var times = {{ snatch_time }} ;
+    var SysSecond;
+    var InterValObj;
+    //倒计时
+    //SysSecond = parseInt($("#remainSeconds").html()); //这里获取倒计时的起始时间
+    SysSecond = parseInt(times);
+    InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行
 
+    //将时间减去1秒，计算天、时、分、秒
+    function SetRemainTime() {
+    if (SysSecond > 0) {
+      SysSecond = SysSecond - 1;
+      var second = Math.floor(SysSecond % 60);             // 计算秒
+      var minite = Math.floor((SysSecond / 60) % 60);      //计算分
+      var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时
+      var day = Math.floor((SysSecond / 3600) / 24);        //计算天
 
-	{% if product.snatched %}
-		$('#clock').countdown('{{ product.snatched_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
-			var $this = $(this).html(event.strftime(''
-			+ '<span class="count">%D</span> 天 '
-			+ '<span class="count">%H</span> 时 '
-			+ '<span class="count">%M</span> 分 '
-			+ '<span class="count">%S</span> 秒'));
-		});
+      var time_show = ''
+        + '<span class="count">'+ day +'</span> 天 '
+        + '<span class="count">'+ hour +'</span> 时 '
+        + '<span class="count">'+ minite +'</span> 分 '
+        + '<span class="count">'+ second +'</span> 秒';
+      $("#clock").html(time_show);
+    } else {
+      //剩余时间小于或等于0的时候，就停止间隔函数
+      window.clearInterval(InterValObj);
+      //这里可以添加倒计时时间为0后需要执行的事件
+          var product_id = {{ product._id }};
+          $.get('{{ app_url_shop }}/check_snatch_expire', { product_id: product_id, type:1 }, function(r){
+            var r = $.parseJSON(r);
+            if(r.success){
+              $('.tobuy').html('立即抢购').addClass('nowbuy');
+              $('.snatched').html('<span class="ui black text">正在抢购中...</span>');
+            }else{
+              //alert(r.message);
+              window.location.reload();
+            }
+          });
+      }
+    }
+
 	{% endif %}
+	
+  	// ajax加载评论
+  	fetch_comment(1, per_page);
+	
+	// 加载推荐商品 
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 3});
 	
 {% endblock %}
 
 {% block content %}
-<div class="ui shop show" id="shoppage">
+<div class="shop submenu">
 	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domain }}">
-						<i class="home icon"></i> 首页
-					</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_domain }}/shop/c{{ product.category._id }}">{{ product.category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ product.title }}</div>
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain current:product.category._id show_all:0 %}
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
+					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui {{ cat.active }} link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
-	
+</div>
+
+<div class="ui shop show" id="shoppage">
 	<div class="product cover">
 		<div class="ui responsive grid">
 			<div class="center aligned row">
 				<div class="column">
-					
 					<div class="slidebox">
 						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 					
@@ -325,7 +366,7 @@
 						<div class="content">
 							{{ product.title }}
 							<div class="sub header">
-								<a href="{{ product.designer.home_url }}" class="ui link" title="设计师">
+								<a href="{{ product.designer.home_url }}" class="ui magenta link" title="设计师">
 									{{ product.designer.nickname }}
 								</a>
 								<i class="map marker icon"></i>{{ product.designer.city }} {{ product.designer.profile.job }}
@@ -368,7 +409,7 @@
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="product snatched">
-										<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>
+                    <!--<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>-->
 										<span class="ui text">倒计时：<span id="clock"></span></span>
 									</div>
 									{% else %}
@@ -392,17 +433,22 @@
 									<span class="unit">￥</span>{{ product.market_price }}
 								</span>
 								<span class="price" id="current-price">
-									<span class="unit">￥</span>{{ product.sale_price }}
+                  {% if product.snatched %}
+									  <span class="unit">￥</span>{{ product.snatched_price }}
+                  {%else%}
+									  <span class="unit">￥</span>{{ product.sale_price }}
+                  {%endif%}
+
 								</span>
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
 									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy appoint btn">
-										<i class="ticket icon"></i>立即预约
+										准备开抢
 									</div>
 									{% else %}
 										{% if product.can_saled %}
 										<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
-											<i class="flat shopping57 icon"></i>立即抢购
+											立即抢购
 										</div>
 										{% else %}
 										<div class="ui active gray btn-4 btn-4c locknotice btn">
@@ -525,10 +571,8 @@
 					<h3 class="ui dividing header">
 						用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
 					</h3>
-          <!--ajax comment-->
+          		  	<!--ajax comment-->
 					<div class="ui big reply segment" id="comment-list"></div>
-
-					
 				</div>
 			</div>
 		</div>
@@ -570,6 +614,30 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--你可能喜欢的产品-->
+	<div id="product_guess_list"><!--ajax fetch--></div>
+
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_shop }}">商店</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_domain }}/shop/c{{ product.category._id }}">{{ product.category.title }}</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">{{ product.title }}</div>
 				</div>
 			</div>
 		</div>

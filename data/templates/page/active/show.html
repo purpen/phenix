@@ -2,11 +2,26 @@
 {% block title %}{{ active.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+body{
+	padding-top:0 !important;
+}
 .ui.grid{
 	margin:0;
 }
 .ui.social {
 	padding: 0em;
+}
+.ui.tabox{
+	background:#000!important;
+	opacity:0;
+}
+.ui.tabox.fxd{
+	opacity:1;
+	-webkit-transition: all .3s ease-in-out 0.1s;
+	transition: all .3s ease-in-out 0.1s;
+	-moz-transition: all .3s ease-in-out 0.1s;
+	-o-transition: all .3s ease-in-out 0.1s;
+	-ms-transition: all .3s ease-in-out 0.1s;
 }
 .ui.tabox ,.ui.tabox.smint.fxd{
 	background: none repeat scroll 0 0 #343028;
@@ -30,13 +45,6 @@
 	padding-bottom:1%;
 	margin-bottom:0px;
 }
-.ui.tabox{
-	-webkit-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-moz-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-o-transition: opacity 0.25s ease,translateY 0.25s ease;
-	-ms-transition: opacity 0.25s ease,translateY 0.25s ease;
-	transition:opacity 0.25s ease,translateY 0.25s ease;
-}
 .ui.tabs .tab:hover{
 	color:#f36 !important;
 }
@@ -44,7 +52,8 @@
 	margin:0;
 }
 .start{
-	background:url({{ active.banner.thumbnails.hd.view_url }}) no-repeat center center /cover;
+	background:url({{ active.banner.fileurl }}) no-repeat center center;
+  background-size:cover;
 	color:#fff;
 	padding:100px 0% 80px;
 }
@@ -62,8 +71,8 @@
 .start h2.ui.header .content{
 	text-align:left;
 }
-.start .row:nth-child(3){
-	padding-top:208px;
+.start .row{
+	padding-top:208px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -116,10 +125,10 @@ hr{
 .ui.report{
 	color:#fff;
 }
-.report .ui.btn{
-	background:#ccc;
-	border-radius:4px !important;
-	border:0px;
+.report .ui.btn {
+background: rgba(0,0,0,0);
+border-radius: 4px !important;
+border: 1px solid #fff;
 }
 .report .ui.attend.btn{
 	border-radius:4px !important;
@@ -181,6 +190,8 @@ width: 46%;
 .timeline-content.right .time {
 font-weight: normal;
 top: 14px;
+min-width: 90px;
+text-align: center;
 }
 .timeline-content .time {
 font-size: 16px;
@@ -232,11 +243,11 @@ font-size:14px;
 	padding-bottom:1rem;
 }
 h4.ui.header .map-advantage {
-font-size: 1em;
-font-weight: 400;
-color:#666;
-display: inline-block;
-float: right;
+	font-size: 1em;
+	font-weight: 400;
+	color:#666;
+	display: inline-block;
+	float: right;
 }
 .position.row{
 	position:absolute;
@@ -259,7 +270,7 @@ float: right;
 	padding:1.2em 1em 1.8em;
 }
 .icon-place:before {
-    content: "\f124";
+  content: "\f124";
 	color:#f36;
 	font-size: 1.5em;
 }
@@ -325,15 +336,18 @@ float: right;
 	background:rgb(74,74,74);
 	padding: 10px 0;
 }
+.ui.w-1180 #signup-avatar{
+	padding:0 13px;
+}
 .ui.w-1180 .image{
-	width:100px;
-	height:100px;
+	width:60px;
+	height:60px;
 	display: inline-block;
-	padding:10px 7px;
+	padding:6px 4px;
 }
 .ui.w-1180 .image img{
-	width:100px;
-	height:100px;
+	width:60px;
+	height:60px;
 	opacity:0.3;
 	border-radius:50%;
 }
@@ -346,7 +360,7 @@ float: right;
 {% endblock %}
 
 {% block layout_js %}
-  <script defer="" src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
+  <script src="{{ app_url_packaged }}/javascript/jquery.flexslider.js"></script>
 
   {% if active.map_info %}
   <!--引用百度地图API-->
@@ -387,7 +401,7 @@ float: right;
   function fetch_signup_avatar(){
     var url = '{{ app_url_active }}/ajax_fetch_signup';
     var target_id = {{ active._id }};
-    $.get(url, { target_id: target_id, evt:1 });
+    $.get(url, { target_id: target_id, evt:1, from:'site' });
   }
 
   //评论分页
@@ -410,14 +424,7 @@ float: right;
   //分享
   phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.view_url }}'});
-	
-	// 显示编辑工具条 
-	$('.ui.active.segment').hover(function(){
-		$('.ui.editable.buttons').removeClass('hide');
-	},function(){
-		$('.ui.editable.buttons').addClass('hide');
-	});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ active.wap_view_url }}'});
 	
 	$('.ui.tabox').smint({
     	'scrollSpeed': 1000,
@@ -435,7 +442,7 @@ float: right;
     return false; 
     //验证用户信息齐全
     /**
-    $.get('{{ app_url_action_base }}/user/ajax_check_userinfo', {}, function(result){
+    $.get('{{ app_url_domain }}/user/ajax_check_userinfo', {}, function(result){
       if(result=='true'){
         //ajax报名
         $.get('{{ app_url_action_base }}/active/ajax_attend', { target_id: {{ active._id }} });
@@ -508,13 +515,17 @@ float: right;
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
+	
+	$('textarea.comment-textarea').maxlength({
+      'feedback' : '.wordscount'
+  });
 
   //ajax获取报名列表头像
   fetch_signup_avatar();
 {% endblock %}
 
 {% block content %}
-  <div class="ui tabox" data-70="transform:translateY(-20px);opacity:0;display:none;" data-71="transform:translateY(0px);opacity:1;display:block;">
+  <div class="ui tabox">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
@@ -531,24 +542,8 @@ float: right;
       </div>
     </div>
   </div>
-  <section class="ui start block">
+  <section class="ui start block" style="margin-top:-40px;">
     <div class="ui responsive center aligned grid">
-      <div class="row">
-        <div class="center aligned tweleve wide column">
-          <h2 class="ui header">
-            <div class="content">
-              <span></span>
-              <br />
-              <strong></strong>
-            </div>
-          </h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="center aligned column">
-          <h2 class="ui header"></h2>
-        </div>
-      </div>
         {% if active.step_stat==1 %}
         <div class="row">
           <div class="center aligned column attend-box">
@@ -561,6 +556,13 @@ float: right;
               <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
             </a>
           {%endif%}
+          </div>
+        </div>
+      {%endif%}
+      {% if active.step_stat==2 %}
+        <div class="row">
+          <div class="center aligned column attend-box" style="height:50px;">
+
           </div>
         </div>
       {%endif%}
@@ -663,9 +665,27 @@ float: right;
 			</div>
 			
 		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<div class="attend-box">
+					{% if active.step_stat==1 %}
+			          {% if is_attend %}
+			            <a class="ui btn-4 btn-4c magenta active icon-arrow-right btn" href="javascript:void(0);">
+			                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+			            </a>
+			          {%else%}
+			            <a class="ui btn-4 btn-4c magenta attend icon-arrow-right btn" href="javascript:void(0);">
+			                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+			            </a>
+			          {%endif%}	
+				</div>
+				<p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>
+				{%endif%}
+			</div>
+		</div>
 	</div>
   </div>
- 
+
   <section class="ui report block">
     <!--ajax获取报名者头像-->
     <div class="ui w-1180">
@@ -676,29 +696,18 @@ float: right;
           </div>
         {% endfor %}
       </div>
-	  
 	  <div class="report-btn">
 		<div class="ui responsive center aligned column">
 	      <div class="row">
 			<div class="center aligned column">
-	      <div class="attend-box">
-	        {% if active.step_stat==1 %}
-	          {% if is_attend %}
-	            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
-	            </a>
-	          {%else%}
-	            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
-	                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-	            </a>
-	          {%endif%}
-	        {%else%}
+	      <div class="aettend-box">
+	        {% if !active.step_stat==1 %}
 	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
 	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
 	          </a>
-	        {%endif%}
 	      </div>
 	      <p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>	
+		{%endif%}
 			</div>
 		  </div>
 	    </div>
@@ -742,8 +751,10 @@ float: right;
 								</div>
 							</h4>
 							<div class="clearfix">
-								<i class="icon-place icon"></i>
-								  {{ active.address }}
+								<i class="icon-place icon" style="display:inline-block;float:left;"></i>
+								<div style="display:inline-block;float:left;width:304px;">
+									{{ active.address }}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -828,4 +839,5 @@ float: right;
 	</div>
 </div>
 {% include "block/attend_user_info.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}

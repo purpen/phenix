@@ -22,12 +22,18 @@
 					<div class="row">
 						<div class="column">
 							{% bonus_list var:'bonus' page:page user_id:user._id size:12 %}
+							{% if bonus.total_rows %}
 							<div class="ui three bonus items">
 								{% for b in bonus.rows %}
 							  	<div class="item" id="{{ b._id }}" data-id="{{ b._id }}">
 									<div class="ui icon header">
 									  	<i class="circular flat dollar78 icon"></i><span class="ui magenta text">{{ b.amount }}元</span>
 									  	<div class="sub header">红包码：{{ b.code }}</div>
+                      {% if b.min_amount %}
+                        <div class="sub header">最低使用限额: {{ b.min_amount }}元</div>
+                      {%else%}
+                        <div class="sub header">无最低使用限额</div>
+                      {%endif%}
 									</div>
 									<div class="ui bottom attached label">
 										{% if b.used == 2 %}
@@ -39,6 +45,9 @@
 							  	</div>
 								{% endfor %}
 							</div>
+							{% else %}
+							<p>还没得到红包，快去领吧~~</p>
+							{% endif %}
 							
 							{% if bonus.total_rows > 12 %}
 							<div class="ui pagination">

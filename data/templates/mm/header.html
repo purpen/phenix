@@ -16,6 +16,14 @@
 				</h4>
 			</div>
 			<div class="right aligned column">
+				<a href="{{ app_url_wap }}/shop/cart" class="ui small icon gray basket button">
+					{% if items_count > 0 %}
+					<label class="floating ui magenta circular label">{{ items_count }}</label>
+					{% else %}
+					<label class="floating ui magenta circular label hide"></label>
+					{% endif %}
+					<i class="cart icon"></i>
+				</a>
 				{% if visitor %}
 				<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
 			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
@@ -25,14 +33,6 @@
 					<i class="user icon"></i>
 				</a>
 				{% endif %}
-				<a href="{{ app_url_wap }}/shop/cart" class="ui small icon gray basket button">
-					{% if items_count > 0 %}
-					<label class="floating ui magenta circular label">{{ items_count }}</label>
-					{% else %}
-					<label class="floating ui magenta circular label hide"></label>
-					{% endif %}
-					<i class="cart icon"></i>
-				</a>
 			</div>
 		</div>
 	</div>

@@ -8,13 +8,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
-		return $this->coupon();
+		//return $this->coupon();
 	}
 	
 	/**
@@ -68,31 +68,31 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		$this->stash['product'] = $product;
 
-    $this->stash['is_time'] = false;
-    if($product['can_saled']){
-      if($product['snatched_time']<time()){
-        $this->stash['is_time'] = true;
-      }
-    }
+	    $this->stash['is_time'] = false;
+	    if($product['can_saled']){
+	      if($product['snatched_time']<time()){
+	        $this->stash['is_time'] = true;
+	      }
+	    }
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
 		$provinces = $areas->fetch_provinces();
 		
 		$this->stash['provinces'] = $provinces;
-    $this->stash['has_address'] = false;
+    	$this->stash['has_address'] = false;
 		
 		// 验证是否预约
 		if($this->visitor->id){
 			$cache_key = sprintf('mask_%d_%d', $product_id, $this->visitor->id);
 			$redis = new Sher_Core_Cache_Redis();
-      $appointed = $redis->get($cache_key);
-      //是否有默认地址
-      $addbook_model = new Sher_Core_Model_AddBooks();
-      $addbook = $addbook_model->first(array('user_id'=>$this->visitor->id));
-      if(!empty($addbook)){
-        $this->stash['has_address'] = true;
-      }
+		    $appointed = $redis->get($cache_key);
+		    //是否有默认地址
+		    $addbook_model = new Sher_Core_Model_AddBooks();
+		    $addbook = $addbook_model->first(array('user_id'=>$this->visitor->id));
+		    if(!empty($addbook)){
+		        $this->stash['has_address'] = true;
+		    }
 		}else{
 			$appointed = false;
 		}
@@ -123,7 +123,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		// 获取红包
 		$bonus = new Sher_Core_Model_Bonus();
-		$result = $bonus->pop();
+		$result = $bonus->pop('T9');
 		
 		if(empty($result)){
 			return $this->ajax_note('红包已抢光了,等待下次机会哦！', true);
@@ -132,8 +132,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		// 获取为空，重新生产红包
 		/*
 		while(empty($result)){
-			$bonus->create_batch_bonus(100);
-			$result = $bonus->pop();
+			$bonus->create_batch_bonus(10);
+			$result = $bonus->pop('T9');
 			// 跳出循环
 			if(!empty($result)){
 				break;
@@ -156,6 +156,148 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		return $this->to_taconite_page('ajax/bonus_ok.html');
 	}
+
+  	/**
+   	 * 55杯-支持原创－专题
+     */
+  	public function chinadesign(){     
+    	$this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    	$timestamp = $this->stash['timestamp'] = time();
+    	$wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    	$wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    	if(empty($_SERVER['QUERY_STRING'])){
+      		$url = $this->stash['current_url'] = Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign';  
+    	}else{
+        	$url = $this->stash['current_url'] = Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign?'.$_SERVER['QUERY_STRING'];   
+    	}
+
+    	$wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    	$this->stash['wxSha1'] = sha1($wxOri);
+    	return $this->to_html_page('wap/chinadesign.html');
+  	}
+	
+	/**
+	 * 陌陌新年专题
+	 */
+	public function momo(){
+		$product_ids = array(1082995029,1011468351,1060500658,1060600664,1120700122);
+		$relate_ids = array(1111556004,1120700195,1120666085,1092169929,1121112153,1120874607);
+		
+		$this->stash['product_ids'] = $product_ids;
+		$this->stash['relate_ids'] = $relate_ids;
+		return $this->to_html_page('wap/momo.html');
+	}
+	
+	/**
+	 * watch
+	 */
+	public function watch(){
+    $model = new Sher_Core_Model_SubjectRecord();
+    $query['target_id'] = 1;
+		$query['event'] = Sher_Core_Model_SubjectRecord::EVENT_APPOINTMENT;
+    //预约虚拟数量---取块内容
+    $invented_num = Sher_Core_Util_View::load_block('apple_watch_invented_num', 1);
+    if(!empty($invented_num)){
+      $invented_num = (int)$invented_num;
+    }else{
+      $invented_num = 0;   
+    }
+    //统计预约数量---有性能问题,时间紧迫,过后再调整
+    $this->stash['appoint_count'] = $model->count($query) + $invented_num;
+
+    //判断当前用户是否预约过
+    $is_appoint = false;
+    if($this->visitor->id){
+      $this->stash['user_info'] = &$this->stash['visitor'];
+      $is_appoint = $model->check_appoint($this->visitor->id, 1);
+    }
+
+    $this->stash['is_appoint'] = $is_appoint;
+		return $this->to_html_page('wap/promo/watch.html');
+	}
+
+  /**
+   * 用户补全资料并预约
+   */
+  public function ajax_appoint(){
+    if(!isset($this->stash['target_id'])){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+    }
+
+    $r_model = new Sher_Core_Model_SubjectRecord();
+
+    $is_appoint = $r_model->check_appoint($this->visitor->id, (int)$this->stash['target_id']);
+    if($is_appoint){
+ 			return $this->ajax_note('不能重复预约!', true);  
+    }
+
+    if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
+      if(empty($this->stash['realname']) || empty($this->stash['phone'])){
+ 			  return $this->ajax_note('请求失败,缺少用户必要参数', true); 
+      }
+
+      $user_data = array();
+      $user_data['profile']['realname'] = $this->stash['realname'];
+      $user_data['profile']['phone'] = $this->stash['phone'];
+
+      try {
+        //更新基本信息
+        $user_ok = $this->visitor->save($user_data);
+        if(!$user_ok){
+          return $this->ajax_note("更新用户信息失败", true);  
+        }
+      } catch (Sher_Core_Model_Exception $e) {
+        Doggy_Log_Helper::error('Failed to active attend update profile:'.$e->getMessage());
+        return $this->ajax_note("更新失败:".$e->getMessage(), true);
+      }
+    
+    }
+
+    $data = array();
+    $data['user_id'] = (int)$this->visitor->id;
+    $data['target_id'] = (int)$this->stash['target_id'];
+    $data['event'] = Sher_Core_Model_SubjectRecord::EVENT_APPOINTMENT;
+    try{
+      $ok = $r_model->add_appoint($data['user_id'], $data['target_id']);
+      if($ok){
+		    return $this->to_taconite_page('ajax/promo_appoint_ok.html');
+      }else{
+  			return $this->ajax_note('预约失败!', true);   
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Save subject_record appoint failed: ".$e->getMessage());
+ 			return $this->ajax_note('预约失败.!', true); 
+    }
+  }
+
+  /**
+   * 周年庆邀请好友单页面
+   */
+  public function year_invite(){
+    $code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
+    $this->stash['user'] = null;
+    $this->stash['is_current_user'] = false;
+    $this->stash['yes_login'] = false;
+    //通过邀请码获取邀请者ID
+    if($code){
+      $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
+      if($user_invite_id){
+        $mode = new Sher_Core_Model_User();
+        $user = $mode->find_by_id((int)$user_invite_id);
+        if($user){
+          $this->stash['user'] = $user;
+          //判断是否为当前用户
+          if($this->visitor->id){
+            $this->stash['yes_login'] = true;
+            if((int)$this->visitor->id==$user['_id']){
+              $this->stash['is_current_user'] = true;
+            }
+          }
+        }
+      }
+    }
+		return $this->to_html_page('wap/promo/year_invite.html');
+  }
 	
 }
 ?>

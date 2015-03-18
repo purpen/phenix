@@ -38,10 +38,11 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_onsale = 0;
 		$only_stick = 0;
     $is_shop = 0;
-    //搜索类型
+    // 搜索类型
     $s_type = 0;
     $s_mark = null;
-
+		// 是否成功案例
+		$only_okcase = 0;
 		
 		// 是否有话题
 		$only_subject = 0;
@@ -102,10 +103,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['stage'] = (int)$stage;
 		}
 
-    //预售商品合并后
-    if ($is_shop) {
-      $query['stage'] = array('$in'=>array(5, 9));
-    }
+	    //预售商品合并后
+	    if ($is_shop) {
+	      $query['stage'] = array('$in'=>array(5, 9));
+	    }
 		
 		if($process_saled){
 			$query['process_saled'] = 1;
@@ -132,22 +133,26 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		if ($only_subject){
 			$query['topic_count'] = array('$gt'=>0);
 		}
-
-    //搜索
-    if($s_type){
-      switch ((int)$s_type){
-      case 1:
-        $query['_id'] = (int)$s_mark;
-        break;
-      case 2:
-        $query['title'] = array('$regex'=>$s_mark);
-        break;
-      case 3:
-        $query['tags'] = array('$all'=>array($s_mark));
-        break;
-      }
-    
-    }
+		
+		// 是否成功案例
+		if($only_okcase){
+			$query['okcase'] = 1;
+		}
+		
+	    // 搜索
+	    if($s_type){
+	      switch ((int)$s_type){
+		      case 1:
+		        $query['_id'] = (int)$s_mark;
+		        break;
+		      case 2:
+		        $query['title'] = array('$regex'=>$s_mark);
+		        break;
+		      case 3:
+		        $query['tags'] = array('$all'=>array($s_mark));
+		        break;
+	      }
+	    }
 		
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;
