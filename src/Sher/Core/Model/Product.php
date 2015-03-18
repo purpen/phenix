@@ -372,6 +372,16 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
 	    }
+
+    //库存数量不为能负数
+    if(isset($data['inventory']) && (int)$data['inventory']<0){
+      $data['inventory'] = 0;
+    }
+
+    //抢购库存数量不为能负数
+    if(isset($data['snatched_count']) && (int)$data['snatched_count']<0){
+      $data['snatched_count'] = 0;
+    }
 		
 		// 新建数据,补全默认值
 		if ($this->is_saved()){
