@@ -179,8 +179,7 @@
       //登录行为
       if(phenix.visitor.is_login){
         var user_id = phenix.visitor.id;
-        alert(22);
-        $.get('{{ app_url_action }}/user/ajax_fetch_counter',{}, function(){
+        $.get('{{ app_url_action_base }}/user/ajax_fetch_counter',{}, function(){
             alert(111);
           });
       }

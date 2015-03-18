@@ -442,7 +442,7 @@ h4.ui.header .map-advantage {
     return false; 
     //验证用户信息齐全
     /**
-    $.get('{{ app_url_action_base }}/user/ajax_check_userinfo', {}, function(result){
+    $.get('{{ app_url_domain }}/user/ajax_check_userinfo', {}, function(result){
       if(result=='true'){
         //ajax报名
         $.get('{{ app_url_action_base }}/active/ajax_attend', { target_id: {{ active._id }} });
