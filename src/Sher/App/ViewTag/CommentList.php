@@ -20,7 +20,6 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $check_loved = 0;
         $current_user_id = 0;
 		
-        $sort = 'earliest';
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -41,8 +40,20 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($type) {
 			$query['type'] = (int)$type;
 		}
-		
-        $options['sort_field'] = $sort;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'earliest';
+				break;
+			case 1:
+				$options['sort_field'] = 'latest';
+				break;
+			case 2:
+				$options['sort_field'] = 'hotest';
+				break;
+		}
+
         $options['page'] = $page;
         $options['size'] = $size;
 

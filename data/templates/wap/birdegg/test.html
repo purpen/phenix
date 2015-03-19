@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}蛋年 -{% endblock %}
+{% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	header.ui.wap{
@@ -516,7 +516,6 @@ cursor: pointer;
 .s6 .fp-controlArrow {
 	top: 50%;
 	margin-top: -50px;
-	color:#000;
 }
 .s5-1{
 	opacity:0;
@@ -664,6 +663,20 @@ z-index: 100000;
     -webkit-animation: swipe 1.5s linear infinite;
 }
 .swipe { position: absolute; width: 28px; height: 16px; top: 90%; left: 50%; margin-left: -14px; }
+a.line, a.line:visited {
+color: #444;
+border-bottom: 2px solid rgba(255,255,255,0);
+-webkit-transition: all .3s ease-in-out 0s;
+transition: all .3s ease-in-out 0s;
+text-decoration: none;
+}
+a.line:hover{
+	color:#f36;
+	border-bottom: 2px solid #f36;
+}
+.ui.one.cards>.card>.content{
+	height:24px !important;
+}
 </style>
 {% endblock %}
 
@@ -708,6 +721,7 @@ z-index: 100000;
   });
 {% endblock %}
 {% block content %}
+<div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
 <div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section s1">
@@ -815,154 +829,49 @@ z-index: 100000;
 	<div class="section s6">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		<div class="menu p6"></div>
+		
+		{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
+		{% for stuff in stufflist.rows %}
 		<div class="slide">
 			<div class="slide-list">
-				<div class="ui grid">
-											<div class="column">
-									                  <div class="ui one items">
-										<div class="item">
-											<div class="content">
-												<h4 class="ui dividing header">
-													<a class="ui link" href="http://m.taihuoniao.com/birdegg/110087.html">
-														AutoAid	驾驶助手 	 	 	 	
-													</a>
-																						<div class="image">
-				                    <a class="ui link" href="http://m.taihuoniao.com/birdegg/110087.html">
-															<img src="http://frbird.qiniudn.com/stuff/150304/54f68adbfc8b12921c8b4c1b-1-me.jpg" alt="AutoAid	驾驶助手 	 	 	 	" class="ui image" draggable="false">
-														</a>
-													</div>
-													<div class="advantage">
-														AutoAid是一款智能车载穿戴设备，它具有智能车载蓝牙电话功能，能够对驾驶安全、油...
-													</div>
-																					</h4>
-												<div class="schedule">
-													<div class="status clearfix">
-														<a class="ui avatar image" href="http://www.taihuoniao.com/user/5983/">
-												      		<img src="http://frbird.qiniudn.com/avatar/141017/544091bf621e19c1128b4c8e-avn.jpg" alt="南宮敗柳" draggable="false">
-														</a>
-														<span class="count">
-															<a class="ui small link" href="http://www.taihuoniao.com/user/5983/">
-																南宮敗柳
-															</a>
-														</span>
-														<span class="like">
-															<i class="icon unhide"></i>
-															<span class="count">300</span>
-														</span>
-													</div>
-												</div>
-											</div>
-										</div>
-				          </div>
-				        </div>
-				      </div>
-			</div>
-		</div>
-		
-		<div class="slide">
-			<div class="slide-list">
-				<div class="ui grid">
-											<div class="column">
-									                  <div class="ui one items">
-										<div class="item">
-											<div class="content">
-												<h4 class="ui dividing header">
-													<a class="ui link" href="http://m.taihuoniao.com/birdegg/110087.html">
-														AutoAid	驾驶助手 	 	 	 	
-													</a>
-																						<div class="image">
-				                    <a class="ui link" href="http://m.taihuoniao.com/birdegg/110087.html">
-															<img src="http://frbird.qiniudn.com/stuff/150304/54f68adbfc8b12921c8b4c1b-1-me.jpg" alt="AutoAid	驾驶助手 	 	 	 	" class="ui image" draggable="false">
-														</a>
-													</div>
-													<div class="advantage">
-														AutoAid是一款智能车载穿戴设备，它具有智能车载蓝牙电话功能，能够对驾驶安全、油...
-													</div>
-																					</h4>
-												<div class="schedule">
-													<div class="status clearfix">
-														<a class="ui avatar image" href="http://www.taihuoniao.com/user/5983/">
-												      		<img src="http://frbird.qiniudn.com/avatar/141017/544091bf621e19c1128b4c8e-avn.jpg" alt="南宮敗柳" draggable="false">
-														</a>
-														<span class="count">
-															<a class="ui small link" href="http://www.taihuoniao.com/user/5983/">
-																南宮敗柳
-															</a>
-														</span>
-														<span class="like">
-															<i class="icon unhide"></i>
-															<span class="count">300</span>
-														</span>
-													</div>
-												</div>
-											</div>
-										</div>
-				          </div>
-				        </div>
-				      </div>
-			</div>
-		</div>
-		
-		<!--{% stuff_list var:'list' category_id:cid is_top:is_top verified:1 sort:4 page:page size:8 %}
-      
-				{% for stuff in list.rows %}
-				
-				<div class="slide">
-					<div class="slide-list">
-						
-						<div class="ui grid">
-							<div class="column">
-					                  <div class="ui one items">
-						<div class="item">
-							<div class="content">
-								<h4 class="ui dividing header">
-									<a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
-										{{ stuff.title|truncate 32 }}
-									</a>
-									{% if stuff.cover %}
-									<div class="image">
-                    <a class="ui link" href="{{ app_url_wap }}/birdegg/{{ stuff._id }}.html">
-											<img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" class="ui image" />
-										</a>
-									</div>
-									<div class="advantage">
-										{{ stuff.strip_description|truncate 80 }}
-									</div>
-									{% else %}
-									<div class="full advantage">
-										{{ stuff.strip_description|truncate 280 }}
-									</div>
-									{% endif %}
-								</h4>
-								<div class="schedule">
-									<div class="status clearfix">
-										<a class="ui avatar image" href="{{ stuff.user.home_url }}">
-								      		<img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}" />
-										</a>
-										<span class="count">
-											<a class="ui small link" href="{{ stuff.user.home_url }}">
-												{{ stuff.user.nickname }}
-											</a>
-										</span>
-										<span class="like">
-											<i class="icon unhide"></i>
-											<span class="count">{{ stuff.view_count }}</span>
-										</span>
-									</div>
+				<div class="ui grid" style="padding:0 15%;">
+					<div class="column">
+						<div class="ui one cards">
+							<div class="card">
+								<div class="image">
+			                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
+			                    {% if stuff.cover %}
+			                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+			                    {%else%}
+			                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
+			                    {%endif%}
+			                	</a>
+					    	</div>
+					    	<div class="content">
+					      	  	<div class="header">
+									<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
 								</div>
+					    	</div>
+					    	<div class="extra">
+					      	  	<a class="right floated created">
+                        <!--<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>-->
+									<small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
+								</a>
+								<a href="{{ stuff.user.home_url }}" class="ui icon link">
+									<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
+								</a>
+					    	</div>
+					
 							</div>
 						</div>
-          </div>
-        </div>
-      </div>
-						
 					</div>
 				</div>
-			{% endfor %}-->
+			</div>
+		</div>
+		{% endfor %}
 				
 				
-				
-		<div class="center aligned column" style="position: absolute;bottom: 10px;text-align: center;width: 100%;z-index:1111;">
+		<div class="center aligned column" style="position: absolute;bottom: 60px;text-align: center;width: 100%;z-index:1111;">
       <a href="{{ app_url_wap }}/birdegg/submit" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 					提交创意
 				</a>
@@ -989,19 +898,5 @@ z-index: 100000;
 	</div>
 	
 	
-	
-	
-	
-	
 </div>
-
-
-
-
-
-
-
-
-
-
 {%endblock%}

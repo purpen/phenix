@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}蛋年创新大会-{% endblock %}
+{% block title %}{% endblock %}
 
 {% block page_css %}
 <link rel="stylesheet" href="{{ app_url_packaged }}/css/eggs01.min.css" type="text/css" />
@@ -839,9 +839,71 @@ background-color: #fff;
 .stuffs .ui.four.cards .card  .extra small{
 	cursor: auto;
 }
+.ui.cards>.card, .ui.card,.ui.cards>.card:hover, .ui.card:hover{
+	-webkit-box-shadow: 0 0px 0px #C7C7C7 !important;
+	box-shadow: 0 0px 0px #C7C7C7 !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
+
+	/* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
 
 	var s = e(window).width();
 	e(".frames > .slide > .item").width(s);
@@ -1487,42 +1549,16 @@ background-color: #fff;
 				<div class="w-1180">
 					<h3 class="ui header center aligned">产品提交</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
-				
+					
 					<div class="featured">
-						{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
-						<div class="ui four cards">
-							{% for stuff in stufflist.rows %}
-						  	<div class="card">
-						    	<div class="image">
-				                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-				                    {% if stuff.cover %}
-				                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-				                    {%else%}
-				                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
-				                    {%endif%}
-				                	</a>
-						    	</div>
-						    	<div class="content">
-						      	  	<div class="header">
-										<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
-									</div>
-						      	  	<div class="description">
-						        		{{ stuff.strip_description|truncate 60 '' }}
-						      	  	</div>
-						    	</div>
-						    	<div class="extra">
-						      	  	<a class="right floated created">
-                          <!--<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>-->
-										<small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
-									</a>
-									<a href="{{ stuff.user.home_url }}" class="ui icon link">
-										<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
-									</a>
-						    	</div>
-						  	</div>
+						<div id="item-list" class="ui four cards">
+							{% for stuff in stuffs %}
+                {% include "block/birdegg_item.html" %}
 							{% endfor %}
 						</div>
 					</div>
+					
+					
 					
 					<div class="buttons">
 						<a href="{{ app_url_birdegg }}/submit" class="ui inverted button" target="_blank">产品提交</a>
@@ -1560,6 +1596,8 @@ background-color: #fff;
 						<img src="{{ app_url_packaged }}/images/egg_meno.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_fasto.jpg" class="ui image">
 						<img src="{{ app_url_packaged }}/images/egg_bdoo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_hdx.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qhxo.jpg" class="ui image">
 					</div>
 				
 					<div class="logo">

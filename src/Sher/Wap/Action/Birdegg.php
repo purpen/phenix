@@ -7,6 +7,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
     'sort'=>0,
+    'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
@@ -32,6 +33,21 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		$this->stash['is_top'] = $is_top;
 		$this->stash['top_category_id'] = $top_category_id;
 		$this->stash['cid'] = $cid;
+
+    //作品推荐列表---取块内容
+    $stuff_ids = Sher_Core_Util_View::load_block('birdegg_index_stick', 1);
+    $stuffs = array();
+    if($stuff_ids){
+      $stuff_model = new Sher_Core_Model_Stuff();
+      $id_arr = explode(',', $stuff_ids);
+      foreach(array_slice($id_arr, 0, 8) as $i){
+        $stuff = $stuff_model->extend_load((int)$i);
+        if(!empty($stuff)){
+          array_push($stuffs, $stuff);
+        }
+      }
+    }
+    $this->stash['stuffs'] = $stuffs;
 		
 		return $this->to_html_page('wap/birdegg/index.html');
 	}

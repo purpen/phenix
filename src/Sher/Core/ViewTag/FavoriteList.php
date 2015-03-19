@@ -39,12 +39,16 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
 			$query['user_id'] = (int)$user_id;
 		}
 		
-		if($target_id){
-			$query['target_id'] = (int)$target_id;
-		}
-		
 		if($type){
 			$query['type'] = (int)$type;
+		}
+
+		if($target_id){
+      if((int)$type==3){
+ 			  $query['target_id'] = (string)$target_id;     
+      }else{
+  			$query['target_id'] = (int)$target_id;    
+      }
 		}
 		
         $service = Sher_Core_Service_Favorite::instance();
