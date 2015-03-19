@@ -250,7 +250,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
       $data['verified'] = 1; 
     }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
       $data['verified'] = 1;
-    }elseif(empty((int)$this->stash['from_to'])){
+    }elseif(empty($this->stash['from_to'])){
       $data['verified'] = 1;
     }else{
       $data['verified'] = 0;

@@ -293,7 +293,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
       $data['verified'] = 1; 
     }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
       $data['verified'] = 1;
-    }elseif(empty((int)$this->stash['from_to'])){
+    }elseif(empty($this->stash['from_to'])){
       $data['verified'] = 1;
     }else{
       $data['verified'] = 0;
