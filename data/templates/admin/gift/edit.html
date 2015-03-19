@@ -67,6 +67,11 @@
 			<input name="_id" type="hidden" value="{{ gift._id }}" />
 			
 			<div class="inline field">
+				<label>前缀名称:</label>
+				<input type="text" name="before_prefix" />
+				<span class="description">可不添</span>
+			</div>
+			<div class="inline field">
 				<label>生成数量:</label>
 				<input type="text" name="total_count" value="100" />
 			</div>
@@ -78,6 +83,11 @@
 				<label>关联产品:</label>
 				<input type="text" name="product_id" />
 				<span class="description">产品ID</span>
+			</div>
+			<div class="inline field">
+				<label>过期时间:</label>
+				<input type="text" name="expired_day" />
+				<span class="description">默认7天</span>
 			</div>
 		
 			<div class="inline field">

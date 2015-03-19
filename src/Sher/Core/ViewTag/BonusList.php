@@ -23,14 +23,14 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		$status = 0;
 		$not_expired = 0;
 		$amount = 0;
+    $sort = 0;
 		
 		$search_code = '';
 		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
-		
-		$sort_field = 'time';
+
 		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
@@ -68,7 +68,16 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Bonus::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = $sort_field;
+
+		// 设置排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'time';
+		}
+
         $result = $service->get_all_list($query,$options);
 		
         $context->set($var, $result);

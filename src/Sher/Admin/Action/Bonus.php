@@ -55,7 +55,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	 */
 	public function gen() {
 		$bonus = new Sher_Core_Model_Bonus();		
-		$bonus->create_batch_bonus(200);
+		$bonus->create_batch_bonus(20);
 		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/bonus';
 		return $this->to_redirect($pager_url);

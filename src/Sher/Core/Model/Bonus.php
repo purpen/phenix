@@ -209,7 +209,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_batch_bonus($count=100, $xname='T9', $char=0){
+	public function create_batch_bonus($count=10, $xname='T9', $char=0){
 		# 红包金额
 	    $bonus = array(
 			//'A' => 100,
@@ -251,13 +251,15 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		# 红包金额
 	  $bonus = array(
 			'A' => 50,
-			'B' => 100, 
+      'B' => 100,
+      'C' => 30, 
     );
 
     #最低限额
     $min_amounts = array(
       'A' =>  99,
       'B' =>  199,
+      'C' =>  0,
     );
 		
     for($i=0; $i<$count; $i++){

@@ -60,6 +60,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['profile'] = $this->visitor->profile;
 		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
+
+      //周年庆送红包提示
+      if(Doggy_Config::$vars['app.anniversary2015.switch'] && isset($this->stash['first_year'])){
+        $this->stash['year_celebration'] = true;
+      }
 		}
 
     //有些信息visitor没有，需要再次查询user表
@@ -274,25 +279,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 * 邀请好友
 	 */
 	public function invite(){
-		$invitation = new Sher_Core_Model_Invitation();
-        $my_invites = $invitation->find(array('user_id' => $this->visitor->id),array('sort' => array('used_at' => -1)));
-        $my_used_invites = array();
-        $my_free_invites = array();
-        if (!empty($my_invites)) {
-            for ($i=0; $i < count($my_invites); $i++) {
-                if ($my_invites[$i]['used']) {
-                    $my_used_invites[] = $invitation->extend_load($my_invites[$i]['_id']);
-                }
-                else {
-                    $my_free_invites[] = $my_invites[$i];
-                }
-            }
-        }
-        
-        $this->stash['free_invites_cnt'] = count($my_free_invites);
-        $this->stash['free_invites'] = $my_free_invites;
-        $this->stash['used_invites_cnt'] = count($my_used_invites);
-        $this->stash['used_invites'] = $my_used_invites;
+		$this->set_target_css_state('user_invite');
+		$invite = new Sher_Core_Model_InviteRecord();
+    //当前用户邀请码
+    $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+    $this->stash['user_invite_code'] = $invite_code;
 		
 		return $this->to_html_page("page/my/invite.html");
 	}

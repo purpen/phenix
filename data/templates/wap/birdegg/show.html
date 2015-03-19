@@ -230,7 +230,7 @@
 				<span class="like">
 					<i class="icon heart"></i>
 				</span>
-        {{ stuff.love_count }}人支持
+        {{ stuff.total_love_count }}人支持
 			</div>
 			
 			<div class="ui team header">
@@ -278,10 +278,16 @@
 								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
 								  	<i class="thumbs outline up icon"></i>
 									<div class="love count">
-										{{ stuff.love_count|default 0 }}
+										{{ stuff.total_love_count|default 0 }}
 									</div>
 								</div>
 							</div>
+						</div>
+						
+						<div class="row" style="margin: 0;padding: 0;">
+						  <div class="center aligned column">
+						  	<p>为你喜欢的产品点赞也许你的一票，能够帮助产品永载吉尼斯</p>
+						  </div>
 						</div>
           </div>
 

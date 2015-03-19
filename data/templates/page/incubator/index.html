@@ -1,10 +1,20 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}孵化-{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
+	.incubator.masthead{
+		padding:8% 0 7%;
+		background-repeat:no-repeat;
+	}
 	p.line{
 		line-height: 21px;
+	}
+	.egg-banner{
+		background-color:rgb(21,12,15);
+		margin:0 auto;
+		text-align: center;
+		position: relative;
 	}
 </style>
 {% endblock %}
@@ -73,13 +83,27 @@
 {% endblock %}
 
 {% block content %}
+<div class="egg-banner">
+	<a href="http://www.taihuoniao.com/birdegg">
+		<div class="ui responsive grid">
+			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
+			
+		</div>
+	</a>
+</div>
+
+<div class="header main">
+	<div class="ui responsive grid">
+		{% include "block/header.html" %}
+	</div>
+</div>
 <div class="incubator masthead">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
 			<h2 class="block title">太火鸟｜中国最火爆的智能硬件孵化平台</h2>
 			<hr>
-			<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意在帮设计师创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及设计师的大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
-			<p>太火鸟创始人雷海波说：“我希望未来100个智能硬件爆款，有60个都是太火鸟孵化的，那么我的使命就完成了！”</p>
+			<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
+			<p>太火鸟创始人雷海波说：“我希望未来100个智能硬件创新产品或者品牌，有60个都是太火鸟孵化的，那么太火鸟的使命就完成了！”</p>
 			<div class="buttons">
 				<a href="{{ app_url_incubator }}/cooperate" class="ui inverted button" target="_blank">
 					<i class="edit icon"></i> 提交孵化项目合作
@@ -533,4 +557,7 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+{% block layout_footer %}
+	{% include "block/footer.html" %}
 {% endblock %}

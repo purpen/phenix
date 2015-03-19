@@ -18,6 +18,11 @@
           <div class="item">
               来源: {{ order.from_site_label }}
           </div>
+          {% if order.kind==2 %}
+            <div class="item">
+              类型: <span class="" style="color:red;">抢购</span>
+            </div>
+          {%endif%}
         {%endif%}
 		</div>
 	</div>

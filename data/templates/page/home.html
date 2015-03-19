@@ -1,4 +1,4 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/base.html'%}
 
 {% block page_css %}
 <style type="text/css">
@@ -110,10 +110,41 @@
 		right: 10px;
 		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
 	}
+	
+	.egg-banner{
+		background-color:rgb(21,12,15);
+		margin:0 auto;
+		text-align: center;
+		position: relative;
+	}
+	.egg-banner i.close{
+		cursor: pointer;
+		position: absolute;
+		z-index: 1;
+		opacity: 1;
+		font-size: 16px;
+		top: 29%;
+		right: 5%;
+		height: 25px;
+		padding: 4px;
+		color: #FFF;
+		width: 25px;
+		border: 1px solid #fff;
+		border-radius: 50%;
+	}
+	.egg-banner i.close:hover{
+		background:#fff;
+		color:#f36;
+	}
 </style>
 {% endblock %}
 
 {% block jquery %}
+	$("i.close").click(function(){
+		$(".egg-banner").hide();
+	});
+	
+
 	var s = e(window).width();
 	e("#fixedslide > .ui.slide > .item").width(s);
 	
@@ -187,6 +218,21 @@
 {% endblock %}
 
 {% block content %}
+<div class="egg-banner">
+	<a href="http://www.taihuoniao.com/birdegg">
+		<div class="ui responsive grid">
+			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
+			
+		</div>
+	</a>
+
+</div>
+
+<div class="header main">
+	<div class="ui responsive grid">
+		{% include "block/header.html" %}
+	</div>
+</div>
 <div id="homepage">
 	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
 		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" />
@@ -194,6 +240,9 @@
 			关注太火鸟
 		</div>
 	</div>
+	
+	
+	
 	<div id="fixedslide" class="frame">
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
 		<div class="ui slide">
@@ -209,10 +258,10 @@
 						<p class="snippet">
 							{{ ad.sub_title }}
 						</p>
-						<a class="ui inverted button" href="{{ ad.mm_view_url }}" target="_blank">{{ ad.btn_title }}</a>
+						<a class="ui inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
 					</div>
 					{% else %}
-					<a class="imglink" href="{{ ad.mm_view_url }}" target="_blank"></a>	
+					<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
 					{% endif %}
 				</div>
 			</div>
@@ -510,4 +559,7 @@
   	</section>
 	
 </div>
+{% endblock %}
+{% block layout_footer %}
+	{% include "block/footer.html" %}
 {% endblock %}

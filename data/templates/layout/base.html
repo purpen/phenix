@@ -13,10 +13,10 @@
 		{%block meta%}
 		<meta name="title" content="太火鸟-中国最火爆的智能硬件孵化平台" />
 		<meta name="keywords" content="太火鸟,原创产品,智能家居,可穿戴设备,产品预售,产品预订,创意产品,创意交易,孵化社区,quirky,创意众筹,社会化社区,设计创新,众包设计"/>
-		<meta name="description" content="中国最顶尖的原创产品社会化电商平台，利用众筹到众包方式，整合创意产品社区与电子商务服务为一体，让社区参与产品开发整个过程，帮设计师成就梦想，助消费者品味生活！" />
+		<meta name="description" content="太火鸟科技 Taihuoniao.com 是中国最火爆的智能硬件孵化平台。太火鸟致力于建设重构产品研发创新流程，努力帮助设计师和创意者实现商业价值，从广泛的创意中寻找具有「创新价值」且可以被称为「性感设计」的产品，开启一个全新的众包设计时代。太火鸟孵化的团队将从商品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全程全力支持，真正做到一条龙服务式的智能硬件孵化平台；全力打造一个完美的创意生态系统。" />
 		<meta content="太火鸟" name="author" />
 		{%endblock%}
-		<title>{% block title %}{% endblock %}太火鸟-中国最火爆的智能硬件孵化平台</title>
+    <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
 
@@ -99,7 +99,8 @@
 		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
-		
+    <!--把jquery放到body之前-->
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 	</head>
 	
 	<body>
@@ -121,7 +122,7 @@
 		{% block layout_footer %}
 		{% endblock %}
 		
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>

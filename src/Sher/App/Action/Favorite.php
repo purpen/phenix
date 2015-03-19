@@ -115,11 +115,11 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				break;
 		}
 		if(!empty($result)){
-			$count = $result[$filed];
+ 		  $count = $result[$filed];     
 		}
 		return $count;
 	}
-	
+    
 	/**
 	 * 点赞
 	 */
@@ -135,17 +135,32 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 			$fav_info = array(
 				'type' => $type,
 			);
-			if (!$model->check_loved($this->visitor->id, $id, $type)) {
+            
+            $newadd = false;
+			if(!$model->check_loved($this->visitor->id, $id, $type)){
 				$ok = $model->add_love($this->visitor->id, $id, $fav_info);
+                $newadd = true;
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
-		
+        
+        
 		// 获取计数
 		$love_count = $this->remath_count($id, $type, 'love_count');
-		
-		return $this->ajax_json('操作成功',false,'',array('love_count'=>$love_count));
+        if(isset($this->visitor->avatar['mini'])){
+            $avatar = Sher_Core_Helper_Url::avatar_cloud_view_url($this->visitor->avatar['mini'], 'avn.jpg');
+        }else{
+            $avatar = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_mini.jpg';
+        }
+        
+        $data = array(
+            'love_count' => $love_count,
+            'newadd'     => $newadd,
+            'avatar'     => $avatar,
+        );
+        
+		return $this->ajax_json('操作成功', false, '', $data);
 	}
 	
 	/**

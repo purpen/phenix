@@ -211,6 +211,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
+
+	/**
+	 * 上传评论图片
+	 */
+	public function comment() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_COMMENT;
+
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
 	
 	/**
 	 * 处理图片的上传
@@ -343,8 +353,12 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
         }
         $model = new Sher_Core_Model_Asset();
 		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
-		
-        return $this->to_taconite_page('ajax/check_upload_assets.html');
+		  if((int)$asset_type==Sher_Core_Model_Asset::TYPE_COMMENT){
+        return $this->to_taconite_page('ajax/check_comment_upload_assets.html');
+      }else{
+        return $this->to_taconite_page('ajax/check_upload_assets.html');   
+      }
+
     }
 	
 	/**

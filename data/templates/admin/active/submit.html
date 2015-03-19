@@ -155,9 +155,6 @@ h3.ui.header{
 
   <script type="text/javascript">
 
-
-
-
     function generate_html(obj){
       var p_sort = obj.parents('.process-box').find('[name="process_temp[sort]"]').val();
       var p_time = obj.parents('.process-box').find('[name="process_temp[time]"]').val();
@@ -247,7 +244,6 @@ h3.ui.header{
 
       return html;
     }
-
 
 
   var oldLink = null;
@@ -626,9 +622,6 @@ h3.ui.header{
 			return false;
 		});
 	});
-	
-	$('.datepicker').pickadate();
-
 
   //添加process项目
   $('.add-process').click(function(){
@@ -1252,5 +1245,4 @@ h3.ui.header{
 		
 	</form>
 </div>
-{% include "block/shopping/skubox.html" %}
 {% endblock %}

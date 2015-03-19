@@ -210,6 +210,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		),
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
+
+    # 用户唯一邀请码
+    'invite_code' => null,
     );
 	
 	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1);
@@ -334,8 +337,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         );
 		return $default_profile;
 	}
-
-
+    
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
 		// 显示名称
@@ -378,7 +380,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }
 		
 		if(empty($row['mentor'])){
-			$row['mentor_info'] = array('name' => $row['profile']['job']);
+            if(!empty($row['profile']['job'])){
+                $user_job = $row['profile']['job'];
+            }else{
+                $user_job = '';
+            }
+			$row['mentor_info'] = array('name' => $user_job);
 		}else{
 			$row['mentor_info'] = $this->find_mentors($row['mentor']);
 		}

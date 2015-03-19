@@ -1,8 +1,13 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}发现-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+.egg-banner{
+	background-color:rgb(21,12,15);
+	margin:0 auto;
+	text-align: center;
+	position: relative;
+}
 </style>
 {% endblock %}
 
@@ -14,6 +19,20 @@
 
 
 {% block content %}
+<div class="egg-banner">
+	<a href="http://www.taihuoniao.com/birdegg">
+		<div class="ui responsive grid">
+			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
+			
+		</div>
+	</a>
+</div>
+
+<div class="header main">
+	<div class="ui responsive grid">
+		{% include "block/header.html" %}
+	</div>
+</div>
 <div class="shop submenu">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -84,7 +103,7 @@
 				    	<div class="extra">
 				      	  	<a class="right floated created">
 								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
-								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
+								<small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
 							</a>
 							<a href="{{ stuff.user.home_url }}" class="ui icon link">
 								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
@@ -194,4 +213,7 @@
 	</div>
 </div>
 
+{% endblock %}
+{% block layout_footer %}
+	{% include "block/footer.html" %}
 {% endblock %}

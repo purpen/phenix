@@ -20,14 +20,15 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	
 	# 产品阶段
 	const PROCESS_DESIGN = 1;
-	const PROCESS_DEVELOP = 2;
+    const PROCESS_DEVELOP = 2;
+    const PROCESS_RAISE = 3;
 	const PROCESS_PERSALE = 5;
 	const PROCESS_SALE = 9;
 
-  #所属
-  const FROM_NULL = 0;
-  const FROM_SWHJ = 1;
-  const FROM_EGG = 2;
+    # 所属
+    const FROM_NULL = 0;
+    const FROM_SWHJ = 1;
+    const FROM_EGG = 2;
 	
     protected $schema = array(
 	    'user_id' => 0,
@@ -42,8 +43,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     	'tags' => array(),
         'like_tags' => array(),
 
-	    #团队介绍
-	    'team_introduce' => '',
+        # 团队介绍
+        'team_introduce' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',
@@ -57,6 +58,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'market_time' => '',
 		# 指导价格
 		'official_price' => 0,
+        # 购买地址
+        'buy_url' => '',
 		
 		# 产品阶段
 		'processed' => self::PROCESS_SALE,
@@ -69,8 +72,13 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'favorite_count' => 0,
 		# 喜欢数
         'love_count' => 0,
+        # 虚拟喜欢数
+        'invented_love_count' => 0,
 		# 回应数
     	'comment_count' => 0,
+        
+        # 最近的点赞用户
+        'last_love_users' => array(),
 		
     	'deleted' => 0,
     	'published' => 1,
@@ -79,13 +87,22 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-    # 属于1.十万火计;2.蛋年;3.;4.;
-    'from_to' => 0,
+        # 属于1.十万火计;2.蛋年;3.;4.;
+        'from_to' => 0,
+        
 		'random' => 0,
+        # 关联产品
+        'fever_id' => 0,
+
+        # 已审核的
+        'verified' => 0,
+
+        # 删除标识
+        'deleted' => 0,
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','invented_love_count');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
@@ -116,15 +133,73 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		}
 
 		// 去除 html/php标签
-    if(isset($row['team_introduce'])){
-		  $row['strip_team_introduce'] = strip_tags(htmlspecialchars_decode($row['team_introduce']));
-    }
+        if(isset($row['team_introduce'])){
+		    $row['strip_team_introduce'] = strip_tags(htmlspecialchars_decode($row['team_introduce']));
+        }
+        
+        // 产品阶段
+        if(isset($row['processed'])){
+            $row['process_title'] = $this->get_process_title($row['processed']);
+        }
+        
 		// 验证是否指定封面图
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);
-			
 		}
+        // 总共赞的数量,真实+虚拟
+        $row['total_love_count'] = $row['love_count'];
+        // 获取点赞用户
+        $this->find_love_users($row);
 	}
+    
+    /**
+     * 获取产品阶段名称
+     */
+    protected function get_process_title($id){
+        $process = array(
+            array(
+                'id' => 1,
+                'title' => '产品概念'
+            ),
+            array(
+                'id' => 2,
+                'title' => '技术研发'
+            ),
+            array(
+                'id' => 3,
+                'title' => '众筹阶段'
+            ),
+            array(
+                'id' => 5,
+                'title' => '开始预售'
+            ),
+            array(
+                'id' => 9,
+                'title' => '发布销售'
+            ),
+        );
+        
+        for($i=0;$i<count($process);$i++){
+            if($process[$i]['id'] == $id){
+                return $process[$i]['title'];
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 获取最近点赞用户
+     */
+    protected function find_love_users(&$row){
+        $user_ids = array();
+        if(!empty($row['last_love_users'])){
+            for($i=0;$i<count($row['last_love_users']);$i++){
+                $user_ids[] = $row['last_love_users'][$i]['user_id'];
+            }
+        }
+        $row['love_users'] = array_unique($user_ids);
+    }
 	
 	/**
 	 * 获取第一个附件作为封面图
@@ -170,16 +245,25 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
   	protected function after_save() {
     	// 如果是新的记录
     	if($this->insert_mode){
-      	  	$category_id = $this->data['category_id'];
-      	  	$fid = $this->data['fid'];
-      
-      	  	$category = new Sher_Core_Model_Category();
-      	  	if(!empty($category_id)){
-        		$category->inc_counter('total_count', 1, $category_id);
-      	  	}
-      	  	if(!empty($fid)){
-        		$category->inc_counter('total_count', 1, $fid);
-      	  	}
+        $category_id = $this->data['category_id'];
+        $fid = $this->data['fid'];
+  
+        $category = new Sher_Core_Model_Category();
+        if(!empty($category_id)){
+          $category->inc_counter('total_count', 1, $category_id);
+        }
+        if(!empty($fid)){
+          $category->inc_counter('total_count', 1, $fid);
+        }
+
+        //更新关联投票产品数量
+        if($this->data['fever_id']){
+          $product_mode = new Sher_Core_Model_Product();
+          $product = $product_mode->find_by_id((int)$this->data['fever_id']);
+          if($product){
+            $product_mode->inc_counter('stuff_count', 1, $product['_id']);
+          }
+        }
     	}
   	}
 	
@@ -208,10 +292,17 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	public function mark_cancel_stick($id){
 		return $this->update_set($id, array('stick' => 0));
 	}
+
+  /**
+   * 通过/取消审核
+   */
+	public function mark_as_verified($id, $value=1){
+		return $this->update_set($id, array('verified' => (int)$value));
+	}
 	
-    /**
-     * 标记 精选
-     */
+  /**
+   * 标记 精选
+   */
 	public function mark_as_featured($id){
 		return $this->update_set($id, array('featured' => 1));
 	}
@@ -244,7 +335,41 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		
 		return true;
 	}
-	
+    
+    /**
+     * 添加最近点赞用户
+     */
+    public function add_last_love_users($stuff_id, $user_id){
+        $criteria = array('_id'=>(int)$stuff_id);
+        $item = array(
+            'user_id'    => (int)$user_id,
+            'created_on' => time(),
+        );
+        $sort = array('created_on' => -1);
+        
+        Doggy_Log_Helper::debug("Add last user [$user_id] for stuff[$stuff_id]!");
+        
+        $update['$push']['last_love_users'] = array(
+            '$each' => array($item),
+            '$sort'  => $sort,
+            '$slice' => 5,
+        );
+        
+        return $this->update($criteria, $update, false, true);
+    }
+    
+    /**
+     * 删除某个点赞用户
+     */
+    public function remove_love_users($stuff_id, $user_id){
+        $criteria = array('_id'=>(int)$stuff_id);
+        $update['$pull']['last_love_users'] = array(
+            'user_id' => (int)$user_id,
+        );
+        
+        return $this->update($criteria, $update, false, true);
+    }
+    
 	/**
 	 * 更新喜欢数据
 	 *
@@ -333,6 +458,19 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		
 		return true;
 	}
+
+    /**
+     * 逻辑删除--现在 不用
+     */
+    public function mark_remove($id){
+        $stuff = $this->find_by_id((int)$id);
+        if(!empty($stuff)){
+            $ok = $this->update_set((int)$id, array('deleted'=>1));
+            return $ok;
+        }else{
+            return false;
+        }
+    }
 
 }
 ?>

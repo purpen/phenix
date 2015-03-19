@@ -1,5 +1,5 @@
 {%extends 'layout/base.html'%}
-{% block title %}蛋年-{% endblock %}
+{% block title %}列表-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -75,10 +75,75 @@
 	.catemenu a.active {
 	    border-bottom: 3px solid #f36;
 	}
+	.birdegg.zlist .ui.four.cards .card  .extra small{
+		cursor: auto;
+	}
+	.ui.cards>.card, .ui.card,.ui.cards>.card:hover, .ui.card:hover{
+		-webkit-box-shadow: 0 0px 0px #C7C7C7 !important;
+		box-shadow: 0 0px 0px #C7C7C7 !important;
+	}
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+	/* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
 
 {% endblock %}
 
@@ -129,40 +194,37 @@
 				</div>
 			</div>
 		</div>
+
+    <div class="row">
+      <div class=" column">
+        <div class="ui divided horizontal list">
+            <div class="item">排序：</div>
+            <div class="item">
+              <a href="{{ app_url_birdegg }}/c{{ cid }}/p{{page}}?st=0" class="ui {% if st == 0 %}active{% endif %} link">最新</a>
+            </div>
+            <div class="item">
+              <a href="{{ app_url_birdegg }}/c{{ cid }}/p{{page}}?st=4" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
+            </div>
+            <!--
+            <div class="item">
+              <a href="{{ app_url_birdegg }}/c{{ cid }}/p{{page}}?st=6" class="ui {% if st == 6 %}active{% endif %} link">浏览</a>
+            </div>
+            -->
+            <div class="item">
+              <a href="{{ app_url_birdegg }}/c{{ cid }}/p{{page}}?st=2" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
+            </div>
+
+        </div>
+      </div>
+    </div>
+
 		<div class="row">
 			<div class="column">
 				
-				{% stuff_list var:'stufflist' category_id:cid is_top:is_top sort:sort page:page size:40 %}
-				<div class="ui four cards">
+				{% stuff_list var:'stufflist' category_id:cid is_top:is_top verified:1 sort:st page:page size:40 %}
+				<div id="item-list" class="ui four cards">
 					{% for stuff in stufflist.rows %}
-				  	<div class="card">
-				    	<div class="image">
-				      	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-                  {% if stuff.cover %}
-								    <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-                  {%else%}
-								    <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
-                  {%endif%}
-							</a>
-				    	</div>
-				    	<div class="content">
-				      	  	<div class="header">
-								<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
-							</div>
-				      	  	<div class="description">
-				        		{{ stuff.strip_description|truncate 60 '' }}
-				      	  	</div>
-				    	</div>
-				    	<div class="extra">
-				      	  	<a class="right floated created">
-								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
-								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
-							</a>
-							<a href="{{ stuff.user.home_url }}" class="ui icon link">
-								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
-							</a>
-				    	</div>
-				  	</div>
+            {% include "block/birdegg_item.html" %}
 					{% endfor %}
 				</div>
 				

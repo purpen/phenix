@@ -6,6 +6,8 @@
 class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'page'=>1,
+    'st'=>0,
+    'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
@@ -27,7 +29,21 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 	public function index(){
 		$top_category_id = Doggy_Config::$vars['app.birdegg.category_id'];
 		$this->stash['top_category_id'] = $top_category_id;
-		
+
+    //作品推荐列表---取块内容
+    $stuff_ids = Sher_Core_Util_View::load_block('birdegg_index_stick', 1);
+    $stuffs = array();
+    if($stuff_ids){
+      $stuff_model = new Sher_Core_Model_Stuff();
+      $id_arr = explode(',', $stuff_ids);
+      foreach(array_slice($id_arr, 0, 8) as $i){
+        $stuff = $stuff_model->extend_load((int)$i);
+        if(!empty($stuff)){
+          array_push($stuffs, $stuff);
+        }
+      }
+    }
+    $this->stash['stuffs'] = $stuffs;
 		return $this->to_html_page('page/birdegg/index.html');
 	}
 	
@@ -49,7 +65,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		
 		// 分页链接
 		$page = 'p#p#';
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.birdegg', 'c'.$cid).$page;
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::build_url_path('app.url.birdegg', 'c'.$cid).$page.'?st='.$this->stash['st'];
 		
 		return $this->to_html_page('page/birdegg/zlist.html');
 	}
@@ -102,11 +118,17 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
 		
-    // 评论参数
-    $this->stash['comment_target_id'] = (int)$stuff['_id'];
-    $this->stash['comment_type'] = Sher_Core_Model_Comment::TYPE_STUFF;
+
     $comment_alert = '你是不是智能时代的预言家？未来的它，惊艳、颠覆、消失……写下你的想法，就有机会被封存到时光胶囊中，接受时间的洗礼！';
-    $this->stash['comment_alert'] = $comment_alert;
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_alert' =>  $comment_alert,
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
@@ -156,6 +178,24 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
 	}
 	
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+    $this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+    $this->stash['comment_alert'] = isset($options['comment_alert'])?$options['comment_alert']:0;
+
+    //是否显示图文并茂
+    $this->stash['comment_show_rich'] = $options['comment_show_rich'];
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 	
 }
 ?>

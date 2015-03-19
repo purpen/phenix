@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}产品提交-{% endblock %}
+{% block title %}作品提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -118,7 +118,7 @@
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload_stuff }}'
+        	endpoint: '{{ app_url_upload }}/stuff'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -239,6 +239,25 @@
 							<label for="description">团队介绍</label>
 						  	<textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
 						</div>
+
+			      <div class="four fields">
+                <div class="field">
+                    <label>设计师</label>
+                  <input type="text" name="designer" value="{{ stuff.designer }}" />
+                </div>
+                <div class="field">
+                    <label>所属国家</label>
+                  <input type="text" name="country" value="{{ stuff.country }}" />
+                </div>
+                <div class="field">
+                    <label>上市时间</label>
+                  <input type="text" name="market_time" value="{{ stuff.market_time }}" />
+                </div>
+                <div class="field">
+                    <label>指导价格</label>
+                  <input type="text" name="official_price" value="{{ stuff.official_price }}" />
+                </div>
+            </div>
 						
 						<div class="field">
 							<label>产品标签</label>

@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'forget', 'logout', 'verify_code');
+	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'forget', 'logout', 'verify_code', 'check_account');
 	
 	/**
 	 * 入口
@@ -167,28 +167,26 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			if($ok){
 				$user_id = $user->id;
 
-        //周年庆活动送100红包
-        if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          // 获取红包
-          $bonus = new Sher_Core_Model_Bonus();
-          $result_code = $bonus->pop('RE');
-          
-          // 获取为空，重新生产红包
-          while(empty($result_code)){
-            //指定生成xname为RE, 100元红包
-            $bonus->create_specify_bonus(2, 'RE', 'B', 'B');
-            $result_code = $bonus->pop('RE');
-            // 跳出循环
-            if(!empty($result_code)){
-              break;
+        //统计好友邀请
+        if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+          $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+          //统计邀请记录
+          if($user_invite_id){
+            $invite_mode = new Sher_Core_Model_InviteRecord();
+            $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+            //送邀请人红包
+            if(Doggy_Config::$vars['app.anniversary2015.switch']){
+              $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
             }
           }
-          
-          // 赠与红包
-          $code_ok = $bonus->give_user($result_code['code'], $user_id);
+        
         }
 
-				
+        //周年庆活动送100红包
+        if(Doggy_Config::$vars['app.anniversary2015.switch']){
+          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+        }
+
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove($code['_id']);
@@ -201,7 +199,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             return $this->ajax_json($e->getMessage(), true);
         }
 		
-		$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);
+    //周年庆活动跳到提示分享页面
+    if(Doggy_Config::$vars['app.anniversary2015.switch']){
+      //当前用户邀请码
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+    }else{
+ 		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
+    }
+
 		
 		$this->clear_auth_return_url();
 		
@@ -241,12 +247,51 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		return $this->to_json(200, '正在发送');
 	}
 
+	/**
+	 * 验证手机是否存在
+	 */
+  public function check_account(){
+    //验证手机号码是否重复
+		$user = new Sher_Core_Model_User();
+    $has_phone = $user->first(array('account' => $this->stash['phone']));
+    if(!empty($has_phone)){
+      return $this->to_raw('1');
+    }else{
+      return $this->to_raw('0');
+    }
+  }
+
     protected function gen_login_token() {
         $service = DoggyX_Session_Service::instance();
         $token = Sher_Core_Helper_Auth::generate_random_password();
         $service->session->login_token = $token;
         $this->stash['login_token'] = $token;
     }
+
+  //红包赠于
+  protected function give_bonus($user_id, $xname, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成xname为RE, 100元红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 结束日期:2015-6-30
+    $end_time = strtotime('2015-06-30 23:59');
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+  }
 	
 }
 ?>
