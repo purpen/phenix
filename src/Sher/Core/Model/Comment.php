@@ -21,6 +21,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     protected $schema = array(
         'user_id' => 0,
         'target_id' => 0,
+        'target_user_id' => 0,
 		'star' => 0,
         'content' => '',
         'reply' => array(),

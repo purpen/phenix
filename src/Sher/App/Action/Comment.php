@@ -8,6 +8,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		'id'=>'',
 		'user_id'=>'',
 		'target_id'=>'',
+    'target_user_id'=>0,
 		'page'=>1,
 		'next_page'=>1,
 	);
@@ -46,6 +47,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['user_id'] = $this->visitor->id;
 		$row['star'] = $this->stash['star'];
 		$row['target_id'] = $this->stash['target_id'];
+		$row['target_user_id'] = (int)$this->stash['target_user_id'];
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
 		// 验证数据

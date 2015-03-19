@@ -79,6 +79,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     //评论参数
     $comment_options = array(
       'comment_target_id' =>  $try['_id'],
+      'comment_target_user_id' =>  $try['user_id'],
       'comment_type'  =>  3,
       //是否显示上传图片/链接
       'comment_show_rich' => 1,
@@ -141,6 +142,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
    */
   protected function _comment_param($options){
     $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
     $this->stash['comment_type'] = $options['comment_type'];
 		// 评论的链接URL
 		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;

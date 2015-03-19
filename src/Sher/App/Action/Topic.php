@@ -301,6 +301,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
     //评论参数
     $comment_options = array(
       'comment_target_id' =>  $topic['_id'],
+      'comment_target_user_id' => $topic['user_id'],
       'comment_type'  =>  2,
       'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
       //是否显示上传图片/链接
@@ -778,6 +779,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
    */
   protected function _comment_param($options){
     $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
     $this->stash['comment_type'] = $options['comment_type'];
 		// 评论的链接URL
 		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
