@@ -2,6 +2,7 @@
 	{% if mode == 'message' %}
 	<eval>
 		phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
+    $('.ui.letter.modal').modal('hide');
 	</eval>
 	{% endif %}
 </taconite>

@@ -47,11 +47,11 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 				if($user_id == $small_user){
 					$result['rows'][$i]['readed'] = $result['rows'][$i]['s_readed'];
 					# 更新阅读标识
-					//$message->mark_message_readed($result['rows'][$i]['_id'], 's_readed');
+					$message->mark_message_readed($result['rows'][$i]['_id'], 's_readed');
 				}else{
 					$result['rows'][$i]['readed'] = $result['rows'][$i]['b_readed'];
 					# 更新阅读标识
-					//$message->mark_message_readed($result['rows'][$i]['_id'], 'b_readed');
+					$message->mark_message_readed($result['rows'][$i]['_id'], 'b_readed');
 				}
 
         if($result['rows'][$i]['users'][0]==$user_id){

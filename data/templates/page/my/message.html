@@ -108,6 +108,7 @@ color: rgba(0,0,0,.45);
 	cursor:pointer;
 	padding-right:5px;
 }
+
 </style>
 {% endblock %}
 
@@ -179,7 +180,17 @@ color: rgba(0,0,0,.45);
                 的对话
 
               {% for m in message.mailbox %}
-              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
+              <div class="sub_header">
+                {%if m.from==user._id%}
+                  我 : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                {%else%}
+                  {{ message.f_user.nickname }}: {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                  <!--显示未读标识-->
+                  {% if loop.counter <= message.readed %}
+                    &nbsp;<span class="new">new</span>
+                  {%endif%}
+                {%endif%}
+              </div>
               {% endfor %}
               <div class="report">
                 <div class="pushtime">
