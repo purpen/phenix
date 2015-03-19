@@ -5,24 +5,27 @@
  */
 class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
     protected $collection = 'user_rank.define';
-    
+
+    protected $mongo_id_style = self::MONGO_ID_SEQ;
+
     protected $schema = array(
         // 等级ID
-        'rank_id' => null,
+        'rank_id' => 1,
+        //下一等级的ID
+        'next_rank_id' => null,
         // 会员头衔
         'title' => null,
-        // 满足此等级的积分条件
-        'constraint' => array(
-            'type' => null,
-            'val' => null,
-        ),
-        // 特权或奖励
-        'awards' => array(),
+        //头衔说明
+        'note' => null,
+        //升级需要的积分类型
+        'point_type' => null,
+        //升级需要的积分数额
+        'point_amount' => 0,
     );
     protected $joins = array(
     );
     protected $required_fields = array();
-    protected $ini_fields = array('rank_id');
+    protected $ini_fields = array('rank_id', 'next_rank_id');
 
     // protected $auto_update_timestamp = true;
     // protected $created_timestamp_fields = array('created_on');
@@ -37,9 +40,14 @@ class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
     protected function after_save() {
     }
     protected function validate() {
+        if ($this->insert_mode) {
+            $code = (int) $this->data['rank_id'];
+            if ($this->count(array('rank_id' => $code))) {
+                throw new Doggy_Model_ValidateException("rank_id:$code not unique");
+            }
+        }
         return true;
     }
-    
-    
+
 }
 ?>

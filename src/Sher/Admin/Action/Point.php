@@ -132,4 +132,12 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
         return $this->ajax_notification('积分类型保存成功.', false, $redirect_url);
     }
 
+    public function user_ranks(){
+        $this->set_target_css_state('page_point_ranks');
+        $model = new Sher_Core_Model_UserRankDefine();
+        $records = $model->find();
+        $this->stash['ranks'] = $records;
+        return $this->to_html_page('admin/point/user_ranks.html');
+    }
+
 }
