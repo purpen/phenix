@@ -13,68 +13,13 @@
 		cursor:auto;
 	}
 	.ui.favorite .ui.cards .card {
-		border:1px solid rgba(0,0,0,.1) !important;
-		-webkit-box-shadow: 0 0px 0px rgba(0,0,0,.1)!important;
-		box-shadow: 0 0px 0px rgba(0,0,0,.1)!important;
+		border-top:1px solid rgba(0,0,0,.1) !important;
 	}
-	/*.ui.favorite .ui.items .item>.content>.timestatus .attr {
-	display: block;
-	margin-bottom: .25rem;
-	}
-	.ui.favorite .ui.items .item .content .progress {
-		position: absolute;
-		right: 0;
-		text-align: right;
-		top: 0;
-		z-index: 9;
-	}
-	.ui.favorite .ui.items .item .content .progress .count {
-		display: block;
-		font-size: 1.15em;
-	}
-	.ui.favorite .ui.items .item .content .progress .description {
-		font-size: .875em;
-	}
-	.ui.favorite .magenta.item .image+.content{
-		margin-left: 0;
-		padding: 10px !important;
-		padding-bottom: 55px !important;
-		height: 140px;
-	}
-	.ui.favorite .magenta.item .image+.content .i-stats {
-		position: absolute;
-		padding-top: 33px;
-		bottom: 10px;
-		left: 10px;
-		right: 10px;
-		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
-	}*/
 	.ui.favorite .ui.cards .card{
 		margin-left:1%;
 		margin-right:1%;
 	}
-	
-/*	.ui.favorite .match.item .ui.dividing.header {
-		border-bottom: 1px solid rgba(0,0,0,0);
-		overflow: hidden;
-		margin-bottom: 70px;
-		word-wrap: break-word;
-		padding-bottom: 0!important;
-	}
-	.ui.favorite .match.item .content .i-stats {
-		position: absolute;
-		padding-top: 33px;
-		bottom: 10px;
-		left: 10px;
-		right: 10px;
-		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
-	}
-	.ui.favorite .match.item .image img{
-		width:100%;
-	}
-	*/
-
-	.card .image-extra{
+	.ui.favorite .card .image-extra{
 		background-color: rgba(0,0,0,.1);
 		height: 100%;
 		left: 0;
@@ -88,15 +33,44 @@
 		width: 100%;
 		z-index: 3;
 	}
-
-	.card .image-extra > a{
+	.ui.favorite .card .image-extra > a{
 		position: absolute;
 		width: 100%;
 	  height: 100%;
 	  top: 0;
 	  left: 0;
 	}
-
+	.ui.favorite .presell{
+		top:0;
+		bottom:auto;
+	}
+	.ui.favorite .exit{
+		padding: .5em 1.5em;
+		font-size: 14px;
+		background: rgba(0,0,0,.7);
+		position: absolute;
+		bottom: 0;
+		right:0;
+		color: #fff;
+		z-index: 999;
+		-webkit-transform: translateX(200%);
+		-ms-transform: translateX(200%);
+		transform: translateX(100%);
+		-webkit-transition: all 500ms;
+		transition: all 500ms;
+	}
+	.ui.favorite .exit .ui.button{
+		padding:.5em;
+	}
+	.ui.favorite .exit .ui.btn,.ui.favorite .exit .ui.btn:hover{
+		padding: .5em .8em;
+		vertical-align: middle;
+	}
+	.ui.favorite .ui.cards .card:hover .exit{
+		-webkit-transform: translateX(0%);
+		-ms-transform: translateX(0%);
+		transform: translateX(0%);
+	}
 
 	
 	
@@ -125,91 +99,6 @@
 								
 								<div class="ui two cards">
 									
-									<!--  投票  -->
-								<!--	<div class="magenta item" id="product-1090104600">
-									  	<div class="image">
-											<a href="http://dev.taihuoniao.com/fever/1090104600.html" title="小蜜-全球首创美妆移动电源" target="_blank">
-									      		<img src="http://frbird.qiniudn.com/product/140912/5412d0ef989a6a1d078b891e-1-resp.jpg" alt="小蜜-全球首创美妆移动电源">
-											</a>
-									  	</div>
-									  	<div class="content">
-									      	<h4 class="ui dividing header">
-												<a href="http://dev.taihuoniao.com/fever/1090104600.html" title="小蜜-全球首创美妆移动电源" class="ui link" target="_blank">
-													小蜜-全球首创美
-												</a>
-												<div class="advantage">可以化妆的充电宝</div>
-											</h4>
-
-													<div class="timestatus clearfix">
-												<span class="attr">
-													投票人数：<span class="count">19</span>
-												</span>
-												<span class="attr">
-													话题： <span class="count">1</span>
-												</span>
-												<div class="progress">
-													<span class="count">1.9%</span>
-													<span class="description" data-countdown="1970/01/02 07:59:59">0</span>天后结束
-												</div>
-											</div>
-
-
-
-											<a href="http://dev.taihuoniao.com/fever/1090104600.html" class="link-extra" target="_blank">小蜜-全球首创美妆移动电源</a>
-									  	</div>
-									</div>-->
-									
-									<!--  商品  -->
-									<!--<div class="magenta item" id="product-1031935815">
-									  	<div class="image">
-											<a href="http://www.taihuoniao.com/shop/1031935815.html" title="【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享" target="_blank">
-									      		<img src="http://frbird.qiniudn.com/product/150305/54f84037fc8b12941c8b4f8a-1-m.jpg" alt="【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享">
-											</a>
-									                  		<div class="image-extra">
-												<div class="extra-content">
-													<a class="inner-extra" href="http://www.taihuoniao.com/shop/1031935815.html" target="_blank">
-														<div class="single-image plus-icon">
-															<span class="curtain"></span>
-														</div>
-													</a>
-												</div>
-											</div>
-									  	</div>
-									  	<div class="content">
-									      <h4 class="ui header">
-												<a href="http://www.taihuoniao.com/shop/1031935815.html" title="【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享" class="ui link">
-													【现货 即拍即发货】小蚁运动相机-
-												</a>
-												<div class="advantage">口袋相机改变你的拍摄方式</div>
-											</h4>
-											<div class="i-stats">
-												<div class="schedule p-sell">
-
-										     	      	        <div class="ui magenta progress">
-										          <div class="bar" style="width:0%;"></div>
-										        </div>
-										        <div class="status clearfix">
-										          <div class="name">
-										            <span class="unit">￥</span>
-										            <span class="price">499</span>
-										            <span class="like">
-										            	            <i class="icon heart"></i>
-										            	            <span class="count">10</span>
-										          </span>
-										        </div>
-										      </div>
-										      			<a href="http://www.taihuoniao.com/shop/1031935815.html" class="link-extra" target="_blank">
-													【现货 即拍即发货】小蚁运动相机-边玩边录边拍 手机随时分享
-												</a>
-											</div>
-									  	</div>
-									  </div>
-									</div>-->
-									
-									
-									<!--  作品  -->
-									
-									
 									<div class="ui card">
 									  <input type="hidden" name="item_id" value="32">
 									  <div class="image">
@@ -218,6 +107,27 @@
 									    <div class="image-extra">
 									    <a href="http://dev.taihuoniao.com/birdegg/32.html" title="测试长图" target="_blank"></a>
 									    </div>
+											<div class="presell">
+												预售结束
+											</div>
+											<div class="exit">
+												
+												<div class="ui magenta btn-4 btn-4c pop btn" data-content="收藏一下" data-variation="inverted" data-id="1120700428" data-mark="n">
+																			取消收藏
+																		</div>
+												
+												<div class="ui icon admin green buttons">
+													<div class="ui pop edit button" data-content="编辑" data-variation="inverted">
+													  <i class="edit icon"></i>
+													</div>
+													<div class="ui pop remove button" data-content="删除" data-variation="inverted">
+													  <i class="remove icon"></i>
+							            </div>
+												</div>
+												
+												
+												
+											</div>
 									  </div>
 									  <div class="content">
 									        <div class="header">
@@ -243,7 +153,7 @@
 									<div class="ui card">
 									  <input type="hidden" name="item_id" value="32">
 									  <div class="image">
-									          <img src="http://frbird.qiniudn.com/stuff/150315/55056b1a3ffca25d6f8b48dc-1-m.jpg" alt="测试长图">
+									          <img src="http://frstatic.qiniudn.com/images/nophoto.jpg" alt="测试长图">
 
 									    <div class="image-extra">
 									    <a href="http://dev.taihuoniao.com/birdegg/32.html" title="测试长图" target="_blank"></a>
@@ -266,34 +176,6 @@
 									    <img src="http://frbird.qiniudn.com/avatar/150216/54e182a83ffca25c6f8b460f-avs.jpg" alt="你好吗啦啦" class="ui avatar image"> <small>你好吗啦啦</small>
 									  </a>
 									  </div>
-									</div>
-									
-									
-									<!--  大赛  -->
-								<!--	<div class="ui match item"> 
-									               <div class="content"> 
-									                 <h4 class="ui dividing header"> <a class="ui link" href="http://www.taihuoniao.com/stuff/view-110301.html" target="_blank">多层可拆卸杯子</a> 
-									                 <div class="image"> 
-									                   <img src="http://frbird.qiniudn.com/stuff/150317/55081efbfc8b12931c8b7378-1-me.jpg" alt="多层可拆卸杯子"> 
-									                 </div> 
-									                 <div class="advantage">
-									                  这是一个什么样的杯子？这是一个多层的可拆卸的杯子，通过每层上面的螺旋的槽使得层与层可以连接起来。这样你就可以随意组装自己的杯子。为啥要有... 
-									                 </div> </h4> 
-									                <div class="i-stats">
-									                  <div class="schedule"> 
-									                   <div class="status clearfix"> 
-									                    <a class="ui avatar image" href="http://www.taihuoniao.com/user/89850/" target="_blank"> <img src="http://frbird.qiniudn.com/stuff/150317/55081efbfc8b12931c8b7378-1-me.jpg" alt="18515308013"> </a> 
-									                    <span class="count"> <a class="ui small link" href="http://www.taihuoniao.com/user/89850/" target="_blank"> 18515308013 </a> </span> 
-									                    <span class="like"> <i class="heart icon"></i> <span class="count">15</span> <i class="unhide icon"></i> <span class="count">343</span> </span> 
-									                   </div> 
-									                  </div> 
-									                </div>
-									               </div> 
-									              </div>-->
-									
-									
-									<div class="item">
-									
 									</div>
 								</div>
 
