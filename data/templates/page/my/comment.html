@@ -1,73 +1,23 @@
 {%extends 'layout/board.html'%}
-{% block title %}私信-{% endblock %}
+{% block title %}我的评论-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
-.user .five.wide .menu{
-	padding-bottom:15px;
+.comment .mes-text{
 	border-bottom:1px solid rgba(0,0,0,.1);
 }
-.user .five.wide .menu .attention{
-	display:inline-block;
-	padding:5px 15px 5px 0;
-	border-right:1px solid rgba(0,0,0,.1);
+.comment .mes-text .news{
+	color: rgba(0,0,0,.7);
+	font-size: 16px;
+	font-weight: 400;
 }
-.user .five.wide .menu .attention .content>.name a ,.user .five.wide .menu .fans .content>.name a{
-	text-decoration: none;
-	display: block;
-	font-size: 1.05em;
-	font-weight: 700;
-	margin-bottom: .2em;
-	color: rgba(0,0,0,.5);
-}
-.user .five.wide .menu .attention .content>.name a:hover ,.user .five.wide .menu .fans .content>.name a:hover{
-	color:#f36;
-}
-.user .five.wide .menu .attention .content>.description ,.user .five.wide .menu .fans .content>.description{
-clear: both;
-margin: 0;
-color: rgba(0,0,0,.45);
-}
-.user .five.wide .menu .fans{
-	display:inline-block;
-	padding:5px 15px;
-}
-.user .five.wide .news{
-	border-bottom:1px solid rgba(0,0,0,.1);
-}
-.user .five.wide .news div{
-	margin:15px 0;
-}
-.user .five.wide .news div a{
-	text-decoration: none;
-	color: rgba(0,0,0,.5);
-	font-size: 1.05em;
+.comment .mes-text .news .ui.link{
 	font-weight: 700;
 }
-.user .five.wide .news div a:hover{
-	color:#f36;
-}
-.user .five.wide .browse{
-	margin:15px 0;
-	color: rgba(0,0,0,.45);
-	
-}
-
-/****  meassage   ****/
-.ui.white.background{
-	background:#fff;
-}
-.user .ui.message.eleven{
-	padding:0 1.5%;
-	border:0px solid rgba(0,0,0,0) !important;
-}
-.user .ui.message.eleven .mes-text:last-child .report{
-	border-bottom:0px solid #fff !important;
-}
-.ui.message .ui.header{
-	margin-bottom:0;
-	padding-top:1em;
+.comment-show{
 	padding-bottom:1em;
+}
+.comment-show .ui.btn{
+	padding:0.8em 1.5em;
 }
 .mes-text{
 	width:100%;
@@ -97,25 +47,7 @@ color: rgba(0,0,0,.45);
 	padding-top: 5px;
 	line-height: 20px;
 }
-.mes-text .news .report{
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding: 10px 0;
-	height: 20px;
-	font-size: 15px;
-	font-weight: 400;
-	color:rgba(0,0,0,0.6);
-}
-.mes-text .news .report .pushtime{
-	float:left;
-}
-.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
-	color:#f36;
-}
-.mes-text .news .report .count{
-	float:right;
-	cursor:pointer;
-	padding-right:5px;
-}
+
 </style>
 {% endblock %}
 {% block js %}
@@ -164,116 +96,64 @@ color: rgba(0,0,0,.45);
 {% endblock %}
 
 {% block content %}
-<div class="user center">
+<div class="account comment">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-        {% include "block/user_header.html" %}
-			</div>
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
 		</div>
-		
-		<div class="row">
-			<div class="center aligned submenu column">
-				<div class="ui magenta buttons">
-					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} button">全部</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/submitted" class="ui {{ css_tab_submitted }} button">发起的产品</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} button">支持的产品</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/like" class="ui {{ css_tab_like }} button">喜欢的产品</a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="ui white background message eleven wide column">
-				<h3 class="ui header dividing">私信</h3>
-					{% message_list var:'list' page:page user_id:user._id %}
-					{% for message in list.rows %}
-            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
-              <a class="ui photo">
-                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
-              </a>
-              <div class="news">
-                与
-                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
-                的对话
-
-              {% for m in message.mailbox %}
-              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
-              {% endfor %}
-              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
-                <div class="pushtime">
-                  4月11日 17:04
-                </div>
-                <div class="count">
-                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
-                </div>	
-              </div>
-              </div>
-            </div>
-					{% endfor %}
-
-				
-			</div>
-			<div class="five wide column">
-				<div class="menu">
-					<div class="attention">
-						<div class="content">
-							<div class="name"><a href="">关注</a></div>
-							<div class="description">
-								9人
+		<div class="twelve wide column">
+			<h2 class="ui header">我的评论</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+							
+							<div class="comment-show">
+								<div class="ui magenta active btn">
+								发出的评论
 							</div>
-						</div>
-					</div>
-					<div class="fans">
-						<div class="content">
-							<div class="name"><a href="">粉丝</a></div>
-							<div class="description">
-								9人
+								<div class="ui magenta btn">
+								收到的评论
 							</div>
+							</div>
+						
+							<div class="mes-text">
+								<a class="ui photo">
+	                <img alt="{{ message.f_user.nickname }}" src="{{ app_url_packaged }}/images/avatar_default_big.jpg">
+	              </a>
+	              <div class="news">
+	               评论
+	                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">话题</a>
+	              
+
+	              	<div class="sub_header"> 12331:  12312321&nbsp;&nbsp;&nbsp;&nbsp;</div>
+								 </div>  
+							</div>
+							
+							<div class="mes-text">
+								<a class="ui photo">
+	                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+	              </a>
+	              <div class="news">
+	               评论
+	                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">话题</a>
+	              
+
+	              	<div class="sub_header"> 12331:  12312321&nbsp;&nbsp;&nbsp;&nbsp;</div>
+								 </div>  
+							</div>
+							
+							
+							
+
 						</div>
 					</div>
 				</div>
-				<div class="news">
-					<div><a href="">动态</a></div>
-					<div><a href="">通知</a></div>
-					<div><a href="">私信</a></div>
-				</div>
-				<div class="news">
-					<div><a href="">收藏</a></div>
-					<div><a href="">发表的话题</a></div>
-				</div>
-				<div class="browse">
-					个人主页被30人浏览过
-				</div>
-				
-				<!--<h3 class="ui header">关注他</h3>
-				<div class="ui social">
-					<a href="" title="新浪微博" class="ui small red icon button">
-						<i class="flat icon_weibo icon"></i>
-					</a>
-					<a href="" title="腾讯微博" class="ui small blue icon button">
-						<i class="flat icon_qqweibo icon"></i>
-					</a>
-					<a href="" title="豆瓣" class="ui small green icon button">
-						<i class="flat icon icon_douban"></i>
-					</a>
-				</div>-->
 			</div>
-			
-			{% if list.total_rows %}
-			<div class="ui pagination">
-				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-				{%include 'block/pager.html'%}
-			</div>
-			{% endif %}
-
 		</div>
 	</div>
 </div>
-
-	{% include "block/message.html" %}
-
-	{% endblock %}
+{% endblock %}
 
 
 

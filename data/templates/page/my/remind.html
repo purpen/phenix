@@ -2,6 +2,43 @@
 {% block title %}我的提醒-{% endblock %}
 {% block page_css %}
 <style class="text/css">
+	.remind .ui.dynamic.list .item {
+		font-size: .8125rem;
+		background: rgba(0,0,0,.02);
+		cursor:auto;
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		position:relative;
+	}
+	.remind .ui.dynamic.list .content .ui.line.header{
+		margin-bottom:0em;
+		margin-top:0;
+	}
+	.remind .ui.list .link.header{
+		margin-bottom:0em;
+	}
+	.remind .ui.dynamic.list .item .content{
+		margin-left: 0%;
+		margin-right:0;
+		display:inline-block;
+		float: left;
+	}
+	
+	.remind .content>.inline{
+		display:inline-block;
+		line-height: 33px;
+		margin:0 8px;
+	}
+	.remind .description.fsize{
+		font-size: 15px;
+		color: rgba(0,0,0,.7);
+	}
+	.item .new{
+		color:#f36;
+		position:absolute;
+		top:0;
+		left:0;
+		font-size:13px;
+	}
 	
 </style>
 {% endblock %}
@@ -10,7 +47,7 @@
 	
 {% endblock %}
 {% block content %}
-<div class="account profile">
+<div class="account remind">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
@@ -21,40 +58,44 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							{% bonus_list var:'bonus' page:page user_id:user._id size:12 %}
-							{% if bonus.total_rows %}
-							<div class="ui three bonus items">
-								{% for b in bonus.rows %}
-							  	<div class="item" id="{{ b._id }}" data-id="{{ b._id }}">
-									<div class="ui icon header">
-									  	<i class="circular flat dollar78 icon"></i><span class="ui magenta text">{{ b.amount }}元</span>
-									  	<div class="sub header">红包码：{{ b.code }}</div>
-                      {% if b.min_amount %}
-                        <div class="sub header">最低使用限额: {{ b.min_amount }}元</div>
-                      {%else%}
-                        <div class="sub header">无最低使用限额</div>
-                      {%endif%}
-									</div>
-									<div class="ui bottom attached label">
-										{% if b.used == 2 %}
-											已使用
-										{% else %}
-											{{ b.expired_label }}
-										{% endif%}
-									</div>
-							  	</div>
-								{% endfor %}
-							</div>
-							{% else %}
-							<p>还没得到红包，快去领吧~~</p>
-							{% endif %}
+							<div class="ui dynamic selection list">
 							
-							{% if bonus.total_rows > 12 %}
-							<div class="ui pagination">
-								{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
-								{%include 'block/pager.html'%}
+								<div class="item">
+									<div class="new">
+										new
+									</div>
+									<div class="content">
+						      	<a href="" class="ui link header inline">noofoo</a>
+										<div class="description fsize inline">
+											收藏了话题
+										</div>
+										<a class="ui link" href="" title="">
+											深圳站【设计让产品更性感】太火鸟
+										</a>
+									</div>
+								</div>
+							
+								<div class="item">
+									<div class="content">
+						      	<a href="" class="ui link header inline">noofoo</a>
+										<div class="description fsize inline">
+											关注了你
+										</div>
+									</div>
+								</div>
+								
+								<div class="item">
+									<div class="content">
+						      	<a href="" class="ui link header inline">noofoo</a>
+										<div class="description fsize inline">
+											回复了你
+										</div>
+									</div>
+								</div>
+								
+								
+								
 							</div>
-							{% endif %}
 						</div>
 					</div>
 				</div>

@@ -3,7 +3,78 @@
 
 {% block page_css %}
 <style type="text/css">
+	.ui.favorite{
+		padding: 1em 2%;
+	}
+	.ui.favorite .timestatus {
+	position: relative;
+	}
+	.ui.favorite .ui.items .item{
+		cursor:auto;
+	}
+	.ui.favorite .ui.cards .card {
+		border-top:1px solid rgba(0,0,0,.1) !important;
+	}
+	.ui.favorite .ui.cards .card{
+		margin-left:1%;
+		margin-right:1%;
+	}
+	.ui.favorite .card .image-extra{
+		background-color: rgba(0,0,0,.1);
+		height: 100%;
+		left: 0;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		text-align: center;
+		top: 0;
+		-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
+		transition: opacity .25s ease 0s,background-color .45s ease 0s;
+		width: 100%;
+		z-index: 3;
+	}
+	.ui.favorite .card .image-extra > a{
+		position: absolute;
+		width: 100%;
+	  height: 100%;
+	  top: 0;
+	  left: 0;
+	}
+	.ui.favorite .presell{
+		top:0;
+		bottom:auto;
+	}
+	.ui.favorite .exit{
+		padding: .5em 1.5em;
+		font-size: 14px;
+		background: rgba(0,0,0,.7);
+		position: absolute;
+		bottom: 0;
+		right:0;
+		color: #fff;
+		z-index: 999;
+		-webkit-transform: translateX(200%);
+		-ms-transform: translateX(200%);
+		transform: translateX(100%);
+		-webkit-transition: all 500ms;
+		transition: all 500ms;
+	}
+	.ui.favorite .exit .ui.button{
+		padding:.5em;
+	}
+	.ui.favorite .exit .ui.btn,.ui.favorite .exit .ui.btn:hover{
+		padding: .5em .8em;
+		vertical-align: middle;
+	}
+	.ui.favorite .ui.cards .card:hover .exit{
+		-webkit-transform: translateX(0%);
+		-ms-transform: translateX(0%);
+		transform: translateX(0%);
+	}
 
+	
+	
+	
 </style>
 {% endblock %}
 
@@ -23,33 +94,90 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-					{% message_list var:'list' page:page user_id:user._id %}
-					{% for message in list.rows %}
-            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
-              <a class="ui photo">
-                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
-              </a>
-              <div class="news">
-                与
-                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
-                的对话
-
-              {% for m in message.mailbox %}
-              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
-              {% endfor %}
-              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
-                <div class="pushtime">
-                  4月11日 17:04
-                </div>
-                <div class="count">
-                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
-                </div>	
-              </div>
-              </div>
-            </div>
-					{% endfor %}
-							</div>
 							
+							<div class="ui favorite">
+								
+								<div class="ui two cards">
+									
+									<div class="ui card">
+									  <input type="hidden" name="item_id" value="32">
+									  <div class="image">
+									          <img src="http://frbird.qiniudn.com/stuff/150315/55056b1a3ffca25d6f8b48dc-1-m.jpg" alt="测试长图">
+
+									    <div class="image-extra">
+									    <a href="http://dev.taihuoniao.com/birdegg/32.html" title="测试长图" target="_blank"></a>
+									    </div>
+											<div class="presell">
+												预售结束
+											</div>
+											<div class="exit">
+												
+												<div class="ui magenta btn-4 btn-4c pop btn" data-content="收藏一下" data-variation="inverted" data-id="1120700428" data-mark="n">
+																			取消收藏
+																		</div>
+												
+												<div class="ui icon admin green buttons">
+													<div class="ui pop edit button" data-content="编辑" data-variation="inverted">
+													  <i class="edit icon"></i>
+													</div>
+													<div class="ui pop remove button" data-content="删除" data-variation="inverted">
+													  <i class="remove icon"></i>
+							            </div>
+												</div>
+												
+												
+												
+											</div>
+									  </div>
+									  <div class="content">
+									        <div class="header">
+									    <a href="http://dev.taihuoniao.com/birdegg/32.html" title="测试长图" class="ui line">测试长图</a>
+									  </div>
+									        <div class="description">
+									        工工工工工工工工工工工
+									        </div>
+									  </div>
+									  <div class="extra">
+									        <a class="right floated created">
+									          <!--<small><i class="unhide icon"></i>18</small>-->
+									          <small><i class="thumbs outline up icon"></i><span class="love-count">1</span></small>
+									  </a>
+									  <a href="http://dev.taihuoniao.com/user/20448/" class="ui icon link">
+									    <img src="http://frbird.qiniudn.com/avatar/150216/54e182a83ffca25c6f8b460f-avs.jpg" alt="你好吗啦啦" class="ui avatar image"> <small>你好吗啦啦</small>
+									  </a>
+									  </div>
+									</div>
+									
+									
+									
+									<div class="ui card">
+									  <input type="hidden" name="item_id" value="32">
+									  <div class="image">
+									          <img src="http://frstatic.qiniudn.com/images/nophoto.jpg" alt="测试长图">
+
+									    <div class="image-extra">
+									    <a href="http://dev.taihuoniao.com/birdegg/32.html" title="测试长图" target="_blank"></a>
+									    </div>
+									  </div>
+									  <div class="content">
+									        <div class="header">
+									    <a href="http://dev.taihuoniao.com/birdegg/32.html" title="测试长图" class="ui line">测试长图</a>
+									  </div>
+									        <div class="description">
+									        工工工工工工工工工工工
+									        </div>
+									  </div>
+									  <div class="extra">
+									        <a class="right floated created">
+									          <!--<small><i class="unhide icon"></i>18</small>-->
+									          <small><i class="thumbs outline up icon"></i><span class="love-count">1</span></small>
+									  </a>
+									  <a href="http://dev.taihuoniao.com/user/20448/" class="ui icon link">
+									    <img src="http://frbird.qiniudn.com/avatar/150216/54e182a83ffca25c6f8b460f-avs.jpg" alt="你好吗啦啦" class="ui avatar image"> <small>你好吗啦啦</small>
+									  </a>
+									  </div>
+									</div>
+								</div>
 
 						</div>
 					</div>

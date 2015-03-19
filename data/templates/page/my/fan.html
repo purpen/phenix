@@ -3,7 +3,89 @@
 
 {% block page_css %}
 <style type="text/css">
-
+.ui.segment{
+	padding-top:0;
+}
+.ui.fans .ui.header{
+	margin-bottom:0;
+	padding-bottom: 1em;
+	padding-top: 1em;
+}
+.ui.fans .mes-text{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding-bottom: .3em;
+}
+.ui.fans .mes-text .news .report{
+	border-bottom: 0px solid rgba(0,0,0,0.1);
+	padding: 3px 0 10px;
+}
+.mes-text{
+	width:100%;
+	padding-top:1em;
+	position:relative;
+}
+.mes-text a.ui.photo{
+	float: left; 
+	width: 50px; 
+	height: 60px; 
+	margin-right: 10px;
+}
+.mes-text a.ui.photo img{
+	height:50px;
+	width:50px;
+	border-radius: 25px;
+}
+.mes-text .news{
+	padding: 0 0 0 60px; 
+	overflow: visible;
+	font-size: 17px;
+	font-weight: 700;
+	min-height: 60px;
+}
+.mes-text .news .sub_header{
+	font-size: 14px;
+	font-weight: 400;
+	padding-top: 5px;
+	line-height: 20px;
+}
+.mes-text .news .report{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px 0;
+	height: 20px;
+	font-size: 15px;
+	font-weight: 400;
+	color:rgba(0,0,0,0.6);
+}
+.mes-text .news .report .pushtime{
+	float:left;
+}
+.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
+	color:#f36;
+}
+.mes-text .news .report .count{
+	float:right;
+	cursor:pointer;
+	padding-right:5px;
+}
+.mes-text:last-child{
+	border-bottom:0px solid #fff !important;
+}
+.mes-text .fans-btn{
+	float:right;
+	margin: 8px 5px 0 0;
+}
+.mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
+	padding: 0.5em 1.5em;
+	border-radius: 5px;
+	min-width:113px;
+}
+.mes-text .new{
+	color:#f36;
+	position:absolute;
+	top:6px;
+	left:0;
+	font-size:13px;
+}
 </style>
 {% endblock %}
 
@@ -22,36 +104,54 @@
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
-						<div class="column">
-					{% message_list var:'list' page:page user_id:user._id %}
-					{% for message in list.rows %}
-            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
-              <a class="ui photo">
-                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
-              </a>
-              <div class="news">
-                与
-                <a href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
-                的对话
-
-              {% for m in message.mailbox %}
-              <div class="sub_header">{%if m.from==user._id%}我{%else%}{{ message.f_user.nickname }}{%endif%} : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}</div>
-              {% endfor %}
-              <div class="report" style="border-bottom:1px solid rgba(0,0,0,0.1)">
-                <div class="pushtime">
-                  4月11日 17:04
-                </div>
-                <div class="count">
-                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
-                </div>	
-              </div>
-              </div>
-            </div>
-					{% endfor %}
+						
+						<div class="ui white background fans column">
+							<h3 class="ui header dividing">我的粉丝人数2213</h3>
+							<div class="mes-text">
+								<div class="fans-btn">
+									<a href="" class="ui magenta btn-4 btn-4c btn">
+										关注
+									</a>
+								</div>
+								<a class="ui photo" href="" target="_black">
+									<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+								</a>
+								<div class="news">
+									<a href="" target="_black" class="ui link">Huang Kate</a>
+									<div class="report">
+										<div class="pushtime">
+											粉丝 20  ｜  话题 30
+										</div>
+									</div>
+								</div>
+								
+								<div class="new">
+									new
+								</div>
+								
 							</div>
-							
+							<div class="mes-text">
+								<div class="fans-btn">
+									<a href="" class="ui magenta btn-4 btn-4c btn">
+										取消关注
+									</a>
+								</div>
+								<a class="ui photo">
+									<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
+								</a>
+								<div class="news">
+									<a href="" class="ui link">Huang Kate</a>
+									<div class="report">
+										<div class="pushtime">
+											粉丝 20  ｜  话题 30
+										</div>
+									</div>
 
+
+								</div>
+							</div>
 						</div>
+						
 					</div>
 				</div>
 			</div>
