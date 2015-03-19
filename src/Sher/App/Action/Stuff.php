@@ -289,7 +289,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     }
 
     //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
-    if($this->visitor->quality){
+    if(isset($this->visitor->quality) && (int)$this->visitor->quality==1){
       $data['verified'] = 1; 
     }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
       $data['verified'] = 1;

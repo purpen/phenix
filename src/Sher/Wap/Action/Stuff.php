@@ -246,7 +246,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     }
 
     //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
-    if($this->visitor->quality){
+    if(isset($this->visitor->quality) && (int)$this->visitor->quality==1){
       $data['verified'] = 1; 
     }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
       $data['verified'] = 1;
