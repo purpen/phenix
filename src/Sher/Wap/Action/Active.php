@@ -83,7 +83,8 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
 
     //评论参数
     if(!empty($active['topic_ids'])){
-      $this->stash['comment_target_id'] = $active['topic_ids'][0];
+      $this->stash['comment_target_id'] = (int)$active['topic_ids'][0];
+      $this->stash['comment_target_user_id'] = $active['user_id'];
       $this->stash['comment_type'] = 2;   
     }
 
