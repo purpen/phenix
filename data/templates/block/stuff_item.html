@@ -1,24 +1,37 @@
 <div class="card">
-  <div class="image">
+ 	<div class="image">
         <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" target="_blank">
-    <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-  </a>
-  </div>
-  <div class="content">
-        <div class="header">
-    <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
-  </div>
-        <div class="description">
-        {{ stuff.strip_description|truncate 60 '' }}
-        </div>
-  </div>
-  <div class="extra">
-        <a class="right floated created">
-    <small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
-    <small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
-  </a>
-  <a href="{{ stuff.user.home_url }}" class="ui icon link">
-    <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
-  </a>
-  </div>
+    		<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
+  	  	</a>
+  	</div>
+  	<div class="content">
+    	<div class="header">
+    		<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
+  	  	</div>
+  	  	<a href="{{ stuff.user.home_url }}" class="ui icon author link">
+    		<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> 
+			<small>{{ stuff.user.nickname }}</small>
+  	  	</a>
+        <span class="ui icon support active magenta button" data-id="{{ stuff._id }}">
+            <i class="thumbs up outline icon"></i>
+        </span>
+  	</div>
+  	<div class="extra">
+        <a class="ui line categ right floated" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">
+            {{ stuff.category.title }}
+  	  	</a>
+        
+  	  	<div class="ui avatars images" id="stuff_{{ stuff._id }}_support">
+            {% if stuff.total_love_count %}
+                {% users_list var:'userlist' user_ids:stuff.love_users %}
+                {% for u in userlist %}
+      	  	        <img src="{{ u.mini_avatar_url }}" class="ui avatar image" />
+                {% endfor %}
+                <span class="count">
+                    {{ stuff.total_love_count }}<small>+</small>
+                </span>
+            {% endif %}
+  	  	</div>
+        
+  	</div>
 </div>

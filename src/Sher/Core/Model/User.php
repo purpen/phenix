@@ -337,8 +337,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         );
 		return $default_profile;
 	}
-
-
+    
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
 		// 显示名称
@@ -381,11 +380,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }
 		
 		if(empty($row['mentor'])){
-      if(!empty($row['profile']['job'])){
-        $user_job = $row['profile']['job'];
-      }else{
-        $user_job = '';
-      }
+            if(!empty($row['profile']['job'])){
+                $user_job = $row['profile']['job'];
+            }else{
+                $user_job = '';
+            }
 			$row['mentor_info'] = array('name' => $user_job);
 		}else{
 			$row['mentor_info'] = $this->find_mentors($row['mentor']);

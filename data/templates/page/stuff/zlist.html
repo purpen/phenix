@@ -20,12 +20,83 @@
 	.social.submitbox .ui.share.button {
 		padding: 0.8em 3.5rem;
 	}
+    .content {
+        position: relative;
+    }
+    .content .ui.author.link {
+        display: inline-block;
+        margin-top: 0.5rem;
+    }
+    .content .support.button {
+        border-radius: 10rem;
+        font-size: 1.2rem;
+        height: 40px;
+        padding: 0.625rem;
+        position: absolute;
+        right: 1rem;
+        top: 2rem;
+        width: 40px;
+        opacity: 0.8;
+    }
+    .content .support.button:hover,
+    .content .support.actived.button {
+        opacity: 1;
+    }
+    
+    .ui.stuffs.cards > .card .ui.avatars.images {
+        font-size: 1rem;
+        padding-bottom: 3px;
+    }
+    .ui.stuffs.cards > .card .ui.avatars.images > img.avatar {
+        height: 1.35em;
+        margin: 0;
+        width: 1.35em;
+    }
+    .ui.stuffs.cards > .card .ui.avatars.images .count {
+        margin-left: 0.25em;
+        margin-top: 0.25em;
+        position: relative;
+    }
+    .ui.stuffs.cards > .card .ui.avatars.images .count small {
+        position: absolute;
+    }
+    .ui.stuffs.cards > .card [class*="right floated"],
+    .ui.stuffs.card [class*="right floated"] {
+        float: right;
+        margin-top: 0em;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
 	$('.special.cards .image').dimmer({
 	  on: 'hover'
+	});
+    
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+			if (result.success) {
+				$btn
+					.addClass('actived');
+                    
+                if(result.data.newadd){
+                    $('#stuff_'+ id +'_support')
+                        .prepend('<img src="'+ result.data.avatar +'" class="ui avatar image" />')
+                        .find('span.count').remove()
+                        .end()
+                        .append('<span class="count">'+ result.data.love_count +'<small>\+</small></span>');
+                }
+			} else {
+				phenix.show_error_note(result.message);
+			}
+		}, 'json');
 	});
 {% endblock %}
 
@@ -85,9 +156,9 @@
 		<div class="row">
 			<div class="column">
 				{% stuff_list var:'stufflist' category_id:cid is_top:is_top sort:sort sticked:sticked featured:featured page:page size:36 %}
-				<div class="ui three cards">
+				<div class="ui three stuffs cards">
 					{% for stuff in stufflist.rows %}
-            {% include "block/stuff_item.html" %}
+                        {% include "block/stuff_item.html" %}
 					{% endfor %}
 				</div>
 				
