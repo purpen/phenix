@@ -104,58 +104,52 @@
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
-						
+					  {% follow_list var:'list' page:page user_id:user_id size:20 myfans:1 set_readed:1 %}
 						<div class="ui white background fans column">
-							<h3 class="ui header dividing">我的粉丝人数2213</h3>
-							<div class="mes-text">
-								<div class="fans-btn">
-									<a href="" class="ui magenta btn-4 btn-4c btn">
-										关注
-									</a>
-								</div>
-								<a class="ui photo" href="" target="_black">
-									<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-								</a>
-								<div class="news">
-									<a href="" target="_black" class="ui link">Huang Kate</a>
-									<div class="report">
-										<div class="pushtime">
-											粉丝 20  ｜  话题 30
-										</div>
-									</div>
-								</div>
-								
-								<div class="new">
-									new
-								</div>
-								
-							</div>
-							<div class="mes-text">
-								<div class="fans-btn">
-									<a href="" class="ui magenta btn-4 btn-4c btn">
-										取消关注
-									</a>
-								</div>
-								<a class="ui photo">
-									<img alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-								</a>
-								<div class="news">
-									<a href="" class="ui link">Huang Kate</a>
-									<div class="report">
-										<div class="pushtime">
-											粉丝 20  ｜  话题 30
-										</div>
-									</div>
-
-
-								</div>
-							</div>
-						</div>
+              {% if list.rows %}
+                {% for f in list.rows %}
+                  <div class="mes-text">
+                    <div class="fans-btn">
+                      {% if f.type==1 %}
+                      <a href="{{ app_url_user }}/ajax_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                        + 关注
+                      </a>
+                      {%else%}
+                      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                        取消关注
+                      </a>
+                      {%endif%}
+                    </div>
+                    <a class="ui photo" href="" target="_black">
+                      <img alt="{{ f.fans.nickname }}" src="{{ f.fans.small_avatar_url }}">
+                    </a>
+                    <div class="news">
+                      <a href="{{ f.fans.home_url }}" target="_black" class="ui link">{{ f.fans.nickname }}</a>
+                      <div class="report">
+                        <div class="pushtime">
+                          粉丝 {{ f.fans.fans_count }}  ｜  话题 {{ f.fans.topic_count }}
+                        </div>
+                      </div>
+                    </div>
+                    {% if !f.readed %}
+                    <div class="new">
+                      new
+                    </div>
+                    {%endif%}
+                  </div>
+                  {%endfor%}
+                {%else%}
+	                <p class="mt-20 text-center">你还没有粉丝哦~</p>
+                {%endif%}
 						
 					</div>
 				</div>
 			</div>
 		</div>
+    {% if list.rows %}
+      {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+      {%include 'block/pager.html'%}
+    {% endif %}
 	</div>
 </div>
 {% endblock %}

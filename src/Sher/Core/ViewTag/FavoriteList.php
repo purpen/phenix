@@ -21,6 +21,9 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$target_id = 0;
 		$type = 0;
+    $event = 0;
+    //加载关联对象
+    $load_item = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -42,6 +45,10 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
 		if($target_id){
 			$query['target_id'] = (int)$target_id;
 		}
+
+    if($event){
+      $query['event'] = (int)$event;
+    }
 		
 		if($type){
 			$query['type'] = (int)$type;
@@ -52,6 +59,34 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
         $result = $service->get_like_list($query,$options);
+
+        if(!empty($load_item)){
+          $product_mode = new Sher_Core_Model_Product();
+          $topic_mode = new Sher_Core_Model_Topic();
+          $stuff_mode = new Sher_Core_Model_Stuff();
+          $obj = null;
+          for($i=0;$i<count($result['rows']);$i++){
+            $s_type = $result['rows'][$i]['type'];
+            $s_id = $result['rows'][$i]['target_id'];
+            switch ($s_type){
+              case 1:
+                $obj = $product_mode->extend_load((int)$s_id);
+                $result['rows'][$i]['product'] = $obj;
+                break;
+              case 2:
+                $obj = $topic_mode->extend_load((int)$s_id);
+                $result['rows'][$i]['topic'] = $obj;
+                break;
+              case 4:
+                $obj = $stuff_mode->extend_load((int)$s_id);
+                $result['rows'][$i]['stuff'] = $obj;
+                break;
+            }
+          }
+          unset($product_mode);
+          unset($topic_mode);
+          unset($stuff_mode);
+        }
 		
         $context->set($var, $result);
         if ($include_pager) {

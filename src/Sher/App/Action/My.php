@@ -640,6 +640,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function favorite(){
   	$this->set_target_css_state('user_favorite');
+    $this->stash['box_type'] = 'fav';
     return $this->to_html_page('page/my/favorite.html');
   }
 
@@ -648,6 +649,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function love(){
   	$this->set_target_css_state('user_love');
+    $this->stash['box_type'] = 'love';
     return $this->to_html_page('page/my/love.html');
   }
 

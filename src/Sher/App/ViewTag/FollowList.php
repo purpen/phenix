@@ -20,6 +20,8 @@ class Sher_App_ViewTag_FollowList extends Doggy_Dt_Tag {
         $pager_var = 'pager';
         $sort = 'latest';
         $ttl = 300;
+        //设置已读标识
+        $set_readed = 0;
         
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
         
@@ -47,6 +49,20 @@ class Sher_App_ViewTag_FollowList extends Doggy_Dt_Tag {
         
         $service = Sher_Core_Service_Follow::instance();
         $result = $service->get_follow_list($query, $options);
+
+        if(!empty($set_readed)){
+          $follow = new Sher_Core_Model_Follow();
+          for($i=0;$i<count($result['rows']);$i++){
+            $is_read = isset($result['rows'][$i]['is_read'])?$result['rows'][$i]['is_read']:0;
+            $result['rows'][$i]['readed'] = $is_read;
+            if(empty($is_read)){
+              # 更新已读标识
+              $follow->set_readed($result['rows'][$i]['_id']);
+            }
+          }
+          unset($follow);
+        }
+
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var, $result['pager']);
