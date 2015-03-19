@@ -84,49 +84,51 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							
+							{% follow_list var:'list' page:page user_id:user_id size:20 myfans:0 %}
 							<div class="ui dynamic selection list">
-								<div class="item">
-							    <a href="" target="_black">
-										<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-									</a>
-							    <div class="content">
-							      <a href="" target="_black" class="ui line header inline">noofoo</a>
-										<div class="description fsize inline">
-												关注了你
-										</div>
-									</div>
-									<div class="right aligned btn">
-										<a href="" class="ui magenta btn-4 btn-4c btn">
-											+ 关注
-										</a>
-									</div>
-								
-									<div class="new">
-										new
-									</div>
-								
-								</div>
-								
-								<div class="item">
-							    <a href="" target="_black">
-										<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-									</a>
-							    <div class="content">
-							      <a href="" target="_black" class="ui line header inline">noofoo</a>
-										<div class="description fsize inline">
-												关注了你
-										</div>
-									</div>
-									<div class="right aligned btn">
-										<a href="" class="ui magenta btn-4 btn-4c btn">
-											+ 关注
-										</a>
-									</div>
-								</div>
+                {% if list.rows %}
+                  {% for u in list.rows %}
+                    <div class="item">
+                      <a href="{{ u.follow.home_url }}" target="_black">
+                        <img class="ui avatar image" alt="{{ u.follow.home_url }}" src="{{ u.follow.small_avatar_url }}">
+                      </a>
+                      <div class="content">
+                        <a href="{{ app_url_user }}/{{ u.follow._id }}" target="_black" class="ui line header inline">{{ u.follow.nickname }}</a>
+                        <div class="description fsize inline">
+                            
+                        </div>
+                      </div>
+                      <div class="right aligned btn">
+                        {% if u.follow._id != user_id %}
+                        <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ u.follow._id }}&follow_type=2" id="user_{{u.follow._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                          取消关注
+                        </a>
+                        {%endif%}
+                      </div>
+                      <!--
+                      {% if u.is_read %}
+                        <div class="new-mark" mark="1"></div>
+                      {%else%}
+                        <div class="new new-mark" mark="">
+                          new
+                        </div>
+                      {%endif%}
+                      -->
+                    
+                    </div>
+                  {%endfor%}
+                {%else%}
+	                <p class="mt-20 text-center">你还没有关注人哦~</p>
+                {%endif%}
+
 								
 								
 							</div>
+
+        {% if list.rows %}
+        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        {%include 'block/pager.html'%}
+        {% endif %}
 							
 							
             </div>
