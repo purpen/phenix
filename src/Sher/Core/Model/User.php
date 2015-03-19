@@ -211,14 +211,17 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 
+    #是否为优质用户(可跳过作品审核)
+    'quality' => 0,
+
     # 用户唯一邀请码
     'invite_code' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'quality'=>1);
 	
     protected $required_fields = array('account','password');
-    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor');
+    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','quality');
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count', 'stuff_count');
 	
 	protected $joins = array();
@@ -565,6 +568,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     public function active_account($id){
     	return $this->update_set((int)$id, array('state' => self::STATE_OK));
     }
+
+  /**
+   * 设置优质
+   */
+  public function set_quality($id, $evt=0){
+    return $this->update_set((int)$id, array('quality'=> (int)$evt));  
+  }
 	
 	/**
 	 * 更新微博用户授权access token

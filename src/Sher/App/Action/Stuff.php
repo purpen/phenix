@@ -127,6 +127,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     // 评论参数
     $comment_options = array(
       'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
       'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
       'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
       //是否显示上传图片/链接
@@ -285,6 +286,17 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     //如果是关联投票产品
     if(isset($this->stash['fever_id'])){
       $data['fever_id'] = (int)$this->stash['fever_id'];
+    }
+
+    //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
+    if($this->visitor->quality){
+      $data['verified'] = 1; 
+    }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
+      $data['verified'] = 1;
+    }elseif(empty((int)$this->stash['from_to'])){
+      $data['verified'] = 1;
+    }else{
+      $data['verified'] = 0;
     }
 		
 		// 检测编辑器图片数
@@ -525,6 +537,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
    */
   protected function _comment_param($options){
     $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
     $this->stash['comment_type'] = $options['comment_type'];
 		// 评论的链接URL
 		$this->stash['pager_url'] = $options['comment_pager'];
