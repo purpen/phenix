@@ -6,6 +6,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	
 	public $stash = array(
 		'id'=>'',
+    'rid'=>'',
 		'user_id'=>'',
 		'target_id'=>'',
     'target_user_id'=>0,
@@ -193,6 +194,51 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		
 		return $this->ajax_delete('删除成功', false);
 	}
+
+  /**
+   * 删除评论回复
+   */
+  public function del_reply(){
+    $comment_id = $this->stash['id'];
+    $rid = $this->stash['rid'];
+		// 验证数据
+		if(empty($comment_id) || empty($this->stash['rid'])){
+			return $this->ajax_notification('获取数据错误,请重新提交', true);
+		}
+
+		try{
+			$model = new Sher_Core_Model_Comment();
+			$comment = $model->find_by_id($comment_id);
+			// 非管理员只能删除自己的评论
+			//if ($this->visitor->can_admin() || $comment['reply']['r_id']['user_id'] == $this->visitor->id){
+				$model->remove_reply($comment_id, $rid);
+			//}
+      //如果是管理员
+      if($this->visitor->can_admin()){
+      	$model->remove_reply($comment_id, $rid);
+      }else{
+        $reply_user_id = 0;
+        foreach($comment['reply'] as $key=>$val){
+          if((string)$val['r_id']==$rid){
+            $reply_user_id = (int)$val['user_id'];
+            break;
+          }
+        }
+        //如果是用户本人
+        if(!empty($reply_user_id) && $this->visitor->id==$reply_user_id){
+          $model->remove_reply($comment_id, $rid);  
+        }
+      }
+			
+			$this->stash['ids'] = array($rid);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('删除回复失败,请重新提交', true);
+		}
+		
+		return $this->ajax_delete('删除成功', false);
+
+  }
 	
 	/**
 	 * 保存回复
