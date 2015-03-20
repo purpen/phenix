@@ -1,0 +1,132 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">专题管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/special" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+
+	    </div>
+	</div>
+	
+  <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/special/search" method="get">
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="t" value="{{ t }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+          <div class="item" data-value="6">灵感</div>
+          <div class="item" data-value="2">话题</div>
+          <div class="item" data-value="3">试用</div>
+          <div class="item" data-value="4">商品</div>
+        </div>
+      </div>
+
+      <div class="ui selection dropdown">
+        <input type="hidden" name="s" value="{{ s }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">最早</div>
+          <div class="item" data-value="1">最新</div>
+          <div class="item" data-value="2">点赞</div>
+        </div>
+      </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+  -->
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>名称</th>
+        <th>预约列表</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr id="item-1">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="1" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+        <td>
+          <div class="content-text">apple-watch</div>
+        </td>
+        <td>
+          <div><a href="{{ app_url_admin_base }}/special/get_attend_list?target_id=1&event=1">预约列表</a></div>
+        </td>
+
+			</tr>
+		</tbody>
+	</table>
+
+{% endblock %}
