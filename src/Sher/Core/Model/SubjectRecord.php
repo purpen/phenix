@@ -15,7 +15,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	
   protected $schema = array(
     'user_id' => null,
-    //1,iphone_watch;2,
+    //1,apple_watch;2,
     'target_id' => null,
     'info' => null,
     'tags' => array(),
