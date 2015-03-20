@@ -1,7 +1,7 @@
 <?php
 /**
  * 消息提醒
- * @author purpen
+ * @author tianshuai
  */
 class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 
@@ -101,6 +101,13 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
           $str = '';
     } 
     return $str;
+  }
+
+  /**
+   * 设置已读标识
+   */
+  public function set_readed($id){
+		return $this->update_set((string)$id, array('readed' => 1));
   }
 	
 }

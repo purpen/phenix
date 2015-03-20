@@ -57,49 +57,39 @@
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
+            {% remind_list var:'list' page:page user_id:user_id size:20 set_readed:1 %}
 						<div class="column">
 							<div class="ui dynamic selection list">
-							
-								<div class="item">
-									<div class="new">
-										new
-									</div>
-									<div class="content">
-						      	<a href="" class="ui link header inline">noofoo</a>
-										<div class="description fsize inline">
-											收藏了话题
-										</div>
-										<a class="ui link" href="" title="">
-											深圳站【设计让产品更性感】太火鸟
-										</a>
-									</div>
-								</div>
-							
-								<div class="item">
-									<div class="content">
-						      	<a href="" class="ui link header inline">noofoo</a>
-										<div class="description fsize inline">
-											关注了你
-										</div>
-									</div>
-								</div>
-								
-								<div class="item">
-									<div class="content">
-						      	<a href="" class="ui link header inline">noofoo</a>
-										<div class="description fsize inline">
-											回复了你
-										</div>
-									</div>
-								</div>
-								
-								
+							  {% if list.rows %}
+                  {% for d in list.rows %}
+                    <div class="item">
+                      {% if !d.is_read %}
+                        <div class="new">
+                          new
+                        </div>
+                      {%endif%}
+                      <div class="content">
+                        <a href="" class="ui link header inline">noofoo</a>
+                        <div class="description fsize inline">
+                          收藏了话题
+                        </div>
+                        <a class="ui link" href="" title="">
+                          深圳站【设计让产品更性感】太火鸟
+                        </a>
+                      </div>
+                    </div>
+                  {%endfor%}
+                {%endif%}
 								
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+    {% if list.rows %}
+      {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+      {%include 'block/pager.html'%}
+    {% endif %}
 		</div>
 	</div>
 </div>
