@@ -657,6 +657,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的私信
    */
   public function message(){
+  	$this->set_target_css_state('user_news');
   	$this->set_target_css_state('user_message');
     //清空私信提醒数量
     if($this->visitor->counter['message_count']>0){
@@ -670,6 +671,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的通知
    */
   public function notice(){
+  	$this->set_target_css_state('user_news');
     $this->set_target_css_state('user_notice');
     //清空通知提醒数量
     if($this->visitor->counter['notice_count']>0){
@@ -682,6 +684,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的提醒
    */
   public function remind(){
+  	$this->set_target_css_state('user_news');
   	$this->set_target_css_state('user_remind');
     //清空提醒数量
     if($this->visitor->counter['alert_count']>0){

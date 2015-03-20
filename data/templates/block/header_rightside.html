@@ -10,11 +10,14 @@
 	
 
 	<div class="ui top right pointing dropdown icon basket magenta button" data-url=" ">
-			<label class="floating circular ui magenta basketnumber label">1</label>
+			<label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
 	  	<i class="flat speech40 icon"></i>
       <!--ajax加载用户提醒-->
-      <div class="menu" id="user-notice" style="width:200px;display:none;">
+      <div class="menu" id="user-notice" style="width:200px;">
+        <div class="item" id="basket-body-content">
+          没有消息
 
+        </div>
       </div>
 	</div>
 	
