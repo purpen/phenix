@@ -65,7 +65,7 @@
               </a>
               <div class="content">
                 <a class="author">{{ reply.user.nickname }}</a>
-                <div class="metadata actions" style="margin-top:0;opacity:1;">
+                <div class="metadata actions" style="margin-top:0;opacity:1;" >
                   <div class="date">{{ reply.replied_on }}</div>
                       {% if visitor.can_admin %}
                       <a class="delete confirm-request" href="{{ app_url_comment }}/del_reply?id={{ comment._id }}&rid={{ reply.r_id }}"><small>删除</small></a>
