@@ -130,7 +130,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
 		$category = new Sher_Core_Model_Category();
 		$parent_category = $category->extend_load((int)$topic['fid']);
 		
-    $topic['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
+    $topic['content_view_url'] = sprintf('%s/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
     $topic['description'] = null;
 		$result['topic'] = &$topic;
 		$result['parent_category'] = $parent_category;
