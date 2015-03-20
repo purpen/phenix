@@ -3,68 +3,89 @@
 
 {% block page_css %}
 <style type="text/css">
-	.follow  .ui.selection.list .item {
-		cursor: pointer;
-		color: rgba(0,0,0,.4);
-		padding: .5em;
-		-webkit-transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
-		transition: .2s color ease,.2s padding-left ease,.2s background-color ease;
-	}
-	.follow  .ui.dynamic.list .item {
-		font-size: .8125rem;
-		background: rgba(0,0,0,.02);
-		border-bottom: 1px solid rgba(0,0,0,.1);
-		cursor: auto;
-		position:relative;
-	}
-	.follow  .ui.dynamic.list .content .ui.line.header{
-		margin-bottom:0;
-		margin-top:0;
-		padding-bottom: 0;
-	}
-	.follow  .ui.dynamic.list .item .content{
-		margin-left: 0%;
-		margin-right:0;
-		display:inline-block;
-		float: left;
-	}
-	.follow  .ui.dynamic.list .ui.avatar.image{
-		float: left;
-		width:3em;
-		height:3em;
-		margin: 4px .5em 4px 0;
-	}
-	.follow  .ui.dynamic.list .content>.inline {
-		display: inline-block;
-		line-height: 33px;
-		margin-left: 8px;
-		margin-right: 8px;
-	}
-	.follow  .ui.dynamic.list .right.btn {
-		line-height: 47px;
-	}
-	.follow  .ui.dynamic.list .right.aligned {
-		float: right;
-	}
-	.follow  .ui.dynamic.list .right.btn>.ui.btn {
-		padding: .5em 1em;
-		margin-right: .5em;
-	}
-	.follow  .ui.list .content .description {
-		margin-top: .5em;
-	}
-	.follow .ui.dynamic.list .description.fsize {
-		font-size: 15px;
-		color: rgba(0,0,0,.7);
-	}
-	.follow .item .new{
-		color:#f36;
-		position:absolute;
-		top:0;
-		left:0;
-		font-size:13px;
-	}
-	
+.ui.segment{
+	padding-top:0;
+}
+.ui.fans .ui.header{
+	margin-bottom:0;
+	padding-bottom: 1em;
+	padding-top: 1em;
+}
+.ui.fans .mes-text{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding-bottom: .3em;
+}
+.ui.fans .mes-text .news .report{
+	border-bottom: 0px solid rgba(0,0,0,0.1);
+	padding: 3px 0 10px;
+}
+.mes-text{
+	width:100%;
+	padding-top:1em;
+	position:relative;
+}
+.mes-text a.ui.photo{
+	float: left; 
+	width: 50px; 
+	height: 60px; 
+	margin-right: 10px;
+}
+.mes-text a.ui.photo img{
+	height:50px;
+	width:50px;
+	border-radius: 25px;
+}
+.mes-text .news{
+	padding: 0 0 0 60px; 
+	overflow: visible;
+	font-size: 17px;
+	font-weight: 700;
+	min-height: 60px;
+}
+.mes-text .news .sub_header{
+	font-size: 14px;
+	font-weight: 400;
+	padding-top: 5px;
+	line-height: 20px;
+}
+.mes-text .news .report{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px 0;
+	height: 20px;
+	font-size: 15px;
+	font-weight: 400;
+	color:rgba(0,0,0,0.6);
+}
+.mes-text .news .report .pushtime{
+	float:left;
+}
+.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
+	color:#f36;
+}
+.mes-text .news .report .count{
+	float:right;
+	cursor:pointer;
+	padding-right:5px;
+}
+.mes-text:last-child{
+	border-bottom:0px solid #fff !important;
+}
+.mes-text .fans-btn{
+	float:right;
+	margin: 8px 5px 0 0;
+}
+.mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
+	padding: 0.5em 1.5em;
+	border-radius: 5px;
+	min-width:113px;
+}
+.mes-text .new{
+	color:#f36;
+	position:absolute;
+	top:6px;
+	left:0;
+	font-size:13px;
+}
 </style>
 {% endblock %}
 
@@ -85,56 +106,46 @@
 					<div class="row">
 						<div class="column">
 							{% follow_list var:'list' page:page user_id:user_id size:20 myfans:0 %}
-							<div class="ui dynamic selection list">
-                {% if list.rows %}
-                  {% for u in list.rows %}
-                    <div class="item">
-                      <a href="{{ u.follow.home_url }}" target="_black">
-                        <img class="ui avatar image" alt="{{ u.follow.home_url }}" src="{{ u.follow.small_avatar_url }}">
+						<div class="ui white background fans column">
+              {% if list.rows %}
+                {% for f in list.rows %}
+                  <div class="mes-text">
+                    <div class="fans-btn">
+                      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.follow._id }}&follow_type=2" id="user_{{f.follow._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                        取消关注
                       </a>
-                      <div class="content">
-                        <a href="{{ app_url_user }}/{{ u.follow._id }}" target="_black" class="ui line header inline">{{ u.follow.nickname }}</a>
-                        <div class="description fsize inline">
-                            
-                        </div>
-                      </div>
-                      <div class="right aligned btn">
-                        {% if u.follow._id != user_id %}
-                        <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ u.follow._id }}&follow_type=2" id="user_{{u.follow._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
-                          取消关注
-                        </a>
-                        {%endif%}
-                      </div>
-                      <!--
-                      {% if u.is_read %}
-                        <div class="new-mark" mark="1"></div>
-                      {%else%}
-                        <div class="new new-mark" mark="">
-                          new
-                        </div>
-                      {%endif%}
-                      -->
-                    
                     </div>
+                    <a class="ui photo" href="" target="_black">
+                      <img alt="{{ f.follow.nickname }}" src="{{ f.follow.small_avatar_url }}">
+                    </a>
+                    <div class="news">
+                      <a href="{{ f.follow.home_url }}" target="_black" class="ui link">{{ f.follow.nickname }}</a>
+                      <div class="report">
+                        <div class="pushtime">
+                          粉丝 {{ f.follow.fans_count }}  ｜  话题 {{ f.follow.topic_count }}
+                        </div>
+                      </div>
+                    </div>
+                    <!--
+                    <div class="new">
+                      new
+                    </div>
+                    -->
+                  </div>
                   {%endfor%}
                 {%else%}
-	                <p class="mt-20 text-center">你还没有关注人哦~</p>
+	                <p class="mt-20 text-center">你还没有关注的人哦~</p>
                 {%endif%}
 
-								
-								
 							</div>
-
-        {% if list.rows %}
-        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-        {%include 'block/pager.html'%}
-        {% endif %}
-							
-							
             </div>
 					</div>
 				</div>
 			</div>
+      {% if list.rows %}
+        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        {%include 'block/pager.html'%}
+      {% endif %}
 		</div>
 	</div>
 </div>

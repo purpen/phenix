@@ -592,6 +592,30 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   }
 
   /**
+   * 我的话题
+   */
+  public function topic(){
+   	$this->set_target_css_state('user_topic');
+    return $this->to_html_page('page/my/topic.html'); 
+  }
+
+  /**
+   * 我的灵感
+   */
+  public function stuff(){
+    $this->set_target_css_state('user_stuff');
+    return $this->to_html_page('page/my/stuff.html');  
+  }
+
+  /**
+   * 我的商品
+   */
+  public function product(){
+    $this->set_target_css_state('user_stuff');
+    return $this->to_html_page('page/my/product.html');  
+  }
+
+  /**
    * 关注的人
    */
   public function follow(){
@@ -604,6 +628,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function fan(){
   	$this->set_target_css_state('user_fan');
+    //清空粉丝提醒数量
+    if($this->visitor->counter['fans_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'fans_count');   
+    }
     return $this->to_html_page('page/my/fan.html');
   }
 
@@ -612,6 +640,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function favorite(){
   	$this->set_target_css_state('user_favorite');
+    $this->stash['box_type'] = 'fav';
     return $this->to_html_page('page/my/favorite.html');
   }
 
@@ -620,6 +649,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function love(){
   	$this->set_target_css_state('user_love');
+    $this->stash['box_type'] = 'love';
     return $this->to_html_page('page/my/love.html');
   }
 
@@ -628,6 +658,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function message(){
   	$this->set_target_css_state('user_message');
+    //清空私信提醒数量
+    if($this->visitor->counter['message_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'message_count');   
+    }
     return $this->to_html_page('page/my/message.html');
   
   }
@@ -637,6 +671,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function notice(){
     $this->set_target_css_state('user_notice');
+    //清空通知提醒数量
+    if($this->visitor->counter['notice_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'notice_count');
+    }
     return $this->to_html_page('page/my/notice.html');
   }
 
@@ -645,6 +683,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function remind(){
   	$this->set_target_css_state('user_remind');
+    //清空提醒数量
+    if($this->visitor->counter['alert_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'alert_count');
+    }
     return $this->to_html_page('page/my/remind.html'); 
   }
 
@@ -653,6 +695,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function comment(){
   	$this->set_target_css_state('user_comment');
+    //清空评论提醒数量
+    if($this->visitor->counter['comment_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'comment_count');
+    }
     return $this->to_html_page('page/my/comment.html'); 
   }
 

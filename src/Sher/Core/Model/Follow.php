@@ -54,6 +54,13 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
       }
     }
   }
+
+  /**
+   * 设置已读标识
+   */
+  public function set_readed($id){
+		return $this->update_set((int)$id, array('is_read' => 1));
+  }
     
     /**
      * 获取扩展信息
