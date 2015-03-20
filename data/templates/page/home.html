@@ -110,6 +110,39 @@
 		right: 10px;
 		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
 	}
+	#fixedslide .pages>a{
+		height: 10px;
+		margin: 0 8px;
+		width: 10px;
+		box-shadow: inset 0 0 0 2px #eee;
+		-webkit-box-shadow: inset 0 0 0 2px #eee;
+		background-color: #e3e3e3;
+	}
+	#fixedslide .pages>a.active, #fixedslide .pages>a:hover {
+		background-color: #ccc;
+	}
+	#fixedslide .pages>a.active {
+		height: 15px;
+		width: 15px;
+		box-shadow: inset 0 0 0 2px #fff;
+		-webkit-box-shadow: inset 0 0 0 2px #fff;
+	}
+	#fixedslide .next, #fixedslide .prev{
+		border-radius:0.6em;
+		background: rgba(0,0,0,0.4);
+		width: 1.2em;
+		height: 1.2em;
+	}
+	#fixedslide .next:hover, #fixedslide .prev:hover{
+		background: rgba(0,0,0,0.6);
+	}
+	#fixedslide .arrow_left,#fixedslide .arrow_right{
+		width: 1.2em;
+		height: 1.2em;
+		vertical-align: middle;
+	}
+	
+	
 	
 	.egg-banner{
 		background-color:rgb(21,12,15);
