@@ -1,27 +1,27 @@
 <?php
 /**
- * 用户积分明细表
+ * 用户积分日结表
  *
  */
-class Sher_Core_Model_UserPoint extends Sher_Core_Model_Base {
-    protected $collection = 'points.detail';
+class Sher_Core_Model_UserPointDaily extends Sher_Core_Model_Base {
+    protected $collection = 'points.daily';
+
 
     protected $schema = array(
-        'user_id' => null,
-//        积分类型
-        'type' => null,
-//        变动值
-        'val' => null,
-//        事由说明
-        'note' => null,
-//        事件
-        'event' => null,
-//        事件触发方，默认为系统，若非0则表明是某个用户发起，如赠送
-        'sender' => 0,
-//        内部属性，是否由第三方模块出发
-        'sys_sender' => null,
-//        其他第三方附加信息
-        'extras' => array(),
+        // 使用复合主键, 减少额外索引
+        '_id' => array(
+            'user_id' => null,
+            'day' => null,
+        ),
+        // 积分余额
+        // 期初积分余额
+        'init_balance' => array(),
+        // 当日发生汇总
+        'inc_balance' => array(),
+        // 期初发生额
+        'done_balance' => array(),
+        //是否结帐标记
+        'done' => false,
     );
     protected $joins = array(
         'user' => array('user_id' => 'Sher_Core_Model_User'),

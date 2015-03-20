@@ -1,25 +1,29 @@
 <?php
 /**
- * 会员等级状态表
- * 
+ * 用户积分明细表
+ *
  */
-class Sher_Core_Model_UserRank extends Sher_Core_Model_Base {
-    protected $collection = 'user_rank.detail';
-    
+class Sher_Core_Model_UserPointRecord extends Sher_Core_Model_Base {
+    protected $collection = 'points.records';
+
     protected $schema = array(
-        '_id' => null,
-        // 等级ID
-        'current_rank_id' => null,
-        'next_rank_id' => null,
-//        等级达标历史
-        'history' => array(
-//            [ 'rank' => rank_id, 'time' => datetime ]
-        )
+        'user_id' => null,
+//        积分类型
+        'type' => null,
+//        变动值
+        'val' => null,
+//        事由说明
+        'note' => null,
+        // 发生时间
+        'time' => null,
+        //关联的奖励事件
+        'evt_id' => null,
     );
     protected $joins = array(
+        'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array();
-    protected $ini_fields = array('rank_id');
+    protected $ini_fields = array('_id');
 
     // protected $auto_update_timestamp = true;
     // protected $created_timestamp_fields = array('created_on');
@@ -27,7 +31,7 @@ class Sher_Core_Model_UserRank extends Sher_Core_Model_Base {
 
     protected function extra_extend_model_row(&$row) {
     }
-    
+
     //~ some event handles
     protected function before_save(&$data) {
     }
@@ -37,4 +41,3 @@ class Sher_Core_Model_UserRank extends Sher_Core_Model_Base {
         return true;
     }
 }
-?>

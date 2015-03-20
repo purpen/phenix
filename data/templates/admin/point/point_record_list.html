@@ -7,38 +7,36 @@
 {% block js %}
 {% endblock %}
 {% block content %}
-	<h3 class="ui header">积分记录</h3>
+	<h3 class="ui header">明细记录</h3>
 	<div class="ui secondary pointing magenta menu">
-		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
+		<a class="{{ css_point }} item" href="{{ app_url_admin }}/point/point_record_list">积分记录</a>
+		<a class="{{ css_event }} item" href="{{ app_url_admin }}/point/event_record_list">事件记录</a>
 	</div>
-	{% user_list var:'list' page:page  %}
+	{% point_record_list var:'list' page:page  %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
-				<th></th>
+				<th>ID</th>
 				<th>用户名</th>
-				<th>事件</th>
-				<th>数额</th>
+				<th>积分</th>
+				<th>变动值</th>
 				<th>时间</th>
 				<th>备注</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for record in list.rows %}
-			<tr id="{{ user._id }}">
-				<td>
-				</td>
+			<tr id="{{ record._id }}">
+				<td>{{record._id}}</td>
 				<td>
 					<a class="ui image label link" href="{{ user.home_url }}" target="_blank">
 					  	{{ user.nickname }}
 					</a>
 				</td>
-				<td>
-				</td>
-				<td>
-				</td>
-				<td>
-				</td>
+				<td>{{record.type}}</td>
+				<td>{{record.val}}</td>
+				<td>{{record.time}}</td>
+				<td>{{record.note}}</td>
 			</tr>
 			{% endfor %}
 		</tbody>

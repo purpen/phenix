@@ -23,6 +23,7 @@ class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
         'point_amount' => 0,
     );
     protected $joins = array(
+        'next_rank' => array('next_rank_id' => 'Sher_Core_Model_UserRankDefine'),
     );
     protected $required_fields = array();
     protected $ini_fields = array('rank_id', 'next_rank_id');

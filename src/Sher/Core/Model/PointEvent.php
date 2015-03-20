@@ -6,15 +6,16 @@
 class Sher_Core_Model_PointEvent extends Sher_Core_Model_Base {
     protected $collection = 'points.event';
 
+    protected $mongo_id_style = self::MONGO_ID_CUSTOM;
     protected $schema = array(
         'name' => null,
-        'code' => null,
-//      周期限定
+//      日积分上限
         'daily_limit' => 0,
+        //月积分上限
         'month_limit' => 0,
-        # 奖励
-        'award_point_type' =>  null,
-        'award_point_amount' => 0,
+        # 奖励积分
+        'point_type' =>  null,
+        'point_amount' => 0,
     );
     protected $joins = array(
     );
@@ -35,8 +36,8 @@ class Sher_Core_Model_PointEvent extends Sher_Core_Model_Base {
     }
     protected function validate() {
         if ($this->insert_mode) {
-            $code = $this->data['code'];
-            if ($this->count(array('code' => $code))) {
+            $code = $this->data['_id'];
+            if ($this->count(array('_id' => $code))) {
                 throw new Doggy_Model_ValidateException("code:$code not unique");
             }
         }

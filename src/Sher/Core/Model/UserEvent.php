@@ -8,11 +8,20 @@ class Sher_Core_Model_UserEvent extends Sher_Core_Model_Base {
 
     protected $schema = array(
         'user_id' => null,
-        'event_id' => null,
-//        获得的积分
-        'points' => array(),
+        'event_code' => null,
+        //是否获得有效积分
+        'make_point' => false,
+        //记账标记
+        'flag' => false,
+        //事件触发方，默认为系统，若非0则表明是某个用户发起，如赠送
+        'sender' => 0,
+//        内部属性，是否由第三方模块出发
+        'sys_sender' => null,
+//        其他第三方附加信息
+        'extras' => array(),
     );
     protected $joins = array(
+        'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array();
     protected $ini_fields = array();
