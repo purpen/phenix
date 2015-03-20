@@ -25,19 +25,22 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 
 	protected function extra_extend_model_row(&$row) {
 		$total_count = count($row['mailbox']);
-        if ($total_count) {
-            for ($i=0;$i<$total_count;$i++) {
-                $this->_extend_message_mail($row['mailbox'][$i]);
-            }
+    if($row['users']){
+      $row['from_user'] = &DoggyX_Model_Mapper::load_model($row['users'][0],'Sher_Core_Model_User');
+      $row['to_user'] = &DoggyX_Model_Mapper::load_model($row['users'][1],'Sher_Core_Model_User'); 
+    }
+    if ($total_count) {
+        for ($i=0;$i<$total_count;$i++) {
+            $this->_extend_message_mail($row['mailbox'][$i]);
         }
+    }
 		$row['total_count'] = $total_count;
+    $row['mailbox'] = array_reverse($row['mailbox']);
 	}
 	
 	public function _extend_message_mail(&$row) {
 		$row['content'] = stripslashes($row['content']);
-		$row['from_user'] = &DoggyX_Model_Mapper::load_model($row['from'],'Sher_Core_Model_User');
-		$row['to_user'] = &DoggyX_Model_Mapper::load_model($row['to'],'Sher_Core_Model_User');
-    }
+  }
     
     /**
      * 发送私信
@@ -54,6 +57,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			'from' => (int)$from_user,
 			'to'   => (int)$to_user,
 			'content' => $content,
+      'is_read' => 0,
 			'created_on' => time(),
 		);
 		$some_data = array();
@@ -69,6 +73,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$some_data['_id'] = $_id;
 			$some_data['users'] = array((int)$from_user,(int)$to_user);
 			$some_data['mailbox'] = array($item);
+      $some_data['created_on'] = time();
 			
 			$this->create($some_data);
 		}else{

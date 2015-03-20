@@ -1,0 +1,161 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的评论-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.comment .mes-text{
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.comment .mes-text .news{
+	color: rgba(0,0,0,.7);
+	font-size: 16px;
+	font-weight: 400;
+}
+.comment .mes-text .news .ui.link{
+	font-weight: 700;
+}
+.comment-show{
+	padding-bottom:1em;
+}
+.comment-show .ui.btn{
+	padding:0.8em 1.5em;
+}
+.mes-text{
+	width:100%;
+	padding-top:1em;
+}
+.mes-text a.ui.photo{
+	float: left; 
+	width: 50px; 
+	height: 60px; 
+	margin-right: 10px;
+}
+.mes-text a.ui.photo img{
+	height:50px;
+	width:50px;
+	border-radius: 25px;
+}
+.mes-text .news{
+	padding: 0 0 0 60px; 
+	overflow: visible;
+	font-size: 17px;
+	font-weight: 700;
+	min-height: 60px;
+}
+.mes-text .news .sub_header{
+	font-size: 14px;
+	font-weight: 400;
+	padding-top: 5px;
+	line-height: 20px;
+}
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示私信框
+	$('.reply_message').bind('click', function(){
+    $('[name=nickname]').val($(this).attr('nickname'));
+    $('[name=to]').val($(this).attr('user_id'));
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="account comment">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">我的评论</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+							
+							<div class="comment-show">
+								<div class="ui magenta active btn">
+								发出的评论
+							</div>
+								<div class="ui magenta btn">
+								收到的评论
+							</div>
+							</div>
+						
+							<div class="mes-text">
+								<a class="ui photo">
+	                <img alt="{{ message.f_user.nickname }}" src="{{ app_url_packaged }}/images/avatar_default_big.jpg">
+	              </a>
+	              <div class="news">
+	               评论
+	                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">话题</a>
+	              		<small>1天前</small>
+
+	              	<div class="sub_header"> 12331:  12312321&nbsp;&nbsp;&nbsp;&nbsp;</div>
+								 </div>  
+							</div>
+							
+							<div class="mes-text">
+								<a class="ui photo">
+	                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+	              </a>
+	              <div class="news">
+	               评论
+	                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">话题</a>
+	              	<small>1月前</small>
+
+	              	<div class="sub_header"> 12331:  12312321&nbsp;&nbsp;&nbsp;&nbsp;</div>
+								 </div>  
+							</div>
+							
+							
+							
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+

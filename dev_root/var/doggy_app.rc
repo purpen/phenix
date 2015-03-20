@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 //dump on 2015-03-20 13:41:52
+=======
+//dump on 2015-03-20 10:45:41
+>>>>>>> alert_new
 Doggy_Config::add( array (
   'app.dispatcher.result.map' => 
   array (
@@ -228,7 +232,11 @@ Doggy_Config::add( array (
       'attend_list' => 'Sher_App_ViewTag_AttendList',
       'gift_list' => 'Sher_Core_ViewTag_GiftList',
       'invite_record_list' => 'Sher_Core_ViewTag_InviteRecordList',
+<<<<<<< HEAD
       'subject_record_list' => 'Sher_Core_ViewTag_SubjectRecordList',
+=======
+      'remind_list' => 'Sher_Core_ViewTag_RemindList',
+>>>>>>> alert_new
       'pager' => 'Sher_App_ViewTag_Pager',
     ),
     'filters' => 

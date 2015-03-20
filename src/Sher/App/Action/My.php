@@ -591,5 +591,147 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		return $this->to_taconite_page('ajax/refund_ok.html');
   }
 
+  /**
+   * 我的话题
+   */
+  public function topic(){
+   	$this->set_target_css_state('user_topic');
+    return $this->to_html_page('page/my/topic.html'); 
+  }
+
+  /**
+   * 我的灵感
+   */
+  public function stuff(){
+    $this->set_target_css_state('user_stuff');
+    return $this->to_html_page('page/my/stuff.html');  
+  }
+
+  /**
+   * 我的商品
+   */
+  public function product(){
+    $this->set_target_css_state('user_stuff');
+    return $this->to_html_page('page/my/product.html');  
+  }
+
+  /**
+   * 关注的人
+   */
+  public function follow(){
+  	$this->set_target_css_state('user_follow');
+    return $this->to_html_page('page/my/follow.html');
+  }
+
+  /**
+   * 我的粉丝
+   */
+  public function fan(){
+  	$this->set_target_css_state('user_fan');
+    //清空粉丝提醒数量
+    if($this->visitor->counter['fans_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'fans_count');   
+    }
+    return $this->to_html_page('page/my/fan.html');
+  }
+
+  /**
+   * 我的收藏
+   */
+  public function favorite(){
+  	$this->set_target_css_state('user_favorite');
+    $this->stash['box_type'] = 'fav';
+    return $this->to_html_page('page/my/favorite.html');
+  }
+
+  /**
+   * 我的喜欢
+   */
+  public function love(){
+  	$this->set_target_css_state('user_love');
+    $this->stash['box_type'] = 'love';
+    return $this->to_html_page('page/my/love.html');
+  }
+
+  /**
+   * 我的私信
+   */
+  public function message(){
+  	$this->set_target_css_state('user_news');
+  	$this->set_target_css_state('user_message');
+    //清空私信提醒数量
+    if($this->visitor->counter['message_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'message_count');   
+    }
+    return $this->to_html_page('page/my/message.html');
+  
+  }
+
+  /**
+   * 我的通知
+   */
+  public function notice(){
+  	$this->set_target_css_state('user_news');
+    $this->set_target_css_state('user_notice');
+    //清空通知提醒数量
+    if($this->visitor->counter['notice_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'notice_count');
+    }
+    return $this->to_html_page('page/my/notice.html');
+  }
+
+  /**
+   * 我的提醒
+   */
+  public function remind(){
+  	$this->set_target_css_state('user_news');
+  	$this->set_target_css_state('user_remind');
+    //清空提醒数量
+    if($this->visitor->counter['alert_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'alert_count');
+    }
+    return $this->to_html_page('page/my/remind.html'); 
+  }
+
+  /**
+   * 我的评论
+   */
+  public function comment(){
+  	$this->set_target_css_state('user_comment');
+    //清空评论提醒数量
+    if($this->visitor->counter['comment_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'comment_count');
+    }
+    return $this->to_html_page('page/my/comment.html'); 
+  }
+
+  /**
+   * 删除私信
+   */
+  public function delete_message(){
+    $id = $this->stash['id'];
+    if(empty($id)){
+      return $this->ajax_note('id不存在!', true); 
+    }
+    $message = new Sher_Core_Model_Message();
+    $data = $message->find_by_id($id);
+    if(empty($data)){
+      return $this->ajax_note('私信不存在!', true);    
+    }
+    if(is_array($data['users']) && in_array((int)$this->visitor->id, $data['users'])){
+      $ok = $message->remove($id);
+      if($ok){
+        return $this->to_taconite_page('ajax/del_message.html');
+      }else{
+        return $this->ajax_note('操作失败!', true);   
+      }
+    }else{
+      return $this->ajax_note('没有权限!', true);
+    }
+
+  }
+
+
+
 }
 ?>

@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 //deployed on: Fri Mar 20 13:41:52 2015
+=======
+//deployed on: Fri Mar 20 10:45:41 2015
+>>>>>>> alert_new
 define('DOGGY_VERSION','v1.4.2');
 define('DOGGY_APP_ROOT','/opt/project/php/phenix/dev_root');
 define('DOGGY_APP_CLASS_PATH','/opt/project/php/phenix/vendor:/opt/project/php/phenix/src:/opt/project/php/doggy-x/src');
