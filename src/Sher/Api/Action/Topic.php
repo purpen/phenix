@@ -73,7 +73,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
-      $data[$i]['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
+      $data[$i]['content_view_url'] = sprintf('%s/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
 		}
 		$result['rows'] = $data;
 		
