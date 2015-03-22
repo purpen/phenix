@@ -16,10 +16,11 @@ class Sher_Core_Model_PointEvent extends Sher_Core_Model_Base {
         # 奖励积分
         'point_type' =>  null,
         'point_amount' => 0,
+        'note' => null,
     );
     protected $joins = array(
     );
-    protected $required_fields = array('name', 'code');
+    protected $required_fields = array('name');
     protected $ini_fields = array('daily_limit', 'month_limit');
 
     // protected $auto_update_timestamp = true;

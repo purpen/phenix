@@ -4,7 +4,7 @@
  * 
  */
 class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
-    protected $collection = 'user_rank.define';
+    protected $collection = 'points.user_rank_define';
 
     protected $mongo_id_style = self::MONGO_ID_SEQ;
 
@@ -50,4 +50,8 @@ class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
         return true;
     }
 
+
+    public function set_rank_id_seq($val) {
+        return $this->set_seq_val($this->seq_name, $val);
+    }
 }

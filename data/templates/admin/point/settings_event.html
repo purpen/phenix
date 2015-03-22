@@ -20,8 +20,8 @@
 	<table class="ui small table segment">
 		<thead>
 			<tr>
-				<th>事件名称</th>
-				<th>代码标识</th>
+                <th>事件标识</th>
+                <th>事件名称</th>
                 <th>积分奖励</th>
                 <th>每日积分上限</th>
 				<th>每月积分上限</th>
@@ -29,18 +29,18 @@
 			</tr>
             {% for event in events %}
             <tr>
+                <td>{{ event._id }}</td>
                 <td>{{ event.name }}</td>
-                <td>{{ event.code }}</td>
                 <td>
-                    {% if event.award_point_type %}
-                    {{ event.award_point_type }} => {{ event.award_point_amount }}
+                    {% if event.point_type %}
+                    {{ event.point_type }} => {{ event.point_amount }}
                     {% endif %}
                 </td>
                 <td>{{ event.daily_limit }}</td>
                 <td>{{ event.month_limit }}</td>
+                <td><a href="{{ app_url_admin }}/point/settings_add_event?id={{ event._id }}" class="ui link item">编辑</a></td>
             </tr>
             {% endfor %}
-
 		</thead>
 		<tbody>
 		</tbody>

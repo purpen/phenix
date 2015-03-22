@@ -6,7 +6,7 @@ app.point.init_point_types:
     name: '经验'
 app.point.init_user_ranks:
   init_rank_id: 1
-  total_ranks: 46
+  total_ranks: 45
   point_type_code: 'exp'
   ranks:
       -
@@ -190,138 +190,140 @@ app.point.init_user_ranks:
         point: 115640
         name:   鸟大元帅
 
+app.point.event_point_code: 'exp'
 app.point.init_events:
   -
     code: 'evt_login'
-    daily_limit: 1
+    daily_limit: 2
     point: 2
-    note: '登录'
+    name: '登录'
   -
     code: 'evt_upload_avatar'
-    daily_limit: 1
+    daily_limit: 0
     point: 5
-    note: '上传头像'
+    name: '上传头像'
   -
     code: 'evt_profile_ok'
     point: 10
-    note: '完善个人资料'
+    name: '完善个人资料'
+    daily_limit: 0
   -
     code: 'evt_follow'
     daily_limit: 20
     point: 1
-    note: '关注他人'
+    name: '关注他人'
   -
     code: 'evt_by_followed'
     daily_limit: 20
     point: 1
-    note: '被他人关注'
+    name: '被他人关注'
   -
     code: 'evt_home_visited'
     daily_limit: 50
     point: 1
-    note: '主页来访'
+    name: '主页来访'
   -
     code: 'evt_new_post'
     daily_limit: 50
     point: 10
-    note: '发表文章'
+    name: '发表文章'
   -
     code: 'evt_reply'
     point: 2
     daily_limit: 30
-    note: '回复他人文章'
+    name: '回复他人文章'
   -
     code: 'evt_by_reply'
     point: 2
     daily_limit: 30
-    note: '文章被他人回复'
+    name: '文章被他人回复'
   -
     code: 'evt_favorited'
     point: 2
     daily_limit: 30
-    note: '文章被他人收藏'
+    name: '文章被他人收藏'
   -
     code: 'evt_like'
     point: 2
     daily_limit: 30
-    note: '文章被他人点赞'
+    name: '文章被他人点赞'
   -
     code: 'evt_new_comment'
     point: 2
     daily_limit: 30
-    note: '发表点评'
+    name: '发表点评'
   -
     code: 'evt_comment_like'
     point: 1
     daily_limit: 10
-    note: '点评被他人点赞'
+    name: '点评被他人点赞'
   -
     code: 'evt_request_try'
     point: 5
     daily_limit: 0
-    note: '申请试用'
+    name: '申请试用'
   -
     code: 'evt_try_report'
     point: 10
     daily_limit: 0
-    note: '发表产品试用报告'
+    name: '发表产品试用报告'
   -
     code: 'evt_reply_report'
     point: 2
     daily_limit: 30
-    note: '回复他人申请试用报告'
+    name: '回复他人申请试用报告'
   -
     code: 'evt_by_reply_report'
     point: 2
     daily_limit: 30
-    note: '试用报告被他人回复'
+    name: '试用报告被他人回复'
   -
     code: 'evt_new_idea'
     point: 10
     daily_limit: 50
-    note: '提交创意'
+    name: '提交创意'
   -
     code: 'evt_idea_pass'
     point: 20
     daily_limit: 0
-    note: '创意审核通过（进入投票环节）'
+    name: '创意审核通过（进入投票环节）'
   -
     code: 'evt_reply_idea'
     point: 2
     daily_limit: 30
-    note: '回复他人创意'
+    name: '回复他人创意'
   -
     code: 'evt_by_reply_idea'
     point: 2
     daily_limit: 30
-    note: '创意被他人回复'
+    name: '创意被他人回复'
   -
     code: 'evt_vote_idea'
     point: 1
     daily_limit: 10
-    note: '投票他人创意'
+    name: '投票他人创意'
   -
     code: 'evt_by_vote_idea'
     point: 1
     daily_limit: 20
-    note: '创意被他人投票'
+    name: '创意被他人投票'
   -
     code: 'evt_share_content'
     point: 5
     daily_limit: 20
-    note: '分享文章至朋友圈/微博'
+    name: '分享文章至朋友圈/微博'
   -
     code: 'evt_share_goods'
     point: 5
     daily_limit: 20
-    note: '分享文章至朋友圈/微博'
+    name: '分享文章至朋友圈/微博'
   -
     code: 'evt_buy_goods'
     point: 20
     daily_limit: 60
-    note: '购买商品'
+    name: '购买商品'
   -
     code: 'evt_buy_good_comment'
     point: 2
     daily_limit: 0
-    note: '好评+评论'
+    name: '好评+评论'

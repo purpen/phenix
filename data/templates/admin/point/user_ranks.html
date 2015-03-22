@@ -18,18 +18,18 @@
 			<tr>
 				<th>等级ID</th>
 				<th>头衔</th>
-                <th>备注</th>
                 <th>升级条件</th>
 				<th>下一等级</th>
+                <th>备注</th>
 				<th></th>
 			</tr>
             {% for rank in ranks %}
             <tr>
                 <td>{{ rank.rank_id }}</td>
                 <td>{{ rank.title }}</td>
-                <td>{{ rank.note }}</td>
                 <td>{{ rank.point_type }} => {{ rank.point_amount }}</td>
-                <td>{{ rank.next_rank.title }}</td>
+                <td>{{ rank.next_rank_id }}</td>
+                <td>{{ rank.note }}</td>
                 <td></td>
             </tr>
             {% endfor %}
