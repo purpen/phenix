@@ -45,7 +45,7 @@ class DoggyX_Model_Mapper {
     }
 
     public static function remove_model($id,$model_class) {
-        unset(self::$_cache[$model_class][$i]);
+        unset(self::$_cache[$model_class][$id]);
     }
 }
 ?>
