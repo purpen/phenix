@@ -51,4 +51,3 @@ class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
     }
 
 }
-?>

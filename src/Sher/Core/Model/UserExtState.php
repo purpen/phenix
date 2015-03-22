@@ -9,7 +9,7 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     protected $schema = array(
         '_id' => null,
         // 等级状态
-        'current_rank_id' => 2,
+        'rank_id' => 2,
         'next_rank_id' => 3,
         //当前等级积分
         'rank_point' => 0,
@@ -27,6 +27,7 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
         'month_point_limit' => array(),
     );
     protected $joins = array(
+        'user_rank' => array('rank_id'),
     );
     protected $required_fields = array();
     protected $ini_fields = array('rank_id');

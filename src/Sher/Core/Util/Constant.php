@@ -146,6 +146,26 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * @var int
      */
     const ORDER_PUBLISHED = 20;
+
+    /**
+     * 用户积分事件状态 - 新事件
+     *
+     * @var int
+     */
+    const EVENT_STATE_NEW = 1;
+
+    /**
+     * 用户积分事件状态 - 已锁定处理中
+     *
+     * @var int
+     */
+    const EVENT_STATE_LOCK = 10;
+
+    /**
+     * 用户积分事件状态 - 已处理
+     *
+     * @var int
+     */
+    const EVENT_STATE_DONE = 100;
 	
 }
-?>

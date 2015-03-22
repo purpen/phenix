@@ -12,13 +12,17 @@ class Sher_Core_Model_UserEvent extends Sher_Core_Model_Base {
         //是否获得有效积分
         'make_point' => false,
         //记账标记
-        'flag' => false,
+        'state' => Sher_Core_Util_Constant::EVENT_STATE_NEW,
         //事件触发方，默认为系统，若非0则表明是某个用户发起，如赠送
         'sender' => 0,
 //        内部属性，是否由第三方模块出发
         'sys_sender' => null,
 //        其他第三方附加信息
         'extras' => array(),
+        //错误代码
+        'err' => 0,
+        //错误信息
+        'err_msg' => null,
     );
     protected $joins = array(
         'user' => array('user_id' => 'Sher_Core_Model_User'),
