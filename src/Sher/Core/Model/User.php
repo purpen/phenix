@@ -241,8 +241,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
   protected function after_save() {
     //更新用户总数
     if($this->insert_mode){
-      Sher_Core_Util_Tracker::update_user_counter();
-      parent::after_save();
+        Sher_Core_Util_Tracker::update_user_counter();
+        parent::after_save();
+        // 初始化会员扩展状态表记录
+        $model = new Sher_Core_Model_UserExtState();
+        $model->create(array('_id' => $this->data['_id']));
     }
   }
 	
@@ -380,15 +383,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }
 		
 		if(empty($row['mentor'])){
-            if(!empty($row['profile']['job'])){
-                $user_job = $row['profile']['job'];
-            }else{
-                $user_job = '';
-            }
-			$row['mentor_info'] = array('name' => $user_job);
+			$row['mentor_info'] = array('name' => isset($row['profile']['job'])?$row['profile']['job']:'');
 		}else{
 			$row['mentor_info'] = $this->find_mentors($row['mentor']);
 		}
+        $row['ext_state'] = DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_UserExtState');
     }
 	
 	/**

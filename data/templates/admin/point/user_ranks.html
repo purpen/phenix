@@ -1,0 +1,41 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">会员成长等级</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_page_point_ranks }} item" href="{{ app_url_admin }}/point/user_ranks">会员等级表</a>
+        <div class="right menu">
+        </div>
+	</div>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>等级ID</th>
+				<th>头衔</th>
+                <th>升级条件</th>
+				<th>下一等级</th>
+                <th>备注</th>
+				<th></th>
+			</tr>
+            {% for rank in ranks %}
+            <tr>
+                <td>{{ rank.rank_id }}</td>
+                <td>{{ rank.title }}</td>
+                <td>{{ rank.point_type }} => {{ rank.point_amount }}</td>
+                <td>{{ rank.next_rank_id }}</td>
+                <td>{{ rank.note }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+{% endblock %}

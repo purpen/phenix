@@ -1,0 +1,75 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#event-form').form({
+		code: {
+			identifier  : '_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '事件标识代码不能为空'
+				}
+			]
+		},
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">积分配置</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+        <a class="{{ css_setting_type }} item" href="{{ app_url_admin }}/point/settings_type">积分类型</a>
+        <a class="{{ css_setting_event }} item" href="{{ app_url_admin }}/point/settings_event">积分事件</a>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增事件</h4>
+		{% else %}
+		<h4>编辑事件</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/point/ajax_save_point_event" class="ajax-form" method="post" id="event-form">
+			<div class="inline field">
+			  	<label for="name">标示代码/名称：</label>
+                <input type="text" name="_id" value="{{ record._id }}" placeholder="事件标识代码[a-z_]"  />
+                <input type="text" name="name" value="{{ record.name }}" placeholder="事件名称" />
+			</div>
+			<div class="inline field">
+			  	<label for="name">奖励积分：</label>
+				<select name="point_type">
+                    <option value="">无奖励</option>
+                    {% for point_type in points %}
+                    <option value="{{ point_type.code }}" {% if record.point_type == point_type.code %}selected="true"{% endif %} >积分类型:【{{ point_type.name }}】</option>
+                    {% endfor %}
+                </select>
+				<input type="text" name="point_amount" value="{{ record.point_amount }}" placeholder="整数" />
+			</div>
+            <div class="inline field">
+                <label for="name">每日积分上限：</label>
+                <input type="text" name="daily_limit" value="{{ record.daily_limit }}" placeholder="0为无上限" />
+                <label for="name">每月积分上限：</label>
+                <input type="text" name="month_limit" value="{{ record.month_limit }}" placeholder="0为无上限" />
+            </div>
+            <input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}

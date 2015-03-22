@@ -1,0 +1,209 @@
+{%extends 'layout/sns.html'%}
+<<<<<<< HEAD
+{% block title %}我的积分{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .integral .three.wide.column,.thirteen.wide.column{
+        vertical-align: middle !important;
+    }
+    .integral .thirteen.wide.column p{
+        display:inline-block;
+        float:left;
+        margin:0;
+        margin-right: 10px;
+    }
+    .integral .thirteen.wide.column h3.ui.header + p{
+        margin-right:0 ;
+    }
+    .integral .thirteen.wide.column p a{
+        text-decoration: none;
+    }
+    .integral .thirteen.wide.column p a:hover{
+        text-decoration: underline;
+    }
+    .mach.row .ui.progress {
+        background-color: #fff!important;
+        border: 1px solid rgba(0,0,0,.3);
+        height: 18px!important;
+        padding: 0;
+        border-radius:0;
+        overflow: hidden;
+    }
+    .mach.row {
+        padding:0 !important;
+    }
+    .mach.row .wide.column{
+        vertical-align: middle;
+    }
+    .mach.row .ui.progress .bar{
+        border-radius: 0px;
+    }
+    .ui.table th{
+        text-align:center;
+    }
+    .ui.celled.table.segment.column{
+        width:70%;
+        -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+        box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+        border-radius: .3125em;
+    }
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="account profile">
+    <div class="ui responsive grid">
+        <div class="four wide column">
+            {% include "block/user/sub_menu.html" %}
+        </div>
+        <div class="twelve wide column">
+            <h2 class="ui header">我的等级</h2>
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="integral row">
+                        <div class="three wide column">
+                            <img src="{{ visitor.big_avatar_url }}" class="ui big avatar image">
+                        </div>
+                        <div class="thirteen wide column">
+                            <h3 class="ui header">{{user.nickname}}</h3>
+                            <p>鸟列兵，</p>
+                            <p> 我的等级: 3  </p>
+                            <p> 经验值: 300 </p>
+                            <!--<p><a href="">经验纪录</a></p>-->
+                        </div>
+                    </div>
+                    <div class="mach row">
+                        <div class="thirteen wide column">
+                            <div class="ui green progress">
+                                <div class="bar" style="width:88.78%;"></div>
+                            </div>
+                        </div>
+                        <div class='three wide column'>
+                            10/30
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <h4 class="ui header">
+                                等级与经验对照表
+                            </h4>
+
+                            <table class="ui celled four column table center aligned segment">
+                                <thead>
+                                <tr><th>鸟等级</th>
+                                    <th>相对增长经验</th>
+                                    <th>鸟军衔</th>
+                                    <th>备注</th>
+                                </tr></thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td> </td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>30</td>
+                                    <td>鸟平民</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>80</td>
+                                    <td> </td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>150</td>
+                                    <td> </td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>240</td>
+                                    <td>鸟列兵</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>350</td>
+                                    <td> </td>
+                                    <td> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="column">
+                            <h4 class="ui header">
+                                如何提升经验
+                            </h4>
+
+                            <table class="ui celled table center aligned segment">
+                                <thead>
+                                <tr><th>用户行为</th>
+                                    <th>经验来源</th>
+                                    <th>经验累积</th>
+                                    <th>限定</th>
+                                </tr></thead>
+                                <tbody>
+                                <tr>
+                                    <td>登陆</td>
+                                    <td>登陆太火鸟官网</td>
+                                    <td>2</td>
+                                    <td>每天一次</td>
+                                </tr>
+                                <tr>
+                                    <td>上传头像</td>
+                                    <td>首次上传头像获得积分，老用户直接去领</td>
+                                    <td>5</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>完善个人资料</td>
+                                    <td>完善性别、城市、签名信息、收货地址、邮编、手机、姓名，老用户重新提交可领</td>
+                                    <td>10</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>关注</td>
+                                    <td>关注他人</td>
+                                    <td>1</td>
+                                    <td>每天上限20</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>被人关注</td>
+                                    <td>1</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>主页来访</td>
+                                    <td>1</td>
+                                    <td> </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
