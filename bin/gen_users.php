@@ -28,7 +28,7 @@ function batch_create_user(){
   $user = new Sher_Core_Model_User();
   $data = array();
   $init_account = 18800000000;
-  for($i=0;$i<=10;$i++){
+  for($i=0;$i<=500;$i++){
     $account = $init_account + $i;
     $city = '北京';
     $email = (string)$account.'@139.com';
