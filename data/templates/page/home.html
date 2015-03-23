@@ -136,6 +136,8 @@
 		background:#fff;
 		color:#f36;
 	}
+    
+    
 </style>
 {% endblock %}
 
@@ -222,10 +224,8 @@
 	<a href="http://www.taihuoniao.com/birdegg">
 		<div class="ui responsive grid">
 			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
-			
 		</div>
 	</a>
-
 </div>
 
 <div class="header main">
@@ -233,6 +233,7 @@
 		{% include "block/header.html" %}
 	</div>
 </div>
+
 <div id="homepage">
 	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
 		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" />
@@ -240,8 +241,6 @@
 			关注太火鸟
 		</div>
 	</div>
-	
-	
 	
 	<div id="fixedslide" class="frame">
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
@@ -328,7 +327,7 @@
 	</section>
 	
 	<section class="ui small topic white background block">
-		<div class="ui responsive sticktopic grid">
+	    <div class="ui responsive sticktopic grid">
 			<div class="row">
 				<div class="column">
 					<h2 class="block title">
@@ -487,7 +486,7 @@
 								</div>
 							</div>
 						</div>
-				
+			
 						<div class="magenta item">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品
@@ -507,7 +506,7 @@
 								</div>
 							</div>
 						</div>
-				
+			
 						<div class="magenta item">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯

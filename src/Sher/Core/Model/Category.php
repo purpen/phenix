@@ -54,6 +54,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			'id' => 4,
 			'name' => '大赛专区',
 		),
+		array(
+			'id' => 5,
+			'name' => '硬件专区',
+		),
 	);
 	
     protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state');
