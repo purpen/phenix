@@ -660,8 +660,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['target_id'] = (int)$this->stash['target_id'];
 		
 		// 产品话题分类Id
-		$data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_category_id'];
-		
+    if(isset($this->stash['evaluating'])){
+      //产品评测
+  		$data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_evaluating_category_id'];  
+    }else{
+      //产品讨论
+      $data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_category_id'];
+    }
+
 		try{
 			$model = new Sher_Core_Model_Topic();
 			// 新建记录
