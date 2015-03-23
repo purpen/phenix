@@ -253,6 +253,23 @@
 					</div>
 				</div>
 			</div>
+
+			<p><label for="type">按钮颜色：</label></p>
+			<div class="five fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="b_color" value="0" {% if advertise.b_color == 0 %}checked="checked"{% endif %} /> 
+						<label>白</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="b_color" value="1" {% if advertise.b_color == 1 %}checked="checked"{% endif %} /> 
+						<label>黑</label>
+					</div>
+				</div>
+			</div>
+
 			<div class="field">
 			  	<label for="summary">简述：</label>
 				<textarea class="small" name="summary">{{ advertise.summary }}</textarea>
