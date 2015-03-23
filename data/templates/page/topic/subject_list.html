@@ -136,6 +136,9 @@
 							<input type="hidden" name="_id" />
 							<input type="hidden" name="target_id" value="{{ id }}" />
 							<input type="hidden" name="type" value="1" />
+              {% if evaluating %}
+							  <input type="hidden" name="evaluating" value="1" />
+              {%endif%}
 							
 							<div class="field">
 								<input type="text" name="title" class="topic title" />
