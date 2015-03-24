@@ -25,15 +25,9 @@
 {% endblock %}
 <div class="ui horizontal list">
 	<div class="item">
-		<a href="" class="ui  link">我的收藏<small>(1)</small></a>
+    <a href="{{ app_url_action_base }}/my/fan" class="ui link {{css_user_fan}}">我的粉丝<small>({{user.fans_count}})</small></a>
 	</div>
 	<div class="item">
-		<a href="" class="ui  link">我的粉丝</a>
-	</div>
-	<div class="item">
-		<a href="" class="ui  link">我的收藏</a>
-	</div>
-	<div class="item">
-		<a href="" class="ui  link">我的话题</a>
+    <a href="{{ app_url_action_base }}/my/follow" class="ui link {{css_user_follow}}">我的关注<small>({{user.follow_count}})</small></a>
 	</div>
 </div>

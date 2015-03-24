@@ -3,11 +3,93 @@
 
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.center-list{
+		padding: 1em 2%;
+	}
+	.ui.center-list .timestatus {
+	position: relative;
+	}
+	.ui.center-list .ui.items .item{
+		cursor:auto;
+	}
+	.ui.center-list .ui.cards .card {
+		border-top:1px solid rgba(0,0,0,.1) !important;
+	}
+	.ui.center-list .ui.cards .card{
+		margin-left:1%;
+		margin-right:1%;
+	}
+	.ui.center-list .card .image-extra{
+		background-color: rgba(0,0,0,.1);
+		height: 100%;
+		left: 0;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		text-align: center;
+		top: 0;
+		-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
+		transition: opacity .25s ease 0s,background-color .45s ease 0s;
+		width: 100%;
+		z-index: 3;
+	}
+	.ui.center-list .card .image-extra > a{
+		position: absolute;
+		width: 100%;
+	  height: 100%;
+	  top: 0;
+	  left: 0;
+	}
+	.ui.center-list .presell{
+		top:0;
+		bottom:auto;
+	}
+	.ui.center-list .exit{
+		padding: .5em 1.5em;
+		font-size: 14px;
+		background: rgba(0,0,0,.7);
+		position: absolute;
+		bottom: 0;
+		right:0;
+		color: #fff;
+		z-index: 999;
+		-webkit-transform: translateX(200%);
+		-ms-transform: translateX(200%);
+		transform: translateX(100%);
+		-webkit-transition: all 500ms;
+		transition: all 500ms;
+	}
+	.ui.center-list .exit .ui.button{
+		padding:.5em;
+	}
+	.ui.center-list .exit .ui.btn,.ui.center-list .exit .ui.btn:hover{
+		padding: .5em .8em;
+		vertical-align: middle;
+	}
+	.ui.center-list .ui.cards .card:hover .exit{
+		-webkit-transform: translateX(0%);
+		-ms-transform: translateX(0%);
+		transform: translateX(0%);
+	}
+
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+  // 编辑
+  $('.ui.edit.button').bind('click', function(){
+    var id = $(this).data('id');
+    window.open('{{ app_url_stuff }}/edit?id='+id);
+  });
+
+  // 删除
+  $('.ui.remove.button').bind('click', function(){
+    var id = $(this).data('id');
+    if(confirm('确认执行删除操作吗?')){
+      $.post('{{ app_url_stuff }}/ajax_del', {id:id });
+    }
+  });
 	
 {% endblock %}
 
@@ -23,55 +105,18 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							{% follow_list var:'list' page:page user_id:user_id size:20 myfans:0 %}
-							<div class="ui dynamic selection list">
-                {% if list.rows %}
-                  {% for u in list.rows %}
-                    <div class="item">
-                      <a href="{{ u.follow.home_url }}" target="_black">
-                        <img class="ui avatar image" alt="{{ u.follow.home_url }}" src="{{ u.follow.small_avatar_url }}">
-                      </a>
-                      <div class="content">
-                        <a href="{{ app_url_user }}/{{ u.follow._id }}" target="_black" class="ui line header inline">{{ u.follow.nickname }}</a>
-                        <div class="description fsize inline">
-                            
-                        </div>
-                      </div>
-                      <div class="right aligned btn">
-                        {% if u.follow._id != user_id %}
-                        <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ u.follow._id }}&follow_type=2" id="user_{{u.follow._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
-                          取消关注
-                        </a>
-                        {%endif%}
-                      </div>
-                      <!--
-                      {% if u.is_read %}
-                        <div class="new-mark" mark="1"></div>
-                      {%else%}
-                        <div class="new new-mark" mark="">
-                          new
-                        </div>
-                      {%endif%}
-                      -->
-                    
-                    </div>
+							{% stuff_list var:'list' page:page user_id:user_id size:10 %}
+							<div class="ui center-list">
+								<div class="ui two cards">
+									{% for d in list.rows %}
+                    {% include 'block/center/stuff-item.html' %}
                   {%endfor%}
-                {%else%}
-	                <p class="mt-20 text-center">你还没有关注人哦~</p>
-                {%endif%}
-
-								
-								
-							</div>
-
-        {% if list.rows %}
-        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-        {%include 'block/pager.html'%}
-        {% endif %}
-							
-							
-            </div>
+						</div>
 					</div>
+          {% if list.rows %}
+            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+            {%include 'block/pager.html'%}
+          {% endif %}
 				</div>
 			</div>
 		</div>

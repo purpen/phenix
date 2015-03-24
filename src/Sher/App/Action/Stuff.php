@@ -503,6 +503,51 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+
+	/**
+	 * ajax删除产品灵感
+	 */
+	public function ajax_del(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Stuff();
+			$stuff = $model->load((int)$id);
+			
+			// 仅管理员或本人具有删除权限
+			if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
+				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
+			}
+			
+			$model->remove((int)$id);
+			
+			// 删除关联对象
+			$model->mock_after_remove($id);
+			
+			// 从精选列表中删除
+			if ($stuff['featured']){
+				$diglist = new Sher_Core_Model_DigList();
+				$diglist->remove_item(Sher_Core_Util_Constant::FEATURED_STUFF, (int)$id, Sher_Core_Util_Constant::TYPE_STUFF);
+			}
+			
+			// 更新所属分类
+			$category = new Sher_Core_Model_Category();
+			
+			$category->dec_counter('total_count', $stuff['category_id']);
+			$category->dec_counter('total_count', $stuff['fid']);
+			
+			// 更新用户主题数量
+			$this->visitor->dec_counter('stuff_count', $stuff['user_id']);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/del_ok.html');
+	}
 	
 	/**
 	 * 删除某个附件
