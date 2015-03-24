@@ -49,7 +49,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	public function get_signature($arrdata, $client_id){
 		ksort($arrdata);
     $ignore_data = array(
-      'sign', 'tmp', 'api_view'
+      'sign', 'tmp', 'topic_show', 'product_show'
     );
 		
 		$paramstring = '';

@@ -1,9 +1,9 @@
 <?php
 /**
- * 社区帖子
- * @author purpen
+ * api show
+ * @author tianshuai
  */
-class Sher_App_Action_Topic extends Sher_App_Action_Base {
+class Sher_Api_Action_View extends Sher_App_Action_Base {
 	
 	public $stash = array(
 		'id' => 0,
@@ -13,20 +13,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base {
 
 	
 	/**
-	 * 社区
+	 * api show
 	 */
 	public function execute(){
-		return $this->index();
+		//return $this->index();
 	}
 	
-	/**
-	 * 社区首页
-	 */
-	public function index(){
-		return $this->to_html_page('page/topic/index.html');
-	}
-	
-
 	/**
 	 * 显示主题详情帖---手机app content
 	 */
