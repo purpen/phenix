@@ -375,6 +375,31 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		
 		return $this->api_json('操作成功', 0, $result);
 	}
+
+	/**
+	 * app商品描述部分html5展示
+	 */
+	public function api_view(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('访问的产品不存在！', 3000);
+		}
+		
+		$product = array();
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$id);
+
+		if($product['deleted']){
+			return $this->api_json('访问的产品不存在或已被删除！', 3001);
+		}
+
+    //加载model扩展数据
+    $product = $model->extended_model_row($product);
+
+		$this->stash['product'] = &$product;
+		return $this->to_html_page('page/product/api_show.html');
+	}
 	
 	/**
 	 * 计算总数
