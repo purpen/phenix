@@ -107,7 +107,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
-      $data[$i]['content_view_url'] = sprintf('%s/product/api_view?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
+      $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
 		}
 		$result['rows'] = $data;
 		
@@ -137,7 +137,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 
     //转换描述格式
     $product['content'] = null;
-    $product['content_view_url'] = sprintf('%s/product/api_view?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
+    $product['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -374,31 +374,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		}
 		
 		return $this->api_json('操作成功', 0, $result);
-	}
-
-	/**
-	 * app商品描述部分html5展示
-	 */
-	public function api_view(){
-		$id = (int)$this->stash['id'];
-		if(empty($id)){
-			return $this->api_json('访问的产品不存在！', 3000);
-		}
-		
-		$product = array();
-		
-		$model = new Sher_Core_Model_Product();
-		$product = $model->load((int)$id);
-
-		if($product['deleted']){
-			return $this->api_json('访问的产品不存在或已被删除！', 3001);
-		}
-
-    //加载model扩展数据
-    $product = $model->extended_model_row($product);
-
-		$this->stash['product'] = &$product;
-		return $this->to_html_page('page/product/api_show.html');
 	}
 	
 	/**
