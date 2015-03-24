@@ -19,6 +19,9 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		// 专家
 		$mentor = 0;
 		$all_mentors = 0;
+        
+        // 城市
+        $district = '';
 		
         $only_system = 0;
         $only_admin = 0;
@@ -32,10 +35,6 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		$start_time = 0;
 		$end_time = 0;
 		
-		// 婚姻
-		$marital = 0;
-		// 性别
-		$sex = 0;
 		// 用户推荐
 		$last_login = 0;
     	// 是否验证好友关系
@@ -64,13 +63,6 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $query = array();
 		
         $options['sort_field'] = $sort;
-		
-		if ($marital) {
-			$query['marital'] = $marital;
-		}
-		if ($sex) {
-			$query['sex'] = $sex;
-		}
 		
         if ($only_pending) {
             $query['state'] = Sher_Core_Model_User::STATE_PENDING;
@@ -145,7 +137,12 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 				array('nickname' => $search_passport), 
 			);
         }
-		
+        
+        // 所在地域
+        if($district){
+            $query['district'] = (int)$district;
+        }
+        
         $options['page'] = $page;
         $options['size'] = $size;
         if ($user_id) {

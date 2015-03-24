@@ -188,6 +188,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         ),
 		// 所在城市
 		'city' => null,
+        // 所在区域ID
+        'district' => 0,
 		// 性别
 		'sex' => self::SEX_HIDE,
 		// 个人关键词
@@ -211,8 +213,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 
-    # 用户唯一邀请码
-    'invite_code' => null,
+        # 用户唯一邀请码
+        'invite_code' => null,
     );
 	
 	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1);
@@ -232,22 +234,29 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	        $data['tags'] = array_filter(array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags']))));
 	    }
 	    $data['updated_on'] = time();
+        
+        // 检查是否匹配地域
+        if(isset($data['city']) && !empty($data['city'])){
+            $areas = new Sher_Core_Model_Areas();
+            $data['district'] = $areas->match_city($data['city']);
+        }
+        
 	    parent::before_save($data);
 	}
 	
 	/**
 	 * 保存之后事件
 	 */
-  protected function after_save() {
-    //更新用户总数
-    if($this->insert_mode){
-        Sher_Core_Util_Tracker::update_user_counter();
-        parent::after_save();
-        // 初始化会员扩展状态表记录
-        $model = new Sher_Core_Model_UserExtState();
-        $model->create(array('_id' => $this->data['_id']));
+    protected function after_save() {
+        //更新用户总数
+        if($this->insert_mode){
+            Sher_Core_Util_Tracker::update_user_counter();
+            parent::after_save();
+            // 初始化会员扩展状态表记录
+            $model = new Sher_Core_Model_UserExtState();
+            $model->create(array('_id' => $this->data['_id']));
+        }
     }
-  }
 	
 	/**
 	 * 验证用户信息

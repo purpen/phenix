@@ -462,14 +462,22 @@ class Sher_Core_Helper_Util {
 		$string = str_replace('href', '', $string);
 	    return $string;
 	}
+    
+    /**
+     * 删除空格
+     */
+    public static function trimall($str){
+        $qian = array(" ", "　", "\t", "\n", "\r");
+        $hou  = array("", "", "", "", "");
+        return str_replace($qian, $hou, $str);    
+    }
 
-  /**
-   * 生成随机数(MongoId)
-   */
-  public static function generate_mongo_id() {
-    $mongo_object = new MongoId();
-    return (string)$mongo_object;
-  }
-	
+    /**
+     * 生成随机数(MongoId)
+     */
+    public static function generate_mongo_id() {
+        $mongo_object = new MongoId();
+        return (string)$mongo_object;
+    }
+    	
 }
-?>

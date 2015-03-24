@@ -15,17 +15,61 @@
 		background-color: #f1f1f1;
 		padding: 2rem 0 5rem;
 	}
+    .social.people.filter {
+        background-color: #fff;
+        padding: 2rem 0rem;
+    }
+    .social.people.filter {
+        display: none;
+    }
+    .social.people.more {
+        padding: 1rem 0;
+    }
+    .social.people.more .ui.ell.link {
+        display: inline-block;
+        width: 50px;
+        margin: 0 auto;
+    }
+    .social.people.more .ui.ell.link:hover{
+        text-decoration: none;
+    }
+    .social.people.filter .block.title {
+        font-size: 22px;
+    }
+    .social.people.filter .ui.list {
+        margin: 0.5rem 0 1rem;
+    }
+    .social.people.filter .ui.list > .item {
+        margin-bottom: 0.5rem;
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+    .social.people.filter .ui.list > .item > a {
+        border-bottom: 3px solid transparent;
+        font-size: 1rem;
+        padding-bottom: 5px;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    .social.people.filter .ui.list > .item > a:hover {
+        border-color: rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+    }
+    .social.people.filter .ui.list > .item > a.active {
+        border-color: #f36;
+        text-decoration: none;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('.special.cards .image').dimmer({
-	  on: 'hover'
-	});
-	
-	$('#sticktopic .list .item').tab({
-	    context: $('#sticktopic')
-	});
+	$('.ui.ell.link').click(function(){
+        if($('.social.people.filter').hasClass('active')){
+            $('.social.people.filter').removeClass('active').slideUp('slow');
+        }else{
+            $('.social.people.filter').addClass('active').slideDown('slow');
+        }
+    });
 {% endblock %}
 
 
@@ -36,17 +80,62 @@
 			<div class="center aligned column white section-title">
 				<h2 class="block title">资深专家</h2>
 				<p>超过 2000个行业专家在创造未来</p>
-				<hr>
+                <hr>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="social people filter">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+                <div class="container">
+                    <h2 class="block title">从事领域</h2>
+                    <div class="ui horizontal specialty list">
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c=0&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
+                        </div>
+                        {% for m in mentors %}
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c={{ m.id }}&d={{ district }}" class="ui {% if cid == m.id %}active{% endif %} link">{{ m.name }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <h2 class="block title">所在地域</h2>
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c={{ c }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
+                        </div>
+                        {% for d in cities %}
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c={{ c }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="social people more">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+                <a class="ui ell pop link" href="javascript:void(0);" data-content="按条件检索" data-variation="inverted">
+                    <i class="ellipsis vertical icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="social people all">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:all_mentors mentor:cid district:district %}
 				<div class="ui mentors four cards">
 					{% for user in users.rows %}
 				  	<div class="card">
@@ -59,6 +148,13 @@
 				  	</div>
 					{% endfor %}
 				</div>
+                
+				{% if users.total_page > 1 %}
+				<div class="ui pagination grid">
+					{% pager url:pager_url,total_rows:users.total_rows,total_page:users.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+				{% endif %}
 			</div>
 		</div>
 		<div class="row">
