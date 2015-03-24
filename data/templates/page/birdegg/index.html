@@ -843,6 +843,9 @@ background-color: #fff;
 	-webkit-box-shadow: 0 0px 0px #C7C7C7 !important;
 	box-shadow: 0 0px 0px #C7C7C7 !important;
 }
+.ui.eggmenu a.ui.btn, .ui.eggmenu a.ui.btn:hover{
+	width: 30% !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -979,18 +982,21 @@ background-color: #fff;
 <div class="ui eggmenu tabox">
 	<div class="ui responsive grid">
 		<div class="two column middle aligned row">
-			<div class="twelve wide column">
+			<div class="ten wide column">
 				<div class="ui tabs">
 					<a class="tab active smt" href="#topbanner">首页</a>
 					<a class="tab smt" href="#instro">关于蛋年</a>
 					<a class="tab smt" href="#specially">特邀嘉宾</a>
 					<a class="tab smt" href="#process">活动流程</a>
 					<a class="tab smt" href="#stuffs">产品提交</a>
-					<a class="tab smt" href="#partners">合作伙伴</a>
+					<a class="tab smt" href="#partners">联合主办</a>
 					<a class="tab extLink" target="_blank" href="{{ app_url_domain }}">太火鸟</a>
         </div>
       </div>
-			<div class="four wide right aligned column">
+			<div class="six wide right aligned column">
+				<a class="ui magenta extLink btn-4 btn-4c icon-arrow-right btn" href="http://www.huodongxing.com/event/2273122928800" target="_blank">
+          			<span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+        		</a>
 				<a class="ui magenta extLink btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_birdegg }}/zlist" target="_blank">
           			<span>全部作品</span><i class="icon-arrow-right-sharp"></i>
         		</a>
