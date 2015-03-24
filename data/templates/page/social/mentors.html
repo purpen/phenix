@@ -11,54 +11,6 @@
 		color: white;
 		padding: 100px 0 60px;
 	}
-	.social.people.all {
-		background-color: #f1f1f1;
-		padding: 2rem 0 5rem;
-	}
-    .social.people.filter {
-        background-color: #fff;
-        padding: 2rem 0rem;
-    }
-    .social.people.filter {
-        display: none;
-    }
-    .social.people.more {
-        padding: 1rem 0;
-    }
-    .social.people.more .ui.ell.link {
-        display: inline-block;
-        width: 50px;
-        margin: 0 auto;
-    }
-    .social.people.more .ui.ell.link:hover{
-        text-decoration: none;
-    }
-    .social.people.filter .block.title {
-        font-size: 22px;
-    }
-    .social.people.filter .ui.list {
-        margin: 0.5rem 0 1rem;
-    }
-    .social.people.filter .ui.list > .item {
-        margin-bottom: 0.5rem;
-        margin-left: 0;
-        margin-right: 1rem;
-    }
-    .social.people.filter .ui.list > .item > a {
-        border-bottom: 3px solid transparent;
-        font-size: 1rem;
-        padding-bottom: 5px;
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-    .social.people.filter .ui.list > .item > a:hover {
-        border-color: rgba(0, 0, 0, 0.15);
-        text-decoration: none;
-    }
-    .social.people.filter .ui.list > .item > a.active {
-        border-color: #f36;
-        text-decoration: none;
-    }
 </style>
 {% endblock %}
 
@@ -86,7 +38,7 @@
 	</div>
 </div>
 
-<div class="social people filter">
+<div class="social people {{ show_all }} filter">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
@@ -174,8 +126,12 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
 					<div class="active section">行业专家</div>

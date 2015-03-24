@@ -55,6 +55,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
         $district = $this->stash['d'];
         $cid = $this->stash['c'];
         $all_mentors = 1;
+        $show_all = 'showno';
         
         // 获取
         $user = new Sher_Core_Model_User();
@@ -62,6 +63,9 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
         
         if($cid){
             $all_mentors = 0;
+        }
+        if($cid || $district){
+            $show_all = 'showall';
         }
         
         // 获取地域城市
@@ -75,6 +79,9 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
         $this->stash['all_mentors'] = $all_mentors;
         $this->stash['cid'] = $cid;
         $this->stash['cities'] = $cities;
+        
+        $this->stash['show_all'] = $show_all;
+            
         $this->stash['pager_url'] = $pager_url;
         
 		return $this->to_html_page('page/social/mentors.html');
