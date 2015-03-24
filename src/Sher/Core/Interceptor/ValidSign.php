@@ -90,7 +90,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	 * 拒绝匿名用户
 	 */
 	public function deny_anonymous($action){
-		return $action->api_json('用户ID不存在！', 3000);
+		return $action->api_json('用户ID不存在！', 5000);
 	}
 	
 	/**

@@ -187,6 +187,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
+        $data['last_editor_id'] = (int)$this->visitor->id;
 				
 				$ok = $model->apply_and_update($data);
 			}
