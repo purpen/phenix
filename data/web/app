@@ -1,0 +1,10 @@
+<?php
+//deployed on: Fri Mar 20 14:09:08 2015
+define('DOGGY_VERSION','v1.4.2');
+define('DOGGY_APP_ROOT','/opt/project/php/phenix/dev_root');
+define('DOGGY_APP_CLASS_PATH','/opt/project/php/phenix/vendor:/opt/project/php/phenix/src:/opt/project/php/doggy-x/src');
+require '/opt/project/php/doggy/src/Doggy.php';
+@require '/opt/project/php/phenix/dev_root/var/doggy_app.rc';
+@require 'autoload.php';
+Doggy_Dispatcher_Server::run();
+?>

@@ -50,30 +50,40 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
       }else{
         $product->inc_counter('vote_oppose_count', 1, $this->data['target_id']);
       }
-      //获取目标用户ID
-      $data = $product->extend_load($this->data['target_id']);
-      $user_id = $data['user_id'];
 
-      //添加动态提醒
-      $timeline = new Sher_Core_Model_Timeline();
-      if($this->data['ticket'] == self::TICKET_FAVOR){
-        $evt = Sher_Core_Model_Timeline::EVT_VOTE_FAVOR;
-      }elseif($this->data['ticket'] == self::EVENT_PREORDER){
-        $evt = Sher_Core_Model_Timeline::EVT_VOTE_OPPOSE;
+      //如果是投票,添加提醒
+      if($this->data['event']==self::EVENT_VOTE){
+        if($this->data['ticket'] == self::TICKET_FAVOR){
+          $evt = Sher_Core_Model_Remind::EVT_VOTE_FAVOR;
+          $reason = null;     
+        }else{
+          $evt = Sher_Core_Model_Remind::EVT_VOTE_OPPOSE;
+          $reason_hash = $this->oppose_reason($this->data['reason']);
+          $reason = $reason_hash['reason'];
+        }
+        //获取目标用户ID
+        $data = $product->extend_load($this->data['target_id']);
+        $user_id = $data['user_id'];
+
+        //添加提醒
+        $remind = new Sher_Core_Model_Remind();
+        $arr = array(
+          'user_id'=> $user_id,
+          's_user_id'=> $this->data['user_id'],
+          'evt'=> $evt,
+          'content'=> $reason,
+          'kind'=> Sher_Core_Model_Remind::KIND_PRODUCT,
+          'related_id'=> (int)$this->data['target_id'],
+          'parent_related_id'=> (string)$this->data['_id'],
+        );
+        $ok = $remind->apply_and_save($arr);
+        if($ok){
+          $user = new Sher_Core_Model_User();
+          $user->update_counter_byinc($user_id, 'alert_count', 1);     
+        }
+
       }
-      $arr = array(
-        'user_id' => $this->data['user_id'],
-        'target_id' => (string)$this->data['_id'],
-        'type' => Sher_Core_Model_Timeline::TYPE_PRODUCT,
-        'evt' => $evt,
-        'target_user_id' => $user_id,
-      );
-      $ok = $timeline->create($arr);
-      //给用户添加提醒
-      if($ok){
-        $user = new Sher_Core_Model_User();
-        $user->update_counter_byinc($user_id, 'alert_count', 1);     
-      }
+
       unset($product);
     }
 	}
