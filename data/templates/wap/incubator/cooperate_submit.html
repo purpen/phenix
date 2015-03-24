@@ -129,7 +129,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_action_base }}/uploader/check_upload_contact_assets', {'id': '{{ contact._id }}', 'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+			$.get('{{ app_url_wap }}/social/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 	

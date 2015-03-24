@@ -47,7 +47,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 
 		$this->stash['contact'] = $row;
 		
-	    return $this->to_html_page('wap/cooperate/cooperate_submit.html');
+	    return $this->to_html_page('wap/incubator/cooperate_submit.html');
   	}
 	
     /**
