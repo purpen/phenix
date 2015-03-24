@@ -57,6 +57,8 @@ server {
 		rewrite ^/taobao/(\d+).html$ /app/wap/taobao?id=$1 last;
 		rewrite ^/twelve(.*)$ /app/wap/index/twelve$1 last;
 		rewrite ^/comeon[/]?$ /app/wap/index/comeon last;
+		rewrite ^/incubator(.*)$ /app/wap/incubator$1 last;
+		rewrite ^/vc[/]?$ /app/wap/incubator last;
 		rewrite ^(.*)$ /app/wap/index$1 last;
     }
 

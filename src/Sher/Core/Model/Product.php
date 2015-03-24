@@ -217,11 +217,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     	'deleted' => 0,
 		# 随机数
 		'random' => 0,
+    # 最近一次编辑人ID
+    'last_editor_id' => 0,
     );
 	
 	protected $required_fields = array('user_id','title');
 	
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id');
 	
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price');
 	
