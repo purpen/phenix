@@ -617,6 +617,18 @@ img.s7-4, img.s7-g, img.s7-11 {
 	transition-delay: 1.2s;
 	transform: scale(1);
 }
+.s7-login{
+	transition: all .6s;
+	opacity: 0;
+}
+.active .s7-login{
+	transition-delay: 1.8s;
+	opacity: 1;
+}
+
+
+
+
 #music-control {
 	width: 30px;
 	height: 30px;
@@ -780,7 +792,7 @@ a.line:hover{
 			<div class="w-2">
 				<img src="http://frstatic.qiniudn.com/images/egg_zmcw.jpg">
 				<h3 class="ui header">麻长炜</h3>
-				<p>DFF基金 合伙人 <br /> 淘宝十八罗汉之一</p>
+				<p>DFF基金 合伙人 <br /> 阿里巴巴十八罗汉之一</p>
 			</div>
 		</div>
 		<div class="slide">
@@ -899,7 +911,7 @@ a.line:hover{
 			
 		</div>
 		<div class="center aligned column" style="position: absolute;bottom: 80px;text-align: center;width: 100%;z-index:1111;">
-		  <a href="http://www.huodongxing.com/event/2273122928800" class="ui magenta btn-4 btn-4c icon-arrow-right btn" target="_blank" title="立即报名">
+		  <a href="http://www.huodongxing.com/event/2273122928800" class="ui magenta btn-4 btn-4c active btn s7-login" target="_blank" title="立即报名">
 					立即报名
 			</a>
 		</div>
