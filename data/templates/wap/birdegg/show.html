@@ -53,6 +53,7 @@
 		font-size: 20px;
 		text-align: center;
 		line-height: 30px;
+		padding-top: 10px;
 	}
 	.like .icon.heart{
 		color:#f36;
@@ -192,7 +193,7 @@
       {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
       {% if stuff.cover %}
         {% if assets.total_rows==1 %}
-          <div style="text-align:center;margin:0 auto;padding-top:20px;"><img width="360px" src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
+          <div style="text-align:center;margin:0 auto;padding-top:20px;"><img width="100%" src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
         {%else%}
           <div id="demoSlider" style="padding-top:20px;">
 
