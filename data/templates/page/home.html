@@ -354,24 +354,21 @@
 	<section class="ui small block">
 		<div class="ui responsive grid">
 			
-			<!--  推荐位  -->
-			<div class="row groom" style="display:none;">
+			<!--  商品推荐位  -->
+		  {% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
+			<div class="row groom">
 				<div class="column">
 					<div class="ui two items">
+			      {% for ad in adslide2.rows %}
 						<div class="item">
-							<a href="http://www.taihuoniao.com/tracker?kid=101985040" title="快乐妈咪胎语仪" target="_blank">
-					      		<img src="http://frbird.qiniudn.com/asset/150310/54fede1dfc8b12921c8b5b59-1" class="ui image" alt="快乐妈咪胎语仪">
+							<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+					      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}">
 							</a>
 						</div>
-						<div class="item">
-							<a href="http://www.taihuoniao.com/tracker?kid=101985077" title="小米小蚁相机" target="_blank">
-					      		<img src="http://frbird.qiniudn.com/asset/150310/54fee01ffc8b12971c8b5b8a-1" class="ui image" alt="小米小蚁相机">
-							</a>
-						</div>
+            {%endfor%}
 					</div>
 				</div>
 			</div>
-			<!--   -->
 			
 			<div class="row">
 				<div class="column">
