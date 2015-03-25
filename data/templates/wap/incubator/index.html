@@ -4,18 +4,68 @@
 {% block page_css %}
 <style class="text/css">
 	.incubator.masthead{
-		padding:8% 0 7%;
+		padding:0 0 7%;
 		background-repeat:no-repeat;
+	}
+	#mfrbird {
+	  margin: 0 0 3em;
+	}
+	.incubator.masthead {
+	  color: #fff;
+	  padding: 8% 0;
+	  background-color: rgba(56,67,77,.9);
+	  background-image: url(http://frstatic.qiniudn.com/images/incubator/bgbird01.jpg);
+	  background-position: center center;
+	  background-attachment: fixed;
+	  background-size: cover;
+	  background-repeat: no-repeat;
+	}
+	.section-title h2.block.title {
+	  font-size: 22px;
+	  margin: 0;
+	  color: #fff;
+	  padding-top: 12px;
+	  line-height: 32px;
+	  padding-bottom: .5rem;
+	  margin-bottom: .5rem;
+	  font-weight: 800;
+	}
+	.section-title.white hr {
+	  background: none repeat scroll 0 0 #fff;
+	}
+	.section-title hr {
+	  background: none repeat scroll 0 0 #f36;
+	  border: medium none;
+	  height: 2px;
+	  margin: 0 auto;
+	  width: 50px;
 	}
 	p.line{
 		line-height: 21px;
 	}
-	.egg-banner{
-		background-color:rgb(21,12,15);
-		margin:0 auto;
-		text-align: center;
-		position: relative;
+	.incubator.service {
+	  color: #fff;
+	  padding: 2% 0%;
+	  background-color: #d82545;
 	}
+	.incubator.service .ui.items>.item>.wtitle {
+	  border-radius: 500%;
+	  margin-right: 1.5rem;
+	  height: 100px;
+	  width: 100px;
+	}
+	.incubator.service .ui.items>.item {
+	  background: transparent;
+	}
+	.incubator.service .ui.items>.item>.wtitle>a {
+	  display: inline-block;
+	  font-size: 20px;
+	  font-weight: 500;
+	  margin-top: 40px;
+	}
+	
+	
+	
 </style>
 {% endblock %}
 
@@ -84,11 +134,6 @@
 
 {% block content %}
 
-<div class="header main">
-	<div class="ui responsive grid">
-		{% include "block/header.html" %}
-	</div>
-</div>
 <div class="incubator masthead">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
@@ -105,6 +150,8 @@
 	</div>
 </div>
 
+
+
 <div class="incubator service">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
@@ -113,42 +160,42 @@
 			<p>从创意构想到生产面市，太火鸟孵化服务触及产品过程各个阶段</p>
 			<div class="ui four items">
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(400px,150px);background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(400px,150px);background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.design" class="ui line">设计创新</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(158px,150px);background-color:rgba(34,34,34,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(158px,150px);background-color:rgba(34,34,34,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.marketing" class="ui line">营销推广</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(-85px,150px);background-color:rgba(254,172,88,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(-85px,150px);background-color:rgba(254,172,88,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.funds" class="ui line">众筹平台</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(-328px,150px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(-328px,150px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.sales" class="ui line">销售渠道</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(400px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(400px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.supply" class="ui line">供应链</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(158px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(158px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.vc" class="ui line">风投支持</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(-85px,-88px);background-color:rgba(36,57,55,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(-85px,-88px);background-color:rgba(36,57,55,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.media" class="ui line">媒体合作</a>
 					</div>
 				</div>
 				<div class="item">
-					<div class="wtitle" data-500="transform: translate(-328px,-88px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+					<div class="wtitle" data-300="transform: translate(-328px,-88px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-450="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
 						<a href="#.submit" class="ui line">孵化提交</a>
 					</div>
 				</div>
@@ -157,6 +204,12 @@
 	</div>
 </div>
 
+<div style="height:400px">
+	
+</div>
+
+
+<!--
 <div class="incubator cases">
 	<div class="ui responsive grid">
 		<div class="center aligned column section-title">
@@ -203,6 +256,7 @@
 		</div>
 	</div>
 </div>
+
 
 <div class="incubator design">
 	<div class="ui responsive grid">
@@ -549,6 +603,8 @@
 		</div>
 	</div>
 </div>
+
+-->
 {% endblock %}
 {% block layout_footer %}
 	{% include "block/footer.html" %}
