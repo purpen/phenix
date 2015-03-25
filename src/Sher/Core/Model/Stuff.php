@@ -99,7 +99,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','invented_love_count');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
@@ -108,7 +108,16 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	);
 	
 	protected function extra_extend_model_row(&$row) {
-		$row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);
+    if(isset($row['from_to'])){
+      if($row['from_to']==2){
+        $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']); 
+      }else{
+        $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
+      }   
+    }else{
+      $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
+    }
+
 		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
 		$row['fav_tags'] = !empty($row['like_tags']) ? implode(',', $row['like_tags']) : '';
@@ -138,8 +147,6 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 			$this->mock_cover($row);
 			
 		}
-    // 总共赞的数量,真实+虚拟
-    $row['total_love_count'] = $row['love_count'];
 	}
 	
 	/**

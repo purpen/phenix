@@ -738,6 +738,52 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 	
+	/**
+	 * ajax删除主题
+	 */
+	public function ajax_del(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('主题不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			$topic = $model->load((int)$id);
+			
+			// 仅管理员或本人具有删除权限
+			if ($this->visitor->can_admin() || $topic['user_id'] == $this->visitor->id){
+				$model->remove((int)$id);
+				
+				// 删除关联对象
+				$model->mock_after_remove($id);
+				
+				// 从置顶列表中删除
+				if ($topic['top']){
+					$diglist = new Sher_Core_Model_DigList();
+					$diglist->remove_item(Sher_Core_Util_Constant::DIG_TOPIC_TOP, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+				}
+				
+				// 更新所属分类: 主题数、回复数
+				$category = new Sher_Core_Model_Category();
+				
+				$category->dec_counter('total_count', $topic['category_id']);
+				$category->dec_counter('total_count', $topic['fid']);
+				$category->dec_counter('reply_count', $topic['category_id'], false, $topic['comment_count']);
+				$category->dec_counter('reply_count', $topic['fid'], false, $topic['comment_count']);
+				
+				// 更新用户主题数量
+				$this->visitor->dec_counter('topic_count', $topic['user_id']);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+
+		$this->stash['ids'] = array($id);
+		
+		return $this->to_taconite_page('ajax/del_ok.html');
+	}
 	
 	/**
 	 * 删除某个附件
