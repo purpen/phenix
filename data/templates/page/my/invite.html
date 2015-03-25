@@ -102,7 +102,7 @@
   var share_pic = '';
   social_share(share_url, share_title, share_pic);
 	// 生成二维码
-  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/auth/signup?user_invite_code={{ user_invite_code }}'});
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/year_invite?invite_code={{ user_invite_code }}'});
 
   //复制邀请链接
     $('#copyBtn').zclip({
