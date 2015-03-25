@@ -1,0 +1,40 @@
+{% block page_css %}
+<style type="text/css">
+.account .ui.horizontal.list>.item{
+	margin-left: 1.5em;
+	font-size: 1.05rem;
+}
+.account .ui.horizontal.list>.item:first-child {
+	margin-left: 0;
+}
+.account .ui.horizontal.list>.item>a {
+	border-bottom: 2px solid transparent;
+	-webkit-transition: all .3s ease-in-out 0s;
+	transition: all .3s ease-in-out 0s;
+	font-size: 1.05em;
+}
+.account .ui.horizontal.list>.item a:hover{
+	border-bottom: 2px solid #f36;
+	text-decoration: none;
+	padding-bottom:5px;
+}
+.account .ui.horizontal.list>.item>a>small{
+	padding-left:3px;
+}
+</style>
+{% endblock %}
+<div class="ui horizontal list">
+	<div class="item">
+    <a href="{{ app_url_my }}/remind" class="ui link {{css_user_remind}}">我的提醒<small>({{user.counter.alert_count}})</small></a>
+	</div>
+	<div class="item">
+		<a href="{{ app_url_my }}/message" class="ui link {{css_user_message}}">我的私信<small>({{user.counter.message_count}})</small></a>
+	</div>
+	<div class="item">
+		<a href="{{ app_url_my }}/comment" class="ui link {{css_user_comment}}">我的评论</a>
+	</div>
+	<div class="item">
+		<a href="{{ app_url_my }}/notice" class="ui link {{css_user_notice}}">我的通知({{user.counter.notice_count}})</a>
+	</div>
+
+</div>

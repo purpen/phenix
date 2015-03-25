@@ -1,0 +1,162 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的粉丝-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.ui.segment{
+	padding-top:0;
+}
+.ui.fans .ui.header{
+	margin-bottom:0;
+	padding-bottom: 1em;
+	padding-top: 1em;
+}
+.ui.fans .mes-text{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding-bottom: .3em;
+}
+.ui.fans .mes-text .news .report{
+	border-bottom: 0px solid rgba(0,0,0,0.1);
+	padding: 3px 0 10px;
+}
+.mes-text{
+	width:100%;
+	padding-top:1em;
+	position:relative;
+}
+.mes-text a.ui.photo{
+	float: left; 
+	width: 50px; 
+	height: 60px; 
+	margin-right: 10px;
+}
+.mes-text a.ui.photo img{
+	height:50px;
+	width:50px;
+	border-radius: 25px;
+}
+.mes-text .news{
+	padding: 0 0 0 60px; 
+	overflow: visible;
+	font-size: 17px;
+	font-weight: 700;
+	min-height: 60px;
+}
+.mes-text .news .sub_header{
+	font-size: 14px;
+	font-weight: 400;
+	padding-top: 5px;
+	line-height: 20px;
+}
+.mes-text .news .report{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px 0;
+	height: 20px;
+	font-size: 15px;
+	font-weight: 400;
+	color:rgba(0,0,0,0.6);
+}
+.mes-text .news .report .pushtime{
+	float:left;
+}
+.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
+	color:#f36;
+}
+.mes-text .news .report .count{
+	float:right;
+	cursor:pointer;
+	padding-right:5px;
+}
+.mes-text:last-child{
+	border-bottom:0px solid #fff !important;
+}
+.mes-text .fans-btn{
+	float:right;
+	margin: 8px 5px 0 0;
+}
+.mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
+	padding: 0.5em 1.5em;
+	border-radius: 5px;
+	min-width:113px;
+}
+.mes-text .new{
+	color:#f36;
+	position:absolute;
+	top:6px;
+	left:0;
+	font-size:13px;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			{% include "block/center/head_friend_nav.html" %}
+			<h2 class="ui header">我的粉丝</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+					  {% follow_list var:'list' page:page user_id:user_id size:20 myfans:1 set_readed:1 %}
+						<div class="ui white background fans column">
+              {% if list.rows %}
+                {% for f in list.rows %}
+                  <div class="mes-text">
+                    <div class="fans-btn">
+                      {% if f.type==1 %}
+                      <a href="{{ app_url_user }}/ajax_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                        + 关注
+                      </a>
+                      {%else%}
+                      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                        取消关注
+                      </a>
+                      {%endif%}
+                    </div>
+                    <a class="ui photo" href="" target="_black">
+                      <img alt="{{ f.fans.nickname }}" src="{{ f.fans.small_avatar_url }}">
+                    </a>
+                    <div class="news">
+                      <a href="{{ f.fans.home_url }}" target="_black" class="ui link">{{ f.fans.nickname }}</a>
+                      <div class="report">
+                        <div class="pushtime">
+                          粉丝 {{ f.fans.fans_count }}  ｜  话题 {{ f.fans.topic_count }}
+                        </div>
+                      </div>
+                    </div>
+                    {% if !f.readed %}
+                    <div class="new">
+                      new
+                    </div>
+                    {%endif%}
+                  </div>
+                  {%endfor%}
+                {%else%}
+	                <p class="mt-20 text-center">你还没有粉丝哦~</p>
+                {%endif%}
+						
+					</div>
+				</div>
+			</div>
+		</div>
+    {% if list.rows %}
+      {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+      {%include 'block/pager.html'%}
+    {% endif %}
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+
+
