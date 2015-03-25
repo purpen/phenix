@@ -707,11 +707,27 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   }
 
   /**
-   * 我的评论
+   * 我的评论-收到
    */
-  public function comment(){
+  public function recive_comment(){
   	$this->set_target_css_state('user_news');
   	$this->set_target_css_state('user_comment');
+  	$this->set_target_css_state('recive_comment');
+    //清空评论提醒数量
+    if($this->visitor->counter['comment_count']>0){
+      $this->visitor->update_counter($this->visitor->id, 'comment_count');
+    }
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/comment?page=#p#';
+    return $this->to_html_page('page/my/comment.html'); 
+  }
+
+  /**
+   * 我的评论-发出
+   */
+  public function send_comment(){
+  	$this->set_target_css_state('user_news');
+  	$this->set_target_css_state('user_comment');
+  	$this->set_target_css_state('send_comment');
     //清空评论提醒数量
     if($this->visitor->counter['comment_count']>0){
       $this->visitor->update_counter($this->visitor->id, 'comment_count');

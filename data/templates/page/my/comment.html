@@ -92,6 +92,16 @@
 			$this.html(event.strftime('%-D'));
 		});
 	});
+
+  //评论按钮-接收
+  $('.ui.recive-comment.btn').click(function(){
+    phenix.redirect("{{ app_url_my }}/recive_comment");
+  });
+  //评论按钮-发送
+  $('.ui.send-comment.btn').click(function(){
+    phenix.redirect("{{ app_url_my }}/send_comment");
+  });
+
 	
 {% endblock %}
 
@@ -110,39 +120,32 @@
 						<div class="column">
 							
 							<div class="comment-show">
-								<div class="ui magenta active btn">
-								发出的评论
-							</div>
-								<div class="ui magenta btn">
+                <div class="ui magenta recive-comment btn {{ css_recive_comment }}">
 								收到的评论
 							</div>
+								<div class="ui magenta send-comment btn {{ css_send_comment }}">
+								发出的评论
 							</div>
+							</div>
+
+            {% comment_list var:'list' page:page size:20 sort:1 user_id:user_id %}
+
+            {% for d in list.rows %}
 						
 							<div class="mes-text">
 								<a class="ui photo">
-	                <img alt="{{ message.f_user.nickname }}" src="{{ app_url_packaged }}/images/avatar_default_big.jpg">
+	                <img alt="{{ d.user.nickname }}" src="{{ d.user.small_avatar_url }}">
 	              </a>
 	              <div class="news">
 	               评论
 	                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">话题</a>
-	              		<small>1天前</small>
+	              		<small></small>
 
 	              	<div class="sub_header"> 12331:  12312321&nbsp;&nbsp;&nbsp;&nbsp;</div>
 								 </div>  
 							</div>
-							
-							<div class="mes-text">
-								<a class="ui photo">
-	                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
-	              </a>
-	              <div class="news">
-	               评论
-	                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">话题</a>
-	              	<small>1月前</small>
 
-	              	<div class="sub_header"> 12331:  12312321&nbsp;&nbsp;&nbsp;&nbsp;</div>
-								 </div>  
-							</div>
+              {%endfor%}
 							
 							
 							

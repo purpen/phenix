@@ -72,7 +72,7 @@
 </style>
 {% endblock %}
 
-<div class="ui card" id="item-{{d.product._id}}">
+<div class="ui card" id="item-{{d._id}}">
     <div class="image">
       {% if d.product.cover %}
         <img src="{{ d.product.cover.thumbnails.md.view_url }}" alt="{{ d.product.title }}">
@@ -97,14 +97,14 @@
       <div class="exit">
 
         {% if box_type=='fav' %}
-        <div class="ui magenta btn-4 btn-4c pop btn" data-content="收藏一下" data-variation="inverted" data-id="1120700428" data-mark="n">
+        <div class="ui magenta btn-4 btn-4c pop btn favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
                       取消收藏
         </div>
         {%endif%}
 
         {% if box_type=='love' %}
-        <div class="ui magenta btn-4 btn-4c pop btn" data-content="收藏一下" data-variation="inverted" data-id="1120700428" data-mark="n">
-                      取消收藏
+        <div class="ui magenta btn-4 btn-4c pop btn" data-content="取消赞" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                      取消赞
         </div>
         {%endif%}
         
@@ -122,7 +122,7 @@
           <a class="right floated created">
             <!--<small><i class="unhide icon"></i>18</small>-->
             <small><i class="unhide icon"></i>{{ d.product.view_count }}</small>
-            <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.love_count }}</span></small>
+            <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.product.love_count }}</span></small>
     </a>
     <a href="{{ d.product.user.home_url }}" class="ui icon link" target="_blank">
       <img src="{{ d.product.user.small_avatar_url }}" alt="{{ d.product.user.nickname }}" class="ui avatar image"> <small>{{ d.product.user.nickname }}</small>

@@ -42,6 +42,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
   const KIND_MESSAGE = 4; //私信
   const KIND_FOLLOW = 5;  //关注
   const KIND_TRY = 6;  //产品试用
+  const KIND_STUFF = 7; //产品灵感
 
   protected $schema = array(
     //收到提醒的人
@@ -73,13 +74,14 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	/**
 	 * 创建之前，更新用户count
 	 */
-  protected function after_insert() {
+  protected function after_save() {
     $user_id = $this->data['user_id'];
     $kind = $this->data['kind'];
-    
-    //更新用户提醒数
-		$user = new Sher_Core_Model_User();
-    $user->update_counter_byinc($user_id, 'alert_count', 1);
+    //如果是新的记录//更新用户提醒数
+    if($this->insert_mode) {
+      $user = new Sher_Core_Model_User();
+      $user->update_counter_byinc($user_id, 'alert_count', 1);
+    }
   }
 	
 	/**

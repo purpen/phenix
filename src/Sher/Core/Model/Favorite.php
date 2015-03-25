@@ -55,6 +55,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
             case self::TYPE_TOPIC:
                 $row['topic'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Topic');
                 break;
+            case self::TYPE_COMMENT:
+                //$row['comment'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Comment');
+                break;
 			case self::TYPE_STUFF:
 				$row['stuff'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Stuff');
 				break;
@@ -101,7 +104,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
           //获取目标用户ID
           $stuff = $model->extend_load((int)$this->data['target_id']);
           $user_id = $stuff['user_id'];
-          $kind = Sher_Core_Model_Remind::KIND_Stuff;
+          $kind = Sher_Core_Model_Remind::KIND_STUFF;
           break;
         default:
           return;
@@ -126,14 +129,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         's_user_id'=> $this->data['user_id'],
         'evt'=> $evt,
         'kind'=> $kind,
-        'related_id'=> (int)$this->data['target_id'],
+        'related_id'=> $this->data['target_id'],
         'parent_related_id'=> (string)$this->data['_id'],
       );
-      $ok = $remind->apply_and_save($arr);
-      if($ok){
-        $user = new Sher_Core_Model_User();
-        $user->update_counter_byinc($user_id, 'alert_count', 1);     
-      }
+      $ok = $remind->create($arr);
     }
   }
 	

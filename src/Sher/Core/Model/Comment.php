@@ -95,11 +95,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'related_id'=> (int)$this->data['target_id'],
         'parent_related_id'=> (string)$this->data['_id'],
       );
-      $ok = $remind->apply_and_save($arr);
-      if($ok){
-        $user = new Sher_Core_Model_User();
-        $user->update_counter_byinc($user_id, 'alert_count', 1);     
-      }
+      $ok = $remind->create($arr);
+
     }
   }
 	
