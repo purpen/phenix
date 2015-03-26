@@ -1,0 +1,239 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第二季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.start{
+		background:url({{ app_url_packaged }}/images/match_1.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:25% 0;
+	}
+	.ui.nav {
+		border-top: 1px solid #e4e5e7;
+		border-bottom: 1px solid #e4e5e7;
+		background:#000;
+	}
+	.ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	
+	.ui.big.block{
+		padding:4rem 0 4rem;
+	}
+	p{
+		line-height:1.4em;
+	}
+	h3.ui.header{
+		margin: 2em 0 1.2rem;
+	}
+	.ui.five.items .item .image img{
+		width:75%;
+		margin:0 auto;
+	}
+	.ui.five.items>.item{
+		margin-bottom:0;
+		cursor:auto;
+	}
+	.ptop {
+		padding-top: 25px;
+	}
+	.ora img,h4+img{
+		border:1px solid #ccc;
+		margin-right: 14px;
+		margin-bottom: 7px;
+	}
+	p.last{
+		font-size: 17px;
+		margin: .3em 0;
+	}
+	.right.nav{
+		width: 80px;
+		position: fixed;
+		top: 20%;
+		right:5%;
+		z-index: 9999;
+	}
+	.right.nav .ui.items .item:first-child{
+		margin-bottom:1rem;
+	}
+	.right.nav .ui.items .item{
+		background:rgba(0,0,0,0);
+		cursor:auto;
+		text-align:center;
+		margin-bottom: .5rem;
+	}
+	.right.nav .ui.items .ui.button{
+		border-radius:0 !important;
+		background-color:#f36 !important;
+		color:#fff !important;
+		border:1px solid rgba(0,0,0,0);
+	}
+	.right.nav{
+		transition-timing-function: ease-out;
+		-moz-transition-timing-function: ease-out;
+		-webkit-transition-timing-function: ease-out;
+		-o-transition-timing-function: ease-out;
+		transition-duration: .3s;
+		-moz-transition-duration: .3s;
+		-webkit-transition-duration: .3s;
+		-o-transition-duration: .3s;
+	}
+	.ui.coope h3{
+		margin-top:0;
+	}
+	.ui.coope h3+p{
+		line-height: 22px;
+	}
+	@media only screen and (max-width: 960px){
+		.ui.coope .four.column{
+			margin-top:0 !important;
+		}
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
+
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	/*
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/match/match_1.jpg';
+	phenix.bind_share_list(pic_url);
+  */
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/dream2'});
+
+{% endblock %}
+{% block content %}
+<section class="start">
+	<!--<img src="{{ app_url_packaged }}/images/match_1.jpg" width="100%" height="100%" draggable="false">-->
+</section>
+<section class="ui nav responsive grid">
+	<div class="middle aligned row">
+		<div class="twelve wide column">
+			<div class="ui magenta horizontal divided list">
+				<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+        <a href="{{ app_url_contest }}/dream2/about2" class="ui link item">活动介绍</a>
+        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+				<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+				<a href="{{ app_url_contest }}/dream2#coop" class="ui link item active">合作资源</a>
+			</div>
+		</div>
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+				提交作品
+				<i class="icon-arrow-right-sharp"></i>
+			</a>
+		</div>
+	</div>
+</section>
+	
+<div class="ui big coope white background block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/match_0016.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>清华大学美术学院服务设计研究所</h3>
+				<p>清华美院服务设计研究所作为具有国际影响力的创新平台，研究所的三个模块包括：智慧城市研究（设计北京实验室、Living Lab创意社区平台）探究国际化的人本城市与服务设计解决方案，构建政产学研商协同的伙伴社区。设计创新孵化（设计合伙人、Designow设计力创新）提供创新模式的设计服务，构建设计生态圈。创客教育平台（清华创客空间、青橙创客教育） 通过创客课程、比赛、工作坊与项目孵化，将设计与科技互融的创意变为现实。</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/match_17.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>广州美院太火鸟联合孵化实验室</h3>
+				<p>太火鸟与广州美术学院工业设计学院整合双方优势资源，共同组织华南地区的创意产业孵化平台。并在该平台之上定期组织相关的产品创意概念演示、评审、推介等的服务。为华南地区的创意创业人士提供新产品体验、创意信息交流的场地。</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/coop_zgmy.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>文创设计制造业协同创新中心</h3>
+				<p>由中国美术学院作为牵头单位，联合香港科技大学、清华大学、北京大学和杭州市人民政府共同组成。以浙江省委宣传部、浙江省经信委、赛伯乐文化创意基金等单位作为重要支持单位。该中心是落实胡锦涛总书记清华大学百年校庆重要讲话精神，落实教育部、财政部共同制定的《2011高等学校创新能力提升计划方案》精神的重要举措，也是中国美术学院机制体制改革的重要试验田。文创设计制造业协同创新中心将以校校协同、校地协同，提升高校创新能力，面向国家产业升级转型急需，将文化创意与制造业深度结合，以浙江制造业大省为典型案例，探索一种立足杭州、辐射浙江、影响全国的文化创意引领制造业转型升级的“杭州模式”，促进中国制造转为中国创造，提升国家文化软实力，为国人和世界提供中华文化价值。
+				</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/coop_zjdx.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>浙江大学工业设计系</h3>
+				<p>于1990年在校长路甬祥院士与潘云鹤院士的提议与领导下创建。在学科建设上，工业设计系始终面向国际、面向区域和面向行业，多学科交叉整合，形成了“设计学知识体系+工学知识体系+人文艺术知识体系”的教学知识体系，培养学生的两个“系统能力”，即：“创新思维与工作方法的系统能力”、“具有市场前景的创新设计与设计策划的系统能力”，从被动的接受型设计人才培养，转变为主动的领导型设计人才培养。学生获国家实用新型专利500多件，正在申请受理的150多项；SRTP科研立项达到100％，其中国家SRTP立项5项。2007年，浙江大学工业设计专业被评为全国第一类特色专业，《计算机辅助工业设计》获得国家精品课程。2008年，工业设计专业被评为浙江省教育厅创新实验区；《整合与创新设计》获得国家精品课程。2009年加入国际艺术、设计与媒体学院联盟（Cumulus）。
+				</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/coop_tjdx.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>同济大学设计创意学院</h3>
+				<p>由同济大学艺术设计系发展而来。同济大学艺术设计系设于同济大学建筑与城市规划学院，1986年开始本科招生，1993年正式成立工业设计系，2000年增设艺术设计专业，同年正式更名为艺术设计系。同济大学设计创意学院下设工业设计和艺术设计两个专业。工业设计专业授予工学学士学位；艺术设计专业分环境艺术设计、视觉传达设计、数字媒体设计三个方向，授予文学学士学位。1993年开始招收建筑设计与理论专业工业设计方向硕士研究生，2001年设立设计艺术学硕士点，2002年开始招收建筑历史与理论专业设计艺术学方向博士研究生。艺术设计系的各专业方向之间，以及同建筑学、城市规划、景观学系之间，在学院的平台上实现资源共享，充分交叉。
+				</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/coop_szgy.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>苏州工艺美术职业技术学院</h3>
+				<p>有着悠久的艺术教育传统，学院是在原“苏州工艺美术学校”、“苏州轻工职工大学”的基础上组建而成。“苏州工艺美术学校”的前身为1958年8月创办的“苏州工艺美术专科学校”，其历史渊源则可上溯至著名油画家、美术教育家颜文梁先生创办的“苏州美术学校”（1922年）和“苏州美术专科学校”学院凭借悠远的工艺美术教育传统，醇厚的吴中地理文化，现代化的教学设施和雄厚的办学实力，形成了传统工艺美术设计与现代艺术设计并重的办学模式。
+				</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/coop_jndx.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>江南大学设计学院</h3>
+				<p>原为无锡轻工大学设计学院，始建于1960年。为中国现代设计教育办学历史最悠久的学院和全国最早成立设计艺术学科的高校之一，是中国现代设计教育的主要发源地、中国设计教育改革的先导和示范学院。1960年轻工业部在无锡轻工业学院（1995年更名为无锡轻工大学）创建中国第一个工业设计类专业“轻工日用品造型美术设计专业”，1983年扩建为工业设计系，1995年更名为设计学院。江南大学设计学院的发展历史，书写了许多“中国第一，有中国设计界的“黄埔军校”之誉。江南大学4个学科进入第三轮全国学科评估前五名，其中食品科学与工程蝉联第一，轻工技术与工程排名第二，设计学并列第四。
+				</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/coop_bjdx.jpg" width="100%">
+			</div>
+			<div class="ui twelve wide column">
+				<h3>北京理工大学设计与艺术学院</h3>
+				<p>前身为1984年成立的工业设计系，是国内高等院校最早设置工业设计学科的单位之一。历经二十几年的实践与探索，逐步在国内设计教育领域确立了领先地位，成为教育部工业设计教学指导委员会委员单位。为顺应国内高度发展的社会经济对多领域、多样化设计人才的需求，自2000年起学院相继成立了视觉传达设计系、环境艺术设计系、文化遗产系、装饰绘画系和传统工艺美术系，2002年正式建立学院，逐步形成了依托理工，设计与艺术相结合的综合性专业发展格局。2009年更名为设计与艺术学院。
+				</p>
+			</div>
+		</div>
+	
+	
+	</div>
+</div>
+
+
+{% endblock %}
