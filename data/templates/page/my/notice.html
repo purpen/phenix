@@ -1,0 +1,47 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的通知-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			{% include "block/center/head_notice_nav.html" %}
+			<h2 class="ui header">我的通知</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+
+							<div class="ui dynamic selection list">
+
+	                <p class="mt-20 text-center">未上线~</p>
+
+
+								
+								
+							</div>
+
+							
+							
+            </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+

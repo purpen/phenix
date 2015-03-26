@@ -108,6 +108,7 @@ app.dt.extension_lib.sher_app:
     'gift_list':'Sher_Core_ViewTag_GiftList'
     'invite_record_list':'Sher_Core_ViewTag_InviteRecordList'
     'subject_record_list':'Sher_Core_ViewTag_SubjectRecordList'
+    'remind_list':'Sher_Core_ViewTag_RemindList'
     'pager':'Sher_App_ViewTag_Pager'
 
   filters: []

@@ -19,7 +19,6 @@
     <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
-
 			body {
 			    background: #f7f7f7;
 			    color: #5d6266;
@@ -173,6 +172,27 @@
     		{% block jquery %}{% endblock %}
 		});
 		//-->
+
+    //用户提醒
+    $(function(){
+      //登录行为
+      if(phenix.visitor.is_login){
+        var user_id = phenix.visitor.id;
+        $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
+        //定时提示,每次5分钟,最多12次
+        var limit_notice_times=0;
+        setInterval(function(){
+            if(limit_notice_times>=12){
+                return
+            }else{
+                //get默认是异步请求async为true
+                $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
+            }
+            limit_notice_times+=1;
+        },1000*60*1);
+
+      }
+    });
 		</script>
 		
 		{% if css_use_bundle %}

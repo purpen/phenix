@@ -22,6 +22,10 @@
 .ui.modal>.container{
 	background:rgba(25,25,25,1) !important;
 }
+.account.profile .four.wide.column,.account.profile .twelve.wide.column{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -146,10 +150,11 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="four wide column">
-				{% include "block/user/sub_menu.html" %}
+				{% include "block/user/sub_menu_center.html" %}
 			</div>
 			<div class="twelve wide column">
-				<h2 class="ui header">设置个人资料</h2>
+			  {% include "block/center/head_setting_nav.html" %}
+				<h2 class="ui header">个人资料</h2>
 				<div class="ui segment">
 					<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
 						<input name="_id" type="hidden" value="{{ user_id }}" />

@@ -38,9 +38,10 @@
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
-			{% include "block/user/sub_menu.html" %}
+			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
+			{% include "block/center/head_setting_nav.html" %}
 			<h2 class="ui header">账户设置</h2>
 			<div class="ui segment">
 				<form action="{{app_url_action_base}}/my/save_account" method="post" class="ui fluid form" id="profile-form">

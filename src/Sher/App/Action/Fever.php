@@ -742,6 +742,43 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+
+	/**
+	 * ajax删除主题
+	 */
+	public function ajax_del(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('创意不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$product = $model->load((int)$id);
+			
+			// 仅管理员或本人具有删除权限
+			if ($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id){
+        //如果是通过审核状态禁止用户修改
+        if($product['user_id']==$this->visitor->id && !empty($product['published'])){
+          return $this->ajax_notification('您的创意产品已经进入投票阶段，如要修改，请联系管理员！', true); 
+        }
+				$model->remove((int)$id);
+				
+				// 删除关联对象
+				$model->mock_after_remove($id);
+				
+				// 更新用户主题数量
+				$this->visitor->dec_counter('product_count', $product['user_id']);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+
+		$this->stash['ids'] = array($id);
+		
+		return $this->to_taconite_page('ajax/del_ok.html');
+	}
 	
 	/**
 	 * 删除某个附件
