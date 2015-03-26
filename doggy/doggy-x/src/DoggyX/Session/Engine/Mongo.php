@@ -56,6 +56,7 @@ class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements Dog
         $this->reset();
         $data['_id'] = $sid;
         $data['created_on'] = $data['alive'] = time();
+        $data['serial_no'] = $this->build_sequence_no();
         $this->create($data);
         $this->opened = true;
         Doggy_Log_Helper::debug("New session $sid is open");
@@ -105,5 +106,18 @@ class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements Dog
         }
         return $key;
     }
+    
+	/**
+	 * 生成一个排序数字
+	 */
+	public function build_sequence_no() {
+		$col_name = 'serialno';
+		
+		$val = $this->next_seq_id($col_name);
+		
+		Doggy_Log_Helper::debug("Gen to sequence no [$val]");
+		
+		return (int)$val;
+	}
 }
 ?>

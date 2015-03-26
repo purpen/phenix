@@ -11,8 +11,28 @@ class DoggyX_Mongo_Db {
 
     public function __construct($options=array()) {
         $host = isset($options['host'])?$options['host']:'mongodb://127.0.0.1';
-        unset($options['host']);
-        $mongo = new MongoClient($host, $options);
+        //unset($options['host']);
+        
+		$mos = array();
+		// 集群
+		if (isset($options['replicaSet'])){
+			$mos['replicaSet'] = $options['replicaSet'];
+		}
+		// 读写分离
+		if (isset($options['readPreference'])){
+			$mos['readPreference'] = $options['readPreference'];
+		}
+		// 设置权限
+		if (isset($options['username'])){
+			$mos['username'] = $options['username'];
+		}
+		if (isset($options['password'])){
+			$mos['password'] = $options['password'];
+		}
+        
+        // 建立连接
+        $mongo = new MongoClient($host, $mos);
+        
         if (isset($options['slaveOk'])) {
             $mongo->setSlaveOkay($options['slaveOk']);
         }
@@ -197,14 +217,15 @@ class DoggyX_Mongo_Db {
      *
      * @param string $collection
      * @param mixed $id
+     * @param array $fields
      * @return array
      **/
-    public function first($collection, $id) {
+    public function first($collection, $id, array $fields = array()) {
         $col = $this->db->selectCollection($collection);
         if (!is_array($id)) {
             $id = array('_id' => self::id($id));
         }
-        return $col->findOne($id);
+        return $col->findOne($id, $fields);
     }
 
     /**
@@ -364,7 +385,7 @@ class DoggyX_Mongo_Db {
         if (!is_array($criteria)) {
             $criteria = array('_id' => self::id($criteria));
         }
-        return $col->remove($criteria, array('justOne' => $just_one,'safe' => $safe));
+        return $col->remove($criteria, array('justOne' => $just_one,'w' => $safe));
     }
 
     /**
