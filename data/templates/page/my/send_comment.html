@@ -169,7 +169,7 @@
                   </a>
                   <div class="news content">
                     我评论了 <a href="{{ d.target.user.home_url }}">{{ d.target.user.nickname }}</a> 的 <span>{{ d.type_str }}</span> 
-                    <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
+                    <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title|truncate 45 }}</a>
                       <div class="date"><small>{{ d.created_on }}</small></div>
 
                       <div class="sub_header text"> {{ d.content }}</div>
