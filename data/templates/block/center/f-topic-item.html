@@ -107,7 +107,7 @@
       <a href="{{ d.topic.view_url }}" title="{{ d.topic.title }}" class="ui line" target="_blank">{{ d.topic.title|truncate 26 '' }}</a>
     </div>
           <div class="description">
-          {{ d.topic.description|truncate 60 '' }}
+          {{ d.topic.strip_description|truncate 60 '' }}
           </div>
     </div>
     <div class="extra">
