@@ -105,6 +105,7 @@
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
+					<div class="column">
 					  {% follow_list var:'list' page:page user_id:user_id size:20 myfans:1 set_readed:1 %}
 						<div class="ui white background fans column">
               {% if list.rows %}
@@ -143,13 +144,19 @@
 	                <p class="mt-20 text-center">你还没有粉丝哦~</p>
                 {%endif%}
 						
+						
+					
+				</div>
+				{% if list.rows %}
+					<div class="ui pagination">
+		            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		            {%include 'block/pager.html'%}
+					</div>
+		          {% endif %}
+					</div>
 					</div>
 				</div>
 			</div>
-      {% if list.rows %}
-        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-        {%include 'block/pager.html'%}
-      {% endif %}
 		</div>
 	</div>
 </div>
