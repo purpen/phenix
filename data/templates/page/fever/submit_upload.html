@@ -2,7 +2,7 @@
 {% block title %}提交创意-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-	
+
 </style>
 {% endblock %}
 
@@ -114,65 +114,65 @@
 				</div>
 				
 				<div class="fever content">
-					<form action="{{ app_url_fever }}/save" class="ui form" method="post" id="product-upload-form">
-						<div class="ui segment">
-							<input type="hidden" name="step" value="3" />
-							<input type="hidden" name="_id" value="{{ product._id }}" />
-							<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
-							
-							<div class="field">
-								<label>上传图片</label>
-								<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
-							  	<div id="phenix-uploader"></div>
+					<form action="{{ app_url_fever }}/save" class="ui form segment" method="post" id="product-upload-form">
+						<input type="hidden" name="step" value="3" />
+						<input type="hidden" name="_id" value="{{ product._id }}" />
+						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						
-								<div id="asset-list" class="ui four items">
-									{% if mode == 'edit' %}
-										{% asset_list var:'assets' parent_id:product._id size:20 asset_type:10 %}
-										{% for asset in assets.rows %}
-										<div class="thumb item" id="{{ asset._id }}">
-											<div class="image">
-												<img src="{{ asset.thumbnails.small.view_url }}" />
-												<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-											</div>
-											<div class="buttons">
-												<div class="ui large links">
-													<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-														<i class="remove icon"></i>
-													</a>
-													
-													<a href="javascript:void(0);" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
-														<i class="checkered flag icon"></i>
-													</a>
-												</div>
+						<div class="field">
+							<label>上传图片</label>
+							<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
+						  	<div id="phenix-uploader"></div>
+					
+							<div id="asset-list" class="ui four items">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:product._id size:20 asset_type:10 %}
+									{% for asset in assets.rows %}
+									<div class="thumb item" id="{{ asset._id }}">
+										<div class="image">
+											<img src="{{ asset.thumbnails.small.view_url }}" />
+											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+										</div>
+										<div class="buttons">
+											<div class="ui large links">
+												<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+													<i class="remove icon"></i>
+												</a>
+												
+												<a href="javascript:void(0);" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+													<i class="checkered flag icon"></i>
+												</a>
 											</div>
 										</div>
-										{% endfor %}
-									{% endif %}
-								</div>
-							</div>
-							<div class="field">
-								<label>视频链接</label>
-								{% if product.video %}
-									{% for video in product.video %}
-								  	<input type="text" name="video[]" placeholder="http://" value="{{ video }}" />
+									</div>
 									{% endfor %}
-								{% else %}
-									<input type="text" name="video[]" placeholder="http://" />
 								{% endif %}
 							</div>
 						</div>
+						<div class="field">
+							<label>视频链接</label>
+							{% if product.video %}
+								{% for video in product.video %}
+							  	<input type="text" name="video[]" placeholder="http://" value="{{ video }}" />
+								{% endfor %}
+							{% else %}
+								<input type="text" name="video[]" placeholder="http://" />
+							{% endif %}
+						</div>
 						
-						<div class="ui two column grid">
-							<div class="column">
-								<a class="ui black btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_fever }}/submit?step=2&id={{ product._id }}">
-									上一步
-								</a>
-							</div>
-							<div class="right aligned column">
-								<div class="ui magenta btn-4 btn-4c icon-arrow-right submit btn">
-									完成
-								</div>
-							</div>
+						<div class="ui grid">
+                            <div class="two column row">
+    							<div class="column">
+    								<a class="ui black inverted button" href="{{ app_url_fever }}/submit?step=2&id={{ product._id }}">
+    									<i class="chevron circle left icon"></i> 上一步
+    								</a>
+    							</div>
+    							<div class="right aligned column">
+    								<div class="ui magenta inverted submit button">
+    									 确认提交
+    								</div>
+    							</div>
+                            </div>
 						</div>
 						
 					</form>

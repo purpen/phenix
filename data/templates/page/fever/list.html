@@ -4,10 +4,37 @@
 <style type="text/css">
 	.ui.tophead {
 	    background: url("{{ app_url_packaged }}/images/bg-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+        height: auto;
 	}
-	.masthead .introduction {
-	    padding: 2.5em 0;
+	.masthead .introduction,
+    .masthead .actions {
+	    padding: 100px 0 30px;
 	}
+    .masthead .introduction hr {
+        background: none repeat scroll 0 0 #fff;
+        border: medium none;
+        display: inline-block;
+        height: 2px;
+        width: 130px;
+    }
+    .masthead .children {
+        margin-bottom: 60px;
+    }
+    .stast {
+        margin-bottom: 1rem;
+    }
+    .stast .space {
+        font-size: 0.875rem;
+        margin: 0 0.5rem;
+    }
+    .ui.horizontal.sortby.list {
+        margin-left: 1.5rem;
+    }
+    #votelist {
+        margin: 0;
+        padding: 1.5rem 0 2rem;
+        background-color: #f1f1f1;
+    }
 	.ui.vstatus.horizontal.list > .item {
 		line-height: 1.8rem;
 	}
@@ -24,29 +51,79 @@
 {% endblock %}
 
 {% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="ui tophead">
 	<div class="masthead">
 		<div class="masthead-cover transparent">
 			<div class="ui responsive grid">
 				<div class="row">
-					<div class="twelve wide column">
+					<div class="twelve wide column white section-title">
 						<div class="introduction">
-							<h2 class="ui header">
-							  	<div class="content">
-							    	为什么创意投票这么重要？
-							    	<div class="sub header">事实告诉我们，能够真正服务于生活的创意才是我们要寻找的好设计。为此我们建立了一个投票环节，在这里，你所喜欢、支持的创意都有可能制作成产品并成功上市。一个好创意诞生很不容易，希望你们成为优秀的评审团。</div>
-							  	</div>
-							</h2>
-							<div class="actions">
-								<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-									提交创意
-								</a>
-								<a href="{{ app_url_helper }}" class="ui white btn-4 btn-4c icon-arrow-right btn">
-									查看帮助
-								</a>
-							</div>
+                			<h2 class="block title">为什么创意投票这么重要？</h2>
+                			<p>事实告诉我们，能够真正服务于生活的创意才是我们要寻找的好设计。为此我们建立了一个投票环节，在这里，你所喜欢、支持的创意都有可能制作成产品并成功上市。一个好创意诞生很不容易，希望你们成为优秀的评审团。</p>
+                            <hr>
+							
 						</div>
 					</div>
+                    <div class="right aligned four wide column">
+						<div class="actions">
+            				<div class="stast">
+            					<div class="ui horizontal bulleted list">
+            						<span class="item">总数</span>
+            						<span class="item">
+                                        {{ counter.items.total_count|default 0 }}
+            						</span>
+            					</div>
+            					<span class="space"> / </span>
+            					<div class="ui horizontal bulleted list">
+            						<span class="item">投票中</span>
+            						<span class="item">
+                                        {{ counter.items.feature_count|default 0 }}
+            						</span>
+            					</div>
+            				</div>
+							<a href="{{ app_url_fever }}/submit?step=1" class="ui active inverted button">
+								<i class="edit icon"></i> 提交新创意
+							</a>
+						</div>
+                    </div>
+				</div>
+                <div class="row">
+                    <div class="column">
+                        <div class="children">
+    						{% category_list var:'category' only_open:only_open stage:1 domain:domain current:category_id %}
+    						{% for cat in category.rows %}
+    					  	    <a class="ui {{ cat.active }} white inverted button" href="{{ cat.view_url }}">{{ cat.title }}</a>
+    						{% endfor %}
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social sortby">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui horizontal bulleted list">
+					<a class="ui line {{ css_type_voting }} item" href="{{ links.voting_url }}">正在投票</a>
+					<a class="ui line {{ css_type_finishing }} item" href="{{ links.finishing_url }}">即将结束</a>
+				</div>
+				<div class="ui horizontal bulleted sortby list">
+				  	<a class="ui line {{ css_sort_latest }} item" href="{{ links.sort_latest_url }}">最新</a>
+				  	<a class="ui line {{ css_sort_votest }} item" href="{{ links.sort_votest_url }}">投票</a>
+				  	<a class="ui line {{ css_sort_comment }} item" href="{{ links.sort_comment_url }}">评论</a>
 				</div>
 			</div>
 		</div>
@@ -57,39 +134,6 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				
-				<div class="ui top attached header">
-					<div class="ui divided horizontal list">
-						<a class="ui {{ css_type_voting }} item link" href="{{ links.voting_url }}">正在投票</a>
-						<a class="ui {{ css_type_finishing }} item link" href="{{ links.finishing_url }}">即将结束</a>
-					</div>
-					
-					<a class="ui showbox link" href="#advanced-filter-topic">
-						<i class="list layout icon"></i>
-					</a>
-				</div>
-				<div class="ui bottom segment attached" id="advanced-filter-topic">
-					<div class="row">
-						<div class="sixteen wide column">
-							<div class="ui horizontal list">
-								<label class="item">分类：</label>
-								{% category_list var:'category' only_open:only_open stage:1 domain:domain show_all:1 current:category_id %}
-								{% for cat in category.rows %}
-							  	<a class="ui {{ cat.active }} item link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-								{% endfor %}
-							</div>
-						</div>
-						<div class="sixteen wide column">
-							<div class="ui horizontal list">
-								<label class="item">排序：</label>
-							  	<a class="ui {{ css_sort_latest }} item link" href="{{ links.sort_latest_url }}">最新</a>
-							  	<a class="ui {{ css_sort_votest }} item link" href="{{ links.sort_votest_url }}">投票</a>
-							  	<a class="ui {{ css_sort_comment }} item link" href="{{ links.sort_comment_url }}">评论</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				
 				<div class="ui three items">
 					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 size:12 %}
 					{% for product in list.rows %}
