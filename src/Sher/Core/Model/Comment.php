@@ -95,7 +95,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'related_id'=> (int)$this->data['target_id'],
         'parent_related_id'=> (string)$this->data['_id'],
       );
-      $ok = $remind->create($arr);
+      //$ok = $remind->create($arr);
 
     }
   }

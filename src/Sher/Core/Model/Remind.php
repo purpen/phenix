@@ -23,12 +23,16 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	const EVT_COMMENT = 4;
 	# 收藏
 	const EVT_FAVORITE = 5;
-  # 喜欢
+  # 赞
   const EVT_LOVE = 6;
   # 关注
   const EVT_FOLLOW = 7;
   # 分享
   const EVT_SHARE = 8;
+  # 通过审核
+  const EVT_PASS = 10;
+  # 被管理员推荐
+  const EVT_STICK = 11;
 
   # 投票-支持
   const EVT_VOTE_FAVOR = 13;
@@ -83,6 +87,57 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
       $user->update_counter_byinc($user_id, 'alert_count', 1);
     }
   }
+
+	/**
+	 * 扩展数据
+	 */
+	protected function extra_extend_model_row(&$row) {
+    $obj = null;
+    switch ($row['kind']) {
+      case self::KIND_TOPIC:
+          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
+          break;
+      case self::KIND_PRODUCT:
+          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
+          break;
+      case self::KIND_COMMENT:
+          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
+          break;
+      case self::KIND_TRY:
+          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
+          break;
+      case self::KIND_STUFF:
+        $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
+        break;
+    }
+      
+    //提醒信息输出
+    if($obj){
+      switch ($row['evt']) {
+        case self::EVT_POST:
+            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
+            break;
+        case self::EVT_PUBLISH:
+            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
+            break;
+        case self::EVT_REPLY:
+            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
+            break;
+        case self::EVT_COMMENT:
+            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
+            break;
+        case self::EVT_FAVORITE:
+          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
+          break;
+        }
+
+
+        
+    }
+      $row['target'] = $obj;
+
+
+    }
 	
 	/**
 	 * 展示提醒内容
