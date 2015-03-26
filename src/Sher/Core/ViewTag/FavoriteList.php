@@ -22,6 +22,7 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
 		$target_id = 0;
 		$type = 0;
     $event = 0;
+    $no_comment = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -47,6 +48,10 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
 		if($type){
 			$query['type'] = (int)$type;
 		}
+
+    if($no_comment){
+      $query['type'] = array('$ne'=>3);
+    }
 
 		if($target_id){
       if((int)$type==3){
