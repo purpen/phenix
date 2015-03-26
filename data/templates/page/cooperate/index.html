@@ -76,22 +76,22 @@
                     <h2 class="block title">分工类型</h2>
                     <div class="ui horizontal specialty list">
                         <div class="item">
-                            <a href="{{ app_url_social }}/mentors?c=0&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
+                            <a href="{{ app_url_cooperate }}?c=0&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
                         </div>
                         {% for m in resources %}
                         <div class="item">
-                            <a href="{{ app_url_social }}/mentors?c={{ m.id }}&d={{ district }}" class="ui {% if cid == m.id %}active{% endif %} link">{{ m.name }}</a>
+                            <a href="{{ app_url_cooperate }}?c={{ m.id }}&d={{ district }}" class="ui {% if cid == m.id %}active{% endif %} link">{{ m.name }}</a>
                         </div>
                         {% endfor %}
                     </div>
                     <h2 class="block title">所在地域</h2>
                     <div class="ui horizontal list">
                         <div class="item">
-                            <a href="{{ app_url_social }}/mentors?c={{ c }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
+                            <a href="{{ app_url_cooperate }}?c={{ c }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
                         </div>
                         {% for d in cities %}
                         <div class="item">
-                            <a href="{{ app_url_social }}/mentors?c={{ c }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
+                            <a href="{{ app_url_cooperate }}?c={{ c }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
                         </div>
                         {% endfor %}
                     </div>
@@ -114,11 +114,11 @@
 	
 <div class="cooperate mainlist">
 	<div class="ui responsive grid">
-		{% cooperate_list var:'list' size:15 page:page %}
+		{% cooperate_list var:'cooperate' page:page type:cid district:district %}
 		<div class="row">
 			<div class="column">
 				<div class="ui mentors four cards">
-					{% for b in list.rows %}
+					{% for b in cooperate.rows %}
 				  	<div class="card">
 						<div class="mentor">
 							<a href="{{ b.home_url }}" title="{{ b.name }}" target="_blank" class="user"></a>
@@ -128,7 +128,15 @@
 						</div>
 				  	</div>
 					{% endfor %}
-				</div>				
+				</div>
+                
+				{% if cooperate.total_page > 1 %}
+				<div class="ui pagination grid">
+					{% pager url:pager_url,total_rows:cooperate.total_rows,total_page:cooperate.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+				{% endif %}
+                			
 			</div>
 		</div>
 	</div><!--end responsive grid-->

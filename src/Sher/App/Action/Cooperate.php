@@ -3,13 +3,20 @@
  * 合作资源(品牌、设计公司、生成商、材料供应商等)
  * @author purpen
  */
-class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
+class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'page'=>1,
+        'd' => 0,
+        'c' => 0,
 	);
 	
 	protected $exclude_method_list = array('execute', 'index');
 	
+	public function _init() {
+		$this->set_target_css_state('page_social');
+        $this->set_target_css_state('page_cooperate');
+    }
+    
 	/**
 	 * 默认入口
 	 */
@@ -21,17 +28,30 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
 	 * 资源首页
 	 */
 	public function index(){
+        $show_all = 'showno';
+        $district = $this->stash['d'];
+        $cid = $this->stash['c'];
+        
         // 获取地域城市
         $areas = new Sher_Core_Model_Areas();
         $cities = $areas->find_cities();
         
-        
         $model = new Sher_Core_Model_Cooperation();
         $resources = $model->find_resources();
         
-         
+        if($cid || $district){
+            $show_all = 'showall';
+        }
+        
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?c=%d&d=%d&page=#p#', $cid, $district);
+        
         $this->stash['cities'] = $cities;
         $this->stash['resources'] = $resources;
+        
+        $this->stash['cid'] = $cid;
+        $this->stash['district'] = $district;
+        $this->stash['show_all'] = $show_all;
+        $this->stash['pager_url'] = $pager_url;
         
 		return $this->to_html_page('page/cooperate/index.html');
 	}
@@ -69,11 +89,11 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
-		$this->_editor_params();
-        
         $model = new Sher_Core_Model_Cooperation();
         $resources = $model->find_resources();
         $this->stash['resources'] = $resources;
+        
+        $this->_editor_params();
 		
 		return $this->to_html_page('page/cooperate/apply.html');
 	}

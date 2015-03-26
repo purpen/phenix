@@ -143,6 +143,7 @@ app.url.upload.topic: '{$app.url.upload}/topic'
 app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
 app.url.upload.stuff: '{$app.url.upload}/stuff'
+app.url.upload.cooperate: '{$app.url.upload}/cooperate'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
