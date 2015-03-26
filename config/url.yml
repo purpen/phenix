@@ -115,6 +115,7 @@ app.url.birdegg: '{$app.url.domain}/birdegg'
 
 # 合作资源
 app.url.cooperate: '{$app.url.action_base}/cooperate'
+app.url.cooperate.view: '{$app.url.cooperate}/view?id=%d'
 
 # 孵化
 app.url.incubator: '{$app.url.domain}/incubator'

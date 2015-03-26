@@ -1,0 +1,106 @@
+{%extends 'layout/column.html'%}
+{% block title %}孵化资源-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">    
+	.cooperate.banner {
+		color: white;
+		padding: 100px 0 60px;
+		background: url("{{ app_url_packaged }}/images/banner-trial.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
+	}
+    .cooperate.banner img.avatar {
+        border-radius: 50%;
+        display: inline-block;
+        height: 150px;
+        width: 150px;
+    }
+    .cooperate.content {
+        padding: 1.5rem 0 3rem;
+    }
+    .cooperate.content > .ui.grid {
+        padding: 0 18%;
+    }
+</style>
+{% endblock %}
+
+{% block jquery %}
+	// 编辑
+	$('.ui.edit.button').bind('click', function(){
+		var id = $(this).data('id');
+		phenix.redirect('{{ app_url_cooperate }}/edit?id='+id);
+	});
+
+	// 删除
+	$('.ui.remove.button').bind('click', function(){
+		var id = $(this).data('id');
+		if(confirm('确认执行删除操作吗?')){
+			$.post('{{ app_url_cooperate }}/deleted', {id: id });
+		}
+	});
+{% endblock %}
+
+{% block content %}
+<div class="cooperate banner">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+            <img src="{{ cooperate.logo.thumbnails.medium.view_url }}" alt="{{ cooperate.name }}" class="avatar" />
+			<h2 class="block title">{{ cooperate.name }}</h2>
+			<p>{{ cooperate.city }} {{ cooperate.type_label.name }}</p>
+			<hr>
+		</div>
+	</div>
+</div>
+
+<div class="cooperate content">
+	<div class="ui responsive grid">
+        <div class="row">
+    		<div class="center aligned column">
+                <h2 class="block title">优势介绍</h2>
+    		</div>
+        </div>
+        <div class="row">
+    		<div class="column">
+                <h3>{{ cooperate.fullname }}</h3>
+    			<div class="summary">
+                    {{ cooperate.summary }}
+                </div>
+    		</div>
+        </div>
+        {% if editable %}
+        <div class="row">
+    		<div class="center aligned column">
+                <div class="ui icon black editable buttons">
+					<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ cooperate._id }}">
+						<i class="edit icon"></i>
+					</div>
+					<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ cooperate._id }}">
+						<i class="remove icon"></i>
+					</div>
+                </div>
+    		</div>
+        </div>
+        {% endif %}
+	</div>
+</div>
+
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_social }}">
+						发现
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">孵化资源</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

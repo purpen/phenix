@@ -449,7 +449,14 @@ class Sher_Core_Helper_Url {
 	public static function asset_ori_url($file_id) {
         return sprintf(Doggy_Config::$vars['app.url.asset_ori'],$file_id);
     }
-
+    
+    /**
+     * 孵化资源
+     */
+    public static function cooperate_home_url($id){
+        return sprintf(Doggy_Config::$vars['app.url.cooperate.view'], $id);
+    }
+    
 	/**
 	 * 设置向导
 	 */

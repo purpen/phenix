@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}合作资源-{% endblock %}
+{% block title %}孵化资源-{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -127,7 +127,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
         	endpoint: '{{ app_url_upload_stuff }}'
       	},
 		text: {
@@ -179,7 +179,7 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#stuff_logo_id').val(id);
+			$('#cooperate_logo_id').val(id);
 			return false;
 		});
 	});
@@ -196,7 +196,7 @@
 					</a>
 					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_cooperate }}">
-						合作资源
+						孵化资源
 					</a>
 					<i class="angle right icon divider"></i>
 					<div class="active section">申请合作</div>
@@ -221,38 +221,22 @@
 					<input type="hidden" name="file_count" id="file_count" />
 					
 					<div class="ui field">
-						<label>所属类型</label>
+						<label>分工类型</label>
 					   	<div class="ui options">
 							{% if mode == 'edit' %}
-					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="stuff-type" />
+					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="cooperate-type" />
 							{% else %}
 								<input type="hidden" name="type" id="cooperate-type" />
 							{% endif %}
 							
-					   	 	<div class="ui magenta alt option" data-value="1">
+                            {% for m in resources %}
+					   	 	<div class="ui magenta alt {% if m.id == cooperate.type %}active{%endif%} option" data-value="{{ m.id }}">
 					   	 		<div class="icon">
 					   				<i class="fa fa-check"></i>
 					   			</div>
-					   	 		品牌商
+					   	 		{{ m.name }}
 					   	 	</div>
-					   	 	<div class="ui magenta alt option" data-value="2">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
-					   	 		设计机构
-					   	 	</div>
-					   	 	<div class="ui magenta alt option" data-value="4">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
-					   	 		技术开发商
-					   	 	</div>
-					   	 	<div class="ui magenta alt option" data-value="3">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
-					   	 		高校基地
-					   	 	</div>
+                            {% endfor %}
 					   	 </div>
 					</div>
 				
@@ -266,16 +250,20 @@
 					</div>
 					<div class="field">
 						<label>业务特点</label>
-					  	<input type="text" name="keywords" value="{{ cooperate.keywords }}" />
+					  	<input type="text" name="keywords" value="{{ cooperate.keywords_s }}" />
 						<div class="description">特点之间使用，逗号隔开</div>
 					</div>
 					
 					<div class="field">
-						<label>网址</label>
+						<label>网址主页</label>
 					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" />
 					</div>
 					
 					<div class="three fields">
+						<div class="field">
+							<label for="city">所在城市</label>
+					  		<input type="text" name="city" value="{{ cooperate.city }}" />
+						</div>
 						<div class="field">
 							<label for="phone">固定电话</label>
 					  		<input type="text" name="phone" value="{{ cooperate.phone }}" />
@@ -284,26 +272,15 @@
 							<label for="email">Email</label>
 					  		<input type="text" name="email" value="{{ cooperate.email }}" />
 						</div>
-						<div class="field"></div>
-					</div>
-					
-					<div class="three fields">
-						<div class="field">
-							<label for="province">省份</label>
-					  		<input type="text" name="province" value="{{ cooperate.province }}" />
-						</div>
-						<div class="field">
-							<label for="city">城市</label>
-					  		<input type="text" name="city" value="{{ cooperate.city }}" />
-						</div>
-						<div class="field">
-							<label for="address">地址</label>
-					  		<input type="text" name="address" value="{{ cooperate.address }}" />
-						</div>
 					</div>
 					
 					<div class="field">
-						<label>Logo <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+						<label for="address">详细地址</label>
+				  		<input type="text" name="address" value="{{ cooperate.address }}" />
+					</div>
+					
+					<div class="field">
+						<label>Logo <small class="description">(小于3M,jpg、jpeg的格式,请指定一个展示图)</small></label>
 						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
 						<div id="phenix-uploader"></div>
 					
