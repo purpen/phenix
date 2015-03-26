@@ -1,0 +1,201 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的评论-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.comment .mes-text{
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+.comment .mes-text .news{
+	color: rgba(0,0,0,.7);
+	font-size: 16px;
+	font-weight: 400;
+}
+.comment .mes-text .news .ui.link{
+	font-weight: 700;
+}
+.comment-show{
+	padding-bottom:1em;
+}
+.comment-show .ui.btn{
+	padding:0.8em 1.5em;
+}
+.mes-text{
+	width:100%;
+	padding-top:1em;
+}
+.mes-text a.ui.photo{
+	float: left; 
+	width: 50px; 
+	height: 60px; 
+	margin-right: 10px;
+}
+.mes-text a.ui.photo img{
+	height:50px;
+	width:50px;
+	border-radius: 25px;
+}
+.mes-text .news{
+	padding: 0 0 0 60px; 
+	overflow: visible;
+	font-size: 17px;
+	font-weight: 700;
+	min-height: 60px;
+}
+.mes-text .news .sub_header{
+	font-size: 14px;
+	font-weight: 400;
+	padding-top: 5px;
+	line-height: 20px;
+}
+
+  .content .text img{
+    max-width: 150px;
+    max-height: 800px;
+    overflow: hidden;
+    padding: 10px 10px 0 0;
+  }
+  .content .text p{
+    margin:0;
+  }
+
+  .content .text a{
+    text-decoration:none;
+    color:#f36;
+  }
+
+  .content .text a:hover{
+    text-decoration:underline;
+    color:#f36;
+  }
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示私信框
+	$('.reply_message').bind('click', function(){
+    $('[name=nickname]').val($(this).attr('nickname'));
+    $('[name=to]').val($(this).attr('user_id'));
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+
+  //评论按钮-接收
+  $('.ui.recive-comment.btn').click(function(){
+    phenix.redirect("{{ app_url_my }}/recive_comment");
+  });
+  //评论按钮-发送
+  $('.ui.send-comment.btn').click(function(){
+    phenix.redirect("{{ app_url_my }}/send_comment");
+  });
+
+    //查看大图
+    $('.comment-img-box').on('click', function(){
+      var evt = $(this).attr('show-type');
+      if(evt==1){
+        $(this).find('img').css({'max-width':'100%', 'cursor':'-webkit-zoom-out', 'cursor':'-moz-zoom-out', 'cursor':'-ms-zoom-out', 'cursor':'-o-zoom-out'});
+        $(this).attr('show-type', 2);
+      }else{
+        $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
+        $(this).attr('show-type', 1);
+      }
+    });
+	
+{% endblock %}
+
+{% block content %}
+<div class="account comment">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			{% include "block/center/head_notice_nav.html" %}
+			<h2 class="ui header">我的评论</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+							
+							<div class="comment-show">
+                <div class="ui magenta recive-comment btn {{ css_recive_comment }}">
+								收到的评论
+							</div>
+								<div class="ui magenta send-comment btn {{ css_send_comment }}">
+								发出的评论
+							</div>
+							</div>
+
+            {% comment_list var:'list' page:page size:20 sort:1 user_id:user_id load_item:1 %}
+
+            {% for d in list.rows %}
+              {% if d.target %}
+                <div class="mes-text">
+                  <a class="ui photo">
+                    <img alt="{{ d.target.user.nickname }}" src="{{ d.target.user.small_avatar_url }}">
+                  </a>
+                  <div class="news content">
+                    我评论了 <a href="{{ d.target.user.home_url }}">{{ d.target.user.nickname }}</a> 的 <span>{{ d.type_str }}</span> 
+                    <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
+                      <div class="date"><small>{{ d.created_on }}</small></div>
+
+                      <div class="sub_header text"> {{ d.content }}</div>
+                   </div>  
+                </div>
+              {%endif%}
+            {%endfor%}
+							
+							
+							{% if list.rows %}
+								<div class="ui pagination">
+					            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					            {%include 'block/pager.html'%}
+								</div>
+					          {% endif %}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+

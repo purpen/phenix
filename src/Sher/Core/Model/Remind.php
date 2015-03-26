@@ -71,7 +71,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	protected $int_fields = array('user_id','s_user_id','readed','kind','evt');
 	
 	protected $joins = array(
-	  //'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
+	  'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
 		's_user' =>  array('s_user_id'   => 'Sher_Core_Model_User'),
 	);
 
@@ -109,7 +109,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
           $kind_str = '评论';
           break;
       case self::KIND_TRY:
-          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
+          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
           break;
       case self::KIND_STUFF:
         $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
@@ -124,32 +124,25 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     if(!$kind_str){
       return;
     }
-    if(!$row['user']){
+    if(!$row['s_user']){
       return;
     }
 
-    $user = $row['user'];
     switch ($row['evt']) {
       case self::EVT_POST:
-          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
           break;
       case self::EVT_PUBLISH:
-          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
           break;
       case self::EVT_REPLY:
-          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
           break;
       case self::EVT_COMMENT:
           $info = "赞了你的";
-          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
           break;
       case self::EVT_FAVORITE:
         $info = "收藏了你的";
-        //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
         break;
       case self::EVT_LOVE:
         $info = "赞了你的";
-        //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
         break;
     }
         

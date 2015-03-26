@@ -9,7 +9,7 @@
 	
 	
 
-	<div class="ui top right pointing dropdown icon basket magenta button" data-url=" ">
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url="javascript:void(0);">
 			<label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
 	  	<i class="flat speech40 icon"></i>
       <!--ajax加载用户提醒-->
@@ -106,16 +106,14 @@
 		</a>
 	  	<div class="menu">
 		    <a class="item" href="{{ app_url_my }}/account">
-		      	<i class="flat account_settings icon"></i> 个人设置
+		      	<i class="flat account_settings icon"></i> 个人中心
 			</a>
-		    <a class="item" href="{{ app_url_my }}/message">
-		      	<i class="flat male40 icon"></i> 个人中心
-			</a>
-		    <a class="item" href="{{ app_url_my }}/profile">
-		      	<i class="flat profile icon"></i> 查看个人资料
-			</a>
+
 		    <a class="item" href="{{ app_url_my }}/orders">
 		      	<i class="flat order icon"></i> 我的订单
+			</a>
+		    <a class="item" href="{{ app_url_action_base }}/my/service">
+		      	<i class="smile icon"></i> 联系客服
 			</a>
 		    <a class="item" href="{{ app_url_action_base }}/helper/question">
 		      	<i class="flat help_infor icon"></i> 帮助

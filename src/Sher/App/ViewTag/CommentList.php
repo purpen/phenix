@@ -19,6 +19,9 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $type = 0;
         $check_loved = 0;
         $current_user_id = 0;
+        $target_user_id = 0;
+        //加载关联表
+        $load_item = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -40,6 +43,9 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($type) {
 			$query['type'] = (int)$type;
 		}
+		if ($target_user_id) {
+			$query['target_user_id'] = (int)$target_user_id;
+		}
 
 		// 排序
 		switch ($sort) {
@@ -59,6 +65,35 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 
         $service = Sher_Core_Service_Comment::instance();
         $result = $service->get_comment_list($query,$options);
+
+        //加载关联表
+        if($load_item){
+          if(!empty($result['rows'])){
+            for($i=0;$i<count($result['rows']);$i++){
+              $type = $result['rows'][$i]['type'];
+              $target_id = $result['rows'][$i]['target_id'];
+              $obj = null;
+              $type_str = null;
+              switch ($type) {
+                case 2:
+                  $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Topic');
+                  $type_str = '话题';
+                  break;
+                case 4:
+                  $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Product');
+                  $type_str = '创意产品';
+                  break;
+                case 6:
+                  $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Stuff');
+                  $type_str = '创意灵感';
+                  break;
+              }
+              $result['rows'][$i]['target'] = $obj;
+              $result['rows'][$i]['type_str'] = $type_str;
+            }
+          }       
+        
+        }
 
         // 验证当前用户是否点赞了
         if(!empty($check_loved) && !empty($current_user_id)){

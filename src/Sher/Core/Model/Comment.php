@@ -31,6 +31,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 
     protected $joins = array(
         'user' => array('user_id' => 'Sher_Core_Model_User'),
+        'target_user' => array('target_user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
     protected $int_fields = array('user_id','target_user_id','star','love_count');
@@ -96,8 +97,29 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'parent_related_id'=> (string)$this->data['_id'],
       );
       //$ok = $remind->create($arr);
+      $user = new Sher_Core_Model_User();
+      $user->update_counter_byinc($user_id, 'comment_count', 1);
 
     }
+  }
+
+  /**
+   * 类型说明
+   */
+  public function type_str($type){
+    $type_str = null;
+    switch ((int)$type){
+    case self::TYPE_TOPIC:
+      $type_str = '话题';
+      break;
+    case self::TYPE_PRODUCT:
+      $type_str = '创意产品';
+      break;
+    case self::TYPE_STUFF:
+      $type_str = '创意灵感';
+      break;
+    }
+    return $type_str;
   }
 	
 	/**
@@ -139,6 +161,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
         }
+
         $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
         $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);

@@ -81,23 +81,24 @@
                             {{ d.target.title }}
                           </a>
                         {%endif%}
-
+                        <span>{{ d.created_on|relative_datetime }}</span>
                       </div>
                     </div>
                   {%endfor%}
                 {%endif%}
 								
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
     		{% if list.rows %}
 				<div class="ui pagination">
 	            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 	            {%include 'block/pager.html'%}
 				</div>
 	          {% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

@@ -31,7 +31,7 @@
             {% if comment_count %}
               <li>
                   <div class="">
-                    查看评论 <a href="{{ app_url_my }}/comment">{{comment_count}} 条评论</a>
+                    查看评论 <a href="{{ app_url_my }}/recive_comment">{{comment_count}} 条评论</a>
                   </div>
               </li>
             {%endif%}
@@ -109,6 +109,9 @@
     ]]></replaceContent>
 
     <eval>
+      $('.button').on('click', function(){
+        return;
+      });
       $('#user-notice-num').show().text({{ total_count }});
     </eval>
   {%endif%}

@@ -717,8 +717,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if($this->visitor->counter['comment_count']>0){
       $this->visitor->update_counter($this->visitor->id, 'comment_count');
     }
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/comment?page=#p#';
-    return $this->to_html_page('page/my/comment.html'); 
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/recive_comment?page=#p#';
+    return $this->to_html_page('page/my/recive_comment.html'); 
   }
 
   /**
@@ -732,8 +732,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if($this->visitor->counter['comment_count']>0){
       $this->visitor->update_counter($this->visitor->id, 'comment_count');
     }
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/comment?page=#p#';
-    return $this->to_html_page('page/my/comment.html'); 
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/send_comment?page=#p#';
+    return $this->to_html_page('page/my/send_comment.html'); 
   }
 
   /**
