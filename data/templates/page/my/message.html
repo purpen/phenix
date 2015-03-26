@@ -134,9 +134,9 @@
               {% for m in message.mailbox %}
               <div class="sub_header">
                 {%if m.from==user._id%}
-                  我 : {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                 <strong> 我 </strong> : &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
                 {%else%}
-                  {{ message.f_user.nickname }}: {{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                  <strong> {{ message.f_user.nickname }}</strong> :  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
                   <!--显示未读标识-->
                   {% if loop.counter <= message.readed %}
                     &nbsp;<span class="new">new</span>

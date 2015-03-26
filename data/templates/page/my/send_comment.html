@@ -62,6 +62,10 @@
     text-decoration:none;
     color:#f36;
   }
+	.news.content a+.date{
+		display: inline-block;
+		margin-left: 10px;
+	}
 
   .content .text a:hover{
     text-decoration:underline;
@@ -168,7 +172,7 @@
                     <img alt="{{ d.target.user.nickname }}" src="{{ d.target.user.small_avatar_url }}">
                   </a>
                   <div class="news content">
-                    我评论了 <a href="{{ d.target.user.home_url }}">{{ d.target.user.nickname }}</a> 的 <span>{{ d.type_str }}</span> 
+                    我评论了 <a href="{{ d.target.user.home_url }}" class="ui link">{{ d.target.user.nickname }}</a> 的 <span>{{ d.type_str }}</span> 
                     <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title|truncate 45 }}</a>
                       <div class="date"><small>{{ d.created_on }}</small></div>
 

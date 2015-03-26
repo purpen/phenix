@@ -116,7 +116,7 @@
                         取消关注
                       </a>
                     </div>
-                    <a class="ui photo" href="" target="_black">
+                    <a class="ui photo" href="{{ f.follow.home_url }}" target="_black">
                       <img alt="{{ f.follow.nickname }}" src="{{ f.follow.small_avatar_url }}">
                     </a>
                     <div class="news">
@@ -137,14 +137,15 @@
                 {%else%}
 	                <p class="mt-20 text-center">你还没有关注的人哦~</p>
                 {%endif%}
-
+								
+								{% if list.rows %}
+									<div class="ui pagination">
+						            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+						            {%include 'block/pager.html'%}
+									</div>
+						          {% endif %}
 							</div>
-							{% if list.rows %}
-								<div class="ui pagination">
-					            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					            {%include 'block/pager.html'%}
-								</div>
-					          {% endif %}
+							
             </div>
 					</div>
 				</div>
