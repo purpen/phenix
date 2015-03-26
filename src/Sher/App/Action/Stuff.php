@@ -68,6 +68,12 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['is_top'] = $is_top;
 		$this->stash['top_category_id'] = $top_category_id;
 		$this->stash['cid'] = $cid;
+        
+        
+        // 获取计数
+        $dig = new Sher_Core_Model_DigList();
+        $counter = $dig->load(Sher_Core_Util_Constant::STUFF_COUNTER);
+        $this->stash['counter'] = $counter;
 		
 		// 分页链接
 		$page = 'p#p#';
@@ -249,7 +255,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
 		$data['tags'] = $this->stash['tags'];
-		$data['category_id'] = $this->stash['category_id'];
+		$data['category_id'] = (int)$this->stash['category_id'];
 		
         $data['cover_id'] = $this->stash['cover_id'];
 
@@ -414,9 +420,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$ok = $model->mark_as_featured((int)$id);
 			
 			if ($ok) {
-				// 添加到精选列表
+				// 添加到精选
 				$diglist = new Sher_Core_Model_DigList();
-				$diglist->add_dig(Sher_Core_Util_Constant::FEATURED_STUFF, (int)$id, Sher_Core_Util_Constant::TYPE_STUFF);
+                $diglist->inc_stuff_counter('items.feature_count');
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
@@ -444,7 +450,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$ok = $model->mark_cancel_featured((int)$id);
 			if ($ok) {
 				$diglist = new Sher_Core_Model_DigList();
-				$diglist->remove_item(Sher_Core_Util_Constant::FEATURED_STUFF, (int)$id, Sher_Core_Util_Constant::TYPE_STUFF);
+				$diglist->dec_stuff_counter('items.feature_count');
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
@@ -476,12 +482,15 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			// 删除关联对象
 			$model->mock_after_remove($id);
 			
-			// 从精选列表中删除
+            # 更新计数器
+            $diglist = new Sher_Core_Model_DigList();
+			// 从精选列表中减去
 			if ($stuff['featured']){
-				$diglist = new Sher_Core_Model_DigList();
-				$diglist->remove_item(Sher_Core_Util_Constant::FEATURED_STUFF, (int)$id, Sher_Core_Util_Constant::TYPE_STUFF);
+				$diglist->dec_stuff_counter('items.feature_count');
 			}
-			
+            // 从总数中减去
+			$diglist->dec_stuff_counter('items.total_count');
+            
 			// 更新所属分类
 			$category = new Sher_Core_Model_Category();
 			
