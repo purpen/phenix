@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}合作资源-{% endblock %}
+{% block title %}孵化资源-{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -13,6 +13,7 @@
 	}
 	.cooperate.mainlist {
 		padding: 3rem 0;
+        background-color: #f1f1f1;
 	}
 	.keywords {
 		margin: 1rem 0 2rem;
@@ -28,18 +29,34 @@
 			margin-top:0 !important;
 		}
 	}
+    
 </style>
 {% endblock %}
 
 {% block jquery %}
-	
+	$('.ui.ell.link').click(function(){
+        if($('.social.people.filter').hasClass('active')){
+            $('.social.people.filter').removeClass('active').slideUp('slow');
+        }else{
+            $('.social.people.filter').addClass('active').slideDown('slow');
+        }
+    });
 {% endblock %}
 
 {% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
 <div class="cooperate masthead">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
-			<h2 class="block title">合作资源</h2>
+			<h2 class="block title">孵化资源</h2>
 			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
 			<hr>
 			<div class="buttons">
@@ -50,81 +67,78 @@
 		</div>
 	</div>
 </div>
-	
-<div class="ui big coope white background block">
+
+<div class="social people {{ show_all }} filter">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui four wide column">
-				<img src="http://static.taihuoniao.me/images/match_0016.jpg" width="100%">
-			</div>
-			<div class="ui twelve wide column">
-				<h3>清华大学美术学院服务设计研究所</h3>
-				<p>清华美院服务设计研究所作为具有国际影响力的创新平台，研究所的三个模块包括：智慧城市研究（设计北京实验室、Living Lab创意社区平台）探究国际化的人本城市与服务设计解决方案，构建政产学研商协同的伙伴社区。设计创新孵化（设计合伙人、Designow设计力创新）提供创新模式的设计服务，构建设计生态圈。创客教育平台（清华创客空间、青橙创客教育） 通过创客课程、比赛、工作坊与项目孵化，将设计与科技互融的创意变为现实。</p>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="ui four wide column">
-				<img src="http://static.taihuoniao.me/images/match_17.jpg" width="100%">
-			</div>
-			<div class="ui twelve wide column">
-				<h3>广州美院太火鸟联合孵化实验室</h3>
-				<p>太火鸟与广州美术学院工业设计学院整合双方优势资源，共同组织华南地区的创意产业孵化平台。并在该平台之上定期组织相关的产品创意概念演示、评审、推介等的服务。为华南地区的创意创业人士提供新产品体验、创意信息交流的场地。</p>
-			</div>
-		</div>
-	
-	
-	</div>
+			<div class="column">
+                <div class="container">
+                    <h2 class="block title">分工类型</h2>
+                    <div class="ui horizontal specialty list">
+                        <div class="item">
+                            <a href="{{ app_url_cooperate }}?c=0&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
+                        </div>
+                        {% for m in resources %}
+                        <div class="item">
+                            <a href="{{ app_url_cooperate }}?c={{ m.id }}&d={{ district }}" class="ui {% if cid == m.id %}active{% endif %} link">{{ m.name }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <h2 class="block title">所在地域</h2>
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <a href="{{ app_url_cooperate }}?c={{ c }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
+                        </div>
+                        {% for d in cities %}
+                        <div class="item">
+                            <a href="{{ app_url_cooperate }}?c={{ c }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-	
+<div class="social people more">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+                <a class="ui ell pop link" href="javascript:void(0);" data-content="按条件检索" data-variation="inverted">
+                    <i class="ellipsis vertical icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 	
 <div class="cooperate mainlist">
 	<div class="ui responsive grid">
-		{% cooperate_list var:'list' size:15 page:page %}
-		{% for b in list.rows %}
+		{% cooperate_list var:'cooperate' page:page type:cid district:district %}
 		<div class="row">
-			<div class="five wide column">
-				<div class="ui pointing vertical fluid navigation menu">
-					<div class="header item">
-					    <i class="user icon"></i>合作资源
-					</div>
-					<a href="" class="{{ css_user_account }} item">
-						<i class="flat account_settings icon"></i> 设计机构
-					</a>
-					<a href="" class="{{ css_user_profile }} item">
-						<i class="flat profile icon"></i> 技术开发
-					</a>
-					<a href="" class="{{ css_user_shipping }} item">
-						<i class="flat position icon"></i> 高校基地
-					</a>
-					
-				</div>
-				
-			</div>
-			<div class="eleven wide column">
-				<h2 class="ui black header">清华大学美术学院服务设计研究所</h2>
-				<div class="content">
-					清华美院服务设计研究所作为具有国际影响力的创新平台，研究所的三个模块包括：智慧城市研究（设计北京实验室、Living Lab创意社区平台）探究国际化的人本城市与服务设计解决方案，构建政产学研商协同的伙伴社区。设计创新孵化（设计合伙人、Designow设计力创新）提供创新模式的设计服务，构建设计生态圈。创客教育平台（清华创客空间、青橙创客教育） 通过创客课程、比赛、工作坊与项目孵化，将设计与科技互融的创意变为现实。
-				</div>
-				{% if b.keywords %}
-				<div class="keywords">
-					{% for tag in b.keywords %}
-						{% if tag %}
-						<label class="ui magenta label">
-							{{ tag }}
-						</label>
-						{% endif %}
+			<div class="column">
+				<div class="ui mentors four cards">
+					{% for b in cooperate.rows %}
+				  	<div class="card">
+						<div class="mentor">
+							<a href="{{ b.home_url }}" title="{{ b.name }}" target="_blank" class="user"></a>
+							<img src="{{ b.logo.thumbnails.medium.view_url }}" alt="{{ b.name }}" class="avatar" />
+							<h3>{{ b.name }}</h3>
+							<p>{{ b.type_label.name }} {{ b.city }}</p>
+						</div>
+				  	</div>
 					{% endfor %}
 				</div>
+                
+				{% if cooperate.total_page > 1 %}
+				<div class="ui pagination grid">
+					{% pager url:pager_url,total_rows:cooperate.total_rows,total_page:cooperate.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
 				{% endif %}
-			
-				<a href="" class="ui line">
-					查看更多
-				</a>
-				
+                			
 			</div>
 		</div>
-		{% endfor %}
 	</div><!--end responsive grid-->
 </div>
 
@@ -133,11 +147,15 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">合作资源</div>
+					<div class="active section">孵化资源</div>
 				</div>
 			</div>
 		</div>

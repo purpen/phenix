@@ -74,42 +74,24 @@
 
 <div class="social products">
 	<div class="ui responsive grid">
-		<div class="row">
+		<div class="two column middle aligned row">
 			<div class="column">
 				<h2 class="block title">
-					产品灵感 <small>各行业专家汇聚，创造未来伟大的产品</small>
+					智品库 <small>各行业专家汇聚，创造未来伟大的产品</small>
 				</h2>
+			</div>
+			<div class="right aligned column">
+				<a href="{{ app_url_stuff }}" class="ui inverted gray button">
+					浏览更多
+				</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="column">
 				{% stuff_list var:'stufflist' sticked:1 size:3 %}
-				<div class="ui three cards">
+				<div class="ui three stuffs cards">
 					{% for stuff in stufflist.rows %}
-				  	<div class="card">
-				    	<div class="image">
-				      	  	<a href="{{ stuff.view_url }}" title="{{ stuff.title }}">
-								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-							</a>
-				    	</div>
-				    	<div class="content">
-				      	  	<div class="header">
-								<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
-							</div>
-				      	  	<div class="description">
-				        		{{ stuff.strip_description|truncate 60 '' }}
-				      	  	</div>
-				    	</div>
-				    	<div class="extra">
-				      	  	<a class="right floated created">
-								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
-								<small><i class="thumbs outline up icon"></i>{{ stuff.total_love_count }}</small>
-							</a>
-							<a href="{{ stuff.user.home_url }}" class="ui icon link">
-								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
-							</a>
-				    	</div>
-				  	</div>
+				  	    {% include "block/stuff_item.html" %}
 					{% endfor %}
 				</div>
 			</div>

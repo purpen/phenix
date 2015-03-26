@@ -1,6 +1,7 @@
 <?php
 /**
  * 常量定义
+ * @author purpen
  */
 class Sher_Core_Util_Constant extends Doggy_Object {
 	
@@ -17,7 +18,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const STROAGE_ACTIVE  = 'active';
 	const STROAGE_STUFF   = 'stuff';
 	const STROAGE_COOPERATE = 'cooperate';
-  const STROAGE_COMMENT = 'comment';
+    const STROAGE_COMMENT = 'comment';
 	
 	/**
 	 * 类型的常量
@@ -60,6 +61,11 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const DIG_TOPIC_TOP = 'dig_topic_top';  // 全部置顶主题列表
 	
 	const FEATURED_STUFF = 'featured_stuff_list';
+    
+    /**
+     * DigList stuff计数器
+     */
+    const STUFF_COUNTER  = 'stuff_counter';
 	
 	
 	/**
@@ -167,5 +173,5 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * @var int
      */
     const EVENT_STATE_DONE = 100;
-	
+    
 }

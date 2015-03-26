@@ -27,6 +27,15 @@
 {% endblock %}
 
 {% block tophead %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
 <div class="ui tophead">
 	<div class="masthead">
 		<div class="masthead-cover transparent">
@@ -143,8 +152,12 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
 					<div class="active section">话题</div>

@@ -329,8 +329,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->api_json('访问的主题不存在或已被删除！', 3001);
 		}
 
-    //创建关联数据
-    $topic = $model->extended_model_row($topic);
+        // 创建关联数据
+        $topic = $model->extended_model_row($topic);
 		
 		$this->stash['topic'] = &$topic;
 		

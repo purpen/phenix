@@ -245,25 +245,29 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
   	protected function after_save() {
     	// 如果是新的记录
     	if($this->insert_mode){
-        $category_id = $this->data['category_id'];
-        $fid = $this->data['fid'];
+            $category_id = $this->data['category_id'];
+            $fid = $this->data['fid'];
+        
+    		// 添加计数器
+    		$diglist = new Sher_Core_Model_DigList();
+            $diglist->inc_stuff_counter('items.total_count');
   
-        $category = new Sher_Core_Model_Category();
-        if(!empty($category_id)){
-          $category->inc_counter('total_count', 1, $category_id);
-        }
-        if(!empty($fid)){
-          $category->inc_counter('total_count', 1, $fid);
-        }
+            $category = new Sher_Core_Model_Category();
+            if(!empty($category_id)){
+                $category->inc_counter('total_count', 1, $category_id);
+            }
+            if(!empty($fid)){
+                $category->inc_counter('total_count', 1, $fid);
+            }
 
-        //更新关联投票产品数量
-        if($this->data['fever_id']){
-          $product_mode = new Sher_Core_Model_Product();
-          $product = $product_mode->find_by_id((int)$this->data['fever_id']);
-          if($product){
-            $product_mode->inc_counter('stuff_count', 1, $product['_id']);
-          }
-        }
+            // 更新关联投票产品数量
+            if($this->data['fever_id']){
+                $product_mode = new Sher_Core_Model_Product();
+                $product = $product_mode->find_by_id((int)$this->data['fever_id']);
+                if($product){
+                    $product_mode->inc_counter('stuff_count', 1, $product['_id']);
+                }
+            }
     	}
   	}
 	

@@ -16,11 +16,12 @@ class Sher_Core_ViewTag_CooperateList extends Doggy_Dt_Tag {
      */
     public function render($context, $stream) {
         $page = 1;
-        $size = 10;
+        $size = 20;
 		
 		$user_id = 0;
 		$type = 0;
 		$state = 0;
+        $district = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -42,6 +43,10 @@ class Sher_Core_ViewTag_CooperateList extends Doggy_Dt_Tag {
 		if($type){
 			$query['type'] = (int)$type;
 		}
+        
+        if($district){
+            $query['district'] = (int)$district;
+        }
 		
 		if($state){
 			$query['state'] = (int)$state;

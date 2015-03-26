@@ -10,6 +10,8 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		'page' => 1,
 		'step' => 0,
 		'st' => 0,
+        'd' => 0,
+        'c' => 0,
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -50,6 +52,38 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 资深专家/导师
 	 */
 	public function mentors(){
+        $district = $this->stash['d'];
+        $cid = $this->stash['c'];
+        $all_mentors = 1;
+        $show_all = 'showno';
+        
+        // 获取
+        $user = new Sher_Core_Model_User();
+        $mentors = $user->find_mentors();
+        
+        if($cid){
+            $all_mentors = 0;
+        }
+        if($cid || $district){
+            $show_all = 'showall';
+        }
+        
+        // 获取地域城市
+        $areas = new Sher_Core_Model_Areas();
+        $cities = $areas->find_cities();
+        
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.social'].'/mentors?c=%d&d=%d&page=#p#', $cid, $district);
+        
+        $this->stash['mentors']  = $mentors;
+        $this->stash['district'] = $district;
+        $this->stash['all_mentors'] = $all_mentors;
+        $this->stash['cid'] = $cid;
+        $this->stash['cities'] = $cities;
+        
+        $this->stash['show_all'] = $show_all;
+            
+        $this->stash['pager_url'] = $pager_url;
+        
 		return $this->to_html_page('page/social/mentors.html');
 	}
 	
