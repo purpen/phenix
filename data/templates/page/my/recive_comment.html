@@ -62,6 +62,10 @@
     text-decoration:none;
     color:#f36;
   }
+	.news.content a+.date{
+		display: inline-block;
+		margin-left: 10px;
+	}
 
   .content .text a:hover{
     text-decoration:underline;
@@ -163,11 +167,11 @@
             {% for d in list.rows %}
 						
 							<div class="mes-text">
-								<a class="ui photo">
+								<a href="{{ d.user.home_url }}" class="ui photo">
 	                <img alt="{{ d.user.nickname }}" src="{{ d.user.small_avatar_url }}">
 	              </a>
 	              <div class="news content">
-                  评论了你的 <span>{{ d.type_str }}</span> 
+                  <a class="ui link" href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>  评论了你的 <span>{{ d.type_str }}</span> 
                   <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
 	              		<div class="date"><small>{{ d.created_on }}</small></div>
 
