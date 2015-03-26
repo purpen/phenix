@@ -50,6 +50,13 @@ class DoggyX_Model_Mongo_Base {
      * @var array
      */
     protected $int_fields = array();
+    
+    /**
+     * Float 类型属性, 在save 之前将自动将这些属性转换为float
+     *
+     * @var array
+     */
+	protected $float_fields = array();
 
     public function __construct() {
         if (empty($this->collection)) {
@@ -225,8 +232,8 @@ class DoggyX_Model_Mongo_Base {
         return self::$_db->ensure_index($this->collection,$keys);
     }
     
-    public function first($query=array()) {
-        return self::$_db->first($this->collection,$query);
+    public function first($query=array(),$fields=array()) {
+        return self::$_db->first($this->collection,$query,$fields);
     }
     
     /**
@@ -251,8 +258,8 @@ class DoggyX_Model_Mongo_Base {
     }
     
     
-    public function find_by_id($id) {
-        return self::$_db->first($this->collection, $this->_build_query($id) );
+    public function find_by_id($id,$fields=array()) {
+        return self::$_db->first($this->collection, $this->_build_query($id), $fields);
     }
     
     
@@ -281,6 +288,7 @@ class DoggyX_Model_Mongo_Base {
         }
         
         if ($this->insert_mode) {
+            $this->before_insert($this->data);
             self::validate_required_fields($this->data, $this->required_fields);
             if ( $this->mongo_id_style == self::MONGO_ID_SEQ ) {
                 $this->id = $this->next_seq_id($this->seq_name);
@@ -290,6 +298,10 @@ class DoggyX_Model_Mongo_Base {
             throw new Doggy_Model_ValidateException('field invalid.');
             // return false;
         }
+        
+		// 转换整型数字段
+        $this->_cast_int_fields($this->data);
+		$this->_cast_float_fields($this->data);
         
         $this->before_save($this->data);
         $ok = self::$_db->save($this->collection,$this->data);
@@ -376,7 +388,9 @@ class DoggyX_Model_Mongo_Base {
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 $this->__set($f,$data[$f]);
-            }
+            }elseif(isset($this->schema[$f])){ // 添加设置默认值的字段 modify by purpen
+				$this->__set($f,$this->schema[$f]);
+			}
         }
     }
     
@@ -423,15 +437,50 @@ class DoggyX_Model_Mongo_Base {
         if ($id === null) {
             return false;
         }
+        
+		if ( $this->mongo_id_style == self::MONGO_ID_SEQ ) {
+			$data[self::MONGO_ID_NAME] = $id = (int)$id;
+		}
+        
         $data = $this->filter_schema_data($data,$addition_schema_fields);
         $this->_cast_int_fields($data);
+        $this->_cast_float_fields($data);
         $this->before_update($data);
         $this->before_save($data);
         return $this->update_set($id,$data);
     }
     
+	/**
+     * 创建后调用 after_insert
+     */
+    public function apply_and_insert( array $data, array $addition_schema_fields=array('id') ) {
+      $ok = $this->apply_and_save($data, $addition_schema_fields);
+      if($ok){
+        $this->after_insert();
+      }
+      return $ok;
+    }
+	
+	/**
+     * 更新后调用 after_update
+     */
+    public function apply_and_update_alias( array $data, array $addition_schema_fields=array('id') ) {
+      $ok = $this->apply_and_update($data, $addition_schema_fields);
+      if($ok){
+        $this->after_update();
+      }
+      return $ok;
+    }
+    
     public function execute($code,array $args=array()) {
         return self::$_db->execute($code,$args);
+    }
+    
+    /**
+	 * 新建数据之前，补充数据
+	 */ 
+    protected function before_insert(&$data) {
+        
     }
     
     protected function before_save(&$data) {
@@ -448,6 +497,9 @@ class DoggyX_Model_Mongo_Base {
     protected function after_save() {
     }
 
+	/**
+	 * 转换整型数值
+	 */
     protected function _cast_int_fields(&$data) {
         foreach ($this->int_fields as $f) {
             if (isset($data[$f])) {
@@ -455,5 +507,18 @@ class DoggyX_Model_Mongo_Base {
             }
         }
     }
+	
+	/**
+	 * 转换浮点型数值
+	 * 统一保留小数点后2位
+	 */
+	protected function _cast_float_fields(&$data) {
+		foreach ($this->float_fields as $f) {
+			if (isset($data[$f])){
+				$data[$f] = (float)sprintf("%01.2f", $data[$f]);
+			}
+		}
+	}
+    
 }
 ?>
