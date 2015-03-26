@@ -70,13 +70,18 @@
                         </div>
                       {%endif%}
                       <div class="content">
-                        <a href="" class="ui link header inline">noofoo</a>
+                        <a href="{{ d.s_user.home_url }}" class="ui link header inline" target="_blank">{{ d.s_user.nickname }}</a>
                         <div class="description fsize inline">
-                          收藏了话题
+                          <span>{{ d.info }}</span> <span>{{ d.kind_str }}</span>
                         </div>
-                        <a class="ui link" href="" title="">
-                          深圳站【设计让产品更性感】太火鸟
-                        </a>
+                        {% if d.kind==3 %}
+                          <span>{{ d.target.content_original }}</span>
+                        {%else%}
+                          <a class="ui link" href="{{ d.target.view_url }}" title="{{ d.target.title }}" target="_blank">
+                            {{ d.target.title }}
+                          </a>
+                        {%endif%}
+
                       </div>
                     </div>
                   {%endfor%}

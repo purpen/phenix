@@ -71,7 +71,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	protected $int_fields = array('user_id','s_user_id','readed','kind','evt');
 	
 	protected $joins = array(
-	  'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
+	  //'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
 		's_user' =>  array('s_user_id'   => 'Sher_Core_Model_User'),
 	);
 
@@ -93,51 +93,71 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
     $obj = null;
+    $info = null;
+    $kind_str = null;
     switch ($row['kind']) {
       case self::KIND_TOPIC:
-          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
-          break;
+        $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
+        $kind_str = '话题';
+        break;
       case self::KIND_PRODUCT:
-          $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
-          break;
+        $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
+        $kind_str = '创意产品';
+        break;
       case self::KIND_COMMENT:
           $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
+          $kind_str = '评论';
           break;
       case self::KIND_TRY:
           $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
           break;
       case self::KIND_STUFF:
         $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
+        $kind_str = '创意灵感';
         break;
     }
       
     //提醒信息输出
-    if($obj){
-      switch ($row['evt']) {
-        case self::EVT_POST:
-            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
-            break;
-        case self::EVT_PUBLISH:
-            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
-            break;
-        case self::EVT_REPLY:
-            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
-            break;
-        case self::EVT_COMMENT:
-            //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
-            break;
-        case self::EVT_FAVORITE:
-          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
+    if(!$obj){
+      return;
+    }
+    if(!$kind_str){
+      return;
+    }
+    if(!$row['user']){
+      return;
+    }
+
+    $user = $row['user'];
+    switch ($row['evt']) {
+      case self::EVT_POST:
+          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
           break;
-        }
-
-
+      case self::EVT_PUBLISH:
+          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Product');
+          break;
+      case self::EVT_REPLY:
+          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
+          break;
+      case self::EVT_COMMENT:
+          $info = "赞了你的";
+          //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Try');
+          break;
+      case self::EVT_FAVORITE:
+        $info = "收藏了你的";
+        //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
+        break;
+      case self::EVT_LOVE:
+        $info = "赞了你的";
+        //$obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
+        break;
+    }
         
-    }
-      $row['target'] = $obj;
+    $row['target'] = $obj;
+    $row['info'] = $info;
+    $row['kind_str'] = $kind_str;
 
-
-    }
+  }
 	
 	/**
 	 * 展示提醒内容

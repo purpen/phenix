@@ -98,6 +98,14 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
           $user_id = $product['user_id'];
           $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
           break;
+        case self::TYPE_COMMENT:
+          $model = new Sher_Core_Model_Comment();
+          $model->inc_counter($field, 1, (string)$this->data['target_id']);
+          //获取目标用户ID
+          $comment = $model->extend_load((string)$this->data['target_id']);
+          $user_id = $comment['user_id'];
+          $kind = Sher_Core_Model_Remind::KIND_COMMENT;
+          break;
         case self::TYPE_STUFF:
           $model = new Sher_Core_Model_Stuff();
           $model->inc_counter($field, 1, (int)$this->data['target_id']);
