@@ -89,6 +89,16 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'featured' => self::FEATURED_DEFAULT,
         # 属于1.十万火计;2.蛋年;3.;4.;
         'from_to' => 0,
+
+      #用于大赛
+      # 省份
+        'province_id' => 0,
+      # 城市
+        'city_id' => 0,
+      # 大学
+        'college_id' => 0,
+      # 院系
+      'school_id' => 0,
         
 		'random' => 0,
         # 关联产品
@@ -102,7 +112,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),

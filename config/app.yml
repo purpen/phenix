@@ -113,6 +113,10 @@ app.dt.extension_lib.sher_app:
     'pager':'Sher_App_ViewTag_Pager'
     'point_record_list':'Sher_Core_ViewTag_PointRecordList'
     'event_record_list':'Sher_Core_ViewTag_EventRecordList'
+    'province_list':'Sher_Core_ViewTag_ProvinceList'
+    'city_list':'Sher_Core_ViewTag_CityList'
+    'area_list':'Sher_Core_ViewTag_AreaList'
+    'college_list':'Sher_Core_ViewTag_CollegeList'
 
   filters: []
 
