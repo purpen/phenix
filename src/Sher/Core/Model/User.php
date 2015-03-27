@@ -362,10 +362,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['small'], 'avs.jpg');
 			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['mini'], 'avn.jpg');		
 		}else{
-			$row['big_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_big.jpg';
-			$row['medium_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_medium.jpg';
-			$row['small_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_small.jpg';
-			$row['mini_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_mini.jpg';
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'b');
+            $row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'm');
+			$row['small_avatar_url'] = $row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 's');
 		}
 		
         $row['home_url'] = Sher_Core_Helper_Url::user_home_url($id);

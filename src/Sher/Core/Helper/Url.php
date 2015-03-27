@@ -37,23 +37,21 @@ class Sher_Core_Helper_Url {
 	/**
 	 * 用户默认头像
 	 */
-	public static function avatar_default_url($type='big',$sex=2){
-		$avatar_default = '';
-		$static_domain = Doggy_Config::$vars['app.url.packaged'];
+	public static function avatar_default_url($user_id, $type='m'){
+		$avatar_default = Doggy_Config::$vars['app.url.packaged'].'/images/deavatar/';
+        $avatar_file = '00'.substr((string)$user_id, -1);
 		switch ($type) {
-		    case 'big':
-		        $avatar_default = $static_domain."/images/avatar_default_big.jpg";
+		    case 'b':
+		        $avatar_default .= $avatar_file.'.jpg';
 		        break;
-		    case 'medium':
-		        $avatar_default = $static_domain."/images/avatar_default_medium.jpg";
+		    case 'm':
+		        $avatar_default .= $avatar_file.'-m.jpg';
 		        break;
-		    case 'small':
-		        $avatar_default = $static_domain."/images/avatar_default_small.jpg";
-		        break;
-		    case 'mini':
-		        $avatar_default = $static_domain."/images/avatar_default_mini.jpg";
+		    case 's':
+		        $avatar_default .= $avatar_file.'-s.jpg';
 		        break;
 		}
+        
 		return $avatar_default;
 	}
 	
