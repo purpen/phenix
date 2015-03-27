@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -73,6 +73,15 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->set_target_css_state('cooperate');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 		return $this->to_html_page('match/cooperate.html');
+	}
+	
+	/**
+	 * 十万火计--第二季 作品排行
+	 */
+  public function rank() {
+		$this->set_target_css_state('active2');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		return $this->to_html_page('match/rank.html');
 	}
 	
 	/**
