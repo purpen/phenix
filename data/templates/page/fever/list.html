@@ -2,42 +2,7 @@
 {% block title %}创意投票-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.tophead {
-	    background: url("{{ app_url_packaged }}/images/bg-banner.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
-        height: auto;
-	}
-	.masthead .introduction,
-    .masthead .actions {
-	    padding: 100px 0 30px;
-	}
-    .masthead .introduction hr {
-        background: none repeat scroll 0 0 #fff;
-        border: medium none;
-        display: inline-block;
-        height: 2px;
-        width: 130px;
-    }
-    .masthead .children {
-        margin-bottom: 60px;
-    }
-    .stast {
-        margin-bottom: 1rem;
-    }
-    .stast .space {
-        font-size: 0.875rem;
-        margin: 0 0.5rem;
-    }
-    .ui.horizontal.sortby.list {
-        margin-left: 1.5rem;
-    }
-    #votelist {
-        margin: 0;
-        padding: 1.5rem 0 2rem;
-        background-color: #f1f1f1;
-    }
-	.ui.vstatus.horizontal.list > .item {
-		line-height: 1.8rem;
-	}
+	
 </style>
 {% endblock %}
 
@@ -61,9 +26,9 @@
 	</div>
 </div>
 
-<div class="ui tophead">
+<div class="ui tophead" style="background-image: url('{{ app_url_packaged }}/images/topicbg/banner-idea.jpg');">
 	<div class="masthead">
-		<div class="masthead-cover transparent">
+		<div class="masthead-cover">
 			<div class="ui responsive grid">
 				<div class="row">
 					<div class="twelve wide column white section-title">
@@ -85,7 +50,7 @@
             					</div>
             					<span class="space"> / </span>
             					<div class="ui horizontal bulleted list">
-            						<span class="item">投票中</span>
+            						<span class="item">正在投票</span>
             						<span class="item">
                                         {{ counter.items.feature_count|default 0 }}
             						</span>
@@ -134,7 +99,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui three items">
+				<div class="ui three voteist cards">
 					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 size:12 %}
 					{% for product in list.rows %}
 						{% include "block/product_vote_item.html" %}
