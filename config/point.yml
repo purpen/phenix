@@ -1,0 +1,329 @@
+---
+app.point.can_inited: true
+app.point.init_point_types:
+  -
+    code: 'exp'
+    name: '经验'
+app.point.init_user_ranks:
+  init_rank_id: 1
+  total_ranks: 45
+  point_type_code: 'exp'
+  ranks:
+      -
+        rank_id: 1
+        point: 0
+        name: 鸟平民
+      -
+        rank_id: 2
+        point: 30
+        name: 鸟平民
+      -
+        rank_id: 3
+        point: 80
+        name: 鸟平民
+      -
+        rank_id: 4
+        point: 150
+        name: 鸟列兵
+      -
+        rank_id: 5
+        point: 240
+        name: 鸟列兵
+      -
+        rank_id: 6
+        point: 350
+        name: 鸟列兵
+      -
+        rank_id: 7
+        point: 480
+        name: 鸟下士
+      -
+        rank_id: 8
+        point: 630
+        name: 鸟下士
+      -
+        rank_id: 9
+        point: 800
+        name: 鸟下士
+      -
+        rank_id: 10
+        point: 990
+        name: 鸟中士
+      -
+        rank_id: 11
+        point: 1200
+        name: 鸟中士
+      -
+        rank_id: 12
+        point: 1430
+        name: 鸟中士
+      -
+        rank_id: 13
+        point: 1680
+        name: 鸟军士
+      -
+        rank_id: 14
+        point: 1950
+        name: 鸟军士
+      -
+        rank_id: 15
+        point: 2240
+        name: 鸟军士
+      -
+        rank_id: 16
+        point: 3300
+        name: 鸟士官
+      -
+        rank_id: 17
+        point: 4420
+        name: 鸟士官
+      -
+        rank_id: 18
+        point: 5600
+        name: 鸟士官
+      -
+        rank_id: 19
+        point: 6840
+        name: 鸟骑士
+      -
+        rank_id: 20
+        point: 8140
+        name: 鸟骑士
+      -
+        rank_id: 21
+        point: 9500
+        name: 鸟骑士
+      -
+        rank_id: 22
+        point: 10920
+        name: 鸟骑士中尉
+      -
+        rank_id: 23
+        point: 12400
+        name: 鸟骑士中尉
+      -
+        rank_id: 24
+        point: 13940
+        name: 鸟骑士中尉
+      -
+        rank_id: 25
+        point: 15540
+        name: 鸟骑士队长
+      -
+        rank_id: 26
+        point: 17200
+        name: 鸟骑士队长
+      -
+        rank_id: 27
+        point: 18920
+        name: 鸟骑士队长
+      -
+        rank_id: 28
+        point: 20700
+        name: 鸟护卫骑士
+      -
+        rank_id: 29
+        point: 22540
+        name: 鸟护卫骑士
+      -
+        rank_id: 30
+        point: 24440
+        name: 鸟护卫骑士
+      -
+        rank_id: 31
+        point: 28000
+        name: 鸟少校
+      -
+        rank_id: 32
+        point: 31920
+        name: 鸟少校
+      -
+        rank_id: 33
+        point: 36200
+        name: 鸟少校
+      -
+        rank_id: 34
+        point: 40840
+        name: 鸟司令
+      -
+        rank_id: 35
+        point: 45840
+        name: 鸟少校
+      -
+        rank_id: 36
+        point: 51200
+        name: 鸟少校
+      -
+        rank_id: 37
+        point: 56920
+        name: 鸟统帅
+      -
+        rank_id: 38
+        point: 63000
+        name: 鸟统帅
+      -
+        rank_id: 39
+        point: 69440
+        name: 鸟统帅
+      -
+        rank_id: 40
+        point: 76240
+        name: 鸟元帅
+      -
+        rank_id: 41
+        point: 83400
+        name:  鸟元帅
+      -
+        rank_id: 42
+        point: 90920
+        name:  鸟元帅
+      -
+        rank_id: 43
+        point: 98800
+        name: 鸟大元帅
+      -
+        rank_id: 44
+        point: 107040
+        name:  鸟大元帅
+      -
+        rank_id: 45
+        point: 115640
+        name:   鸟大元帅
+
+app.point.event_point_code: 'exp'
+app.point.init_events:
+  -
+    code: 'evt_login'
+    daily_limit: 2
+    point: 2
+    name: '登录'
+  -
+    code: 'evt_upload_avatar'
+    daily_limit: 0
+    point: 5
+    name: '上传头像'
+  -
+    code: 'evt_profile_ok'
+    point: 10
+    name: '完善个人资料'
+    daily_limit: 0
+  -
+    code: 'evt_follow'
+    daily_limit: 20
+    point: 1
+    name: '关注他人'
+  -
+    code: 'evt_by_followed'
+    daily_limit: 20
+    point: 1
+    name: '被他人关注'
+  -
+    code: 'evt_home_visited'
+    daily_limit: 50
+    point: 1
+    name: '主页来访'
+  -
+    code: 'evt_new_post'
+    daily_limit: 50
+    point: 10
+    name: '发表文章'
+  -
+    code: 'evt_reply'
+    point: 2
+    daily_limit: 30
+    name: '回复他人文章'
+  -
+    code: 'evt_by_reply'
+    point: 2
+    daily_limit: 30
+    name: '文章被他人回复'
+  -
+    code: 'evt_favorited'
+    point: 2
+    daily_limit: 30
+    name: '文章被他人收藏'
+  -
+    code: 'evt_like'
+    point: 2
+    daily_limit: 30
+    name: '文章被他人点赞'
+  -
+    code: 'evt_new_comment'
+    point: 2
+    daily_limit: 30
+    name: '发表点评'
+  -
+    code: 'evt_comment_like'
+    point: 1
+    daily_limit: 10
+    name: '点评被他人点赞'
+  -
+    code: 'evt_request_try'
+    point: 5
+    daily_limit: 0
+    name: '申请试用'
+  -
+    code: 'evt_try_report'
+    point: 10
+    daily_limit: 0
+    name: '发表产品试用报告'
+  -
+    code: 'evt_reply_report'
+    point: 2
+    daily_limit: 30
+    name: '回复他人申请试用报告'
+  -
+    code: 'evt_by_reply_report'
+    point: 2
+    daily_limit: 30
+    name: '试用报告被他人回复'
+  -
+    code: 'evt_new_idea'
+    point: 10
+    daily_limit: 50
+    name: '提交创意'
+  -
+    code: 'evt_idea_pass'
+    point: 20
+    daily_limit: 0
+    name: '创意审核通过（进入投票环节）'
+  -
+    code: 'evt_reply_idea'
+    point: 2
+    daily_limit: 30
+    name: '回复他人创意'
+  -
+    code: 'evt_by_reply_idea'
+    point: 2
+    daily_limit: 30
+    name: '创意被他人回复'
+  -
+    code: 'evt_vote_idea'
+    point: 1
+    daily_limit: 10
+    name: '投票他人创意'
+  -
+    code: 'evt_by_vote_idea'
+    point: 1
+    daily_limit: 20
+    name: '创意被他人投票'
+  -
+    code: 'evt_share_content'
+    point: 5
+    daily_limit: 20
+    name: '分享文章至朋友圈/微博'
+  -
+    code: 'evt_share_goods'
+    point: 5
+    daily_limit: 20
+    name: '分享文章至朋友圈/微博'
+  -
+    code: 'evt_buy_goods'
+    point: 20
+    daily_limit: 60
+    name: '购买商品'
+  -
+    code: 'evt_buy_good_comment'
+    point: 2
+    daily_limit: 0
+    name: '好评+评论'

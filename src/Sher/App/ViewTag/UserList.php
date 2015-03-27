@@ -152,11 +152,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		
         $options['page'] = $page;
         $options['size'] = $size;
-		
         if ($user_id) {
-            $result = DoggyX_Model_Mapper::load_model((int)$user_id,'Sher_Core_Model_User');
+            $result = DoggyX_Model_Mapper::load_model((int)$user_id, 'Sher_Core_Model_User');
         } elseif(!empty($user_ids)){
-        	$result = DoggyX_Model_Mapper::load_model_list($user_ids,'Sher_Core_Model_User');
+        	$result = DoggyX_Model_Mapper::load_model_list($user_ids, 'Sher_Core_Model_User');
         } else {
             $service = Sher_Core_Service_User::instance();
             $result = $service->get_user_list($query, $options);
@@ -173,7 +172,8 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
             }
             unset($ship);
           }
-		    }
+		}
+        
         $context->set($var,$result);
 		
         if ($include_pager) {

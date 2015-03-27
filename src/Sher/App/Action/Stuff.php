@@ -172,14 +172,15 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['id'])){
 			return $this->show_message_page('缺少请求参数！', true);
 		}
-    $this->stash['from_to'] = 0;
-    if(isset($this->stash['from'])){
-      if($this->stash['from']=='birdegg'){
-        $this->stash['from_to'] = 2;
-      }elseif($this->stash['from']=='swhj'){
-        $this->stash['from_to'] = 1;    
-      }
-    }
+        
+        $this->stash['from_to'] = 0;
+        if(isset($this->stash['from'])){
+            if($this->stash['from']=='birdegg'){
+                $this->stash['from_to'] = 2;
+            }elseif($this->stash['from']=='swhj'){
+                $this->stash['from_to'] = 1;    
+            }
+        }
 		
 		$model = new Sher_Core_Model_Stuff();
 		$stuff = $model->load((int)$this->stash['id']);
@@ -233,15 +234,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
-    if(empty($this->stash['category_id'])){
+        if(empty($this->stash['category_id'])){
  			return $this->ajax_json('请选择一个类别！', true); 
-    }
-    if(empty($this->stash['cover_id'])){
+        }
+        if(empty($this->stash['cover_id'])){
  			return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
-    }
+        }
+        
 		$id = (int)$this->stash['_id'];
-		$mode = 'create';
 		
+		$mode = 'create';
 		$data = array();
 		
 		$data['_id'] = $id;
@@ -250,38 +252,46 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
 		
-    $data['cover_id'] = $this->stash['cover_id'];
+        $data['cover_id'] = $this->stash['cover_id'];
 
-    //所属
-    if(isset($this->stash['from_to'])){
-      $data['from_to'] = (int)$this->stash['from_to'];
-    }
+        // 所属
+        if(isset($this->stash['from_to'])){
+            $data['from_to'] = (int)$this->stash['from_to'];
+        }
 
-    //团队介绍-蛋年
-    if(isset($this->stash['team_introduce'])){
-      $data['team_introduce'] = $this->stash['team_introduce'];
-    }
+        // 团队介绍-蛋年
+        if(isset($this->stash['team_introduce'])){
+            $data['team_introduce'] = $this->stash['team_introduce'];
+        }
 
-    //设计师
-    if(isset($this->stash['designer'])){
-      $data['designer'] = $this->stash['designer'];
-    }
-    //所属国家
-    if(isset($this->stash['country'])){
-      $data['country'] = $this->stash['country'];
-    }
-    //上市时间
-    if(isset($this->stash['market_time'])){
-      $data['market_time'] = $this->stash['market_time'];
-    }
-    //指导价格
-    if(isset($this->stash['official_price'])){
-      $data['official_price'] = $this->stash['official_price'];
-    }
-    //产品阶段
-    if(isset($this->stash['processed'])){
-      $data['processed'] = (int)$this->stash['processed'];
-    }
+        // 品牌
+        if(isset($this->stash['brand'])){
+            $data['brand'] = $this->stash['brand'];
+        }
+        // 设计师
+        if(isset($this->stash['designer'])){
+            $data['designer'] = $this->stash['designer'];
+        }
+        // 所属国家
+        if(isset($this->stash['country'])){
+            $data['country'] = $this->stash['country'];
+        }
+        // 上市时间
+        if(isset($this->stash['market_time'])){
+            $data['market_time'] = $this->stash['market_time'];
+        }
+        // 指导价格
+        if(isset($this->stash['official_price'])){
+            $data['official_price'] = $this->stash['official_price'];
+        }
+        // 产品阶段
+        if(isset($this->stash['processed'])){
+            $data['processed'] = (int)$this->stash['processed'];
+        }
+        // 购买地址
+        if(isset($this->stash['buy_url'])){
+            $data['buy_url'] = $this->stash['buy_url'];
+        }
 
     //如果是关联投票产品
     if(isset($this->stash['fever_id'])){
@@ -348,11 +358,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
-    if(isset($data['from_to']) && $data['from_to']==2){
-      $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
-    }else{
- 		  $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);   
-    }
+        if(isset($data['from_to']) && $data['from_to']==2){
+            $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+        }else{
+ 		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);   
+        }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
@@ -584,17 +594,18 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     $this->stash['comment_target_id'] = $options['comment_target_id'];
     $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
     $this->stash['comment_type'] = $options['comment_type'];
+
 		// 评论的链接URL
 		$this->stash['pager_url'] = $options['comment_pager'];
 
-    //是否显示图文并茂
-    $this->stash['comment_show_rich'] = $options['comment_show_rich'];
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = $options['comment_show_rich'];
 		// 评论图片上传参数
 		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
-  }
-	
+    }
+    
 }
 ?>

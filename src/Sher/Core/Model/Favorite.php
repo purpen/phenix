@@ -204,29 +204,29 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     /**
      * 添加到喜欢、赞
      */
-  public function add_love($user_id, $target_id, $info=array()) {		
-    if((int)$info['type']==self::TYPE_COMMENT){
-      $target_id = (string)$target_id;
-    }else{
-      $target_id = (int)$target_id;
-    }
+    public function add_love($user_id, $target_id, $info=array()) {		
+        if((int)$info['type'] == self::TYPE_COMMENT){
+            $target_id = (string)$target_id;
+        }else{
+            $target_id = (int)$target_id;
+        }
 		$info['user_id']   = (int) $user_id;
         $info['target_id'] = $target_id;
-		$info['type'] = (int)$info['type'];
+		$info['type']      = (int)$info['type'];
 		$info['event']     = self::EVENT_LOVE;
 		
         return $this->apply_and_save($info);
-  }
+    }
 	
 	/**
 	 * 取消喜欢
 	 */
 	public function cancel_love($user_id, $target_id,$type){
-    if((int)$type==self::TYPE_COMMENT){
-      $target_id = (string)$target_id;
-    }else{
-      $target_id = (int)$target_id;
-    }
+        if((int)$type == self::TYPE_COMMENT){
+            $target_id = (string)$target_id;
+        }else{
+            $target_id = (int)$target_id;
+        }
 		$query['user_id'] = (int)$user_id;
         $query['target_id'] = $target_id;
 		$query['type'] = (int)$type;
@@ -239,13 +239,13 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	 * 删除后事件
 	 */
 	public function mock_after_remove($user_id, $target_id, $type, $event) {
-		if (empty($user_id) || empty($target_id) || empty($type) || empty($event)){
+		if(empty($user_id) || empty($target_id) || empty($type) || empty($event)){
 			throw new Sher_Core_Model_Exception('删除后关联失败！');
 		}
 		
-		if ($event == self::EVENT_FAVORITE){
+		if($event == self::EVENT_FAVORITE){
 			$field = 'favorite_count';
-		}elseif ($event == self::EVENT_LOVE){
+		}elseif($event == self::EVENT_LOVE){
 			$field = 'love_count';
 		}
 		
@@ -265,6 +265,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			case self::TYPE_STUFF:
 				$model = new Sher_Core_Model_Stuff();
 				$model->dec_counter($field, (int)$target_id);
+                
+                // 删除最近用户
+                $model->remove_love_users((int)$target_id, $user_id);
+                
 				break;
 		}
 	}

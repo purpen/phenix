@@ -92,6 +92,7 @@ app.dt.extension_lib.sher_app:
     'search_list':'Sher_App_ViewTag_SearchList'
     'follow_list':'Sher_App_ViewTag_FollowList'
     'user_list':'Sher_App_ViewTag_UserList'
+    'users_list':'Sher_App_ViewTag_UsersList'
     'sku_list':'Sher_Core_ViewTag_SkuList'
     'bonus_list':'Sher_Core_ViewTag_BonusList'
     'tags_list':'Sher_App_ViewTag_TagsList'
@@ -110,6 +111,8 @@ app.dt.extension_lib.sher_app:
     'subject_record_list':'Sher_Core_ViewTag_SubjectRecordList'
     'remind_list':'Sher_Core_ViewTag_RemindList'
     'pager':'Sher_App_ViewTag_Pager'
+    'point_record_list':'Sher_Core_ViewTag_PointRecordList'
+    'event_record_list':'Sher_Core_ViewTag_EventRecordList'
 
   filters: []
 
