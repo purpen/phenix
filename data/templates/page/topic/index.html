@@ -50,7 +50,7 @@
                             <hr>        					
                         </div>
                         <div class="children">
-                            {% category_list var:'category' only_open:1 domain:domain size:17 %}
+                            {% category_list var:'category' only_open:1 domain:domain size:12 %}
                             {% for cat in category.rows %}
                                 {% if cat.pid %}
         							<a href="{{ cat.view_url }}" class="ui inverted {{ cat.active }} button">
