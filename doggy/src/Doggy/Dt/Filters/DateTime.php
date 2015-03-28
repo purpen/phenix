@@ -45,7 +45,7 @@ class Doggy_Dt_Filters_DateTime implements Doggy_Dt_FilterLib {
             $string .= floor($delta / 60) . "分钟 ";
         else
             $string .= $delta . "秒 ";
-        return "$string前";
+        return "$string 前";
     }
 
     static function relative_date($time) {

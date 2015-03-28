@@ -15,23 +15,24 @@
         <span class="ui icon support active magenta button" data-id="{{ stuff._id }}">
             <i class="thumbs up outline icon"></i>
         </span>
-  	</div>
-  	<div class="extra">
-        <a class="ui line categ right floated" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">
-            {{ stuff.category.title }}
-  	  	</a>
         
-  	  	<div class="ui avatars images" id="stuff_{{ stuff._id }}_support">
-            {% if stuff.total_love_count %}
-                {% users_list var:'userlist' user_ids:stuff.love_users %}
-                {% for u in userlist %}
-      	  	        <img src="{{ u.mini_avatar_url }}" class="ui avatar image" />
-                {% endfor %}
-                <span class="count">
-                    {{ stuff.total_love_count }}<small>+</small>
-                </span>
-            {% endif %}
-  	  	</div>
-        
+        <div class="i-stats">
+            <div class="love">
+                <a class="ui line category" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">
+                    {{ stuff.category.title }}
+          	  	</a>
+          	  	<div class="ui avatars images" id="stuff_{{ stuff._id }}_support">
+                    {% if stuff.total_love_count %}
+                        {% users_list var:'userlist' user_ids:stuff.love_users %}
+                        {% for u in userlist %}
+              	  	        <img src="{{ u.mini_avatar_url }}" class="ui avatar image" />
+                        {% endfor %}
+                        <span class="count">
+                            {{ stuff.total_love_count }}<small>+</small>
+                        </span>
+                    {% endif %}
+          	  	</div>
+            </div>
+        </div>
   	</div>
 </div>

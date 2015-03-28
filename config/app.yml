@@ -113,7 +113,7 @@ app.dt.extension_lib.sher_app:
     'pager':'Sher_App_ViewTag_Pager'
     'point_record_list':'Sher_Core_ViewTag_PointRecordList'
     'event_record_list':'Sher_Core_ViewTag_EventRecordList'
-
+    'comment_target':'Sher_App_ViewTag_CommentTarget'
   filters: []
 
 app.js.use_bundle: false

@@ -1,32 +1,27 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}话题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.tophead {
-	    background: url("{{ app_url_packaged }}/images/jsc_banner.jpg") no-repeat scroll center center / cover rgba(235, 97, 122, 1);
-		height: 300px;
-	}
-	.ui.tophead .introduction {
-		margin-top: 2em;
-	}
-	.ui.tophead .introduction .ui.header {
-		margin-top: 0em;
-	}
-	.ui.tophead .introduction .trychannel {
-		margin: 0 0 0.35em;
-	}
+    .social.topics.catemenu {
+        background-color: #fff;
+    }
+    .social.topics.catemenu .container {
+        padding: 100px 0 40px;
+    }
+    .social.topics.catemenu .children {
+        padding: 0px 0 60px;
+    }
+    .social.topics.catemenu .children .ui.button {
+        margin-bottom: 0.75rem;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	skrollr.init({
-		forceHeight: false,
-		mobileCheck:function(){},
-		mobileDeceleration:0.004,
-	});
+	
 {% endblock %}
 
-{% block tophead %}
+{% block content %}
 <div class="shop submenu">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -36,117 +31,108 @@
 		</div>
 	</div>
 </div>
-<div class="ui tophead">
-	<div class="masthead">
-		<div class="masthead-cover transparent">
-			<div class="ui responsive grid">
-				<div class="row">
-					<div class="column">
-						<div class="introduction">
-							<h2 class="trychannel">
-                				<!--<a href="{{ app_url_domain }}/dream" class="ui link" data-0="border-bottom:2px solid rgba(255,255,255,0);" data-30="border-bottom:2px solid rgba(255,255,255,0.85);color:rgba(255,255,255,0.85);">创意征集</a>-->
-							</h2>
-							<h2 class="ui header">
-							  	<div class="content">
-							    	世界上最好玩的健身车
-							    	<div class="sub header">RUNRUNFAST燃速智能健身车</div>
-							  	</div>
-							</h2>
-							<div class="actions">
-								<a href="{{ app_url_domain }}/sale/1121112074.html" class="ui inverted button" target="_blank">
-									火热预订
-								</a>
-							</div>
+
+<div class="social topics catemenu">
+    <div class="category header" style="background-image: url('{{ app_url_packaged }}/images/topicbg/phone-car.jpg');">
+        <div class="cover">
+        	<div class="ui responsive grid">
+                <div class="row">
+                    <div class="column white section-title">
+                        <div class="container">
+        					<h1 class="block title">
+        						<a href="{{ app_url_stuff }}" class="{{ all_stuff }} cate">
+        							话题版块
+        						</a>
+        					</h1>
+                            <p class="discription">
+                                <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快。</small>
+                            </p>
+                            <hr>        					
+                        </div>
+                        <div class="children">
+                            {% category_list var:'category' only_open:1 domain:domain size:17 %}
+                            {% for cat in category.rows %}
+                                {% if cat.pid %}
+        							<a href="{{ cat.view_url }}" class="ui inverted {{ cat.active }} button">
+        								<i class="flat s_{{ cat.name }} icon"></i> {{ cat.title }}
+        							</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% topic_list var:'featurelist' type:1 size:4 %}
+<div class="social topstick top">
+	<div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                {% if featurelist.total_rows %}
+				<div class="ui four socialstick items">
+                    {% for ft in featurelist.rows %}
+					<div class="item">
+						<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.fileurl }}');"{% endif %}>
+                            <a class="transparent" href="{{ ft.view_url }}" target="_blank">
+    							<div class="sub title">
+    								{{ ft.title }}
+    							</div>
+                            </a>
 						</div>
+					</div>
+					{% endfor %}
+				</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="social" id="topics">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="container column">
+                <div class="ui stacked segment">
+					{% topic_list var:'list' is_top:1 time:time sort:sort page:1 size:15 %}
+					<div class="ui computer tablet only block">
+    					<table class="ui basic topic table">
+    						<thead>
+    							<tr>
+    								<th>发布者</th>
+    								<th>主题</th>
+    								<th>最后回应</th>
+    								<th class="center aligned">浏览数</th>
+    							</tr>
+    						</thead>
+                            <tbody>
+							{% for topic in list.rows %}
+    							{% include "block/topic_item.html" %}
+							{% endfor %}
+                            </tbody>
+						</table>
+					</div>
+				
+					<div class="ui mobile only block">
+						<table class="ui basic table">
+							{% for topic in list.rows %}
+								<tr>
+									<td>
+							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-{% endblock %}
 
-{% block content %}
-<div id="topics">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="container column">
-				{% category_list var:'category' only_open:1 domain:domain %}
-				{% for cat in category.rows %}
-					<div class="ui block segment">
-						<h3 class="ui dividing header">
-							<a class="ui cat link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-						</h3>
-						{% category_list var:'children' page:1 only_open:1 domain:domain pid:cat._id %}
-						<div class="ui three items">
-							{% for child in children.rows %}
-							<div class="item">
-								<a class="ui category header" href="{{ child.view_url }}">
-									<div class="picicon">
-										<div class="cate icon">
-											<i class="flat s_{{ child.name }} icon"></i>
-										</div>
-									</div>
-								  	<div class="content">
-										{{ child.title }}
-										{% if child.total_count %}
-										<small class="newadd">({{ child.total_count }})</small>
-										{% endif %}
-								    	<div class="sub header">{{ child.summary|truncate 60 }}</div>
-										<div class="count">主题：{{ child.total_count }} , 回帖：{{ child.reply_count|default 0 }}</div>
-								  	</div>
-								</a>
-							</div>
-							{% endfor %}
-						</div>
-					
-						{% topic_list var:'list' category_id:cat._id is_top:1 time:time sort:sort page:1 size:5 %}
-					
-						<div class="ui computer tablet only block">
-							<table class="ui basic table">
-								{% for topic in list.rows %}
-									<tr>
-										<td class="nine wide">
-								          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
-										</td>
-										<td>
-											<a class="ui small link" href="{{ topic.user.home_url }}">
-									      		<img src="{{ topic.user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" /> {{ topic.user.nickname }}
-											</a>
-										</td>
-										<td>
-											{% if topic.last_user %}
-											回复于{{ topic.last_reply_time|relative_datetime}}
-											{% endif %}
-										</td>
-										<td>
-											<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-												<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
-												<span class="dot-irecommend-suffix"></span>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</table>
-						</div>
-					
-						<div class="ui mobile only block">
-							<table class="ui basic table">
-								{% for topic in list.rows %}
-									<tr>
-										<td>
-								          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</table>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-</div>
+
 <div class="section breadcrumb">
 	<div class="ui responsive grid">
 		<div class="row">

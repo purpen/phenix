@@ -4,17 +4,11 @@
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 		</a>
 	</td>
-	<td class="nine wide">
+	<td>
       	<h3 class="title">
 			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
 		</h3>
       	<div class="content">
-			<div class="attribute">
-				<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
-				<span class="author">
-					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }} 发表
-				</span>
-			</div>
 			<div class="hide-on-mobile">
 				{% if !topic.asset_count %}
 					<div class="description">
@@ -33,25 +27,25 @@
 							{% endif %}
 						{% endfor %}
 					</div>
-					<div class="ui center aligned count text">
-						<small>{{ topic.asset_count }}张图片</small>
-					</div>
 				{% endif %}
 			</div>
+			<div class="attribute">
+				<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
+				<span class="author">
+					<a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }} 发表
+				</span>
+                |
+                <span class="count">浏览数（{{ topic.view_count }}）</span>
+                <span class="count">回复（{{ topic.comment_count }}）</span>
+                <span class="comment">
+            		{% if topic.last_user %}
+            		<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+            	  		@{{ topic.user.nickname }}
+            		</a>
+            		回复于{{ topic.last_reply_time|relative_datetime }}
+            		{% endif %}
+                </span>
+			</div>
       	</div>
-	</td>
-	<td class="hide-on-mobile four wide">
-		{% if topic.last_user %}
-		<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-	  		<img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" />
-		</a>
-		回复于 {{ topic.last_reply_time|relative_datetime }}
-		{% endif %}
-	</td>
-	<td class="hide-on-mobile two center aligned wide">
-		<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-			<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
-			<span class="dot-irecommend-suffix"></span>
-		</a>
 	</td>
 </tr>

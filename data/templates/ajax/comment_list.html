@@ -1,6 +1,6 @@
 <taconite>
 	<append select="#comments"><![CDATA[
-		{% comment_list var:'comments' page:page target_id:targert_id type:type page:page %}
+		{% comment_list var:'comments' page:page target_id:targert_id type:type %}
 		{% for comment in comments.rows %}
 			{%include 'block/comment_item.html'%}
 		{% endfor %}
