@@ -130,15 +130,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
 		
-        // 评论参数
-        $comment_options = array(
-            'comment_target_id' => $stuff['_id'],
-            'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
-            'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
-            // 是否显示上传图片/链接
-            'comment_show_rich' => 1,
-        );
-        $this->_comment_param($comment_options);
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
 		
 		return $this->to_html_page('page/stuff/view.html');
 	}
@@ -298,10 +299,21 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $data['buy_url'] = $this->stash['buy_url'];
         }
 
-        // 如果是关联投票产品
-        if(isset($this->stash['fever_id'])){
-            $data['fever_id'] = (int)$this->stash['fever_id'];
-        }
+    //如果是关联投票产品
+    if(isset($this->stash['fever_id'])){
+      $data['fever_id'] = (int)$this->stash['fever_id'];
+    }
+
+    //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
+    if(isset($this->visitor->quality) && (int)$this->visitor->quality==1){
+      $data['verified'] = 1; 
+    }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
+      $data['verified'] = 1;
+    }elseif(empty($this->stash['from_to'])){
+      $data['verified'] = 1;
+    }else{
+      $data['verified'] = 0;
+    }
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
@@ -510,6 +522,51 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+
+	/**
+	 * ajax删除产品灵感
+	 */
+	public function ajax_del(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Stuff();
+			$stuff = $model->load((int)$id);
+			
+			// 仅管理员或本人具有删除权限
+			if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
+				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
+			}
+			
+			$model->remove((int)$id);
+			
+			// 删除关联对象
+			$model->mock_after_remove($id);
+			
+			// 从精选列表中删除
+			if ($stuff['featured']){
+				$diglist = new Sher_Core_Model_DigList();
+				$diglist->remove_item(Sher_Core_Util_Constant::FEATURED_STUFF, (int)$id, Sher_Core_Util_Constant::TYPE_STUFF);
+			}
+			
+			// 更新所属分类
+			$category = new Sher_Core_Model_Category();
+			
+			$category->dec_counter('total_count', $stuff['category_id']);
+			$category->dec_counter('total_count', $stuff['fid']);
+			
+			// 更新用户主题数量
+			$this->visitor->dec_counter('stuff_count', $stuff['user_id']);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/del_ok.html');
+	}
 	
 	/**
 	 * 删除某个附件
@@ -539,12 +596,14 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
 	}
 
-    /**
-     * 评论参数
-     */
-    protected function _comment_param($options){
-        $this->stash['comment_target_id'] = $options['comment_target_id'];
-        $this->stash['comment_type'] = $options['comment_type'];
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+
 		// 评论的链接URL
 		$this->stash['pager_url'] = $options['comment_pager'];
 

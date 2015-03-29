@@ -21,6 +21,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     protected $schema = array(
         'user_id' => 0,
         'target_id' => 0,
+        'target_user_id' => 0,
 		'star' => 0,
         'content' => '',
         'reply' => array(),
@@ -30,6 +31,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 
     protected $joins = array(
         'user' => array('user_id' => 'Sher_Core_Model_User'),
+        'target_user' => array('target_user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
     protected $int_fields = array('user_id','target_user_id','star','love_count');
@@ -51,63 +53,74 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	/**
 	 * 关联事件
 	 */
-    protected function after_save(){
-    	// 如果是新的记录
-    	if($this->insert_mode){
-      		$type = $this->data['type'];
-      	  	switch($type){
-        		case self::TYPE_TOPIC:
-          	  		$type = Sher_Core_Model_Timeline::TYPE_TOPIC;
-          		  	$model = new Sher_Core_Model_Topic();
-          		  	// 获取目标用户ID
-          		  	$topic = $model->extend_load((int)$this->data['target_id']);
-          		  	$user_id = $topic['user_id'];
-          		  	$model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
-          		  	break;
-        		case self::TYPE_PRODUCT:
-          	  		$type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
-          		  	$model = new Sher_Core_Model_Product();
-          		  	// 获取目标用户ID
-          		  	$product = $model->extend_load((int)$this->data['target_id']);
-          		  	$user_id = $product['user_id'];
-          		  	$model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
-          		  	break;
-        		case self::TYPE_STUFF:
-          	  		$type = Sher_Core_Model_Timeline::TYPE_STUFF;
-          		  	$model = new Sher_Core_Model_Stuff();
-          		  	// 获取目标用户ID
-          		  	$stuff = $model->extend_load($this->data['target_id']);
-          		  	$user_id = $stuff['user_id'];
-					$model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
-          		  	break;
-        		case self::TYPE_TRY:
-          	  		$type = Sher_Core_Model_Timeline::TYPE_PRODUCT;
-          		  	$model = new Sher_Core_Model_Try();
-          		  	// 获取目标用户ID
-          		  	$try = $model->extend_load($this->data['target_id']);
-          		  	$user_id = $try['user_id'];
-          		  	$model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
-          		  	break;
-        		default:
-         	   		break;
-      		}
-      	  	// 更新动态
-      	  	$timeline = new Sher_Core_Model_Timeline();
-      	  	$arr = array(
-        		'user_id' => $this->data['user_id'],
-        		'target_id' => (string)$this->data['_id'],
-        		'type' => $type,
-        		'evt' => Sher_Core_Model_Timeline::EVT_COMMENT,
-        		'target_user_id' => $user_id,
-      	  	);
-      	  	$ok = $timeline->create($arr);
-      	  	// 给用户添加提醒
-      	  	if($ok){
-        		$user = new Sher_Core_Model_User();
-        		$user->update_counter_byinc($user_id, 'comment_count', 1);     
-      	  	}
-    	}
-  	}
+    protected function after_save() {
+    //如果是新的记录
+    if($this->insert_mode) {
+      $type = $this->data['type'];
+      switch($type){
+        case self::TYPE_TOPIC:
+          $kind = Sher_Core_Model_Remind::KIND_TOPIC;
+          $model = new Sher_Core_Model_Topic();
+          //获取目标用户ID
+          $topic = $model->find_by_id((int)$this->data['target_id']);
+          $user_id = $topic['user_id'];
+          $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
+          break;
+        case self::TYPE_PRODUCT:
+          $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
+          $model = new Sher_Core_Model_Product();
+          //获取目标用户ID
+          $product = $model->find_by_id((int)$this->data['target_id']);
+          $user_id = $product['user_id'];
+          $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
+          break;
+        case self::TYPE_TRY:
+          $kind = Sher_Core_Model_Remind::KIND_TRY;
+          $model = new Sher_Core_Model_Try();
+          //获取目标用户ID
+          $try = $model->find_by_id((int)$this->data['target_id']);
+          $user_id = $try['user_id'];
+          $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
+          break;
+        default:
+          return;
+          break;
+      }
+      //给用户添加提醒
+      $remind = new Sher_Core_Model_Remind();
+      $arr = array(
+        'user_id'=> $user_id,
+        's_user_id'=> $this->data['user_id'],
+        'evt'=> Sher_Core_Model_Remind::EVT_COMMENT,
+        'kind'=> $kind,
+        'related_id'=> (int)$this->data['target_id'],
+        'parent_related_id'=> (string)$this->data['_id'],
+      );
+      //$ok = $remind->create($arr);
+      $user = new Sher_Core_Model_User();
+      $user->update_counter_byinc($user_id, 'comment_count', 1);
+
+    }
+  }
+
+  /**
+   * 类型说明
+   */
+  public function type_str($type){
+    $type_str = null;
+    switch ((int)$type){
+    case self::TYPE_TOPIC:
+      $type_str = '话题';
+      break;
+    case self::TYPE_PRODUCT:
+      $type_str = '创意产品';
+      break;
+    case self::TYPE_STUFF:
+      $type_str = '创意灵感';
+      break;
+    }
+    return $type_str;
+  }
 	
 	/**
 	 * 删除后事件
@@ -148,6 +161,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
         }
+
         $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
         $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);

@@ -1,12 +1,9 @@
 *.swp
-deploy/app_config.php
+deploy/dev.yml
+.gitignore
 dev_root/
 data/web/app
-data/web/packaged
-composer.lock
 vendor/
-.gitignore
+composer.lock
+deploy/app_config.php
 data/web/packaged
-deploy/dev.yml
-deploy/prod.yml
-deploy/test.yml

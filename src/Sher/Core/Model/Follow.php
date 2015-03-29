@@ -19,6 +19,7 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
         'user_id'   => null,
         'follow_id' => 0,
         'group_id'  => 0,
+        'is_read'   => 0,
         'type' => self::ONE_TYPE,
     );
     
@@ -52,6 +53,13 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
         $user->update_counter_byinc($arr['target_user_id'], 'fans_count', 1);     
       }
     }
+  }
+
+  /**
+   * 设置已读标识
+   */
+  public function set_readed($id){
+		return $this->update_set((int)$id, array('is_read' => 1));
   }
     
     /**

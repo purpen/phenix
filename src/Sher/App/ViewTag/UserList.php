@@ -30,6 +30,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         
         $only_dead = 0;
         $only_active = 0;
+        $quality = 0;
 		
 		// 某时间段内
 		$start_time = 0;
@@ -85,6 +86,9 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         }
         if ($only_system) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_SYSTEM;
+        }
+        if ($quality) {
+            $query['quality'] = 1;       
         }
 		
 		// 获取全部专家

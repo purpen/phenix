@@ -12,7 +12,8 @@
 		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
 		<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活</a>
 		<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活</a>
-		<a href="{{ app_url_admin }}/user?state=3&time={{ time }}" class="{{ css_pending }} item">已禁用</a>
+		<a class="{{ css_quality }} item" href="{{ app_url_admin }}/user?quality_user=1">优质</a>
+		<a href="{{ app_url_admin }}/user?state=3&time={{ time }}" class="{{ css_blocked }} item">已禁用</a>
 		<a class="{{ css_admin }} item" href="{{ app_url_admin }}/user?role=admin">管理员</a>
 		<a class="{{ css_editor }} item" href="{{ app_url_admin }}/user?role=editor">编辑人员</a>
 	  	<div class="right menu">
@@ -37,13 +38,14 @@
 		</div>
 	</div>
 	
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor quality:quality %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th></th>
 				<th>用户名</th>
 				<th>联系方式</th>
+        <th>优质用户</th>
 				<th>注册时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -76,6 +78,15 @@
 					{{ user.city }}<br />
 					{{ user.profile.phone }}
 				</td>
+        <td>
+          <p id="user-quality-{{user._id}}">
+						{% if user.quality %}
+              <a href="{{ app_url_admin }}/user/set_quality?id={{user._id}}&evt=0" class="ajax"><span class="ui small green label">是</span></a>
+						{% else %}
+            <a href="{{ app_url_admin }}/user/set_quality?id={{user._id}}&evt=1" class="ajax"><span class="ui small orange label">否</span></a>
+						{% endif %}
+					</p>
+        </td>
 				<td>
 					{{ user.created_on|date 'Y-m-d H:i'}}
 					<p>

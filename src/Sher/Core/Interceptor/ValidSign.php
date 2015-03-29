@@ -49,7 +49,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	public function get_signature($arrdata, $client_id){
 		ksort($arrdata);
     $ignore_data = array(
-      'sign', 'tmp'
+      'sign', 'tmp', 'topic_show', 'product_show'
     );
 		
 		$paramstring = '';
@@ -90,14 +90,14 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	 * 拒绝匿名用户
 	 */
 	public function deny_anonymous($action){
-		return $action->api_json('用户ID不存在！', 3000);
+		return $action->api_json('用户ID不存在！', 5000);
 	}
 	
 	/**
 	 * 签名验证不匹配
 	 */
 	public function mismatch_sign($action){
-		return $action->api_json('请求签名验证错误,请重试---!', 3000);
+		return $action->api_json('请求签名验证错误,请重试---!', 4009);
 	}
 	
 }

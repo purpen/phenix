@@ -12,6 +12,9 @@
 			padding:4rem 0 52% !important;
 		}
 	}
+	body{
+		background:#091f35;
+	}
 	
 	.ui.big.block {
 		padding-top: 4rem !important;
@@ -23,8 +26,6 @@
 		padding:25% 0;
 	}
 	.ui.nav {
-		border-top: 1px solid #e4e5e7;
-		border-bottom: 1px solid #e4e5e7;
 		background:#091f35;
 	}
 	.ui.divided.horizontal.list>.item{
@@ -531,7 +532,7 @@
 				<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
         <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
 				<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
-				<a href="{{ app_url_contest }}/dream2#coop" class="ui link item">合作资源</a>
+				<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
 			</div>
 		</div>
 		<div class="right aligned four wide column">
@@ -915,7 +916,7 @@
                    <div class="status clearfix"> 
                     <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
                     <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.total_love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
                    </div> 
                   </div> 
                 </div>
@@ -933,7 +934,7 @@
                    <div class="status clearfix"> 
                     <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
                     <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.total_love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
                    </div> 
                   </div> 
                 </div>
@@ -1044,19 +1045,19 @@
 				<p>太火鸟与广州美术学院工业设计学院整合双方优势资源，共同组织华南地区的创意产业孵化平台。并在该平台之上定期组织相关的产品创意概念演示、评审、推介等的服务。为华南地区的创意创业人士提供新产品体验、创意信息交流的场地。</p>
 			</div>
 		</div>
-    <!--
+    
 		<div class="row">
 			<div class="center aligned column">
-				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+				<a href=" {{ app_url_contest }}/cooperate " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 					查看更多
 				</a>
 			
-				<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+				<!--<a href=" " class="ui magenta btn-4 btn-4c icon-arrow-right btn">
 					提交合作
-				</a>
+				</a>-->
 			</div>
 		</div>
-    -->
+   
 	</div>
 </section>
 <section class="ui orga grid">
@@ -1091,9 +1092,11 @@
 				<img src="{{ app_url_packaged }}/images/bjlg_logo.jpg">
 				<img src="{{ app_url_packaged }}/images/xhckh_logo.jpg">
 				<img src="{{ app_url_packaged }}/images/ckkj_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/designboom.jpg">
 				<img src="{{ app_url_packaged }}/images/shijue_logo.jpg">
 				<img src="{{ app_url_packaged }}/images/zcool_logo.jpg">
 				<img src="{{ app_url_packaged }}/images/billwang_logo.jpg">
+				<img src="{{ app_url_packaged }}/images/zhubajie.jpg">
 			</div>
 		</div>
 	</div>

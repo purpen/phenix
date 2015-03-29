@@ -53,6 +53,7 @@
 		font-size: 20px;
 		text-align: center;
 		line-height: 30px;
+		padding-top: 10px;
 	}
 	.like .icon.heart{
 		color:#f36;
@@ -136,6 +137,7 @@
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
+      phenix.show_error_note('请先登录!');
 			phenix.show_login_box();
 			return false;
 		}
@@ -192,7 +194,7 @@
       {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
       {% if stuff.cover %}
         {% if assets.total_rows==1 %}
-          <div style="text-align:center;margin:0 auto;padding-top:20px;"><img width="360px" src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
+          <div style="text-align:center;margin:0 auto;padding-top:20px;"><img width="100%" src="{{ stuff.cover.thumbnails.huge.view_url }}"></div>
         {%else%}
           <div id="demoSlider" style="padding-top:20px;">
 
@@ -230,7 +232,7 @@
 				<span class="like">
 					<i class="icon heart"></i>
 				</span>
-        {{ stuff.total_love_count }}人支持
+        {{ stuff.love_count }}人支持
 			</div>
 			
 			<div class="ui team header">
@@ -278,7 +280,7 @@
 								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
 								  	<i class="thumbs outline up icon"></i>
 									<div class="love count">
-										{{ stuff.total_love_count|default 0 }}
+										{{ stuff.love_count|default 0 }}
 									</div>
 								</div>
 							</div>

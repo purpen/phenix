@@ -21,6 +21,8 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$target_id = 0;
 		$type = 0;
+    $event = 0;
+    $no_comment = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -38,10 +40,18 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
+
+    if($event){
+      $query['event'] = (int)$event;
+    }
 		
 		if($type){
 			$query['type'] = (int)$type;
 		}
+
+    if($no_comment){
+      $query['type'] = array('$ne'=>3);
+    }
 
 		if($target_id){
       if((int)$type==3){
@@ -54,6 +64,7 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Favorite::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+        $options['sort_field'] = $sort_field;
 		
         $result = $service->get_like_list($query,$options);
 		

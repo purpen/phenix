@@ -32,7 +32,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		$time = $this->stash['time'];
 		$q = $this->stash['q'];
 		
-		if(empty($state) && empty($time) && empty($q) && empty($this->stash['role'])){
+		if(empty($state) && empty($time) && empty($q) && empty($this->stash['role']) && empty($this->stash['quality_user'])){
 			$this->set_target_css_state('all');
 		}
 		
@@ -60,6 +60,12 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 				$this->set_target_css_state('user');
 			}
 		}
+
+    //优质用户
+    if(isset($this->stash['quality_user'])){
+      $this->stash['quality'] = 1;
+      $this->set_target_css_state('quality');   
+    }
 		
 		if (!empty($q)) {
 			// 是否为数字
@@ -209,6 +215,21 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
+
+  /**
+   * 设置/取消优质用户
+   */
+  public function set_quality() {
+ 		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+    $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		
+		$model = new Sher_Core_Model_User();
+		$ok = $model->set_quality($this->stash['id'], $this->stash['evt']);
+		
+		return $this->to_taconite_page('admin/user/set_quality.html');
+  }
 	
 	/**
 	 * 删除用户

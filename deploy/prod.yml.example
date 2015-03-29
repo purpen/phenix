@@ -41,8 +41,11 @@ app.redis.default:
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
 
-# 产品话题类别
+# 产品话题-话题评论
 app.product.topic_category_id: 19
+
+# 产品话题-评测
+app.product.topic_evaluating_category_id: 18
 
 # 十万火计(old)
 app.topic.dream_category_id: 49

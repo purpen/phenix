@@ -59,14 +59,21 @@
         {% if comment.reply %}
         <div class="comments">
           {% for reply in comment.reply %}
-            <div class="comment">
+          <div class="comment" id="{{ reply.r_id }}">
               <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
                 <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
               </a>
               <div class="content">
                 <a class="author">{{ reply.user.nickname }}</a>
-                <div class="metadata">
+                <div class="metadata actions" style="margin-top:0;opacity:1;" >
                   <div class="date">{{ reply.replied_on }}</div>
+                      {% if visitor.can_admin %}
+                      <a class="delete confirm-request" href="{{ app_url_comment }}/del_reply?id={{ comment._id }}&rid={{ reply.r_id }}"><small>删除</small></a>
+                      {%else%}
+                        {% if visitor.id==reply.user_id %}
+                          <a class="delete confirm-request" href="{{ app_url_comment }}/del_reply?id={{ comment._id }}&rid={{ reply.r_id }}"><small>删除</small></a>
+                        {%endif%}
+                      {%endif%}
                 </div>
                 <div class="text">
                   {{ reply.content }}

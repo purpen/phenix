@@ -1,0 +1,105 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的提醒-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+	.remind .ui.dynamic.list .item {
+		font-size: .8125rem;
+		background: rgba(0,0,0,.02);
+		cursor:auto;
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		position:relative;
+	}
+	.remind .ui.dynamic.list .content .ui.line.header{
+		margin-bottom:0em;
+		margin-top:0;
+	}
+	.remind .ui.list .link.header{
+		margin-bottom:0em;
+	}
+	.remind .ui.dynamic.list .item .content{
+		margin-left: 0%;
+		margin-right:0;
+		display:inline-block;
+		float: left;
+	}
+	
+	.remind .content>.inline{
+		display:inline-block;
+		line-height: 33px;
+		margin:0 8px;
+	}
+	.remind .description.fsize{
+		font-size: 15px;
+		color: rgba(0,0,0,.7);
+	}
+	.item .new{
+		color:#f36;
+		position:absolute;
+		top:0;
+		left:0;
+		font-size:13px;
+	}
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+<div class="account remind">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			{% include "block/center/head_notice_nav.html" %}
+			<h2 class="ui header">我的提醒</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+            {% remind_list var:'list' page:page user_id:user_id size:20 set_readed:1 %}
+						<div class="column">
+							<div class="ui dynamic selection list">
+							  {% if list.rows %}
+                  {% for d in list.rows %}
+                    <div class="item">
+                      {% if !d.is_read %}
+                        <div class="new">
+                          new
+                        </div>
+                      {%endif%}
+                      <div class="content">
+                        <a href="{{ d.s_user.home_url }}" class="ui link header inline" target="_blank">{{ d.s_user.nickname }}</a>
+                        <div class="description fsize inline">
+                          <span>{{ d.info }}</span><span>{{ d.kind_str }}</span>
+                        </div>
+                        {% if d.kind==3 %}
+                          <span>{{ d.target.content_original }}</span>
+                        {%else%}
+                          <a class="ui link" href="{{ d.target.view_url }}" title="{{ d.target.title }}" target="_blank">
+                            {{ d.target.title }}
+                          </a>
+                        {%endif%}
+                        <span>{{ d.created_on|relative_datetime }}</span>
+                      </div>
+                    </div>
+                  {%endfor%}
+                {%endif%}
+								
+							</div>
+    		{% if list.rows %}
+				<div class="ui pagination">
+	            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+	            {%include 'block/pager.html'%}
+				</div>
+	          {% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}

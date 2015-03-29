@@ -1,0 +1,60 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的话题-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+  // 编辑
+  $('.ui.edit.button').bind('click', function(){
+    var id = $(this).data('id');
+    window.open('{{ app_url_topic }}/edit?id='+id);
+  });
+
+  // 删除
+  $('.ui.remove.button').bind('click', function(){
+    var id = $(this).data('id');
+    if(confirm('确认执行删除操作吗?')){
+      $.post('{{ app_url_topic }}/ajax_del', {id:id });
+    }
+  });
+	
+{% endblock %}
+
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">我的话题</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+							{% topic_list var:'list' page:page user_id:user_id size:10 %}
+							<div class="ui center-list">
+								<div class="ui two cards">
+									{% for d in list.rows %}
+                    {% include 'block/center/topic-item.html' %}
+                  {%endfor%}
+						</div>
+					</div>
+					{% if list.rows %}
+						<div class="ui pagination">
+			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+			            {%include 'block/pager.html'%}
+						</div>
+			          {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+

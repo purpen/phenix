@@ -89,6 +89,16 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'featured' => self::FEATURED_DEFAULT,
         # 属于1.十万火计;2.蛋年;3.;4.;
         'from_to' => 0,
+
+      #用于大赛
+      # 省份
+        'province_id' => 0,
+      # 城市
+        'city_id' => 0,
+      # 大学
+        'college_id' => 0,
+      # 院系
+      'school_id' => 0,
         
 		'random' => 0,
         # 关联产品
@@ -102,7 +112,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','invented_love_count');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
@@ -111,7 +121,16 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	);
 	
 	protected function extra_extend_model_row(&$row) {
-		$row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);
+    if(isset($row['from_to'])){
+      if($row['from_to']==2){
+        $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']); 
+      }else{
+        $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
+      }   
+    }else{
+      $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
+    }
+
 		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
 		$row['fav_tags'] = !empty($row['like_tags']) ? implode(',', $row['like_tags']) : '';
@@ -146,8 +165,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);
 		}
-        // 总共赞的数量,真实+虚拟
-        $row['total_love_count'] = $row['love_count'];
+
         // 获取点赞用户
         $this->find_love_users($row);
 	}

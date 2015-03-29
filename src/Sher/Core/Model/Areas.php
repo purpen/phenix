@@ -135,4 +135,4 @@ class Sher_Core_Model_Areas extends Sher_Core_Model_Base  {
     }
     
 }
-?>
+

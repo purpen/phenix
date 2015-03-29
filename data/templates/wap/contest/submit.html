@@ -119,6 +119,14 @@
 			return false;
 		});
 	});
+
+  //如果只有一个分类,默认选中
+  var cate_length = $('.ui.options .option').length;
+  if(cate_length==1){
+    var id = $('.ui.options .option').attr('data-value');
+    $('.ui.options .option').addClass('active');
+		$('#stuff-category').val(id);
+  }
 	
 {% endblock %}
 
@@ -137,6 +145,7 @@
 					<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 					<input type="hidden" name="file_count" id="file_count" />
 					<input type="hidden" name="from_to" value="1" />
+					<input type="hidden" name="verified" value="1" />
 					
 					<div class="ui segment">
 						<div class="ui {{ hide }} field">

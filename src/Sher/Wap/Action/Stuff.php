@@ -125,7 +125,8 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$this->stash['editable'] = $editable;
 		
     	// 评论参数
-    	$this->stash['comment_target_id'] = (int)$stuff['_id'];
+    	$this->stash['comment_target_id'] = $stuff['_id'];
+    	$this->stash['comment_target_user_id'] = (int)$stuff['user_id'];
     	$this->stash['comment_type'] = Sher_Core_Model_Comment::TYPE_STUFF;
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
@@ -242,6 +243,17 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     //团队介绍-蛋年
     if(isset($this->stash['team_introduce'])){
       $data['team_introduce'] = $this->stash['team_introduce'];
+    }
+
+    //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
+    if(isset($this->visitor->quality) && (int)$this->visitor->quality==1){
+      $data['verified'] = 1; 
+    }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
+      $data['verified'] = 1;
+    }elseif(empty($this->stash['from_to'])){
+      $data['verified'] = 1;
+    }else{
+      $data['verified'] = 0;
     }
 		
 		// 检查是否有附件

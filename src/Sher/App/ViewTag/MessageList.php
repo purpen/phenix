@@ -53,8 +53,14 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 					# 更新阅读标识
 					$message->mark_message_readed($result['rows'][$i]['_id'], 'b_readed');
 				}
+
+        if($result['rows'][$i]['users'][0]==$user_id){
+ 				  $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
+        }else{
+  				$result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
+        }
 				
-				$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);
+				//$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);
 			}
 			
 			unset($message);

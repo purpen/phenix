@@ -1,0 +1,113 @@
+{%extends 'layout/board.html'%}
+{% block title %}我的赞-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+	// 赞
+	$('.ui.pop.btn').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:type}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消赞')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('取消赞');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:type}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '赞一下')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('赞一下');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+
+{% endblock %}
+
+{% block content %}
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">我的赞</h2>
+			<div class="ui segment">
+				<div class="ui grid">
+					<div class="row">
+						<div class="column">
+							{% favorite_list var:'list' page:page user_id:user_id no_comment:1 event:2 size:10 %}
+							<div class="ui center-list">
+								
+								<div class="ui two cards">
+									{% for d in list.rows %}
+                    <!--产品-->
+                    {% if d.type==1 %}
+                      {% if d.product %}
+                        {% include 'block/center/f-product-item.html' %}
+                      {%endif%}
+                    {%endif%}
+                    <!--话题-->
+                    {% if d.type==2 %}
+                      {% if d.topic %}
+                        {% include 'block/center/f-topic-item.html' %}
+                      {%endif%}
+                    {%endif%}
+                    <!--评论-->
+                    {% if d.type==3 %}
+                      {% if d.comment %}
+                        {% include 'block/center/f-comment-item.html' %}
+                      {%endif%}
+                    {%endif%}
+                    <!--灵感-->
+                    {% if d.type==4 %}
+                      {% if d.stuff %}
+                        {% include 'block/center/f-stuff-item.html' %}
+                      {%endif%}
+                    {%endif%}
+
+                  {%endfor%}
+
+						</div>
+					</div>
+          			{% if list.rows %}
+						<div class="ui pagination">
+			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+			            {%include 'block/pager.html'%}
+						</div>
+			          {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+
+

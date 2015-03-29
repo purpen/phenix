@@ -387,6 +387,13 @@ class Sher_Core_Helper_Url {
     }
 
     /**
+     * 蛋年分享浏览地址
+     */
+    public static function birdegg_view_url($stuff_id){
+    	return  sprintf(Doggy_Config::$vars['app.url.birdegg']."/%s.html", $stuff_id);
+    }
+
+    /**
      * 产品分享浏览地址
      */
     public static function wap_stuff_view_url($stuff_id){

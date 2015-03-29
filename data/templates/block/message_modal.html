@@ -1,0 +1,25 @@
+<!-- 发私信 -->
+<div class="ui small letter modal">
+  	<i class="flat close icon"></i>
+	<div class="header">
+		发私信
+	</div>
+  	<div class="content">
+		<form action="{{ app_url_user }}/ajax_message" class="ui form" method="post" id="message-form">
+			<div class="field">
+				<label>发给：</label>
+				<input type="text" name="nickname" value="" disabled="disabled" />
+				<input type="hidden" name="to" value="" />
+			</div>
+			<div class="field">
+				<label>内容：</label>
+				<textarea name="content" rows="3"></textarea>
+			</div>
+			
+			<div class="right aligned field ">
+				<div class="ui gray cancel button">取消</div>
+				<div class="ui active magenta submit button" >发送</div>
+			</div>
+		</form>
+  	</div>
+</div>

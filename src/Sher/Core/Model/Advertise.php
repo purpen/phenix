@@ -27,6 +27,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		'title' => '',
 		'sub_title' => '',
         'web_url' => '',
+        'b_color' => 0,
 		'summary' => '',
 		
 		# 背景色
@@ -58,7 +59,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'web_url');
 	
-    protected $int_fields = array('space_id', 'view_count', 'click_count', 'ordby', 'state', 'mode');
+    protected $int_fields = array('space_id', 'view_count', 'click_count', 'ordby', 'state', 'mode', 'b_color');
     
 	
 	protected $joins = array(

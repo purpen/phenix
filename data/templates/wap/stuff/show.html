@@ -110,6 +110,7 @@
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
+      phenix.show_error_note('请先登录!');
 			phenix.show_login_box();
 			return false;
 		}
@@ -217,7 +218,7 @@
 								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
 								  	<i class="thumbs outline up icon"></i>
 									<div class="love count">
-										{{ stuff.total_love_count|default 0 }}
+										{{ stuff.love_count|default 0 }}
 									</div>
 								</div>
 							</div>
