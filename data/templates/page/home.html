@@ -2,11 +2,6 @@
 
 {% block page_css %}
 <style type="text/css">
-	*, *:after, *:before {
-		box-sizing:border-box;
-		-moz-box-sizing:border-box; /* Firefox */
-		-webkit-box-sizing:border-box; /* Safari */
-	}
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
 	}
@@ -24,10 +19,6 @@
 			padding-right:0 !important;
 			padding-left:0 !important;
 		}
-	}	
-	.ui.grid>.column{
-		padding-right:1.2%;
-		padding-left:1.2%;
 	}
 	header.main .search.item{
 		width:30%;
@@ -49,8 +40,8 @@
     padding-bottom: 4.5rem;
   }
   .ui.small.vote.block {
-    padding-bottom: 2.5em;
-    padding-top: 0.5em !important;
+    padding-bottom: 1.5rem;
+    padding-top: 0.5rem !important;
   }
   .hero .next, .hero .prev {
     bottom: 50px;
@@ -355,29 +346,26 @@
 	</section>
 	
 	<section class="ui small vote block">
-		<div class="ui responsive grid" id="votelist">
-			<div class="row">
+		<div class="ui responsive grid">
+			<div class="two column middle aligned row">
 				<div class="column">
 					<h2 class="block title">
 						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
 					</h2>
 				</div>
+                <div class="right aligned column">
+					<a href="{{ app_url_fever }}" class="ui inverted gray button">
+						全部创意
+					</a>
+                </div>
 			</div>
-			<div class="content row">
-				<div class="center aligned column">
-					<div class="ui three items">
-						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:6 %}
+			<div class="row">
+				<div class="column">
+					<div class="ui four voteist cards">
+						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:4 %}
 						{% for product in list.rows %}
 							{% include "block/product_vote_item.html" %}
 						{% endfor %}
-					</div>
-					<div class="actions" data-2150="transform: translateY(100px);opacity:0;" data-2250="transform: translateY(0px);opacity:1;">
-						<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-							全部创意
-						</a>
-						<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-							提交创意
-						</a>
 					</div>
 				</div>
 			</div>

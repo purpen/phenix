@@ -21,13 +21,13 @@
                     {{ stuff.category.title }}
           	  	</a>
           	  	<div class="ui avatars images" id="stuff_{{ stuff._id }}_support">
-                    {% if stuff.total_love_count %}
+                    {% if stuff.love_count %}
                         {% users_list var:'userlist' user_ids:stuff.love_users %}
                         {% for u in userlist %}
               	  	        <img src="{{ u.mini_avatar_url }}" class="ui avatar image" />
                         {% endfor %}
                         <span class="count">
-                            {{ stuff.total_love_count }}<small>+</small>
+                            {{ stuff.love_count }}<small>+</small>
                         </span>
                     {% endif %}
           	  	</div>
