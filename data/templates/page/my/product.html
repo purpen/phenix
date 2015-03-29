@@ -33,13 +33,13 @@
 		</div>
 		<div class="twelve wide column">
 			<h2 class="ui header">我的产品</h2>
-			<div class="ui segment">
+			<div>
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
 							{% product_list var:'list' stage:1 page:page user_id:user_id size:10 %}
 							<div class="ui center-list">
-								<div class="ui two cards">
+								<div class="ui three cards">
 									{% for d in list.rows %}
                     {% include 'block/center/product-item.html' %}
                   {%endfor%}

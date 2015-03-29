@@ -3,7 +3,21 @@
 
 {% block page_css %}
 <style type="text/css">
-
+	.ui.center-list .ui.three.cards>.card>.content{
+		height: 30px;
+		padding: 1rem 1rem 60px!important;
+	}
+	.ui.center-list .presell {
+	  border-top-left-radius: 4px;
+	}
+	.ui.center-list >.ui.three.cards >.card >.image{
+		padding:37.65% 0;
+		background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
+		background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
+		background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
+		background-size:cover;
+	}
+	
 </style>
 {% endblock %}
 
@@ -55,14 +69,14 @@
 		<div class="twelve wide column">
 			{% include "block/center/head_interest_nav.html" %}
 			<h2 class="ui header">我的收藏</h2>
-			<div class="ui segment">
+			<div>
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
 							{% favorite_list var:'list' page:page user_id:user_id event:1 size:10 %}
 							<div class="ui center-list">
 								
-								<div class="ui two cards">
+								<div class="ui three cards">
 									{% for d in list.rows %}
                     <!--产品-->
                     {% if d.type==1 %}

@@ -21,7 +21,7 @@
 }
 .mes-text{
 	width:100%;
-	padding-top:1em;
+	padding:1rem 0 1rem;
 }
 .mes-text a.ui.photo{
 	float: left; 
@@ -35,7 +35,7 @@
 	border-radius: 25px;
 }
 .mes-text .news{
-	padding: 0 0 0 60px; 
+	padding: 6px 0 0 60px; 
 	overflow: visible;
 	font-size: 17px;
 	font-weight: 700;
@@ -71,6 +71,9 @@
     text-decoration:underline;
     color:#f36;
   }
+	.comment-show.ui.buttons .button:first-child {
+	  border-left: 0px solid gray; 
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -117,11 +120,11 @@
 	});
 
   //评论按钮-接收
-  $('.ui.recive-comment.btn').click(function(){
+  $('.ui.recive-comment.button').click(function(){
     phenix.redirect("{{ app_url_my }}/recive_comment");
   });
   //评论按钮-发送
-  $('.ui.send-comment.btn').click(function(){
+  $('.ui.send-comment.button').click(function(){
     phenix.redirect("{{ app_url_my }}/send_comment");
   });
 
@@ -153,11 +156,11 @@
 					<div class="row">
 						<div class="column">
 							
-							<div class="comment-show">
-                <div class="ui magenta recive-comment btn {{ css_recive_comment }}">
+							<div class="comment-show ui buttons">
+                <div class="ui magenta inverted recive-comment button {{ css_recive_comment }}">
 								收到的评论
 							</div>
-								<div class="ui magenta send-comment btn {{ css_send_comment }}">
+								<div class="ui magenta inverted send-comment button {{ css_send_comment }}">
 								发出的评论
 							</div>
 							</div>

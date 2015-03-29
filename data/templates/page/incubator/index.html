@@ -16,6 +16,27 @@
 		text-align: center;
 		position: relative;
 	}
+	.incubator.serve{
+		background: #fff;
+		position: relative;
+	  padding: 3% 0;
+	}
+	.incubator.serve .section-title h2.title{
+		color:#444;
+	}
+	.incubator.serve .ui.inverted.button{
+		border:1px solid #f36;
+		-webkit-box-shadow: 0 0 0 0px #fff inset!important;
+	  box-shadow: 0 0 0 0px #fff inset!important;
+	}
+	.incubator.serve .ui.inverted.button:hover{
+		border-color: #F36;
+		-webkit-box-shadow: 0 0 0 0px #fff inset!important;
+	  box-shadow: 0 0 0 0px #fff inset!important;
+	}
+	.incubator.serve .ui.pd-10 {
+	  padding: 6% 15% 8%;
+	}
 </style>
 {% endblock %}
 
@@ -464,6 +485,46 @@
 		<a class="next" href="#">
 			<i class="flat arrow_right icon"></i>
 		</a>
+	</div>
+</div>
+
+<div class="incubator serve">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h2 class="block title">
+					孵化服务
+				</h2>
+				<hr>
+				<h4><a href="http://www.taihuoniao.com/active/view-12003.html"class="ui link" target="_blank">太火鸟孵化团队培训计划启动，知识产权培训打响第一发</a></h4>
+				<p>对于孵化团队来讲，专利是其保护自己合法权益的有力武器。<br />为了确保孵化团队在创业过程中遭遇知识产权纠纷时可以切实维护好自己的利益，太火鸟积极启动帮助孵化团队进行创业培训的计划。</p>
+				
+				<!--<div class="ui magenta large buttons">
+					<div class="ui inverted px button">
+						知识产权培训
+					</div>
+					<div class="ui inverted zl button">
+						线下展览组织
+					</div>
+				</div>-->
+				
+			</div>
+		</div>
+	</div>
+	<div class="ui responsive pd-10 grid">
+		<div class="row">
+			<div class="ui three items">
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/sever1.jpg" class="ui image" />
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/sever2.jpg" class="ui image" />
+				</div>
+				<div class="item">
+					<img src="{{ app_url_packaged }}/images/sever3.jpg" class="ui image" />
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
