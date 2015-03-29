@@ -264,7 +264,7 @@
 
             <div class="three fields">
               <div class="field">
-                <label for="space_id">省份：</label>
+                <label for="province_id">省份：</label>
                 {% province_list var:'list' size:100 %}
                 <div class="ui fluid selection province dropdown">
                   <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
@@ -280,7 +280,7 @@
               </div>
 
               <div class="field">
-                <label for="space_id">大学：</label>
+                <label for="college_id">大学：</label>
                 {% province_list var:'list' size:100 %}
                 <div class="ui fluid selection college dropdown" id="college-menu">
                   <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
