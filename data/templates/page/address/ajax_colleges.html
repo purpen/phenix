@@ -1,12 +1,12 @@
 <taconite>
 	<replace select="#college-menu">
-		<div class="ui fluid selection college dropdown" id="college-menu">
-			<input type="hidden" name="college_id" />
+		<div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
+      <input type="hidden" name="college_id" value="{{ college_id }}" />
 		    <div class="default text">--院校--</div>
-          <i class="angle down icon"></i>
+          <i class="angle down icon" style="position:absolute;right:0"></i>
 		    <div class="menu">
 				{% for d in colleges %}
-		        <div data-value="{{ d._id }}" class="item">{{ d.name }}</div>
+          <div data-value="{{ d._id }}" class="item {%if d._id==college_id%}active{%endif%}">{{ d.name }}</div>
 				{% endfor %}
 		    </div>
 		</div>

@@ -394,6 +394,13 @@ class Sher_Core_Helper_Url {
     }
 
     /**
+     * 十万火计2浏览地址
+     */
+    public static function match2_view_url($stuff_id){
+    	return  sprintf(Doggy_Config::$vars['app.url.contest']."/view2/%s.html", $stuff_id);
+    }
+
+    /**
      * 产品分享浏览地址
      */
     public static function wap_stuff_view_url($stuff_id){

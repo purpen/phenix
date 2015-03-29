@@ -179,7 +179,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value});
+					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id: 0});
 				}
 			}
 		});
@@ -268,28 +268,29 @@
 
             <div class="three fields">
               <div class="field">
-                <label for="province_id">所在院校</label>
+                <label for="province_id">省份</label>
                 {% province_list var:'list' size:100 %}
-                <div class="ui fluid selection province dropdown">
+                <div class="ui fluid selection province dropdown" style="position:relative;z-index:9999;">
                   <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
                     <div class="default text">--省份--</div>
-                    <i class="angle down icon"></i>
+                    <i class="angle down icon" style="position:absolute;right:0;"></i>
                     <div class="menu">
                       {% for d in list.rows %}
                       <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
                       {% endfor %}
                     </div>
                 </div>
-                <div class="ui pointing top label">大学所在省份</div>
+                <div class="ui pointing top label">院校所在省份</div>
               </div>
 
               <div class="field">
-                <label for="college_id">大学</label>
-                <div class="ui fluid selection college dropdown" id="college-menu">
-                  <input type="hidden" name="college_id" value="" />
+                <label for="college_id">院校</label>
+                <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
+                  <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
                     <div class="default text">--院校--</div>
-                    <i class="angle down icon"></i>
+                    <i class="angle down icon" style="position:absolute;right:0;"></i>
                 </div>
+                <div class="ui pointing top label">请先选择省份</div>
               </div>
 
             </div>
