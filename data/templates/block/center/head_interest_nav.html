@@ -23,11 +23,7 @@
 }
 </style>
 {% endblock %}
-<div class="ui horizontal list">
-	<div class="item">
-    <a href="{{ app_url_my }}/favorite" class="ui link {{css_user_favorite}}">我的收藏</a>
-	</div>
-	<div class="item">
-    <a href="{{ app_url_my }}/love" class="ui link {{css_user_love}}">我的赞</a>
-	</div>
+<div class="ui secondary pointing magenta menu">
+    <a href="{{ app_url_my }}/favorite" class="ui item {{css_user_favorite}}">我的收藏</a>
+    <a href="{{ app_url_my }}/love" class="ui item {{css_user_love}}">我的赞</a>
 </div>
