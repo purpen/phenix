@@ -177,6 +177,8 @@
 		background:#fff;
 		color:#f36;
 	}
+    
+    
 </style>
 {% endblock %}
 
@@ -263,10 +265,8 @@
 	<a href="http://www.taihuoniao.com/birdegg">
 		<div class="ui responsive grid">
 			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
-			
 		</div>
 	</a>
-
 </div>
 
 <div class="header main">
@@ -274,6 +274,7 @@
 		{% include "block/header.html" %}
 	</div>
 </div>
+
 <div id="homepage">
 	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
 		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" />
@@ -281,8 +282,6 @@
 			关注太火鸟
 		</div>
 	</div>
-	
-	
 	
 	<div id="fixedslide" class="frame">
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
@@ -386,7 +385,7 @@
 	</section>
 	
 	<section class="ui small topic white background block">
-		<div class="ui responsive sticktopic grid">
+	    <div class="ui responsive sticktopic grid">
 			<div class="row">
 				<div class="column">
 					<h2 class="block title">
@@ -435,84 +434,6 @@
 			</div>
 		</div>
 	</section>
-	
-	<section class="ui hide big white background block">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="center aligned column section-title">
-					<h3 class="ui header">我们的社区</h3>
-					<p>分享第一手产品资讯，创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快。</p>
-					<hr>
-				</div>
-			</div>
-			<div class="row">
-				<div class="center aligned column">
-					<div class="ui four social items">
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1880="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq01.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c11">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2100="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											最新动态
-											<div class="sub header">
-												你总是需要多了解一些正在发生着的有关科技创意好玩的事
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1930="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq02.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c12">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2150="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											产品专区
-											<div class="sub header">
-												我们用专业的数据说明，让你更了解产品的优缺点
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1980="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq03.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c13">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2200="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											奇思妙想
-											<div class="sub header">
-												新奇的想法、怪怪的想法、笨笨的想法、好想法、坏想法……
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-2030="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq04.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c14">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2250="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											活动&吐槽
-											<div class="sub header">
-												只要发自内心的想去吐槽，槽点自然而然会呈现在你眼前
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 
 	<section class="ui big succase block">
 		<div class="ui responsive grid">
@@ -545,7 +466,7 @@
 								</div>
 							</div>
 						</div>
-				
+			
 						<div class="magenta item">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品
@@ -565,7 +486,7 @@
 								</div>
 							</div>
 						</div>
-				
+			
 						<div class="magenta item">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯

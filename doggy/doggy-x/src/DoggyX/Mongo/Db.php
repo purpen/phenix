@@ -11,7 +11,28 @@ class DoggyX_Mongo_Db {
 
     public function __construct($options=array()) {
         $host = isset($options['host'])?$options['host']:'mongodb://127.0.0.1';
-        $mongo = new Mongo($host,array($options));
+        //unset($options['host']);
+        
+		$mos = array();
+		// 集群
+		if (isset($options['replicaSet'])){
+			$mos['replicaSet'] = $options['replicaSet'];
+		}
+		// 读写分离
+		if (isset($options['readPreference'])){
+			$mos['readPreference'] = $options['readPreference'];
+		}
+		// 设置权限
+		if (isset($options['username'])){
+			$mos['username'] = $options['username'];
+		}
+		if (isset($options['password'])){
+			$mos['password'] = $options['password'];
+		}
+        
+        // 建立连接
+        $mongo = new MongoClient($host, $mos);
+        
         if (isset($options['slaveOk'])) {
             $mongo->setSlaveOkay($options['slaveOk']);
         }
@@ -52,9 +73,10 @@ class DoggyX_Mongo_Db {
     /**
      * Returns true if the value passed appears to be a Mongo database reference
      *
-     * @param mixed $obj
-     * @return boolean
-     **/
+     * @param $value
+     * @return bool
+     * @internal param mixed $obj
+     */
     public static function is_ref($value) {
         if (!is_array($value)) {
             return false;
@@ -195,14 +217,15 @@ class DoggyX_Mongo_Db {
      *
      * @param string $collection
      * @param mixed $id
+     * @param array $fields
      * @return array
      **/
-    public function first($collection, $id) {
+    public function first($collection, $id, array $fields = array()) {
         $col = $this->db->selectCollection($collection);
         if (!is_array($id)) {
             $id = array('_id' => self::id($id));
         }
-        return $col->findOne($id);
+        return $col->findOne($id, $fields);
     }
 
     /**
@@ -259,9 +282,19 @@ class DoggyX_Mongo_Db {
      * @param mixed $safe default is false
      * @return void
      **/
-    public function update($collection, $criteria, $newobj, $upsert = false, $multiple = false,$safe = false) {
+    public function update($collection, $criteria, $newobj, $upsert = false, $multiple = false,$safe = false, $w=null) {
         $col = $this->db->selectCollection($collection);
-        return $col->update($criteria, $newobj, array('upsert' => $upsert, 'multiple' => $multiple,'safe' => $safe));
+        $options = array(
+            'upsert' => $upsert,
+            'multiple' => $multiple,
+        );
+        if ($safe) {
+            $options['w'] = 1;
+        }
+        if (!is_null($w)) {
+            $options['w'] = (int) $w;
+        }
+        return $col->update($criteria, $newobj, $options);
     }
     /**
      * Update all matched rows
@@ -272,7 +305,7 @@ class DoggyX_Mongo_Db {
      * @param string $upsert
      * @return void
      */
-    public function update_all($collection,$criteria,$newobj,$upsert = false,$safe = false) {
+    public function update_all($collection,$criteria,$newobj,$upsert = false, $safe = false) {
         return $this->update($collection,$criteria,$newobj,$upsert,true,$safe);
     }
 
@@ -352,7 +385,7 @@ class DoggyX_Mongo_Db {
         if (!is_array($criteria)) {
             $criteria = array('_id' => self::id($criteria));
         }
-        return $col->remove($criteria, array('justOne' => $just_one,'safe' => $safe));
+        return $col->remove($criteria, array('justOne' => $just_one,'w' => $safe));
     }
 
     /**
@@ -525,7 +558,7 @@ class DoggyX_Mongo_Db {
     }
     /**
      * Wrapper of findAndModfiy command:
-     * 
+     *
      * Options:
      * query	 a filter for the query,default is	{}
      * sort	     if multiple docs match, choose the first one in the specified sort order as the object to manipulate,default is {}
@@ -535,9 +568,9 @@ class DoggyX_Mongo_Db {
      * fields	 see Retrieving a Subset of Fields (1.5.0+)	 default is All fields.
      * upsert	 create object if it doesn't exist.
      *
-     * @param string $collection 
-     * @param string $options 
-     * @return void
+     * @param string $collection
+     * @param array $options
+     * @return mixed
      */
     public function find_and_modify($collection,$options = array()) {
         $result = $this->db->command(array('findAndModify' => $collection) + $options);

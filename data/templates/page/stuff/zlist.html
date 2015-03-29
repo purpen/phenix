@@ -1,25 +1,8 @@
 {%extends 'layout/column.html'%}
-{% block title %}产品灵感-{% endblock %}
+{% block title %}智品库-{% endblock %}
 {% block page_css %}
-<style type="text/css">	
-	.social.submitbox {
-		background-color: #f1f1f1;
-		padding: 40px 0 50px;
-	}
-	.social.submitbox h2 {
-		padding-top: 12px;
-		line-height: 32px;
-		padding-bottom: 0.5rem;
-		margin-bottom: 0.5rem;
-		font-weight: 800;
-		color: #444;
-	}
-	.social.submitbox h2 + p {
-		margin-bottom: 2rem;
-	}
-	.social.submitbox .ui.share.button {
-		padding: 0.8em 3.5rem;
-	}
+<style type="text/css">
+	
 </style>
 {% endblock %}
 
@@ -27,36 +10,101 @@
 	$('.special.cards .image').dimmer({
 	  on: 'hover'
 	});
+    
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+			if (result.success) {
+				$btn
+					.addClass('actived');
+                    
+                if(result.data.newadd){
+                    $('#stuff_'+ id +'_support')
+                        .prepend('<img src="'+ result.data.avatar +'" class="ui avatar image" />')
+                        .find('span.count').remove()
+                        .end()
+                        .append('<span class="count">'+ result.data.love_count +'<small>\+</small></span>');
+                }
+			} else {
+				phenix.show_error_note(result.message);
+			}
+		}, 'json');
+	});
 {% endblock %}
 
 
 {% block content %}
-<div class="social catemenu ideaheader">
-	<div class="category header" style="background-image: url('{{ app_url_packaged }}/images/banner-labs.jpg');">
-		<div class="ui responsive grid">
-			<div class="center aligned row">
-				<div class="column">
-					<div class="inner">
-						<h1>
-							<a href="{{ app_url_stuff }}" class="{{ all_stuff }} cate">
-								产品灵感
-							</a>
-						</h1>
-						{% category_list var:'all_category' only_open:1 domain:4 current:cid pid:top_category_id %}
-						<div class="children">
-							{% for cate in all_category.rows %}
-								<h2>
-									<a href="{{ app_url_stuff }}/c{{ cate._id }}" class="{{ cate.active }} cate">
-										{{ cate.title }}
-									</a>
-								</h2>
-							{% endfor %}
-						</div>
-						<p class="discription"><small>“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</small></p>
-					</div>
-				</div>
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
 			</div>
 		</div>
+	</div>
+</div>
+<div class="social catemenu ideaheader">
+    {% ad_list var:'adbgpic' page:1 size:1 name:'stuff_head_bgpic' sort_field:'latest' state:2 %}
+    {% if adbgpic %}
+    <div class="category header" style="background-image: url('{{ adbgpic.cover.fileurl }}');">
+    {% else %}
+	<div class="category header" style="background-image: url('{{ app_url_packaged }}/images/banner-labs.jpg');">
+    {% endif %}
+        <div class="cover">
+    		<div class="ui responsive grid">
+    			<div class="row">
+    				<div class="twelve wide column">
+                        <div class="container">
+        					<h1 class="block title">
+        						智品库
+        					</h1>
+                            <p class="discription"><small>“灵感，是由于顽强的劳动而获得的奖赏”“得之在俄顷，积之在平日”</small></p>
+                            <hr>        					
+                        </div>
+                    </div>
+                    <div class="right aligned four wide column">
+                        <div class="container">
+            				<div class="stast">
+            					<div class="ui horizontal bulleted list">
+            						<span class="item">总数</span>
+            						<span class="item">
+                                        {{ counter.items.total_count|default 0 }}
+            						</span>
+            					</div>
+            					<span class="space"> / </span>
+            					<div class="ui horizontal bulleted list">
+            						<span class="item">精选</span>
+            						<span class="item">
+                                        {{ counter.items.feature_count|default 0 }}
+            						</span>
+            					</div>
+            				</div>
+            				<a href="{{ app_url_stuff }}/submit" class="ui inverted share white button">
+            					<i class="edit icon"></i> 提交新产品
+            				</a>
+                        </div>
+                    </div>
+    			</div>
+                <div class="row">
+                    <div class="column">
+    					{% category_list var:'all_category' only_open:1 domain:4 current:cid pid:top_category_id %}
+    					<div class="children">
+    						{% for cate in all_category.rows %}
+								<a href="{{ app_url_stuff }}/c{{ cate._id }}" class="ui {{ cate.active }} white inverted button">
+									{{ cate.title }}
+								</a>
+    						{% endfor %}
+    					</div>
+                    </div>
+                </div>
+    		</div>
+        </div>
 	</div>
 </div>
 
@@ -65,13 +113,13 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui horizontal bulleted list">
-				  <a class="ui link {{ css_featured }} item" href="{{ app_url_stuff }}/featured">
+				  <a class="ui line {{ css_featured }} item" href="{{ app_url_stuff }}/featured">
 				    精选
 				  </a>
-				  <a class="ui link {{ css_sticked }} item" href="{{ app_url_stuff }}/sticked">
+				  <a class="ui line {{ css_sticked }} item" href="{{ app_url_stuff }}/sticked">
 				    推荐
 				  </a>
-				  <a class="ui link {{ css_latest }} item" href="{{ app_url_stuff }}/latest">
+				  <a class="ui line {{ css_latest }} item" href="{{ app_url_stuff }}/latest">
 				    最新
 				  </a>
 				</div>
@@ -85,9 +133,9 @@
 		<div class="row">
 			<div class="column">
 				{% stuff_list var:'stufflist' category_id:cid is_top:is_top sort:sort sticked:sticked featured:featured page:page size:36 %}
-				<div class="ui three cards">
+				<div class="ui three stuffs cards">
 					{% for stuff in stufflist.rows %}
-            {% include "block/stuff_item.html" %}
+                        {% include "block/stuff_item.html" %}
 					{% endfor %}
 				</div>
 				
@@ -114,8 +162,8 @@
 					去发现、去支持、去分享
 				</h2>
 				<p>无论您是谁，让我们用创意和梦想，去改变这个平凡无奇的世界</p>
-				<a href="{{ app_url_stuff }}/submit" class="ui inverted share magenta active button">
-					<i class="add icon"></i> 提交产品
+				<a href="{{ app_url_stuff }}/submit" class="ui inverted share magenta button">
+					<i class="edit icon"></i> 提交产品
 				</a>
 			</div>
 		</div>
@@ -127,11 +175,15 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">产品灵感</div>
+					<div class="active section">智品库</div>
 				</div>
 			</div>
 		</div>

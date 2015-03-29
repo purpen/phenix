@@ -11,6 +11,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
 
 <div class="topics catemenu masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/tp-{%if is_top%}{{ current_category.name }}{%else%}{{ parent_category.name }}{%endif%}.jpg');">
 	<div class="ui responsive grid">
@@ -66,15 +75,9 @@
 			<div class="column">
 				<div class="children">
 					{% for cate in category.rows %}
-						{% if cate.active %}
-							<a href="{{ cate.view_url }}" class="ui inverted magenta active button">
-								<i class="flat s_{{ cate.name }} icon"></i> {{ cate.title }}
-							</a>
-						{% else %}
-							<a href="{{ cate.view_url }}" class="ui inverted button">
-								<i class="flat s_{{ cate.name }} icon"></i> {{ cate.title }}
-							</a>
-						{% endif %}
+						<a href="{{ cate.view_url }}" class="ui inverted white {{ cate.active }} button">
+							<i class="flat s_{{ cate.name }} icon"></i> {{ cate.title }}
+						</a>
 					{% endfor %}
 				</div>
 			</div>
@@ -236,8 +239,12 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}">

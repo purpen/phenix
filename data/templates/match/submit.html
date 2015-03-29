@@ -173,6 +173,25 @@
 			return false;
 		});
 	});
+
+  //ajax省份选择联动
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value});
+				}
+			}
+		});
+	});
+
+  //如果只有一个分类,默认选中
+  var cate_length = $('.ui.options .option').length;
+  if(cate_length==1){
+    var id = $('.ui.options .option').attr('data-value');
+    $('.ui.options .option').addClass('active');
+		$('#stuff-category').val(id);
+  }
 	
 {% endblock %}
 
@@ -241,6 +260,42 @@
 						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="产品特性/亮点/别名等优化搜索词" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
+
+
+            <div class="three fields">
+              <div class="field">
+                <label for="province_id">省份：</label>
+                {% province_list var:'list' size:100 %}
+                <div class="ui fluid selection province dropdown">
+                  <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
+                    <div class="default text">--省份--</div>
+                    <i class="angle down icon"></i>
+                    <div class="menu">
+                      {% for d in list.rows %}
+                      <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="ui pointing top label">大学所在省份</div>
+              </div>
+
+              <div class="field">
+                <label for="college_id">大学：</label>
+                {% province_list var:'list' size:100 %}
+                <div class="ui fluid selection college dropdown" id="college-menu">
+                  <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
+                    <div class="default text">--院校--</div>
+                    <i class="angle down icon"></i>
+                    <div class="menu">
+                      {% for d in list.rows %}
+                      <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
+                      {% endfor %}
+                    </div>
+                </div>
+              </div>
+
+            </div>
+
 						
 						<div class="field">
 							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>

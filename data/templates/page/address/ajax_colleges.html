@@ -1,0 +1,14 @@
+<taconite>
+	<replace select="#college-menu">
+		<div class="ui selection college dropdown" id="college-menu">
+			<input type="hidden" name="college_id" value="" />
+		    <div class="default text">--院校--</div>
+		    <i class="flat arrowbottom icon"></i>
+		    <div class="menu">
+				{% for d in colleges %}
+		        <div data-value="{{ d._id }}" class="item">{{ d.name }}</div>
+				{% endfor %}
+		    </div>
+		</div>
+	</replace>
+</taconite>

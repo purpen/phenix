@@ -211,6 +211,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
+    
+    /**
+     * 上传资源图片
+     */
+    public function cooperate(){
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_COOPERATE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_COOPERATE;
+        
+		return $this->handle_upload($asset_type, $asset_domain);
+    }
 
 	/**
 	 * 上传评论图片

@@ -14,7 +14,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 * 默认入口
 	 */
 	public function execute(){
-		return $this->qiniu();
+		echo phpinfo();
 	}
 	
 	/**

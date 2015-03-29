@@ -17,6 +17,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $user_id = 0;
         $target_id = 0;
         $type = 0;
+        $sort = 0;
         $check_loved = 0;
         $current_user_id = 0;
         $target_user_id = 0;

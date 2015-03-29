@@ -43,14 +43,15 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 			$query['domain'] = (int)$domain;
 		}
 		// 默认为0，顶级分类
-		$query['pid'] = (int)$pid;
+        if(!empty($pid)){
+            $query['pid'] = (int)$pid;
+        }
 		
 		if ($only_open == Sher_Core_Model_Category::IS_OPENED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
 		}elseif ($only_open == Sher_Core_Model_Category::IS_HIDED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_HIDED;
 		}
-		
 		
         $service = Sher_Core_Service_Category::instance();
         $options['page'] = $page;
