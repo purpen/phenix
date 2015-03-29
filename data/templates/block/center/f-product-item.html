@@ -1,10 +1,12 @@
 <div class="ui card" id="item-{{d._id}}">
-    <div class="image">
-      {% if d.product.cover %}
+    <!--<div class="image">
+     {% if d.product.cover %}
         <img src="{{ d.product.cover.thumbnails.md.view_url }}" alt="{{ d.product.title }}">
       {%else%}
         <img src="http://frstatic.qiniudn.com/images/nophoto.jpg" alt="无图片">
-      {%endif%}
+      {%endif%}-->
+
+			<div class="image" style="background-image:url({{ d.product.cover.thumbnails.md.view_url }}) no-repeat;">
 
       <div class="image-extra">
       <a href="{{ d.product.view_url }}" title="{{ d.product.title }}" target="_blank"></a>
@@ -40,9 +42,9 @@
           <div class="header">
       <a href="{{ d.product.view_url }}" title="{{ d.product.title }}" class="ui line" target="_blank">{{ d.product.title|truncate 26 '' }}</a>
     </div>
-          <div class="description">
+          <!--<div class="description">
           {{ d.product.advantage|truncate 60 '' }}
-          </div>
+          </div>-->
     </div>
     <div class="extra">
           <a class="right floated created">

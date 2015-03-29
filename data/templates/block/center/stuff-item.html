@@ -1,10 +1,12 @@
 <div class="ui card" id="item-{{d._id}}">
-    <div class="image">
+    <!--<div class="image">
       {% if d.cover %}
         <img src="{{ d.cover.thumbnails.md.view_url }}" alt="{{ d.title }}">
       {%else%}
         <img src="http://frstatic.qiniudn.com/images/nophoto.jpg" alt="无图片">
-      {%endif%}
+      {%endif%}-->
+
+			<div class="image" style="background-image:url({{ d.cover.thumbnails.md.view_url }}) no-repeat;">
 
       <div class="image-extra">
       <a href="{{ d.view_url }}" title="{{ d.title }}" target="_blank"></a>
