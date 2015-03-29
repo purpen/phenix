@@ -662,6 +662,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的收藏
    */
   public function favorite(){
+  	$this->set_target_css_state('user_interest');
   	$this->set_target_css_state('user_favorite');
     $this->stash['box_type'] = 'fav';
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/favorite?page=#p#';
@@ -672,6 +673,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的喜欢
    */
   public function love(){
+  	$this->set_target_css_state('user_interest');
   	$this->set_target_css_state('user_love');
     $this->stash['box_type'] = 'love';
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/love?page=#p#';

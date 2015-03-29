@@ -185,6 +185,10 @@
 		});
 	});
 
+	$('.ui.college.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+
   //如果只有一个分类,默认选中
   var cate_length = $('.ui.options .option').length;
   if(cate_length==1){
@@ -264,7 +268,7 @@
 
             <div class="three fields">
               <div class="field">
-                <label for="province_id">省份：</label>
+                <label for="province_id">所在院校</label>
                 {% province_list var:'list' size:100 %}
                 <div class="ui fluid selection province dropdown">
                   <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
@@ -280,22 +284,15 @@
               </div>
 
               <div class="field">
-                <label for="college_id">大学：</label>
-                {% province_list var:'list' size:100 %}
+                <label for="college_id">大学</label>
                 <div class="ui fluid selection college dropdown" id="college-menu">
-                  <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
+                  <input type="hidden" name="college_id" value="" />
                     <div class="default text">--院校--</div>
                     <i class="angle down icon"></i>
-                    <div class="menu">
-                      {% for d in list.rows %}
-                      <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
-                      {% endfor %}
-                    </div>
                 </div>
               </div>
 
             </div>
-
 						
 						<div class="field">
 							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>

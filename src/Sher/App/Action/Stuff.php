@@ -299,6 +299,15 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $data['buy_url'] = $this->stash['buy_url'];
         }
 
+        // 所在省份
+        if(isset($this->stash['province_id'])){
+            $data['province_id'] = (int)$this->stash['province_id'];
+        }
+        // 所在大学
+        if(isset($this->stash['college_id'])){
+            $data['college_id'] = $this->stash['college_id'];
+        }
+
     //如果是关联投票产品
     if(isset($this->stash['fever_id'])){
       $data['fever_id'] = (int)$this->stash['fever_id'];

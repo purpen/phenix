@@ -41,10 +41,9 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			{% include "block/center/head_setting_nav.html" %}
 			<h2 class="ui header">账户设置</h2>
 			<div class="ui segment">
-				<form action="{{app_url_action_base}}/my/save_account" method="post" class="ui fluid form" id="profile-form">
+				<form action="{{app_url_my}}/save_account" method="post" class="ui fluid form" id="profile-form">
 					<input name="_id" type="hidden" value="{{ user_id }}" />
 					
 					<h3 class="ui dividing header">用户名(昵称)</h3>
