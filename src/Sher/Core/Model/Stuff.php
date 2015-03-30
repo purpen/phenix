@@ -90,15 +90,15 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         # 属于1.十万火计;2.蛋年;3.;4.;
         'from_to' => 0,
 
-      #用于大赛
-      # 省份
+        # 用于大赛
+        # 省份
         'province_id' => 0,
-      # 城市
+        # 城市
         'city_id' => 0,
-      # 大学
+        # 大学
         'college_id' => 0,
-      # 院系
-      'school_id' => 0,
+        # 院系
+        'school_id' => 0,
         
 		'random' => 0,
         # 关联产品
