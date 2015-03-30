@@ -34,17 +34,17 @@ class Doggy_Dt_Filters_DateTime implements Doggy_Dt_FilterLib {
         }
 
         if ($delta > 7200)
-            $string .= floor($delta / 3600) . " 小时, ";
+            $string .= floor($delta / 3600) . "小时, ";
         else if ($delta > 3660)
-            $string .= "1 小时, ";
+            $string .= "1小时, ";
         else if ($delta >= 3600)
-            $string .= "1 小时 ";
+            $string .= "1小时 ";
         $delta  %= 3600;
         
         if ($delta > 60)
-            $string .= floor($delta / 60) . " 分钟 ";
+            $string .= floor($delta / 60) . "分钟 ";
         else
-            $string .= $delta . " 秒 ";
+            $string .= $delta . "秒 ";
         return "$string 前";
     }
 
@@ -69,10 +69,10 @@ class Doggy_Dt_Filters_DateTime implements Doggy_Dt_FilterLib {
         if (abs($reldays) < 7) {
             if ($reldays > 0) {
                 $reldays = floor($reldays);
-                return '在 ' . $reldays . ' 天' . ($reldays != 1 ? '' : '');
+                return '在' . $reldays . '天' . ($reldays != 1 ? '' : '');
             } else {
                 $reldays = abs(floor($reldays));
-                return $reldays . ' 天'  . ($reldays != 1 ? '' : '') . ' 前';
+                return $reldays . '天'  . ($reldays != 1 ? '' : '') . '前';
             }
         }
         return date('Y-m-d',$time ? $time : time());
@@ -91,4 +91,3 @@ class Doggy_Dt_Filters_DateTime implements Doggy_Dt_FilterLib {
         return $date;
     }
 }
-?>

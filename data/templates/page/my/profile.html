@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}设置个人资料-{% endblock %}
 {% block page_css %}
 <style class="text/css">
@@ -146,6 +146,25 @@
 	
 {% endblock %}
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">设置个人资料</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -153,7 +172,6 @@
 				{% include "block/user/sub_menu_center.html" %}
 			</div>
 			<div class="twelve wide column">
-			  {% include "block/center/head_setting_nav.html" %}
 				<h2 class="ui header">个人资料</h2>
 				<div class="ui segment">
 					<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
@@ -248,7 +266,7 @@
 							<textarea name="summary">{{ user.summary }}</textarea>
 						</div>
 					
-						<input type="submit" class="ui active magenta button" value="确认修改" />
+						<input type="submit" class="ui inverted magenta button" value="确认修改" />
 					
 					</form>
 				</div>

@@ -240,9 +240,19 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     if(isset($this->stash['from_to'])){
       $data['from_to'] = (int)$this->stash['from_to'];
     }
+
     //团队介绍-蛋年
     if(isset($this->stash['team_introduce'])){
       $data['team_introduce'] = $this->stash['team_introduce'];
+    }
+
+    // 所在省份
+    if(isset($this->stash['province_id'])){
+        $data['province_id'] = (int)$this->stash['province_id'];
+    }
+    // 所在大学
+    if(isset($this->stash['college_id'])){
+        $data['college_id'] = $this->stash['college_id'];
     }
 
     //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核

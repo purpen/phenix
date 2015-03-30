@@ -361,6 +361,7 @@ server {
     location /contest {
         rewrite ^/contest[/]?$ /app/site/contest last;
 		    rewrite ^/contest/(.*)$ /app/site/contest/$1 last;
+        rewrite ^/contest/view2/(\d+).html$ /app/site/contest/view2?id=$1 last;
     }
 		
 		location /search {

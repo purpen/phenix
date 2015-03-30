@@ -31,7 +31,12 @@ class DoggyX_Model_Lite extends DoggyX_Model_Mongo_Base {
      * @var array
      */
     protected $joins = array();
-
+    
+	/**
+	 * Fields of the results to return
+	 */
+	protected $retrieve_fields = array();
+    
     /**
      * Expand load model relations and other attributes
      *
@@ -78,8 +83,8 @@ class DoggyX_Model_Lite extends DoggyX_Model_Mongo_Base {
      * @param array $id_list
      * @return array
      */
-    public function extend_load_all($id_list) {
-        return DoggyX_Model_Mapper::load_model_list($id_list,$this);
+    public function extend_load_all($id_list,$some_fields=array()) {
+        return DoggyX_Model_Mapper::load_model_list($id_list,$this,$some_fields);
     }
 
     /**
@@ -105,5 +110,12 @@ class DoggyX_Model_Lite extends DoggyX_Model_Mongo_Base {
         }
         return $row;
     }
+    
+	/**
+	 * Get retrieve_fields
+	 */
+	public function get_retrieve_fields(){
+		return $this->retrieve_fields;
+	}
+    
 }
-?>

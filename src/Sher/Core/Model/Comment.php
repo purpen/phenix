@@ -54,54 +54,60 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 关联事件
 	 */
     protected function after_save() {
-    //如果是新的记录
-    if($this->insert_mode) {
-      $type = $this->data['type'];
-      switch($type){
-        case self::TYPE_TOPIC:
-          $kind = Sher_Core_Model_Remind::KIND_TOPIC;
-          $model = new Sher_Core_Model_Topic();
-          //获取目标用户ID
-          $topic = $model->find_by_id((int)$this->data['target_id']);
-          $user_id = $topic['user_id'];
-          $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
-          break;
-        case self::TYPE_PRODUCT:
-          $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
-          $model = new Sher_Core_Model_Product();
-          //获取目标用户ID
-          $product = $model->find_by_id((int)$this->data['target_id']);
-          $user_id = $product['user_id'];
-          $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
-          break;
-        case self::TYPE_TRY:
-          $kind = Sher_Core_Model_Remind::KIND_TRY;
-          $model = new Sher_Core_Model_Try();
-          //获取目标用户ID
-          $try = $model->find_by_id((int)$this->data['target_id']);
-          $user_id = $try['user_id'];
-          $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
-          break;
-        default:
-          return;
-          break;
-      }
-      //给用户添加提醒
-      $remind = new Sher_Core_Model_Remind();
-      $arr = array(
-        'user_id'=> $user_id,
-        's_user_id'=> $this->data['user_id'],
-        'evt'=> Sher_Core_Model_Remind::EVT_COMMENT,
-        'kind'=> $kind,
-        'related_id'=> (int)$this->data['target_id'],
-        'parent_related_id'=> (string)$this->data['_id'],
-      );
-      //$ok = $remind->create($arr);
-      $user = new Sher_Core_Model_User();
-      $user->update_counter_byinc($user_id, 'comment_count', 1);
+        $user_id = 0;
+        // 如果是新的记录
+        if($this->insert_mode) {
+            $type = $this->data['type'];
+            switch($type){
+                case self::TYPE_TOPIC:
+                    $kind = Sher_Core_Model_Remind::KIND_TOPIC;
+                    $model = new Sher_Core_Model_Topic();
+                    // 获取目标用户ID
+                    $topic = $model->find_by_id((int)$this->data['target_id']);
+                    $user_id = $topic['user_id'];
+                    $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['created_on']);
+                    
+                    // 增加积分
+                    $service = Sher_Core_Service_Point::instance();
+                    // 回复他人的文章
+                    $service->send_event('evt_reply', $this->data['user_id']);
+                    // 文章被他人回复
+                    $service->send_event('evt_by_reply', $user_id);
+                    break;
+                case self::TYPE_PRODUCT:
+                    $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
+                    $model = new Sher_Core_Model_Product();
+                    //获取目标用户ID
+                    $product = $model->find_by_id((int)$this->data['target_id']);
+                    $user_id = $product['user_id'];
+                    $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
+                    break;
+                case self::TYPE_TRY:
+                    $kind = Sher_Core_Model_Remind::KIND_TRY;
+                    $model = new Sher_Core_Model_Try();
+                    //获取目标用户ID
+                    $try = $model->find_by_id((int)$this->data['target_id']);
+                    $user_id = $try['user_id'];
+                    $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
+                case self::TYPE_STUFF:
+                    $kind = Sher_Core_Model_Remind::KIND_STUFF;
+                    $model = new Sher_Core_Model_Stuff();
+                    //获取目标用户ID
+                    $stuff = $model->find_by_id((int)$this->data['target_id']);
+                    $user_id = $stuff['user_id'];
+                    $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
+                default:
+                    break;
+            }
+            if($user_id){
+              $user = new Sher_Core_Model_User();
+              $user->update_counter_byinc($user_id, 'comment_count', 1);          
+            }
 
+        }
     }
-  }
 
   /**
    * 类型说明

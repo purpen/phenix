@@ -1,0 +1,56 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">积分配置</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_setting_type }} item" href="{{ app_url_admin }}/point/settings_type">积分类型</a>
+		<a class="{{ css_setting_event }} item" href="{{ app_url_admin }}/point/settings_event">积分事件</a>
+        <div class="right menu">
+            <a href="{{ app_url_admin_base }}/point/settings_add_event" class="item">
+                <i class="add icon"></i>新增事件
+            </a>
+        </div>
+	</div>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+                <th>事件标识</th>
+                <th>事件名称</th>
+                <th>积分奖励</th>
+                <th>每日积分上限</th>
+				<th>每月积分上限</th>
+				<th></th>
+			</tr>
+            {% for event in events %}
+            <tr>
+                <td>{{ event._id }}</td>
+                <td>{{ event.name }}</td>
+                <td>
+                    {% if event.point_type %}
+                    {{ event.point_type }} => {{ event.point_amount }}
+                    {% endif %}
+                </td>
+                <td>{{ event.daily_limit }}</td>
+                <td>{{ event.month_limit }}</td>
+                <td><a href="{{ app_url_admin }}/point/settings_add_event?id={{ event._id }}" class="ui link item">编辑</a></td>
+            </tr>
+            {% endfor %}
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

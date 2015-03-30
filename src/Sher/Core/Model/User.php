@@ -148,6 +148,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'product_count' => 0,
 		# 灵感数量
 		'stuff_count'   => 0,
+    # 收藏数量
+    'favorite_count' => 0,
 		
 		## 初次登录导向
 		'first_login'   => 1,
@@ -188,6 +190,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         ),
 		// 所在城市
 		'city' => null,
+        // 所在区域ID
+        'district' => 0,
 		// 性别
 		'sex' => self::SEX_HIDE,
 		// 个人关键词
@@ -211,21 +215,26 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 
-    #是否为优质用户(可跳过作品审核)
-    'quality' => 0,
+        # 用户唯一邀请码
+        'invite_code' => null,
+        
+        # 是否为优质用户(可跳过作品审核)
+        'quality' => 0,
 
-    #小号标签
-    'kind' => 0,
+        # 小号标签
+        'kind' => 0,
 
-    # 用户唯一邀请码
-    'invite_code' => null,
+        # 用户唯一邀请码
+        'invite_code' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1);
 	
     protected $required_fields = array('account','password');
-    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','quality');
-	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'topic_count', 'product_count', 'stuff_count');
+
+    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality');
+    
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count');
 	
 	protected $joins = array();
 	
@@ -238,19 +247,29 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	        $data['tags'] = array_filter(array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags']))));
 	    }
 	    $data['updated_on'] = time();
+        
+        // 检查是否匹配地域
+        if(isset($data['city']) && !empty($data['city'])){
+            $areas = new Sher_Core_Model_Areas();
+            $data['district'] = $areas->match_city($data['city']);
+        }
+        
 	    parent::before_save($data);
 	}
 	
 	/**
 	 * 保存之后事件
 	 */
-  protected function after_save() {
-    //更新用户总数
-    if($this->insert_mode){
-      Sher_Core_Util_Tracker::update_user_counter();
-      parent::after_save();
+    protected function after_save() {
+        //更新用户总数
+        if($this->insert_mode){
+            Sher_Core_Util_Tracker::update_user_counter();
+            parent::after_save();
+            // 初始化会员扩展状态表记录
+            $model = new Sher_Core_Model_UserExtState();
+            $model->create(array('_id' => $this->data['_id']));
+        }
     }
-  }
 	
 	/**
 	 * 验证用户信息
@@ -343,17 +362,16 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         );
 		return $default_profile;
 	}
-
-
+    
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
 		// 显示名称
 		$row['screen_name'] = !empty($row['nickname']) ? $row['nickname'] : '火鸟人';
-      //如果是手机号,中间段以*显示
-      $row['true_nickname'] = $row['nickname'];
-      if(!empty($row['nickname']) && strlen((int)$row['nickname'])==11){
-        $row['nickname'] = substr((int)$row['nickname'],0,3)."*****".substr((int)$row['nickname'],8,3);
-      }
+        // 如果是手机号,中间段以*显示
+        $row['true_nickname'] = $row['nickname'];
+        if(!empty($row['nickname']) && strlen((int)$row['nickname'])==11){
+            $row['nickname'] = substr((int)$row['nickname'],0,3)."*****".substr((int)$row['nickname'],8,3);
+        }
 		
 		// 用户头像
 		if(!empty($row['avatar'])){
@@ -362,10 +380,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['small'], 'avs.jpg');
 			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['avatar']['mini'], 'avn.jpg');		
 		}else{
-			$row['big_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_big.jpg';
-			$row['medium_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_medium.jpg';
-			$row['small_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_small.jpg';
-			$row['mini_avatar_url'] = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_mini.jpg';
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'b');
+            $row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'm');
+			$row['small_avatar_url'] = $row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 's');
 		}
 		
         $row['home_url'] = Sher_Core_Helper_Url::user_home_url($id);
@@ -392,15 +409,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }
 		
 		if(empty($row['mentor'])){
-      if(!empty($row['profile']['job'])){
-        $user_job = $row['profile']['job'];
-      }else{
-        $user_job = '';
-      }
-			$row['mentor_info'] = array('name' => $user_job);
+			$row['mentor_info'] = array('name' => isset($row['profile']['job'])?$row['profile']['job']:'');
 		}else{
 			$row['mentor_info'] = $this->find_mentors($row['mentor']);
 		}
+        $row['ext_state'] = DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_UserExtState');
     }
 	
 	/**

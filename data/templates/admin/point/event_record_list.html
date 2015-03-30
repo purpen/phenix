@@ -1,0 +1,56 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">明细记录</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_point }} item" href="{{ app_url_admin }}/point/point_record_list">积分记录</a>
+		<a class="{{ css_event }} item" href="{{ app_url_admin }}/point/event_record_list">事件记录</a>
+	</div>
+	{% event_record_list var:'list' page:page  %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>用户名</th>
+				<th>事件代码</th>
+				<th>是否有积分</th>
+				<th>发送方</th>
+				<th>其他信息</th>
+				<th>记账标记</th>
+				<th>时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for record in list.rows %}
+			<tr id="{{ record._id }}">
+				<td>{{ record._id }}</td>
+				<td>
+					<a class="ui link" href="{{ record.user.home_url }}" target="_blank">
+					  	{{ record.user.nickname }}
+					</a>
+				</td>
+				<td>{{record.event_code}}</td>
+				<td>{{record.make_point}}</td>
+				<td>{{record.sender}} [ {{record.sys_sender}} ]</td>
+				<td>{{record.extras_s}}</td>
+				<td>{{record.state}}</td>
+				<td>{{record.created_on|relative_datetime}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

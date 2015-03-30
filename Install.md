@@ -80,7 +80,7 @@ See http://darsa.in/sly
 
 ### 导入初始数据
 mongorestore -d firebird -c areas ~/Project/phenix/install/china_city.bson
-
+mongoimport -d firebird -c areas ~/Project/phenix/install/china_city.bson
 
 
 

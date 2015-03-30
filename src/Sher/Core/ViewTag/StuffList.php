@@ -29,13 +29,13 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		
 		$sticked = 0;
 		$featured = 0;
-    $verified = 0;
-    $fever_id = 0;
+        $verified = 0;
+        $fever_id = 0;
 		$time = 0;
 		$sort = 0;
-    $is_shop = 0;
-    // 搜索类型
-    $s_type = 0;
+        $is_shop = 0;
+        // 搜索类型
+        $s_type = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -80,14 +80,15 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		if($featured){
 			$query['featured'] = (int)$featured;
 		}
-    // 已审核的
-    if($verified){
-      $query['verified'] = 1;
-    }
-    // 关联投票产品
-    if($fever_id){
-      $query['fever_id'] = (int)$fever_id;
-    }
+        
+        // 已审核的
+        if($verified){
+            $query['verified'] = 1;
+        }
+        // 关联投票产品
+        if($fever_id){
+            $query['fever_id'] = (int)$fever_id;
+        }
 		
 		// 限制时间
 		$day = 24 * 60 * 60;
@@ -108,20 +109,20 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 				break;
 		}
 
-    // 搜索
-    if($s_type){
-      switch ((int)$s_type){
-        case 1:
-          $query['_id'] = (int)$s_mark;
-          break;
-        case 2:
-          $query['title'] = array('$regex'=>$s_mark);
-          break;
-        case 3:
-          $query['tags'] = array('$all'=>array($s_mark));
-          break;
-      }
-    }
+        // 搜索
+        if($s_type){
+            switch ((int)$s_type){
+                case 1:
+                    $query['_id'] = (int)$s_mark;
+                    break;
+                case 2:
+                    $query['title'] = array('$regex'=>$s_mark);
+                    break;
+                case 3:
+                    $query['tags'] = array('$all'=>array($s_mark));
+                    break;
+            }
+        }
 		
 		
 		$service = Sher_Core_Service_Stuff::instance();
@@ -148,8 +149,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 			case 5:
 				$options['sort_field'] = 'update';
 				break;
-      case 6:
-        $options['sort_field'] = 'view';
+            case 6:
+                $options['sort_field'] = 'view';
 		}
 		
         $result = $service->get_stuff_list($query, $options);

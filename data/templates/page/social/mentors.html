@@ -11,42 +11,93 @@
 		color: white;
 		padding: 100px 0 60px;
 	}
-	.social.people.all {
-		background-color: #f1f1f1;
-		padding: 2rem 0 5rem;
-	}
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('.special.cards .image').dimmer({
-	  on: 'hover'
-	});
-	
-	$('#sticktopic .list .item').tab({
-	    context: $('#sticktopic')
-	});
+	$('.ui.ell.link').click(function(){
+        if($('.social.people.filter').hasClass('active')){
+            $('.social.people.filter').removeClass('active').slideUp('slow');
+        }else{
+            $('.social.people.filter').addClass('active').slideDown('slow');
+        }
+    });
 {% endblock %}
 
 
 {% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="social mentors">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column white section-title">
 				<h2 class="block title">资深专家</h2>
 				<p>超过 2000个行业专家在创造未来</p>
-				<hr>
+                <hr>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="social people {{ show_all }} filter">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+                <div class="container">
+                    <h2 class="block title">从事领域</h2>
+                    <div class="ui horizontal specialty list">
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c=0&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
+                        </div>
+                        {% for m in mentors %}
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c={{ m.id }}&d={{ district }}" class="ui {% if cid == m.id %}active{% endif %} link">{{ m.name }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <h2 class="block title">所在地域</h2>
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c={{ c }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
+                        </div>
+                        {% for d in cities %}
+                        <div class="item">
+                            <a href="{{ app_url_social }}/mentors?c={{ c }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="social people more">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+                <a class="ui ell pop link" href="javascript:void(0);" data-content="按条件检索" data-variation="inverted">
+                    <i class="ellipsis vertical icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="social people all">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:all_mentors mentor:cid district:district %}
 				<div class="ui mentors four cards">
 					{% for user in users.rows %}
 				  	<div class="card">
@@ -59,6 +110,13 @@
 				  	</div>
 					{% endfor %}
 				</div>
+                
+				{% if users.total_page > 1 %}
+				<div class="ui pagination grid">
+					{% pager url:pager_url,total_rows:users.total_rows,total_page:users.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				</div>
+				{% endif %}
 			</div>
 		</div>
 		<div class="row">
@@ -78,8 +136,12 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
 					<div class="active section">行业专家</div>

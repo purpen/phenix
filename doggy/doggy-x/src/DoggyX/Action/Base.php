@@ -136,4 +136,3 @@ class DoggyX_Action_Base extends Doggy_Dispatcher_Action_Lite {
     }
     
 }
-?>

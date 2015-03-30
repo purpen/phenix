@@ -30,7 +30,7 @@ class Doggy_Dispatcher_ActionMapper {
      */
     public static function parse($request){
         $uri = $request->getPathInfo();
-        $uri= trim($uri,'/');
+        $uri= ltrim($uri,'/');
         $mapping = new Doggy_Dispatcher_ActionMapping();
         
         $routes = Doggy_Config::get('app.dispatcher.routes',array());

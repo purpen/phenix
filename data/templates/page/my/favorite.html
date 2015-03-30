@@ -1,9 +1,9 @@
-{%extends 'layout/board.html'%}
-{% block title %}我的收藏-{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}我感兴趣的-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
-
+	
 </style>
 {% endblock %}
 
@@ -47,21 +47,43 @@
 {% endblock %}
 
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我感兴趣的</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我的收藏</h2>
-			<div class="ui segment">
+			<h2 class="ui header">我感兴趣的</h2>
+			{% include "block/center/head_interest_nav.html" %}
+			
+			<div>
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
 							{% favorite_list var:'list' page:page user_id:user_id event:1 size:10 %}
 							<div class="ui center-list">
 								
-								<div class="ui two cards">
+								<div class="ui three cards">
 									{% for d in list.rows %}
                     <!--产品-->
                     {% if d.type==1 %}

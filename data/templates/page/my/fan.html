@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}我的粉丝-{% endblock %}
 
 {% block page_css %}
@@ -21,7 +21,7 @@
 }
 .mes-text{
 	width:100%;
-	padding-top:1em;
+	padding:1rem 0;
 	position:relative;
 }
 .mes-text a.ui.photo{
@@ -36,7 +36,7 @@
 	border-radius: 25px;
 }
 .mes-text .news{
-	padding: 0 0 0 60px; 
+	padding: 6px 0 0 60px; 
 	overflow: visible;
 	font-size: 17px;
 	font-weight: 700;
@@ -72,7 +72,7 @@
 }
 .mes-text .fans-btn{
 	float:right;
-	margin: 8px 5px 0 0;
+	margin: 10px 5px 0 0;
 }
 .mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
 	padding: 0.5em 1.5em;
@@ -94,14 +94,34 @@
 {% endblock %}
 
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的粉丝</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			{% include "block/center/head_friend_nav.html" %}
 			<h2 class="ui header">我的粉丝</h2>
+			{% include "block/center/head_friend_nav.html" %}
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">

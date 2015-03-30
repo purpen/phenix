@@ -1,0 +1,44 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">积分配置</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_setting_type }} item" href="{{ app_url_admin }}/point/settings_type">积分类型</a>
+		<a class="{{ css_setting_point }} item" href="{{ app_url_admin }}/point/settings_event">积分事件</a>
+        <div class="menu right">
+            <a class="item" href="{{ app_url_admin }}/point/add_point_type">
+                <i class="add icon"></i>添加积分
+            </a>
+
+        </div>
+	</div>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>标示代码</th>
+				<th>积分名称</th>
+				<th>说明</th>
+				<th>管理操作</th>
+			</tr>
+            {% for row in records %}
+            <tr>
+                <td>{{ row.code }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.note }}</td>
+                <td>
+                    <a href="{{ app_url_admin }}/point/add_point_type?id={{ row._id }}" class="ui link item">编辑</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+{% endblock %}

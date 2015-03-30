@@ -136,6 +136,17 @@ class Doggy_Db_Driver_Mysql extends Doggy_Db_Driver_Abstract {
         return $sql;
     }
     
+	/**
+	 * 添加 by purpen
+	 */
+    public function makeValuesReferenced($arr){
+	    $refs = array();
+	    foreach($arr as $key => $value)
+	        $refs[$key] = &$arr[$key];
+	    return $refs;
+
+	}
+    
     /**
      * Prepare and execute the sql statement
      * 
@@ -164,7 +175,10 @@ class Doggy_Db_Driver_Mysql extends Doggy_Db_Driver_Abstract {
             else $a .= 'd';
         }
         array_unshift($vars,$a);
-        call_user_func_array(array($stmt,'bind_param'),$vars);
+        #call_user_func_array(array($stmt,'bind_param'),$vars);
+		# 修改为php5.3.3 by purpen
+		call_user_func_array(array($stmt, 'bind_param'), $this->makeValuesReferenced($vars));
+        
         $ok = $stmt->execute();
         if($mysqli->errno){
             Doggy_Log_Helper::error('SQL ERROR:'.$mysqli->error." SQL:$sql");

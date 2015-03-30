@@ -128,4 +128,3 @@ class DoggyX_Mongo_GridFs {
         return self::$gridfs->drop();
     }
 }
-?>

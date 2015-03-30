@@ -17,8 +17,11 @@
       font-weight: normal;
       margin-top: 0.45rem;
   }
-  #comment-list {
-	  margin-top: 1.5rem;
+  .froala-element .attributes {
+      margin: 2rem 5rem 2rem 0rem;
+  }
+  .froala-element .attributes table td {
+      border: none;
   }
 </style>
 {% endblock %}
@@ -246,7 +249,7 @@
 						<i class="basic icon community"></i> 发现
 					</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_stuff }}">产品灵感</a>
+				  	<a class="ui section link" href="{{ app_url_stuff }}">智品库</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">{{ stuff.category.title }}</a>
 				  	<i class="angle right icon divider"></i>
@@ -255,11 +258,11 @@
 			</div>
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
-				<a href="{{ app_url_action_base }}/stuff/submit" class="ui black button">
+				<a href="{{ app_url_action_base }}/stuff/submit" class="ui gray inverted button">
 					<i class="add icon"></i> 提交产品
 				</a>
 				{% else %}
-				<a href="{{ app_url_action_base }}/stuff/submit" class="ui pop disabled button" data-content="先登录后，可发表话题" data-variation="inverted">
+				<a href="{{ app_url_action_base }}/stuff/submit" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
 					<i class="add icon"></i> 提交产品
 				</a>
 				{% endif %}
@@ -276,8 +279,8 @@
 						<div class="content">
 							{{ stuff.title }}
 							<div class="sub header attribute">
-								<span class="category"><a href="{{ app_url_stuff }}/c{{ stuff.category._id }}" class="ui magenta link">{{ stuff.category.title }}</a></span> | 
-								<span class="date">{{ stuff.user.nickname }} 发表于 {{ stuff.created_on|relative_datetime }}</span> | 
+								<span class="category"><a href="{{ app_url_stuff }}/c{{ stuff.category._id }}" class="ui line">{{ stuff.category.title }}</a></span> | 
+								<span class="date"><a class="ui line" href="{{ stuff.user.home_url }}">@{{ stuff.user.nickname }}</a> 发表于 {{ stuff.created_on|relative_datetime }}</span> | 
 								<span class="count">浏览数: {{ stuff.view_count }}</span>
 							</div>
 						</div>
@@ -308,9 +311,38 @@
 								{% endif %}
 							{% endfor %}
 						{% endif %}
+                        
+                        <!--产品属性-->
+                        <div class="attributes">
+                            <table class="ui basic table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">产品参数</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>品牌名称：{{ stuff.brand|default '--' }}</td>
+                                        <td>设计师：{{ stuff.designer|default '--' }}</td>
+                                        <td>产品国别：{{ stuff.country }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>产品阶段：{{ stuff.process_title }}</td>
+                                        <td>上市时间：{{ stuff.market_time }}</td>
+                                        <td>指导价格：{{ stuff.official_price|default '--' }}</td>
+                                    </tr>
+                                    {% if stuff.buy_url %}
+                                    <tr>
+                                        <td colspan="3">购买地址：<a href="{{ stuff.buy_url }}" target="_blank">{{ stuff.buy_url }}</a></td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
 					</div>
 					
-					
+                    
 					{% if stuff.tags %}
 					<div class="idea tags">
 						{% for tag in stuff.tags %}
@@ -322,6 +354,8 @@
 						{% endfor %}
 					</div>
 					{% endif %}
+                    
+                    
 				</div>
 				<div class="ui big topic bottom attached segment">
 					<div class="ui grid">
@@ -381,11 +415,9 @@
 				</div>
 				
     			<div class="ui big reply segment">
-      			
-	      		  	{% include "block/comment_box_site.html" %}
-				
 	      			<!--ajax comment-->
 	      		  	<div id="comment-list"></div>
+	      		  	{% include "block/comment_box_site.html" %}
 	    		</div>
 				
 			</div>

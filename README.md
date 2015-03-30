@@ -55,6 +55,11 @@ http://www.phptext.net/article_view.php?id=185
 6、css特性
 animation: 2s linear 0s normal none infinite running sh-mousedown
 
+<b>Deprecated</b>:  MongoCollection::remove(): The 'safe' option is deprecated, please use 'w' instead in <b>/Users/xiaoyi/Project/phenix/doggy/doggy-x/src/DoggyX/Mongo/Db.php</b> on line <b>367</b><br />
+<br />
+<b>Warning</b>:  MongoCollection::remove(): Using w=1 rather than w=0 as suggested by deprecated 'safe' value in <b>/Users/xiaoyi/Project/phenix/doggy/doggy-x/src/DoggyX/Mongo/Db.php</b> on line <b>367</b><br />
+<br />
+
 ###
 froala_editor v1.1.7 普通上传默认设置了key,与七牛云存储key冲突.
 

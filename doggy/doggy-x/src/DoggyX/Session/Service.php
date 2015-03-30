@@ -107,7 +107,7 @@ class DoggyX_Session_Service {
         }
         $path = Doggy_Config::get('app.session.path','/');
         $domain = Doggy_Config::get('app.session.domain','');
-        @setcookie($sid_key,$sid,time()+$ttl,'/',$domain);
+        @setcookie($sid_key,$sid,time()+$ttl,'/',$domain, false, true);
     }
     
     public function is_session_started() {
@@ -138,4 +138,3 @@ class DoggyX_Session_Service {
     public function on_session_stop() {
     }
 }
-?>

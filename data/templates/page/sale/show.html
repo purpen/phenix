@@ -41,7 +41,7 @@
     });
 	
 	// 分享
-	$('.ui.share.btn').bind('click', function(){
+	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 	phenix.bind_share_list();
@@ -66,7 +66,7 @@
 			if (result.success) {
 				// 验证收藏
 				if (result.data.favorited) {
-					$('.ui.favorite.btn')
+					$('.ui.favorite.button')
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active');
@@ -78,7 +78,7 @@
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
-					$('.ui.love.btn')
+					$('.ui.love.button')
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active');
@@ -88,7 +88,7 @@
 	{% endif %}
 	
 	// 收藏
-	$('.ui.favorite.btn').bind('click', function(){
+	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -121,7 +121,7 @@
 	});
 	
 	// 喜欢
-	$('.ui.love.btn').bind('click', function(){
+	$('.ui.love.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -264,13 +264,13 @@
 							<small><span class="count">{{ product.favorite_count }}</span>人已收藏 | <span class="count" id="product-love-count">{{ product.love_count }}</span>人点赞</small>
 						</p>
 						<div class="item">
-							<div class="ui magenta btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<div class="ui magenta pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 								收藏
 							</div>
-							<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 								<i class="heart empty icon"></i>
 							</div>
-							<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+							<div class="ui magenta pop share icon inverted button" data-content="分享" data-variation="inverted">
 								<i class="share icon"></i>
 							</div>
 						</div>
@@ -308,13 +308,13 @@
 							<small><span class="count">{{ product.favorite_count }}</span>人已收藏 | <span class="count" id="product-love-count">{{ product.love_count }}</span>人点赞</small>
 						</p>
 						<div class="item">
-							<div class="ui magenta btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<div class="ui magenta pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 								收藏
 							</div>
-							<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 								<i class="heart empty icon"></i>
 							</div>
-							<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+							<div class="ui magenta pop share icon inverted button" data-content="分享" data-variation="inverted">
 								<i class="share icon"></i>
 							</div>
 						</div>
@@ -342,7 +342,7 @@
 						</div>
 					</div>
 					
-					<a class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy btn" href="{{ app_url_domain }}/shop/{{ product._id}}.html">
+					<a class="ui active magenta tobuy inverted button" href="{{ app_url_domain }}/shop/{{ product._id}}.html">
 						<i class="flat shopping icon"></i>去商店购买
 					</a>
 				</div>
@@ -386,21 +386,21 @@
 							<div class="actions">
 								{% if !product.presale_finished %}
 									{% if presale.quantity %}
-										<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
+										<div class="ui magenta booked inverted button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
 											现在预定
 										</div>
 									{% else %}
-										<div class="ui disabled active gray button">
+										<div class="ui disabled active gray inverted button">
 											已抢完
 										</div>
 									{% endif %}
 								{% else %}
 									{% if presale.quantity %}
-										<div class="ui disabled button">
+										<div class="ui disabled inverted button">
 											预售结束
 										</div>
 									{% else %}
-										<div class="ui disabled active gray button">
+										<div class="ui disabled active gray inverted button">
 											已抢完
 										</div>
 									{% endif %}
@@ -526,11 +526,11 @@
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ product.subject_view_url }}" class="ui black btn-4 btn-4c icon-arrow-right btn">
-						查看更多
+					<a href="{{ product.subject_view_url }}" class="ui black inverted button">
+						<i class="search icon"></i> 查看更多
 					</a>
-					<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-						发表新话题
+					<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta inverted button">
+						<i class="edit icon"></i> 发表新话题
 					</a>
 				</div>
 			</div>

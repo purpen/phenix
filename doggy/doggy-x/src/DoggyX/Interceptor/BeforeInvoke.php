@@ -16,4 +16,3 @@ class DoggyX_Interceptor_BeforeInvoke extends Doggy_Dispatcher_Interceptor_Abstr
         return $invocation->invoke();
     }
 }
-?>

@@ -10,6 +10,8 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 		'page' => 1,
 		'step' => 0,
 		'st' => 0,
+        'd' => 0,
+        'c' => 0,
 	);
 	
 	protected $page_tab = 'page_sns';
@@ -40,6 +42,24 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	    }else{
 	      $this->stash['current_user_id'] = 0;  
 	    }
+        
+		// 获取置顶列表
+		$diglist = array();
+		$dig_ids = array();
+        
+		$digged = new Sher_Core_Model_DigList();
+		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
+		if (!empty($result) && !empty($result['items'])) {
+			$model = new Sher_Core_Model_Topic();
+			$diglist = $model->extend_load_all($result['items']);
+			
+	        for ($i=0; $i < count($result['items']); $i++) {
+				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
+	        }
+		}
+        
+		$this->stash['dig_ids']  = $dig_ids;
+		$this->stash['dig_list'] = $diglist;
 		
 		$this->stash['idea_category_id'] = Doggy_Config::$vars['app.topic.idea_category_id'];
 		
@@ -50,6 +70,38 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 资深专家/导师
 	 */
 	public function mentors(){
+        $district = $this->stash['d'];
+        $cid = $this->stash['c'];
+        $all_mentors = 1;
+        $show_all = 'showno';
+        
+        // 获取
+        $user = new Sher_Core_Model_User();
+        $mentors = $user->find_mentors();
+        
+        if($cid){
+            $all_mentors = 0;
+        }
+        if($cid || $district){
+            $show_all = 'showall';
+        }
+        
+        // 获取地域城市
+        $areas = new Sher_Core_Model_Areas();
+        $cities = $areas->find_cities();
+        
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.social'].'/mentors?c=%d&d=%d&page=#p#', $cid, $district);
+        
+        $this->stash['mentors']  = $mentors;
+        $this->stash['district'] = $district;
+        $this->stash['all_mentors'] = $all_mentors;
+        $this->stash['cid'] = $cid;
+        $this->stash['cities'] = $cities;
+        
+        $this->stash['show_all'] = $show_all;
+            
+        $this->stash['pager_url'] = $pager_url;
+        
 		return $this->to_html_page('page/social/mentors.html');
 	}
 	

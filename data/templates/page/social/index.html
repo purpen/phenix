@@ -1,38 +1,131 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}发现-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.egg-banner{
-	background-color:rgb(21,12,15);
-	margin:0 auto;
-	text-align: center;
-	position: relative;
-}
+    .social.fever,
+    .social.products {
+        padding: 1.5rem 0 0;
+    }
+    
+    .topic.half.table .title {
+        margin: 0.5rem 0 0.8rem;
+    }
+    .topic.half.table .content .attribute {
+         margin: 0.75rem 0 0;
+    }
+    .ui.mini.avatar.images .image,
+    .ui.mini.avatar.images img {
+        width: 50px;
+        height: 50px;
+    }
+    .social.topic .block.title {
+        margin-bottom: 1rem;
+    }
+    .social.topic .mentors.segment {
+        margin-bottom: 1rem;
+    }
+    .mentors .ui.button {
+        color: #666;
+        margin-top: 2rem;
+    }
+    .ui.comments .onecomment {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: 1rem;
+    }
+    .ui.comments .onecomment:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+    .ui.comments .onecomment .avatar {
+        display: block;
+        float: left;
+        width: 2em;
+        margin-right: 0.5rem;
+    }
+    .ui.comments .onecomment .avatar img {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
+        color: rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        border-radius: 500px;
+        display: block;
+        height: 2em;
+        margin: 0 auto;
+        width: 2em;
+    }
+    .ui.comments .onecomment .metadata {
+        color: rgba(0, 0, 0, 0.3);
+        display: inline-block;
+        font-size: 0.875rem;
+        line-height: 2;
+        margin-left: 0.3em;
+    }
+    .ui.comments .onecomment .text {
+        color: rgba(0, 0, 0, 0.5);
+        line-height: 1.325rem;
+        margin: 1rem 0;
+        word-wrap: break-word;
+    }
+    .ui.comments .onecomment .target {
+        margin: 0 0 1rem;
+        color: rgba(0, 0, 0, 0.5);
+    }
+    
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('#sticktopic .list .item').tab({
-	    context: $('#sticktopic')
+	var s = e('#fixedslide').width();
+	e("#fixedslide > .ui.slide > .item").width(s);
+	
+	var $frame = $('#fixedslide');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 3500,
+		pauseOnHover: 1,
+		
+		// Dragging
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		
+		prev: "#fixedslide .prev",
+		next: "#fixedslide .next",
+		
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'items',
+		activatePageOn: 'click',
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+		},
+		
+		// Mixed options
+		startAt: 0,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeInOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+    
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="number">%D</div><div class="unit">天</div></div><div class="item"><div class="number">%H</div><div class="unit">时</div></div> <div class="item"><div class="number">%M</div><div class="unit">分</div></div><div class="green item"><div class="number">%S</div><div class="unit">秒</div></div>'));
+		});
 	});
 {% endblock %}
 
 
 {% block content %}
-<div class="egg-banner">
-	<a href="http://www.taihuoniao.com/birdegg">
-		<div class="ui responsive grid">
-			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
-			
-		</div>
-	</a>
-</div>
-
-<div class="header main">
-	<div class="ui responsive grid">
-		{% include "block/header.html" %}
-	</div>
-</div>
 <div class="shop submenu">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -46,27 +139,94 @@
 <div class="social slide">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ten wide column">
-				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
-				{% if ad %}
-				<div class="slide content">
-					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
-					</a>
-				</div>
-				{% endif %}
+			<div class="column">
+                
+            	<div id="fixedslide" class="frame">
+            		{% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+            		<div class="ui slide">
+            			{% for ad in adslide.rows %}
+            			<div class="item">
+            				<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+            					{% if ad.mode == 2 %}
+            					<div class="overlay">
+            						{% if ad.cate_title %}
+            						<h3>{{ ad.cate_title }}</h3>
+            						{% endif %}
+            						<h1>{{ ad.title }}</h1>
+            						<p class="snippet">
+            							{{ ad.sub_title }}
+            						</p>
+            						<a class="ui inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+            					</div>
+            					{% else %}
+            					<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
+            					{% endif %}
+            				</div>
+            			</div>
+            			{% endfor %}
+            		</div>
+            		<div class="pages"></div>
+            		<a class="prev" href="#">
+            			<i class="flat arrow_left icon"></i>
+            		</a>
+            		<a class="next" href="#">
+            			<i class="flat arrow_right icon"></i>
+            		</a>
+            	</div>
+                
 			</div>
-			<div class="six wide column">
-				{% ad_list var:'stkad' page:1 size:2 name:'find_right_stick' state:2 %}
-				{% if stkad.total_rows %}
-					{% for skad in stkad.rows %}
-					<div class="ui advert">
-						<a href="{{ skad.view_url }}" title="{{ skad.title }}" target="_blank">
-				      		<img src="{{ skad.cover.fileurl }}" class="ui image" alt="{{ skad.title }}" />
-						</a>
+		</div>
+	</div>
+</div>
+
+{% ad_list var:'stkad' size:4 name:'find_right_stick' state:2 %}
+{% if stkad.total_rows %}
+<div class="social topstick">
+	<div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+				<div class="ui four socialstick items">
+                    {% for skad in stkad.rows %}
+					<div class="item">
+						<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
+                            <a class="transparent" href="{{ skad.view_url }}" target="_blank">
+    							<div class="sub title">
+    								{{ skad.title }}
+    							</div>
+                            </a>
+						</div>
 					</div>
 					{% endfor %}
-				{% endif %}
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!--创意投票-->
+<div class="social fever">
+	<div class="ui responsive grid">
+		<div class="two column middle aligned row">
+			<div class="column">
+				<h2 class="block title">
+					创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
+				</h2>
+			</div>
+			<div class="right aligned column">
+				<a href="{{ app_url_fever }}" class="ui inverted gray button">
+					浏览更多
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+                {% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:4 %}
+				<div class="ui four voteist cards">
+					{% for product in list.rows %}
+						{% include "block/product_vote_item.html" %}
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -74,42 +234,24 @@
 
 <div class="social products">
 	<div class="ui responsive grid">
-		<div class="row">
+		<div class="two column middle aligned row">
 			<div class="column">
 				<h2 class="block title">
-					产品灵感 <small>各行业专家汇聚，创造未来伟大的产品</small>
+					智品库 <small>各行业专家汇聚，创造未来伟大的产品</small>
 				</h2>
+			</div>
+			<div class="right aligned column">
+				<a href="{{ app_url_stuff }}" class="ui inverted gray button">
+					浏览更多
+				</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="column">
-				{% stuff_list var:'stufflist' sticked:1 size:3 %}
-				<div class="ui three cards">
+				{% stuff_list var:'stufflist' sticked:1 size:4 %}
+				<div class="ui four stuffs cards">
 					{% for stuff in stufflist.rows %}
-				  	<div class="card">
-				    	<div class="image">
-				      	  	<a href="{{ stuff.view_url }}" title="{{ stuff.title }}">
-								<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-							</a>
-				    	</div>
-				    	<div class="content">
-				      	  	<div class="header">
-								<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
-							</div>
-				      	  	<div class="description">
-				        		{{ stuff.strip_description|truncate 60 '' }}
-				      	  	</div>
-				    	</div>
-				    	<div class="extra">
-				      	  	<a class="right floated created">
-								<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>
-								<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
-							</a>
-							<a href="{{ stuff.user.home_url }}" class="ui icon link">
-								<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
-							</a>
-				    	</div>
-				  	</div>
+				  	    {% include "block/stuff_item.html" %}
 					{% endfor %}
 				</div>
 			</div>
@@ -119,101 +261,96 @@
 
 <div class="social topic" id="sticktopic">
 	<div class="ui responsive grid">
-		<div class="two column middle aligned row">
-			<div class="column">
-				<div class="ui horizontal divided subcate list">
-					<a class="item active" data-tab="featured">精选话题</a>
-					<a class="item" data-tab="newest">最新话题</a>
-				</div>
-			</div>
-			<div class="right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit" class="ui inverted gray button">
-					<i class="edit icon"></i> 发表新话题
-				</a>
-			</div>
-		</div>
 		<div class="row">
-			<div class="column">
-				<div class="ui tab active segment" data-tab="featured">
-					<table class="ui basic topic striped table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th class="center aligned">浏览数</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% topic_list var:'sticklist' time:0 type:1 size:8 %}
-							{% for topic in sticklist.rows %}
-								{% include "block/topic_item.html" %}
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				
-				<div class="ui tab segment" data-tab="newest">
-					<table class="ui basic topic striped table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th>浏览数</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% topic_list var:'list' time:0 sort:0 size:8 %}
-							{% for topic in list.rows %}
-								{% include "block/topic_item.html" %}
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				
-			</div>
+            <div class="column">
+                <div class="ui very compact grid">
+                    <div class="twelve wide column">
+        				<h2 class="block title">
+        					社区话题 <small>各行业专家汇聚，创造未来伟大的产品</small>
+        				</h2>
+                
+        				<div class="ui active segment" data-tab="featured">
+        					<table class="ui basic topic half table">
+        						<tbody>
+                                    <!--站内置顶-->
+            						{% if dig_list %}
+            							{% for topic in dig_list %}
+            								{% if topic %}
+            								    {% include "block/topic_half_item.html" %}
+            								{% endif %}
+            							{% endfor %}
+            						{% endif %}
+                                    
+        							{% topic_list var:'list' time:0 sort:0 size:16 %}
+        							{% for topic in list.rows %}
+            							{% if !topic.top %}<!--过滤置顶帖子-->
+            								{% include "block/topic_half_item.html" %}
+            							{% endif %}
+        							{% endfor %}
+        						</tbody>
+        					</table>
+        				</div>                
+                    </div>
+        			<div class="four wide column">
+        				<h2 class="block title">
+        					资深专家
+        				</h2>
+                
+                        {% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+                        <div class="ui center aligned mentors segment">
+            			  	<div class="ui mini avatar images">
+                                {% for user in users.rows %}
+                                <div class="ui image">
+                                    <img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+                                </div>
+                                {% endfor %}
+            			  	</div>
+                
+            				<a href="{{ app_url_social }}/mentors" class="ui inverted fluid button">
+            					<i class="search icon"></i> 浏览全部专家
+            				</a>
+                        </div>
+                        
+        				<h2 class="block title">
+        					热门评论
+        				</h2>
+                        <div class="ui comments segment">
+                    		{% comment_list var:'comments' sort:2 size:5 load_item:1 %}
+                    		{% for comment in comments.rows %}
+                                <div class="onecomment">
+                                	<a class="avatar" href="{{ comment.user.home_url }}">
+                                		<img src="{{ comment.user.small_avatar_url }}" />
+                                	</a>
+                                    <a class="author ui magenta link" href="{{ comment.user.home_url }}">
+                                        {{ comment.user.nickname }}
+                                    </a>
+                            		<div class="metadata">
+                            			<div class="date">{{ comment.created_on }}</div>
+                            		</div>
+                                    
+                            		<div class="text">
+                            			{{ comment.content|truncate 140 }}
+                            		</div>
+                                    {% if comment.target %}
+                                    <div class="target">
+                                        评论于 <a href="{{ comment.target.view_url }}" class="ui line" target="_blank">{{ comment.target.title|truncate 24 '' }}</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                    		{% endfor %}
+                            
+                        </div>
+                        
+        			</div>
+                    
+                </div>
+                
+            </div>
+            
+            
+			
 		</div>
 	</div>
 </div>
 
-<div class="social people">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<h2 class="block title">
-					资深专家 <small>超过 2000个行业专家在创造未来</small>
-				</h2>
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
-				<div class="ui mentors four cards">
-					{% for user in users.rows %}
-				  	<div class="card">
-						<div class="mentor">
-							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
-							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
-							<h3>{{ user.nickname }}</h3>
-							<p>{{ user.mentor_info.name }} {{ user.city }}</p>
-						</div>
-				  	</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="center aligned column">
-				<a href="{{ app_url_social }}/mentors" class="ui inverted gray button">
-					<i class="search icon"></i>浏览全部专家
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-
-{% endblock %}
-{% block layout_footer %}
-	{% include "block/footer.html" %}
 {% endblock %}

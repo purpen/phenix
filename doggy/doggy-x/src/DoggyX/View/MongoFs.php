@@ -68,4 +68,3 @@ class DoggyX_View_MongoFs extends Doggy_Dispatcher_Result_Abstract {
         $this->executed=true;
     }
 }
-?>

@@ -1,0 +1,299 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第二季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+body{
+	background:#fff;
+}
+.rankbg{
+	background:url({{ app_url_packaged }}/images/mtac.jpg) no-repeat center center scroll;
+	background-size:cover;
+	padding:20% 0;
+}
+.ui.popu h3.ui.header .sub.header{
+	padding-top:8px;
+	color: rgba(0,0,0,0.9);
+}
+.ui.popu .five.wide img+p{
+	line-height:1.35em;
+}
+.ui.popu .row:nth-child(2){
+	margin-left:3%;
+}
+
+    /*已提公用*/
+/*.ui.allist .ui.four.items > .item  {
+  box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+  background-color: #fff;
+  border-radius: 0.3125em;
+  min-height: 320px;
+  border: 1px solid rgba(0,0,0,0.1);
+  cursor: auto;
+}
+.ui.allist .ui.four.items .item .content{
+	padding: .75em .8em;
+}
+.ui.allist .ui.four.items>.item .schedule {
+  margin-bottom: 0.35rem;
+}
+.ui.allist .image .school{
+	position:absolute;
+	width:100%;
+	background:rgba(0,0,0,0.5);
+	color:#fff;
+	bottom:0;
+	left:0;
+	font-size: 14px;
+	text-align:center;
+	padding: 8px 0;
+	text-align: center;
+	z-index:4;
+}
+.image.zan .image-extra{
+	background-color: rgba(0,0,0,.1);
+	height: 100%;
+	left: 0;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
+	transition: opacity .25s ease 0s,background-color .45s ease 0s;
+	width: 100%;
+	z-index: 3;
+}
+.image.zan:hover .image-extra,.ui.cards .card:hover .image.zan .image-extra,.ui.items .item:hover .image-extra{
+	background-color: rgba(0,0,0,0.5);
+	opacity:1;
+}
+.image.zan .plus-icon .like {
+	border: 1px solid rgba(255,255,255,0.5);
+	border-radius: 50%;
+	display: inline-block;
+	height: 50px;
+	-webkit-transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
+	transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
+	width: 50px;
+}
+.image.zan .single-image.plus-icon .like {
+ 	-webkit-transform: translateX(-300%);
+	-ms-transform: translateX(-300%);
+	transform: translateX(-300%); 
+}
+.image.zan:hover .single-image.plus-icon .like,.ui.items .item:hover .image.zan .single-image.plus-icon .like{
+	-webkit-transform: translateX(0%);
+	-ms-transform: translateX(0%);
+	transform: translateX(0%);
+}
+.image.zan .plus-icon .like:after{
+	border-radius: 50%;
+	color: #FFF;
+	display: block;
+	font-size: 18px;
+	height: 100%;
+	left: 0;
+	line-height: 57px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	-webkit-transition: color .25s ease-in-out 0s;
+	transition: color .25s ease-in-out 0s;
+	width: 100%;
+}
+.image.zan .plus-icon .like:after {
+	content: "\f004";
+	font-size: 35px;
+	font-family: FontIcons;
+}
+
+.image.zan .plus-icon .like.active:after{
+  color: #F36;
+}
+
+.image.zan .image-extra > a{
+	position: absolute;
+	width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.image.zan .add{
+	position: absolute;
+	top: 14px;
+	text-align: center;
+	left: 0;
+	color: rgba(0,0,0,0);
+	width: 100%;
+	font-size: 22px;
+	opacity: 1;
+	z-index:-1;
+	transition: all 1s;
+}
+.image.zan .add-active{
+	top:-70px;
+	color:#f36;
+	transition-delay: .3s;
+	-webkit-animation: arrow 1.2s ease both;
+	-moz-animation: arrow 1.2s ease both;
+	animation: arrow 1.2s ease both;
+}
+@-webkit-keyframes arrow {
+	0%{opacity:1}
+	95%{opacity:1}
+	100%{opacity:0}
+}
+@-moz-keyframes arrow {
+	0%{opacity:1}
+	95%{opacity:1}
+	100%{opacity:0}
+}
+@keyframes arrow {
+	0%{opacity:1}
+	95%{opacity:1}
+	100%{opacity:0}
+}
+
+*/
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="match rank">
+	<section class="rankbg">
+		
+	</section>
+	<section class="ui big popu block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">
+						作品人气榜
+						<div class="sub header">
+						好作品，没人气怎么行？校园人气王究竟是谁，站出来，让我看看你的模样！ <br>
+						top100可跳过初选，获得人气pass卡直通复选
+						</div>
+					</h3>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="five center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/mtac1.png">
+					<p>如果你的作品排在人气榜第1名，<br>
+						 你和你的小伙伴的毕业旅行，<br>
+						 我们包啦！</p>
+					
+				</div>
+				<div class="five center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/mtac2.png">
+					<p>如果你的作品排在人气榜第2名，<br>
+						 你和你的小伙伴们将总共获得 <br>
+						6个名企实习机会！</p>
+				</div>
+				<div class="five center aligned wide column">
+					<img src="{{ app_url_packaged }}/images/mtac3.png">
+					<p>如果你的作品排在人气榜第3名， <br>
+						你将获得最实用的、无限制使用的 <br>
+						优惠券！</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui block">
+		<div class="ui responsive media allist grid">
+		  <div class="row">
+		    <div class="column">
+		      <div class="ui four items">
+		        
+						<!-- 作品-->
+						<div class="item">
+		          <div class="content">
+		            <h4 class="ui dividing header">
+		              <div class="image zan">
+										
+		                <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"
+		                alt="多层可拆卸杯子">
+											
+										<div class="image-extra">
+										  <a href=" " title="发烧总监(iThermonitor) 智能婴儿童电子体温计" target="_blank"></a>
+								      <div class="extra-content">
+								        <div class="inner-extra">
+								          <div class="single-image plus-icon">
+								            <a href="javascript:void(0);" class="love-btn" item-id="110523" loved="0">
+								              <span class="like"></span>
+								            </a>
+														<div class="add">
+														              +1      
+														</div>
+								          </div>
+								        </div>
+								      </div>
+								    </div>
+										
+										<div class="school">
+											清华美术学院
+										</div>
+		              </div>
+		              <a class="ui link" href="http://www.taihuoniao.com/stuff/view-110301.html"
+		              target="_blank">
+		                多层可拆卸杯子
+		              </a>
+		              <div class="advantage">
+		                这是一个什么样的杯子？这是一个多层的可拆卸的杯子，通过每层上面的螺旋的槽使得层与层可以连接起来。这样你就可以随意组装自己的杯子。为啥要有...
+		              </div>
+		            </h4>
+		            <div class="i-stats">
+		              <div class="schedule">
+		                <div class="status clearfix">
+		                  <a class="ui avatar image" href="http://www.taihuoniao.com/user/89850/"
+		                  target="_blank">
+		                    <img src="http://frbird.qiniudn.com/stuff/150317/55081efbfc8b12931c8b7378-1-me.jpg"
+		                    alt="185*****013">
+		                  </a>
+		                  <span class="count">
+		                    <a class="ui small link" href="http://www.taihuoniao.com/user/89850/"
+		                    target="_blank">
+		                      185*****013
+		                    </a>
+		                  </span>
+		                  <span class="like">
+		                    <i class="thumbs outline up icon">
+		                    </i>
+		                    <span class="count">
+		                      18
+		                    </span>
+												<i class="unhide icon"></i> <span class="count">1</span> 
+											</span>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      
+						<!-- -- >
+		
+		
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
+			
+		
+						
+				
+
+
+
+
+
+
+</div>
+{% endblock %}

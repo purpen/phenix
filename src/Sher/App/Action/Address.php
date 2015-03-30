@@ -33,6 +33,24 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		
 		return $this->to_taconite_page('page/address/ajax_districts.html');
 	}
+
+	/**
+	 * 获取某个省市的地区
+	 */
+	public function ajax_fetch_colleges(){
+		$id = $this->stash['id'];
+    $this->stash['college_id'] = (int)$this->stash['college_id'];
+		if (empty($id)){
+			return $this->ajax_notification('Id参数为空！', true);
+		}
+		
+		$college = new Sher_Core_Model_College();
+		$colleges = $college->fetch_colleges($id);
+		
+		$this->stash['colleges'] = $colleges;
+		
+		return $this->to_taconite_page('page/address/ajax_colleges.html');
+	}
 	
 	/**
 	 * 编辑地址

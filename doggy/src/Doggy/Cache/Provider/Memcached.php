@@ -37,10 +37,10 @@ class Doggy_Cache_Provider_Memcached implements Doggy_Cache_Provider {
     }
     
     private function _parseServer($s){
-        $servers = split(',',$s);
+        $servers = preg_split('/,/',$s);
         $servers_to_add = array();
         foreach ($servers as $server) {
-            list($host,$port)=split(':',$server);
+            list($host,$port)=preg_split('/:/',$server);
             Doggy_Log_Helper::debug('add server:'.$host.' port:'.$port,__CLASS__);
             $servers_to_add[] = array($host,(int)$port,1);
         }

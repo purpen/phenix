@@ -18,9 +18,9 @@
           <div class="item">
               来源: {{ order.from_site_label }}
           </div>
-          {% if order.kind==2 %}
+          {% if order.kind == 2 %}
             <div class="item">
-              类型: <span class="" style="color:red;">抢购</span>
+              类型: <span class="ui magenta text">抢购</span>
             </div>
           {%endif%}
         {%endif%}
@@ -66,35 +66,33 @@
 				<p>
 					<small>（运费：{{ order.freight }} 元）</small>
 				</p>
-        <p>
-          {% if admin %}
-            {% if order.card_code %}
-              红包码: {{ order.card_code }}
-            {%endif%}
-            {% if order.gift_code %}
-              礼品券: {{ order.gift_code }}
-            {%endif%}
-          {% endif %}
-        </p>
+                <p>
+                  {% if admin %}
+                    {% if order.card_code %}
+                      红包码: {{ order.card_code }}
+                    {%endif%}
+                    {% if order.gift_code %}
+                      礼品券: {{ order.gift_code }}
+                    {%endif%}
+                  {% endif %}
+                </p>
 			</div>
 			<div class="center aligned three wide column">
 				<div id="order-{{ order.rid }}-label" class="status-label">
 					{{ order.status_label }}
 				</div>
-			
-        {% if my %}
-          {% if order.status == 1 %}
-          <a href="{{ app_url_shopping }}/success?rid={{ order.rid }}" class="ui small magenta button">立即支付</a>
-          {% endif %}
+                {% if my %}
+                  {% if order.status == 1 %}
+                  <a href="{{ app_url_shopping }}/success?rid={{ order.rid }}" class="ui small inverted magenta button">立即支付</a>
+                  {% endif %}
 
-        {% endif %}
+                {% endif %}
 
-        {% if admin %}
-          {% if order.status == 12 %}
-            <div>理由: {{ order.refund_reason }}</div>
-          {% endif %}
-        {% endif %}
-			
+                {% if admin %}
+                  {% if order.status == 12 %}
+                    <div>理由: {{ order.refund_reason }}</div>
+                  {% endif %}
+                {% endif %}
 			</div>
 			<div class="center aligned three wide column">
 				{% if my %}
@@ -102,12 +100,13 @@
 						<a href="{{ order.view_url }}" class="ui link">订单详情 »</a>
 					</p>
 					{% if order.status == 1 %}
-					<a href="{{ app_url_my }}/ajax_cancel_order?rid={{ order.rid }}" class="ui small gray ajax button">取消</a>
+					<a href="{{ app_url_my }}/ajax_cancel_order?rid={{ order.rid }}" class="ui small inverted gray ajax button">取消订单</a>
 					{% endif %}
 					{% if order.status == 10 %}
-          <a href="javascript:void(0);" class="ui small gray button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
+          <a href="javascript:void(0);" class="ui small gray inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
 					{% endif %}
-					{% if order.status >= 20 %}
+
+                    {% if order.status == 20 %}
 						<a href="{{ app_url_my }}/evaluate?rid={{ order.rid }}" class="ui magenta link">售后评价 »</a>
 					{% endif %}
 				{% endif %}
@@ -120,7 +119,7 @@
 					<a href="{{ app_url_admin }}/orders/ajax_close_order?rid={{ order.rid }}" class="ui small gray ajax button">关闭</a>
 					{% endif %}
 					{% if order.status == 12 %}
-          <a href="javascript:void(0);" class="ui small gray button" name="confirm-refund" rid="{{ order.rid }}" pay_money="{{ order.pay_money }}" user_id="{{ order.user_id }}" >确认退款</a>
+          <a href="javascript:void(0);" class="ui small gray inverted button" name="confirm-refund" rid="{{ order.rid }}" pay_money="{{ order.pay_money }}" user_id="{{ order.user_id }}" >确认退款</a>
 					{% endif %}
 				{% endif %}
 				

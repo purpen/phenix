@@ -3,13 +3,20 @@
  * 合作资源(品牌、设计公司、生成商、材料供应商等)
  * @author purpen
  */
-class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
+class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'page'=>1,
+        'd' => 0,
+        'c' => 0,
 	);
 	
 	protected $exclude_method_list = array('execute', 'index');
 	
+	public function _init() {
+		$this->set_target_css_state('page_social');
+        $this->set_target_css_state('page_cooperate');
+    }
+    
 	/**
 	 * 默认入口
 	 */
@@ -21,9 +28,54 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
 	 * 资源首页
 	 */
 	public function index(){
+        $show_all = 'showno';
+        $district = $this->stash['d'];
+        $cid = $this->stash['c'];
+        
+        // 获取地域城市
+        $areas = new Sher_Core_Model_Areas();
+        $cities = $areas->find_cities();
+        
+        $model = new Sher_Core_Model_Cooperation();
+        $resources = $model->find_resources();
+        
+        if($cid || $district){
+            $show_all = 'showall';
+        }
+        
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?c=%d&d=%d&page=#p#', $cid, $district);
+        
+        $this->stash['cities'] = $cities;
+        $this->stash['resources'] = $resources;
+        
+        $this->stash['cid'] = $cid;
+        $this->stash['district'] = $district;
+        $this->stash['show_all'] = $show_all;
+        $this->stash['pager_url'] = $pager_url;
+        
 		return $this->to_html_page('page/cooperate/index.html');
 	}
-
+    
+    /**
+     * 详情查看
+     */
+    public function view(){
+        $id = $this->stash['id'];
+        $editable = false;
+        
+        $model = new Sher_Core_Model_Cooperation();
+        $cooperate = $model->extend_load((int)$id);
+        
+        if($this->visitor->can_admin()){
+            $editable = true;
+        }
+        
+        $this->stash['cooperate'] = $cooperate;
+        
+        $this->stash['editable'] = $editable;
+        
+        return $this->to_html_page('page/cooperate/view.html');
+    }
 	
 	/**
 	 * 提交申请
@@ -37,10 +89,41 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
-		$this->_editor_params();
+        $model = new Sher_Core_Model_Cooperation();
+        $resources = $model->find_resources();
+        $this->stash['resources'] = $resources;
+        
+        $this->_editor_params();
 		
 		return $this->to_html_page('page/cooperate/apply.html');
 	}
+    
+    /**
+     * 编辑信息
+     */
+    public function edit(){
+        $id = $this->stash['id'];
+        
+		$this->stash['mode'] = 'edit';
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_COOPERATE;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_COOPERATE;
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+        
+        $model = new Sher_Core_Model_Cooperation();
+        $cooperate = $model->extend_load((int)$id);
+        
+        $this->stash['cooperate'] = $cooperate;
+        
+        $resources = $model->find_resources();
+        $this->stash['resources'] = $resources;
+        
+        return $this->to_html_page('page/cooperate/apply.html');
+    }
 	
 	/**
 	 * 保存信息
@@ -50,11 +133,11 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
 		if(empty($this->stash['name'])){
 			return $this->ajax_json('名称不能为空！', true);
 		}
+        $mode = 'create';
+        $data = $this->stash;
+        
 		$id = (int)$this->stash['_id'];
-		$mode = 'create';
-		
-		$data = $this->stash;
-		
+        
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
 		
@@ -99,8 +182,10 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base {
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
-		
-		return $this->ajax_json('保存成功.');
+        
+		$redirect_url = Sher_Core_Helper_Url::cooperate_home_url($id);
+        
+		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
 	
 	/**

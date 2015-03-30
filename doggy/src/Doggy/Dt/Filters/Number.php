@@ -67,4 +67,3 @@ class Doggy_Dt_Filters_Number implements Doggy_Dt_FilterLib {
         return $negateWithParentheses ? "({$symbol}{$amount})" : "{$symbol}{$amount}";
     }
 }
-?>

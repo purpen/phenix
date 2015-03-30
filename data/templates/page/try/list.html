@@ -43,6 +43,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
 <div class="try masthead">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
@@ -50,7 +59,8 @@
 			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
 			<hr>
 			<div class="buttons">
-				<a href="{{ app_url_helper }}/itry" class="ui inverted gift button">
+				<!--<a href="{{ app_url_helper }}/itry" class="ui inverted gift button">-->
+					<a href="http://www.taihuoniao.com/topic/view-100247-1.html" class="ui inverted gift button">
 					<i class="certificate icon"></i> 试用规则
 				</a>
 			</div>
@@ -104,8 +114,12 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+						发现
 					</a>
 					<i class="angle right icon divider"></i>
 					<div class="active section">新品试用</div>

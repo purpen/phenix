@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -73,6 +73,15 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->set_target_css_state('cooperate');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 		return $this->to_html_page('match/cooperate.html');
+	}
+	
+	/**
+	 * 十万火计--第二季 作品排行
+	 */
+  public function rank() {
+		$this->set_target_css_state('active2');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		return $this->to_html_page('match/rank.html');
 	}
 	
 	/**
@@ -152,6 +161,68 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	}
 
 	/**
+	 * 详情-十万火计2
+	 */
+	public function view2(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.stuff'];
+		if(empty($id)){
+			return $this->show_message_page('访问的作品不存在！', $redirect_url);
+		}
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load($id);
+		
+		if(empty($stuff) || $stuff['deleted']){
+			return $this->show_message_page('访问的作品不存在或被删除！', $redirect_url);
+		}
+		
+		$stuff = $model->extended_model_row($stuff);
+		
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+		
+		// 当前用户是否有管理权限
+		$editable = false;
+		if ($this->visitor->id){
+			if ($this->visitor->id == $stuff['user_id'] || $this->visitor->can_admin){
+				$editable = true;
+			}
+		}
+		
+		// 是否出现后一页按钮
+	    if(isset($this->stash['referer'])){
+            $this->stash['HTTP_REFERER'] = $this->current_page_ref();
+	    }
+		
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$stuff['fid']);
+		
+		$this->stash['stuff'] = $stuff;
+		$this->stash['parent_category'] = $parent_category;
+		$this->stash['editable'] = $editable;
+		
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
+		
+		return $this->to_html_page('match/view2.html');
+	}
+
+	/**
 	 * 编辑器参数
 	 */
 	protected function _editor_params() {
@@ -163,6 +234,26 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
 	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+
+		// 评论的链接URL
+		$this->stash['pager_url'] = $options['comment_pager'];
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = $options['comment_show_rich'];
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+    }
 	
 }
 ?>

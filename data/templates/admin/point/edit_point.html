@@ -1,0 +1,67 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#event-form').form({
+		code: {
+			identifier  : 'code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标识代码'
+				}
+			]
+		},
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">积分配置</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+        <a class="{{ css_setting_type }} item" href="{{ app_url_admin }}/point/settings_type">积分类型</a>
+        <a class="{{ css_setting_event }} item" href="{{ app_url_admin }}/point/settings_event">积分事件</a>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增积分类型</h4>
+		{% else %}
+		<h4>编辑积分类型</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/point/ajax_save_point_type" class="ajax-form" method="post" id="event-form">
+			<input type="hidden" name="_id" value="{{ point._id }}" />
+			<div class="inline field">
+			  	<label for="name">标识代码：</label>
+				<input type="text" name="code" value="{{ point.code }}" placeholder="积分代码[a-Z]"  />
+			</div>
+			<div class="inline field">
+			  	<label for="name">名称：</label>
+				<input type="text" name="name" value="{{ point.name }}" placeholder="积分名称" />
+			</div>
+			<div class="inline field">
+			  	<label for="name">说明：</label>
+				<input type="text" name="note" value="{{ tag.note }}" placeholder="积分说明" />
+			</div>
+			<input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}

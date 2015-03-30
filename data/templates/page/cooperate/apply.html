@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}合作资源-{% endblock %}
+{% block title %}孵化资源-{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -127,8 +127,8 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload_stuff }}'
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
+        	endpoint: '{{ app_url_upload_cooperate }}'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -179,7 +179,7 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#stuff_logo_id').val(id);
+			$('#cooperate_logo_id').val(id);
 			return false;
 		});
 	});
@@ -196,10 +196,10 @@
 					</a>
 					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_cooperate }}">
-						合作资源
+						孵化资源
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">申请合作</div>
+					<div class="active section">合作申请</div>
 				</div>
 			</div>
 		</div>
@@ -212,7 +212,7 @@
 			<div class="column">
 				
 				<h2 class="ui header">
-					申请合作
+					合作申请
 				</h2>
 				
 				<form action="{{ app_url_action_base }}/cooperate/save" class="ui form segment" method="post" id="cooperate-form">
@@ -221,38 +221,22 @@
 					<input type="hidden" name="file_count" id="file_count" />
 					
 					<div class="ui field">
-						<label>所属类型</label>
+						<label>分工类型</label>
 					   	<div class="ui options">
 							{% if mode == 'edit' %}
-					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="stuff-type" />
+					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="cooperate-type" />
 							{% else %}
 								<input type="hidden" name="type" id="cooperate-type" />
 							{% endif %}
 							
-					   	 	<div class="ui magenta alt option" data-value="1">
+                            {% for m in resources %}
+					   	 	<div class="ui magenta alt {% if m.id == cooperate.type %}active{%endif%} option" data-value="{{ m.id }}">
 					   	 		<div class="icon">
 					   				<i class="fa fa-check"></i>
 					   			</div>
-					   	 		品牌商
+					   	 		{{ m.name }}
 					   	 	</div>
-					   	 	<div class="ui magenta alt option" data-value="2">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
-					   	 		设计机构
-					   	 	</div>
-					   	 	<div class="ui magenta alt option" data-value="4">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
-					   	 		技术开发商
-					   	 	</div>
-					   	 	<div class="ui magenta alt option" data-value="3">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
-					   	 		高校基地
-					   	 	</div>
+                            {% endfor %}
 					   	 </div>
 					</div>
 				
@@ -266,16 +250,20 @@
 					</div>
 					<div class="field">
 						<label>业务特点</label>
-					  	<input type="text" name="keywords" value="{{ cooperate.keywords }}" />
+					  	<input type="text" name="keywords" value="{{ cooperate.keywords_s }}" />
 						<div class="description">特点之间使用，逗号隔开</div>
 					</div>
 					
 					<div class="field">
-						<label>网址</label>
+						<label>网址主页</label>
 					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" />
 					</div>
 					
 					<div class="three fields">
+						<div class="field">
+							<label for="city">所在城市</label>
+					  		<input type="text" name="city" value="{{ cooperate.city }}" />
+						</div>
 						<div class="field">
 							<label for="phone">固定电话</label>
 					  		<input type="text" name="phone" value="{{ cooperate.phone }}" />
@@ -284,26 +272,15 @@
 							<label for="email">Email</label>
 					  		<input type="text" name="email" value="{{ cooperate.email }}" />
 						</div>
-						<div class="field"></div>
-					</div>
-					
-					<div class="three fields">
-						<div class="field">
-							<label for="province">省份</label>
-					  		<input type="text" name="province" value="{{ cooperate.province }}" />
-						</div>
-						<div class="field">
-							<label for="city">城市</label>
-					  		<input type="text" name="city" value="{{ cooperate.city }}" />
-						</div>
-						<div class="field">
-							<label for="address">地址</label>
-					  		<input type="text" name="address" value="{{ cooperate.address }}" />
-						</div>
 					</div>
 					
 					<div class="field">
-						<label>Logo <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+						<label for="address">详细地址</label>
+				  		<input type="text" name="address" value="{{ cooperate.address }}" />
+					</div>
+					
+					<div class="field">
+						<label>Logo <small class="description">(小于3M,jpg、jpeg的格式,请指定一个展示图)</small></label>
 						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
 						<div id="phenix-uploader"></div>
 					
@@ -321,7 +298,7 @@
 											<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 												<i class="remove icon"></i>
 											</a>
-											<a href="javascript:void(0);" class="ui link {%if stuff.cover_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+											<a href="javascript:void(0);" class="ui link {%if cooperate.logo_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 												<i class="checkered flag icon"></i>
 											</a>
 										</div>
@@ -354,8 +331,8 @@
 					
 					<div class="ui right floated aligned grid">
 						<div class="column">
-							<div class="ui gray cancel big inverted button">取消</div>
-							<div class="ui magenta big submit inverted button">确认提交</div>
+							<div class="ui gray cancel large inverted button">取消</div>
+							<div class="ui magenta large submit inverted button">确认提交</div>
 						</div>
 					</div>
 				

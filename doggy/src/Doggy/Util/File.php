@@ -14,7 +14,7 @@ class Doggy_Util_File {
      */
     public static function mk($path,$mode=0777){
         if(file_exists($path)) return true;
-        $dirs = split('/',$path);
+        $dirs = preg_split('/[\/]/',$path);
 	    $p = '';
 	    for($i=0;$i<count($dirs);$i++){
 	        $p.= $dirs[$i].'/';
@@ -362,7 +362,7 @@ class Doggy_Util_File {
 	 */
     public static function build_dir($path,$mode=0755){
         if(file_exists($path)) return true;
-        $dirs = split('/',$path);
+        $dirs = preg_split('/[\/]/',$path);
         $p = '';
         for($i=0;$i<count($dirs);$i++){
             $p.= $dirs[$i].'/';

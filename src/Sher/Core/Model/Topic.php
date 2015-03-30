@@ -9,6 +9,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
+	# 置顶
+	const TOP_SITE = 1;
+	const TOP_CATEGORY = 2;
+    
 	# 推荐
 	const STICK_EDITOR = 1;
 	const STICK_HOME = 2;
@@ -53,10 +57,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		# 回应数 
     	'comment_count' => 0,
 		
+		# 置顶标识(站内、版块)
+		'top'   => 0,
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
-		# 置顶标识
-		'top'   => 0,
 		# 精华标识
 		'fine'  => 0,
 		
@@ -108,43 +112,47 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	/**
 	 * 保存之后，更新相关count
 	 */
-  protected function after_save() {
-    //如果是新的记录
-    if($this->insert_mode) {
-      $category_id = $this->data['category_id'];
-      $fid = $this->data['fid'];
+    protected function after_save() {
+        // 如果是新的记录
+        if($this->insert_mode) {
+            $category_id = $this->data['category_id'];
+            $fid = $this->data['fid'];
       
-      $category = new Sher_Core_Model_Category();
-      if (!empty($category_id)) {
-        $category->inc_counter('total_count', 1, $category_id);
-      }
-      if (!empty($fid)) {
-        $category->inc_counter('total_count', 1, $fid);
-      }
+            $category = new Sher_Core_Model_Category();
+            if (!empty($category_id)) {
+                $category->inc_counter('total_count', 1, $category_id);
+            }
+            if (!empty($fid)) {
+                $category->inc_counter('total_count', 1, $fid);
+            }
       
-      $target_id   = $this->data['target_id'];
-      if (!empty($target_id)) {
-        $product = new Sher_Core_Model_Product();
-        $product->inc_counter('topic_count', 1, $target_id);
-        unset($product);
-      }
+            $target_id = $this->data['target_id'];
+            if (!empty($target_id)) {
+                $product = new Sher_Core_Model_Product();
+                $product->inc_counter('topic_count', 1, $target_id);
+                unset($product);
+            }
       
-      // 更新话题总数
-      Sher_Core_Util_Tracker::update_topic_counter();
+            // 更新话题总数
+            Sher_Core_Util_Tracker::update_topic_counter();
 
-      //如果是发布状态,创建动态
-      if ($this->data['published'] == 1) {
-        $timeline = new Sher_Core_Model_Timeline();
-        $arr = array(
-          'user_id' => $this->data['user_id'],
-          'target_id' => (int)$this->data['_id'],
-          'type' => Sher_Core_Model_Timeline::TYPE_TOPIC,
-          'evt' => Sher_Core_Model_Timeline::EVT_POST,
-        );
-        $timeline->create($arr);
-      }
+            // 如果是发布状态,创建动态
+            if ($this->data['published'] == 1) {
+                $timeline = new Sher_Core_Model_Timeline();
+                $arr = array(
+                    'user_id' => $this->data['user_id'],
+                    'target_id' => (int)$this->data['_id'],
+                    'type' => Sher_Core_Model_Timeline::TYPE_TOPIC,
+                    'evt' => Sher_Core_Model_Timeline::EVT_POST,
+                );
+                $timeline->create($arr);
+            }
+            
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_new_post', $this->data['user_id']);
+        }
     }
-  }
 	
 	/**
 	 * 扩展Model数据
@@ -203,8 +211,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     /**
      * 标记主题 置顶
      */
-	public function mark_as_top($id){
-		return $this->update_set($id, array('top' => 1));
+	public function mark_as_top($id, $value=self::TOP_CATEGORY){
+		return $this->update_set($id, array('top' => $value));
 	}
 	
     /**

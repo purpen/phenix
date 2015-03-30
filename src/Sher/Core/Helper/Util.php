@@ -11,6 +11,14 @@ class Sher_Core_Helper_Util {
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
 		return self::send_mms($phone, $message);
 	}
+
+	/**
+	 * 发送短信--自定义
+	 */
+	public static function send_defined_mms($phone, $msg) {
+		$message = "${msg}【太火鸟】";
+		return self::send_mms($phone, $message);
+	}
 	
 	/**
 	 * 发送短信息
@@ -462,14 +470,22 @@ class Sher_Core_Helper_Util {
 		$string = str_replace('href', '', $string);
 	    return $string;
 	}
+    
+    /**
+     * 删除空格
+     */
+    public static function trimall($str){
+        $qian = array(" ", "　", "\t", "\n", "\r");
+        $hou  = array("", "", "", "", "");
+        return str_replace($qian, $hou, $str);    
+    }
 
-  /**
-   * 生成随机数(MongoId)
-   */
-  public static function generate_mongo_id() {
-    $mongo_object = new MongoId();
-    return (string)$mongo_object;
-  }
-	
+    /**
+     * 生成随机数(MongoId)
+     */
+    public static function generate_mongo_id() {
+        $mongo_object = new MongoId();
+        return (string)$mongo_object;
+    }
+    	
 }
-?>

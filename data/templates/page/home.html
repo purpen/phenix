@@ -2,11 +2,6 @@
 
 {% block page_css %}
 <style type="text/css">
-	*, *:after, *:before {
-		box-sizing:border-box;
-		-moz-box-sizing:border-box; /* Firefox */
-		-webkit-box-sizing:border-box; /* Safari */
-	}
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
 	}
@@ -24,10 +19,6 @@
 			padding-right:0 !important;
 			padding-left:0 !important;
 		}
-	}	
-	.ui.grid>.column{
-		padding-right:1.2%;
-		padding-left:1.2%;
 	}
 	header.main .search.item{
 		width:30%;
@@ -49,8 +40,8 @@
     padding-bottom: 4.5rem;
   }
   .ui.small.vote.block {
-    padding-bottom: 2.5em;
-    padding-top: 0.5em !important;
+    padding-bottom: 1.5rem;
+    padding-top: 0.5rem !important;
   }
   .hero .next, .hero .prev {
     bottom: 50px;
@@ -137,10 +128,26 @@
 		-webkit-box-shadow: inset 0 0 0 2px #fff;
 	}*/
 	
-	.row.groom img{
-		width:100%;
+	
+	.groom.items .item .image{
+		  background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
+		  background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
+		  background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
+		  overflow: hidden;
+		  background-color: rgba(56,67,77,.9);
+		  background-position: center center;
+		  background-repeat: no-repeat;
+		  -webkit-background-size: cover;
+		  background-size: cover;
 	}
-	#homepage .row.groom .ui.two.items>.item:hover{
+	.groom.items .item .image a{
+			position:absolute;
+			width:100%;
+			height:100%;
+			top:0;
+			left:0;
+	}
+	.ui.two.groom.items>.item:hover{
 		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
 		 box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
 		border:0px solid #fff !important;
@@ -177,6 +184,8 @@
 		background:#fff;
 		color:#f36;
 	}
+    
+    
 </style>
 {% endblock %}
 
@@ -263,10 +272,8 @@
 	<a href="http://www.taihuoniao.com/birdegg">
 		<div class="ui responsive grid">
 			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
-			
 		</div>
 	</a>
-
 </div>
 
 <div class="header main">
@@ -274,6 +281,7 @@
 		{% include "block/header.html" %}
 	</div>
 </div>
+
 <div id="homepage">
 	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
 		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" />
@@ -281,8 +289,6 @@
 			关注太火鸟
 		</div>
 	</div>
-	
-	
 	
 	<div id="fixedslide" class="frame">
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
@@ -321,7 +327,7 @@
 		<div class="ui responsive grid">
 			
 			<!--  商品推荐位  -->
-		  {% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
+		  <!--{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
 			<div class="row groom">
 				<div class="column">
 					<div class="ui two items">
@@ -334,7 +340,24 @@
             {%endfor%}
 					</div>
 				</div>
-			</div>
+			</div>-->
+
+			{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
+      {% if adslide2.rows %}
+        <div class="row">
+          <div class="column">
+            <div class="ui two groom items">
+              {% for ad in adslide2.rows %}
+              <div class="item">
+                <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                  <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
+                </div>
+              </div>
+              {%endfor%}
+            </div>
+          </div>
+        </div>
+      {%endif%}
 			
 			<div class="row">
 				<div class="column">
@@ -356,29 +379,26 @@
 	</section>
 	
 	<section class="ui small vote block">
-		<div class="ui responsive grid" id="votelist">
-			<div class="row">
+		<div class="ui responsive grid">
+			<div class="two column middle aligned row">
 				<div class="column">
 					<h2 class="block title">
 						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
 					</h2>
 				</div>
+                <div class="right aligned column">
+					<a href="{{ app_url_fever }}" class="ui inverted gray button">
+						全部创意
+					</a>
+                </div>
 			</div>
-			<div class="content row">
-				<div class="center aligned column">
-					<div class="ui three items">
-						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:6 %}
+			<div class="row">
+				<div class="column">
+					<div class="ui four voteist cards">
+						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:4 %}
 						{% for product in list.rows %}
 							{% include "block/product_vote_item.html" %}
 						{% endfor %}
-					</div>
-					<div class="actions" data-2150="transform: translateY(100px);opacity:0;" data-2250="transform: translateY(0px);opacity:1;">
-						<a href="{{ app_url_fever }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-							全部创意
-						</a>
-						<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
-							提交创意
-						</a>
 					</div>
 				</div>
 			</div>
@@ -386,7 +406,7 @@
 	</section>
 	
 	<section class="ui small topic white background block">
-		<div class="ui responsive sticktopic grid">
+	    <div class="ui responsive sticktopic grid">
 			<div class="row">
 				<div class="column">
 					<h2 class="block title">
@@ -396,119 +416,46 @@
 			</div>
 		</div>
 		<div class="ui responsive grid">
-			<div class="two column row">
-				<div class="column">
-					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
-					{% if ad %}
-					<div class="advert content">
-						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
-						</a>
-						<div class="bword">
-							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
-						</div>
-					</div>
-					{% endif %}
-				</div>
-				<div class="column">
-					{% topic_list var:'list' type:1 page:1 size:6 %}
-					<div class="ui divided stick list">
-						{% for topic in list.rows %}
-					  	<div class="item">
-							<div class="right floated compact ui label">{{ topic.view_count }}</div>
-					    	<div class="content">
-					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
-					      		<div class="description">
-									<ul class="ui horizontal bulleted link list">
-										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
-										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
-										{% if topic.last_user %}
-										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>
-										{% endif %}
-									</ul>
-								</div>
-					    	</div>
-					  	</div>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	
-	<section class="ui hide big white background block">
-		<div class="ui responsive grid">
 			<div class="row">
-				<div class="center aligned column section-title">
-					<h3 class="ui header">我们的社区</h3>
-					<p>分享第一手产品资讯，创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快。</p>
-					<hr>
-				</div>
-			</div>
-			<div class="row">
-				<div class="center aligned column">
-					<div class="ui four social items">
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1880="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq01.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c11">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2100="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											最新动态
-											<div class="sub header">
-												你总是需要多了解一些正在发生着的有关科技创意好玩的事
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1930="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq02.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c12">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2150="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											产品专区
-											<div class="sub header">
-												我们用专业的数据说明，让你更了解产品的优缺点
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-1980="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq03.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c13">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2200="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											奇思妙想
-											<div class="sub header">
-												新奇的想法、怪怪的想法、笨笨的想法、好想法、坏想法……
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item" data-1400="transform: translateY(500px);opacity:0;" data-2030="transform: translateY(0px);opacity:1;">
-							<div class="image">
-								<img src="{{ app_url_packaged }}/images/sq04.jpg" class="ui image" />
-								<a class="transparent" href="{{ app_url_topic }}/c14">
-									<h3 class="ui header" data-2000="transform: translateY(200px);opacity:0;" data-2250="transform: translateY(0px);opacity:1;">
-										<div class="content">
-											活动&吐槽
-											<div class="sub header">
-												只要发自内心的想去吐槽，槽点自然而然会呈现在你眼前
-											</div>
-										</div>
-									</h3>
-								</a>
-							</div>
-						</div>
-					</div>
+				<div class="column">
+                    <div class="ui compact grid">
+                        <div class="eight wide column">
+        					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
+        					{% if ad %}
+        					<div class="advert content">
+        						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+        				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
+        						</a>
+        						<div class="bword">
+        							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
+        						</div>
+        					</div>
+        					{% endif %}
+                        </div>
+                        <div class="eight wide column">
+        					{% topic_list var:'list' type:1 page:1 size:6 %}
+        					<div class="ui divided stick list">
+        						{% for topic in list.rows %}
+        					  	<div class="item">
+        							<div class="right floated compact ui label">{{ topic.view_count }}</div>
+        					    	<div class="content">
+        					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
+        					      		<div class="description">
+        									<ul class="ui horizontal bulleted link list">
+        										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
+        										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
+        										{% if topic.last_user %}
+        										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>
+        										{% endif %}
+        									</ul>
+        								</div>
+        					    	</div>
+        					  	</div>
+        						{% endfor %}
+        					</div>
+                        </div>
+                    </div>
+                    
 				</div>
 			</div>
 		</div>
@@ -545,7 +492,7 @@
 								</div>
 							</div>
 						</div>
-				
+			
 						<div class="magenta item">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品
@@ -565,7 +512,7 @@
 								</div>
 							</div>
 						</div>
-				
+			
 						<div class="magenta item">
 							<div class="image">
 								<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯
@@ -590,8 +537,8 @@
 			</div>
 			<div class="more row">
 				<div class="center aligned column">
-					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn" data-2800="background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);" data-2950="background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);">
-						查看更多成功案例
+					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta inverted button">
+						<i class="search icon"></i>查看更多成功案例
 					</a>
 				</div>
 			</div>

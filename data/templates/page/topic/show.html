@@ -66,14 +66,19 @@
 			}
 		}, 'json');
 		
-		// 置顶
+		// 站内置顶
 		$('.ui.top.button').bind('click', function(){
-			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this),btn_title = '';
+            if (type == 1){
+                btn_title = '站内置顶';
+            }else{
+                btn_title = '版块置顶';
+            }
 			if (mark == 'n') {
-				$.post('{{ app_url_topic }}/ajax_top', {id: id}, function(result){
+				$.post('{{ app_url_topic }}/ajax_top', {id: id, tv: type}, function(result){
 					if (result.success) {
 						$btn
-							.data('content', '取消置顶')
+							.data('content', '取消'+btn_title)
 							.data('mark', 'y')
 							.addClass('active');
 					} else {
@@ -81,10 +86,38 @@
 					}
 				}, 'json');
 			} else {
-				$.post('{{ app_url_topic }}/ajax_cancel_top', {id: id}, function(result){
+				$.post('{{ app_url_topic }}/ajax_cancel_top', {id: id, tv: type}, function(result){
 					if (result.success) {
 						$btn
-							.data('content', '置顶')
+							.data('content', btn_title)
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+        
+		// 精华标记
+		$('.ui.fine.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_topic }}/ajax_fine', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消精华')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_topic }}/ajax_cancel_fine', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '标记精华')
 							.data('mark', 'n')
 							.removeClass('active');
 					} else {
@@ -431,22 +464,40 @@
 						
 						<div class="ui icon black editable buttons">
 							{% if visitor.can_admin %}
-								{% if topic.top %}
-								<div class="ui pop top active button" data-content="取消置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-									<i class="flag icon"></i>
+								{% if topic.top == 1 %}
+								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
+									<i class="pin icon"></i>
 								</div>
 								{% else %}
-								<div class="ui pop top button" data-content="置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-									<i class="flag icon"></i>
+								<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
+									<i class="pin icon"></i>
+								</div>
+								{% endif %}
+								{% if topic.top == 2 %}
+								<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
+									<i class="basic pin icon"></i>
+								</div>
+								{% else %}
+								<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
+									<i class="basic pin icon"></i>
+								</div>
+								{% endif %}
+								{% if topic.fine %}
+								<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+									<i class="star icon"></i>
+								</div>
+								{% else %}
+								<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
+									<i class="star icon"></i>
 								</div>
 								{% endif %}
 								{% if topic.stick %}
 								<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-									<i class="pin icon"></i>
+									<i class="flag icon"></i>
 								</div>
 								{% else %}
 								<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-									<i class="pin icon"></i>
+									<i class="flag icon"></i>
 								</div>
 								{% endif %}
 							{% endif %}

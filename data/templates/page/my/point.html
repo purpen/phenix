@@ -1,0 +1,625 @@
+{%extends 'layout/column.html'%}
+{% block title %}会员等级{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .integral .three.wide.column,.thirteen.wide.column{
+        vertical-align: middle !important;
+    }
+    .integral .thirteen.wide.column p{
+        display:inline-block;
+        float:left;
+        margin:0;
+        margin-right: 10px;
+    }
+    .integral .thirteen.wide.column h3.ui.header + p{
+        margin-right:0 ;
+    }
+    .integral .thirteen.wide.column p a{
+        text-decoration: none;
+    }
+    .integral .thirteen.wide.column p a:hover{
+        text-decoration: underline;
+    }
+    .mach.row .ui.progress {
+        background-color: #fff!important;
+        border: 1px solid rgba(0,0,0,.3);
+        height: 18px!important;
+        padding: 0;
+        border-radius:0;
+        overflow: hidden;
+    }
+    .mach.row {
+        padding:0 !important;
+    }
+    .mach.row .wide.column{
+        vertical-align: middle;
+    }
+    .mach.row .ui.progress .bar{
+        border-radius: 0px;
+    }
+    .ui.table th{
+        text-align:center;
+    }
+    .ui.celled.table.segment.column{
+        width:70%;
+        -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+        box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+        border-radius: .3125em;
+    }
+		
+		/*.ui.celled.four.segment tr:nth-child(3n+1) td:nth-child(3){
+			border-bottom:0px solid rgba(0,0,0,0);
+		}
+		.ui.celled.four.segment tr:nth-child(3n+2) td:nth-child(3){
+			border-bottom:0px solid rgba(0,0,0,0);
+			border-top:0px solid rgba(0,0,0,0);
+		}
+		.ui.celled.four.segment tr:nth-child(3n+3) td:nth-child(3){
+			border-top:0px solid rgba(0,0,0,0);
+		}
+		.ui.celled.four.segment tr:nth-child(2n) td:nth-child(3){
+			background:#fff;
+		}
+		.ui.table tbody tr:nth-child(2n) {
+		  background-color: #fff;
+		}*/
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">会员等级</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="account profile">
+    <div class="ui responsive grid">
+        <div class="four wide column">
+            {% include "block/user/sub_menu_center.html" %}
+        </div>
+        <div class="twelve wide column">
+            <h2 class="ui header">我的等级</h2>
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="integral row">
+                        <div class="three wide column">
+                            <img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+                        </div>
+                        <div class="thirteen wide column">
+                            <h3 class="ui header">{{ user.nickname }}</h3>
+                            <div class="ui horizontal divided list">
+                                <div class="item">
+                                    {{ user.ext_state.user_rank.title|default '鸟列兵' }}
+                                </div>
+                                <div class="item">
+                                    我的等级: <b>{{ user.ext_state.rank_id|default 0  }}</b>
+                                </div>
+                                <div class="item">
+                                    经验值: <b>{{ user.ext_state.rank_upgrade_point|default 0 }}</b>
+                                </div>
+                                <!--
+                                <div class="item">
+                                    <a href="">经验纪录</a>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mach row">
+                        <div class="thirteen wide column">
+                            <div class="ui green progress">
+                                <div class="bar" style="width:88.78%;"></div>
+                            </div>
+                        </div>
+                        <div class='three wide column'>
+                            {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.rank_upgrade_point|default 0 }}
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <h4 class="ui header">
+                                等级与经验对照表
+                            </h4>
+
+                            <table class="ui celled four column table center aligned segment">
+                                <thead>
+                                <tr><th>鸟等级</th>
+                                    <th>相对增长经验</th>
+                                    <th>鸟军衔</th>
+                                    <th>备注</th>
+                                </tr></thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td rowspan="3">鸟平民</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>30</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>80</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>150</td>
+                                    <td rowspan="3">鸟列兵</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>240</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>350</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>7</td>
+                                    <td>480</td>
+                                    <td rowspan="3">鸟下士</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>630</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>800</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>10</td>
+                                    <td>990</td>
+                                    <td rowspan="3">鸟中士</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td>1200</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td>1430</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>13</td>
+                                    <td>1680</td>
+                                    <td rowspan="3">鸟军士</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>14</td>
+                                    <td>1950</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>15</td>
+                                    <td>2240</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>16</td>
+                                    <td>3300</td>
+                                    <td rowspan="3">鸟士官</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>17</td>
+                                    <td>4420</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>18</td>
+                                    <td>5600</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>19</td>
+                                    <td>6840</td>
+                                    <td rowspan="3">鸟骑士</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>20</td>
+                                    <td>8140</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>21</td>
+                                    <td>9500</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>22</td>
+                                    <td>10920</td>
+                                    <td rowspan="3">鸟骑士中尉</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>12400</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>24</td>
+                                    <td>13940</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>25</td>
+                                    <td>15540</td>
+                                    <td rowspan="3">鸟骑士队长</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>26</td>
+                                    <td>17200</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>27</td>
+                                    <td>18920</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>28</td>
+                                    <td>20700</td>
+                                    <td rowspan="3">鸟护卫骑士</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>29</td>
+                                    <td>22540</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>30</td>
+                                    <td>24440</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>31</td>
+                                    <td>28000</td>
+                                    <td rowspan="3">鸟少校</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>32</td>
+                                    <td>31920</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>33</td>
+                                    <td>36200</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>34</td>
+                                    <td>40840</td>
+                                    <td rowspan="3">鸟司令</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>35</td>
+                                    <td>45840</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>36</td>
+                                    <td>51200</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>37</td>
+                                    <td>56920</td>
+                                    <td rowspan="3">鸟统帅</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>38</td>
+                                    <td>63000</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>39</td>
+                                    <td>69440</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>40</td>
+                                    <td>76240</td>
+                                    <td rowspan="3">鸟元帅</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>41</td>
+                                    <td>83400</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>42</td>
+                                    <td>90920</td>
+                                    <td> </td>
+                                </tr>
+																<tr>
+                                    <td>43</td>
+                                    <td>98800</td>
+                                    <td rowspan="3">鸟大元帅</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>44</td>
+                                    <td>107040</td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>45</td>
+                                    <td>115640</td>
+                                    <td> </td>
+                                </tr>
+                                </tbody>
+																<tfoot>
+																	 <tr>
+																				<th colspan="4">备注：积分累计计算公式为 10n^2+20n</th>
+		                                </tr>
+																</tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="column">
+                            <h4 class="ui header">
+                                如何提升经验?
+                            </h4>
+
+                            <table class="ui celled table center aligned segment">
+                                <thead>
+                                <tr><th></th>
+																	  <th class="two wide">用户行为</th>
+                                    <th class="six wide">经验来源</th>
+																		<th>鸟币（无上限）</th>
+                                    <th>经验累积</th>
+                                    <th class="two wide">限定</th>
+                                </tr></thead>
+                                <tbody>
+                                <tr>
+																		<td rowspan="3">个人信息完善</td>
+                                    <td>登陆</td>
+                                    <td>登陆太火鸟官网</td>
+																		<td rowspan="3">5</td>
+                                    <td>2</td>
+                                    <td rowspan="3">用户个人资料完善后一次性给予奖励积分，如用户后续修改将不再获得鸟币</td>
+                                </tr>
+                                <tr>
+                                    <td>上传头像</td>
+                                    <td>首次上传头像获得积分，老用户直接去领</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td>完善个人资料</td>
+                                    <td>完善性别、城市、签名信息、收货地址、邮编、手机、姓名，老用户重新提交可领</td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+																		<td rowspan="3">会员互动</td>
+                                    <td rowspan="3">关注</td>
+                                    <td>关注他人</td>
+																		<td></td>
+                                    <td>1</td>
+                                    <td>每天上限20</td>
+                                </tr>
+                                <tr>
+                                    <td>被人关注</td>
+																		<td></td>
+                                    <td>1</td>
+                                    <td>每天上限20</td>
+                                </tr>
+                                <tr>
+                                    <td>主页来访</td>
+																		<td></td>
+                                    <td>1</td>
+                                    <td>每天上限50</td>
+                                </tr>
+																<tr>
+																	  <td rowspan="19">分享及参与太火鸟官方活动</td>
+                                    <td rowspan="5">发表</td>
+                                    <td>发表文章</td>
+																		<td>1</td>
+                                    <td>10</td>
+                                    <td>每天上限50</td>
+                                </tr>
+																<tr>
+                                    <td>发表精华文章（编辑审核加精华）</td>
+																		<td>10</td>
+                                    <td>20</td>
+                                    <td>每天上限50</td>
+                                </tr>
+																<tr>
+                                    <td>回复他人文章</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>文章被他人回复</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>文章被他人点赞</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td rowspan="2">点评</td>
+                                    <td>发表点评</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>点评被他人点赞</td>
+																		<td></td>
+                                    <td>1</td>
+                                    <td>每天上限10</td>
+                                </tr>
+																<tr>
+                                    <td rowspan="4">用户试用</td>
+                                    <td>申请试用</td>
+																		<td></td>
+                                    <td>5</td>
+                                    <td></td>
+                                </tr>
+																<tr>
+                                    <td>发表产品试用报告（编辑审核加精华）</td>
+																		<td>5</td>
+                                    <td>10</td>
+                                    <td></td>
+                                </tr>
+																<tr>
+                                    <td>回复他人申请试用报告</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>试用报告被他人回复</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td rowspan="6">创意提交</td>
+                                    <td>提交创意</td>
+																		<td></td>
+                                    <td>10</td>
+                                    <td>每天上限50</td>
+                                </tr>
+																<tr>
+                                    <td>创意审核通过（进入投票环节）</td>
+																		<td></td>
+                                    <td>20</td>
+                                    <td></td>
+                                </tr>
+																<tr>
+                                    <td>回复他人创意</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>创意被他人回复</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>投票他人创意</td>
+																		<td></td>
+                                    <td>1</td>
+                                    <td>每天上限10</td>
+                                </tr>
+																<tr>
+                                    <td>创意被他人投票</td>
+																		<td></td>
+                                    <td>1</td>
+                                    <td>每天上限20</td>
+                                </tr>
+																<tr>
+                                    <td rowspan="2">分享</td>
+                                    <td>分享文章至朋友圈/微博</td>
+																		<td>1</td>
+                                    <td>5</td>
+                                    <td>每天上限20</td>
+                                </tr>
+																<tr>
+                                    <td>分享商品至朋友圈/微博</td>
+																		<td>1</td>
+                                    <td>5</td>
+                                    <td>每天上限20</td>
+                                </tr>
+																<tr>
+                                    <td rowspan="2">产品评测需审核</td>
+																		<td></td>
+                                    <td>普通评测</td>
+																		<td>5</td>
+                                    <td>5</td>
+                                    <td>每天上限20</td>
+                                </tr>
+																<tr>
+																		<td></td>
+                                    <td>评测加精华</td>
+																		<td>20</td>
+                                    <td>5</td>
+                                    <td></td>
+                                </tr>
+																<tr>
+                                    <td rowspan="2">购买行为</td>
+																		<td>购买</td>
+                                    <td>购买商品</td>
+																		<td>10元赠送1鸟币</td>
+                                    <td></td>
+                                    <td>根据购买价格</td>
+                                </tr>
+																<tr>
+																		<td></td>
+                                    <td>好评+评论</td>
+																		<td>5</td>
+                                    <td></td>
+                                    <td>满足好评要求 1单=50积分</td>
+                                </tr>
+                                </tbody>
+																<tfoot>
+																	 <tr>
+																				<th colspan="6">说明：1鸟币=1元 积分可直接到积分商城兑换购买产品（1，购买时不限积分，上不封顶  2，积分不够产品价格 补差价）
+																				用户在订单结算页面用会员积分进行消费金额的抵扣（全部？部分？）</th>
+		                                </tr>
+																</tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,4 +7,3 @@
 interface DoggyX_Action_BeforeInvoke {
     public function before_invoke($invoke_method);
 }
-?>

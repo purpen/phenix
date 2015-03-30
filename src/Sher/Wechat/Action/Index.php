@@ -52,7 +52,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		$fromUserName = $weObj->getRev()->getRevFrom();
 		
 		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
-		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
+//		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		$this->wx_open_id = $fromUserName;
 		
@@ -88,6 +88,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
+				$result = '';
 				break;
 			default:
 				$result = $weObj->text("help info")->reply(array(), true);
