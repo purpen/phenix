@@ -112,11 +112,11 @@
 		    <a class="item" href="{{ app_url_my }}/orders">
 		      	<i class="flat order icon"></i> 我的订单
 			</a>
+		    <a class="item" href="{{ app_url_action_base }}/helper/question">
+		      	<i class="flat help_infor icon"></i> 帮助中心
+			</a>
 		    <a class="item" href="{{ app_url_action_base }}/my/service">
 		      	<i class="smile icon"></i> 联系客服
-			</a>
-		    <a class="item" href="{{ app_url_action_base }}/helper/question">
-		      	<i class="flat help_infor icon"></i> 帮助
 			</a>
 			{% if visitor.is_admin %}
 		    <a class="item" href="{{ app_url_admin_base }}">
@@ -124,7 +124,7 @@
 			</a>
 			{% endif %}
 		  	<a class="item" href="{{ app_url_logout }}">
-		    	<i class="flat exit icon"></i> 退出
+		    	<i class="flat exit icon"></i> 安全退出
 			</a>
 	  	</div>
 	</div>
