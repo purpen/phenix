@@ -39,6 +39,24 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
+		// 获取置顶列表
+		$diglist = array();
+		$dig_ids = array();
+        
+		$digged = new Sher_Core_Model_DigList();
+		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
+		if (!empty($result) && !empty($result['items'])) {
+			$model = new Sher_Core_Model_Topic();
+			$diglist = $model->extend_load_all($result['items']);
+			
+	        for ($i=0; $i < count($result['items']); $i++) {
+				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
+	        }
+		}
+        
+		$this->stash['dig_ids']  = $dig_ids;
+		$this->stash['dig_list'] = $diglist;
+        
 		return $this->to_html_page('page/topic/index.html');
 	}
 	

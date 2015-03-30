@@ -120,9 +120,6 @@
           <label>发给：</label>
           <input type="text" name="nickname" value="{{ contact.user.nickname }}" disabled="disabled" />
           <input type="hidden" name="to" value="{{ contact.user._id }}" />
-          <!--来源,用于短信提醒-->
-          <input type="hidden" name="from_to" value="2" />
-          <input type="hidden" name="contact_tel" value="{{ contact.tel }}" />
         </div>
         <div class="field">
           <label>内容：</label>

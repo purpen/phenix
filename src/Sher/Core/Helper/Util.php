@@ -16,7 +16,7 @@ class Sher_Core_Helper_Util {
 	 * 发送短信--自定义
 	 */
 	public static function send_defined_mms($phone, $msg) {
-		$message = "【太火鸟】${msg}";
+		$message = "${msg}【太火鸟】";
 		return self::send_mms($phone, $message);
 	}
 	

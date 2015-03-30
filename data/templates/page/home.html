@@ -383,41 +383,46 @@
 			</div>
 		</div>
 		<div class="ui responsive grid">
-			<div class="two column row">
+			<div class="row">
 				<div class="column">
-					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
-					{% if ad %}
-					<div class="advert content">
-						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
-						</a>
-						<div class="bword">
-							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
-						</div>
-					</div>
-					{% endif %}
-				</div>
-				<div class="column">
-					{% topic_list var:'list' type:1 page:1 size:6 %}
-					<div class="ui divided stick list">
-						{% for topic in list.rows %}
-					  	<div class="item">
-							<div class="right floated compact ui label">{{ topic.view_count }}</div>
-					    	<div class="content">
-					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
-					      		<div class="description">
-									<ul class="ui horizontal bulleted link list">
-										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
-										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
-										{% if topic.last_user %}
-										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>
-										{% endif %}
-									</ul>
-								</div>
-					    	</div>
-					  	</div>
-						{% endfor %}
-					</div>
+                    <div class="ui compact grid">
+                        <div class="eight wide column">
+        					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
+        					{% if ad %}
+        					<div class="advert content">
+        						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+        				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
+        						</a>
+        						<div class="bword">
+        							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
+        						</div>
+        					</div>
+        					{% endif %}
+                        </div>
+                        <div class="eight wide column">
+        					{% topic_list var:'list' type:1 page:1 size:6 %}
+        					<div class="ui divided stick list">
+        						{% for topic in list.rows %}
+        					  	<div class="item">
+        							<div class="right floated compact ui label">{{ topic.view_count }}</div>
+        					    	<div class="content">
+        					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
+        					      		<div class="description">
+        									<ul class="ui horizontal bulleted link list">
+        										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
+        										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
+        										{% if topic.last_user %}
+        										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>
+        										{% endif %}
+        									</ul>
+        								</div>
+        					    	</div>
+        					  	</div>
+        						{% endfor %}
+        					</div>
+                        </div>
+                    </div>
+                    
 				</div>
 			</div>
 		</div>
@@ -499,8 +504,8 @@
 			</div>
 			<div class="more row">
 				<div class="center aligned column">
-					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta btn-4 btn-4c icon-arrow-right btn" data-2800="background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);" data-2950="background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);">
-						查看更多成功案例
+					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta inverted button">
+						<i class="search icon"></i>查看更多成功案例
 					</a>
 				</div>
 			</div>

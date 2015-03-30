@@ -53,11 +53,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$is_ship = $ship->has_exist_ship($this->visitor->id, $follow_id);
 		
 		$this->stash['is_ship'] = $is_ship;
-        
-        // 增加积分
-        $service = Sher_Core_Service_Point::instance();
-        // 主页来访
-        $service->send_event('evt_home_visited', (int)$this->stash['id']);
 		
 		return $this->display_tab_page('tab_all');
 	}
@@ -235,10 +230,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * @return string
 	 */
 	public function ajax_message(){
-    //来源
-    $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:0;
-    //接收短信方手机号
-    $phone = isset($this->stash['contact_tel'])?$this->stash['contact_tel']:0;
 		$to = $this->stash["to"];
         $content = $this->stash["content"];
 		if(empty($to)){
@@ -256,15 +247,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 			
 			$msg = new Sher_Core_Model_Message();
             $_id = $msg->send_site_message($content, $this->visitor->id, $to);
-
-            if($_id && $phone){
-              //如果来自后台产品合作,发送短信提醒
-              if($from_to==2){
-                // 开始发送
-                $msg = "您收到一条私信,请前往太火鸟官网查看.";
-                Sher_Core_Helper_Util::send_defined_mms($phone, $msg);
-              }
-            }
         } catch (Doggy_Model_ValidateException $e) {
             return $this->ajax_notification('发送私信失败:'.$e->getMessage(),true);
         }
