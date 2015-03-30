@@ -41,4 +41,3 @@ class Doggy_Dt_Filters_Core implements Doggy_Dt_FilterLib {
         return !$object ? $default : $object;
     }
 }
-?>

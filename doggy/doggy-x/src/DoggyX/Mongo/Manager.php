@@ -39,4 +39,3 @@ class DoggyX_Mongo_Manager {
         return self::get_db($key);
     }
 }
-?>

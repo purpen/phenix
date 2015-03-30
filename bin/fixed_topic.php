@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * fix topic try_id => (int)try_id
+ * 合并话题分类
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -18,41 +18,96 @@ require $cfg_app_rc;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
-echo "Prepare to fix topic try_id...\n";
+echo "Prepare to merge topic category...\n";
 
-$topic = new Sher_Core_Model_Topic();
-$page = 1;
-$size = 1000;
-$is_end = false;
-$total = 0;
-while(!$is_end){
-	$query = array();
-	$options = array('field'=>array('_id','try_id'), 'page'=>$page, 'size'=>$size);
-	$list = $topic->find($query, $options);
-	if(empty($list)){
-		echo "get topic list is null,exit......\n";
-		break;
-	}
-	$max = count($list);
-	for ($i=0; $i<$max; $i++) {
-		$try_id = isset($list[$i]['try_id']) ? $list[$i]['try_id'] : 0; 
-		
-		$new_topic = new Sher_Core_Model_Topic();
-		$new_topic->update_set($list[$i]['_id'], array('try_id'=>(int)$try_id), true);
-		echo "fix topic[".$list[$i]['_id']."] try_id => [".$try_id."]..........\n";
-		
-		$total++;
-		
-		unset($new_topic);
-	}
-	if($max < $size){
-		echo "topic list is end!!!!!!!!!,exit.\n";
-		break;
-	}
-	$page++;
-	echo "page [$page] updated---------\n";
+// 合并子类别
+$categories = array(
+    array(
+        'old' => 22,
+        'new' => 21,
+    ),
+    array(
+        'old' => 20,
+        'new' => 19,
+    ),
+    array(
+        'old' => 23,
+        'new' => 19,
+    ),
+    array(
+        'old' => 29,
+        'new' => 27,
+    ),
+    array(
+        'old' => 25,
+        'new' => 27,
+    ),
+    array(
+        'old' => 26,
+        'new' => 27,
+    ),
+);
+
+for($i=0;$i<count($categories);$i++){
+    $cate = $categories[$i];
+    $criteria = array(
+        'category_id' => (int)$cate['old'],
+    );
+    $updated = array(
+        'category_id' => (int)$cate['new'],
+    );
+    $topic = new Sher_Core_Model_Topic();
+    $ok = $topic->update_set($criteria, $updated, false, true, true);
+    unset($topic);
 }
-echo "total $total topic rows updated.\n";
+echo "Topic child category merge ok.\n";
 
-echo "All topic fix done.\n";
+// 合并父类别
+$parent = array(
+    array(
+        'cid' => 21,
+        'fid' => 12,
+    ),
+    array(
+        'cid' => 19,
+        'fid' => 12,
+    ),
+);
+
+for($i=0;$i<count($parent);$i++){
+    $cate = $parent[$i];
+    $criteria = array(
+        'category_id' => (int)$cate['cid'],
+    );
+    $updated = array(
+        'fid' => (int)$cate['fid'],
+    );
+    $topic = new Sher_Core_Model_Topic();
+    $ok = $topic->update_set($criteria, $updated, false, true, true);
+    unset($topic);
+    
+    $category = new Sher_Core_Model_Category();
+    $ok = $category->update_set((int)$cate['cid'], array('pid'=>(int)$cate['fid']), false, true, true);
+}
+
+echo "All topic merge ok.\n";
+
+// 重算分类计数
+$category = new Sher_Core_Model_Category();
+$rows = $category->find(array('domain'=>Sher_Core_Util_Constant::TYPE_TOPIC));
+for($i=0;$i<count($rows);$i++){
+    $row = $rows[$i];
+    $topic = new Sher_Core_Model_Topic();
+    if(!empty($row['pid'])){
+        $total = $topic->count(array('category_id' => (int)$row['_id']));
+    }else{
+        $total = $topic->count(array('fid' => (int)$row['_id']));
+    }
+    $category->update_set((int)$row['_id'], array('total_count' => (int)$total));
+    
+    unset($topic);
+}
+
+echo "All category remath ok.\n";
+
 ?>

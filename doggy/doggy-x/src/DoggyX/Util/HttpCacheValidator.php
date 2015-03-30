@@ -77,4 +77,3 @@ class DoggyX_Util_HttpCacheValidator {
 		return $refresh;		
 	}
 }
-?>

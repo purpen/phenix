@@ -119,4 +119,3 @@ class DoggyX_Model_Lite extends DoggyX_Model_Mongo_Base {
 	}
     
 }
-?>

@@ -18,6 +18,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 100;
 		
+        $istop = 0;
         $pid = 0;
 		$only_open = 0;
 		$domain = 0;
@@ -42,7 +43,12 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		if ($domain) {
 			$query['domain'] = (int)$domain;
 		}
-		// 默认为0，顶级分类
+        // 获取顶级分类
+        if($istop){
+            $query['pid'] = 0;
+        }
+        
+		// 获取子分类
         if(!empty($pid)){
             $query['pid'] = (int)$pid;
         }

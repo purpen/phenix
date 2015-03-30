@@ -91,4 +91,3 @@ class Doggy_Dt_Filters_DateTime implements Doggy_Dt_FilterLib {
         return $date;
     }
 }
-?>

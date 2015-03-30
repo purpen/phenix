@@ -12,4 +12,3 @@ interface DoggyX_Action_Initialize {
      */
     public function _init();
 }
-?>

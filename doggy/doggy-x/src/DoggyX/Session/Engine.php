@@ -71,4 +71,3 @@ interface DoggyX_Session_Engine {
      */
     public function __isset($key);
 }
-?>

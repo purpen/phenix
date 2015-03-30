@@ -17,4 +17,3 @@ interface DoggyX_Action_VisitorAware {
      */
     public function check_visitor($invoke_method, $visitor, &$handle);
 }
-?>
