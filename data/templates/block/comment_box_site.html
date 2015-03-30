@@ -51,7 +51,7 @@
     	<input type="hidden" name="star" value="0" />
 		
     	<div class="field">
-        <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
+        <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入回应内容...{%endif%}"></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
@@ -64,7 +64,7 @@
 			<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>
 
 			<div class="ui active button magenta submit labeled icon">
-              	<i class="icon edit"></i> 添加评论
+              	<i class="icon basic direction"></i> 添加回应
             </div>
     	</div>
   	  	{% else %}

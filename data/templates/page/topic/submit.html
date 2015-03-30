@@ -2,7 +2,9 @@
 {% block title %}{{ page_title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+    .social.post {
+        margin-bottom: 3rem;
+    }
 </style>
 {% endblock %}
 
@@ -178,10 +180,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui social">
+<div class="section breadcrumb">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
+			<div class="column">
 				<div class="ui medium breadcrumb">
 				  	<a class="ui section link" href="{{ app_url_social }}">
 						<i class="basic icon community"></i> 发现
@@ -201,7 +203,11 @@
 				</div>
 			</div>
 		</div>
-		
+	</div>
+</div>
+
+<div class="ui social post">
+	<div class="ui responsive grid">
 		<div class="nopad row">
 			<div class="column">
 				<div class="new topic">
@@ -256,7 +262,7 @@
 					
 						<div class="field">
 							<label for="description">描述</label>
-						  	<textarea name="description" placeholder="此处无需省略一万字..." id="editor">{{ topic.description }}</textarea>
+						  	<textarea name="description" placeholder="此处需要输入详细描述..." id="editor">{{ topic.description }}</textarea>
 						</div>
 						
 						<div class="field">
@@ -296,10 +302,12 @@
 						</div>
 						
 						<div class="ui right floated aligned grid">
-							<div class="column">
-								<div class="ui gray cancel button">取消</div>
-								<div class="ui magenta submit button">确认提交</div>
-							</div>
+                            <div class="row">
+    							<div class="column">
+    								<div class="ui gray cancel inverted button">取消</div>
+    								<div class="ui magenta inverted submit button">确认提交</div>
+    							</div>
+                            </div>
 						</div>
 					
 					</form>

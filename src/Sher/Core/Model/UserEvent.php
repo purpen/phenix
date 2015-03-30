@@ -35,6 +35,7 @@ class Sher_Core_Model_UserEvent extends Sher_Core_Model_Base {
     // protected $updated_timestamp_fields = array('updated_on');
 
     protected function extra_extend_model_row(&$row) {
+        $row['extras_s'] = !empty($row['extras']) ? implode(',', $row['extras']) : '';
     }
 
     //~ some event handles

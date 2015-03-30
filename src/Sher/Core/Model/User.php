@@ -367,11 +367,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $id = $row['id'] = $row['_id'];
 		// 显示名称
 		$row['screen_name'] = !empty($row['nickname']) ? $row['nickname'] : '火鸟人';
-      //如果是手机号,中间段以*显示
-      $row['true_nickname'] = $row['nickname'];
-      if(!empty($row['nickname']) && strlen((int)$row['nickname'])==11){
-        $row['nickname'] = substr((int)$row['nickname'],0,3)."*****".substr((int)$row['nickname'],8,3);
-      }
+        // 如果是手机号,中间段以*显示
+        $row['true_nickname'] = $row['nickname'];
+        if(!empty($row['nickname']) && strlen((int)$row['nickname'])==11){
+            $row['nickname'] = substr((int)$row['nickname'],0,3)."*****".substr((int)$row['nickname'],8,3);
+        }
 		
 		// 用户头像
 		if(!empty($row['avatar'])){
