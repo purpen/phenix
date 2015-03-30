@@ -521,4 +521,3 @@ class DoggyX_Model_Mongo_Base {
 	}
     
 }
-?>

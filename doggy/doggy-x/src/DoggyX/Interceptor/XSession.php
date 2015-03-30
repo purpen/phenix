@@ -39,4 +39,3 @@ class DoggyX_Interceptor_XSession extends Doggy_Dispatcher_Interceptor_Abstract 
     protected function check_session_auth($service,$invocation) {
     }
 }
-?>

@@ -282,7 +282,7 @@ class DoggyX_Mongo_Db {
      * @param mixed $safe default is false
      * @return void
      **/
-    public function update($collection, $criteria, $newobj, $upsert = false, $multiple = false,$safe = false, $w=null) {
+    public function update($collection, $criteria, $newobj, $upsert = false, $multiple = false,$safe = true, $w=null) {
         $col = $this->db->selectCollection($collection);
         $options = array(
             'upsert' => $upsert,
@@ -305,7 +305,7 @@ class DoggyX_Mongo_Db {
      * @param string $upsert
      * @return void
      */
-    public function update_all($collection,$criteria,$newobj,$upsert = false, $safe = false) {
+    public function update_all($collection,$criteria,$newobj,$upsert = false, $safe = true) {
         return $this->update($collection,$criteria,$newobj,$upsert,true,$safe);
     }
 
@@ -319,7 +319,7 @@ class DoggyX_Mongo_Db {
      * @param boolean $safe
      * @return boolean
      **/
-    public function upsert($collection, $criteria, $newobj,$multiple=false,$safe=false) {
+    public function upsert($collection, $criteria, $newobj,$multiple=false,$safe=true) {
         return $this->update($collection, $criteria, $newobj, true,$multiple,$safe);
     }
     
@@ -337,16 +337,17 @@ class DoggyX_Mongo_Db {
     public function set($collection,$criteria,$newobj,$upsert = false,$multiple=false,$safe = false) {
         return $this->update($collection,$criteria,array('$set'=>$newobj),$upsert,$multiple,$safe);
     }
-    
+
     /**
      * Increment a field
      *
-     * @param string $collection 
-     * @param string $criteria 
-     * @param string $field 
-     * @param string $inc 
-     * @param string $upsert 
-     * @return void
+     * @param string $collection
+     * @param string $criteria
+     * @param string $field
+     * @param string $inc
+     * @param bool $upsert
+     * @param bool $multiple
+     * @param bool $safe
      */
     public function inc($collection,$criteria,$field,$inc,$upsert=true,$multiple=false,$safe=false) {
         return $this->update($collection,$criteria,array('$inc'=>array($field=>$inc)),$upsert,$multiple,$safe);
@@ -380,12 +381,19 @@ class DoggyX_Mongo_Db {
      * @param mixed $safe Boolean or interger.
      * @return boolean
      **/
-    public function remove($collection, $criteria, $just_one = false, $safe = false) {
+    public function remove($collection, $criteria, $just_one = false, $safe = true, $w=null) {
         $col = $this->db->selectCollection($collection);
         if (!is_array($criteria)) {
             $criteria = array('_id' => self::id($criteria));
         }
-        return $col->remove($criteria, array('justOne' => $just_one,'w' => $safe));
+        $options = array('justOne' => $just_one);
+        if ($safe) {
+            $options['w'] = 1;
+        }
+        if (!is_null($w)) {
+            $options['w'] = (int) $w;
+        }
+        return $col->remove($criteria, $options);
     }
 
     /**
@@ -474,13 +482,14 @@ class DoggyX_Mongo_Db {
     public function get_fs() {
         return $this->db->getGridFS();
     }
-    
+
     /**
      * Like find, but only against MongoGridFs
      *
-     * @param string $query 
-     * @param string $fields 
+     * @param array $query
+     * @param array $options
      * @return array
+     * @internal param string $fields
      */
     public function fs_find(array $query=array(),array $options=array()) {
         $fields = array();
@@ -586,4 +595,3 @@ class DoggyX_Mongo_Db {
         return $this->db->command($command);
     }
 }
-?>

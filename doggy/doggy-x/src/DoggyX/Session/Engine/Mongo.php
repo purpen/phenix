@@ -120,4 +120,3 @@ class DoggyX_Session_Engine_Mongo extends DoggyX_Model_Mongo_Base implements Dog
 		return (int)$val;
 	}
 }
-?>
