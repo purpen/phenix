@@ -80,13 +80,29 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
 	        }
 		}
-		
+        
 		// 获取列表
 		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
 		$time = $this->stash['time'];
 		$sort = $this->stash['sort'];
 		$page = $this->stash['page'];
+        
+        // 获取版块置顶列表
+		$dig_cate_list = array();
+		$dig_cate_ids = array();
+        if(!empty($category_id)){
+            $key_id = Sher_Core_Util_Constant::top_topic_category_key($category_id);
+            $category_result = $digged->load($key_id);
+    		if (!empty($category_result) && !empty($category_result['items'])) {
+    			$model = new Sher_Core_Model_Topic();
+    			$dig_cate_list = $model->extend_load_all($category_result['items']);
+			
+    	        for ($i=0; $i<count($category_result['items']); $i++) {
+    				$dig_cate_ids[] = is_array($category_result['items'][$i]) ? $category_result['items'][$i]['_id'] : $category_result['items'][$i];
+    	        }
+    		}
+        }
 		
 		$pager_url = Sher_Core_Helper_Url::topic_list_url($category_id, $type, $time, $sort).'p#p#';
 		
@@ -94,6 +110,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
+        
+		$this->stash['dig_cate_ids']  = $dig_cate_ids;
+		$this->stash['dig_cate_list'] = $dig_cate_list;
 		
 		$this->gen_advanced_links($category_id, $type, $time, $sort, $page);
 		
@@ -137,6 +156,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->set_target_css_state('type_fine');
 				break;
 			default:
+                $this->set_target_css_state('type_all');
 				break;
 		}
 		
@@ -303,10 +323,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if (isset($topic['target_id']) && !empty($topic['target_id'])){
 			$product = new Sher_Core_Model_Product();
 			$this->stash['product'] = & $product->extend_load($topic['target_id']);
-    }elseif(isset($topic['active_id']) && !empty($topic['active_id'])){
+        }elseif(isset($topic['active_id']) && !empty($topic['active_id'])){
 			$active = new Sher_Core_Model_Active();
  			$this->stash['active'] = & $active->extend_load($topic['active_id']);    
-    }
+        }
 		
 		// 是否参赛作品
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
@@ -369,30 +389,88 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->ajax_json('操作成功');
 	}
+    
+	/**
+	 * 精华
+	 */
+	public function ajax_fine(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			$model->mark_as_fine((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+    
+	/**
+	 * 取消精华
+	 */
+	public function ajax_cancel_fine(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			$model->mark_cancel_fine((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
 	
 	/**
 	 * 置顶
 	 */
 	public function ajax_top(){
-		$id = $this->stash['id'];
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('主题不存在！', true);
 		}
-		
+		$id = $this->stash['id'];
+        $tv = $this->stash['tv'];
+        
+		Doggy_Log_Helper::debug("Top Topic [$id][$tv]!");
 		try{
 			if (!$this->visitor->can_admin()){
 				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
 			$model = new Sher_Core_Model_Topic();
-			$ok = $model->mark_as_top((int)$id);
-			
-			if ($ok) {
-				// 添加到推荐列表
-				$diglist = new Sher_Core_Model_DigList();
-				$diglist->add_dig(Sher_Core_Util_Constant::DIG_TOPIC_TOP, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+            $row = $model->load((int)$id);
+            if(empty($row)){
+                return $this->ajax_notification("主题[$id]不存在！", true);
+            }
+            
+			$ok = $model->mark_as_top((int)$id, (int)$tv);
+			if($ok){
+                $old_top = $row['top'];
+                if ($tv == Sher_Core_Model_Topic::TOP_CATEGORY){
+                    $key_id = Sher_Core_Util_Constant::top_topic_category_key($row['category_id']);
+                    $remove_key_id = Sher_Core_Util_Constant::DIG_TOPIC_TOP;
+                }else{
+                    $key_id = Sher_Core_Util_Constant::DIG_TOPIC_TOP;
+                    $remove_key_id = Sher_Core_Util_Constant::top_topic_category_key($row['category_id']);
+                }
+                
+                $diglist = new Sher_Core_Model_DigList();
+                // 先从推荐表里删除
+                if($old_top){
+                    $diglist->remove_item($remove_key_id, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+                }
+				// 添加到站内推荐列表
+				$diglist->add_dig($key_id, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
 			}
-			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}

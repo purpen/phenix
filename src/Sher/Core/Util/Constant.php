@@ -59,6 +59,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	 * DigList推荐Id
 	 */
 	const DIG_TOPIC_TOP = 'dig_topic_top';  // 全部置顶主题列表
+    # 版块置顶
+    const DIG_TOPIC_CATEGROY = 'dig_topic_category';
 	
 	const FEATURED_STUFF = 'featured_stuff_list';
     
@@ -173,5 +175,12 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * @var int
      */
     const EVENT_STATE_DONE = 100;
+    
+    /**
+     * 版块置顶key
+     */
+    public static function top_topic_category_key($category_id){
+        return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
+    }
     
 }

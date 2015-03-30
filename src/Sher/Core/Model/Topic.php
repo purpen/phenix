@@ -9,6 +9,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
+	# 置顶
+	const TOP_SITE = 1;
+	const TOP_CATEGORY = 2;
+    
 	# 推荐
 	const STICK_EDITOR = 1;
 	const STICK_HOME = 2;
@@ -53,10 +57,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		# 回应数 
     	'comment_count' => 0,
 		
+		# 置顶标识(站内、版块)
+		'top'   => 0,
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
-		# 置顶标识
-		'top'   => 0,
 		# 精华标识
 		'fine'  => 0,
 		
@@ -207,8 +211,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     /**
      * 标记主题 置顶
      */
-	public function mark_as_top($id){
-		return $this->update_set($id, array('top' => 1));
+	public function mark_as_top($id, $value=self::TOP_CATEGORY){
+		return $this->update_set($id, array('top' => $value));
 	}
 	
     /**
