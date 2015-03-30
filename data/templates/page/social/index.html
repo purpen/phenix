@@ -74,6 +74,48 @@
 {% endblock %}
 
 {% block jquery %}
+	var s = e('#fixedslide').width();
+	e("#fixedslide > .ui.slide > .item").width(s);
+	
+	var $frame = $('#fixedslide');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 3500,
+		pauseOnHover: 1,
+		
+		// Dragging
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		
+		prev: "#fixedslide .prev",
+		next: "#fixedslide .next",
+		
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'items',
+		activatePageOn: 'click',
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+		},
+		
+		// Mixed options
+		startAt: 0,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeInOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+    
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
 		$this.countdown(finalDate, function(event) {
@@ -98,14 +140,40 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% ad_list var:'ad' page:1 size:1 name:'find_home_slide' state:2 %}
-				{% if ad %}
-				<div class="slide content">
-					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
-					</a>
-				</div>
-				{% endif %}
+                
+            	<div id="fixedslide" class="frame">
+            		{% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+            		<div class="ui slide">
+            			{% for ad in adslide.rows %}
+            			<div class="item">
+            				<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+            					{% if ad.mode == 2 %}
+            					<div class="overlay">
+            						{% if ad.cate_title %}
+            						<h3>{{ ad.cate_title }}</h3>
+            						{% endif %}
+            						<h1>{{ ad.title }}</h1>
+            						<p class="snippet">
+            							{{ ad.sub_title }}
+            						</p>
+            						<a class="ui inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+            					</div>
+            					{% else %}
+            					<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
+            					{% endif %}
+            				</div>
+            			</div>
+            			{% endfor %}
+            		</div>
+            		<div class="pages"></div>
+            		<a class="prev" href="#">
+            			<i class="flat arrow_left icon"></i>
+            		</a>
+            		<a class="next" href="#">
+            			<i class="flat arrow_right icon"></i>
+            		</a>
+            	</div>
+                
 			</div>
 		</div>
 	</div>
@@ -204,7 +272,7 @@
         				<div class="ui active segment" data-tab="featured">
         					<table class="ui basic topic half table">
         						<tbody>
-        							{% topic_list var:'list' time:0 sort:0 size:8 %}
+        							{% topic_list var:'list' time:0 sort:0 size:16 %}
         							{% for topic in list.rows %}
         								{% include "block/topic_half_item.html" %}
         							{% endfor %}
@@ -228,7 +296,7 @@
             			  	</div>
                 
             				<a href="{{ app_url_social }}/mentors" class="ui inverted fluid button">
-            					<i class="search icon"></i>浏览全部专家
+            					<i class="search icon"></i> 浏览全部专家
             				</a>
                         </div>
                         
@@ -236,7 +304,7 @@
         					热门评论
         				</h2>
                         <div class="ui comments segment">
-                    		{% comment_list var:'comments' sort:1 size:5 %}
+                    		{% comment_list var:'comments' sort:2 size:5 load_item:1 %}
                     		{% for comment in comments.rows %}
                                 <div class="onecomment">
                                 	<a class="avatar" href="{{ comment.user.home_url }}">
@@ -252,10 +320,9 @@
                             		<div class="text">
                             			{{ comment.content|truncate 140 }}
                             		</div>
-                                    {% comment_target var:'target' target_id:comment.target_id type:comment.type %}
-                                    {% if target %}
+                                    {% if comment.target %}
                                     <div class="target">
-                                        评论于 <a href="{{ target.view_url }}" class="ui line" target="_blank">{{ target.title|truncate 24 '' }}</a>
+                                        评论于 <a href="{{ comment.target.view_url }}" class="ui line" target="_blank">{{ comment.target.title|truncate 24 '' }}</a>
                                     </div>
                                     {% endif %}
                                 </div>
