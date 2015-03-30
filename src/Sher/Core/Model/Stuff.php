@@ -121,15 +121,17 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	);
 	
 	protected function extra_extend_model_row(&$row) {
-        if(isset($row['from_to'])){
-            if($row['from_to']==2){
-                $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']); 
-            }else{
-                $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
-            }   
-        }else{
-            $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
-        }
+    if(isset($row['from_to'])){
+      //大赛
+      if($row['from_to']==1){
+        $row['view_url'] = Sher_Core_Helper_Url::match2_view_url($row['_id']); 
+      //蛋年
+      }elseif($row['from_to']==2){
+        $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);  
+      }   
+    }else{
+      $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
+    }
 
 		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';

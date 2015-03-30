@@ -24,6 +24,6 @@
 </style>
 {% endblock %}
 <div class="ui secondary pointing magenta menu">
-    <a href="{{ app_url_my }}/fan" class="ui {{css_user_fan}} item">我的粉丝  <small>({{user.fans_count}})</small></a>
-    <a href="{{ app_url_my }}/follow" class="ui {{css_user_follow}} item ">我的关注  <small>({{user.follow_count}})</small></a>
+    <a href="{{ app_url_my }}/favorite" class="ui item {{css_user_favorite}}">我的收藏</a>
+    <a href="{{ app_url_my }}/love" class="ui item {{css_user_love}}">我的赞</a>
 </div>

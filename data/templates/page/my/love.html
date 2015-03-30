@@ -54,15 +54,17 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我的赞</h2>
-			<div class="ui segment">
+			<h2 class="ui header">感兴趣的</h2>
+			{% include "block/center/head_interest_nav.html" %}
+			
+			<div>
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
 							{% favorite_list var:'list' page:page user_id:user_id no_comment:1 event:2 size:10 %}
 							<div class="ui center-list">
 								
-								<div class="ui two cards">
+								<div class="ui three cards">
 									{% for d in list.rows %}
                     <!--产品-->
                     {% if d.type==1 %}

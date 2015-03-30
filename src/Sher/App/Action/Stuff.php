@@ -263,6 +263,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         // 所属
         if(isset($this->stash['from_to'])){
             $data['from_to'] = (int)$this->stash['from_to'];
+        }else{
+          $data['from_to'] = 0;
         }
 
         // 团队介绍-蛋年
@@ -297,6 +299,15 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         // 购买地址
         if(isset($this->stash['buy_url'])){
             $data['buy_url'] = $this->stash['buy_url'];
+        }
+
+        // 所在省份
+        if(isset($this->stash['province_id'])){
+            $data['province_id'] = (int)$this->stash['province_id'];
+        }
+        // 所在大学
+        if(isset($this->stash['college_id'])){
+            $data['college_id'] = $this->stash['college_id'];
         }
 
     //如果是关联投票产品
@@ -364,10 +375,12 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
-        if(isset($data['from_to']) && $data['from_to']==2){
-            $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+        if($data['from_to']==1){
+          $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
+        }elseif($data['from_to']==2){
+          $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
         }else{
- 		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);   
+   		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);

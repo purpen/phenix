@@ -14,7 +14,7 @@
 }
 .mes-text{
 	width:100%;
-	padding-top:1em;
+	padding:1rem 0;
 }
 .mes-text a.ui.photo{
 	float: left; 
@@ -28,7 +28,7 @@
 	border-radius: 25px;
 }
 .mes-text .news{
-	padding: 0 0 0 60px; 
+	padding: 6px 0 0 60px; 
 	overflow: visible;
 	font-size: 17px;
 	font-weight: 700;
@@ -119,9 +119,9 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
+			<h2 class="ui header">消息提醒</h2>
 			{% include "block/center/head_notice_nav.html" %}
 			
-			<h2 class="ui header">我的私信</h2>
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
@@ -151,9 +151,9 @@
               </div>
               {% endfor %}
               <div class="report">
-                <div class="pushtime">
+                <!--<div class="pushtime">
                   {{ message.created_on|relative_datetime }}
-                </div>
+                </div>-->
                 <div class="count">
                   共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
                 </div>	

@@ -21,7 +21,7 @@
 }
 .mes-text{
 	width:100%;
-	padding-top:1em;
+	padding:1rem 0;
 	position:relative;
 }
 .mes-text a.ui.photo{
@@ -36,7 +36,7 @@
 	border-radius: 25px;
 }
 .mes-text .news{
-	padding: 0 0 0 60px; 
+	padding: 6px 0 0 60px; 
 	overflow: visible;
 	font-size: 17px;
 	font-weight: 700;
@@ -72,7 +72,7 @@
 }
 .mes-text .fans-btn{
 	float:right;
-	margin: 8px 5px 0 0;
+	margin: 10px 5px 0 0;
 }
 .mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
 	padding: 0.5em 1.5em;
@@ -100,8 +100,8 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			{% include "block/center/head_friend_nav.html" %}
 			<h2 class="ui header">我的关注</h2>
+			{% include "block/center/head_friend_nav.html" %}
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
