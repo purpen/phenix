@@ -7,4 +7,3 @@
  * @author n.s.
  */
 interface DoggyX_Action_Stateless {}
-?>

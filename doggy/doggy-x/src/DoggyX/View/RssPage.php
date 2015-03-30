@@ -31,4 +31,3 @@ class DoggyX_View_RssPage extends DoggyX_View_HtmlPage {
         }
     }
 }
-?>
