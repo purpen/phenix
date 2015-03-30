@@ -49,7 +49,7 @@ class Sher_Core_Session_Service extends DoggyX_Session_Service {
         $auth_token->create(array('user_id' => (int) $user_id,'ttl' => $expiration));
         $auth_sid = (string)$auth_token->id;
         // Doggy_Log_Helper::debug('setcookie:'.$auth_sid.':'.$expiration);
-        @setcookie($auth_sid_key, $auth_sid, $expiration, '/', $domain);
+        @setcookie($auth_sid_key, $auth_sid, $expiration, $path, $domain, null, true);
         // var_dump($this->session);
         if ($this->session->is_login) {
             $this->session->auth_token = $auth_sid;
@@ -72,7 +72,7 @@ class Sher_Core_Session_Service extends DoggyX_Session_Service {
         $expiration = time() + $ttl;
         $auth_token = new Sher_Core_Model_AuthToken();
         $auth_token->update_set($auth_sid,array('ttl' => $expiration));
-        @setcookie($auth_sid_key,$auth_sid,$expiration,'/',$domain);
+        @setcookie($auth_sid_key,$auth_sid,$expiration, $path, $domain, null, true);
     }
 
     /**
@@ -116,4 +116,3 @@ class Sher_Core_Session_Service extends DoggyX_Session_Service {
         $action->stash['visitor_json'] = json_encode($exported_data);
     }
 }
-?>
