@@ -56,7 +56,7 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
             'sender' => $sender,
             'state' => Sher_Core_Util_Constant::EVENT_STATE_NEW,
             'sys_sender' => $module_id,
-            '$extras' => $extras,
+            'extras' => $extras,
         );
         $model = new Sher_Core_Model_UserEvent();
         $model->create($data);

@@ -27,40 +27,48 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
     protected $int_fields = array('user_id', 'follow_id', 'group_id', 'type');
 
     protected $joins = array(
-        'fans' => array('user_id' => 'Sher_Core_Model_User'),
+        'fans'   => array('user_id' => 'Sher_Core_Model_User'),
         'follow' => array('follow_id' => 'Sher_Core_Model_User'),
     );
 
-  /**
-    *
-    */
-  public function after_save(){
-    //如果是新的记录
-    if($this->insert_mode) {
-      //添加动态提醒
-      $timeline = new Sher_Core_Model_Timeline();
-      $arr = array(
-        'user_id' => $this->data['user_id'],
-        'target_id' => (int)$this->data['_id'],
-        'type' => Sher_Core_Model_Timeline::TYPE_USER,
-        'evt' => Sher_Core_Model_Timeline::EVT_FOLLOW,
-        'target_user_id' => (int)$this->data['follow_id'],
-      );
-      $ok = $timeline->create($arr);
-      //给用户添加提醒
-      if($ok){
-        $user = new Sher_Core_Model_User();
-        $user->update_counter_byinc($arr['target_user_id'], 'fans_count', 1);     
-      }
+    /**
+     * 保存后事件
+     */
+    public function after_save(){
+        // 如果是新的记录
+        if($this->insert_mode) {
+            // 添加动态提醒
+            $timeline = new Sher_Core_Model_Timeline();
+            $arr = array(
+                'user_id' => $this->data['user_id'],
+                'target_id' => (int)$this->data['_id'],
+                'type' => Sher_Core_Model_Timeline::TYPE_USER,
+                'evt' => Sher_Core_Model_Timeline::EVT_FOLLOW,
+                'target_user_id' => (int)$this->data['follow_id'],
+            );
+            $ok = $timeline->create($arr);
+            // 给用户添加提醒
+            if($ok){
+                $user = new Sher_Core_Model_User();
+                $user->update_counter_byinc($arr['target_user_id'], 'fans_count', 1);     
+            }
+            
+            // 增加积分
+            $service = Sher_Core_Service_Point::instance();
+            // 关注他人
+            $service->send_event('evt_follow', $this->data['user_id']);
+            // 被他人关注
+            $service->send_event('evt_by_followed', (int)$this->data['follow_id']);
+            
+        }
     }
-  }
 
-  /**
-   * 设置已读标识
-   */
-  public function set_readed($id){
-		return $this->update_set((int)$id, array('is_read' => 1));
-  }
+    /**
+     * 设置已读标识
+     */
+    public function set_readed($id){
+        return $this->update_set((int)$id, array('is_read' => 1));
+    }
     
     /**
      * 获取扩展信息

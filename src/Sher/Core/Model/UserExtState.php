@@ -27,7 +27,7 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
         'month_point_limit' => array(),
     );
     protected $joins = array(
-        'user_rank' => array('rank_id'),
+        'user_rank' => array('rank_id' => 'Sher_Core_Model_UserRankDefine'),
     );
     protected $required_fields = array();
     protected $ini_fields = array('rank_id');

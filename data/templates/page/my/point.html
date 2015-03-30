@@ -1,6 +1,5 @@
-{%extends 'layout/sns.html'%}
-<<<<<<< HEAD
-{% block title %}我的积分{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}会员等级{% endblock %}
 {% block page_css %}
 <style type="text/css">
     .integral .three.wide.column,.thirteen.wide.column{
@@ -55,11 +54,31 @@
 {% block jquery %}
 
 {% endblock %}
+
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">会员等级</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="account profile">
     <div class="ui responsive grid">
         <div class="four wide column">
-            {% include "block/user/sub_menu.html" %}
+            {% include "block/user/sub_menu_center.html" %}
         </div>
         <div class="twelve wide column">
             <h2 class="ui header">我的等级</h2>
@@ -67,14 +86,25 @@
                 <div class="ui grid">
                     <div class="integral row">
                         <div class="three wide column">
-                            <img src="{{ visitor.big_avatar_url }}" class="ui big avatar image">
+                            <img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
                         </div>
                         <div class="thirteen wide column">
-                            <h3 class="ui header">{{user.nickname}}</h3>
-                            <p>鸟列兵，</p>
-                            <p> 我的等级: 3  </p>
-                            <p> 经验值: 300 </p>
-                            <!--<p><a href="">经验纪录</a></p>-->
+                            <h3 class="ui header">{{ user.nickname }}</h3>
+                            <div class="ui horizontal divided list">
+                                <div class="item">
+                                    {{ user.ext_state.user_rank.title|default '鸟列兵' }}
+                                </div>
+                                <div class="item">
+                                    我的等级: <b>{{ user.ext_state.rank_id|default 0  }}</b>
+                                </div>
+                                <div class="item">
+                                    经验值: <b>{{ user.ext_state.rank_upgrade_point|default 0 }}</b>
+                                </div>
+                                <!--
+                                <div class="item">
+                                    <a href="">经验纪录</a>
+                                </div>-->
+                            </div>
                         </div>
                     </div>
                     <div class="mach row">
@@ -84,7 +114,7 @@
                             </div>
                         </div>
                         <div class='three wide column'>
-                            10/30
+                            {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.rank_upgrade_point|default 0 }}
                         </div>
 
                     </div>
@@ -147,7 +177,7 @@
                     <div class="row">
                         <div class="column">
                             <h4 class="ui header">
-                                如何提升经验
+                                如何提升经验?
                             </h4>
 
                             <table class="ui celled table center aligned segment">
