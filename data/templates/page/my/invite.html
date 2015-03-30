@@ -1,9 +1,7 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {%extends 'layout/sns.html'%}
 {% block title %}邀请好友-{% endblock %}
 {% block page_css %}
-{% endblock %}
-{% block js %}
 {% endblock %}
 
 {% block layout_js %}
@@ -115,7 +113,28 @@
         }
     });
 {% endblock %}
+
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">邀请好友</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
@@ -126,66 +145,74 @@
 			<div class="ui segment">
 				<div class="ui grid">
 					<div class="row">
-						<div class="ui column">
-							<div class="ui success message">
-                <!--邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券；-->
-                3月10日-4月10日太火鸟周年庆活动期间,每成功邀请一个朋友,将获得30元购物红包
+						<div class="column">
+							<div class="ui danger message">
+                                <!--邀请一个朋友加入并30天内购买一个太火鸟产品，你将获得15元优惠券；-->
+                                <b>温馨提示：</b>3月10日-4月10日太火鸟周年庆活动期间,每成功邀请一个朋友,将获得30元购物红包!
 							</div>
-							<h5>
-                邀请链接: </h5>
-                <form action="" method="post" class="ui fluid form">
-<div class="two fields">
-							<div class="field">
-								<input type="text" disabled="disabled" name="invite_link" id="invite_link" value="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" />
-
-							</div>
-              <input type="button" id="copyBtn" class="ui active magenta button" value="复制" />
-            </div>
-            </form>
+							<h4 class="ui header">1、邀请链接: </h4>
+                            <form action="" method="post" class="ui fluid form">
+                                <div class="two fields">
+							        <div class="field">
+								        <input type="text" disabled="disabled" name="invite_link" id="invite_link" value="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" />
+                                    </div>
+                                    <div class="field">
+                                        <input type="button" id="copyBtn" class="ui active magenta small button" value="复制" />
+                                    </div>
+                                </div>
+                            </form>
 						</div>
 					</div>
 					<div class="row">
-						<div class="ten wide column">
-							<h4>复制链接地址，通过微博、QQ、或邮件分享给朋友</h4>
-<div class="ui big-end white background grid">
-	<div class="row">
-		<div class="center aligned column">
-			{% include "block/big-circel-share.html" %}
-		</div>
-	</div>
-</div>
-              <h3>邀请记录:</h3>
-							<table class="ui celled table segment">
-								<thead>
-									<tr>
-										<td>用户</td>
-										<td>时间</td>
-										<td>状态</td>
-									</tr>
-								</thead>
-                {% invite_record_list var:'list' user_id:user._id kind:1 size:10 page:page %}
-								<tbody>
-									{% for i in list.rows %}
-									<tr>
-                    <td><a href="{{ i.invited_user.home_url }}" target="_blank">{{ i.invited_user.nickname }}</a></td>
-                    <td>{{ i.created_on|date }}</td>
-                    <td>邀请成功</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-		<div class="row">
-			<div class="column">
-				{% if list.total_rows %}
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				{% endif %}
-			</div>
-		</div>
+						<div class="column">
+							<h4 class="ui header">2、复制链接地址，通过微博、QQ、或邮件分享给朋友</h4>
+                            <div class="ui big-end white background grid">
+	                            <div class="row">
+		                            <div class="column">
+			                            {% include "block/big-circel-share.html" %}
+		                            </div>
+	                            </div>
+                            </div>
 						</div>
-
 					</div>
-				
+                    <div class="row">
+	                    <div class="column">
+                            <div class="invitelog">
+                                <h4 class="ui header">邀请好友记录: </h4>
+    							<table class="ui celled table segment">
+    								<thead>
+    									<tr>
+    										<td>用户昵称</td>
+    										<td>加入时间</td>
+    										<td>邀请状态</td>
+    									</tr>
+    								</thead>
+                                    {% invite_record_list var:'list' user_id:user._id kind:1 size:10 page:page %}
+    								<tbody>
+    									{% for i in list.rows %}
+    									<tr>
+                                            <td>
+                                                <a href="{{ i.invited_user.home_url }}" target="_blank">{{ i.invited_user.nickname }}</a>
+                                             </td>
+                                            <td>{{ i.created_on|date }}</td>
+                                            <td>邀请成功</td>
+    									</tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="3">您还没有好友加入~~~</td>
+                                        </tr>
+    									{% endfor %}
+    								</tbody>
+    							</table>
+                            
+    		                    {% if list.total_rows %}
+    			                {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+    			                {%include 'block/pager.html'%}
+    		                    {% endif %}
+                            </div>
+	                    </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
