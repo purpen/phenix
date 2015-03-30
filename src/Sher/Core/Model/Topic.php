@@ -108,43 +108,47 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	/**
 	 * 保存之后，更新相关count
 	 */
-  protected function after_save() {
-    //如果是新的记录
-    if($this->insert_mode) {
-      $category_id = $this->data['category_id'];
-      $fid = $this->data['fid'];
+    protected function after_save() {
+        // 如果是新的记录
+        if($this->insert_mode) {
+            $category_id = $this->data['category_id'];
+            $fid = $this->data['fid'];
       
-      $category = new Sher_Core_Model_Category();
-      if (!empty($category_id)) {
-        $category->inc_counter('total_count', 1, $category_id);
-      }
-      if (!empty($fid)) {
-        $category->inc_counter('total_count', 1, $fid);
-      }
+            $category = new Sher_Core_Model_Category();
+            if (!empty($category_id)) {
+                $category->inc_counter('total_count', 1, $category_id);
+            }
+            if (!empty($fid)) {
+                $category->inc_counter('total_count', 1, $fid);
+            }
       
-      $target_id   = $this->data['target_id'];
-      if (!empty($target_id)) {
-        $product = new Sher_Core_Model_Product();
-        $product->inc_counter('topic_count', 1, $target_id);
-        unset($product);
-      }
+            $target_id = $this->data['target_id'];
+            if (!empty($target_id)) {
+                $product = new Sher_Core_Model_Product();
+                $product->inc_counter('topic_count', 1, $target_id);
+                unset($product);
+            }
       
-      // 更新话题总数
-      Sher_Core_Util_Tracker::update_topic_counter();
+            // 更新话题总数
+            Sher_Core_Util_Tracker::update_topic_counter();
 
-      //如果是发布状态,创建动态
-      if ($this->data['published'] == 1) {
-        $timeline = new Sher_Core_Model_Timeline();
-        $arr = array(
-          'user_id' => $this->data['user_id'],
-          'target_id' => (int)$this->data['_id'],
-          'type' => Sher_Core_Model_Timeline::TYPE_TOPIC,
-          'evt' => Sher_Core_Model_Timeline::EVT_POST,
-        );
-        $timeline->create($arr);
-      }
+            // 如果是发布状态,创建动态
+            if ($this->data['published'] == 1) {
+                $timeline = new Sher_Core_Model_Timeline();
+                $arr = array(
+                    'user_id' => $this->data['user_id'],
+                    'target_id' => (int)$this->data['_id'],
+                    'type' => Sher_Core_Model_Timeline::TYPE_TOPIC,
+                    'evt' => Sher_Core_Model_Timeline::EVT_POST,
+                );
+                $timeline->create($arr);
+            }
+            
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_new_post', $this->data['user_id']);
+        }
     }
-  }
 	
 	/**
 	 * 扩展Model数据

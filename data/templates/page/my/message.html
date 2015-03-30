@@ -1,5 +1,5 @@
-{%extends 'layout/board.html'%}
-{% block title %}我的私信-{% endblock %}
+{%extends 'layout/column.html'%}
+{% block title %}消息提醒-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -113,6 +113,25 @@
 {% endblock %}
 
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">消息提醒</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
@@ -154,9 +173,19 @@
                 <!--<div class="pushtime">
                   {{ message.created_on|relative_datetime }}
                 </div>-->
-                <div class="count">
-                  共{{ message.total_count }}条对话   | <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a> |<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
-                </div>	
+                    <div class="count">
+                        <div class="ui horizontal divided list">
+                            <div class="item">
+                                共{{ message.total_count }}条对话
+                            </div>
+                            <div class="item">
+                                <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
+                            </div>
+                            <div class="item">
+                                <a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+                            </div>
+                        </div>
+                    </div>
               </div>
               </div>
             </div>
