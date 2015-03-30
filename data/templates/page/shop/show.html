@@ -8,6 +8,7 @@
 	.ui.five.tabs .tab {
 		width: 20%;
 	}
+    
 </style>
 {% endblock %}
 {% block js %}
@@ -52,12 +53,12 @@
 
 	
 	// 现在预约
-  	$('.appoint.btn').click(function(){
+  	$('.appoint.button').click(function(){
     	//phenix.redirect('{{ app_url_base }}/promo/dreamk', 0);
   	});
 	
 	// 加入购物车
-	$('.ui.buy.btn').click(function(){
+	$('.ui.buy.button').click(function(){
 		if (choosed_sku){
 			$.post('{{ app_url_cart_buy }}', {sku: choosed_sku});
 		} else {
@@ -66,7 +67,7 @@
 	});
 	
 	// 立即购买
-  $('.ui.nowbuy.btn').livequery(function(){
+  $('.ui.nowbuy.button').livequery(function(){
      $(this).click(function(){
       // 所有ajax请求，验证是否登录
       if (!phenix.visitor.is_login){
@@ -88,7 +89,7 @@
 			if (result.success) {
 				// 验证收藏
 				if (result.data.favorited) {
-					$('.ui.favorite.btn')
+					$('.ui.favorite.button')
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active');
@@ -100,7 +101,7 @@
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
-					$('.ui.love.btn')
+					$('.ui.love.button')
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active');
@@ -110,7 +111,7 @@
 	{% endif %}
 	
 	// 收藏
-	$('.ui.favorite.btn').bind('click', function(){
+	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -143,7 +144,7 @@
 	});
 	
 	// 喜欢
-	$('.ui.love.btn').bind('click', function(){
+	$('.ui.love.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -210,7 +211,7 @@
     });
 	
 	// 分享
-	$('.ui.share.btn').bind('click', function(){
+	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 
@@ -388,17 +389,17 @@
 							<small><span class="count">{{ product.comment_count }}</span>条评价 | <span class="count" id="product-love-count">{{ product.love_count }}</span>人点赞</small>
 						</p>
 						<div class="item">
-							<div class="ui black btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<div class="ui black pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 								收藏
 							</div>
-							<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 								<i class="heart empty icon"></i>
 							</div>
-							<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+							<div class="ui magenta pop share icon inverted button" data-content="分享" data-variation="inverted">
 								<i class="share icon"></i>
 							</div>
 							{% if product.process_presaled %}
-							<a class="ui magenta btn-4 btn-4c pop icon btn" data-content="查看预售结果" data-variation="inverted" href="{{ app_url_domain }}/sale/{{ product._id }}.html">
+							<a class="ui magenta pop icon inverted button" data-content="查看预售结果" data-variation="inverted" href="{{ app_url_domain }}/sale/{{ product._id }}.html">
 								<i class="time icon"></i>
 							</a>
 							{% endif %}
@@ -445,16 +446,16 @@
 								</span>
 								{% if product.snatched %}
 									{% if !product.snatched_start %}
-									<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy appoint btn">
+									<div class="ui active magenta tobuy appoint button">
 										准备开抢
 									</div>
 									{% else %}
 										{% if product.can_saled %}
-										<div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
+										<div class="ui active magenta tobuy nowbuy inverted button">
 											立即抢购
 										</div>
 										{% else %}
-										<div class="ui active gray btn-4 btn-4c locknotice btn">
+										<div class="ui active gray locknotice inverted button">
 											已抢完
 										</div>
 										{% endif %}
@@ -464,11 +465,11 @@
 								
                   {% if !product.is_try %}
                     {% if product.can_saled %}
-                    <div class="ui active magenta btn-4 btn-4c icon-arrow-right tobuy buy btn">
-                      <i class="flat shopping57 icon"></i>加入购物车
+                    <div class="ui active magenta tobuy buy inverted button">
+                         <i class="cart icon"></i> 加入购物车
                     </div>
                     {% else %}
-                    <div class="ui active gray btn-4 btn-4c locknotice btn" data-id="{{ product._id }}">
+                    <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
                       暂时缺货
                     </div>
                     {% endif %}
@@ -481,7 +482,7 @@
 								{% if !product.snatched %}
                   {% if !product.is_try %}
                     {% if product.can_saled %}
-                    <div class="ui black btn-4 btn-4c icon-arrow-right tobuy nowbuy btn">
+                    <div class="ui black tobuy nowbuy inverted button">
                       立即购买
                     </div>
                     {% endif %}
@@ -580,11 +581,11 @@
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ product.subject_view_url }}&evaluating=1" class="ui black btn-4 btn-4c icon-arrow-right btn">
-						查看更多
+					<a href="{{ product.subject_view_url }}&evaluating=1" class="ui black inverted button">
+						<i class="search icon"></i> 查看更多
 					</a>
-					<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-						发表评测
+					<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button">
+						<i class="edit icon"></i> 发表评测
 					</a>
 				</div>
 			</div>
