@@ -57,20 +57,22 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							{% product_list var:'list' stage:1 page:page user_id:user_id size:10 %}
+							{% product_list var:'list' stage:1 page:page user_id:user_id size:15 %}
 							<div class="ui center-list">
 								<div class="ui three cards">
 									{% for d in list.rows %}
                     {% include 'block/center/product-item.html' %}
                   {%endfor%}
+								</div>
+							</div>
+		         		 {% if list.rows %}
+							<div class="ui pagination">
+				            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				            {%include 'block/pager.html'%}
+							</div>
+				          {% endif %}
 						</div>
 					</div>
-          {% if list.rows %}
-			<div class="ui pagination">
-            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-            {%include 'block/pager.html'%}
-			</div>
-          {% endif %}
 				</div>
 			</div>
 		</div>
