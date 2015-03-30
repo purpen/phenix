@@ -1,0 +1,140 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+  .clearfix{
+    list-style:none;
+    text-aligned:center;
+  }
+  ul.clearfix li img{
+    width:100%;
+  }
+
+  .ui.secondary.pointing.menu + div > div {
+    padding-top: 8px;
+  }
+</style>
+
+{% endblock %}
+
+{% block jquery %}
+
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+
+	// 显示私信框
+	$('.letter-button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.btn').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">产品合作</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/incubator/cooperate" class="{% if !state %}active{%endif%} item">
+			全部
+		</a>
+    <!--
+		<a href="{{ app_url_admin_base }}/product/cooperate?state=1" class="{% if state == 1 %}active{%endif%} item">
+			未处理
+		</a>
+		<a href="{{ app_url_admin_base }}/product/cooperate?state=2" class="{% if state == 2 %}active{%endif%} item">
+			已处理
+		</a>
+    -->
+	</div>
+	
+  <div>
+    <div style="margin-bottom:20px;">
+      <button class="ui small letter-button button">
+        给TA发私信
+      </button>
+    </div>
+      <span><strong>联系人: </strong></span> {{ contact.name }}<span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>电话: </strong></span> {{ contact.tel }}  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>邮箱: </strong></span> {{ contact.email }}
+    </div>
+
+    <div>
+      <span><strong>分类: </strong></span> {{ contact.cate_name }}
+    </div>
+    <div>
+      <span><strong>标题: </strong></span> {{ contact.title }}
+    </div>
+    <div>
+      <span><strong>描述: </strong></span> {{ contact.content }}
+    </div>
+    <div>
+      <span><strong>产品图片: </strong></span>
+      <div>
+				{% asset_list var:'assets' parent_id:contact._id size:10 asset_type:60 %}
+        <ul class="clearfix">
+          <li class="active">
+            <img src="{{ contact.cover.thumbnails.big.view_url }}" alt="{{ contact.title }}" />
+          </li>
+          {% for asset in assets.rows %}
+            {% if asset._id != contact.cover_id %}
+            <li>
+              <img src="{{ asset.thumbnails.big.view_url }}" alt="{{ contact.title }}" />
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+	
+
+  <!-- 发私信-弹出框 -->
+  <div class="ui small letter modal">
+      <i class="flat close icon"></i>
+    <div class="header">
+      发私信
+    </div>
+      <div class="content">
+      <form action="{{ app_url_user }}/ajax_message" class="ui form" method="post" id="message-form">
+        <div class="field">
+          <label>发给：</label>
+          <input type="text" name="nickname" value="{{ contact.user.nickname }}" disabled="disabled" />
+          <input type="hidden" name="to" value="{{ contact.user._id }}" />
+          <!--来源,用于短信提醒-->
+          <input type="hidden" name="from_to" value="2" />
+          <input type="hidden" name="contact_tel" value="{{ contact.tel }}" />
+        </div>
+        <div class="field">
+          <label>内容：</label>
+          <textarea name="content" rows="3"></textarea>
+        </div>
+        
+        <div class="right aligned field ">
+          <div class="ui gray cancel btn">取消</div>
+          <div class="ui active magenta submit btn" >发送</div>
+        </div>
+      </form>
+      </div>
+  </div>
+
+{% endblock %}
