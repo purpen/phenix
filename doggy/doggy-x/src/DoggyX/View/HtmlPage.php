@@ -37,4 +37,3 @@ class DoggyX_View_HtmlPage extends Doggy_Dispatcher_Result_Dt {
         return parent::render();
     }
 }
-?>

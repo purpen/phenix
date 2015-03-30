@@ -14,4 +14,3 @@ class DoggyX_View_TaconitePage extends DoggyX_View_HtmlPage {
         return parent::render();
     }
 }
-?>

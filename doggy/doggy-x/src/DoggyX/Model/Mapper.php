@@ -51,4 +51,3 @@ class DoggyX_Model_Mapper {
         unset(self::$_cache[$model_class][$id]);
     }
 }
-?>

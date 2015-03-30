@@ -138,4 +138,3 @@ class DoggyX_Session_Service {
     public function on_session_stop() {
     }
 }
-?>

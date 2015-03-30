@@ -76,4 +76,3 @@ class Doggy_Dt_Filters_Html implements Doggy_Dt_FilterLib {
         return $result;
     }
 }
-?>
