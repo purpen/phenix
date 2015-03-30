@@ -272,9 +272,20 @@
         				<div class="ui active segment" data-tab="featured">
         					<table class="ui basic topic half table">
         						<tbody>
+                                    <!--站内置顶-->
+            						{% if dig_list %}
+            							{% for topic in dig_list %}
+            								{% if topic %}
+            								    {% include "block/topic_half_item.html" %}
+            								{% endif %}
+            							{% endfor %}
+            						{% endif %}
+                                    
         							{% topic_list var:'list' time:0 sort:0 size:16 %}
         							{% for topic in list.rows %}
-        								{% include "block/topic_half_item.html" %}
+            							{% if !topic.top %}<!--过滤置顶帖子-->
+            								{% include "block/topic_half_item.html" %}
+            							{% endif %}
         							{% endfor %}
         						</tbody>
         					</table>
