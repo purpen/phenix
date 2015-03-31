@@ -1,17 +1,7 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}{{ active.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-body{
-	padding-top:0 !important;
-}
-.ui.grid{
-	margin:0;
-}
-.ui.social {
-	padding: 0em;
-	margin-top:-1px;
-}
 .ui.tabox{
 	background:#000!important;
 	opacity:0;
@@ -49,9 +39,7 @@ body{
 .ui.tabs .tab:hover{
 	color:#f36 !important;
 }
-.ui.grid>.row{
-	margin:0;
-}
+
 .start{
 	background:url({{ active.banner.fileurl }}) no-repeat center center;
   background-size:cover;
@@ -433,7 +421,7 @@ h4.ui.header .map-advantage {
     });
 
   //报名按钮
-	$('.ui.attend.btn').click(function(){
+	$('.ui.attend.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			phenix.show_login_box();
@@ -526,55 +514,67 @@ h4.ui.header .map-advantage {
 {% endblock %}
 
 {% block content %}
-  <div class="ui tabox">
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui tabox">
     <div class="ui responsive grid">
-      <div class="row">
-        <div class="column">
-          <div class="ui tabs">
-              <a class="active tab" href="#start">活动首页</a>
-              <a class="tab" href="#abstract">活动简介</a>
-            <a class="tab" href="#process">活动日程</a>
-            <a class="tab" href="#report">活动报名</a>
-            <a class="tab" href="#place">活动地点</a>
-            <a class="tab" href="#part">合作伙伴</a>
-              <a class="tab" href="#comment">参与讨论</a>
-          </div>
+        <div class="row">
+            <div class="column">
+                <div class="ui tabs">
+                    <a class="active tab" href="#start">活动首页</a>
+                    <a class="tab" href="#abstract">活动简介</a>
+                    <a class="tab" href="#process">活动日程</a>
+                    <a class="tab" href="#report">活动报名</a>
+                    <a class="tab" href="#place">活动地点</a>
+                    <a class="tab" href="#part">合作伙伴</a>
+                    <a class="tab" href="#comment">参与讨论</a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <section class="ui start block" style="margin-top:-40px;">
-    <div class="ui responsive center aligned grid">
+</div>
+
+<section class="ui start block" style="margin-top:-40px;">
+    <div class="ui responsive grid">
         {% if active.step_stat==1 %}
         <div class="row">
-          <div class="center aligned column attend-box">
-          {% if is_attend %}
-            <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-              <span>已报名</span><i class="icon-arrow-right-sharp"></i>
-            </a>
-          {%else%}
-            <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="javascript:void(0);">
-              <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-            </a>
-          {%endif%}
-          </div>
+            <div class="center aligned column attend-box">
+                {% if is_attend %}
+                <a class="ui inverted active gray button" href="javascript:void(0);">
+                    <span>已报名</span>
+                </a>
+                {% else %}
+                <a class="ui white inverted attend button" href="javascript:void(0);">
+                    <i class="ticket icon"></i> 立即报名
+                </a>
+                {%endif%}
+            </div>
         </div>
-      {%endif%}
-      {% if active.step_stat==2 %}
+        {%endif%}
+        
+        {% if active.step_stat==2 %}
         <div class="row">
-          <div class="center aligned column attend-box" style="height:50px;">
-
-          </div>
+            <div class="center aligned column attend-box" style="height:50px;">
+            </div>
         </div>
-      {%endif%}
+        {%endif%}
     </div>
-  </section>
-  <div class="ui space gray background block">
+</section>
+
+<div class="ui space gray background block">
     <div class="ui responsive center aligned grid">
       <div class="row">
         <div class="column">
           <div class="content">
-            <i class="flat sale icon"></i>{{ active.begin_time|date 'Y-m-d H:i' }} &nbsp;&nbsp;<i class="flat position icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="flat users2 icon"></i>活动人数：{{ active.max_number_count }}人
+            <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }} &nbsp;&nbsp;<i class="map icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="user icon"></i>活动人数：{{ active.max_number_count }}人
           </div>
         </div>
       </div>
@@ -669,18 +669,18 @@ h4.ui.header .map-advantage {
 		<div class="row">
 			<div class="center aligned column">
 				<div class="attend-box">
-					{% if active.step_stat==1 %}
+					{% if active.step_stat == 1 %}
 			          {% if is_attend %}
-			            <a class="ui btn-4 btn-4c magenta active icon-arrow-right btn" href="javascript:void(0);">
-			                <span>已报名</span><i class="icon-arrow-right-sharp"></i>
+			            <a class="ui magenta active inverted button" href="javascript:void(0);">
+			                已报名
 			            </a>
 			          {%else%}
-			            <a class="ui btn-4 btn-4c magenta attend icon-arrow-right btn" href="javascript:void(0);">
-			                <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
+			            <a class="ui magenta attend inverted button" href="javascript:void(0);">
+			                <i class="ticket icon"></i> 立即报名
 			            </a>
 			          {%endif%}	
 				</div>
-				<p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>
+				<p>共有 <span class="attend-num">{{ active.signup_count }}</span> 人报名</p>
 				{%endif%}
 			</div>
 		</div>

@@ -1,72 +1,7 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}活动列表-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.ui.grid{
-	margin:0;
-}
-.ui.social {
-	padding: 0em;
-}
-/*.ui.responsive.grid{
-	width:1180px !important;
-	margin:0 auto;
-	padding:0 !important;
-}*/
-
-.start{
-	color:#fff;
-	padding:100px 0% 80px;
-}
-.start .ui.btn{
-	border-radius:4px !important;
-	background:#ccc;
-}
-.start .ui.attend.btn{
-	border-radius:4px !important;
-	background:rgba(0,0,0,0);
-}
-.start h2.ui.header{
-	font-weight: 400;
-}
-.start h2.ui.header .content{
-	text-align:left;
-}
-.start .row{
-	padding-top:208px !important;
-	margin:0;
-}
-.start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
-	font-size:30px !important;
-}
-.start .row:first-child h2.ui.header{
-	font-size:60px !important;
-}
-.camp .row .column{
-	padding:0 !important;
-}
-.camp .presell{
-	padding:0.5em 0.8em;
-}
-.camp .content{
-	padding:1em 0.5em !important;
-}
-.two-nav{
-	background:#f4f4f4;
-}
-
-.activity.masthead {
-	color: white;
-	padding: 100px 0 60px;
-    background-color: rgba(56, 67, 77, 0.9);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: #fff;
-}
-.activity.masthead .buttons {
-	margin-top: 3rem;
-}
 
 </style>
 {% endblock %}
@@ -122,20 +57,44 @@
 		<div class="row">
 			<div class="column">
                 
-                {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
-				<div class="ui three items">
+                {% active_list var:'old_list' published:1 deleted:1 step_stat:4 state:2 page:page %}
+				<div class="ui three activity cards">
                     {% for active in old_list.rows %}
-					<div class="item">
+					<div class="card">
 						<div class="image">
                             <a href="{{ active.view_url }}" title="{{ active.title }}" target="_blank">
                                 <img src="{{ active.cover.thumbnails.md.view_url }}" >
                             </a>
 							<div class="presell">
-                                第{{ active.season }}期
+                                第 {{ active.season }} 期
 							</div>
 						</div>
 						<div class="content">
-                            {{ active.title }}－{{ active.conduct_city }}站 
+                        	<div class="header">
+                        		<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">{{ active.title|truncate 26 '' }}－{{ active.conduct_city }}站 </a>
+                      	  	</div>
+                            <div class="description">
+                                <span class="people">
+                                    活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人
+                                </span>
+                            </div>
+                            <div class="i-stats">
+                                <div class="love">
+                                    <span class="address">
+                                        <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}
+                                    </span>
+                                    <span class="apply">
+                                        {% if active.step_stat == 2 %}
+                                            已结束
+                                        {% else %}
+                                        <a class="ui line" href="{{ active.view_url }}">
+                                            我要报名
+                                  	  	</a>
+                                        {% endif %}
+                                    </span>
+                                    
+                                </div>
+                            </div>
 						</div>
 					</div>
                     {%endfor%}
