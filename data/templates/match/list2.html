@@ -72,10 +72,31 @@
 		cursor:auto;
 	}
 	.ui.sort.grid > .row {
-		margin-bottom: 2%;
+		padding: 1% 0;
+		border: 1px solid rgba(0,0,0,0.1);
+		border-radius: 10px;
+	}
+	.ui.sort.grid .wide.column{
+		vertical-align: middle;
 	}
 	a#submit-idea {
 		margin: .5em 0;
+	}
+	.ui.sort.grid .ui.icon{
+		display: inline-block;
+	  padding: 12px 11px 12px 5px;
+	  background: #f36;
+	  color: #fff;
+	  vertical-align: middle;
+		position:relative;
+	}
+	.ui.sort.grid .ui.icon a{
+		position:absolute;
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
+		z-index:111;
 	}
 </style>
 {% endblock %}
@@ -85,6 +106,21 @@
     var url = "{{ app_url_contest }}/submit?season=dream2";
     phenix.redirect(url);
   });
+
+	//ajax省份选择联动
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id: 0});
+				}
+			}
+		});
+	});
+
+	$('.ui.college.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
 
 	/* 登录用户行为 */
   //加载赞状态
@@ -186,7 +222,7 @@
 		</div>
 		<div class="ui responsive sort grid">
 			<div class="row">
-				<div class="center aligned column">
+				<div class="center aligned six wide column">
 					<div class="ui divided horizontal list">
 					  	<div class="item">排序：</div>
 					  	<div class="item">
@@ -204,6 +240,31 @@
 					  	<div class="item">
 					  		<a href="{{ app_url_contest }}/allist2?st=0" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
 					  	</div>
+					</div>
+				</div>
+			
+				<div class="right aligned ten wide column">
+						搜索查看其他院校所有作品！
+					{% province_list var:'list' size:100 %}
+           <div class="ui fluid selection province dropdown" style="position:relative;z-index:9999;width: 21%;text-align: left;display: inline-block;">
+             <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
+               <div class="default text">--省份--</div>
+               <i class="angle down icon" style="position:absolute;right:0;"></i>
+               <div class="menu">
+                 {% for d in list.rows %}
+                 <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
+                 {% endfor %}
+               </div>
+           </div>
+
+					 <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;width: 21%;text-align: left;display: inline-block;">
+             <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
+               <div class="default text">--院校--</div>
+               <i class="angle down icon" style="position:absolute;right:0;"></i>
+           </div>
+					<div class="ui icon">
+						<a href=""></a>
+					<i class="search icon"></i>
 					</div>
 				</div>
 			</div>
