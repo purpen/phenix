@@ -133,7 +133,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_domain }}/app/site/address/ajax_fetch_colleges', {id: value, college_id: 0});
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_colleges', {id: value, college_id: 0});
 				}
 			}
 		});
@@ -218,7 +218,7 @@
 
               <div class="field">
                 <label for="college_id">院校</label>
-                <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
+                <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9998;">
                   <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
                     <div class="default text">--院校--</div>
                     <i class="angle down icon" style="position:absolute;right:0;"></i>

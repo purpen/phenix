@@ -1,5 +1,10 @@
 <div class="ui card" id="item-{{d._id}}">
-    <div class="image" style="background-image:url({{ d.topic.cover.thumbnails.md.view_url }}) no-repeat;">
+
+      {% if d.topic.cover %}
+			  <div class="image" style="background-image:url({{ d.topic.cover.thumbnails.md.view_url }});">
+			{%else%}
+			  <div class="image">
+      {%endif%}
 
       <div class="image-extra">
       <a href="{{ d.topic.view_url }}" title="{{ d.topic.title }}" target="_blank"></a>

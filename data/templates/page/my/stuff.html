@@ -56,7 +56,7 @@
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							{% stuff_list var:'list' page:page user_id:user_id size:10 %}
+							{% stuff_list var:'list' page:page user_id:user_id size:15 %}
 							<div class="ui center-list">
 								<div class="ui three cards">
 									{% for d in list.rows %}
@@ -70,6 +70,8 @@
 			            {%include 'block/pager.html'%}
 						</div>
 			          {% endif %}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

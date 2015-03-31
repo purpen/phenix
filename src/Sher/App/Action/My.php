@@ -281,25 +281,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function invite(){
 		$this->set_target_css_state('user_invite');
-		$invitation = new Sher_Core_Model_Invitation();
-        $my_invites = $invitation->find(array('user_id' => $this->visitor->id),array('sort' => array('used_at' => -1)));
-        $my_used_invites = array();
-        $my_free_invites = array();
-        if (!empty($my_invites)) {
-            for ($i=0; $i < count($my_invites); $i++) {
-                if ($my_invites[$i]['used']) {
-                    $my_used_invites[] = $invitation->extend_load($my_invites[$i]['_id']);
-                }
-                else {
-                    $my_free_invites[] = $my_invites[$i];
-                }
-            }
-        }
-
-        $this->stash['free_invites_cnt'] = count($my_free_invites);
-        $this->stash['free_invites'] = $my_free_invites;
-        $this->stash['used_invites_cnt'] = count($my_used_invites);
-        $this->stash['used_invites'] = $my_used_invites;
+    //当前用户邀请码
+    $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+    $this->stash['user_invite_code'] = $invite_code;
 
 		return $this->to_html_page("page/my/invite.html");
 	}

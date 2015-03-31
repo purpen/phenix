@@ -53,11 +53,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$is_ship = $ship->has_exist_ship($this->visitor->id, $follow_id);
 		
 		$this->stash['is_ship'] = $is_ship;
-        
-        // 增加积分
-        $service = Sher_Core_Service_Point::instance();
-        // 主页来访
-        $service->send_event('evt_home_visited', (int)$this->stash['id']);
 		
 		return $this->display_tab_page('tab_all');
 	}

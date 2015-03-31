@@ -1,9 +1,0 @@
-*.swp
-deploy/dev.yml
-.gitignore
-dev_root/
-data/web/app
-vendor/
-composer.lock
-deploy/app_config.php
-data/web/packaged

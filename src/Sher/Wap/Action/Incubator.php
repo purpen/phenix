@@ -103,6 +103,12 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 				$data['user_id'] = (int)$this->visitor->id;
 					
 				$ok = $model->apply_and_save($data);
+        //短信提醒张婷--18810228896
+        if($ok){
+          // 开始发送
+          $msg = "有一条孵化项目合作的提交 “".$data['title']."”, 请及时到官网后台查看! 【太火鸟】";
+          Sher_Core_Helper_Util::send_defined_mms(18810228896, $msg);
+        }
 				
 			}else{
 				$data['_id'] = $id;

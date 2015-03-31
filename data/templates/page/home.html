@@ -128,10 +128,26 @@
 		-webkit-box-shadow: inset 0 0 0 2px #fff;
 	}*/
 	
-	.row.groom img{
-		width:100%;
+	
+	.groom.items .item .image{
+		  background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
+		  background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
+		  background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
+		  overflow: hidden;
+		  background-color: rgba(56,67,77,.9);
+		  background-position: center center;
+		  background-repeat: no-repeat;
+		  -webkit-background-size: cover;
+		  background-size: cover;
 	}
-	#homepage .row.groom .ui.two.items>.item:hover{
+	.groom.items .item .image a{
+			position:absolute;
+			width:100%;
+			height:100%;
+			top:0;
+			left:0;
+	}
+	.ui.two.groom.items>.item:hover{
 		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
 		 box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
 		border:0px solid #fff !important;
@@ -311,7 +327,7 @@
 		<div class="ui responsive grid">
 			
 			<!--  商品推荐位  -->
-		  {% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
+		  <!--{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
 			<div class="row groom">
 				<div class="column">
 					<div class="ui two items">
@@ -324,7 +340,24 @@
             {%endfor%}
 					</div>
 				</div>
-			</div>
+			</div>-->
+
+			{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
+      {% if adslide2.rows %}
+        <div class="row">
+          <div class="column">
+            <div class="ui two groom items">
+              {% for ad in adslide2.rows %}
+              <div class="item">
+                <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                  <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
+                </div>
+              </div>
+              {%endfor%}
+            </div>
+          </div>
+        </div>
+      {%endif%}
 			
 			<div class="row">
 				<div class="column">

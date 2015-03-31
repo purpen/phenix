@@ -29,19 +29,19 @@
 	<h3 class="ui header">产品合作</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/product/cooperate" class="{% if !state %}active{%endif%} item">
+		<a href="{{ app_url_admin_base }}/incubator/cooperate" class="{% if !state %}active{%endif%} item">
 			全部
 		</a>
     <!--
-		<a href="{{ app_url_admin_base }}/product/cooperate?state=1" class="{% if state == 1 %}active{%endif%} item">
+		<a href="{{ app_url_admin_base }}/incubator/cooperate?state=1" class="{% if state == 1 %}active{%endif%} item">
 			未处理
 		</a>
-		<a href="{{ app_url_admin_base }}/product/cooperate?state=2" class="{% if state == 2 %}active{%endif%} item">
+		<a href="{{ app_url_admin_base }}/incubator/cooperate?state=2" class="{% if state == 2 %}active{%endif%} item">
 			已处理
 		</a>
     -->
     <div class="right menu">
-    <a href="{{ app_url_admin }}/product/cooperate_deleted" class="item ajax-delete">
+    <a href="{{ app_url_admin }}/incubator/cooperate_deleted" class="item ajax-delete">
       批量删除
     </a>
     </div>
@@ -58,6 +58,7 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">产品名称</th>
+        <th>用户</th>
 				<th>联络人</th>
 				<th>分类</th>
 				<th>状态</th>
@@ -67,7 +68,7 @@
 		<tbody>
 			{% contact_list var:'list' page:page state:state size:20  %}
 			{% for contact in list.rows %}
-			<tr id="contact_{{ contact._id }}">
+			<tr id="{{ contact._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids" type="checkbox" value="{{ contact._id }}" class="checkbox" />
@@ -81,13 +82,18 @@
 				</td>
 				<td>
 		          	<div class="header">
-                  <a href="{{ app_domain_base }}/app/admin/product/cooperate_view?id={{ contact._id }}" class="ui link" target="_blank" title="{{ contact.title }}">
+                  <a href="{{ app_domain_base }}/app/admin/incubator/cooperate_view?id={{ contact._id }}" class="ui link" target="_blank" title="{{ contact.title }}">
 							{{ contact.title|truncate, 32 }}
 						</a>
 					</div>
 				</td>
+        <td>
+          <a href="{{ contact.user.home_url }}" target="_blank">{{ contact.user.nickname }}</a>
+        </td>
 				<td>
-          {{ contact.name }}
+          姓名: {{ contact.name }}
+          <br />
+          电话: {{ contact.tel }}
 				</td>
 				<td>
           {{ contact.cate_name }}
@@ -102,16 +108,17 @@
 					<p>
           <!--
             {% if contact.state == 0 %}
-		        <a href="{{ app_url_admin }}/product/set_cooperate?id={{ contact._id }}&state=2" class="ui ajax link item set-state">
+		        <a href="{{ app_url_admin }}/incubator/set_cooperate?id={{ contact._id }}&state=2" class="ui ajax link item set-state">
 						    设已读
 					  </a>
             {% else %}
-		        <a href="{{ app_url_admin }}/product/set_cooperate?id={{ contact._id }}&state=1" class="ui ajax link item set-state">
+		        <a href="{{ app_url_admin }}/incubator/set_cooperate?id={{ contact._id }}&state=1" class="ui ajax link item set-state">
 						    设未读
 					  </a>
             {%endif%}
             -->
-		        <a href="{{ app_url_admin }}/product/cooperate_deleted?id={{ contact._id }}" class="ui confirm-request link item">
+
+		        <a href="{{ app_url_admin }}/incubator/cooperate_deleted?id={{ contact._id }}" class="ui confirm-request link item">
 						    删除
 					  </a>
 					</P>
@@ -127,4 +134,5 @@
 		{%include 'block/pager.html'%}
 	</div>
 	{% endif %}
+
 {% endblock %}

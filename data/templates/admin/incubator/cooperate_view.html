@@ -17,6 +17,37 @@
 {% endblock %}
 
 {% block jquery %}
+
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+
+	// 显示私信框
+	$('.letter-button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.btn').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
 	
 {% endblock %}
 	
@@ -24,7 +55,7 @@
 	<h3 class="ui header">产品合作</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/product/cooperate" class="{% if !state %}active{%endif%} item">
+		<a href="{{ app_url_admin_base }}/incubator/cooperate" class="{% if !state %}active{%endif%} item">
 			全部
 		</a>
     <!--
@@ -38,7 +69,11 @@
 	</div>
 	
   <div>
-    <div>
+    <div style="margin-bottom:20px;">
+      <button class="ui small letter-button button">
+        给TA发私信
+      </button>
+    </div>
       <span><strong>联系人: </strong></span> {{ contact.name }}<span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>电话: </strong></span> {{ contact.tel }}  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>邮箱: </strong></span> {{ contact.email }}
     </div>
 
@@ -72,5 +107,31 @@
 
   </div>
 	
+
+  <!-- 发私信-弹出框 -->
+  <div class="ui small letter modal">
+      <i class="flat close icon"></i>
+    <div class="header">
+      发私信
+    </div>
+      <div class="content">
+      <form action="{{ app_url_user }}/ajax_message" class="ui form" method="post" id="message-form">
+        <div class="field">
+          <label>发给：</label>
+          <input type="text" name="nickname" value="{{ contact.user.nickname }}" disabled="disabled" />
+          <input type="hidden" name="to" value="{{ contact.user._id }}" />
+        </div>
+        <div class="field">
+          <label>内容：</label>
+          <textarea name="content" rows="3"></textarea>
+        </div>
+        
+        <div class="right aligned field ">
+          <div class="ui gray cancel btn">取消</div>
+          <div class="ui active magenta submit btn" >发送</div>
+        </div>
+      </form>
+      </div>
+  </div>
 
 {% endblock %}
