@@ -51,7 +51,7 @@
                 <span class="comment">
             		{% if topic.last_user %}
             		<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-            	  		@{{ topic.user.nickname }}
+            	  		@{{ topic.last_user.nickname }}
             		</a>
             		回复于{{ topic.last_reply_time|relative_datetime }}
             		{% endif %}

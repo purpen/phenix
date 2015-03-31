@@ -223,6 +223,12 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     if(empty($this->stash['cover_id'])){
  			return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
     }
+    //如果是大赛,必须选择一所大学
+    if(!empty($this->stash['from_to']) && (int)$this->stash['from_to']==1){
+      if(empty($this->stash['college_id']) || (int)$this->stash['college_id']==0){
+        return $this->ajax_json('请选择所在大学！', true);   
+      }
+    }
 		$id = (int)$this->stash['_id'];
 		$mode = 'create';
 		
