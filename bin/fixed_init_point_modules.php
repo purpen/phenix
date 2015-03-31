@@ -45,6 +45,8 @@ for ($i = 0; $i < count($ranks); $i++) {
     $data['title'] = $rank['name'];
     $data['point_type'] = $point_type_code;
     $data['point_amount'] = $rank['point'];
+    $data['award_point_type'] = 'money';
+    $data['award_point_amount'] = 0;
     $rank_model->create($data);
     echo "rank:" . $rank_model->id ." created.\n";
     $rank_seq_val++;

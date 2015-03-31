@@ -4,6 +4,9 @@ app.point.init_point_types:
   -
     code: 'exp'
     name: '经验'
+  -
+    code: 'money'
+    name: '鸟币'
 app.point.init_user_ranks:
   init_rank_id: 1
   total_ranks: 45

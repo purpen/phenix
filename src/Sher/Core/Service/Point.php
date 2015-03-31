@@ -62,4 +62,14 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         $model->create($data);
         return $model->id;
     }
+
+    public function make_in_transaction($user_id, $amount, $note, $sender=0, $module_id=null, $extras=array(),
+                                              $point_type=null) {
+
+    }
+
+    public function make_out_transaction($user_id, $amount, $note , $sender=0, $module_id=null, $extras=array(),
+                                               $point_type=null) {
+
+    }
 }
