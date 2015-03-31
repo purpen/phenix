@@ -3,7 +3,7 @@
 		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
       		<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />
 		</a>
-    {% if product.stage== 5 %}
+        {% if product.stage== 5 %}
 		<div class="presell">
 			{% if !product.presale_finished %}
 				预售新品
@@ -11,14 +11,14 @@
 				预售结束
 			{% endif %}
 		</div>
-    {%endif%}
-    {% if product.stage== 9 %}
-      {% if product.is_try %}
+        {%endif%}
+        {% if product.stage== 9 %}
+            {% if product.is_try %}
 		    <div class="presell">
           	  试用新品
 		    </div>
-      {%endif%}
-    {%endif%}
+            {%endif%}
+        {%endif%}
 		<div class="image-extra">
 			<div class="extra-content">
 				<a class="inner-extra" href="{{ product.view_url }}" target="_blank">
@@ -30,12 +30,12 @@
 		</div>
   	</div>
   	<div class="content">
-      <h4 class="ui header">
-			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
+        <div class="header">
+			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
 				{{ product.title|truncate, 32, '' }}
 			</a>
-			<div class="advantage">{{ product.advantage }}</div>
-		</h4>
+        </div>
+        <div class="advantage">{{ product.advantage }}</div>
 		<div class="i-stats">
 			<div class="schedule p-sell">
 

@@ -1,4 +1,4 @@
-<div class="ui card" id="item-{{d._id}}">
+<div class="card" id="item-{{d._id}}">
       {% if d.product.cover %}
 			  <div class="image" style="background-image:url({{ d.product.cover.thumbnails.md.view_url }});">
 			{%else%}
@@ -22,14 +22,14 @@
       <div class="exit">
 
         {% if box_type=='fav' %}
-        <div class="ui magenta btn-4 btn-4c pop btn favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
-                      取消收藏
+        <div class="ui magenta btn-4 btn-4c pop icon btn favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                      <i class="remove icon"></i>
         </div>
         {%endif%}
 
         {% if box_type=='love' %}
-        <div class="ui magenta btn-4 btn-4c pop btn" data-content="取消赞" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
-                      取消赞
+        <div class="ui magenta btn-4 btn-4c pop icon btn" data-content="取消赞" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                      <i class="remove icon"></i>
         </div>
         {%endif%}
         

@@ -56,14 +56,14 @@
 </div>
 
 {% topic_list var:'featurelist' type:1 size:4 %}
-<div class="social topstick top">
+<div class="social topstick top bottom">
 	<div class="ui responsive grid">
         <div class="row">
             <div class="column">
                 {% if featurelist.total_rows %}
-				<div class="ui four socialstick items">
+				<div class="ui socialstick four blocks">
                     {% for ft in featurelist.rows %}
-					<div class="item">
+					<div class="block">
 						<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.fileurl }}');"{% endif %}>
                             <a class="transparent" href="{{ ft.view_url }}" target="_blank">
     							<div class="sub title">

@@ -1,13 +1,9 @@
-<div class="ui card" id="item-{{d._id}}">
+<div class="card" id="item-{{d._id}}">
       {% if d.stuff.cover %}
 			  <div class="image" style="background-image:url({{ d.stuff.cover.thumbnails.md.view_url }});">
 			{%else%}
 			  <div class="image">
       {%endif%}
-
-      <div class="image-extra">
-      <a href="{{ d.stuff.view_url }}" title="{{ d.stuff.title }}" target="_blank"></a>
-      </div>
       <div class="presell">
         {% if d.stuff.from_to %}
           {% if d.stuff.from_to==1 %}
@@ -24,13 +20,13 @@
 
         {% if box_type=='fav' %}
         <div class="ui magenta btn-4 btn-4c pop btn favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.stuff._id }}" data-type="{{ d.type }}" data-mark="y">
-                      取消收藏
+                      <i class="remove icon"></i>
         </div>
         {%endif%}
 
         {% if box_type=='love' %}
         <div class="ui magenta btn-4 btn-4c pop btn" data-content="取消赞" data-variation="inverted" data-id="{{ d.stuff._id }}" data-type="{{ d.type }}" data-mark="y">
-                      取消赞
+                     <i class="remove icon"></i>
         </div>
         {%endif%}
         

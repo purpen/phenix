@@ -3,7 +3,70 @@
 
 {% block page_css %}
 <style type="text/css">
-	
+.ui.center-list .card .image-extra{
+	background-color: rgba(0,0,0,.1);
+	height: 100%;
+	left: 0;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
+	transition: opacity .25s ease 0s,background-color .45s ease 0s;
+	width: 100%;
+	z-index: 3;
+}
+.ui.center-list .card .image-extra > a{
+	position: absolute;
+	width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.ui.center-list .presell{
+	top:0;
+	bottom:auto;
+	border-top-left-radius: 4px;
+}
+.ui.center-list >.ui.three.cards >.card >.image{
+	padding:37.65% 0;
+	background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
+	background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
+	background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
+	background-size:cover;
+}
+.ui.center-list .ui.three.cards>.card>.content{
+	height: 30px;
+	padding: 1rem 1rem 65px!important;
+}
+.ui.center-list .exit{
+	padding: .5em 1.5em;
+	font-size: 14px;
+	background: rgba(0,0,0,.7);
+	position: absolute;
+	bottom: 0;
+	right:0;
+	color: #fff;
+	z-index: 999;
+	-webkit-transform: translateX(0%);
+	-ms-transform: translateX(0%);
+	transform: translateX(0%);
+	-webkit-transition: all 500ms;
+	transition: all 500ms;
+}
+.ui.center-list .exit .ui.button{
+	padding:.5em;
+}
+.ui.center-list .exit .ui.btn,.ui.center-list .exit .ui.btn:hover{
+	padding: .5em .8em;
+	vertical-align: middle;
+}
+.ui.center-list .ui.cards .card:hover .exit{
+	-webkit-transform: translateX(0%);
+	-ms-transform: translateX(0%);
+	transform: translateX(0%);
+}
 </style>
 {% endblock %}
 
@@ -75,49 +138,38 @@
 		<div class="twelve wide column">
 			<h2 class="ui header">我感兴趣的</h2>
 			{% include "block/center/head_interest_nav.html" %}
-			
-			<div>
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% favorite_list var:'list' page:page user_id:user_id event:1 size:15 %}
-							<div class="ui center-list">
-								
-								<div class="ui three cards">
-									{% for d in list.rows %}
-                    <!--产品-->
-                    {% if d.type==1 %}
-                      {% if d.product %}
-                        {% include 'block/center/f-product-item.html' %}
-                      {%endif%}
-                    {%endif%}
-                    <!--话题-->
-                    {% if d.type==2 %}
-                      {% if d.topic %}
-                        {% include 'block/center/f-topic-item.html' %}
-                      {%endif%}
-                    {%endif%}
-                    <!--灵感-->
-                    {% if d.type==4 %}
-                      {% if d.stuff %}
-                        {% include 'block/center/f-stuff-item.html' %}
-                      {%endif%}
-                    {%endif%}
-
-                  {%endfor%}
-
-						</div>
-						{% if list.rows %}
-							<div class="ui pagination">
-				            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-				            {%include 'block/pager.html'%}
-							</div>
-				          {% endif %}
-					</div>
-				</div>
-
-			</div>
-			</div>
+            <div class="ui center-list">
+                {% favorite_list var:'list' page:page user_id:user_id event:1 size:15 %}
+    			<div class="ui three cards">
+    				{% for d in list.rows %}
+                        <!--产品-->
+                        {% if d.type==1 %}
+                            {% if d.product %}
+                                {% include 'block/center/f-product-item.html' %}
+                            {%endif%}
+                        {%endif%}
+                        <!--话题-->
+                        {% if d.type==2 %}
+                            {% if d.topic %}
+                                {% include 'block/center/f-topic-item.html' %}
+                            {%endif%}
+                        {%endif%}
+                        <!--灵感-->
+                        {% if d.type==4 %}
+                            {% if d.stuff %}
+                                {% include 'block/center/f-stuff-item.html' %}
+                            {%endif%}
+                        {%endif%}
+                    {%endfor%}
+                </div>
+            
+                {% if list.rows %}
+    			<div class="ui pagination">
+                    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                    {%include 'block/pager.html'%}
+    			</div>
+                {% endif %}
+            </div>
 		</div>
 	</div>
 </div>

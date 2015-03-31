@@ -11,6 +11,7 @@
 	text-align: center;
 	position: relative;
 }
+
 </style>
 {% endblock %}
 
@@ -34,7 +35,6 @@
 	<a href="http://www.taihuoniao.com/birdegg">
 		<div class="ui responsive grid">
 			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
-			
 		</div>
 	</a>
 </div>
@@ -55,9 +55,6 @@
 						<a class="ui active link" href="{{ app_url_shop }}">商店</a>
 					</div>
 					<div class="item">
-						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
-					</div>
-					<div class="item">
 						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
 					</div>
 					{% for cat in category.rows %}
@@ -66,6 +63,11 @@
 					</div>
 					{% endfor %}
 				</div>
+                <div class="ui horizontal quick list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
+					</div>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -77,15 +79,15 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui two items">
-					{% for ad in ad.rows %}
-					<div class="item">
+                <div class="ui compact grid">
+                    {% for ad in ad.rows %}
+                    <div class="eight wide column">
 						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
 				      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
 						</a>
-					</div>
-					{% endfor %}
-				</div>
+                    </div>
+                    {% endfor %}
+                </div>
 			</div>
 		</div>
 	</div>

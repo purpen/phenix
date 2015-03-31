@@ -6,7 +6,6 @@
     .social.products {
         padding: 1.5rem 0 0;
     }
-    
     .topic.half.table .title {
         margin: 0.5rem 0 0.8rem;
     }
@@ -27,47 +26,6 @@
     .mentors .ui.button {
         color: #666;
         margin-top: 2rem;
-    }
-    .ui.comments .onecomment {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        margin-bottom: 1rem;
-    }
-    .ui.comments .onecomment:last-child {
-        margin-bottom: 0;
-        border-bottom: none;
-    }
-    .ui.comments .onecomment .avatar {
-        display: block;
-        float: left;
-        width: 2em;
-        margin-right: 0.5rem;
-    }
-    .ui.comments .onecomment .avatar img {
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
-        color: rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-        border-radius: 500px;
-        display: block;
-        height: 2em;
-        margin: 0 auto;
-        width: 2em;
-    }
-    .ui.comments .onecomment .metadata {
-        color: rgba(0, 0, 0, 0.3);
-        display: inline-block;
-        font-size: 0.875rem;
-        line-height: 2;
-        margin-left: 0.3em;
-    }
-    .ui.comments .onecomment .text {
-        color: rgba(0, 0, 0, 0.5);
-        line-height: 1.325rem;
-        margin: 1rem 0;
-        word-wrap: break-word;
-    }
-    .ui.comments .onecomment .target {
-        margin: 0 0 1rem;
-        color: rgba(0, 0, 0, 0.5);
     }
     
 </style>
@@ -185,19 +143,19 @@
 	<div class="ui responsive grid">
         <div class="row">
             <div class="column">
-				<div class="ui four socialstick items">
+                <div class="ui socialstick four blocks">
                     {% for skad in stkad.rows %}
-					<div class="item">
-						<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
+                    <div class="block">
+        				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
                             <a class="transparent" href="{{ skad.view_url }}" target="_blank">
-    							<div class="sub title">
-    								{{ skad.title }}
-    							</div>
+        						<div class="sub title">
+        							{{ skad.title }}
+        						</div>
                             </a>
-						</div>
-					</div>
-					{% endfor %}
-				</div>
+        				</div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
