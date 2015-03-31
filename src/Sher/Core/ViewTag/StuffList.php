@@ -31,6 +31,7 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		$featured = 0;
         $verified = 0;
         $fever_id = 0;
+        $load_college = 0;
 		$time = 0;
 		$sort = 0;
         $is_shop = 0;
@@ -154,6 +155,30 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		}
 		
         $result = $service->get_stuff_list($query, $options);
+
+        //加载大学表
+        if($load_college){
+          $college = null;
+          $college_model = new Sher_Core_Model_College();
+
+          for($i=0;$i<count($result['rows']);$i++){
+            if(isset($result['rows'][$i]['from_to']) && $result['rows'][$i]['from_to'] != 1){
+              continue;
+            }
+            $province_id = isset($result['rows'][$i]['province_id'])?$result['rows'][$i]['province_id']:0;
+            $college_id = isset($result['rows'][$i]['college_id'])?$result['rows'][$i]['college_id']:0;
+            if(empty($college_id)){
+              continue;
+            }
+            $college = $college_model->find_by_id((int)$college_id);
+            if($college){
+              $result['rows'][$i]['college'] = $college;              
+            }
+            
+          }
+          unset($college_model);
+        }
+
         $context->set($var,$result);
 		
         if ($include_pager) {
