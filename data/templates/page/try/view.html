@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block jquery %}
-	$('.ui.applytry.btn').click(function(){
+	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			phenix.show_login_box();
@@ -145,6 +145,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{%include 'block/find_nav.html'%}
+			</div>
+		</div>
+	</div>
+</div>
 <div class="ui try" id="trypage">
 	<div class="masthead">
 		<div class="masthead-cover">
@@ -158,20 +167,18 @@
 							</div>
 						</div>
 					</h1>
-					<div class="ui buttons">
-						{% if !try.is_end %}
-						<a href="javascript:void(0);" class="ui white btn-4 btn-4c icon-arrow-right applytry btn">
-							申请试用
-						</a>
-						{% else %}
-						<a href="javascript:void(0);" class="ui active white btn-4 btn-4c icon-arrow-right btn">
-							已结束
-						</a>
-						{% endif %}
-						<a href="{{ try.product.view_url }}" class="ui white btn-4 btn-4c icon-arrow-right btn" target="_blank">
-							产品详情
-						</a>
-					</div>
+					{% if !try.is_end %}
+					<a href="javascript:void(0);" class="ui white applytry inverted button">
+						<i class="ticket icon"></i> 申请试用
+					</a>
+					{% else %}
+					<a href="javascript:void(0);" class="ui active white inverted button">
+						<i class="lock icon"></i> 已结束
+					</a>
+					{% endif %}
+					<a href="{{ try.product.view_url }}" class="ui white inverted button" target="_blank">
+						<i class="browser icon"></i> 产品详情
+					</a>
 					<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约{% if !try.is_end %}, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}, 结束时间：{{ try.end_time }}{% endif %}</div>
 				</div>
 			</div>
@@ -308,7 +315,10 @@
 									<div id="comment"></div>
 								</div>
 								<div class="right aligned column">
-									<small>还可以输入<span class="wordscount">140</span> 字</small> <input type="submit" class="ui small magenta button" value="添加评论" />
+									<small>还可以输入<span class="wordscount">140</span> 字</small>
+                        			<div class="ui active magenta submit labeled icon inverted button">
+                                      	<i class="icon basic direction"></i> 添加评论
+                                    </div>
 								</div>
 							</form>
 						</div>
@@ -375,10 +385,14 @@
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">全部报告</a>
+					<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui black inverted button" target="_blank">
+                        <i class="tasks icon"></i> 全部报告
+                    </a>
 					<!--通过审核的用户才能提交报告-->
 					{% if visitor.is_login %}
-					<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn" target="_blank">提交报告</a>
+					<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
+                        <i class="edit icon"></i> 提交报告
+                    </a>
 					{% endif %}
 				</div>
 			</div>
