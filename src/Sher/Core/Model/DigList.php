@@ -1,6 +1,6 @@
 <?php
 /**
- * 各种推荐列表 (置顶帖子，首页推荐等)
+ * 各种推荐列表 (置顶帖子，首页推荐,大赛统计等)
  * @author purpen
  */
 class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {

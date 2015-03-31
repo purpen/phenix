@@ -156,10 +156,139 @@ body{
 
 */
 
+#ChinaMap {
+  padding-right: 100px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  margin: 0px auto;
+  /*width: 100%;*/
+  padding-top: 10px;
+  position: relative;
+  text-align: center;
+}
+
+#tiplayer {
+  padding-right: 5px;
+  padding-left: 5px;
+  z-index: 1000;
+  min-height: 1em;
+  background: #000;
+  max-width: 250px;
+  padding-bottom: 5px;
+  font: 12px 'Microsoft YaHei',Arial,宋体,Tahoma,Sans-Serif;
+  color: #fff;
+  padding-top: 5px;
+  position: absolute;
+  text-align: left;
+  word-wrap: break-word;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.ToolTip {
+  padding-right: 5px;
+  padding-left: 5px;
+  z-index: 1000;
+  min-height: 1em;
+  background: #000;
+  max-width: 350px;
+  padding-bottom: 5px;
+  font: 12px 'Microsoft YaHei',Arial,宋体,Tahoma,Sans-Serif;
+  color: #fff;
+  padding-top: 5px;
+  position: absolute;
+  text-align: left;
+  word-wrap: break-word;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.ToolTip {
+  border-right: #c5b270 1px solid;
+  padding-right: 15px;
+  border-top: #c5b270 1px solid;
+  padding-left: 15px;
+  background: #fffbd6;
+  padding-bottom: 0px;
+  border-left: #c5b270 1px solid;
+  color: #bb861c;
+  line-height: 30px;
+  padding-top: 0px;
+  border-bottom: #c5b270 1px solid;
+  top: 30px;
+}
+
 </style>
 {% endblock %}
-{% block jquery %}
+
+{% block layout_js %}
+
+    <script src="../js/china_map/raphael.js"></script>
+    <script src="../js/china_map/chinamapPath.js"></script>
+    <script src="../js/china_map/chinamap.js"></script>
+  <script type="text/javascript" >
+
+    //***绑定数据
+    function Bind() {
+
+        var args = $("#args *").serialize();
+
+        $.ajax({
+            type: "get",
+            url: "../js/china_map/mapList.js",   //jsonp
+            dataType: "jsonp",
+            jsonp: "callback",
+            jsonpCallback: "get",
+            success: function (data) {
+
+                var html = "";
+                $.each(data, function (i, item) {
+                    html += "<div style='cursor:pointer;font-weight:bolder;color:" + china[item.AreaName]['path'].color + "' title='" + china[item.AreaName]['name']
+                        + "'>TOP " + (i + 1) + ":" + china[item.AreaName]['name'] + "</div>"
+
+                    var anim = Raphael.animation({ fill: china[item.AreaName]['path'].color, stroke: "#eee" }, 1000);
+                    //*** anim.delay(i * 500)增加显示延时，就是让排序省份一个一个显示，但是在IE9以下没效果，因为IE会假死，知道全部显示完
+                    china[item.AreaName]['path'].stop().animate(anim.delay(i * 500));
+                    china[item.AreaName]['isClick'] = true;
+                });
+
+                //将省区排行增加到页面，并增加点击事件查询城市排行
+                $("#topList").html(html).find("div").click(function () {
+
+                    var title = $(this).attr("title");
+                    $(this).siblings().css("font-size", "").removeAttr("select").end().css("font-size", "20px").attr("select", "");
+    $('#areaInfo').html(title + "的销量：<br/>").fadeIn('fast');
+                    ////显示省份明细，自己修改
+                    //$.post(url + "/" + encodeURI(title), args, function (data) {
+                    //    $('#areaInfo').html(title + "的销量：<br/>" + data).fadeIn('fast');
+                    //});
+                });
+
+            },
+            error: function () {
+                alert('错误');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+      Map();
+      Bind();	
+    });
+
+  </script>
+
 {% endblock %}
+
+{% block jquery %}
+
+
+{% endblock %}
+
 {% block content %}
 <div class="match rank">
 	<section class="rankbg">
@@ -202,6 +331,23 @@ body{
 			</div>
 		</div>
 	</section>
+
+  <section>
+    <div id="ChinaMap">
+        <div id="map"></div>
+        <div id="ToolTip" class="ToolTip" style="left: 10px">
+            <div id="areaInfo"></div>
+            <div id="cityInfo"></div>
+        </div>
+        <div class="ToolTip" style="right: 50px;">
+            <div id="topList" style="width: 130px; float: left">
+            </div>
+            <div id="cityList" style="display: none; float: left">
+            </div>
+        </div>
+    </div>
+  </section>
+
 	<section class="ui block">
 		<div class="ui responsive media allist grid">
 		  <div class="row">
