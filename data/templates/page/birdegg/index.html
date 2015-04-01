@@ -1729,46 +1729,29 @@ background-color: #fff;
 					<h3 class="ui header center aligned">活动动态</h3>
 					<img src="{{ app_url_packaged }}/images/egg_line.png">
 					
-					<div class="w-960">
-						<div class="ui piled segment">
-							<div class="section-title">
-								<h3 class="ui header"><a href="" class="ui link" target="_black">太火鸟｜中国最火爆的智能硬件孵化平台</a>
-									<div class="content">
-										1123
-									</div>
-								</h3>
-								<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
-						
-								<div class="all">
-									<a class="ui link" href="" target="_blank">阅读全文</a>
-									一个小时前发表
-								</div>
-								
-							</div>
-						</div>
+          {% for d in topics %}
+            <div class="w-960">
+              <div class="ui piled segment">
+                <div class="section-title">
+                  <h3 class="ui header"><a href="{{ d.view_url }}" class="ui link" target="_black">{{ d.title }}</a>
+                    <div class="content">
+                      {{ d.view_count }}
+                    </div>
+                  </h3>
+                  <p>{{ d.strip_description|truncate 300 }}</p>
+              
+                  <div class="all">
+                    <a class="ui link" href="{{ d.view_url }}" target="_blank">阅读全文</a>
+                    {{ topic.created_on|relative_datetime }}
+                  </div>
+                  
+                </div>
+              </div>
+					  </div>
+					{%endfor%}
 					
 					
-						<div class="ui piled segment">
-							<div class="section-title">
-								<h3 class="ui header"><a href="" class="ui link" target="_black">太火鸟｜中国最火爆的智能硬件孵化平台</a>
-									<div class="content">
-										1123
-									</div>
-								</h3>
-								<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
-						
-								<div class="all">
-									<a class="ui link" href="" target="_blank">阅读全文</a>
-									一个小时前发表
-								</div>
-								
-							</div>
-						</div>
-					
-					
-					
-					
-					</div>
+
 				</div>
 			</section>
 		</div>
