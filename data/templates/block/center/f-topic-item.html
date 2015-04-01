@@ -1,46 +1,38 @@
 <div class="card" id="item-{{d._id}}">
-
-      {% if d.topic.cover %}
-			  <div class="image" style="background-image:url({{ d.topic.cover.thumbnails.md.view_url }});">
-			{%else%}
-			  <div class="image">
-      {%endif%}
-
-      <div class="presell">
-        话题
-      </div>
-      <div class="exit">
-
-        {% if box_type=='fav' %}
-        <div class="ui magenta btn-4 btn-4c pop btn favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.topic._id }}" data-type="{{ d.type }}" data-mark="y">
-                      <i class="remove icon"></i>
+    {% if d.topic.cover %}
+    <div class="image" style="background-image:url({{ d.topic.cover.thumbnails.md.view_url }});">
+    {%else%}
+    <div class="image">
+    {%endif%}
+        <div class="presell">
+            <label>话题</label>
+            <div class="exit">
+                {% if box_type=='fav' %}
+                    <div class="ui green pop icon button favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.topic._id }}" data-type="{{ d.type }}" data-mark="y">
+                        <i class="remove icon"></i>
+                    </div>
+                {%endif%}
+                {% if box_type=='love' %}
+                    <div class="ui green pop icon button" data-content="取消赞" data-variation="inverted" data-id="{{ d.topic._id }}" data-type="{{ d.type }}" data-mark="y">
+                        <i class="remove icon"></i>
+                    </div>
+                {%endif%}
+            </div>
         </div>
-        {%endif%}
-
-        {% if box_type=='love' %}
-        <div class="ui magenta btn-4 btn-4c pop btn" data-content="取消赞" data-variation="inverted" data-id="{{ d.topic._id }}" data-type="{{ d.type }}" data-mark="y">
-                      <i class="remove icon"></i>
-        </div>
-        {%endif%}
-        
-      </div>
     </div>
     <div class="content">
-          <div class="header">
-      <a href="{{ d.topic.view_url }}" title="{{ d.topic.title }}" class="ui line" target="_blank">{{ d.topic.title|truncate 26 '' }}</a>
-    </div>
-          <!--<div class="description">
-          {{ d.topic.strip_description|truncate 60 '' }}
-          </div>-->
+        <div class="header">
+            <a href="{{ d.topic.view_url }}" title="{{ d.topic.title }}" class="ui line" target="_blank">{{ d.topic.title|truncate 26 '' }}</a>
+        </div>
     </div>
     <div class="extra">
-          <a class="right floated created">
-            <!--<small><i class="unhide icon"></i>18</small>-->
+        <a class="right floated created">
             <small><i class="unhide icon"></i>{{ d.topic.view_count }}</small>
             <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.topic.love_count }}</span></small>
-    </a>
-    <a href="{{ d.topic.user.home_url }}" class="ui icon link" target="_blank">
-      <img src="{{ d.topic.user.small_avatar_url }}" alt="{{ d.topic.user.nickname }}" class="ui avatar image"> <small>{{ d.topic.user.nickname }}</small>
-    </a>
+        </a>
+        <a href="{{ d.topic.user.home_url }}" class="ui icon link" target="_blank">
+            <img src="{{ d.topic.user.small_avatar_url }}" alt="{{ d.topic.user.nickname }}" class="ui avatar image">
+            <small>{{ d.topic.user.nickname }}</small>
+        </a>
     </div>
-  </div>
+</div>

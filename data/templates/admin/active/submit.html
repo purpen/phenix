@@ -1155,19 +1155,19 @@ h3.ui.header{
         <input type="hidden" name="wap_banner_id" id="active_wap_banner_id" value="{{ active.wap_banner_id }}" />
 			  	<div id="phenix-uploader"></div>
 			
-				<div id="asset-list" class="ui four items">
+				<div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}
 						{% asset_list var:'assets' parent_id:active._id asset_type:65 size:20 %}
 						{% for asset in assets.rows %}
-						<div class="thumb item" id="{{ asset._id }}">
+						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
 								<img src="{{ asset.thumbnails.small.view_url }}" />
                 <input type="hidden" class="asset_id_list" name="asset_tmp[]" value="{{ asset._id }}" />
 							</div>
-              <div>原图尺寸: {{ asset.width }}x{{ asset.height }}</div>
-              <div>
-                <input type="text" name="big-asset-url" value="{{ asset.thumbnails.big.view_url }}" />
-              </div>
+                          <div>原图尺寸: {{ asset.width }}x{{ asset.height }}</div>
+                          <div>
+                            <input type="text" name="big-asset-url" value="{{ asset.thumbnails.big.view_url }}" />
+                          </div>
 							<div class="buttons">
 								<div class="ui large links">
 									<a href="{{ app_url_admin }}/asset/delete_asset?id={{ active._id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
@@ -1197,19 +1197,19 @@ h3.ui.header{
 				<label>上传活动列表图片-带图片描述,图片尺寸: 590x360</label>
 			  	<div id="phenix-uploader-active"></div>
 			
-				<div id="asset-list-active" class="ui four items">
+				<div id="asset-list-active" class="ui four blocks">
 					{% if mode == 'edit' %}
 						{% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
 						{% for asset in assets.rows %}
-						<div class="thumb item" id="{{ asset._id }}">
+						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
 								<img src="{{ asset.thumbnails.small.view_url }}" />
 								<input type="hidden" class="asset_active_id_list" name="asset[]" value="{{ asset._id }}" />
 							</div>
-              <div class="desc-box">
-                <span>{{ asset.desc }}</span>
-                <input type="button" name="show-asset-desc" value="添加" asset_id="{{ asset._id }}" desc="{{ asset.desc }}" />
-              </div>
+                            <div class="desc-box">
+                                <span>{{ asset.desc }}</span>
+                                <input type="button" name="show-asset-desc" value="添加" asset_id="{{ asset._id }}" desc="{{ asset.desc }}" />
+                            </div>
 
 							<div class="buttons">
 								<div class="ui large links">
@@ -1234,10 +1234,10 @@ h3.ui.header{
 		
 		<div class="ui right aligned grid">
 			<div class="column">
-				<div class="ui gray cancel button">
+				<div class="ui gray cancel inverted button">
 					取消
 				</div>
-				<div class="ui magenta submit button">
+				<div class="ui magenta submit inverted button">
 					确认提交
 				</div>
 			</div>

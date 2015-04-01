@@ -14,35 +14,57 @@
 <div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
-			<h5 class="ui dividing header">订单详情</h5>
-			<div class="ui very relaxed divided address list segment">
-			  	<div class="item">
-			      	订单状态：<span class="ui magenta text" id="order-status">{{ order_info.status_label }}</span> 
-			  	</div>
-			  	<div class="item">
-			      	订单编号：{{ order_info.rid }}
-			  	</div>
-			  	<div class="item">
-			      	下单时间：{{ order_info.created_on|date }}
-			  	</div>
-			  	<div class="item">
-			      	商品总价：￥{{ order_info.total_money }} 优惠：￥{{ order_info.discount_money }} 运费：￥{{ order_info.freight }}
-			  	</div>
-			  	<div class="item">
-			      	实付总额：<span class="ui magenta text">￥{{ order_info.pay_money }}</span>
-			  	</div>
-				{% if order_info.status==1 %}
-				<div class="ui center aligned item">
-					<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui active small magenta button">现在支付</a>
-					<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order_info.rid }}" class="ui ajax active small magenta button">取消订单</a>
-				</div>
-				{% endif %}
-				{% if order_info.status == 15 %}
-				<div class="ui center aligned item">
-					<a href="{{ app_url_wap }}/my/ajax_finished?rid={{ order_info.rid }}" class="active ui small ajax magenta button" id="order-action-finish">确认收货</a>
-				</div>
-				{% endif %}
-			</div>
+    		<div class="ui breadcrumb">
+    		  	<a class="section" href="{{ app_url_wap }}">
+    				<i class="icon home"></i>首页
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<a class="section" href="{{ app_url_wap }}/my">
+    				个人中心
+    			</a>
+                <div class="divider"> / </div>
+    		  	<a class="section" href="{{ app_url_wap }}/my/orders">
+    				订单列表
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<div class="active section">订单详情</div>
+    		</div>
+        </div>
+    </div>
+	<div class="row">
+		<div class="column">
+			<h4 class="ui dividing header">订单详情</h4>
+            <div class="ui segment">
+    			<div class="ui very relaxed divided address list">
+    			  	<div class="item">
+    			      	订单状态：<span class="ui magenta text" id="order-status">{{ order_info.status_label }}</span>
+    			  	</div>
+    			  	<div class="item">
+    			      	订单编号：{{ order_info.rid }}
+    			  	</div>
+    			  	<div class="item">
+    			      	下单时间：{{ order_info.created_on|date }}
+    			  	</div>
+    			  	<div class="item">
+    			      	商品总价：￥{{ order_info.total_money }} 优惠：￥{{ order_info.discount_money }} 运费：￥{{ order_info.freight }}
+    			  	</div>
+    			  	<div class="item">
+    			      	实付总额：<span class="ui magenta text">￥{{ order_info.pay_money }}</span>
+    			  	</div>
+    			</div>
+    			{% if order_info.status==1 %}
+				<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui small inverted magenta button">现在支付</a>
+				<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order_info.rid }}" class="ui ajax small gray inverted button">取消订单</a>
+    			{% endif %}
+    			{% if order_info.status == 15 %}
+    			<div class="ui center aligned item">
+    				<a href="{{ app_url_wap }}/my/ajax_finished?rid={{ order_info.rid }}" class="ui small ajax magenta inverted button" id="order-action-finish">确认收货</a>
+    			</div>
+    			{% endif %}
+            </div>
+			
+            
+			
 			
 			{% if order_info.status >= 15 %}
 			<div class="ui very relaxed divided address list segment">
@@ -93,7 +115,7 @@
 								<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
 							</div>
 							{% endif %}
-							<p class="attribute">编号：{{ item.sku }}</p>
+							<span class="attribute">编号：{{ item.sku }}</span>
 						</div>
 					</div>
 					{% endfor %}

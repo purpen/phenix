@@ -234,7 +234,7 @@
     });
 	
 	// 分享
-	$('.ui.share.btn').bind('click', function(){
+	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 	
@@ -295,7 +295,7 @@
 	{% endif %}
 	
 	// 收藏
-	$('.ui.favorite.btn').bind('click', function(){
+	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -328,7 +328,7 @@
 	});
 	
 	// 喜欢
-	$('.ui.love.btn').bind('click', function(){
+	$('.ui.love.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -421,6 +421,8 @@
 				  	<a class="ui section link" href="{{ app_url_domain }}">
 						<i class="home icon"></i> 首页
 					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_social }}">发现</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_fever }}">创意投票</a>
 				  	<i class="angle right icon divider"></i>
@@ -619,13 +621,13 @@
 					{% endif %}
 					
 					<div class="actions">
-						<div class="ui magenta btn-4 btn-4c icon-arrow-right pop favorite btn" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+						<div class="ui gray pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 							收藏
 						</div>
-						<div class="ui magenta btn-4 btn-4c pop love icon btn" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+						<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 							<i class="heart empty icon"></i>
 						</div>
-						<div class="ui magenta btn-4 btn-4c pop share icon btn" data-content="分享" data-variation="inverted">
+						<div class="ui magenta pop share icon inverted button" data-content="分享" data-variation="inverted">
 							<i class="share icon"></i>
 						</div>
 						
@@ -633,24 +635,24 @@
 						{% if visitor.is_admin %}
 
 							{% if product.approved %}
-							<div class="ui active pop check button" data-content="取消审核" data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+							<div class="ui active pop check icon button" data-content="取消审核" data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
 								<i class="checkmark icon"></i>
 							</div>
 							{% else %}
-							<div class="ui pop check button" data-content="通过审核" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+							<div class="ui pop check icon button" data-content="通过审核" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
 								<i class="checkmark icon"></i>
 							</div>
 							{% endif %}
 
 						{% endif %}
-            {% if editable %}
-            <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
-              <i class="edit icon"></i>
-            </div>
-            <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
-              <i class="remove icon"></i>
-            </div>
-            {% endif %}
+                        {% if editable %}
+                        <div class="ui pop edit icon button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="edit icon"></i>
+                        </div>
+                        <div class="ui pop remove icon button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="remove icon"></i>
+                        </div>
+                        {% endif %}
 						</div>
 					</div>
 					
@@ -705,6 +707,7 @@
 					<div class="product content froala-element clearfix">
 						{{ product.content }}
 						
+                        
 						{% if product.tags_s %}
 						<div class="tags">
 							{% for tag in product.tags %}
@@ -746,10 +749,10 @@
 							<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
 						</a>
 						<div class="actions">
-							<button class="ui small white button">
+							<button class="ui small white inverted button">
 								关注 
 							</button>
-							<button class="ui small white button">
+							<button class="ui small white inverted button">
 								私信 
 							</button>
 						</div>
@@ -771,11 +774,11 @@
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ product.subject_view_url }}" class="ui black btn-4 btn-4c icon-arrow-right btn">
-						查看更多
+					<a href="{{ product.subject_view_url }}" class="ui gray inverted button">
+						<i class="search icon"></i> 查看更多
 					</a>
-					<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-						发表新话题
+					<a href="{{ product.subject_view_url }}#newtopic" class="ui magenta inverted button">
+						<i class="edit icon"></i> 发表新话题
 					</a>
 				</div>
 			</div>
@@ -789,23 +792,18 @@
 					<h3 class="ui dividing header">
 						相似灵感 <small>（{{ product.stuff_count|default 0 }}）</small>
 					</h3>
-				  {% stuff_list var:'list' sort:1 fever_id:product._id page:1 size:4 %}
-          <div class="ui three cards">
-            {% for stuff in list.rows %}
-              {% include "block/stuff_item.html" %}
-            {%endfor%}
-          </div>
+				    {% stuff_list var:'list' sort:1 fever_id:product._id page:1 size:4 %}
+                    <div class="ui three cards">
+                        {% for stuff in list.rows %}
+                            {% include "block/stuff_item.html" %}
+                        {%endfor%}
+                    </div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-          <!--
-					<a href="{{ product.subject_view_url }}" class="ui black btn-4 btn-4c icon-arrow-right btn">
-						查看更多
-					</a>
-          -->
-          <a href="{{ app_url_fever }}/stuff_submit?fever_id={{ product._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-						发表相似灵感
+                    <a href="{{ app_url_fever }}/stuff_submit?fever_id={{ product._id }}" class="ui magenta inverted button">
+						<i class="edit icon"></i> 发表相似灵感
 					</a>
 				</div>
 			</div>

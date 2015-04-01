@@ -101,12 +101,12 @@
 	<h3 class="ui header">块管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/block" class="{{ css_all }} item">
 			全部
 		</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/block/submit" class="item">
-				<i class="flat add icon"></i>添加
+				<i class="add icon"></i>添加
 			</a>
 	    </div>
 	</div>
@@ -123,7 +123,7 @@
 	</div>
   -->
 	
-	<form class="ui form" action="{{ app_url_admin_base }}/block/save" method="post" id="block-form">
+	<form class="ui form segment" action="{{ app_url_admin_base }}/block/save" method="post" id="block-form">
 		<input name="_id" type="hidden" value="{{ chunk._id }}" />
 		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 		
@@ -151,10 +151,10 @@
     </div>
 		
 		<div class="inline field">
-			<div class="ui magenta submit button">
+			<div class="ui magenta submit inverted button">
 				确认提交
 			</div>
-			<div class="ui gray cancel button">
+			<div class="ui gray cancel inverted button">
 				取消
 			</div>
 		</div>
