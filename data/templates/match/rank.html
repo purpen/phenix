@@ -319,14 +319,24 @@ ul,li{list-style:none;}
 		</div>
 	</section>
 
-	<section class="ui block">
+	<section class="ui big block">
 		<div class="ui responsive media allist grid">
 		  <div class="row">
-		    <div class="column">
-		      <div class="ui four items">
+		    {% stuff_list var:'list' is_top:true category_id:dream_category_id load_college:1 sort:st page:page size:8 %}
+		
+				<div class="column">
+	
+					<div class="ui four items" id="item-list">
+					{% for stuff in list.rows %}
+	          {% include "block/match2_item.html" %}
+	        {%endfor%}
+
+					</div>
+			
+			
 		        
 						<!-- 作品-->
-						<div class="item">
+						<!--<div class="item">
 		          <div class="content">
 		            <h4 class="ui dividing header">
 		              <div class="image zan">
@@ -388,11 +398,10 @@ ul,li{list-style:none;}
 		              </div>
 		            </div>
 		          </div>
-		        </div>
+		        </div>-->
 		
 		
 						
-					</div>
 				</div>
 			</div>
 		</div>
