@@ -33,144 +33,6 @@ body{
 }
 
 
-
-
-
-    /*已提公用*/
-/*.ui.allist .ui.four.items > .item  {
-  box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-  background-color: #fff;
-  border-radius: 0.3125em;
-  min-height: 320px;
-  border: 1px solid rgba(0,0,0,0.1);
-  cursor: auto;
-}
-.ui.allist .ui.four.items .item .content{
-	padding: .75em .8em;
-}
-.ui.allist .ui.four.items>.item .schedule {
-  margin-bottom: 0.35rem;
-}
-.ui.allist .image .school{
-	position:absolute;
-	width:100%;
-	background:rgba(0,0,0,0.5);
-	color:#fff;
-	bottom:0;
-	left:0;
-	font-size: 14px;
-	text-align:center;
-	padding: 8px 0;
-	text-align: center;
-	z-index:4;
-}
-.image.zan .image-extra{
-	background-color: rgba(0,0,0,.1);
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	width: 100%;
-	z-index: 3;
-}
-.image.zan:hover .image-extra,.ui.cards .card:hover .image.zan .image-extra,.ui.items .item:hover .image-extra{
-	background-color: rgba(0,0,0,0.5);
-	opacity:1;
-}
-.image.zan .plus-icon .like {
-	border: 1px solid rgba(255,255,255,0.5);
-	border-radius: 50%;
-	display: inline-block;
-	height: 50px;
-	-webkit-transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	width: 50px;
-}
-.image.zan .single-image.plus-icon .like {
- 	-webkit-transform: translateX(-300%);
-	-ms-transform: translateX(-300%);
-	transform: translateX(-300%); 
-}
-.image.zan:hover .single-image.plus-icon .like,.ui.items .item:hover .image.zan .single-image.plus-icon .like{
-	-webkit-transform: translateX(0%);
-	-ms-transform: translateX(0%);
-	transform: translateX(0%);
-}
-.image.zan .plus-icon .like:after{
-	border-radius: 50%;
-	color: #FFF;
-	display: block;
-	font-size: 18px;
-	height: 100%;
-	left: 0;
-	line-height: 57px;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: color .25s ease-in-out 0s;
-	transition: color .25s ease-in-out 0s;
-	width: 100%;
-}
-.image.zan .plus-icon .like:after {
-	content: "\f004";
-	font-size: 35px;
-	font-family: FontIcons;
-}
-
-.image.zan .plus-icon .like.active:after{
-  color: #F36;
-}
-
-.image.zan .image-extra > a{
-	position: absolute;
-	width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-.image.zan .add{
-	position: absolute;
-	top: 14px;
-	text-align: center;
-	left: 0;
-	color: rgba(0,0,0,0);
-	width: 100%;
-	font-size: 22px;
-	opacity: 1;
-	z-index:-1;
-	transition: all 1s;
-}
-.image.zan .add-active{
-	top:-70px;
-	color:#f36;
-	transition-delay: .3s;
-	-webkit-animation: arrow 1.2s ease both;
-	-moz-animation: arrow 1.2s ease both;
-	animation: arrow 1.2s ease both;
-}
-@-webkit-keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
-}
-@-moz-keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
-}
-@keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
-}
-
-*/
-
 #ChinaMap {
   padding-right: 100px;
   padding-left: 10px;
@@ -236,7 +98,6 @@ body{
   border-bottom: #c5b270 1px solid;
   top: 30px;
 }
-
 .chrt.column i{
 	color:#fff;
 	opacity:1;
@@ -285,6 +146,69 @@ ul,li{list-style:none;}
 .histogram-content li a{position:absolute;bottom:0;right:0;display:block;width:100%;color:#fff}
 .histogram-content li .name{position:absolute;bottom:-30px; color:#fff;left:0px;white-space:nowrap;display:inline-block;width:100%;font-size:18px;}
 .histogram-bg-line li div{height:120px;/*控制单元格的高度及百分比的高度，使百分数与线条对齐*/}
+
+.sootext{
+	background:#1dba73;
+	color:#fff;
+	padding:15px;
+	width:80%;
+	margin: 0 auto;
+	line-height: 22px;
+}
+.ui.math{
+	background:#f1f1f1;
+}
+.ui.math.block .row:first-child .ten.wide{
+	text-align: right;
+	padding: 22px;
+}
+.ui.math.block i.search{
+	border-left: 1px solid rgba(244,33,86,.9);
+  color: rgba(255,255,255,.9);
+  background-color: #f36;
+  cursor: pointer;
+  opacity: 1;
+}
+.ui.math.block .ui.items .item:hover{
+	cursor:auto;
+}
+.ui.grid.item{
+	margin-bottom:2%;
+}
+.ui.grid.item .ui.four.items{
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	margin-bottom: 1%;
+}
+.ui.grid.item .six.wide{
+	font-size:18px;
+	vertical-align: middle;
+}
+.ui.grid.item .six.wide span{
+	font-weight:700;
+	margin-right:5px;
+}
+.ui.grid.item .six.wide i.icon,.ui.grid.item .ten.wide i.icon,.ui.grid.item .six.wide span{
+	color:#f36;
+	opacity:1;
+}
+.ui.grid.item .ten.wide .ui.label{
+	color:#fff !important;
+	background: #515151;
+	float: right;
+	position:relative;
+}
+.ui.grid.item .ten.wide .ui.label a{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+}
+.ui.grid.item .ten.wide .fa-plus{
+	color:#fff !important;
+}
+
 </style>
 {% endblock %}
 
@@ -393,30 +317,24 @@ ul,li{list-style:none;}
 		</div>
 	</section>
 
-  <section>
-    <div id="ChinaMap">
-        <div id="map"></div>
-        <div id="ToolTip" class="ToolTip" style="left: 10px">
-            <div id="areaInfo"></div>
-            <div id="cityInfo"></div>
-        </div>
-        <div class="ToolTip" style="right: 50px;">
-            <div id="topList" style="width: 130px; float: left">
-            </div>
-            <div id="cityList" style="display: none; float: left">
-            </div>
-        </div>
-    </div>
-  </section>
-
-	<section class="ui block">
+	<section class="ui big block">
 		<div class="ui responsive media allist grid">
 		  <div class="row">
-		    <div class="column">
-		      <div class="ui four items">
+		    {% stuff_list var:'list' is_top:true category_id:dream_category_id load_college:1 sort:st page:page size:8 %}
+		
+				<div class="column">
+	
+					<div class="ui four items" id="item-list">
+					{% for stuff in list.rows %}
+	          {% include "block/match2_item.html" %}
+	        {%endfor%}
+
+					</div>
+			
+			
 		        
 						<!-- 作品-->
-						<div class="item">
+						<!--<div class="item">
 		          <div class="content">
 		            <h4 class="ui dividing header">
 		              <div class="image zan">
@@ -478,11 +396,10 @@ ul,li{list-style:none;}
 		              </div>
 		            </div>
 		          </div>
-		        </div>
+		        </div>-->
 		
 		
 						
-					</div>
 				</div>
 			</div>
 		</div>
@@ -652,9 +569,192 @@ ul,li{list-style:none;}
 	
 				</div>
 			</div>
-			
-		
-			
+			<div class="row">
+				<div class="center aligned column">
+					<div class="sootext">
+						作品点赞数会自动累积到隶属院校赞数内，你为本校的任何一个作品投票都是在为这个学校增添人气哦！<br>
+						截止到2015年6月20日24时，最终获得点赞数最多的三所高校，太火鸟将为学校颁发奖杯和荣誉证书。
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui big block">
+    <div id="ChinaMap">
+        <div id="map"></div>
+        <div id="ToolTip" class="ToolTip" style="left: 10px">
+            <div id="areaInfo"></div>
+            <div id="cityInfo"></div>
+        </div>
+        <div class="ToolTip" style="right: 50px;">
+            <div id="topList" style="width: 130px; float: left">
+            </div>
+            <div id="cityList" style="display: none; float: left">
+            </div>
+        </div>
+    </div>
+  </section>
+	
+	
+	<section class="ui math big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="six wide column">
+					<img src="http://frstatic.qiniudn.com/images/mtac4.png">
+				</div>
+				<div class="ten wide column">
+					<form class="search item" method="post" action=" " id="searchbar">
+					 	<div class="ui icon input">
+							<input name="q" type="text" placeholder="输入院校名称查看作品">
+							<i class="search icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui two items">
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+							
+							<div class="ui label">
+								<a href=""></a>
+							  <i class="fa-plus icon"></i> 更多作品
+							 </div>
+						</div>
+						<div class="ui four items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						
+						
+						</div>
+					</div>
+					
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+							
+							<div class="ui label">
+								<a href=""></a>
+							  <i class="fa-plus icon"></i> 更多作品
+							 </div>
+						</div>
+						<div class="ui four items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+							
+							<div class="ui label">
+								<a href=""></a>
+							  <i class="fa-plus icon"></i> 更多作品
+							</div>
+						</div>
+						<div class="ui four items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+				</div>
+			</div>
 		</div>
 	</section>
 	
