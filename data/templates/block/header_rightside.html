@@ -6,21 +6,16 @@
 </form>
 
 <div class="ui secondary user menu">
-	
-	
-
-	<div class="ui top right pointing dropdown icon basket magenta button" data-url="javascript:void(0);">
-			<label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
-	  	<i class="flat speech40 icon"></i>
-      <!--ajax加载用户提醒-->
-      <div class="menu" id="user-notice">
-        <div class="item" id="basket-body-content">
-          没有消息
-
+    {% if visitor %}
+    <div class="ui top right pointing dropdown icon basket magenta button" data-url="javascript:void(0);">
+        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
+        <i class="flat speech40 icon"></i>
+        <!--ajax加载用户提醒-->
+        <div class="menu" id="user-notice">
+            <div class="item" id="basket-body-content">没有消息</div>
         </div>
-      </div>
-	</div>
-	
+    </div>
+	{% endif %}
 	
 	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
