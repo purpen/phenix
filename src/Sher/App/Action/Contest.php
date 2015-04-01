@@ -222,6 +222,16 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		return $this->to_html_page('match/view2.html');
 	}
 
+  /**
+   * 统计
+   * ajax获取省份前十
+   */
+  public function ajax_fetch_top_province(){
+    $dig_model = new Sher_Core_Model_DigList();
+    
+  
+  }
+
 	/**
 	 * 编辑器参数
 	 */
@@ -253,7 +263,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
-    }
+  }
 	
 }
 ?>
