@@ -302,21 +302,19 @@ ul,li{list-style:none;}
 
         $.ajax({
             type: "get",
-            url: "../js/china_map/mapList.js",   //jsonp
-            dataType: "jsonp",
-            jsonp: "callback",
-            jsonpCallback: "get",
-            success: function (data) {
-
+            url: "{{ app_url_contest }}/ajax_fetch_top_province",
+            dataType: "json",
+            success: function (result) {
+              if(result.success){
                 var html = "";
-                $.each(data, function (i, item) {
-                    html += "<div style='cursor:pointer;font-weight:bolder;color:" + china[item.AreaName]['path'].color + "' title='" + china[item.AreaName]['name']
-                        + "'>TOP " + (i + 1) + ":" + china[item.AreaName]['name'] + "</div>"
+                $.each(result.data, function (i, item) {
+                    html += "<div style='cursor:pointer;font-weight:bolder;color:" + china[item.name]['path'].color + "' title='" + china[item.name]['name']
+                        + "'>TOP " + (i + 1) + ":" + china[item.name]['name'] + "</div>"
 
-                    var anim = Raphael.animation({ fill: china[item.AreaName]['path'].color, stroke: "#eee" }, 1000);
+                    var anim = Raphael.animation({ fill: china[item.name]['path'].color, stroke: "#eee" }, 1000);
                     //*** anim.delay(i * 500)增加显示延时，就是让排序省份一个一个显示，但是在IE9以下没效果，因为IE会假死，知道全部显示完
-                    china[item.AreaName]['path'].stop().animate(anim.delay(i * 500));
-                    china[item.AreaName]['isClick'] = true;
+                    china[item.name]['path'].stop().animate(anim.delay(i * 500));
+                    china[item.name]['isClick'] = true;
                 });
 
                 //将省区排行增加到页面，并增加点击事件查询城市排行
@@ -324,12 +322,12 @@ ul,li{list-style:none;}
 
                     var title = $(this).attr("title");
                     $(this).siblings().css("font-size", "").removeAttr("select").end().css("font-size", "20px").attr("select", "");
-    $('#areaInfo').html(title + "的销量：<br/>").fadeIn('fast');
                     ////显示省份明细，自己修改
                     //$.post(url + "/" + encodeURI(title), args, function (data) {
                     //    $('#areaInfo').html(title + "的销量：<br/>" + data).fadeIn('fast');
                     //});
                 });
+              }
 
             },
             error: function () {
