@@ -10,6 +10,18 @@ body{
 	background-size:cover;
 	padding:20% 0;
 }
+.ui.nav {
+	background:#000;
+}
+.ui.divided.horizontal.list>.item{
+	color:#fff;
+}
+.ui.active.link{
+	color:#f36 !important;
+}
+.ui.divided.horizontal.list .ui.item:hover{
+	color:#f36 ;
+}
 .ui.popu h3.ui.header .sub.header{
 	padding-top:8px;
 	color: rgba(0,0,0,0.9);
@@ -280,6 +292,28 @@ ul,li{list-style:none;}
 <div class="match rank">
 	<section class="rankbg">
 		
+	</section>
+	<section class="ui nav">
+		<div class="ui responsive grid">
+			<div class="middle aligned row">
+				<div class="twelve wide column">
+					<div class="ui magenta horizontal divided list">
+						<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+		        <a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+		        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+						<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+						<a href="{{ app_url_contest }}/rank" class="ui link active item">校园人气争霸</a>
+						<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
+					</div>
+				</div>
+				<div class="right aligned four wide column">
+					<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+						提交作品
+						<i class="icon-arrow-right-sharp"></i>
+					</a>
+				</div>
+			</div>
+		</div>
 	</section>
 	<section class="ui big popu block">
 		<div class="ui responsive grid">
