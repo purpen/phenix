@@ -49,5 +49,117 @@ class Sher_Core_Helper_View {
 
     }
 
+  /**
+   * 根据省份ID显示地名
+   */
+  public static function show_province_name($pid){
+    $str = '';
+    switch((int)$pid){
+      case 110000:
+        $str = '北京';
+        break;
+      case 120000:
+        $str = '天津';
+        break;
+      case 130000:
+        $str = '河北';
+        break;
+      case 140000:
+        $str = '山西';
+        break;
+      case 150000:
+        $str = '内蒙古';
+        break;
+      case 210000:
+        $str = '辽宁';
+        break;
+      case 220000:
+        $str = '吉林';
+        break;
+      case 230000:
+        $str = '黑龙江';
+        break;
+      case 310000:
+        $str = '上海';
+        break;
+      case 320000:
+        $str = '江苏';
+        break;
+      case 330000:
+        $str = '浙江';
+        break;
+      case 340000:
+        $str = '安徽';
+        break;
+      case 350000:
+        $str = '福建';
+        break;
+      case 360000:
+        $str = '江西';
+        break;
+      case 370000:
+        $str = '山东';
+        break;
+      case 410000:
+        $str = '河南';
+        break;
+      case 420000:
+        $str = '湖北';
+        break;
+      case 430000:
+        $str = '湖南';
+        break;
+      case 440000:
+        $str = '广东';
+        break;
+      case 450000:
+        $str = '广西';
+        break;
+      case 460000:
+        $str = '海南';
+        break;
+      case 500000:
+        $str = '重庆';
+        break;
+      case 510000:
+        $str = '四川';
+        break;
+      case 520000:
+        $str = '贵州';
+        break;
+      case 530000:
+        $str = '云南';
+        break;
+      case 540000:
+        $str = '西藏';
+        break;
+      case 610000:
+        $str = '陕西';
+        break;
+      case 620000:
+        $str = '甘肃';
+        break;
+      case 630000:
+        $str = '青海';
+        break;
+      case 640000:
+        $str = '宁夏';
+        break;
+      case 650000:
+        $str = '新疆';
+        break;
+      case 710000:
+        $str = '台湾';
+        break;
+      case 810000:
+        $str = '香港';
+        break;
+      case 820000:
+        $str = '澳门';
+        break;
+    }
+    return $str;
+  }
+
 }
 ?>

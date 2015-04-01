@@ -950,6 +950,46 @@ background-color: #fff;
 	95%{opacity:1}
 	100%{opacity:0}
 }
+.w-960{
+	width:960px;
+	margin:0 auto;
+	padding:.8rem 1.5rem;
+}
+.w-1180 img + .w-960{
+	margin-top:3rem;
+}
+.w-960 .ui.header .ui.link{
+	color:#fff;
+}
+.ui.piled.segment{
+	padding: 2.5rem 1.5rem;
+	background: transparent;
+	margin-bottom: 2.5rem;
+	border:1px solid #c87bc0;
+}
+.ui.piled.segment p{
+	color:#c87bc0;
+}
+.w-960 .ui.header .content{
+	display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+  line-height: 26px;
+  color: #f36;
+  float: right;
+}
+.ui.piled.segment:after, .ui.piled.segment:before{
+	background-color: transparent;
+	-webkit-box-shadow: 0 0 0px 0px rgba(150,49,150,.4);
+	box-shadow: 0 0 0px 0px rgba(150,49,150,.4);
+}
+.all{
+	color:#f36;
+}
+.all a{
+	color:#f36 !important;
+	margin-right:40px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1682,6 +1722,40 @@ background-color: #fff;
 				</div>
 			</section>
 		</div>
+		
+		<div class="ui new">
+			<section class="page">
+				<div class="w-1180">
+					<h3 class="ui header center aligned">活动动态</h3>
+					<img src="{{ app_url_packaged }}/images/egg_line.png">
+					
+          {% for d in topics %}
+            <div class="w-960">
+              <div class="ui piled segment">
+                <div class="section-title">
+                  <h3 class="ui header"><a href="{{ d.view_url }}" class="ui link" target="_black">{{ d.title }}</a>
+                    <div class="content">
+                      {{ d.view_count }}
+                    </div>
+                  </h3>
+                  <p>{{ d.strip_description|truncate 300 }}</p>
+              
+                  <div class="all">
+                    <a class="ui link" href="{{ d.view_url }}" target="_blank">阅读全文</a>
+                    {{ topic.created_on|relative_datetime }}
+                  </div>
+                  
+                </div>
+              </div>
+					  </div>
+					{%endfor%}
+					
+					
+
+				</div>
+			</section>
+		</div>
+		
 	
 		<div class="section partners">
 			<section class="page">

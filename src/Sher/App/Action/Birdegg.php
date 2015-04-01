@@ -43,6 +43,22 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
         }
       }
     }
+
+    //话题动态--取块内容
+    $topic_ids = Sher_Core_Util_View::load_block('birdegg_index_topic_timeline', 1);
+    $topics = array();
+    if($topic_ids){
+      $topic_model = new Sher_Core_Model_Topic();
+      $id_arr = explode(',', $topic_ids);
+      foreach(array_slice($id_arr, 0, 5) as $i){
+        $topic = $topic_model->extend_load((int)$i);
+        if(!empty($topic)){
+          array_push($topics, $topic);
+        }
+      }
+    }
+
+    $this->stash['topics'] = $topics;
     $this->stash['stuffs'] = $stuffs;
 		return $this->to_html_page('page/birdegg/index.html');
 	}

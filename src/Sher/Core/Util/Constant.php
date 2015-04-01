@@ -63,7 +63,12 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_TOPIC_CATEGROY = 'dig_topic_category';
 	
 	const FEATURED_STUFF = 'featured_stuff_list';
-    
+
+  # 大赛参加省份统计
+  const DIG_MATCH2_PROVINCE = 'match2_province_top';
+  # 大赛参加大学统计
+  const DIG_MATCH2_COLLEGE = 'match2_college_top';
+
     /**
      * DigList stuff计数器
      */

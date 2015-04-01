@@ -55,6 +55,19 @@
 	background:#f4f4f4;
 }
 
+.activity.masthead {
+	color: white;
+	padding: 100px 0 60px;
+    background-color: rgba(56, 67, 77, 0.9);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+}
+.activity.masthead .buttons {
+	margin-top: 3rem;
+}
+
 </style>
 {% endblock %}
 {% block layout_js %}{% endblock %}
@@ -70,55 +83,76 @@
 		</div>
 	</div>
 </div>
-{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 page:1 size:1 %}
+
+{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 size:1 %}
+
 {% for active in current_list.rows %}
-<section class="ui start block" style="background:url({{ active.banner.fileurl }}) no-repeat center center /cover;">
-	<div class="ui responsive center aligned grid">
-      <div class="row">
-        <div class="center aligned column attend-box">
-          <a class="ui btn-4 btn-4c attend icon-arrow-right btn" href="{{ active.view_url }}" target="_blank">
-            <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
-          </a>
+<div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
+	<div class="ui responsive grid">
+        <div class="row">
+    		<div class="center aligned column white section-title">
+    			<h2 class="block title">{{ active.title }}</h2>
+    			<p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
+    			<hr>
+    			<div class="buttons">
+    			    <a href="{{ active.view_url }}" class="ui white inverted button" target="_blank">
+    					<i class="ticket icon"></i> 立即报名
+    				</a>
+    			</div>
+    		</div>
         </div>
-      </div>
-  </div>
-</section>
-<br />
+	</div>
+</div>
+{% else %}
+<div class="activity masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/featured-image.jpg');">
+	<div class="ui responsive grid">
+        <div class="row">
+    		<div class="center aligned column white section-title">
+    			<h2 class="block title">硬件活动</h2>
+    			<p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
+    			<hr>
+    		</div>
+        </div>
+	</div>
+</div>
 {%endfor%}
+
 <section class="ui big camp block">
 	<div class="ui responsive grid">
 		<div class="row">
-			<h3 class="ui header">历史活动</h3>
-		</div>
-		<div class="row">
 			<div class="column">
+                
+                {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
 				<div class="ui three items">
-        {% active_list var:'old_list' published:1 deleted:1 step_stat:3 state:2 page:page size:6 %}
-        {% for active in old_list.rows %}
-					<div class="magenta item">
+                    {% for active in old_list.rows %}
+					<div class="item">
 						<div class="image">
-              <a href="{{ active.view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
+                            <a href="{{ active.view_url }}" title="{{ active.title }}" target="_blank">
+                                <img src="{{ active.cover.thumbnails.md.view_url }}" >
+                            </a>
 							<div class="presell">
-                第{{ active.season }}期
+                                第{{ active.season }}期
 							</div>
 						</div>
 						<div class="content">
-              {{ active.title }}－{{ active.conduct_city }}站 
+                            {{ active.title }}－{{ active.conduct_city }}站 
 						</div>
 					</div>
-        {%endfor%}
-
+                    {%endfor%}
 				</div>
-				
 				
 			</div>
 		</div>
+		<div class="row">
+			<div class="column">
+            	{% if old_list.total_rows %}
+            	<div class="ui pagination">
+            		{% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+            		{%include 'block/pager.html'%}
+            	</div>
+            	{% endif %}
+            </div>
+        </div>
 	</div>
-	{% if old_list.rows %}
-	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
-		{%include 'block/pager.html'%}
-	</div>
-	{% endif %}
 </section>
 {% endblock %}

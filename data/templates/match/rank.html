@@ -10,6 +10,18 @@ body{
 	background-size:cover;
 	padding:20% 0;
 }
+.ui.nav {
+	background:#000;
+}
+.ui.divided.horizontal.list>.item{
+	color:#fff;
+}
+.ui.active.link{
+	color:#f36 !important;
+}
+.ui.divided.horizontal.list .ui.item:hover{
+	color:#f36 ;
+}
 .ui.popu h3.ui.header .sub.header{
 	padding-top:8px;
 	color: rgba(0,0,0,0.9);
@@ -21,149 +33,342 @@ body{
 	margin-left:3%;
 }
 
-    /*已提公用*/
-/*.ui.allist .ui.four.items > .item  {
-  box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-  background-color: #fff;
-  border-radius: 0.3125em;
-  min-height: 320px;
-  border: 1px solid rgba(0,0,0,0.1);
-  cursor: auto;
+
+.ui.chart.block{
+	background:#091f35;
 }
-.ui.allist .ui.four.items .item .content{
-	padding: .75em .8em;
+.ui.chart.block h3.ui.header{
+	color:#1ab26c;
 }
-.ui.allist .ui.four.items>.item .schedule {
-  margin-bottom: 0.35rem;
-}
-.ui.allist .image .school{
-	position:absolute;
-	width:100%;
-	background:rgba(0,0,0,0.5);
+.ui.chart.block h3.ui.header + p{
 	color:#fff;
-	bottom:0;
-	left:0;
-	font-size: 14px;
-	text-align:center;
-	padding: 8px 0;
-	text-align: center;
-	z-index:4;
 }
-.image.zan .image-extra{
-	background-color: rgba(0,0,0,.1);
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	width: 100%;
-	z-index: 3;
+
+
+#ChinaMap {
+  padding-right: 100px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  margin: 0px auto;
+  /*width: 100%;*/
+  padding-top: 10px;
+  position: relative;
+  text-align: center;
 }
-.image.zan:hover .image-extra,.ui.cards .card:hover .image.zan .image-extra,.ui.items .item:hover .image-extra{
-	background-color: rgba(0,0,0,0.5);
+
+#tiplayer {
+  padding-right: 5px;
+  padding-left: 5px;
+  z-index: 1000;
+  min-height: 1em;
+  background: #000;
+  max-width: 250px;
+  padding-bottom: 5px;
+  font: 12px 'Microsoft YaHei',Arial,宋体,Tahoma,Sans-Serif;
+  color: #fff;
+  padding-top: 5px;
+  position: absolute;
+  text-align: left;
+  word-wrap: break-word;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.ToolTip {
+  padding-right: 5px;
+  padding-left: 5px;
+  z-index: 1000;
+  min-height: 1em;
+  background: #000;
+  max-width: 350px;
+  padding-bottom: 5px;
+  font: 12px 'Microsoft YaHei',Arial,宋体,Tahoma,Sans-Serif;
+  color: #fff;
+  padding-top: 5px;
+  position: absolute;
+  text-align: left;
+  word-wrap: break-word;
+  -moz-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.ToolTip {
+  border-right: #c5b270 1px solid;
+  padding-right: 15px;
+  border-top: #c5b270 1px solid;
+  padding-left: 15px;
+  background: #fffbd6;
+  padding-bottom: 0px;
+  border-left: #c5b270 1px solid;
+  color: #bb861c;
+  line-height: 30px;
+  padding-top: 0px;
+  border-bottom: #c5b270 1px solid;
+  top: 30px;
+}
+.chrt.column i{
+	color:#fff;
 	opacity:1;
 }
-.image.zan .plus-icon .like {
-	border: 1px solid rgba(255,255,255,0.5);
-	border-radius: 50%;
-	display: inline-block;
-	height: 50px;
-	-webkit-transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	width: 50px;
-}
-.image.zan .single-image.plus-icon .like {
- 	-webkit-transform: translateX(-300%);
-	-ms-transform: translateX(-300%);
-	transform: translateX(-300%); 
-}
-.image.zan:hover .single-image.plus-icon .like,.ui.items .item:hover .image.zan .single-image.plus-icon .like{
-	-webkit-transform: translateX(0%);
-	-ms-transform: translateX(0%);
-	transform: translateX(0%);
-}
-.image.zan .plus-icon .like:after{
-	border-radius: 50%;
-	color: #FFF;
-	display: block;
-	font-size: 18px;
-	height: 100%;
-	left: 0;
-	line-height: 57px;
+.chrt.column .fa-caret-up{
 	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: color .25s ease-in-out 0s;
-	transition: color .25s ease-in-out 0s;
-	width: 100%;
+  top: -11px;
+  left: -13px;
+  font-size: 23px;
 }
-.image.zan .plus-icon .like:after {
-	content: "\f004";
-	font-size: 35px;
-	font-family: FontIcons;
+.chrt.column .fa-caret-right{
+	position: absolute;
+  bottom: -12px;
+	right: -12.5%;
+  font-size: 23px;
 }
+.chrt.column .flot{
+	color: #fff;
+  font-size: 16px;
+  position: absolute;
+  top: -27px;
+  left: -16px;
+}
+.chrt.column .yuan{
+	color:#fff;
+	font-size: 16px;
+	position: absolute;
+	bottom: -8px;
+	right: -15%;
+}
+.chrt.column{
+	padding:0 8% !important;
+}
+body{margin:0;padding:0;}
+ul,li,dl,dd,dt,p{margin:0;padding:0;}
+ul,li{list-style:none;}
+/*柱状图样式*/
+.histogram-container{position:relative;margin-top:10px;margin-bottom:65px;}
+.histogram-bg-line{border:#fff solid;border-width:0 0px 2px 2px;overflow:hidden;width:110%;}
+.histogram-bg-line ul{overflow:hidden;border:#eee solid;border-width:0 0 0 0;}
+.histogram-bg-line li{float:left;width:20%;/*根据.histogram-bg-line下的ul里面li标签的个数来控制比例*/overflow:hidden;}
+.histogram-content{position:absolute;left:0px;top:0;width:99%;height:100%;}
+.histogram-content ul{height:100%;}
+.histogram-content li{float:left;height:100%;width:20%;/*根据直方图的个数来控制这个width比例*/text-align:center;position:relative;}
+.histogram-box{position:relative;display:inline-block;height:100%;width:100%;top: -2px;left: 2px;}
+.histogram-content li a{position:absolute;bottom:0;right:0;display:block;width:100%;color:#fff}
+.histogram-content li .name{position:absolute;bottom:-30px; color:#fff;left:0px;white-space:nowrap;display:inline-block;width:100%;font-size:18px;}
+.histogram-bg-line li div{height:120px;/*控制单元格的高度及百分比的高度，使百分数与线条对齐*/}
 
-.image.zan .plus-icon .like.active:after{
-  color: #F36;
+.sootext{
+	background:#1dba73;
+	color:#fff;
+	padding:15px;
+	width:80%;
+	margin: 0 auto;
+	line-height: 22px;
 }
-
-.image.zan .image-extra > a{
-	position: absolute;
-	width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+.ui.math{
+	background:#f1f1f1;
 }
-.image.zan .add{
-	position: absolute;
-	top: 14px;
-	text-align: center;
-	left: 0;
-	color: rgba(0,0,0,0);
-	width: 100%;
-	font-size: 22px;
-	opacity: 1;
-	z-index:-1;
-	transition: all 1s;
+.ui.math.block .row:first-child .ten.wide{
+	text-align: right;
+	padding: 22px;
 }
-.image.zan .add-active{
-	top:-70px;
+.ui.math.block i.search{
+	border-left: 1px solid rgba(244,33,86,.9);
+  color: rgba(255,255,255,.9);
+  background-color: #f36;
+  cursor: pointer;
+  opacity: 1;
+}
+.ui.math.block .ui.items .item:hover{
+	cursor:auto;
+}
+.ui.grid.item{
+	margin-bottom:2%;
+}
+.ui.grid.item .ui.four.items{
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	margin-bottom: 1%;
+}
+.ui.grid.item .six.wide{
+	font-size:18px;
+	vertical-align: middle;
+}
+.ui.grid.item .six.wide span{
+	font-weight:700;
+	margin-right:5px;
+}
+.ui.grid.item .six.wide i.icon,.ui.grid.item .ten.wide i.icon,.ui.grid.item .six.wide span{
 	color:#f36;
-	transition-delay: .3s;
-	-webkit-animation: arrow 1.2s ease both;
-	-moz-animation: arrow 1.2s ease both;
-	animation: arrow 1.2s ease both;
+	opacity:1;
 }
-@-webkit-keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
+.ui.grid.item .ten.wide .ui.label{
+	color:#fff !important;
+	background: #515151;
+	float: right;
+	position:relative;
 }
-@-moz-keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
+.ui.grid.item .ten.wide .ui.label a{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
 }
-@keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
+.ui.grid.item .ten.wide .fa-plus{
+	color:#fff !important;
 }
-
-*/
 
 </style>
 {% endblock %}
-{% block jquery %}
+
+{% block layout_js %}
+
+    <script src="../js/china_map/raphael.js"></script>
+    <script src="../js/china_map/chinamapPath.js"></script>
+    <script src="../js/china_map/chinamap.js"></script>
+  <script type="text/javascript" >
+
+    //***绑定数据
+    function Bind() {
+
+        var args = $("#args *").serialize();
+
+        $.ajax({
+            type: "get",
+            url: "{{ app_url_contest }}/ajax_fetch_top_province",
+            dataType: "json",
+            success: function (result) {
+              if(result.success){
+                var html = "";
+                $.each(result.data, function (i, item) {
+                    html += "<div style='cursor:pointer;font-weight:bolder;color:" + china[item.name]['path'].color + "' title='" + china[item.name]['name']
+                        + "'>TOP " + (i + 1) + ":" + china[item.name]['name'] + "</div>"
+
+                    var anim = Raphael.animation({ fill: china[item.name]['path'].color, stroke: "#eee" }, 1000);
+                    //*** anim.delay(i * 500)增加显示延时，就是让排序省份一个一个显示，但是在IE9以下没效果，因为IE会假死，知道全部显示完
+                    china[item.name]['path'].stop().animate(anim.delay(i * 500));
+                    china[item.name]['isClick'] = true;
+                });
+
+                //将省区排行增加到页面，并增加点击事件查询城市排行
+                $("#topList").html(html).find("div").click(function () {
+
+                    var title = $(this).attr("title");
+                    $(this).siblings().css("font-size", "").removeAttr("select").end().css("font-size", "20px").attr("select", "");
+                    ////显示省份明细，自己修改
+                    //$.post(url + "/" + encodeURI(title), args, function (data) {
+                    //    $('#areaInfo').html(title + "的销量：<br/>" + data).fadeIn('fast');
+                    //});
+                });
+              }
+
+            },
+            error: function () {
+                alert('错误');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+      Map();
+      Bind();	
+    });
+
+  </script>
+
 {% endblock %}
+
+{% block jquery %}
+
+	/* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
+
+{% endblock %}
+
 {% block content %}
 <div class="match rank">
 	<section class="rankbg">
 		
+	</section>
+	<section class="ui nav">
+		<div class="ui responsive grid">
+			<div class="middle aligned row">
+				<div class="twelve wide column">
+					<div class="ui magenta horizontal divided list">
+						<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+		        <a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+		        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+						<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+						<a href="{{ app_url_contest }}/rank" class="ui link active item">校园人气争霸</a>
+						<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
+					</div>
+				</div>
+				<div class="right aligned four wide column">
+					<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+						提交作品
+						<i class="icon-arrow-right-sharp"></i>
+					</a>
+				</div>
+			</div>
+		</div>
 	</section>
 	<section class="ui big popu block">
 		<div class="ui responsive grid">
@@ -202,14 +407,25 @@ body{
 			</div>
 		</div>
 	</section>
-	<section class="ui block">
+
+	<section class="ui big block">
 		<div class="ui responsive media allist grid">
 		  <div class="row">
-		    <div class="column">
-		      <div class="ui four items">
+		    {% stuff_list var:'list' is_top:true category_id:dream_category_id sticked:1 load_college:1 sort:st page:page size:8 %}
+		
+				<div class="column">
+	
+					<div class="ui four items" id="item-list">
+					{% for stuff in list.rows %}
+	          {% include "block/match2_item.html" %}
+	        {%endfor%}
+
+					</div>
+			
+			
 		        
 						<!-- 作品-->
-						<div class="item">
+						<!--<div class="item">
 		          <div class="content">
 		            <h4 class="ui dividing header">
 		              <div class="image zan">
@@ -271,17 +487,367 @@ body{
 		              </div>
 		            </div>
 		          </div>
-		        </div>
-		      
-						<!-- -- >
+		        </div>-->
 		
 		
+						
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="ui big chart block">
+		
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">院校人气榜</h3>
+					<p>全国高校人气争霸，没你不行！</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="chrt column">
+					<div class="histogram-container" id="histogram-container">
+					  <!--背景方格-->
+					  <div class="histogram-bg-line">
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+				 
+							<i class="fa-caret-up icon"></i>
+							<i class="fa-caret-right icon"></i>
+							<div class="flot">人气</div>
+							<div class="yuan">院校</div>
+						
+					 	</div>
+					  <!--柱状条-->
+					  <div class="histogram-content">
+					    <ul>
+					      <li>
+					        <span class="histogram-box">
+					          <a style="height:20%;background:#2f87d9;" title="20%"><br />人气指数<br /><strong>14801</strong>
+					          </a>
+					        </span>
+					        <span class="name">
+					          北京大学美学院
+					        </span>
+					      </li>
+					      <li>
+					        <span class="histogram-box">
+					          <a style="height:40%;background:green;" title="40%"><br />人气指数<br /><strong>14801</strong>
+					          </a>
+					        </span>
+					        <span class="name">
+					          广东美术学院
+					        </span>
+					      </li>
+					      <li>
+					        <span class="histogram-box">
+					          <a style="height:50%;background:orange;" title="50%"><br />人气指数<br /><strong>14801</strong>
+					          </a>
+					        </span>
+					        <span class="name">
+					          清华美术学院
+					        </span>
+					      </li>
+					      <li>
+					        <span class="histogram-box">
+					          <a style="height:80%;background:gray;" title="80%"><br />人气指数<br /><strong>14801</strong>
+					          </a>
+					        </span>
+					        <span class="name">
+					          北京工业大学
+					        </span>
+					      </li>
+								<li>
+					        <span class="histogram-box">
+					          <a style="height:20%;background:#2f87d9;" title="20%"><br />人气指数<br /><strong>14801</strong>
+					          </a>
+					        </span>
+					        <span class="name">
+					          湖北美术学院
+					        </span>
+					      </li>
+					    </ul>
+					  </div>
+					</div>
+	
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<div class="sootext">
+						作品点赞数会自动累积到隶属院校赞数内，你为本校的任何一个作品投票都是在为这个学校增添人气哦！<br>
+						截止到2015年6月20日24时，最终获得点赞数最多的三所高校，太火鸟将为学校颁发奖杯和荣誉证书。
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	
+	<section class="ui big block">
+    <div id="ChinaMap">
+        <div id="map"></div>
+        <div id="ToolTip" class="ToolTip" style="left: 10px">
+            <div id="areaInfo"></div>
+            <div id="cityInfo"></div>
+        </div>
+        <div class="ToolTip" style="right: 50px;">
+            <div id="topList" style="width: 130px; float: left">
+            </div>
+            <div id="cityList" style="display: none; float: left">
+            </div>
+        </div>
+    </div>
+  </section>
+	
+	
+	<section class="ui math big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="six wide column">
+					<img src="http://frstatic.qiniudn.com/images/mtac4.png">
+				</div>
+				<div class="ten wide column">
+					<form class="search item" method="post" action=" " id="searchbar">
+					 	<div class="ui icon input">
+							<input name="q" type="text" placeholder="输入院校名称查看作品">
+							<i class="search icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui two items">
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+							
+							<div class="ui label">
+								<a href=""></a>
+							  <i class="fa-plus icon"></i> 更多作品
+							 </div>
+						</div>
+						<div class="ui four items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						
+						
+						</div>
+					</div>
+					
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+							
+							<div class="ui label">
+								<a href=""></a>
+							  <i class="fa-plus icon"></i> 更多作品
+							 </div>
+						</div>
+						<div class="ui four items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+							
+							<div class="ui label">
+								<a href=""></a>
+							  <i class="fa-plus icon"></i> 更多作品
+							</div>
+						</div>
+						<div class="ui four items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+				</div>
+			</div>
+		</div>
+	</section>
 	
 	
 	

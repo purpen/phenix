@@ -513,6 +513,20 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 删除关联对象
 			$model->mock_after_remove($id);
+
+      //如果是大赛,减去所在大学,省份数量统计
+      if($stuff['from_to']==1){
+        $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
+        $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
+        $num_mode = new Sher_Core_Model_SumRecord();
+        if($province_id){
+          $num_mode->down_record($province_id, 'match2_count', 1);
+        }
+        if($college_id){
+          $num_mode->down_record($college_id, 'match2_count', 2);    
+        }
+
+      }
 			
             # 更新计数器
             $diglist = new Sher_Core_Model_DigList();
@@ -562,6 +576,20 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 			
 			$model->remove((int)$id);
+
+      //如果是大赛,减去所在大学,省份数量统计
+      if($stuff['from_to']==1){
+        $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
+        $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
+        $num_mode = new Sher_Core_Model_SumRecord();
+        if($province_id){
+          $num_mode->down_record($province_id, 'match2_count', 1);
+        }
+        if($college_id){
+          $num_mode->down_record($college_id, 'match2_count', 2);    
+        }
+
+      }
 			
 			// 删除关联对象
 			$model->mock_after_remove($id);

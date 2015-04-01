@@ -487,5 +487,35 @@ class Sher_Core_Helper_Util {
         $mongo_object = new MongoId();
         return (string)$mongo_object;
     }
+
+    /**
+     * 对二维数组冒泡排序
+     * 1.要转换的数组,2.要判断的key,3.是否反转
+     */
+    public static function bubble_sort($arr, $k='sort', $reverse=false){
+      if(empty($arr)){
+        return array();
+      }
+      $count = count($arr);
+      if($count==1){
+        return $arr;
+      }
+      for($n=0; $n<$count-1;$n++){
+        for($i=0; $i<$count-$n-1; $i++){
+          if($arr[$i][$k]>$arr[$i+1][$k]){
+            $d = $arr[$i+1];
+            $arr[$i+1] = $arr[$i];
+            $arr[$i] = $d;
+          }
+        }   
+      }
+
+      if(!$reverse){
+        return $arr;
+      }else{
+        return array_reverse($arr);
+      }
+      
+    }
     	
 }

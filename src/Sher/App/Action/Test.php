@@ -184,9 +184,12 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //print_r($result);exit;
 
 
-    $model = new Sher_Core_Model_AddBooks();
-    $data = $model->find_by_id('549e72b27fd32e46042e3d5e');
-    print_r($data);
+        //$dig_model = new Sher_Core_Model_DigList();
+    //$dig = $dig_model->update('a', array('items'=>array('1','2')), true);
+    $dig = array(array('name'=>'tian', 'id'=>8),array('name'=>'b', 'id'=>6),array('name'=>'c', 'id'=>5));
+    $arr = Sher_Core_Helper_Util::bubble_sort($dig,'id',true);
+
+    var_dump($arr);
   }
 
   /**
@@ -279,6 +282,11 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
       //echo $a;
     }
     exit;
+  }
+
+  public function excute_match2_task(){
+    $a = new Sher_Core_Jobs_Match2();
+    $a->perform();
   }
 
 }
