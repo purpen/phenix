@@ -244,6 +244,23 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
   
   }
 
+  /**
+   * 统计
+   * ajax获取大学人气前5
+   */
+  public function ajax_fetch_top_college(){
+    $model = new Sher_Core_Model_SumRecord();
+    $query['type'] = Sher_Core_Model_SumRecord::TYPE_COLLEGE;
+    $options['size'] = 5;
+    $options['sort'] = array('match2_love_count'=> -1);
+    $data = $model->find($query);
+    $result = array();
+    foreach($data as $key=>$val){
+
+    }
+    return $this->to_taconite_page('ajax/match_college_graph.html');
+  }
+
 	/**
 	 * 编辑器参数
 	 */
