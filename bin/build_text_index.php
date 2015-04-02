@@ -17,6 +17,7 @@ ini_set('memory_limit','512M');
 
 $indexer = Sher_Core_Service_TextIndexer::instance();
 
+/*
 echo "Prepare to build user fulltext index...\n";
 $user = new Sher_Core_Model_User();
 $page = 1;
@@ -55,6 +56,7 @@ while(!$is_end){
 echo "total $total user rows updated.\n";
 
 echo "-------------//////////////-------------\n";
+*/
 
 echo "Prepare to build topic fulltext index...\n";
 $topic = new Sher_Core_Model_Topic();
