@@ -40,6 +40,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	public function ajax_fetch_colleges(){
 		$id = $this->stash['id'];
     $this->stash['college_id'] = (int)$this->stash['college_id'];
+    $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:1;
 		if (empty($id)){
 			return $this->ajax_notification('Id参数为空！', true);
 		}

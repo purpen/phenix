@@ -277,6 +277,12 @@ ul,li{list-style:none;}
       Bind();	
     });
 
+    //ajax加载大学列表
+    var page = 1;
+    function ajax_load_colleges(page, type){
+      $.get("{{ app_url_contest }}/ajax_load_colleges", {page:page, type:1});
+    }
+
   </script>
 
 {% endblock %}
@@ -343,6 +349,22 @@ ul,li{list-style:none;}
 
   //获取大学人气排行
   $.get("{{ app_url_contest }}/ajax_fetch_top_college", {id:1});
+
+  //ajax查看更多
+  $('#college-more').click(function(){
+    page = page+1;
+    ajax_load_colleges(page,1);
+  
+  });
+
+  //ajax加载大学排行列表
+  ajax_load_colleges(page,1);
+
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
 
 {% endblock %}
 
@@ -544,6 +566,7 @@ ul,li{list-style:none;}
 				<div class="six wide column">
 					<img src="http://frstatic.qiniudn.com/images/mtac4.png">
 				</div>
+        <!--
 				<div class="ten wide column">
 					<form class="search item" method="post" action=" " id="searchbar">
 					 	<div class="ui icon input">
@@ -552,164 +575,17 @@ ul,li{list-style:none;}
 						</div>
 					</form>
 				</div>
+        -->
 			</div>
+
 			<div class="row">
-				<div class="ui two items">
-					<div class="item ui grid">
-						<div class="six wide column">		
-							<span>|</span>江西财经大学
-							
-						</div>
-						<div class="ten wide column">		
-							<i class="fa-trophy icon"></i>排名1
-							<i class="fa-long-arrow-up icon"></i>人气333
-							
-							<div class="ui label">
-								<a href=""></a>
-							  <i class="fa-plus icon"></i> 更多作品
-							 </div>
-						</div>
-						<div class="ui four items">
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-						
-						
-						</div>
-					</div>
-					
-					<div class="item ui grid">
-						<div class="six wide column">		
-							<span>|</span>江西财经大学
-							
-						</div>
-						<div class="ten wide column">		
-							<i class="fa-trophy icon"></i>排名1
-							<i class="fa-long-arrow-up icon"></i>人气333
-							
-							<div class="ui label">
-								<a href=""></a>
-							  <i class="fa-plus icon"></i> 更多作品
-							 </div>
-						</div>
-						<div class="ui four items">
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="item ui grid">
-						<div class="six wide column">		
-							<span>|</span>江西财经大学
-							
-						</div>
-						<div class="ten wide column">		
-							<i class="fa-trophy icon"></i>排名1
-							<i class="fa-long-arrow-up icon"></i>人气333
-							
-							<div class="ui label">
-								<a href=""></a>
-							  <i class="fa-plus icon"></i> 更多作品
-							</div>
-						</div>
-						<div class="ui four items">
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					
-					
-				</div>
-			</div>
+        <!--ajax colleges list-->
+				<div class="ui two items college-list" id="college-list">
+        </div>
+      </div>
+      <input type="button" id="college-more" value="查看更多" />
 		</div>
 	</section>
-	
-	
-	
-			
-		
-						
-				
-
-
-
-
-
 
 </div>
 {% endblock %}

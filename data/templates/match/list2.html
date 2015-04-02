@@ -111,7 +111,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id: 0});
+					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id: 0, evt:2});
 				}
 			}
 		});
@@ -120,6 +120,22 @@
 	$('.ui.college.dropdown').livequery(function(){
 		$(this).dropdown();
 	});
+
+  //初次加载大学选项
+  {% if cid %}
+    $.get('{{ app_url_address }}/ajax_fetch_colleges', {id: {{pid}}, college_id: {{cid}}, evt:2 });
+  {%endif%}
+
+  //搜索大学
+  $('#college-search-btn').click(function(){
+    var cid = $(':input[name=college_id]').val();
+    var pid = $(':input[name=province_id]').val();
+    if(cid != 0){
+      var url = "{{ app_url_contest }}/allist2?st={{st}}&cid="+ cid +"&pid=" + pid;
+      phenix.redirect(url);
+    }
+  
+  });
 
 	/* 登录用户行为 */
   //加载赞状态
@@ -226,57 +242,59 @@
 			<div class="row">
 				<div class="center aligned six wide column">
 					<div class="ui divided horizontal list">
+					  	<div class="item">
+                <a href="{{ app_url_contest }}/allist2" class="ui link">全部</a>
+					  	</div>
 					  	<div class="item">排序：</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_contest }}/allist2?st=4" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
+                <a href="{{ app_url_contest }}/allist2?st=4&cid={{cid}}&pid={{pid}}" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_contest }}/allist2?st=6" class="ui {% if st == 6 %}active{% endif %} link">浏览</a>
+                <a href="{{ app_url_contest }}/allist2?st=6&cid={{cid}}&pid={{pid}}" class="ui {% if st == 6 %}active{% endif %} link">浏览</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_contest }}/allist2?st=2" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=2&cid={{cid}}&pid={{pid}}" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_contest }}/allist2?st=3" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=3&cid={{cid}}&pid={{pid}}" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
 					  	</div>
 					  	<div class="item">
-					  		<a href="{{ app_url_contest }}/allist2?st=0" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
+					  		<a href="{{ app_url_contest }}/allist2?st=0&cid={{cid}}&pid={{pid}}" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
 					  	</div>
 					</div>
 				</div>
 			
-        <!--
 				<div class="right aligned ten wide column">
-						搜索查看其他院校所有作品！
+						搜索院校
 					{% province_list var:'list' size:100 %}
-           <div class="ui fluid selection province dropdown" style="position:relative;z-index:9999;width: 21%;text-align: left;display: inline-block;">
-             <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
+           <div class="ui fluid selection province dropdown" style="position:relative;width: 21%;text-align: left;display: inline-block;">
+             <input type="hidden" name="province_id" value="{{ pid }}" />
                <div class="default text">--省份--</div>
                <i class="angle down icon" style="position:absolute;right:0;"></i>
                <div class="menu">
                  {% for d in list.rows %}
-                 <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
+                 <div data-value="{{ d.pid }}" class="{% if d.pid == pid %}active {% endif %}item">{{ d.name }}</div>
                  {% endfor %}
                </div>
            </div>
 
-					 <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;width: 21%;text-align: left;display: inline-block;">
+					 <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;width: 32%;text-align: left;display: inline-block;">
              <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
                <div class="default text">--院校--</div>
                <i class="angle down icon" style="position:absolute;right:0;"></i>
            </div>
 					<div class="ui icon">
-						<a href=""></a>
+						<a href="javascript:void(0);" id="college-search-btn"></a>
 					<i class="search icon"></i>
 					</div>
-      -->
+
 				</div>
 			</div>
 
 		</div>
 		<div class="ui responsive media allist grid">
 			<div class="row">
-					{% stuff_list var:'list' is_top:true category_id:dream_category_id load_college:1 sort:st page:page size:12 %}
+					{% stuff_list var:'list' is_top:true category_id:dream_category_id college_id:cid load_college:1 sort:st page:page size:12 %}
 			
 			<div class="column">
 		

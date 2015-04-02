@@ -1,0 +1,44 @@
+<taconite>
+	<append select="#college-list">
+    {% for d in colleges %}
+<![CDATA[
+        <div class="item ui grid">
+        <div class="six wide column">		
+          <span>|</span>{{ d.name }}
+        </div>
+        <div class="ten wide column">		
+          <i class="fa-trophy icon"></i>排名{{ d.top_sort }}
+          <i class="fa-long-arrow-up icon"></i>人气{{ d.match2_love_count }}
+          
+          <div class="ui label">
+            <a href="{{ app_url_contest }}/allist2?st=0&cid={{ d.target_id }}&pid={{ d.pid }}" target="_blank"></a>
+            <i class="fa-plus icon"></i> 更多作品
+          </div>
+        </div>
+        <div class="ui four items">
+          {% if d.stuffs %}
+            {% for s in d.stuffs %}
+              <div class="item">
+                <div class="image">
+                  <a href="{{ s.view_url }}" target="_blank">
+                    <img src="{{ s.cover.thumbnails.small.view_url }}" width="100%" />			</a>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+]]>
+    {% endfor %}
+  </append>
+
+  {% if !colleges %}
+	<replace select="#college-more">
+    <input type="button" id="college-more" value="没有更多" />
+	</replace>
+  {% endif %}
+
+	<eval>
+
+	</eval>
+</taconite>

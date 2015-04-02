@@ -1,6 +1,6 @@
 <taconite>
 	<replace select="#college-menu">
-		<div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
+  <div class="ui fluid selection college dropdown" id="college-menu" style="{%if evt==1%}position:relative;z-index:9999;{%endif%}{%if evt==2%}position:relative;width:32%;text-align:left;display:inline-block;{%endif%}">
       <input type="hidden" name="college_id" value="{{ college_id }}" />
 		    <div class="default text">--院校--</div>
           <i class="angle down icon" style="position:absolute;right:0"></i>

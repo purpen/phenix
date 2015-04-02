@@ -195,7 +195,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id:0 });
+					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id:0, evt:1 });
 				}
 			}
 		});
@@ -210,7 +210,7 @@
   var province_id = {{ stuff.province_id|default 0 }};
   var college_id = {{ stuff.college_id|default 0 }};
   if(college_id !=0){
-    $.get('{{ app_url_address }}/ajax_fetch_colleges', {id: province_id, college_id:college_id });     
+    $.get('{{ app_url_address }}/ajax_fetch_colleges', {id: province_id, college_id:college_id, evt:1 });     
   }
 
   //如果只有一个分类,默认选中

@@ -21,6 +21,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$target_id = 0;
 		$try_id = 0;
+    $college_id = 0;
+    $province_id = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -90,6 +92,12 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         if($fever_id){
             $query['fever_id'] = (int)$fever_id;
         }
+    if($college_id){
+      $query['college_id'] = (int)$college_id;
+    }
+    if($province_id){
+      $query['province_id'] = (int)$province_id;
+    }
 		
 		// 限制时间
 		$day = 24 * 60 * 60;

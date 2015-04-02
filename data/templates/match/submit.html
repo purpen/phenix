@@ -182,7 +182,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id: 0});
+					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id: 0, evt:1});
 				}
 			}
 		});
