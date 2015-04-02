@@ -1,8 +1,21 @@
 {%extends 'layout/column.html'%}
-{% block title %}搜索{{q}}-{% endblock %}
+{% block title %}搜索 {{q}}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.ui.selection.list .item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.7);
+}
+.ui.selection.list .item:active {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.7);
+}
+.social.search .suggest {
+    margin: 1rem auto 0;
+}
+.social.search .suggest a {
+    color: #fff;
+}
 </style>
 {% endblock %}
 
@@ -11,14 +24,49 @@
 {% endblock %}
 
 {% block content %}
+<section class="social search catemenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ten wide column white section-title">
+                <h1 class="block title">高级搜索</h1>
+				<form class="ui form" action="{{ app_url_search }}" method="post">
+                 	<div class="ui icon input">
+                		<input name="q" type="text" value="{{ q }}" />
+                		<i class="search icon"></i>
+                	</div>
+                </form>
+                <div class="suggest">
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=智能睡眠灯" class="ui link">智能睡眠灯</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=智能配奶机" class="ui link">智能配奶机</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=十万火计" class="ui link">十万火计</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=蛋年" class="ui link">蛋年创新大会</a>
+                        </div>
+                    </div>
+                    
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
+
 <div id="searchpage">
 	<div class="ui tabox">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
 					<div class="ui ten tabs">
+                        <a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>
 					  	<a href="{{ app_url_domain }}/search?t=2&q={{ q }}" class="{{ css_topic }} tab">话题</a>
-					  	<a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
+                        <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
+                        <a href="{{ app_url_domain }}/search?t=4&q={{ q }}" class="{{ css_stuff }} tab">智品</a>
 					</div>
 				</div>
 			</div>
@@ -30,7 +78,7 @@
 			<div class="column">
 				{% if q %}
 					{%if has_scws %}
-						{% search_list var:'list' search_word:q index_name:index_name page:page type:t size:10 %}
+						{% search_list var:'list' search_word:q index_name:index_name page:page type:t size:15 %}
 					    搜索 “{{ highlight }}” , 找到约 {{ list.total_rows }} 条结果
 					{%else%}
 					    搜索 “{{ q }}” , 找到约 0 条结果
@@ -50,17 +98,17 @@
 							{% if item.topic.asset_count > 0 %}
 								{% asset_list var:'assets' parent_id:item.topic._id size:1 asset_type:55 sort:'positive' %}
 								{% for asset in assets.rows %}
-							  	<img class="ui small image" src="{{ asset.thumbnails.tiny.view_url }}" />
+							  	<img class="ui medium image" src="{{ asset.thumbnails.small.view_url }}" />
 								{% endfor %}
 							{% endif %}
 							<div class="content">
 								<div class="header">
-							      	<a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui link" target="_blank">{{ item.topic.title }}</a>
+							      	<a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line" target="_blank">{{ item.topic.title }}</a>
 								</div>
 								<div class="attribute">
 									<span class="category"><a href="{{ item.topic.category.view_url }}" class="ui link">{{ item.topic.category.title }}</a></span> | 
 									<span class="author">
-										<a href="{{ item.topic.user.home_url }}" class="ui link">{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>于{{ item.topic.created_on|relative_datetime }}发表
+										<a href="{{ item.topic.user.home_url }}" class="ui link">@{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>于{{ item.topic.created_on|relative_datetime }}发表
 									</span>
 								</div>
 							</div>
@@ -69,12 +117,34 @@
 						
 						{% if item.type == 1 %}
 						<div class="item">
-							<img class="ui small image" src="{{ item.product.cover.thumbnails.tiny.view_url }}" />
+							<img class="ui medium image" src="{{ item.product.cover.thumbnails.small.view_url }}" />
 							<div class="content">
 								<div class="header">
-							      	<a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui link" target="_blank">{{ item.product.title }}</a>
+							      	<a href="{{ item.product.view_url }}" class="ui line" target="_blank">{{ item.product.title }}</a>
 								</div>
-								
+								<div class="attribute">
+									<span class="category">{{ item.product.category.title }}</span> | 
+									<span class="author">
+										<a href="{{ item.product.user.home_url }}" class="ui link">@{{ item.product.user.nickname }}</a>  <i class="time icon"></i>于{{ item.product.created_on|relative_datetime }}发表
+									</span>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+                        
+						{% if item.type == 4 %}
+						<div class="item">
+							<img class="ui medium image" src="{{ item.stuff.cover.thumbnails.small.view_url }}" />
+							<div class="content">
+								<div class="header">
+							      	<a href="{{ item.stuff.view_url }}" class="ui line" target="_blank">{{ item.stuff.title }}</a>
+								</div>
+								<div class="attribute">
+									<span class="category">{{ item.stuff.category.title }}</span> | 
+									<span class="author">
+										<a href="{{ item.stuff.user.home_url }}" class="ui link">@{{ item.stuff.user.nickname }}</a>  <i class="time icon"></i>于{{ item.stuff.created_on|relative_datetime }}发表
+									</span>
+								</div>
 							</div>
 						</div>
 						{% endif %}

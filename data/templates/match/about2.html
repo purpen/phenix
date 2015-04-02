@@ -7,6 +7,9 @@
 		background-size:cover;
 		padding:25% 0;
 	}
+    .ui.nav.responsive.grid {
+        padding: 0.5rem 8%;
+    }
 	.ui.nav {
 		background:#000;
 	}
@@ -49,23 +52,23 @@
 		font-size: 17px;
 		margin: .3em 0;
 	}
-	.right.nav{
+	.right.nav {
 		width: 80px;
 		position: fixed;
 		top: 20%;
 		right:5%;
 		z-index: 9999;
 	}
-	.right.nav .ui.items .item:first-child{
-		margin-bottom:1rem;
+	.right.nav .ui.blocks .block:first-child{
+		margin-bottom: 1rem;
 	}
-	.right.nav .ui.items .item{
+	.right.nav .ui.blocks .block {
 		background:rgba(0,0,0,0);
 		cursor:auto;
 		text-align:center;
 		margin-bottom: .5rem;
 	}
-	.right.nav .ui.items .ui.button{
+	.right.nav .ui.blocks .block .ui.button{
 		border-radius:0 !important;
 		background-color:#f36 !important;
 		color:#fff !important;
@@ -123,12 +126,11 @@
 					<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
 				</div>
 			</div>
-			<div class="right aligned four wide column">
-				<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
-					提交作品
-					<i class="icon-arrow-right-sharp"></i>
-				</a>
-			</div>
+
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+				<i class="edit icon"></i> 提交作品
+			</a>
 		</div>
 	</div>
 </section>
@@ -157,8 +159,8 @@
 					获奖公示：2015年06月29日<br/>
 				</p>
 				<h3 class="ui header">评审专家 / JUDGES</h3>
-				<div class="ui five ptop center aligned items">
-					<div class="item">
+				<div class="ui five ptop center aligned blocks">
+					<div class="block">
 						<div class="image">
 							<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
 						</div>
@@ -167,7 +169,7 @@
 							<h5>真格天使投资基金创始人</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
 						</div>
@@ -176,7 +178,7 @@
 							<h5>小米科技联合创始人</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
 						</div>
@@ -185,7 +187,7 @@
 							<h5>洛可可设计集团创始人</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
 						</div>
@@ -194,7 +196,7 @@
 							<h5>梧桐树资本创始合伙人</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
 						</div>
@@ -205,8 +207,8 @@
 					</div>
 				</div>
 				
-				<div class="ui five center aligned items">
-					<div class="item">
+				<div class="ui five center aligned blocks">
+					<div class="block">
 						<div class="image">
 							<img alt="刘毅" src="{{ app_url_packaged }}/images/match_25.png">
 						</div>
@@ -215,7 +217,7 @@
 							<h5>广州美术学院交互设计工作室</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="付志勇" src="{{ app_url_packaged }}/images/match_26.png">
 						</div>
@@ -224,7 +226,7 @@
 							<h5>清华美院信息艺术设计系副主任</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="孙远波"src="{{ app_url_packaged }}/images/match_27.png">
 						</div>
@@ -233,7 +235,7 @@
 							<h5>北京理工大学设计与艺术学院 工业设计系主任</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="王昀"src="{{ app_url_packaged }}/images/match_28.png">
 						</div>
@@ -242,7 +244,7 @@
 							<h5>中国美院设计艺术学院副院长</h5>
 						</div>
 					</div>
-					<div class="item">
+					<div class="block">
 						<div class="image">
 							<img alt="彦风" src="{{ app_url_packaged }}/images/match_29.png">
 						</div>
@@ -312,41 +314,32 @@
 <div class="right nav" data-1380="transform: translateX(300px);-webkit-transform: translateX(300px);" data-1381="transform: translateX(0px);-webkit-transform: translateX(0px);">
 	<div class="ui grid">
 		<div class="row">
-			<div class="ui one items">
-				<div class="item">
+			<div class="ui one blocks">
+				<div class="block">
 					<img src="{{ app_url_packaged }}/images/match_0033.gif" width="100%">
 				</div>
-				<div class="item">
+				<div class="block">
 					<a href="http://weibo.com/taihuoniao" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
-										<i class="flat icon_weibo icon"></i>
-									</a>
+                        <i class="flat icon_weibo icon"></i>
+                    </a>
 				</div>
-				<div class="item">
+				<div class="block">
 					<a href="http://t.qq.com/taihuoniao" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
-										<i class="flat icon_qqweibo icon"></i>
-									</a>
+                        <i class="flat icon_qqweibo icon"></i>
+                    </a>
 				</div>
-				<div class="item">
+				<div class="block">
 					<a href="javascript:void(0);" id="douban-share" class="ui douban circular share icon button" title="豆瓣">
 						<i class="flat icon_douban icon"></i>
 					</a>
 				</div>
-				<div class="item">
+				<div class="block">
 					<a href="" class="ui green circular share wechat icon button" title="微信">
-										<i class="flat icon_weixin icon"></i>
-									</a>
+                        <i class="flat icon_weixin icon"></i>
+                    </a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
-
-
-
 {% endblock %}

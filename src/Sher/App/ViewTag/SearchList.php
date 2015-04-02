@@ -37,7 +37,13 @@ class Sher_App_ViewTag_SearchList extends Doggy_Dt_Tag {
         }
 		
 		if($type){
-			$query['type'] = (int)$type;
+            // 投票创意
+            if($type == 5){
+                $query['type'] = 1;
+                $query['stage'] = 1;
+            }else{
+                $query['type'] = (int)$type;
+            }
 		}
 		
 		$service = Sher_Core_Service_Search::instance();

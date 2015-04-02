@@ -79,8 +79,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         
         # 最近的点赞用户
         'last_love_users' => array(),
-		
-    	'deleted' => 0,
+        
     	'published' => 1,
 		
 		# 编辑推荐
