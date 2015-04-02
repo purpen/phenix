@@ -10,9 +10,10 @@ body{
 	background-size:cover;
 	padding:20% 0;
 }
-.ui.nav {
-	background:#000;
-}
+	.ui.nav {
+    padding: 0.5rem 8%;
+		background:#091f35;
+	}
 .ui.divided.horizontal.list>.item{
 	color:#fff;
 }
@@ -221,6 +222,10 @@ ul,li{list-style:none;}
 	color:#fff !important;
 }
 
+.ui.items .item{
+  min-height:0 !important;
+}
+
 </style>
 {% endblock %}
 
@@ -386,12 +391,11 @@ ul,li{list-style:none;}
 						<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
 					</div>
 				</div>
-				<div class="right aligned four wide column">
-					<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
-						提交作品
-						<i class="icon-arrow-right-sharp"></i>
-					</a>
-				</div>
+        <div class="right aligned four wide column">
+          <a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+            <i class="edit icon"></i> 提交作品
+          </a>
+        </div>
 			</div>
 		</div>
 	</section>
@@ -583,7 +587,12 @@ ul,li{list-style:none;}
 				<div class="ui two items college-list" id="college-list">
         </div>
       </div>
-      <input type="button" id="college-more" value="查看更多" />
+				<div class="right aligned four wide column">
+					<a href="javascript:void(0);" id="college-more" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+						查看更多
+						<i class="icon-arrow-right-sharp"></i>
+					</a>
+				</div>
 		</div>
 	</section>
 

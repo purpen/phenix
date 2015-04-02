@@ -300,7 +300,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
       $data[$key]['pid'] = $college['pid'];
       $data[$key]['top_sort'] = $current_num + $key + 1;
       //相关作品
-      $stuffs = $stuff_mode->find(array('from_to'=>1, 'fid'=>$category_id, 'college_id'=>(int)$val['target_id']), array('size'=>4, 'sort'=>array('love_count'=>-1)));
+      $stuffs = $stuff_mode->find(array('from_to'=>1, 'fid'=>$category_id, 'college_id'=>(int)$val['target_id']), array('page'=>1,'size'=>4, 'sort'=>array('love_count'=>-1)));
       $stuffs = $stuff_mode->extend_load_all($stuffs);
       $data[$key]['stuffs'] = $stuffs;
     }

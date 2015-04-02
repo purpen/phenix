@@ -33,9 +33,14 @@
   </append>
 
   {% if !colleges %}
-	<replace select="#college-more">
-    <input type="button" id="college-more" value="没有更多" />
-	</replace>
+	<replace select="#college-more"><![CDATA[
+      <div class="right aligned four wide column">
+        <a href="javascript:void(0);" id="college-more" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+          没有更多
+          <i class="icon-arrow-right-sharp"></i>
+        </a>
+      </div>
+	]]></replace>
   {% endif %}
 
 	<eval>
