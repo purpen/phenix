@@ -71,7 +71,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			$pager_url = Sher_Core_Helper_Url::sale_list_url($category_id, $type, $sort,'#p#');
 			$list_prefix = Doggy_Config::$vars['app.url.sale'];
-			
+            
+			$this->set_target_css_state('saled');
 			$current_category = array('name'=>'presale');
 	    }
 		// 排序方式

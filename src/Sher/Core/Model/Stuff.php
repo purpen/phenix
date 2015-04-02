@@ -79,8 +79,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         
         # 最近的点赞用户
         'last_love_users' => array(),
-		
-    	'deleted' => 0,
+        
     	'published' => 1,
 		
 		# 编辑推荐
@@ -357,7 +356,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $options=array()) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
 		$asset->remove_and_file(array('parent_id' => $id));
@@ -372,6 +371,20 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		$textindex = new Sher_Core_Model_TextIndex();
 		$textindex->remove(array('target_id' => $id));
 		unset($textindex);
+
+    //如果是大赛,减去所在大学,省份数量统计
+    if($options['from_to']==1){
+      $province_id = isset($options['province_id'])?$options['province_id']:0;
+      $college_id = isset($options['college_id'])?$options['college_id']:0;
+      $num_mode = new Sher_Core_Model_SumRecord();
+      if($province_id){
+        $num_mode->down_record($province_id, 'match2_count', 1);
+      }
+      if($college_id){
+        $num_mode->down_record($college_id, 'match2_count', 2);    
+      }
+      unset($num_mode);
+    }
 		
 		return true;
 	}

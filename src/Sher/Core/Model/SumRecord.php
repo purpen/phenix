@@ -21,6 +21,8 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
       'count' => 0,
       # 十万火计2数量
       'match2_count' => 0,
+      # 十万火计2 人气数量(大学点赞)
+      'match2_love_count' => 0,
       # id数组 备
       'items' => array(),
     );
@@ -28,8 +30,8 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected $required_fields = array('target_id','type');
-    protected $int_fields = array('type','count','match2_count');
-    protected $counter_fields = array('count','match2_count');
+    protected $int_fields = array('type','count','match2_count','match2_love_count');
+    protected $counter_fields = array('count','match2_count','match2_love_count');
 	
 	/**
 	 * 扩展关联数据

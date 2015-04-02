@@ -143,6 +143,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 				
         if (!empty($stuff)){
 		      $model->remove((int)$id);
+			    $model->mock_after_remove($id, $stuff);
 				}
 			}
 			

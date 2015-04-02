@@ -6,7 +6,6 @@
     .social.products {
         padding: 1.5rem 0 0;
     }
-    
     .topic.half.table .title {
         margin: 0.5rem 0 0.8rem;
     }
@@ -27,47 +26,6 @@
     .mentors .ui.button {
         color: #666;
         margin-top: 2rem;
-    }
-    .ui.comments .onecomment {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        margin-bottom: 1rem;
-    }
-    .ui.comments .onecomment:last-child {
-        margin-bottom: 0;
-        border-bottom: none;
-    }
-    .ui.comments .onecomment .avatar {
-        display: block;
-        float: left;
-        width: 2em;
-        margin-right: 0.5rem;
-    }
-    .ui.comments .onecomment .avatar img {
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
-        color: rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-        border-radius: 500px;
-        display: block;
-        height: 2em;
-        margin: 0 auto;
-        width: 2em;
-    }
-    .ui.comments .onecomment .metadata {
-        color: rgba(0, 0, 0, 0.3);
-        display: inline-block;
-        font-size: 0.875rem;
-        line-height: 2;
-        margin-left: 0.3em;
-    }
-    .ui.comments .onecomment .text {
-        color: rgba(0, 0, 0, 0.5);
-        line-height: 1.325rem;
-        margin: 1rem 0;
-        word-wrap: break-word;
-    }
-    .ui.comments .onecomment .target {
-        margin: 0 0 1rem;
-        color: rgba(0, 0, 0, 0.5);
     }
     
 </style>
@@ -122,6 +80,33 @@
 			$this.html(event.strftime('<div class="item"><div class="number">%D</div><div class="unit">天</div></div><div class="item"><div class="number">%H</div><div class="unit">时</div></div> <div class="item"><div class="number">%M</div><div class="unit">分</div></div><div class="green item"><div class="number">%S</div><div class="unit">秒</div></div>'));
 		});
 	});
+    
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+			if (result.success) {
+				$btn
+					.addClass('actived');
+                    
+                if(result.data.newadd){
+                    $('#stuff_'+ id +'_support')
+                        .prepend('<img src="'+ result.data.avatar +'" class="ui avatar image" />')
+                        .find('span.count').remove()
+                        .end()
+                        .append('<span class="count">'+ result.data.love_count +'<small>\+</small></span>');
+                }
+			} else {
+				phenix.show_error_note(result.message);
+			}
+		}, 'json');
+	});
+    
 {% endblock %}
 
 
@@ -185,19 +170,19 @@
 	<div class="ui responsive grid">
         <div class="row">
             <div class="column">
-				<div class="ui four socialstick items">
+                <div class="ui socialstick four blocks">
                     {% for skad in stkad.rows %}
-					<div class="item">
-						<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
+                    <div class="block">
+        				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
                             <a class="transparent" href="{{ skad.view_url }}" target="_blank">
-    							<div class="sub title">
-    								{{ skad.title }}
-    							</div>
+        						<div class="sub title">
+        							{{ skad.title }}
+        						</div>
                             </a>
-						</div>
-					</div>
-					{% endfor %}
-				</div>
+        				</div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
@@ -210,7 +195,7 @@
 		<div class="two column middle aligned row">
 			<div class="column">
 				<h2 class="block title">
-					创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
+					<a href="{{ app_url_fever }}" class="ui line">创意投票</a> <small>没有你的支持，这世界将失去一个伟大的产品</small>
 				</h2>
 			</div>
 			<div class="right aligned column">
@@ -237,7 +222,7 @@
 		<div class="two column middle aligned row">
 			<div class="column">
 				<h2 class="block title">
-					智品库 <small>各行业专家汇聚，创造未来伟大的产品</small>
+					<a href="{{ app_url_stuff }}" class="ui line">智品库</a> <small>各行业专家汇聚，创造未来伟大的产品</small>
 				</h2>
 			</div>
 			<div class="right aligned column">
@@ -266,7 +251,7 @@
                 <div class="ui very compact grid">
                     <div class="twelve wide column">
         				<h2 class="block title">
-        					社区话题 <small>各行业专家汇聚，创造未来伟大的产品</small>
+        					<a href="{{ app_url_topic }}" class="ui line">社区话题</a> <small>各行业专家汇聚，创造未来伟大的产品</small>
         				</h2>
                 
         				<div class="ui active segment" data-tab="featured">
@@ -289,11 +274,11 @@
         							{% endfor %}
         						</tbody>
         					</table>
-        				</div>                
+        				</div> 
                     </div>
         			<div class="four wide column">
         				<h2 class="block title">
-        					资深专家
+        					<a href="{{ app_url_social }}/mentors" class="ui line">资深专家</a>
         				</h2>
                 
                         {% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}

@@ -2,19 +2,19 @@
 {% block title %}填写订单信息-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+    
 </style>
 {% endblock %}
 
 {% block jquery %}
 	
 	// 显示地址框
-	$('.ui.addbook.btn').click(function(){
+	$('.ui.addbook.button').click(function(){
 		$('.ui.addbook.modal').modal('show');
 	});
 	
 	// 使用红包
-	$('.ui.bonus.icon').click(function(){
+	$('.ui.bonus.button').click(function(){
 		if ($(this).hasClass('active')){
 			$('.ui.bonus.segment').addClass('hide');
 			$(this).removeClass('active');
@@ -42,7 +42,7 @@
 	});
 	
 	// 选择地址
-	$('.address').on('click', '.item', function(){
+	$('.address').on('click', '.block', function(){
 		var addbook_id = $(this).data('id');
 		// 新添加地址
 		if (addbook_id == 0){
@@ -321,28 +321,30 @@
 						</h3>
 						<input type="hidden" name="addbook_id" value="{{ data.addbook_id }}" id="addbook_default_id" />
 						{% addbooks_list var:'addresses' user_id:visitor.id size:3 %}
-						<div class="ui four address items">
+						<div class="ui four address blocks">
 							{% for address in addresses.rows %}
-						  	<div class="{% if address.is_default %}active {% endif %} item" id="{{ address._id }}" data-id="{{ address._id }}">
-								<h4 class="ui dividing header">
-									<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
-								</h4>
-								<p>{{ address.phone }}</p>
-								<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
+						  	<div class="{% if address.is_default %}active {% endif %} block" id="{{ address._id }}" data-id="{{ address._id }}">
+                                <div class="content">
+    								<h4 class="ui dividing header">
+    									<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
+    								</h4>
+    								<p>{{ address.phone }}</p>
+    								<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
 							
-								<div class="actions">
-									<a class="ui small gray icon edit button" data-id="{{ address._id }}">
-										<i class="edit icon"></i>
-									</a>
-									<a class="ui small gray icon remove button" data-id="{{ address._id }}">
-										<i class="remove icon"></i>
-									</a>
-								</div>
+    								<div class="actions">
+    									<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+    										<i class="edit icon"></i>
+    									</a>
+    									<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+    										<i class="remove icon"></i>
+    									</a>
+    								</div>
+                                </div>
 						  	</div>
 							{% endfor %}
-							<div class="center aligned item" id="create-new-address" data-id="0">
-								<a class="ui magenta addbook icon btn" href="javascript:void(0);">
-									<i class="flat add icon"></i> 添加新地址
+							<div class="center aligned block" id="create-new-address" data-id="0">
+								<a class="ui magenta addbook inverted button" href="javascript:void(0);">
+									<i class="edit icon"></i> 添加新地址
 								</a>
 							</div>
 						</div>
@@ -516,7 +518,7 @@
 							<div class="six wide column">
 								{% if !preorder %}
 								<div class="bill">
-									<a href="javascript:void(0);" class="ui small icon magenta bonus button pop" data-content="使用红包" data-variation="inverted">
+									<a href="javascript:void(0);" class="ui small magenta bonus inverted button pop" data-content="使用红包" data-variation="inverted">
 										<i class="gift icon"></i> 使用红包抵消部分总额
 									</a>
 									<div class="ui bonus hide segment">
@@ -548,12 +550,14 @@
 						</div>
 						<div class="bottom aligned row">
 							<div class="six wide column">
-								<a href="{{ app_url_cart }}" class="ui black btn-4 btn-4c btn">
-									<i class="truck icon"></i>返回购物车
+								<a href="{{ app_url_cart }}" class="ui gray inverted button">
+									<i class="truck icon"></i> 返回购物车
 								</a>
 							</div>
 							<div class="right aligned ten wide column">
-								<div class="ui magenta btn-4 btn-4c icon-arrow-right checkout submit btn">立即下单</div>
+								<div class="ui magenta checkout submit inverted button">
+                                    <i class="checkmark icon"></i> 立即下单
+                                </div>
 							</div>
 						</div>
 					</div>

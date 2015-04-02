@@ -325,46 +325,34 @@
 
 	<section class="ui small block">
 		<div class="ui responsive grid">
-			
-			<!--  商品推荐位  -->
-		  <!--{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
-			<div class="row groom">
-				<div class="column">
-					<div class="ui two items">
-			      {% for ad in adslide2.rows %}
-						<div class="item">
-							<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-					      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}">
-							</a>
-						</div>
-            {%endfor%}
-					</div>
-				</div>
-			</div>-->
-
 			{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
-      {% if adslide2.rows %}
-        <div class="row">
-          <div class="column">
-            <div class="ui two groom items">
-              {% for ad in adslide2.rows %}
-              <div class="item">
-                <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
-                  <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
+            {% if adslide2.rows %}
+            <div class="row">
+                <div class="column">
+                    <div class="ui two groom items">
+                        {% for ad in adslide2.rows %}
+                        <div class="item">
+                            <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
                 </div>
-              </div>
-              {%endfor%}
             </div>
-          </div>
-        </div>
-      {%endif%}
+            {%endif%}
 			
-			<div class="row">
+			<div class="two column middle aligned row">
 				<div class="column">
 					<h2 class="block title">
-            热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small> <span><a href="{{ app_url_shop }}/c0"  class="ui link "><small>查看更多>></small></a></span>
+						热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
 					</h2>
 				</div>
+                <div class="right aligned column">
+					<a href="{{ app_url_shop }}/c0" class="ui inverted gray button">
+						查看更多
+					</a>
+                </div>
 			</div>
 			<div class="row">
 				<div class="column">
@@ -378,39 +366,12 @@
 		</div>
 	</section>
 	
-	<section class="ui small vote block">
-		<div class="ui responsive grid">
-			<div class="two column middle aligned row">
-				<div class="column">
-					<h2 class="block title">
-						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
-					</h2>
-				</div>
-                <div class="right aligned column">
-					<a href="{{ app_url_fever }}" class="ui inverted gray button">
-						全部创意
-					</a>
-                </div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<div class="ui four voteist cards">
-						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:4 %}
-						{% for product in list.rows %}
-							{% include "block/product_vote_item.html" %}
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	
 	<section class="ui small topic white background block">
 	    <div class="ui responsive sticktopic grid">
 			<div class="row">
 				<div class="column">
 					<h2 class="block title">
-						社区话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
+						精选话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
 					</h2>
 				</div>
 			</div>
@@ -460,15 +421,47 @@
 			</div>
 		</div>
 	</section>
+    
+	<section class="ui big vote block">
+		<div class="ui responsive grid">
+			<div class="two column middle aligned row">
+				<div class="column">
+					<h2 class="block title">
+						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
+					</h2>
+				</div>
+                <div class="right aligned column">
+					<a href="{{ app_url_fever }}" class="ui inverted gray button">
+						查看全部
+					</a>
+                </div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="ui four voteist cards">
+						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:4 %}
+						{% for product in list.rows %}
+							{% include "block/product_vote_item.html" %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<section class="ui big succase block">
 		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
+			<div class="middle aligned row">
+				<div class="ten wide column">
 					<h2 class="block title">
 						成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
 					</h2>
 				</div>
+                <div class="six wide right aligned column">
+					<a href="{{ app_url_action_base }}/guide/succase" class="ui gray inverted button">
+						更多案例
+					</a>
+                </div>
 			</div>
 			<div class="row">
 				<div class="center aligned column">
@@ -535,23 +528,20 @@
 					</div>
 				</div>
 			</div>
-			<div class="more row">
-				<div class="center aligned column">
-					<a href="{{ app_url_action_base }}/guide/succase" class="ui magenta inverted button">
-						<i class="search icon"></i>查看更多成功案例
-					</a>
-				</div>
-			</div>
 		</div>
 	</section>
 
   	<section class="ui big together white background block">
     	<div class="ui responsive grid">
       	  	<div class="row">
-      		  	<h3 class="ui center aligned header">合作伙伴</h3>
+                <div class="column">
+    				<h2 class="block title">
+    					合作伙伴
+    				</h2>
+                </div>
       	  	</div>
       	  	<div class="row">
-        		<div class="center aligned column">
+        		<div class="column">
           			<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_technode.jpg" alt="动点科技"></a>
           		  	<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="{{ app_url_packaged }}/images/logo_geekpark.jpg" alt="极客公园"></a>
           		  	<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_leikeji.jpg" alt="雷科技"></a>

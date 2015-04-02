@@ -2,7 +2,10 @@
 {% block title %}作品提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+    .ui.submit.segment {
+    	 margin-bottom: 3rem;
+    	 padding: 1.5rem;
+    }
 </style>
 {% endblock %}
 
@@ -202,7 +205,7 @@
 					</h2>
 				</div>
 				
-				<div class="ui segment">
+				<div class="ui submit segment">
 					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
@@ -271,11 +274,11 @@
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
-							<div id="asset-list" class="ui six items">
+							<div id="asset-list" class="ui six blocks">
 								{% if mode == 'edit' %}
 									{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
 									{% for asset in assets.rows %}
-									<div class="thumb item" id="{{ asset._id }}">
+									<div class="thumb block" id="{{ asset._id }}">
 										<div class="image">
 											<img src="{{ asset.thumbnails.mini.view_url }}" />
 											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
@@ -303,8 +306,8 @@
 						
 						<div class="ui right floated aligned grid">
 							<div class="column">
-								<div class="ui gray cancel big inverted button">取消</div>
-								<div class="ui magenta big submit inverted button">确认提交</div>
+								<div class="ui gray cancel large inverted button">取消</div>
+								<div class="ui magenta large submit inverted button">确认提交</div>
 							</div>
 						</div>
 					

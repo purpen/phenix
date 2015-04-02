@@ -5,123 +5,123 @@
  */
 class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 
-  protected $collection = "active";
+    protected $collection = "active";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
-	#类型: 官方／个人
-  const KIND_OFFICIAL    = 1;
-  const KIND_PERSONAL   = 2;
+	# 类型: 官方／个人
+    const KIND_OFFICIAL    = 1;
+    const KIND_PERSONAL   = 2;
 
-  #进行状态：开始，结束，暂停
-  const STEP_PAUSE = 0;
-  const STEP_START = 1;
-  const STEP_OVER  = 2;
+    # 进行状态：开始，结束，暂停
+    const STEP_PAUSE = 0;
+    const STEP_START = 1;
+    const STEP_OVER  = 2;
 
-  #线上线下
-  const LINE_OFF  = 1;
-  const LINE_ON = 2;
+    # 线上线下
+    const LINE_OFF  = 1;
+    const LINE_ON = 2;
 
-  #是否免费
-  const FREE_ON = 1;
-  const FREE_OFF = 2;
+    # 是否免费
+    const FREE_ON  = 1;
+    const FREE_OFF = 2;
 	
     protected $schema = array(
-		'user_id'     => 0,
-		#类型
+        'user_id'     => 0,
+		# 类型
 		'kind' => self::KIND_OFFICIAL,
 		# 联系人
-	  'contact_name'   => null,
-		#电话
+        'contact_name'   => null,
+		# 电话
 		'contact_tel' => null,
-    #邮箱
-    'contact_email' =>  null,
-    #详细地址
-    'address' =>  null,
-    #举办城市-字符串
-    'conduct_city'  =>  null,
-    #地址坐标
-    'a' =>  null,
-    #城市省份
-    'province'  =>  0,
-    'city'  =>  0,
+        # 邮箱
+        'contact_email' =>  null,
+        # 详细地址
+        'address' => null,
+        # 举办城市-字符串
+        'conduct_city'  => null,
+        # 地址坐标
+        'a' => null,
+        # 城市省份
+        'province'  =>  0,
+        'city'  =>  0,
 
-    #分类
-    'category_id' => 0,
+        # 分类
+        'category_id' => 0,
 
-    #话题数组(以后可能关联多个话题，所以类型为数组)
-    'topic_ids'  => array(),
+        # 话题数组(以后可能关联多个话题，所以类型为数组)
+        'topic_ids'  => array(),
 
-    #标题
-    'title' => null,
-    #子标题
-    'sub_title' => null,
-    #介绍
+        # 标题
+        'title' => null,
+        # 子标题
+        'sub_title' => null,
+        # 介绍
 		'content' => null,
-		#标签
-    'tags'    => array(),
+		# 标签
+        'tags'    => array(),
 
-    #几期
-    'season'  =>  0,
+        # 几期
+        'season'  =>  0,
 
-    #线上或线下
-    'line_stat'  =>  self::LINE_OFF,
-    #是否免费
-    'free_stat' =>  self::FREE_ON,
-    'pay_money'  =>  0,
+        #线上或线下
+        'line_stat'  =>  self::LINE_OFF,
+        #是否免费
+        'free_stat' =>  self::FREE_ON,
+        'pay_money'  =>  0,
 
-    #Counter
-    #图片数量
-    'asset_count'  =>  0,
-    #预览人数
-    'view_count'  => 0,
-    #参加人数
-    'attend_count'  =>  0,
-    #报名人数
-    'signup_count'  => 0,
-    #上线名额
-    'max_number_count'  =>  0,
-    #喜欢人数
-    'love_count'  =>  0,
-    #收藏人数
-    'fav_count'  =>  0,
-    #评论人数
-    'comment_count' =>  0,
+        #Counter
+        #图片数量
+        'asset_count'  =>  0,
+        #预览人数
+        'view_count'  => 0,
+        #参加人数
+        'attend_count'  =>  0,
+        #报名人数
+        'signup_count'  => 0,
+        #上线名额
+        'max_number_count'  =>  0,
+        #喜欢人数
+        'love_count'  =>  0,
+        #收藏人数
+        'fav_count'  =>  0,
+        #评论人数
+        'comment_count' =>  0,
 
 
-    #进行状态
-    'step_stat'  =>  self::STEP_PAUSE,
-    #开始/结束时间
-    'begin_time'  =>  0,
-    'end_time'  =>  0,
+        #进行状态
+        'step_stat'  =>  self::STEP_PAUSE,
+        #开始/结束时间
+        'begin_time'  =>  0,
+        'end_time'  =>  0,
 		
-		# 封面图
- 		'cover_id' => '',
-    #banner图
-    'banner_id' => '',
-    #手机banner图
-    'wap_banner_id' => '',
-		'asset' => array(),
-		# 附件图片数
-		'asset_count' => 0,
+        # 封面图
+        'cover_id' => '',
+        #banner图
+        'banner_id' => '',
+        #手机banner图
+        'wap_banner_id' => '',
+        'asset' => array(),
+        # 附件图片数
+        'asset_count' => 0,
 
-    #发布
-    'published' =>  0,
-    #推荐
-    'stick' =>  0,
-    #Process流程
-    'process'  =>  array(),
-    #地图信息
-    'map_info'  =>  null,
-    #合作伙伴
-    'partner' =>  array(),
-		
-		# 状态:0,禁用，1.启用
-		'state' => 0,
-    #是否删除
-    'deleted' => 0,
+        #发布
+        'published' =>  0,
+        #推荐
+        'stick' =>  0,
+        #Process流程
+        'process'  =>  array(),
+        #地图信息
+        'map_info'  =>  null,
+        #合作伙伴
+        'partner' =>  array(),
 
-    #备注
-    'summary' => null,
+        # 状态: 0,禁用，1.启用
+        'state' => 0,
+        #是否删除
+        'deleted' => 0,
+
+        #备注
+        'summary' => null,
 
     );
 	

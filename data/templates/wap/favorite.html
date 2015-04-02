@@ -14,7 +14,22 @@
 <div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
-			<h5 class="ui dividing header">我的收藏</h5>
+    		<div class="ui breadcrumb">
+    		  	<a class="section" href="{{ app_url_wap }}">
+    				<i class="icon home"></i>首页
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<a class="section" href="{{ app_url_wap }}/my">
+    				个人中心
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<div class="active section">我的收藏</div>
+    		</div>
+        </div>
+    </div>
+	<div class="row">
+		<div class="column">
+			<h4 class="ui dividing header">我的收藏</h4>
 			{% favorite_list var:'favorites' user_id:visitor.id type:1 size:10 %}
 			<div class="ui one items">
 			{% for fav in favorites.rows %}

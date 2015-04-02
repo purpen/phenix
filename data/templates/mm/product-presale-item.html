@@ -5,11 +5,11 @@
 		</a>
   	</div>
   	<div class="content">
-      	<h5 class="ui dividing header">
+      	<div class="header">
 			<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" title="{{ product.title }}" class="ui link">
 				{{ product.title|truncate, 36, '' }}
 			</a>
-		</h5>
+        </div>
 		<div class="schedule">
 			<div class="total amount">
 				<span class="unit">￥</span>{{ product.presale_money|default 0}}
@@ -24,7 +24,7 @@
 					{% if !product.presale_finished %}
 					<span class="count" data-countdown="{{ product.presale_finish_time|date 'Y/m/d H:i:s' }}"></span>天后结束
 					{% else %}
-					预售结束
+					预售已结束
 					{% endif %}
 				</span>
 			</div>

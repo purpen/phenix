@@ -10,6 +10,7 @@ class Sher_Core_Service_TextIndexer {
     private $user;
     private $topic;
     private $product;
+    private $stuff;
     private $text_index;
     private $scws;
 	
@@ -38,7 +39,7 @@ class Sher_Core_Service_TextIndexer {
         $this->user = new Sher_Core_Model_User();
 		$this->topic = new Sher_Core_Model_Topic();
 		$this->product = new Sher_Core_Model_Product();
-		
+		$this->stuff = new Sher_Core_Model_Stuff();
         $this->text_index = new Sher_Core_Model_TextIndex();
         $this->scws = scws_new();
         $this->scws->set_charset('utf8');
@@ -107,11 +108,33 @@ class Sher_Core_Service_TextIndexer {
 		
         // 全文检索内容包括: 标题 简介 标签 类别名称
         $full_content = $row['title'].' '.$row['advantage'].' '.$row['summary'].' '.$row['content']. ' '.implode(' ',$row['tags']);
-        $full_words = Sher_Core_Helper_SCWS::segment_index_word($this->scws, $full_content);
+        $full_words   = Sher_Core_Helper_SCWS::segment_index_word($this->scws, $full_content);
 		
         $tags = $row['tags'];
 		
         return $this->text_index->build_product_index($target_id, $full_words, $tags, $attributes);
+    }
+    
+	/**
+	 * 创建产品全文索引
+	 */
+    public function build_stuff_index($target_id) {
+        $row = $this->stuff->find_by_id($target_id);
+		
+        $attributes = array();
+        foreach (array('stick','featured','processed','fid','updated_on','created_on','category_id') as $k) {
+            if (isset($row[$k])) {
+                $attributes[$k] = (int)$row[$k];
+            }
+        }
+		
+        // 全文检索内容包括: 标题 简介 标签 类别名称
+        $full_content = $row['title'].' '.$row['description'].' '.$row['brand'].' '.$row['country']. ' '.implode(' ',$row['tags']);
+        $full_words = Sher_Core_Helper_SCWS::segment_index_word($this->scws, $full_content);
+		
+        $tags = $row['tags'];
+		
+        return $this->text_index->build_stuff_index($target_id, $full_words, $tags, $attributes);
     }
 	
 	/**

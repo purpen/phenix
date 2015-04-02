@@ -1,56 +1,42 @@
-<div class="ui card" id="item-{{d._id}}">
-      {% if d.product.cover %}
-			  <div class="image" style="background-image:url({{ d.product.cover.thumbnails.md.view_url }});">
-			{%else%}
-			  <div class="image">
-      {%endif%}
-
-      <div class="image-extra">
-      <a href="{{ d.product.view_url }}" title="{{ d.product.title }}" target="_blank"></a>
-      </div>
-      <div class="presell">
-          {% if d.product.stage==1 %}
-            创意产品
-          {%endif%}
-          {% if d.product.stage==5 %}
-            预售产品
-          {%endif%}
-          {% if d.product.stage==9 %}
-            产品
-          {%endif%}
-      </div>
-      <div class="exit">
-
-        {% if box_type=='fav' %}
-        <div class="ui magenta btn-4 btn-4c pop btn favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
-                      取消收藏
+<div class="card" id="item-{{d._id}}">
+    {% if d.product.cover %}
+    <div class="image" style="background-image:url({{ d.product.cover.thumbnails.md.view_url }});">
+    {%else%}
+    <div class="image">
+    {%endif%}
+        <div class="presell">
+            <label>
+            {% if d.product.stage==1 %}创意产品{%endif%}
+            {% if d.product.stage==5 %}预售产品{%endif%}
+            {% if d.product.stage==9 %}产品{%endif%}
+            </label>
+            <div class="exit">
+                {% if box_type=='fav' %}
+                <div class="ui green pop icon button favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                    <i class="remove icon"></i>
+                </div>
+                {%endif%}
+                {% if box_type=='love' %}
+                <div class="ui green pop icon button" data-content="取消赞" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                    <i class="remove icon"></i>
+                </div>
+                {%endif%}
+            </div>
         </div>
-        {%endif%}
-
-        {% if box_type=='love' %}
-        <div class="ui magenta btn-4 btn-4c pop btn" data-content="取消赞" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
-                      取消赞
-        </div>
-        {%endif%}
         
-      </div>
     </div>
     <div class="content">
-          <div class="header">
-      <a href="{{ d.product.view_url }}" title="{{ d.product.title }}" class="ui line" target="_blank">{{ d.product.title|truncate 26 '' }}</a>
-    </div>
-          <!--<div class="description">
-          {{ d.product.advantage|truncate 60 '' }}
-          </div>-->
+        <div class="header">
+            <a href="{{ d.product.view_url }}" title="{{ d.product.title }}" class="ui line" target="_blank">{{ d.product.title|truncate 26 '' }}</a>
+        </div>
     </div>
     <div class="extra">
-          <a class="right floated created">
-            <!--<small><i class="unhide icon"></i>18</small>-->
+        <a class="right floated created">
             <small><i class="unhide icon"></i>{{ d.product.view_count }}</small>
             <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.product.love_count }}</span></small>
-    </a>
-    <a href="{{ d.product.user.home_url }}" class="ui icon link" target="_blank">
-      <img src="{{ d.product.user.small_avatar_url }}" alt="{{ d.product.user.nickname }}" class="ui avatar image"> <small>{{ d.product.user.nickname }}</small>
-    </a>
+        </a>
+        <a href="{{ d.product.user.home_url }}" class="ui icon link" target="_blank">
+            <img src="{{ d.product.user.small_avatar_url }}" alt="{{ d.product.user.nickname }}" class="ui avatar image"> <small>{{ d.product.user.nickname }}</small>
+        </a>
     </div>
-  </div>
+</div>

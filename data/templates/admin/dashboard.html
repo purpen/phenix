@@ -50,8 +50,8 @@
 		
 		<div class="row">
 			<div class="ten wide column">
-				<h3 class="ui header">最新10个订单</h3>
-				{% order_list var:'orders' page:1 size:10 %}
+				<h3 class="ui header">最新15个订单</h3>
+				{% order_list var:'orders' page:1 size:15 %}
 
 				<table class="ui segment table">
 					<thead>
@@ -105,8 +105,8 @@
 				</table>
 			</div>
 			<div class="six wide column">
-				<h3 class="ui header">最新10个社区话题</h3>
-				{% topic_list var:'topics' page:1 size:10 %}
+				<h3 class="ui header">最新15个社区话题</h3>
+				{% topic_list var:'topics' page:1 size:15 %}
 				<table class="ui segment table">
 					<thead>
 						<tr>
