@@ -2,7 +2,7 @@
 {% block title%}太火鸟商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+    
 </style>
 {% endblock %}
 
@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
+<div class="ui responsive bread grid">
 	<div class="row">
 		<div class="column">
 			<div class="ui breadcrumb">
@@ -34,10 +34,9 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="two column row">
+    {% if process_saled %}
+	<div class="row">
 		<div class="column">
-			{% if process_saled %}
 			{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
 			<div class="ui fluid selection dropdown">
 				{% if current %}
@@ -52,12 +51,9 @@
 					{% endfor %}
 			    </div>
 			</div>
-			{% endif %}
-		</div>
-		<div class="right aligned column">
-			
 		</div>
 	</div>
+    {% endif %}
 </div>
 
 <!--商店商品-->

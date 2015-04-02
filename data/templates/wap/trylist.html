@@ -35,12 +35,12 @@
 							</a>
 						</div>
 						<div class="content">
-							<h4 class="ui dividing header">
+							<div class="header">
 								<a href="{{ t.wap_view_url }}" title="{{ t.title }}" class="ui link">
 									{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
 								</a>
-								<div class="advantage">{{ t.description }}</div>
-							</h4>
+                            </div>
+                            <div class="advantage">{{ t.description }}</div>
 							<div class="name">
 								产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
 							</div>

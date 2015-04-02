@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block jquery %}
-	var s=e(window).width();
+	var s=e('#frslide').width();
 	e("#frslide > .ui.slide > .item").width(s);
 	
 	var $frame = $('#frslide');
@@ -39,7 +39,7 @@
 	});
 	
 	$(window).resize(function() {
-		var s=$(window).width();
+		var s=$('#frslide').width();
 		e("#frslide > .ui.slide > .item").width(s);
 		
 		$frame.sly('reload');
@@ -66,19 +66,27 @@
 {% endblock %}
 
 {% block content %}
-<div id="frslide" class="frame">
-	{% ad_list var:'ad' page:1 size:5 name:'wap_index_slide' %}
-	<div class="ui slide">
-		{% for ad in ad.rows %}
-		<div class="item">
-			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
-	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
-			</a>
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+            {% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
+            <div id="frslide" class="frame">
+            	<div class="ui slide">
+            		{% for ad in ad.rows %}
+            		<div class="item">
+            			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
+            	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
+            			</a>
+            		</div>
+            		{% endfor %}
+            	</div>
+            	<div class="pages"></div>
+            </div>
 		</div>
-		{% endfor %}
 	</div>
-	<div class="pages"></div>
 </div>
+
+
 <!--二级导航-->
 <div class="ui responsive grid" id="mchildmenu">
 	<div class="row">
@@ -141,7 +149,7 @@
 	</div>
 	<div class="row">
 		<div class="column">
-			<a href="{{ app_url_wap }}/shop" class="fluid ui magenta button">更多精选商品</a>
+			<a href="{{ app_url_wap }}/shop" class="fluid ui magenta inverted button">更多精选商品</a>
 		</div>
 	</div>
 </div>

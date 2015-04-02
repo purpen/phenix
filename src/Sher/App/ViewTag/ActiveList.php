@@ -18,7 +18,6 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
 		
-		
 		$category_id = 0;
         $user_id = 0;
         $kind = 0;
@@ -41,7 +40,7 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
 		
         $query = array();
 		
-        if ($user_id) {
+        if($user_id){
             if(is_array($user_id)){
                 $query['user_id'] = array('$in'=>$user_id);
             }else{
@@ -49,57 +48,57 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
             }
         }
 		
-		if ($category_id) {
+		if($category_id){
 			$query['category_id'] = (int)$category_id;
 		}
 
-    if($kind){
-      $query['kind'] = (int)$kind;
-    }
+        if($kind){
+            $query['kind'] = (int)$kind;
+        }
 
-    if($state){
-      if((int)$state==1){
-        $query['state'] = 0;
-      }elseif((int)$state==2){
-        $query['state'] = 1;
-      }else{
-        $query['state'] = 0;
-      }
-    }
+        if($state){
+            if((int)$state == 1){
+                $query['state'] = 0;
+            }elseif((int)$state == 2){
+                $query['state'] = 1;
+            }else{
+                $query['state'] = 0;
+            }
+        }
 
-    if($published){
-      $query['published'] = (int)$published;
-    }
+        if($published){
+            $query['published'] = (int)$published;
+        }
 
-    if($step_stat){
-      if((int)$step_stat==1){
-        $query['step_stat'] = 0;
-      }elseif((int)$step_stat==2){
-        $query['step_stat'] = 1;     
-      }elseif((int)$step_stat==3){
-        $query['step_stat'] = 2;
-      //进行中与结束两种状态 
-      }elseif((int)$step_stat==4){
-        $query['step_stat'] = array('$in'=>array(1,2));
-      }
-    }
+        if($step_stat){
+            if((int)$step_stat == 1){
+                $query['step_stat'] = 0;
+            }elseif((int)$step_stat == 2){
+                $query['step_stat'] = 1;     
+            }elseif((int)$step_stat == 3){
+                $query['step_stat'] = 2;
+            // 进行中与结束两种状态 
+            }elseif((int)$step_stat == 4){
+                $query['step_stat'] = array('$in'=>array(1,2));
+            }
+        }
 
-    if($deleted){
-      if((int)$deleted==1){
-        $query['deleted'] = 0;
-      }elseif((int)$deleted==2){
-        $query['deleted'] = 1;
-      }
-    }
+        if($deleted){
+            if((int)$deleted == 1){
+                $query['deleted'] = 0;
+            }elseif((int)$deleted == 2){
+                $query['deleted'] = 1;
+            }
+        }
 		
         $service = Sher_Core_Service_Active::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		
 		$options['sort_field'] = $sort;
-		
+        
         $result = $service->get_active_list($query, $options);
-		
+        
         $context->set($var,$result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
@@ -107,4 +106,3 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
         
     }
 }
-?>

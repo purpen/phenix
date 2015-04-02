@@ -206,11 +206,11 @@
 				<p>上传图片:</p>
 				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ advertise.cover_id }}" />
 				<div id="phenix-uploader"></div>
-				<div id="asset-list" class="ui four items">
+				<div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}
 						{% asset_list var:'assets' parent_id:advertise._id size:20 asset_type:3 %}
 						{% for asset in assets.rows %}
-						<div class="thumb item" id="{{ asset._id }}">
+						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
 								<img src="{{ asset.thumbnails.small.view_url }}" />
 								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />

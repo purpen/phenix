@@ -441,11 +441,11 @@
 					{% endif %}
 					
 					{% if topic.tags %}
-					<div class="tags">
+					<div class="idea tags">
 						{% for tag in topic.tags %}
 						{% if tag %}
-						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
-							<i class="tag icon"></i>{{ tag }}
+						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui line">
+							# {{ tag }}
 						</a>
 						{% endif %}
 						{% endfor %}

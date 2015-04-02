@@ -120,7 +120,22 @@
 <div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
-			<h5 class="ui dividing header">管理收货地址</h5>
+    		<div class="ui breadcrumb">
+    		  	<a class="section" href="{{ app_url_wap }}">
+    				<i class="icon home"></i>首页
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<a class="section" href="{{ app_url_wap }}/my">
+    				个人中心
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<div class="active section">管理收货地址</div>
+    		</div>
+        </div>
+    </div>
+	<div class="row">
+		<div class="column">
+			<h4 class="ui dividing header">管理收货地址</h4>
 			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 			{% for address in addresses.rows %}
 		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
@@ -141,8 +156,8 @@
 		  	</div>
 			{% endfor %}
 			<div class="ui center aligned segment" id="create-new-address" data-id="0">
-				<a class="ui active magenta addbook icon labeled button" href="javascript:void(0);">
-					<i class="flat add icon"></i> 添加新地址
+				<a class="ui magenta addbook inverted button" href="javascript:void(0);">
+					<i class="edit icon"></i> 添加新地址
 				</a>
 			</div>
 		</div>
@@ -220,8 +235,8 @@
 				</div>
 
 				<div class="field">
-					<div class="ui active magenta submit button">确定</div>
-			        <div class="ui gray close-btn button">取消</div>
+					<div class="ui active magenta submit inverted button">确定</div>
+			        <div class="ui gray close-btn inverted button">取消</div>
 				</div>
 				
 			</div>				

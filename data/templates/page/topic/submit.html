@@ -5,6 +5,7 @@
     .social.post {
         margin-bottom: 3rem;
     }
+    
 </style>
 {% endblock %}
 
@@ -276,11 +277,11 @@
 							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
-							<div id="asset-list" class="ui four items">
+							<div id="asset-list" class="ui six blocks">
 								{% if mode == 'edit' %}
 									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
 									{% for asset in assets.rows %}
-									<div class="thumb item" id="{{ asset._id }}">
+									<div class="thumb card" id="{{ asset._id }}">
 										<div class="image">
 											<img src="{{ asset.thumbnails.mini.view_url }}" />
 											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />

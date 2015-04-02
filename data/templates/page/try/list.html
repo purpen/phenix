@@ -3,37 +3,7 @@
 
 {% block page_css %}
 <style class="text/css">
-	.try.masthead {
-		color: white;
-		padding: 100px 0 60px;
-		background: url("{{ app_url_packaged }}/images/banner-trial.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
-	}
-	.try.masthead .buttons {
-		margin-top: 3rem;
-	}
-	.two-nav{
-		background:#f4f4f4;
-	}
-	.ui.try .ui.three.items .magenta.item .image+.content{
-		margin-left: 0;
-		padding: 1rem 1rem 55px !important;
-		height: 150px;
-	}
-	.ui.try .i-stats {
-		position: absolute;
-		padding-top: 25px;
-		bottom: 10px;
-		left: 1rem;
-		right: 1rem;
-		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
-	}
-	.ui.try .i-stats .trycm{
-		padding-top: 10px;
-		border-top: 1px solid rgba(0,0,0,.1);
-	}
-	.ui.try .i-stats .trycm .name{
-		margin-bottom: .3em;
-	}
+	
 </style>
 {% endblock %}
 
@@ -51,15 +21,15 @@
 		</div>
 	</div>
 </div>
-<div class="try masthead">
+
+<div class="try masthead" style="background-image:url('{{ app_url_packaged }}/images/banner-trial.jpg');">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
 			<h2 class="block title">申请成为试用达人</h2>
 			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
 			<hr>
 			<div class="buttons">
-				<!--<a href="{{ app_url_helper }}/itry" class="ui inverted gift button">-->
-					<a href="http://www.taihuoniao.com/topic/view-100247-1.html" class="ui inverted gift button">
+				<a href="http://www.taihuoniao.com/topic/view-100247-1.html" class="ui inverted gift button">
 					<i class="certificate icon"></i> 试用规则
 				</a>
 			</div>
@@ -72,26 +42,26 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<div class="ui three items">
+					<div class="ui three cards">
 						{% try_list var:'list' page:page state:1 %}
 						{% for t in list.rows %}
-							<div class="magenta item">
+							<div class="card">
 								<div class="image">
 									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 							      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
 									</a>
 								</div>
 								<div class="content">
-									<h4 class="ui header">
-										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link">
-											{{ t.title|truncate, 22, '' }}{%if t.is_end%}（已结束）{%endif%}
+									<div class="header">
+										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+											{{ t.title|truncate, 24, '' }}{%if t.is_end%}（已结束）{%endif%}
 										</a>
-										<div class="advantage">{{ t.description }}</div>
-									</h4>
+                                    </div>
+                                    <div class="description">{{ t.description }}</div>
 									<div class="i-stats">
 										<div class="trycm">
 											<div class="name">
-												产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
+												产品数量：<span class="count">{{ t.try_count }}</span> 个 申请人数：<span class="count">{{ t.apply_count }}</span> 人
 											</div>
 											<div class="ui text result">
 												<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>

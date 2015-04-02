@@ -14,7 +14,22 @@
 <div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
-			<h5 class="ui dividing header">订单查询</h5>
+    		<div class="ui breadcrumb">
+    		  	<a class="section" href="{{ app_url_wap }}">
+    				<i class="icon home"></i>首页
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<a class="section" href="{{ app_url_wap }}/my">
+    				个人中心
+    			</a>
+    		  	<div class="divider"> / </div>
+    		  	<div class="active section">订单列表</div>
+    		</div>
+        </div>
+    </div>
+	<div class="row">
+		<div class="column">
+			<h4 class="ui dividing header">订单查询</h4>
 			<div class="ui segment">
 				{% order_list var:'list' user_id:user.id status:s size:10 page:page %}
 				<div class="ui very relaxed divided address list">

@@ -14,37 +14,39 @@
 		</div>
   	</div>
   	<div class="content">
-      	<h4 class="ui header">
-			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui link">
+        <div class="header">
+			<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
 				{{ product.title|truncate, 32, '' }}
 			</a>
-			<div class="advantage">{{ product.advantage }}</div>
+        </div>
+        <div class="advantage">
+            {{ product.advantage }}
 			<div class="result">
 				众筹金额：<span class="count">{{ product.presale_money }}</span>元 支持人数：<span class="count">{{ product.presale_people|default 0 }}</span> 达成率：<span class="count">{{ product.presale_percent }}％</span>
 			</div>
-		</h4>
+        </div>
 		<div class="i-stats">
 			<div class="schedule p-sell">
-        	<div class="ui magenta progress">
-          		<div class="bar" style="width:100%;"></div>
-        	</div>
-        	<div class="status clearfix">
-          		<div class="name">
-            		<span class="unit">￥</span>
-            		<span class="price">{{ product.sale_price }}</span>
-            		<span class="like">
-						{% if product.love_count %}
-            			<i class="icon heart"></i>
-            			{% else %}
-            			<i class="icon empty heart"></i>
-            			{% endif %}
-            			<span class="count">{{ product.love_count }}</span>
-          		  	</span>
-        		</div>
-      	  	</div>
-			<a href="{{ product.view_url }}" class="link-extra" target="_blank">
-				{{ product.title }}
-			</a>
+            	<div class="ui magenta progress">
+              		<div class="bar" style="width:100%;"></div>
+            	</div>
+            	<div class="status clearfix">
+              		<div class="name">
+                		<span class="unit">￥</span>
+                		<span class="price">{{ product.sale_price }}</span>
+                		<span class="like">
+    						{% if product.love_count %}
+                			<i class="icon heart"></i>
+                			{% else %}
+                			<i class="icon empty heart"></i>
+                			{% endif %}
+                			<span class="count">{{ product.love_count }}</span>
+              		  	</span>
+            		</div>
+          	  	</div>
+    			<a href="{{ product.view_url }}" class="link-extra" target="_blank">
+    				{{ product.title }}
+    			</a>
 			</div>
   		</div>
   	</div>

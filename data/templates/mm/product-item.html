@@ -5,12 +5,12 @@
 		</a>
   	</div>
   	<div class="content">
-      	<h5 class="ui dividing header">
+      	<div class="header">
 			<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" title="{{ product.title }}" class="ui link">
 				{{ product.title|truncate, 36, '' }}
 			</a>
-			<div class="advantage">{{ product.advantage }}</div>
-		</h5>
+        </div>
+        <div class="advantage">{{ product.advantage }}</div>
 		<div class="name">
 			<span class="unit">￥</span>
 			<span class="price">{{ product.sale_price }}</span>

@@ -92,7 +92,7 @@
 	  	<div class="right menu">
 			
 			<a href="{{ app_url_admin }}/comment/deleted" class="item ajax-delete">
-				批量删除
+				<i class="remove icon"></i>批量删除
 			</a>
 	    </div>
 	</div>
@@ -126,7 +126,7 @@
 
 			<div class="ui icon input">
         <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-				<i class="flat search link icon"></i>
+				<i class="search link icon"></i>
 			</div>
 		</form>
 	</div>
@@ -141,9 +141,9 @@
 					</div>
 				</th>
 				<th class="five wide">内容</th>
-				<th>赞名单</th>
-        <th>赞数量</th>
-        <th>所属</th>
+				<th>点赞名单</th>
+                <th>赞数量</th>
+                <th>所属</th>
 				<th>关联ID</th>
 				<th>管理操作</th>
 			</tr>
@@ -168,7 +168,7 @@
         </td>
 
         <td>
-          <a href="{{ app_url_admin_base }}/comment/get_attend_list?target_id={{ comment._id }}&t={{ comment.type }}">赞名单>></a>
+          <a href="{{ app_url_admin_base }}/comment/get_attend_list?target_id={{ comment._id }}&t={{ comment.type }}" class="ui magenta link">点赞名单</a>
         </td>
 
 				<td>

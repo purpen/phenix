@@ -57,7 +57,7 @@
 			<label>搜索：</label>
 			<div class="ui icon input">
 				<input placeholder="礼品码..." type="text" name="q">
-				<i class="flat search link icon"></i>
+				<i class="search link icon"></i>
 			</div>
 		</form>
 	</div>
@@ -65,7 +65,7 @@
 	<div class="ui large segment">
 		<form class="ui form" action="{{ app_url_admin_base }}/gift/ajax_save" method="post" id="gift-form">
 			<input name="_id" type="hidden" value="{{ gift._id }}" />
-			
+			<h3 class="ui header">新增礼品卡</h3>
 			<div class="inline field">
 				<label>前缀名称:</label>
 				<input type="text" name="before_prefix" />
@@ -91,10 +91,10 @@
 			</div>
 		
 			<div class="inline field">
-				<div class="ui magenta submit button">
+				<div class="ui magenta submit inverted button">
 					确认提交
 				</div>
-				<div class="ui gray cancel button">
+				<div class="ui gray cancel inverted button">
 					取消
 				</div>
 			</div>

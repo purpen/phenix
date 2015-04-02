@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}支付订单-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -9,7 +9,7 @@
 {% endblock %}
 {% block jquery %}
 	// 跳转支付
-	$('.ui.checkout.btn').click(function(){
+	$('.ui.checkout.button').click(function(){
 		$('.ui.paywait.modal').modal('show');
 	});
 	
@@ -168,17 +168,18 @@
 							</td>
 						</tr>
 					</table>
-				
-					<div class="ui bottom aligned grid">
-						<div class="row">
-							<div class="right aligned column">
-								<a class="ui gray btn-4 btn-4c btn" href="{{ order.view_url }}" target="_blank">
-									查看订单
-								</a>
-								<input type="submit" class="ui active magenta btn-4 btn-4c icon-arrow-right checkout btn" value="去支付" />
-							</div>
-						</div>
-					</div>
+                    <div class="ui grid">
+    					<div class="bottom aligned row">
+    						<div class="six wide column">
+    							<a class="ui gray inverted button" href="{{ order.view_url }}" target="_blank">
+    								<i class="browser icon"></i> 查看订单
+    							</a>
+    						</div>
+    						<div class="right aligned ten wide column">
+    							<input type="submit" class="ui magenta active checkout inverted button" value="现在支付" />
+    						</div>
+    					</div>
+                    </div>
 				</form>
 				{% else %}
 				<div class="ui ordered message">
@@ -198,8 +199,8 @@
 				<div class="ui bottom aligned grid">
 					<div class="row">
 						<div class="right aligned column">
-							<a class="ui gray btn-4 btn-4c btn" href="{{ order.view_url }}" target="_blank">
-								查看订单
+							<a class="ui gray inverted button" href="{{ order.view_url }}" target="_blank">
+								<i class="browser icon"></i> 查看订单
 							</a>
 						</div>
 					</div>
