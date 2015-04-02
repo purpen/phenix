@@ -1,0 +1,200 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin: 0em 0 3em;
+	}
+	.rank{
+		background:#fff;
+	}
+	.rank .ui.big.block {
+	  padding-top: 2.5em;
+	  padding-bottom: 2.5em;
+	  overflow: hidden;
+	}
+	
+	.ui.people{
+		background:url({{ app_url_packaged }}/images/mtac8.jpg) center center no-repeat;
+		background-size:cover;
+	}
+	.ui.people h3.ui.header,.ui.people .row > .wide.column{
+		color:#1ab26c;
+	}
+	.ui.people .center.column p{
+		color:#456789;
+	}
+	.ui.people .row:nth-child(2) p{
+		color:#fff;
+		margin: 15px 0 8px;
+	}
+	.ui.people .row:nth-child(2){
+		margin-top:0;
+		padding-top:0;
+	}
+	.ui.people .chart{
+		background:#1dba73;
+		height:20px;
+	}
+	.ui.people .chart.t1{
+		background:#0094e3;
+	}
+	.ui.people .chart.t2{
+		background:#00e7d9;
+	}
+	
+	.ui.grid.item{
+		margin-bottom:2%;
+		border:1px solid rgba(0,0,0,0.2);
+	}
+	.ui.grid.item .ui.two.items{
+		margin-left: 0.5%;
+		margin-right: 0.5%;
+		margin-bottom: 1%;
+	}
+	.ui.grid.item .six.wide{
+		font-size:18px;
+		vertical-align: middle;
+	}
+	.ui.grid.item .six.wide span{
+		font-weight:700;
+		margin-right:5px;
+	}
+	.ui.grid.item .six.wide i.icon,.ui.grid.item .ten.wide i.icon,.ui.grid.item .six.wide span{
+		color:#f36;
+		opacity:1;
+	}
+	.ui.grid.item .ten.wide .fa-plus{
+		color:#fff !important;
+	}
+	.items .item{
+		min-height:0 !important;
+	}
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="rank">
+	<img src="{{ app_url_packaged }}/images/mtac5.jpg" class="ui image">
+	<img src="{{ app_url_packaged }}/images/match/mtac6.jpg" class="ui image">
+	<section class="ui people big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">院校人气榜</h3>
+					<p>全国高校人气争霸，没你不行！</p>
+					<p class="ui left aligned">作品点赞数会自动累积到隶属院校赞数内，你为本校的任何一个作品投票都是在为这个学校增添人气哦！截止到2015年6月20日24时，终获得点赞数最多的三所高校，太火鸟将为学校颁发奖杯和荣誉证书。</p>
+				
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<p>北京大学美学院</p>
+				</div>
+				<div class="ten wide column">
+					<div class="chart" style="width:20%"></div>
+				</div>
+				<div class="six wide column">
+					人气指数 / 14806
+				</div>
+				
+				<div class="column">
+					<p>北京大学美学院</p>
+				</div>
+				<div class="ten wide column">
+					<div class="chart t1" style="width:30%"></div>
+				</div>
+				<div class="six wide column">
+					人气指数 / 14806
+				</div>
+				
+				<div class="column">
+					<p>北京大学美学院</p>
+				</div>
+				<div class="ten wide column">
+					<div class="chart t2" style="width:50%"></div>
+				</div>
+				<div class="six wide column">
+					人气指数 / 14806
+				</div>
+					
+				<div class="column">
+					<p>北京大学美学院</p>
+				</div>
+				<div class="ten wide column">
+					<div class="chart" style="width:20%"></div>
+				</div>
+				<div class="six wide column">
+					人气指数 / 14806
+				</div>
+				
+				<div class="column">
+					<p>北京大学美学院</p>
+				</div>
+				<div class="ten wide column">
+					<div class="chart t2" style="width:50%"></div>
+				</div>
+				<div class="six wide column">
+					人气指数 / 14806
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui white background block">
+		<img src="{{ app_url_packaged }}/images/match/mtac7.png" class="ui image">
+		<div class="ui responsive grid">
+			<div class="row">
+				
+				<div class="ui one items">
+					<div class="item ui grid">
+						<div class="six wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="ten wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+						</div>
+						<div class="ui two items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				
+				
+		
+			</div>
+			
+			
+		</div>
+	</section>
+	
+	
+	
+	
+	
+	
+	
+</div>
+{% endblock %}
