@@ -1,11 +1,16 @@
 <?php
+/**
+ * 高级搜索
+ * @author purpen
+ */
 class Sher_App_Action_Search extends Sher_App_Action_Base {
+    
     public $stash = array(
-		'page'=>1,
-		'q'=>'',
-		'ref'=>'',
-		't'=>2,
-		'index_name'=>'full',
+		'page' => 1,
+		'q' => '',
+		'ref' => '',
+		't' => 2,
+		'index_name' => 'full',
 	);
 	
 	public function execute() {
@@ -44,6 +49,10 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
 			$this->set_target_css_state('product');
 		}elseif($this->stash['t'] == 2){
 			$this->set_target_css_state('topic');
+		}elseif($this->stash['t'] == 4){
+			$this->set_target_css_state('stuff');
+		}elseif($this->stash['t'] == 5){
+			$this->set_target_css_state('vote');
 		}
         
 		return $this->to_html_page('page/search.html');

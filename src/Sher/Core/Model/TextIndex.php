@@ -22,7 +22,8 @@ class Sher_Core_Model_TextIndex extends Sher_Core_Model_Base  {
 	
     const TYPE_PRODUCT = 1;
     const TYPE_TOPIC = 2;
-	const TYPE_USER = 3;
+	const TYPE_USER  = 3;
+    const TYPE_STUFF = 4;
 	
     protected function extra_extend_model_row(&$row) {
         switch ($row['type']) {
@@ -31,6 +32,9 @@ class Sher_Core_Model_TextIndex extends Sher_Core_Model_Base  {
                 break;
             case self::TYPE_TOPIC:
                 $row['topic'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Topic');
+                break;
+            case self::TYPE_STUFF:
+                $row['stuff'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Stuff');
                 break;
         }
     }
@@ -63,6 +67,13 @@ class Sher_Core_Model_TextIndex extends Sher_Core_Model_Base  {
      */
     public function build_product_index($id,$full_words=array(),$tags=array(),$attributes=array()) {
         return $this->build_index($id,self::TYPE_PRODUCT,$full_words,$tags,$attributes);
+    }
+    
+    /**
+     * 创建产品的关键词索引
+     */
+    public function build_stuff_index($id,$full_words=array(),$tags=array(),$attributes=array()) {
+        return $this->build_index($id,self::TYPE_STUFF,$full_words,$tags,$attributes);
     }
 	
     /**
