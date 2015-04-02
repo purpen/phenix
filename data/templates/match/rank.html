@@ -10,9 +10,10 @@ body{
 	background-size:cover;
 	padding:20% 0;
 }
-.ui.nav {
-	background:#000;
-}
+	.ui.nav {
+    padding: 0.5rem 8%;
+		background:#091f35;
+	}
 .ui.divided.horizontal.list>.item{
 	color:#fff;
 }
@@ -221,6 +222,10 @@ ul,li{list-style:none;}
 	color:#fff !important;
 }
 
+.ui.items .item{
+  min-height:0 !important;
+}
+
 </style>
 {% endblock %}
 
@@ -276,6 +281,12 @@ ul,li{list-style:none;}
       Map();
       Bind();	
     });
+
+    //ajax加载大学列表
+    var page = 1;
+    function ajax_load_colleges(page, type){
+      $.get("{{ app_url_contest }}/ajax_load_colleges", {page:page, type:1});
+    }
 
   </script>
 
@@ -341,6 +352,25 @@ ul,li{list-style:none;}
     
   });
 
+  //获取大学人气排行
+  $.get("{{ app_url_contest }}/ajax_fetch_top_college", {id:1});
+
+  //ajax查看更多
+  $('#college-more').click(function(){
+    page = page+1;
+    ajax_load_colleges(page,1);
+  
+  });
+
+  //ajax加载大学排行列表
+  ajax_load_colleges(page,1);
+
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
+
 {% endblock %}
 
 {% block content %}
@@ -361,12 +391,11 @@ ul,li{list-style:none;}
 						<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
 					</div>
 				</div>
-				<div class="right aligned four wide column">
-					<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
-						提交作品
-						<i class="icon-arrow-right-sharp"></i>
-					</a>
-				</div>
+        <div class="right aligned four wide column">
+          <a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+            <i class="edit icon"></i> 提交作品
+          </a>
+        </div>
 			</div>
 		</div>
 	</section>
@@ -504,161 +533,8 @@ ul,li{list-style:none;}
 					<p>全国高校人气争霸，没你不行！</p>
 				</div>
 			</div>
-			<div class="row">
-				<div class="chrt column">
-					<div class="histogram-container" id="histogram-container">
-					  <!--背景方格-->
-					  <div class="histogram-bg-line">
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-				 
-							<i class="fa-caret-up icon"></i>
-							<i class="fa-caret-right icon"></i>
-							<div class="flot">人气</div>
-							<div class="yuan">院校</div>
-						
-					 	</div>
-					  <!--柱状条-->
-					  <div class="histogram-content">
-					    <ul>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:20%;background:#2f87d9;" title="20%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          北京大学美学院
-					        </span>
-					      </li>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:40%;background:green;" title="40%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          广东美术学院
-					        </span>
-					      </li>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:50%;background:orange;" title="50%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          清华美术学院
-					        </span>
-					      </li>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:80%;background:gray;" title="80%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          北京工业大学
-					        </span>
-					      </li>
-								<li>
-					        <span class="histogram-box">
-					          <a style="height:20%;background:#2f87d9;" title="20%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          湖北美术学院
-					        </span>
-					      </li>
-					    </ul>
-					  </div>
-					</div>
-	
-				</div>
+			<div class="row" id="college-graph">
+
 			</div>
 			<div class="row">
 				<div class="center aligned column">
@@ -694,6 +570,7 @@ ul,li{list-style:none;}
 				<div class="six wide column">
 					<img src="http://frstatic.qiniudn.com/images/mtac4.png">
 				</div>
+        <!--
 				<div class="ten wide column">
 					<form class="search item" method="post" action=" " id="searchbar">
 					 	<div class="ui icon input">
@@ -702,164 +579,22 @@ ul,li{list-style:none;}
 						</div>
 					</form>
 				</div>
+        -->
 			</div>
+
 			<div class="row">
-				<div class="ui two items">
-					<div class="item ui grid">
-						<div class="six wide column">		
-							<span>|</span>江西财经大学
-							
-						</div>
-						<div class="ten wide column">		
-							<i class="fa-trophy icon"></i>排名1
-							<i class="fa-long-arrow-up icon"></i>人气333
-							
-							<div class="ui label">
-								<a href=""></a>
-							  <i class="fa-plus icon"></i> 更多作品
-							 </div>
-						</div>
-						<div class="ui four items">
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-						
-						
-						</div>
-					</div>
-					
-					<div class="item ui grid">
-						<div class="six wide column">		
-							<span>|</span>江西财经大学
-							
-						</div>
-						<div class="ten wide column">		
-							<i class="fa-trophy icon"></i>排名1
-							<i class="fa-long-arrow-up icon"></i>人气333
-							
-							<div class="ui label">
-								<a href=""></a>
-							  <i class="fa-plus icon"></i> 更多作品
-							 </div>
-						</div>
-						<div class="ui four items">
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="item ui grid">
-						<div class="six wide column">		
-							<span>|</span>江西财经大学
-							
-						</div>
-						<div class="ten wide column">		
-							<i class="fa-trophy icon"></i>排名1
-							<i class="fa-long-arrow-up icon"></i>人气333
-							
-							<div class="ui label">
-								<a href=""></a>
-							  <i class="fa-plus icon"></i> 更多作品
-							</div>
-						</div>
-						<div class="ui four items">
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					
-					
+        <!--ajax colleges list-->
+				<div class="ui two items college-list" id="college-list">
+        </div>
+      </div>
+				<div class="right aligned four wide column">
+					<a href="javascript:void(0);" id="college-more" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+						查看更多
+						<i class="icon-arrow-right-sharp"></i>
+					</a>
 				</div>
-			</div>
 		</div>
 	</section>
-	
-	
-	
-			
-		
-						
-				
-
-
-
-
-
 
 </div>
 {% endblock %}

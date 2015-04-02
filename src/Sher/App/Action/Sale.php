@@ -34,7 +34,7 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 	public function get_list() {
 		$category_id = (int)$this->stash['category_id'];
 		$page = (int)$this->stash['page'];
-		
+        
 		$pager_url = Sher_Core_Helper_Url::sale_list_url($category_id);
 		
 		$this->stash['pager_url'] = $pager_url;

@@ -103,7 +103,7 @@ $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('_id', 'deleted', 'published'), 'page'=>$page, 'size'=>$size);
+	$options = array('field' => array('_id', 'deleted', 'published', 'stage'), 'page'=>$page, 'size'=>$size);
 	$list = $product->find($query, $options);
 	if(empty($list)){
 		echo "get product list is null,exit......\n";
@@ -131,6 +131,38 @@ while(!$is_end){
 	echo "page $page product updated---------\n";
 }
 echo "total $total product rows updated.\n";
+
+echo "-------------//////////////-------------\n";
+
+echo "Prepare to build stuff fulltext index...\n";
+$stuff = new Sher_Core_Model_Stuff();
+$page = 1;
+$size = 1000;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array();
+	$options = array('field' => array('_id', 'deleted', 'published'), 'page'=>$page, 'size'=>$size);
+	$list = $stuff->find($query, $options);
+	if(empty($list)){
+		echo "get stuff list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i<$max; $i++) {
+        echo "update stuff index:".$list[$i]['_id']. '...';
+        $indexer->build_stuff_index($list[$i]['_id']);
+        echo "ok.\n";
+	    $total++;
+	}
+	if($max < $size){
+		echo "product list is end!!!!!!!!!,exit.\n";
+		break;
+	}
+	$page++;
+	echo "page $page stuff updated---------\n";
+}
+echo "total $total stuff rows updated.\n";
 
 echo "All index works done.\n";
 ?>

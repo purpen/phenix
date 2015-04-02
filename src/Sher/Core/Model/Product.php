@@ -140,10 +140,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'snatched_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
-    # 抢购价
-    'snatched_price' => 0,
-    # 抢购数量
-    'snatched_count' => 0,
+        # 抢购价
+        'snatched_price' => 0,
+        # 抢购数量
+        'snatched_count' => 0,
 
 	    ## 试用
 	    'trial' =>  0,
@@ -166,8 +166,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'vote_favor_count' => 0,
 		# 反对数
 		'vote_oppose_count' => 0,
-    # 相关灵感数
-    'stuff_count' => 0,
+        # 相关灵感数
+        'stuff_count' => 0,
 		
 		## 专家评分
 		

@@ -1,0 +1,131 @@
+<taconite>
+	<replace select="#college-graph"><![CDATA[
+			<div class="row" id="college-graph">
+				<div class="chrt column">
+					<div class="histogram-container" id="histogram-container">
+					  <!--背景方格-->
+					  <div class="histogram-bg-line">
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+					    <ul>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					      <li>
+					        <div>
+					        </div>
+					      </li>
+					    </ul>
+				 
+							<i class="fa-caret-up icon"></i>
+							<i class="fa-caret-right icon"></i>
+							<div class="flot">人气</div>
+							<div class="yuan">院校</div>
+						
+					 	</div>
+					  <!--柱状条-->
+					  <div class="histogram-content">
+					    <ul>
+                {% for d in college_data %}
+                  <li>
+                    <span class="histogram-box">
+                      <a style="height:{{ d.percent }}%;background:{{ d.bg_color }};" title="{{ d.percent }}%">{%if d.percent>10%}<br />人气指数<br /><strong>{{ d.match2_love_count }}</strong>{%endif%}
+                      </a>
+                    </span>
+                    <span class="name">
+                      {{ d.name }}
+                    </span>
+                  </li>
+                {%endfor%}
+
+					    </ul>
+					  </div>
+					</div>
+	
+				</div>
+			</div>
+	]]></replace>
+	
+	<eval>
+
+	</eval>
+</taconite>

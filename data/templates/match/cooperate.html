@@ -2,13 +2,16 @@
 {% block title %}十万火计 第二季-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	body{
+		background:#091f35;
+	}
 	.start{
 		background:url({{ app_url_packaged }}/images/match_1.jpg) no-repeat center center scroll;
 		background-size:cover;
 		padding:25% 0;
 	}
 	.ui.nav {
-		background:#000;
+    padding: 0.5rem 8%;
 	}
 	.ui.divided.horizontal.list>.item{
 		color:#fff;
@@ -134,12 +137,11 @@
 					<a href="{{ app_url_contest }}/cooperate" class="ui link item active">合作资源</a>
 				</div>
 			</div>
-			<div class="right aligned four wide column">
-				<a href="javascript:void(0);" id="submit-idea" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
-					提交作品
-					<i class="icon-arrow-right-sharp"></i>
-				</a>
-			</div>
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+				<i class="edit icon"></i> 提交作品
+			</a>
+		</div>
 		</div>
 	</div>
 </section>
