@@ -2,7 +2,7 @@
 {% block title %}我的收货地址-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-		
+    
 </style>
 {% endblock %}
 
@@ -165,20 +165,22 @@
 			<div class="ui three address blocks">
 				{% for address in addresses.rows %}
 			  	<div class="{% if address.is_default %}active {% endif %} block" id="{{ address._id }}" data-id="{{ address._id }}">
-					<h4 class="ui dividing header">
-						<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
-					</h4>
-					<p>{{ address.phone }}</p>
-					<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
+                    <div class="content">
+    					<h4 class="ui dividing header">
+    						<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
+    					</h4>
+    					<p>{{ address.phone }}</p>
+    					<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
 					
-					<div class="actions">
-						<a class="ui small gray icon edit button" data-id="{{ address._id }}">
-							<i class="edit icon"></i>
-						</a>
-						<a class="ui small gray icon remove button" data-id="{{ address._id }}">
-							<i class="remove icon"></i>
-						</a>
-					</div>
+    					<div class="actions">
+    						<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+    							<i class="edit icon"></i>
+    						</a>
+    						<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+    							<i class="remove icon"></i>
+    						</a>
+    					</div>
+                    </div>
 			  	</div>
 				{% endfor %}
 				<div class="center aligned block" id="create-new-address" data-id="0">
