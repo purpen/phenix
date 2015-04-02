@@ -14,14 +14,17 @@
 	  overflow: hidden;
 	}
 	
-	.ui.people{
+	.ui.people,.ui.position{
 		background:url({{ app_url_packaged }}/images/mtac8.jpg) center center no-repeat;
 		background-size:cover;
 	}
-	.ui.people h3.ui.header,.ui.people .row > .wide.column{
+	.ui.people h3.ui.header,.ui.people .row > .wide.column,.ui.position h3.ui.header{
 		color:#1ab26c;
 	}
-	.ui.people .center.column p{
+	.ui.people .six.wide.column{
+		font-size:14px;
+	}
+	.ui.people .center.column p,.ui.position .center.column p{
 		color:#456789;
 	}
 	.ui.people .row:nth-child(2) p{
@@ -42,6 +45,9 @@
 	.ui.people .chart.t2{
 		background:#00e7d9;
 	}
+	.ui.white.block{
+		padding-bottom: 2.5em;
+	}
 	
 	.ui.grid.item{
 		margin-bottom:2%;
@@ -52,25 +58,49 @@
 		margin-right: 0.5%;
 		margin-bottom: 1%;
 	}
-	.ui.grid.item .six.wide{
-		font-size:18px;
+	.ui.grid.item .eight.wide{
+		font-size:16px;
 		vertical-align: middle;
 	}
-	.ui.grid.item .six.wide span{
+	.ui.grid.item .eight.wide + .eight.wide{
+		font-size:14px;
+	}
+	.ui.grid.item .eight.wide span{
 		font-weight:700;
 		margin-right:5px;
 	}
-	.ui.grid.item .six.wide i.icon,.ui.grid.item .ten.wide i.icon,.ui.grid.item .six.wide span{
+	.ui.grid.item .eight.wide i.icon,.ui.grid.item .eight.wide i.icon,.ui.grid.item .eight.wide span{
 		color:#f36;
 		opacity:1;
-	}
-	.ui.grid.item .ten.wide .fa-plus{
-		color:#fff !important;
 	}
 	.items .item{
 		min-height:0 !important;
 	}
-	
+	.ui.items .item,.ui.items .item:hover{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		-webkit-box-shadow:0 0px 0 0 rgba(0,0,0,.2) inset !important;
+	}
+	.ui.one.items > .item,.ui.one.items > .item:hover{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		-webkit-box-shadow:0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		background-color: #fff;
+		border: 1px solid rgba(0,0,0,0.1) !important;
+		cursor:auto;
+	}
+	.ui.one.items{
+		margin-left:0;
+		margin-right:0;
+	}
+	.ui.position .three.items .item{
+		border-radius:50%;
+		height:100px;
+		background:#1dba73;
+		color:#fff;
+		padding: 15px 0;
+	}
+	.ui.position .items .item h3{
+		margin:0;
+	}
 </style>
 {% endblock %}
 
@@ -153,12 +183,13 @@
 			<div class="row">
 				
 				<div class="ui one items">
+					
 					<div class="item ui grid">
-						<div class="six wide column">		
+						<div class="eight wide column">		
 							<span>|</span>江西财经大学
 							
 						</div>
-						<div class="ten wide column">		
+						<div class="eight wide column">		
 							<i class="fa-trophy icon"></i>排名1
 							<i class="fa-long-arrow-up icon"></i>人气333
 						</div>
@@ -179,17 +210,69 @@
 						</div>
 					</div>
 					
+					<div class="item ui grid">
+						<div class="eight wide column">		
+							<span>|</span>江西财经大学
+							
+						</div>
+						<div class="eight wide column">		
+							<i class="fa-trophy icon"></i>排名1
+							<i class="fa-long-arrow-up icon"></i>人气333
+						</div>
+						<div class="ui two items">
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg" width="100%">			</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150315/5505876b20de8d69018b5dd2-8-me.jpg"width="100%">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				
-				
-				
-		
 			</div>
+		</div>
+	</section>
+	
+	<section class="ui position big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">城市人气榜</h3>
+					<p>我们和你一样，同样好奇的是：究竟哪个城市最有创意热情，最具人气呢？让我们一起期待吧！作品点赞数不仅会自动累积到隶属院校赞数内， 还会为其所在城市增添人气哦！</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column">
+					<div class="ui three items">
+						<div class="item">
+							<i class="flat home icon"></i>
+							<h3>34500<br>
+								北京
+								</h3>
+						</div>
+						<div class="item">
+						
+						</div>
+						<div class="item">
+						
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
 			
 			
 		</div>
 	</section>
-	
 	
 	
 	
