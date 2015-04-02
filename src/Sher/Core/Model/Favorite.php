@@ -124,6 +124,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 case self::TYPE_STUFF:
                     $model = new Sher_Core_Model_Stuff();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    if($event == self::EVENT_LOVE){
+                        $model->add_last_love_users((int)$this->data['target_id'], $this->data['user_id']);
+                    }
                     //获取目标用户ID
                     $stuff = $model->extend_load((int)$this->data['target_id']);
                     $user_id = $stuff['user_id'];
