@@ -2,7 +2,7 @@
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+    
 </style>
 {% endblock %}
 
@@ -22,37 +22,71 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop {{ current_category.name }} tophead">
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}">商店</a>
+					</div>
+				</div>
+                <div class="ui horizontal quick list">
+					<div class="item">
+						<a class="ui {{ css_saled }} link" href="{{ app_url_sale }}">新品预售</a>
+					</div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="shop {{ current_category.name }} catemenu tophead">
 	<div class="masthead">
-		<div class="masthead-cover translucent">
+		<div class="masthead-cover">
 			<div class="ui responsive grid">
 				<div class="row">
 					<div class="column">
-				
-						<div class="filter conditions">
-							<div class="onerow">
-								{% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
-								<div class="ui horizontal list">
-									<a class="{% if all_active %}active{% endif %} item" href="{{ app_url_shop }}/c0">全部</a>
-									<a class="{% if presale_active %}active{% endif %} item" href="{{ app_url_sale }}">新品预售</a>
-									{% for cat in category.rows %}
-									<a class="{{ cat.active }} item" href="{{ cat.view_url }}">
-							        	{{ cat.title }}
-							      	</a>
-									{% endfor %}
-								</div>
-							</div>
-							<div class="onerow">
-								<div class="ui horizontal list">
-									<a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">最新</a>
-									<a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">热门</a>
-									<a class="{% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">按价格</a>
-									<a class="{% if sort == 4 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s4-p{{ page }}">按销量</a>
-								</div>
-							</div>
-						</div>
-				
+                        <div class="container">
+        					<h1 class="block title">
+                                {% if css_saled %}
+                                新品预售
+                                {% else %}
+        						商店
+                                {% endif %}
+        					</h1>
+                            <p class="discription"><small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small></p>
+                            <hr>        					
+                        </div>
 					</div>
+				</div>
+                <div class="row">
+                    <div class="column">
+    					<div class="children">
+                            <a class="ui {{ css_saled }} white inverted button" href="{{ app_url_sale }}">新品预售</a>
+                            {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
+    						{% for cat in category.rows %}
+								<a class="ui {{ cat.active }} white inverted button" href="{{ cat.view_url }}">
+						        	{{ cat.title }}
+						      	</a>
+    						{% endfor %}
+    					</div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social sortby">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui horizontal bulleted list">
+					<a class="ui line {% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">最新</a>
+					<a class="ui line {% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">热门</a>
+					<a class="ui line {% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">按价格</a>
+					<a class="ui line {% if sort == 4 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s4-p{{ page }}">按销量</a>
 				</div>
 			</div>
 		</div>
