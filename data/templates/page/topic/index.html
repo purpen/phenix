@@ -2,12 +2,23 @@
 {% block title %}话题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+    .auto.loading {
+        margin-top: 2rem;
+        text-align: center;
+        display: none;
+    }
+    .auto.loading > .ui.gray.button {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1) inset !important;
+    }
+    .auto.loading > .ui.gray.button:hover {
+        background: transparent;
+        color: rgba(0, 0, 0, 0.5);
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	
+    
 {% endblock %}
 
 {% block content %}
@@ -96,7 +107,7 @@
     								<th class="center aligned">浏览数</th>
     							</tr>
     						</thead>
-                            <tbody>
+                            <tbody id="topic_list_box">
     						{% if dig_list %}
     							{% for topic in dig_list %}
     								{% if topic %}
@@ -112,6 +123,8 @@
 							{% endfor %}
                             </tbody>
 						</table>
+                        
+                        
 					</div>
 				
 					<div class="ui mobile only block">
@@ -126,6 +139,13 @@
 						</table>
 					</div>
 				</div>
+                
+                <div class="auto loading">
+                    <div class="ui gray inverted button">
+                        <i class="loading icon"></i> 加载中
+                    </div>
+                </div>
+                
 			</div>
 		</div>
 	</div>

@@ -194,12 +194,14 @@
 						话题
 					</a>
 				  	<i class="angle right icon divider"></i>
-					{% if !is_top %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-					{% endif %}
+          {% if current_category %}
+            {% if !is_top %}
+              <a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+              <i class="angle right icon divider"></i>
+            {% endif %}
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
 				  	<i class="angle right icon divider"></i>
+          {%endif%}
 				  	<div class="active section">{{ page_title }}</div>
 				</div>
 			</div>
@@ -246,12 +248,14 @@
 									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
 								{% endif %}
 								{% for cat in category.rows %}
-						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-						   	 		<div class="icon">
-						   				<i class="fa fa-check"></i>
-						   			</div>
-						   	 		{{ cat.title }}
-						   	 	</div>
+                  {% if cat.pid %}
+						   	 	  <div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+                      <div class="icon">
+                        <i class="fa fa-check"></i>
+                      </div>
+                      {{ cat.title }}
+                    </div>
+                  {%endif%}
 								{% endfor %}
 						   	 </div>
 						</div>

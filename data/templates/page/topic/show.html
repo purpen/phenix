@@ -251,7 +251,10 @@
 	
 	$('textarea.comment-textarea').maxlength({
       'feedback' : '.wordscount'
-  });
+    });
+    
+	// 加载推荐商品 
+	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 4});
 	
 {% endblock %}
 
@@ -320,7 +323,7 @@
 							<div class="eight wide column">
 						      	<h4 class="ui header">
 								  	<div class="content">
-										<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line link">
+										<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
 											{{ product.title }}
 										</a>
 										<div class="sub header">
@@ -375,11 +378,11 @@
 							<div class="eight wide column">
 						      	<h4 class="ui header">
 								  	<div class="content">
-										<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line link">
+										<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line">
 											{{ active.title }}
 										</a>
 										<div class="sub header">
-                      <label>活动状态：</label> {{ active.step_str }}
+                                            <label>活动状态：</label> {{ active.step_str }}
 										</div>
 								  	</div>
 								</h4>
@@ -514,6 +517,9 @@
 					
 						{%include 'block/share.html'%}
 					</div>
+                    
+                	<!--你可能相关话题-->
+                    <div class="topic guess" id="topic_guess_list"><!--ajax fetch--></div>
 				</div>
 				
     			<div class="ui big reply segment">

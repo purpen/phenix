@@ -160,6 +160,14 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$vote_result = $support->extended_model_row($vote);
 		}
 		$this->stash['voted'] = $vote_result;
+        
+		// 验证关注关系
+		$ship = new Sher_Core_Model_Follow();
+		$is_ship = $ship->has_exist_ship($this->visitor->id, $product['designer_id']);
+		$this->stash['is_ship'] = $is_ship;
+        
+        // 私信用户
+        $this->stash['user'] = $product['designer'];
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::vote_view_url($id,'#p#');

@@ -265,6 +265,37 @@
 	// 加载推荐商品 
 	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 3});
 	
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '私信内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '私信内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+    
 {% endblock %}
 
 {% block content %}
@@ -556,12 +587,17 @@
 							<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
 						</a>
 						<div class="actions">
-							<button class="ui small white inverted button">
-								关注 
-							</button>
-							<button class="ui small white inverted button">
-								私信 
-							</button>
+        					{% if product.designer._id != visitor.id %}
+            					{% if !is_ship %}
+            					    <a href="{{ app_url_user }}/ajax_follow?id={{ product.designer._id }}" class="ui small white ajax inverted button" id="user_{{ product.designer._id }}_ship">关注</a>
+            					{% else %}
+            					    <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ product.designer._id }}" class="ui small white ajax inverted button" id="user_{{ product.designer._id }}_ship">已关注</a>
+            					{% endif %}
+					
+            					<button class="ui small white letter inverted button">
+            						私信
+            					</button>
+        					{% endif %}
 						</div>
 					</div>
 				</div>
@@ -671,6 +707,7 @@
 		</div>
 	</div>
 </div>
+{% include "block/message.html" %}
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}
