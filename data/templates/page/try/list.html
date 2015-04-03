@@ -46,9 +46,8 @@
 						{% try_list var:'list' page:page state:1 %}
 						{% for t in list.rows %}
 							<div class="card">
-								<div class="image">
+								<div class="image" style="background:url({{ t.cover.thumbnails.resp.view_url }});">
 									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
-							      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
 									</a>
 								</div>
 								<div class="content">

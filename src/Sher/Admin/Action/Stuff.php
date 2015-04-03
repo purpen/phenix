@@ -214,5 +214,13 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
   
   }
 
+  /**
+   * 点赞名单
+   */
+  public function get_love_list(){
+    
+    return $this->to_html_page('admin/stuff/love_list.html');
+  }
+
 }
 ?>

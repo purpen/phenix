@@ -332,7 +332,7 @@
                     <div class="ui two groom items">
                         {% for ad in adslide2.rows %}
                         <div class="item">
-                            <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                            <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0 !important;">
                                 <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
                             </div>
                         </div>
@@ -467,10 +467,9 @@
 				<div class="center aligned column">
 					<div class="ui three items">
 						<div class="magenta item">
-							<div class="image">
+							<div class="image" style="background-image:url({{ app_url_packaged }}/images/case-ldm.jpg);">
 								<a href="{{ app_url_action_base }}/guide/ldm" title="全球首款智能配奶机-智能时代如何打造爆款产品
 								">
-						      		<img src="{{ app_url_packaged }}/images/case-ldm.jpg" class="ui image" />
 								</a>
 							</div>
 							<div class="content">
@@ -487,10 +486,9 @@
 						</div>
 			
 						<div class="magenta item">
-							<div class="image">
+							<div class="image" style="background-image:url({{ app_url_packaged }}/images/case-milk.jpg);">
 								<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品
 								">
-						      		<img src="{{ app_url_packaged }}/images/case-milk.jpg" class="ui image" />
 								</a>
 							</div>
 							<div class="content">
@@ -507,10 +505,9 @@
 						</div>
 			
 						<div class="magenta item">
-							<div class="image">
+							<div class="image" style="background-image:url({{ app_url_packaged }}/images/case-fifty.jpg);">
 								<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯
 								">
-						      		<img src="{{ app_url_packaged }}/images/case-fifty.jpg" class="ui image" />
 								</a>
 							</div>
 							<div class="content">
