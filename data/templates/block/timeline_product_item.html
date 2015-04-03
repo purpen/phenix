@@ -1,6 +1,6 @@
 {% if event.product %}
 <div class="magenta item" id="product-{{ event.product._id }}">
-  	<div class="image" style="background:url({{ event.product.cover.thumbnails.resp.view_url }});">
+  	<div class="image" style="background-image:url({{ event.product.cover.thumbnails.resp.view_url }});">
 		<a href="{{ event.product.view_url }}" title="{{ event.product.title }}" target="_blank">
       	<!--	<img src="{{ event.product.cover.thumbnails.resp.view_url }}" alt="{{ event.product.title }}" />-->
 		</a>
