@@ -61,8 +61,9 @@
 				<div class="ui three activity cards">
                     {% for active in old_list.rows %}
 					<div class="card">
-						<div class="image" style="background-image:url({{ active.cover.thumbnails.md.view_url }});">
+						<div class="image">
                             <a href="{{ active.view_url }}" title="{{ active.title }}" target="_blank">
+                                <img src="{{ active.cover.thumbnails.md.view_url }}" >
                             </a>
 							<div class="presell">
                                 第 {{ active.season }} 期

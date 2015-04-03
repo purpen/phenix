@@ -212,11 +212,13 @@ h3.ui.header{
 		
 		<div class="inline field">
 			<label>赞数量:</label>
-			<input type="text" name="love_count" value="{{ stuff.love_count }}" />
+      <input type="hidden" name="love_count" value="{{ stuff.love_count }}" />
+      现有数量: <input type="text" name="o_love_count" value="{{ stuff.love_count }}" disabled="disabled" />
+			增加数量: <input type="text" name="add_love_count" value="0" />
 		</div>
 		<div class="inline field">
 			<label>浏览量:</label>
-			<input type="text" name="view_count" value="{{ stuff.view_count }}" />
+      <input type="text" name="view_count" value="{{ stuff.view_count }}" /><span style="color:red;"> *保证浏览数量要大于点赞数量</span>
 		</div>
 		
 		<div class="inline field">
