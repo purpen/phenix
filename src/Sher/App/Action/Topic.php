@@ -13,6 +13,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
+    'cid'  => 0,
 		'ref'  => null,
 	);
 	
@@ -568,9 +569,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 提交创意
 	 */
 	public function submit(){
-		if (empty($this->stash['cid'])){
-			return $this->show_message_page('抱歉，请先选择一个分类！', true);
-		}
+
 		$cid = $this->stash['cid'];
 		// 是否为一级分类
 		$is_top = true;
@@ -580,13 +579,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		$category = new Sher_Core_Model_Category();
 		// 获取当前分类信息
-		$current_category = $category->load((int)$cid);
-		// 存在父级分类，标识是二级分类
-		if (!empty($current_category['pid'])){
-			$is_top = false;
-			// 获取父级分类
-			$parent_category = $category->extend_load((int)$current_category['pid']);
-		}
+    if($cid){
+      $current_category = $category->load((int)$cid);
+      // 存在父级分类，标识是二级分类
+      if (!empty($current_category['pid'])){
+        $is_top = false;
+        // 获取父级分类
+        $parent_category = $category->extend_load((int)$current_category['pid']);
+      }   
+    }else{
+      $is_top = false;
+      $parent_category = 0;
+      $current_category = 0;
+    }
 
 		$this->stash['is_top'] = $is_top;
 		$this->stash['current_category'] = $current_category;
