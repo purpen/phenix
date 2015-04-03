@@ -248,8 +248,8 @@
 									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
 								{% endif %}
 								{% for cat in category.rows %}
-						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-                    {% if cat.pid %}
+                  {% if cat.pid %}
+						   	 	  <div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
                       <div class="icon">
                         <i class="fa fa-check"></i>
                       </div>
