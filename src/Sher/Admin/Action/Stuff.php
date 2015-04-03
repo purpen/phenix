@@ -103,11 +103,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
       $data = array();
 			if(empty($this->stash['_id'])){
 				$mode = 'create';
-				$ok = $model->apply_and_save($this->stash);
+				//$ok = $model->apply_and_save($this->stash);
 			}else{
 				$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
-        $data['love_count'] = (int)$this->stash['love_count'];
+        $data['love_count'] = (int)$this->stash['love_count'] + (int)$this->stash['add_love_count'];
         $data['view_count'] = (int)$this->stash['view_count'];
 				$ok = $model->apply_and_update($data);
 			}
