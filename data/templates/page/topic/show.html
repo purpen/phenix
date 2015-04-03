@@ -251,7 +251,10 @@
 	
 	$('textarea.comment-textarea').maxlength({
       'feedback' : '.wordscount'
-  });
+    });
+    
+	// 加载推荐商品 
+	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 4});
 	
 {% endblock %}
 
@@ -514,6 +517,9 @@
 					
 						{%include 'block/share.html'%}
 					</div>
+                    
+                	<!--你可能相关话题-->
+                    <div class="topic guess" id="topic_guess_list"><!--ajax fetch--></div>
 				</div>
 				
     			<div class="ui big reply segment">

@@ -77,6 +77,34 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
         return $this->to_html_page('ajax/fetch_topics.html');
     }
+    
+	/**
+	 * 获取相关话题
+	 */
+	public function ajax_guess_topics(){
+		$sword = $this->stash['sword'];
+        $current_id = $this->stash['id'];
+		$size = $this->stash['size'] || 4;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+		);
+        
+		if(!empty($sword)){
+            $addition_criteria = array(
+                'type' => 2,
+                'target_id' => array('$ne' => (int)$current_id),
+            );
+			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', $addition_criteria, $options);
+		}
+        
+		$this->stash['result'] = $result;
+		
+		return $this->to_taconite_page('ajax/guess_topics.html');
+	}
 	
 	/**
 	 * 社区列表
