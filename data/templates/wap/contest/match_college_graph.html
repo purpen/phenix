@@ -1,0 +1,20 @@
+<taconite>
+	<replace select="#college-graph"><![CDATA[
+			<div class="row" id="college-graph">
+      {% for d in college_data %}
+				<div class="column">
+					<p>{{ d.name }}</p>
+				</div>
+				<div class="ten wide column">
+					<div class="chart" style="width:{{ d.percent }}%"></div>
+				</div>
+				<div class="six wide column">
+					人气指数 / {{ d.match2_love_count }}
+				</div>
+      {%endfor%}
+    </div>
+	]]></replace>
+	
+	<eval>
+	</eval>
+</taconite>

@@ -135,8 +135,12 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     //如果是点赞,是大赛作品,给相应的大学人气+1
                     if($event == self::EVENT_LOVE && $stuff['from_to']==1){
                       $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
+                      $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
+                      $num_mode = new Sher_Core_Model_SumRecord();
+                      if($province_id){
+                        $num_mode->add_record($province_id, 'match2_love_count', 1);    
+                      }
                       if($college_id){
-                        $num_mode = new Sher_Core_Model_SumRecord();
                         $num_mode->add_record($college_id, 'match2_love_count', 2);    
                       }  
                     }
@@ -298,9 +302,13 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         //如果是取消点赞,是大赛作品,给相应的大学人气-1
         $stuff = $model->load((int)$target_id);
         if(!empty($stuff) && $event == self::EVENT_LOVE && $stuff['from_to']==1){
+          $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
           $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
+          $num_mode = new Sher_Core_Model_SumRecord();
+          if($province_id){
+            $num_mode->down_record($province_id, 'match2_love_count', 1);
+          }
           if($college_id){
-            $num_mode = new Sher_Core_Model_SumRecord();
             $num_mode->down_record($college_id, 'match2_love_count', 2);    
           }  
         }
