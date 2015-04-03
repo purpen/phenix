@@ -1,7 +1,7 @@
 <div class="magenta item" id="product-{{ product._id }}">
-  	<div class="image">
+  	<div class="image" style="padding:37.7% 0;background:url({{ product.cover.thumbnails.md.view_url }}) center center no-repeat;background-size:cover;">
 		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
-      		<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />
+      		<!--<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />-->
 		</a>
         {% if product.stage== 5 %}
 		<div class="presell">
