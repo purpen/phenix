@@ -12,10 +12,11 @@
 			padding:4rem 0 52% !important;
 		}
 	}
+
 	body{
 		background:#091f35;
 	}
-    .ui.nav.responsive.grid {
+    .ui.nav {
         padding: 0.5rem 8%;
     }
 	.ui.big.block {
@@ -555,17 +556,20 @@
 <section class="start">
 	<!--<img src="{{ app_url_packaged }}/images/match_1.jpg" width="100%" height="100%" draggable="false">-->
 </section>
-<section class="ui nav responsive grid">
-	<div class="middle aligned row">
-		<div class="twelve wide column">
-			<div class="ui magenta horizontal divided list">
-				<a href="{{ app_url_contest }}/dream2" class="ui link active item">首页</a>
-				<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
-        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
-				<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
-				<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
+<section class="ui nav">
+	<div class="ui responsive grid">
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_contest }}/dream2" class="ui link active item">首页</a>
+					<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+	        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+					<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+					<a href="{{ app_url_contest }}/rank" class="ui link item">校园人气争霸</a>
+					<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
+				</div>
 			</div>
-		</div>
+
 		<div class="right aligned four wide column">
 			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
 				<i class="edit icon"></i> 提交作品
@@ -880,7 +884,7 @@
 					</div>
 					<div class="content">
 						<h4 class="ui header">二等奖（2名）</h4>
-						<h5> ipad mini  64G+ 荣誉证书</h5>
+						<h5> ipad mini  64G + 荣誉证书</h5>
 					</div>
 				</div>
 				
@@ -890,7 +894,7 @@
 					</div>
 					<div class="content">
 						<h4 class="ui header">三等奖（3名）</h4>
-						<h5> wacom Bamboo绘图板+ 荣誉证书</h5>
+						<h5> wacom Bamboo绘图板 + 荣誉证书</h5>
 					</div>
 				</div>
 				
@@ -911,6 +915,16 @@
 					<div class="content">
 						<h4 class="ui header">校园组织奖（3名）</h4>
 						<h5> 荣誉证书</h5>
+					</div>
+				</div>
+				
+				<div class="block">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/match_24.png">
+					</div>
+					<div class="content" style="margin:0 -15px;">
+						<h4 class="ui header">人气PK奖（个人/院校）</h4>
+						<h5> 具体奖项参考“校园人气争霸”页面详情</h5>
 					</div>
 				</div>
 				

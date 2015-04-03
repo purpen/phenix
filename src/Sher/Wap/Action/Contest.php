@@ -11,7 +11,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges');
 	
 	/**
 	 * 社区入口
@@ -40,6 +40,24 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		$this->stash['end_time'] = mktime(23,59,59,6,20,2015);
 		
 		return $this->to_html_page('wap/contest/match2.html');
+	}
+	
+	/**
+	 * 十万火计--第二季 作品排行
+	 */
+  public function rank1() {
+		$this->set_target_css_state('active2');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		return $this->to_html_page('wap/contest/rank.html');
+	}
+	
+	/**
+	 * 十万火计--第二季 作品排行
+	 */
+  public function rank() {
+		$this->set_target_css_state('active2');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		return $this->to_html_page('wap/rank.html');
 	}
 	
 	/**
@@ -104,6 +122,92 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/contest/submit.html');
 	}
+
+  /**
+   * 统计
+   * ajax获取省份前3
+   */
+  public function ajax_fetch_top_province(){
+    $model = new Sher_Core_Model_SumRecord();
+    $query['type'] = Sher_Core_Model_SumRecord::TYPE_PRO;
+    $options['page'] = 1;
+    $options['size'] = 6;
+    $options['sort'] = array('match2_count'=> -1);
+    $data = $model->find($query, $options);
+    foreach($data as $key=>$val){
+      $pid = (int)$data[$key]['target_id'];
+      $data[$key]['name'] = Sher_Core_Helper_View::show_province_name($pid);
+    }
+    if(!empty($data)){
+      return $this->ajax_json('请求成功', 0, false, $data);
+    }else{
+      return $this->ajax_json('数据为空',1);
+    }
+  
+  }
+
+  /**
+   * 统计
+   * ajax获取大学人气前5
+   */
+  public function ajax_fetch_top_college(){
+    $model = new Sher_Core_Model_SumRecord();
+    $query['type'] = Sher_Core_Model_SumRecord::TYPE_COLLEGE;
+    $options['page'] = 1;
+    $options['size'] = 5;
+    $options['sort'] = array('match2_count'=> -1);
+    $data = $model->find($query,$options);
+    $result = array();
+    $total_love_count = 0;
+    foreach($data as $key=>$val){
+      $total_love_count += $val['match2_love_count'];
+    }
+    //背景色
+    $bg_color = array('#2f87d9','green','orange','gray','#2f87d9');
+    $college_mode = new Sher_Core_Model_College();
+    foreach($data as $key=>$val){
+      $data[$key]['percent'] = (int)($val['match2_love_count']/(float)$total_love_count*100);
+      $data[$key]['bg_color'] = $bg_color[$key];
+      $college = $college_mode->find_by_id((int)$val['target_id']);
+      $data[$key]['name'] = $college['name'];
+    }
+    $this->stash['college_data'] = $data;
+    return $this->to_taconite_page('wap/contest/match_college_graph.html');
+  }
+
+  /**
+   * ajax加载大学列表
+   */
+  public function ajax_load_colleges(){
+    $category_id = $this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+    $page = (int)$this->stash['page'];
+    $size = 6;
+    //排行
+    $current_num = ($page-1)*$size;
+
+    //大学人气排行
+    $model = new Sher_Core_Model_SumRecord();
+    $query['type'] = Sher_Core_Model_SumRecord::TYPE_COLLEGE;
+    $options['page'] = $page;
+    $options['size'] = $size;
+    $options['sort'] = array('match2_love_count'=> -1);
+    $data = $model->find($query, $options);
+    $college_mode = new Sher_Core_Model_College();
+    $stuff_mode = new Sher_Core_Model_Stuff();
+    foreach($data as $key=>$val){
+      $college = $college_mode->find_by_id((int)$val['target_id']);
+      $data[$key]['name'] = $college['name'];
+      $data[$key]['pid'] = $college['pid'];
+      $data[$key]['top_sort'] = $current_num + $key + 1;
+      //相关作品
+      $stuffs = $stuff_mode->find(array('from_to'=>1, 'fid'=>$category_id, 'college_id'=>(int)$val['target_id']), array('page'=>1,'size'=>2, 'sort'=>array('love_count'=>-1)));
+      $stuffs = $stuff_mode->extend_load_all($stuffs);
+      $data[$key]['stuffs'] = $stuffs;
+    }
+
+    $this->stash['colleges'] = $data;
+    return $this->to_taconite_page('wap/contest/match_college_list.html');
+  }
 	
 }
 ?>

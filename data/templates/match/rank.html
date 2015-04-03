@@ -10,6 +10,19 @@ body{
 	background-size:cover;
 	padding:20% 0;
 }
+	.ui.nav {
+    padding: 0.5rem 8%;
+		background:#091f35;
+	}
+.ui.divided.horizontal.list>.item{
+	color:#fff;
+}
+.ui.active.link{
+	color:#f36 !important;
+}
+.ui.divided.horizontal.list .ui.item:hover{
+	color:#f36 ;
+}
 .ui.popu h3.ui.header .sub.header{
 	padding-top:8px;
 	color: rgba(0,0,0,0.9);
@@ -32,144 +45,6 @@ body{
 	color:#fff;
 }
 
-
-
-
-
-    /*已提公用*/
-/*.ui.allist .ui.four.items > .item  {
-  box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-  background-color: #fff;
-  border-radius: 0.3125em;
-  min-height: 320px;
-  border: 1px solid rgba(0,0,0,0.1);
-  cursor: auto;
-}
-.ui.allist .ui.four.items .item .content{
-	padding: .75em .8em;
-}
-.ui.allist .ui.four.items>.item .schedule {
-  margin-bottom: 0.35rem;
-}
-.ui.allist .image .school{
-	position:absolute;
-	width:100%;
-	background:rgba(0,0,0,0.5);
-	color:#fff;
-	bottom:0;
-	left:0;
-	font-size: 14px;
-	text-align:center;
-	padding: 8px 0;
-	text-align: center;
-	z-index:4;
-}
-.image.zan .image-extra{
-	background-color: rgba(0,0,0,.1);
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	transition: opacity .25s ease 0s,background-color .45s ease 0s;
-	width: 100%;
-	z-index: 3;
-}
-.image.zan:hover .image-extra,.ui.cards .card:hover .image.zan .image-extra,.ui.items .item:hover .image-extra{
-	background-color: rgba(0,0,0,0.5);
-	opacity:1;
-}
-.image.zan .plus-icon .like {
-	border: 1px solid rgba(255,255,255,0.5);
-	border-radius: 50%;
-	display: inline-block;
-	height: 50px;
-	-webkit-transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	transition: all 500ms cubic-bezier(0.175,.885,.32,1.275) 0s;
-	width: 50px;
-}
-.image.zan .single-image.plus-icon .like {
- 	-webkit-transform: translateX(-300%);
-	-ms-transform: translateX(-300%);
-	transform: translateX(-300%); 
-}
-.image.zan:hover .single-image.plus-icon .like,.ui.items .item:hover .image.zan .single-image.plus-icon .like{
-	-webkit-transform: translateX(0%);
-	-ms-transform: translateX(0%);
-	transform: translateX(0%);
-}
-.image.zan .plus-icon .like:after{
-	border-radius: 50%;
-	color: #FFF;
-	display: block;
-	font-size: 18px;
-	height: 100%;
-	left: 0;
-	line-height: 57px;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	-webkit-transition: color .25s ease-in-out 0s;
-	transition: color .25s ease-in-out 0s;
-	width: 100%;
-}
-.image.zan .plus-icon .like:after {
-	content: "\f004";
-	font-size: 35px;
-	font-family: FontIcons;
-}
-
-.image.zan .plus-icon .like.active:after{
-  color: #F36;
-}
-
-.image.zan .image-extra > a{
-	position: absolute;
-	width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-.image.zan .add{
-	position: absolute;
-	top: 14px;
-	text-align: center;
-	left: 0;
-	color: rgba(0,0,0,0);
-	width: 100%;
-	font-size: 22px;
-	opacity: 1;
-	z-index:-1;
-	transition: all 1s;
-}
-.image.zan .add-active{
-	top:-70px;
-	color:#f36;
-	transition-delay: .3s;
-	-webkit-animation: arrow 1.2s ease both;
-	-moz-animation: arrow 1.2s ease both;
-	animation: arrow 1.2s ease both;
-}
-@-webkit-keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
-}
-@-moz-keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
-}
-@keyframes arrow {
-	0%{opacity:1}
-	95%{opacity:1}
-	100%{opacity:0}
-}
-
-*/
 
 #ChinaMap {
   padding-right: 100px;
@@ -236,7 +111,6 @@ body{
   border-bottom: #c5b270 1px solid;
   top: 30px;
 }
-
 .chrt.column i{
 	color:#fff;
 	opacity:1;
@@ -285,6 +159,73 @@ ul,li{list-style:none;}
 .histogram-content li a{position:absolute;bottom:0;right:0;display:block;width:100%;color:#fff}
 .histogram-content li .name{position:absolute;bottom:-30px; color:#fff;left:0px;white-space:nowrap;display:inline-block;width:100%;font-size:18px;}
 .histogram-bg-line li div{height:120px;/*控制单元格的高度及百分比的高度，使百分数与线条对齐*/}
+
+.sootext{
+	background:#1dba73;
+	color:#fff;
+	padding:15px;
+	width:80%;
+	margin: 0 auto;
+	line-height: 22px;
+}
+.ui.math{
+	background:#f1f1f1;
+}
+.ui.math.block .row:first-child .ten.wide{
+	text-align: right;
+	padding: 22px;
+}
+.ui.math.block i.search{
+	border-left: 1px solid rgba(244,33,86,.9);
+  color: rgba(255,255,255,.9);
+  background-color: #f36;
+  cursor: pointer;
+  opacity: 1;
+}
+.ui.math.block .ui.items .item:hover{
+	cursor:auto;
+}
+.ui.grid.item{
+	margin-bottom:2%;
+}
+.ui.grid.item .ui.four.items{
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	margin-bottom: 1%;
+}
+.ui.grid.item .six.wide{
+	font-size:18px;
+	vertical-align: middle;
+}
+.ui.grid.item .six.wide span{
+	font-weight:700;
+	margin-right:5px;
+}
+.ui.grid.item .six.wide i.icon,.ui.grid.item .ten.wide i.icon,.ui.grid.item .six.wide span{
+	color:#f36;
+	opacity:1;
+}
+.ui.grid.item .ten.wide .ui.label{
+	color:#fff !important;
+	background: #515151;
+	float: right;
+	position:relative;
+}
+.ui.grid.item .ten.wide .ui.label a{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+}
+.ui.grid.item .ten.wide .fa-plus{
+	color:#fff !important;
+}
+
+.ui.items .item{
+  min-height:0 !important;
+}
+
 </style>
 {% endblock %}
 
@@ -302,34 +243,35 @@ ul,li{list-style:none;}
 
         $.ajax({
             type: "get",
-            url: "../js/china_map/mapList.js",   //jsonp
-            dataType: "jsonp",
-            jsonp: "callback",
-            jsonpCallback: "get",
-            success: function (data) {
-
+            url: "{{ app_url_contest }}/ajax_fetch_top_province",
+            dataType: "json",
+            success: function (result) {
+              if(result.success){
                 var html = "";
-                $.each(data, function (i, item) {
-                    html += "<div style='cursor:pointer;font-weight:bolder;color:" + china[item.AreaName]['path'].color + "' title='" + china[item.AreaName]['name']
-                        + "'>TOP " + (i + 1) + ":" + china[item.AreaName]['name'] + "</div>"
+                $.each(result.data, function (i, item) {
+                    html += "<div style='cursor:pointer;font-weight:bolder;color:" + china[item.name]['path'].color + "' title='" + china[item.name]['name'] + "'love-count='" + item.match2_love_count
+                        + "'>TOP " + (i + 1) + ":" + china[item.name]['name'] + "</div>"
 
-                    var anim = Raphael.animation({ fill: china[item.AreaName]['path'].color, stroke: "#eee" }, 1000);
+                    var anim = Raphael.animation({ fill: china[item.name]['path'].color, stroke: "#eee" }, 1000);
                     //*** anim.delay(i * 500)增加显示延时，就是让排序省份一个一个显示，但是在IE9以下没效果，因为IE会假死，知道全部显示完
-                    china[item.AreaName]['path'].stop().animate(anim.delay(i * 500));
-                    china[item.AreaName]['isClick'] = true;
+                    china[item.name]['path'].stop().animate(anim.delay(i * 500));
+                    china[item.name]['isClick'] = true;
                 });
 
                 //将省区排行增加到页面，并增加点击事件查询城市排行
                 $("#topList").html(html).find("div").click(function () {
 
                     var title = $(this).attr("title");
+                    var love_count = $(this).attr('love-count');
                     $(this).siblings().css("font-size", "").removeAttr("select").end().css("font-size", "20px").attr("select", "");
-    $('#areaInfo').html(title + "的销量：<br/>").fadeIn('fast');
+                    $('#ToolTip').show();
+                    $('#areaInfo').html(title + "的人气指数："+ love_count +"<br/>").fadeIn('fast');
                     ////显示省份明细，自己修改
                     //$.post(url + "/" + encodeURI(title), args, function (data) {
                     //    $('#areaInfo').html(title + "的销量：<br/>" + data).fadeIn('fast');
                     //});
                 });
+              }
 
             },
             error: function () {
@@ -343,12 +285,94 @@ ul,li{list-style:none;}
       Bind();	
     });
 
+    //ajax加载大学列表
+    var page = 1;
+    function ajax_load_colleges(page, type){
+      $.get("{{ app_url_contest }}/ajax_load_colleges", {page:page, type:1});
+    }
+
   </script>
 
 {% endblock %}
 
 {% block jquery %}
 
+	/* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
+
+  //获取大学人气排行
+  $.get("{{ app_url_contest }}/ajax_fetch_top_college", {id:1});
+
+  //ajax查看更多
+  $('#college-more').click(function(){
+    page = page+1;
+    ajax_load_colleges(page,1);
+  
+  });
+
+  //ajax加载大学排行列表
+  ajax_load_colleges(page,1);
+
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=dream2";
+    phenix.redirect(url);
+  });
 
 {% endblock %}
 
@@ -356,6 +380,27 @@ ul,li{list-style:none;}
 <div class="match rank">
 	<section class="rankbg">
 		
+	</section>
+	<section class="ui nav">
+		<div class="ui responsive grid">
+			<div class="middle aligned row">
+				<div class="twelve wide column">
+					<div class="ui magenta horizontal divided list">
+						<a href="{{ app_url_contest }}/dream2" class="ui link item">首页</a>
+		        <a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+		        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+						<a href="{{ app_url_contest }}/allist2" class="ui link item">全部作品</a>
+						<a href="{{ app_url_contest }}/rank" class="ui link active item">校园人气争霸</a>
+						<a href="{{ app_url_contest }}/cooperate" class="ui link item">合作资源</a>
+					</div>
+				</div>
+        <div class="right aligned four wide column">
+          <a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+            <i class="edit icon"></i> 提交作品
+          </a>
+        </div>
+			</div>
+		</div>
 	</section>
 	<section class="ui big popu block">
 		<div class="ui responsive grid">
@@ -395,30 +440,24 @@ ul,li{list-style:none;}
 		</div>
 	</section>
 
-  <section>
-    <div id="ChinaMap">
-        <div id="map"></div>
-        <div id="ToolTip" class="ToolTip" style="left: 10px">
-            <div id="areaInfo"></div>
-            <div id="cityInfo"></div>
-        </div>
-        <div class="ToolTip" style="right: 50px;">
-            <div id="topList" style="width: 130px; float: left">
-            </div>
-            <div id="cityList" style="display: none; float: left">
-            </div>
-        </div>
-    </div>
-  </section>
-
-	<section class="ui block">
+	<section class="ui big block">
 		<div class="ui responsive media allist grid">
 		  <div class="row">
-		    <div class="column">
-		      <div class="ui four items">
+		    {% stuff_list var:'list' is_top:true category_id:dream_category_id sticked:1 load_college:1 sort:st page:page size:8 %}
+		
+				<div class="column">
+	
+					<div class="ui four items" id="item-list">
+					{% for stuff in list.rows %}
+	          {% include "block/match2_item.html" %}
+	        {%endfor%}
+
+					</div>
+			
+			
 		        
 						<!-- 作品-->
-						<div class="item">
+						<!--<div class="item">
 		          <div class="content">
 		            <h4 class="ui dividing header">
 		              <div class="image zan">
@@ -480,11 +519,10 @@ ul,li{list-style:none;}
 		              </div>
 		            </div>
 		          </div>
-		        </div>
+		        </div>-->
 		
 		
 						
-					</div>
 				</div>
 			</div>
 		</div>
@@ -498,179 +536,67 @@ ul,li{list-style:none;}
 					<p>全国高校人气争霸，没你不行！</p>
 				</div>
 			</div>
+			<div class="row" id="college-graph">
+
+			</div>
 			<div class="row">
-				<div class="chrt column">
-					<div class="histogram-container" id="histogram-container">
-					  <!--背景方格-->
-					  <div class="histogram-bg-line">
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-					    <ul>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					      <li>
-					        <div>
-					        </div>
-					      </li>
-					    </ul>
-				 
-							<i class="fa-caret-up icon"></i>
-							<i class="fa-caret-right icon"></i>
-							<div class="flot">人气</div>
-							<div class="yuan">院校</div>
-						
-					 	</div>
-					  <!--柱状条-->
-					  <div class="histogram-content">
-					    <ul>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:20%;background:#2f87d9;" title="20%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          北京大学美学院
-					        </span>
-					      </li>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:40%;background:green;" title="40%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          广东美术学院
-					        </span>
-					      </li>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:50%;background:orange;" title="50%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          清华美术学院
-					        </span>
-					      </li>
-					      <li>
-					        <span class="histogram-box">
-					          <a style="height:80%;background:gray;" title="80%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          北京工业大学
-					        </span>
-					      </li>
-								<li>
-					        <span class="histogram-box">
-					          <a style="height:20%;background:#2f87d9;" title="20%"><br />人气指数<br /><strong>14801</strong>
-					          </a>
-					        </span>
-					        <span class="name">
-					          湖北美术学院
-					        </span>
-					      </li>
-					    </ul>
-					  </div>
+				<div class="center aligned column">
+					<div class="sootext">
+						作品点赞数会自动累积到隶属院校赞数内，你为本校的任何一个作品投票都是在为这个学校增添人气哦！<br>
+						截止到2015年6月20日24时，最终获得点赞数最多的三所高校，太火鸟将为学校颁发奖杯和荣誉证书。
 					</div>
-	
 				</div>
 			</div>
-			
-		
-			
 		</div>
 	</section>
 	
-	
-	
-			
-		
-						
-				
+	<section class="ui math big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="six wide column">
+					<img src="http://frstatic.qiniudn.com/images/mtac4.png">
+				</div>
+        <!--
+				<div class="ten wide column">
+					<form class="search item" method="post" action=" " id="searchbar">
+					 	<div class="ui icon input">
+							<input name="q" type="text" placeholder="输入院校名称查看作品">
+							<i class="search icon"></i>
+						</div>
+					</form>
+				</div>
+        -->
+			</div>
 
+			<div class="row">
+        <!--ajax colleges list-->
+				<div class="ui two items college-list" id="college-list">
+        </div>
+      </div>
+				<div class="center aligned sixteen wide column">
+					<a href="javascript:void(0);" id="college-more" class="ui btn-4 magenta active btn-4c attend icon-arrow-right btn">
+						查看更多
+						<i class="icon-arrow-right-sharp"></i>
+					</a>
+				</div>
+		</div>
+	</section>
 
-
-
-
+	<section class="ui big block">
+    <div id="ChinaMap">
+        <div id="map"></div>
+        <div id="ToolTip" class="ToolTip" style="left: 10px;display:none;">
+            <div id="areaInfo"></div>
+            <div id="cityInfo"></div>
+        </div>
+        <div class="ToolTip" style="right: 50px;">
+            <div id="topList" style="width: 130px; float: left">
+            </div>
+            <div id="cityList" style="display: none; float: left">
+            </div>
+        </div>
+    </div>
+  </section>
 
 </div>
 {% endblock %}

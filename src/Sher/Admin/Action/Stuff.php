@@ -103,11 +103,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
       $data = array();
 			if(empty($this->stash['_id'])){
 				$mode = 'create';
-				$ok = $model->apply_and_save($this->stash);
+				//$ok = $model->apply_and_save($this->stash);
 			}else{
 				$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
-        $data['love_count'] = (int)$this->stash['love_count'];
+        $data['love_count'] = (int)$this->stash['love_count'] + (int)$this->stash['add_love_count'];
         $data['view_count'] = (int)$this->stash['view_count'];
 				$ok = $model->apply_and_update($data);
 			}
@@ -143,6 +143,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 				
         if (!empty($stuff)){
 		      $model->remove((int)$id);
+			    $model->mock_after_remove($id, $stuff);
 				}
 			}
 			
@@ -211,6 +212,14 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		
 		return $this->to_taconite_page('ajax/published_ok.html');
   
+  }
+
+  /**
+   * 点赞名单
+   */
+  public function get_love_list(){
+    
+    return $this->to_html_page('admin/stuff/love_list.html');
   }
 
 }

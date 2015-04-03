@@ -512,7 +512,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$model->remove((int)$id);
 			
 			// 删除关联对象
-			$model->mock_after_remove($id);
+			$model->mock_after_remove($id, $stuff);
 			
             # 更新计数器
             $diglist = new Sher_Core_Model_DigList();
@@ -564,7 +564,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$model->remove((int)$id);
 			
 			// 删除关联对象
-			$model->mock_after_remove($id);
+			$model->mock_after_remove($id, $stuff);
 			
 			// 从精选列表中删除
 			if ($stuff['featured']){

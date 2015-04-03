@@ -447,7 +447,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 			$model->remove((int)$id);
 			
 			// 删除关联对象
-			$model->mock_after_remove($id);
+			$model->mock_after_remove($id, $stuff);
 			
 			// 从精选列表中删除
 			if ($stuff['featured']){

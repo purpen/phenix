@@ -1,0 +1,138 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	header.ui.wap{
+		display:none !important;
+		opacity:0;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	.mmfoot{
+		display:none;
+	}
+	* { -webkit-appearance: none; }
+
+	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+	.wrap {
+	width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+	}
+	#music-control {
+		width: 30px;
+		height: 30px;
+		position: fixed;
+		right: 5px;
+		top: 5px;
+		z-index: 100000;
+	}
+	@-webkit-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@-moz-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	.swipe { 
+	    animation: swipe 1.5s linear infinite;
+	    -webkit-animation: swipe 1.5s linear infinite;
+	}
+	.swipe { position: absolute; width: 28px; height: 16px; top: 90%; left: 50%; margin-left: -14px; }
+	
+	
+	
+	.page-1{
+		background:url({{ app_url_packaged }}/images/mtac5.jpg);
+		background-size:cover;
+	}
+	
+	
+	</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+	<script type="text/javascript" >
+		$('.wrap').fullpage({
+			'verticalCentered': true,
+			'sectionsColor':['#000','#000','#000','#000','#000','#190119'],
+			'css3':false,
+			'slidesNavigation': true,
+			afterRender: function(){
+						$('.s1-1').addClass('page-bounceIn');
+						$('.s1-3').addClass('page-fadeInDown');
+			},
+
+		});
+	</script>
+
+{% endblock %}
+
+{% block jquery %}
+	bgm = new Audio5js({
+      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+      bgm.playPause();
+  });
+{% endblock %}
+{% block content %}
+<div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
+<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div class="wrap">
+	<div class="section page-1">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section page-2">
+		
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+</div>
+{%endblock%}
+
+	
+	
+	
+	
+	
+	
+	
