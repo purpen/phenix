@@ -249,11 +249,13 @@
 								{% endif %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-						   	 		<div class="icon">
-						   				<i class="fa fa-check"></i>
-						   			</div>
-						   	 		{{ cat.title }}
-						   	 	</div>
+                    {% if cat.pid %}
+                      <div class="icon">
+                        <i class="fa fa-check"></i>
+                      </div>
+                      {{ cat.title }}
+                    </div>
+                  {%endif%}
 								{% endfor %}
 						   	 </div>
 						</div>
