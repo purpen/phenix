@@ -122,7 +122,7 @@
 		          	<p class="attribute">ID：{{ stuff._id }}</p>
 				</td>
         <td>
-          <span>{{ stuff.love_count }}</span><a href="" target="_blank">名单>></a>
+          <span>{{ stuff.love_count }}</span> | <a href="{{ app_url_admin_base }}/stuff/get_love_list?target_id={{ stuff._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>
 
 				<td>
