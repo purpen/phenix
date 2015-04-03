@@ -5,7 +5,6 @@
 	#voted-action {
 		margin: 1em auto;
 	}
-	
 	#votepage .product.params .ui.btn.icon {
 	    padding: 1em;
 	}
@@ -175,7 +174,6 @@
 	.ui.five.tabs .tab {
 		width: 20%;
 	}
-
 </style>
 {% endblock %}
 
@@ -239,14 +237,13 @@
 	});
 	
 	// 投赞成票
-	$('.ui.support.button').bind('click', function(){
+	$('.ui.ok.button').bind('click', function(){
 		var id = $(this).data('id'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			phenix.show_login_box();
 			return false;
 		}
-		
 		$.post('{{ app_url_fever }}/ajax_favor', {id: id});
 	});	
 	
@@ -397,19 +394,75 @@
 			}, 'json');
 		}
 	});
+    
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+			if (result.success) {
+				$btn
+					.addClass('actived');
+                    
+                if(result.data.newadd){
+                    $('#stuff_'+ id +'_support')
+                        .prepend('<img src="'+ result.data.avatar +'" class="ui avatar image" />')
+                        .find('span.count').remove()
+                        .end()
+                        .append('<span class="count">'+ result.data.love_count +'<small>\+</small></span>');
+                }
+			} else {
+				phenix.show_error_note(result.message);
+			}
+		}, 'json');
+	});
 
 
-  //ajax加载支持者
-  fetch_support(1, per_page);
+    // ajax加载支持者
+    fetch_support(1, per_page);
 
-  //查看更多支持者
-  $('a[name=support_list_more]').click(function(){
-    var current_page = $("a[name='support_list_more']").attr('current_page');
-    current_page++;
-    fetch_support(current_page, per_page);
-  });
+    // 查看更多支持者
+    $('a[name=support_list_more]').click(function(){
+        var current_page = $("a[name='support_list_more']").attr('current_page');
+        current_page++;
+        fetch_support(current_page, per_page);
+    });
 
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
 	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '私信内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '私信内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+    
 {% endblock %}
 
 {% block content %}
@@ -478,7 +531,7 @@
 								{% endif %}
 							{% else %}
 								<div class="2 fluid ui buttons">
-								  	<div class="ui green support button" data-id="{{ product._id }}">
+								  	<div class="ui green ok button" data-id="{{ product._id }}">
 								  		<i class="thumbs up outline icon"></i>
 								  	</div>
 									<div class="ui dropdown green button">
@@ -706,16 +759,17 @@
 				<div class="column">
 					<div class="product content froala-element clearfix">
 						{{ product.content }}
-						
-                        
-						{% if product.tags_s %}
-						<div class="tags">
-							{% for tag in product.tags %}
-							<label class="ui gray label">{{ tag }}</label>
-							{% endfor %}
-						</div>
-						{% endif %}
 					</div>
+                    
+					{% if product.tags_s %}
+					<div class="tags">
+						{% for tag in product.tags %}
+						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui line">
+							# {{ tag }}
+						</a>
+						{% endfor %}
+					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -749,12 +803,17 @@
 							<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
 						</a>
 						<div class="actions">
-							<button class="ui small white inverted button">
-								关注 
-							</button>
-							<button class="ui small white inverted button">
-								私信 
-							</button>
+        					{% if product.designer._id != visitor.id %}
+            					{% if !is_ship %}
+            					    <a href="{{ app_url_user }}/ajax_follow?id={{ product.designer._id }}" class="ui small white ajax inverted button" id="user_{{ product.designer._id }}_ship">关注</a>
+            					{% else %}
+            					    <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ product.designer._id }}" class="ui small white ajax inverted button" id="user_{{ product.designer._id }}_ship">已关注</a>
+            					{% endif %}
+					
+            					<button class="ui small white letter inverted button">
+            						私信
+            					</button>
+        					{% endif %}
 						</div>
 					</div>
 				</div>
@@ -793,7 +852,7 @@
 						相似灵感 <small>（{{ product.stuff_count|default 0 }}）</small>
 					</h3>
 				    {% stuff_list var:'list' sort:1 fever_id:product._id page:1 size:4 %}
-                    <div class="ui three cards">
+                    <div class="ui four stuffs cards">
                         {% for stuff in list.rows %}
                             {% include "block/stuff_item.html" %}
                         {%endfor%}
@@ -814,20 +873,20 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					
 					<!--最新投票者列表-->
 					<h3 class="ui dividing header">
 						支持者 <small>（{{ product.vote_count }}）</small>
 					</h3>
 					<div class="avatars" id="product-vote-people-list"></div>
-          <p class="ui center aligned"><a href="javascript:void(0);" current_page="1" class="ui link" name="support_list_more">更多>></a></p>
-					
+                    <p class="ui center aligned">
+                        <a href="javascript:void(0);" current_page="1" class="ui gray inverted button" name="support_list_more">查看更多</a>
+                    </p>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 </div>
+{% include "block/message.html" %}
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}

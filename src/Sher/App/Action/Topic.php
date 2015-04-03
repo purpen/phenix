@@ -59,6 +59,24 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
 		return $this->to_html_page('page/topic/index.html');
 	}
+    
+    /**
+     * 自动加载获取
+     */
+    public function ajax_fetch_topics(){
+        $page = $this->stash['page'];
+        
+        $service = Sher_Core_Service_Topic::instance();
+        $query = array();
+        $options['page'] = $page;
+        $options['size'] = 15;
+		
+        $result = $service->get_topic_list($query,$options);
+        
+        $this->stash['results'] = $result;
+        
+        return $this->to_html_page('ajax/fetch_topics.html');
+    }
 	
 	/**
 	 * 社区列表
