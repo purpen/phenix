@@ -130,7 +130,8 @@
   });
 
   //ajax获取省份排行 
-  $.get("{{ app_url_wap }}/contest/ajax_fetch_top_province", {type:1}, function(result){
+  $.get("{{ app_url_domain }}/app/wap/contest/ajax_fetch_top_province", {type:1}, function(result){
+    var result = eval('(' + result + ')');
     if(result.success){
       $.each(result.data, function (i, item) {
         var html = '';
