@@ -20,9 +20,8 @@
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
 		.ui.items > .item > .image ,.ui.cards > .card > .image{
-			background-color: rgba(0, 0, 0, 0);
-			position: relative;
-			padding:37.7% 0;
+			padding:37.7% 0 !important;
+			background-size:cover;
 		}
 		.ui.items > .item > .image > a, .ui.cards > .card > .image > a{
 			position:absolute;
@@ -30,6 +29,11 @@
 			height:100%;
 			top:0;
 			left:0;
+		}
+		.user.center h4.ui.header .advantage{
+			white-space: nowrap;
+		  overflow: hidden;
+		  text-overflow: ellipsis;
 		}
 			body {
 			    background: #f1f1f1;
