@@ -2,7 +2,12 @@
 {% block title%}如何工作-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.item{
+		min-height:0 !important;
+	}
+	.ui.three.items > .item > .image{
+		padding:0 !important;
+	}
 </style>
 {% endblock %}
 
@@ -62,7 +67,7 @@
 		</div>
 	</section>
 
-	<section class="ui center aligned grid">
+	<section class="ui center aligned grid" style="margin:0 !important;">
 		<div class="row white backgroud">
 			<div class="column padded">
 				<div class="ui breadcrumb">
