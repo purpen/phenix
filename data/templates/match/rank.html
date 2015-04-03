@@ -264,6 +264,7 @@ ul,li{list-style:none;}
                     var title = $(this).attr("title");
                     var love_count = $(this).attr('love-count');
                     $(this).siblings().css("font-size", "").removeAttr("select").end().css("font-size", "20px").attr("select", "");
+                    $('#ToolTip').show();
                     $('#areaInfo').html(title + "的人气指数："+ love_count +"<br/>").fadeIn('fast');
                     ////显示省份明细，自己修改
                     //$.post(url + "/" + encodeURI(title), args, function (data) {
@@ -584,7 +585,7 @@ ul,li{list-style:none;}
 	<section class="ui big block">
     <div id="ChinaMap">
         <div id="map"></div>
-        <div id="ToolTip" class="ToolTip" style="left: 10px">
+        <div id="ToolTip" class="ToolTip" style="left: 10px;display:none;">
             <div id="areaInfo"></div>
             <div id="cityInfo"></div>
         </div>

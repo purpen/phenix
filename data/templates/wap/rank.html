@@ -129,6 +129,17 @@
   
   });
 
+  //ajax获取省份排行 
+  $.get("{{ app_url_wap }}/contest/ajax_fetch_top_province", {type:1}, function(result){
+    if(result.success){
+      $.each(result.data, function (i, item) {
+        var html = '';
+				html +=	'<div class="item"><i class="flat home icon"></i><h3>'+ item.match2_love_count +'<br>'+ item.name +'</h3></div>';
+        $('#province-box').append(html);
+      });
+    }
+  });
+
   //ajax加载大学排行列表
   ajax_load_colleges(page,1);
 
@@ -181,15 +192,8 @@
 			</div>
 			<div class="row">
 				<div class="ui center aligned column">
-					<div class="ui three items">
-
-						<div class="item">
-							<i class="flat home icon"></i>
-							<h3>34500<br>
-								北京
-								</h3>
-						</div>
-
+					<div class="ui three items" id="province-box">
+          <!--ajax province sort-->
 					</div>
 				</div>
 			</div>

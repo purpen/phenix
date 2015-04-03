@@ -234,7 +234,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
     $query['type'] = Sher_Core_Model_SumRecord::TYPE_PRO;
     $options['size'] = 10;
     $options['sort'] = array('match2_love_count'=> -1);
-    $data = $model->find($query);
+    $data = $model->find($query, $options);
     foreach($data as $key=>$val){
       $pid = (int)$data[$key]['target_id'];
       $data[$key]['name'] = Sher_Core_Helper_View::show_province_name($pid);

@@ -116,14 +116,14 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 
   /**
    * 统计
-   * ajax获取省份前5
+   * ajax获取省份前3
    */
   public function ajax_fetch_top_province(){
     $model = new Sher_Core_Model_SumRecord();
     $query['type'] = Sher_Core_Model_SumRecord::TYPE_PRO;
-    $options['size'] = 10;
+    $options['size'] = 3;
     $options['sort'] = array('match2_love_count'=> -1);
-    $data = $model->find($query);
+    $data = $model->find($query, $options);
     foreach($data as $key=>$val){
       $pid = (int)$data[$key]['target_id'];
       $data[$key]['name'] = Sher_Core_Helper_View::show_province_name($pid);
