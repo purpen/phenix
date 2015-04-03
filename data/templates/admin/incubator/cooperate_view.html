@@ -120,6 +120,8 @@
           <label>发给：</label>
           <input type="text" name="nickname" value="{{ contact.user.nickname }}" disabled="disabled" />
           <input type="hidden" name="to" value="{{ contact.user._id }}" />
+          <input type="hidden" name="user_phone" value="{{ contact.tel }}" />
+          <input type="hidden" name="from_to" value="2" />
         </div>
         <div class="field">
           <label>内容：</label>

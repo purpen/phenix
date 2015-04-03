@@ -45,6 +45,15 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	/**
 	 * 十万火计--第二季 作品排行
 	 */
+  public function rank1() {
+		$this->set_target_css_state('active2');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		return $this->to_html_page('wap/contest/rank.html');
+	}
+	
+	/**
+	 * 十万火计--第二季 作品排行
+	 */
   public function rank() {
 		$this->set_target_css_state('active2');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];

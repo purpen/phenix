@@ -146,18 +146,18 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
 
-    //判断是否为秒杀产品 
-    $snatch_time = 0;
-    if($product['snatched']){
-      $is_snatch = true;
-      if(!$product['snatched_start']){
-        $snatch_time = $product['snatched_time'] - time();
-      }
-    }else{
-      $is_snatch = false;
-    }
-    $this->stash['is_snatch'] = $is_snatch;
-    $this->stash['snatch_time'] = $snatch_time;
+        // 判断是否为秒杀产品 
+        $snatch_time = 0;
+        if($product['snatched']){
+            $is_snatch = true;
+            if(!$product['snatched_start']){
+                $snatch_time = $product['snatched_time'] - time();
+            }
+        }else{
+            $is_snatch = false;
+        }
+        $this->stash['is_snatch'] = $is_snatch;
+        $this->stash['snatch_time'] = $snatch_time;
 		
 		// 验证是否还有库存
 		$product['can_saled'] = $model->can_saled($product);
@@ -177,6 +177,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
 		
+		// 验证关注关系
+		$ship = new Sher_Core_Model_Follow();
+		$is_ship = $ship->has_exist_ship($this->visitor->id, $product['designer_id']);
+		$this->stash['is_ship'] = $is_ship;
+        // 私信用户
+        $this->stash['user'] = $product['designer'];
 		
 		return $this->to_html_page('page/shop/show.html');
 	}

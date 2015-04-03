@@ -86,6 +86,13 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
 		
 		$this->stash['product'] = $product;
+        
+		// 验证关注关系
+		$ship = new Sher_Core_Model_Follow();
+		$is_ship = $ship->has_exist_ship($this->visitor->id, $product['designer_id']);
+		$this->stash['is_ship'] = $is_ship;
+        // 私信用户
+        $this->stash['user'] = $product['designer'];
 		
 		
 		return $this->to_html_page('page/sale/show.html');

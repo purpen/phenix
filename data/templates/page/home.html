@@ -129,7 +129,7 @@
 	}*/
 	
 	
-	.groom.items .item .image{
+	.groom.blocks .block .image{
 		  background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
 		  background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
 		  background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
@@ -140,19 +140,19 @@
 		  -webkit-background-size: cover;
 		  background-size: cover;
 	}
-	.groom.items .item .image a{
+	.groom.blocks .block .image a{
 			position:absolute;
 			width:100%;
 			height:100%;
 			top:0;
 			left:0;
 	}
-	.ui.two.groom.items>.item:hover{
+	.ui.two.groom.blocks > .block:hover{
 		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
 		 box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
 		border:0px solid #fff !important;
 	}
-	.block.title>span {
+	.block.title > span {
 	  font-size: 1rem;
 		color: rgba(0,0,0,.6);
 	  margin-top: 14px;
@@ -323,15 +323,15 @@
 		</a>
 	</div>
 
-	<section class="ui small block">
+	<section class="ui block">
 		<div class="ui responsive grid">
 			{% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
             {% if adslide2.rows %}
             <div class="row">
                 <div class="column">
-                    <div class="ui two groom items">
+                    <div class="ui two groom blocks">
                         {% for ad in adslide2.rows %}
-                        <div class="item">
+                        <div class="block">
                             <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
                                 <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
                             </div>
@@ -345,7 +345,7 @@
 			<div class="two column middle aligned row">
 				<div class="column">
 					<h2 class="block title">
-						热门商品 <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
+						<a href="{{ app_url_shop }}/c0" class="ui line">热门商品</a> <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
 					</h2>
 				</div>
                 <div class="right aligned column">
@@ -371,7 +371,7 @@
 			<div class="row">
 				<div class="column">
 					<h2 class="block title">
-						精选话题 <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
+						<a href="{{ app_url_topic }}" class="ui line">精选话题</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
 					</h2>
 				</div>
 			</div>

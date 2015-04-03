@@ -590,12 +590,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     	return $this->update_set((int)$id, array('state' => self::STATE_OK));
     }
 
-  /**
-   * 设置优质
-   */
-  public function set_quality($id, $evt=0){
-    return $this->update_set((int)$id, array('quality'=> (int)$evt));  
-  }
+    /**
+     * 设置优质
+     */
+    public function set_quality($id, $evt=0){
+        return $this->update_set((int)$id, array('quality'=> (int)$evt));  
+    }
 	
 	/**
 	 * 更新微博用户授权access token
@@ -704,15 +704,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	/**
 	 * 更新计数器，累加
 	 */
-	public function update_counter_byinc($user_id,$field,$value=1){
+	public function update_counter_byinc($user_id, $field, $value=1){
 		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count'))){
 			return;
 		}
 		$counter_name = 'counter.'.$field;
-		return $this->inc(array('_id' => (int)$user_id), $counter_name, $value,true);
+		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
 	}
 	
-	
-	
 }
-?>
