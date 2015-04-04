@@ -96,7 +96,17 @@
 	
 	
 	.page-1{
+		background:url({{ app_url_packaged }}/images/mtac_w2.jpg);
 		position:relative;
+		width:100;
+		height:100%;
+		background-size: cover;
+		background-position: center bottom;
+	}
+	.s1-1{
+		float: right;
+	  width: 90%;
+	  height: 61%;
 	}
 	
 	</style>
@@ -120,7 +130,7 @@
 {% endblock %}
 
 {% block jquery %}
-	bgm = new Audio5js({
+	/*bgm = new Audio5js({
       swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
       ready: function () {
           this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
@@ -138,15 +148,16 @@
 
   $('#music-control').click(function(){
       bgm.playPause();
-  });
+  });*/
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
 <div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section page-1">
-		<img src="http://frstatic.qiniudn.com/images/mtac_w.jpg" height="100%">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		<img src="{{ app_url_packaged }}/images/mtac_w4.png" class="s1-1">
+		<!--<img src="http://frstatic.qiniudn.com/images/mtac_w.jpg" height="100%">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>-->
 	</div>
 	
 	<div class="section page-2">
