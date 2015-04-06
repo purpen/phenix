@@ -21,6 +21,49 @@
 	height: 100%;
 	overflow: hidden;
 	}
+	.fp-table {
+		display: table;
+		width: 100%;
+	}
+	.fp-tableCell {
+		display: table-cell;
+		width: 100%;
+		height: 100%;
+		position:relative;
+	}
+	.fp-section.fp-table{
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+	
+	
+	.fp-slides {
+	z-index: 1;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	-webkit-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	}
+	.fp-slidesContainer {
+	float: left;
+	position: relative;
+	}
+	.fp-section.fp-table, .fp-slide.fp-table {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	}
+	.fp-slide, .fp-slidesContainer {
+	height: 100%;
+	display: block;
+	}
+	.fp-slide {
+	float: left;
+	}
+	
+	
 	#music-control {
 		width: 30px;
 		height: 30px;
@@ -53,11 +96,67 @@
 	
 	
 	.page-1{
-		background:url({{ app_url_packaged }}/images/mtac5.jpg);
-		background-size:cover;
+		background:url({{ app_url_packaged }}/images/mtac_w2.jpg);
+		position:relative;
+		background-repeat: no-repeat;
 	}
-	
-	
+	@media only screen and (min-width: 415px){
+		.s1-1 {
+		  float: right;
+		  width: 97%;
+		  height: 55%;
+		}
+		.page-1{
+			background-size:cover;
+			background-position: center bottom;
+		}
+		.s2-1{
+			width:100%;
+		}
+		
+	}
+	@media only screen and (max-width: 414px){
+		.s1-1 {
+		  width: 65%;
+		  height: 52%;
+		}
+		.page-1{
+			background-size: 71% 100%;
+			background-position: left bottom;
+		}
+		.s2-1{
+			width:65%;
+		}
+		
+		
+	}
+	@media only screen and (max-width: 375px){
+		.s1-1{
+		  width: 59%;
+		  height: 59%;
+		}
+		.page-1{
+			background-size: 63% 100%;
+			background-position: left bottom;
+		}
+		.s2-1{
+			width:59%;
+		}
+		
+	}
+	@media only screen and (max-width: 320px){
+		.s1-1{
+		  width: 50%;
+		  height: 50%;
+		}
+		.page-1{
+			background-size: 53% 100%;
+			background-position: left bottom;
+		}
+		.s2-1{
+			width:50%;
+		}
+	}
 	</style>
 {% endblock %}
 
@@ -71,17 +170,15 @@
 			'css3':false,
 			'slidesNavigation': true,
 			afterRender: function(){
-						$('.s1-1').addClass('page-bounceIn');
-						$('.s1-3').addClass('page-fadeInDown');
+						$('.s1-1').addClass('page-fadeInDown');
 			},
-
 		});
 	</script>
 
 {% endblock %}
 
 {% block jquery %}
-	bgm = new Audio5js({
+	/*bgm = new Audio5js({
       swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
       ready: function () {
           this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
@@ -99,18 +196,20 @@
 
   $('#music-control').click(function(){
       bgm.playPause();
-  });
+  });*/
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
 <div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section page-1">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		<img src="{{ app_url_packaged }}/images/mtac_w4.png" class="s1-1">
+		<!--<img src="http://frstatic.qiniudn.com/images/mtac_w.jpg" height="100%">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>-->
 	</div>
 	
 	<div class="section page-2">
-		
+		<img src="http://frstatic.qiniudn.com/images/mtac_w1.jpg" height="100%" class="s2-1">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
