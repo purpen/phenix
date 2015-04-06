@@ -5,9 +5,14 @@
 <style class="text/css">
 	.cooperate.masthead {
 		color: white;
-		padding: 100px 0 60px;
-		background: url("{{ app_url_packaged }}/images/topicbg/e9.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
+		background: url("{{ app_url_packaged }}/images/topicbg/features_banner.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
 	}
+    .cooperate.masthead > .masthead-cover {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    .cooperate.masthead .container {
+        padding: 100px 0 60px;
+    }
 	.cooperate.masthead .buttons {
 		margin-top: 3rem;
 	}
@@ -54,18 +59,22 @@
 	</div>
 </div>
 <div class="cooperate masthead">
-	<div class="ui responsive grid">
-		<div class="center aligned column white section-title">
-			<h2 class="block title">孵化资源</h2>
-			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
-			<hr>
-			<div class="buttons">
-				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
-					<i class="edit icon"></i> 申请合作
-				</a>
-			</div>
-		</div>
-	</div>
+	<div class="masthead-cover">
+    	<div class="ui responsive grid">
+    		<div class="center aligned column white section-title">
+                <div class="container">
+        			<h2 class="block title">孵化资源</h2>
+        			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
+        			<hr>
+        			<div class="buttons">
+        				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
+        					<i class="edit icon"></i> 申请合作
+        				</a>
+        			</div>
+                </div>
+    		</div>
+    	</div>
+    </div>
 </div>
 
 <div class="social people {{ show_all }} filter">
