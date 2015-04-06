@@ -5,7 +5,9 @@
     .social.post {
         margin-bottom: 3rem;
     }
-    
+    .ui.big.segment {
+        padding: 1.5rem;
+    }
 </style>
 {% endblock %}
 
@@ -220,7 +222,7 @@
 					</h2>
 				</div>
 				
-				<div class="ui segment">
+				<div class="ui big segment">
 					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
 						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />

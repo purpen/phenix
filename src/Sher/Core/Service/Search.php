@@ -63,7 +63,7 @@ class Sher_Core_Service_Search extends Sher_Core_Service_Base {
             }
 			$query = $new_query;
         }
-		
+        
         return $this->query_list($this->text_index, $query, $options);
     }
 	

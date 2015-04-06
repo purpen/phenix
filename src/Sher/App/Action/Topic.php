@@ -84,8 +84,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	public function ajax_guess_topics(){
 		$sword = $this->stash['sword'];
         $current_id = $this->stash['id'];
-		$size = $this->stash['size'] || 4;
-		
+		$size = $this->stash['size'];
+        
 		$result = array();
 		$options = array(
 			'page' => 1,

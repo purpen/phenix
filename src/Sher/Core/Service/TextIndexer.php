@@ -107,7 +107,7 @@ class Sher_Core_Service_TextIndexer {
         }
 		
         // 全文检索内容包括: 标题 简介 标签 类别名称
-        $full_content = $row['title'].' '.$row['advantage'].' '.$row['summary'].' '.$row['content']. ' '.implode(' ',$row['tags']);
+        $full_content = $row['title'].' '.$row['advantage'].' '.$row['summary'].' '.implode(' ',$row['tags']);
         $full_words   = Sher_Core_Helper_SCWS::segment_index_word($this->scws, $full_content);
 		
         $tags = $row['tags'];
