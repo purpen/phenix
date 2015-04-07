@@ -90,13 +90,29 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   }
 
   /**
-   * 减少新记录
+   * 减少记录数
    */
   public function down_record($target_id, $filed_name='count', $type=self::TYPE_PRO){
     $query = array('target_id'=>$target_id, 'type'=>$type);
     $d = $this->first($query);
     if($d){
       $this->dec_counter($filed_name, $d['_id']);
+    }
+
+  }
+
+  /**
+   * 减少记录数--大量的
+   */
+  public function multi_down_record($target_id, $filed_name='count', $num=1, $type=self::TYPE_PRO){
+    $query = array('target_id'=>$target_id, 'type'=>$type);
+    $d = $this->first($query);
+    if($d){
+      $count = isset($d[$filed_name])?(int)$d[$filed_name]:0;
+      $count = $count - $num;
+      if($count>0){
+        $this->update_set((string)$d['_id'], array((string)$filed_name => $count));
+      }
     }
 
   }
