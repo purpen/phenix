@@ -73,3 +73,9 @@ $ok = $service->make_exp_in($user_id, 100, 'test');
 ok($ok, 'make_exp_in');
 $ok = $service->make_exp_out($user_id, 100, 'test');
 ok($ok, 'make_exp_out');
+
+$ok = $service->make_money_in($user_id, 100, 'test money in');
+ok($ok, 'make_money_in');
+$ok = $service->make_money_out($user_id, 100, 'test money out');
+ok($ok, 'make_money_out');
+

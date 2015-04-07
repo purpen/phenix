@@ -164,7 +164,7 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         else {
             $result = $balance->commit_in_trans($amount, $point_type, $record_id);
         }
-        var_dump($result);
+        //var_dump($result);
         // 其他进程已经提交了此事务
         // todo: 可检测是否需要recovery?
         if (!$result) {
