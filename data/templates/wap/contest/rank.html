@@ -62,6 +62,88 @@
 	.fp-slide {
 	float: left;
 	}
+	.fp-controlArrow.fp-next:before {
+		font-family: "FontFlatIcons";
+		font-size: 27px;
+		line-height: 1;
+		display: inline-block;
+		content: '\e0d3';
+	}
+	.fp-controlArrow.fp-next{
+		-webkit-animation: arrowRt 1.5s linear infinite;
+		-moz-animation: arrowRt 1.5s linear infinite;
+		animation: arrowRt 1.5s linear infinite;
+	}
+	.fp-controlArrow.fp-next {
+		right: 0px;
+		display: inline-block;
+		opacity: .75;
+		color: #FFF;
+		margin: 0 .25em 0 0;
+		width: 1.23em;
+		height: 1em;
+		font-family: FontFlatIcons;
+		font-style: normal;
+		line-height: 1;
+		font-weight: 400;
+		text-decoration: inherit;
+		text-align: center;
+		speak: none;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		-webkit-font-smoothing: antialiased;
+		-moz-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	.fp-controlArrow.fp-prev:before{
+		font-family: "FontFlatIcons";
+		font-size: 27px;
+		line-height: 1;
+		display: inline-block;
+		content: '\e010';
+	}
+	.fp-controlArrow.fp-prev {
+		-webkit-animation: arrowUp 1.5s linear infinite;
+		-moz-animation: arrowUp 1.5s linear infinite;
+		animation: arrowUp 1.5s linear infinite;
+	}
+	.fp-controlArrow.fp-prev {
+		left: 0px;
+		display: inline-block;
+		opacity: .75;
+		color: #FFF;
+		margin: 0 .25em 0 0;
+		width: 1.23em;
+		height: 1em;
+		font-family: FontFlatIcons;
+		font-style: normal;
+		line-height: 1;
+		font-weight: 400;
+		text-decoration: inherit;
+		text-align: center;
+		speak: none;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		-webkit-font-smoothing: antialiased;
+		-moz-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	.fp-controlArrow{
+		top: 50%;
+		font-size: 27px;
+		margin-top: -80px;
+	}
+	.fp-controlArrow {
+		position: absolute;
+		z-index: 4;
+		cursor: pointer;
+	}
 	
 	
 	#music-control {
@@ -100,6 +182,101 @@
 		position:relative;
 		background-repeat: no-repeat;
 	}
+	.page-3,.page-5{
+		background:url({{ app_url_packaged }}/images/mtac_w6.jpg);
+		position:relative;
+		background-repeat: no-repeat;
+		background-size:cover;
+	}
+	.page-4{
+		position:relative;
+	}
+	.page-4 .w-2{
+		text-align:center;
+		width:100%;
+	}
+	
+	
+	
+	
+	.ui.people .six.wide.column{
+		font-size:13px;
+	}
+	.ui.people .center.column p,.ui.position .center.column p{
+		color:#456789;
+	}
+	.ui.people .row p{
+		color:#fff;
+		margin: 15px 0 8px;
+	}
+	.ui.people .row{
+		margin-top:0;
+		padding-top:0;
+	}
+	.ui.people .chart{
+		background:#1dba73;
+		height:20px;
+	}
+	.ui.people .row > .wide.column{
+	  color: #1ab26c;
+	}
+	
+	
+	
+	.ui.grid.item{
+		margin-bottom:2%;
+		border:1px solid rgba(0,0,0,0.2);
+	}
+	.ui.grid.item .ui.two.items{
+		margin-left: 0.5%;
+		margin-right: 0.5%;
+		margin-bottom: 1%;
+	}
+	.ui.grid.item .eight.wide{
+		font-size:16px;
+		vertical-align: middle;
+	}
+	.ui.grid.item .eight.wide + .eight.wide{
+		font-size:13px;
+	}
+	.ui.grid.item .eight.wide span{
+		font-weight:700;
+		margin-right:5px;
+	}
+	.ui.grid.item .eight.wide i.icon,.ui.grid.item .eight.wide i.icon,.ui.grid.item .eight.wide span{
+		color:#f36;
+		opacity:1;
+	}
+	.items .item{
+		min-height:0 !important;
+	}
+	.ui.items .item,.ui.items .item:hover{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		-webkit-box-shadow:0 0px 0 0 rgba(0,0,0,.2) inset !important;
+	}
+	.ui.one.items > .item,.ui.one.items > .item:hover{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		-webkit-box-shadow:0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		background-color: #fff;
+		border: 1px solid rgba(0,0,0,0.1) !important;
+		cursor:auto;
+	}
+	.ui.one.items{
+		margin-left:0;
+		margin-right:0;
+	}
+	.page-5 .three.items .item{
+		border-radius:50%;
+		height:100px;
+		background:#1dba73;
+		color:#fff;
+		padding: 15px 0;
+	}
+	.page-5 .items .item h3{
+		margin:0;
+	}
+	
+	
 	@media only screen and (min-width: 415px){
 		.s1-1 {
 		  float: right;
@@ -166,7 +343,7 @@
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
 			'verticalCentered': true,
-			'sectionsColor':['#000','#000','#000','#000','#000','#190119'],
+			'sectionsColor':['#000','#000','#000','#000','#fff'],
 			'css3':false,
 			'slidesNavigation': true,
 			afterRender: function(){
@@ -197,10 +374,26 @@
   $('#music-control').click(function(){
       bgm.playPause();
   });*/
+
+	//获取大学人气排行
+  $.get("{{ app_url_wap }}/contest/ajax_fetch_top_college", {id:1});
+
+  //ajax查看更多
+  $('#college-more').click(function(){
+    page = page+1;
+    ajax_load_colleges(page,1);
+  
+  });
+
+	//ajax加载大学排行列表
+  ajax_load_colleges(page,1);
+
+
+
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<!--<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>-->
 <div class="wrap">
 	<div class="section page-1">
 		<img src="{{ app_url_packaged }}/images/mtac_w4.png" class="s1-1">
@@ -210,9 +403,251 @@
 	
 	<div class="section page-2">
 		<img src="http://frstatic.qiniudn.com/images/mtac_w1.jpg" height="100%" class="s2-1">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		<!--<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>-->
 	</div>
 	
+	<div class="section page-3">
+		<div class="ui responsive grid">
+			<div class="center aligned column">
+				<div class="row">
+					<img src="{{ app_url_packaged }}/images/mtac_w5.png" class="s3-1">
+				</div>
+			</div>
+		</div>
+		<section class="ui people big block">
+			<div class="ui responsive grid">
+		
+				<div class="row" id="college-graph">
+				  <div class="column">
+						<p>山西大学</p>
+					</div>
+					<div class="ten wide column">
+						<div class="chart" style="width:59%"></div>
+					</div>
+					<div class="six wide column">
+						人气指数 / 13
+					</div>
+	      				<div class="column">
+						<p>南开大学</p>
+					</div>
+					<div class="ten wide column">
+						<div class="chart" style="width:4%"></div>
+					</div>
+					<div class="six wide column">
+						人气指数 / 1
+					</div>
+	      				<div class="column">
+						<p>北京大学</p>
+					</div>
+					<div class="ten wide column">
+						<div class="chart" style="width:18%"></div>
+					</div>
+					<div class="six wide column">
+						人气指数 / 4
+					</div>
+	      				<div class="column">
+						<p>太原理工</p>
+					</div>
+					<div class="ten wide column">
+						<div class="chart" style="width:13%"></div>
+					</div>
+					<div class="six wide column">
+						人气指数 / 3
+					</div>
+	      				<div class="column">
+						<p>内蒙古工业大学</p>
+					</div>
+					<div class="ten wide column">
+						<div class="chart" style="width:4%"></div>
+					</div>
+					<div class="six wide column">
+						人气指数 / 1
+					</div>
+			  </div>
+				
+			</div>
+		</section>
+		
+	</div>
+	
+	<div class="section page-4">
+		<div class="ui responsive grid">
+			<div class="center aligned column">
+				<div class="row">
+					<img src="{{ app_url_packaged }}/images/mtac_w7.png">
+				</div>
+			</div>
+		</div>
+		
+		<!-- -->
+		<div class="slide">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui one items">
+					
+						<div class="item ui grid">
+						  <div class="eight wide column">
+						    <span>
+						      |
+						    </span>
+						    山西大学
+						  </div>
+						  <div class="eight wide column">
+						    <i class="fa-trophy icon">
+						    </i>
+						    排名1
+						    <i class="fa-long-arrow-up icon">
+						    </i>
+						    人气13
+						  </div>
+						  <div class="ui two items">
+						    <div class="item">
+						      <div class="image">
+						        <a href="http://dev.taihuoniao.com/contest/view2/61.html">
+						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0de83ffca25d6f8b4d0b-1-sm.jpg"
+						          width="100%">
+						        </a>
+						      </div>
+						    </div>
+						    <div class="item">
+						      <div class="image">
+						        <a href="http://dev.taihuoniao.com/contest/view2/62.html">
+						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0dfc3ffca22c228b45fb-1-sm.jpg"
+						          width="100%">
+						        </a>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--  -->
+		<div class="slide">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui one items">
+					
+						<div class="item ui grid">
+						  <div class="eight wide column">
+						    <span>
+						      |
+						    </span>
+						    山西大学
+						  </div>
+						  <div class="eight wide column">
+						    <i class="fa-trophy icon">
+						    </i>
+						    排名1
+						    <i class="fa-long-arrow-up icon">
+						    </i>
+						    人气13
+						  </div>
+						  <div class="ui two items">
+						    <div class="item">
+						      <div class="image">
+						        <a href="http://dev.taihuoniao.com/contest/view2/61.html">
+						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0de83ffca25d6f8b4d0b-1-sm.jpg"
+						          width="100%">
+						        </a>
+						      </div>
+						    </div>
+						    <div class="item">
+						      <div class="image">
+						        <a href="http://dev.taihuoniao.com/contest/view2/62.html">
+						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0dfc3ffca22c228b45fb-1-sm.jpg"
+						          width="100%">
+						        </a>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	
+			
+	</div>
+	
+	<div class="section page-5">
+		<div class="ui responsive grid">
+			<div class="center aligned column">
+				<div class="row">
+					<img src="{{ app_url_packaged }}/images/mtac_w8.png">
+				</div>
+				
+				<div class="row">
+				
+					<div class="ui center aligned column">
+					  <div class="ui three items" id="province-box">
+					    <!--ajax province sort-->
+					    <div class="item">
+					      <i class="flat home icon">
+					      </i>
+					      <h3>
+					        16
+					        <br>
+					        山西
+					      </h3>
+					    </div>
+					    <div class="item">
+					      <i class="flat home icon">
+					      </i>
+					      <h3>
+					        1
+					        <br>
+					        天津
+					      </h3>
+					    </div>
+					    <div class="item">
+					      <i class="flat home icon">
+					      </i>
+					      <h3>
+					        2
+					        <br>
+					        北京
+					      </h3>
+					    </div>
+					    <div class="item">
+					      <i class="flat home icon">
+					      </i>
+					      <h3>
+					        0
+					        <br>
+					        内蒙古
+					      </h3>
+					    </div>
+					    <div class="item">
+					      <i class="flat home icon">
+					      </i>
+					      <h3>
+					        1
+					        <br>
+					        江苏
+					      </h3>
+					    </div>
+					    <div class="item">
+					      <i class="flat home icon">
+					      </i>
+					      <h3>
+					        1
+					        <br>
+					        福建
+					      </h3>
+					    </div>
+					  </div>
+					</div>
+				
+				</div>
+				
+			</div>
+		</div>
+		
+	</div>
 	
 	
 	
