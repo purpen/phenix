@@ -57,7 +57,33 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
   public function rank() {
 		$this->set_target_css_state('active2');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
-		return $this->to_html_page('wap/rank.html');
+    $page = (int)$this->stash['page'];
+    $size = 6;
+    //排行
+    $current_num = ($page-1)*$size;
+
+    //大学人气排行
+    $model = new Sher_Core_Model_SumRecord();
+    $query['type'] = Sher_Core_Model_SumRecord::TYPE_COLLEGE;
+    $options['page'] = $page;
+    $options['size'] = $size;
+    $options['sort'] = array('match2_love_count'=> -1);
+    $data = $model->find($query, $options);
+    $college_mode = new Sher_Core_Model_College();
+    $stuff_mode = new Sher_Core_Model_Stuff();
+    foreach($data as $key=>$val){
+      $college = $college_mode->find_by_id((int)$val['target_id']);
+      $data[$key]['name'] = $college['name'];
+      $data[$key]['pid'] = $college['pid'];
+      $data[$key]['top_sort'] = $current_num + $key + 1;
+      //相关作品
+      $stuffs = $stuff_mode->find(array('from_to'=>1, 'fid'=>$category_id, 'college_id'=>(int)$val['target_id']), array('page'=>1,'size'=>2, 'sort'=>array('love_count'=>-1)));
+      $stuffs = $stuff_mode->extend_load_all($stuffs);
+      $data[$key]['stuffs'] = $stuffs;
+    }
+
+    $this->stash['colleges'] = $data;
+		return $this->to_html_page('wap/contest/rank.html');
 	}
 	
 	/**
