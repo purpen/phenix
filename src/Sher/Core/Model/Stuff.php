@@ -379,9 +379,15 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
       $num_mode = new Sher_Core_Model_SumRecord();
       if($province_id){
         $num_mode->down_record($province_id, 'match2_count', 1);
+        if($options['love_count']){
+          $num_mode->multi_down_record($province_id, 'match2_love_count', $options['love_count'], 1);
+        }
       }
       if($college_id){
-        $num_mode->down_record($college_id, 'match2_count', 2);    
+        $num_mode->down_record($college_id, 'match2_count', 2);
+        if($options['love_count']){
+          $num_mode->multi_down_record($college_id, 'match2_love_count', $options['love_count'], 2);
+        }
       }
       unset($num_mode);
     }
