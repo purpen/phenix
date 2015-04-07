@@ -21,12 +21,15 @@ class Sher_Core_Model_UserRankDefine extends Sher_Core_Model_Base {
         'point_type' => null,
         //升级需要的积分数额
         'point_amount' => 0,
+        //升级获得奖励的积分
+        'award_point_type' => null,
+        'award_point_amount' => 0,
     );
     protected $joins = array(
         'next_rank' => array('next_rank_id' => 'Sher_Core_Model_UserRankDefine'),
     );
     protected $required_fields = array();
-    protected $ini_fields = array('rank_id', 'next_rank_id');
+    protected $int_fields = array('rank_id', 'next_rank_id', '_id');
 
     // protected $auto_update_timestamp = true;
     // protected $created_timestamp_fields = array('created_on');

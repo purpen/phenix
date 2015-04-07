@@ -62,4 +62,170 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         $model->create($data);
         return $model->id;
     }
+
+    /**
+     * 提交并执行一个积分交易
+     *
+     * 此处使用简化版的2-phase commit处理方式:
+     *
+     * 1. 创建积分明细记录（points.records:CREATE）
+     * 2. 将balance表积分扣减或增加同时，将积分记录id放入trans，标记事务开始（points.balance:FIND_AND_MODIFY）
+     * 3.1 标记积分记录为pending（points.records: UPDATE_SET）
+     * 3.2 将balance pending的积分余额反向扣减增加至balance，同时移去trans中的对应记录（points.balance: FIND_AND_MODIFY）
+     * 3.3 标记积分记录为OK (points.records: UPDATE_SET)
+     *
+     * Rollback处理：
+     * =》 2. 失败，表明事务失败，直接标记1创建的记录状态为CANCELED
+     * Recovery处理：
+     * =》 若1.创建的记录state为INIT，且trans中有该记录，则从3.1开始恢复
+     * =》 若记录为pending, 其trans中有该记录，则从3.2开始恢复
+     * =》 若记录为pending，其trans中木有该记录，则从3.3开始恢复
+     *
+     *
+     * @param $user_id
+     * @param $amount
+     * @param $note
+     * @param int $trans_type -1 支出 1 收入
+     * @param string $point_type
+     * @param mixed $evt_id
+     * @param int $time
+     * @return bool
+     * @throws Sher_Core_Model_Exception
+     */
+    public function make_transaction($user_id, $amount, $note, $trans_type=Sher_Core_Util_Constant::TRANS_TYPE_IN,
+                                     $point_type=null, $evt_id=null, $time=null) {
+
+        $trans_out_mode = $trans_type == Sher_Core_Util_Constant::TRANS_TYPE_OUT? true: false;
+
+        if (empty($point_type)) {
+            throw new Sher_Core_Model_Exception('NULL point_type');
+        }
+        $point_type_model = new Sher_Core_Model_PointType();
+        if (!$point_type_model->count(array('code' => $point_type))) {
+            throw new Sher_Core_Model_Exception('invalid point_type:'.$point_type);
+        }
+        if ($amount < 0) {
+            throw new Sher_Core_Model_Exception('amount must be a positive number');
+        }
+        $balance = new Sher_Core_Model_UserPointBalance();
+        $balance_row = $balance->load($user_id);
+        if (empty($balance_row)) {
+            Doggy_Log_Helper::info('Touch init user balance record, user_id'.$user_id);
+            $balance->touch_init_record($user_id);
+            $balance_row = $balance->reload();
+        }
+        $point_balances = $balance_row['balance'];
+        $current_val = isset($point_balances[$point_type])?$point_balances[$point_type]:0;
+        if ($trans_out_mode and $current_val < $amount) {
+            Doggy_Log_Helper::warn('no enough amount. user_id:'.$user_id.', point_type:'.$point_type.' CUR:'.$current_val.' SHOULD:'.$amount);
+            print 'no enough amount. user_id:'.$user_id.', point_type:'.$point_type.' CUR:'.$current_val.' SHOULD:'.$amount."\n";
+            return false;
+        }
+        $record = new Sher_Core_Model_UserPointRecord();
+        if (is_null($time)) {
+            $time = time();
+        }
+        // 1
+        $record->create(array(
+            'user_id' => $user_id,
+            'val' => $trans_out_mode? $amount * -1.0: $amount * 1.0,
+            'type' => $point_type,
+            'note' => $note,
+            'time' => $time,
+            'evt_id' => $evt_id,
+            'state' => Sher_Core_Util_Constant::TRANS_STATE_INIT,
+            't_time' => time(),
+        ));
+        $record_id = $record->id;
+        // 2.
+        if ($trans_out_mode) {
+            $result = $balance->add_out_trans($amount, $point_type, $record_id);
+        }
+        else {
+            $result = $balance->add_in_trans($amount, $point_type, $record_id);
+        }
+        if (!$result) {
+            Doggy_Log_Helper::info('Trans canceled, record_id:'.$record_id.'user_id:'.$user_id.', point_type:'.$point_type);
+            $record->cancel_trans();
+            return false;
+        }
+        // 3.1
+        $result = $record->mark_pending_trans();
+        if (!$result) {
+            $record->load($record_id);
+            if (!$record->is_pending()) {
+                return false;
+            }
+        }
+        // 3.2
+        if ($trans_out_mode) {
+            $result = $balance->commit_out_trans($amount, $point_type, $record_id);
+        }
+        else {
+            $result = $balance->commit_in_trans($amount, $point_type, $record_id);
+        }
+        //var_dump($result);
+        // 其他进程已经提交了此事务
+        // todo: 可检测是否需要recovery?
+        if (!$result) {
+            return false;
+        }
+        $record->commit_pending_trans();
+        return true;
+    }
+
+
+    /**
+     * 提交消费积分/收入交易
+     * @param $user_id int
+     * @param $amount int 金额 必须大于0
+     * @param $note string 事由
+     * @return bool
+     */
+    public static function make_money_in($user_id, $amount, $note) {
+        return self::instance()->make_transaction($user_id, $amount, $note,
+            Sher_Core_Util_Constant::TRANS_TYPE_IN, Doggy_Config::$vars['app.point.money_point_code']);
+    }
+
+    /**
+     * 提交消费积分/支出交易
+     *
+     * @param $user_id
+     * @param $amount
+     * @param $note
+     * @return bool
+     */
+    public static function make_money_out($user_id, $amount, $note) {
+        return self::instance()->make_transaction($user_id, $amount, $note,
+            Sher_Core_Util_Constant::TRANS_TYPE_OUT, Doggy_Config::$vars['app.point.money_point_code']);
+    }
+
+    /**
+     * 提交经验积分/收入交易
+     *
+     * @param $user_id
+     * @param int $amount
+     * @param string $note
+     * @param null $evt_id 关联的积分事件明细记录ID（注意，不是积分事件定义表, 后台处理worker使用，前端多数情况下请忽略此参数）
+     * @return bool
+     */
+    public static function make_exp_in($user_id, $amount, $note, $evt_id=null) {
+        return self::instance()->make_transaction($user_id, $amount, $note,
+            Sher_Core_Util_Constant::TRANS_TYPE_IN, Doggy_Config::$vars['app.point.event_point_code'], $evt_id);
+    }
+
+    /**
+     * 提交经验积分/支出交易
+     *
+     * @param $user_id
+     * @param $amount
+     * @param $note
+     * @param null $evt_id
+     * @return bool
+     */
+    public static function make_exp_out($user_id, $amount, $note, $evt_id=null) {
+        return self::instance()->make_transaction($user_id, $amount, $note,
+            Sher_Core_Util_Constant::TRANS_TYPE_OUT, Doggy_Config::$vars['app.point.event_point_code'], $evt_id);
+    }
+
 }

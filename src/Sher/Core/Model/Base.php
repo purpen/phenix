@@ -14,4 +14,3 @@ class Sher_Core_Model_Base extends DoggyX_Model_Lite {
     protected $joins = array();
 	protected $int_fields = array();
 }
-?>

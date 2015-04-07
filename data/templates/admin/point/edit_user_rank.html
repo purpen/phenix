@@ -1,0 +1,78 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#event-form').form({
+		code: {
+			identifier  : '_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '事件标识代码不能为空'
+				}
+			]
+		},
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+<h3 class="ui header">会员成长等级</h3>
+<div class="ui secondary pointing magenta menu">
+    <a class="{{ css_page_point_ranks }} item" href="{{ app_url_admin }}/point/user_ranks">会员等级表</a>
+    <div class="right menu">
+    </div>
+</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增等级</h4>
+		{% else %}
+		<h4>编辑等级</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/point/ajax_save_user_rank" class="ajax-form" method="post" id="event-form">
+            <input type="hidden" name="id" value="{{record._id}}"/>
+			<div class="inline field">
+			  	<label for="rank_id">等级ID：</label>
+                <input type="text" name="rank_id" value="{{ record.rank_id }}" placeholder="等级ID"  />
+
+			</div>
+			<div class="inline field">
+			  	<label for="name">等级头衔：</label>
+                <input type="text" name="title" value="{{ record.title }}" placeholder="头衔名称" />
+			</div>
+			<div class="inline field">
+			  	<label for="name">奖励积分：</label>
+				<select name="award_point_type">
+                    <option value="">无奖励</option>
+                    {% for point_type in points %}
+                    <option value="{{ point_type.code }}" {% if record.award_point_type == point_type.code %}selected="true"{% endif %} >积分类型:【{{ point_type.name }}】</option>
+                    {% endfor %}
+                </select>
+				<input type="text" name="award_point_amount" value="{{ record.award_point_amount }}" placeholder="整数" />
+			</div>
+            <div class="inline field">
+                <label for="rank_id">下一等级的ID：</label>
+                <input type="text" name="next_rank_id" value="{{ record.next_rank_id }}" placeholder="等级ID"  />
+            </div>
+            <input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}
