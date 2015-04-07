@@ -98,11 +98,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
         $model = new Sher_Core_Model_PointEvent();
         $data = $this->stash;
         try{
-            if(empty($data['_id'])){
-                $ok = $model->apply_and_save($data);
-            }else{
-                $ok = $model->apply_and_update($data);
-            }
+            $ok = $model->apply_and_save($data);
             if(!$ok){
                 return $this->ajax_note('积分事件保存失败,请重新提交', true);
             }
@@ -186,13 +182,35 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
         }
         else {
             $mode = 'edit';
-            $point = new Sher_Core_Model_UserRankDefine();
+            $rank = new Sher_Core_Model_UserRankDefine();
             $id = $this->stash['id'];
-            $point = $point->find_by_id($id);
-            $this->stash['rank'] = $point;
+            $rank = $rank->find_by_id((int)$id);
+            $this->stash['record'] = $rank;
         }
+        $point = new Sher_Core_Model_PointType();
+        $this->stash['points'] = $point->find();
         $this->stash['mode'] = $mode;
         return $this->to_html_page('admin/point/edit_user_rank.html');
+    }
+    public function ajax_save_user_rank() {
+        $this->set_target_css_state('setting_event');
+        $this->set_target_css_state('page_point_settings');
+        $model = new Sher_Core_Model_UserRankDefine();
+        try{
+            $data = $this->stash;
+            if(empty($data['id'])){
+                $ok = $model->apply_and_save($data);
+            }else{
+                $ok = $model->apply_and_update($data);
+            }
+            if(!$ok){
+                return $this->ajax_note('会员等级保存失败,请重新提交', true);
+            }
+        }catch(Sher_Core_Model_Exception $e){
+            return $this->ajax_note('会员等级保存失败:'.$e->getMessage(), true);
+        }
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/point/user_ranks';
+        return $this->ajax_notification('会员等级保存陈工.', false, $redirect_url);
     }
 
 }

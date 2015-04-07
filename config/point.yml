@@ -4,6 +4,9 @@ app.point.init_point_types:
   -
     code: 'exp'
     name: '经验'
+  -
+    code: 'money'
+    name: '鸟币'
 app.point.init_user_ranks:
   init_rank_id: 1
   total_ranks: 45
@@ -191,6 +194,7 @@ app.point.init_user_ranks:
         name:   鸟大元帅
 
 app.point.event_point_code: 'exp'
+app.point.money_point_code: 'money'
 app.point.init_events:
   -
     code: 'evt_login'

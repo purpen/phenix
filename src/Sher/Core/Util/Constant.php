@@ -187,5 +187,25 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     public static function top_topic_category_key($category_id){
         return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
     }
-    
+
+    const TRANS_TYPE_IN = 1;
+
+    const TRANS_TYPE_OUT = -1;
+
+    /**
+     * 初始交易
+     */
+    const TRANS_STATE_INIT = 0;
+    /**
+     * 事务进行中
+     */
+    const TRANS_STATE_PENDING = 10;
+    /**
+     * 事务完成
+     */
+    const TRANS_STATE_OK = 100;
+    /**
+     * 事务已经取消
+     */
+    const TRANS_STATE_CANCELED = -1;
 }

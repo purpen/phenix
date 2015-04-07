@@ -1,19 +1,24 @@
 <?php
 /**
- * 会员扩展状态表
+ * 积分余额和配量表
  * 
  */
-class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
-    protected $collection = 'user.ext_state';
+class Sher_Core_Model_UserPointQuota extends Sher_Core_Model_Base {
+    protected $collection = 'points.quota';
     
     protected $schema = array(
+        //user_id
         '_id' => null,
-        // 等级状态
-        'rank_id' => 2,
-        'next_rank_id' => 3,
-        //当前等级积分
-        'rank_point' => 0,
-        //升级所需等级积分
+        //积分日结控制表, d+日期为键值, d20150101
+        // daily_point_limit => array(
+        //     d20150301 => array(
+        //          evt_login => array(exp => 50),
+        //),
+        //  ),
+        //
+        'daily_point_limit' => array(),
+        //积分日结控制表, m+月份为键值, 如m201501
+        'month_point_limit' => array(),
     );
     protected $joins = array(
         'user_rank' => array('rank_id' => 'Sher_Core_Model_UserRankDefine'),
