@@ -75,7 +75,7 @@
 				<div class="ui socialstick four blocks">
                     {% for ft in featurelist.rows %}
 					<div class="block">
-						<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.fileurl }}');"{% endif %}>
+						<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.thumbnails.medium.view_url }}');"{% endif %}>
                             <a class="transparent" href="{{ ft.view_url }}" target="_blank">
     							<div class="sub title">
     								{{ ft.title }}

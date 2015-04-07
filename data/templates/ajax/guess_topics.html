@@ -6,7 +6,7 @@
 			<div class="ui socialstick four blocks">
                 {% for ft in result.rows %}
 				<div class="block">
-					<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.fileurl }}');"{% endif %}>
+					<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.thumbnails.medium.view_url }}');"{% endif %}>
                         <a class="transparent" href="{{ ft.topic.view_url }}" target="_blank">
 							<div class="sub title">
 								{{ ft.topic.title }}

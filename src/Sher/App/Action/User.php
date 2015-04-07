@@ -229,7 +229,8 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 
 	 * @return string
 	 */
-	public function ajax_message(){
+  public function ajax_message(){
+    $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:1;
 		$to = $this->stash["to"];
         $content = $this->stash["content"];
 		if(empty($to)){
@@ -247,6 +248,15 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 			
 			$msg = new Sher_Core_Model_Message();
             $_id = $msg->send_site_message($content, $this->visitor->id, $to);
+            //产品合作私信给用户短信提醒
+            if($from_to==2){
+              $phone = (int)$this->stash['user_phone'];
+              // 开始发送
+              $msg = "管理员查看了您提交的孵化项目并给您发了私信,请登录太火鸟官网查看! 【太火鸟】";
+              Sher_Core_Helper_Util::send_defined_mms($phone, $msg);
+            }
+
+
         } catch (Doggy_Model_ValidateException $e) {
             return $this->ajax_notification('发送私信失败:'.$e->getMessage(),true);
         }
