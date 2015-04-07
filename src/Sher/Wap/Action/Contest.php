@@ -56,7 +56,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	 */
   public function rank() {
 		$this->set_target_css_state('active2');
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		$category_id = $this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
     $page = (int)$this->stash['page'];
     $size = 6;
     //排行
