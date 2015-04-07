@@ -276,6 +276,10 @@
 		margin:0;
 	}
 	
+	.ui.responsive.grid{
+		margin:0 auto 1rem !important;
+	}
+	
 	
 	@media only screen and (min-width: 415px){
 		.s1-1 {
@@ -293,8 +297,12 @@
 		
 	}
 	@media only screen and (max-width: 414px){
-		img,.ui.people,.ui.one.items,.page-5 .ui.grid{
+		img,.ui.people,.ui.one.items{
 			width: 65%;
+			float: left;
+		}
+		.page-5 .row+.row{
+			width: 63%;
 			float: left;
 		}
 		.s1-1 {
@@ -312,8 +320,12 @@
 		
 	}
 	@media only screen and (max-width: 375px){
-		img,.ui.people,.ui.one.items,.page-5 .ui.grid{
+		img,.ui.people,.ui.one.items{
 			width: 59%;
+			float: left;
+		}
+		.page-5 .row+.row{
+			width: 57%;
 			float: left;
 		}
 		.s1-1{
@@ -330,7 +342,7 @@
 		
 	}
 	@media only screen and (max-width: 320px){
-		img,.ui.people,.ui.one.items,.page-5 .ui.grid{
+		img,.ui.people,.ui.one.items,.page-5 .row+.row{
 			width:50%;
 			float: left;
 		}
