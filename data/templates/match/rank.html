@@ -45,6 +45,12 @@ body{
 	color:#fff;
 }
 
+.ui.map.block h3.ui.header{
+	color:#003377;
+}
+.ui.map.block h3.ui.header + p{
+	color:#fff;
+}
 
 #ChinaMap {
   padding-right: 100px;
@@ -582,7 +588,20 @@ ul,li{list-style:none;}
 		</div>
 	</section>
 
-	<section class="ui big block">
+	<section class="ui big map block">
+		<div class="ui responsive grid">
+    <div class="row">
+      <div class="center aligned column">
+        <h3 class="ui header">
+          城市人气榜
+        </h3>
+          <div class="sub header">
+            <p>我们和你一样,同样好奇的是:究竟哪个城市最有创意热情,最具人气呢?让我们一起期待吧!</p><br/>
+          </div>
+
+      </div>
+    </div>
+
     <div id="ChinaMap">
         <div id="map"></div>
         <div id="ToolTip" class="ToolTip" style="left: 10px;display:none;">
@@ -596,6 +615,7 @@ ul,li{list-style:none;}
             </div>
         </div>
     </div>
+  </div>
   </section>
 
 </div>
