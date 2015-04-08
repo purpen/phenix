@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}{% endblock %}
+{% block title %}校园人气争霸-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	header.ui.wap{
@@ -405,6 +405,18 @@
 	//获取大学人气排行
   $.get("{{ app_url_wap }}/contest/ajax_fetch_top_college", {id:1});
 
+  //ajax获取省份排行 
+  $.get("{{ app_url_wap }}/contest/ajax_fetch_top_province", {type:1}, function(result){
+    var result = eval('(' + result + ')');
+    if(result.success){
+      $.each(result.data, function (i, item) {
+        var html = '';
+				html +=	'<div class="item"><i class="flat home icon"></i><h3>'+ item.match2_love_count +'<br>'+ item.name +'</h3></div>';
+        $('#province-box').append(html);
+      });
+    }
+  });
+
   //ajax查看更多
   $('#college-more').click(function(){
     page = page+1;
@@ -414,8 +426,6 @@
 
 	//ajax加载大学排行列表
   ajax_load_colleges(page,1);
-
-
 
 {% endblock %}
 {% block content %}
@@ -445,51 +455,7 @@
 			<div class="ui responsive grid">
 		
 				<div class="row" id="college-graph">
-				  <div class="column">
-						<p>山西大学</p>
-					</div>
-					<div class="ten wide column">
-						<div class="chart" style="width:59%"></div>
-					</div>
-					<div class="six wide column">
-						人气指数 / 13
-					</div>
-	      				<div class="column">
-						<p>南开大学</p>
-					</div>
-					<div class="ten wide column">
-						<div class="chart" style="width:4%"></div>
-					</div>
-					<div class="six wide column">
-						人气指数 / 1
-					</div>
-	      				<div class="column">
-						<p>北京大学</p>
-					</div>
-					<div class="ten wide column">
-						<div class="chart" style="width:18%"></div>
-					</div>
-					<div class="six wide column">
-						人气指数 / 4
-					</div>
-	      				<div class="column">
-						<p>太原理工</p>
-					</div>
-					<div class="ten wide column">
-						<div class="chart" style="width:13%"></div>
-					</div>
-					<div class="six wide column">
-						人气指数 / 3
-					</div>
-	      				<div class="column">
-						<p>内蒙古工业大学</p>
-					</div>
-					<div class="ten wide column">
-						<div class="chart" style="width:4%"></div>
-					</div>
-					<div class="six wide column">
-						人气指数 / 1
-					</div>
+          <!--ajax load college-graph-->
 			  </div>
 				
 			</div>
@@ -506,96 +472,41 @@
 			</div>
 		</div>
 		
-		<!-- -->
+		<!--college list -->
+    {% for d in colleges %}
 		<div class="slide">
 			<div class="ui responsive grid">
 				<div class="row">
 					<div class="ui one items">
 					
-						<div class="item ui grid">
-						  <div class="eight wide column">
-						    <span>
-						      |
-						    </span>
-						    山西大学
-						  </div>
-						  <div class="eight wide column">
-						    <i class="fa-trophy icon">
-						    </i>
-						    排名1
-						    <i class="fa-long-arrow-up icon">
-						    </i>
-						    人气13
-						  </div>
-						  <div class="ui two items">
-						    <div class="item">
-						      <div class="image">
-						        <a href="http://dev.taihuoniao.com/contest/view2/61.html">
-						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0de83ffca25d6f8b4d0b-1-sm.jpg"
-						          width="100%">
-						        </a>
-						      </div>
-						    </div>
-						    <div class="item">
-						      <div class="image">
-						        <a href="http://dev.taihuoniao.com/contest/view2/62.html">
-						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0dfc3ffca22c228b45fb-1-sm.jpg"
-						          width="100%">
-						        </a>
-						      </div>
-						    </div>
-						  </div>
+					<div class="item ui grid">
+						<div class="eight wide column">		
+							<span>|</span>{{ d.name }}
+							
 						</div>
-					
+						<div class="eight wide column">		
+							<i class="fa-trophy icon"></i>排名{{ d.top_sort }}
+							<i class="fa-long-arrow-up icon"></i>人气{{ d.match2_love_count }}
+						</div>
+						<div class="ui two items">
+          {% if d.stuffs %}
+            {% for s in d.stuffs %}
+							<div class="item">
+								<div class="image">
+									<a href="{{ s.wap_view_url }}">
+										<img src="{{ s.cover.thumbnails.small.view_url }}" width="100%">			</a>
+								</div>
+							</div>
+            {% endfor %}
+          {% endif %}
+						</div>
+					</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
-		<!--  -->
-		<div class="slide">
-			<div class="ui responsive grid">
-				<div class="row">
-					<div class="ui one items">
-					
-						<div class="item ui grid">
-						  <div class="eight wide column">
-						    <span>
-						      |
-						    </span>
-						    山西大学
-						  </div>
-						  <div class="eight wide column">
-						    <i class="fa-trophy icon">
-						    </i>
-						    排名1
-						    <i class="fa-long-arrow-up icon">
-						    </i>
-						    人气13
-						  </div>
-						  <div class="ui two items">
-						    <div class="item">
-						      <div class="image">
-						        <a href="http://dev.taihuoniao.com/contest/view2/61.html">
-						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0de83ffca25d6f8b4d0b-1-sm.jpg"
-						          width="100%">
-						        </a>
-						      </div>
-						    </div>
-						    <div class="item">
-						      <div class="image">
-						        <a href="http://dev.taihuoniao.com/contest/view2/62.html">
-						          <img src="http://frbird.qiniudn.com/stuff/150403/551e0dfc3ffca22c228b45fb-1-sm.jpg"
-						          width="100%">
-						        </a>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-					
-					</div>
-				</div>
-			</div>
-		</div>
+    {% endfor %}
 	
 			
 	</div>
@@ -612,60 +523,6 @@
 					<div class="ui center aligned column">
 					  <div class="ui three items" id="province-box">
 					    <!--ajax province sort-->
-					    <div class="item">
-					      <i class="flat home icon">
-					      </i>
-					      <h3>
-					        16
-					        <br>
-					        山西
-					      </h3>
-					    </div>
-					    <div class="item">
-					      <i class="flat home icon">
-					      </i>
-					      <h3>
-					        1
-					        <br>
-					        天津
-					      </h3>
-					    </div>
-					    <div class="item">
-					      <i class="flat home icon">
-					      </i>
-					      <h3>
-					        2
-					        <br>
-					        北京
-					      </h3>
-					    </div>
-					    <div class="item">
-					      <i class="flat home icon">
-					      </i>
-					      <h3>
-					        0
-					        <br>
-					        内蒙古
-					      </h3>
-					    </div>
-					    <div class="item">
-					      <i class="flat home icon">
-					      </i>
-					      <h3>
-					        1
-					        <br>
-					        江苏
-					      </h3>
-					    </div>
-					    <div class="item">
-					      <i class="flat home icon">
-					      </i>
-					      <h3>
-					        1
-					        <br>
-					        福建
-					      </h3>
-					    </div>
 					  </div>
 					</div>
 				
@@ -676,17 +533,6 @@
 		
 	</div>
 	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-
 </div>
 {%endblock%}
 

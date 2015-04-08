@@ -1,0 +1,138 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的对象');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">统计管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+    <a href="{{ app_url_admin_base }}/sum_record" class="{%if !type%}active{%endif%} item">
+			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/sum_record/get_list?type=2" class="{%if type==2%}active{%endif%} item">
+			大学
+		</a>
+    <a href="{{ app_url_admin_base }}/sum_record/get_list?type=1" class="{%if type==1%}active{%endif%} item">
+			省份
+		</a>
+
+	  	<div class="right menu">
+			<!--
+			<a href="{{ app_url_admin_base }}/sum_record/submit" class="item">
+				<i class="add icon"></i>新增灵感
+			</a>
+      -->
+			<a href="{{ app_url_admin }}/sum_record/deleted" class="item ajax-delete">
+				批量删除
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/sum_record/search" method="get">
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="s" value="{{ s }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="1">ID</div>
+          <div class="item" data-value="2">标题</div>
+          <div class="item" data-value="3">标签</div>
+        </div>
+      </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th class="five wide">所属</th>
+        <th>十万火计</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% sum_record_list var:'list' page:page type:type target_id:target_id size:30 %}
+
+			{% for s in list.rows %}
+			<tr id="{{ s._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ s._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+          <p>
+           {% if s.type==1 %}
+              省份
+            {%endif%}
+           {% if s.type==2 %}
+            大学
+          {%endif%}         
+          </p>
+		      <p class="attribute">ID：{{ s.target_id }}</p>
+				</td>
+        <td>
+          {{ s.match2_count }}/{{ s.match2_love_count }}
+        </td>
+
+				<td>
+					<p>
+          <a href="{{ app_url_admin_base }}/sum_record/submit?id={{ s._id }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin }}/sum_record/deleted?id={{ s._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
