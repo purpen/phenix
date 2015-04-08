@@ -9,8 +9,8 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     protected $schema = array(
         '_id' => null,
         // 等级状态
-        'rank_id' => 2,
-        'next_rank_id' => 3,
+        'rank_id' => 1,
+        'next_rank_id' => 2,
         //当前等级积分
         'rank_point' => 0,
         //升级所需等级积分
@@ -35,5 +35,9 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     }
     protected function validate() {
         return true;
+    }
+
+    public function init_record($user_id){
+        return $this->create(array('_id' => $user_id));
     }
 }
