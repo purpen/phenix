@@ -265,9 +265,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if($this->insert_mode){
             Sher_Core_Util_Tracker::update_user_counter();
             parent::after_save();
+            $user_id = $this->data['_id'];
+            print 'init user-id:'.$user_id;
             // 初始化会员扩展状态表记录
             $model = new Sher_Core_Model_UserExtState();
-            $model->create(array('_id' => $this->data['_id']));
+            $model->init_record($user_id);
+            $model = new Sher_Core_Model_UserPointQuota();
+            $model->init_record($user_id);
+            $model = new Sher_Core_Model_UserPointBalance();
+            $model->touch_init_record($user_id);
         }
     }
 	

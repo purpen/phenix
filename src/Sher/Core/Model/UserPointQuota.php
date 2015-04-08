@@ -16,9 +16,13 @@ class Sher_Core_Model_UserPointQuota extends Sher_Core_Model_Base {
         //),
         //  ),
         //
-        'daily_point_limit' => array(),
+        'daily_point_limit' => array(
+            'd20150101' => null,
+        ),
         //积分日结控制表, m+月份为键值, 如m201501
-        'month_point_limit' => array(),
+        'month_point_limit' => array(
+            'd20150101' => null,
+        ),
     );
     protected $joins = array(
         'user_rank' => array('rank_id' => 'Sher_Core_Model_UserRankDefine'),
@@ -40,5 +44,25 @@ class Sher_Core_Model_UserPointQuota extends Sher_Core_Model_Base {
     }
     protected function validate() {
         return true;
+    }
+
+    public function init_record($user_id) {
+        return $this->create(array('_id' => $user_id));
+    }
+
+    public function touch_daily_quota($d, $evt, $point_type, $touch_month=true){
+        $spec = array('_id' => $this->id);
+        $key = 'daily_point_limit.d'.$d.'.'.$evt.'.'.$point_type;
+        $this->inc($spec, $key);
+        if ($touch_month) {
+            $m = substr($d, 0, 6);
+            $this->touch_month_quota($m, $evt, $point_type);
+        }
+    }
+
+    public function touch_month_quota($m, $evt, $point_type) {
+        $spec = array('_id' => $this->id);
+        $key = 'month_point_limit.m'.$m.'.'.$evt.'.'.$point_type;
+        $this->inc($spec, $key);
     }
 }
