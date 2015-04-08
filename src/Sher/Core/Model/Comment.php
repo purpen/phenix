@@ -152,6 +152,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				$model = new Sher_Core_Model_Stuff();
 				$model->dec_counter('comment_count', (int)$target_id);
 				break;
+			case self::TYPE_PRODUCT:
+				$model = new Sher_Core_Model_Product();
+				$model->dec_counter('comment_count', (int)$target_id);
+				break;
 			default:
 				break;
 		}
