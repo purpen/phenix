@@ -151,7 +151,7 @@
 						</p>
 					</div>
 					<div class="center aligned three wide column">
-						{% if order_info.status >= 15 %}
+						{% if order_info.status == 20 %}
 							<a href="{{ app_url_my }}/evaluate?rid={{ order_info.rid }}" class="ui magenta link">售后评价 »</a>
 						{% endif %}
 					</div>
