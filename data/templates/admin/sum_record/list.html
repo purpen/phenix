@@ -91,7 +91,7 @@
 		</thead>
 		<tbody>
 
-			{% sum_record_list var:'list' page:page type:type target_id:target_id size:30 %}
+			{% sum_record_list var:'list' page:page type:type target_id:target_id load_item:1 size:30 %}
 
 			{% for s in list.rows %}
 			<tr id="{{ s._id }}">
@@ -111,6 +111,14 @@
           {%endif%}         
           </p>
 		      <p class="attribute">ID：{{ s.target_id }}</p>
+		      <p class="attribute">名称：
+          {% if s.type==1 %}
+            {{ s.province.name }}
+            {%endif%}
+           {% if s.type==2 %}
+            {{ s.college.name }}
+          {%endif%}   
+          </p>
 				</td>
         <td>
           {{ s.match2_count }}/{{ s.match2_love_count }}

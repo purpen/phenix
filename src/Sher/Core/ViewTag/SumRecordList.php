@@ -21,6 +21,7 @@ class Sher_Core_ViewTag_SumRecordList extends Doggy_Dt_Tag {
         $type = 0;
 
 		    $sort = 0;
+        $load_item = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -62,6 +63,24 @@ class Sher_Core_ViewTag_SumRecordList extends Doggy_Dt_Tag {
 		}
 		
         $result = $service->get_sum_record_list($query, $options);
+
+        //加载关联对象
+        if($load_item){
+          $p_mode = new Sher_Core_Model_Province();
+          for($i=0;$i<count($result['rows']);$i++){
+            $type = $result['rows'][$i]['type'];
+            $target_id = $result['rows'][$i]['target_id'];
+            if($type==1){
+              $province = $p_mode->first(array('pid'=>(int)$target_id));
+              $result['rows'][$i]['province'] = $province;
+            }
+            if($type==2){
+              $result['rows'][$i]['college'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_College');           
+            }
+            
+          }
+
+        }
 
         $context->set($var,$result);
 		

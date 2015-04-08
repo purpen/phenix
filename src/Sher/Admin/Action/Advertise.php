@@ -67,15 +67,17 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 		if(empty($this->stash['space_id']) || empty($this->stash['title'])){
 			return $this->ajax_note('位置及标题不能为空！', true);
 		}
-		
+		$id = isset($this->stash['_id'])?(int)$this->stash['_id']:0;
 		$model = new Sher_Core_Model_Advertise();
 		try{
-			if(empty($this->stash['_id'])){
+			if(empty($id)){
 				$mode = 'create';
 				$ok = $model->apply_and_save($this->stash);
+        $advertise = $model->get_data();
+        $id = $advertise['_id'];
 			}else{
 				$mode = 'edit';
-				$this->stash['_id'] = (int)$this->stash['_id'];
+				$this->stash['_id'] = $id;
 				$ok = $model->apply_and_update($this->stash);
 			}
 			
@@ -85,7 +87,7 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 			
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-				$model->update_batch_assets($this->stash['asset'], (int)$this->stash['_id']);
+				$model->update_batch_assets($this->stash['asset'], $id);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
