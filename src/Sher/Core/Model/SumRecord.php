@@ -105,7 +105,7 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
    * 减少记录数--大量的
    */
   public function multi_down_record($target_id, $filed_name='count', $num=1, $type=self::TYPE_PRO){
-    $query = array('target_id'=>$target_id, 'type'=>$type);
+    $query = array('target_id'=>$target_id, 'type'=>(int)$type);
     $d = $this->first($query);
     if($d){
       $count = isset($d[$filed_name])?(int)$d[$filed_name]:0;
