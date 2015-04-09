@@ -42,7 +42,7 @@
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
-			{% include "block/user/sub_menu.html" %}
+			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
 			<div class="ui middle aligned grid">
@@ -56,13 +56,22 @@
 								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付订单</a>
+								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成订单</a>
+								<a href="{{ app_url_my }}/orders?s=2" class="ui {{ css_ready_goods }} link">待发货</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭订单</a>
+								<a href="{{ app_url_my }}/orders?s=5" class="ui {{ css_refunding }} link">退款中</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=6" class="ui {{ css_refunded }} link">已退款</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭</a>
 							</div>
 						</div>
 					</div>
@@ -144,7 +153,7 @@
 												<textarea name="content" class="comment-textarea" ></textarea>
 											</div>
 											<div class="right aligned column">
-												<input type="submit" class="ui small magenta button" value="提交评价" />
+												<input type="submit" class="ui magenta inverted button" value="提交评价" />
 											</div>
 										</form>
 									</td>

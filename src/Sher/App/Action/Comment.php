@@ -119,18 +119,18 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 			);
 			if (!$model->check_loved($this->visitor->id, (string)$id, $type)) {
 				$ok = $model->add_love($this->visitor->id, (string)$id, $fav_info);
-        if($ok){
-          // 获取计数
-          $model = new Sher_Core_Model_Comment();
-          $comment = $model->find_by_id($id);
-          $this->stash['love_count'] = $comment['love_count'];
-		      return $this->to_taconite_page('ajax/laud_ok.html');
-        }else{
-        	return $this->ajax_note('添加失败！', true);
-        }
-      }else{
- 			  return $this->ajax_note('已添加喜欢', true);     
-      }
+                if($ok){
+                    // 获取计数
+                    $model = new Sher_Core_Model_Comment();
+                    $comment = $model->find_by_id($id);
+                    $this->stash['love_count'] = $comment['love_count'];
+                    return $this->to_taconite_page('ajax/laud_ok.html');
+                }else{
+                    return $this->ajax_note('添加失败！', true);
+                }
+            }else{
+                return $this->ajax_note('已添加喜欢', true);
+            }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_note('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
@@ -314,7 +314,5 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
     $this->stash['current_user_id'] = $current_user_id;
 		return $this->to_taconite_page('ajax/comment_list_wap.html');
   }
-	
-	
+  	
 }
-?>

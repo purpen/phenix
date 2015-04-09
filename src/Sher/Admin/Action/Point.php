@@ -210,7 +210,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
             return $this->ajax_note('会员等级保存失败:'.$e->getMessage(), true);
         }
         $redirect_url = Doggy_Config::$vars['app.url.admin'].'/point/user_ranks';
-        return $this->ajax_notification('会员等级保存陈工.', false, $redirect_url);
+        return $this->ajax_notification('会员等级保存成功.', false, $redirect_url);
     }
 
 }

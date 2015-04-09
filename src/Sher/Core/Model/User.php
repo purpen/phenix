@@ -266,7 +266,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             Sher_Core_Util_Tracker::update_user_counter();
             parent::after_save();
             $user_id = $this->data['_id'];
-            print 'init user-id:'.$user_id;
+            // print 'init user-id:'.$user_id;
             // 初始化会员扩展状态表记录
             $model = new Sher_Core_Model_UserExtState();
             $model->init_record($user_id);
@@ -669,7 +669,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('user_id or avatar is NULL');
         }
 		
-        $this->update_set((int) $user_id,array('avatar'=>$avatar));
+        return $this->update_set((int) $user_id,array('avatar'=>$avatar));
 	}
 	
     /**
@@ -683,7 +683,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('user_id is NULL');
         }
         $user_id = (int) $user_id;
-        $this->update_set($user_id,array('profile' => $profile));
+        
+        return $this->update_set($user_id,array('profile' => $profile));
     }
     
     public function update_contact($contact,$user_id=null) {
@@ -694,7 +695,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('user_id is NULL');
         }
         $user_id = (int) $user_id;
-        $this->update_set($user_id,array('contact' => $contact));
+        
+        return $this->update_set($user_id,array('contact' => $contact));
     }
 	
 	/**

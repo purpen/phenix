@@ -226,14 +226,28 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
      * 标记主题 精华
      */
 	public function mark_as_fine($id){
-		return $this->update_set($id, array('fine' => 1));
+		$ok = $this->update_set($id, array('fine' => 1));
+        if($ok){
+            $data = $this->load($id);
+            // 增加消费积分（鸟币）
+            $service = Sher_Core_Service_Point::instance();
+            $service->make_money_in($data['user_id'], 5, '精华内容');
+        }
+        return $ok;
 	}
 	
     /**
      * 标记主题 取消精华
      */
 	public function mark_cancel_fine($id){
-		return $this->update_set($id, array('fine' => 0));
+		$ok = $this->update_set($id, array('fine' => 0));
+        if($ok){
+            $data = $this->load($id);
+            // 减少消费积分（鸟币）
+            $service = Sher_Core_Service_Point::instance();
+            $service->make_money_out($data['user_id'], 5, '取消精华内容');
+        }
+        return $ok;
 	}
 	
 	/**
