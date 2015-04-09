@@ -1,7 +1,7 @@
 <taconite>
 	<replaceContent select="#comment-list"><![CDATA[
     <div class="ui threaded minimal comments">
-      {% comment_list var:'comments' page:page target_id:target_id size:per_page %}
+      {% comment_list var:'comments' page:page target_id:target_id type:4 check_loved:1 current_user_id:current_user_id size:per_page %}
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
@@ -14,9 +14,19 @@
             {% include "block/star.html" %}
           </div>
           <div class="laud">
-            <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
-              <i class="icon empty heart"></i>
+
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon heart"></i>
             </a>
+            {%else%}
+              <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+
           </div>
           
           <div class="text">

@@ -697,6 +697,14 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 红包金额
 		$card_money = $order_info['card_money'];
+
+		// 礼品卡金额
+		$gift_money = $order_info['gift_money'];
+
+    //红包和礼品卡不能同时 使用
+    if(!empty($card_money) && !empty($gift_money)){
+			return 	$this->ajax_json('红包和礼品卡不能同时使用！', true);
+    }
 		
 		try{
 			$orders = new Sher_Core_Model_Orders();
@@ -713,7 +721,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 商品金额
 			$order_info['total_money'] = $total_money;
 			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
 			// 支付金额不能为负数
 			if($pay_money < 0){
 				$pay_money = 0.0;
@@ -866,6 +874,57 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		return $this->ajax_json('红包成功使用', false, null, $data);
 	}
+
+	/**
+	 * 使用礼品码
+	 */
+	public function ajax_gift(){
+		$rid = $this->stash['rid'];
+		$code = $this->stash['code'];
+		if(empty($rid) || empty($code)){
+			return $this->ajax_json('订单编号或礼品码为空！', true);
+		}
+		
+		try{
+			// 验证订单信息
+			$model = new Sher_Core_Model_OrderTemp();
+			$order_info = $model->find_by_rid($rid);
+			if(empty($order_info)){
+				return $this->ajax_json('订单不存在！', true);
+			}
+			$items = $order_info['dict']['items'];
+			if(count($items) != 1){
+				return $this->ajax_json('礼品码仅限单一产品！', true);
+			}
+			
+			// 验证礼品码
+			$gift_money = Sher_Core_Util_Shopping::get_gift_money($code, $items[0]['product_id']);
+			
+			$data = array();
+			// 更新临时订单
+			$ok = $model->use_gift($rid, $code, $gift_money);
+			if($ok){
+				$result = $model->first(array('rid'=>$rid));
+				if (empty($result)){
+					return $this->ajax_json('订单操作失败，请重试！', true);
+				}
+				$dict = $result['dict'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'];
+				
+				// 支付金额不能为负数
+				if($pay_money < 0){
+					$pay_money = 0.0;
+				}
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $gift_money)*-1;
+				$data['pay_money'] = $pay_money;
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Gift order failed: ".$e->getMessage());
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('礼品码成功使用', false, null, $data);
+	}
 	
 	/**
 	 * 下单成功，选择支付方式，开始支付
@@ -883,10 +942,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$this->stash['card_payed'] = false;
 		// 验证是否需要跳转支付		
-		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money']+$order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'])){
+		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money']+$order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'])){
+			$trade_prefix = 'Coin';
+			if($order_info['gift_money'] > 0){
+				$trade_prefix = 'Gift';
+			}
+			if($order_info['card_money'] > 0){
+				$trade_prefix = 'Card';
+			}
 			// 自动处理支付
 			if ($order_info['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-				$trade_no = 'card'.rand();
+				$trade_no = $trade_prefix.rand();
 				$model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
 			}
 			$this->stash['card_payed'] = true;

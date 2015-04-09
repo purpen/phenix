@@ -213,9 +213,11 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * ajax获取评论
 	 */
 	public function ajax_fetch_comment(){
+    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
+    $this->stash['current_user_id'] = $current_user_id;
 		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
 	}
 
