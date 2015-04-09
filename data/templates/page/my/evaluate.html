@@ -47,10 +47,10 @@
 		<div class="twelve wide column">
 			<div class="ui middle aligned grid">
 				<div class="row">
-					<div class="six wide column">
+					<div class="four wide column">
 						<h3 class="ui header">我的订单</h3>
 					</div>
-					<div class="right aligned ten wide column">
+					<div class="right aligned twelve wide column">
 						<div class="ui horizontal bulleted list">
 							<div class="item">
 								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
@@ -60,6 +60,9 @@
 							</div>
 							<div class="item">
 								<a href="{{ app_url_my }}/orders?s=2" class="ui {{ css_ready_goods }} link">待发货</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/orders?s=3" class="ui {{ css_sended_goods }} link">已发货</a>
 							</div>
 							<div class="item">
 								<a href="{{ app_url_my }}/orders?s=5" class="ui {{ css_refunding }} link">退款中</a>

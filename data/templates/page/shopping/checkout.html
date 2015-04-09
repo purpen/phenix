@@ -27,6 +27,11 @@
 	
 	$('#submit-bonus').click(function(){
 		var bonus_code = $('#bonus-code').val();
+		var gift_val = $('#gift-code').val();
+    if(gift_val){
+ 			phenix.show_error_note('礼品券和红包不能同时使用!', 3000);
+      return false;
+    }
 		if(bonus_code){
 			$.post('{{ app_url_shopping }}/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
 				if(result.success){
@@ -38,6 +43,39 @@
 			}, 'json');
 		}else{
 			phenix.show_error_note('请输入红包码', 3000);
+		}
+	});
+
+	// 使用礼品券
+	$('.ui.gift.button').click(function(){
+		if ($(this).hasClass('active')){
+			$('.ui.gift.segment').addClass('hide');
+			$(this).removeClass('active');
+		}else{
+			$('.ui.gift.segment').removeClass('hide');
+			$(this).addClass('active');
+		}
+		return false;
+	});
+
+	$('#submit-gift').click(function(){
+		var gift_code = $('#gift-code').val();
+		var bonus_val = $('#bonus-code').val();
+    if(bonus_val){
+ 			phenix.show_error_note('礼品券和红包不能同时使用!', 3000);
+      return false;
+    }
+		if(gift_code){
+			$.post('{{ app_url_shopping }}/ajax_gift', {rid: '{{ order_info.rid }}', code: gift_code}, function(result){
+				if(result.success){
+					$('#order-coin-money').text(result.data.card_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+		}else{
+			phenix.show_error_note('请输入礼品券号', 3000);
 		}
 	});
 	
@@ -526,6 +564,19 @@
 										<div class="ui fluid action input">
 										  <input placeholder="输入红包码..." name="bonus" type="text" id="bonus-code" />
 										  <div class="ui active magenta button" id="submit-bonus">确定</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="bill">
+									<a href="javascript:void(0);" class="ui small magenta gift inverted button pop" data-content="使用礼品券" data-variation="inverted">
+										<i class="gift icon"></i> 使用礼品券抵消部分总额
+									</a>
+									<div class="ui gift hide segment">
+										<h4>使用礼品券抵消部分总额 <a href="#" class="ui magenta link" target="_blank">[了解礼品券使用规则]</a></h4>
+										<div class="ui fluid action input">
+										  <input placeholder="输入礼品券号..." name="gift" type="text" id="gift-code" />
+										  <div class="ui active magenta button" id="submit-gift">确定</div>
 										</div>
 									</div>
 								</div>

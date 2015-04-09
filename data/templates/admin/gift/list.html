@@ -64,7 +64,7 @@
 				</td>
 				<td>
 					{{ b.code }}<br />
-					<small>过期时间：{{ b.expired_at|date 'Y-m-d H:i' }}</small>
+          <small>过期时间： <span style="{%if b.is_expired%}color: red;{%endif%}">{{ b.expired_label }}</span></small>
 				</td>
 				<td>
 					<span class="ui magenta text">
