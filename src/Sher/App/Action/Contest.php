@@ -257,7 +257,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
     $query['type'] = Sher_Core_Model_SumRecord::TYPE_COLLEGE;
     $options['page'] = 1;
     $options['size'] = 5;
-    $options['sort'] = array('match2_count'=> -1);
+    $options['sort'] = array('match2_love_count'=> -1);
     $data = $model->find($query,$options);
     $result = array();
     $total_love_count = 0;
