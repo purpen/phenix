@@ -272,6 +272,8 @@
 		background:#1dba73;
 		color:#fff;
 		padding: 15px 0;
+		top: 100px;
+		opacity: 0;
 	}
 	.page-5 .items .item h3{
 		margin:0;
@@ -361,6 +363,14 @@
 			width:50%;
 		}
 	}
+	
+	.s2-1.active{
+		width:10%;
+		transition-delay: 1.4s;
+	}
+	#college-graph .six{
+	  opacity:0;
+	}
 	</style>
 {% endblock %}
 
@@ -371,10 +381,78 @@
 		$('.wrap').fullpage({
 			'verticalCentered': true,
 			'sectionsColor':['#000','#000','#000','#000','#000'],
-			'css3':false,
+			'css3':true,
 			'slidesNavigation': true,
 			afterRender: function(){
 						$('.s1-1').addClass('page-fadeInDown');
+			},
+			afterLoad: function(anchorLink, index){
+						if(index == 3){
+							$('.six').delay(200).animate({
+								opacity:'1'
+							},1500,'easeOutExpo');
+						}
+						
+						if(index == 5){
+						  $('.page-5 .item:nth-child(1)').delay(200).animate({
+						    opacity:'1',
+                top:'0'
+              },1500,'easeOutExpo');
+              $('.page-5 .item:nth-child(2)').delay(400).animate({
+                opacity:'1',
+                top:'0'
+              },1500,'easeOutExpo');
+							$('.page-5 .item:nth-child(3)').delay(600).animate({
+						    opacity:'1',
+                top:'0'
+              },1500,'easeOutExpo');
+              $('.page-5 .item:nth-child(4)').delay(800).animate({
+                opacity:'1',
+                top:'0'
+              },1500,'easeOutExpo');
+							$('.page-5 .item:nth-child(5)').delay(1000).animate({
+						    opacity:'1',
+                top:'0'
+              },1500,'easeOutExpo');
+              $('.page-5 .item:nth-child(6)').delay(1200).animate({
+                opacity:'1',
+                top:'0'
+              },1500,'easeOutExpo');
+           }
+						
+			},
+			onLeave: function(index, direction){
+						if(index == 3){
+							$('.six').delay(200).animate({
+								opacity:'0'
+							},1000,'easeOutExpo');
+						}
+						if(index == 5){
+						  $('.page-5 .item:nth-child(1)').delay(200).animate({
+						    opacity:'0',
+                top:'100px'
+              },1500,'easeOutExpo');
+              $('.page-5 .item:nth-child(2)').delay(200).animate({
+                opacity:'0',
+                top:'100px'
+              },1500,'easeOutExpo');
+							$('.page-5 .item:nth-child(3)').delay(200).animate({
+						    opacity:'0',
+                top:'100px'
+              },1500,'easeOutExpo');
+              $('.page-5 .item:nth-child(4)').delay(200).animate({
+                opacity:'0',
+                top:'100px'
+              },1500,'easeOutExpo');
+							$('.page-5 .item:nth-child(5)').delay(200).animate({
+						    opacity:'0',
+                top:'100px'
+              },1500,'easeOutExpo');
+              $('.page-5 .item:nth-child(6)').delay(200).animate({
+                opacity:'0',
+                top:'100px'
+              },1500,'easeOutExpo');
+           }
 			},
 		});
 	</script>
