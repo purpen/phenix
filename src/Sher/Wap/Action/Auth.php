@@ -126,6 +126,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 创建帐号,完成提交注册信息
 	 */
 	public function do_register(){
+    session_start();
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
         if (empty($s_t) || $s_t != $this->stash['t']) {
@@ -135,6 +136,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
             return $this->ajax_note('数据错误,请重试', true);
         }
+
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);
+    }
 		
 		// 验证密码是否一致
 		$password_confirm = $this->stash['password_confirm'];
