@@ -115,7 +115,7 @@
                                     我的等级: <b>{{ user.ext_state.rank_id|default 0  }}</b>
                                 </div>
                                 <div class="item">
-                                    经验值: <b>{{ user.ext_state.rank_upgrade_point|default 0 }}</b>
+                                    经验值: <b>{{ user.ext_state.rank_point|default 0 }}</b>
                                 </div>
                                 <!--
                                 <div class="item">
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                         <div class='three wide column'>
-                            {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.rank_upgrade_point|default 0 }}
+                            {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.user_rank.point_amount|default 0 }}
                         </div>
 
                     </div>

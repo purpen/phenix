@@ -208,4 +208,17 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * 事务已经取消
      */
     const TRANS_STATE_CANCELED = -1;
+
+    /*
+     * 未记账
+     */
+    const POINT_ACCOUNT_STATE_NEW = 0;
+    /**
+     * 已记账
+     */
+    const POINT_ACCOUNT_STATE_DOING = 1;
+    /**
+     * 已结帐
+     */
+    const POINT_ACCOUNT_STATE_DONE = 0;
 }

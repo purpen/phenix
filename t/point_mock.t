@@ -69,34 +69,17 @@ $service = Sher_Core_Service_Point::instance();
 
 $user_id = 10;
 
-$ok = $service->make_exp_in($user_id, 100, 'test');
-ok($ok, 'make_exp_in');
-$ok = $service->make_exp_out($user_id, 100, 'test');
-ok($ok, 'make_exp_out');
 
-$ok = $service->make_money_in($user_id, 100, 'test money in');
-ok($ok, 'make_money_in');
-$ok = $service->make_money_out($user_id, 100, 'test money out');
-ok($ok, 'make_money_out');
+for ($j = 1; $j < 10; $j++) {
+    $t = mktime(rand(1,24), rand(0, 60), rand(0, 60), 4, $j);
+    $service->send_event('evt_login', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_profile_ok', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_follow', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_follow', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_new_post', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_new_post', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_reply', $user_id, 0, null, array(), $t);
+    $service->send_event('evt_by_reply', $user_id, 0, null, array(), $t);
+}
 
-$model = new Sher_Core_Model_UserPointBalance();
-$model->load($user_id);
-
-$now_val = $model->balance['exp'];
-$ok = $service->make_exp_in($user_id, 100, 'test');
-
-$after_row = $model->load($user_id);
-var_dump($after_row);
-
-is($model->balance['exp'], $now_val + 100, 'make_exp_in verify');
-
-$service->make_transaction($user_id, 100, 'test', Sher_Core_Util_Constant::TRANS_TYPE_IN, 'exp');
-$model->load($user_id);
-is($model->balance['exp'], $now_val + 200, 'make_transaction_in verify');
-
-
-$ok = $service->make_transaction(10, 5, '奖励【关注他人】', 1, 'exp', '552744eb206d45fa7c0041aa', 1428636907);
-
-ok($ok, 'test');
-
-
+diag('mock data ok');

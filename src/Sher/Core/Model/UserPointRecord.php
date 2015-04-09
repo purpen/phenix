@@ -20,6 +20,8 @@ class Sher_Core_Model_UserPointRecord extends Sher_Core_Model_Base {
         'evt_id' => null,
         // 事务状态
         'state' => 0,
+        // 记账状态
+        'account_state' => 0,
         // 事务最后执行的时间
         't_time' => null,
     );
@@ -95,5 +97,17 @@ class Sher_Core_Model_UserPointRecord extends Sher_Core_Model_Base {
     }
     public function is_init() {
         return $this->data['state'] == Sher_Core_Util_Constant::TRANS_STATE_INIT;
+    }
+
+    public function mark_accounting_done($record_id) {
+        return $this->set(array('_id' => $record_id), array(
+            'account_state' => Sher_Core_Util_Constant::POINT_ACCOUNT_STATE_DONE,
+        ));
+    }
+
+    public function mark_accounting_doing($record_id) {
+        return $this->set(array('_id' => $record_id), array(
+            'account_state' => Sher_Core_Util_Constant::POINT_ACCOUNT_STATE_DOING,
+        ));
     }
 }
