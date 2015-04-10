@@ -42,14 +42,15 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
     /**
      * 发送一个用户积分事件
      *
-     * @param $event_code 事件代码
-     * @param $user_id 关联用户ID
+     * @param string $event_code 事件代码
+     * @param int $user_id 关联用户ID
      * @param int $sender 发起方，默认为系统0，若为转账等，则非0，为该用户ID
-     * @param null $module_id 内部模块标识
+     * @param mixed $module_id 内部模块标识
      * @param array $extras 第三方模块附加留存的信息
+     * @param int $time 事件发生的时间戳, 默认为当前时间戳
      * @return mixed 事件ID
      */
-    public static function send_event($event_code, $user_id, $sender=0, $module_id=null, $extras=array()){
+    public static function send_event($event_code, $user_id, $sender=0, $module_id=null, $extras=array(), $time=null){
         $data = array(
             'event_code' => $event_code,
             'user_id' => $user_id,
@@ -58,6 +59,12 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
             'sys_sender' => $module_id,
             'extras' => $extras,
         );
+        if ($time) {
+            $data['time'] = $time;
+        }
+        else {
+            $data['time'] = time();
+        }
         $model = new Sher_Core_Model_UserEvent();
         $model->create($data);
         return $model->id;
@@ -104,6 +111,9 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         if (!$point_type_model->count(array('code' => $point_type))) {
             throw new Sher_Core_Model_Exception('invalid point_type:'.$point_type);
         }
+
+        $amount = intval($amount);
+
         if ($amount < 0) {
             throw new Sher_Core_Model_Exception('amount must be a positive number');
         }
@@ -118,7 +128,6 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         $current_val = isset($point_balances[$point_type])?$point_balances[$point_type]:0;
         if ($trans_out_mode and $current_val < $amount) {
             Doggy_Log_Helper::warn('no enough amount. user_id:'.$user_id.', point_type:'.$point_type.' CUR:'.$current_val.' SHOULD:'.$amount);
-            print 'no enough amount. user_id:'.$user_id.', point_type:'.$point_type.' CUR:'.$current_val.' SHOULD:'.$amount."\n";
             return false;
         }
         $record = new Sher_Core_Model_UserPointRecord();
@@ -126,12 +135,16 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
             $time = time();
         }
         // 1
+        $_trans_d = intval(date('Ymd', intval($time)));
+        $_trans_m = intval(date('Ym', intval($time)));
         $record->create(array(
             'user_id' => $user_id,
             'val' => $trans_out_mode? $amount * -1.0: $amount * 1.0,
             'type' => $point_type,
             'note' => $note,
             'time' => $time,
+            'd' => $_trans_d,
+            'm' => $_trans_m,
             'evt_id' => $evt_id,
             'state' => Sher_Core_Util_Constant::TRANS_STATE_INIT,
             't_time' => time(),
@@ -144,14 +157,14 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         else {
             $result = $balance->add_in_trans($amount, $point_type, $record_id);
         }
-        if (!$result) {
+        if  (!$result or (isset($result['ok']) and !$result['ok'])) {
             Doggy_Log_Helper::info('Trans canceled, record_id:'.$record_id.'user_id:'.$user_id.', point_type:'.$point_type);
             $record->cancel_trans();
             return false;
         }
         // 3.1
         $result = $record->mark_pending_trans();
-        if (!$result) {
+        if (!$result or (isset($result['ok']) and !$result['ok'])) {
             $record->load($record_id);
             if (!$record->is_pending()) {
                 return false;
@@ -227,5 +240,4 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         return self::instance()->make_transaction($user_id, $amount, $note,
             Sher_Core_Util_Constant::TRANS_TYPE_OUT, Doggy_Config::$vars['app.point.event_point_code'], $evt_id);
     }
-
 }
