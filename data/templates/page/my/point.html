@@ -127,7 +127,7 @@
                     <div class="mach row">
                         <div class="thirteen wide column">
                             <div class="ui green progress">
-                                <div class="bar" style="width:88.78%;"></div>
+                                <div class="bar" style="width:{{ user.ext_state.upgrade_percent|default 0.1 }}%;"></div>
                             </div>
                         </div>
                         <div class='three wide column'>
