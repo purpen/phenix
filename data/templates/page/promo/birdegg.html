@@ -1,5 +1,5 @@
 {%extends 'layout/sns.html'%}
-{% block title %}Apple Watch 预约 -{% endblock %}
+{% block title %}太火鸟 - [蛋年] 挑战世界吉尼斯{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -17,9 +17,11 @@
 		background:rgba(0,0,0,0);
 	}
 	.block.title>small{
-		  color: rgba(255,255,255,.7);
+		color: rgba(255,255,255,.7);
+		font-size:20px;
 	}
 	.block.title{
+		font-size:24px;
 		color:#fff;
 		padding: 5px 0;
 	}
@@ -49,6 +51,10 @@
 	.six.wide .block.title{
 		margin-bottom:20px;
 	}
+	.section-title+.block.title{
+		margin-top: 15px;
+		margin-bottom:10px !important;
+	}
 	.six.wide p{
 		margin:8px 0 0;
 	}
@@ -61,19 +67,6 @@
 	.section-title .ui.header{
 		font-size: 1.1rem!important;
 		margin-bottom: 5px;
-	}
-	.all{
-		text-align: right;
-		margin: 10px 0;
-		color:#f36;
-		font-size: 14px;
-	}
-	.all a.ui.link{
-		color:#f36;
-	}
-	h5+p{
-		color:#c87bc0;
-		margin:0;
 	}
 	
 	
@@ -113,24 +106,6 @@
 	.mt-25 {
 	  margin-top: 25px;
 		font-size:14px;
-	}
-	
-	
-	
-	.advantage{
-		font-size: .55em;
-		margin: .35em 0;
-		font-weight: 400;
-	}
-	.wtime{
-		background-color:#ff1a39;
-	}
-	.mt-25{
-		margin-top: 25px;
-		margin-bottom: 0;
-	}
-	p.mt-25 span{
-		font-weight:bold;
 	}
 	
 </style>
@@ -187,6 +162,16 @@
 							<div class="content">
 								<h4 class="ui header">姚乃胜</h4>
 								<h5>京东金融集团副总裁</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="雷海波" src="http://frbird.qiniudn.com/stuff/150409/55261281fc8b12961c8bbc39-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">雷海波</h4>
+								<h5>太火鸟创始人</h5>
 							</div>
 						</div>
 						
@@ -357,37 +342,25 @@
 				
 				</div>
 				<div class="six wide column" style="padding-left:4rem;">
-					<h2 class="block title">新闻报道</h2>
+					<h2 class="block title">活动报道</h2>
 					<div class="section-title">
 					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102878-1.html" class="ui link" target="_black">蛋年视频 | 徐小平胡海泉众大咖展望智能硬件</a>
             </h5>
-            <p>中国智能硬件蛋年创新大会携手硬件、媒体、投资、平台、机构五大阵容开启智能硬件大时代 ...</p>
-            <div class="all">
-              <a class="ui link" href="http://www.taihuoniao.com/topic/view-102878-1.html" target="_blank">阅读全文</a>
-            </div>
           </div>
 
 					<div class="section-title">
 					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102878-1.html" class="ui link" target="_black">蛋年视频 | 徐小平胡海泉众大咖展望智能硬件</a>
             </h5>
-            <p>中国智能硬件蛋年创新大会携手硬件、媒体、投资、平台、机构五大阵容开启智能硬件大时代 ...</p>
-            <div class="all">
-              <a class="ui link" href="http://www.taihuoniao.com/topic/view-102878-1.html" target="_blank">阅读全文</a>
-            </div>
           </div>
 
 					<div class="section-title">
 					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102878-1.html" class="ui link" target="_black">蛋年视频 | 徐小平胡海泉众大咖展望智能硬件</a>
             </h5>
-            <p>中国智能硬件蛋年创新大会携手硬件、媒体、投资、平台、机构五大阵容开启智能硬件大时代 ...</p>
-            <div class="all">
-              <a class="ui link" href="http://www.taihuoniao.com/topic/view-102878-1.html" target="_blank">阅读全文</a>
-            </div>
           </div>
 					
 					
 					<h2 class="block title">活动流程</h2>
-					<h3 class="ui header">主会场流程</h3>
+					<h4 class="ui header">主会场流程</h4>
 					<p><span>12:30-13:30</span> 签到</p>
 					<p><span>13:00-13:30</span> 媒体群访问</p>
 					<p><span>&nbsp;PM 13:30&nbsp;&nbsp;&nbsp;</span> 大会正式开始</p>
@@ -401,7 +374,7 @@
 					<p><span>15:00-15:30</span> 圆桌论坛2:未来趋势</p>
 					<p><span>15:30-15:50</span> Top100智能硬件趋势报告</p>
 					<p><span>15:50-16:00</span> Top100颁奖</p>
-					<h3 class="ui header">分会场流程</h3>
+					<h4 class="ui header">分会场流程</h4>
 					<p><span>12:30-16:00</span> 扫二维码签到</p>
 					<p><span>12:30-16:00</span> 智能产品体验</p>
 					<p><span>09:00-15:00</span> 吉尼斯世界纪录［时光胶囊］挑战</p>
