@@ -18,6 +18,13 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 蛋年
+	 */
+	public function birdegg(){
+		return $this->to_html_page('page/promo/birdegg.html');
+	}
+	
+	/**
 	 * 千万红包
 	 */
 	public function coupon(){
