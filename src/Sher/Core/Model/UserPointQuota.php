@@ -21,7 +21,7 @@ class Sher_Core_Model_UserPointQuota extends Sher_Core_Model_Base {
         ),
         //积分日结控制表, m+月份为键值, 如m201501
         'month_point_limit' => array(
-            'd20150101' => null,
+            'm20150101' => null,
         ),
     );
     protected $joins = array(

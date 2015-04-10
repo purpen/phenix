@@ -9,7 +9,7 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		
 	);
 	
-	protected $exclude_method_list = array('execute','index');
+	protected $exclude_method_list = array('execute','index','view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_incubator');
@@ -49,6 +49,20 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		
 	    return $this->to_html_page('page/cooperate/cooperate_submit.html');
   	}
+
+    /**
+     * 详情查看
+     */
+    public function view(){
+      $id = $this->stash['id'];
+      
+      $model = new Sher_Core_Model_Contact();
+      $incubator = $model->extend_load($id);
+      
+      $this->stash['incubator'] = $incubator;
+      
+      return $this->to_html_page('page/incubator/view.html');
+    }
 	
     /**
      * 产品合作保存
@@ -119,6 +133,7 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
+      $incubator = $model->get_data();
 			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
@@ -126,10 +141,37 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 
     	$this->stash['is_error'] = false;
     	$this->stash['note'] = '保存成功!';
-		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.incubator'];
+		$this->stash['redirect_url'] = Sher_Core_Helper_Url::incubator_view_url($incubator['_id']);
 		
 		return $this->to_taconite_page('ajax/note.html');
     }
+
+	/**
+	 * ajax删除产品合作
+	 */
+	public function ajax_del(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Contact();
+			$cooperation = $model->load((string)$id);
+			
+			// 仅管理员或本人具有删除权限
+			if (!$this->visitor->can_admin() && !($cooperation['user_id'] == $this->visitor->id)){
+				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
+			}
+			
+			$model->remove((string)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/del_ok.html');
+	}
 	
 }
 ?>

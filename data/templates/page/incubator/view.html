@@ -1,0 +1,137 @@
+{%extends 'layout/sns.html'%}
+{% block title %}{{ incubator.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .ui.reply.segment{
+    margin-bottom:1em !important;
+  }
+  .ui.support.button {
+	  border-radius: 100rem;
+      font-size: 3rem;
+      height: 125px;
+      width: 125px;
+	  padding: 0.8em;
+  }
+  .love.count {
+	  font-size: 1.15rem;
+      font-weight: normal;
+      margin-top: 0.45rem;
+  }
+  .froala-element .attributes {
+      margin: 2rem 5rem 2rem 0rem;
+  }
+  .froala-element .attributes table td {
+      border: none;
+  }
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div id="postpage">
+
+	<div class="ui responsive grid">
+
+		<div class="middle aligned row">
+			<div class="eleven wide column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						<i class="basic icon community"></i> 孵化
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">{{ incubator.title }}</div>
+				</div>
+			</div>
+			<div class="five wide right aligned column">
+				<a href="{{ app_url_incubator }}/cooperate" class="ui gray inverted button">
+					<i class="add icon"></i> 提交孵化项目
+				</a>
+			</div>
+		</div>
+		
+		<div class="nopad row">
+			<div class="column">
+				<div class="ui big topic top attached segment">
+					<div class="ui header">
+						<div class="content">
+							{{ incubator.title }}
+						</div>
+					</div>
+					
+					<div class="post froala-element clearfix">
+						{{ incubator.content }}
+					</div>
+					
+					<div class="post froala-element clearfix">
+						{% if incubator.cover %}
+						<p>
+							<img src="{{ incubator.cover.thumbnails.huge.view_url }}" alt="{{ incubator.title }}" class="fr-fin" />
+						</p>
+						{% endif %}
+						<!--附件列表-->
+						{% asset_list var:'assets' parent_id:incubator._id asset_type:60 %}
+						{% if assets.total_rows %}
+							{% for asset in assets.rows %}
+								{% if asset._id != incubator.cover_id %}
+									<p>
+										<img width="" src="{{ asset.thumbnails.huge.view_url }}" alt="{{ incubator.title }}" class="fr-fin" />
+									</p>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+                        
+                        <!--联系方式-->
+                        <div class="attributes">
+                            <table class="ui basic table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">联系方式</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>联系人：{{ incubator.name|default '--' }}</td>
+                                        <td>电话：{{ incubator.tel|default '--' }}</td>
+                                        <td>邮箱：{{ incubator.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>分类：{{ incubator.cate_name }}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+					</div>
+					
+                    
+					{% if incubator.tags %}
+					<div class="idea tags">
+						{% for tag in incubator.tags %}
+							{% if tag %}
+							<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui line">
+								# {{ tag }}
+							</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+					{% endif %}
+                    
+                    
+				</div>
+
+	</div>
+</div>
+
+{% endblock %}

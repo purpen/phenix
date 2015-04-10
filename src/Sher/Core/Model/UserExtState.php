@@ -26,6 +26,16 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     // protected $updated_timestamp_fields = array('updated_on');
 
     protected function extra_extend_model_row(&$row) {
+        $user_rank = $row['user_rank'];
+        if (empty($user_rank)) {
+            return;
+        }
+        $total_point = isset($user_rank['point_amount'])?$user_rank['point_amount']: 0;
+        if (empty($total_point)) {
+            return;
+        }
+        $percent = round($row['rank_point'] / $total_point * 100, 2);
+        $row['upgrade_percent'] = $percent;
     }
     
     //~ some event handles

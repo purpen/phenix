@@ -23,6 +23,8 @@ class Sher_Core_Model_UserEvent extends Sher_Core_Model_Base {
         'err' => 0,
         //错误信息
         'err_msg' => null,
+        // 事件发生时间戳
+        'time' => null,
     );
     protected $joins = array(
         'user' => array('user_id' => 'Sher_Core_Model_User'),
@@ -45,5 +47,19 @@ class Sher_Core_Model_UserEvent extends Sher_Core_Model_Base {
     }
     protected function validate() {
         return true;
+    }
+
+
+    public function mark_done($record_id, $make_point=false) {
+        return $this->set(array('_id' => $record_id),
+            array(
+                'state' =>Sher_Core_Util_Constant::EVENT_STATE_DONE,
+                'make_point' => $make_point,
+            )
+        );
+    }
+
+    public function mark_lock($record_id) {
+        return $this->set(array('_id' => $record_id), array('state' =>Sher_Core_Util_Constant::EVENT_STATE_LOCK));
     }
 }

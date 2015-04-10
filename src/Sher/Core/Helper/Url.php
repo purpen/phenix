@@ -401,6 +401,13 @@ class Sher_Core_Helper_Url {
     }
 
     /**
+     * 产品合作浏览地址
+     */
+    public static function incubator_view_url($id){
+    	return  sprintf(Doggy_Config::$vars['app.url.incubator']."/view?id=%s", $id);
+    }
+
+    /**
      * 产品分享浏览地址
      */
     public static function wap_stuff_view_url($stuff_id){

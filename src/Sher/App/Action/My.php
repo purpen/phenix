@@ -292,6 +292,15 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
+	 * 我的产品合作
+	 */
+	public function cooperate(){
+		$this->set_target_css_state('user_cooperate');
+
+		return $this->to_html_page("page/my/cooperate.html");
+	}
+
+	/**
 	 * 发送私信
 	 */
 	public function ajax_match() {
