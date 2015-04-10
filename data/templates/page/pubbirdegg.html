@@ -1,0 +1,72 @@
+{%extends 'layout/base.html'%}
+{% block title %}太火鸟 - [蛋年] 挑战世界吉尼斯{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	body{
+		margin:0;
+		padding:0;
+		min-height:100% !important;
+		overflow-y:hidden;
+	}
+	.pubindex{
+		margin:0;
+		padding:47% 0 3%;
+		height:100%;
+		width:100%;
+		background:url('{{ app_url_packaged }}/images/birdegg1.jpg') repeat scroll 0 0 rgba(0, 0, 0, 0);
+		color:#FFF;
+		background-size:cover;
+		background-repeat:no-repeat;
+	}
+	.pubindex .bottons.row {
+		margin-top: 0;
+	}
+	.pubindex .ui.btn {
+		border: 2px solid #c979c2;
+		border-radius: 0.175em;
+		padding: 1em 4em;
+	}
+	i.paly.icon{
+		color:#c979c2;
+	}
+	@media only screen and (max-width: 1290px){
+		.pubindex{
+			padding:50% 0 5%;
+		}
+	}
+	@media only screen and (max-width: 1170px){
+		.pubindex{
+			padding:53% 0 5%;
+		}
+	}
+	@media only screen and (max-width: 1107px){
+		.pubindex{
+			padding:55% 0 5%;
+		}
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<section class="pubindex page">
+	<div class="ui big block">
+		<div class="ui responsive grid">
+			<div class="bottons row">
+				<div class="center aligned column">
+					<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/home">
+						<span>进入官网</span>
+					</a>
+					<a class="ui btn-4 btn-4c icon-arrow-right btn" href="{{ app_url_domain }}/birdegg">
+						<span>活动专题</span>
+					</a>
+					<a class="ui btn-4 btn-4c icon-arrow-right btn" href="http://webinar.vhall.com/624748896" target="_blank">
+						<i class="play icon"></i>观看直播
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+			
