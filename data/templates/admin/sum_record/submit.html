@@ -1,0 +1,99 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑-{% endblock %}
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	$('#sum-record-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">数量统计管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/sum_record" class="item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i>编辑
+			</div>
+			{% endif %}
+      <!--
+			<a href="{{ app_url_admin_base }}/sum_record/submit" class="item">
+				<i class="add icon"></i>新增
+			</a>
+      -->
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/sum_record/save" class="ui form" method="post" id="sum-record-form">
+		<input name="_id" type="hidden" value="{{ sum_record._id }}" />
+		
+		<div class="inline field">
+			<label>点赞数量:</label>
+      <input type="text" name="match2_love_count" value="{{ sum_record.match2_love_count }}" />
+		</div>
+		<div class="inline field">
+			<label>创建量:</label>
+      <input type="text" name="match2_count" value="{{ sum_record.match2_count }}" />
+		</div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit button">
+				确认提交
+			</div>
+			<div class="ui gray cancel button">
+				取消
+			</div>
+		</div>
+		
+	</form>
+</div>
+
+{% endblock %}

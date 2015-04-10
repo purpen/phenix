@@ -84,27 +84,29 @@
 							<div class="ui dynamic selection list">
 							  {% if list.rows %}
                   {% for d in list.rows %}
-                    <div class="item">
-                      {% if !d.is_read %}
-                        <div class="new">
-                          new
-                        </div>
-                      {%endif%}
-                      <div class="content">
-                        <a href="{{ d.s_user.home_url }}" class="ui link header inline" target="_blank">{{ d.s_user.nickname }}</a>
-                        <div class="description fsize inline">
-                          <span>{{ d.info }}</span><span>{{ d.kind_str }}</span>
-                        </div>
-                        {% if d.kind==3 %}
-                          <span>{{ d.target.content_original }}</span>
-                        {%else%}
-                          <a class="ui link" href="{{ d.target.view_url }}" title="{{ d.target.title }}" target="_blank">
-                            {{ d.target.title }}
-                          </a>
+                    {% if d.target %}
+                      <div class="item">
+                        {% if !d.is_read %}
+                          <div class="new">
+                            new
+                          </div>
                         {%endif%}
-                        <span>{{ d.created_on|relative_datetime }}</span>
+                        <div class="content">
+                          <a href="{{ d.s_user.home_url }}" class="ui link header inline" target="_blank">{{ d.s_user.nickname }}</a>
+                          <div class="description fsize inline">
+                            <span>{{ d.info }}</span><span>{{ d.kind_str }}</span>
+                          </div>
+                          {% if d.kind==3 %}
+                            <span>{{ d.target.content_original }}</span>
+                          {%else%}
+                            <a class="ui link" href="{{ d.target.view_url }}" title="{{ d.target.title }}" target="_blank">
+                              {{ d.target.title }}
+                            </a>
+                          {%endif%}
+                          <span>{{ d.created_on|relative_datetime }}</span>
+                        </div>
                       </div>
-                    </div>
+                    {%endif%}
                   {%endfor%}
                 {%endif%}
 								

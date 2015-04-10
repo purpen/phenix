@@ -200,6 +200,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
 	}
+
 	
 }
 ?>

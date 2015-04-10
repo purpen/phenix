@@ -127,6 +127,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             case 2:
                 $this->set_target_css_state('ready_goods');
                 break;
+            case 3:
+                $this->set_target_css_state('sended_goods');
+                break;
             case 9: // 已关闭订单：取消的订单、过期的订单
                 $this->set_target_css_state('closed');
                 break;
@@ -286,6 +289,15 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     $this->stash['user_invite_code'] = $invite_code;
 
 		return $this->to_html_page("page/my/invite.html");
+	}
+
+	/**
+	 * 我的产品合作
+	 */
+	public function cooperate(){
+		$this->set_target_css_state('user_cooperate');
+
+		return $this->to_html_page("page/my/cooperate.html");
 	}
 
 	/**

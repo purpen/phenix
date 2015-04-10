@@ -45,15 +45,6 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	/**
 	 * 十万火计--第二季 作品排行
 	 */
-  public function rank1() {
-		$this->set_target_css_state('active2');
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
-		return $this->to_html_page('wap/contest/rank.html');
-	}
-	
-	/**
-	 * 十万火计--第二季 作品排行
-	 */
   public function rank() {
 		$this->set_target_css_state('active2');
 		$category_id = $this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
@@ -158,7 +149,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
     $query['type'] = Sher_Core_Model_SumRecord::TYPE_PRO;
     $options['page'] = 1;
     $options['size'] = 6;
-    $options['sort'] = array('match2_count'=> -1);
+    $options['sort'] = array('match2_love_count'=> -1);
     $data = $model->find($query, $options);
     foreach($data as $key=>$val){
       $pid = (int)$data[$key]['target_id'];
@@ -181,7 +172,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
     $query['type'] = Sher_Core_Model_SumRecord::TYPE_COLLEGE;
     $options['page'] = 1;
     $options['size'] = 5;
-    $options['sort'] = array('match2_count'=> -1);
+    $options['sort'] = array('match2_love_count'=> -1);
     $data = $model->find($query,$options);
     $result = array();
     $total_love_count = 0;

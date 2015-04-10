@@ -35,7 +35,48 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 购物车
 	 */
 	public function cart(){
+		$sku = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
+		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
+    $result = array();
+    $result['success'] = false;
+		// 验证数据
+		if (empty($sku) || empty($quantity)){
+      return $this->api_json('参数不正确！', 3001);
+    }
+		// 验证库存数量
+		$inventory = new Sher_Core_Model_Inventory();
+		$enoughed = $inventory->verify_enough_quantity($sku, $quantity);
+		if(!$enoughed){
+      return $this->api_json('挑选的产品已售完', 3002);
+		}
+
+		$item = $inventory->load($sku);
 		
+		$product_id = !empty($item) ? $item['product_id'] : $sku;
+		
+		// 获取产品信息
+		$product = new Sher_Core_Model_Product();
+		$product_data = $product->extend_load((int)$product_id);
+		if(empty($product_data)){
+      return $this->api_json('挑选的产品不存在或被删除，请核对！', 3003);
+    }
+
+    //预售商品不能加入购物车
+    if($product_data['stage'] != 9){
+      return $this->api_json('类型不是商品，不可加入购物车！', 3004);     
+    }
+
+    //是否是抢购商品
+    if($product_data['snatched'] == 1){
+      return $this->api_json('抢购商品,不能加入购物车！', 3005);
+    }
+
+    //试用产品，不可购买
+    if($product_data['is_try']){
+      return $this->api_json('试用产品，不可购买！', 3006);
+    }
+    $result['success'] = true;
+    return $this->api_json('请求成功!', 0, $result);
 	}
 
 	/**
