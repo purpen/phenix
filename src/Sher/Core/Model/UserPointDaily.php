@@ -5,7 +5,7 @@
  */
 class Sher_Core_Model_UserPointDaily extends Sher_Core_Model_Base {
     protected $collection = 'points.daily';
-
+    protected $mongo_id_style = self::MONGO_ID_CUSTOM;
 
     protected $schema = array(
         // 使用复合主键, 减少额外索引

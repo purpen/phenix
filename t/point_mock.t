@@ -70,8 +70,8 @@ $service = Sher_Core_Service_Point::instance();
 $user_id = 10;
 
 
-for ($j = 1; $j < 10; $j++) {
-    $t = mktime(rand(1,24), rand(0, 60), rand(0, 60), 4, $j);
+for ($j = 1; $j < 11; $j++) {
+    $t = mktime(rand(1,24), rand(0, 60), rand(0, 60), rand(2,4), $j);
     $service->send_event('evt_login', $user_id, 0, null, array(), $t);
     $service->send_event('evt_profile_ok', $user_id, 0, null, array(), $t);
     $service->send_event('evt_follow', $user_id, 0, null, array(), $t);

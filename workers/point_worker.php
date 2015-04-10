@@ -194,7 +194,7 @@ for ($i = 0; $i < $cnt; $i++) {
 }
 
 // ---------------------
-// 积分 - 用户当日汇总
+// 积分 - 按日汇总
 //
 $today_account_day = intval(date('Ymd'));
 $this_account_month = intval(date('Ym'));
@@ -202,7 +202,6 @@ $this_account_month = intval(date('Ym'));
 
 $spec = array(
     'state' => Sher_Core_Util_Constant::TRANS_STATE_OK,
-    'd' => $today_account_day,
     'account_state' => Sher_Core_Util_Constant::POINT_ACCOUNT_STATE_NEW,
 );
 
@@ -223,8 +222,9 @@ for ($i = 0; $i < $cnt; $i++) {
         'user_id' => $user_id,
         'day' => $d,
     );
-    $user_daily_record = $point_daily_model->load($daily_id);
+    $user_daily_record = $point_daily_model->first(array('_id' => $daily_id));
     if (empty($user_daily_record)) {
+        echo "init daily record, USER[ $user_id ] DAY: $d\n";
         $user_daily_record = array(
             '_id' => $daily_id,
             'exp' => 0,
@@ -259,9 +259,7 @@ $spec = array(
 );
 $rows = $point_daily_model->find($spec);
 $cnt = count($rows);
-
 echo "Start to checkout ....todo: $cnt \n";
-
 for ($i = 0; $i < $cnt; $i++) {
     $row = $rows[$i];
     $daily_id = $row['_id'];
@@ -282,6 +280,17 @@ for ($i = 0; $i < $cnt; $i++) {
         $point_val = $record_row['val'];
         if ($record_row['account_state'] == Sher_Core_Util_Constant::POINT_ACCOUNT_STATE_NEW) {
             $point_type = $record_row['type'];
+            // 复查是否有当日汇总记录
+            $user_daily_record = $point_daily_model->first(array('_id' => $daily_id));
+            if (empty($user_daily_record)) {
+                $user_daily_record = array(
+                    '_id' => $daily_id,
+                    'exp' => 0,
+                    'money' => 0,
+                    'done' => false,
+                );
+                $point_daily_model->create($user_daily_record);
+            }
             $point_daily_model->inc(
                 array(
                     '_id' => $daily_id,
@@ -291,10 +300,10 @@ for ($i = 0; $i < $cnt; $i++) {
             );
         }
         $point_record_model->mark_accounting_done($record_id);
-        echo "$record_id is accounted.";
+        echo "$record_id is accounted.\n";
     }
     $point_daily_model->set(array('_id' => $daily_id), array('done' => true));
-    echo "[USER: $user_id DAY: $day] CHECKOUT DONE. ".($j+1)." of $cnt\n";
+    echo "[USER: $user_id DAY: $day] CHECKOUT DONE. ".($i+1)." of $cnt\n";
 }
 
 echo "===========================POINT WORKER DONE==================\n";
