@@ -172,7 +172,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             return;
         }
 
-        $row['content_original'] = htmlspecialchars(Sher_Core_Util_View::safe($row['content']));
+        $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
         $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
         $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if (!empty($row['reply'])) {
