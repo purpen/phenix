@@ -67,6 +67,8 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 		  $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
     }
 
+    $row['view_url'] = Sher_Core_Helper_Url::incubator_view_url($row['_id']); 
+
     //分类名称
     if($row['category_id']==1){
       $row['cate_name'] = '产品孵化';  

@@ -145,15 +145,13 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	        $row['thumb_small_view_url'] = Doggy_Config::$vars['app.url.default_thumb_small'];
 	        $row['thumb_big_view_url'] = Doggy_Config::$vars['app.url.default_thumb_big'];
 		}
-
-    $row['title'] = htmlentities($row['title']);
 		
 		if(isset($row['description'])){
 			// 转码
 			$row['description'] = htmlspecialchars_decode($row['description']);
 		
 			// 去除 html/php标签
-			$row['strip_description'] = htmlentities(strip_tags($row['description']));
+			$row['strip_description'] = strip_tags($row['description']);
 		}
 
 		// 去除 html/php标签
