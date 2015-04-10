@@ -1,0 +1,504 @@
+{%extends 'layout/sns.html'%}
+{% block title %}太火鸟 - [蛋年] 挑战世界吉尼斯{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	body{
+		background: #1c0318;
+		color:#fff;
+	}
+	.ui.social{
+		padding:0;
+	}
+	.ui.items > .item,.ui.items > .item:hover{
+		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		cursor:auto;
+		background:rgba(0,0,0,0);
+	}
+	.block.title>small{
+		color: rgba(255,255,255,.7);
+		font-size:20px;
+	}
+	.block.title{
+		font-size:24px;
+		color:#fff;
+		padding: 5px 0;
+	}
+	.ui.items > .item .image,.ui.items > .item .image img{
+		border-radius:0 !important;
+	}
+	.ui.w-1180.grid {
+	  width: 1180px;
+	  margin: 0 auto;
+	}
+	.ui.speak.items > .item,.ui.circle.items > .item{
+		  margin-bottom: 1.5rem;
+	}
+	.ui.speak.items .content,.ui.circle.items .content{
+		padding:0 !important;
+	}
+	.ui.speak.items .item .content h4,.ui.circle.items .item .content h4 {
+		margin: .6em 0 5px;
+		color:#fff;
+	}
+	.ui.circle.items .item .content h4{
+		font-size:1rem !important;
+	}
+	.ui.speak.items .content h5,.ui.circle.items .content h5 {
+		margin: 0;
+	}
+	.six.wide .block.title{
+		margin-bottom:20px;
+	}
+	.section-title+.block.title{
+		margin-top: 15px;
+		margin-bottom:10px !important;
+	}
+	.six.wide p{
+		margin:8px 0 0;
+	}
+	.six.wide span{
+		margin-right:15px;
+	}
+	.ui.header .ui.link {
+	  color: #fff;
+	}
+	.section-title .ui.header{
+		font-size: 1.1rem!important;
+		margin-bottom: 5px;
+	}
+	
+	
+	
+	.logo {
+		padding: 0 0;
+		display:block;
+		width:1180px;
+		min-height:144px;
+	}
+	.logo.one {
+		min-height:78px;
+	}
+	.logo p{
+		display: inline-block;
+		width: 78px;
+		height: 72px;
+		float: left;
+		line-height: 64px;
+		font-size: 20px;
+		color: #fff;
+		margin: 0;
+		padding: 0;
+	}
+	.logo img {
+		float: left;
+		display: inline-block;
+		padding: 7px;
+		width: 90px;
+		height: 50px;
+	}
+	.logo + p, .logo+p+p {
+	  text-align: center;
+	  color: #c87bc0;
+		font-size:14px;
+	}
+	.mt-25 {
+	  margin-top: 25px;
+		font-size:14px;
+	}
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="birdegg page">
+	<div class="yue">
+		<img src="{{ app_url_packaged }}/images/birdegg1.jpg" width="100%">
+	</div>
+	<div class="ui big block">
+		<div class="ui w-1180 grid">
+			<div class="row">
+				<div class="eight center aligned wide column">
+					<embed src="http://static.video.qq.com/TPout.swf?vid=q0150wu1lm8&amp;auto=0" allowfullscreen="true" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" align="middle" height="400" width="480">
+				</div>
+				<div class="eight wide column">
+					<img src="http://frbird.qiniudn.com/asset/150210/54d96bc9fc8b12dc418b5039-1" class="ui image" alt="AutoBot mini全球最小的汽车穿戴设备">
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="ten wide column">
+					<h3 class="block title">演讲嘉宾</h3>
+					<div class="ui center aligned three speak items">
+						<div class="item">
+							<div class="image">
+								<img alt="徐小平" src="http://frbird.qiniudn.com/product/150401/551b6c2620de8d69018b8710-2-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">徐小平</h4>
+								<h5>真格天使投资基金创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="汪华" src="http://frbird.qiniudn.com/product/150405/5520bbf4fc8b12e5288b7e50-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">汪华</h4>
+								<h5>创新工场合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="姚乃胜" src="http://frbird.qiniudn.com/stuff/150409/55261281fc8b12961c8bbc39-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">姚乃胜</h4>
+								<h5>京东金融集团副总裁</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="雷海波" src="http://frbird.qiniudn.com/stuff/150409/55261281fc8b12961c8bbc39-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">雷海波</h4>
+								<h5>太火鸟创始人</h5>
+							</div>
+						</div>
+						
+					</div>
+					
+					<h3 class="block title">圆桌讨论<small>创业与创新</small></h3>
+					<div class="ui center aligned four circle items">
+						<div class="item">
+							<div class="image">
+								<img alt="覃政" src="http://frbird.qiniudn.com/stuff/150409/5526370cfc8b12705e8b6c71-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">覃政</h4>
+								<h5>蚁视科技CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="曾德钧" src="http://frbird.qiniudn.com/product/150405/5520bbf4fc8b12e5288b7e50-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">曾德钧</h4>
+								<h5>猫王CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="李一舟" src="http://frbird.qiniudn.com/stuff/150409/5526370cfc8b12705e8b6c71-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">李一舟</h4>
+								<h5>匙悟科技CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="邱懿武" src="http://frbird.qiniudn.com/stuff/150409/5526370cfc8b12705e8b6c71-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">邱懿武</h4>
+								<h5>云造CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="叶滨" src="http://frbird.qiniudn.com/product/150405/5520bbf4fc8b12e5288b7e50-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">叶滨</h4>
+								<h5>The one CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="张悦" src="http://frbird.qiniudn.com/product/150401/551b6c2620de8d69018b8710-2-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">张悦</h4>
+								<h5>Picooc CEO</h5>
+							</div>
+						</div>
+						
+					</div>
+				
+					<h3 class="block title">圆桌讨论<small>未来趋势</small></h3>
+					<div class="ui center aligned four circle items">
+						<div class="item">
+							<div class="image">
+								<img alt="黄灼" src="http://frbird.qiniudn.com/stuff/150409/5526370cfc8b12705e8b6c71-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">黄灼</h4>
+								<h5>机智云CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="高洪偲" src="http://frbird.qiniudn.com/product/150405/5520bbf4fc8b12e5288b7e50-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">高洪偲</h4>
+								<h5>京东众筹负责人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="萧无" src="http://frbird.qiniudn.com/stuff/150409/5526370cfc8b12705e8b6c71-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">萧无</h4>
+								<h5>淘宝众筹负责人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="徐晨" src="http://frbird.qiniudn.com/stuff/150409/5526370cfc8b12705e8b6c71-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">徐晨</h4>
+								<h5>戈壁投资合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="沈振" src="http://frbird.qiniudn.com/stuff/150409/55261281fc8b12961c8bbc39-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">沈振</h4>
+								<h5>DFF设计创始人基金发起人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="曾辉" src="http://frbird.qiniudn.com/product/150405/5520bbf4fc8b12e5288b7e50-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">曾辉</h4>
+								<h5>北京设计周</h5>
+							</div>
+						</div>
+						
+					</div>
+					
+					<h3 class="block title">Top100 颁奖</h3>
+					<div class="ui center aligned three speak items">
+						<div class="item">
+							<div class="image">
+								<img alt="徐小平" src="http://frbird.qiniudn.com/product/150401/551b6c2620de8d69018b8710-2-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">徐小平</h4>
+								<h5>真格天使投资基金创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="汪华" src="http://frbird.qiniudn.com/product/150405/5520bbf4fc8b12e5288b7e50-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">汪华</h4>
+								<h5>创新工场合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="姚乃胜" src="http://frbird.qiniudn.com/stuff/150409/55261281fc8b12961c8bbc39-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">姚乃胜</h4>
+								<h5>京东金融集团副总裁</h5>
+							</div>
+						</div>
+						
+					</div>
+					
+				
+				</div>
+				<div class="six wide column" style="padding-left:4rem;">
+					<h2 class="block title">活动报道</h2>
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102878-1.html" class="ui link" target="_black">蛋年视频 | 徐小平胡海泉众大咖展望智能硬件</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102878-1.html" class="ui link" target="_black">蛋年视频 | 徐小平胡海泉众大咖展望智能硬件</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102878-1.html" class="ui link" target="_black">蛋年视频 | 徐小平胡海泉众大咖展望智能硬件</a>
+            </h5>
+          </div>
+					
+					
+					<h2 class="block title">活动流程</h2>
+					<h4 class="ui header">主会场流程</h4>
+					<p><span>12:30-13:30</span> 签到</p>
+					<p><span>13:00-13:30</span> 媒体群访问</p>
+					<p><span>&nbsp;PM 13:30&nbsp;&nbsp;&nbsp;</span> 大会正式开始</p>
+					<p><span>13:30-13:32</span> 视频开篇</p>
+					<p><span>13:32-13:35</span> 主持人开场</p>
+					<p><span>13:35-14:05</span> 演讲1:智能硬件的创新与性感</p>
+					<p><span>14:05-14:10</span> 祝福视频</p>
+					<p><span>14:10-14:20</span> 演讲2:孵化平台对智能硬件的意义</p>
+					<p><span>14:20-14:50</span> 圆桌论坛1:创业与创新</p>
+					<p><span>14:50-15:00</span> 演讲3:平台如何做到“从1到N”</p>
+					<p><span>15:00-15:30</span> 圆桌论坛2:未来趋势</p>
+					<p><span>15:30-15:50</span> Top100智能硬件趋势报告</p>
+					<p><span>15:50-16:00</span> Top100颁奖</p>
+					<h4 class="ui header">分会场流程</h4>
+					<p><span>12:30-16:00</span> 扫二维码签到</p>
+					<p><span>12:30-16:00</span> 智能产品体验</p>
+					<p><span>09:00-15:00</span> 吉尼斯世界纪录［时光胶囊］挑战</p>
+					<p><span>15:00-15:30</span> 吉尼斯世界纪录［时光胶囊］挑战</p>
+					<p><span>16:10-16:20</span> 现场抽奖</p>
+					<p><span>&nbsp;PM 16:20&nbsp;&nbsp;&nbsp;</span> 吉尼斯世界纪录颁奖仪式开始</p>
+					<p><span>16:20-16:25</span> 嘉宾致辞</p>
+					<p><span>16:25-16:30</span> 吉尼斯世界纪录大合影</p>
+					<p><span>16:30-17:00</span> 媒体自由采访</p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="column">
+					
+					<h2 class="block title">联合主办<small>（更新中......）</small></h2>
+					<div class="logo" style="padding-top:20px;">
+						<p>媒体圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_taio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_btvo1.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_pandao.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_36ko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkjo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tco.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ifengo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_sohuo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_wangyioo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qqo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tzj.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_meno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_fasto.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_bdoo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qhxo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tzc.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_dzkx.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_shijue.jpg" class="ui image">
+					</div>
+				
+					<div class="logo">
+						<p>硬件圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_intelo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_foxo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_haiero.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ycbo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_miso.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_autoo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_pico.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_yuno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ingo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_keyo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mkai.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ying.jpg" class="ui image">
+					</div>
+					
+					<div class="logo one">
+						<p>投资圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_zfo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_chuango.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_goo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_tsoo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_dffo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_ctqo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_dot.jpg">
+						<img src="{{ app_url_packaged }}/images/ac.jpg">
+					</div>
+				
+					<div class="logo one">
+						<p>平台圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_jdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_tbo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sno.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_jzy1.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_hdx.jpg">
+						<img src="{{ app_url_packaged }}/images/xwo.jpg">
+						<img src="{{ app_url_packaged }}/images/datapark.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_whou.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_thno.jpg">
+					</div>
+				
+					<div class="logo one">
+						<p>机构圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_zhdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_ddkj.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_chinao.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sidao.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_weeko.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_desino.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_qhmyo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_gzmyo.jpg">
+					</div>
+					
+					<p class="mt-25">本活动由太火鸟科技发起,751D·PARK承办</p>
+					<p>排名不分先后，联合主办方持续更新中......</p>
+					
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--<div class="ui big block">
+		<div class="ui w-1180 grid">
+			<div class>
+			
+		
+		
+		</div>
+	</div>-->
+		
+		
+		
+</div>
+
+{% include "block/qrcode.html" %}
+{% endblock %}
+
+
+
+
+
+
+

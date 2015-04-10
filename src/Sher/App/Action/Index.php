@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg');
 	
 	protected $admin_method_list = array();
 	
@@ -27,7 +27,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){
-		return $this->home();
+		/*return $this->home();*/
+		return $this->to_html_page('page/pubbirdegg.html');
 	}
 	
 	/**
@@ -42,6 +43,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 */
 	public function twelve(){
 		return $this->to_html_page('page/pubindex.html');
+	}
+	
+	/**
+	 * 蛋年专题
+	 */
+	public function egg(){
+		return $this->to_html_page('page/pubbirdegg.html');
 	}
 	
     /**
