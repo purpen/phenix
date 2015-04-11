@@ -27,8 +27,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){
-		/*return $this->home();*/
-		return $this->to_html_page('page/pubbirdegg.html');
+		return $this->home();
+		//return $this->to_html_page('page/pubbirdegg.html');
 	}
 	
 	/**
