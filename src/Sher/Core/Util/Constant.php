@@ -61,6 +61,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const DIG_TOPIC_TOP = 'dig_topic_top';  // 全部置顶主题列表
     # 版块置顶
     const DIG_TOPIC_CATEGROY = 'dig_topic_category';
+
+  #大赛抽奖统计
+  const DIG_MATCH_PRAISE_STAT = 'dig_match_praise_stat';
 	
 	const FEATURED_STUFF = 'featured_stuff_list';
 
