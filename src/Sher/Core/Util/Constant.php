@@ -184,11 +184,50 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      */
     const EVENT_STATE_DONE = 100;
     
+
+    const TRANS_TYPE_IN = 1;
+
+    const TRANS_TYPE_OUT = -1;
+
+    /**
+     * 初始交易
+     */
+    const TRANS_STATE_INIT = 0;
+    /**
+     * 事务进行中
+     */
+    const TRANS_STATE_PENDING = 10;
+    /**
+     * 事务完成
+     */
+    const TRANS_STATE_OK = 100;
+    /**
+     * 事务已经取消
+     */
+    const TRANS_STATE_CANCELED = -1;
+
+    /*
+     * 未记账
+     */
+    const POINT_ACCOUNT_STATE_NEW = 0;
+    /**
+     * 已记账
+     */
+    const POINT_ACCOUNT_STATE_DOING = 1;
+    /**
+     * 已结帐
+     */
+    const POINT_ACCOUNT_STATE_DONE = 0;
+    
+    
+    ## 记数器
+    const USER_AUTO_GEN_COUNT = 'user_auto_gen';
+    
+    
     /**
      * 版块置顶key
      */
     public static function top_topic_category_key($category_id){
         return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
     }
-    
 }

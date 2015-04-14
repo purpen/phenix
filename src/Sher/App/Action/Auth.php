@@ -211,6 +211,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             $visitor[$k] = isset($login_user_data[$k])?$login_user_data[$k]:null;
         }
 		
+        // 增加积分
+        $service = Sher_Core_Service_Point::instance();
+        // 登录
+        $service->send_event('evt_login', $user_id);
+        
 		return $this->ajax_json('欢迎回来.', false, null, $visitor);
 	}
 	
@@ -272,6 +277,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             $redirect_url = '/';
         }
         $this->clear_auth_return_url();
+        
+        // 增加积分
+        $service = Sher_Core_Service_Point::instance();
+        // 登录
+        $service->send_event('evt_login', $user_id);
 		
 		return $this->ajax_json($third_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
 	}

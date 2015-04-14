@@ -137,6 +137,50 @@ function erase_cookie(name, domain, path){
 }
 
 
+pip
+pip也是一个包管理工具，它和setuptools类似，如果使用virtualenv，会自动安装一个pip。
+
+# pip install PACKAGE           # 安装包
+# pip -f URL install PACKAGE    # 从指定URL下载安装包
+# pip -U install PACKAGE        # 升级包
+
+virtualenv
+virtualenv是一个Python环境配置和切换的工具，可以用它配置多个Python运行环境，和系统中的Python环境隔离，即所谓的沙盒。沙盒的好处包括：
+
+解决库之间的版本依赖，比如同一系统上不同应用依赖同一个库的不同版本。
+解决权限限制，比如你没有 root 权限。
+尝试新的工具，而不用担心污染系统环境。
+$ virtualenv py-for-web
+这样就创建了一个名为py-for-web的Python虚拟环境，实际上就是将Python环境克隆了一份。然后可以用 source py-for-web/bin/activate 命令来更新终端配置，修改环境变量。接下来的操作就只对py-for-web环境产生影响了，可以使用 pip 命令在这里安装包，当然也可以直接安装。
+
+$ source py-for-web/bin/activate    # 启用虚拟环境
+$ deactivate                        # 退出虚拟环境
+有个virtualenv-sh包，对virtualenv做了一些终端命令的增强。安装之后，在~/.bashrc中添加配置：
+
+. /usr/local/bin/virtualenv-sh.bash
+它提供的几个常用的命令如：
+
+mkvirtualenv <env_name>     在$WORKON_HOME创建虚拟环境
+rmvirtualenv <env_name>     删除虚拟环境
+workon [<env_name>]         切换到虚拟环境
+deactivate                  退出虚拟环境
+lsvirtualenvs               列出全部的虚拟环境
+cdvirtualenv [subdir]       进入虚拟环境的相应目录
+$WORKON_HOME 的默认值为 ${HOME}/.virtualenvs 。
+
+Supervisord管理
+Supervisord安装完成后有两个可用的命令行supervisor和supervisorctl，命令使用解释如下：
+
+supervisord，初始启动Supervisord，启动、管理配置中设置的进程。
+supervisorctl stop programxxx，停止某一个进程(programxxx)，programxxx为[program:chatdemon]里配置的值，这个示例就是chatdemon。
+supervisorctl start programxxx，启动某个进程
+supervisorctl restart programxxx，重启某个进程
+supervisorctl stop groupworker: ，重启所有属于名为groupworker这个分组的进程(start,restart同理)
+supervisorctl stop all，停止全部进程，注：start、restart、stop都不会载入最新的配置文件。
+supervisorctl reload，载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程。
+supervisorctl update，根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受影响而重启。
+注意：显示用stop停止掉的进程，用reload或者update都不会自动重启。
+
 
 
 

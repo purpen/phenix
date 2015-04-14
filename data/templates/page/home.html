@@ -2,71 +2,10 @@
 
 {% block page_css %}
 <style type="text/css">
-	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-		display: block;
-	}
-	.hero {
-		height: 500px;
-	}
-	.hero .slidee li > div.container {
-	    margin: 0 auto;
-	}
-	.hero .slidee li {
-		width: 100%;
-	}
-	@media only screen and (min-width: 990px) and (max-width:1040px){
-		.ui.grid>.column{
-			padding-right:0 !important;
-			padding-left:0 !important;
-		}
-	}
-	header.main .search.item{
-		width:30%;
-	}
 	
-  @media only screen and (max-width: 991px){
-    .header.main .search.item {
-      width: 18% !important;
-    }
-  }
 
-  .together a img {
-    margin: 5px;
-    border: 1px solid #ccc;
-    width:150px;
-  }
-
-  .ui.together.block {
-    padding-bottom: 4.5rem;
-  }
-  .ui.small.vote.block {
-    padding-bottom: 1.5rem;
-    padding-top: 0.5rem !important;
-  }
-  .hero .next, .hero .prev {
-    bottom: 50px;
-  }
-  #ft {
-    padding:0 0 2em;
-  }
-  #homepage .sticktopic .block.title {
-	  margin-bottom: 2rem;
-  }
-	
-	#homepage #fixedslide+.ui.block .ui.three.items .magenta.item .image+.content{
-		margin-left: 0;
-		padding: 10px !important;
-		padding-bottom: 55px !important;
-		height: 140px;
-	}
-	.i-stats {
-		position: absolute;
-		padding-top: 33px;
-		bottom: 10px;
-		left: 10px;
-		right: 10px;
-		background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 26%);
-	}
+  
+  
 	/*#fixedslide .pages>a{
 		height: 10px;
 		margin: 0 8px;
@@ -129,35 +68,7 @@
 	}*/
 	
 	
-	.groom.blocks .block .image{
-		  background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
-		  background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
-		  background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
-		  overflow: hidden;
-		  background-color: rgba(56,67,77,.9);
-		  background-position: center center;
-		  background-repeat: no-repeat;
-		  -webkit-background-size: cover;
-		  background-size: cover;
-	}
-	.groom.blocks .block .image a{
-			position:absolute;
-			width:100%;
-			height:100%;
-			top:0;
-			left:0;
-	}
-	.ui.two.groom.blocks > .block:hover{
-		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
-		 box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
-		border:0px solid #fff !important;
-	}
-	.block.title > span {
-	  font-size: 1rem;
-		color: rgba(0,0,0,.6);
-	  margin-top: 14px;
-	  float: right;
-	}
+	
     
 </style>
 {% endblock %}
@@ -337,9 +248,9 @@
                         <div class="eight wide column">
         					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
         					{% if ad %}
-        					<div class="advert content">
+        					<div class="advert content" style="background-image:url({{ ad.cover.fileurl }});">
         						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-        				      		<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />
+        				      		<!--<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />-->
         						</a>
         						<div class="bword">
         							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>

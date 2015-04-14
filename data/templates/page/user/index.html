@@ -2,18 +2,33 @@
 {% block title %}{{ user.screen_name }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.user-head {
-	text-align: center;
-	background:url('{{ app_url_packaged }}/images/bg-user-home.jpg') no-repeat ;
-	min-height: 380px;
-	padding-top: 1.5em;
-	color: #fff;
+.user.masthead {
+	color: white;
+    background-color: rgba(56, 67, 77, 0.9);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.user-head .summary {
-	font-size: 0.875em;
+.user.masthead .container {
+    padding: 100px 0 60px;
+    text-align: center;
 }
-.user-head > .ui.avatar {
+.user.masthead .container .summary {
+	font-size: 0.875rem;
+}
+.user.masthead .container .avatar {
 	border: 3px solid #FFFFFF;
+}
+.ui.user.tabox {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0.5rem auto 1.5rem;
+}
+.ui.user.tabox .ui.tabs .tab {
+    font-size: 1.1rem;
+    margin: 0 1rem;
+}
+.user.center {
+    padding:1.5rem 0 3rem;
 }
 .user.center h3 a.ui.small{
 	float: right;
@@ -179,48 +194,59 @@ color: rgba(0,0,0,.45);
 {% endblock %}
 
 {% block content %}
-<div class="user center">
+<div class="user masthead" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ last_char |default 0 }}.jpg');">
+    <div class="masthead-cover">
+    	<div class="ui responsive grid">
+    		<div class="row">
+    			<div class="column">
+    				<div class="container">
+                        <img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
+                    
+                    	<h2 class="ui header">
+                    		{{ user.nickname }}
+                    	</h2>
+                    	<p>
+                    		<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
+                    	</p>
+                    	<p class="summary">{{ user.summary }}</p>
+                    	{% if user._id != visitor.id %}
+                    	{% if !is_ship %}
+                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
+                    		关注 
+                    	</a>
+                    	{% else %}
+                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                    	{% endif %}
+
+                    	<button class="ui small white letter button">
+                    		私信
+                    	</button>
+                    	{% endif %}
+                    </div>
+    			</div>
+    		</div>
+        </div>
+    </div>
+</div>
+
+<div class="user submenu ui tabox">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="column">
-				<div class="user-head">
-					<img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
-					<h2 class="ui header">
-						{{ user.nickname }}
-					</h2>
-					<p>
-						<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
-					</p>
-					<p class="summary">{{ user.summary }}</p>
-					{% if user._id != visitor.id %}
-					{% if !is_ship %}
-					<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
-						关注 
-					</a>
-					{% else %}
-					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
-					{% endif %}
-					
-					<button class="ui small white letter button">
-						私信
-					</button>
-					{% endif %}
+			<div class="center alinged column">
+				<div class="ui five tabs">
+					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} tab">动态</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/submitted" class="ui {{ css_tab_submitted }} tab">发起的产品</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} tab">支持的产品</a>
+					<a href="{{ app_url_user }}/{{ user._id }}/like" class="ui {{ css_tab_like }} tab">喜欢的产品</a>
 				</div>
 			</div>
 		</div>
-		
+	</div>
+</div>
+
+<div class="user center">
+	<div class="ui responsive grid">		
 		<div class="row">
-			<div class="center aligned submenu column">
-				<div class="ui magenta buttons">
-					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} button">全部</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/submitted" class="ui {{ css_tab_submitted }} button">发起的产品</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} button">支持的产品</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/like" class="ui {{ css_tab_like }} button">喜欢的产品</a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="ui row">
 			{% if css_tab_all %}
 			<div class="eleven wide column">
 				<h3 class="ui header">他的动态</h3>
@@ -230,87 +256,7 @@ color: rgba(0,0,0,.45);
 				  		{% include 'block/timeline_product_item.html' %}
 					{% endfor %}
 				</div>
-
-        <!--
-				<h3 class="ui header">发表的话题 <a class="ui small link"href="">查看全部 > </a></h3>
-				<div class="ui published selection list">
-					<div class="item">
-				    	<div class="content">
-				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">深圳站【设计让产品更性感】太火鸟</a>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-							  		
-								</a>
-								发表于
-								<a class="ui link" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
-							  		
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-				    	<div class="content">
-				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">深圳站【设计让产品更性感】太火鸟</a>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-							  		
-								</a>
-								发表于
-								<a class="ui link" href="" title="">
-							  		
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<h3 class="ui header">全部动态<a class="ui small link"href="">查看全部 > </a></h3>
-				<div class="ui dynamic selection list">
-					<div class="item">
-						<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header">收藏了话题</div>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-									深圳站【设计让产品更性感】太火鸟
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header">发表了话题</div>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-									深圳站【设计让产品更性感】太火鸟
-								</a>
-								
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header">回复了话题</div>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-									深圳站【设计让产品更性感】太火鸟
-								</a>
-								
-							</div>
-						</div>
-					</div>
-				</div>	
-
-      -->
 			</div>
-
 			<div class="five wide column">
 				<h3 class="ui header">相关话题</h3>
 				{% topic_list var:'topic' page:1 user_id:user._id size:5 %}
@@ -337,7 +283,7 @@ color: rgba(0,0,0,.45);
 					{% endfor %}
 				</div>
 
-        <!--
+                <!--
 				<div class="menu">
 					<div class="attention">
 						<div class="content">
@@ -381,7 +327,7 @@ color: rgba(0,0,0,.45);
 						<i class="flat icon icon_douban"></i>
 					</a>
 				</div>
-        -->
+                -->
 			</div>
 			{% else %}
 			<div class="column">
@@ -400,14 +346,16 @@ color: rgba(0,0,0,.45);
 						<!--我提交的产品-->
 						{% product_list var:'list' page:page user_id:user._id %}
 						{% for product in list.rows %}
-              {% if user._id == visitor.id %}
-                {% if product.stage == 1 %}
-                  {% include 'block/product_vote_item.html' %}
-                {% endif %}
-              {% endif %}
+                            {% if user._id == visitor.id %}
+                                {% if product.stage == 1 %}
+                                    {% include 'block/product_vote_item.html' %}
+                                {% endif %}
+                            {% endif %}
+                            
 							{% if product.stage == 9 %}
 					  			{% include 'block/product_item.html' %}
 							{% endif %}
+                            
 							{% if product.stage == 5 %}
 					  			{% include 'block/product_presale_item.html' %}
 							{% endif %}
@@ -427,68 +375,16 @@ color: rgba(0,0,0,.45);
 			</div>
 			{% endif %}
 		</div>
-		
-		<!--
-		<div class="ui hide row">
-			<div class="eleven wide column">
-				<h3 class="ui header">全部动态</h3>
-				<div class="time">
-					1天前
-				</div>
-				<div class="right aligned date">
-					2014-11-25
-				</div>
-			</div>
-			<div class="eleven wide column">
-				<div class="ui dynamic selection list">
-					<div class="item">
-				    	<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header inline">noofoo</div>
-							<div class="description fsize inline">
-									关注了你
-							</div>
-						</div>
-						<div class="right aligned btn">
-							<a href="" class="ui magenta btn-4 btn-4c btn">
-								+ 关注
-							</a>
-						</div>
-					</div>
-					
-					<div class="item">
-				    	<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header inline">noofoo</div>
-							<div class="description fsize inline">
-								收藏了话题
-							</div>
-							<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-								深圳站【设计让产品更性感】太火鸟
-							</a>
-						</div>
-					</div>
-					
-          -->
-					
-					
-				</div>
-			</div>
-			<div class="five wide column">
-			</div>
-		</div>
-		
-		{% if list.total_rows %}
-		<div class="ui pagination">
-			{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-			{%include 'block/pager.html'%}
-		</div>
-		{% endif %}
-		
+        <div class="row">
+            <div class="column">
+        		{% if list.total_rows %}
+        		<div class="ui pagination">
+        			{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        			{%include 'block/pager.html'%}
+        		</div>
+        		{% endif %}
+            </div>
+        </div>
 	</div>
 </div>
 

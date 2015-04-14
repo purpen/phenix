@@ -51,6 +51,12 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
                 $product->inc_counter('vote_oppose_count', 1, $this->data['target_id']);
             }
             
+            // 增加积分
+            $service = Sher_Core_Service_Point::instance();
+            
+            // 投票他人创意
+            $service->send_event('evt_vote_idea', $this->data['user_id']);
+            
             // 如果是投票,添加提醒
             if($this->data['event'] == self::EVENT_VOTE){
                 if($this->data['ticket'] == self::TICKET_FAVOR){
@@ -64,6 +70,9 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
                 // 获取目标用户ID
                 $data = $product->extend_load($this->data['target_id']);
                 $user_id = $data['user_id'];
+                
+                // 创意被他人投票
+                $service->send_event('evt_by_vote_idea', $user_id);
 
                 // 添加提醒
                 /*

@@ -5,7 +5,7 @@
  */
 class Sher_Core_Model_UserPointDaily extends Sher_Core_Model_Base {
     protected $collection = 'points.daily';
-
+    protected $mongo_id_style = self::MONGO_ID_CUSTOM;
 
     protected $schema = array(
         // 使用复合主键, 减少额外索引
@@ -13,14 +13,9 @@ class Sher_Core_Model_UserPointDaily extends Sher_Core_Model_Base {
             'user_id' => null,
             'day' => null,
         ),
-        // 积分余额
-        // 期初积分余额
-        'beginning_balance' => array(),
-        // 当日发生额
-        //  point_code =>  value
-        'current_amount' => array(),
-        // 期初发生额
-        'ending_balance' => array(),
+        //积分类型
+        'exp' => 0,
+        'money' => 0,
         //是否结帐标记
         'done' => false,
     );
