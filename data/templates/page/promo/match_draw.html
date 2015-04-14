@@ -36,6 +36,10 @@
 		var open = false;
 	
 		function change(){
+      if(alldata.length==0){
+        show.text('已抽完');
+        return;
+      }
 			var randomVal = Math.round(Math.random() * num);
 			var prizeName = alldata[randomVal].praise;
 			show.text(prizeName);
@@ -53,12 +57,19 @@
 				clearInterval(timer);
 				btn.removeClass('stop').addClass('start').text('开始抽奖');
 				open = false;
+        if(alldata.length==0){
+          show.text('已抽完');
+          return;
+        }
+
         var praise = $('#show').text();
         var account = $('#show').attr('account');
+        var account_f = account.substring(0,3) +'***'+ account.substring(7,11);
         var user = $('#show').attr('user');
         var current = $('#show').attr('current');
-        $('#item-list').append('<div><span class="item">'+ account +'</span></div>');
+        $('#item-list').append('<div><span class="item">'+ account_f +'</span></div>');
         alldata.splice(current, 1);
+
 			}
 		}
 		
