@@ -1,0 +1,360 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}校园人气争霸-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	header.ui.wap{
+		display:none !important;
+		opacity:0;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	.mmfoot{
+		display:none;
+	}
+	* { -webkit-appearance: none; }
+
+	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+	.wrap {
+	width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+	}
+	.fp-table {
+		display: table;
+		width: 100%;
+	}
+	.fp-tableCell {
+		display: table-cell;
+		width: 100%;
+		height: 100%;
+		position:relative;
+	}
+	.fp-section.fp-table{
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+	
+	
+	.fp-slides {
+	z-index: 1;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	-webkit-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	}
+	.fp-slidesContainer {
+	float: left;
+	position: relative;
+	}
+	.fp-section.fp-table, .fp-slide.fp-table {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	}
+	.fp-slide, .fp-slidesContainer {
+	height: 100%;
+	display: block;
+	}
+	.fp-slide {
+	float: left;
+	}
+	.fp-controlArrow.fp-next:before {
+		font-family: "FontFlatIcons";
+		font-size: 27px;
+		line-height: 1;
+		display: inline-block;
+		content: '\e0d3';
+	}
+	.fp-controlArrow.fp-next{
+		-webkit-animation: arrowRt 1.5s linear infinite;
+		-moz-animation: arrowRt 1.5s linear infinite;
+		animation: arrowRt 1.5s linear infinite;
+	}
+	.fp-controlArrow.fp-next {
+		right: 0px;
+		display: inline-block;
+		opacity: .75;
+		color: #FFF;
+		margin: 0 .25em 0 0;
+		width: 1.23em;
+		height: 1em;
+		font-family: FontFlatIcons;
+		font-style: normal;
+		line-height: 1;
+		font-weight: 400;
+		text-decoration: inherit;
+		text-align: center;
+		speak: none;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		-webkit-font-smoothing: antialiased;
+		-moz-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	.fp-controlArrow.fp-prev:before{
+		font-family: "FontFlatIcons";
+		font-size: 27px;
+		line-height: 1;
+		display: inline-block;
+		content: '\e010';
+	}
+	.fp-controlArrow.fp-prev {
+		-webkit-animation: arrowUp 1.5s linear infinite;
+		-moz-animation: arrowUp 1.5s linear infinite;
+		animation: arrowUp 1.5s linear infinite;
+	}
+	.fp-controlArrow.fp-prev {
+		left: 0px;
+		display: inline-block;
+		opacity: .75;
+		color: #FFF;
+		margin: 0 .25em 0 0;
+		width: 1.23em;
+		height: 1em;
+		font-family: FontFlatIcons;
+		font-style: normal;
+		line-height: 1;
+		font-weight: 400;
+		text-decoration: inherit;
+		text-align: center;
+		speak: none;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		box-sizing: border-box;
+		-webkit-font-smoothing: antialiased;
+		-moz-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	.fp-controlArrow{
+		top: 50%;
+		font-size: 27px;
+		margin-top: -80px;
+	}
+	.fp-controlArrow {
+		position: absolute;
+		z-index: 4;
+		cursor: pointer;
+	}
+	
+	@media only screen and (min-width: 415px){
+		.s1-1 {
+		  width: 62%;
+			margin: 0 19%;
+		}
+		.s1-2 {
+		  width: 62%;
+			margin: 0 19%;
+			position: absolute;
+			margin-top: -20%;
+		}
+		.s2-1,.s2-8{
+			width: 68%;
+		  margin: 0 16%;
+		}
+		.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7{
+			width:26%;
+		}
+		
+		
+		
+		
+	}
+	.page-1{
+		background:url({{ app_url_packaged }}/images/match/h2_2.jpg) no-repeat;
+		background-position:center bottom;
+		background-size:cover;
+	}
+	.active .page-fadeInDown{
+		-webkit-animation:fadeInDown 1s 0.4s ease both;
+		-moz-animation:fadeInDown 1s 0.4s ease both;
+		animation:fadeInDown 1s 0.4s ease both;
+	}
+	.active .page-fadeout{
+		-webkit-animation:fadeout 0.5s 1.5s ease both;
+		-moz-animation:fadeout 0.5s 1.5s ease both;
+		animation:fadeout 0.5s 1.5s ease both;
+	}
+	
+	@-webkit-keyframes fadeInDown {
+		0%{-webkit-transform:scale(0.9);opacity:0.8;}
+		100%{-webkit-transform:scale(1.06);opacity:1;}
+	}
+	@-moz-keyframes fadeInDown {
+		0%{-webkit-transform:scale(0.9);opacity:0.8;}
+		100%{-webkit-transform:scale(1.06);opacity:1;}
+	}
+	@keyframes fadeInDown {
+		0%{-webkit-transform:scale(0.9);opacity:0.8;}
+		100%{-webkit-transform:scale(1.06);opacity:1;}
+	}
+	@-webkit-keyframes fadeout {
+		0%{-webkit-transform:scale(3);opacity:0;}
+		100%{-webkit-transform:scale(1);opacity:1;}
+	}
+	@-moz-keyframes fadeout {
+		0%{-webkit-transform:scale(3);opacity:0;}
+		100%{-webkit-transform:scale(1);opacity:1;}
+	}
+	@keyframes fadeout {
+		0%{-webkit-transform:scale(3);opacity:0;}
+		100%{-webkit-transform:scale(1);opacity:1;}
+	}
+	@-webkit-keyframes rota {
+		0%{-webkit-transform:rotateY(90deg);}
+		100%{-webkit-transform:rotateY(0deg);}
+	}
+	@-moz-keyframes rota {
+		0%{-webkit-transform:rotateY(90deg);}
+		100%{-webkit-transform:rotateY(0deg);}
+	}
+	@keyframes rota {
+		0%{-webkit-transform:rotateY(90deg);}
+		100%{-webkit-transform:rotateY(0deg);}
+	}
+	.rota{
+		-webkit-animation:rota 0.4s 0s cubic-bezier(0.4, 0, 0.2, 1);
+		-moz-animation:rota 0.4s 0s cubic-bezier(0.4, 0, 0.2, 1);
+		animation:rota rota 0.4s 0s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.rota1{
+		-webkit-animation:rota 0.4s 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		-moz-animation:rota 0.4s 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		animation:rota rota 0.4s 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.rota2{
+		-webkit-animation:rota 0.4s 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		-moz-animation:rota 0.4s 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		animation:rota rota 0.4s 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.s2-5,.s2-6,.s2-7{
+		opacity:0;
+	}
+	.s2-8{
+		height:0;
+	}
+	
+</style>
+{% endblock %}
+
+{% block layout_js %}
+		<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+		<script type="text/javascript" >
+			$('.wrap').fullpage({
+				'verticalCentered': true,
+				'sectionsColor':['#000','#091f35','#091f35','#091f35','#091f35'],
+				'css3':true,
+				'slidesNavigation': true,
+				afterRender: function(){
+							$('.s1-1').addClass('page-fadeInDown');
+							$('.s1-2').addClass('page-fadeout');
+				},
+				afterLoad: function(anchorLink, index){
+							if(index == 2){
+								$('.s2-2').addClass('rota');
+								$('.s2-3').addClass('rota1');
+								$('.s2-4').addClass('rota2');
+								$('.s2-5').delay(0).animate({
+	                opacity:'1',
+	              },1500,'easeOutExpo');
+								$('.s2-6').delay(400).animate({
+	                opacity:'1',
+	              },1500,'easeOutExpo');
+								$('.s2-7').delay(800).animate({
+	                opacity:'1',
+	              },1500,'easeOutExpo');
+								$('.s2-8').delay(800).animate({
+	                height:'287px',
+	              },2500,'easeOutExpo');
+	           }
+
+				},
+				onLeave: function(index, direction){
+							if(index == 2){
+								$('.s2-2').removeClass('rota');
+								$('.s2-3').removeClass('rota1');
+								$('.s2-4').removeClass('rota2');
+								$('.s2-5').delay(0).animate({
+	                opacity:'0',
+	              },1500,'easeOutExpo');
+								$('.s2-6').delay(400).animate({
+	                opacity:'0',
+	              },1500,'easeOutExpo');
+								$('.s2-7').delay(800).animate({
+	                opacity:'0',
+	              },1500,'easeOutExpo');
+								$('.s2-8').delay(100).animate({
+	                height:'0',
+	              },500,'easeOutExpo');
+	           }
+				},
+			});
+		</script>
+{% endblock %}
+
+{% block jquery %}
+	/*bgm = new Audio5js({
+      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+      bgm.playPause();
+  });*/
+{% endblock %}
+{% block content %}
+<div class="wrap">
+	<div class="section page-1">
+		<img src="{{ app_url_packaged }}/images/match/h2_1.jpg" class="s1-1">
+		<img src="{{ app_url_packaged }}/images/match/h2_3.png" class="s1-2">
+	</div>
+	<div class="section page-2">
+		<img src="{{ app_url_packaged }}/images/match/h2_4.jpg" class="s2-1">
+		<div class="ui center aligned responsive grid">
+			<img src="{{ app_url_packaged }}/images/match/h2_5.jpg" class="s2-2">
+			<img src="{{ app_url_packaged }}/images/match/h2_6.jpg" class="s2-3">
+			<img src="{{ app_url_packaged }}/images/match/h2_7.jpg" class="s2-4">
+			<img src="{{ app_url_packaged }}/images/match/h2_8.jpg" class="s2-5">
+			<img src="{{ app_url_packaged }}/images/match/h2_9.jpg" class="s2-6">
+			<img src="{{ app_url_packaged }}/images/match/h2_10.jpg" class="s2-7">
+		</div>
+		<img src="{{ app_url_packaged }}/images/match/h2_11.jpg" class="s2-8">
+		
+		
+		
+		
+	</div>
+	<div class="section page-3">
+	
+	</div>
+	<div class="section page-4">
+	
+	</div>
+	
+	
+</div>
+	
+	
+{%endblock%}
+	
+	
+	
