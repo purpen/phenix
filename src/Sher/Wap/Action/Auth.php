@@ -221,7 +221,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       
       while(!$is_exist_random){
         $match_random = rand(1000, 9999);
-        $is_exist_random = in_array($match_random, $items_arr)?true:false;
+        $is_exist_random = in_array($match_random, $items_arr)?false:true;
       }
 
       $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random);
