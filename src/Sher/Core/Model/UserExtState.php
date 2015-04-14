@@ -9,22 +9,11 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     protected $schema = array(
         '_id' => null,
         // 等级状态
-        'rank_id' => 2,
-        'next_rank_id' => 3,
-        //当前等级积分
+        'rank_id' => 1,
+        'next_rank_id' => 2,
+        // 当前等级积分
         'rank_point' => 0,
-        //升级所需等级积分
-        'rank_upgrade_point' => 30,
-        //积分日结控制表, d+日期为键值, d20150101
-        // daily_point_limit => array(
-        //     d20150301 => array(
-        //          evt_login => array(exp => 50),
-        //),
-        //  ),
-        //
-        'daily_point_limit' => array(),
-        //积分日结控制表, m+月份为键值, 如m201501
-        'month_point_limit' => array(),
+        // 升级所需等级积分
     );
     protected $joins = array(
         'user_rank' => array('rank_id' => 'Sher_Core_Model_UserRankDefine'),
@@ -37,6 +26,16 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     // protected $updated_timestamp_fields = array('updated_on');
 
     protected function extra_extend_model_row(&$row) {
+        $user_rank = $row['user_rank'];
+        if (empty($user_rank)) {
+            return;
+        }
+        $total_point = isset($user_rank['point_amount'])?$user_rank['point_amount']: 0;
+        if (empty($total_point)) {
+            return;
+        }
+        $percent = round($row['rank_point'] / $total_point * 100, 2);
+        $row['upgrade_percent'] = $percent;
     }
     
     //~ some event handles
@@ -46,5 +45,9 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
     }
     protected function validate() {
         return true;
+    }
+
+    public function init_record($user_id){
+        return $this->create(array('_id' => $user_id));
     }
 }

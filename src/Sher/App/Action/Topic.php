@@ -407,6 +407,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
 			$model = new Sher_Core_Model_Topic();
 			$model->mark_as_stick((int)$id);
 			
@@ -427,6 +431,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+            
 			$model = new Sher_Core_Model_Topic();
 			$model->mark_cancel_stick((int)$id);
 			
@@ -447,9 +456,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
 			$model = new Sher_Core_Model_Topic();
-			$model->mark_as_fine((int)$id);
-			
+			$ok = $model->mark_as_fine((int)$id);
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}
@@ -467,6 +479,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
 			$model = new Sher_Core_Model_Topic();
 			$model->mark_cancel_fine((int)$id);
 			
@@ -489,7 +505,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
 		Doggy_Log_Helper::debug("Top Topic [$id][$tv]!");
 		try{
-			if (!$this->visitor->can_admin()){
+			if (!$this->visitor->can_edit()){
 				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
@@ -535,7 +551,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
-			if (!$this->visitor->can_admin()){
+			if (!$this->visitor->can_edit()){
 				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
@@ -569,7 +585,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 提交创意
 	 */
 	public function submit(){
-
 		$cid = $this->stash['cid'];
 		// 是否为一级分类
 		$is_top = true;
@@ -579,19 +594,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		$category = new Sher_Core_Model_Category();
 		// 获取当前分类信息
-    if($cid){
-      $current_category = $category->load((int)$cid);
-      // 存在父级分类，标识是二级分类
-      if (!empty($current_category['pid'])){
-        $is_top = false;
-        // 获取父级分类
-        $parent_category = $category->extend_load((int)$current_category['pid']);
-      }   
-    }else{
-      $is_top = true;
-      $parent_category = 0;
-      $current_category = 0;
-    }
+        if($cid){
+            $current_category = $category->load((int)$cid);
+            // 存在父级分类，标识是二级分类
+            if (!empty($current_category['pid'])){
+                $is_top = false;
+                // 获取父级分类
+                $parent_category = $category->extend_load((int)$current_category['pid']);
+            }   
+        }else{
+            $is_top = true;
+            $parent_category = 0;
+            $current_category = 0;
+        }
 
 		$this->stash['is_top'] = $is_top;
 		$this->stash['current_category'] = $current_category;
@@ -946,19 +961,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
-
-  /**
-   * 评论参数
-   */
-  protected function _comment_param($options){
-    $this->stash['comment_target_id'] = $options['comment_target_id'];
-    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
-    $this->stash['comment_type'] = $options['comment_type'];
+    
+    /**
+     * 评论参数
+     */
+    protected function _comment_param($options){
+        $this->stash['comment_target_id'] = $options['comment_target_id'];
+        $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+        $this->stash['comment_type'] = $options['comment_type'];
 		// 评论的链接URL
 		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
 
-    //是否显示图文并茂
-    $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
 		// 评论图片上传参数
 		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
@@ -967,4 +982,3 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
   }
 
 }
-?>

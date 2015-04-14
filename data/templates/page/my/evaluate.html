@@ -42,15 +42,15 @@
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
-			{% include "block/user/sub_menu.html" %}
+			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
 			<div class="ui middle aligned grid">
 				<div class="row">
-					<div class="six wide column">
+					<div class="four wide column">
 						<h3 class="ui header">我的订单</h3>
 					</div>
-					<div class="right aligned ten wide column">
+					<div class="right aligned twelve wide column">
 						<div class="ui horizontal bulleted list">
 							<div class="item">
 								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
@@ -156,7 +156,7 @@
 												<textarea name="content" class="comment-textarea" ></textarea>
 											</div>
 											<div class="right aligned column">
-												<input type="submit" class="ui small magenta button" value="提交评价" />
+												<input type="submit" class="ui magenta inverted button" value="提交评价" />
 											</div>
 										</form>
 									</td>

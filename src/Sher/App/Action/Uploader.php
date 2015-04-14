@@ -114,14 +114,32 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		if(empty($qkey)){
 			return $this->ajax_note('生成数据错误,请重新提交',true);
 		}
+        
+        // 验证是否第一次修改
+        $avatar = $this->visitor->avatar;
+        if(empty($avatar)){
+            $first_update = true;
+        }else{
+            $first_update = flase;
+        }
 		
 		// 更新用户头像
-		$this->visitor->update_avatar(array(
+		$ok = $this->visitor->update_avatar(array(
 			'big' => $qkey,
 			'medium' => $qkey,
 			'small' => $qkey,
 			'mini' => $qkey
 		));
+        
+        // 初次修改
+        if($first_update){
+            // 增加积分
+            $service = Sher_Core_Service_Point::instance();
+            // 上传头像
+            $service->send_event('evt_upload_avatar', $this->visitor->id);
+            // 鸟币
+            $service->make_money_in($this->visitor->id, 2, '上传头像赠送鸟币');
+        }
 		
 		$avatar = array();
 		$avatar['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avb.jpg');

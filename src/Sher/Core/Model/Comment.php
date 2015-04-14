@@ -77,10 +77,18 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 case self::TYPE_PRODUCT:
                     $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
                     $model = new Sher_Core_Model_Product();
-                    //获取目标用户ID
+                    // 获取目标用户ID
                     $product = $model->find_by_id((int)$this->data['target_id']);
                     $user_id = $product['user_id'];
                     $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
+                    
+                    // 增加积分
+                    $service = Sher_Core_Service_Point::instance();
+                    // 好评+评论
+                    $service->send_event('evt_buy_good_comment', $this->data['user_id']);
+                    // 鸟币
+                    $service->make_money_in($this->data['user_id'], 5, '好评赠送鸟币');
+                    
                     break;
                 case self::TYPE_TRY:
                     $kind = Sher_Core_Model_Remind::KIND_TRY;
@@ -101,6 +109,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 default:
                     break;
             }
+            
             if($user_id){
               $user = new Sher_Core_Model_User();
               $user->update_counter_byinc($user_id, 'comment_count', 1);          

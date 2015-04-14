@@ -12,7 +12,7 @@
 		<a class="{{ css_point }} item" href="{{ app_url_admin }}/point/point_record_list">积分记录</a>
 		<a class="{{ css_event }} item" href="{{ app_url_admin }}/point/event_record_list">事件记录</a>
 	</div>
-	{% event_record_list var:'list' page:page  %}
+	{% event_record_list var:'list' page:page size:50 %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -37,7 +37,7 @@
 				</td>
 				<td>{{record.event_code}}</td>
 				<td>{{record.make_point}}</td>
-				<td>{{record.sender}} [ {{record.sys_sender}} ]</td>
+				<td>{{record.sender}} {% if record.sys_sender %}[ {{record.sys_sender}} ]{% endif %}</td>
 				<td>{{record.extras_s}}</td>
 				<td>{{record.state}}</td>
 				<td>{{record.created_on|relative_datetime}}</td>

@@ -123,7 +123,11 @@ class DoggyX_Model_Mongo_Base {
         $this->data = $this->find_by_id($id);
         return $this->data;
     }
-    
+
+    public function reload() {
+        return $this->load($this->id);
+    }
+
     public function insert(array $data=array()) {
         return $this->create($data);
     }

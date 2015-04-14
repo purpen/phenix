@@ -267,7 +267,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
   			return $this->show_message_page('订单[$rid]金额为零！', false);  
     }
 
-    $trade_no = (int)$order_info['trade_no'];
+    $trade_no = $order_info['trade_no'];
     $trade_site = $order_info['trade_site'];
     //是否来自支付宝且第三方交易号存在
     if($trade_site != Sher_Core_Util_Constant::TRADE_ALIPAY || empty($trade_no)){
@@ -286,7 +286,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
       "partner" => trim($this->alipay_config['partner']),
       "seller_email"	=> $this->alipay_config['seller_email'],
       "refund_date"	=> $refund_date,
-      "batch_no"	=> (string)date('Ymd').(string)$trade_no,
+      "batch_no"	=> (string)date('Ymd').(string)$rid,
       "batch_num"	=> 1,
       "detail_data"	=> $detail_data,
       "_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
@@ -310,10 +310,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
   public function refund_notify(){
 		Doggy_Log_Helper::warn("Alipay refund notify !");
     //记录传回参数，测试用
-    $str = implode('&&', $this->stash);
-		Doggy_Log_Helper::warn("=======================");
-		Doggy_Log_Helper::warn("Alipay refund notify params: $str !");
-		Doggy_Log_Helper::warn("=======================");
+    //$str = implode('&&', $this->stash);
+		//Doggy_Log_Helper::warn("=======================");
+		//Doggy_Log_Helper::warn("Alipay refund notify params: $str !");
+		//Doggy_Log_Helper::warn("=======================");
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();

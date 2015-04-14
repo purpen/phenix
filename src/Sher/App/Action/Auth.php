@@ -211,6 +211,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             $visitor[$k] = isset($login_user_data[$k])?$login_user_data[$k]:null;
         }
 		
+        // 增加积分
+        $service = Sher_Core_Service_Point::instance();
+        // 登录
+        $service->send_event('evt_login', $user_id);
+        
 		return $this->ajax_json('欢迎回来.', false, null, $visitor);
 	}
 	
@@ -272,6 +277,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             $redirect_url = '/';
         }
         $this->clear_auth_return_url();
+        
+        // 增加积分
+        $service = Sher_Core_Service_Point::instance();
+        // 登录
+        $service->send_event('evt_login', $user_id);
 		
 		return $this->ajax_json($third_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
 	}
@@ -381,6 +391,31 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
           }
         
         }
+
+      //指定入口送抽奖码
+      if($this->stash['evt']=='match2_praise'){
+        $digged = new Sher_Core_Model_DigList();
+        $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+        $result = $digged->load($key_id);
+        //统计奖品号
+        $items_arr = array();
+        if(!empty($result) && !empty($result['items'])){
+          foreach($result['items'] as $k=>$v){
+            array_push($items_arr, $v['praise']);
+          }
+        }
+        $is_exist_random = false;
+        
+        while(!$is_exist_random){
+          $match_random = rand(1000, 9999);
+          $is_exist_random = in_array($match_random, $items_arr)?false:true;
+        }
+
+        $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random);
+        // 添加到统计列表
+        $digged->add_item_custom($key_id, $match_item);
+
+      }
 
         //周年庆活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){

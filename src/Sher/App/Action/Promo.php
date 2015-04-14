@@ -328,5 +328,26 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     }
   }
 
+  /**
+   * 大赛线下抽奖
+   */
+  public function match_draw(){
+    //管理员权限
+    if(!$this->visitor->can_admin){
+      //return $this->ajax_note("没有权限!", true); 
+    }
+    //抽奖名单
+    $digged = new Sher_Core_Model_DigList();
+    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    $result = $digged->load($key_id);
+    $this->stash['praises'] = array();
+    if(!empty($result) && !empty($result['items'])){
+      $this->stash['praises'] = $result['items'];
+    }
+
+		return $this->to_html_page('page/promo/match_draw.html');
+  
+  }
+
 }
 ?>
