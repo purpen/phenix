@@ -11,9 +11,9 @@ class Sher_Core_Model_UserExtState extends Sher_Core_Model_Base {
         // 等级状态
         'rank_id' => 1,
         'next_rank_id' => 2,
-        //当前等级积分
+        // 当前等级积分
         'rank_point' => 0,
-        //升级所需等级积分
+        // 升级所需等级积分
     );
     protected $joins = array(
         'user_rank' => array('rank_id' => 'Sher_Core_Model_UserRankDefine'),

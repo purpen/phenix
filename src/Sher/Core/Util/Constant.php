@@ -181,12 +181,6 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      */
     const EVENT_STATE_DONE = 100;
     
-    /**
-     * 版块置顶key
-     */
-    public static function top_topic_category_key($category_id){
-        return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
-    }
 
     const TRANS_TYPE_IN = 1;
 
@@ -221,4 +215,14 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * 已结帐
      */
     const POINT_ACCOUNT_STATE_DONE = 0;
+    
+    
+    
+    
+    /**
+     * 版块置顶key
+     */
+    public static function top_topic_category_key($category_id){
+        return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
+    }
 }

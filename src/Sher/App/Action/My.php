@@ -794,6 +794,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
      */
     public function point(){
         $this->set_target_css_state('user_point');
+        // 用户实时积分
+        $point_model = new Sher_Core_Model_UserPointBalance();
+        $current_point = $point_model->load($this->visitor->id);
+        
+        $this->stash['current_point'] = $current_point;
+        
         return $this->to_html_page('page/my/point.html');
     }
 }

@@ -46,28 +46,9 @@
         box-shadow: 0 0 0 1px rgba(0,0,0,.1);
         border-radius: .3125em;
     }
-		
-		/*.ui.celled.four.segment tr:nth-child(3n+1) td:nth-child(3){
-			border-bottom:0px solid rgba(0,0,0,0);
-		}
-		.ui.celled.four.segment tr:nth-child(3n+2) td:nth-child(3){
-			border-bottom:0px solid rgba(0,0,0,0);
-			border-top:0px solid rgba(0,0,0,0);
-		}
-		.ui.celled.four.segment tr:nth-child(3n+3) td:nth-child(3){
-			border-top:0px solid rgba(0,0,0,0);
-		}
-		.ui.celled.four.segment tr:nth-child(2n) td:nth-child(3){
-			background:#fff;
-		}
-		.ui.table tbody tr:nth-child(2n) {
-		  background-color: #fff;
-		}*/
-
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 
 {% endblock %}
@@ -116,6 +97,9 @@
                                 </div>
                                 <div class="item">
                                     经验值: <b>{{ user.ext_state.rank_point|default 0 }}</b>
+                                </div>
+                                <div class="item">
+                                    鸟币: <b>{{ current_point.balance.money|default 0 }}</b>
                                 </div>
                                 <!--
                                 <div class="item">
@@ -420,7 +404,7 @@
                                     <td>登陆太火鸟官网</td>
 																		<td></td>
                                     <td>2</td>
-                                    <td></td>
+                                    <td>每天上限10</td>
                                 </tr>
                                 <tr>
                                     <td>上传头像</td>
@@ -456,15 +440,15 @@
                                     <td>每天上限50</td>
                                 </tr>
 																<tr>
-																	  <td rowspan="18">分享及参与太火鸟官方活动</td>
-                                    <td rowspan="5">发表</td>
+																	  <td rowspan="19">分享及参与太火鸟官方活动</td>
+                                    <td rowspan="6">发表</td>
                                     <td>发表文章</td>
 																		<td></td>
                                     <td>10</td>
                                     <td>每天上限50</td>
                                 </tr>
 																<tr>
-                                    <td>发表精华文章（编辑审核加精华）</td>
+                                    <td>发表精华文章（编辑推荐或精华）</td>
 																		<td>5</td>
                                     <td>20</td>
                                     <td>每天上限50</td>
@@ -477,6 +461,12 @@
                                 </tr>
 																<tr>
                                     <td>文章被他人回复</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
+                                    <td>文章被他人收藏</td>
 																		<td></td>
                                     <td>2</td>
                                     <td>每天上限30</td>
@@ -502,7 +492,7 @@
                                     <td></td>
                                 </tr>
 																<tr>
-                                    <td>发表产品试用报告（编辑审核加精华）</td>
+                                    <td>发表产品试用报告（编辑推荐或精华）</td>
 																		<td>5</td>
                                     <td>20</td>
                                     <td></td>
@@ -556,14 +546,14 @@
                                     <td>1</td>
                                     <td>每天上限20</td>
                                 </tr>
-																<tr class="warning">
+																<tr class="disabled">
                                     <td rowspan="2">分享</td>
                                     <td>分享文章至朋友圈/微博</td>
 																		<td>1</td>
                                     <td>5</td>
                                     <td>每天上限20</td>
                                 </tr>
-																<tr class="warning">
+																<tr class="disabled">
                                     <td>分享商品至朋友圈/微博</td>
 																		<td>1</td>
                                     <td>5</td>

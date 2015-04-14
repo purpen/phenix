@@ -9,9 +9,9 @@ class Sher_Core_Model_PointEvent extends Sher_Core_Model_Base {
     protected $mongo_id_style = self::MONGO_ID_CUSTOM;
     protected $schema = array(
         'name' => null,
-//      日积分上限
+        # 日积分上限
         'daily_limit' => 0,
-        //月积分上限
+        # 月积分上限
         'month_limit' => 0,
         # 奖励积分
         'point_type' =>  null,
