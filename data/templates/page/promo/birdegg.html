@@ -1,0 +1,927 @@
+{%extends 'layout/sns.html'%}
+{% block title %}太火鸟 - 2015中国智能硬件蛋年创新大会专题报道{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	body{
+		background: #1c0318;
+		color:#fff;
+	}
+	.ui.social{
+		padding:0;
+	}
+	.ui.items {
+	  margin: 1rem 0 0;
+	}
+	.ui.items > .item,.ui.items > .item:hover{
+		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		cursor:auto;
+		background:rgba(0,0,0,0);
+	}
+	.block.title>small{
+		color: rgba(255,255,255,.7);
+		font-size:20px;
+	}
+	.block.title{
+		font-size:24px;
+		color:#fff;
+		padding: 15px 0 8px;
+	}
+	.ui.items > .item .image,.ui.items > .item .image img{
+		border-radius:0 !important;
+	}
+	.image a{
+		position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	}
+	.ui.w-1180.grid {
+	  width: 1180px;
+	  margin: 0 auto;
+	}
+	.ui.speak.items > .item,.ui.circle.items > .item{
+		  margin-bottom: 1.5rem;
+	}
+	.ui.speak.items .content,.ui.circle.items .content{
+		padding:0 !important;
+	}
+	.ui.speak.items .item .content h4,.ui.circle.items .item .content h4 {
+		margin: .6em 0 5px;
+		color:#fff;
+	}
+	.ui.circle.items .item .content h4{
+		font-size:1rem !important;
+	}
+	.ui.speak.items .content h5,.ui.circle.items .content h5 {
+		margin: 0;
+	}
+	.six.wide .block.title{
+		margin-bottom:0px;
+	}
+	.section-title+.block.title{
+		margin-top: 15px;
+		margin-bottom:0px !important;
+	}
+	.six.wide p{
+		margin:8px 0 0;
+	}
+	.six.wide span{
+		margin-right:15px;
+	}
+	.ui.header .ui.link {
+	  color: #fff;
+	}
+	.section-title .ui.header{
+		font-size: 0.96rem!important;
+		margin-bottom: 10px;
+		font-weight: 400;
+	}
+	
+	
+	
+	.logo {
+		padding: 0 0;
+		display:block;
+		width:1180px;
+		min-height:144px;
+	}
+	.logo.one {
+		min-height:78px;
+	}
+	.logo p{
+		display: inline-block;
+		width: 78px;
+		height: 72px;
+		float: left;
+		line-height: 64px;
+		font-size: 20px;
+		color: #fff;
+		margin: 0;
+		padding: 0;
+	}
+	.logo img {
+		float: left;
+		display: inline-block;
+		padding: 7px;
+		width: 90px;
+		height: 50px;
+	}
+	.logo + p, .logo+p+p {
+	  text-align: center;
+	  color: #c87bc0;
+		font-size:14px;
+	}
+	.mt-25 {
+	  margin-top: 25px;
+		font-size:14px;
+	}
+	
+	h3+.image{
+		margin-top:1em;
+		position:relative;
+	}
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="birdegg page">
+	<div class="yue">
+		<img src="{{ app_url_packaged }}/images/promo/banner1.jpg" width="100%">
+	</div>
+	<div class="ui big block">
+		<div class="ui w-1180 grid">
+			<div class="row">
+				<div class="center aligned wide column">
+					<embed src="http://static.video.qq.com/TPout.swf?vid=q0150wu1lm8&amp;auto=0" allowfullscreen="true" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" align="middle" height="550" width="863">
+				</div>
+				<!--<div class="eight wide column">
+					<img src="http://frbird.qiniudn.com/asset/150210/54d96bc9fc8b12dc418b5039-1" class="ui image" alt="AutoBot mini全球最小的汽车穿戴设备">
+				</div>-->
+			</div>
+			
+			<div class="row">
+				<div class="ten wide column">
+					<h3 class="block title">演讲嘉宾</h3>
+					<div class="ui center aligned three speak items">
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102981-1.html" target="_blank"></a>
+								<img alt="徐小平" src="{{ app_url_packaged }}/images/promo/xxp.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">徐小平</h4>
+								<h5>真格天使投资基金创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102984-1.html" target="_blank"></a>
+								<img alt="汪华" src="{{ app_url_packaged }}/images/promo/wh.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">汪华</h4>
+								<h5>创新工场合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="高洪偲" src="{{ app_url_packaged }}/images/promo/ghs.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">高洪偲</h4>
+								<h5>京东众筹负责人</h5>
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="ui speak center aligned one items" style="margin-top: 0;">
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102982-1.html" target="_blank"></a>
+								<img alt="雷海波" src="{{ app_url_packaged }}/images/promo/leihaibo.jpg" style="width:96%">
+							</div>
+							<div class="content">
+								<h4 class="ui header">太火鸟创始人雷海波分享智能硬件趋势报告及蛋年智能硬件Top100公布</h4>
+								<h5> </h5>
+							</div>
+						</div>
+					</div>
+					
+					<h3 class="block title">圆桌讨论<small>创业与创新</small></h3>
+					
+					<div class="image">
+						<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+						<img src="{{ app_url_packaged }}/images/promo/forum_01.jpg" width="100%">
+					</div>
+					<div class="ui center aligned four circle items">
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="卢刚" src="{{ app_url_packaged }}/images/promo/lg.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">卢刚</h4>
+								<h5>动点科技创始人</h5>
+							</div>
+						</div>
+						
+						<!--<div class="item">
+							<div class="image">
+								<img alt="覃政" src="{{ app_url_packaged }}/images/promo/tz.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">覃政</h4>
+								<h5>蚁视科技CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="曾德钧" src="{{ app_url_packaged }}/images/promo/zdy.jpgg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">曾德钧</h4>
+								<h5>猫王CEO</h5>
+							</div>
+						</div>-->
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="李一舟" src="{{ app_url_packaged }}/images/promo/lyz.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">李一舟</h4>
+								<h5>匙悟科技CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="邱懿武" src="{{ app_url_packaged }}/images/promo/qyw.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">邱懿武</h4>
+								<h5>云造CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="高洪偲" src="{{ app_url_packaged }}/images/promo/ghs.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">高洪偲</h4>
+								<h5>京东众筹负责人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="聂竞舟" src="{{ app_url_packaged }}/images/promo/njz.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">聂竞舟</h4>
+								<h5>蚁视科技CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="曾德钧" src="{{ app_url_packaged }}/images/promo/zdy.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">曾德钧</h4>
+								<h5>猫王CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="王强" src="{{ app_url_packaged }}/images/promo/tu.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">王强</h4>
+								<h5>土曼CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="叶滨" src="{{ app_url_packaged }}/images/promo/yb.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">叶滨</h4>
+								<h5>The one CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102983-1.html" target="_blank"></a>
+								<img alt="张悦" src="{{ app_url_packaged }}/images/promo/zy.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">张悦</h4>
+								<h5>Picooc CEO</h5>
+							</div>
+						</div>
+						
+					</div>
+				
+					<h3 class="block title">圆桌讨论<small>未来趋势</small></h3>
+					
+					<div class="image">
+						<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+						<img src="{{ app_url_packaged }}/images/promo/forum_02.jpg" width="100%">
+					</div>
+					<div class="ui center aligned four circle items">
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="童玮亮" src="{{ app_url_packaged }}/images/promo/twl.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">童玮亮</h4>
+								<h5>梧桐树合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="黄灼" src="{{ app_url_packaged }}/images/promo/hz.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">黄灼</h4>
+								<h5>机智云CEO</h5>
+							</div>
+						</div>
+						
+						
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="萧无" src="{{ app_url_packaged }}/images/promo/xw.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">萧无</h4>
+								<h5>淘宝众筹负责人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="海军" src="{{ app_url_packaged }}/images/promo/hj.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">海军</h4>
+								<h5>数据公园创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="徐晨" src="{{ app_url_packaged }}/images/promo/xc.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">徐晨</h4>
+								<h5>戈壁投资合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="郑刚" src="{{ app_url_packaged }}/images/promo/zg.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">郑刚</h4>
+								<h5>紫辉创投创始合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="邱立平" src="{{ app_url_packaged }}/images/promo/qlp.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">邱立平</h4>
+								<h5>麦顿投资创始合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102985-1.html" target="_blank"></a>
+								<img alt="沈振" src="{{ app_url_packaged }}/images/promo/sz.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">沈振</h4>
+								<h5>DFF设计创始人基金发起人</h5>
+							</div>
+						</div>
+						
+						<!--<div class="item">
+							<div class="image">
+								<img alt="曾辉" src="{{ app_url_packaged }}/images/promo/zhui.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">曾辉</h4>
+								<h5>北京设计周</h5>
+							</div>
+						</div>-->
+						
+					</div>
+					
+					
+					
+				
+				</div>
+				<div class="six wide column" style="padding-left:4rem;">
+					<h2 class="block title">活动报道</h2>
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102980-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会直播【开篇】</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102981-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会直播【徐小平演讲】</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102982-1.html" class="ui link" target="_black">鸟叔雷海波智能硬件趋势报告——蛋年智能硬件Top100 公布</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102983-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会之#圆桌论坛: 创业与创新#</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102984-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会直播【汪华演讲】</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102985-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会之#演讲：平台如何做到 [ 从1到N ] #</a>
+            </h5>
+          </div>
+
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102985-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会之圆桌论坛2: 智能硬件的未来与趋势</a>
+            </h5>
+          </div>
+					
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102986-1.html" class="ui link" target="_black">蛋年挑战吉尼斯，时空胶囊751广场现场封存</a>
+            </h5>
+          </div>
+					
+					<div class="section-title">
+					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-102987-1.html" class="ui link" target="_black">2015中国智能硬件蛋年创新大会花絮</a>
+            </h5>
+          </div>
+					
+					
+					<h2 class="block title">活动流程</h2>
+					<h4 class="ui header" style="margin-top: 0;">主会场流程</h4>
+					<p><span>12:30-13:30</span> 签到</p>
+					<p><span>13:00-13:30</span> 媒体群访问</p>
+					<p><span>&nbsp;PM 13:30&nbsp;&nbsp;&nbsp;</span> 大会正式开始</p>
+					<p><span>13:30-13:32</span> 视频开篇</p>
+					<p><span>13:32-13:35</span> 主持人开场</p>
+					<p><span>13:35-14:05</span> 演讲1:智能硬件的创新与性感</p>
+					<p><span>14:05-14:10</span> 祝福视频</p>
+					<p><span>14:10-14:20</span> 演讲2:孵化平台对智能硬件的意义</p>
+					<p><span>14:20-14:50</span> 圆桌论坛1:创业与创新</p>
+					<p><span>14:50-15:00</span> 演讲3:平台如何做到“从1到N”</p>
+					<p><span>15:00-15:30</span> 圆桌论坛2:未来趋势</p>
+					<p><span>15:30-15:50</span> Top100智能硬件趋势报告</p>
+					<p><span>15:50-16:00</span> Top100颁奖</p>
+					<h4 class="ui header">分会场流程</h4>
+					<p><span>12:30-16:00</span> 扫二维码签到</p>
+					<p><span>12:30-16:00</span> 智能产品体验</p>
+					<p><span>09:00-15:00</span> 吉尼斯世界纪录［时光胶囊］挑战</p>
+					<p><span>15:00-15:30</span> 吉尼斯世界纪录［时光胶囊］挑战</p>
+					<p><span>16:10-16:20</span> 现场抽奖</p>
+					<p><span>&nbsp;PM 16:20&nbsp;&nbsp;&nbsp;</span> 吉尼斯世界纪录颁奖仪式开始</p>
+					<p><span>16:20-16:25</span> 嘉宾致辞</p>
+					<p><span>16:25-16:30</span> 吉尼斯世界纪录大合影</p>
+					<p><span>16:30-17:00</span> 媒体自由采访</p>
+					
+					<h2 class="ui block title" style="  margin-bottom: 20px;">关注我们</h2>
+						<div class="image">
+							<img src="http://frstatic.qiniudn.com/images/weixin-220.jpg">
+						</div>
+									
+				</div>
+			</div>
+			<!--
+			<div class="row">
+				<div class="column">
+					<h3 class="block title">Top100 颁奖</h3>
+					<div class="ui center aligned five speak items">
+						<div class="item">
+							<div class="image">
+								<img alt="徐小平" src="{{ app_url_packaged }}/images/promo/1.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">徐小平</h4>
+								<h5>真格天使投资基金创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="汪华" src="{{ app_url_packaged }}/images/promo/2.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">汪华</h4>
+								<h5>创新工场合伙人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<img alt="姚乃胜" src="http://frbird.qiniudn.com/stuff/150409/55261281fc8b12961c8bbc39-1-m.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">姚乃胜</h4>
+								<h5>京东金融集团副总裁</h5>
+							</div>
+						</div>
+						
+					</div>-->
+					
+					<h3 class="block title" style="margin-top:1rem;">中国智能硬件挑战吉尼斯合影</h3>
+					
+						<a href="http://www.taihuoniao.com/topic/view-102982-1.html" target="_blank"><img  style="margin:1rem 0;" src="{{ app_url_packaged }}/images/promo/jns.jpg" width="100%"></a>
+					
+					
+					<h3 class="block title" style="margin-top:1rem;">活动花絮</h3>
+					<div class="ui center aligned five speak items">
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/6.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/7.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/8.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/9.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/10.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/11.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/12.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/13.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/14.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/15.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/16.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/17.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/18.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/19.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/20.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/21.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/22.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/23.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/24.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/25.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/26.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/27.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/28.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/29.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/30.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/31.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/32.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/33.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/34.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/35.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/36.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/37.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/38.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/39.jpg">
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								<a href="http://www.taihuoniao.com/topic/view-102987-1.html" target="_blank"></a>
+								<img src="{{ app_url_packaged }}/images/promo/40.jpg">
+							</div>
+						</div>
+
+						
+					</div>
+					
+					
+					<h3 class="block title">联合主办</h3>
+					<div class="logo" style="padding-top:20px;">
+						<p>媒体圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_gk.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_taio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_btvo1.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_pandao.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_36ko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkjo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tco.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ifengo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_sohuo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_wangyioo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qqo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tzj.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_meno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_fasto.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_bdoo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_qhxo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_tzc.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_dzkx.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_shijue.jpg" class="ui image">
+					</div>
+				
+					<div class="logo">
+						<p>硬件圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_intelo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mio.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_foxo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_lkko.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_haiero.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ycbo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_miso.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_autoo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_pico.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_yuno.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ingo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_keyo.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_mkai.jpg" class="ui image">
+						<img src="{{ app_url_packaged }}/images/egg_ying.jpg" class="ui image">
+					</div>
+					
+					<div class="logo one">
+						<p>投资圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_zfo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_chuango.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_goo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_tsoo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_dffo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_ctqo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_dot.jpg">
+						<img src="{{ app_url_packaged }}/images/ac.jpg">
+					</div>
+				
+					<div class="logo one">
+						<p>平台圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_jdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_tbo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sno.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_jzy1.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_hdx.jpg">
+						<img src="{{ app_url_packaged }}/images/xwo.jpg">
+						<img src="{{ app_url_packaged }}/images/datapark.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_whou.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_thno.jpg">
+					</div>
+				
+					<div class="logo one">
+						<p>机构圈</p>
+						<img src="{{ app_url_packaged }}/images/egg_zhdo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_ddkj.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_chinao.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_sidao.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_weeko.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_desino.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_qhmyo.jpg">
+						<img src="{{ app_url_packaged }}/images/egg_gzmyo.jpg">
+					</div>
+					
+					
+					
+				</div>
+			</div>
+		
+			
+		</div>
+	</div>
+	
+	<!--<div class="ui big block">
+		<div class="ui w-1180 grid">
+			<div class>
+			
+		
+		
+		</div>
+	</div>-->
+		
+		
+		
+</div>
+
+{% include "block/qrcode.html" %}
+{% endblock %}
+
+
+
+
+
+
+

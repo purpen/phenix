@@ -1,17 +1,7 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}商店-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.okcase.list.ui.three.items .magenta.item .image+.content {
-	height: 150px;
-}
-.egg-banner{
-	background-color:rgb(21,12,15);
-	margin:0 auto;
-	text-align: center;
-	position: relative;
-}
-
 </style>
 {% endblock %}
 
@@ -31,20 +21,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="egg-banner">
-	<a href="http://www.taihuoniao.com/birdegg">
-		<div class="ui responsive grid">
-			<img src="{{ app_url_packaged }}/images/birdegg.jpg" width="100%">
-		</div>
-	</a>
-</div>
-
-<div class="header main">
-	<div class="ui responsive grid">
-		{% include "block/header.html" %}
-	</div>
-</div>
-
 <div class="shop submenu">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -184,7 +160,4 @@
 	</div>
 	
 </div>
-{% endblock %}
-{% block layout_footer %}
-	{% include "block/footer.html" %}
 {% endblock %}
