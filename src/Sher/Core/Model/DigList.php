@@ -10,6 +10,7 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
 
     protected $schema = array(
     	'_id'   => '',
+      'name'  => '',
     	'items' => array(),
     );
 	
@@ -61,6 +62,37 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
         self::$_db->push($this->collection, $criteral, 'items', $pushed, true);
 		
         return true;
+    }
+
+    /**
+     * 添加/更新 item --自定义
+     * @return true or false
+     */
+    public function add_item_custom($dig_id, $item=array()) {
+		  $criteral['_id'] = (string) $dig_id;
+		
+      // why?
+      // 不使用$addToSet的目的是希望解决:
+      // 能够重新将列表中的某个item重新置顶到前面,
+      // 因此最简单的实现是pull后重新push
+      if(empty($item)) return false;
+  
+      self::$_db->pull($this->collection, $criteral, 'items', $item, true);
+      self::$_db->push($this->collection, $criteral, 'items', $item, true);
+  
+      return true;
+    }
+
+    /**
+     * 删除 item --自定义
+     * @return true or false
+     */
+    public function remove_item_custom($dig_id, $item=array()) {
+      $criteral['_id'] = (string) $dig_id;
+      if(empty($item)) return false;
+      $pull['items'] = $item;
+  
+      return $this->update($criteral, array('$pull' => $pull));
     }
 	
 	/**

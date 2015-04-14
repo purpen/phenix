@@ -247,10 +247,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8
     //$a = Sher_Core_Util_View::fetch_invite_user_id('440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8');
     //$a = Sher_Core_Util_View::url_short('1');
-    $a = -5;
-    //echo (int)$a;
-    //print_r($this->visitor);
-    echo $this->visitor->quality;
+    $is = false;
+    while(!$is){
+      for($i=0;$i<10;$i++){
+        echo '111';
+      }
+      $is = true;
+    }
   }
 
   public function test_preg(){
