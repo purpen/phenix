@@ -217,6 +217,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const POINT_ACCOUNT_STATE_DONE = 0;
     
     
+    ## 记数器
+    const USER_AUTO_GEN_COUNT = 'user_auto_gen';
     
     
     /**
