@@ -58,10 +58,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['profile'] = $this->stash['user']['profile'];
 		
 		// 验证关注关系
-		$ship = new Sher_Core_Model_Follow();
-		$is_ship = $ship->has_exist_ship($this->visitor->id, $follow_id);
-		
-		$this->stash['is_ship'] = $is_ship;
+        $this->validate_ship();
 		
 		return $this->display_tab_page('tab_all');
 	}
@@ -83,16 +80,28 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
             'sort_field' => 'latest',
         );
         $timelist = $service->get_latest_list($query, $options);
-        if(isset($timelist['total_page']) && ($timelist['total_page'] > $page)){
-            $next_page += $page;
-        }else{
-            $next_page = 'no';
+        
+        $next_page = 'no';
+        if(isset($timelist['next_page'])){
+            if($timelist['next_page'] > $page){
+                $next_page = $timelist['next_page'];
+            }
         }
         
         $this->stash['timelist']  = $timelist;
-        $this->stash['next_page'] = $next_page;
+        $this->stash['nex_page'] = $next_page;
         
         return $this->to_taconite_page('ajax/activity_list.html');
+    }
+    
+    /**
+     * 验证关系
+     */
+    protected function validate_ship(){
+		// 验证关注关系
+		$ship = new Sher_Core_Model_Follow();
+		$is_ship = $ship->has_exist_ship($this->visitor->id, $this->stash['id']);
+		$this->stash['is_ship'] = $is_ship;
     }
     
     /**
@@ -111,6 +120,9 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         
         $this->set_target_css_state('tab_topic');
         
+		// 验证关注关系
+        $this->validate_ship();
+        
         return $this->to_html_page("page/user/topics.html");
     }
     
@@ -125,6 +137,9 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         $this->stash['pager_url'] = Sher_Core_Helper_Url::user_fans_list_url($this->stash['id'], '#p#');
 		
         $this->set_target_css_state('tab_fans');
+        
+		// 验证关注关系
+        $this->validate_ship();
         
         return $this->to_html_page("page/user/fans.html");
 	}
@@ -141,6 +156,9 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		
         $this->set_target_css_state('tab_follow');
         
+		// 验证关注关系
+        $this->validate_ship();
+        
         return $this->to_html_page("page/user/follow.html");
 	}
     
@@ -153,6 +171,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_submitted_list_url($this->stash['id'], '#p#');
 		
         $this->set_target_css_state('tab_product');
+        
+		// 验证关注关系
+        $this->validate_ship();
+        
         return $this->to_html_page("page/user/products.html");
 	}
 	
@@ -165,6 +187,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_support_list_url($this->stash['id'], '#p#');
 		
         $this->set_target_css_state('tab_product');
+        
+		// 验证关注关系
+        $this->validate_ship();
+        
 		return $this->to_html_page("page/user/products.html");
 	}
 	
@@ -177,12 +203,12 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_like_list_url($this->stash['id'], '#p#');
         
 		$this->set_target_css_state('tab_product');
+        
+		// 验证关注关系
+        $this->validate_ship();
+        
 		return $this->to_html_page("page/user/products.html");
 	}
-	
-	
-	
-	
 	
 	
 	/**

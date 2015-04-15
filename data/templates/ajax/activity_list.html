@@ -26,8 +26,8 @@
 	{% endfor %}
     
     <eval>
-        $('.ui.more.button').data('page', '{{next_page}}');
-        {% if next_page == 'no' %}
+        $('.ui.more.button').data('page', '{{nex_page}}');
+        {% if nex_page == 'no' %}
             $('.ui.more.button').addClass('disabled').text('没有更多了~');
         {% endif %}
     </eval>
