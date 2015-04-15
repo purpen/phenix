@@ -181,9 +181,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
             //送邀请人红包
-            if(Doggy_Config::$vars['app.anniversary2015.switch']){
-              $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
-            }
+            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
           }
         
         }
@@ -224,7 +222,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         $is_exist_random = in_array($match_random, $items_arr)?false:true;
       }
 
-      $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random);
+      $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
       // 添加到统计列表
       $digged->add_item_custom($key_id, $match_item);
 
