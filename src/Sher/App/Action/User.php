@@ -80,14 +80,16 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
             'sort_field' => 'latest',
         );
         $timelist = $service->get_latest_list($query, $options);
-        if(isset($timelist['total_page']) && ($timelist['total_page'] > $page)){
-            $next_page += $page;
-        }else{
-            $next_page = 'no';
+        
+        $next_page = 'no';
+        if(isset($timelist['next_page'])){
+            if($timelist['next_page'] > $page){
+                $next_page = $timelist['next_page'];
+            }
         }
         
         $this->stash['timelist']  = $timelist;
-        $this->stash['next_page'] = $next_page;
+        $this->stash['nex_page'] = $next_page;
         
         return $this->to_taconite_page('ajax/activity_list.html');
     }
