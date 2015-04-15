@@ -224,7 +224,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         $is_exist_random = in_array($match_random, $items_arr)?false:true;
       }
 
-      $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random);
+      $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
       // 添加到统计列表
       $digged->add_item_custom($key_id, $match_item);
 
