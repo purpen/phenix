@@ -19,61 +19,99 @@
 {% block layout_js %}
 <script type="text/javascript">
 
+  var alldata = new Array();
+  var praises = new Array();
+  var praised = new Array();
+
+  var num = 0;
+  var show = $("#show");
+  var btn = $("#btn");
+  var open = false;
+  
+  //ajax改变抽奖号状态
+  function ajax_change_match_praise(praise,user,account,evt){
+    $.get('/promo/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt}, function(result){
+
+    alert(account);
+      ajax_load_all();
+
+
+    });
+  }
+
+  //加载全部
+  function ajax_load_all(){
+     $.get('/promo/ajax_fetch_match2_praise_list', {evt:0}, function(result){
+      result = eval('('+ result +')');
+      if(result.success){
+        $.each(result.data, function(i, v){
+          if(v.evt==1){
+            //已中奖
+            praised.push(v);
+          }else{
+            //未中奖
+            praises.push(v);
+          }
+        });
+      }else{
+        alert('数据为空!');
+      }
+
+      num = praises.length - 1;
+      //加载已中奖名单
+      $.each(praised, function(i, v){
+        var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
+        $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</span></div>');   
+      })
+    });
+  }
 
 </script>
 {% endblock %}
 
 {% block jquery %}
 
-  var alldata = new Array();
-  {% for d in praises %}
-    alldata.push({ user: {{d.user}}, account: {{d.account}}, praise: {{d.praise}} });
-  {%endfor%}
+  ajax_load_all();
 
-		var num = alldata.length - 1;
-		var show = $("#show");
-		var btn = $("#btn");
-		var open = false;
-	
-		function change(){
-      if(alldata.length==0){
+  function change(){
+    if(praises.length==0){
+      show.text('已抽完');
+      return;
+    }
+    var randomVal = Math.round(Math.random() * num);
+    var prizeName = praises[randomVal].praise;
+    show.text(prizeName);
+    show.attr('account', praises[randomVal].account);
+    show.attr('user', praises[randomVal].user);
+    show.attr('current', randomVal);
+  }
+  
+  function run(){
+    if(!open){
+      timer=setInterval(change,30);
+      btn.removeClass('start').addClass('stop').text('停止');
+      open = true;
+    }else{
+      clearInterval(timer);
+      btn.removeClass('stop').addClass('start').text('开始抽奖');
+      open = false;
+      if(praises.length==0){
         show.text('已抽完');
         return;
       }
-			var randomVal = Math.round(Math.random() * num);
-			var prizeName = alldata[randomVal].praise;
-			show.text(prizeName);
-      show.attr('account', alldata[randomVal].account);
-      show.attr('user', alldata[randomVal].user);
-      show.attr('current', randomVal);
-		}
-		
-		function run(){
-			if(!open){
-				timer=setInterval(change,30);
-				btn.removeClass('start').addClass('stop').text('停止');
-				open = true;
-			}else{
-				clearInterval(timer);
-				btn.removeClass('stop').addClass('start').text('开始抽奖');
-				open = false;
-        if(alldata.length==0){
-          show.text('已抽完');
-          return;
-        }
 
-        var praise = $('#show').text();
-        var account = $('#show').attr('account');
-        var account_f = account.substring(0,3) +'***'+ account.substring(7,11);
-        var user = $('#show').attr('user');
-        var current = $('#show').attr('current');
-        $('#item-list').append('<div><span class="item">'+ account_f +'</span></div>');
-        alldata.splice(current, 1);
+      var praise = $('#show').text();
+      var account = $('#show').attr('account');
+      var user = $('#show').attr('user');
+      var current = $('#show').attr('current');
 
-			}
-		}
-		
-		btn.click(function(){run();})
+      //改变幸运号状态
+      ajax_change_match_praise(praise,user,account,1);
+
+    }
+  }
+  
+  btn.click(function(){run();})
 
 {% endblock %}
 

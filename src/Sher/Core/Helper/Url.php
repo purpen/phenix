@@ -222,6 +222,20 @@ class Sher_Core_Helper_Url {
     }
 	
     /**
+     * 相关的话题列表地址
+     */
+    public static function user_topic_list_url($user_id, $page=null, $t=null) {
+        if(!empty($page)){
+            $page = "p${page}.html";
+        }
+        if(!empty($t)){
+            $t = "t${t}";
+        }
+        
+		return self::build_url_path('app.url.user', $user_id, 'topics', $t).$page;
+    }
+    
+    /**
      * 他人喜欢的列表地址
      */
     public static function user_like_list_url($user_id, $page=null) {
@@ -259,7 +273,7 @@ class Sher_Core_Helper_Url {
         if (!empty($page)) {
             $page = "p${page}.html";
         }
-		return self::build_url_path('app.url.user',$user_id,'follow').$page;
+		return self::build_url_path('app.url.user', $user_id, 'follow').$page;
     }
 	
     
@@ -271,7 +285,7 @@ class Sher_Core_Helper_Url {
         if (!empty($page)) {
             $page = "p${page}.html";
         }
-        return self::build_url_path('app.url.user',$user_id,'fans').$page;
+        return self::build_url_path('app.url.user', $user_id, 'fans').$page;
     }
 	
 	/**

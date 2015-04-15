@@ -120,6 +120,7 @@ app.dt.extension_lib.sher_app:
     'city_list':'Sher_Core_ViewTag_CityList'
     'area_list':'Sher_Core_ViewTag_AreaList'
     'college_list':'Sher_Core_ViewTag_CollegeList'
+    'timeline_list':'Sher_Core_ViewTag_TimelineList'
     'sum_record_list':'Sher_Core_ViewTag_SumRecordList'
   filters: []
 

@@ -1,0 +1,222 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ user.screen_name }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="user masthead" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ last_char |default 0 }}.jpg');">
+    <div class="masthead-cover">
+    	<div class="ui responsive grid">
+    		<div class="row">
+    			<div class="column">
+    				<div class="container">
+                        <img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
+                    
+                    	<h2 class="ui header">
+                    		{{ user.nickname }}
+                    	</h2>
+                    	<p class="summary">{{ user.summary }}</p>
+                    	{% if user._id != visitor.id %}
+                    	{% if !is_ship %}
+                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
+                    		关注 
+                    	</a>
+                    	{% else %}
+                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                    	{% endif %}
+
+                    	<button class="ui small white letter button">
+                    		私信
+                    	</button>
+                    	{% endif %}
+                    </div>
+    			</div>
+    		</div>
+        </div>
+    </div>
+</div>
+
+{%include 'block/user_submenu.html'%}
+
+<div class="user center">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+				<div class="ui horizontal bulleted list">
+                    <a class="ui line {{ css_type_post }} item" href="{{ app_url_user }}/{{ user.id }}/topics/t1">
+                        发表
+                    </a>
+                    <a class="ui line {{ css_type_love }} item" href="{{ app_url_user }}/{{ user.id }}/topics/t2">
+                        赞过
+                    </a>
+				</div>
+                <div class="ui compact grid">
+                    <div class="twelve wide column">
+        				<div class="ui segment">
+                            
+        					<table class="ui basic topic half table">
+        						<tbody>
+                                    {% if t == 1 %}
+        							    {% topic_list var:'list' time:0 sort:0 page:page size:15 user_id:user.id %}
+            							{% for topic in list.rows %}
+                                            <tr id="{{ topic._id }}">
+                                            	<td class="hide-on-mobile two wide author">
+                                            		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+                                                  		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+                                            		</a>
+                                            	</td>
+                                            	<td>
+                                                  	<h3 class="title">
+                                            			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+                                                            {{ topic.title|truncate 60 }}
+                                                        </a>
+                                            		</h3>
+                                                  	<div class="content">
+                                            			<div class="hide-on-mobile">
+                                            				{% if !topic.asset_count %}
+                                            					<div class="description">
+                                            						{{ topic.strip_description|truncate 70 }}
+                                            					</div>
+                                            				{% else %}
+                                            					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+                                            					<!--展示图片-->
+                                            					<div class="ui mini images">
+                                            						{% if topic.cover %}
+                                            						<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+                                            						{% endif %}
+                                            						{% for asset in assets.rows %}
+                                            							{% if topic.cover._id != asset._id %}
+                                            						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+                                            							{% endif %}
+                                            						{% endfor %}
+                                            					</div>
+                                            				{% endif %}
+                                            			</div>
+                                            			<div class="attribute">
+                                            				<span class="author">
+                                            					<a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }} 发表至
+                                            				</span>
+                                                            <span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span>
+                                            			</div>
+                                                  	</div>
+                                            	</td>
+                                            </tr>
+            							{% endfor %}
+                                    {% endif %}
+                                    
+                                    {% if t == 2 %}
+                                        {% favorite_list var:'list' page:page size:15 user_id:user.id type:2 event:2 %}
+                                        {% for d in list.rows %}
+                                            <tr id="{{ d.topic._id }}">
+                                            	<td class="hide-on-mobile two wide author">
+                                            		<a class="ui small avatar image" href="{{ d.topic.user.home_url }}">
+                                                  		<img src="{{ d.topic.user.small_avatar_url }}" alt="{{ d.topic.user.nickname }}" />
+                                            		</a>
+                                            	</td>
+                                            	<td>
+                                                  	<h3 class="title">
+                                            			<a href="{{ d.topic.view_url }}" title="{{ d.topic.title }}" class="ui line">
+                                                            {{ d.topic.title|truncate 60 }}
+                                                        </a>
+                                            		</h3>
+                                                  	<div class="content">
+                                            			<div class="hide-on-mobile">
+                                            				{% if !d.topic.asset_count %}
+                                            					<div class="description">
+                                            						{{ d.topic.strip_description|truncate 70 }}
+                                            					</div>
+                                            				{% else %}
+                                            					{% asset_list var:'assets' parent_id:d.topic._id size:6 asset_type:55 sort:'positive' %}
+                                            					<!--展示图片-->
+                                            					<div class="ui mini images">
+                                            						{% if d.topic.cover %}
+                                            						<img class="ui image" src="{{ d.topic.cover.thumbnails.tiny.view_url }}" />
+                                            						{% endif %}
+                                            						{% for asset in assets.rows %}
+                                            							{% if d.topic.cover._id != asset._id %}
+                                            						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+                                            							{% endif %}
+                                            						{% endfor %}
+                                            					</div>
+                                            				{% endif %}
+                                            			</div>
+                                            			<div class="attribute">
+                                            				<span class="author">
+                                            					<a href="{{ d.topic.user.home_url }}" class="ui magenta link">@{{ d.topic.user.nickname }}</a>  <i class="time icon"></i>{{ d.topic.created_on|relative_datetime }}
+                                            				</span>
+                                                            <span class="event"> <i class="heart icon"></i> 赞过 </span>
+                                            			</div>
+                                                  	</div>
+                                            	</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+        						</tbody>
+        					</table>
+        				</div>
+                        
+                		{% if list.total_page > 1 %}
+                		<div class="ui pagebox">
+                			{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                			{%include 'block/pager.html'%}
+                		</div>
+                		{% endif %}
+                    </div>
+                    <div class="four wide column">
+                        {%include 'block/user_rightbar.html'%}
+                    </div>
+                    
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+{% include "block/message.html" %}
+
+{% endblock %}
