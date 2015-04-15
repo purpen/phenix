@@ -32,7 +32,6 @@
   function ajax_change_match_praise(praise,user,account,evt){
     $.get('/promo/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt}, function(result){
 
-    alert(account);
       ajax_load_all();
 
 
@@ -44,6 +43,8 @@
      $.get('/promo/ajax_fetch_match2_praise_list', {evt:0}, function(result){
       result = eval('('+ result +')');
       if(result.success){
+        praised = new Array();
+        praises = new Array();
         $.each(result.data, function(i, v){
           if(v.evt==1){
             //已中奖
@@ -59,6 +60,7 @@
 
       num = praises.length - 1;
       //加载已中奖名单
+      $('#item-list').html('');
       $.each(praised, function(i, v){
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
         $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</span></div>');   
