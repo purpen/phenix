@@ -558,30 +558,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         $ok = $this->update_set((int)$id, array('published' => $published));
         // 如果是发布状态,创建Timeline
         if($published == 1){
-            // 根据类型创建timeline 
-            if($ok){
-                switch ($data['stage']){
-                    case self::STAGE_VOTE:
-                        $evt = Sher_Core_Model_Timeline::EVT_VOTE;
-                        break;
-                    case self::STAGE_PRESALE:
-                        $evt = Sher_Core_Model_Timeline::EVT_PRESELL;
-                        break;
-                    case self::STAGE_SHOP:
-                        $evt = Sher_Core_Model_Timeline::EVT_SHOP;
-                        break;
-                    default:
-                        $evt = 0;
-                }
-                $timeline = new Sher_Core_Model_Timeline();
-                $arr = array(
-                    'user_id' => $data['user_id'],
-                    'target_id' => $data['_id'],
-                    'type' => Sher_Core_Model_Timeline::TYPE_PRODUCT,
-                    'evt' => $evt,
-                );
-                $timeline->broad_events($arr['evt'], $arr['user_id'], $arr['target_id'], $arr['type']);
-            }
+            // 根据类型创建timeline
+            $service = Sher_Core_Service_Timeline::instance();
+            $service->broad_product_published($this->data['user_id'], $id);
         }
 	}
 	

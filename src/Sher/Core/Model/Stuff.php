@@ -120,20 +120,18 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	);
 	
 	protected function extra_extend_model_row(&$row) {
-    if(isset($row['from_to'])){
-      //大赛
-      if($row['from_to']==1){
-        $row['view_url'] = Sher_Core_Helper_Url::match2_view_url($row['_id']); 
-      //蛋年
-      }elseif($row['from_to']==2){
-        $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);  
-      }else{
-        $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
-      }
-    }else{
-      $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
-    }
-
+        if(isset($row['from_to'])){
+            if($row['from_to'] == 1){ // 大赛
+                $row['view_url'] = Sher_Core_Helper_Url::match2_view_url($row['_id']); 
+            }elseif($row['from_to'] == 2){ // 蛋年
+                $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);  
+            }else{
+                $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
+            }
+        }else{
+            $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
+        }
+        
 		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
 		$row['fav_tags'] = !empty($row['like_tags']) ? implode(',', $row['like_tags']) : '';
@@ -271,39 +269,43 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         
     		// 添加计数器
     		$diglist = new Sher_Core_Model_DigList();
-        $diglist->inc_stuff_counter('items.total_count');
+            $diglist->inc_stuff_counter('items.total_count');
 
-        $category = new Sher_Core_Model_Category();
-        if(!empty($category_id)){
-            $category->inc_counter('total_count', 1, $category_id);
-        }
-        if(!empty($fid)){
-            $category->inc_counter('total_count', 1, $fid);
-        }
-
-        // 更新关联投票产品数量
-        if($this->data['fever_id']){
-            $product_mode = new Sher_Core_Model_Product();
-            $product = $product_mode->find_by_id((int)$this->data['fever_id']);
-            if($product){
-                $product_mode->inc_counter('stuff_count', 1, $product['_id']);
+            $category = new Sher_Core_Model_Category();
+            if(!empty($category_id)){
+                $category->inc_counter('total_count', 1, $category_id);
             }
-        }
+            if(!empty($fid)){
+                $category->inc_counter('total_count', 1, $fid);
+            }
+            
+            // 添加用户动态
+            $service = Sher_Core_Service_Timeline::instance();
+            $service->broad_stuff_post($this->data['user_id'], $this->data['_id']);
+            
+            // 更新关联投票产品数量
+            if($this->data['fever_id']){
+                $product_mode = new Sher_Core_Model_Product();
+                $product = $product_mode->find_by_id((int)$this->data['fever_id']);
+                if($product){
+                    $product_mode->inc_counter('stuff_count', 1, $product['_id']);
+                }
+            }
 
-        //如果是大赛,记录所在学院,省份数量统计
-        if($this->data['from_to']==1){
-          $province_id = isset($this->data['province_id'])?$this->data['province_id']:0;
-          $college_id = isset($this->data['college_id'])?$this->data['college_id']:0;
-          $num_mode = new Sher_Core_Model_SumRecord();
-          if($province_id){
-            $num_mode->add_record($province_id, 'match2_count', 1);
-          }
-          if($college_id){
-            $num_mode->add_record($college_id, 'match2_count', 2);    
-          }
-        
+            // 如果是大赛,记录所在学院,省份数量统计
+            if($this->data['from_to'] == 1){
+                $province_id = isset($this->data['province_id'])?$this->data['province_id']:0;
+                $college_id = isset($this->data['college_id'])?$this->data['college_id']:0;
+                $num_mode = new Sher_Core_Model_SumRecord();
+                if($province_id){
+                    $num_mode->add_record($province_id, 'match2_count', 1);
+                }
+                if($college_id){
+                    $num_mode->add_record($college_id, 'match2_count', 2);    
+                }
+            }
+            
         }
-    	}
   	}
 	
 	/**
@@ -332,16 +334,16 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		return $this->update_set($id, array('stick' => 0));
 	}
 
-  /**
-   * 通过/取消审核
-   */
+    /**
+     * 通过/取消审核
+     */
 	public function mark_as_verified($id, $value=1){
 		return $this->update_set($id, array('verified' => (int)$value));
 	}
 	
-  /**
-   * 标记 精选
-   */
+    /**
+     * 标记 精选
+     */
 	public function mark_as_featured($id){
 		return $this->update_set($id, array('featured' => 1));
 	}
