@@ -63,14 +63,14 @@
                     	<p class="summary">{{ user.summary }}</p>
                     	{% if user._id != visitor.id %}
                     	{% if !is_ship %}
-                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
+                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ user._id }}_ship">
                     		关注 
                     	</a>
                     	{% else %}
-                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
                     	{% endif %}
 
-                    	<button class="ui small white letter button">
+                    	<button class="ui small white letter inverted button">
                     		私信
                     	</button>
                     	{% endif %}

@@ -63,14 +63,14 @@
                     	<p class="summary">{{ user.summary }}</p>
                     	{% if user._id != visitor.id %}
                     	{% if !is_ship %}
-                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
+                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white inverted inverted button ajax" id="user_{{ user._id }}_ship">
                     		关注 
                     	</a>
                     	{% else %}
-                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white inverted inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
                     	{% endif %}
 
-                    	<button class="ui small white letter button">
+                    	<button class="ui small white letter inverted button">
                     		私信
                     	</button>
                     	{% endif %}
@@ -94,10 +94,10 @@
         					{% for user in users.rows %}
         				  	<div class="card">
         						<div class="mentor">
-        							<a href="{{ user.fans.home_url }}" title="{{ user.fans.nickname }}" target="_blank" class="user"></a>
-        							<img src="{{ user.fans.big_avatar_url }}" alt="{{ user.fans.nickname }}" class="avatar" />
-        							<h3>{{ user.fans.nickname }}</h3>
-        							<p>{{ user.fans.mentor_info.name }} {{ user.fans.city }}</p>
+        							<a href="{{ user.follow.home_url }}" title="{{ user.follow.nickname }}" target="_blank" class="user"></a>
+        							<img src="{{ user.follow.big_avatar_url }}" alt="{{ user.follow.nickname }}" class="avatar" />
+        							<h3>{{ user.follow.nickname }}</h3>
+        							<p>{{ user.follow.mentor_info.name }} {{ user.follow.city }}</p>
         						</div>
         				  	</div>
         					{% endfor %}
