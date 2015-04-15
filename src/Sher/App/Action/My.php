@@ -595,7 +595,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         }
 
         //零元不能退款
-        if ((int)$order_info['pay_money']==0){
+        if ((float)$order_info['pay_money']==0){
             return $this->ajax_notification('此订单不允许退款操作！', true);
         }
 

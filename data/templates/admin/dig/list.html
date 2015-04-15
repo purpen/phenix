@@ -1,0 +1,82 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">推荐列表管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/dig" class="{{ css_all }} item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/dig/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/dig" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>ID</th>
+				<th>名称</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			{% for b in digs %}
+			<tr id="{{ b._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+        <td>{{ b._id }}</td>
+				<td>
+          {{ b.name_info|default '--' }}
+				</td>
+        <td>
+					<a href="{{ app_url_admin_base }}/dig/submit?id={{ b._id }}" class="ui link item">编辑</a>
+          | 
+          <a href="{{ app_url_admin }}/dig/deleted?id={{ b._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if bonus.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:blocks.total_rows,total_page:blocks.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ blocks.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

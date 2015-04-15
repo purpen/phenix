@@ -20,6 +20,14 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected function extra_extend_model_row(&$row) {
+      switch($row['_id']){
+      case 'dig_match_praise_stat':
+        $str = '校园行线下抽奖';
+        break;
+      default:
+        $str = '未定义';
+      }
+      $row['name_info'] = $str;
     }
     
     /**
