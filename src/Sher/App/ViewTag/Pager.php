@@ -102,7 +102,7 @@ class Sher_App_ViewTag_Pager extends Doggy_Dt_Tag {
         	//若符合预载条件，则补充参数endmid
             if(!is_null($model_class) && !empty($pre_query) && !empty($pre_options)){
             	$model = new $model_class();
-                $service = new Lgk_Core_Service_PreloadCursor();
+                $service = new Sher_Core_Service_PreloadCursor();
                 
                 $pre_url_separator = strstr($url,'?') ? '&' : '?';
 	            for($i=0;$i<count($pages);$i++){
