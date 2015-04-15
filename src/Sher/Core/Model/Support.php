@@ -53,9 +53,12 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
             
             // 增加积分
             $service = Sher_Core_Service_Point::instance();
-            
             // 投票他人创意
             $service->send_event('evt_vote_idea', $this->data['user_id']);
+            
+            // 添加动态提醒
+            $timeline = Sher_Core_Service_Timeline::instance();
+            $timeline->broad_target_vote($this->data['user_id'], (int)$this->data['target_id'], Sher_Core_Util_Constant::TYPE_PRODUCT);
             
             // 如果是投票,添加提醒
             if($this->data['event'] == self::EVENT_VOTE){

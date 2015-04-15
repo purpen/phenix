@@ -1,0 +1,54 @@
+<div class="rightbar">
+    <div class="ui fluid four item menu">
+        <div class="item">
+            <div class="name">
+                <b>{{ user.follow_count|default 0 }}</b>
+            </div>
+            <div class="description">
+                关注
+            </div>
+        </div>
+        <div class="item">
+            <div class="name">
+                <b>{{ user.fans_count|default 0 }}</b>
+            </div>
+            <div class="description">
+                粉丝
+            </div>
+        </div>
+        <div class="item">
+            <div class="name">
+                <b>{{ user.topic_count|default 0 }}</b>
+            </div>
+            <div class="description">
+                话题
+            </div>
+        </div>
+        <div class="item">
+            <div class="name">
+                <b>{{ user.product_count|default 0 }}</b>
+            </div>
+            <div class="description">
+                产品
+            </div>
+        </div>
+    </div>
+    
+    <div class="ui segment divided info list">
+        <div class="item">
+            <i class="trophy icon"></i> <span class="ui magenta text">Lv <b>{{ user.ext_state.rank_id }}</b></span>
+        </div>
+        <div class="item">
+            <i class="map icon"></i> {{ user.city }} {{ user.profile.job }}
+        </div>
+        {% if user.tags %}
+        <div class="item">
+            <i class="tag icon"></i> 
+            {% for t in user.tags %}
+            <label class="tg"><small>#</small> {{ t }}</label>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+</div>
