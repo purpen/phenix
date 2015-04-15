@@ -30,9 +30,9 @@
   
   //ajax改变抽奖号状态
   function ajax_change_match_praise(praise,user,account,evt){
-    alert(123);
-    var account_f = account.substring(0,3) +'***'+ account.substring(7,11);
     $.get('/promo/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt}, function(result){
+
+    alert(account);
       ajax_load_all();
 
 
@@ -60,11 +60,8 @@
       num = praises.length - 1;
       //加载已中奖名单
       $.each(praised, function(i, v){
-        var account = v.account;
-        var user = v.user;
-        var praise = v.praise;
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
-        $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise(praise,user,account,0);">删除</span></div>');   
+        $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</span></div>');   
       })
     });
   }
