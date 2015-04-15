@@ -1,16 +1,19 @@
 <?php
 /**
  * 个人主页
+ * @author purpen
  */
 class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
-		'id'=>'',
-		'user_id'=>'',
-		'page'=>1,
+		'id' => '',
+		'user_id' => '',
+        'uid' => '',
+		'page' => 1,
+        't' => 1,
 	);
 	
-	protected $page_tab = 'page_user';
+	protected $page_tab  = 'page_user';
 	protected $page_html = 'page/user/index.html';
 	
 	protected $exclude_method_list = array();
@@ -19,17 +22,23 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         $user_id = $this->stash['id'];
         $this->stash['user'] = array();
         if (!empty($user_id)) {
-            $this->stash['user'] = &DoggyX_Model_Mapper::load_model((int)$user_id,'Sher_Core_Model_User');
+            $user = new Sher_Core_Model_User();
+            $row = $user->load((int)$user_id);
+            if(!empty($row)){
+                $this->stash['user'] = $user->extended_model_row($row);
+            }
         }
+        $this->stash['last_char'] = substr((string)$user_id, -1);
     }
 
 	/**
 	 * 用户
 	 */
 	public function execute(){
-		if (empty($this->stash['user'])) {
-	       return $this->display_note_page('用户不存在');
+        if (empty($this->stash['user'])) {
+            return $this->display_note_page('用户不存在');
 	    }
+        
 		return $this->vcenter();
 	}
 	
@@ -56,33 +65,122 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		
 		return $this->display_tab_page('tab_all');
 	}
+    
+    /**
+     * 加载更多动态
+     */
+    public function ajax_fetch_activity(){
+        $page = (int)$this->stash['page'];
+        $user_id = (int)$this->stash['uid'];
+        
+        $service = Sher_Core_Service_Timeline::instance();
+        $query = array(
+            'user_id' => $user_id,
+        );
+        $options = array(
+            'page' => $page,
+            'size' => 10,
+            'sort_field' => 'latest',
+        );
+        $timelist = $service->get_latest_list($query, $options);
+        if(isset($timelist['total_page']) && ($timelist['total_page'] > $page)){
+            $next_page += $page;
+        }else{
+            $next_page = 'no';
+        }
+        
+        $this->stash['timelist']  = $timelist;
+        $this->stash['next_page'] = $next_page;
+        
+        return $this->to_taconite_page('ajax/activity_list.html');
+    }
+    
+    /**
+     * 参与的话题
+     */
+    public function topics(){
+        $t = $this->stash['t'];
+        if($t == 1){
+            $this->set_target_css_state('type_post');
+        }elseif($t == 2){
+            $this->set_target_css_state('type_love');
+        }
+        
+        $pager_url = Sher_Core_Helper_Url::user_topic_list_url($this->stash['id'], '#p#', $t);
+        $this->stash['pager_url'] = $pager_url;
+        
+        $this->set_target_css_state('tab_topic');
+        
+        return $this->to_html_page("page/user/topics.html");
+    }
+    
+	/**
+	 * 我的粉丝
+	 */
+	public function fans(){
+		$page = $this->stash['page'];
+        
+		$this->stash['profile'] = $this->stash['user']['profile'];
+		
+        $this->stash['pager_url'] = Sher_Core_Helper_Url::user_fans_list_url($this->stash['id'], '#p#');
+		
+        $this->set_target_css_state('tab_fans');
+        
+        return $this->to_html_page("page/user/fans.html");
+	}
+    
+	/**
+	 * 我的关注者
+	 */
+	public function follow(){
+		$page = $this->stash['page'];
+		
+		$this->stash['profile'] = $this->stash['user']['profile'];
+		
+        $this->stash['pager_url'] = Sher_Core_Helper_Url::user_follow_list_url($this->stash['id'], '#p#');
+		
+        $this->set_target_css_state('tab_follow');
+        
+        return $this->to_html_page("page/user/follow.html");
+	}
+    
+	/**
+	 * 发起的产品
+	 */
+	public function submitted(){
+        $this->set_target_css_state('tab_submit');
+        
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_submitted_list_url($this->stash['id'], '#p#');
+		
+        $this->set_target_css_state('tab_product');
+        return $this->to_html_page("page/user/products.html");
+	}
 	
 	/**
 	 * 支持的产品(包括：投票、预定)
 	 */
 	public function support(){
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_support_list_url($this->stash['user_id'], '#p#');
+        $this->set_target_css_state('tab_support');
+        
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_support_list_url($this->stash['id'], '#p#');
 		
-		return $this->display_tab_page('tab_support');
+        $this->set_target_css_state('tab_product');
+		return $this->to_html_page("page/user/products.html");
 	}
 	
 	/**
 	 * 喜欢的产品
 	 */
 	public function like(){
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_like_list_url($this->stash['user_id'], '#p#');
-		
-		return $this->display_tab_page('tab_like');
+        $this->set_target_css_state('tab_like');
+        
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_like_list_url($this->stash['id'], '#p#');
+        
+		$this->set_target_css_state('tab_product');
+		return $this->to_html_page("page/user/products.html");
 	}
 	
-	/**
-	 * 发起的产品
-	 */
-	public function submitted(){
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_submitted_list_url($this->stash['user_id'], '#p#');
-		
-		return $this->display_tab_page('tab_submitted');
-	}
+	
 	
 	
 	
@@ -92,42 +190,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function profile(){
 		
-	}
-	
-	
-	
-	/**
-	 * 我的粉丝
-	 */
-	public function fans(){
-		$page = $this->stash['page'];
-		$this->set_target_css_state('home');
-		$this->stash['profile'] = $this->stash['user']['profile'];
-		
-        $this->stash['pager_url'] = Sher_Core_Helper_Url::user_fans_list_url($this->stash['user_id'],'#p#');
-		
-		# 更新粉丝
-		$counter = $this->visitor->counter;
-		if(isset($counter['fans_count']) && $counter['fans_count'] > 0){
-			$this->visitor->update_counter($this->visitor->id,'fans_count',0);
-			$this->stash['visitor']['counter']['fans_count'] = 0;
-		}
-		
-        return $this->display_tab_page('tab_fans');
-	}
-	
-	/**
-	 * 我的关注者
-	 */
-	public function follow(){
-		$page = $this->stash['page'];
-		
-		$this->set_target_css_state('home');
-		$this->stash['profile'] = $this->stash['user']['profile'];
-		
-        $this->stash['pager_url'] = Sher_Core_Helper_Url::user_follow_list_url($this->stash['user_id'],'#p#');
-		
-        return $this->display_tab_page('tab_follow');
 	}
 	
 	/**
@@ -319,4 +381,3 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
   }
 	
 }
-?>

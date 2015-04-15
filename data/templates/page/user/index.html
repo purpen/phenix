@@ -2,137 +2,7 @@
 {% block title %}{{ user.screen_name }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.user-head {
-	text-align: center;
-	background:url('{{ app_url_packaged }}/images/bg-user-home.jpg') no-repeat ;
-	min-height: 380px;
-	padding-top: 1.5em;
-	color: #fff;
-}
-.user-head .summary {
-	font-size: 0.875em;
-}
-.user-head > .ui.avatar {
-	border: 3px solid #FFFFFF;
-}
-.user.center h3 a.ui.small{
-	float: right;
-	font-weight: 400;
-	font-size: .65em;
-	margin-right:.3em;
-	line-height: 27px;
-}
-.ui.published.list .item,.ui.dynamic.list .item {
-font-size: .8125rem;
-background: #fff;
-border-bottom: 1px solid rgba(0,0,0,.1);
-}
-.ui.published.list .item .content {
-margin-left: 0%;
-margin-right:0;
-display:block;
-}
-.ui.published.list .description {
-margin-top: .3em;
-float: right;
-}
-.ui.dynamic.list .content .ui.line.header{
-	margin-bottom:.5em;
-	margin-top:0;
-}
-.ui.dynamic.list .item .content{
-	margin-left: 0%;
-	margin-right:0;
-	display:inline-block;
-	float: left;
-}
-.ui.dynamic.list .ui.avatar.image{
-	float: left;
-	width:3em;
-	height:3em;
-	margin: 4px .5em 4px 0;
-}
-.user .five.wide .menu{
-	padding-bottom:15px;
-	border-bottom:1px solid rgba(0,0,0,.1);
-}
-.user .five.wide .menu .attention{
-	display:inline-block;
-	padding:5px 15px 5px 0;
-	border-right:1px solid rgba(0,0,0,.1);
-}
-.user .five.wide .menu .attention .content>.name a ,.user .five.wide .menu .fans .content>.name a{
-	text-decoration: none;
-	display: block;
-	font-size: 1.05em;
-	font-weight: 700;
-	margin-bottom: .2em;
-	color: rgba(0,0,0,.5);
-}
-.user .five.wide .menu .attention .content>.name a:hover ,.user .five.wide .menu .fans .content>.name a:hover{
-	color:#f36;
-}
-.user .five.wide .menu .attention .content>.description ,.user .five.wide .menu .fans .content>.description{
-clear: both;
-margin: 0;
-color: rgba(0,0,0,.45);
-}
-.user .five.wide .menu .fans{
-	display:inline-block;
-	padding:5px 15px;
-}
-.user .five.wide .news{
-	border-bottom:1px solid rgba(0,0,0,.1);
-}
-.user .five.wide .news div{
-	margin:15px 0;
-}
-.user .five.wide .news div a{
-	text-decoration: none;
-	color: rgba(0,0,0,.5);
-	font-size: 1.05em;
-	font-weight: 700;
-}
-
-.user .five.wide .news div a:hover{
-	color:#f36;
-}
-.user .five.wide .browse{
-	margin:15px 0;
-	color: rgba(0,0,0,.45);
-	
-}
-.user .time,.user .date{
-	display:inline-block;
-	color:rgba(0,0,0,.3);
-	font-size: .85em;
-}
-.user .right.aligned {
-	float: right;
-}
-.user .content>.inline{
-	display:inline-block;
-	line-height: 33px;
-	margin:0 8px;
-}
-.user .right.btn>.ui.btn{
-	padding: .5em 1em;
-	margin-right: .5em;
-}
-.user .right.btn{
-	line-height: 47px;
-}
-.user .description.fsize{
-	font-size: 15px;
-	color: rgba(0,0,0,.7);
-}
-
-
-
-
-.ui.hide{
-	display:none !important;
-}
+    
 </style>
 {% endblock %}
 {% block js %}
@@ -146,6 +16,22 @@ color: rgba(0,0,0,.45);
 	$('.ui.cancel.button').bind('click', function(){
 		$('.ui.letter.modal').modal('hide');
 	});
+    
+	// 加载更多动态
+	$('.ui.more.button').bind('click', function(){
+		var page = $(this).data('page');
+        if(page != 'no'){
+            $.get('{{ app_url_user }}/ajax_fetch_activity', { page:page, uid:{{ user.id }} });
+        }else{
+            $(this).text('没有更多了~');
+        }
+	});
+    
+    $('.loading.icon').ajaxStart(function(){
+        $(this).removeClass('hide');
+    }).ajaxStop(function(){
+        $(this).addClass('hide');
+    });
 	
 	$('#message-form').form({
 		content: {
@@ -153,11 +39,11 @@ color: rgba(0,0,0,.45);
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '评论内容不能为空'
+					prompt : '私信内容不能为空'
 				},
 				{
 					type   : 'maxLength[140]',
-					prompt : '评论内容不超过140字符'
+					prompt : '私信内容不超过140字符'
 				}
 			]
 		}
@@ -179,316 +65,93 @@ color: rgba(0,0,0,.45);
 {% endblock %}
 
 {% block content %}
+<div class="user masthead" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ last_char |default 0 }}.jpg');">
+    <div class="masthead-cover">
+    	<div class="ui responsive grid">
+    		<div class="row">
+    			<div class="column">
+    				<div class="container">
+                        <img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
+                    
+                    	<h2 class="ui header">
+                    		{{ user.nickname }}
+                    	</h2>
+                        
+                    	<p class="summary">{{ user.summary }}</p>
+                    	{% if user._id != visitor.id %}
+                    	{% if !is_ship %}
+                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ user._id }}_ship">
+                    		关注 
+                    	</a>
+                    	{% else %}
+                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                    	{% endif %}
+
+                    	<button class="ui small white letter inverted button">
+                    		私信
+                    	</button>
+                    	{% endif %}
+                    </div>
+    			</div>
+    		</div>
+        </div>
+    </div>
+</div>
+
+{%include 'block/user_submenu.html'%}
+
 <div class="user center">
-	<div class="ui responsive grid">
+	<div class="ui responsive grid">		
 		<div class="row">
 			<div class="column">
-				<div class="user-head">
-					<img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
-					<h2 class="ui header">
-						{{ user.nickname }}
-					</h2>
-					<p>
-						<i class="flat locator icon"></i> {{ user.city }} {{ user.profile.job }}
-					</p>
-					<p class="summary">{{ user.summary }}</p>
-					{% if user._id != visitor.id %}
-					{% if !is_ship %}
-					<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">
-						关注 
-					</a>
-					{% else %}
-					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
-					{% endif %}
-					
-					<button class="ui small white letter button">
-						私信
-					</button>
-					{% endif %}
-				</div>
+                <div class="ui compact grid">
+                    <div class="twelve wide column">
+                        <div class="ui segment">
+                            {% timeline_list var:'list' page:page user_id:user.id %}
+            				<div class="ui divided timeline list" id="user-activity-list">
+                                {% for line in list.rows %}
+                                <div class="item">
+                                    <img class="ui small avatar image" src="{{ line.user.small_avatar_url }}" />
+                                    <div class="content">
+                                        <div class="header">
+                                            <a href="{{ line.user.home_url }}" title="{{ line.user.nickname }}" class="ui magenta line">{{ line.user.nickname }}</a> <small>{{ line.created_on }}</small>
+                                        </div>
+                                        <div class="description">
+                                            {{ line.label }} <a href="{{ line.target.view_url }}" target="_blank" class="ui line">{{ line.target.title }}</a>.
+                                            {% if line.comment %}
+                                                <p>{{ line.comment.content }}</p>
+                                            {% endif %}
+                                        </div>
+                                        {% if line.target.cover %}
+                                        <div class="cover">
+                                            <a href="{{ line.target.view_url }}" target="_blank">
+                                                <img class="ui image" src="{{ line.target.cover_small_url }}" />
+                                            </a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="item">
+                                    <p>还没有任何动态，快邀请他参与~~</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        {% if list.total_page > 1 %}
+                        <div class="ui gray more fluid button" data-page="2">
+                            <i class="loading icon ui hide"></i> 查看更多
+                        </div>
+                        {% endif %}
+                		
+                    </div>
+                    <div class="four wide column">
+                        {%include 'block/user_rightbar.html'%}
+                    </div>
+                </div>
 			</div>
 		</div>
-		
-		<div class="row">
-			<div class="center aligned submenu column">
-				<div class="ui magenta buttons">
-					<a href="{{ app_url_user }}/{{ user._id }}" class="ui {{ css_tab_all }} button">全部</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/submitted" class="ui {{ css_tab_submitted }} button">发起的产品</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/support" class="ui {{ css_tab_support }} button">支持的产品</a>
-					<a href="{{ app_url_user }}/{{ user._id }}/like" class="ui {{ css_tab_like }} button">喜欢的产品</a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="ui row">
-			{% if css_tab_all %}
-			<div class="eleven wide column">
-				<h3 class="ui header">他的动态</h3>
-				<div class="ui two items">
-					{% support_list var:'list' page:page user_id:user._id %}
-					{% for event in list.rows %}
-				  		{% include 'block/timeline_product_item.html' %}
-					{% endfor %}
-				</div>
-
-        <!--
-				<h3 class="ui header">发表的话题 <a class="ui small link"href="">查看全部 > </a></h3>
-				<div class="ui published selection list">
-					<div class="item">
-				    	<div class="content">
-				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">深圳站【设计让产品更性感】太火鸟</a>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-							  		
-								</a>
-								发表于
-								<a class="ui link" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
-							  		
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-				    	<div class="content">
-				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">深圳站【设计让产品更性感】太火鸟</a>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-							  		
-								</a>
-								发表于
-								<a class="ui link" href="" title="">
-							  		
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<h3 class="ui header">全部动态<a class="ui small link"href="">查看全部 > </a></h3>
-				<div class="ui dynamic selection list">
-					<div class="item">
-						<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header">收藏了话题</div>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-									深圳站【设计让产品更性感】太火鸟
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header">发表了话题</div>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-									深圳站【设计让产品更性感】太火鸟
-								</a>
-								
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header">回复了话题</div>
-							<div class="description">
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-									深圳站【设计让产品更性感】太火鸟
-								</a>
-								
-							</div>
-						</div>
-					</div>
-				</div>	
-
-      -->
-			</div>
-
-			<div class="five wide column">
-				<h3 class="ui header">相关话题</h3>
-				{% topic_list var:'topic' page:1 user_id:user._id size:5 %}
-				<div class="ui tiny selection list">
-					{% for topic in topic.rows %}
-				  	<div class="item">
-				    	<div class="content">
-				      	  	<a class="ui line link header" href="{{ topic.view_url }}" target="_blank">{{ topic.title|truncate 32 '' }}</a>
-				      		<div class="description">
-								{% if topic.last_user %}
-								<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-							  		{{ topic.last_user.nickname }}
-								</a>
-								回复于{{ topic.last_reply_time|relative_datetime }}
-								{% else %}
-								<a class="ui link" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
-							  		{{ topic.user.nickname }}
-								</a>
-								于{{ topic.created_on|relative_datetime }}发表
-								{% endif %}
-				      		</div>
-				    	</div>
-				  	</div>
-					{% endfor %}
-				</div>
-
-        <!--
-				<div class="menu">
-					<div class="attention">
-						<div class="content">
-							<div class="name"><a href="">关注</a></div>
-							<div class="description">
-								9人
-							</div>
-						</div>
-					</div>
-					<div class="fans">
-						<div class="content">
-							<div class="name"><a href="">粉丝</a></div>
-							<div class="description">
-								9人
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="news">
-					<div><a href="">动态</a></div>
-					<div><a href="">通知</a></div>
-					<div><a href="">私信</a></div>
-				</div>
-				<div class="news">
-					<div><a href="">收藏</a></div>
-					<div><a href="">发表的话题</a></div>
-				</div>
-				<div class="browse">
-					个人主页被30人浏览过
-				</div>
-				
-				<h3 class="ui header">关注他</h3>
-				<div class="ui social">
-					<a href="" title="新浪微博" class="ui small red icon button">
-						<i class="flat icon_weibo icon"></i>
-					</a>
-					<a href="" title="腾讯微博" class="ui small blue icon button">
-						<i class="flat icon_qqweibo icon"></i>
-					</a>
-					<a href="" title="豆瓣" class="ui small green icon button">
-						<i class="flat icon icon_douban"></i>
-					</a>
-				</div>
-        -->
-			</div>
-			{% else %}
-			<div class="column">
-				{% if css_tab_support %}
-					<!--我支持的产品-->
-					{% support_list var:'list' page:page user_id:user._id %}
-					<div class="ui three items">
-						{% for event in list.rows %}
-					  		{% include 'block/timeline_product_item.html' %}
-						{% endfor %}
-					</div>
-				{% endif %}
-				
-				{% if css_tab_submitted %}
-					<div class="ui three items">
-						<!--我提交的产品-->
-						{% product_list var:'list' page:page user_id:user._id %}
-						{% for product in list.rows %}
-              {% if user._id == visitor.id %}
-                {% if product.stage == 1 %}
-                  {% include 'block/product_vote_item.html' %}
-                {% endif %}
-              {% endif %}
-							{% if product.stage == 9 %}
-					  			{% include 'block/product_item.html' %}
-							{% endif %}
-							{% if product.stage == 5 %}
-					  			{% include 'block/product_presale_item.html' %}
-							{% endif %}
-						{% endfor %}
-					</div>
-				{% endif %}
-				
-				{% if css_tab_like %}
-					<div class="ui three items">
-						<!--我喜欢的产品-->
-						{% like_list var:'list' page:page user_id:user._id type:1 %}
-						{% for event in list.rows %}
-					  		{% include 'block/timeline_product_item.html' %}
-						{% endfor %}
-					</div>
-				{% endif %}
-			</div>
-			{% endif %}
-		</div>
-		
-		<!--
-		<div class="ui hide row">
-			<div class="eleven wide column">
-				<h3 class="ui header">全部动态</h3>
-				<div class="time">
-					1天前
-				</div>
-				<div class="right aligned date">
-					2014-11-25
-				</div>
-			</div>
-			<div class="eleven wide column">
-				<div class="ui dynamic selection list">
-					<div class="item">
-				    	<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header inline">noofoo</div>
-							<div class="description fsize inline">
-									关注了你
-							</div>
-						</div>
-						<div class="right aligned btn">
-							<a href="" class="ui magenta btn-4 btn-4c btn">
-								+ 关注
-							</a>
-						</div>
-					</div>
-					
-					<div class="item">
-				    	<a>
-							<img class="ui avatar image" alt="sherry wang" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avn.jpg">
-						</a>
-				    	<div class="content">
-				      	  	<div class="ui line header inline">noofoo</div>
-							<div class="description fsize inline">
-								收藏了话题
-							</div>
-							<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-								深圳站【设计让产品更性感】太火鸟
-							</a>
-						</div>
-					</div>
-					
-          -->
-					
-					
-				</div>
-			</div>
-			<div class="five wide column">
-			</div>
-		</div>
-		
-		{% if list.total_rows %}
-		<div class="ui pagination">
-			{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-			{%include 'block/pager.html'%}
-		</div>
-		{% endif %}
-		
 	</div>
 </div>
 

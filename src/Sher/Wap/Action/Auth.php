@@ -204,13 +204,38 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
             return $this->ajax_json($e->getMessage(), true);
         }
+
+    //指定入口送抽奖码
+    if($this->stash['evt']=='match2_praise'){
+ 		  $digged = new Sher_Core_Model_DigList();
+      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+      $result = $digged->load($key_id);
+      //统计奖品号
+      $items_arr = array();
+      if(!empty($result) && !empty($result['items'])){
+        foreach($result['items'] as $k=>$v){
+          array_push($items_arr, $v['praise']);
+        }
+      }
+      $is_exist_random = false;
+      
+      while(!$is_exist_random){
+        $match_random = rand(1000, 9999);
+        $is_exist_random = in_array($match_random, $items_arr)?false:true;
+      }
+
+      $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random);
+      // 添加到统计列表
+      $digged->add_item_custom($key_id, $match_item);
+
+    }
 		
     //周年庆活动跳到提示分享页面
     if(Doggy_Config::$vars['app.anniversary2015.switch']){
       //当前用户邀请码
       $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
  		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
-    }elseif($this->stash['evt']=='match2'){
+    }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
       $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/rank';  
     }else{
@@ -303,4 +328,4 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
   }
 	
 }
-?>
+

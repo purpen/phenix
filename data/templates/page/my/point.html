@@ -46,28 +46,9 @@
         box-shadow: 0 0 0 1px rgba(0,0,0,.1);
         border-radius: .3125em;
     }
-		
-		/*.ui.celled.four.segment tr:nth-child(3n+1) td:nth-child(3){
-			border-bottom:0px solid rgba(0,0,0,0);
-		}
-		.ui.celled.four.segment tr:nth-child(3n+2) td:nth-child(3){
-			border-bottom:0px solid rgba(0,0,0,0);
-			border-top:0px solid rgba(0,0,0,0);
-		}
-		.ui.celled.four.segment tr:nth-child(3n+3) td:nth-child(3){
-			border-top:0px solid rgba(0,0,0,0);
-		}
-		.ui.celled.four.segment tr:nth-child(2n) td:nth-child(3){
-			background:#fff;
-		}
-		.ui.table tbody tr:nth-child(2n) {
-		  background-color: #fff;
-		}*/
-
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 
 {% endblock %}
@@ -112,10 +93,13 @@
                                     {{ user.ext_state.user_rank.title|default '鸟列兵' }}
                                 </div>
                                 <div class="item">
-                                    我的等级: <b>{{ user.ext_state.rank_id|default 0  }}</b>
+                                    我的等级: <b>{{ user.ext_state.rank_id|default 1  }}</b>
                                 </div>
                                 <div class="item">
-                                    经验值: <b>{{ user.ext_state.rank_upgrade_point|default 0 }}</b>
+                                    经验值: <b>{{ user.ext_state.rank_point|default 0 }}</b>
+                                </div>
+                                <div class="item">
+                                    鸟币: <b>{{ current_point.balance.money|default 0 }}</b>
                                 </div>
                                 <!--
                                 <div class="item">
@@ -127,11 +111,11 @@
                     <div class="mach row">
                         <div class="thirteen wide column">
                             <div class="ui green progress">
-                                <div class="bar" style="width:88.78%;"></div>
+                                <div class="bar" style="width:{{ user.ext_state.upgrade_percent|default 0.1 }}%;"></div>
                             </div>
                         </div>
                         <div class='three wide column'>
-                            {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.rank_upgrade_point|default 0 }}
+                            {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.user_rank.point_amount|default 0 }}
                         </div>
 
                     </div>
@@ -141,7 +125,7 @@
                                 等级与经验对照表
                             </h4>
 
-                            <table class="ui celled four column table center aligned segment">
+                            <table class="ui celled table center aligned segment">
                                 <thead>
                                 <tr><th>鸟等级</th>
                                     <th>相对增长经验</th>
@@ -233,17 +217,15 @@
                                     <td>16</td>
                                     <td>3300</td>
                                     <td rowspan="3">鸟士官</td>
-                                    <td> </td>
+                                    <td rowspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>17</td>
                                     <td>4420</td>
-                                    <td> </td>
                                 </tr>
                                 <tr>
                                     <td>18</td>
                                     <td>5600</td>
-                                    <td> </td>
                                 </tr>
 																<tr>
                                     <td>19</td>
@@ -420,18 +402,21 @@
 																		<td rowspan="3">个人信息完善</td>
                                     <td>登陆</td>
                                     <td>登陆太火鸟官网</td>
-																		<td rowspan="3">5</td>
+																		<td></td>
                                     <td>2</td>
-                                    <td rowspan="3">用户个人资料完善后一次性给予奖励积分，如用户后续修改将不再获得鸟币</td>
+                                    <td>每天上限10</td>
                                 </tr>
                                 <tr>
                                     <td>上传头像</td>
-                                    <td>首次上传头像获得积分，老用户直接去领</td>
+                                    <td>首次上传头像获得积分</td>
+                                    <td>2</td>
                                     <td>5</td>
+                                    <td rowspan="2">用户个人资料完善后一次性给予奖励积分，如用户后续修改将不再获得鸟币</td>
                                 </tr>
                                 <tr>
                                     <td>完善个人资料</td>
-                                    <td>完善性别、城市、签名信息、收货地址、邮编、手机、姓名，老用户重新提交可领</td>
+                                    <td>完善姓名、手机、城市、签名信息、地址</td>
+                                    <td>3</td>
                                     <td>10</td>
                                 </tr>
                                 <tr>
@@ -456,15 +441,15 @@
                                 </tr>
 																<tr>
 																	  <td rowspan="19">分享及参与太火鸟官方活动</td>
-                                    <td rowspan="5">发表</td>
+                                    <td rowspan="6">发表</td>
                                     <td>发表文章</td>
-																		<td>1</td>
+																		<td></td>
                                     <td>10</td>
                                     <td>每天上限50</td>
                                 </tr>
 																<tr>
-                                    <td>发表精华文章（编辑审核加精华）</td>
-																		<td>10</td>
+                                    <td>发表精华文章（编辑推荐或精华）</td>
+																		<td>5</td>
                                     <td>20</td>
                                     <td>每天上限50</td>
                                 </tr>
@@ -481,19 +466,19 @@
                                     <td>每天上限30</td>
                                 </tr>
 																<tr>
+                                    <td>文章被他人收藏</td>
+																		<td></td>
+                                    <td>2</td>
+                                    <td>每天上限30</td>
+                                </tr>
+																<tr>
                                     <td>文章被他人点赞</td>
 																		<td></td>
                                     <td>2</td>
                                     <td>每天上限30</td>
                                 </tr>
 																<tr>
-                                    <td rowspan="2">点评</td>
-                                    <td>发表点评</td>
-																		<td></td>
-                                    <td>2</td>
-                                    <td>每天上限30</td>
-                                </tr>
-																<tr>
+                                    <td>点评</td>
                                     <td>点评被他人点赞</td>
 																		<td></td>
                                     <td>1</td>
@@ -507,9 +492,9 @@
                                     <td></td>
                                 </tr>
 																<tr>
-                                    <td>发表产品试用报告（编辑审核加精华）</td>
+                                    <td>发表产品试用报告（编辑推荐或精华）</td>
 																		<td>5</td>
-                                    <td>10</td>
+                                    <td>20</td>
                                     <td></td>
                                 </tr>
 																<tr>
@@ -561,54 +546,39 @@
                                     <td>1</td>
                                     <td>每天上限20</td>
                                 </tr>
-																<tr>
+																<tr class="disabled">
                                     <td rowspan="2">分享</td>
                                     <td>分享文章至朋友圈/微博</td>
 																		<td>1</td>
                                     <td>5</td>
                                     <td>每天上限20</td>
                                 </tr>
-																<tr>
+																<tr class="disabled">
                                     <td>分享商品至朋友圈/微博</td>
 																		<td>1</td>
                                     <td>5</td>
                                     <td>每天上限20</td>
                                 </tr>
 																<tr>
-                                    <td rowspan="2">产品评测需审核</td>
-																		<td></td>
-                                    <td>普通评测</td>
-																		<td>5</td>
-                                    <td>5</td>
-                                    <td>每天上限20</td>
-                                </tr>
-																<tr>
-																		<td></td>
-                                    <td>评测加精华</td>
-																		<td>20</td>
-                                    <td>5</td>
-                                    <td></td>
-                                </tr>
-																<tr>
                                     <td rowspan="2">购买行为</td>
 																		<td>购买</td>
                                     <td>购买商品</td>
-																		<td>10元赠送1鸟币</td>
-                                    <td></td>
+																		<td>1鸟币/20元</td>
+                                    <td>100</td>
                                     <td>根据购买价格</td>
                                 </tr>
 																<tr>
-																		<td></td>
+																		<td>售后</td>
                                     <td>好评+评论</td>
 																		<td>5</td>
-                                    <td></td>
-                                    <td>满足好评要求 1单=50积分</td>
+                                    <td>50</td>
+                                    <td>满足好评要求</td>
                                 </tr>
                                 </tbody>
 																<tfoot>
 																	 <tr>
-																				<th colspan="6">说明：1鸟币=1元 积分可直接到积分商城兑换购买产品（1，购买时不限积分，上不封顶  2，积分不够产品价格 补差价）
-																				用户在订单结算页面用会员积分进行消费金额的抵扣（全部？部分？）</th>
+																				<th colspan="6">说明：1鸟币=1元 积分可直接到积分商城兑换购买产品（1、购买时不限积分，上不封顶；  2、积分不够产品价格 补差价）
+																				用户在订单结算页面用会员积分进行消费金额的部分抵扣。</th>
 		                                </tr>
 																</tfoot>
                             </table>

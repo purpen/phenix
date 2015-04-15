@@ -38,15 +38,12 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
         // 如果是新的记录
         if($this->insert_mode) {
             // 添加动态提醒
-            $timeline = new Sher_Core_Model_Timeline();
-            $arr = array(
-                'user_id' => $this->data['user_id'],
-                'target_id' => (int)$this->data['_id'],
-                'type' => Sher_Core_Model_Timeline::TYPE_USER,
-                'evt' => Sher_Core_Model_Timeline::EVT_FOLLOW,
-                'target_user_id' => (int)$this->data['follow_id'],
-            );
-            $ok = $timeline->create($arr);
+            $service = Sher_Core_Service_Timeline::instance();
+            // 关注某人
+            $service->broad_user_following($this->data['user_id'], (int)$this->data['follow_id']);
+            // 某人被关注
+            $service->broad_user_follower((int)$this->data['follow_id'], $this->data['user_id']);
+            
             // 给用户添加提醒
             if($ok){
                 $user = new Sher_Core_Model_User();

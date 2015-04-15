@@ -416,7 +416,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
-      $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
+            $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
 			
 			// 微信订单，调用发货通知
 			if ($ok && $order_info['from_site'] == Sher_Core_Util_Constant::FROM_WEIXIN) {

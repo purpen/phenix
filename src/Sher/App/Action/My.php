@@ -61,13 +61,13 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if(!isset($this->stash['user']['first_login']) || $this->stash['user']['first_login'] == 1){
 			$this->stash['error_message'] = '请首先完善个人资料，再继续！';
 
-      //周年庆送红包提示
-      if(Doggy_Config::$vars['app.anniversary2015.switch'] && isset($this->stash['first_year'])){
-        $this->stash['year_celebration'] = true;
-      }
+            // 周年庆送红包提示
+            if(Doggy_Config::$vars['app.anniversary2015.switch'] && isset($this->stash['first_year'])){
+                $this->stash['year_celebration'] = true;
+            }
 		}
 
-        //有些信息visitor没有，需要再次查询user表
+        // 有些信息visitor没有，需要再次查询user表
         $model = new Sher_Core_Model_User();
         $user = $model->find_by_id($this->visitor->id);
         if(empty($user)){
@@ -442,6 +442,19 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		try {
 	        //更新基本信息
 	        $ok = $this->visitor->save($user_info);
+            if($ok){
+                if(!empty($user_info['address']) && !empty($user_info['city']) && !empty($profile['phone']) && !empty($profile['realname']) && !empty($user_info['summary'])){
+                    if($this->stash['user']['first_login'] == 1){
+                        // 增加积分
+                        $service = Sher_Core_Service_Point::instance();
+                        // 完善个人资料
+                        $service->send_event('evt_profile_ok', $this->visitor->id);
+                        // 鸟币
+                        $service->make_money_in($this->visitor->id, 3, '完善资料赠送鸟币');
+                    }
+                }
+            }
+            
 		} catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
             return $this->ajax_note("更新失败:".$e->getMessage(), true);
@@ -582,7 +595,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         }
 
         //零元不能退款
-        if ((int)$order_info['pay_money']==0){
+        if ((float)$order_info['pay_money']==0){
             return $this->ajax_notification('此订单不允许退款操作！', true);
         }
 
@@ -781,6 +794,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
      */
     public function point(){
         $this->set_target_css_state('user_point');
+        // 用户实时积分
+        $point_model = new Sher_Core_Model_UserPointBalance();
+        $current_point = $point_model->load($this->visitor->id);
+        
+        $this->stash['current_point'] = $current_point;
+        
         return $this->to_html_page('page/my/point.html');
     }
 }

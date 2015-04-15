@@ -83,6 +83,11 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		if($type == self::TYPE_TRY){
 			$try = new Sher_Core_Model_Try();
 			$try->increase_counter('apply_count', 1, (int)$target_id);
+            
+            // 增加积分
+            $service = Sher_Core_Service_Point::instance();
+            // 申请试用
+            $service->send_event('evt_request_try', $this->data['user_id']);
 		}
     }
 	

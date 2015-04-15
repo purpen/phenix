@@ -21,8 +21,8 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$target_id = 0;
 		$type = 0;
-    $event = 0;
-    $no_comment = 0;
+        $event = 0;
+        $no_comment = 0;
 		
         $var = 'list';
         $include_pager = 0;

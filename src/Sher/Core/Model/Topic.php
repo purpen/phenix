@@ -138,14 +138,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 
             // 如果是发布状态,创建动态
             if ($this->data['published'] == 1) {
-                $timeline = new Sher_Core_Model_Timeline();
-                $arr = array(
-                    'user_id' => $this->data['user_id'],
-                    'target_id' => (int)$this->data['_id'],
-                    'type' => Sher_Core_Model_Timeline::TYPE_TOPIC,
-                    'evt' => Sher_Core_Model_Timeline::EVT_POST,
-                );
-                $timeline->create($arr);
+                $service = Sher_Core_Service_Timeline::instance();
+                $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
             }
             
             // 增长积分
@@ -226,14 +220,28 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
      * 标记主题 精华
      */
 	public function mark_as_fine($id){
-		return $this->update_set($id, array('fine' => 1));
+		$ok = $this->update_set($id, array('fine' => 1));
+        if($ok){
+            $data = $this->load($id);
+            // 增加消费积分（鸟币）
+            $service = Sher_Core_Service_Point::instance();
+            $service->make_money_in($data['user_id'], 5, '精华内容');
+        }
+        return $ok;
 	}
 	
     /**
      * 标记主题 取消精华
      */
 	public function mark_cancel_fine($id){
-		return $this->update_set($id, array('fine' => 0));
+		$ok = $this->update_set($id, array('fine' => 0));
+        if($ok){
+            $data = $this->load($id);
+            // 减少消费积分（鸟币）
+            $service = Sher_Core_Service_Point::instance();
+            $service->make_money_out($data['user_id'], 5, '取消精华内容');
+        }
+        return $ok;
 	}
 	
 	/**

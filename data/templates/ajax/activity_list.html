@@ -1,0 +1,34 @@
+<taconite>
+	{% for line in timelist.rows %}
+        <append select="#user-activity-list"><![CDATA[
+            <div class="item">
+                <img class="ui small avatar image" src="{{ line.user.small_avatar_url }}" />
+                <div class="content">
+                    <div class="header">
+                        <a href="{{ line.user.home_url }}" title="{{ line.user.nickname }}" class="ui magenta line">{{ line.user.nickname }}</a> <small>{{ line.created_on }}</small>
+                    </div>
+                    <div class="description">
+                        {{ line.label }} <a href="{{ line.target.view_url }}" target="_blank" class="ui line">{{ line.target.title }}</a>.
+                        {% if line.comment %}
+                            <p>{{ line.comment.content }}</p>
+                        {% endif %}
+                    </div>
+                    {% if line.target.cover %}
+                    <div class="cover">
+                        <a href="{{ line.target.view_url }}" target="_blank">
+                            <img class="ui image" src="{{ line.target.cover_small_url }}" />
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        ]]></append>
+	{% endfor %}
+    
+    <eval>
+        $('.ui.more.button').data('page', '{{next_page}}');
+        {% if next_page == 'no' %}
+            $('.ui.more.button').addClass('disabled').text('没有更多了~');
+        {% endif %}
+    </eval>
+</taconite>

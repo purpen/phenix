@@ -28,6 +28,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TYPE_TOPIC   = 2;
     const TYPE_ACTIVE  = 3;
 	const TYPE_STUFF   = 4;
+    const TYPE_USER    = 5;
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
@@ -37,6 +38,40 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_WEIXIN = 5;
 	const FROM_WAP = 6;
 	const FROM_IAPP = 7;
+    
+    
+    /**
+     * 事件类型
+     */
+	# 发表/提交
+	const EVT_POST = 1;
+    
+	# 发布
+	const EVT_PUBLISH = 2;
+	
+	# 回应
+	const EVT_REPLY = 3;
+	
+	# 评价
+	const EVT_COMMENT = 4;
+	
+	# 收藏
+	const EVT_FAVORITE = 5;
+	
+    # 喜欢
+    const EVT_LOVE = 6;
+
+    # 关注者
+    const EVT_FOLLOW = 7;
+    
+    # 关注
+    const EVT_FOLLOWING = 8;
+
+    # 分享
+    const EVT_SHARE = 9;
+    
+    # 投票
+    const EVT_VOTE = 10;
 	
 	
 	# 第三方支付
@@ -61,13 +96,16 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const DIG_TOPIC_TOP = 'dig_topic_top';  // 全部置顶主题列表
     # 版块置顶
     const DIG_TOPIC_CATEGROY = 'dig_topic_category';
+    
+    # 大赛抽奖统计
+    const DIG_MATCH_PRAISE_STAT = 'dig_match_praise_stat';
 	
 	const FEATURED_STUFF = 'featured_stuff_list';
 
-  # 大赛参加省份统计
-  const DIG_MATCH2_PROVINCE = 'match2_province_top';
-  # 大赛参加大学统计
-  const DIG_MATCH2_COLLEGE = 'match2_college_top';
+    # 大赛参加省份统计
+    const DIG_MATCH2_PROVINCE = 'match2_province_top';
+    # 大赛参加大学统计
+    const DIG_MATCH2_COLLEGE = 'match2_college_top';
 
     /**
      * DigList stuff计数器
@@ -181,11 +219,50 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      */
     const EVENT_STATE_DONE = 100;
     
+
+    const TRANS_TYPE_IN = 1;
+
+    const TRANS_TYPE_OUT = -1;
+
+    /**
+     * 初始交易
+     */
+    const TRANS_STATE_INIT = 0;
+    /**
+     * 事务进行中
+     */
+    const TRANS_STATE_PENDING = 10;
+    /**
+     * 事务完成
+     */
+    const TRANS_STATE_OK = 100;
+    /**
+     * 事务已经取消
+     */
+    const TRANS_STATE_CANCELED = -1;
+
+    /*
+     * 未记账
+     */
+    const POINT_ACCOUNT_STATE_NEW = 0;
+    /**
+     * 已记账
+     */
+    const POINT_ACCOUNT_STATE_DOING = 1;
+    /**
+     * 已结帐
+     */
+    const POINT_ACCOUNT_STATE_DONE = 0;
+    
+    
+    ## 记数器
+    const USER_AUTO_GEN_COUNT = 'user_auto_gen';
+    
+    
     /**
      * 版块置顶key
      */
     public static function top_topic_category_key($category_id){
         return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
     }
-    
 }

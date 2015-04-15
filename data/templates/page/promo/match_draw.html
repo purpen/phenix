@@ -1,0 +1,147 @@
+{%extends 'layout/sns.html'%}
+{% block title %}十万火计-抽奖 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+
+	body{ background:#fff;}
+	.wrap{ width:300px; margin:100px auto; font-family:"微软雅黑";}
+	.show{ width:300px; height:300px; background-color:#ff3300; line-height:300px; text-align:center; color:#fff; font-size:28px; -moz-border-radius:150px; -webkit-border-radius:150px; border-radius:150px; background-image: -webkit-gradient(linear,0% 0%, 0% 100%, from(#FF9600), to(#F84000), color-stop(0.5,#fb6c00)); -moz-box-shadow:2px 2px 10px #BBBBBB; -webkit-box-shadow:2px 2px 10px #BBBBBB; box-shadow:2px 2px 10px #BBBBBB;}
+	.btn a{ display:block; width:120px; height:50px; margin:30px auto; text-align:center; line-height:50px; text-decoration:none; color:#fff; -moz-border-radius:25px; -webkit-border-radius:25px; border-radius:25px;}
+	.btn a.start{ background:#80b600;}
+	.btn a.start:hover{ background:#75a700;}
+	.btn a.stop{ background:#00a2ff;}
+	.btn a.stop:hover{ background:#008bdb;}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+  var alldata = new Array();
+  var praises = new Array();
+  var praised = new Array();
+
+  var num = 0;
+  var show = $("#show");
+  var btn = $("#btn");
+  var open = false;
+  
+  //ajax改变抽奖号状态
+  function ajax_change_match_praise(praise,user,account,evt){
+    $.get('/promo/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt}, function(result){
+
+      ajax_load_all();
+
+
+    });
+  }
+
+  //加载全部
+  function ajax_load_all(){
+     $.get('/promo/ajax_fetch_match2_praise_list', {evt:0}, function(result){
+      result = eval('('+ result +')');
+      if(result.success){
+        praised = new Array();
+        praises = new Array();
+        $.each(result.data, function(i, v){
+          if(v.evt==1){
+            //已中奖
+            praised.push(v);
+          }else{
+            //未中奖
+            praises.push(v);
+          }
+        });
+      }else{
+        alert('数据为空!');
+      }
+
+      num = praises.length - 1;
+      //加载已中奖名单
+      $('#item-list').html('');
+      $.each(praised, function(i, v){
+        var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
+        $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</span></div>');   
+      })
+    });
+  }
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+  ajax_load_all();
+
+  function change(){
+    if(praises.length==0){
+      show.text('已抽完');
+      return;
+    }
+    var randomVal = Math.round(Math.random() * num);
+    var prizeName = praises[randomVal].praise;
+    show.text(prizeName);
+    show.attr('account', praises[randomVal].account);
+    show.attr('user', praises[randomVal].user);
+    show.attr('current', randomVal);
+  }
+  
+  function run(){
+    if(!open){
+      timer=setInterval(change,30);
+      btn.removeClass('start').addClass('stop').text('停止');
+      open = true;
+    }else{
+      clearInterval(timer);
+      btn.removeClass('stop').addClass('start').text('开始抽奖');
+      open = false;
+      if(praises.length==0){
+        show.text('已抽完');
+        return;
+      }
+
+      var praise = $('#show').text();
+      var account = $('#show').attr('account');
+      var user = $('#show').attr('user');
+      var current = $('#show').attr('current');
+
+      //改变幸运号状态
+      ajax_change_match_praise(praise,user,account,1);
+
+    }
+  }
+  
+  btn.click(function(){run();})
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="wrap">
+		<div class="show" id="show">点击按钮开始抽奖</div>
+		<div class="btn">
+			<a href="javascript:void(0)" class="start" id="btn" account="" user="">开始抽奖</a>
+		</div>
+	</div>
+  <div id="item-list" style="float:right;border:1px solid red;width:100px;">
+    <div>
+      <span class="item"></span>
+    </div>
+  </div>
+
+
+<div style="text-align:center;clear:both">
+<p>适用浏览器：IE8、360、FireFox、Chrome、Opera、傲游、搜狗、世界之窗. 不支持Safari浏览器。</p>
+<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+

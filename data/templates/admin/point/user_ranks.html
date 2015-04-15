@@ -19,18 +19,24 @@
 				<th>等级ID</th>
 				<th>头衔</th>
                 <th>升级条件</th>
+                <th>积分奖励</th>
 				<th>下一等级</th>
                 <th>备注</th>
 				<th></th>
 			</tr>
             {% for rank in ranks %}
-            <tr>
+            <tr id="{{ rank._id }}">
                 <td>{{ rank.rank_id }}</td>
                 <td>{{ rank.title }}</td>
                 <td>{{ rank.point_type }} => {{ rank.point_amount }}</td>
+                <td>
+                    {% if rank.award_point_type %}
+                        {{ rank.award_point_type }} => {{ rank.award_point_amount }}
+                    {% endif %}
+                </td>
                 <td>{{ rank.next_rank_id }}</td>
                 <td>{{ rank.note }}</td>
-                <td></td>
+                <td><a href="{{ app_url_admin }}/point/add_user_rank?id={{ rank._id }}" class="ui link item">编辑</a></td>
             </tr>
             {% endfor %}
 

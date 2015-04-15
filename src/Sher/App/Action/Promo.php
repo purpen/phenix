@@ -328,5 +328,65 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     }
   }
 
+  /**
+   * 大赛线下抽奖
+   */
+  public function match_draw(){
+    //管理员权限
+    if(!$this->visitor->can_admin){
+      //return $this->ajax_note("没有权限!", true); 
+    }
+
+
+		return $this->to_html_page('page/promo/match_draw.html');
+  
+  }
+
+  /**
+   * ajax获取抽奖列表
+   */
+  public function ajax_fetch_match2_praise_list(){
+    //抽奖名单
+    $digged = new Sher_Core_Model_DigList();
+    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    $result = $digged->load($key_id);
+    $praises = array();
+    $praised = array();
+    if(!empty($result) && !empty($result['items'])){
+      foreach($result['items'] as $k=>$v){
+        $evt = isset($v['evt'])?$v['evt']:0;
+        if($evt==0){
+          array_push($praises, $v);
+        }else{
+          array_push($praised, $v);
+        }
+      }
+    }
+    return $this->ajax_json('success', 0, 0, $result['items']);
+  }
+
+  /**
+   * 改变大赛中奖状态
+   */
+  public function ajax_change_match_praise(){
+    $user = isset($this->stash['user'])?(int)$this->stash['user']:0;
+    $account = isset($this->stash['account'])?$this->stash['account']:0;
+    $praise = isset($this->stash['praise'])?(int)$this->stash['praise']:0;
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+
+    $digged = new Sher_Core_Model_DigList();
+    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    if($evt==0){
+      $evt_new = 1;
+    }else{
+      $evt_new = 0;
+    }
+    $item_new = array('user'=>$user, 'account'=>$account, 'praise'=>$praise, 'evt'=>$evt);
+    $item = array('user'=>$user, 'account'=>$account, 'praise'=>$praise, 'evt'=>$evt_new);
+    $digged->remove_item_custom($key_id, $item);
+    $digged->add_item_custom($key_id, $item_new);
+    
+  }
+
 }
 ?>

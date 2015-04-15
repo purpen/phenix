@@ -21,8 +21,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$target_id = 0;
 		$try_id = 0;
-    $college_id = 0;
-    $province_id = 0;
+        $college_id = 0;
+        $province_id = 0;
 		
 		// 是否为一级分类
 		$is_top = false;

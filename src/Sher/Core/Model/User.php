@@ -1,7 +1,7 @@
 <?php
 /**
  * Model user
- * 
+ * @author purpen
  */
 class Sher_Core_Model_User extends Sher_Core_Model_Base {
     protected $collection = 'user';
@@ -148,8 +148,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'product_count' => 0,
 		# 灵感数量
 		'stuff_count'   => 0,
-    # 收藏数量
-    'favorite_count' => 0,
+        # 收藏数量
+        'favorite_count' => 0,
 		
 		## 初次登录导向
 		'first_login'   => 1,
@@ -228,9 +228,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'invite_code' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1);
 	
-    protected $required_fields = array('account','password');
+    protected $required_fields = array('account', 'password');
 
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality');
     
@@ -265,9 +265,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if($this->insert_mode){
             Sher_Core_Util_Tracker::update_user_counter();
             parent::after_save();
+            $user_id = $this->data['_id'];
+            // print 'init user-id:'.$user_id;
             // 初始化会员扩展状态表记录
             $model = new Sher_Core_Model_UserExtState();
-            $model->create(array('_id' => $this->data['_id']));
+            $model->init_record($user_id);
+            $model = new Sher_Core_Model_UserPointQuota();
+            $model->init_record($user_id);
+            $model = new Sher_Core_Model_UserPointBalance();
+            $model->touch_init_record($user_id);
         }
     }
 	
@@ -365,13 +371,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
-		// 显示名称
-		$row['screen_name'] = !empty($row['nickname']) ? $row['nickname'] : '火鸟人';
         // 如果是手机号,中间段以*显示
         $row['true_nickname'] = $row['nickname'];
         if(!empty($row['nickname']) && strlen((int)$row['nickname'])==11){
             $row['nickname'] = substr((int)$row['nickname'],0,3)."*****".substr((int)$row['nickname'],8,3);
         }
+		// 显示名称
+		$row['screen_name'] = !empty($row['nickname']) ? $row['nickname'] : '火鸟人';
 		
 		// 用户头像
 		if(!empty($row['avatar'])){
@@ -663,7 +669,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('user_id or avatar is NULL');
         }
 		
-        $this->update_set((int) $user_id,array('avatar'=>$avatar));
+        return $this->update_set((int) $user_id,array('avatar'=>$avatar));
 	}
 	
     /**
@@ -677,7 +683,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('user_id is NULL');
         }
         $user_id = (int) $user_id;
-        $this->update_set($user_id,array('profile' => $profile));
+        
+        return $this->update_set($user_id,array('profile' => $profile));
     }
     
     public function update_contact($contact,$user_id=null) {
@@ -688,7 +695,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             throw new Sher_Core_Model_Exception('user_id is NULL');
         }
         $user_id = (int) $user_id;
-        $this->update_set($user_id,array('contact' => $contact));
+        
+        return $this->update_set($user_id,array('contact' => $contact));
     }
 	
 	/**

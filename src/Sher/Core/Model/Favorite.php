@@ -78,14 +78,18 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 $field = 'favorite_count';
                 $evt = Sher_Core_Model_Remind::EVT_FAVORITE;
                 $point_event = 'evt_favorited';
+                $timeline_event = Sher_Core_Util_Constant::EVT_FAVORITE;
             }elseif ($event == self::EVENT_LOVE){
                 $field = 'love_count';
                 $evt = Sher_Core_Model_Remind::EVT_LOVE;
                 $point_event = 'evt_like';
+                $timeline_event = Sher_Core_Util_Constant::EVT_LOVE;
             }
             
             switch($type){
                 case self::TYPE_TOPIC:
+                    $timeline_type = Sher_Core_Util_Constant::TYPE_TOPIC;
+                    
                     $model = new Sher_Core_Model_Topic();
                     $model->increase_counter($field, 1, (int)$this->data['target_id']);
                     $kind = Sher_Core_Model_Remind::KIND_TOPIC;
@@ -100,12 +104,15 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     
                     break;
                 case self::TYPE_PRODUCT:
+                    $timeline_type = Sher_Core_Util_Constant::TYPE_PRODUCT;
+                    
                     $model = new Sher_Core_Model_Product();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     //获取目标用户ID
                     $product = $model->extend_load((int)$this->data['target_id']);
                     $user_id = $product['user_id'];
                     $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
+                    
                     break;
                 case self::TYPE_COMMENT:
                     $model = new Sher_Core_Model_Comment();
@@ -122,6 +129,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     
                     break;
                 case self::TYPE_STUFF:
+                    $timeline_type = Sher_Core_Util_Constant::TYPE_STUFF;
+                    
                     $model = new Sher_Core_Model_Stuff();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     if($event == self::EVENT_LOVE){
@@ -132,45 +141,46 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $user_id = $stuff['user_id'];
                     $kind = Sher_Core_Model_Remind::KIND_STUFF;
 
-                    //如果是点赞,是大赛作品,给相应的大学人气+1
-                    if($event == self::EVENT_LOVE && $stuff['from_to']==1){
-                      $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
-                      $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
-                      $num_mode = new Sher_Core_Model_SumRecord();
-                      if($province_id){
-                        $num_mode->add_record($province_id, 'match2_love_count', 1);    
-                      }
-                      if($college_id){
-                        $num_mode->add_record($college_id, 'match2_love_count', 2);    
-                      }  
+                    // 如果是点赞,是大赛作品,给相应的大学人气+1
+                    if($event == self::EVENT_LOVE && $stuff['from_to'] == 1){
+                        $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
+                        $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
+                        $num_mode = new Sher_Core_Model_SumRecord();
+                        if($province_id){
+                            $num_mode->add_record($province_id, 'match2_love_count', 1);    
+                        }
+                        if($college_id){
+                            $num_mode->add_record($college_id, 'match2_love_count', 2);    
+                        }
                     }
-
                     break;
                 default:
                     return;
             }
-
-            // 添加动态
-            /*
-          $timeline = new Sher_Core_Model_Timeline();
-          $arr = array(
-            'user_id' => $this->data['user_id'],
-            'target_id' => (string)$this->data['_id'],
-            'type' => $type,
-            'evt' => $evt,
-            'target_user_id' => $user_id,
-          );
-          $ok = $timeline->create($arr);
-          */
+            
+            Doggy_Log_Helper::debug("Valid timeline type[$timeline_type],event[$timeline_event]!");
+            
+            // 添加动态提醒
+            if(isset($timeline_type) && isset($timeline_event)){
+                $timeline = Sher_Core_Service_Timeline::instance();
+                if($timeline_event == Sher_Core_Util_Constant::EVT_FAVORITE){
+                    // 收藏某对象
+                    $timeline->broad_target_favorite($this->data['user_id'], (int)$this->data['target_id'], $timeline_type);
+                }elseif($timeline_event == Sher_Core_Util_Constant::EVT_LOVE){
+                    // 点赞某对象
+                    $timeline->broad_target_love($this->data['user_id'], (int)$this->data['target_id'], $timeline_type);
+                }
+            }
+            
             // 给用户添加提醒
             $remind = new Sher_Core_Model_Remind();
             $arr = array(
-            'user_id'=> $user_id,
-            's_user_id'=> $this->data['user_id'],
-            'evt'=> $evt,
-            'kind'=> $kind,
-            'related_id'=> $this->data['target_id'],
-            'parent_related_id'=> (string)$this->data['_id'],
+                'user_id'=> $user_id,
+                's_user_id'=> $this->data['user_id'],
+                'evt'=> $evt,
+                'kind'=> $kind,
+                'related_id'=> $this->data['target_id'],
+                'parent_related_id'=> (string)$this->data['_id'],
             );
             $ok = $remind->create($arr);
         }

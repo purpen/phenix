@@ -60,7 +60,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $type = $this->data['type'];
             switch($type){
                 case self::TYPE_TOPIC:
+                    $timeline_type = Sher_Core_Util_Constant::TYPE_TOPIC;
                     $kind = Sher_Core_Model_Remind::KIND_TOPIC;
+                    
                     $model = new Sher_Core_Model_Topic();
                     // 获取目标用户ID
                     $topic = $model->find_by_id((int)$this->data['target_id']);
@@ -75,12 +77,22 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $service->send_event('evt_by_reply', $user_id);
                     break;
                 case self::TYPE_PRODUCT:
+                    $timeline_type = Sher_Core_Util_Constant::TYPE_PRODUCT;
                     $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
+                    
                     $model = new Sher_Core_Model_Product();
-                    //获取目标用户ID
+                    // 获取目标用户ID
                     $product = $model->find_by_id((int)$this->data['target_id']);
                     $user_id = $product['user_id'];
                     $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
+                    
+                    // 增加积分
+                    $service = Sher_Core_Service_Point::instance();
+                    // 好评+评论
+                    $service->send_event('evt_buy_good_comment', $this->data['user_id']);
+                    // 鸟币
+                    $service->make_money_in($this->data['user_id'], 5, '好评赠送鸟币');
+                    
                     break;
                 case self::TYPE_TRY:
                     $kind = Sher_Core_Model_Remind::KIND_TRY;
@@ -91,7 +103,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
                 case self::TYPE_STUFF:
+                    $timeline_type = Sher_Core_Util_Constant::TYPE_STUFF;
                     $kind = Sher_Core_Model_Remind::KIND_STUFF;
+                    
                     $model = new Sher_Core_Model_Stuff();
                     //获取目标用户ID
                     $stuff = $model->find_by_id((int)$this->data['target_id']);
@@ -101,32 +115,40 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 default:
                     break;
             }
-            if($user_id){
-              $user = new Sher_Core_Model_User();
-              $user->update_counter_byinc($user_id, 'comment_count', 1);          
+            
+	        // 添加动态提醒
+            if(isset($timeline_type)){
+                $timeline = Sher_Core_Service_Timeline::instance();
+                $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
             }
-
+            
+            if($user_id){
+                $user = new Sher_Core_Model_User();
+                $user->update_counter_byinc($user_id, 'comment_count', 1);          
+            }
+            
         }
     }
 
-  /**
-   * 类型说明
-   */
-  public function type_str($type){
-    $type_str = null;
-    switch ((int)$type){
-    case self::TYPE_TOPIC:
-      $type_str = '话题';
-      break;
-    case self::TYPE_PRODUCT:
-      $type_str = '创意产品';
-      break;
-    case self::TYPE_STUFF:
-      $type_str = '创意灵感';
-      break;
+    /**
+     * 类型说明
+     */
+    public function type_str($type){
+        $type_str = null;
+        switch ((int)$type){
+            case self::TYPE_TOPIC:
+                $type_str = '话题';
+                break;
+            case self::TYPE_PRODUCT:
+                $type_str = '创意产品';
+                break;
+            case self::TYPE_STUFF:
+                $type_str = '创意灵感';
+                break;
+        }
+        
+        return $type_str;
     }
-    return $type_str;
-  }
 	
 	/**
 	 * 删除后事件
@@ -209,16 +231,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		
 	   	if ($this->update($comment_id, $updated_row)){
 	        $comment_user = $this->extend_load($comment_id);
-	        // 添加动态提醒
-	        $timeline = new Sher_Core_Model_Timeline();
-	        $arr = array(
-	          'user_id' => $reply_row['user_id'],
-	          'target_id' => (string)$comment_id,
-	          'type' => Sher_Core_Model_Timeline::EVT_REPLY,
-	          'evt' => Sher_Core_Model_Timeline::EVT_COMMENT,
-	          'target_user_id' => $comment_user['user_id'],
-	        );
-	        $ok = $timeline->create($arr);
+	        
 	        // 给用户添加提醒
 	        if($ok){
 	          $user = new Sher_Core_Model_User();
@@ -276,58 +289,59 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         return self::$_db->pull($this->collection, $criteria, 'reply', $removed_reply);
     }
 
-  /**
-   * 转换评论内容(解析图片和链接)
-   */
-  protected function trans_content($c){
-    if(empty($c)){
-      return;
+    /**
+     * 转换评论内容(解析图片和链接)
+     */
+    protected function trans_content($c){
+        if(empty($c)){
+            return;
+        }
+
+        $c = $this->trans_img($c);
+        $c = $this->trans_link($c);
+        
+        return $c;
     }
 
-    $c = $this->trans_img($c);
-    $c = $this->trans_link($c);
-    return $c;
-  }
-
-  /**
-   * 转换图片格式
-   */
-  protected function trans_img($c){
-    if(empty($c)){
-      return;
+    /**
+     * 转换图片格式
+     */
+    protected function trans_img($c){
+        if(empty($c)){
+            return;
+        }
+        $merge = '/\[i:(.*):\]/U';
+        $c = preg_replace_callback(
+            $merge,
+            function($s){
+                $a = explode('::', $s[1]);
+                $img = '<p class="comment-img-box" show-type="1"><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" style="cursor: -webkit-zoom-in;" /></p>';
+                return $img;
+            },
+            $c
+        );
+        return $c;
     }
-    $merge = '/\[i:(.*):\]/U';
-    $c = preg_replace_callback(
-      $merge,
-      function($s){
-        $a = explode('::', $s[1]);
-        $img = '<p class="comment-img-box" show-type="1"><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" style="cursor: -webkit-zoom-in;" /></p>';
-        return $img;
-      },
-      $c
-    );
-    return $c;
-  }
 
-  /**
-   * 转换链接格式
-   */
-  protected function trans_link($c){
-    if(empty($c)){
-      return;
+    /**
+     * 转换链接格式
+     */
+    protected function trans_link($c){
+        if(empty($c)){
+            return;
+        }
+        $merge = '/\[l:(.*):\]/U';
+        $c = preg_replace_callback(
+            $merge,
+            function($s){
+                $a = explode('::', $s[1]);
+                $img = ' <a href="'.$a[0].'" title="'.$a[1].'" target="_blank" >'.$a[1].'</a> ';
+                return $img;
+            },
+            $c
+        );
+        
+        return $c;
     }
-    $merge = '/\[l:(.*):\]/U';
-    $c = preg_replace_callback(
-      $merge,
-      function($s){
-        $a = explode('::', $s[1]);
-        $img = ' <a href="'.$a[0].'" title="'.$a[1].'" target="_blank" >'.$a[1].'</a> ';
-        return $img;
-      },
-      $c
-    );
-    return $c;
-  }
 	
 }
-?>

@@ -1,0 +1,125 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ user.screen_name }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="user masthead" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ last_char |default 0 }}.jpg');">
+    <div class="masthead-cover">
+    	<div class="ui responsive grid">
+    		<div class="row">
+    			<div class="column">
+    				<div class="container">
+                        <img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
+                    
+                    	<h2 class="ui header">
+                    		{{ user.nickname }}
+                    	</h2>
+                    	<p class="summary">{{ user.summary }}</p>
+                    	{% if user._id != visitor.id %}
+                    	{% if !is_ship %}
+                    	<a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white inverted inverted button ajax" id="user_{{ user._id }}_ship">
+                    		关注 
+                    	</a>
+                    	{% else %}
+                    	<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white inverted inverted button ajax" id="user_{{ user._id }}_ship">已关注</a>
+                    	{% endif %}
+
+                    	<button class="ui small white letter inverted button">
+                    		私信
+                    	</button>
+                    	{% endif %}
+                    </div>
+    			</div>
+    		</div>
+        </div>
+    </div>
+</div>
+
+{%include 'block/user_submenu.html'%}
+
+<div class="user center">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui very compact grid">
+                    <div class="twelve wide column">
+                        {% follow_list var:'users' page:page user_id:user.id size:18 %}
+        				<div class="ui mentors three cards">
+        					{% for user in users.rows %}
+        				  	<div class="card">
+        						<div class="mentor">
+        							<a href="{{ user.follow.home_url }}" title="{{ user.follow.nickname }}" target="_blank" class="user"></a>
+        							<img src="{{ user.follow.big_avatar_url }}" alt="{{ user.follow.nickname }}" class="avatar" />
+        							<h3>{{ user.follow.nickname }}</h3>
+        							<p>{{ user.follow.mentor_info.name }} {{ user.follow.city }}</p>
+        						</div>
+        				  	</div>
+        					{% endfor %}
+        				</div>
+                        
+                		{% if users.total_page > 1 %}
+                		<div class="ui pagebox">
+                			{% pager url:pager_url,total_rows:users.total_rows,total_page:users.total_page,current_page:page,var:'pager',pager_size:9 %}
+                			{%include 'block/pager.html'%}
+                		</div>
+                		{% endif %}
+                    </div>
+                    <div class="four wide column">
+                        {%include 'block/user_rightbar.html'%}
+                    </div>
+                    
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+{% include "block/message.html" %}
+
+{% endblock %}
