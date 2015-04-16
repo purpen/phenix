@@ -56,7 +56,7 @@
 		letter-spacing: 20px;
 		padding-left: 20px;
 	}
-	#item-list{
+	.jiang{
 		width: 130px; 
 		position: absolute;
 		top: 7px;
@@ -121,7 +121,7 @@
       $('#item-list').html('');
       $.each(praised, function(i, v){
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
-        $('#item-list').append('<h2 class="ui header">中奖用户</h2><div class="onepos"><span class="item">'+ account_f +'</span><i class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);"></i></div>');   
+        $('#item-list').append('<div class="onepos"><span class="item">'+ account_f +'</span><i class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);"></i></div>');   
       })
     });
   }
@@ -187,11 +187,13 @@
 		<div class="btn">
 			<a href="javascript:void(0)" class="start" id="btn" account="" user="">开始抽奖</a>
 		</div>
-		<div id="item-list">
+		<div class="jiang">
 			<h2 class="ui header">中奖用户</h2>
-	    <div class="onepos">
-	      <span class="item"></span>
-	    </div>
+			<div id="item-list">
+	    	<div class="onepos">
+		      <span class="item"></span>
+		    </div>
+			</div>
 	  </div>
 			
 	</div>
