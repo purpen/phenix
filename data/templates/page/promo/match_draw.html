@@ -204,7 +204,7 @@
 			}
       $.each(praised, function(i, v){
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
-        $('#item-list').append('<div class="onepos"><span class="item">'+ account_f +'</span><i class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);"></i></div>');   
+        $('#item-list').append('<div class="onepos"><span class="item">'+ account_f +'</span><i style="opacity:0;" class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);"></i></div>');   
       })
     });
   }
