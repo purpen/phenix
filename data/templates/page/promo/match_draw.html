@@ -56,6 +56,21 @@
 		letter-spacing: 20px;
 		padding-left: 20px;
 	}
+	#item-list{
+		width: 130px; 
+		position: absolute;
+		top: 7px;
+		left: 77%;
+		color:#fff;
+	}
+	.onepos{
+		background: #05aa5e;
+		padding: 5px;
+		margin-bottom: 2px;
+	}
+	.onepos i{
+		float:right;
+	}
 </style>
 {% endblock %}
 
@@ -106,7 +121,7 @@
       $('#item-list').html('');
       $.each(praised, function(i, v){
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
-        $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</span></div>');   
+        $('#item-list').append('<div class="onepos"><span class="item">'+ account_f +'</span><i class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</i></div>');   
       })
     });
   }
@@ -172,8 +187,9 @@
 		<div class="btn">
 			<a href="javascript:void(0)" class="start" id="btn" account="" user="">开始抽奖</a>
 		</div>
-		<div id="item-list" style="float:right;border:1px solid red;width:100px;width: 130px; position: absolute;top: 60px;left: 77%;">
-	    <div>
+		<div id="item-list">
+			<h2 class="ui header">中奖用户</h1>
+	    <div class="onepos">
 	      <span class="item"></span>
 	    </div>
 	  </div>
