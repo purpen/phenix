@@ -72,4 +72,3 @@ class Sher_Core_Service_Search extends Sher_Core_Service_Base {
     }
     
 }
-?>
