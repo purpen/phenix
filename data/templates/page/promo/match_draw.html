@@ -127,9 +127,9 @@
 	.user-pos .ui.grid{
 		margin:0;
 	}
-	.user-pos .ui.grid .first.row + .row{
+	/*.user-pos .ui.grid .first.row + .row{
 		padding-top:5px;
-	}
+	}*/
 	.user-pos .ui.grid .row{
 		margin-top:0;
 		padding-top:0;
@@ -194,7 +194,7 @@
 				html += '<div class="ui seven wide column">'+ v.account +'</div>';
 				html += '</div>';
       });
-			$('#all-list').append(html);
+			$('#all-list').html(html);
 
       num = praises.length - 1;
       //加载已中奖名单
@@ -292,7 +292,7 @@
 		<div class="utxt">
 
 			<div class="user-pos">
-				<div class="ui grid" id="all-list">
+				<div class="ui grid">
 					<div class="row first">
 						<div class="ui four wide column">
 							用户ID
@@ -303,6 +303,9 @@
 						<div class="ui seven wide column">
 							电话号码
 						</div>
+					</div>
+					<div id="all-list" style="padding-top:5px">
+						
 					</div>
 					
 				</div>
