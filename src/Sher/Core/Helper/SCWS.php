@@ -52,9 +52,6 @@ class Sher_Core_Helper_SCWS {
         // if (mb_strlen($query_text)<=6) {
         //     return array($query_text);
         // }
-        if(is_array($query_text)){
-            return self::segment_filter_word($query_text);
-        }
         return self::segment_index_word($scws,$query_text);
     }
 }
