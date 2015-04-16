@@ -120,8 +120,8 @@
       //加载已中奖名单
       $('#item-list').html('');
 			if(praised.length > 0){
-				<h2 class="ui header">中奖用户</h2>
-			};
+				$('#item-list').html('<h2 class="ui header">中奖用户</h2>');
+			}
       $.each(praised, function(i, v){
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
         $('#item-list').append('<div class="onepos"><span class="item">'+ account_f +'</span><i class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);"></i></div>');   
