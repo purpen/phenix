@@ -161,12 +161,17 @@
 			position: absolute;
 			margin-top: -20%;
 		}
-		.s2-1,.s2-8,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11{
+		.s2-1,.s2-8,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11,.s7-1{
 			width: 68%;
 		  margin: 0 16%;
 		}
 		.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7{
 			width:26%;
+		}
+		.s7-2,.s7-3,.s7-4{
+			width: 68%;
+		  margin: 0 16%;
+			position:relative;
 		}
 		.s6-1{
 			width: 100%;
@@ -194,9 +199,14 @@
 			left: 5%;
 			bottom: 45%;
 		}
-		.s2-1,.s2-8,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11{
+		.s2-1,.s2-8,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11,.s7-1{
 			width: 90%;
 			margin: 0 5%;
+		}
+		.s7-2,.s7-3,.s7-4{
+			width: 90%;
+			margin: 0 5%;
+			position:relative;
 		}
 		.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7{
 			width:30%;
@@ -228,12 +238,17 @@
 			left: 5%;
 			bottom:40%;
 		}
-		.s2-1,.s2-8,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11{
+		.s2-1,.s2-8,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11,.s7-1{
 			width: 90%;
 			margin: 0 5%;
 		}
 		.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7{
 			width:30%;
+		}
+		.s7-2,.s7-3,.s7-4{
+			width: 90%;
+			margin: 0 5%;
+			position:relative;
 		}
 		.s6-1{
 			width:100%;
@@ -263,7 +278,7 @@
 			width: 80%;
 			margin:0 10%;
 		}
-		.s2-1,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11{
+		.s2-1,.s3-1,.s3-2,.s4-1,.s4-2,.s4-3,.s5-1,.s5-2,.s5-3,.s5-4,.s5-5,.s5-6,.s5-7,.s5-8,.s5-9,.s5-10,.s5-11,.s7-1,.s7-2,.s7-3,.s7-4{
 			width: 80%;
 			margin: 0 10%;
 		}
@@ -358,6 +373,10 @@
 	.s2-8{
 		opacity:0;
 	}
+	.s7-2,.s7-3,.s7-4{
+		opacity:0;
+		top:400px;
+	}
 	.section.page-5{
 		position:relative;
 	}
@@ -410,7 +429,7 @@
 		<script type="text/javascript" >
 			$('.wrap').fullpage({
 				'verticalCentered': true,
-				'sectionsColor':['#000','#091f35','#091f35','#091f35','#091f35'],
+				'sectionsColor':['#000','#091f35','#091f35','#091f35','#091f35','#091f35','#091f35','#091f35'],
 				'css3':true,
 				'slidesNavigation': true,
 				afterRender: function(){
@@ -433,7 +452,7 @@
 	              },1500,'easeOutExpo');
 								$('.s2-8').delay(800).animate({
 	                opacity:'1',
-	              },2500,'easeOutExpo');
+	              },1500,'easeOutExpo');
 	           	}
 							if(index == 4){
 								$('.s5-2').delay(0).animate({
@@ -466,8 +485,20 @@
 								$('.slide.active .s5-11').delay(800).animate({
 									opacity:'1',
 								},200,'easeOutExpo');
-								
-								
+							}
+							if(index == 7){
+								$('.s7-2').delay(0).animate({
+									top:'0',
+									opacity:'1',
+								},500,'easeOutExpo');
+								$('.s7-3').delay(500).animate({
+									top:'0px',
+									opacity:'1',
+								},500,'easeOutExpo');
+								$('.s7-4').delay(1000).animate({
+									top:'0px',
+									opacity:'1',
+								},500,'easeOutExpo');
 							}
 
 				},
@@ -476,18 +507,18 @@
 								$('.s2-2').removeClass('rota');
 								$('.s2-3').removeClass('rota1');
 								$('.s2-4').removeClass('rota2');
-								$('.s2-5').delay(0).animate({
+								$('.s2-5').delay(200).animate({
 	                opacity:'0',
-	              },1500,'easeOutExpo');
-								$('.s2-6').delay(400).animate({
+	              },200,'easeOutExpo');
+								$('.s2-6').delay(200).animate({
 	                opacity:'0',
-	              },1500,'easeOutExpo');
-								$('.s2-7').delay(800).animate({
+	              },200,'easeOutExpo');
+								$('.s2-7').delay(200).animate({
 	                opacity:'0',
-	              },1500,'easeOutExpo');
-								$('.s2-8').delay(100).animate({
+	              },200,'easeOutExpo');
+								$('.s2-8').delay(0).animate({
 	                opacity:'0',
-	              },500,'easeOutExpo');
+	              },200,'easeOutExpo');
 	            }
 							if(index == 4){
 								$('.s5-2').delay(0).animate({
@@ -496,31 +527,44 @@
 								$('.s5-3').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.s5-4').delay(400).animate({
+								$('.s5-4').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.s5-5').delay(600).animate({
+								$('.s5-5').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.s5-6').delay(800).animate({
+								$('.s5-6').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.slide.active .s5-7').delay(0).animate({
+								$('.slide.active .s5-7').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
 								$('.slide.active .s5-8').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.slide.active .s5-9').delay(400).animate({
+								$('.slide.active .s5-9').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.slide.active .s5-10').delay(600).animate({
+								$('.slide.active .s5-10').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								$('.slide.active .s5-11').delay(800).animate({
+								$('.slide.active .s5-11').delay(200).animate({
 									opacity:'0',
 								},200,'easeOutExpo');
-								
+							}
+							if(index == 7){
+								$('.s7-2').delay(400).animate({
+									top:'400px',
+									opacity:'0',
+								},200,'easeOutExpo');
+								$('.s7-3').delay(400).animate({
+									top:'400px',
+									opacity:'0',
+								},200,'easeOutExpo');
+								$('.s7-4').delay(400).animate({
+									top:'400px',
+									opacity:'0',
+								},200,'easeOutExpo');
 							}
 	
 	
@@ -604,6 +648,16 @@
 	
 	<div class="section page-6">
 		<img src="{{ app_url_packaged }}/images/match/h2_29.png" class="s6-1">
+	</div>
+	
+	<div class="section page-7">
+		<img src="{{ app_url_packaged }}/images/match/h2_30.jpg" class="s7-1">
+		<img src="{{ app_url_packaged }}/images/match/h2_31.jpg" class="s7-2">
+		<img src="{{ app_url_packaged }}/images/match/h2_32.jpg" class="s7-3">
+		<img src="{{ app_url_packaged }}/images/match/h2_33.jpg" class="s7-4">
+		
+		
+		
 	</div>
 	
 </div>
