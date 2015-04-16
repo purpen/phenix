@@ -169,6 +169,7 @@
 				alldata = new Array();
 				if(result.data){
 		      $.each(result.data, function(i, v){
+						alldata.push(v);
 	          if(v.evt==1){
 	            //已中奖
 	            praised.push(v);
@@ -177,7 +178,7 @@
 	            praises.push(v);
 	          }
 	        });			
-					alldata = result.data;
+
 				}
 
       }else{
