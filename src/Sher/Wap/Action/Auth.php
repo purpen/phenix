@@ -68,7 +68,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if ($this->visitor->id){
       //指定入口送抽奖码
       if($this->stash['evt']=='match2_praise'){
-        $this->send_match_praise((int)$this->visitor->id, $this->visitor->account);
+        $this->send_match_praise((int)$this->visitor->id, (string)$this->visitor->account);
+        //大赛2
+        $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2'; 
+			  return $this->to_redirect($redirect_url);
       }
 
 			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
@@ -220,7 +223,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
  		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/rank';  
+      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
     }else{
  		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
     }

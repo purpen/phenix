@@ -34,21 +34,22 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	/**
 	 * 十万火计 第２季
 	 */
-	public function dream2(){
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
-		$this->stash['start_time'] = mktime(0,0,0,2,10,2015);
-		$this->stash['end_time'] = mktime(23,59,59,6,20,2015);
+  public function dream2(){
+		return $this->matcht();
+		//$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		//$this->stash['start_time'] = mktime(0,0,0,2,10,2015);
+		//$this->stash['end_time'] = mktime(23,59,59,6,20,2015);
 		
-		return $this->to_html_page('wap/contest/match2.html');
+		//return $this->to_html_page('wap/contest/match2.html');
 	}
 	
 	/**
 	 * 十万火计 第２季
 	 */
 	public function matcht(){
-		/*$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 		$this->stash['start_time'] = mktime(0,0,0,2,10,2015);
-		$this->stash['end_time'] = mktime(23,59,59,6,20,2015);*/
+		$this->stash['end_time'] = mktime(23,59,59,6,20,2015);
 		
 		return $this->to_html_page('wap/contest/matcht.html');
 	}

@@ -914,6 +914,12 @@
 	
 	<div class="section page-8">
 		<img src="{{ app_url_packaged }}/images/match/h2_34.jpg" class="s8-1">
+
+		      {% stuff_list var:'list' is_top:true category_id:dream_category_id load_college:1 sort:4 page:1 size:8 %}
+						
+						{% for stuff in list.rows %}
+
+
 		<div class="slide">
 			<div class="ui responsive allist grid">
 				<div class="row">
@@ -923,33 +929,35 @@
 								<div class="content">
 									<h4 class="ui dividing header">
 										<div class="image">
-											<img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150407/5523d9ecfc8b12971c8bb241-2-me.jpg" alt="上海地铁上可移动“休息板”" width="100%">
+											<img style="margin-bottom:-5px;" src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" width="100%">
 										
-											<div class="school">
-											            枣庄学院
-											</div>
-											<a href="http://www.taihuoniao.com/contest/view2/111237.html" title="上海地铁上可移动“休息板”" target="_blank"></a>
+                      {% if stuff.college %}
+                      <div class="school">
+                        {{ stuff.college.name }}
+                      </div>
+                      {%endif%}
+											<a href="{{ stuff.wap_view_url }}" title="{{ stuff.title }}"></a>
 										</div>	
-										<a class="ui link" href="http://www.taihuoniao.com/contest/view2/111237.html" target="_blank">
-										          上海地铁上可移动“休息板”
+										<a class="ui link" href="{{ stuff.wap_view_url }}">
+										          {{ stuff.title|truncate 32 }}
 										</a>
 									</h4>
 									<div class="i-stats">
 									  <div class="schedule">
 						          <div class="status clearfix">
-						            <a class="ui avatar image" href="http://www.taihuoniao.com/user/98247/" target="_blank">
-						              <img src="http://frbird.qiniudn.com/avatar/150407/5523cac6fc8b12971c8bb1f1-avs.jpg" alt="无语伦比的美丽">
+						            <a class="ui avatar image" href="{{ stuff.user.home_url }}">
+						              <img src="{{ stuff.user.mini_avatar_url }}" alt="{{ stuff.user.nickname }}">
 						            </a>
 						            <span class="count">
-						              <a class="ui small link" href="http://www.taihuoniao.com/user/98247/" target="_blank">
-						                无语伦比
+						              <a class="ui small link" href="{{ stuff.user.home_url }}">
+						                {{ stuff.user.nickname }}
 						              </a>
 						            </span>
 						            <span class="like">
 						              <i class="thumbs outline up icon">
 						              </i>
 						              <span class="count love-count">
-						                61
+						                {{ stuff.love_count }}
 						              </span>
 						            </span>
 						          </div>
@@ -964,40 +972,11 @@
 			</div>
 		</div>
 		
-		<div class="slide">
-			<div class="ui responsive allist grid">
-				<div class="row">
-					<div class="column">
-						<div class="ui one items">
-							<div class="item">
-								<div class="content">
-									<div class="ui dividing header">
-										<div class="image">
-											<img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150407/5523d9ecfc8b12971c8bb241-2-me.jpg" alt="上海地铁上可移动“休息板”" width="100%">
-										
-											<div class="school">
-											            枣庄学院
-											</div>
-											<a href="http://www.taihuoniao.com/contest/view2/111237.html" title="上海地铁上可移动“休息板”" target="_blank"></a>
-										</div>
-									</div>
-									
-								</div>	
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		
-		
 		<div class="center aligned column" style="position: absolute;bottom: 60px;text-align: center;width: 100%;z-index:1111;">
-      <a href="{{ app_url_contest }}/allist2" class="ui magenta inverted button">
+      <a href="{{ app_url_wap }}/contest/allist2" class="ui magenta inverted button">
 				全部创意
 			</a>
-			<a href="{{ app_url_contest }}/submit?season=dream2" class="ui magenta inverted button">
+			<a href="{{ app_url_wap }}/contest/submit?season=dream2" class="ui magenta inverted button">
 				提交创意
 			</a>
 			
