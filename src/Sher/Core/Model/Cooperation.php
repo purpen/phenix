@@ -13,30 +13,6 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     const STATE_DISABLED = 0;
     const STATE_PENDING = 1;
     const STATE_OK = 2;
-    
-    # 资源类型
-	protected $resources = array(
-		array(
-			'id' => 1,
-			'name' => '设计公司'
-		),
-		array(
-			'id' => 2,
-			'name' => '软件开发公司'
-		),
-		array(
-			'id' => 3,
-			'name' => '生成供应商'
-		),
-		array(
-			'id' => 4,
-			'name' => '器件服务商'
-		),
-		array(
-			'id' => 5,
-			'name' => '院校基地'
-		),
-	);
 	
     protected $schema = array(
 		'user_id'    => 0,
@@ -67,17 +43,21 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
 		'view_count' => 0,
 		
+        
+		# 类型
+		'type'         => 0,
+        # 类别
+        'category_ids' => array(),
+        
 		# 等级
 		'rank'       => 0,
-		# 类型
-		'type'       => 0,
  		# 是否推荐
 		'stick'      => 0,
 		
 		'state'      => self::STATE_DISABLED,
     );
 	
-    protected $required_fields = array('name','logo_id','summary');
+    protected $required_fields = array('name', 'summary');
     protected $int_fields = array('user_id','rank','type','stick','district','state');
 	
 	protected $joins = array(
@@ -121,25 +101,19 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 			// 去除 html/php标签
 			$row['strip_summary'] = strip_tags($row['summary']);
 		}
-        if(isset($row['type'])){
-            $row['type_label'] = $this->find_resources($row['type']);
-        }
-    }
-    
-	/**
-	 * 获取全部或某个
-	 */
-	public function find_resources($id=0){
-		if($id){
-			for($i=0;$i<count($this->resources);$i++){
-				if ($this->resources[$i]['id'] == $id){
-					return $this->resources[$i];
-				}
-			}
-			return array();
+        
+		// logo
+		if(!empty($row['logo'])){
+			$row['big_avatar_url'] = $row['logo']['thumbnails']['big']['view_url'];
+			$row['medium_avatar_url'] = $row['logo']['thumbnails']['md']['view_url'];
+			$row['small_avatar_url'] = $row['logo']['thumbnails']['small']['view_url'];
+		}else{
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'b');
+            $row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'm');
+			$row['small_avatar_url'] = $row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 's');
 		}
-		return $this->resources;
-	}
+        
+    }
 	
 }
 ?>

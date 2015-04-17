@@ -53,10 +53,12 @@
 				<td>{% if cat.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
 				<td>{{ cat.group.name }}</td>
 				<td>
-					{% if cat.domain == 1%}商品类{% endif %}
-					{% if cat.domain == 2%}社区类{% endif %}
-					{% if cat.domain == 3%}活动类{% endif %}
-					{% if cat.domain == 4%}产品类{% endif %}
+					{% if cat.domain == 1 %}商品类{% endif %}
+					{% if cat.domain == 2 %}社区类{% endif %}
+					{% if cat.domain == 3 %}活动类{% endif %}
+					{% if cat.domain == 4 %}产品类{% endif %}
+                    {% if cat.domain == 6 %}资源类{% endif %}
+                    {% if cat.domain == 7 %}案例类{% endif %}
 				</td>
 				<td>
 					<div class="ui divided horizontal list">

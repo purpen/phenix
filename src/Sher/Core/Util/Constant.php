@@ -29,6 +29,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_ACTIVE  = 3;
 	const TYPE_STUFF   = 4;
     const TYPE_USER    = 5;
+    const TYPE_COOPERATE = 6;
+    const TYPE_CASE = 7;
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
@@ -38,7 +40,6 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_WEIXIN = 5;
 	const FROM_WAP = 6;
 	const FROM_IAPP = 7;
-    
     
     /**
      * 事件类型
