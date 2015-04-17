@@ -1,10 +1,9 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}十万火计-抽奖 -{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
 
-	body{ background:#fff;}
 	.wrap{ width:300px; margin:100px auto; font-family:"微软雅黑";}
 	.show{ width:300px; height:300px; background-color:#ff3300; line-height:300px; text-align:center; color:#fff; font-size:28px; -moz-border-radius:150px; -webkit-border-radius:150px; border-radius:150px; background-image: -webkit-gradient(linear,0% 0%, 0% 100%, from(#FF9600), to(#F84000), color-stop(0.5,#fb6c00)); -moz-box-shadow:2px 2px 10px #BBBBBB; -webkit-box-shadow:2px 2px 10px #BBBBBB; box-shadow:2px 2px 10px #BBBBBB;}
 	.btn a{ display:block; width:120px; height:50px; margin:30px auto; text-align:center; line-height:50px; text-decoration:none; color:#fff; -moz-border-radius:25px; -webkit-border-radius:25px; border-radius:25px;}
@@ -13,6 +12,128 @@
 	.btn a.stop{ background:#00a2ff;}
 	.btn a.stop:hover{ background:#008bdb;}
 
+	.draw{
+		background:url({{ app_url_packaged }}/images/match/draw_bg.jpg) no-repeat;
+		background-size:cover;
+		width:100%;
+		height:760px;
+		background-position:center bottom;
+		overflow:hidden;
+		position:relative;
+	}
+	.draw-menu{
+		width:100%;
+		height:44px;
+		position:absolute;
+		top:100px;
+		left:70%;
+	}
+	.ui.buttons .button:first-child {
+	  border-left: 0px solid gray;
+	}
+	.join.inverted.button,.user.inverted.button{
+		background:#fff !important;
+		color:#000 !important;
+		border:0px solid #fff !important;
+	}
+	.join.inverted.button.active,.user.inverted.button.active,.join.inverted.button:hover,.user.inverted.button:hover{
+		background:#1ab26c !important;
+		color:#fff !important;
+		border:0px solid #fff !important;
+		-webkit-box-shadow: 0 0 0 0 rgba(0,0,0,.05) inset!important;
+	  box-shadow: 0 0 0 0 rgba(0,0,0,.05) inset!important;
+	}
+	.joinuser{
+		background:url({{ app_url_packaged }}/images/match/draw_2.png) no-repeat;
+		background-size:cover;
+		width:100%;
+		height:60px;
+		background-position:center center;
+		overflow:hidden;
+		position:absolute;
+		top:150px;
+		left:0;
+	}
+	.userid{
+		background:url({{ app_url_packaged }}/images/match/draw_1.png) no-repeat;
+		background-size:cover;
+		width:100%;
+		height:60px;
+		background-position:center center;
+		overflow:hidden;
+		position:absolute;
+		top:150px;
+		left:0;
+	}
+	.utxt{
+		background:url({{ app_url_packaged }}/images/match/draw_3.png) no-repeat;
+		background-size:cover;
+		width:100%;
+		height:360px;
+		background-position:center center;
+		overflow:hidden;
+		position:absolute;
+		top:220px;
+		left:0;
+	}
+	.math{
+		color: #ffda00;
+		font-size: 60px;
+	  font-weight: 700;
+	  background: #0fa35f;
+	  height: 100px;
+	  width: 340px;
+	  text-align: center;
+	  margin: 110px auto 30px;
+	  line-height: 100px;
+		letter-spacing: 20px;
+		padding-left: 20px;
+	}
+	#item-list{
+		width: 130px; 
+		position: absolute;
+		top: 7px;
+		left: 77%;
+		color:#fff;
+	}
+	.onepos{
+		background: #05aa5e;
+		padding: 5px;
+		margin-bottom: 2px;
+	}
+	.onepos i{
+		float:right;
+	}
+	.onepos span.item {
+	  font-size: 20px;
+	}
+	.user-pos{
+		width:600px;
+		height:245px;
+		color:#FFF;
+		overflow-y:scroll; 
+		margin:80px auto 0;
+	}
+	.row.first .column{
+		background: #071f37;
+		padding: 5px 0px !important;
+		padding-left:30px !important;
+	}
+	.row .column{
+		padding: 8px 0px !important;
+		border-bottom:1px solid #071f37;
+		padding-left:20px !important;
+	}
+	.user-pos .ui.grid{
+		margin:0;
+	}
+	/*.user-pos .ui.grid .first.row + .row{
+		padding-top:5px;
+	}*/
+	.user-pos .ui.grid .row{
+		margin-top:0;
+		padding-top:0;
+	}
 </style>
 {% endblock %}
 
@@ -45,25 +166,45 @@
       if(result.success){
         praised = new Array();
         praises = new Array();
-        $.each(result.data, function(i, v){
-          if(v.evt==1){
-            //已中奖
-            praised.push(v);
-          }else{
-            //未中奖
-            praises.push(v);
-          }
-        });
+				alldata = new Array();
+				if(result.data){
+		      $.each(result.data, function(i, v){
+						alldata.push(v);
+	          if(v.evt==1){
+	            //已中奖
+	            praised.push(v);
+	          }else{
+	            //未中奖
+	            praises.push(v);
+	          }
+	        });			
+
+				}
+
       }else{
         alert('数据为空!');
       }
 
+			//load all list
+			var html = '';
+			$.each(alldata, function(i, v){
+				html += '<div class="row">';
+				html += '<div class="ui four wide column">'+ v.user +'</div>';
+				html += '<div class="ui five wide column">'+ v.praise +'</div>';
+				html += '<div class="ui seven wide column">'+ v.account +'</div>';
+				html += '</div>';
+      });
+			$('#all-list').html(html);
+
       num = praises.length - 1;
       //加载已中奖名单
       $('#item-list').html('');
+			if(praised.length > 0){
+				$('#item-list').html('<h2 class="ui header">中奖用户</h2>');
+			}
       $.each(praised, function(i, v){
         var account_f = v.account.substring(0,3) +'***'+ v.account.substring(7,11);
-        $('#item-list').append('<div><span class="item">'+ account_f +'</span><span onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);">删除</span></div>');   
+        $('#item-list').append('<div class="onepos"><span class="item">'+ account_f +'</span><i style="opacity:0;" class="float close icon" onclick="ajax_change_match_praise('+v.praise+','+v.user+','+v.account+',0);"></i></div>');   
       })
     });
   }
@@ -72,6 +213,19 @@
 {% endblock %}
 
 {% block jquery %}
+	$('.join.button').click(function(){
+		$(this).addClass('active');
+		$('.user.button').removeClass('active');
+		$('#join').show();
+		$('#user').hide();
+	})
+	$('.user.button').click(function(){
+		$(this).addClass('active');
+		$('.join.button').removeClass('active');
+		$('#user').show();
+		$('#join').hide();
+	})
+
 
   ajax_load_all();
 
@@ -118,25 +272,67 @@
 {% endblock %}
 
 {% block content %}
-
-	<div class="wrap">
-		<div class="show" id="show">点击按钮开始抽奖</div>
-		<div class="btn">
-			<a href="javascript:void(0)" class="start" id="btn" account="" user="">开始抽奖</a>
+<div class="draw">
+	<div class="draw-menu">
+		<div class="comment-show ui buttons">
+		  <div class="ui join inverted button">
+				参与用户
+			</div>
+			<div class="ui user inverted button active">
+				开始抽奖
+			</div>
 		</div>
 	</div>
-  <div id="item-list" style="float:right;border:1px solid red;width:100px;">
-    <div>
-      <span class="item"></span>
-    </div>
-  </div>
+	
+	
+	<div id="join" class="ui hide">
+		<div class="joinuser">
+		</div>
+		
+		<div class="utxt">
 
+			<div class="user-pos">
+				<div class="ui grid">
+					<div class="row first">
+						<div class="ui four wide column">
+							用户ID
+						</div>
+						<div class="ui five wide column">
+							幸运数字
+						</div>
+						<div class="ui seven wide column">
+							电话号码
+						</div>
+					</div>
+				</div>
+				<div class="ui grid"  id="all-list">
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div id="user">
+		<div class="userid">
 
-<div style="text-align:center;clear:both">
-<p>适用浏览器：IE8、360、FireFox、Chrome、Opera、傲游、搜狗、世界之窗. 不支持Safari浏览器。</p>
-<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+		</div>
+		<div class="utxt">
+			<div class="math" id="show">
+				十万火计
+			</div>
+			<div class="btn">
+				<a href="javascript:void(0)" class="start" id="btn" account="" user="">开始抽奖</a>
+			</div>
+
+			<div id="item-list">
+
+			</div>
+		</div>
+	
+	</div>
+	
 </div>
-
 {% endblock %}
 
 
