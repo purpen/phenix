@@ -99,7 +99,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 'type' => 2,
                 'target_id' => array('$ne' => (int)$current_id),
             );
-			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', $addition_criteria, $options);
+            $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
+			$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);
 		}
         
 		$this->stash['result'] = $result;

@@ -1,4 +1,8 @@
 <?php
+/**
+ * 分词工具
+ * @author purpen
+ */
 class Sher_Core_Helper_SCWS {
     /**
      * 对文本进行分词后返回分词数组用于创建索引
@@ -29,6 +33,14 @@ class Sher_Core_Helper_SCWS {
         // workaround for mongoDB driver bug.
         return array_values(array_unique($result));
     }
+    
+    /**
+     * 对文本数组过滤用于创建索引
+     */
+    public static function segment_filter_word($query_text){
+        return array_values(array_unique($query_text));
+    }
+    
     /**
      * 对查询的语句进行分析，目前仅仅实现和索引一样进行分词
      *
@@ -43,4 +55,3 @@ class Sher_Core_Helper_SCWS {
         return self::segment_index_word($scws,$query_text);
     }
 }
-?>
