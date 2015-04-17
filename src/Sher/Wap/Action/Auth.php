@@ -321,6 +321,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $items_arr = array();
     if(!empty($result) && !empty($result['items'])){
       foreach($result['items'] as $k=>$v){
+        if($v['user']==$user_id){
+          return;
+        }
         array_push($items_arr, $v['praise']);
       }
     }
