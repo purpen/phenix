@@ -563,6 +563,33 @@
 	.page-10 .ui.responsive.grid{
 		margin:0 auto 1rem !important;
 	}
+	
+	#loading{
+	  background: #000;
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  z-index: 9999;
+	  top: 0;
+	}
+	.loadbox{
+		display: block;
+		  position: relative;
+		  width: 70px;
+		  height: 70px;
+		  margin: 0 auto;
+		  margin-top: 50%;
+	}
+	.loadbg{
+		display: block;
+		  position: absolute;
+		  z-index: 1000;
+		  width: 70px;
+		  height: 70px;
+		  background: url({{ app_url_packaged }}/images/match/h2_23.jpg) no-repeat;
+		  background-size: 100%;
+	}
+	
 </style>
 {% endblock %}
 
@@ -802,6 +829,9 @@
 				},
 			});
 		</script>
+		
+		
+		<script>document.write('<style>#loading{display:none}</style>');</script>
 {% endblock %}
 
 {% block jquery %}
@@ -851,6 +881,7 @@
   ajax_load_colleges(page,1);
 {% endblock %}
 {% block content %}
+<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div class="wrap">
 	<div class="section page-1">
 		<img src="{{ app_url_packaged }}/images/match/h2_1.jpg" class="s1-1">
