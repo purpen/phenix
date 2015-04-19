@@ -8,51 +8,76 @@
 {% endblock %}
 
 {% block jquery %}
-	// 上传信息
-	$('.ui.upload.button').bind('click', function(){
-		var id = $(this).data('id');
-		phenix.redirect('{{ app_url_stuff }}/submit?rid='+id);
-	});
-	// 编辑
-	$('.ui.edit.button').bind('click', function(){
-		var id = $(this).data('id');
-		phenix.redirect('{{ app_url_cooperate }}/edit?id='+id);
-	});
-
-	// 删除
-	$('.ui.remove.button').bind('click', function(){
-		var id = $(this).data('id');
-		if(confirm('确认执行删除操作吗?')){
-			$.post('{{ app_url_cooperate }}/deleted', {id: id });
-		}
-	});
+	/* 登录用户行为 */
+	{% if visitor.is_login %}		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{cooperate._id}},type:6,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+    	// 上传信息
+    	$('.ui.upload.button').bind('click', function(){
+    		var id = $(this).data('id');
+    		phenix.redirect('{{ app_url_stuff }}/submit?rid='+id);
+    	});
+    	// 编辑
+    	$('.ui.edit.button').bind('click', function(){
+    		var id = $(this).data('id');
+    		phenix.redirect('{{ app_url_cooperate }}/edit?id='+id);
+    	});
+    	// 删除
+    	$('.ui.remove.button').bind('click', function(){
+    		var id = $(this).data('id');
+    		if(confirm('确认执行删除操作吗?')){
+    			$.post('{{ app_url_cooperate }}/deleted', {id: id });
+    		}
+    	});
+		
+		/* 登录用户行为 */
+	{% endif %}
     
 	// 喜欢
 	$('.ui.support.button').bind('click', function(){
-		var id = $(this).data('id'),$btn = $(this);
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			phenix.show_login_box();
 			return false;
 		}
-		$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
-			if (result.success) {
-				$btn
-					.addClass('actived');
-                    
-                if(result.data.newadd){
-                    $('#stuff_'+ id +'_support')
-                        .prepend('<img src="'+ result.data.avatar +'" class="ui avatar image" />')
-                        .find('span.count').remove()
-                        .end()
-                        .append('<span class="count">'+ result.data.love_count +'<small>\+</small></span>');
-                }
-			} else {
-				phenix.show_error_note(result.message);
-			}
-		}, 'json');
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:6}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:6}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '我支持')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
 	});
-    
+
 {% endblock %}
 
 {% block content %}
@@ -71,27 +96,43 @@
     	<div class="ui responsive grid">
     		<div class="column">
                 <div class="container">
-                    <div class="ui header">
-                        <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}">
-                        <div class="content">
-                            {{ cooperate.name }}
-                            <div class="sub header">
-                               <i class="map icon"></i> {{ cooperate.type_label.name }} {{ cooperate.city }} 
+                    <div class="ui grid">
+                        <div class="two column row">
+                            <div class="right aligned column">
+                                <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}" />
+                                <div class="rate">
+                                    <div class="ui small star rating">
+                                        {% for s in cooperate.rank_stars %}
+                					  	<i class="icon {{ s }}"></i>
+                                        {% endfor %}
+                					</div>
+                                </div>
                             </div>
-                        	<a href="" class="ui small white inverted button ajax" id="user_{{ user._id }}_ship">
-                        		关注 
-                        	</a>
-                        </div>
-                        <div class="rate">
-                            <div class="ui small star rating">
-        					  	<i class="icon active"></i>
-        					  	<i class="icon active"></i>
-        					  	<i class="icon active"></i>
-        					  	<i class="icon"></i>
-        					  	<i class="icon"></i>
-        					</div>
+                            <div class="column">
+                                <div class="ui header">
+                                    <div class="content">
+                                        {{ cooperate.name }}
+                                        <div class="sub header">
+                                           <i class="map icon"></i> {{ cooperate.type_label.name }} {{ cooperate.city }} 
+                                        </div>
+                                        {% if !is_ship %}
+                                    	<a href="{{ app_url_cooperate }}/ajax_follow?id={{ cooperate._id }}" class="ui small white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
+                                    		关注 
+                                    	</a>
+                                        {% else %}
+                                    	<a href="{{ app_url_cooperate }}/ajax_cancel_follow?id={{ cooperate._id }}" class="ui small active white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
+                                    		已关注 
+                                    	</a>
+                                        {% endif %}
+                                        {% if cooperate.follow_count %}
+                                        <span id="cooperate-follow-label">{{ cooperate.follow_count }}人已关注</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
     		</div>
     	</div>
@@ -99,9 +140,9 @@
 </div>
 
 <div class="cooperate support">
-    <a href="" class="ui circular icon button">
-        <i class="thumbs up outline icon"></i>
-    </a>
+    <div class="ui pop circular icon support button" data-id="{{ cooperate._id }}" data-mark="n" data-content="我支持" data-variation="inverted">
+        <i class="thumbs up outline icon"></i><div class="love count">{{ cooperate.love_count|default 0 }}</div>
+    </div>
     
     {% if editable %}
     <div class="editable">
@@ -190,7 +231,7 @@
         </div>
     </div>
 </div>
-
+<!--
 <div class="cooperate prize">
 	<div class="ui responsive grid">
         <div class="row">
@@ -201,11 +242,11 @@
         </div>
         <div class="row">
     		<div class="column">
-                
+               
     		</div>
         </div>
     </div>
-</div>
+</div>-->
 
 <div class="cooperate prize">
 	<div class="ui responsive grid">
@@ -217,7 +258,16 @@
         </div>
         <div class="row">
     		<div class="column">
-                
+                <div class="avatars" id="people-list">
+                    {% favorite_list var:'list' target_id:cooperate._id type:6 event:3 %}
+                    <div class="ui small images">
+                        {% for a in list.rows %}
+                        <a href="{{ a.user.home_url }}" target="_blank" data-content="{{ a.user.nickname }}" data-variation="inverted" class="ui people pop">
+                            <img class="ui avatar image" src="{{ a.user.small_avatar_url }}" />
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
     		</div>
         </div>
 	</div>
@@ -244,12 +294,16 @@
         <div class="row">
     		<div class="center aligned column">
                 <div class="social">
-                	<a href="javascript:void(0);" title="新浪微博" class="ui red icon inverted button">
+                    {% if cooperate.weibo_url %}
+                	<a href="{{ cooperate.weibo_url }}" target="_blank" class="ui red icon inverted button">
                 		<i class="flat icon_weibo icon"></i>
                 	</a>
-                	<a href="javascript:void(0);" class="ui green icon inverted button" title="微信">
+                    {% endif %}
+                    {% if cooperate.wechat %}
+                	<a href="{{ cooperate.wechat }}" target="_blank" class="ui green icon inverted button" title="微信">
                 		<i class="flat icon_weixin icon"></i>
                 	</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

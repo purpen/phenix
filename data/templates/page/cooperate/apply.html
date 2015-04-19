@@ -269,7 +269,17 @@
 					<div class="field">
 						<label for="category_ids">擅长领域</label>
                         <div id="categories-box">
+                            {% if mode == 'edit' %}
+                                {% category_list var:'children' page:1 only_open:1 domain:6 pid:cooperate.type current:cooperate.category_ids %}
+                                {% for cat in children.rows %}
+                                <div class="ui checkbox">
+                                    <input name="category_ids[]" type="checkbox" value="{{ cat._id }}" {% if cat.active %}checked="checked"{% endif %} />
+                                    <label for="category_ids[]">{{ cat.title }}</label>
+                                </div>
+                                {% endfor %}
+                            {% else %}
                             至少选择一个领域
+                            {% endif %}
                         </div>
 					</div>
 				
@@ -287,10 +297,20 @@
 						<div class="description">特点之间使用，逗号隔开</div>
 					</div>
 					
-					<div class="field">
-						<label>网址主页</label>
-					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" placeholder="http://" />
-					</div>
+                    <div class="three fields">
+    					<div class="field">
+    						<label>网址主页</label>
+    					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" placeholder="http://" />
+    					</div>
+    					<div class="field">
+    						<label>微博链接</label>
+    					  	<input type="text" name="weibo_url" value="{{ cooperate.weibo_url }}" placeholder="http://" />
+    					</div>
+						<div class="field">
+							<label for="wechat">微信号</label>
+					  		<input type="text" name="wechat" value="{{ cooperate.wechat }}" />
+						</div>
+                    </div>
 					
 					<div class="three fields">
 						<div class="field">
@@ -347,7 +367,7 @@
 					  	<textarea name="summary" placeholder="此处输入简介..." id="editor">{{ cooperate.summary }}</textarea>
 					</div>
 					
-					<div class="three fields">
+					<div class="two fields">
 						<div class="field">
 							<label for="people">联系人</label>
 					  		<input type="text" name="people" value="{{ cooperate.people }}" />
@@ -355,10 +375,6 @@
 						<div class="field">
 							<label for="mobile">联系电话</label>
 					  		<input type="text" name="mobile" value="{{ cooperate.mobile }}" />
-						</div>
-						<div class="field">
-							<label for="wechat">微信号</label>
-					  		<input type="text" name="wechat" value="{{ cooperate.wechat }}" />
 						</div>
 					</div>
 					

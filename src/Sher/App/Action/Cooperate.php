@@ -73,6 +73,8 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         
         $this->stash['last_char'] = substr((string)$id, -1);
         
+        $this->validate_ship($id);
+        
         return $this->to_html_page('page/cooperate/view.html');
     }
 	
@@ -186,7 +188,85 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
     public function ajax_fetch_category(){
         return $this->to_taconite_page('ajax/fetch_category.html');
     }
+    
+	/**
+	 * 关注或收藏 资源
+	 * 
+	 * @return string
+	 */
+	public function ajax_follow(){
+		$user_id = (int)$this->visitor->id;
+		$follow_id = (int)$this->stash['id'];
+		
+		if(empty($follow_id) || empty($user_id)){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+		}
+        
+		$model = new Sher_Core_Model_Favorite();
+		if(!$model->has_exist_follow($user_id, $follow_id)){
+			$data['user_id']   = $user_id;
+			$data['target_id'] = $follow_id;
+            $data['event'] = Sher_Core_Model_Favorite::EVENT_FOLLOW;
+            $data['type']  = Sher_Core_Model_Favorite::TYPE_COOPERATE;
+			
+            $ok = $model->apply_and_save($data);
+            if($ok){
+    			// 更新关注数
+                $cooperate = new Sher_Core_Model_Cooperation();
+    			$cooperate->inc_counter('follow_count', $follow_id);
+                $cooperate->update_rank('follow_count', $follow_id);
+            }
+            $this->stash['domode'] = 'create';
+		}
+		
+		return $this->to_taconite_page('ajax/follow_cooperate_ok.html');
+	}
 	
+	/**
+	 * 取消关注或收藏 资源
+	 * 
+	 * @return string
+	 */
+	public function ajax_cancel_follow(){
+		$user_id = (int)$this->visitor->id;
+        $follow_id = (int)$this->stash['id'];
+        
+        if(empty($follow_id) || empty($user_id)){
+            return $this->ajax_note('请求失败,缺少必要参数',true);
+        }
+		
+        $model = new Sher_Core_Model_Favorite();
+        // 取消关注
+        if($model->has_exist_follow($user_id, $follow_id)){
+	        $query['user_id'] = $user_id;
+	        $query['target_id'] = $follow_id;
+            $query['type']  = Sher_Core_Model_Favorite::TYPE_COOPERATE;
+            
+	        $ok = $model->remove($query);
+            
+            if($ok){
+    			// 更新关注数
+                $cooperate = new Sher_Core_Model_Cooperation();
+    			$cooperate->dec_counter('follow_count', $follow_id);
+                $cooperate->update_rank('follow_count', $follow_id, -1);
+            }
+            
+            $this->stash['domode'] = 'cancel';
+        }
+        
+		return $this->to_taconite_page('ajax/follow_cooperate_ok.html');
+	}
+    
+    /**
+     * 验证关系
+     */
+    protected function validate_ship($id){
+		// 验证关注关系
+		$model = new Sher_Core_Model_Favorite();
+		$is_ship = $model->has_exist_follow($this->visitor->id, $id);
+		$this->stash['is_ship'] = $is_ship;
+    }
+    
 	/**
 	 * 编辑器参数
 	 */
@@ -202,4 +282,3 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 
 	
 }
-?>

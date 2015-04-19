@@ -106,7 +106,7 @@
     </div>
 </div>
 
-{% ad_list var:'stkad' size:4 name:'find_right_stick' state:2 %}
+{% ad_list var:'stkad' size:3 name:'cooperate_index_stick' state:2 %}
 {% if stkad.total_rows %}
 <div class="cooperate topstick">
 	<div class="ui responsive grid">
@@ -142,15 +142,13 @@
 				  	<div class="card">
                         <div class="container">
                             <div class="ui small star rating">
-							  	<i class="icon active"></i>
-							  	<i class="icon active"></i>
-							  	<i class="icon active"></i>
-							  	<i class="icon"></i>
-							  	<i class="icon"></i>
+                                {% for s in b.rank_stars %}
+        					  	<i class="icon {{ s }}"></i>
+                                {% endfor %}
 							</div>
                             <div class="ui list">
                                 <div class="item">
-                                    <img class="ui big avatar image" src="{{ b.medium_avatar_url }}">
+                                    <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
                                     <div class="content">
                                         <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
                                         <div class="description">
