@@ -13,30 +13,6 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     const STATE_DISABLED = 0;
     const STATE_PENDING = 1;
     const STATE_OK = 2;
-    
-    # 资源类型
-	protected $resources = array(
-		array(
-			'id' => 1,
-			'name' => '设计公司'
-		),
-		array(
-			'id' => 2,
-			'name' => '软件开发公司'
-		),
-		array(
-			'id' => 3,
-			'name' => '生成供应商'
-		),
-		array(
-			'id' => 4,
-			'name' => '器件服务商'
-		),
-		array(
-			'id' => 5,
-			'name' => '院校基地'
-		),
-	);
 	
     protected $schema = array(
 		'user_id'    => 0,
@@ -60,26 +36,41 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		# 联系人
 		'people'   	 => '',
 		'mobile'     => '',
-		'wechat'     => '',
 		
 		# 网站
 		'site_url'   => '',
-		
-		'view_count' => 0,
-		
+        # 新浪微博
+        'weibo_url'  => '',
+        # 微信号
+        'wechat'     => '',
+ 		
+		# 类型
+		'type'         => 0,
+        # 类别
+        'category_ids' => array(),
+        
+        # 关注次数
+        'follow_count' => 0,
+        # 点赞数量
+        'love_count'   => 0,
+        # 浏览数量
+        'view_count'   => 0,
+        # 案例数量
+        'stuff_count'  => 0,
+        
 		# 等级
 		'rank'       => 0,
-		# 类型
-		'type'       => 0,
  		# 是否推荐
 		'stick'      => 0,
 		
 		'state'      => self::STATE_DISABLED,
     );
 	
-    protected $required_fields = array('name','logo_id','summary');
+    protected $required_fields = array('name', 'summary');
     protected $int_fields = array('user_id','rank','type','stick','district','state');
 	
+    protected $counter_fields = array('follow_count', 'love_count', 'view_count', 'stuff_count');
+    
 	protected $joins = array(
 	    'logo' => array('logo_id' => 'Sher_Core_Model_Asset'),
 	);
@@ -92,13 +83,21 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 	    if (isset($data['keywords']) && !is_array($data['keywords'])) {
 	        $data['keywords'] = array_filter(array_values(array_unique(preg_split('/[,，\s]+/u', $data['keywords']))));
 	    }
-	    $data['updated_on'] = time();
+	    
+        // 类别整型
+        if(isset($data['category_ids'])){
+            for($k=0;$k<count($data['category_ids']);$k++){
+                $data['category_ids'][$k] = (int)$data['category_ids'][$k];
+            }
+        }
         
         // 检查是否匹配地域
         if(isset($data['city']) && !empty($data['city'])){
             $areas = new Sher_Core_Model_Areas();
             $data['district'] = $areas->match_city($data['city']);
         }
+        
+        $data['updated_on'] = time();
         
 	    parent::before_save($data);
 	}
@@ -121,25 +120,98 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 			// 去除 html/php标签
 			$row['strip_summary'] = strip_tags($row['summary']);
 		}
-        if(isset($row['type'])){
-            $row['type_label'] = $this->find_resources($row['type']);
+        
+		// logo
+		if(!empty($row['logo'])){
+			$row['big_avatar_url'] = $row['logo']['thumbnails']['big']['view_url'];
+			$row['medium_avatar_url'] = $row['logo']['thumbnails']['md']['view_url'];
+			$row['small_avatar_url'] = $row['logo']['thumbnails']['small']['view_url'];
+		}else{
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'b');
+            $row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'm');
+			$row['small_avatar_url'] = $row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 's');
+		}
+        
+        $this->get_ranks($row);
+    }
+    
+    /**
+     * 获取星标数量
+     */
+    public function get_ranks(&$row){
+        $stars = array('no','no','no','no','no');
+        
+        if($row['rank'] > 0){
+            $stars[0] = 'active';
         }
+        if($row['rank'] > 150){
+            $stars[1] = 'active';
+        }
+        if($row['rank'] > 1500){
+            $stars[3] = 'active';
+        }
+        if($row['rank'] > 5000){
+            $stars[4] = 'active';
+        }
+        if($row['rank'] > 10000){
+            $stars[5] = 'active';
+        }
+        
+        $row['rank_stars'] = $stars;
+    }
+    
+    /**
+     * 星级算法,根据以下参数相关
+     * view_count*2 + love_count*50 + follow_count*50
+     */
+    public function update_rank($type='view_count', $id=null, $coe=1){
+        $offset_rank = 1;
+        switch($type){
+            case 'view_count':
+                $offset_rank *= 2;
+                break;
+            case 'love_count':
+                $offset_rank *= 50;
+                break;
+            case 'follow_count':
+                $offset_rank *= 50;
+                break;
+        }
+        return $this->inc((int)$id, 'rank', $offset_rank*$coe);
     }
     
 	/**
-	 * 获取全部或某个
+	 * 更新用户的计数
 	 */
-	public function find_resources($id=0){
-		if($id){
-			for($i=0;$i<count($this->resources);$i++){
-				if ($this->resources[$i]['id'] == $id){
-					return $this->resources[$i];
-				}
+    public function inc_counter($field_name, $id=null) {
+        if (is_null($id)) {
+            $id = $this->id;
+        }
+        if (empty($id) || !in_array($field_name, $this->counter_fields)) {
+            return false;
+        }
+        return $this->inc((int)$id, $field_name);
+    }
+	
+	/**
+	 * 更新用户的计数
+	 */
+    public function dec_counter($field_name, $id=null, $force=false) {
+        if (is_null($id)) {
+            $id = $this->id;
+        }
+        if (empty($id) || !in_array($field_name, $this->counter_fields)) {
+            return;
+        }
+		
+		if(!$force){
+			$cooperate = $this->find_by_id((int)$id);
+			if(!isset($cooperate[$field_name]) || $cooperate[$field_name] <= 0){
+				return true;
 			}
-			return array();
 		}
-		return $this->resources;
-	}
+		
+        return $this->dec((int)$id, $field_name);
+    }
 	
 }
-?>

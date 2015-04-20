@@ -1,0 +1,18 @@
+<taconite>
+    {% category_list var:'category' page:1 only_open:1 domain:6 pid:rid %}
+	<replace select="#categories-box"><![CDATA[
+        <div id="categories-box" {% if category.total_rows %}class="solid"{% endif %}>
+            {% for cat in category.rows %}
+            <div class="ui checkbox">
+                <input name="category_ids" type="checkbox" value="{{ cat._id }}" />
+                <label for="category_ids">{{ cat.title }}</label>
+            </div>
+            {% else %}
+            <label>该类型下没有领域类别！</label>
+            {% endfor %}
+        </div>
+	]]></replace>
+    <eval>
+        $('.ui.checkbox').checkbox();
+    </eval>
+</taconite>

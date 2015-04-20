@@ -12,10 +12,13 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_TOPIC = 2;
     const TYPE_COMMENT = 3;
 	const TYPE_STUFF = 4;
+    const TYPE_COOPERATE = 6;
 	
 	// event
 	const EVENT_FAVORITE = 1;
 	const EVENT_LOVE = 2;
+    // 关注孵化资源
+    const EVENT_FOLLOW = 3;
 	
     protected $schema = array(
     	'user_id' => null,
@@ -154,11 +157,14 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                         }
                     }
                     break;
+                case self::TYPE_COOPERATE:
+                    $model = new Sher_Core_Model_Cooperation();
+                    $model->inc_counter($field, (int)$this->data['target_id']);
+                    $model->update_rank($field, (int)$this->data['target_id']);
+                    break;
                 default:
                     return;
             }
-            
-            Doggy_Log_Helper::debug("Valid timeline type[$timeline_type],event[$timeline_event]!");
             
             // 添加动态提醒
             if(isset($timeline_type) && isset($timeline_event)){
@@ -172,18 +178,35 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 }
             }
             
-            // 给用户添加提醒
-            $remind = new Sher_Core_Model_Remind();
-            $arr = array(
-                'user_id'=> $user_id,
-                's_user_id'=> $this->data['user_id'],
-                'evt'=> $evt,
-                'kind'=> $kind,
-                'related_id'=> $this->data['target_id'],
-                'parent_related_id'=> (string)$this->data['_id'],
-            );
-            $ok = $remind->create($arr);
+            if(isset($kind)){
+                // 给用户添加提醒
+                $remind = new Sher_Core_Model_Remind();
+                $arr = array(
+                    'user_id'=> $user_id,
+                    's_user_id'=> $this->data['user_id'],
+                    'evt'=> $evt,
+                    'kind'=> $kind,
+                    'related_id'=> $this->data['target_id'],
+                    'parent_related_id'=> (string)$this->data['_id'],
+                );
+                $ok = $remind->create($arr);
+            }
+            
         }
+    }
+    
+    /**
+     * 检查是否关注收藏
+     */
+    public function has_exist_follow($user_id, $target_id, $type=self::TYPE_COOPERATE){
+		$query['user_id'] = (int)$user_id;
+        $query['target_id'] = (int)$target_id;
+		$query['type'] = (int)$type;
+		$query['event'] = self::EVENT_FOLLOW;
+		
+        $result = $this->count($query);
+		
+        return $result>0?true:false;
     }
 	
     /**
@@ -309,26 +332,30 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				$model = new Sher_Core_Model_Stuff();
 				$model->dec_counter($field, (int)$target_id);
 
-        //如果是取消点赞,是大赛作品,给相应的大学人气-1
-        $stuff = $model->load((int)$target_id);
-        if(!empty($stuff) && $event == self::EVENT_LOVE && $stuff['from_to']==1){
-          $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
-          $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
-          $num_mode = new Sher_Core_Model_SumRecord();
-          if($province_id){
-            $num_mode->down_record($province_id, 'match2_love_count', 1);
-          }
-          if($college_id){
-            $num_mode->down_record($college_id, 'match2_love_count', 2);    
-          }  
-        }
+                // 如果是取消点赞,是大赛作品,给相应的大学人气-1
+                $stuff = $model->load((int)$target_id);
+                if(!empty($stuff) && $event == self::EVENT_LOVE && $stuff['from_to'] == 1){
+                    $province_id = isset($stuff['province_id'])?$stuff['province_id']:0;
+                    $college_id = isset($stuff['college_id'])?$stuff['college_id']:0;
+                    $num_mode = new Sher_Core_Model_SumRecord();
+                    if($province_id){
+                        $num_mode->down_record($province_id, 'match2_love_count', 1);
+                    }
+                    if($college_id){
+                        $num_mode->down_record($college_id, 'match2_love_count', 2);    
+                    }  
+                }
                 
-        // 删除最近用户
-        $model->remove_love_users((int)$target_id, $user_id);
+                // 删除最近用户
+                $model->remove_love_users((int)$target_id, $user_id);
                 
+		        break;
+			case self::TYPE_COOPERATE:
+                $model = new Sher_Core_Model_Cooperation();
+                $model->dec_counter($field, (int)$target_id);
+                $model->update_rank($field, (int)$target_id, -1);
 				break;
-		}
+        }
 	}
 	
 }
-

@@ -3,38 +3,7 @@
 
 {% block page_css %}
 <style class="text/css">
-	.cooperate.masthead {
-		color: white;
-		background: url("{{ app_url_packaged }}/images/topicbg/features_banner.jpg") no-repeat scroll center center / cover rgba(56, 67, 77, 0.9);
-	}
-    .cooperate.masthead > .masthead-cover {
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-    .cooperate.masthead .container {
-        padding: 100px 0 60px;
-    }
-	.cooperate.masthead .buttons {
-		margin-top: 3rem;
-	}
-	.cooperate.mainlist {
-		padding: 3rem 0;
-        background-color: #f1f1f1;
-	}
-	.keywords {
-		margin: 1rem 0 2rem;
-	}
-	.ui.coope h3{
-		margin-top:0;
-	}
-	.ui.coope h3+p{
-		line-height: 22px;
-	}
-	@media only screen and (max-width: 960px){
-		.ui.coope .four.column{
-			margin-top:0 !important;
-		}
-	}
-    
+	
 </style>
 {% endblock %}
 
@@ -77,30 +46,46 @@
     </div>
 </div>
 
+<div class="cooperate submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+                {% category_list var:'category' page:1 only_open:1 domain:6 pid:0 istop:1 %}
+                <div class="ui horizontal specialty list">
+                    {% for m in category.rows %}
+                    <a href="{{ app_url_cooperate }}?rid={{ m._id }}" class="ui {% if rid == m._id %}active{% endif %} item">{{ m.title }}</a>
+                    {% endfor %}
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="social people {{ show_all }} filter">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
                 <div class="container">
-                    <h2 class="block title">分工类型</h2>
+                    <h2 class="block title">专业领域</h2>
                     <div class="ui horizontal specialty list">
+                        {% category_list var:'children' page:1 only_open:1 domain:6 pid:rid current:cid %}
                         <div class="item">
-                            <a href="{{ app_url_cooperate }}?c=0&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
+                            <a href="{{ app_url_cooperate }}?rid={{ rid }}&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
                         </div>
-                        {% for m in resources %}
+                        {% for cat in children.rows %}
                         <div class="item">
-                            <a href="{{ app_url_cooperate }}?c={{ m.id }}&d={{ district }}" class="ui {% if cid == m.id %}active{% endif %} link">{{ m.name }}</a>
+                            <a href="{{ app_url_cooperate }}?cid={{ cat._id }}&d={{ district }}" class="ui {{ cat.active }} link">{{ cat.title }}</a>
                         </div>
                         {% endfor %}
                     </div>
                     <h2 class="block title">所在地域</h2>
                     <div class="ui horizontal list">
                         <div class="item">
-                            <a href="{{ app_url_cooperate }}?c={{ c }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
+                            <a href="{{ app_url_cooperate }}?cid={{ cid }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
                         </div>
                         {% for d in cities %}
                         <div class="item">
-                            <a href="{{ app_url_cooperate }}?c={{ c }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
+                            <a href="{{ app_url_cooperate }}?cid={{ cid }}&d={{ d.id }}" class="ui {% if district == d.id %}active{% endif %} link">{{ d.name }}</a>
                         </div>
                         {% endfor %}
                     </div>
@@ -120,21 +105,81 @@
         </div>
     </div>
 </div>
+
+{% ad_list var:'stkad' size:3 name:'cooperate_index_stick' state:2 %}
+{% if stkad.total_rows %}
+<div class="cooperate topstick">
+	<div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+    			<h2 class="block title">
+    				<a href="{{ app_url_cooperate }}" class="ui line">推荐机构</a>
+    			</h2>
+                <div class="ui socialstick three blocks">
+                    {% for skad in stkad.rows %}
+                    <div class="block">
+        				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
+        				</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 	
 <div class="cooperate mainlist">
 	<div class="ui responsive grid">
 		{% cooperate_list var:'cooperate' page:page type:cid district:district %}
 		<div class="row">
 			<div class="column">
-				<div class="ui mentors four cards">
+    			<h2 class="block title">
+    				<a href="{{ app_url_cooperate }}" class="ui line">机构列表</a>
+    			</h2>
+				<div class="ui two cooperate cards">
 					{% for b in cooperate.rows %}
 				  	<div class="card">
-						<div class="mentor">
-							<a href="{{ b.home_url }}" title="{{ b.name }}" target="_blank" class="user"></a>
-							<img src="{{ b.logo.thumbnails.medium.view_url }}" alt="{{ b.name }}" class="avatar" />
-							<h3>{{ b.name }}</h3>
-							<p>{{ b.type_label.name }} {{ b.city }}</p>
-						</div>
+                        <div class="container">
+                            <div class="ui small star rating">
+                                {% for s in b.rank_stars %}
+        					  	<i class="icon {{ s }}"></i>
+                                {% endfor %}
+							</div>
+                            <div class="ui list">
+                                <div class="item">
+                                    <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
+                                    <div class="content">
+                                        <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
+                                        <div class="description">
+                                            <small>{{ b.type_label.name }} <b>{{ b.city }}</b></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary">
+                                {{ b.strip_summary|truncate 200  }} <a href="{{ b.home_url }}" target="_blank" class="ui magenta line">更多</a>
+                            </div>
+                            <div class="expertise">
+                                {% tag_list var:'keywords' keywords:b.keywords %}
+                                {% for t in keywords %}
+                                <label class="ui {{ t.color }} label">{{ t.name }}</label>
+                                {% endfor %}
+                            </div>
+                            
+                            {% stuff_list var:'stufflist' cooperate_id:b._id size:3 %}
+                            {% if stufflist.total_rows %}
+                            <div class="cases">
+                                <div class="ui three blocks">
+                                    {% for stuff in stufflist.rows %}
+                                    <div class="block">
+                                        <img src="{{ stuff.cover.thumbnails.mini.view_url }}" alt="{{ stuff.title }}" />
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
 				  	</div>
 					{% endfor %}
 				</div>
