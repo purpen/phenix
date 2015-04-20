@@ -55,6 +55,8 @@ app.contest.dream2_category_id: 49
 
 # 产品灵感
 app.topic.idea_category_id: 16
+# 案例作品
+app.stuff.okcase_category_id: 100
 # 蛋年活动
 app.birdegg.category_id: 80
 

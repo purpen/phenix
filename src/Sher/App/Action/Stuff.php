@@ -149,6 +149,12 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function submit(){
 		$top_category_id = Doggy_Config::$vars['app.topic.idea_category_id'];
+        $label_title = '产品';
+        // 孵化资源 案例
+        if(isset($this->stash['rid'])){
+            $label_title = '案例';
+            $top_category_id = Doggy_Config::$vars['app.stuff.okcase_category_id'];
+        }
 		
 		// 获取父级分类
 		$category = new Sher_Core_Model_Category();
@@ -167,6 +173,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		
 		$this->_editor_params();
+        
+        $this->stash['label_title'] = $label_title;
+        $this->stash['selected_category_id'] = $top_category_id;
 		
 		return $this->to_html_page('page/stuff/submit.html');
 	}
@@ -240,19 +249,19 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
-    if(empty($this->stash['category_id'])){
-      return $this->ajax_json('请选择一个类别！', true); 
-    }
-    if(empty($this->stash['cover_id'])){
-      return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
-    }
+        if(empty($this->stash['category_id'])){
+            return $this->ajax_json('请选择一个类别！', true); 
+        }
+        if(empty($this->stash['cover_id'])){
+            return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+        }
 
-    //如果是大赛,必须选择一所大学
-    if(!empty($this->stash['from_to']) && (int)$this->stash['from_to']==1){
-      if(empty($this->stash['college_id']) || (int)$this->stash['college_id']==0){
-        return $this->ajax_json('请选择所在大学！', true);   
-      }
-    }
+        // 如果是大赛,必须选择一所大学
+        if(!empty($this->stash['from_to']) && (int)$this->stash['from_to'] == 1){
+            if(empty($this->stash['college_id']) || (int)$this->stash['college_id'] == 0){
+                return $this->ajax_json('请选择所在大学！', true);   
+            }
+        }
         
 		$id = (int)$this->stash['_id'];
 		
@@ -264,16 +273,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['description'] = $this->stash['description'];
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
-		
+		$data['cooperate_id'] = (int)$this->stash['cooperate_id'];
         $data['cover_id'] = $this->stash['cover_id'];
 
         // 所属
         if(isset($this->stash['from_to'])){
             $data['from_to'] = (int)$this->stash['from_to'];
         }else{
-          $data['from_to'] = 0;
+            $data['from_to'] = 0;
         }
-
+        
         // 团队介绍-蛋年
         if(isset($this->stash['team_introduce'])){
             $data['team_introduce'] = $this->stash['team_introduce'];
@@ -317,21 +326,21 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $data['college_id'] = $this->stash['college_id'];
         }
 
-    //如果是关联投票产品
-    if(isset($this->stash['fever_id'])){
-      $data['fever_id'] = (int)$this->stash['fever_id'];
-    }
+        // 如果是关联投票产品
+        if(isset($this->stash['fever_id'])){
+            $data['fever_id'] = (int)$this->stash['fever_id'];
+        }
 
-    //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
-    if(isset($this->visitor->quality) && (int)$this->visitor->quality==1){
-      $data['verified'] = 1; 
-    }elseif(isset($this->stash['verified']) && (int)$this->stash['verified']==1){
-      $data['verified'] = 1;
-    }elseif(empty($this->stash['from_to'])){
-      $data['verified'] = 1;
-    }else{
-      $data['verified'] = 0;
-    }
+        // 蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
+        if(isset($this->visitor->quality) && (int)$this->visitor->quality == 1){
+            $data['verified'] = 1; 
+        }elseif(isset($this->stash['verified']) && (int)$this->stash['verified'] == 1){
+            $data['verified'] = 1;
+        }elseif(empty($this->stash['from_to'])){
+            $data['verified'] = 1;
+        }else{
+            $data['verified'] = 0;
+        }
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
@@ -382,10 +391,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
-        if($data['from_to']==1){
-          $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
-        }elseif($data['from_to']==2){
-          $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+        if($data['from_to'] == 1){
+            $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
+        }elseif($data['from_to'] == 2){
+            $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }
@@ -637,4 +646,3 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     }
     
 }
-?>

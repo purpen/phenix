@@ -121,7 +121,8 @@ app.dt.extension_lib.sher_app:
     'area_list':'Sher_Core_ViewTag_AreaList'
     'college_list':'Sher_Core_ViewTag_CollegeList'
     'timeline_list':'Sher_Core_ViewTag_TimelineList'
-    'sum_record_list':'Sher_Core_ViewTag_SumRecordList'
+    'timeline_list':'Sher_Core_ViewTag_TimelineList'
+    'tag_list':'Sher_Core_ViewTag_TagList'
   filters: []
 
 app.js.use_bundle: false

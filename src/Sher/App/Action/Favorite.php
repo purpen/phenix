@@ -113,6 +113,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				$model = new Sher_Core_Model_Stuff();
 				$result = $model->load((int)$id);
 				break;
+			case Sher_Core_Model_Favorite::TYPE_COOPERATE:
+				$model = new Sher_Core_Model_Cooperation();
+				$result = $model->load((int)$id);
+				break;
 		}
 		if(!empty($result)){
  		  $count = $result[$filed];     

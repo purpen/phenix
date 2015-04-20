@@ -23,6 +23,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		$try_id = 0;
         $college_id = 0;
         $province_id = 0;
+        // 孵化资源
+        $cooperate_id = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -92,12 +94,18 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         if($fever_id){
             $query['fever_id'] = (int)$fever_id;
         }
-    if($college_id){
-      $query['college_id'] = (int)$college_id;
-    }
-    if($province_id){
-      $query['province_id'] = (int)$province_id;
-    }
+        
+        if($college_id){
+            $query['college_id'] = (int)$college_id;
+        }
+        
+        if($province_id){
+            $query['province_id'] = (int)$province_id;
+        }
+        
+        if($cooperate_id){
+            $query['cooperate_id'] = (int)$cooperate_id;
+        }
 		
 		// 限制时间
 		$day = 24 * 60 * 60;
@@ -161,38 +169,36 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
             case 6:
                 $options['sort_field'] = 'view';
 		}
-		
+        
         $result = $service->get_stuff_list($query, $options);
 
         //加载大学表
         if($load_college){
-          $college = null;
-          $college_model = new Sher_Core_Model_College();
+            $college = null;
+            $college_model = new Sher_Core_Model_College();
 
-          for($i=0;$i<count($result['rows']);$i++){
-            if(isset($result['rows'][$i]['from_to']) && $result['rows'][$i]['from_to'] != 1){
-              continue;
+            for($i=0;$i<count($result['rows']);$i++){
+                if(isset($result['rows'][$i]['from_to']) && $result['rows'][$i]['from_to'] != 1){
+                    continue;
+                }
+                $province_id = isset($result['rows'][$i]['province_id'])?$result['rows'][$i]['province_id']:0;
+                $college_id = isset($result['rows'][$i]['college_id'])?$result['rows'][$i]['college_id']:0;
+                if(empty($college_id)){
+                    continue;
+                }
+                $college = $college_model->find_by_id((int)$college_id);
+                if($college){
+                    $result['rows'][$i]['college'] = $college;              
+                }
             }
-            $province_id = isset($result['rows'][$i]['province_id'])?$result['rows'][$i]['province_id']:0;
-            $college_id = isset($result['rows'][$i]['college_id'])?$result['rows'][$i]['college_id']:0;
-            if(empty($college_id)){
-              continue;
-            }
-            $college = $college_model->find_by_id((int)$college_id);
-            if($college){
-              $result['rows'][$i]['college'] = $college;              
-            }
-            
-          }
-          unset($college_model);
+            unset($college_model);
         }
 
         $context->set($var,$result);
 		
         if ($include_pager) {
-            $context->set($pager_var,$result['pager']);
+            $context->set($pager_var, $result['pager']);
         }
         
     }
 }
-?>

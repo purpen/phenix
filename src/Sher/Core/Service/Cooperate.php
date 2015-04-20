@@ -32,4 +32,3 @@ class Sher_Core_Service_Cooperate extends Sher_Core_Service_Base {
     }
 	
 }
-?>
