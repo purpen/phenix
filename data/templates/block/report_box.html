@@ -1,0 +1,37 @@
+<!-- 投诉 -->
+<div class="ui small report modal">
+  	<i class="flat close icon"></i>
+	<div class="header">
+		举报
+	</div>
+  	<div class="content">
+		<form action="{{ app_url_user }}/ajax_report" class="ui form" method="post" id="report-form">
+      <input type="hidden" name="target_id" value="{{ report_target_id }}" />
+			<input type="hidden" name="target_type" value="{{ report_target_type }}" />
+			<input type="hidden" name="target_user_id" value="{{ report_target_user_id }}" />
+			<input type="hidden" name="kind" value="1" />
+			<div class="field">
+				<label>类型：</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="evt" value="1" />
+				    <i class="angle down icon"></i>
+            <div class="default text">侵权</div>
+				    <div class="menu">
+						<div data-value="1" class="item">侵权</div>
+						<div data-value="2" class="item">不良信息</div>
+						<div data-value="10" class="item">其它</div>
+				    </div>
+				</div>
+			</div>
+			<div class="field">
+				<label>描述：</label>
+				<textarea name="content" rows="3"></textarea>
+			</div>
+			
+			<div class="right aligned field ">
+				<div class="ui gray cancel inverted button">取消</div>
+				<div class="ui active magenta submit inverted button">提交</div>
+			</div>
+		</form>
+  	</div>
+</div>

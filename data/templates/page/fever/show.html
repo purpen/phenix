@@ -434,6 +434,11 @@
 
 	// 显示私信框
 	$('.ui.letter.button').bind('click', function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
 		$('.ui.letter.modal').modal('show');
 	});
 	// 隐藏私信框
@@ -452,6 +457,42 @@
 				{
 					type   : 'maxLength[140]',
 					prompt : '私信内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+
+	// 显示投诉框
+	$('.report-btn').bind('click', function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		$('.ui.report.modal').modal('show');
+	});
+	// 隐藏投诉框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.report.modal').modal('hide');
+	});
+	
+	$('#report-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '举报内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '举报内容不超过140字符'
 				}
 			]
 		}
@@ -576,7 +617,8 @@
 									<span id="product-vote-count">{{ product.vote_count }}</span>人已投票
 								</div>
 								<div class="right aligned floated eight wide column">
-									<a href="{{ app_url_helper }}/rule" class="ui link">投票及评分规则</a>
+									<a href="{{ app_url_helper }}/rule" class="ui link">投票及评分规则 </a>
+                  <a href="javascript:void(0);" class="report-btn"> 举报</a>
 								</div>
 							</div>
 						</div>
@@ -887,6 +929,7 @@
 	</div>
 </div>
 {% include "block/message.html" %}
+{% include "block/report_box.html" %}
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}
