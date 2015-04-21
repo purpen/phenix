@@ -9,7 +9,7 @@
 {% block content %}
 	<h3 class="ui header">用户排行</h3>
 	<div class="ui secondary pointing magenta menu">
-    <a class="item {%if s=='exp'%}active{%endif%}" href="{{ app_url_admin }}/point/user_stat?s=exp">等级排行</a>
+    <a class="item {%if s=='exp'%}active{%endif%}" href="{{ app_url_admin }}/point/user_stat?s=exp">积分排行</a>
 		<a class="item {%if s=='money'%}active{%endif%}" href="{{ app_url_admin }}/point/user_stat?s=money">鸟币排行</a>
 	</div>
 	{% point_balance_list var:'list' sort_field:s page:page size:50 %}
@@ -18,8 +18,9 @@
 			<tr>
 				<th>ID</th>
 				<th>用户名</th>
+        <th>等级</th>
 				<th>鸟币</th>
-				<th>等级</th>
+				<th>经验值</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,6 +32,7 @@
 					  	{{ d.user.nickname }}
 					</a>
 				</td>
+        <td>{{ d.user.ext_state.rank_id|default 1 }}</td>
 				<td>{{d.balance.money}}</td>
 				<td>{{d.balance.exp}}</td>
 

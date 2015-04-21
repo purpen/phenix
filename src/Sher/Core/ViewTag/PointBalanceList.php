@@ -39,6 +39,9 @@ class Sher_Core_ViewTag_PointBalanceList extends Doggy_Dt_Tag {
 		    $options['sort_field'] = $sort_field;
         $result = $service->get_balance_list($query,$options);
 
+        foreach($result['rows'] as $k=>$v){
+          $result['rows'][$k]['user'] = DoggyX_Model_Mapper::load_model($v['_id'], 'Sher_Core_Model_User');
+        }
 		
         $context->set($var, $result);
 		
