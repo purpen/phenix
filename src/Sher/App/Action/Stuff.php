@@ -140,6 +140,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
       'comment_show_rich' => 1,
     );
     $this->_comment_param($comment_options);
+
+    $this->stash['guess_mode'] = 'stuff';
 		
 		return $this->to_html_page('page/stuff/view.html');
 	}
