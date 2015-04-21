@@ -5,6 +5,7 @@
  */
 class Sher_Core_Model_Edm extends Sher_Core_Model_Base {    
     protected $collection = "edm";
+    protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
 	# 状态
 	const STATE_DRAFT = 0;
@@ -35,6 +36,10 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 	
 	protected function extra_extend_model_row(&$row) {		
 		$row['state_label'] = $this->get_status_label($row['state']);
+		if(isset($row['mailbody'])){
+			// 转码
+			$row['mailbody'] = htmlspecialchars_decode($row['mailbody']);
+		}
 	}
 	
 	/**

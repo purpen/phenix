@@ -5,6 +5,7 @@
  */
 class Sher_Core_Model_Emailing extends Sher_Core_Model_Base  {
     protected $collection = "emailing";
+    protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
 	# 状态
 	const STATE_NO = 0;
