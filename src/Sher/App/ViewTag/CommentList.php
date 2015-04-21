@@ -23,6 +23,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $target_user_id = 0;
         //加载关联表
         $load_item = 0;
+        $sku_id = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -47,6 +48,10 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($target_user_id) {
 			$query['target_user_id'] = (int)$target_user_id;
 		}
+
+    if($sku_id){
+      $query['sku_id'] = (int)$sku_id;
+    }
 
 		// 排序
 		switch ($sort) {
