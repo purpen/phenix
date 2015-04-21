@@ -56,7 +56,7 @@
 		<a href="{{ app_url_admin_base }}/edm" class="{{ css_all_edm }} item">全部列表</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/edm/edit" class="active item">
-				+新增Edm
+				<i class="plus icon"></i> 新增
 			</a>
 	    </div>
 	</div>
@@ -91,8 +91,8 @@
 				<textarea rows="3" name="mailbody">{{ edm.mailbody }}</textarea>
 			</div>
 			
-			<button type="submit" class="ui magenta button">确认保存</button>
-			<button type="button" class="ui gray button">取消</button>
+			<button type="submit" class="ui magenta inverted button">确认保存</button>
+			<button type="button" class="ui gray cancel inverted button">取消</button>
 		</form>
 	</div>
 {% endblock %}

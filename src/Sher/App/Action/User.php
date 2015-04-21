@@ -27,6 +27,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
             if(!empty($row)){
                 $this->stash['user'] = $user->extended_model_row($row);
             }
+            // 用户实时积分
+            $point_model = new Sher_Core_Model_UserPointBalance();
+            $current_point = $point_model->load((int)$user_id);
+            $this->stash['current_point'] = $current_point;
         }
         $this->stash['last_char'] = substr((string)$user_id, -1);
     }

@@ -5,7 +5,7 @@
  */
 class Sher_App_Action_Subscribe extends Sher_App_Action_Base {
 	public $stash = array(
-		'email'=>'',
+		'email' =>'',
 	);
 	
 	protected $exclude_method_list = array('execute');
