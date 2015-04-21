@@ -189,10 +189,30 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 
+    if(empty($order_info)){
+ 			return $this->show_message_page('订单不存在！');   
+    }
+
 		// 仅查看本人的订单
 		if($this->visitor->id != $order_info['user_id']){
 			return $this->show_message_page('你没有权限查看此订单！');
-		}
+    }
+
+    //验证是否评价过
+    $comment_model = new Sher_Core_Model_Comment();
+    foreach($order_info['items'] as $k=>$v){
+      $query = array();
+      $query['user_id'] = $order_info['user_id'];
+      $query['target_id'] = (string)$v['product_id'];
+      $query['sku_id'] = (int)$v['sku'];
+      $query['type'] = 4;
+      $has_one = $comment_model->first($query);
+      if(empty($has_one)){
+        $order_info['items'][$k]['comment'] = null;
+      }else{
+        $order_info['items'][$k]['comment'] = $has_one;
+      }
+    }
 
 		$this->stash['order_info'] = $order_info;
 

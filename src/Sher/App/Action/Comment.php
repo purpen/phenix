@@ -85,13 +85,26 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['target_id'] = $this->stash['target_id'];
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
+    $row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
 		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
-			return $this->ajax_json('获取数据错误,请重新提交', true);
+			return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
-		
+
 		$model = new Sher_Core_Model_Comment();
+
+    $query = array();
+    $query['user_id'] = $row['user_id'];
+    $query['target_id'] = $row['target_id'];
+    $query['sku_id'] = $row['sku_id'];
+    $query['type'] = $row['type'];
+    $has_one = $model->first($query);
+
+    if(!empty($has_one)){
+      return $this->ajax_note('该商品不能重复评价!', true);
+    }
+
 		$ok = $model->apply_and_save($row);
 		if($ok){
 			$comment_id = $model->id;

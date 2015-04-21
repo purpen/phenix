@@ -108,6 +108,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['step_stat'] = (int)$this->stash['step_stat'];
 		//$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
+    $data['report_url'] = $this->stash['report_url'];
 
     //地图信息
     $data['map_info'] = array();
