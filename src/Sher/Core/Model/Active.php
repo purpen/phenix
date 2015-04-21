@@ -39,6 +39,8 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
         'address' => null,
         # 举办城市-字符串
         'conduct_city'  => null,
+        # 活动报道链接地址
+        'report_url' => null,
         # 地址坐标
         'a' => null,
         # 城市省份
