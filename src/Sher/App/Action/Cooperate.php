@@ -5,9 +5,10 @@
  */
 class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
-		'page'=>1,
-        'd' => 0,
-        'c' => 0,
+		'page' => 1,
+        'd'    => 0,
+        'rid'  => 95,
+        'cid'  => 0,
 	);
 	
 	protected $exclude_method_list = array('execute', 'index');
@@ -30,14 +31,11 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 	public function index(){
         $show_all = 'showno';
         $district = $this->stash['d'];
-        $cid = $this->stash['c'];
+        $cid = $this->stash['cid'];
         
         // 获取地域城市
         $areas = new Sher_Core_Model_Areas();
         $cities = $areas->find_cities();
-        
-        $model = new Sher_Core_Model_Cooperation();
-        $resources = $model->find_resources();
         
         if($cid || $district){
             $show_all = 'showall';
@@ -46,7 +44,6 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?c=%d&d=%d&page=#p#', $cid, $district);
         
         $this->stash['cities'] = $cities;
-        $this->stash['resources'] = $resources;
         
         $this->stash['cid'] = $cid;
         $this->stash['district'] = $district;
@@ -74,6 +71,10 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         
         $this->stash['editable'] = $editable;
         
+        $this->stash['last_char'] = substr((string)$id, -1);
+        
+        $this->validate_ship($id);
+        
         return $this->to_html_page('page/cooperate/view.html');
     }
 	
@@ -88,10 +89,6 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_COOPERATE;
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
-		
-        $model = new Sher_Core_Model_Cooperation();
-        $resources = $model->find_resources();
-        $this->stash['resources'] = $resources;
         
         $this->_editor_params();
 		
@@ -118,9 +115,6 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         $cooperate = $model->extend_load((int)$id);
         
         $this->stash['cooperate'] = $cooperate;
-        
-        $resources = $model->find_resources();
-        $this->stash['resources'] = $resources;
         
         return $this->to_html_page('page/cooperate/apply.html');
     }
@@ -187,7 +181,92 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
+    
+    /**
+     * 获取子类别
+     */
+    public function ajax_fetch_category(){
+        return $this->to_taconite_page('ajax/fetch_category.html');
+    }
+    
+	/**
+	 * 关注或收藏 资源
+	 * 
+	 * @return string
+	 */
+	public function ajax_follow(){
+		$user_id = (int)$this->visitor->id;
+		$follow_id = (int)$this->stash['id'];
+		
+		if(empty($follow_id) || empty($user_id)){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+		}
+        
+		$model = new Sher_Core_Model_Favorite();
+		if(!$model->has_exist_follow($user_id, $follow_id)){
+			$data['user_id']   = $user_id;
+			$data['target_id'] = $follow_id;
+            $data['event'] = Sher_Core_Model_Favorite::EVENT_FOLLOW;
+            $data['type']  = Sher_Core_Model_Favorite::TYPE_COOPERATE;
+			
+            $ok = $model->apply_and_save($data);
+            if($ok){
+    			// 更新关注数
+                $cooperate = new Sher_Core_Model_Cooperation();
+    			$cooperate->inc_counter('follow_count', $follow_id);
+                $cooperate->update_rank('follow_count', $follow_id);
+            }
+            $this->stash['domode'] = 'create';
+		}
+		
+		return $this->to_taconite_page('ajax/follow_cooperate_ok.html');
+	}
 	
+	/**
+	 * 取消关注或收藏 资源
+	 * 
+	 * @return string
+	 */
+	public function ajax_cancel_follow(){
+		$user_id = (int)$this->visitor->id;
+        $follow_id = (int)$this->stash['id'];
+        
+        if(empty($follow_id) || empty($user_id)){
+            return $this->ajax_note('请求失败,缺少必要参数',true);
+        }
+		
+        $model = new Sher_Core_Model_Favorite();
+        // 取消关注
+        if($model->has_exist_follow($user_id, $follow_id)){
+	        $query['user_id'] = $user_id;
+	        $query['target_id'] = $follow_id;
+            $query['type']  = Sher_Core_Model_Favorite::TYPE_COOPERATE;
+            
+	        $ok = $model->remove($query);
+            
+            if($ok){
+    			// 更新关注数
+                $cooperate = new Sher_Core_Model_Cooperation();
+    			$cooperate->dec_counter('follow_count', $follow_id);
+                $cooperate->update_rank('follow_count', $follow_id, -1);
+            }
+            
+            $this->stash['domode'] = 'cancel';
+        }
+        
+		return $this->to_taconite_page('ajax/follow_cooperate_ok.html');
+	}
+    
+    /**
+     * 验证关系
+     */
+    protected function validate_ship($id){
+		// 验证关注关系
+		$model = new Sher_Core_Model_Favorite();
+		$is_ship = $model->has_exist_follow($this->visitor->id, $id);
+		$this->stash['is_ship'] = $is_ship;
+    }
+    
 	/**
 	 * 编辑器参数
 	 */
@@ -203,4 +282,3 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 
 	
 }
-?>

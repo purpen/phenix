@@ -57,7 +57,7 @@ class Sher_Core_Service_Search extends Sher_Core_Service_Base {
                     $new_query[$index_name] = $query_words[0];
                 }
                 else {
-                    $new_query[$index_name]['$all'] = $query_words;
+                    $new_query[$index_name]['$in'] = $query_words;
                 }
                 $new_query += $query;
             }

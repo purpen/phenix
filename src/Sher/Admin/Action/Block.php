@@ -1,6 +1,6 @@
 <?php
 /**
- * 红包管理
+ * 块管理
  * @author purpen
  */
 class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {

@@ -135,30 +135,91 @@
 										{% endif %}
 									</td>
 									<td>
-										<form class="ui evaluate form" action="{{ app_url_comment }}/ajax_evaluate" method="post" id="{{ product._id }}">
-											<input type="hidden" name="target_id" value="{{ product._id }}" />
-											<input type="hidden" name="type" value="4" />
-											<div class="field">
-												<input type="hidden" name="star" class="comment-star" />
-												<div class="rate">
-												  	综合评分:
-												  	<div class="ui star write rating">
-												    	<i class="icon"></i>
-												   		<i class="icon"></i>
-												    	<i class="icon"></i>
-												    	<i class="icon"></i>
-												    	<i class="icon"></i>
-												  	</div>
-												</div>
-											</div>
-											<div class="field">
-												<label>评价说：</label>
-												<textarea name="content" class="comment-textarea" ></textarea>
-											</div>
-											<div class="right aligned column">
-												<input type="submit" class="ui magenta inverted button" value="提交评价" />
-											</div>
-										</form>
+                    {% if item.comment %}
+
+                      <div id="{{ item.sku }}" class="ui form">
+                        <div class="field">
+                          <div class="rate">
+                              综合评分:
+                              <div class="ui star rating">
+                                {% if item.comment.star == 0 %}
+                                <i class="icon "></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                {% endif %}
+                                {% if item.comment.star == 1 %}
+                                <i class="icon active"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                {% endif %}
+                                {% if item.comment.star == 2 %}
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                {% endif %}
+                                {% if item.comment.star == 3 %}
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon star"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                {% endif %}
+                                {% if item.comment.star == 4 %}
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon"></i>
+                                {% endif %}
+                                {% if item.comment.star == 5 %}
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                <i class="icon active"></i>
+                                {% endif %}
+                              </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label>评价说：</label>
+                          {{ item.comment.content }}
+                        </div>
+                      </div>
+                    {%else%}
+                      <form class="ui evaluate form" action="{{ app_url_comment }}/ajax_evaluate" method="post" id="{{ item.sku }}">
+                        <input type="hidden" name="target_id" value="{{ product._id }}" />
+                        <input type="hidden" name="sku" value="{{ item.sku }}" />
+                        <input type="hidden" name="type" value="4" />
+                        <div class="field">
+                          <input type="hidden" name="star" class="comment-star" />
+                          <div class="rate">
+                              综合评分:
+                              <div class="ui star write rating">
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                                <i class="icon"></i>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label>评价说：</label>
+                          <textarea name="content" class="comment-textarea" ></textarea>
+                        </div>
+                        <div class="right aligned column">
+                          <input type="submit" class="ui magenta inverted button" value="提交评价" />
+                        </div>
+                      </form>
+                    {%endif%}
+
 									</td>
 								</tr>
 								{% endfor %}

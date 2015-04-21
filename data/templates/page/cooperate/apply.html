@@ -17,6 +17,18 @@
 	.cooperate.form {
 		padding: 1rem 0 3rem;
 	}
+    #categories-box {
+        border: 1px dashed rgba(0, 0, 0, 0.15);
+        border-radius: 0.2125em;
+        color: rgba(0, 0, 0, 0.5);
+        padding: 0.65em 0.8em;
+    }
+    #categories-box .ui.checkbox {
+        margin-right: 1rem;
+    }
+    #categories-box.solid {
+        border-style: solid;
+    }
 </style>
 {% endblock %}
 
@@ -88,6 +100,15 @@
 				{
 					type   : 'empty',
 					prompt : '名称不能为空'
+				}
+			]
+		},
+		category_ids: {
+			identifier  : 'category_ids',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '至少选择一个领域'
 				}
 			]
 		},
@@ -166,7 +187,11 @@
 				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
+            
 			$('#cooperate-type').val(id);
+            
+            // 获取子类
+            $.get('{{ app_url_cooperate }}/ajax_fetch_category', {rid: id});
 		}
 	});
 	
@@ -219,9 +244,10 @@
 					<input type="hidden" name="_id" value="{{ cooperate._id }}" id="cooperate_id" />
 					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 					<input type="hidden" name="file_count" id="file_count" />
-					
+                    
+                    {% category_list var:'category' page:1 only_open:1 domain:6 pid:0 istop:1 %}
 					<div class="ui field">
-						<label>分工类型</label>
+						<label>所属类型</label>
 					   	<div class="ui options">
 							{% if mode == 'edit' %}
 					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="cooperate-type" />
@@ -229,35 +255,62 @@
 								<input type="hidden" name="type" id="cooperate-type" />
 							{% endif %}
 							
-                            {% for m in resources %}
-					   	 	<div class="ui magenta alt {% if m.id == cooperate.type %}active{%endif%} option" data-value="{{ m.id }}">
+                            {% for m in category.rows %}
+					   	 	<div class="ui magenta alt {% if m._id == cooperate.type %}active{%endif%} option" data-value="{{ m._id }}">
 					   	 		<div class="icon">
 					   				<i class="fa fa-check"></i>
 					   			</div>
-					   	 		{{ m.name }}
+					   	 		{{ m.title }}
 					   	 	</div>
                             {% endfor %}
 					   	 </div>
 					</div>
+                    
+					<div class="field">
+						<label for="category_ids">擅长领域</label>
+                        <div id="categories-box">
+                            {% if mode == 'edit' %}
+                                {% category_list var:'children' page:1 only_open:1 domain:6 pid:cooperate.type current:cooperate.category_ids %}
+                                {% for cat in children.rows %}
+                                <div class="ui checkbox">
+                                    <input name="category_ids[]" type="checkbox" value="{{ cat._id }}" {% if cat.active %}checked="checked"{% endif %} />
+                                    <label for="category_ids[]">{{ cat.title }}</label>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            至少选择一个领域
+                            {% endif %}
+                        </div>
+					</div>
 				
 					<div class="field">
-						<label for="name">名称</label>
-					  	<input type="text" name="name" value="{{ cooperate.name }}" />
+						<label for="name">公司/机构简称</label>
+					  	<input type="text" name="name" value="{{ cooperate.name }}" placeholder="如：太火鸟" />
 					</div>
 					<div class="field">
 						<label for="fullname">公司/机构全称</label>
-					  	<input type="text" name="fullname" value="{{ cooperate.fullname }}" />
+					  	<input type="text" name="fullname" value="{{ cooperate.fullname }}" placeholder="如：北京太火鸟科技有限公司" />
 					</div>
 					<div class="field">
 						<label>业务特点</label>
-					  	<input type="text" name="keywords" value="{{ cooperate.keywords_s }}" />
+					  	<input type="text" name="keywords" value="{{ cooperate.keywords_s }}" placeholder="如：UI设计，硬件开发，WiFi模组，云服务" />
 						<div class="description">特点之间使用，逗号隔开</div>
 					</div>
 					
-					<div class="field">
-						<label>网址主页</label>
-					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" />
-					</div>
+                    <div class="three fields">
+    					<div class="field">
+    						<label>网址主页</label>
+    					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" placeholder="http://" />
+    					</div>
+    					<div class="field">
+    						<label>微博链接</label>
+    					  	<input type="text" name="weibo_url" value="{{ cooperate.weibo_url }}" placeholder="http://" />
+    					</div>
+						<div class="field">
+							<label for="wechat">微信号</label>
+					  		<input type="text" name="wechat" value="{{ cooperate.wechat }}" />
+						</div>
+                    </div>
 					
 					<div class="three fields">
 						<div class="field">
@@ -314,7 +367,7 @@
 					  	<textarea name="summary" placeholder="此处输入简介..." id="editor">{{ cooperate.summary }}</textarea>
 					</div>
 					
-					<div class="three fields">
+					<div class="two fields">
 						<div class="field">
 							<label for="people">联系人</label>
 					  		<input type="text" name="people" value="{{ cooperate.people }}" />
@@ -322,10 +375,6 @@
 						<div class="field">
 							<label for="mobile">联系电话</label>
 					  		<input type="text" name="mobile" value="{{ cooperate.mobile }}" />
-						</div>
-						<div class="field">
-							<label for="wechat">微信号</label>
-					  		<input type="text" name="wechat" value="{{ cooperate.wechat }}" />
 						</div>
 					</div>
 					
