@@ -89,4 +89,4 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	}
 	
 }
-?>
+

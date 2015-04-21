@@ -123,6 +123,7 @@ app.dt.extension_lib.sher_app:
     'timeline_list':'Sher_Core_ViewTag_TimelineList'
     'timeline_list':'Sher_Core_ViewTag_TimelineList'
     'tag_list':'Sher_Core_ViewTag_TagList'
+    'report_list':'Sher_Core_ViewTag_ReportList'
   filters: []
 
 app.js.use_bundle: false

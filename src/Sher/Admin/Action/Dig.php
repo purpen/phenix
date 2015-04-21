@@ -47,6 +47,27 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 	}
 
 	/**
+	 * 创建/更新
+	 */
+	public function edit(){
+		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
+		$mode = 'create';
+		
+		$model = new Sher_Core_Model_DigList();
+		if(!empty($id)){
+			$mode = 'edit';
+			$dig = $model->find_by_id($id);
+      $dig = $model->extended_model_row($dig);
+      $dig['_id'] = (string)$dig['_id'];
+			$this->stash['dig'] = $dig;
+
+		}
+		$this->stash['mode'] = $mode;
+		
+		return $this->to_html_page('admin/dig/edit.html');
+	}
+
+	/**
 	 * 删除
 	 */
 	public function deleted(){
@@ -77,5 +98,35 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+  /**
+   * 改变大赛中奖状态
+   */
+  public function ajax_change_match_praise(){
+    $user = isset($this->stash['user'])?(int)$this->stash['user']:0;
+    $account = isset($this->stash['account'])?$this->stash['account']:0;
+    $praise = isset($this->stash['praise'])?(int)$this->stash['praise']:0;
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+    $is_del = isset($this->stash['is_del'])?(int)$this->stash['is_del']:0;
+
+    $digged = new Sher_Core_Model_DigList();
+    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+
+    if($evt==0){
+      $evt_new = 1;
+    }else{
+      $evt_new = 0;
+    }   
+
+    $item_new = array('user'=>$user, 'account'=>$account, 'praise'=>$praise, 'evt'=>$evt_new);
+    $item = array('user'=>$user, 'account'=>$account, 'praise'=>$praise, 'evt'=>$evt);
+    if($is_del){
+      $digged->remove_item_custom($key_id, $item);   
+    }else{
+      $digged->remove_item_custom($key_id, $item);
+      $digged->add_item_custom($key_id, $item_new);
+    }
+    
+  }
+
 }
-?>
+

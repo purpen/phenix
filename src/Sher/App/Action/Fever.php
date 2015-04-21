@@ -174,6 +174,11 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['editable'] = $editable;
 		
 		$this->stash['product'] = $product;
+
+    //投诉参数
+    $this->stash['report_target_id'] = $product['_id'];
+    $this->stash['report_target_type'] = 1;
+    $this->stash['target_user_id'] = $product['user_id'];
 		
 		return $this->to_html_page('page/fever/show.html');
 	}
