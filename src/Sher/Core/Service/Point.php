@@ -7,6 +7,8 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'time' => array('time' => -1),
         'created_on' => array('created_on' => -1),
+        'money' => array('balance.money' => -1),
+        'exp' => array('balance.exp' => -1),
     );
 
     protected static $instance;
@@ -35,6 +37,14 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
      */
     public function get_event_list($query=array(), $options=array()){
         $model = new Sher_Core_Model_UserEvent();
+        return $this->query_list($model, $query, $options);
+    }
+
+    /**
+     * 获取用户积分鸟币排行列表
+     */
+    public function get_balance_list($query=array(), $options=array()){
+        $model = new Sher_Core_Model_UserPointBalance();
         return $this->query_list($model, $query, $options);
     }
 
