@@ -35,11 +35,11 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 编辑内容
 	 */
 	public function edit(){
-		$id = $this->stash['id'];
+		$id = (int)$this->stash['id'];
 		$row = array();
 		if(!empty($id)){
 			$edm = new Sher_Core_Model_Edm();
-			$row = $edm->load($id);
+			$row = $edm->load((int)$id);
 		}
 		
 		$this->stash['edm'] = $row;
@@ -51,7 +51,7 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 开始发送
 	 */
 	public function send(){
-		$id = $this->stash['id'];
+		$id = (int)$this->stash['id'];
 		if(empty($id)){
 			return $this->ajax_note('请求参数错误', true);
 		}
@@ -76,12 +76,12 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 测试发送
 	 */
 	public function test(){
-		$id = $this->stash['id'];
+		$id = (int)$this->stash['id'];
 		if(empty($id)){
 			return $this->ajax_note('请求参数错误', true);
 		}
 		$edm = new Sher_Core_Model_Edm();
-		$row = $edm->load($id);
+		$row = $edm->extend_load($id);
 		if(empty($row)){
 			return $this->ajax_note('请求操作有误，请核对！', true);
 		}
@@ -114,10 +114,20 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 		}
 		
 		$edm = new Sher_Core_Model_Edm();
-		if(empty($this->stash['_id'])){
-			$ok = $edm->apply_and_save($this->stash);
+        
+        $data = array();
+        $data['title'] = $this->stash['title'];
+        $data['test_user'] = $this->stash['test_user'];
+        $data['summary']   = $this->stash['summary'];
+        $data['mailbody']  = $this->stash['mailbody'];
+        
+        $id = $this->stash['_id'];
+        
+		if(empty($id)){
+			$ok = $edm->apply_and_save($data);
 		}else{
-			$ok = $edm->apply_and_update($this->stash);
+            $data['_id'] = (int)$id;
+			$ok = $edm->apply_and_update($data);
 		}
 		
 		if(!$ok){
@@ -133,7 +143,7 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 删除
 	 */
 	public function delete() {
-		$id = $this->stash['id'];
+		$id = (int)$this->stash['id'];
 		if(!empty($id)){
 			$edm = new Sher_Core_Model_Edm();
 			$edm->remove($id);
@@ -144,4 +154,3 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	}
 	
 }
-?>
