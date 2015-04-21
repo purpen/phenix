@@ -28,6 +28,15 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 		return $this->to_html_page('admin/point/point_record_list.html');
 	}
 
+  /**
+   * 积分排行统计
+   */
+  public function user_stat(){
+    $this->set_target_css_state('page_point_stat_list');
+
+    return $this->to_html_page('admin/point/point_user_stat.html');
+  }
+
     /**
      * 用户事件记录列表
      */
