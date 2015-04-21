@@ -89,7 +89,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
-			return $this->ajax_json('获取数据错误,请重新提交', true);
+			return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 
 		$model = new Sher_Core_Model_Comment();
