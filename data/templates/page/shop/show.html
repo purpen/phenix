@@ -8,6 +8,18 @@
 	.ui.five.tabs .tab {
 		width: 20%;
 	}
+	#shoppage .buy.box .price{
+		vertical-align: bottom;
+	}
+	#shoppage .buy.box .old.price .unit, #shoppage .buy.box .price .unit{
+		vertical-align: bottom;
+	}
+	#shoppage .buy.box .redemption{
+		vertical-align: top;
+	  font-size: 1.25em;
+		color: #f36;
+		margin-right: .75em;
+	}
     
 </style>
 {% endblock %}
@@ -513,6 +525,12 @@
 								{% if !product.snatched %}
                   {% if !product.is_try %}
                     {% if product.can_saled %}
+										<!--    积分    -->
+										<span class="redemption">
+											(所需积分：300+200鸟币) 
+										</span>
+										
+										<!--	-->
                     <div class="ui black tobuy nowbuy inverted button">
                       立即购买
                     </div>
