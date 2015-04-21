@@ -8,6 +8,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+    's' => 'money',
 	);
 
 	/**
@@ -33,13 +34,12 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
    */
   public function user_stat(){
     $this->set_target_css_state('page_point_stat_list');
-
     return $this->to_html_page('admin/point/point_user_stat.html');
   }
 
-    /**
-     * 用户事件记录列表
-     */
+  /**
+   * 用户事件记录列表
+   */
     public function event_record_list() {
         $this->set_target_css_state('event');
         $this->set_target_css_state('page_point_list');
