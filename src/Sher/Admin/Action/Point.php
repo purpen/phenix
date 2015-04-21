@@ -34,6 +34,8 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
    */
   public function user_stat(){
     $this->set_target_css_state('page_point_stat_list');
+    $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/user_stat?s=%s&page=#p#', $this->stash['s']);
+    $this->stash['pager_url'] = $pager_url;
     return $this->to_html_page('admin/point/point_user_stat.html');
   }
 
