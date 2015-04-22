@@ -209,6 +209,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
 		$stuff = $model->extended_model_row($stuff);
+
+    //如果是大赛,则不显示产品参数
+    if($stuff['from_to']==1){
+      $this->stash['rid'] = 1;
+    }
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -273,7 +278,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['description'] = $this->stash['description'];
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
-		$data['cooperate_id'] = (int)$this->stash['cooperate_id'];
+		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
         $data['cover_id'] = $this->stash['cover_id'];
 
         // 所属
@@ -323,7 +328,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         }
         // 所在大学
         if(isset($this->stash['college_id'])){
-            $data['college_id'] = $this->stash['college_id'];
+            $data['college_id'] = (int)$this->stash['college_id'];
         }
 
         // 如果是关联投票产品
@@ -367,6 +372,36 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->visitor->inc_counter('stuff_count', $data['user_id']);
 			}else{
 				$mode = 'edit';
+
+        //如果是大赛,用户更改了省份或大学,需要重新统计排行
+        if($data['from_to']==1){
+          $old_stuff = $model->find_by_id((int)$id);
+          if(!empty($old_stuff)){
+            $old_province_id = isset($old_stuff['province_id'])?$old_stuff['province_id']:0;
+            $old_college_id = isset($old_stuff['college_id'])?$old_stuff['college_id']:0;
+
+            //如果有变更,更新排行统计
+            $num_mode = new Sher_Core_Model_SumRecord();
+            if(isset($data['province_id']) && $data['province_id'] != $old_province_id){
+              $num_mode->down_record($old_province_id, 'match2_count', 1);
+              if($old_stuff['love_count']){
+                $num_mode->multi_down_record($old_province_id, 'match2_love_count', $old_stuff['love_count'], 1);
+              }
+              $num_mode->add_record($data['province_id'], 'match2_count', 1);
+              $num_mode->multi_add_record($data['province_id'], 'match2_love_count', $old_stuff['love_count'], 1);
+            }
+
+            if(isset($data['college_id']) && $data['college_id'] != $old_college_id){
+              $num_mode->down_record($old_college_id, 'match2_count', 2);
+              if($old_stuff['love_count']){
+                $num_mode->multi_down_record($old_college_id, 'match2_love_count', $old_stuff['love_count'], 2);
+              }
+              $num_mode->add_record($data['college_id'], 'match2_count', 2); 
+              $num_mode->multi_add_record($data['college_id'], 'match2_love_count', $old_stuff['love_count'], 2);
+            }
+
+          }
+        }
 				$ok = $model->apply_and_update($data);
 			}
 			
