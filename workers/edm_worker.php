@@ -31,6 +31,8 @@ echo "-------------------------------------------------\n";
 
 echo "Start to send mail...\n";
 
+$time = 10;
+
 try{
     $task = new Sher_Core_Model_TaskQueue();
     $data = $task->pop();
@@ -62,8 +64,6 @@ try{
             // 验证是否qq邮箱
             if(preg_match('/qq\.com/i', $data['task_data']['email'], $matches)){
                 $time = 30;
-            }else{
-                $time = 10;
             }
         }
     }

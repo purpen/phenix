@@ -15,8 +15,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 */
 	public function execute(){
 		// echo phpinfo();
-        $account = '123gmail.com';
-        print preg_match('/@/', $account, $matches);
+        $account = '123@Qg.com';
+        print preg_match('/qq\.com/i', $account, $matches);
 	}
 	
 	/**
