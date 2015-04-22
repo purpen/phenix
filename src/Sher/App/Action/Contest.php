@@ -122,7 +122,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
     $this->stash['pid'] = (int)$this->stash['pid'];
     $this->stash['cid'] = (int)$this->stash['cid'];
 		
-		$page = "?st=${sort}&cid={{cid}}&page=#p#";
+		$page = "?st=${sort}&cid=".$this->stash['cid']."&page=#p#";
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.contest', 'allist2').$page;
 		$this->stash['pager_url'] = $pager_url;
 		
