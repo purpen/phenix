@@ -8,6 +8,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+    's' => 'money',
 	);
 
 	/**
@@ -28,9 +29,19 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 		return $this->to_html_page('admin/point/point_record_list.html');
 	}
 
-    /**
-     * 用户事件记录列表
-     */
+  /**
+   * 积分排行统计
+   */
+  public function user_stat(){
+    $this->set_target_css_state('page_point_stat_list');
+    $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/user_stat?s=%s&page=#p#', $this->stash['s']);
+    $this->stash['pager_url'] = $pager_url;
+    return $this->to_html_page('admin/point/point_user_stat.html');
+  }
+
+  /**
+   * 用户事件记录列表
+   */
     public function event_record_list() {
         $this->set_target_css_state('event');
         $this->set_target_css_state('page_point_list');

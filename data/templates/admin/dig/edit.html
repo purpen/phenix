@@ -1,0 +1,86 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .item-list .item{
+      margin:5px;
+    }
+  </style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+    function ajax_change_match_praise(user, account, praise, evt, is_del){
+      $.get('/admin/dig/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt, is_del:is_del}, function(result){
+        var obj = $("div.item[praise="+ praise +"]");
+        if(is_del==1){
+          obj.remove();    
+        }else{
+          var new_evt = evt==1?0:1;
+          obj.attr('evt', new_evt);
+          obj.find('.evt-box').text(new_evt);
+        }
+
+      });   
+    }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  //大赛抽奖-删除
+  $('.dig_match_praise_del_btn').click(function(){
+    var obj = $(this).parent('.item');
+    var user = obj.attr('user');
+    var account = obj.attr('account');
+    var praise = obj.attr('praise');
+    var evt = obj.attr('evt');
+    ajax_change_match_praise(user, account, praise, evt, 1);
+    
+  });
+
+  //大赛抽奖-设置
+  $('.dig_match_praise_set_btn').click(function(){
+    var obj = $(this).parent('.item');
+    var user = obj.attr('user');
+    var account = obj.attr('account');
+    var praise = obj.attr('praise');
+    var evt = obj.attr('evt');
+    ajax_change_match_praise(user, account, praise, evt, 0);
+  });
+
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">推荐管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/dig" class="{{ css_all }} item">
+			全部
+		</a>
+
+	</div>
+	
+  <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/block" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="红包码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+  -->
+	
+  <div class="item-list">
+    {% if dig._id=='dig_match_praise_stat' %}
+      {% for d in dig.items %}
+      <div class="item" user="{{ d.user }}" account="{{ d.account }}" praise="{{ d.praise }}" evt="{{ d.evt }}">
+        ID: <span>{{ d.user }}</span> | 抽奖号: <span>{{ d.praise }}</span> | 账户名: <span>{{ d.account }}</span> | 状态: <span class="evt-box">{{ d.evt }}</span> 操作: <a href="javascript:void(0);" class="dig_match_praise_del_btn">删除</a>|<a href="javascript:void(0);" class="dig_match_praise_set_btn">更改状态</a>
+      </div>
+      {%endfor%}
+    {%endif%}
+  </div>
+	
+{% endblock %}

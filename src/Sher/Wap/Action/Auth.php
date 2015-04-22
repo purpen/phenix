@@ -66,6 +66,14 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	public function signup(){
 		// 当前有登录用户
 		if ($this->visitor->id){
+      //指定入口送抽奖码
+      if($this->stash['evt']=='match2_praise'){
+        $this->send_match_praise((int)$this->visitor->id, (string)$this->visitor->account);
+        //大赛2
+        $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2'; 
+			  return $this->to_redirect($redirect_url);
+      }
+
 			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
 			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
 			return $this->to_redirect($redirect_url);
@@ -181,9 +189,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
             //送邀请人红包
-            if(Doggy_Config::$vars['app.anniversary2015.switch']){
-              $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
-            }
+            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
           }
         
         }
@@ -207,27 +213,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
     //指定入口送抽奖码
     if($this->stash['evt']=='match2_praise'){
- 		  $digged = new Sher_Core_Model_DigList();
-      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
-      $result = $digged->load($key_id);
-      //统计奖品号
-      $items_arr = array();
-      if(!empty($result) && !empty($result['items'])){
-        foreach($result['items'] as $k=>$v){
-          array_push($items_arr, $v['praise']);
-        }
-      }
-      $is_exist_random = false;
-      
-      while(!$is_exist_random){
-        $match_random = rand(1000, 9999);
-        $is_exist_random = in_array($match_random, $items_arr)?false:true;
-      }
-
-      $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random);
-      // 添加到统计列表
-      $digged->add_item_custom($key_id, $match_item);
-
+      $this->send_match_praise($user_id, $user_info['account']);
     }
 		
     //周年庆活动跳到提示分享页面
@@ -237,7 +223,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
  		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/rank';  
+      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
     }else{
  		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
     }
@@ -325,6 +311,36 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     // 赠与红包 结束日期:2015-6-30
     $end_time = strtotime('2015-06-30 23:59');
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+  }
+
+  /**
+   *指定入口送抽奖码
+   */
+  protected function send_match_praise($user_id, $account){
+    $digged = new Sher_Core_Model_DigList();
+    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    $result = $digged->load($key_id);
+    //统计奖品号
+    $items_arr = array();
+    if(!empty($result) && !empty($result['items'])){
+      foreach($result['items'] as $k=>$v){
+        if($v['user']==$user_id){
+          return;
+        }
+        array_push($items_arr, $v['praise']);
+      }
+    }
+    $is_exist_random = false;
+    
+    while(!$is_exist_random){
+      $match_random = rand(1000, 9999);
+      $is_exist_random = in_array($match_random, $items_arr)?false:true;
+    }
+
+    $match_item = array('user'=>$user_id, 'account'=>$account, 'praise'=>$match_random, 'evt'=>0);
+    // 添加到统计列表
+    $digged->add_item_custom($key_id, $match_item);
+
   }
 	
 }

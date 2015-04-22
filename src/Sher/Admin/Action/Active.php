@@ -108,6 +108,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['step_stat'] = (int)$this->stash['step_stat'];
 		//$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
+    $data['report_url'] = $this->stash['report_url'];
 
     //地图信息
     $data['map_info'] = array();
@@ -317,6 +318,101 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		
 		return $this->to_html_page('admin/active/attend_list.html');
   }
+
+	/**
+	 * 导出报名列表
+	 */
+	public function export(){
+		$query = array();
+		$options = array();
+		$page = 1;
+		$size = 500;
+
+    $query['target_id'] = (int)$this->stash['target_id'];
+    $query['event'] = 1;
+		
+		if(empty($query)){
+			return $this->ajax_json('请选择导出数据条件！', true);
+		}
+		
+		// 设置不超时
+		set_time_limit(0);
+			
+		 header('Content-Type: application/vnd.ms-excel');
+		 header('Content-Disposition: attachment;filename="user_info.csv"');
+		 header('Cache-Control: max-age=0');
+		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    //fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+     $fp = fopen('php://output', 'a');
+
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
+		// 输出Excel列名信息
+		$head = array('ID', '姓名', '电话', '职业', '地址');
+		foreach($head as $i => $v){
+			// CSV的Excel支持GBK编码，一定要转换，否则乱码
+			// $head[$i] = iconv('utf-8', 'gbk', $v);
+		}
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+		
+		$service = Sher_Core_Service_Attend::instance();
+		
+		$is_end = false;
+		$counter = 0;
+		$limit = 1000;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			Doggy_Log_Helper::warn("Export active attend-list page[$page],size[$size]!");
+			
+			$result = $service->get_attend_list($query, $options);
+			
+			$max = count($result['rows']);
+			for($i=0; $i<$max; $i++){
+				$counter ++;
+				if($limit == $counter){
+					ob_flush();
+					flush();
+					$counter = 0;
+				}
+				
+        $user = $result['rows'][$i]['user'];
+        $job = isset($user['profile']['job'])?$user['profile']['job']:'--';
+        $address = isset($user['profile']['address'])?$user['profile']['address']:'--';
+				
+				$row = array($user['_id'], $user['profile']['realname'], $user['profile']['phone'], $job, $address);
+				
+				/*
+				foreach($row as $k => $v){
+					// CSV的Excel支持GBK编码，一定要转换，否则乱码
+					// $row[$i] = iconv('utf-8', 'gbk', $v);
+				}*/
+				
+				fputcsv($fp, $row);
+				
+				unset($row);
+				unset($user);
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		}
+		
+		fclose($fp);
+
+	}
+
 
 }
 ?>

@@ -49,4 +49,4 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 	}
 	
 }
-?>
+

@@ -29,6 +29,7 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 * 媒体报道
 	 */
 	public function media() {
+		$this->set_target_css_state('page_media');
 		return $this->to_html_page('page/guide/media.html');
 	}
 	

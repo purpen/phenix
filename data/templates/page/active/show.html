@@ -44,7 +44,7 @@
 	background:url({{ active.banner.fileurl }}) no-repeat center center;
   background-size:cover;
 	color:#fff;
-	padding:100px 0% 80px;
+	padding:100px 0% 40px;
 }
 .start .ui.btn{
 	border-radius:4px !important;
@@ -61,7 +61,7 @@
 	text-align:left;
 }
 .start .row{
-	padding-top:208px !important;
+	padding-top:248px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -230,6 +230,7 @@ font-size:14px;
 	font-size:1em;
 	font-weight:400;
 	padding-bottom:1rem;
+	height: 21px;
 }
 h4.ui.header .map-advantage {
 	font-size: 1em;
@@ -561,10 +562,18 @@ h4.ui.header .map-advantage {
         {%endif%}
         
         {% if active.step_stat==2 %}
-        <div class="row">
-            <div class="center aligned column attend-box" style="height:50px;">
-            </div>
-        </div>
+          <div class="row">
+            {% if active.report_url %}
+              <div class="center aligned column">
+                <a class="ui white btn-4 btn-4c icon-arrow-right icon-arrow-right btn" style="background:rgba(0,0,0,0);" href="{{ active.report_url }}" target="_blank">
+                      <span>活动报道</span><i class="icon-arrow-right-sharp"></i>
+                </a>
+              </div>
+            {%else%}
+              <div class="center aligned column attend-box" style="height:50px;">
+              </div>
+            {%endif%}
+          </div>
         {%endif%}
     </div>
 </section>

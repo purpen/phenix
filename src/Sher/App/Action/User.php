@@ -409,5 +409,47 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
     }
     return $this->to_raw_json(true);
   }
+
+  /**
+   * 举报
+   */
+  public function ajax_report(){
+    $target_id = isset($this->stash['target_id'])?$this->stash['target_id']:0;
+    $target_type = isset($this->stash['target_type'])?(int)$this->stash['target_type']:1;
+    $target_user_id = isset($this->stash['target_user_id'])?(int)$this->stash['target_user_id']:0;
+    $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:10;
+    $user_id = (int)$this->visitor->id;
+    $content = $this->stash["content"];
+		if(empty($target_id)){
+      return $this->ajax_notification("缺少必要参数",true);
+    }
+    if(empty($content)){
+      return $this->ajax_notification("你没有输入举报内容",true);
+    }
+    $data = array();
+		try {
+      $report = new Sher_Core_Model_Report();
+      $data['target_id'] = $target_id;
+      $data['target_type'] = $target_type;
+      $data['target_user_id'] = $target_user_id;
+      $data['evt'] = $evt;
+      $data['kind'] = $kind;
+      $data['user_id'] = $user_id;
+      $data['content'] = $content;
+      $ok = $report->create($data);
+      if($ok){
+      
+      }else{
+        return $this->ajax_notification('保存失败',true);       
+      }
+
+    } catch (Doggy_Model_ValidateException $e) {
+      return $this->ajax_notification('操作失败:'.$e->getMessage(),true);
+    }
+		$this->stash['mode'] = 'report';
+		return $this->to_taconite_page('ajax/send_ok.html');
+
+  }
 	
 }
