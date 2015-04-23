@@ -14,6 +14,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
     const STAGE_VOTE     = 1;
     const STAGE_PRESALE  = 5;
     const STAGE_SHOP     = 9;
+    const STAGE_EXCHANGE = 12;
 	
     protected $schema = array(
 		# sku

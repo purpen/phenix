@@ -107,6 +107,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		return $this->to_html_page('page/shop/index.html');
 	}
+    
+    /**
+     * 积分商城
+     */
+    public function pmall(){
+        return $this->to_html_page('page/shop/pmall.html');
+    }
 	
 	/**
 	 * 查看产品详情
@@ -192,6 +199,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function ajax_guess_product(){
 		$sword = $this->stash['sword'];
+        $current_id = $this->stash['id'];
 		$size = $this->stash['size'] || 3;
 		
 		$result = array();
@@ -199,9 +207,14 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
-		);
+		);        
 		if(!empty($sword)){
-			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', array('type' => 1), $options);
+            $addition_criteria = array(
+                'type' => 1,
+                'target_id' => array('$ne' => (int)$current_id),
+            );
+            $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
+			$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);
 		}
 		
 		$this->stash['result'] = $result;
@@ -213,11 +226,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * ajax获取评论
 	 */
 	public function ajax_fetch_comment(){
-    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
-    $this->stash['current_user_id'] = $current_user_id;
+        $this->stash['current_user_id'] = $current_user_id;
+        
 		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
 	}
 
@@ -251,22 +265,21 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 
-  /**
-   * 抢购倒计时确认
-   */
-  public function check_snatch_expire(){
-    $id = $this->stash['product_id'];
+    /**
+     * 抢购倒计时确认
+     */
+    public function check_snatch_expire(){
+        $id = $this->stash['product_id'];
 		$model = new Sher_Core_Model_Product();
-    $product = $model->load((int)$id);
-    if(empty($product)){
-      return $this->ajax_json('商品未找到!', true);
+        $product = $model->load((int)$id);
+        if(empty($product)){
+            return $this->ajax_json('商品未找到!', true);
+        }
+        if($product['snatched_time'] <= time()){
+            return $this->ajax_json('操作成功', false);
+        }else{
+            return $this->ajax_json('您的系统时间不准确,请刷新页面查看结果!', true);
+        }
     }
-    if($product['snatched_time'] <= time()){
-      return $this->ajax_json('操作成功', false);
-    }else{
-      return $this->ajax_json('您的系统时间不准确,请刷新页面查看结果!', true);
-    }
-  }
 	
 }
-?>

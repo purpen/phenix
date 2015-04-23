@@ -33,16 +33,16 @@ $is_end = false;
 try{
     $edm = new Sher_Core_Model_Edm();
     $row = $edm->first(array('state'=>1));
+    
     if(!empty($row)){
         $edm_id = $row['_id'];
         // 更新状态
         $edm->mark_set_send($edm_id);
-    
+        
         // 设置任务
         $emailing = new Sher_Core_Model_Emailing();
-    
+        
         $task = new Sher_Core_Model_TaskQueue();
-    
         while(!$is_end){
             if($end_id){
                 $query['_id'] = array(
@@ -51,8 +51,7 @@ try{
             }
             $query['state'] = 1;
         
-            $options = array('page'=>$page, 'size'=>$size);
-        
+            $options = array('page'=>$page,'size'=>$size);
             $list = $emailing->find($query, $options);
         	if(empty($list)){
         		echo "Get email list is null,exit......\n";
@@ -69,8 +68,9 @@ try{
                 $is_end = true;
         		break;
         	}
-        	$page++;
         }
+    }else{
+        echo "Edm is Null!\n";
     }
 }catch(Sher_Core_Model_Exception $e){
     echo "Send mail failed: ".$e->getMessage();

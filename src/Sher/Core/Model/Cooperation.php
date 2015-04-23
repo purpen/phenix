@@ -66,7 +66,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		'state'      => self::STATE_DISABLED,
     );
 	
-    protected $required_fields = array('name', 'summary');
+    protected $required_fields = array('name','type','summary');
     protected $int_fields = array('user_id','rank','type','stick','district','state');
 	
     protected $counter_fields = array('follow_count', 'love_count', 'view_count', 'stuff_count');

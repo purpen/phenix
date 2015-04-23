@@ -31,23 +31,44 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 	public function index(){
         $show_all = 'showno';
         $district = $this->stash['d'];
+        $rid = $this->stash['rid'];
         $cid = $this->stash['cid'];
-        
-        // 获取地域城市
-        $areas = new Sher_Core_Model_Areas();
-        $cities = $areas->find_cities();
         
         if($cid || $district){
             $show_all = 'showall';
         }
         
-        $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?c=%d&d=%d&page=#p#', $cid, $district);
+        // 不限类型
+        if(empty($cid) && empty($rid)){
+            $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?d=%d&page=#p#', $district);
+        }
         
+        // 仅限类型
+        if(empty($cid) && !empty($rid)){
+            $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?rid=%d&d=%d&page=#p#', $rid, $district);
+        }
+        
+        // 某类型下类别
+        if(isset($cid) && empty($rid)){
+            $category = new Sher_Core_Model_Category();
+            $row = $category->load((int)$cid);
+            if(empty($row)){
+                $rid = $row['pid'];
+            }
+            $pager_url = sprintf(Doggy_Config::$vars['app.url.cooperate'].'?cid=%d&d=%d&page=#p#', $cid, $district);
+        }
+        
+        // 获取地域城市
+        $areas = new Sher_Core_Model_Areas();
+        $cities = $areas->find_cities();
         $this->stash['cities'] = $cities;
         
         $this->stash['cid'] = $cid;
+        $this->stash['rid'] = $rid;
         $this->stash['district'] = $district;
+        
         $this->stash['show_all'] = $show_all;
+        
         $this->stash['pager_url'] = $pager_url;
         
 		return $this->to_html_page('page/cooperate/index.html');

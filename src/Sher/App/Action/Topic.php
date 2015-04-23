@@ -13,19 +13,20 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
-    'cid'  => 0,
+        'cid'  => 0,
 		'ref'  => null,
 	);
 	
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
 	
-	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view', 'ajax_guess_topics', 'ajax_fetch_topics');
+	protected $exclude_method_list = array('execute', 'index', 'ajax_fetch_more', 'get_list', 'view', 'ajax_guess_topics');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_topic');
 		$this->set_target_css_state('page_sub_topic');
+        
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_TOPIC;
   }
 	
@@ -64,19 +65,27 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
     /**
      * 自动加载获取
      */
-    public function ajax_fetch_topics(){
+    public function ajax_fetch_more(){
         $page = $this->stash['page'];
         
         $service = Sher_Core_Service_Topic::instance();
+        
         $query = array();
         $options['page'] = $page;
         $options['size'] = 15;
 		
-        $result = $service->get_topic_list($query,$options);
+        $resultlist = $service->get_topic_list($query,$options);
+        $next_page = 'no';
+        if(isset($resultlist['next_page'])){
+            if((int)$resultlist['next_page'] > $page){
+                $next_page = (int)$resultlist['next_page'];
+            }
+        }
         
-        $this->stash['results'] = $result;
+        $this->stash['nex_page'] = $next_page;
+        $this->stash['results'] = $resultlist;
         
-        return $this->to_html_page('ajax/fetch_topics.html');
+        return $this->to_taconite_page('ajax/fetch_topics.html');
     }
     
 	/**
@@ -797,13 +806,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['target_id'] = (int)$this->stash['target_id'];
 		
 		// 产品话题分类Id
-    if(isset($this->stash['evaluating'])){
-      //产品评测
-  		$data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_evaluating_category_id'];  
-    }else{
-      //产品讨论
-      $data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_category_id'];
-    }
+        if(isset($this->stash['evaluating'])){
+            //产品评测
+  		    $data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_evaluating_category_id'];  
+        }else{
+            //产品讨论
+            $data['category_id'] = (int)Doggy_Config::$vars['app.product.topic_category_id'];
+        }
 
 		try{
 			$model = new Sher_Core_Model_Topic();
