@@ -1,0 +1,800 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第二季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.big.block {
+	  padding-top: 4rem !important;
+	  padding-bottom: 4rem;
+	}
+	.start{
+		background:url({{ app_url_packaged }}/images/match/qsyd.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:25% 0;
+	}
+	.ui.nav {
+		background:#191e80;
+	}
+	.ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	.ui.nav {
+	  padding: 0.5rem 6%;
+	}
+	
+	.ui.about .ui.responsive.grid,.ui.about .column{
+		position:relative;
+		z-index:999;
+	}
+	.ui.about p.qs {
+		margin: 0 auto;
+		line-height: 1.8rem;
+		font-size: 18px;
+		padding: 20px;
+		color:#444;
+		border: 1px dashed #e85000;
+		text-align:left;
+	}
+	.ui.about p.qs b{
+		color:#e85000;
+	}
+	.ui.about p{
+		color:#0064a3;
+	}
+	.ui.about h3.ui.header{
+		font-weight:400;
+	}
+
+	.ui.collection,.ui.judges,.ui.products{
+		background:url({{ app_url_packaged }}/images/match/qsyd2.jpg) no-repeat;
+		background-size:cover;
+	}
+	.rundown-timeline-container {
+		height: auto;
+		margin: 0 auto;
+		max-width: 1000px;
+		position: relative;
+		width: 100%;
+	}
+	.rundown-timeline-container:before {
+		background: none repeat scroll 0 0 #DCDEE1;
+		content: "";
+		height: 95px;
+		left: 49%;
+		position: absolute;
+		top: 39px;
+		width: 3px;
+	}
+	.rundown-timeline-container.bottom:before{
+		height:0;
+	}
+	.timeline-red-dot {
+		background-color: #00b6ae;
+		border-radius: 14px 14px 14px 14px;
+		height: 13px;
+		left: 48%;
+		margin-left: -2px;
+		position: absolute;
+		top: 19px;
+		width: 13px;
+		border: 7px solid #cdf5f3;
+	}
+	.timeline-block {
+	height: 120px;
+	margin: 0;
+	position: relative;
+	top: -5px;
+	}
+	.timeline-content.right {
+	float: right;
+	}
+	.timeline-content {
+	float: right;
+	width: 47%;
+	text-align:left;
+	}
+	.timeline-content.right .time {
+	font-weight: normal;
+	min-width: 200px;
+	text-align: right;
+	}
+	.timeline-content .time {
+	font-size: 16px;
+	font-weight: 400;
+	left: 25%;
+	line-height: 38px !important;
+	position: absolute;
+	}
+	.timeline-content .name {
+	font-size: 22px;
+	font-weight: 400;
+	line-height: 16px;
+	margin-top: 25px !important;
+	margin-bottom: 0;
+	color: #222;
+	}
+	.timeline-content .name.top{
+		margin-top: 25px !important;
+		font-size: 20px;
+	}
+	.timeline-content .title {
+	font-size: 16px;
+	line-height: 16px;
+	margin: 0px 0 5px !important;
+	}
+	.title img{
+		display: block;
+		margin: 0 auto;
+		width: 3em;
+		height: 3em;
+		border-radius: 500px;
+		float: left;
+	}
+	.title .content{
+		padding-top: .25em;
+		font-size:14px;
+		color:#666;
+	}
+	.text {
+	margin: .25em 0 .5em;
+	word-wrap: break-word;
+	line-height: 1.325em;
+	font-size:16px;
+	}
+	.ui.five.blocks .block{
+		background: rgba(0,0,0,0);
+	}
+	.ui.judges .content h4 {
+		margin: .6em 0 5px;
+		color:#1682dd;
+	}
+	.ui.judges .content h5 {
+		margin: 0;
+		color:#fff;
+	}
+	.column.w-9{
+		width:94% !important;
+		margin:0 3%;
+	}
+	.column.w-9 > p{
+		margin:3px 0;
+		line-height: 24px;
+	}
+	.ui.repay .content h4 {
+		margin: .6em 0 5px;
+		color:#ffa000;
+	}
+	.ui.repay .content h5 {
+		margin: 0;
+		color:#444;
+		font-size: 16px;
+	  font-weight: 400;
+	}
+	.recon {
+	  margin: 10px 0;
+		min-height: 60px;
+	}
+	.recon .ima{
+		width: 30px;
+		height: 50px;
+		padding-right: 10px;
+		display: inline-block;
+		float: left;
+	}
+	.recon .caode{
+		padding: 10px 0 0 40px;
+	}
+	.ui.inverted.button.origin{
+		background-color: transparent;
+		-webkit-box-shadow: 0 0 0 2px #ffa000 inset!important;
+		box-shadow: 0 0 0 2px #ffa000 inset!important;
+		color:#ffa000;
+	}
+	.ui.inverted.button.origin:hover{
+		background:#ffa000;
+		color:#fff;
+	}
+	.row.logo img{
+		border:1px solid rgba(0,0,0,.3);
+		margin:2px;
+	}
+	.border{
+		margin: 0 auto;
+		margin-top: 3.5rem;
+		padding: 20px;
+		color:#444;
+		border: 1px dashed #e85000;
+		position:relative;
+	}
+	.border h3{
+		margin: 10px 25% 15px;
+	  text-align: center;
+		line-height: 30px;
+		font-weight: 400;
+	}
+	.border p{
+		line-height: 22px;
+		margin: 5px 0;
+	}
+	.img-1{
+		position:absolute;
+		width:140px;
+		height:140px;
+		left:2%;
+		top:-70px;
+	}
+	.img-2{
+		position:absolute;
+		width:200px;
+		height:50px;
+		right:2%;
+		top:-25px;
+	}
+	
+</style>
+{% endblock %}
+{% block jquery %}
+
+
+
+{% endblock %}
+{% block content %}
+<div class="start">
+</div>
+<section class="ui nav">
+	<div class="ui responsive grid">
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_contest }}/dream2" class="ui link active item">首页</a>
+					<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+	        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+					<a href="{{ app_url_contest }}/qsydlist" class="ui link item">全部作品</a>
+				</div>
+			</div>
+
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+				<i class="edit icon"></i> 提交作品
+			</a>
+		</div>
+	</div>
+</section>
+
+<section class="ui about white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<p class="qs">为加快落实国务院办公厅印发的《关于发展众创空间推进大众创新创业的指导意见》精神，部署推进”大众创业、万众创新”工作，培养具有创意思维、创新意识、创造能力的高素质人才，宁波市国家大学科技园决定联合相关单位举办&nbsp;&nbsp;<b>2015“奇思甬动”中国创客大赛</b></p>
+				<img src="{{ app_url_packaged }}/images/match/qsyd1.jpg" width="90%" style="margin:20px auto 0;">
+				<p>征集的作品不受表现形式的限制，但要求能够清晰地传达设计理念。</p>
+				<p>这些作品可以是尚未成形的创意点子，</p>
+				<p>可以是仍处于设计的图稿，</p>
+				<p>也可以是落地成型的产品。</p>
+				<p>参赛者可从产品的外观、使用方式、结构与功能、标识导向、美学、与环境协调性等方面对现有产品进行改进，或提出新产品，新方式。</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui collection big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd3.png" width="90%">
+				<img src="{{ app_url_packaged }}/images/match/qsyd11.png" width="90%">
+				<img src="{{ app_url_packaged }}/images/match/qsyd12.png" width="90%">
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui times white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd4.png" width="90%" style="margin-bottom: 20px;">
+				<div class="rundown-timeline-container">
+           <div class="timeline-block">
+             <div class="timeline-red-dot"></div>
+             <div class="timeline-content right">
+               <div class="time">
+							   <p class="name">征集</p>
+								 <div class="title">
+                   <div class="content">
+                     <div class="text">
+											 2015年04月15日-06月01日
+                     </div>
+                   </div>	
+                 </div>
+							 </div>
+             </div>
+           </div>
+        </div>
+
+				<div class="rundown-timeline-container">
+          <div class="timeline-block">
+            <div class="timeline-red-dot"></div>
+            <div class="timeline-content right">
+							<p class="name"> 初评</p>
+			        <div class="title">
+			          <div class="content">
+			            <div class="text">
+											 2015年06月初
+			            </div>
+			          </div>	
+			        </div>
+						</div>
+          </div>
+        </div>
+				
+				<div class="rundown-timeline-container bottom">
+					<div class="timeline-block">
+						<div class="timeline-red-dot"></div>
+						<div class="timeline-content right">
+              <div class="time">
+								<p class="name">决赛</p>
+								<div class="title">
+	                <div class="content">
+	                  <div class="text">
+												 2015年06月底
+	                  </div>
+	                </div>	
+	              </div>
+				      </div>
+					  </div>
+			   	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ui judges big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd5.png" width="90%">
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<div class="ui five blocks">
+					<div class="block">
+						<div class="image">
+							<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">徐小平</h4>
+							<h5>真格天使投资基金创始人</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">黎万强</h4>
+							<h5>小米科技联合创始人</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">贾伟</h4>
+							<h5>洛可可设计集团创始人</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">童玮亮</h4>
+							<h5>梧桐树资本创始合伙人</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">雷海波</h4>
+							<h5>太火鸟创始人\CEO</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui repay white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd6.png" width="100%">
+			</div>
+		</div>
+		<div class="row">
+			<div class="column w-9">
+				<p>大赛组委会邀请大咖专家对申报作品进行初评，选拔60件有创意、有方向、有价值的设计作品入围决赛，并对入围作品进行公示。</p>
+				<p>决赛阶段将以视频、PPT、PDF或平面海报等形式对入围的60件作品进行展示。</p>
+				<p>根据作品的创意性、方向性、价值性及社会效应等选择特别出众的20件作品进行时长为10分钟的路演，详细展示作品的基本内容、知识产权情况、特色亮点、已有成果、市场价值及机会等。</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center aligned column">
+				<div class="ui four blocks">
+					<div class="block">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/match/qsyd9.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">一等奖(1名)</h4>
+							<h5>奖金￥20000元</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/match/qsyd9.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">二等奖(2名)</h4>
+							<h5>奖金￥10000元</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/match/qsyd9.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">三等奖(3名)</h4>
+							<h5>奖金￥5000元</h5>
+						</div>
+					</div>
+					<div class="block">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/match/qsyd9.png">
+						</div>
+						<div class="content">
+							<h4 class="ui header">入围奖(若干)</h4>
+							<h5>荣誉证书</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column w-9">
+				<h3 class="ui header">获奖及优秀的参赛作品还有机会获得：</h3>
+				<div class="recon">
+					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
+					<div class="caode">最高不超过1000万元的无抵押贷款。</div>
+				</div>
+				<div class="recon">
+					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
+					<div class="caode">宁波慧谷创客基金最高100万元的天使投资。</div>
+				</div>
+				<div class="recon">
+					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
+					<div class="caode">获得洛可可“洛客平台”的创意和投资支持。</div>
+				</div>
+				<div class="recon">
+					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
+					<div class="caode">优先享用国内顶级渠道资源。</div>
+				</div>
+				<div class="recon">
+					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
+					<div class="caode">获得来自京东股权众筹、视觉中国、洛可可、太火鸟等国内最优秀企业的设计师、投资人、创业家等 导师的辅导，并到相应的平台进行孵化及推广。</div>
+				</div>
+				<div class="recon">
+					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
+					<div class="caode">入驻宁波市国家大学科技园并给予3年100㎡左右场地的免费使用权。</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui products media allist big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd7.png" width="90%">
+			</div>
+		</div>
+		<!--	-->
+		<div class="row">
+			<div class="column">
+				<div class="ui four items">
+					<div class="item">
+						<div class="content">
+						    <h4 class="ui dividing header">
+				        <div class="image zan">
+				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
+				          <div class="image-extra">
+				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
+				            <div class="extra-content">
+				              <div class="inner-extra">
+				                <div class="single-image plus-icon">
+				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
+				                    <span class="like"> </span>
+				                  </a>
+				                  <div class="add">
+				                                +1      
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				                  </div>
+				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
+				          USB电池
+				        </a>
+				        <div class="advantage">
+				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
+				        </div>
+				      </h4>
+				      <div class="i-stats">
+				        <div class="schedule">
+				          <div class="status clearfix">
+				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
+				            </a>
+				            <span class="count">
+				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				                猪是的念来过倒
+				              </a>
+				            </span>
+				            <span class="like">
+				              <i class="thumbs outline up icon">
+				              </i>
+				              <span class="count love-count">
+				                1
+				              </span>
+				              <i class="unhide icon"></i> <span class="count">54</span> 
+				            </span>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+					</div>
+						
+					<div class="item">
+						<div class="content">
+						    <h4 class="ui dividing header">
+				        <div class="image zan">
+				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
+				          <div class="image-extra">
+				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
+				            <div class="extra-content">
+				              <div class="inner-extra">
+				                <div class="single-image plus-icon">
+				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
+				                    <span class="like"> </span>
+				                  </a>
+				                  <div class="add">
+				                                +1      
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				                  </div>
+				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
+				          USB电池
+				        </a>
+				        <div class="advantage">
+				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
+				        </div>
+				      </h4>
+				      <div class="i-stats">
+				        <div class="schedule">
+				          <div class="status clearfix">
+				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
+				            </a>
+				            <span class="count">
+				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				                猪是的念来过倒
+				              </a>
+				            </span>
+				            <span class="like">
+				              <i class="thumbs outline up icon">
+				              </i>
+				              <span class="count love-count">
+				                1
+				              </span>
+				              <i class="unhide icon"></i> <span class="count">54</span> 
+				            </span>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+					</div>
+					
+					<div class="item">
+						<div class="content">
+						    <h4 class="ui dividing header">
+				        <div class="image zan">
+				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
+				          <div class="image-extra">
+				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
+				            <div class="extra-content">
+				              <div class="inner-extra">
+				                <div class="single-image plus-icon">
+				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
+				                    <span class="like"> </span>
+				                  </a>
+				                  <div class="add">
+				                                +1      
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				                  </div>
+				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
+				          USB电池
+				        </a>
+				        <div class="advantage">
+				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
+				        </div>
+				      </h4>
+				      <div class="i-stats">
+				        <div class="schedule">
+				          <div class="status clearfix">
+				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
+				            </a>
+				            <span class="count">
+				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				                猪是的念来过倒
+				              </a>
+				            </span>
+				            <span class="like">
+				              <i class="thumbs outline up icon">
+				              </i>
+				              <span class="count love-count">
+				                1
+				              </span>
+				              <i class="unhide icon"></i> <span class="count">54</span> 
+				            </span>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+					</div>
+					
+					<div class="item">
+						<div class="content">
+						    <h4 class="ui dividing header">
+				        <div class="image zan">
+				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
+				          <div class="image-extra">
+				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
+				            <div class="extra-content">
+				              <div class="inner-extra">
+				                <div class="single-image plus-icon">
+				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
+				                    <span class="like"> </span>
+				                  </a>
+				                  <div class="add">
+				                                +1      
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				                  </div>
+				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
+				          USB电池
+				        </a>
+				        <div class="advantage">
+				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
+				        </div>
+				      </h4>
+				      <div class="i-stats">
+				        <div class="schedule">
+				          <div class="status clearfix">
+				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
+				            </a>
+				            <span class="count">
+				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
+				                猪是的念来过倒
+				              </a>
+				            </span>
+				            <span class="like">
+				              <i class="thumbs outline up icon">
+				              </i>
+				              <span class="count love-count">
+				                1
+				              </span>
+				              <i class="unhide icon"></i> <span class="count">54</span> 
+				            </span>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+<!--	-->
+		
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_contest }}/ " class="ui inverted origin button">
+					全部创意
+				</a>
+				<a href="{{ app_url_contest }}/ " class="ui inverted origin button">
+					提交创意
+				</a>
+			
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd8.png" width="90%">
+			</div>
+		</div>
+		<div class="row logo">
+			<div class="center aligned column">
+				<h2 class="ui header">主办单位</h2>
+				<img src="{{ app_url_packaged }}/images/match/qsyd13.jpg" width="229px">
+				<img src="{{ app_url_packaged }}/images/match/qsyd14.jpg" width="150px">
+				<img src="{{ app_url_packaged }}/images/match/qsyd15.jpg" width="150px">
+				<img src="{{ app_url_packaged }}/images/match/qsyd16.jpg" width="150px">
+				<img src="{{ app_url_packaged }}/images/match/qsyd17.jpg" width="150px">
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="border">
+					<h3>依据国家有关法律法规，凡主动提交作品的“参赛者”或“作者” 特此承诺对其所提交的作品版权归属作如下不可撤销之声明</h3>
+					<p>1、原创声明参赛作品是参赛者原创作品，未侵犯任何他人的任何专利、著作权、商标权及其他知识产权，否则，大赛主办方将取消其参赛、入围与获奖资格，收回奖金、奖品及并保留追究法律责任的权利。</p>
+					<p>2、大赛主办方对所有获奖作品拥有展示和宣传等权利，其它任何单位和个人（包括作者本人）未经授权不得以任何形式对作品转让、复制、转载、传播、摘编、出版、发行、许可使用等。</p>
+					<p>3、参赛者提交作品之前，已仔细阅读上述条款，充分理解并表示同意，本次大赛的评委会拥有对所有获奖作品的最终裁定权。</p>
+					<img src="{{ app_url_packaged }}/images/match/qsyd18.jpg" class="img-1">
+					<img src="{{ app_url_packaged }}/images/match/qsyd19.jpg" class="img-2">
+					
+					
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</section>
+
+<section class="ui contact big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+
+
+{% endblock %}
