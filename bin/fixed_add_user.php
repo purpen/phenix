@@ -20,9 +20,11 @@ ini_set('memory_limit','512M');
 
 echo "Prepare to add user...\n";
 
+$emailing = new Sher_Core_Model_Emailing();
+
 $total = 0;
 
-$file = $cfg_app_project_root.'/install/tbuser/u3.csv';
+$file = $cfg_app_project_root.'/install/tbuser/users_15.csv';
 if(!file_exists($file)){
 	echo "File[$file] not exists!!!\n";
 	exit;
@@ -33,16 +35,34 @@ while($data = fgetcsv($file)){
 	// 此为一个数组，要获得每一个数据，访问数组下标即可
 	$nickname = $data[1];
 	$account = $data[2];
-	$username = $data[3];
-	$mobile = $data[5];
+	//$username = $data[3];
+	$mobile = $data[4];
 	
 	$password = Sher_Core_Helper_Util::rand_string(6);
 	
 	try{
-		if(empty($account) || empty($nickname)){
+		if(empty($account)){
 			continue; // 直接跳过
 		}
-		
+        
+        if(preg_match('/@/', $account, $matches)){
+            try{
+                // echo sprintf("User[%s][%s][%s] \n", $nickname, $account, $mobile);
+                
+                $emailing->create(array(
+            		'name'  => $nickname,
+            		'email' => $account,
+            		'phone' => $mobile,
+                ));
+                
+                $total++;
+            }catch(Sher_Core_Model_Exception $e){
+                echo "Clean user failed: ".$e->getMessage()."\n";
+                continue;
+            }
+        }
+        
+        /*
 		$user = new Sher_Core_Model_User();
 		// 跳过手机号用户
 		if(Sher_Core_Helper_Util::is_mobile($account)){
@@ -77,7 +97,8 @@ while($data = fgetcsv($file)){
 			echo "Create the user[".$new_data['_id']."] is ok!\n";
 		}
 		unset($user);
-		
+		*/
+        
 		$total++;
 	}catch(Sher_Core_Model_Exception $e){
 		echo "Create the user failed: ".$e->getMessage();
@@ -87,5 +108,3 @@ while($data = fgetcsv($file)){
 }
 
 echo "total $total user added.\n";
-
-?>

@@ -1,0 +1,101 @@
+{%extends 'layout/column.html'%}
+{% block title %}积分商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.pmall.masthead {
+    background-color: rgba(56, 67, 77, 0.9);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+}
+.pmall.masthead > .masthead-cover {
+    background-color: rgba(0, 0, 0, 0);
+    height: 100%;
+}
+.pmall.masthead .container {
+    min-height: 400px;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+    
+{% endblock %}
+
+{% block content %}
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui active link" href="{{ app_url_shop }}">商店</a>
+					</div>
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
+					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
+				</div>
+                <div class="ui horizontal quick list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
+					</div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="pmall masthead" style="background-image:url('{{ app_url_packaged }}/images/point-banner.jpg');">
+    <div class="masthead-cover">
+    	<div class="ui responsive grid">
+    		<div class="center aligned column">
+                <div class="container"></div>
+    		</div>
+    	</div>
+    </div>
+</div>
+
+<div class="shop list" id="shoplist">	
+	<!--热门推荐-->
+	<div class="product hotest white list">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					{% product_list var:'hotest' page:1 process_saled:1 only_approved:1 only_onsale:1 size:9 sort:'stick:latest' %}
+					{% if hotest.rows %}
+					<div class="ui three items">
+						{% for product in hotest.rows %}
+					  		{% include "block/product_item.html" %}
+					    {% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="social submitbox">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<h2 class="ui header">
+					怎样获取鸟币？
+				</h2>
+				<p>快来攒经验，赢鸟币，兑换更酷更好玩的创新产品！</p>
+				<a href="{{ app_url_my }}/point" class="ui inverted magenta button">
+					<i class="basic chart icon"></i> 获取积分规则
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
