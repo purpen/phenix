@@ -50,7 +50,7 @@
 		font-weight:400;
 	}
 
-	.ui.collection,.ui.judges,.ui.products{
+	.ui.collection,.ui.judges,.ui.products,.ui.contact{
 		background:url({{ app_url_packaged }}/images/match/qsyd2.jpg) no-repeat;
 		background-size:cover;
 	}
@@ -234,6 +234,25 @@
 		height:50px;
 		right:2%;
 		top:-25px;
+	}
+	.ui.contact{
+		color:#fff;
+	}
+	.ten.wide p{
+		margin:5px 0;
+	}
+	.black.background{
+		background:#000;
+		color:#fff;
+	}
+	.ui.contact .ui.weibo.button,.ui.contact .ui.weibo.button:hover,.ui.contact .ui.blue.button,.ui.contact .ui.blue.button:hover,.ui.contact .ui.green.button,.ui.contact .ui.green.button:hover{
+		border-color: transparent;
+	  background: transparent;
+		padding:0;
+	}
+	.ui.contact .ui.circular.share.button {
+	  height: auto;
+	  width: auto;
 	}
 	
 </style>
@@ -784,15 +803,38 @@
 <section class="ui contact big block">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="column">
-				
+			<div class="ui ten wide column">
+				<h3 class="ui header">联系方式 / CONTACT</h3>
+				<p>大赛组委会办公室地址：宁波市国家大学科技园管委会</p>
+				<p>联络人：许益锋 / 马维聪</p>
+				<p>TEL：0574-87612065</p>
+				<p>EMAIL：nbchuangke@126.com</p>
+			</div>
+			<div class="ui six wide column">
+				<h3 class="ui header">分享到：</h3>
+				<a href="http://weibo.com/taihuoniao" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
+									<img src="{{ app_url_packaged }}/images/match/qsyd20.png">
+								</a>
+								<a href="http://t.qq.com/taihuoniao" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
+													<img src="{{ app_url_packaged }}/images/match/qsyd21.png">
+												</a>
+												<a href="http://taihuoniao.me" class="ui green circular share wechat icon button" title="微信">
+																	<img src="{{ app_url_packaged }}/images/match/qsyd23.png">
+																</a>
+				<p>大赛官方QQ交流群：216875757</p>
 			</div>
 		</div>
 	</div>
 </section>
-
-
-
+<section class="ui black background block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<p>*本次大赛的解释权归大赛组委会所有，活动的有关情况请及时与大赛组委会办公室联系。</p>
+			</div>
+		</div>
+	</div>
+</section>
 
 
 
