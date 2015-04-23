@@ -305,6 +305,22 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
                 }
             }
             
+
+          //添加全文索引
+          /**
+          $xs_data = array(
+            'pid' => 'Stuff'.(string)$this->data['_id'],
+            'oid' => $this->data['_id'],
+            'cid' => $this->data['from_to'],
+            'title' => $this->data['title'],
+            'content' => $this->data['description'],
+            'user_id' => $this->data['user_id'],
+            'tags' => !empty($this->data['tags']) ? implode(',', $this->data['tags']) : '',
+            'created_on' => $this->data['created_on'],
+            'updated_on' => $this->data['updated_on'],
+          );
+            Sher_Core_Util_XunSearch::add($xs_data);
+          */
         }
   	}
 	
