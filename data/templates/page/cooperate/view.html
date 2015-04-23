@@ -91,7 +91,11 @@
 	</div>
 </div>
 
+{% if cooperate.banner %}
+<div class="user cooperate masthead" style="background-image: url('{{ cooperate.banner.fileurl }}');">
+{% else %}
 <div class="user cooperate masthead" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ last_char |default 0 }}.jpg');">
+{% endif %}
     <div class="masthead-cover">
     	<div class="ui responsive grid">
     		<div class="column">

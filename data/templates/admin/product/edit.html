@@ -583,12 +583,8 @@
 			</div>
 			<div class="three fields">
 				<div class="field">
-				  	<label>鸟币数：</label>
-					<input type="text" name="bird_coin" value="{{ product.bird_coin|default 0 }}" />
-				</div>
-				<div class="field">
-				  	<label>补价格：</label>
-					<input type="text" name="exchange_price" value="{{ product.exchange_price|default 0 }}" />
+				  	<label>最高可兑换鸟币数(1鸟币==1元)：</label>
+					<input type="text" name="max_bird_coin" value="{{ product.max_bird_coin|default 0 }}" />
 				</div>
 				<div class="field">
 				  	<label>兑换数量：</label>

@@ -209,6 +209,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
 		$stuff = $model->extended_model_row($stuff);
+
+    //如果是大赛,隐藏商品参数
+    if($stuff['from_to']==1 || $stuff['from_to']==3){
+      $this->stash['is_match'] = true;
+    }
 		
 		// 是否为一级分类
 		$is_top = false;
