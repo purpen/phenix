@@ -126,7 +126,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
             }elseif($row['from_to'] == 2){ // 蛋年
               $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);
             }elseif($row['from_to']==3){ //奇思甬动-大赛
-              $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);
+              $row['view_url'] = sprintf(Doggy_Config::$vars['app.url.contest']."/qsyd_view/%s.html", $row['_id']);
             }else{
                 $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
             }

@@ -438,6 +438,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
         }elseif($data['from_to'] == 2){
             $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+        }elseif($data['from_to'] == 3){
+            $redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd_view/'.$id.'.html';
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }

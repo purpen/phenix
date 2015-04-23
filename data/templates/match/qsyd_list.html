@@ -1,0 +1,269 @@
+{%extends 'layout/column.html'%}
+{% block title %}奇思甬动-创客大赛-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	body{background:#fff;}
+	.match.page .ui.header{
+		font-weight:400;
+	}
+	.match.page .ui.logo{
+		margin:1em auto;	
+	}
+	.match.page > .ui.nav{
+		border-bottom: 1px solid #e4e5e7;
+	}
+	.ui.nav {
+    padding: 0.5rem 8%;
+	}
+	.ui.nav .ui.main-nav .item{
+		padding-left: 1em;
+		padding-right: 1em;
+		border-bottom: 2px solid #e4e5e7;
+		margin: 0;
+		font-weight: 700;
+		opacity: .9;
+		padding-bottom: 1rem;
+		margin-bottom: -3.7rem;
+	}
+	/*.ui.nav .column{
+		margin-top:.5em;
+		margin-bottom:.5em;
+	}*/
+	.ui.nav {
+		background:#091f35;
+	}
+	.ui.nav .ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	.pages{
+		background:url({{ app_url_packaged }}/images/match/qsyd.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:20% 0;
+	}
+	
+	.idea.section-title {
+		margin-bottom: 1.5em;
+	}
+	.idea.section-title h3,
+	.idea.section-title p {
+		margin-bottom: 0.5rem;
+	}
+	.idea.section-title p {
+		margin-top: 0.5rem;
+	}
+	.idea.section-title hr {
+		width: 80px;
+		background-color: #ff3366;
+	}
+	
+	.match.page .ui.pagination {
+		margin-top: 1.5rem;
+	}
+	.match.page .ui.allist .ui.items > .item{
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		background-color: #fff;
+		border-radius: 0.3125em;
+		min-height:320px;
+		border: 1px solid rgba(0,0,0,0.1);
+		cursor:auto;
+	}
+	.ui.sort.grid{
+		padding-bottom:2rem;
+	}
+	.ui.sort.grid > .row {
+		padding: 1% 0;
+		border: 1px solid rgba(0,0,0,0.1);
+		border-radius: 10px;
+	}
+	.ui.sort.grid .wide.column{
+		vertical-align: middle;
+	}
+	/*a#submit-idea {
+		margin: .5em 0;
+	}*/
+	.ui.sort.grid .ui.icon{
+		display: inline-block;
+	  padding: 12px 11px 12px 5px;
+	  background: #f36;
+	  color: #fff;
+	  vertical-align: middle;
+		position:relative;
+	}
+	.ui.sort.grid .ui.icon a{
+		position:absolute;
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
+		z-index:111;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    var url = "{{ app_url_contest }}/submit?season=qsyd";
+    phenix.redirect(url);
+  });
+
+	$('.ui.college.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+
+	/* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
+	
+{% endblock %}
+
+{% block content %}
+<div class="match page">
+	<div class="pages">
+	</div>
+
+	<section class="ui nav">
+		<div class="ui responsive grid">
+			<div class="middle aligned row">
+				<div class="twelve wide column">
+					<div class="ui magenta horizontal divided list">
+						<a href="{{ app_url_contest }}/qsyd" class="ui link item">首页</a>
+						<a href="{{ app_url_contest }}/qsyd/#about" class="ui link item">活动介绍</a>
+						<a href="{{ app_url_contest }}/qsyd_list" class="ui link active item">全部作品</a>
+					</div>
+				</div>
+
+			<div class="right aligned four wide column">
+    			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+    				<i class="edit icon"></i> 提交作品
+    			</a>
+				<!--<a href="javascript:void(0);" class="ui gray btn-4 btn-4c btn">
+					提交已结束
+				</a>-->
+			</div>
+		</div>
+	</section>
+	
+	<section class="ui big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column idea section-title">
+					<h3 class="ui magenta header">全部作品</h3>
+					<hr>
+					<p class="ui magenta text">Products</p>
+				</div>
+			</div>
+		</div>
+		<div class="ui responsive sort grid">
+			<div class="row">
+				<div class="center aligned seven wide column">
+					<div class="ui divided horizontal list">
+					  	<div class="item">
+                <a href="{{ app_url_contest }}/qsyd_list" class="ui link">全部</a>
+					  	</div>
+					  	<div class="item">排序：</div>
+					  	<div class="item">
+                <a href="{{ app_url_contest }}/qsyd_list?st=4&cid={{cid}}&pid={{pid}}" class="ui {% if st == 4 %}active{% endif %} link">点赞</a>
+					  	</div>
+					  	<div class="item">
+                <a href="{{ app_url_contest }}/qsyd_list?st=6&cid={{cid}}&pid={{pid}}" class="ui {% if st == 6 %}active{% endif %} link">浏览</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/qsyd_list?st=2&cid={{cid}}&pid={{pid}}" class="ui {% if st == 2 %}active{% endif %} link">评论</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/qsyd_list?st=3&cid={{cid}}&pid={{pid}}" class="ui {% if st == 3 %}active{% endif %} link">收藏</a>
+					  	</div>
+					  	<div class="item">
+					  		<a href="{{ app_url_contest }}/qsyd_list?st=0&cid={{cid}}&pid={{pid}}" class="ui {% if st == 0 %}active{% endif %} link">时间</a>
+					  	</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="ui responsive media allist grid">
+			<div class="row">
+					{% stuff_list var:'list' is_top:true category_id:dream_category_id college_id:cid load_college:1 sort:st page:page size:12 %}
+			
+			<div class="column">
+		
+				<div class="ui four items" id="item-list">
+					{% for stuff in list.rows %}
+            {% include "block/match2_item.html" %}
+          {%endfor%}
+
+				</div>
+				  {% if list.total_page %}
+					<div class="ui pagination">
+						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+						{% include 'block/pager.html' %}
+					</div>
+					{% endif %}
+			</div>
+		</div>
+		
+	</section>
+	
+</div>
+{% endblock %}
