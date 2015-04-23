@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -141,6 +141,24 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['start_time'] = mktime(0,0,0,2,8,2015);
 		$this->stash['end_time'] = mktime(23,59,59,4,30,2015);
 		return $this->to_html_page('match/list2.html');
+	}
+
+	/**
+	 * 奇思甬动-大赛-- 列表页
+	 */
+  public function qsyd_list() {
+		$this->set_target_css_state('allist');
+    $sort = $this->stash['st'];
+    $this->stash['pid'] = (int)$this->stash['pid'];
+    $this->stash['cid'] = (int)$this->stash['cid'];
+		
+		$page = "?st=${sort}&cid=".$this->stash['cid']."&page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.contest', 'qsyd_list').$page;
+		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.qsyd_category_id'];
+
+		return $this->to_html_page('match/qsyd_list.html');
 	}
 
 	/**
