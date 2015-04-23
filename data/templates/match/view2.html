@@ -48,7 +48,7 @@
   //分享
   phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}

@@ -48,7 +48,7 @@
   //分享
   phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -249,20 +249,20 @@
 						<i class="basic icon community"></i> 发现
 					</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_contest }}">十万火计</a>
+				  	<a class="ui section link" href="{{ app_url_contest }}/qsyd">奇思甬动</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">{{ stuff.category.title }}</a>
+				  	<a class="ui section link" href="{{ app_url_contest }}/qsyd_list/c{{ stuff.category._id }}">{{ stuff.category.title }}</a>
 				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ stuff.title }}</div>
 				</div>
 			</div>
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
-				<a href="{{ app_url_contest }}/submit?season=dream2" class="ui gray inverted button">
+				<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui gray inverted button">
 					<i class="add icon"></i> 提交大赛作品
 				</a>
 				{% else %}
-				<a href="{{ app_url_contest }}/submit?season=dream2" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
+				<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
 					<i class="add icon"></i> 提交大赛作品
 				</a>
 				{% endif %}
