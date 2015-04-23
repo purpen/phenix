@@ -41,6 +41,15 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	/**
 	 * 十万火计
 	 */
+	public function qsyd(){
+		$this->set_target_css_state('index');
+		
+		return $this->to_html_page('match/qsyd.html');
+	}
+	
+	/**
+	 * 十万火计
+	 */
 	public function dream(){
 		$this->set_target_css_state('index');
 		

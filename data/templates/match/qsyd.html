@@ -1,0 +1,276 @@
+{%extends 'layout/column.html'%}
+{% block title %}十万火计 第二季-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.big.block {
+	  padding-top: 4rem !important;
+	  padding-bottom: 4rem;
+	}
+	.start{
+		background:url({{ app_url_packaged }}/images/match/qsyd.jpg) no-repeat center center scroll;
+		background-size:cover;
+		padding:25% 0;
+	}
+	.ui.nav {
+		background:#191e80;
+	}
+	.ui.divided.horizontal.list>.item{
+		color:#fff;
+	}
+	.ui.active.link{
+		color:#f36 !important;
+	}
+	.ui.divided.horizontal.list .ui.item:hover{
+		color:#f36 ;
+	}
+	.ui.nav {
+	  padding: 0.5rem 6%;
+	}
+	
+	.ui.about .ui.responsive.grid,.ui.about .column{
+		position:relative;
+		z-index:999;
+	}
+	.ui.about p.qs {
+		margin: 0 auto;
+		line-height: 1.8rem;
+		font-size: 18px;
+		padding: 20px;
+		color:#444;
+		border: 1px dashed #e85000;
+	}
+	.ui.about p.qs b{
+		color:#e85000;
+	}
+	.ui.about p{
+		color:#0064a3;
+	}
+	.ui.about h3.ui.header{
+		font-weight:400;
+	}
+
+	.ui.collection{
+		background:url({{ app_url_packaged }}/images/match/qsyd2.jpg) no-repeat;
+		background-size:cover;
+	}
+	.rundown-timeline-container {
+		height: auto;
+		margin: 0 auto;
+		max-width: 1000px;
+		position: relative;
+		width: 100%;
+	}
+	.rundown-timeline-container:before {
+		background: none repeat scroll 0 0 #DCDEE1;
+		content: "";
+		height: 75px;
+		left: 49%;
+		position: absolute;
+		top: 39px;
+		width: 3px;
+	}
+	.rundown-timeline-container.bottom:before{
+		height:0;
+	}
+	.timeline-red-dot {
+		background-color: #00b6ae;
+		border-radius: 14px 14px 14px 14px;
+		height: 13px;
+		left: 48%;
+		margin-left: -2px;
+		position: absolute;
+		top: 19px;
+		width: 13px;
+		border: 7px solid #cdf5f3;
+	}
+	.timeline-block {
+	height: 100px;
+	margin: 0;
+	position: relative;
+	top: -5px;
+	}
+	.timeline-content.right {
+	float: right;
+	}
+	.timeline-content {
+	float: right;
+	width: 47%;
+	text-align:left;
+	}
+	.timeline-content.right .time {
+	font-weight: normal;
+	min-width: 200px;
+	text-align: right;
+	}
+	.timeline-content .time {
+	font-size: 16px;
+	font-weight: 400;
+	left: 25%;
+	line-height: 38px !important;
+	position: absolute;
+	}
+	.timeline-content .name {
+	font-size: 22px;
+	font-weight: 400;
+	line-height: 16px;
+	margin-top: 25px !important;
+	margin-bottom: 0;
+	color: #222;
+	}
+	.timeline-content .name.top{
+		margin-top: 25px !important;
+		font-size: 20px;
+	}
+	.timeline-content .title {
+	font-size: 16px;
+	line-height: 16px;
+	margin: 0px 0 5px !important;
+	}
+	.title img{
+		display: block;
+		margin: 0 auto;
+		width: 3em;
+		height: 3em;
+		border-radius: 500px;
+		float: left;
+	}
+	.title .content{
+		padding-top: .25em;
+		font-size:14px;
+		color:#666;
+	}
+	.text {
+	margin: .25em 0 .5em;
+	word-wrap: break-word;
+	line-height: 1.325em;
+	font-size:16px;
+	}
+
+</style>
+{% endblock %}
+{% block jquery %}
+
+
+
+{% endblock %}
+{% block content %}
+<div class="start">
+</div>
+<section class="ui nav">
+	<div class="ui responsive grid">
+		<div class="middle aligned row">
+			<div class="twelve wide column">
+				<div class="ui magenta horizontal divided list">
+					<a href="{{ app_url_contest }}/dream2" class="ui link active item">首页</a>
+					<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
+	        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
+					<a href="{{ app_url_contest }}/qsydlist" class="ui link item">全部作品</a>
+				</div>
+			</div>
+
+		<div class="right aligned four wide column">
+			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+				<i class="edit icon"></i> 提交作品
+			</a>
+		</div>
+	</div>
+</section>
+
+<section class="ui about white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<p class="qs">为加快落实国务院办公厅印发的《关于发展众创空间推进大众创新创业的指导意见》精神，部署推进”大众创业、万众创新”工作，培养具有创意思维、创新意识、创造能力的高素质人才，宁波市国家大学科技园决定联合相关单位举办&nbsp;&nbsp;<b>2015“奇思甬动”中国创客大赛</b></p>
+				<img src="{{ app_url_packaged }}/images/match/qsyd1.jpg" width="90%" style="margin:20px auto 0;">
+				<p>征集的作品不受表现形式的限制，但要求能够清晰地传达设计理念。</p>
+				<p>这些作品可以是尚未成形的创意点子，</p>
+				<p>可以是仍处于设计的图稿，</p>
+				<p>也可以是落地成型的产品。</p>
+				<p>参赛者可从产品的外观、使用方式、结构与功能、标识导向、美学、与环境协调性等方面对现有产品进行改进，或提出新产品，新方式。</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui collection big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd3.png" width="90%">
+				<img src="{{ app_url_packaged }}/images/match/qsyd11.png" width="90%">
+				<img src="{{ app_url_packaged }}/images/match/qsyd12.png" width="90%">
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ui times white background big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd4.png" width="90%" style="margin-bottom: 20px;">
+				<div class="rundown-timeline-container">
+           <div class="timeline-block">
+             <div class="timeline-red-dot"></div>
+             <div class="timeline-content right">
+               <div class="time">
+							   <p class="name">征集</p>
+								 <div class="title">
+                   <div class="content">
+                     <div class="text">
+											 2015年04月15日-06月01日
+                     </div>
+                   </div>	
+                 </div>
+							 </div>
+             </div>
+           </div>
+        </div>
+
+				<div class="rundown-timeline-container">
+          <div class="timeline-block">
+            <div class="timeline-red-dot"></div>
+            <div class="timeline-content right">
+							<p class="name"> 初评</p>
+			        <div class="title">
+			          <div class="content">
+			            <div class="text">
+											 2015年06月初
+			            </div>
+			          </div>	
+			        </div>
+						</div>
+          </div>
+        </div>
+				
+				<div class="rundown-timeline-container bottom">
+					<div class="timeline-block">
+						<div class="timeline-red-dot"></div>
+						<div class="timeline-content right">
+              <div class="time">
+								<p class="name">决赛</p>
+								<div class="title">
+	                <div class="content">
+	                  <div class="text">
+												 2015年06月底
+	                  </div>
+	                </div>	
+	              </div>
+				      </div>
+					  </div>
+			   	</div>
+				</div>
+			
+			</div>
+		</div>
+		
+	
+	</div>
+</section>
+
+
+
+
+
+
+{% endblock %}
