@@ -31,15 +31,17 @@ echo "-------------------------------------------------\n";
 
 echo "Start to send mail...\n";
 
+$time = 10;
+
 try{
     $task = new Sher_Core_Model_TaskQueue();
     $data = $task->pop();
     if(!empty($data)){
         // 获取邮件内容
-        $edm_id = $data['edm_id'];
+        $edm_id = $data['task_data']['edm_id'];
         
         $edm = new Sher_Core_Model_Edm();
-        $mail = $edm->load((int)$edm_id);
+        $mail = $edm->extend_load((int)$edm_id);
         
         if(!empty($mail)){
             // 开始发送
@@ -59,6 +61,10 @@ try{
                 'subject' => $subject,
                 'html'    => $html
             ));
+            // 验证是否qq邮箱
+            if(preg_match('/qq\.com/i', $data['task_data']['email'], $matches)){
+                $time = 30;
+            }
         }
     }
 }catch(Sher_Core_Model_Exception $e){
@@ -67,6 +73,6 @@ try{
 
 echo "===========================EDM WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
-// sleep 15 seconds
-sleep(15);
+// sleep 10/30 seconds
+sleep($time);
 exit(0);

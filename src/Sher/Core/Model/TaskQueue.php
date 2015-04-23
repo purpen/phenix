@@ -7,7 +7,7 @@ class Sher_Core_Model_TaskQueue extends Sher_Core_Model_Base {
     protected $collection = "task_queue";
     
     # 任务类型
-    constant TYPE_EMAIL = 1;
+    const TYPE_EMAIL = 1;
     
     protected $schema = array(
         'task_data' => array(),

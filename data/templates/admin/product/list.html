@@ -59,6 +59,9 @@
 		<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active{%endif%} item">
 			商店
 		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=12" class="{% if stage == 12 %}active{%endif%} item">
+			积分兑换
+		</a>
 	  	<div class="right menu">
 	    	<a href="{{ app_url_admin_base }}/product/update_onsale" class="item publish-onsale">
 				<i class="check icon"></i> 发布上线
@@ -116,9 +119,9 @@
 		</thead>
 		<tbody>
 	      {% if is_search %}
-				  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted s_type:s s_mark:q size:30 %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q size:30 %}
 	      {%else%}
-				  {% product_list var:'list' page:page category_id:category_id process_saled:process_saled process_presaled:process_presaled process_voted:process_voted size:30 %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage size:30 %}
 	      {%endif%}
 
 			{% for product in list.rows %}
@@ -151,13 +154,13 @@
 					{% endif %}
 				</td>
 				<td class="center aligned">
-					{% if product.process_voted %}
+					{% if product.stage==1 %}
 					<span>投票<i class="angle right icon"></i></span>
 					{% endif %}
-					{% if product.process_presaled %}
+					{% if product.stage==5 %}
 					<span>预售<i class="angle right icon"></i></span>
 					{% endif %}
-					{% if product.process_saled %}
+					{% if product.stage==9 %}
 					<span>商店</span>
 					{% endif %}
 		            {% if product.is_try %}
@@ -166,6 +169,9 @@
 		            {% if product.okcase %}
 		              <p class="ui magenta text">(案例产品)</p>
 		            {%endif%}
+					{% if product.stage==12 %}
+					<span>积分兑换</span>
+					{% endif %}
 				</td>
 				<td>
 					{% if product.stage %}
