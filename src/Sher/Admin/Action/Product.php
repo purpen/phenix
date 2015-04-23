@@ -136,7 +136,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 
     // 积分兑换
     $data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;
-		$data['bird_coin'] = (int)$this->stash['bird_coin'];
+		$data['max_bird_coin'] = (int)$this->stash['max_bird_coin'];
 		$data['exchange_price'] = (float)$this->stash['exchange_price'];
 		$data['exchange_count'] = (int)$this->stash['exchange_count'];
     

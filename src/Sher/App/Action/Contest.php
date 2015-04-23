@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -39,10 +39,11 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	}
 	
 	/**
-	 * 十万火计
+	 * 奇思甬动-大赛
 	 */
 	public function qsyd(){
 		$this->set_target_css_state('index');
+		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.qsyd_category_id'];
 		
 		return $this->to_html_page('match/qsyd.html');
 	}
@@ -143,10 +144,17 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	}
 
 	/**
-	 * 十万火计提交入口
+	 * 大赛提交入口
 	 */
 	public function submit(){
-		$top_category_id = Doggy_Config::$vars['app.contest.dream2_category_id'];
+    $reason = isset($this->stash['season'])?$this->stash['season']:'';
+    if($reason=='qsyd'){
+      $top_category_id = Doggy_Config::$vars['app.contest.qsyd_category_id'];
+      $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
+    }else{
+      $top_category_id = Doggy_Config::$vars['app.contest.dream2_category_id'];
+      $cate_url = Doggy_Config::$vars['app.url.contest'];
+    }
 
 		$this->stash['cid'] = $top_category_id;
 		$this->stash['mode'] = 'create';
@@ -154,7 +162,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		// 获取父级分类
 		$category = new Sher_Core_Model_Category();
 		$parent_category = $category->extend_load((int)$top_category_id);
-		$parent_category['view_url'] = Doggy_Config::$vars['app.url.contest'];
+		$parent_category['view_url'] = $cate_url;
 		
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['mode'] = 'create';
@@ -169,7 +177,12 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		
 		$this->_editor_params();
 		
-		return $this->to_html_page('match/submit.html');
+    if($reason=='qsyd'){
+ 		  return $this->to_html_page('match/qsyd_submit.html');   
+    }else{
+ 		  return $this->to_html_page('match/submit.html');   
+    }
+
 	}
 
 	/**
@@ -178,7 +191,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	public function view2(){
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.stuff'];
+		$redirect_url = Doggy_Config::$vars['app.url.contest'];
 		if(empty($id)){
 			return $this->show_message_page('访问的作品不存在！', $redirect_url);
 		}
@@ -232,6 +245,68 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
     $this->_comment_param($comment_options);
 		
 		return $this->to_html_page('match/view2.html');
+	}
+
+	/**
+	 * 详情-奇思甬动
+	 */
+	public function qsyd_view(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
+		if(empty($id)){
+			return $this->show_message_page('访问的作品不存在！', $redirect_url);
+		}
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load($id);
+		
+		if(empty($stuff) || $stuff['deleted']){
+			return $this->show_message_page('访问的作品不存在或被删除！', $redirect_url);
+		}
+		
+		$stuff = $model->extended_model_row($stuff);
+		
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+		
+		// 当前用户是否有管理权限
+		$editable = false;
+		if ($this->visitor->id){
+			if ($this->visitor->id == $stuff['user_id'] || $this->visitor->can_admin){
+				$editable = true;
+			}
+		}
+		
+		// 是否出现后一页按钮
+	    if(isset($this->stash['referer'])){
+            $this->stash['HTTP_REFERER'] = $this->current_page_ref();
+	    }
+		
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$stuff['fid']);
+		
+		$this->stash['stuff'] = $stuff;
+		$this->stash['parent_category'] = $parent_category;
+		$this->stash['editable'] = $editable;
+		
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
+		
+		return $this->to_html_page('match/qsyd_view.html');
 	}
 
   /**
