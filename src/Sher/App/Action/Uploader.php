@@ -369,24 +369,23 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
      *
      * @return void
      */
-    public function check_upload_assets() {
+    public function check_upload_assets(){
 		$assets_ids = $this->stash['assets'];
 		$asset_type = $this->stash['asset_type'];
 		$asset_domain = $this->stash['asset_domain'];
 		
-        if (empty($assets_ids)) {
+        if(empty($assets_ids)){
             $result['error_message'] = '没有上传的图片';
             $result['code'] = 401;
             return $this->ajax_response('ajax/check_upload_assets.html', $result);
         }
         $model = new Sher_Core_Model_Asset();
 		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
-		  if((int)$asset_type==Sher_Core_Model_Asset::TYPE_COMMENT){
-        return $this->to_taconite_page('ajax/check_comment_upload_assets.html');
-      }else{
-        return $this->to_taconite_page('ajax/check_upload_assets.html');   
-      }
-
+		if((int)$asset_type == Sher_Core_Model_Asset::TYPE_COMMENT){
+            return $this->to_taconite_page('ajax/check_comment_upload_assets.html');
+        }else{
+            return $this->to_taconite_page('ajax/check_upload_assets.html');   
+        }
     }
 	
 	/**
