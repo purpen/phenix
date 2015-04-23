@@ -267,7 +267,7 @@
 					</div>
                     
 					<div class="field">
-						<label for="category_ids">擅长领域</label>
+						<label for="category_ids">擅长专业/领域</label>
                         <div id="categories-box">
                             {% if mode == 'edit' %}
                                 {% category_list var:'children' page:1 only_open:1 domain:6 pid:cooperate.type current:cooperate.category_ids %}
@@ -315,7 +315,7 @@
 					<div class="three fields">
 						<div class="field">
 							<label for="city">所在城市</label>
-					  		<input type="text" name="city" value="{{ cooperate.city }}" />
+					  		<input type="text" name="city" value="{{ cooperate.city }}" placeholder="北京" />
 						</div>
 						<div class="field">
 							<label for="phone">固定电话</label>
