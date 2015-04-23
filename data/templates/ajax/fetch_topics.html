@@ -1,5 +1,21 @@
-{% for topic in results.rows %}
-	{% if !topic.top %}
-		{% include "block/topic_item.html" %}
-	{% endif %}
-{% endfor %}
+<taconite>
+	{% for topic in results.rows %}
+        {% if !topic.top %}
+        <append select="#topic_list_box"><![CDATA[
+            {% include "block/topic_item.html" %}
+        ]]></append>
+        {% endif %}
+	{% endfor %}
+    
+    <eval>
+        $('.ui.more.button').data('page', '{{nex_page}}');
+        {% if nex_page == 'no' %}
+            $('.ui.more.button').addClass('disabled').text('没有更多了~');
+        {% endif %}
+    </eval>
+</taconite>
+
+
+	
+		
+	
