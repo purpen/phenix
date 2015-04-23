@@ -108,6 +108,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     //初始变量
     //是否是抢购商品
     $is_snatched = false;
+    $is_exchanged = false;
 
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -164,6 +165,20 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     }
     //如果是抢购End
 
+    //如果是积分兑换Start
+    if($product_data['stage']==12){
+      //验证兑换是否开启
+      if(!$product_data['exchanged']){
+        return $this->show_message_page('积分兑换未开启！');     
+      }
+      //验证兑换库存
+      if(empty($product_data['exchange_count'])){
+        return $this->show_message_page('兑换商品库存不足！');    
+      }
+
+      $is_exchanged = true;
+    }
+    //End
 
     //试用产品，不可购买
     if($product_data['is_try']){
@@ -175,6 +190,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       $price = $product_data['snatched_price'];
       //抢购数量只能为1
       $quantity = 1;
+    }elseif($is_exchanged){
+      $price = $product_data['exchange_price'];
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
@@ -191,6 +208,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				'view_url' => $product_data['view_url'],
 				'subtotal' => $price*$quantity,
         'is_snatched' => $is_snatched?1:0,
+        'is_exchanged' => $is_exchanged?1:0,
 			),
 		);
 		$total_money = $price*$quantity;
@@ -404,6 +422,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 红包金额
 		$card_money = 0.0;
+
+    //礼品券金额
+    $gift_money = 0.0;
 		
 		// 设置订单默认值
 		$default_data = array(
@@ -415,6 +436,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			'freight' => $freight,
 			'card_money' => $card_money,
 			'coin_money' => $coin_money,
+      'gift_money' => $gift_money,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd'
 	    );
@@ -572,6 +594,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			// 红包金额
 			$card_money = 0.0;
+
+      //礼品券金额
+      $gift_money = 0.0;
 			
 			// 设置订单默认值
 			$default_data = array(
@@ -582,7 +607,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		        'invoice_type' => 0,
 				'freight' => $freight,
 				'card_money' => $card_money,
-				'coin_money' => $coin_money,
+        'coin_money' => $coin_money,
+        'gift_money' => $gift_money,
 		        'invoice_caty' => 1,
 		        'invoice_content' => 'd'
 		    );
@@ -599,7 +625,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				$this->stash['data'] = $order_info['dict'];
 			}
 			
-			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
 			
 			$this->stash['pay_money'] = $pay_money;
 			
