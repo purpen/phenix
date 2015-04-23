@@ -2,23 +2,20 @@
 {% block title %}话题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    .auto.loading {
-        margin-top: 2rem;
-        text-align: center;
-        display: none;
-    }
-    .auto.loading > .ui.gray.button {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1) inset !important;
-    }
-    .auto.loading > .ui.gray.button:hover {
-        background: transparent;
-        color: rgba(0, 0, 0, 0.5);
-    }
+    
 </style>
 {% endblock %}
 
 {% block jquery %}
-    
+	// 加载更多动态
+	$('.ui.more.button').bind('click', function(){
+		var page = $(this).data('page');
+        if(page != 'no'){
+            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page });
+        }else{
+            $(this).text('没有更多了~');
+        }
+	});
 {% endblock %}
 
 {% block content %}
@@ -138,13 +135,15 @@
 							{% endfor %}
 						</table>
 					</div>
-				</div>
-                
-                <div class="auto loading">
-                    <div class="ui gray inverted button">
-                        <i class="loading icon"></i> 加载中
+                    
+                    {% if list.total_page > 1 %}
+                    <div class="auto loading">
+                        <div class="ui gray more inverted button" data-page="{{ list.next_page }}">
+                            <i class="chevron circle down icon"></i> 查看下一页
+                        </div>
                     </div>
-                </div>
+                    {% endif %}
+				</div>
                 
 			</div>
 		</div>

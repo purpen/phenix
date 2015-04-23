@@ -66,9 +66,10 @@
 		<div class="row">
 			<div class="column">
                 <div class="container">
+                    {% category_list var:'children' page:1 only_open:1 domain:6 pid:rid current:cid %}
+                    {% if children.total_rows > 0 %}
                     <h2 class="block title">专业领域</h2>
                     <div class="ui horizontal specialty list">
-                        {% category_list var:'children' page:1 only_open:1 domain:6 pid:rid current:cid %}
                         <div class="item">
                             <a href="{{ app_url_cooperate }}?rid={{ rid }}&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
                         </div>
@@ -78,6 +79,7 @@
                         </div>
                         {% endfor %}
                     </div>
+                    {% endif %}
                     <h2 class="block title">所在地域</h2>
                     <div class="ui horizontal list">
                         <div class="item">
@@ -131,7 +133,7 @@
 	
 <div class="cooperate mainlist">
 	<div class="ui responsive grid">
-		{% cooperate_list var:'cooperate' page:page type:cid district:district %}
+		{% cooperate_list var:'cooperate' page:page type:rid category_id:cid district:district %}
 		<div class="row">
 			<div class="column">
     			<h2 class="block title">

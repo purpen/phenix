@@ -227,8 +227,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     	'deleted' => 0,
 		# 随机数
 		'random' => 0,
-    # 最近一次编辑人ID
-    'last_editor_id' => 0,
+        # 最近一次编辑人ID
+        'last_editor_id' => 0,
     );
 	
 	protected $required_fields = array('user_id','title');

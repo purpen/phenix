@@ -199,6 +199,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function ajax_guess_product(){
 		$sword = $this->stash['sword'];
+        $current_id = $this->stash['id'];
 		$size = $this->stash['size'] || 3;
 		
 		$result = array();
@@ -206,9 +207,14 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
-		);
+		);        
 		if(!empty($sword)){
-			$result = Sher_Core_Service_Search::instance()->search($sword, 'full', array('type' => 1), $options);
+            $addition_criteria = array(
+                'type' => 1,
+                'target_id' => array('$ne' => (int)$current_id),
+            );
+            $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
+			$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);
 		}
 		
 		$this->stash['result'] = $result;
