@@ -208,6 +208,20 @@
 			return false;
 		});
 	});
+    
+	// 设置Banner图
+	$('#asset-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#cooperate_banner_id').val(id);
+			return false;
+		});
+	});
 {% endblock %}
 
 {% block content %}
@@ -333,15 +347,16 @@
 					</div>
 					
 					<div class="field">
-						<label>Logo <small class="description">(小于3M,jpg、jpeg的格式,请指定一个展示图)</small></label>
+						<label>Logo/头图背景 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
+                        <input type="hidden" name="banner_id" id="cooperate_banner_id" value="{{ cooperate.banner_id }}" />
 						<div id="phenix-uploader"></div>
-					
-						<div id="asset-list" class="ui six items">
+					    
+						<div id="asset-list" class="ui six blocks">
 							{% if mode == 'edit' %}
 								{% asset_list var:'assets' parent_id:cooperate._id sort:'positive' asset_type:80 %}
 								{% for asset in assets.rows %}
-								<div class="thumb item" id="{{ asset._id }}">
+								<div class="thumb block" id="{{ asset._id }}">
 									<div class="image">
 										<img src="{{ asset.thumbnails.mini.view_url }}" />
 										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
@@ -353,6 +368,9 @@
 											</a>
 											<a href="javascript:void(0);" class="ui link {%if cooperate.logo_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 												<i class="checkered flag icon"></i>
+											</a>
+											<a href="javascript:void(0);" class="ui link {%if cooperate.logo_id == asset._id %}active{% endif %} ajax-banner pop" data-content="设置头图背景" data-variation="inverted" data-value="{{ asset._id }}">
+												<i class="sun icon"></i>
 											</a>
 										</div>
 									</div>

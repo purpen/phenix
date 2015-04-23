@@ -72,7 +72,8 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     protected $counter_fields = array('follow_count', 'love_count', 'view_count', 'stuff_count');
     
 	protected $joins = array(
-	    'logo' => array('logo_id' => 'Sher_Core_Model_Asset'),
+	    'logo'   => array('logo_id' => 'Sher_Core_Model_Asset'),
+        'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
 	);
 	
     //~ some event handles
@@ -124,7 +125,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		// logo
 		if(!empty($row['logo'])){
 			$row['big_avatar_url'] = $row['logo']['thumbnails']['big']['view_url'];
-			$row['medium_avatar_url'] = $row['logo']['thumbnails']['md']['view_url'];
+			$row['medium_avatar_url'] = $row['logo']['thumbnails']['ava']['view_url'];
 			$row['small_avatar_url'] = $row['logo']['thumbnails']['small']['view_url'];
 		}else{
 			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'b');
