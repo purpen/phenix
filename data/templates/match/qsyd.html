@@ -530,7 +530,23 @@
 				<img src="{{ app_url_packaged }}/images/match/qsyd7.png" width="90%">
 			</div>
 		</div>
-		<!--	-->
+		<div class="row">
+			{% stuff_list var:'list' is_top:true category_id:dream_category_id college_id:cid load_college:1 sort:st page:page size:4 %}
+			<div class="column">
+		
+				<div class="ui four items" id="item-list">
+					{% for stuff in list.rows %}
+            {% include "block/match2_item.html" %}
+          {%endfor%}
+
+				</div>
+			</div>
+			
+			
+			
+		</div>
+		
+		<!--	
 		<div class="row">
 			<div class="column">
 				<div class="ui four items">
@@ -749,14 +765,14 @@
 			</div>
 		</div>
 		
-<!--	-->
+	-->
 		
 		<div class="row">
 			<div class="center aligned column">
-				<a href="{{ app_url_contest }}/ " class="ui inverted origin button">
+				<a href="{{ app_url_contest }}/qsyd_list " class="ui inverted origin button">
 					全部创意
 				</a>
-				<a href="{{ app_url_contest }}/ " class="ui inverted origin button">
+				<a href="{{ app_url_contest }}/submit?season=qsyd " class="ui inverted origin button">
 					提交创意
 				</a>
 			
