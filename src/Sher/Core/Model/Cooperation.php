@@ -24,6 +24,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
 		# logo设置
 		'logo_id'    => '',
+        'logo'       => array(),
 		'banner_id'  => '',
 		
 		'email'      => '',
@@ -72,7 +73,6 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     protected $counter_fields = array('follow_count', 'love_count', 'view_count', 'stuff_count');
     
 	protected $joins = array(
-	    'logo'   => array('logo_id' => 'Sher_Core_Model_Asset'),
         'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
 	);
 	
@@ -124,9 +124,10 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
         
 		// logo
 		if(!empty($row['logo'])){
-			$row['big_avatar_url'] = $row['logo']['thumbnails']['big']['view_url'];
-			$row['medium_avatar_url'] = $row['logo']['thumbnails']['ava']['view_url'];
-			$row['small_avatar_url'] = $row['logo']['thumbnails']['small']['view_url'];
+			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['logo']['big'], 'avb.jpg');
+			$row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['logo']['medium'], 'avm.jpg');
+			$row['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['logo']['small'], 'avs.jpg');
+			$row['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($row['logo']['mini'], 'avn.jpg');
 		}else{
 			$row['big_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'b');
             $row['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_default_url($id, 'm');
@@ -135,6 +136,20 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
         
         $this->get_ranks($row);
     }
+    
+	/**
+	 * 更新logo
+	 */
+	public function update_logo($logo=array(),$id=null){
+		if (is_null($id)) {
+            $id = $this->id;
+        }
+        if (empty($id) || empty($logo)) {
+            throw new Sher_Core_Model_Exception('Id or logo is NULL');
+        }
+		
+        return $this->update_set((int)$id, array('logo'=>$logo));
+	}
     
     /**
      * 获取星标数量
