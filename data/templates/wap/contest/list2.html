@@ -100,7 +100,7 @@
 			<div class="row">
 				<div class="column">
 				
-          {% stuff_list var:'list' is_top:true category_id:dream_category_id sort:0 page:page size:8 %}
+          {% stuff_list var:'list' is_top:true category_id:dream_category_id load_college:1 sort:0 page:page size:8 %}
 					<div class="ui one items">
 						{% for stuff in list.rows %}
 						<div class="item">
