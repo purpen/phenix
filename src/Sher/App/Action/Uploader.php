@@ -120,7 +120,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
         if(empty($avatar)){
             $first_update = true;
         }else{
-            $first_update = flase;
+            $first_update = false;
         }
 		
 		// 更新用户头像
@@ -150,6 +150,51 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$this->stash['avatar'] = $avatar;
 		
 		return $this->to_taconite_page('ajax/crop_avatar.html');
+	}
+    
+	/**
+	 * 裁切Logo
+	 */
+	public function crop_logo(){
+		$avatar_id = $this->stash['avatar_id'];
+        $id = $this->stash['target_id'];
+		
+		$x1 = $this->stash['x1'];
+		$y1 = $this->stash['y1'];
+		$w = $this->stash['w'];
+		$h = $this->stash['h'];
+		
+		$result = array();
+		
+		$asset = new Sher_Core_Model_Asset();
+		$row = $asset->extend_load($avatar_id);
+		if (empty($row)){
+			return $this->ajax_note('获取数据错误,请重新提交',true);
+		}
+		
+		$qkey = Sher_Core_Util_Image::crop_avatar_cloud($row, $w, $h, $x1, $y1);
+		if(empty($qkey)){
+			return $this->ajax_note('生成数据错误,请重新提交',true);
+		}
+		
+		// 更新用户头像
+        $cooperate = new Sher_Core_Model_Cooperation();
+        $ok = $cooperate->update_logo(array(
+			'big' => $qkey,
+			'medium' => $qkey,
+			'small' => $qkey,
+			'mini' => $qkey
+		), (int)$id);
+		
+		$avatar = array();
+		$avatar['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avb.jpg');
+		$avatar['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avm.jpg');
+		$avatar['small_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avs.jpg');
+		$avatar['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avn.jpg');
+		
+		$this->stash['avatar'] = $avatar;
+		
+		return $this->to_taconite_page('ajax/crop_logo.html');
 	}
 	
 	/**

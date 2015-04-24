@@ -1,0 +1,10 @@
+<taconite>
+	<replace select=".ui.big.avatar.image">
+		<img src="{{ avatar.big_avatar_url }}" class="ui big avatar image" />
+	</replace>
+	
+	<eval>
+		$('#avatar-preview').addClass('hide');
+		$('.ui.crop.button').addClass('hide');
+	</eval>
+</taconite>
