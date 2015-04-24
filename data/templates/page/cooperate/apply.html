@@ -29,6 +29,13 @@
     #categories-box.solid {
         border-style: solid;
     }
+    #select-area {
+    	position:relative;
+    	display:inline-block;
+    }
+    .qq-upload-button {
+    	height: 60px;
+    }
 </style>
 {% endblock %}
 
@@ -143,12 +150,78 @@
 			});
 		}
 	});
+    
+    // 修改头像
+	$('#avatar-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ cooperate._id }}' },
+        	endpoint: '{{ app_url_upload_avatar }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="search icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    },
+        showMessage: function(message){
+            phenix.show_error_note(message,5000);
+        }
+    }).on('complete', function (event, id, name, result) {
+		$('.qq-upload-list').children().eq(id).fadeOut();
+		
+		if (result.success) {
+			wps_width  = result.data.asset.width;
+			wps_height = result.data.asset.height;
+			
+			if (wps_width > 480){
+				var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
+			} else {
+				var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
+			}
+			
+			// 更新附件Id
+			$('#avatar_id').val(result.data.asset.id);
+			
+			$('#avatar-preview')
+				.removeClass('hide')
+				.find('#select-area')
+				.html(imghtml);
+				
+			// 显示裁切头像
+			$('.ui.crop.button').removeClass('hide');
+			
+			phenix.hook_imgarea_select();
+		}
+	});
+	
+	$('.ui.crop.button').bind('click', function(){
+		var params = {
+			avatar_id: $('#avatar_id').val(),
+            target_id: {{ cooperate._id|default 0 }},
+			x1: $('#x1').val(),
+			x2: $('#x2').val(),
+			y1: $('#y1').val(),
+			y2: $('#y2').val(),
+			w: $('#w').val(),
+			h: $('#h').val(),
+		};
+		
+		$.get('{{app_url_action_base}}/uploader/crop_logo', params);
+	});
 	
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ cooperate._id }}','file_id': '{{ new_file_id }}' },
         	endpoint: '{{ app_url_upload_cooperate }}'
       	},
 		text: {
@@ -201,24 +274,16 @@
 			$this = $(this);
 			var id = $(this).attr('data-value');
 			
-			$('#asset-list .ajax-cover.active').removeClass('active');
-			$(this).addClass('active');
-			
-			$('#cooperate_logo_id').val(id);
-			return false;
-		});
-	});
-    
-	// 设置Banner图
-	$('#asset-list .ajax-banner').livequery(function(){
-		$(this).click(function(){
-			$this = $(this);
-			var id = $(this).attr('data-value');
-			
-			$('#asset-list .ajax-banner.active').removeClass('active');
-			$(this).addClass('active');
-			
-			$('#cooperate_banner_id').val(id);
+			if($this.hasClass('active')){
+                $(this).removeClass('active');
+                $('#cooperate_banner_id').val('');
+            }else{
+    			$('#asset-list .ajax-cover.active')
+                    .removeClass('active');
+                    
+                $(this).addClass('active');
+                $('#cooperate_banner_id').val(id);
+            }
 			return false;
 		});
 	});
@@ -345,10 +410,43 @@
 						<label for="address">详细地址</label>
 				  		<input type="text" name="address" value="{{ cooperate.address }}" />
 					</div>
+                    
+                    {% if mode == 'edit' %}
+					<div class="field">
+						<label>Logo <small class="description">(设置一个宽度大于400px、小于3M的JPG)</small></label>
+						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
+                        
+                        <div id="avatar-uploader"></div>
+                        
+                        <div class="ui grid">
+                            <div class="three wide center aligned column">
+                                <img src="{{ cooperate.medium_avatar_url }}" class="ui big avatar image" />
+                            </div>
+                            <div class="thirteen wide column">
+        						<div id="avatar-preview" class="ui hide">
+        							<div id="select-area"></div>
+        						</div>
+				
+        						<div class="ui hide" id="avatar-crop-buttons">
+        							<input type="hidden" name="avatar_id" id="avatar_id" />
+        							<input type="hidden" name="x1" id="x1" />
+        							<input type="hidden" name="x2" id="x2" />
+        							<input type="hidden" name="y1" id="y1" />
+        							<input type="hidden" name="y2" id="y2" />
+        							<input type="hidden" name="w" id="w" />
+        							<input type="hidden" name="h" id="h" />
+        						</div>
+				
+        						<div class="ui active magenta crop button hide">
+        							确认提交
+        						</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
 					
 					<div class="field">
-						<label>Logo/头图背景 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
-						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
+						<label>头图背景 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个背景图)</small></label>
                         <input type="hidden" name="banner_id" id="cooperate_banner_id" value="{{ cooperate.banner_id }}" />
 						<div id="phenix-uploader"></div>
 					    
@@ -366,11 +464,8 @@
 											<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 												<i class="remove icon"></i>
 											</a>
-											<a href="javascript:void(0);" class="ui link {%if cooperate.logo_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+											<a href="javascript:void(0);" class="ui link {%if cooperate.banner_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 												<i class="checkered flag icon"></i>
-											</a>
-											<a href="javascript:void(0);" class="ui link {%if cooperate.logo_id == asset._id %}active{% endif %} ajax-banner pop" data-content="设置头图背景" data-variation="inverted" data-value="{{ asset._id }}">
-												<i class="sun icon"></i>
 											</a>
 										</div>
 									</div>
