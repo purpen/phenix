@@ -39,6 +39,7 @@
 		color:#444;
 		border: 1px dashed #e85000;
 		text-align:left;
+		border-radius: 8px;
 	}
 	.ui.about p.qs b{
 		color:#e85000;
@@ -74,7 +75,7 @@
 		height:0;
 	}
 	.timeline-red-dot {
-		background-color: #00b6ae;
+		background-color: rgba(0,79,200,1);
 		border-radius: 14px 14px 14px 14px;
 		height: 13px;
 		left: 48%;
@@ -82,7 +83,7 @@
 		position: absolute;
 		top: 19px;
 		width: 13px;
-		border: 7px solid #cdf5f3;
+		border: 7px solid #1682dd;
 	}
 	.timeline-block {
 	height: 120px;
@@ -194,13 +195,14 @@
 		-webkit-box-shadow: 0 0 0 2px #ffa000 inset!important;
 		box-shadow: 0 0 0 2px #ffa000 inset!important;
 		color:#ffa000;
+		margin: 0 5px;
 	}
 	.ui.inverted.button.origin:hover{
 		background:#ffa000;
 		color:#fff;
 	}
 	.row.logo img{
-		border:1px solid rgba(0,0,0,.3);
+		border:1px solid rgba(0,0,0,0.1);
 		margin:2px;
 	}
 	.border{
@@ -210,6 +212,7 @@
 		color:#444;
 		border: 1px dashed #e85000;
 		position:relative;
+		border-radius: 5px;
 	}
 	.border h3{
 		margin: 10px 25% 15px;
@@ -561,11 +564,11 @@
 				<h3 class="ui header">获奖及优秀的参赛作品还有机会获得：</h3>
 				<div class="recon">
 					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
-					<div class="caode">最高不超过1000万元的无抵押贷款。</div>
+					<div class="caode">最高不超过&nbsp;<b>1000万元</b>&nbsp;的无抵押贷款。</div>
 				</div>
 				<div class="recon">
 					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
-					<div class="caode">宁波慧谷创客基金最高100万元的天使投资。</div>
+					<div class="caode">宁波慧谷创客基金最高&nbsp;<b>100万元</b>&nbsp;的天使投资。</div>
 				</div>
 				<div class="recon">
 					<div class="ima"><img src="{{ app_url_packaged }}/images/match/qsyd10.jpg"></div>
@@ -611,226 +614,6 @@
 			
 		</div>
 		
-		<!--	
-		<div class="row">
-			<div class="column">
-				<div class="ui four items">
-					<div class="item">
-						<div class="content">
-						    <h4 class="ui dividing header">
-				        <div class="image zan">
-				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
-				          <div class="image-extra">
-				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
-				            <div class="extra-content">
-				              <div class="inner-extra">
-				                <div class="single-image plus-icon">
-				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
-				                    <span class="like"> </span>
-				                  </a>
-				                  <div class="add">
-				                                +1      
-				                  </div>
-				                </div>
-				              </div>
-				            </div>
-				          </div>
-				                  </div>
-				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
-				          USB电池
-				        </a>
-				        <div class="advantage">
-				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
-				        </div>
-				      </h4>
-				      <div class="i-stats">
-				        <div class="schedule">
-				          <div class="status clearfix">
-				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
-				            </a>
-				            <span class="count">
-				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				                猪是的念来过倒
-				              </a>
-				            </span>
-				            <span class="like">
-				              <i class="thumbs outline up icon">
-				              </i>
-				              <span class="count love-count">
-				                1
-				              </span>
-				              <i class="unhide icon"></i> <span class="count">54</span> 
-				            </span>
-				          </div>
-				        </div>
-				      </div>
-				    </div>
-					</div>
-						
-					<div class="item">
-						<div class="content">
-						    <h4 class="ui dividing header">
-				        <div class="image zan">
-				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
-				          <div class="image-extra">
-				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
-				            <div class="extra-content">
-				              <div class="inner-extra">
-				                <div class="single-image plus-icon">
-				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
-				                    <span class="like"> </span>
-				                  </a>
-				                  <div class="add">
-				                                +1      
-				                  </div>
-				                </div>
-				              </div>
-				            </div>
-				          </div>
-				                  </div>
-				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
-				          USB电池
-				        </a>
-				        <div class="advantage">
-				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
-				        </div>
-				      </h4>
-				      <div class="i-stats">
-				        <div class="schedule">
-				          <div class="status clearfix">
-				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
-				            </a>
-				            <span class="count">
-				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				                猪是的念来过倒
-				              </a>
-				            </span>
-				            <span class="like">
-				              <i class="thumbs outline up icon">
-				              </i>
-				              <span class="count love-count">
-				                1
-				              </span>
-				              <i class="unhide icon"></i> <span class="count">54</span> 
-				            </span>
-				          </div>
-				        </div>
-				      </div>
-				    </div>
-					</div>
-					
-					<div class="item">
-						<div class="content">
-						    <h4 class="ui dividing header">
-				        <div class="image zan">
-				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
-				          <div class="image-extra">
-				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
-				            <div class="extra-content">
-				              <div class="inner-extra">
-				                <div class="single-image plus-icon">
-				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
-				                    <span class="like"> </span>
-				                  </a>
-				                  <div class="add">
-				                                +1      
-				                  </div>
-				                </div>
-				              </div>
-				            </div>
-				          </div>
-				                  </div>
-				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
-				          USB电池
-				        </a>
-				        <div class="advantage">
-				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
-				        </div>
-				      </h4>
-				      <div class="i-stats">
-				        <div class="schedule">
-				          <div class="status clearfix">
-				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
-				            </a>
-				            <span class="count">
-				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				                猪是的念来过倒
-				              </a>
-				            </span>
-				            <span class="like">
-				              <i class="thumbs outline up icon">
-				              </i>
-				              <span class="count love-count">
-				                1
-				              </span>
-				              <i class="unhide icon"></i> <span class="count">54</span> 
-				            </span>
-				          </div>
-				        </div>
-				      </div>
-				    </div>
-					</div>
-					
-					<div class="item">
-						<div class="content">
-						    <h4 class="ui dividing header">
-				        <div class="image zan">
-				          <img style="margin-bottom:-5px;" src="http://frbird.qiniudn.com/stuff/150422/5537b77220de8def648b48f3-1-me.jpg" alt="USB电池"> 
-				          <div class="image-extra">
-				            <a href="http://www.taihuoniao.com/contest/view2/111425.html" title="USB电池" target="_blank"></a>
-				            <div class="extra-content">
-				              <div class="inner-extra">
-				                <div class="single-image plus-icon">
-				                  <a href="javascript:void(0);" class="love-btn" item-id="111425" loved="0">
-				                    <span class="like"> </span>
-				                  </a>
-				                  <div class="add">
-				                                +1      
-				                  </div>
-				                </div>
-				              </div>
-				            </div>
-				          </div>
-				                  </div>
-				        <a class="ui link" href="http://www.taihuoniao.com/contest/view2/111425.html" target="_blank">
-				          USB电池
-				        </a>
-				        <div class="advantage">
-				          一个带USB充电接口的干电池，这种电池不用另配充电器，电用完了直接插到USB接口上冲电后又可以继续使用，既适应了干电池槽电子产品的实用而且便携... 
-				        </div>
-				      </h4>
-				      <div class="i-stats">
-				        <div class="schedule">
-				          <div class="status clearfix">
-				            <a class="ui avatar image" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				              <img src="http://frstatic.qiniudn.com/images/deavatar/008-s.jpg" alt="猪是的念来过倒">
-				            </a>
-				            <span class="count">
-				              <a class="ui small link" href="http://www.taihuoniao.com/user/99918/" target="_blank">
-				                猪是的念来过倒
-				              </a>
-				            </span>
-				            <span class="like">
-				              <i class="thumbs outline up icon">
-				              </i>
-				              <span class="count love-count">
-				                1
-				              </span>
-				              <i class="unhide icon"></i> <span class="count">54</span> 
-				            </span>
-				          </div>
-				        </div>
-				      </div>
-				    </div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	-->
 		
 		<div class="row">
 			<div class="center aligned column">
