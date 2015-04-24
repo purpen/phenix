@@ -144,9 +144,25 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$model->inc_counter('view_count', 1, $id);
 		
 		// 非销售状态的产品，跳转至对应的链接
-		if($product['stage'] != Sher_Core_Model_Product::STAGE_SHOP){
+		if(!in_array($product['stage'], array(Sher_Core_Model_Product::STAGE_SHOP, Sher_Core_Model_Product::STAGE_EXCHANGE))){
 			return $this->to_redirect($product['view_url']);
 		}
+
+    //判断类型
+    if($product['stage']==Sher_Core_Model_Product::STAGE_SHOP){
+      $item_stage = $this->stash['item_stage'] = 'shop';
+    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+      $item_stage = $this->stash['item_stage'] = 'exchange';
+    }else{
+  	  return $this->show_message_page('产品类型错误！', $redirect_url);  
+    }
+
+    //验证积分兑换
+    if($item_stage=='exchange'){
+      if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
+    	  return $this->show_message_page('产品积分异常错误！', $redirect_url);        
+      }
+    }
 		
 		// 未发布上线的产品，仅允许本人及管理员查看
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){

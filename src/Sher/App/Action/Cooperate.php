@@ -7,7 +7,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 	public $stash = array(
 		'page' => 1,
         'd'    => 0,
-        'rid'  => 62,
+        'rid'  => 0,
         'cid'  => 0,
 	);
 	

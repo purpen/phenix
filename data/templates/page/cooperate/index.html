@@ -10,9 +10,15 @@
 {% block jquery %}
 	$('.ui.ell.link').click(function(){
         if($('.social.people.filter').hasClass('active')){
-            $('.social.people.filter').removeClass('active').slideUp('slow');
+            $('.social.people.filter')
+                .removeClass('active').slideUp('slow');
+                
+            $(this).html('<i class="arrow circle down icon"></i>');
         }else{
-            $('.social.people.filter').addClass('active').slideDown('slow');
+            $('.social.people.filter')
+                .addClass('active').slideDown('slow');
+                
+            $(this).html('<i class="arrow circle up icon"></i>');
         }
     });
 {% endblock %}
@@ -101,7 +107,7 @@
 		<div class="row">
 			<div class="center aligned column">
                 <a class="ui ell pop link" href="javascript:void(0);" data-content="按条件检索" data-variation="inverted">
-                    <i class="ellipsis vertical icon"></i>
+                    <i class="arrow circle down icon"></i>
                 </a>
             </div>
         </div>
