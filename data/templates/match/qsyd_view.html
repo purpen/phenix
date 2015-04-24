@@ -221,7 +221,7 @@
 	});
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ stuff.tags_s }}', size: 3, type: 2});
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ stuff.tags_s }}', size: 3});
 	
 {% endblock %}
 
@@ -249,21 +249,21 @@
 						<i class="basic icon community"></i> 发现
 					</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_stuff }}">智品库</a>
+				  	<a class="ui section link" href="{{ app_url_contest }}/qsyd">奇思甬动</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">{{ stuff.category.title }}</a>
+				  	<a class="ui section link" href="{{ app_url_contest }}/qsyd_list/c{{ stuff.category._id }}">{{ stuff.category.title }}</a>
 				  	<i class="angle right icon divider"></i>
 				  	<div class="active section">{{ stuff.title }}</div>
 				</div>
 			</div>
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
-				<a href="{{ app_url_action_base }}/stuff/submit" class="ui gray inverted button">
-					<i class="add icon"></i> 提交产品
+				<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui gray inverted button">
+					<i class="add icon"></i> 提交大赛作品
 				</a>
 				{% else %}
-				<a href="{{ app_url_action_base }}/stuff/submit" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="add icon"></i> 提交产品
+				<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
+					<i class="add icon"></i> 提交大赛作品
 				</a>
 				{% endif %}
 			</div>
@@ -311,34 +311,6 @@
 								{% endif %}
 							{% endfor %}
 						{% endif %}
-                        
-                        <!--产品属性-->
-                        <div class="attributes">
-                            <table class="ui basic table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="3">产品参数</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>品牌名称：{{ stuff.brand|default '--' }}</td>
-                                        <td>设计师：{{ stuff.designer|default '--' }}</td>
-                                        <td>产品国别：{{ stuff.country }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>产品阶段：{{ stuff.process_title }}</td>
-                                        <td>上市时间：{{ stuff.market_time }}</td>
-                                        <td>指导价格：{{ stuff.official_price|default '--' }}</td>
-                                    </tr>
-                                    {% if stuff.buy_url %}
-                                    <tr>
-                                        <td colspan="3">购买地址：<a href="{{ stuff.buy_url }}" target="_blank">{{ stuff.buy_url }}</a></td>
-                                    </tr>
-                                    {% endif %}
-                                </tbody>
-                            </table>
-                        </div>
                         
 					</div>
 					
@@ -413,14 +385,7 @@
 						</div>
 					</div>
 				</div>
-
-        <!--你可能喜欢的产品-->
-    		<div class="ui big segment">
-          <div id="product_guess_list">
-            <!--ajax fetch-->
-          </div>
-        </div>
-
+				
     			<div class="ui big reply segment">
 	      			<!--ajax comment-->
 	      		  	<div id="comment-list"></div>
@@ -430,6 +395,11 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!--你可能喜欢的产品-->
+<div id="product_guess_list">
+	<!--ajax fetch-->
 </div>
 
 {% include "block/qrcode.html" %}

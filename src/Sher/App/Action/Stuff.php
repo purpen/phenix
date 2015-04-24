@@ -209,6 +209,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
 		$stuff = $model->extended_model_row($stuff);
+
+    //如果是大赛,隐藏商品参数
+    if($stuff['from_to']==1 || $stuff['from_to']==3){
+      $this->stash['is_match'] = true;
+    }
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -433,6 +438,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
         }elseif($data['from_to'] == 2){
             $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+        }elseif($data['from_to'] == 3){
+            $redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd_view/'.$id.'.html';
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }

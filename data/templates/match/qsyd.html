@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}十万火计 第二季-{% endblock %}
+{% block title %}奇思甬动-创客大赛-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.ui.big.block {
@@ -270,15 +270,14 @@
 		<div class="middle aligned row">
 			<div class="twelve wide column">
 				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_contest }}/dream2" class="ui link active item">首页</a>
-					<a href="{{ app_url_contest }}/about2" class="ui link item">活动介绍</a>
-	        <!--<a href="{{ app_url_contest }}/dream2" class="ui link item">入围作品</a>-->
-					<a href="{{ app_url_contest }}/qsydlist" class="ui link item">全部作品</a>
+					<a href="{{ app_url_contest }}/qsyd" class="ui link active item">首页</a>
+					<a href="#about" class="ui link item">活动介绍</a>
+					<a href="{{ app_url_contest }}/qsyd_list" class="ui link item">全部作品</a>
 				</div>
 			</div>
 
 		<div class="right aligned four wide column">
-			<a href="javascript:void(0);" id="submit-idea" class="ui magenta attend inverted button">
+			<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui magenta attend inverted button">
 				<i class="edit icon"></i> 提交作品
 			</a>
 		</div>
@@ -286,6 +285,7 @@
 </section>
 
 <section class="ui about white background big block">
+  <a name="about" ></a>
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">

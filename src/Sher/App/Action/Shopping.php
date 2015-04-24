@@ -175,6 +175,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       if(empty($product_data['exchange_count'])){
         return $this->show_message_page('兑换商品库存不足！');    
       }
+      //验证当前用户鸟币是否足够
+      // 用户实时积分
+      $point_model = new Sher_Core_Model_UserPointBalance();
+      $current_point = $point_model->load($this->visitor->id);
+      if(!$current_point){
+        return $this->show_message_page('鸟币数量不足！');     
+      }
+      $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
+      if($current_bird_coin < $product_data['bird_coin']){
+        return $this->show_message_page('您的鸟币数量不足！');      
+      }
 
       $is_exchanged = true;
     }
