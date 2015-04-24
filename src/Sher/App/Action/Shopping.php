@@ -177,6 +177,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       }
       //验证当前用户鸟币是否足够
       // 用户实时积分
+      /**
       $point_model = new Sher_Core_Model_UserPointBalance();
       $current_point = $point_model->load($this->visitor->id);
       if(!$current_point){
@@ -186,6 +187,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       if($current_bird_coin < $product_data['bird_coin']){
         return $this->show_message_page('您的鸟币数量不足！');      
       }
+      */
 
       $is_exchanged = true;
     }
@@ -436,6 +438,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
     //礼品券金额
     $gift_money = 0.0;
+
+    //鸟币数量
+    $bird_coin_count = 0;
+    //鸟币抵金额
+    $bird_coin_money = 0.0;
 		
 		// 设置订单默认值
 		$default_data = array(
@@ -448,6 +455,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			'card_money' => $card_money,
 			'coin_money' => $coin_money,
       'gift_money' => $gift_money,
+      'bird_coin_money' => $bird_coin_money,
+      'bird_coin_count' => $bird_coin_count,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd'
 	    );
@@ -608,6 +617,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
       //礼品券金额
       $gift_money = 0.0;
+
+    //鸟币数量
+    $bird_coin_count = 0;
+    //鸟币抵金额
+    $bird_coin_money = 0.0;
 			
 			// 设置订单默认值
 			$default_data = array(
@@ -620,6 +634,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				'card_money' => $card_money,
         'coin_money' => $coin_money,
         'gift_money' => $gift_money,
+        'bird_coin_count' => $bird_coin_count,
+        'bird_coin_money' => $bird_coin_money,
 		        'invoice_caty' => 1,
 		        'invoice_content' => 'd'
 		    );
@@ -636,7 +652,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				$this->stash['data'] = $order_info['dict'];
 			}
 			
-			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
 			
 			$this->stash['pay_money'] = $pay_money;
 			
@@ -738,6 +754,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 礼品卡金额
 		$gift_money = $order_info['gift_money'];
 
+    //鸟币数量
+    $bird_coin_count = $order_info['bird_coin_count'];
+    //鸟币抵金额
+    $bird_coin_money = $order_info['bird_coin_money'];
+
     //红包和礼品卡不能同时 使用
     if(!empty($card_money) && !empty($gift_money)){
 			return 	$this->ajax_json('红包和礼品卡不能同时使用！', true);
@@ -758,7 +779,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 商品金额
 			$order_info['total_money'] = $total_money;
 			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
 			// 支付金额不能为负数
 			if($pay_money < 0){
 				$pay_money = 0.0;
@@ -946,13 +967,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 					return $this->ajax_json('订单操作失败，请重试！', true);
 				}
 				$dict = $result['dict'];
-				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
 				
 				// 支付金额不能为负数
 				if($pay_money < 0){
 					$pay_money = 0.0;
 				}
-				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $gift_money)*-1;
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
 				$data['pay_money'] = $pay_money;
 			}
 		}catch(Sher_Core_Model_Exception $e){
@@ -979,7 +1000,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$this->stash['card_payed'] = false;
 		// 验证是否需要跳转支付		
-		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money']+$order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'])){
+		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money']+$order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'] + $order_info['bird_coin_money'])){
 			$trade_prefix = 'Coin';
 			if($order_info['gift_money'] > 0){
 				$trade_prefix = 'Gift';

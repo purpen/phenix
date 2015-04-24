@@ -280,6 +280,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       }
       //验证当前用户鸟币是否足够
       // 用户实时积分
+      /**
       $point_model = new Sher_Core_Model_UserPointBalance();
       $current_point = $point_model->load($this->visitor->id);
       if(!$current_point){
@@ -289,6 +290,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       if($current_bird_coin < $product_data['max_bird_coin']){
         return $this->show_message_page('您的鸟币数量不足！');      
       }
+       */
+
 
       $is_exchanged = true;
     }

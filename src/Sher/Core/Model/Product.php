@@ -153,6 +153,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
       'exchanged' => 0,
       # 所需最高鸟币数量
       'max_bird_coin' => 0,
+      # 所需最低鸟币数
+      'min_bird_coin' => 0,
       # 补价格
       'exchange_price' => 0,
       # 兑换数量
@@ -233,7 +235,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title');
 	
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id','max_bird_coin','exchange_count');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count');
 	
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'exchange_price');
 	
@@ -521,6 +523,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 				$view_url = Sher_Core_Helper_Url::sale_view_url($row['_id']);
 				break;
 			case self::STAGE_SHOP:
+				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
+				break;
+			case self::STAGE_EXCHANGE:
 				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
 				break;
 			default:

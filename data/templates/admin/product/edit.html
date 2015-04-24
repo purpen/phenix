@@ -581,10 +581,18 @@
 		          	<label>开启</label>
 		        </div>
 			</div>
-			<div class="three fields">
+			<div class="four fields">
 				<div class="field">
-				  	<label>最高可兑换鸟币数(1鸟币==1元)：</label>
+				  	<label>最低可兑换鸟币数(1鸟币==1元)：</label>
+					<input type="text" name="min_bird_coin" value="{{ product.min_bird_coin|default 0 }}" />
+				</div>
+				<div class="field">
+				  	<label>最高可兑换鸟币数：</label>
 					<input type="text" name="max_bird_coin" value="{{ product.max_bird_coin|default 0 }}" />
+				</div>
+				<div class="field">
+				  	<label>兑换价格：</label>
+					<input type="text" name="exchange_price" value="{{ product.exchange_price|default 0 }}" />
 				</div>
 				<div class="field">
 				  	<label>兑换数量：</label>
