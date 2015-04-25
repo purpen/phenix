@@ -586,7 +586,7 @@
 								{% if !preorder %}
 								<div class="bill">
 									<a href="javascript:void(0);" class="ui small magenta bonus inverted button pop" data-content="使用红包" data-variation="inverted">
-										<i class="gift icon"></i> 使用红包抵消部分总额
+										<i class="fa-suitcase icon"></i> 使用红包抵消部分总额
 									</a>
 									<div class="ui bonus hide segment">
                     <h4>使用红包抵消部分总额 <!--<a href="#" class="ui magenta link" target="_blank">[了解红包使用规则]</a>--></h4>
@@ -613,10 +613,10 @@
                 {% if item_stage=='exchange' %}
                   <div class="bill">
                     <a href="javascript:void(0);" class="ui small magenta bird-coin inverted button pop" data-content="使用鸟币" data-variation="inverted">
-                      <i class="gift icon"></i> 使用鸟币抵消金额
+                      <i class="fa-dollar icon"></i> 使用鸟币抵消金额
                     </a>
                     <div class="ui bird-coin hide segment">
-                      <h4>最高可使用 <span id="max-bird-coin">{{ max_bird_coin }}</span> 鸟币, 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚 <!--<a href="#" class="ui magenta link" target="_blank">[了解礼品券使用规则]</a>--></h4>
+                      <h4>{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚 <!--<a href="#" class="ui magenta link" target="_blank">[了解礼品券使用规则]</a>--></h4>
                       <div class="ui fluid action input">
                         <input placeholder="输入鸟币数量..." name="bird_coin" type="text" id="bird-coin" />
                         <div class="ui active magenta button" id="submit-bird-coin">确定</div>

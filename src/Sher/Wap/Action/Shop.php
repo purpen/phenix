@@ -296,6 +296,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         //}     
       }
       $this->stash['max_bird_coin'] = $product_data['max_bird_coin'];
+      $this->stash['min_bird_coin'] = $product_data['min_bird_coin'];
       $this->stash['current_bird_coin'] = $current_bird_coin;
 
 

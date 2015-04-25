@@ -196,6 +196,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         //}     
       }
       $this->stash['max_bird_coin'] = $product_data['max_bird_coin'];
+      $this->stash['min_bird_coin'] = $product_data['min_bird_coin'];
       $this->stash['current_bird_coin'] = $current_bird_coin;
 
       $is_exchanged = true;
