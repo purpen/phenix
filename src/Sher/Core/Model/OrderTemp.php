@@ -98,6 +98,20 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
 		);
 		return $this->update_set($criteria, $updated);
 	}
+
+	/**
+	 * 使用鸟币
+	 */
+	public function use_bird_coin($rid, $bird_coin_count, $bird_coin_money) {
+		$criteria = array(
+			'rid' => $rid
+		);
+		$updated = array(
+			'dict.bird_coin_count'  => $bird_coin_count,
+			'dict.bird_coin_money' => $bird_coin_money,
+		);
+		return $this->update_set($criteria, $updated);
+	}
 	
     /**
      * 验证是否存在某个订单的临时信息

@@ -344,6 +344,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
           return false;
         }
       }
+      //验证兑换数量
+      if($data['stage']==self::STAGE_EXCHANGE){
+        if(isset($data['exchange_count']) && $data['exchange_count']>0 && $data['inventory']>0){
+          return true;
+        }else{
+          return false;
+        }
+      }
 			return $data['inventory'] > 0;
 		}
 		return false;
@@ -401,6 +409,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     //抢购库存数量不为能负数
     if(isset($data['snatched_count']) && (int)$data['snatched_count']<0){
       $data['snatched_count'] = 0;
+    }
+
+    //积分兑换库存数量不为能负数
+    if(isset($data['exchange_count']) && (int)$data['exchange_count']<0){
+      $data['exchange_count'] = 0;
     }
 		
 		// 新建数据,补全默认值
@@ -672,6 +685,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'snatched_count'=>-1),
           );
         }
+        //如果是积分兑换,减少数量
+        if($row['exchanged']){
+          $updated = array(
+            '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'exchange_count'=>-1),
+          );
+        }
 			}
 			
 			return $this->update((int)$id, $updated);
@@ -712,6 +731,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
       if($row['snatched']){
         $updated = array(
 				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'snatched_count'=>1),
+        );
+      }
+      //恢复积分兑换数量
+      if($row['exchanged']){
+        $updated = array(
+				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'exchange_count'=>1),
         );
       }
 		}

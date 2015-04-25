@@ -35,7 +35,7 @@
 		if(bonus_code){
 			$.post('{{ app_url_shopping }}/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
 				if(result.success){
-					$('#order-coin-money').text(result.data.card_money);
+					$('#order-coin-money').text(result.data.discount_money);
 					$('#order-pay-money').text(result.data.pay_money);
 				}else{
 					phenix.show_error_note(result.message, 3000);
@@ -68,7 +68,7 @@
 		if(gift_code){
 			$.post('{{ app_url_shopping }}/ajax_gift', {rid: '{{ order_info.rid }}', code: gift_code}, function(result){
 				if(result.success){
-					$('#order-coin-money').text(result.data.card_money);
+					$('#order-coin-money').text(result.data.discount_money);
 					$('#order-pay-money').text(result.data.pay_money);
 				}else{
 					phenix.show_error_note(result.message, 3000);
@@ -76,6 +76,35 @@
 			}, 'json');
 		}else{
 			phenix.show_error_note('请输入礼品券号', 3000);
+		}
+	});
+
+	// 使用鸟币
+	$('.ui.bird-coin.button').click(function(){
+		if ($(this).hasClass('active')){
+			$('.ui.bird-coin.segment').addClass('hide');
+			$(this).removeClass('active');
+		}else{
+			$('.ui.bird-coin.segment').removeClass('hide');
+			$(this).addClass('active');
+		}
+		return false;
+	});
+
+	$('#submit-bird-coin').click(function(){
+		var bird_coin = $('#bird-coin').val();
+
+		if(bird_coin){
+			$.post('{{ app_url_shopping }}/ajax_check_bird_coin', {rid: '{{ order_info.rid }}', bird_coin: bird_coin}, function(result){
+				if(result.success){
+					$('#order-coin-money').text(result.data.discount_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+		}else{
+			phenix.show_error_note('请输入鸟币数量', 3000);
 		}
 	});
 	
@@ -557,7 +586,7 @@
 								{% if !preorder %}
 								<div class="bill">
 									<a href="javascript:void(0);" class="ui small magenta bonus inverted button pop" data-content="使用红包" data-variation="inverted">
-										<i class="gift icon"></i> 使用红包抵消部分总额
+										<i class="fa-suitcase icon"></i> 使用红包抵消部分总额
 									</a>
 									<div class="ui bonus hide segment">
                     <h4>使用红包抵消部分总额 <!--<a href="#" class="ui magenta link" target="_blank">[了解红包使用规则]</a>--></h4>
@@ -580,6 +609,22 @@
 										</div>
 									</div>
 								</div>
+
+                {% if item_stage=='exchange' %}
+                  <div class="bill">
+                    <a href="javascript:void(0);" class="ui small magenta bird-coin inverted button pop" data-content="使用鸟币" data-variation="inverted">
+                      <i class="fa-dollar icon"></i> 使用鸟币抵消金额
+                    </a>
+                    <div class="ui bird-coin hide segment">
+                      <h4>{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚 <!--<a href="#" class="ui magenta link" target="_blank">[了解礼品券使用规则]</a>--></h4>
+                      <div class="ui fluid action input">
+                        <input placeholder="输入鸟币数量..." name="bird_coin" type="text" id="bird-coin" />
+                        <div class="ui active magenta button" id="submit-bird-coin">确定</div>
+                      </div>
+											<p class="ui magenta text"><b style="font-size: 20px;vertical-align: middle;">*</b>    下单成功后鸟币将不能退还</p>
+                    </div>
+                  </div>
+                {%endif%}
 								{% endif %}
 							</div>
 							<div class="right aligned ten wide column">

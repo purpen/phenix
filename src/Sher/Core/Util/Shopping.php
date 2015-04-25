@@ -112,6 +112,127 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		
 		return $card_money;
 	}
+
+	/**
+	 * 验证鸟币--抛出异常
+	 */
+	public static function check_bird_coin($bird_coin, $user_id, $product_id){
+    $bird_coin = (int)$bird_coin;
+		if (empty($bird_coin)){
+			throw new Sher_Core_Model_Exception('请输入正确数量！');
+		}
+		$model = new Sher_Core_Model_Product();
+		$product = $model->find_by_id((int)$product_id);
+		
+		if (empty($product)){
+			throw new Sher_Core_Model_Exception('产品不存在！');
+		}
+		// 是否可以积分兑换
+		if (!$product['exchanged']){
+			throw new Sher_Core_Model_Exception('该商品不能使用鸟币！');
+		}
+		//未设置最高使用鸟币数
+		if (empty($product['max_bird_coin'])){
+			throw new Sher_Core_Model_Exception('未设置鸟币最高兑换数量！');
+		}
+    //最低鸟币兑换
+    if(!empty($product['min_bird_coin'])){
+      if($bird_coin<$product['min_bird_coin']){
+			  throw new Sher_Core_Model_Exception('您输入的鸟币数量小于指定数量！');
+      }
+    }
+
+		//您输入的鸟币数量超过指定数量
+		if ($bird_coin > $product['max_bird_coin']){
+			throw new Sher_Core_Model_Exception('您输入的鸟币数量超过指定数量！');
+		}
+
+    //验证当前用户鸟币是否足够
+    // 用户实时积分
+    $point_model = new Sher_Core_Model_UserPointBalance();
+    $current_point = $point_model->load((int)$user_id);
+    if(!$current_point){
+      $current_bird_coin = 0;
+    }else{
+      $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
+    }
+    if(empty($current_bird_coin) || $current_bird_coin<$bird_coin){
+ 			throw new Sher_Core_Model_Exception('鸟币数量不足！');   
+    }
+
+    $bird_coin_money = self::bird_coin_transf_money($bird_coin);
+		
+		return $bird_coin_money;
+	}
+
+	/**
+	 * 验证鸟币--返回布尔类型
+	 */
+	public static function check_and_freeze_bird_coin($bird_coin, $user_id, $product_id){
+    $message['stat'] = false;
+    $message['msg'] = null;
+    $bird_coin = (int)$bird_coin;
+    if (empty($bird_coin)){
+      $message['msg'] = '请输入正确数量';
+      return $message;
+		}
+		$model = new Sher_Core_Model_Product();
+		$product = $model->find_by_id((int)$product_id);
+		
+		if (empty($product)){
+      $message['msg'] = '产品不存在';
+      return $message;
+		}
+		// 是否可以积分兑换
+		if (!$product['exchanged']){
+      $message['msg'] = '该商品不能使用鸟币';
+      return $message;
+		}
+		//未设置最高使用鸟币数
+		if (empty($product['max_bird_coin'])){
+      $message['msg'] = '未设置鸟币最高兑换数量!';
+      return $message;
+		}
+
+		//您输入的鸟币数量超过指定数量
+		if ($bird_coin > $product['max_bird_coin']){
+      $message['msg'] = '您输入的鸟币数量超过指定数量!';
+      return $message;
+		}
+
+    //最低鸟币兑换
+    if(!empty($product['min_bird_coin'])){
+      if($bird_coin<$product['min_bird_coin']){
+        $message['msg'] = '您输入的鸟币数量小于指定数量!';     
+      }
+    }
+
+    //验证当前用户鸟币是否足够
+    // 用户实时积分
+    $point_model = new Sher_Core_Model_UserPointBalance();
+    $current_point = $point_model->load((int)$user_id);
+    if(!$current_point){
+      $current_bird_coin = 0;
+    }else{
+      $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
+    }
+    if(empty($current_bird_coin) || $current_bird_coin<$bird_coin){
+      $message['msg'] = '鸟币数量不足!';
+      return $message;
+    }
+
+		$message['stat'] = true;
+		return $message;
+	}
+
+  /**
+   * 鸟币数量转换价格
+   * 当前比例1:1
+   */
+  public static function bird_coin_transf_money($bird_coin){
+    $bird_money = $bird_coin*1;
+    return $bird_money;
+  }
 	
 }
 ?>
