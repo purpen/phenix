@@ -134,9 +134,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
     }
 
+    $this->stash['item_stage'] = 'shop';
+
     //如果是抢购Start
     if($product_data['snatched']){
       $is_snatched = true;
+      $this->stash['item_stage'] = 'snatched';
 
       //是否在抢购列表里
       if(!$this->snatch_product_ids($product_data['_id'])){
@@ -166,10 +169,14 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     //如果是抢购End
 
     //如果是积分兑换Start
-    if($product_data['stage']==12){
+    if($product_data['exchanged']){
       //验证兑换是否开启
       if(!$product_data['exchanged']){
         return $this->show_message_page('积分兑换未开启！');     
+      }
+      //验证兑换金额最高限额
+      if(!$product_data['max_bird_coin']){
+        return $this->show_message_page('积分最高限额未设置！');     
       }
       //验证兑换库存
       if(empty($product_data['exchange_count'])){
@@ -177,19 +184,22 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       }
       //验证当前用户鸟币是否足够
       // 用户实时积分
-      /**
       $point_model = new Sher_Core_Model_UserPointBalance();
       $current_point = $point_model->load($this->visitor->id);
       if(!$current_point){
-        return $this->show_message_page('鸟币数量不足！');     
+        $current_bird_coin = 0;
+        //return $this->show_message_page('鸟币数量不足！');     
+      }else{
+        $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
+        //if($current_bird_coin < $product_data['max_bird_coin']){
+          //return $this->show_message_page('您的鸟币数量不足！');      
+        //}     
       }
-      $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
-      if($current_bird_coin < $product_data['bird_coin']){
-        return $this->show_message_page('您的鸟币数量不足！');      
-      }
-      */
+      $this->stash['max_bird_coin'] = $product_data['max_bird_coin'];
+      $this->stash['current_bird_coin'] = $current_bird_coin;
 
       $is_exchanged = true;
+      $this->stash['item_stage'] = 'exchange';
     }
     //End
 
@@ -204,7 +214,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       //抢购数量只能为1
       $quantity = 1;
     }elseif($is_exchanged){
-      $price = $product_data['exchange_price'];
+      //积分兑换也取sale_price价格
+      $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
@@ -843,6 +854,15 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       if($is_snatched){
         $order_info['kind'] = 2;
       }
+      //是否积分兑换过
+      if(!empty($order_info['bird_coin_count'])){
+        $product_id = $order_info['items'][0]['product_id'];
+        //再次验证用户积分并冻结用户相应的积分数量
+        $check_bird = Sher_Core_Util_Shopping::check_and_freeze_bird_coin($order_info['bird_coin_count'], $order_info['user_id'], $product_id);
+        if(!$check_bird['stat']){
+ 				  return 	$this->ajax_json($check_bird['msg'], true);       
+        }
+      }
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -910,19 +930,19 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
 			if($ok){
-				$data['card_money'] = $card_money*-1;
 				
 				$result = $model->first(array('rid'=>$rid));
 				if (empty($result)){
 					return $this->ajax_json('订单操作失败，请重试！', true);
 				}
 				$dict = $result['dict'];
-				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
 				
 				// 支付金额不能为负数
 				if($pay_money < 0){
 					$pay_money = 0.0;
 				}
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
 				$data['pay_money'] = $pay_money;
 			}
 		}catch(Sher_Core_Model_Exception $e){
@@ -983,6 +1003,58 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		return $this->ajax_json('礼品码成功使用', false, null, $data);
 	}
+
+  /**
+   * 验证用户鸟币
+   */
+  public function ajax_check_bird_coin(){
+    $user_id = $this->visitor->id;
+		$rid = $this->stash['rid'];
+		$bird_coin = $this->stash['bird_coin'];
+		if(empty($rid) || empty($bird_coin)){
+			return $this->ajax_json('订单编号或鸟币为空！', true);
+		}
+		
+		try{
+			// 验证订单信息
+			$model = new Sher_Core_Model_OrderTemp();
+			$order_info = $model->find_by_rid($rid);
+			if(empty($order_info)){
+				return $this->ajax_json('订单不存在！', true);
+			}
+			$items = $order_info['dict']['items'];
+			if(count($items) != 1){
+				return $this->ajax_json('仅限单一产品使用！', true);
+			}
+			
+			// 验证鸟币-返回抵消金额 
+			$bird_coin_money = Sher_Core_Util_Shopping::check_bird_coin($bird_coin, $user_id, $items[0]['product_id']);
+			
+			$data = array();
+			// 更新临时订单
+			$ok = $model->use_bird_coin($rid, $bird_coin, $bird_coin_money);
+			if($ok){
+				$result = $model->first(array('rid'=>$rid));
+				if (empty($result)){
+					return $this->ajax_json('订单操作失败，请重试！', true);
+				}
+				$dict = $result['dict'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
+				
+				// 支付金额不能为负数
+				if($pay_money < 0){
+					$pay_money = 0.0;
+				}
+				$data['discount_money'] = ($dict['coin_money'] + $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
+				$data['pay_money'] = $pay_money;
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("use bird-coin order failed: ".$e->getMessage());
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('鸟币使用成功!', false, null, $data);
+  }
 	
 	/**
 	 * 下单成功，选择支付方式，开始支付
@@ -1007,6 +1079,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			}
 			if($order_info['card_money'] > 0){
 				$trade_prefix = 'Card';
+			}
+			if($order_info['bird_coin_money'] > 0){
+				$trade_prefix = 'Bird_coin';
 			}
 			// 自动处理支付
 			if ($order_info['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){

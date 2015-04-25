@@ -38,6 +38,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'coin_money'  => 0,
 		# 礼品码金额
 		'gift_money'  => 0,
+    # 鸟币数量
+    'bird_coin_count' => 0,
+    # 鸟币金额
+    'bird_coin_money' => 0,
 		
 		# 物流费用
 		'freight'  => 0,
@@ -278,6 +282,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$gift = new Sher_Core_Model_Gift();
 			$gift->mark_used($gift_code, $this->data['user_id'], $rid);
 		}
+
+    // 用户鸟币扣除
+    $bird_coin = $this->data['bird_coin_count'];
+    if(isset($bird_coin) && !empty($bird_coin)){
+      // 增加积分
+      $service = Sher_Core_Service_Point::instance();
+      // 购买商品扣除相应鸟币
+      $service->make_money_out($this->data['user_id'], (int)$bird_coin, '积分兑换商品');
+    }
 		
 		// 更新订单总数
 		Sher_Core_Util_Tracker::update_order_counter();

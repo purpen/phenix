@@ -554,6 +554,10 @@
                     <div class="ui black tobuy nowbuy inverted button">
                       立即购买
                     </div>
+                  {%else%}
+                    <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
+                      暂时缺货
+                    </div>
                   {%endif%}
                 {%endif%}
 
