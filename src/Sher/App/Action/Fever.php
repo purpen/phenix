@@ -47,6 +47,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->gen_advanced_links($category_id, $type, $sort, $page);
 		
+        // 获取计数
+        $dig = new Sher_Core_Model_DigList();
+        $counter = $dig->load(Sher_Core_Util_Constant::FEVER_COUNTER);
+        $this->stash['counter'] = $counter;
 		
 		return $this->to_html_page('page/fever/list.html');
 	}
@@ -175,10 +179,10 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['product'] = $product;
 
-    //投诉参数
-    $this->stash['report_target_id'] = $product['_id'];
-    $this->stash['report_target_type'] = 1;
-    $this->stash['target_user_id'] = $product['user_id'];
+        // 投诉参数
+        $this->stash['report_target_id'] = $product['_id'];
+        $this->stash['report_target_type'] = 1;
+        $this->stash['target_user_id'] = $product['user_id'];
 		
 		return $this->to_html_page('page/fever/show.html');
 	}
@@ -813,28 +817,27 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$asset->delete_file($id);
 		}
 		
-		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
 
-  /**
-   * ajax获取支持者
-   */
-  public function ajax_fetch_support(){
+    /**
+     * ajax获取支持者
+    */
+    public function ajax_fetch_support(){
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
 		return $this->to_taconite_page('ajax/fetch_support.html');
-  }
+    }
 
 	/**
 	 * 相似灵感提交入口
 	 */
 	public function stuff_submit(){
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
-    if(empty($this->stash['fever_id'])){
+        if(empty($this->stash['fever_id'])){
 			return $this->show_message_page('缺少投票ID！', $redirect_url);
-    }
+        }
 		$top_category_id = Doggy_Config::$vars['app.topic.idea_category_id'];
 		
 		// 获取父级分类
@@ -873,4 +876,3 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 }
-?>

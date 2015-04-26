@@ -1,10 +1,10 @@
 <taconite>
 	<replace select="#cooperate-{{ id }}-ship"><![CDATA[
     {% if domode == 'create'%}
-    <a href="{{ app_url_cooperate }}/ajax_cancel_follow?id={{ cooperate._id }}" class="ui small active white ajax inverted button" id="cooperate-{{ id }}-ship">已关注</a>
+    <a href="{{ app_url_cooperate }}/ajax_cancel_follow?id={{ id }}" class="ui small active white ajax inverted button" id="cooperate-{{ id }}-ship">已关注</a>
     {% endif %}
     {% if domode == 'cancel'%}
-    <a href="{{ app_url_cooperate }}/ajax_follow?id={{ cooperate._id }}" class="ui small white ajax inverted button" id="cooperate-{{ id }}-ship">关注</a>
+    <a href="{{ app_url_cooperate }}/ajax_follow?id={{ id }}" class="ui small white ajax inverted button" id="cooperate-{{ id }}-ship">关注</a>
     {% endif %}
 	]]></replace>
 </taconite>

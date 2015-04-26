@@ -64,11 +64,15 @@
 			wps_width  = result.data.asset.width;
 			wps_height = result.data.asset.height;
 			
-			if (wps_width > 480){
-				var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
-			} else {
-				var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
-			}
+            if(Math.floor(wps_height*480/wps_width) < 300){
+                var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="height: 300px;">';
+            }else{
+    			if (wps_width > 480){
+    				var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
+    			} else {
+    				var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
+    			}
+            }
 			
 			// 更新附件Id
 			$('#avatar_id').val(result.data.asset.id);

@@ -401,10 +401,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
 	    }
 
-    //库存数量不为能负数
-    if(isset($data['inventory']) && (int)$data['inventory']<0){
-      $data['inventory'] = 0;
-    }
+        // 库存数量不为能负数
+        if(isset($data['inventory']) && (int)$data['inventory']<0){
+            $data['inventory'] = 0;
+        }
 
     //抢购库存数量不为能负数
     if(isset($data['snatched_count']) && (int)$data['snatched_count']<0){
@@ -466,6 +466,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 $service = Sher_Core_Service_Point::instance();
                 // 提交创意
                 $service->send_event('evt_new_idea', $this->data['user_id']);
+                
+        		// 添加计数器
+        		$diglist = new Sher_Core_Model_DigList();
+                $diglist->inc_fever_counter('items.total_count');
             }
         }
     }
