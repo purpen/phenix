@@ -3,7 +3,7 @@
 
 {% block page_css %}
 <style class="text/css">
-	
+
 </style>
 {% endblock %}
 
@@ -156,7 +156,14 @@
 							</div>
                             <div class="ui list">
                                 <div class="item">
-                                    <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
+                                    <div class="logo">
+                                        {% if b.marks.labs %}
+                                        <div class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
+                                            <i class="lab icon"></i>
+                                        </div>
+                                        {% endif %}
+                                        <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
+                                    </div>
                                     <div class="content">
                                         <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
                                         <div class="description">

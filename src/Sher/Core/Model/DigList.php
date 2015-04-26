@@ -31,6 +31,29 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
     }
     
     /**
+     * 增加Product投票总数/正在投票数
+     */
+    public function inc_fever_counter($field='items.total_count', $inc=1){
+        $criteral = array('_id' => Sher_Core_Util_Constant::FEVER_COUNTER);
+        return $this->inc($criteral, $field, $inc);
+    }
+    
+    /**
+     * 减少Product投票总数/正在投票数
+     * 需验证，防止出现负数
+     */
+    public function dec_fever_counter($field='items.total_count', $force=false){
+        $criteral = array('_id' => Sher_Core_Util_Constant::FEVER_COUNTER);
+		if(!$force){
+			$stuff = $this->find_by_id(Sher_Core_Util_Constant::FEVER_COUNTER);
+			if(!isset($stuff['items'][$field]) || $stuff['items'][$field] <= 0){
+				return true;
+			}
+		}
+        return $this->dec($criteral, $field);
+    }
+    
+    /**
      * 增加Stuff总数/精选数
      */
     public function inc_stuff_counter($field='items.total_count', $inc=1){
