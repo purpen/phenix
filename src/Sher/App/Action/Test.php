@@ -294,5 +294,10 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     $a->perform();
   }
 
+  public function search(){
+    $docs = Sher_Core_Util_XunSearch::search('test');
+    var_dump($docs);exit;
+  }
+
 }
-?>
+

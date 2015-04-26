@@ -516,6 +516,12 @@
 						<label>商店销售 <small>直接商店销售</small></label>
 					</div>
 				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="12" {% if product.stage == 12 %}checked="checked"{% endif %} /> 
+						<label>积分兑换 <small>只可用于鸟币或鸟币+差价兑换</small></label>
+					</div>
+				</div>
 			</div>
 			
 			<h3 class="ui dividing stage header">产品历属设置</h3>
@@ -536,7 +542,7 @@
 		</div>
 		
 		<div class="ui segment">
-			<h3 class="ui dividing header">限量抢购设置</h3>
+			<h3 class="ui dividing header">抢购设置</h3>
 			<div class="inline field">
 			  	<label>是否抢购：</label>
 				<div class="ui checkbox">
@@ -562,6 +568,35 @@
 				<div class="field">
 				  	<label>预约人数：</label>
 					<input type="text" name="appoint_count" value="{{ product.appoint_count|default 0 }}" />
+				</div>
+			</div>
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">积分设置</h3>
+			<div class="inline field">
+			  	<label>是否开启：</label>
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="exchanged" {% if product.exchanged %}checked="checked"{% endif %} />
+		          	<label>开启</label>
+		        </div>
+			</div>
+			<div class="four fields">
+				<div class="field">
+				  	<label>最低可兑换鸟币数(1鸟币==1元)：</label>
+					<input type="text" name="min_bird_coin" value="{{ product.min_bird_coin|default 0 }}" />
+				</div>
+				<div class="field">
+				  	<label>最高可兑换鸟币数：</label>
+					<input type="text" name="max_bird_coin" value="{{ product.max_bird_coin|default 0 }}" />
+				</div>
+				<div class="field">
+				  	<label>兑换价格：</label>
+					<input type="text" name="exchange_price" value="{{ product.exchange_price|default 0 }}" />
+				</div>
+				<div class="field">
+				  	<label>兑换数量：</label>
+					<input type="text" name="exchange_count" value="{{ product.exchange_count|default 0 }}" />
 				</div>
 			</div>
 		</div>

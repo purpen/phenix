@@ -8,13 +8,20 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	 * 蛋年
+	 */
+	public function ces(){
+		return $this->to_html_page('page/promo/ces.html');
 	}
 	
 	/**
@@ -334,7 +341,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
   public function match_draw(){
     //管理员权限
     if(!$this->visitor->can_admin){
-      //return $this->ajax_note("没有权限!", true); 
+      return $this->ajax_note("没有权限!", true); 
     }
 
 

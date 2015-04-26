@@ -8,6 +8,28 @@
 	.ui.five.tabs .tab {
 		width: 20%;
 	}
+	#shoppage .buy.box .price{
+		vertical-align: bottom;
+		margin-right:0;
+	}
+	#shoppage .buy.box .old.price .unit, #shoppage .buy.box .price .unit{
+		vertical-align: bottom;
+	}
+	#shoppage .buy.box .redemption{
+		vertical-align: top;
+	  font-size: 1.015rem;
+		color: #f36;
+		display: block;
+  }
+	.product.snatched span.ui.black.text{
+		font-size:1.3rem;
+	}
+	.product.overview .froala-element p{
+		margin-bottom:0;
+	}
+	.product.overview .froala-element img.fr-fin{
+		padding:0 !important;
+	}
     
 </style>
 {% endblock %}
@@ -494,35 +516,73 @@
 									
 								{% else %}
 								
-                  {% if !product.is_try %}
-                    {% if product.can_saled %}
-                    <div class="ui active magenta tobuy buy inverted button">
-                         <i class="cart icon"></i> 加入购物车
-                    </div>
-                    {% else %}
-                    <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
-                      暂时缺货
-                    </div>
-                    {% endif %}
-									{% endif %}				
-								{% endif %}
+                  <!--积分兑换商品不能加入购物车 -->
+                  {% if item_stage=='exchange' %}
+									<div class="product snatched">
+										<span class="ui black text">商品积分兑换</span>
+									</div>
+                  {%endif%}
+
+                  {% if item_stage=='shop' %}
+                    {% if !product.is_try %}
+                      {% if product.can_saled %}
+                      <div class="ui active magenta tobuy buy inverted button">
+                           <i class="cart icon"></i> 加入购物车
+                      </div>
+                      {% else %}
+                      <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
+                        暂时缺货
+                      </div>
+                      {% endif %}
+                    {% endif %}				
+                  {% endif %}
+                {%endif%}
 							</td>
 						</td>
 						<tr>
 							<td>
-								{% if !product.snatched %}
-                  {% if !product.is_try %}
-                    {% if product.can_saled %}
+                <!--积分兑换 -->
+                {% if item_stage=='exchange' %}
+                  {% if product.can_saled %}
+
+                    <span class="redemption">
+                    {% if product.exchange_price %}
+                    (兑换要求：￥{{ product.exchange_price }} + {{ product.max_bird_coin }}鸟币)  
+                    {%else%}
+                    (兑换要求：{{ product.max_bird_coin }}鸟币) 
+                    {%endif%}
+
+                    </span>
+                    
+                    <!--	-->
                     <div class="ui black tobuy nowbuy inverted button">
                       立即购买
                     </div>
-                    {% endif %}
                   {%else%}
-                    <div class="">
-                      此产品为试用商品，不可销售
+                    <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
+                      暂时缺货
                     </div>
+                  {%endif%}
+                {%endif%}
+
+                <!--商品 -->
+                {% if item_stage=='shop' %}
+                  {% if !product.snatched %}
+                    {% if !product.is_try %}
+                      {% if product.can_saled %}
+                      <!--	-->
+                      <div class="ui black tobuy nowbuy inverted button">
+                        立即购买
+                      </div>
+                      {% endif %}
+                    {%else%}
+                      <div class="">
+                        此产品为试用商品，不可销售
+                      </div>
+                    {% endif %}
                   {% endif %}
-								{% endif %}
+                {%endif%}
+
 							</td>
 						</tr>
 					</table>

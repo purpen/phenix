@@ -12,6 +12,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_VOTE     = 1;
     const STAGE_PRESALE  = 5;
     const STAGE_SHOP     = 9;
+    const STAGE_EXCHANGE = 12;
 	
     protected $schema = array(
 		'_id'     => null,
@@ -147,6 +148,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
 	    ## 试用
 	    'trial' =>  0,
+
+    ## 积分设置
+      'exchanged' => 0,
+      # 所需最高鸟币数量
+      'max_bird_coin' => 0,
+      # 所需最低鸟币数
+      'min_bird_coin' => 0,
+      # 补价格
+      'exchange_price' => 0,
+      # 兑换数量
+      'exchange_count' => 0,
 		
 		## 计数器
 		
@@ -223,11 +235,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title');
 	
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count');
 	
-	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price');
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'exchange_price');
 	
-	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count');
+	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count');
 	protected $retrieve_fields = array('content'=>0);
 	
 	protected $joins = array(
@@ -253,18 +265,24 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
 		
-		if ($row['stage'] == self::STAGE_VOTE){
-			$row['stage_label'] = '投票中';
-			// 计算投票完成比
-			$lowest = Doggy_Config::$vars['app.vote.lowest'];
-			$row['vote_percent'] = sprintf("%.1f", $row['vote_favor_count']/$lowest);
-		}else if ($row['stage'] == self::STAGE_PRESALE){
-			$row['stage_label'] = '预售中';
-		}else if ($row['stage'] == self::STAGE_SHOP){
-			$row['stage_label'] = '热售中';
-		}else{
-			$row['stage_label'] = '未设置'; // 未知
-		}
+    if($row['stage']){
+      if ($row['stage'] == self::STAGE_VOTE){
+        $row['stage_label'] = '投票中';
+        // 计算投票完成比
+        $lowest = Doggy_Config::$vars['app.vote.lowest'];
+        $row['vote_percent'] = sprintf("%.1f", $row['vote_favor_count']/$lowest);
+      }else if ($row['stage'] == self::STAGE_PRESALE){
+        $row['stage_label'] = '预售中';
+      }else if ($row['stage'] == self::STAGE_SHOP){
+        $row['stage_label'] = '热售中';
+      }else if ($row['stage'] == self::STAGE_EXCHANGE){
+        $row['stage_label'] = '积分兑换';
+      }else{
+        $row['stage_label'] = '未设置'; // 未知
+      }   
+    }else{
+  		$row['stage_label'] = '未设置'; // 未知  
+    }
 		
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
@@ -326,6 +344,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
           return false;
         }
       }
+      //验证兑换数量
+      if($data['stage']==self::STAGE_EXCHANGE){
+        if(isset($data['exchange_count']) && $data['exchange_count']>0 && $data['inventory']>0){
+          return true;
+        }else{
+          return false;
+        }
+      }
 			return $data['inventory'] > 0;
 		}
 		return false;
@@ -380,10 +406,15 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $data['inventory'] = 0;
         }
 
-        // 抢购库存数量不为能负数
-        if(isset($data['snatched_count']) && (int)$data['snatched_count']<0){
-            $data['snatched_count'] = 0;
-        }
+    //抢购库存数量不为能负数
+    if(isset($data['snatched_count']) && (int)$data['snatched_count']<0){
+      $data['snatched_count'] = 0;
+    }
+
+    //积分兑换库存数量不为能负数
+    if(isset($data['exchange_count']) && (int)$data['exchange_count']<0){
+      $data['exchange_count'] = 0;
+    }
 		
 		// 新建数据,补全默认值
 		if ($this->is_saved()){
@@ -505,6 +536,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 				$view_url = Sher_Core_Helper_Url::sale_view_url($row['_id']);
 				break;
 			case self::STAGE_SHOP:
+				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
+				break;
+			case self::STAGE_EXCHANGE:
 				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
 				break;
 			default:
@@ -651,6 +685,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'snatched_count'=>-1),
           );
         }
+        //如果是积分兑换,减少数量
+        if($row['exchanged']){
+          $updated = array(
+            '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'exchange_count'=>-1),
+          );
+        }
 			}
 			
 			return $this->update((int)$id, $updated);
@@ -691,6 +731,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
       if($row['snatched']){
         $updated = array(
 				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'snatched_count'=>1),
+        );
+      }
+      //恢复积分兑换数量
+      if($row['exchanged']){
+        $updated = array(
+				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'exchange_count'=>1),
         );
       }
 		}

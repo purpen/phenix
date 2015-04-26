@@ -1,14 +1,11 @@
 {%extends 'layout/column.html'%}
-{% block title %}{{ label_title }}提交-{% endblock %}
+{% block title %}创意提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .ui.fluid.dropdown .down.icon {
-    float: right;
-  }
-  .ui.stuffs .ui.submit.segment {
-	  margin-bottom: 3rem;
-	  padding: 1.5rem;
-  }
+    .ui.submit.segment {
+    	 margin-bottom: 3rem;
+    	 padding: 1.5rem;
+    }
 </style>
 {% endblock %}
 
@@ -123,7 +120,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload }}/stuff'
       	},
 		text: {
@@ -171,38 +168,19 @@
 		$(this).click(function(){
 			$this = $(this);
 			var id = $(this).attr('data-value');
-            
+			
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
 			$('#stuff_cover_id').val(id);
-            
 			return false;
 		});
 	});
 
-  //ajax省份选择联动
-	$('.ui.province.dropdown').livequery(function(){
-		$(this).dropdown({
-			onChange : function(value, text){
-				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id:0, evt:1 });
-				}
-			}
-		});
-	});
 
 	$('.ui.college.dropdown').livequery(function(){
 		$(this).dropdown();
 	});
-
-
-  //初次加载大学
-  var province_id = {{ stuff.province_id|default 0 }};
-  var college_id = {{ stuff.college_id|default 0 }};
-  if(college_id !=0){
-    $.get('{{ app_url_address }}/ajax_fetch_colleges', {id: province_id, college_id:college_id, evt:1 });     
-  }
 
   //如果只有一个分类,默认选中
   var cate_length = $('.ui.options .option').length;
@@ -215,7 +193,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui stuffs social">
+<div class="ui social">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui column">
@@ -223,14 +201,10 @@
 				  	<a class="ui section link" href="{{ app_url_social }}">
 						<i class="basic icon community"></i> 发现
 					</a>
-                    {% if rid %}
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_cooperate }}">孵化资源</a>
-                    {% endif %}
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ parent_category.view_url }}">{{ parent_category.title }}</a>
 				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ label_title }}提交</div>
+				  	<div class="active section">大赛提交</div>
 				</div>
 			</div>
 		</div>
@@ -239,7 +213,7 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						{{ label_title }}提交
+						大赛提交
 						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
@@ -249,10 +223,9 @@
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-                        <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
-                        <input type="hidden" name="verified" value="{{ stuff.verified }}" />
+						<input type="hidden" name="from_to" value="3" />
+            <input type="hidden" name="verified" value="1" />
 						
-                        {% if !rid %}
 						<div class="ui field">
 							<label>所属类别</label>
 						   	<div class="ui options">
@@ -273,71 +246,20 @@
 								{% endfor %}
 						   	 </div>
 						</div>
-                        {% else %}
-                            {% if mode == 'edit' %}
-                            <input type="hidden" name="category_id" value="{{ stuff.category_id }}" />
-                            <input type="hidden" name="cooperate_id" value="{{ stuff.cooperate_id }}" />
-                            {% else %}
-                            <input type="hidden" name="category_id" value="{{ selected_category_id }}" />
-                            <input type="hidden" name="cooperate_id" value="{{ rid }}" />
-                            {% endif %}
-                        {% endif %}
 					
 						<div class="field">
-							<label for="title">{{ label_title }}名称</label>
+							<label for="title">产品名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-                        
-						<div class="field">
-							<label>{{ label_title }}标签</label>
-						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="{{ label_title }}特性/亮点/别名等优化搜索词" />
-							<div class="description">标签之间使用，逗号隔开</div>
-						</div>
-
-          {% if mode=='edit' %}
-              {% if stuff.from_to==1 %}
-            <div class="three fields">
-              <div class="field">
-                <label for="province_id">省份</label>
-                {% province_list var:'list' size:100 %}
-                <div class="ui fluid selection province dropdown" style="position:relative;z-index:9999;">
-                  <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
-                    <div class="default text">--省份--</div>
-                    <i class="angle down icon" style="position:absolute;right:0;"></i>
-                    <div class="menu">
-                      {% for d in list.rows %}
-                      <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
-                      {% endfor %}
-                    </div>
-                </div>
-                <div class="ui pointing top label">院校所在省份</div>
-              </div>
-
-              <div class="field">
-                <label for="college_id">院校</label>
-                <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
-                  <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
-                    <div class="default text">--院校--</div>
-                    <i class="angle down icon" style="position:absolute;right:0;"></i>
-                </div>
-                <div class="ui pointing top label">请先选择省份</div>
-              </div>
-
-            </div>
-            {%endif%}
-          {%endif%}
-
-                        {% if mode=='edit' %}
-                            {% if stuff.from_to==2 %}
-                                <div class="field">
-                                    <label for="description">团队介绍</label>
-                                    <textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
-                                </div>
-                            {%endif%}
-                        {%endif%}
 						
 						<div class="field">
-							<label>{{ label_title }}图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<label>产品标签</label>
+						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="产品特性/亮点/别名等优化搜索词" />
+							<div class="description">标签之间使用，逗号隔开</div>
+						</div>
+						
+						<div class="field">
+							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
@@ -370,60 +292,6 @@
 							<label for="description">详细描述</label>
 						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
 						</div>
-                        
-                        {% if !rid %}
-                          {% if !is_match %}
-                            <h3 class="ui dividing header">产品参数</h3>
-                        
-    	   			      	<div class="five fields">
-    	   	                	<div class="field">
-    	   	                    	<label>品牌名称</label>
-    	   	                  	  	<input type="text" name="brand" value="{{ stuff.brand }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>设计师</label>
-    	   	                  	  	<input type="text" name="designer" value="{{ stuff.designer }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>所属国家</label>
-    	   	                  	  	<input type="text" name="country" value="{{ stuff.country }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>上市时间</label>
-    	   	                  	  	<input type="text" name="market_time" value="{{ stuff.market_time }}" placeholder="如:2015年1月" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>指导价格</label>
-    	   	                  	  	<input type="text" name="official_price" value="{{ stuff.official_price }}" placeholder="如:100元--999元" />
-    	   	                	</div>
-    	   	           	 	</div>
-                        
-                            {% if visitor.can_edit %}
-    						<div class="two fields">
-    			              	<div class="field">
-    				                <label for="processed">产品阶段</label>
-    				                <div class="ui fluid selection dropdown">
-    				                  	<input type="hidden" name="processed" value="{{ stuff.processed }}" />
-    				                    <div class="default text">请选择</div>
-    				                    <i class="angle down icon"></i>
-    				                    <div class="menu">
-    				                    	<div data-value="1" class="{% if stuff.processed==1 %}active {% endif %}item">设计概念</div>
-    				                    	<div data-value="2" class="{% if stuff.processed==2 %}active {% endif %}item">开发</div>
-    				                    	<div data-value="3" class="{% if stuff.processed==3 %}active {% endif %}item">众筹</div>
-    				                    	<div data-value="5" class="{% if stuff.processed==5 %}active {% endif %}item">预售</div>
-    				                    	<div data-value="9" class="{% if stuff.processed==9 %}active {% endif %}item">销售</div>
-    				                    </div>
-    				                </div>
-    				                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
-    			              	</div>
-                                <div class="field">
-    							    <label>购买地址</label>
-    						  	    <input type="text" name="buy_url" value="{{ stuff.buy_url }}" placeholder="仅站内/京东/天猫链接" />
-                                </div>
-    						</div>
-                            {% endif %}
-                            {% endif %}
-                        {% endif %}
 						
 						<div class="ui right floated aligned grid">
 							<div class="column">

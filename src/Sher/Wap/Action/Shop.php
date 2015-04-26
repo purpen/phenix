@@ -209,6 +209,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     //初始变量
     //是否是抢购商品
     $is_snatched = false;
+    //是否积分兑换
+    $is_exchanged = false;
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -266,6 +268,42 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }
     //如果是抢购End
 
+    //如果是积分兑换Start
+    if(!empty($product_data['exchanged'])){
+      //验证兑换是否开启
+      if(!$product_data['exchanged']){
+        return $this->show_message_page('积分兑换未开启！');     
+      }
+      //验证兑换金额最高限额
+      if(!$product_data['max_bird_coin']){
+        return $this->show_message_page('积分最高限额未设置！');     
+      }
+      //验证兑换库存
+      if(empty($product_data['exchange_count'])){
+        return $this->show_message_page('兑换商品库存不足！');    
+      }
+      //验证当前用户鸟币是否足够
+      // 用户实时积分
+      $point_model = new Sher_Core_Model_UserPointBalance();
+      $current_point = $point_model->load($this->visitor->id);
+      if(!$current_point){
+        $current_bird_coin = 0;
+        //return $this->show_message_page('鸟币数量不足！');     
+      }else{
+        $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
+        //if($current_bird_coin < $product_data['max_bird_coin']){
+          //return $this->show_message_page('您的鸟币数量不足！');      
+        //}     
+      }
+      $this->stash['max_bird_coin'] = $product_data['max_bird_coin'];
+      $this->stash['min_bird_coin'] = $product_data['min_bird_coin'];
+      $this->stash['current_bird_coin'] = $current_bird_coin;
+
+
+      $is_exchanged = true;
+    }
+    //End
+
     // 试用产品，不可购买
     if($product_data['is_try']){
       return $this->show_message_page('试用产品，不可购买！', true);
@@ -276,6 +314,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       $price = $product_data['snatched_price'];
       //抢购数量只能为1
       $quantity = 1;
+    }elseif($is_exchanged){
+      $price = $product_data['exchange_price'];
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
@@ -292,6 +332,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				'view_url' => $product_data['view_url'],
 				'subtotal' => $price*$quantity,
         'is_snatched' => $is_snatched?1:0,
+        'is_exchanged' => $is_changed?1:0,
 			),
 		);
 		$total_money = $price*$quantity;
@@ -342,8 +383,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
+    
+    // 红包金额
+    $card_money = 0.0;
+
+    //礼品券金额
+    $gift_money = 0.0;
+
+    //鸟币金额
+    $bird_coin_money = 0.0;
 		
-		$pay_money = $total_money + $freight - $coin_money;
+		$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
 		
 		$this->stash['order_info'] = $order_info;
 		$this->stash['data'] = $order_info['dict'];
@@ -452,6 +502,12 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 礼品卡金额
 		$gift_money = $order_info['gift_money'];
 
+		// 鸟币金额
+    $bird_coin_money = $order_info['bird_coin_money'];
+
+    // 鸟币数量
+    $bird_coin_count = $order_info['bird_coin_count'];
+
     //红包和礼品卡不能同时 使用
     if(!empty($card_money) && !empty($gift_money)){
 			return 	$this->ajax_json('红包和礼品卡不能同时使用！', true);
@@ -481,7 +537,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$order_info['total_money'] = $total_money;
 			
 			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
 			
 			// 支付金额不能为负数
 			if($pay_money < 0){
@@ -546,6 +602,16 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       if($is_snatched){
         $order_info['kind'] = 2;
       }
+      //是否积分兑换过
+      if(!empty($order_info['bird_coin_count'])){
+        $product_id = $order_info['items'][0]['product_id'];
+        //再次验证用户积分并冻结用户相应的积分数量
+        $check_bird = Sher_Core_Util_Shopping::check_and_freeze_bird_coin($order_info['bird_coin_count'], $order_info['user_id'], $product_id);
+        if(!$check_bird['stat']){
+ 				  return 	$this->ajax_json($check_bird['msg'], true);       
+        }
+      }
+
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -603,12 +669,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$this->stash['card_payed'] = false;
 		// 验证是否需要跳转支付		
-		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money'] + $order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'])){
+		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money'] + $order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'] + $order_info['bird_coin_money'])){
 			$trade_prefix = 'Coin';
 			if($order_info['gift_money'] > 0){
 				$trade_prefix = 'Gift';
 			}
 			if($order_info['card_money'] > 0){
+				$trade_prefix = 'Card';
+			}
+			if($order_info['bird_coin_money'] > 0){
 				$trade_prefix = 'Card';
 			}
 			// 自动处理支付
@@ -686,18 +755,18 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
 			if($ok){
-				$data['card_money'] = $card_money*-1;
 				$result = $model->first(array('rid'=>$rid));
 				if (empty($result)){
 					return $this->ajax_json('订单操作失败，请重试！', true);
 				}
 				$dict = $result['dict'];
-				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
 				
 				// 支付金额不能为负数
 				if($pay_money < 0){
 					$pay_money = 0.0;
 				}
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
 				$data['pay_money'] = $pay_money;
 			}
 		}catch(Sher_Core_Model_Exception $e){
@@ -742,13 +811,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 					return $this->ajax_json('订单操作失败，请重试！', true);
 				}
 				$dict = $result['dict'];
-				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
 				
 				// 支付金额不能为负数
 				if($pay_money < 0){
 					$pay_money = 0.0;
 				}
-				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $gift_money)*-1;
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
 				$data['pay_money'] = $pay_money;
 			}
 		}catch(Sher_Core_Model_Exception $e){
@@ -787,6 +856,12 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 礼品码金额
 		$gift_money = 0.0;
+
+    // 鸟币金额
+    $bird_coin_money = 0.0;
+
+    // 鸟币数量
+    $bird_coin_count = 0;
 		
 		// 设置订单默认值
 		$default_data = array(
@@ -798,7 +873,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'freight' => $freight,
 			'card_money' => $card_money,
 			'coin_money' => $coin_money,
-			'gift_money' => $gift_money,
+      'gift_money' => $gift_money,
+      'bird_coin_money' => $bird_coin_money,
+      'bird_coin_count' => $bird_coin_count,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd',
 			'event_type' => $event_type,
