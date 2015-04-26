@@ -496,6 +496,16 @@
 					  		<input type="text" name="mobile" value="{{ cooperate.mobile }}" />
 						</div>
 					</div>
+                    
+                    {% if visitor.is_admin %}
+        			<h4 class="ui dividing header">标记</h4>
+        			<div class="inline field">
+        				<div class="ui checkbox">
+        		          	<input type="checkbox" name="mark_labs" {% if cooperate.marks.labs %}checked="checked"{% endif %} />
+        		          	<label>孵化实验室</label>
+        		        </div>
+        			</div>
+                    {% endif %}
 					
 					<div class="ui right floated aligned grid">
 						<div class="column">

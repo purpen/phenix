@@ -171,6 +171,13 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
                 'mini' => $qkey
             );
         }
+        
+        // 标记是否孵化实验室
+        if(isset($this->stash['mark_labs'])){
+            $data['marks']['labs'] = $this->stash['mark_labs']; 
+        }else{
+            $data['marks']['labs'] = false;
+        }
 		
 		try{
 			$model = new Sher_Core_Model_Cooperation();
