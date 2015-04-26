@@ -180,15 +180,19 @@
 		if (result.success) {
 			wps_width  = result.data.asset.width;
 			wps_height = result.data.asset.height;
-			
-			if (wps_width > 480){
-				var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
-			} else {
-				var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
-			}
+            
+            if(Math.floor(wps_height*480/wps_width) < 300){
+                var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="height: 300px;">';
+            }else{
+    			if (wps_width > 480){
+    				var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
+    			} else {
+    				var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
+    			}
+            }
 			
 			// 更新附件Id
-			$('#avatar_id').val(result.data.asset.id);
+			$('#cooperate_logo_id').val(result.data.asset.id);
 			
 			$('#avatar-preview')
 				.removeClass('hide')
@@ -204,7 +208,7 @@
 	
 	$('.ui.crop.button').bind('click', function(){
 		var params = {
-			avatar_id: $('#avatar_id').val(),
+			avatar_id: $('#cooperate_logo_id').val(),
             target_id: {{ cooperate._id|default 0 }},
 			x1: $('#x1').val(),
 			x2: $('#x2').val(),
@@ -221,7 +225,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ cooperate._id }}','file_id': '{{ new_file_id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': 0,'x:parent_id': '{{ cooperate._id }}','file_id': '{{ new_file_id }}' },
         	endpoint: '{{ app_url_upload_cooperate }}'
       	},
 		text: {
@@ -411,16 +415,20 @@
 				  		<input type="text" name="address" value="{{ cooperate.address }}" />
 					</div>
                     
-                    {% if mode == 'edit' %}
 					<div class="field">
 						<label>Logo <small class="description">(设置一个宽度大于400px、小于3M的JPG)</small></label>
 						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
+                        <input type="hidden" name="qkey" id="cooperate_logo_qkey" value="{{ cooperate.logo.big }}" />
                         
                         <div id="avatar-uploader"></div>
                         
                         <div class="ui grid">
                             <div class="three wide center aligned column">
+                                {% if mode == 'create' %}
+                                <img src="{{ app_url_packaged }}/images/avatar_default_medium.jpg" class="ui big avatar image" />
+                                {% else %}
                                 <img src="{{ cooperate.medium_avatar_url }}" class="ui big avatar image" />
+                                {% endif %}
                             </div>
                             <div class="thirteen wide column">
         						<div id="avatar-preview" class="ui hide">
@@ -428,7 +436,6 @@
         						</div>
 				
         						<div class="ui hide" id="avatar-crop-buttons">
-        							<input type="hidden" name="avatar_id" id="avatar_id" />
         							<input type="hidden" name="x1" id="x1" />
         							<input type="hidden" name="x2" id="x2" />
         							<input type="hidden" name="y1" id="y1" />
@@ -443,7 +450,6 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
 					
 					<div class="field">
 						<label>头图背景 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个背景图)</small></label>

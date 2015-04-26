@@ -177,15 +177,17 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			return $this->ajax_note('生成数据错误,请重新提交',true);
 		}
 		
-		// 更新用户头像
-        $cooperate = new Sher_Core_Model_Cooperation();
-        $ok = $cooperate->update_logo(array(
-			'big' => $qkey,
-			'medium' => $qkey,
-			'small' => $qkey,
-			'mini' => $qkey
-		), (int)$id);
-		
+        // 编辑状态时，更新用户头像
+        if(!empty($id)){
+            $cooperate = new Sher_Core_Model_Cooperation();
+            $ok = $cooperate->update_logo(array(
+    			'big' => $qkey,
+    			'medium' => $qkey,
+    			'small' => $qkey,
+    			'mini' => $qkey
+    		), (int)$id);
+        }
+        
 		$avatar = array();
 		$avatar['big_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avb.jpg');
 		$avatar['medium_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avm.jpg');
@@ -193,6 +195,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$avatar['mini_avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($qkey, 'avn.jpg');
 		
 		$this->stash['avatar'] = $avatar;
+        $this->stash['qkey'] = $qkey;
 		
 		return $this->to_taconite_page('ajax/crop_logo.html');
 	}

@@ -82,11 +82,13 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 $evt = Sher_Core_Model_Remind::EVT_FAVORITE;
                 $point_event = 'evt_favorited';
                 $timeline_event = Sher_Core_Util_Constant::EVT_FAVORITE;
-            }elseif ($event == self::EVENT_LOVE){
+            }elseif($event == self::EVENT_LOVE){
                 $field = 'love_count';
                 $evt = Sher_Core_Model_Remind::EVT_LOVE;
                 $point_event = 'evt_like';
                 $timeline_event = Sher_Core_Util_Constant::EVT_LOVE;
+            }elseif($event == self::EVENT_FOLLOW){
+                $field = 'follow_count';
             }
             
             switch($type){
@@ -313,7 +315,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			$field = 'favorite_count';
 		}elseif($event == self::EVENT_LOVE){
 			$field = 'love_count';
-		}
+		}elseif($event == self::EVENT_FOLLOW){
+            $field = 'follow_count';
+        }
 		
 		switch($type){
 			case self::TYPE_TOPIC:

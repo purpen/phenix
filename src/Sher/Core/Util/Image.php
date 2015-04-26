@@ -92,19 +92,29 @@ class Sher_Core_Util_Image {
 		$height = $asset['height'];
 		
 		$scale_height = 0;
-		if ($width > $scale_width){
-			$scale_height = ceil($scale_width*$height/$width);
+        if(floor($height*$scale_width/$width) < 300){
+            $scale_height = 300;
+            $scale_width = ceil($scale_height*$width/$height);
 			$fops = array(
-			    "thumbnail" => "${scale_width}x${scale_height}",
+                "thumbnail" => "${scale_width}x${scale_height}",
 			    "crop" => "!${w}x${h}a${x1}a${y1}",
 			    "quality" => 95
 			);
-		} else {
-			$fops = array(
-			    "crop" => "!${w}x${h}a${x1}a${y1}",
-			    "quality" => 95
-			);
-		}
+        }else{
+    		if($width > $scale_width){
+    			$scale_height = ceil($scale_width*$height/$width);
+    			$fops = array(
+    			    "thumbnail" => "${scale_width}x${scale_height}",
+    			    "crop" => "!${w}x${h}a${x1}a${y1}",
+    			    "quality" => 95
+    			);
+    		}else{
+    			$fops = array(
+    			    "crop" => "!${w}x${h}a${x1}a${y1}",
+    			    "quality" => 95
+    			);
+    		}
+        }
 		
 		$client = \Qiniu\Qiniu::create(array(
 		    'access_key' => $accessKey,

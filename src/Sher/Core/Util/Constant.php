@@ -112,6 +112,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * DigList stuff计数器
      */
     const STUFF_COUNTER  = 'stuff_counter';
+    
+    const FEVER_COUNTER  = 'fever_counter';
 	
 	
 	/**

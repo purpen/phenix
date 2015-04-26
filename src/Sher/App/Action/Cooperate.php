@@ -160,6 +160,17 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		if(!isset($this->stash['asset'])){
 			$data['asset'] = array();
 		}
+        
+        // 获取logo
+        $qkey = $this->stash['qkey'];
+        if(!empty($qkey)){
+            $data['logo'] = array(
+                'big' => $qkey,
+                'medium' => $qkey,
+                'small' => $qkey,
+                'mini' => $qkey
+            );
+        }
 		
 		try{
 			$model = new Sher_Core_Model_Cooperation();
@@ -231,12 +242,6 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
             $data['type']  = Sher_Core_Model_Favorite::TYPE_COOPERATE;
 			
             $ok = $model->apply_and_save($data);
-            if($ok){
-    			// 更新关注数
-                $cooperate = new Sher_Core_Model_Cooperation();
-    			$cooperate->inc_counter('follow_count', $follow_id);
-                $cooperate->update_rank('follow_count', $follow_id);
-            }
             $this->stash['domode'] = 'create';
 		}
 		
@@ -267,9 +272,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
             
             if($ok){
     			// 更新关注数
-                $cooperate = new Sher_Core_Model_Cooperation();
-    			$cooperate->dec_counter('follow_count', $follow_id);
-                $cooperate->update_rank('follow_count', $follow_id, -1);
+                $model->mock_after_remove($this->visitor->id, $follow_id, 6, Sher_Core_Model_Favorite::EVENT_FOLLOW);
             }
             
             $this->stash['domode'] = 'cancel';
