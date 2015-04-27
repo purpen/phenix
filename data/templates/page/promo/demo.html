@@ -1,0 +1,127 @@
+{%extends 'layout/base.html'%}
+
+{% block page_css %}
+<style type="text/css">
+.mess.item,.mess.item:hover{
+	width:240px !important;
+	cursor:auto !important;
+}
+.ui.items .mess.item > .image{
+	background:url('{{ app_url_packaged }}/images/promo/mess-bg.jpg') !important;
+	background-size:cover !important;
+	height:122px;
+	border-radius: 0 !important;
+}
+.mess.item .image .auth{
+	padding:0.75em 0.5em;
+	color:#fff;
+	font-size: 16px;
+	vertical-align: middle;
+}
+.mess.item .image .auth .ui.inverted.button{
+	padding:.5em 1.2em;
+	vertical-align: middle;
+	margin-left: 34px;
+	background: #fff;
+	color: #000;
+}
+.mess.item .image .auth .ui.inverted.button + .ui.inverted.button{
+	margin-left:0px;
+}
+.mess img.ui.small.avatar.image{
+	width:4em !important;
+	border-radius:50% !important;
+	position:absolute;
+	bottom:-29px;
+	left:91px;
+}
+.mess.item > .content{
+	padding:40px 0.5em 0.75em !important;
+	text-align:center;
+}
+.mess.item > .content h2 > span{
+	padding:5px;
+	background:#f36;
+	color:#fff;
+	font-size:14px;
+	padding: 3px 8px;
+	margin-left: 5px;
+}
+.mess.item > .content .ui.header{
+	margin-bottom:0.5rem;
+}
+.mess .horizontal.divided.list .item{
+	padding:0 0.75em !important;
+}
+.mess .horizontal.divided.list .item .content{
+	padding:0 0.25em !important;
+}
+.mess .relaxed.horizontal.divided.list .item:hover{
+	-webkit-box-shadow: 0 0px 0px #C7C7C7 !important;
+	box-shadow: 0 0px 0px #C7C7C7 !important;
+}
+.mess .relaxed.horizontal.divided.list .item .content{
+	position:relative;
+}
+.mess .relaxed.horizontal.divided.list .item .content a{
+	position:absolute;
+	width:100%;
+	height:100%;
+	left:0;
+	top:0;
+}
+.mess .relaxed.horizontal.divided.list .item:hover{
+	cursor:auto !important;
+}
+.mess .relaxed.horizontal.divided.list .item .content:hover .header{
+	color:#f36;
+	text-decoration: underline;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="ui items">
+	<div class="mess magenta item">
+		<div class="image">
+			<div class="auth">
+				boc747
+				<div class="ui icon small white letter inverted button">
+				  <i class="flat mail icon"></i>
+				</div>
+				<a href="http://www.taihuoniao.com/user/ajax_cancel_follow?id=47" class="ui small white inverted button ajax" id="user_47_ship">已关注</a>
+				
+			</div>
+			<img src="http://frbird.qiniudn.com/avatar/140731/53da1b9d989a6a5d598b6076-avs.jpg" class="ui small avatar image">
+		</div>
+		<div class="content">
+			<h2 class="ui header">北京，设计师 <span>Lv.4</span></h2>
+			<p>西装上衣袖口之所以设计一串扣子，就是为了让人们不能用它来擤鼻涕</p>
+			<div class="ui relaxed horizontal divided list">
+				<div class="item">
+					<div class="content">
+						<a href="" target="_blank"></a>
+					  <div class="header">50</div>
+	          <div class="description">话题</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a href="" target="_blank"></a>
+					  <div class="header">50</div>
+	          <div class="description">产品创意</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a href="" target="_blank"></a>
+					  <div class="header">50</div>
+	          <div class="description">粉丝</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
