@@ -18,13 +18,6 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 蛋年
-	 */
-	public function demo(){
-		return $this->to_html_page('page/promo/demo.html');
-	}
-	
-	/**
 	 * CES
 	 */
 	public function ces(){
