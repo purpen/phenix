@@ -203,6 +203,9 @@ position: fixed !important;
 				{% if product.stage == 5 %}
 			  	<a class="section" href="{{ app_url_wap }}/shop/presale">预售</a>
 				{% endif %}
+				{% if product.stage == 12 %}
+			  	<a class="section" href="{{ app_url_wap }}/shop/exchange">积分兑换</a>
+				{% endif %}
 			  	<div class="divider"> / </div>
 			  	<div class="active section">{{ product.title|truncate 12 }}</div>
 			</div>
