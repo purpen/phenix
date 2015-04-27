@@ -106,6 +106,27 @@
 			phenix.show_error_note('请输入礼品码', 3000);
 		}
 	});
+
+	// 选择积分兑换
+	$('#submit-bird-coin').click(function(){
+		var bird_coin = $('#bird-coin').val();
+
+		if(bird_coin){
+			$.post('{{ app_url_wap }}/shop/ajax_check_bird_coin', {rid: '{{ order_info.rid }}', bird_coin: bird_coin}, function(result){
+				if(result.success){
+					alert(result.message);
+					//phenix.show_ok_note('已成功使用礼品码！', 2000);
+					$('#order-discount-money').text(result.data.discount_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+		}else{
+			//alert('请输入鸟币数量');
+			phenix.show_error_note('请输入鸟币数量', 3000);
+		}
+	});
 	
 {% endblock %}
 
@@ -234,7 +255,21 @@
 							  <div class="ui active magenta button" id="submit-gift">确定</div>
 							</div>
 					    </div>
-						
+
+                {% if item_stage=='exchange' %}
+						<div class="title">
+							<i class="dropdown icon"></i>
+							使用鸟币兑换
+						</div>
+						<div class="content">
+              <h4>{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚</h4>
+							<div class="ui fluid action input">
+							  <input placeholder="输入鸟币..." name="bird_coin" type="text" id="bird-coin" />
+							  <div class="ui active magenta button" id="submit-bird-coin">确定</div>
+							</div>
+							<p class="ui magenta text"><b style="font-size: 20px;vertical-align: middle;">*</b>    下单成功后鸟币将不能退还</p>
+					    </div>
+              {%endif%}
 					</div>
 			
 				
