@@ -466,10 +466,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 $service = Sher_Core_Service_Point::instance();
                 // 提交创意
                 $service->send_event('evt_new_idea', $this->data['user_id']);
-                
-        		// 添加计数器
-        		$diglist = new Sher_Core_Model_DigList();
-                $diglist->inc_fever_counter('items.total_count');
             }
         }
     }

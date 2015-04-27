@@ -176,7 +176,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if (!isset($row['gift_money'])){
 			$row['gift_money'] = 0;
 		}
-		$row['discount_money'] = $row['coin_money'] + $row['card_money'] + $row['gift_money'];
+		$row['discount_money'] = $row['coin_money'] + $row['card_money'] + $row['gift_money'] + $row['bird_coin_money'];
 	}
 	
 	/**
