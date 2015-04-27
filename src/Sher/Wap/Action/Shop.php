@@ -36,6 +36,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function presale(){
 		$this->stash['process_presaled'] = 1;
+    $this->stash['is_shop'] = 0;
 		
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.shop').'presale/p#p#';
 		$this->stash['pager_url'] = $pager_url;
@@ -63,6 +64,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['process_saled'] = 1;
+    $this->stash['is_shop'] = 1;
 		return $this->to_html_page('wap/shop.html');
 	}
 	
