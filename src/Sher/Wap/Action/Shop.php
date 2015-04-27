@@ -119,9 +119,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 获取skus及inventory
 		$inventory = new Sher_Core_Model_Inventory();
+    //积分兑换商品与销售商品共有sku
+    if($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+      $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
+    }else{
+      $sku_stage = $product['stage'];
+    }
 		$skus = $inventory->find(array(
 			'product_id' => $id,
-			'stage' => $product['stage'],
+			'stage' => $sku_stage,
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);
