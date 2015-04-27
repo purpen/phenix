@@ -307,8 +307,8 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		$new_pic_id = new MongoId();
 		$this->stash['editor_pid'] = (string)$new_pic_id;
 
-		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
-		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF_EDITOR;
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_COOPERATE;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_COOPERATE_EDITOR;
 	}
 
 	
