@@ -88,7 +88,8 @@
 					</div>
 				</th>
 				<th class="five wide">所属</th>
-        <th>十万火计</th>
+        <th>类型</th>
+        <th>数量</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -111,7 +112,10 @@
             {%endif%}
            {% if s.type==2 %}
             大学
-          {%endif%}         
+          {%endif%}
+          {% if s.type==3 %}
+            微信分享
+          {%endif%}
           </p>
 		      <p class="attribute">ID：{{ s.target_id }}</p>
 		      <p class="attribute">名称：
@@ -120,11 +124,36 @@
             {%endif%}
            {% if s.type==2 %}
             {{ s.college.name }}
-          {%endif%}   
+          {%endif%}
+           {% if s.type==3 %}
+            {{ s.college.name }}
+          {%endif%} 
           </p>
 				</td>
         <td>
+          {% if s.kind==0 %}
+            --
+          {%endif%}
+          {% if s.kind==1 %}
+            话题
+          {%endif%}
+          {% if s.kind==2 %}
+            商品
+          {%endif%}
+          {% if s.kind==3 %}
+            灵感
+          {%endif%}
+        </td>
+        <td>
+          {% if s.type==1 %}
           {{ s.match2_count }}/{{ s.match2_love_count }}
+          {%endif%}
+          {% if s.type==2 %}
+          {{ s.match2_count }}/{{ s.match2_love_count }}
+          {%endif%}
+          {% if s.type==3 %}
+          {{ s.count }}
+          {%endif%}
         </td>
 
 				<td>
