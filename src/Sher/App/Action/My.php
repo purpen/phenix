@@ -840,6 +840,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         //分享产品灵感,大赛作品
       case 3:
         $evt_code = 'evt_share_stuff';
+        break;
       default:
         $evt_code = '';
     }
