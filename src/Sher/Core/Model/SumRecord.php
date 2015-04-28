@@ -11,12 +11,25 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   const TYPE_PRO = 1;
   //大学
   const TYPE_COLLEGE = 2;
+  //微信分享数
+  const TYPE_WXSHARE = 3;
+
+  //属性
+  // 话题
+  const KIND_TOPIC = 1;
+  // 产品
+  const KIND_PRODUCT = 2;
+  // 灵感
+  const KIND_STUFF = 3;
+
 	
     protected $schema = array(
       # 关联ID
 		  'target_id'   => 0,
       # 类型
       'type' => self::TYPE_PRO,
+      # kind属性
+      'kind' => 0,
 
       'count' => 0,
       # 十万火计2数量

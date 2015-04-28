@@ -173,6 +173,19 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     $this->stash['comment_target_id'] = $topic['_id'];
     $this->stash['comment_target_user_id'] = $topic['user_id'];
     $this->stash['comment_type'] = 2;
+
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    if(empty($_SERVER['QUERY_STRING'])){
+        $url = $this->stash['current_url'] = $topic['wap_view_url'];  
+    }else{
+        $url = $this->stash['current_url'] = $topic['wap_view_url'].$_SERVER['QUERY_STRING'];   
+    }
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
 		
 		return $this->to_html_page('wap/show.html');
 	}
