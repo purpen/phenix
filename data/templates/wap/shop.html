@@ -57,7 +57,7 @@
 </div>
 
 <!--商店商品-->
-{% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
+{% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 category_id:cid is_shop:1 page:page sort:'stick:latest' %}
 {% if sale.total_rows %}
 <div class="ui responsive grid" id="mproducts">
 	<div class="row">
