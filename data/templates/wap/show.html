@@ -88,7 +88,7 @@
     $.get(url, { target_id: '{{ topic._id }}', type: 3, kind:1 });
 		// 验证是否登录,同时送积分
 		if (phenix.visitor.is_login){
-      $.get('{{ app_url_wap }}/app/site/my/give_point', { evt: 1, type: 1 });
+      $.get('{{ app_url_wap }}/app/site/my/give_point', { evt: 1, count_name:'count', type: 1 });
 		}
 
   }
