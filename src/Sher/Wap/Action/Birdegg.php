@@ -21,7 +21,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	
 	
 	public function test(){
-		return $this->to_html_page('wap/birdegg/test.html');
+		return $this->to_html_page('wap/birdegg/home.html');
 	}
 	/**
 	 * 智能硬件蛋年活动
