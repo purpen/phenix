@@ -92,7 +92,7 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
    * 增加新记录
    */
   public function add_record($target_id, $filed_name='count', $type=self::TYPE_PRO, $kind=0){
-    if($kind){
+    if(empty($kind)){
       $query = array('target_id'=>$target_id, 'type'=>$type);
     }else{
       $query = array('target_id'=>$target_id, 'type'=>$type, 'kind'=>(int)$kind);
