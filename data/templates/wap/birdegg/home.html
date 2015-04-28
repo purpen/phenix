@@ -124,7 +124,7 @@
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper3.06.min.js" type="text/javascript"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate1.0.2.min.js" type="text/javascript"></script>
 	<script type="text/javascript" >
-		/*scaleW=window.innerWidth/320;
+		scaleW=window.innerWidth/320;
 		scaleH=window.innerHeight/480;
 		var resizes = document.querySelectorAll('.resize');
 		          for (var j=0; j<resizes.length; j++) {
@@ -134,14 +134,14 @@
 				   resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
 
 		          }
-		var scales = document.querySelectorAll('.txt');
+	/*	var scales = document.querySelectorAll('.txt');
 		for (var i=0; i<scales.length; i++) {
 			ss=scales[i].style;
 			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
 		}*/
 		
 		
-			function fixPagesHeight() {
+			/*function fixPagesHeight() {
 				$('.swiper-slide,.swiper-container').css({
 					height: $(window).height(),
 				})
@@ -149,7 +149,7 @@
 			$(window).on('resize', function() {
 				fixPagesHeight();
 			})
-			fixPagesHeight();
+			fixPagesHeight();*/
 			
 			
 			/****  轮播   ****/
@@ -165,13 +165,16 @@
 		  //virtualTranslate : true,
 			//鼠标滑动
 		   mousewheelControl : false,
-			onSlideChangeEnd: function(swiper){
-			swiperAnimate(swiper);
-		    },
+			onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+			   swiperAnimateCache(swiper); 
+		    swiperAnimate(swiper); 
+		  }, 
+		  onSlideChangeEnd: function(swiper){
+				swiperAnimate(swiper);
+			},
 			onTransitionEnd: function(swiper){
-			swiperAnimate(swiper);
-		    },
-
+				swiperAnimate(swiper);
+			},
 			watchSlidesProgress: true,
 				onInit: function(swiper) {
 					swiper.myactive = 0;
@@ -281,9 +284,9 @@
 		</div>
 		<div class="swiper-slide p2">
 			<img src="http://frstatic.qiniudn.com/images/egg/menu1.png" class="ani resize" style="width:320px;height:85px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="1s">
-			<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="ani resize" style="width:224px;height:90px;top:85px;left:10px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="1s">
-			<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="ani resize" style="width:224px;height:49px;top:175px;left:10px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
-			<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="ani resize" style="width:224px;height:102px;top:224px;left:10px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="2s">
+			<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="ani resize" style="width:224px;height:90px;top:85px;left:10px;" swiper-animate-effect="fadeInTopBig" swiper-animate-duration="1s" swiper-animate-delay="1s">
+			<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="ani resize" style="width:224px;height:49px;top:175px;left:10px;" swiper-animate-effect="fadeInTopBig" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
+			<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="ani resize" style="width:224px;height:102px;top:224px;left:10px;" swiper-animate-effect="fadeInTopBig" swiper-animate-duration="1s" swiper-animate-delay="2s">
 		</div>
 		
 		<div class="swiper-slide p3">
