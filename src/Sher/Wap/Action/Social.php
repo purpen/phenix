@@ -179,11 +179,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    if(empty($_SERVER['QUERY_STRING'])){
-        $url = $this->stash['current_url'] = $topic['wap_view_url'];  
-    }else{
-        $url = $this->stash['current_url'] = $topic['wap_view_url'].'?'.$_SERVER['QUERY_STRING'];   
-    }
+    $url = $this->stash['current_url'] = $topic['wap_view_url'];  
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 		
