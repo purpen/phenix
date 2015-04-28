@@ -308,13 +308,6 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		return $this->to_html_page('wap/service.html');
 	}
 
-  /**
-   * 用户分享内容送鸟币
-   */
-  public function give_coin(){
-    
-  }
-
 
 }
 ?>
