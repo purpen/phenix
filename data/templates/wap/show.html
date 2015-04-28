@@ -84,12 +84,13 @@
 
   //记录分享数/同时送积分
   function record_share_num(){
-    var url = '{{ app_url_wap }}/app/site/redis/incr';
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: '{{ topic._id }}', count_name:'count', type: 3, kind:1 });
 		// 验证是否登录,同时送积分
 		if (phenix.visitor.is_login){
-      //alert(456);
+      $.get('{{ app_url_wap }}/app/site/my/give_point', { evt: 1, type: 1 });
 		}
-    //$.get(url, { key: 'china_design_share_num' });
+
   }
 
 </script>

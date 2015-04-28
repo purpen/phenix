@@ -43,7 +43,7 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected $required_fields = array('target_id','type');
-    protected $int_fields = array('type','count','match2_count','match2_love_count');
+    protected $int_fields = array('type','count','match2_count','kind','match2_love_count');
     protected $counter_fields = array('count','match2_count','match2_love_count');
 	
 	/**
@@ -91,8 +91,12 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   /**
    * 增加新记录
    */
-  public function add_record($target_id, $filed_name='count', $type=self::TYPE_PRO){
-    $query = array('target_id'=>$target_id, 'type'=>$type);
+  public function add_record($target_id, $filed_name='count', $type=self::TYPE_PRO, $kind=0){
+    if(empty($kind)){
+      $query = array('target_id'=>$target_id, 'type'=>$type);
+    }else{
+      $query = array('target_id'=>$target_id, 'type'=>$type, 'kind'=>(int)$kind);
+    }
     $d = $this->first($query);
     if($d){
       $this->increase_counter($filed_name, 1, $d['_id']);
