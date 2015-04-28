@@ -10,7 +10,7 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
 
     protected $schema = array(
     	'_id'   => '',
-      'name'  => '',
+        'name'  => '',
     	'items' => array(),
     );
 	
@@ -20,14 +20,38 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected function extra_extend_model_row(&$row) {
-      switch($row['_id']){
-      case 'dig_match_praise_stat':
-        $str = '校园行线下抽奖';
-        break;
-      default:
-        $str = '未定义';
-      }
-      $row['name_info'] = $str;
+        switch($row['_id']){
+            case 'dig_match_praise_stat':
+                $str = '校园行线下抽奖';
+                break;
+            default:
+                $str = '未定义';
+        }
+        
+        $row['name_info'] = $str;
+    }
+    
+    /**
+     * 增加Product投票总数/正在投票数
+     */
+    public function inc_fever_counter($field='items.total_count', $inc=1){
+        $criteral = array('_id' => Sher_Core_Util_Constant::FEVER_COUNTER);
+        return $this->inc($criteral, $field, $inc);
+    }
+    
+    /**
+     * 减少Product投票总数/正在投票数
+     * 需验证，防止出现负数
+     */
+    public function dec_fever_counter($field='items.total_count', $force=false){
+        $criteral = array('_id' => Sher_Core_Util_Constant::FEVER_COUNTER);
+		if(!$force){
+			$stuff = $this->find_by_id(Sher_Core_Util_Constant::FEVER_COUNTER);
+			if(!isset($stuff['items'][$field]) || $stuff['items'][$field] <= 0){
+				return true;
+			}
+		}
+        return $this->dec($criteral, $field);
     }
     
     /**

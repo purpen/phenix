@@ -401,10 +401,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
 	    }
 
-    //库存数量不为能负数
-    if(isset($data['inventory']) && (int)$data['inventory']<0){
-      $data['inventory'] = 0;
-    }
+        // 库存数量不为能负数
+        if(isset($data['inventory']) && (int)$data['inventory']<0){
+            $data['inventory'] = 0;
+        }
 
     //抢购库存数量不为能负数
     if(isset($data['snatched_count']) && (int)$data['snatched_count']<0){

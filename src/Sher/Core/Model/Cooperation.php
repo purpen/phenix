@@ -21,6 +21,9 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		'fullname'   => '',
 		'summary'    => '',
 		'keywords'   => array(),
+        
+        # 标识
+        'marks'      => array(),
 		
 		# logo设置
 		'logo_id'    => '',

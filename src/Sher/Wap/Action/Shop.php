@@ -36,6 +36,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function presale(){
 		$this->stash['process_presaled'] = 1;
+    $this->stash['is_shop'] = 0;
 		
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.shop').'presale/p#p#';
 		$this->stash['pager_url'] = $pager_url;
@@ -63,6 +64,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['process_saled'] = 1;
+    $this->stash['is_shop'] = 1;
 		return $this->to_html_page('wap/shop.html');
 	}
 	
@@ -235,7 +237,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(empty($product_data)){
 			return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
 		}
-
+    $this->stash['item_stage'] = 'shop';
 
     //如果是抢购Start
     if($product_data['snatched']){
@@ -301,6 +303,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
 
       $is_exchanged = true;
+      $this->stash['item_stage'] = 'exchange';
     }
     //End
 
@@ -1091,6 +1094,58 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       return $this->ajax_json('您的系统时间不准确,请刷新页面查看结果!', true);
     }
   }
+
+  /**
+   * 验证用户鸟币
+   */
+  public function ajax_check_bird_coin(){
+    $user_id = $this->visitor->id;
+		$rid = $this->stash['rid'];
+		$bird_coin = $this->stash['bird_coin'];
+		if(empty($rid) || empty($bird_coin)){
+			return $this->ajax_json('订单编号或鸟币为空！', true);
+		}
+		
+		try{
+			// 验证订单信息
+			$model = new Sher_Core_Model_OrderTemp();
+			$order_info = $model->find_by_rid($rid);
+			if(empty($order_info)){
+				return $this->ajax_json('订单不存在！', true);
+			}
+			$items = $order_info['dict']['items'];
+			if(count($items) != 1){
+				return $this->ajax_json('仅限单一产品使用！', true);
+			}
+			
+			// 验证鸟币-返回抵消金额 
+			$bird_coin_money = Sher_Core_Util_Shopping::check_bird_coin($bird_coin, $user_id, $items[0]['product_id']);
+			
+			$data = array();
+			// 更新临时订单
+			$ok = $model->use_bird_coin($rid, $bird_coin, $bird_coin_money);
+			if($ok){
+				$result = $model->first(array('rid'=>$rid));
+				if (empty($result)){
+					return $this->ajax_json('订单操作失败，请重试！', true);
+				}
+				$dict = $result['dict'];
+				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
+				
+				// 支付金额不能为负数
+				if($pay_money < 0){
+					$pay_money = 0.0;
+				}
+				$data['discount_money'] = ($dict['coin_money'] + $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
+				$data['pay_money'] = $pay_money;
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("use bird-coin order failed: ".$e->getMessage());
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('鸟币使用成功!', false, null, $data);
+  }
 	
 }
-?>
+

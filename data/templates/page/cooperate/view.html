@@ -103,7 +103,14 @@
                     <div class="ui grid">
                         <div class="two column row">
                             <div class="right aligned column">
-                                <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}" />
+                                <div class="logo">
+                                    {% if cooperate.marks.labs %}
+                                    <div class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
+                                        <i class="lab icon"></i>
+                                    </div>
+                                    {% endif %}
+                                    <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}" />
+                                </div>
                                 <div class="rate">
                                     <div class="ui small star rating">
                                         {% for s in cooperate.rank_stars %}
