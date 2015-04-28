@@ -162,7 +162,7 @@
 
 
 			watchSlidesProgress: true,
-		
+		/*
 					onProgress: function(swiper) {
 							for (var i = 0; i < swiper.slides.length; i++) {
 								var slide = swiper.slides[i];
@@ -203,9 +203,9 @@
 
 								swiper.myactive = swiper.activeIndex;
 
-							},
+							},*/
 							//平滑效果
-		      /*onProgress: function(swiper){
+		      onProgress: function(swiper){
 		        for (var i = 0; i < swiper.slides.length; i++){
 		          var slide = swiper.slides[i];
 		          var progress = slide.progress;
@@ -217,7 +217,7 @@
 				  es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,'+translate+'px,-'+translate+'px) scaleY(' + scale + ')';
 
 		        }
-		      },*/
+		      },
 
 			   onSetTransition: function(swiper, speed) {
 		        for (var i = 0; i < swiper.slides.length; i++){
