@@ -827,8 +827,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 用户送积分
    */
   public function give_point(){
-    $evt = isset($this->stash['evt_code'])?(int)$this->stash['evt']:0;
-    switch($evt_code){
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+    switch($evt){
       case 1:
         //分享话题
         $evt_code = 'evt_share_content';

@@ -120,7 +120,6 @@ position: fixed !important;
     var url = '{{ app_url_wap }}/app/site/redis/incr';
 		// 验证是否登录,同时送积分
 		if (phenix.visitor.is_login){
-      alert(456);
       $.get('{{ app_url_wap }}/app/site/my/give_point', { evt: 2, type: 1 });
 		}
 
