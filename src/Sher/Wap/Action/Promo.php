@@ -193,21 +193,21 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   	/**
    	 * 55杯-支持原创－专题
      */
-  	public function chinadesign(){     
-    	$this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
-    	$timestamp = $this->stash['timestamp'] = time();
-    	$wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-    	$wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    	if(empty($_SERVER['QUERY_STRING'])){
-      		$url = $this->stash['current_url'] = Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign';  
-    	}else{
-        	$url = $this->stash['current_url'] = Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign?'.$_SERVER['QUERY_STRING'];   
-    	}
-
-    	$wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-    	$this->stash['wxSha1'] = sha1($wxOri);
-    	return $this->to_html_page('wap/chinadesign.html');
-  	}
+  public function chinadesign(){
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    if(empty($_SERVER['QUERY_STRING'])){
+        $url = $this->stash['current_url'] = Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign';  
+    }else{
+        $url = $this->stash['current_url'] = Doggy_Config::$vars['app.url.wap'].'/promo/chinadesign?'.$_SERVER['QUERY_STRING'];   
+    }
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+    return $this->to_html_page('wap/chinadesign.html');
+  }
 	
 	/**
 	 * 陌陌新年专题

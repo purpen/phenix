@@ -24,7 +24,7 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% category_list var:'category' only_open:1 domain:2 %}
+					{% category_list var:'category' only_open:1 domain:2 istop:1 %}
 					{% for cat in category.rows %}
 					<div class="ui topiclist segment">
 						{% category_list var:'children' page:1 only_open:1 domain:2 pid:cat._id %}
