@@ -43,7 +43,7 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected $required_fields = array('target_id','type');
-    protected $int_fields = array('type','count','match2_count','match2_love_count');
+    protected $int_fields = array('type','count','match2_count','kind','match2_love_count');
     protected $counter_fields = array('count','match2_count','match2_love_count');
 	
 	/**

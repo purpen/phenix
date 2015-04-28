@@ -83,13 +83,13 @@
   });
 
   //记录分享数/同时送积分
+  function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: '{{ stuff._id }}', count_name:'count', type: 3, kind:3 });
 		// 验证是否登录,同时送积分
 		if (phenix.visitor.is_login){
       $.get('{{ app_url_wap }}/app/site/my/give_point', { evt: 3, type: 1 });
 		}
-
   }
 
 </script>
