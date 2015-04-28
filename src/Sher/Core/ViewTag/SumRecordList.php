@@ -77,7 +77,7 @@ class Sher_Core_ViewTag_SumRecordList extends Doggy_Dt_Tag {
             }
             if($type==2){
               $result['rows'][$i]['college'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_College');           
-            }elseif(if($type==3)){
+            }elseif($type==3){
               if($kind==1){
                 $result['rows'][$i]['target'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_Topic');               
               }elseif($kind==2){
