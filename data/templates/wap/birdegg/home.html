@@ -124,7 +124,7 @@
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper3.06.min.js" type="text/javascript"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate1.0.2.min.js" type="text/javascript"></script>
 	<script type="text/javascript" >
-		scaleW=window.innerWidth/320;
+		/*scaleW=window.innerWidth/320;
 		scaleH=window.innerHeight/480;
 		var resizes = document.querySelectorAll('.resize');
 		          for (var j=0; j<resizes.length; j++) {
@@ -138,10 +138,10 @@
 		for (var i=0; i<scales.length; i++) {
 			ss=scales[i].style;
 			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
-		}
+		}*/
 		
 		
-			/*function fixPagesHeight() {
+			function fixPagesHeight() {
 				$('.swiper-slide,.swiper-container').css({
 					height: $(window).height(),
 				})
@@ -149,7 +149,7 @@
 			$(window).on('resize', function() {
 				fixPagesHeight();
 			})
-			fixPagesHeight();*/
+			fixPagesHeight();
 			
 			
 			/****  轮播   ****/
@@ -165,18 +165,19 @@
 		  //virtualTranslate : true,
 			//鼠标滑动
 		   mousewheelControl : false,
-		   onInit: function(swiper){
-		   swiperAnimateCache(swiper);
-		   swiperAnimate(swiper);
-			  },
-
+			onSlideChangeEnd: function(swiper){
+			swiperAnimate(swiper);
+		    },
+			onTransitionEnd: function(swiper){
+			swiperAnimate(swiper);
+		    },
 
 			watchSlidesProgress: true,
 				onInit: function(swiper) {
 					swiper.myactive = 0;
 
 				},
-				onProgress: function(swiper) {
+				/*onProgress: function(swiper) {
 					for (var i = 0; i < swiper.slides.length; i++) {
 						var slide = swiper.slides[i];
 						var progress = slide.progress;
@@ -216,9 +217,9 @@
 
 						swiper.myactive = swiper.activeIndex;
 
-					},
+					},*/
 					//平滑效果
-      /*onProgress: function(swiper){
+      onProgress: function(swiper){
         for (var i = 0; i < swiper.slides.length; i++){
           var slide = swiper.slides[i];
           var progress = slide.progress;
@@ -230,7 +231,7 @@
 		  es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,'+translate+'px,-'+translate+'px) scaleY(' + scale + ')';
 
         }
-      },*/
+      },
 
 	   onSetTransition: function(swiper, speed) {
         for (var i = 0; i < swiper.slides.length; i++){
