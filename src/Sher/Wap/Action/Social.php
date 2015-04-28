@@ -182,7 +182,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     if(empty($_SERVER['QUERY_STRING'])){
         $url = $this->stash['current_url'] = $topic['wap_view_url'];  
     }else{
-        $url = $this->stash['current_url'] = $topic['wap_view_url'].$_SERVER['QUERY_STRING'];   
+        $url = $this->stash['current_url'] = $topic['wap_view_url'].'?'.$_SERVER['QUERY_STRING'];   
     }
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
