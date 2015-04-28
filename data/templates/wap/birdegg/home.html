@@ -121,10 +121,7 @@
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper1.min.css">
 {% endblock %}
 {% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate.min.js" type="text/javascript"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
-	<!--<script type="text/javascript" >
+	<script type="text/javascript" >
 		scaleW=window.innerWidth/320;
 		scaleH=window.innerHeight/480;
 		var resizes = document.querySelectorAll('.resize');
@@ -139,88 +136,78 @@
 			ss=scales[i].style;
 			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
 		}
-		var mySwiperV = new Swiper ('.swiper-container', {
-		   direction : 'vertical',
-		   pagination: '.swiper-pagination',
-		  //virtualTranslate : true,
-			//鼠标滑动
-		   mousewheelControl : false,
+		var mySwiper = new Swiper('.swiper-container', {
 
-				watchSlidesProgress: true,
-				onInit: function(swiper) {
-					swiper.myactive = 0;
+		    direction: 'vertical',
+			mousewheelControl: true,
+			watchSlidesProgress: true,
+			onInit: function(swiper) {
+				swiper.myactive = 0;
 
-				},
+			},
+			onProgress: function(swiper) {
+				for (var i = 0; i < swiper.slides.length; i++) {
+					var slide = swiper.slides[i];
+					var progress = slide.progress;
+					var translate, boxShadow;
 
-					onProgress: function(swiper) {
-							for (var i = 0; i < swiper.slides.length; i++) {
-								var slide = swiper.slides[i];
-								var progress = slide.progress;
-								var translate, boxShadow;
+					translate = progress * swiper.height * 0.8;
+					scale = 1 - Math.min(Math.abs(progress * 0.2), 1);
+					boxShadowOpacity = 0;
 
-								translate = progress * swiper.height * 0.8;
-								scale = 1 - Math.min(Math.abs(progress * 0.2), 1);
-								boxShadowOpacity = 0;
+					slide.style.boxShadow = '0px 0px 10px rgba(0,0,0,' + boxShadowOpacity + ')';
 
-								slide.style.boxShadow = '0px 0px 10px rgba(0,0,0,' + boxShadowOpacity + ')';
-
-								if (i == swiper.myactive) {
-									es = slide.style;
-									es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,' + (translate) + 'px,0) scale(' + scale + ')';
-									es.zIndex=0;
+					if (i == swiper.myactive) {
+						es = slide.style;
+						es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,' + (translate) + 'px,0) scale(' + scale + ')';
+						es.zIndex=0;
 
 
-								}else{
-									es = slide.style;
-									es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform ='';
-									es.zIndex=1;
+					}else{
+						es = slide.style;
+						es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform ='';
+						es.zIndex=1;
 
-								}
+					}
 
-							}
+				}
 
-					},
-					onTransitionEnd: function(swiper, speed) {
-								for (var i = 0; i < swiper.slides.length; i++) {
-								//	es = swiper.slides[i].style;
-								//	es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
-
-								//	swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
+			},
 
 
-								}
+			onTransitionEnd: function(swiper, speed) {
+				for (var i = 0; i < swiper.slides.length; i++) {
+				//	es = swiper.slides[i].style;
+				//	es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
 
-								swiper.myactive = swiper.activeIndex;
+				//	swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
 
-					},
-							//平滑效果
-		      /*onProgress: function(swiper){
-		        for (var i = 0; i < swiper.slides.length; i++){
-		          var slide = swiper.slides[i];
-		          var progress = slide.progress;
-		          var translate = progress*swiper.height/4;  
-				  scale = 1 - Math.min(Math.abs(progress * 0.5), 1);
-		          var opacity = 1 - Math.min(Math.abs(progress/2),0.5);
-		          slide.style.opacity = opacity;
-				  es = slide.style;
-				  es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,'+translate+'px,-'+translate+'px) scaleY(' + scale + ')';
 
-		        }
-		      },*/
+				}
 
-			   onSetTransition: function(swiper, speed) {
-		        for (var i = 0; i < swiper.slides.length; i++){
-		          es = swiper.slides[i].style;
-				  es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
+				swiper.myactive = swiper.activeIndex;
 
-		        }
-		      },
-			   });
-		
-		
+			},
+			onSetTransition: function(swiper, speed) {
+
+				for (var i = 0; i < swiper.slides.length; i++) {
+					//if (i == swiper.myactive) {
+
+						es = swiper.slides[i].style;
+						es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
+					//}
+				}
+
+			}
+
+		});
 		    
-	</script>-->
-	<script>  
+	</script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate.min.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+	
+	<!--<script>  
 
 	scaleW=window.innerWidth/320;
 	scaleH=window.innerHeight/480;
