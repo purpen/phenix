@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}京东众筹-报名-{% endblock %}
+{% block title %}京东众筹-参展报名-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -15,17 +15,30 @@
 		return file_count++;
 	};
 
-	$('#sign-form').form({
+	$('#product-form').form({
 		title: {
 			identifier  : 'title',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标题不能为空'
+					prompt : '品名不能为空'
 				},
 				{
-					type   : 'maxLength[30]',
-					prompt : '标题最多30个字符'
+					type   : 'maxLength[20]',
+					prompt : '品名最多20个字符'
+				}
+			]
+		},
+		brand: {
+			identifier  : 'brand',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '品牌/设计师不能为空'
+				},
+				{
+					type   : 'maxLength[20]',
+					prompt : '品牌/设计最多20个字符'
 				}
 			]
 		},
@@ -34,11 +47,11 @@
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '内容不能为空'
+					prompt : '产品故事不能为空'
 				},
 				{
-					type   : 'maxLength[1000]',
-					prompt : '内容最多1000个字符'
+					type   : 'maxLength[140]',
+					prompt : '内容最多140个字符'
 				}
 			]
 		},
@@ -60,12 +73,21 @@
 				}
 			]
 		},
-		email: {
-			identifier  : 'email',
+		position: {
+			identifier  : 'position',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '邮箱不能为空'
+					prompt : '职位不能为空'
+				}
+			]
+		},
+		company: {
+			identifier  : 'company',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '公司不能为空'
 				}
 			]
 		}
@@ -83,23 +105,6 @@
 			$(this).ajaxSubmit();
 		}
 	});
-	
-	// 选择分类
-	$('.ui.options').on('click', '.option', function(){
-		var id = $(this).attr('data-value');
-		if ($(this).hasClass('active')){
-			$(this)
-				.removeClass('active');
-				
-			$('#topic-category').val('');
-		}else{
-			$(this)
-				.siblings('.ui.option').removeClass('active')
-				.end()
-				.addClass('active');
-			$('#product-category').val(id);
-		}
-	});
 
 	//上传
 	$('#phenix-uploader').fineUploader({
@@ -110,7 +115,7 @@
         	endpoint: '{{ app_url_upload }}/contact'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui fluid green labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -149,14 +154,9 @@
 
   //取消
   $('.cancel.btn').click(function(){
-    phenix.redirect('{{ app_url_wap }}', 0);
+    phenix.redirect('{{ app_url_wap_promo }}/jd', 0);
   });
 	
-
-
-  //-----------------------
-
-
 {% endblock %}
 
 {% block content %}
@@ -167,44 +167,62 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						填写基本信息
+						填写参展信息
 					</h2>
 				</div>
 				
 				<div class="fever content">
-					<form action="{{ app_url_wap }}/promo/save_sign_jd" class="ui form" method="post" id="sign-form">
+					<form action="{{ app_url_wap }}/incubator/save_cooperate?from_to=jd" class="ui form" method="post" id="product-form">
 						<div class="ui segment">
-							<input type="hidden" name="_id" value="{{ contact._id }}" id="product_id" />
+							<input type="hidden" name="category_id" value="4" />
 
 							<div class="field">
-								<label>姓名</label>
-							  	<input type="text" name="user_name" value="{{ visitor.profile.realname }}" />
+								<label>品名</label>
+							  	<input type="text" name="title" value="" />
+								<div class="description">产品名称</div>
+							</div>
+							<div class="field">
+								<label>品牌/设计师</label>
+							  	<input type="text" name="brand" value="" />
+								<div class="description"></div>
+							</div>
+							<div class="field">
+								<label>产品故事</label>
+							  	<textarea name="content"></textarea>
+                  <div class="description">小于140字</div>
+							</div>
+
+							<div class="field">
+								<label>联系人</label>
+							  	<input type="text" name="name" value="{{ visitor.profile.realname }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>电话</label>
-							  	<input type="text" name="user_tel" value="{{ visitor.profile.phone }}" />
+							  	<input type="text" name="tel" value="{{ visitor.profile.phone }}" />
+								<div class="description">留下你的电话，便于我们及时和您取得联系。</div>
+							</div>
+
+							<div class="field">
+								<label>公司名称</label>
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>职位</label>
-							  	<input type="text" name="job" value="{{ visitor.profile.job }}" />
-								<div class="description"></div>
-							</div>
-
-							<div class="field">
-								<label>所在公司</label>
-							  	<input type="text" name="company" value="" />
+							  	<input type="text" name="position" value="{{ visitor.profile.job }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>上传图片</label>
+
 								<input type="hidden" name="cover_id" id="contact_cover_id" value="{{ contact.cover_id }}" />
+
 							  	<div id="phenix-uploader"></div>
-						
+						    <div class="description">请上传jpg格式图片,不大于3M</div>
 								<div id="asset-list" class="ui four items">
 									{% if mode == 'edit' %}
 										{% asset_list var:'assets' parent_id:contact._id size:20 asset_type:10 %}
@@ -263,16 +281,14 @@
 						<i class="icon home"></i> 首页
 					</a>
 					<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_wap }}/promo/jd">
+				  	<a class="ui section link" href="{{ app_url_wap_promo }}/jd">
 						京东众筹
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">报名入口</div>
+					<div class="active section">参展报名</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-{% include "mm/loginbox.html" %}
 {% endblock %}

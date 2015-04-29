@@ -23,6 +23,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 京东
 	 */
 	public function jd(){
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
 		return $this->to_html_page('wap/promo/jd.html');
 	}
 	
@@ -354,6 +363,19 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    * 京东报名-参展用户
    */
   public function sign_t_jd(){
+    $row = array();
+    $this->stash['mode'] = 'create';
+
+    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+
+    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+    $this->stash['pid'] = new MongoId();
+  
+    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
+
+		$this->stash['contact'] = $row;
     
     return $this->to_html_page('wap/promo/sign_t_jd.html');
   
@@ -401,7 +423,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       if($ok){
         $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/jd';
     	  $this->stash['is_error'] = false;
-    	  $this->stash['note'] = '报名成功!';
+        $this->stash['show_note_time'] = 3000;
+    	  $this->stash['note'] = '报名成功,审核通过后工作人员会第一时间联系您,谢谢支持!';
 		    $this->stash['redirect_url'] = $redirect_url;
 		    return $this->to_taconite_page('ajax/note.html');
       }else{

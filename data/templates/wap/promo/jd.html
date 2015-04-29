@@ -1018,7 +1018,76 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
   <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
+    var m_name = '2015京东众筹BIGGER大会';
+    var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
+    var link = '{{ app_url_wap_promo }}/jd';
+    var desc_str = '太火鸟科技 Taihuoniao.com 是中国最火爆的智能硬件孵化平台。太火鸟致力于建设重构产品研发创新流程，努力帮助设计师和创意者实现商业价值，从广泛的创意中寻找具有「创新价值」且可以被称为「性感设计」的产品，开启一个全新的众包设计时代。太火鸟孵化的团队将从商品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全程全力支持，真正做到一条龙服务式的智能硬件孵化平台；全力打造一个完美的创意生态系统。';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/redis/incr';
+    $.get(url, { key: 'jd2015_share_num' });
+  }
+
+
+
 		$('.wrap').fullpage({
 			'css3':true,
 			'loopBottom':true,
@@ -1236,7 +1305,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% endblock %}
 
 {% block jquery %}
-	//phenix.wap_show_sign_box();
+  //弹出登录框
+	phenix.wap_show_sign_box();
 
   $('#sign-type-1').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -1257,159 +1327,6 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
       phenix.redirect('{{ app_url_wap_promo }}/sign_t_jd');
       }
   });
-
-  $('.two.fields .field').tab();
-  $('.two.fields .field .fluid').tab();
-    /* 登录表单验证 */
-	$('#login-form').form({
-		account: {
-			identifier  : 'account',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '输入你注册时填写的手机号码'
-				}
-			]
-		},
-		password: {
-			identifier  : 'password',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '输入正确的登录密码'
-				},
-				{
-					type   : 'length[6]',
-					prompt : '登录密码为必须6位以上字符'
-				}
-			]
-		}
-	}, {
-		inline : true,
-		onSuccess: function(event){
-			event.preventDefault();
-			$(this).ajaxSubmit({
-				dataType: 'json',
-				beforeSubmit: function(){
-					phenix.before_submit();
-				},
-				success: function(result){
-					phenix.after_submit();
-					
-					if(result.is_error){
-						$(event.target).addClass('error');
-						phenix.show_error_note(result.message);
-					}else{
-						$('.ui.sign-box.modal').modal('hide');
-						phenix.visitor = result.data;
-						// 登录成功后，自动发送ajax请求
-						if (next_res_url) {
-							$.get(next_res_url);
-						}
-					}
-				}
-			});
-		}
-	});
-
-  /*注册表单验证*/
-	$('#register-form').form({
-		account: {
-			identifier  : 'account',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '手机号不能为空'
-				}
-			]
-		},
-		verify_code: {
-			identifier  : 'verify_code',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '验证码不能为空'
-				}
-			]
-		}
-	}, {
-		inline : true,
-		onSuccess: function(event){
-			event.preventDefault();
-			$(event.target).ajaxSubmit({
-				dataType: 'json',
-				beforeSubmit: function(){
-					phenix.before_submit();
-				},
-				success: function(result){
-					phenix.after_submit();
-					if(result.is_error){
-						$(event.target).addClass('error');
-						phenix.show_error_note(result.message);
-					}else{
-						$('.ui.sign-box.modal').modal('hide');
-						phenix.visitor = result.data;
-            alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
-						// 注册成功后，自动发送ajax请求
-						if (next_res_url) {
-							$.get(next_res_url);
-						}
-					}
-					
-				}
-			});
-		}
-	});
-
-  //注册时获取验证码
-	var wait = 60,can_send=true;
-	var limitime = function(){
-		if(wait == 0){
-			can_send = true;
-			wait = 60;
-			$('#fetch-verify-code').removeClass('active').text('获取验证码');
-		}else{
-			can_send = false;
-			
-			wait--;
-			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
-			setTimeout(function(){
-				limitime();
-			}, 1000);
-		}
-	}
-		
-	$('#fetch-verify-code').click(function(){
-		var phone = $('#account').val();
-		if(!can_send){
-		    return false;
-		}
-		if(phone){
-      //验证手机是否注册过
-      var check_phone_url = '/app/site/auth/check_account';
-      $.get(check_phone_url, {phone: phone}, function(r){
-        if(r == 1){
-          phenix.show_error_note('手机号已存在！');
-          return false;     
-        }else{
-          // 添加发送频率
-          limitime();
-      
-          $this = $('#fetch-verify-code');
-          $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
-            if(result.errorCode == 200){
-              $this.removeClass('disabled').text('获取验证码');
-            }
-          });            
-        }
-      });
-		}else{
-			phenix.show_error_note('请正确填写手机号码！');
-		}
-	});
-
-
-
 
 	bgm = new Audio5js({
 	    swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',

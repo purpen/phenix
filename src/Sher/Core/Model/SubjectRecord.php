@@ -23,6 +23,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     'tags' => array(),
     'type'   => 1,
     'event'  => self::EVENT_APPOINTMENT,
+    'state' => 0,
   );
 	
   protected $joins = array(
@@ -30,7 +31,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id', 'type', 'event');
+    protected $int_fields = array('user_id', 'type', 'event', 'state');
 	
     protected function before_save(&$data) {
         if (isset($data['tags']) && !is_array($data['tags'])) {
