@@ -328,7 +328,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
  		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2?quickly_signup=1';  
+      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
     }else{
  		  $redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
     }
