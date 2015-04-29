@@ -231,7 +231,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
    * 当前比例1:1
    */
   public static function bird_coin_transf_money($bird_coin){
-    $bird_money = $bird_coin*1;
+    $bird_money = (int)$bird_coin*1;
     return $bird_money;
   }
 	

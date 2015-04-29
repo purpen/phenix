@@ -42,7 +42,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$this->stash['profile'] = $this->visitor->profile;
 		
 		$this->set_target_css_state('user_account');
-		return $this->to_html_page("wap/account.html");
+		return $this->to_html_page("wap/my/account.html");
 	}
 	
 	/**
