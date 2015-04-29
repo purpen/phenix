@@ -382,6 +382,67 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		return $this->ajax_json("欢迎你加入太火鸟！", false, $redirect_url);
 	}
 
+	/**
+	 * ajax快捷注册
+	 */
+	public function ajax_signup(){
+		
+	    if (empty($this->stash['account']) || empty($this->stash['verify_code'])) {
+            return $this->ajax_note('数据错误,请重试', true);
+        }
+		
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('验证码有误，请重新获取！', true);
+		}
+
+    $pwd = substr($this->stash['account'], -6);
+		
+        try {
+			$user = new Sher_Core_Model_User();
+			
+			$user_info = array(
+                'account' => $this->stash['account'],
+				'nickname' => $this->stash['account'],
+        'password' => sha1($pwd),
+        //ajax快捷注册标记
+        'kind'  => 7,
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+			
+			$profile = $user->get_profile();
+			$profile['phone'] = $this->stash['account'];
+			$user_info['profile'] = $profile;
+			
+            $ok = $user->create($user_info);
+			if($ok){
+				$user_id = $user->id;
+
+				// 删除验证码
+				$verify = new Sher_Core_Model_Verify();
+				$verify->remove($code['_id']);
+		Sher_Core_Helper_Auth::create_user_session($user_id);
+		
+        // export some attributes to browse client.
+		$login_user_data = $user->extend_load($user_id);
+		
+		$visitor = array();
+		$visitor['is_login'] = true;
+		$visitor['id'] = $user_id;
+        foreach (array('account','nickname','last_login','current_login','visit','is_admin') as $k) {
+            $visitor[$k] = isset($login_user_data[$k])?$login_user_data[$k]:null;
+        }
+        
+		return $this->ajax_json('注册成功!', false, null, $visitor);
+
+      }
+    } catch (Sher_Core_Model_Exception $e) {
+        Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
+        return $this->ajax_json($e->getMessage(), true);
+    }
+	}
 
 	/**
 	 * 忘记密码页面
