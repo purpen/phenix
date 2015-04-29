@@ -155,6 +155,27 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
         opacity: 1;
     }
 }
+.s2-1{
+	position:absolute;
+	width:100%;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+.s2-2{
+	position:absolute;
+	width:31.25%;
+	top:15%;
+	left:7.8125%;
+	z-index:2;
+}
+.s2-2{
+	position:absolute;
+	width:31.25%;
+	top:15%;
+	right:7.8125%;
+	z-index:2;
+}
 
 
 
@@ -177,11 +198,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s1-1').addClass('flip animated');
 							$('.s1-2').addClass('page-logo');
 						}
+						if(index == 2){
+							$('.s2-1').addClass('zoomIn animated');
+							$('.s2-2').addClass('page-logo');
+						}
 			},
 			onLeave: function(index, direction){
 						if(index == 1){
 							$('.s1-1').removeClass('flip animated');
 							$('.s1-2').delay(400).removeClass('page-logo');
+						}
+						if(index == 2){
+							$('.s2-1').removeClass('zoomIn animated');
+							$('.s2-2').removeClass('page-logo');
 						}
 						
 						
@@ -217,15 +246,17 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% block content %}
 <div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
-	<div class="section s1">
+	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jdbj.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/promo/jdg.png" class="s1-1">
 		<img src="{{ app_url_packaged }}/images/promo/jdl.png" class="s1-2">
-		
-		
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
-	<div class="section s2">
+	<div class="section">
+		<img src="{{ app_url_packaged }}/images/promo/jdb4.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/promo/jd3.png" class="s2-1">
+		<img src="{{ app_url_packaged }}/images/promo/jd-gw.png" class="s2-2">
+		<img src="{{ app_url_packaged }}/images/promo/jd-y.png" class="s2-3">
 		
 		
 		
