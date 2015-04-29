@@ -366,14 +366,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $this->stash['stat'] = 0;
     $this->stash['msg'] = null;
 
-    if(!isset($this->stash['target_id'])){
-      $this->stash['msg'] = '请求失败,缺少必要参数';
-			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
-    }
-
     $mode = new Sher_Core_Model_SubjectRecord();
 
-    $this->stash['user_info'] = &$this->stash['visitor'];
     $is_sign = $model->check_appoint($this->visitor->id, 2, 3);
 
     if($is_sign){
@@ -388,7 +382,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $user_data = array();
       $user_data['profile']['realname'] = $this->stash['realname'];
       $user_data['profile']['phone'] = $this->stash['phone'];
-      $user_data['profile']['address'] = $this->stash['company'];
+      $user_data['profile']['company'] = $this->stash['company'];
       $user_data['profile']['job'] = $this->stash['job'];
 
       try {
