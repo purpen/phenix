@@ -108,7 +108,8 @@
 		var mySwiper = new Swiper('.swiper-container', {
 
 		    direction: 'vertical',
-			mousewheelControl: true,
+				effect : 'coverflow',
+			mousewheelControl: false,
 			watchSlidesProgress: true,
 		/*	followFinger : false,*/
 			onInit: function(swiper){
@@ -116,7 +117,7 @@
 			   swiperAnimate(swiper);
 				 swiper.myactive = 0;
 			},
-			onProgress: function(swiper) {
+			/*onProgress: function(swiper) {
 				for (var i = 0; i < swiper.slides.length; i++) {
 					var slide = swiper.slides[i];
 					var progress = slide.progress;
@@ -148,17 +149,17 @@
 
 			onTransitionEnd: function(swiper, speed) {
 				for (var i = 0; i < swiper.slides.length; i++) {
-					es = swiper.slides[i].style;
-					es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
+				//	es = swiper.slides[i].style;
+				//	es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
 
-					swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
+				//	swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
 
 
 				}
 
 				swiper.myactive = swiper.activeIndex;
 
-			},
+			},*/
 			onSetTransition: function(swiper, speed) {
 
 				for (var i = 0; i < swiper.slides.length; i++) {
