@@ -199,7 +199,7 @@
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      phenix.redirect('{{ app_url_wap }}/auth/login');
+      //phenix.redirect('{{ app_url_wap }}/auth/login');
 			return false;
 		}
     $('.ui.user-info-box.modal').modal('show');
@@ -299,6 +299,11 @@
 
   //ajax获取报名列表头像
   fetch_signup_avatar();
+
+	    $('.two.fields .field')
+	            .tab();
+		  $('.two.fields .field .fluid')
+					    .tab();
 {% endblock %}
 {% block content %}
 <div class='active page'>
@@ -554,4 +559,5 @@
 	  </div>
 	</div>
 {% include "block/wap_attend_user_info.html" %}
+{% include "mm/loginbox.html" %}
 {% endblock %}

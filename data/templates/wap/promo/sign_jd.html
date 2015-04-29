@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}产品合作-{% endblock %}
+{% block title %}京东众筹-报名-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	
@@ -152,6 +152,12 @@
     phenix.redirect('{{ app_url_wap }}', 0);
   });
 	
+
+
+  //-----------------------
+
+  $('.two.fields .field').tab();
+  $('.two.fields .field .fluid').tab();
 {% endblock %}
 
 {% block content %}
@@ -298,4 +304,6 @@
 		</div>
 	</div>
 </div>
+
+{% include "mm/loginbox.html" %}
 {% endblock %}
