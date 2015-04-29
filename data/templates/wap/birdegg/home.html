@@ -150,16 +150,17 @@
 	    resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
 	    resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
 		}
+		var scales = document.querySelectorAll('.txt');
+		for (var i=0; i<scales.length; i++) {
+			ss=scales[i].style;
+			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
+		}
 
 		var mySwiper = new Swiper('.swiper-container', {
 
 		    direction: 'vertical',
 			mousewheelControl: true,
 			watchSlidesProgress: true,
-			onInit: function(swiper) {
-				swiper.myactive = 0;
-
-			},
 			onProgress: function(swiper) {
 				for (var i = 0; i < swiper.slides.length; i++) {
 					var slide = swiper.slides[i];
@@ -213,7 +214,15 @@
 					//}
 				}
 
-			}
+			},
+			onInit: function(swiper){
+			   swiperAnimateCache(swiper);
+			   swiperAnimate(swiper);
+				 swiper.myactive = 0;
+			},
+			onSlideChangeEnd: function(swiper){
+				swiperAnimate(swiper);
+			},
 
 		});    
 		
