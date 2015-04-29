@@ -57,6 +57,14 @@
 	#array{
 		position:absolute;z-index:999;-webkit-animation: start 1.5s infinite ease-in-out;
 	}
+	#music-control {
+		width: 30px;
+		height: 30px;
+		position: fixed;
+		right: 5px;
+		top: 5px;
+		z-index: 100000;
+	}
 	.p1{
 		background: url(http://frstatic.qiniudn.com/images/egg/egg_bg.jpg);
 		background-size:cover;
@@ -104,7 +112,7 @@
 			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
 		}
 
-		var mySwiper = new Swiper('.swiper-container', {\
+		var mySwiper = new Swiper('.swiper-container', {
 		  direction: 'vertical',
 			mousewheelControl: false,
 			watchSlidesProgress: false,
@@ -132,7 +140,7 @@
 {% endblock %}
 
 {% block jquery %}
-	/*bgm = new Audio5js({
+	bgm = new Audio5js({
       swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
       ready: function () {
           this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
@@ -150,9 +158,10 @@
 
   $('#music-control').click(function(){
       bgm.playPause();
-  });*/
+  });
 {% endblock %}
 {% block content %}
+<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="swiper-container vertical">
   <div class="swiper-wrapper">
 		<div class="swiper-slide p1">
