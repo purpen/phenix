@@ -251,6 +251,10 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 			if ($this->visitor->password != sha1($current_password)){
 				return $this->ajax_notification('当前密码不正确！', true);
 			}
+      //验证密码长度
+      if(strlen($password)<6 || strlen($password)>30){
+  		  return $this->ajax_notification('密码长度介于6-30字符内！', true);    
+      }
 			// 验证新密码是否一致
 			if ($password != $repeat_password){
 				return $this->ajax_notification('新密码与确认密码不一致！', true);
