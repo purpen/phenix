@@ -121,7 +121,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	public function view() {
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.fever'];
+		$redirect_url = Doggy_Config::$vars['app.url.shop'];
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
@@ -138,6 +138,11 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
+		}
+
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
 		
 		// 增加pv++
@@ -187,9 +192,15 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		// 获取skus及inventory
 		$inventory = new Sher_Core_Model_Inventory();
+    //积分兑换商品与销售商品共有sku
+    if($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+      $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
+    }else{
+      $sku_stage = $product['stage'];
+    }
 		$skus = $inventory->find(array(
 			'product_id' => $id,
-			'stage' => $product['stage'],
+			'stage' => $sku_stage,
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);

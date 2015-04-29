@@ -8,7 +8,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record');
 	
 	/**
 	 * 网站入口
@@ -393,6 +393,14 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     $digged->remove_item_custom($key_id, $item);
     $digged->add_item_custom($key_id, $item_new);
     
+  }
+
+  /**
+   * ajax统计数量
+   */
+  public function ajax_stat_sum_record(){
+    $num_mode = new Sher_Core_Model_SumRecord();
+    $num_mode->add_record($this->stash['target_id'], $this->stash['count_name'], (int)$this->stash['type'], (int)$this->stash['kind']); 
   }
 
 }

@@ -307,5 +307,5 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$this->set_target_css_state('user_service');
 		return $this->to_html_page('wap/service.html');
 	}
+
 }
-?>

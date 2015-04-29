@@ -119,9 +119,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 获取skus及inventory
 		$inventory = new Sher_Core_Model_Inventory();
+    //积分兑换商品与销售商品共有sku
+    if($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+      $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
+    }else{
+      $sku_stage = $product['stage'];
+    }
 		$skus = $inventory->find(array(
 			'product_id' => $id,
-			'stage' => $product['stage'],
+			'stage' => $sku_stage,
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);
@@ -131,6 +137,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
+
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
 		
 		return $this->to_html_page('wap/view.html');
 	}

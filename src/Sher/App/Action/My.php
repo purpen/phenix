@@ -822,4 +822,36 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         
         return $this->to_html_page('page/my/point.html');
     }
+
+  /**
+   * 用户送积分
+   */
+  public function give_point(){
+    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+    switch($evt){
+      case 1:
+        //分享话题
+        $evt_code = 'evt_share_content';
+        break;
+      case 2:
+        //分享商品
+        $evt_code = 'evt_share_goods';
+        break;
+        //分享产品灵感,大赛作品
+      case 3:
+        $evt_code = 'evt_share_stuff';
+        break;
+      default:
+        $evt_code = '';
+    }
+    // 增长积分
+    if(!empty($evt_code)){
+      $service = Sher_Core_Service_Point::instance();
+      $service->send_event($evt_code, $this->visitor->id);   
+    }else{
+    
+    }
+
+  }
+
 }

@@ -11,12 +11,25 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   const TYPE_PRO = 1;
   //大学
   const TYPE_COLLEGE = 2;
+  //微信分享数
+  const TYPE_WXSHARE = 3;
+
+  //属性
+  // 话题
+  const KIND_TOPIC = 1;
+  // 产品
+  const KIND_PRODUCT = 2;
+  // 灵感
+  const KIND_STUFF = 3;
+
 	
     protected $schema = array(
       # 关联ID
 		  'target_id'   => 0,
       # 类型
       'type' => self::TYPE_PRO,
+      # kind属性
+      'kind' => 0,
 
       'count' => 0,
       # 十万火计2数量
@@ -30,7 +43,7 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected $required_fields = array('target_id','type');
-    protected $int_fields = array('type','count','match2_count','match2_love_count');
+    protected $int_fields = array('type','count','match2_count','kind','match2_love_count');
     protected $counter_fields = array('count','match2_count','match2_love_count');
 	
 	/**
@@ -78,8 +91,12 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   /**
    * 增加新记录
    */
-  public function add_record($target_id, $filed_name='count', $type=self::TYPE_PRO){
-    $query = array('target_id'=>$target_id, 'type'=>$type);
+  public function add_record($target_id, $filed_name='count', $type=self::TYPE_PRO, $kind=0){
+    if(empty($kind)){
+      $query = array('target_id'=>$target_id, 'type'=>$type);
+    }else{
+      $query = array('target_id'=>$target_id, 'type'=>$type, 'kind'=>(int)$kind);
+    }
     $d = $this->first($query);
     if($d){
       $this->increase_counter($filed_name, 1, $d['_id']);
