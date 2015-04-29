@@ -401,7 +401,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       if($ok){
         $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/jd';
     	  $this->stash['is_error'] = false;
-        $this->stash['show_time'] = 3000;
+        $this->stash['show_note_time'] = 3000;
     	  $this->stash['note'] = '报名成功,审核通过后工作人员会第一时间联系您,谢谢支持!';
 		    $this->stash['redirect_url'] = $redirect_url;
 		    return $this->to_taconite_page('ajax/note.html');
