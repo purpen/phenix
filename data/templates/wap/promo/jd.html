@@ -137,7 +137,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 .page-logo {
   -webkit-animation: 1s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
 }
-.s1-1.flip.animated{
+.s1-1.flip.animated,.s4-1.flip.animated{
 	-webkit-animation-duration: 0.6s;
 	  animation-duration: 0.6s;
 }
@@ -145,7 +145,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-.s1-2,.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7,.s2-8,.s2-9,.s3-2,.s3-3,.s3-4,.s3-5{
+.s1-2,.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7,.s2-8,.s2-9,.s3-2,.s3-3,.s3-4,.s3-5,.s4-2,.s4-3,.s4-4,.s4-5{
 	opacity:0;
 }
 @-webkit-keyframes scale-to-zero-with-center {
@@ -324,7 +324,57 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:2.2s;
 	-webkit-animation-delay:2.2s;
 }
-
+.s4-1{
+	position:absolute;
+	width:100%;
+	top: 33%;
+	left: 0;
+	z-index: 2;
+}
+.s4-2{
+	position:absolute;
+	width:45%;
+	top: 52%;
+	left: 5%;
+	z-index: 2;
+}
+.s4-3{
+	position:absolute;
+	width:45%;
+	top: 52%;
+	right: 5%;
+	z-index: 2;
+}
+.s4-4{
+	position:absolute;
+	width:100%;
+	top: 80%;
+	right: 0;
+	z-index: 2;
+}
+.s4-5{
+	position:absolute;
+	width:100%;
+	top: 82%;
+	right: 0;
+	z-index: 2;
+}
+.s4-2.fadeInLeftBig.animated{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+.s4-3.fadeInRightBig.animated{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+.s4-4.pages-logo{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s4-5.pages-logo{
+	animation-delay:1.6s;
+	-webkit-animation-delay:1.6s;
+}
 
 </style>
 {% endblock %}
@@ -362,6 +412,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s3-4').addClass('pages-logo');
 							$('.s3-5').addClass('pages-logo');
 						}
+						if(index == 4){
+							$('.s4-1').addClass('flip animated');
+							$('.s4-2').addClass('fadeInLeftBig animated');
+							$('.s4-3').addClass('fadeInRightBig animated');
+							$('.s4-4').addClass('pages-logo');
+							$('.s4-5').addClass('pages-logo');
+							
+							
+						}
 			},
 			onLeave: function(index, direction){
 						if(index == 1){
@@ -385,6 +444,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s3-3').removeClass('pages-logo');
 							$('.s3-4').removeClass('pages-logo');
 							$('.s3-5').removeClass('pages-logo');
+						}
+						if(index == 1){
+							$('.s4-1').removeClass('flip animated');
+							$('.s4-2').removeClass('fadeInLeftBig animated');
+							$('.s4-3').removeClass('fadeInRightBig animated');
+							$('.s4-4').removeClass('pages-logo');
+							$('.s5-5').removeClass('pages-logo');
+							
+							
 						}
 						
 						
@@ -446,11 +514,17 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/promo/jds.png" class="s3-3">
 		<img src="{{ app_url_packaged }}/images/promo/jdh.png" class="s3-4">
 		<img src="{{ app_url_packaged }}/images/promo/jdcy.png" class="s3-5">
-		
-		
-		
-		
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	<div class="section">
+		<img src="{{ app_url_packaged }}/images/promo/jd7.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/promo/jd8.png" class="s4-1">
+		<img src="{{ app_url_packaged }}/images/promo/jd-join.png" class="s4-2">
+		<img src="{{ app_url_packaged }}/images/promo/jd-bao.png" class="s4-3">
+		<img src="{{ app_url_packaged }}/images/promo/jd-time.png" class="s4-4">
+		<img src="{{ app_url_packaged }}/images/promo/jd-map.png" class="s4-5">
+		
+		
 	</div>
 	
 	
