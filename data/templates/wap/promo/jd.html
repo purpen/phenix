@@ -471,12 +471,24 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% block jquery %}
 	//phenix.wap_show_sign_box();
 
-  $('#test-btn').click(function(){
+  $('#sign-type-1').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
       // 显示登录框
       $('.ui.sign-box.modal').modal('show');
-		}
+      }else{
+      phenix.redirect('{{ app_url_wap_promo }}/sign_jd');
+      }
+  });
+
+  $('#sign-type-2').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      // 显示登录框
+      $('.ui.sign-box.modal').modal('show');
+      }else{
+      phenix.redirect('{{ app_url_wap_promo }}/sign_t_jd');
+      }
   });
 
   $('.two.fields .field').tab();
