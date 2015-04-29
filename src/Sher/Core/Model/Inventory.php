@@ -292,4 +292,4 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	}
 	
 }
-?>
+

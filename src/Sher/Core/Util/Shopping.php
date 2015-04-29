@@ -203,7 +203,8 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     //最低鸟币兑换
     if(!empty($product['min_bird_coin'])){
       if($bird_coin<$product['min_bird_coin']){
-        $message['msg'] = '您输入的鸟币数量小于指定数量!';     
+        $message['msg'] = '您输入的鸟币数量小于指定数量!';
+        return $message;
       }
     }
 

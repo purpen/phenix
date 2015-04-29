@@ -51,4 +51,3 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
   }
 
 }
-?>

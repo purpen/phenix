@@ -1,30 +1,32 @@
-
-  <div class='magenta item' id="product-{{ d._id }}">
+<div class='magenta item' id="product-{{ d._id }}">
     <div class="image">
-      <a href="{{ d.view_url }}" title="{{ d.title }}" target="_blank">
-        <img alt="{{ d.title }}" src="{{ d.cover.thumbnails.md.view_url }}" >
-      </a>
-      <div class="image-extra">
-        <div class="extra-content">
-          <a class="inner-extra" href="{{ d.view_url }}" target="_blank">
-            <div class="single-image plus-icon">
-              <span class="curtain"></span>
+        <a href="{{ d.view_url }}" title="{{ d.title }}" target="_blank">
+            <img alt="{{ d.title }}" src="{{ d.cover.thumbnails.md.view_url }}" >
+        </a>
+        <div class="image-extra">
+            <div class="extra-content">
+                <a class="inner-extra" href="{{ d.view_url }}" target="_blank">
+                    <div class="single-image plus-icon">
+                        <span class="curtain"></span>
+                    </div>
+                </a>
             </div>
-          </a>
         </div>
-      </div>
     </div>
     <div class="content">
-      <div class="header">
-        <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line">{{ d.title|truncate, 32, '' }}</a>
-      </div>
-      <div class="i-stats">
-        <div class="advantage">原价：{{ d.sale_price }}</div>
-        {% if d.exchange_price %}
-        <div class="advantage">现价：￥{{ d.exchange_price }}+{{ d.max_bird_coin }}鸟币</div>
-        {%else%}
-        <div class="advantage">所需鸟币：{{ d.max_bird_coin }}鸟币</div>
-        {%endif%}
-      </div>
+        <div class="header">
+            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line">{{ d.title|truncate, 32, '' }}</a>
+        </div>
+        <div class="i-stats">
+            <div class="ui magenta progress">
+                <div class="bar" style="width:0%;"></div>
+            </div>
+            <div class="advantage">零售价：<small>￥</small>{{ d.sale_price }}</div>
+            {% if d.exchange_price %}
+            <div class="advantage">兑换价：<small>￥</small>{{ d.exchange_price }} + {{ d.max_bird_coin }}鸟币</div>
+            {%else%}
+            <div class="advantage">所需鸟币：{{ d.max_bird_coin }} </div>
+            {%endif%}
+        </div>
     </div>
-  </div>
+</div>
