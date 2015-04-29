@@ -1,6 +1,6 @@
 <?php
 /**
- * 针对专题/单页等预约,赞等统计
+ * 针对专题/单页等预约,报名,赞等统计
  * @author tianshuai
  */
 class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
@@ -12,6 +12,8 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
   const EVENT_APPOINTMENT = 1;
   //赞
 	const EVENT_LOVE = 2;
+  // 报名
+  const EVENT_SIGN = 3;
 	
   protected $schema = array(
     'user_id' => null,

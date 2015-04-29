@@ -331,6 +331,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     }
 		return $this->to_html_page('wap/promo/year_invite.html');
   }
+
+  /**
+   * 京东报名
+   */
+  public function sign_jd(){
+
+    return $this->to_html_page('wap/promo/sign_jd');
+  
+  }
 	
 }
 ?>
