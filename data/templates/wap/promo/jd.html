@@ -1,6 +1,7 @@
 {%extends 'layout/mobile.html'%}
 {% block title %}太火鸟周年庆,注册即送100元红包,快来加入吧!-{% endblock %}
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
 header.ui.wap{
 	display:none !important;
@@ -56,10 +57,16 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	100%{-webkit-transform:translateY(0px);opacity:0}
 }
 .swipe { 
-    animation: swipe 1.5s linear infinite;
-    -webkit-animation: swipe 1.5s linear infinite;
+	position: absolute; 
+	width: 28px; 
+	height: 16px; 
+	bottom: 45px; 
+	left: 50%; 
+	margin-left: -14px;
+	z-index:4;
+	animation: swipe 1.5s linear infinite;
+  -webkit-animation: swipe 1.5s linear infinite; 
 }
-.swipe { position: absolute; width: 28px; height: 16px; bottom: 45px; left: 50%; margin-left: -14px; }
 #music-control {
 	width: 30px;
 	height: 30px;
@@ -97,7 +104,57 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	margin-left:-33%;
 	z-index: 3;
 }
+.active .page-bounceIn{
+	-webkit-animation:bounceIn 1s .2s ease both;
+	-moz-animation:bounceIn 1s .2s ease both;
+	animation:bounceIn 1s .2s ease both;
+}
+@-webkit-keyframes bounceIn{
+	0% 		{opacity:0;-webkit-transform:scale(.3)}
+	50% 	{opacity:1;-webkit-transform:scale(1.05)}
+	70% 	{-webkit-transform:scale(.9)}
+	100% 	{opacity:1;-webkit-transform:scale(1)}
+}
+@-moz-keyframes bounceIn{
+	0% 		{opacity:0;-moz-transform:scale(.3)}
+	50% 	{opacity:1;-moz-transform:scale(1.05)}
+	70% 	{-moz-transform:scale(.9)}
+	100% 	{opacity:1;-moz-transform:scale(1)}
+}
+@keyframes bounceIn{
+	0% 		{opacity:0;transform:scale(.3)}
+	50% 	{opacity:1;transform:scale(1.05)}
+	70% 	{transform:scale(.9)}
+	100% 	{opacity:1;transform:scale(1)}
+}
 
+.page-logo {
+  -webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+}
+.s1-1.flip.animated{
+	-webkit-animation-duration: 0.6s;
+	  animation-duration: 0.6s;
+}
+.s1-2.page-logo{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+.s1-2{
+	opacity:0;
+}
+@-webkit-keyframes scale-to-zero-with-center {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
 
 
 
@@ -110,10 +167,25 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
+			'css3':true,
 			afterRender: function(){
-						$('.s1-1').addClass('page-bounceIn');
-						$('.content').addClass('page-fadeInDown');
+						$('.s1-1').addClass('flip animated');
+						$('.s1-2').addClass('page-logo');
 			},
+			afterLoad: function(anchorLink, index){
+						if(index == 1){
+							$('.s1-1').addClass('flip animated');
+							$('.s1-2').addClass('page-logo');
+						}
+			},
+			onLeave: function(index, direction){
+						if(index == 1){
+							$('.s1-1').removeClass('flip animated');
+							$('.s1-2').delay(400).removeClass('page-logo');
+						}
+						
+						
+			}
 		
 		});
 	</script>
