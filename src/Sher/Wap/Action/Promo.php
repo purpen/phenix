@@ -8,7 +8,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year');
 	
 	/**
 	 * 网站入口
@@ -337,8 +337,16 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    */
   public function sign_jd(){
 
-    return $this->to_html_page('wap/promo/sign_jd');
+    return $this->to_html_page('wap/promo/sign_jd.html');
   
+  }
+
+
+  /**
+   * test
+   */
+  public function test(){
+    return $this->to_html_page('wap/test.html'); 
   }
 	
 }

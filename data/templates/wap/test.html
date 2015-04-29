@@ -1,0 +1,27 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}测试-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	phenix.build_auth_page();
+  $('#test-btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.wap_show_sign_box();
+			return false;
+		}
+  });
+
+{% endblock %}
+
+{% block content %}
+  <input type="button" name="test" id="test-btn" value="测试" />
+
+{% include "mm/loginbox.html" %}
+{% endblock %}
