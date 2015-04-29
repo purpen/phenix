@@ -131,7 +131,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	70% 	{transform:scale(.9)}
 	100% 	{opacity:1;transform:scale(1)}
 }
-
+.pages-logo{
+	-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+}
 .page-logo {
   -webkit-animation: 0.6s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
 }
@@ -139,7 +141,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	-webkit-animation-duration: 0.6s;
 	  animation-duration: 0.6s;
 }
-.s1-2.page-logo{
+.s1-2.pages-logo{
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
@@ -151,18 +153,31 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
         -webkit-transform: translate3d(0, 0, 0) scale(20);
         opacity: 0;
     }
-    30% {
+   /* 30% {
         opacity: 0.3;
     }
     60% {
         -webkit-transform: translate3d(0, 0, 0) scale(1);
         opacity: 1;
-    }
-		70% 		{opacity:1;-webkit-transform:scale(.3)}
-		80% 	{opacity:1;-webkit-transform:scale(1.05)}
-		90% 	{-webkit-transform:scale(.9)}
+    }*/
+		20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+		50% 	{opacity:1;-webkit-transform:scale(1.05)}
+		70% 	{-webkit-transform:scale(.9)}
 		100% 	{opacity:1;-webkit-transform:scale(1)}
 		
+}
+@-webkit-keyframes scale-to-zero-with-left {
+    0% {
+        -webkit-transform: translate3d(-50%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(-50%, 0, 0) scale(1);
+        opacity: 1;
+    }
 }
 .s2-1,.s3-1{
 	position:absolute;
@@ -276,22 +291,22 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 }
 .s3-3{
 	position:absolute;
-	width:35%;
-	top:15%;
+	width:87.5%;
+	top:35%;
 	left:6.25%;
 	z-index:2;
 }
 .s3-4{
 	position:absolute;
-	width:55%;
-	top:15%;
+	width:87.5%;
+	top:55%;
 	left:6.25%;
 	z-index:2;
 }
 .s3-5{
 	position:absolute;
-	width:75%;
-	top:15%;
+	width:87.5%;
+	top:75%;
 	left:6.25%;
 	z-index:2;
 }
@@ -328,12 +343,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			'css3':true,
 			afterRender: function(){
 						$('.s1-1').addClass('flip animated');
-						$('.s1-2').addClass('page-logo');
+						$('.s1-2').addClass('pages-logo');
 			},
 			afterLoad: function(anchorLink, index){
 						if(index == 1){
 							$('.s1-1').addClass('flip animated');
-							$('.s1-2').addClass('page-logo');
+							$('.s1-2').addClass('pages-logo');
 						}
 						if(index == 2){
 							$('.s2-1').addClass('zoomIn animated');
