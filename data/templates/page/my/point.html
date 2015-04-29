@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}会员等级{% endblock %}
+{% block title %}会员等级 - {% endblock %}
 {% block page_css %}
 <style type="text/css">
     .integral .three.wide.column,.thirteen.wide.column{
@@ -45,6 +45,10 @@
         -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.1);
         box-shadow: 0 0 0 1px rgba(0,0,0,.1);
         border-radius: .3125em;
+    }
+    
+    .ui.magenta.link i.icon {
+        color: #ff3366;
     }
 </style>
 {% endblock %}
@@ -100,6 +104,11 @@
                                 </div>
                                 <div class="item">
                                     鸟币: <b>{{ current_point.balance.money|default 0 }}</b>
+                                    <span>
+                                        <a href="{{ app_url_shop }}/pmall" class="ui magenta link" target="_blank">
+                                            <i class="angle right icon"></i> 兑换消费
+                                        </a>
+                                    </span>
                                 </div>
                                 <!--
                                 <div class="item">

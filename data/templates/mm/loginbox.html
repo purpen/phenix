@@ -1,0 +1,84 @@
+<div class="ui small sign-box modal">
+  	<i class="flat close icon"></i>
+  	<div class="ui header">
+    	登录太火鸟
+  	</div>
+<div class="ui responsive grid">
+	<div class="ui column width">
+		<div class="ui log-in signup">
+
+			<div class="ui bottom attached segment">
+
+				<div class="two fields">
+					<div class="field active" data-tab="first">
+						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="first" style="border-radius:0;">
+								 登录
+						</a>
+					</div>
+					<div class="field" data-tab="two">
+						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="two" style="border-radius:0;">
+								 快速注册
+						</a>
+					</div>
+				</div>
+
+				<div class="ui active tab" data-tab="first">
+				<form action="{{ app_url_wap }}/auth/ajax_login" class="ui small top form segment" method="post" id="login-form">
+					<input type="hidden" name="t" value="{{ login_token }}" />
+
+					<div class="field">
+					  	<input type="text" name="account" placeholder="手机号" />
+					</div>
+					<div class="field">
+					  	<input type="password" name="password" id="password" placeholder="登录密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label>自动登录</label>
+				        </div>
+					
+						<a href="" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+					</div>
+			
+					<div class="field ">
+						<div class="fluid ui active magenta submit button" >登录</div>
+					</div>
+
+				</form>
+        </div>
+				<div class="ui tab" data-tab="two">
+				<form action="{{ app_url_wap }}/auth/do_quick_register" class="ui small form segment" method="post" id="register-form">
+          <input type="hidden" name="user_invite_code" value="{{ user_invite_code }}" />
+          <input type="hidden" name="evt" value="{{ evt }}" />
+
+					
+					<div class="field">
+						<input type="text" name="account" placeholder="手机号码" id="account" />
+					</div>
+
+					<div class="inline field">
+						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+						<a href="javascript:void(0);" class="ui small magenta button" id="fetch-verify-code">获取验证码</a>
+					</div>
+
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
+				        </div>
+					</div>
+					
+					<div class="field">
+				    	<div class="fluid ui active magenta submit button" >快速注册</div>
+					</div>
+
+				</form>
+			        </div>
+			
+			</div>	
+
+		</div>
+	</div>
+</div>
+</div>

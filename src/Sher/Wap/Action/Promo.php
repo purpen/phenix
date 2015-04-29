@@ -8,7 +8,11 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
+<<<<<<< HEAD
 	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd');
+=======
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year');
+>>>>>>> origin/ts_new
 	
 	/**
 	 * 网站入口
@@ -337,6 +341,23 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       }
     }
 		return $this->to_html_page('wap/promo/year_invite.html');
+  }
+
+  /**
+   * 京东报名
+   */
+  public function sign_jd(){
+
+    return $this->to_html_page('wap/promo/sign_jd.html');
+  
+  }
+
+
+  /**
+   * test
+   */
+  public function test(){
+    return $this->to_html_page('wap/test.html'); 
   }
 	
 }
