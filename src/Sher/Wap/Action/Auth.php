@@ -493,29 +493,24 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			return $this->ajax_json('验证码有误，请重新获取！', true);
 		}
 			
-			// 验证是否存在账户
-			$user = new Sher_Core_Model_User();
-			$result = $user->first(array('account'=>$phone));
-      if (empty($result)) {
-          return $this->ajax_json('此账户不存在！', true);
-      }
+    // 验证是否存在账户
+    $user = new Sher_Core_Model_User();
+    $result = $user->first(array('account'=>$this->stash['account']));
+    if (empty($result)) {
+        return $this->ajax_json('此账户不存在！', true);
+    }
+  
+    $user_id = $result['_id'];
+  
+    $ok = $user->update_password($user_id, $this->stash['password']);
+    if(!$ok){
+      return $this->ajax_json('重置密码失败，稍后重试！', true);
+    }
+    
+    // 删除验证码
+    $verify->remove($code['_id']);
 		
-			$user_id = $result['_id'];
-		
-			$ok = $user->update_password($user_id, $password);
-			if(!$ok){
-				return $this->ajax_json('重置密码失败，稍后重试！', true);
-			}
-			
-			// 删除验证码
-			$verify->remove($code['_id']);
-			
-        } catch (Sher_Core_Model_Exception $e) {
-            Doggy_Log_Helper::error('Failed to reset passwd:'.$e->getMessage());
-            return $this->ajax_json("重置失败:".$e->getMessage(), true);
-        }
-		
-		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.login']);
+		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login');
 	}
 
 	/**
