@@ -8,13 +8,20 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	/**
+	 * 京东
+	 */
+	public function jd(){
+		return $this->to_html_page('wap/promo/jd.html');
 	}
 	
 	/**

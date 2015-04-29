@@ -1,0 +1,152 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}太火鸟周年庆,注册即送100元红包,快来加入吧!-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+header.ui.wap{
+	display:none !important;
+	opacity:0;
+}
+#mfrbird{
+	margin:0;
+}
+.mmfoot{
+	display:none;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+
+.fp-table {
+	display: table;
+	width: 100%;
+}
+.fp-tableCell {
+	display: table-cell;
+	width: 100%;
+	height: 100%;
+	position:relative;
+}
+.fp-section.fp-table{
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+.fp-viewing-firstPage {
+	height: 100%;
+	position: relative;
+}
+@-webkit-keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+@-moz-keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+@keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+.swipe { 
+    animation: swipe 1.5s linear infinite;
+    -webkit-animation: swipe 1.5s linear infinite;
+}
+.swipe { position: absolute; width: 28px; height: 16px; bottom: 45px; left: 50%; margin-left: -14px; }
+#music-control {
+	width: 30px;
+	height: 30px;
+	position: fixed;
+	right: 5px;
+	top: 5px;
+	z-index: 100000;
+}
+.bodybg {
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+}
+
+
+
+
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+  <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+	<script type="text/javascript" >
+		$('.wrap').fullpage({
+			afterRender: function(){
+						$('.s1-1').addClass('page-bounceIn');
+						$('.content').addClass('page-fadeInDown');
+			},
+		
+		});
+	</script>
+
+
+{% endblock %}
+
+{% block jquery %}
+	bgm = new Audio5js({
+	    swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+	    ready: function () {
+	        this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
+	        this.play();
+
+	        this.on('canplay', function(){
+	            //console.log('canplay');
+	        });   
+
+	        this.on('ended', function(){
+	            bgm.play();
+	        })           
+	    }
+	});
+
+	$('#music-control').click(function(){
+	    bgm.playPause();
+	});
+{% endblock %}
+{% block content %}
+<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div class="wrap">
+	<div class="section s1">
+		<img src="http://frstatic.qiniudn.com/images/egg/egg_2.jpg" class="bodybg">
+		
+		
+		
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	<div class="section s2">
+		<img src="http://frstatic.qiniudn.com/images/egg/egg_bg.jpg" class="bodybg">
+		
+		
+		
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+</div>
+{% endblock %}
+
+
+
+
