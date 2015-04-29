@@ -133,7 +133,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 }
 
 .page-logo {
-  -webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+  -webkit-animation: 0.6s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
 }
 .s1-1.flip.animated{
 	-webkit-animation-duration: 0.6s;
@@ -151,13 +151,18 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
         -webkit-transform: translate3d(0, 0, 0) scale(20);
         opacity: 0;
     }
-    50% {
+    30% {
         opacity: 0.3;
     }
-    100% {
+    60% {
         -webkit-transform: translate3d(0, 0, 0) scale(1);
         opacity: 1;
     }
+		70% 		{opacity:1;-webkit-transform:scale(.3)}
+		80% 	{opacity:1;-webkit-transform:scale(1.05)}
+		90% 	{-webkit-transform:scale(.9)}
+		100% 	{opacity:1;-webkit-transform:scale(1)}
+		
 }
 .s2-1,.s3-1{
 	position:absolute;
