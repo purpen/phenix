@@ -363,10 +363,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    * 保存京东报名
    */
   public function save_sign_jd(){
-    $this->stash['stat'] = 0;
-    $this->stash['msg'] = null;
 
-    $mode = new Sher_Core_Model_SubjectRecord();
+    $model = new Sher_Core_Model_SubjectRecord();
 
     $is_sign = $model->check_appoint($this->visitor->id, 2, 3);
 
@@ -374,26 +372,24 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       return $this->ajax_note('您已报名!', true);
     }
 
-    if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
-      if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job'])){
-        return $this->ajax_note('请求失败,缺少用户必要参数!', true);
-      }
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job'])){
+      return $this->ajax_note('请求失败,缺少用户必要参数!', true);
+    }
 
-      $user_data = array();
-      $user_data['profile']['realname'] = $this->stash['realname'];
-      $user_data['profile']['phone'] = $this->stash['phone'];
-      $user_data['profile']['company'] = $this->stash['company'];
-      $user_data['profile']['job'] = $this->stash['job'];
+    $user_data = array();
+    $user_data['profile']['realname'] = $this->stash['realname'];
+    $user_data['profile']['phone'] = $this->stash['phone'];
+    $user_data['profile']['company'] = $this->stash['company'];
+    $user_data['profile']['job'] = $this->stash['job'];
 
-      try {
-        //更新基本信息
-        $user_ok = $this->visitor->save($user_data);
-        if(!$user_ok){
-          return $this->ajax_note('更新用户信息失败!', true);
-        }
-      } catch (Sher_Core_Model_Exception $e) {
-        return $this->ajax_note("更新失败:".$e->getMessage(), true);
+    try {
+      //更新基本信息
+      $user_ok = $this->visitor->save($user_data);
+      if(!$user_ok){
+        return $this->ajax_note('更新用户信息失败!', true);
       }
+    } catch (Sher_Core_Model_Exception $e) {
+      return $this->ajax_note("更新失败:".$e->getMessage(), true);
     }
 
     $data = array();
@@ -401,7 +397,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $data['target_id'] = 2;
     $data['event'] = 3;
     try{
-      $ok = $mode->apply_and_save($data);
+      $ok = $model->apply_and_save($data);
       if($ok){
         $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/jd';
 		    return $this->ajax_json('报名成功!', false, $redirect_url);
