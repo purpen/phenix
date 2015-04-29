@@ -436,6 +436,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         }
         
 		return $this->ajax_json('注册成功!', false, null, $visitor);
+
+      }
+    } catch (Sher_Core_Model_Exception $e) {
+        Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
+        return $this->ajax_json($e->getMessage(), true);
+    }
 	}
 
 	/**

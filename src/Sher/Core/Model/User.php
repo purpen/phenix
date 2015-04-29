@@ -186,7 +186,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			// 婚姻状况
 			'marital' => self::MARR_SINGLE,
 			// 出生年月日
-			'age'  => array(),
+      'age'  => array(),
+      // 所在公司
+      'current_company' => null,
         ),
 		// 所在城市
 		'city' => null,
@@ -221,7 +223,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记 8.快捷注册; 9为小号;
+        # 标记 7.ajax快捷注册 8.快捷注册; 9为小号;
         'kind' => 0,
 
         # 用户唯一邀请码
