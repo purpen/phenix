@@ -1,0 +1,278 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}京东众筹-报名-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+
+	$('#sign-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '标题最多30个字符'
+				}
+			]
+		},
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '内容不能为空'
+				},
+				{
+					type   : 'maxLength[1000]',
+					prompt : '内容最多1000个字符'
+				}
+			]
+		},
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系人不能为空'
+				}
+			]
+		},
+		tel: {
+			identifier  : 'tel',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '电话不能为空'
+				}
+			]
+		},
+		email: {
+			identifier  : 'email',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '邮箱不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		beforeValid: function(){
+			$('.editable-wrapper').each(function(){
+		        $(this)
+					.find('textarea')
+					.val($(this).find('.editable').html());
+		    });
+		},
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit();
+		}
+	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#product-category').val(id);
+		}
+	});
+
+	//上传
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ contact._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload }}/contact'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_wap }}/social/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#contact_cover_id').val(id);
+			return false;
+		});
+	});
+
+  //取消
+  $('.cancel.btn').click(function(){
+    phenix.redirect('{{ app_url_wap }}', 0);
+  });
+	
+
+
+  //-----------------------
+
+
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
+	<div class="ui responsive grid">
+
+		<div class="row">
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						填写基本信息
+					</h2>
+				</div>
+				
+				<div class="fever content">
+					<form action="{{ app_url_wap }}/promo/save_sign_jd" class="ui form" method="post" id="sign-form">
+						<div class="ui segment">
+							<input type="hidden" name="_id" value="{{ contact._id }}" id="product_id" />
+
+							<div class="field">
+								<label>姓名</label>
+							  	<input type="text" name="user_name" value="{{ visitor.profile.realname }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>电话</label>
+							  	<input type="text" name="user_tel" value="{{ visitor.profile.phone }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>职位</label>
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>所在公司</label>
+							  	<input type="text" name="company" value="" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>上传图片</label>
+								<input type="hidden" name="cover_id" id="contact_cover_id" value="{{ contact.cover_id }}" />
+							  	<div id="phenix-uploader"></div>
+						
+								<div id="asset-list" class="ui four items">
+									{% if mode == 'edit' %}
+										{% asset_list var:'assets' parent_id:contact._id size:20 asset_type:10 %}
+										{% for asset in assets.rows %}
+										<div class="thumb item" id="{{ asset._id }}">
+											<div class="image">
+												<img src="{{ asset.thumbnails.small.view_url }}" />
+												<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+											</div>
+											<div class="buttons">
+												<div class="ui large links">
+													<a href="{{ app_url_wap }}/app/site/shop/delete_asset?id={{ contact._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+														<i class="remove icon"></i>
+													</a>
+													<!--
+													<a href="javascript:void(0);" class="ui link {%if contact.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+														<i class="checkered flag icon"></i>
+													</a>
+                          -->
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+									{% endif %}
+								</div>
+							</div>
+
+
+						</div>
+						
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui gray cancel large inverted button">
+									取消
+								</div>
+								<div class="ui magenta submit large inverted button">
+									提交
+								</div>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive relaxed grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_wap }}">
+						<i class="icon home"></i> 首页
+					</a>
+					<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_wap }}/promo/jd">
+						京东众筹
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">报名入口</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include "mm/loginbox.html" %}
+{% endblock %}

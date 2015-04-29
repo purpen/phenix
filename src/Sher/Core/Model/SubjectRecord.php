@@ -60,12 +60,12 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
   }
 	
   /**
-   * 检测是否预约过
+   * 检测是否存在记录
    */
-	public function check_appoint($user_id, $target_id){
+	public function check_appoint($user_id, $target_id, $event=self::EVENT_APPOINTMENT){
     $query['user_id'] = (int)$user_id;
     $query['target_id'] = $target_id;
-		$query['event'] = self::EVENT_APPOINTMENT;
+		$query['event'] = (int)$event;
     $result = $this->count($query);
     return $result>0?true:false;
 	}

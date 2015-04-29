@@ -186,7 +186,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			// 婚姻状况
 			'marital' => self::MARR_SINGLE,
 			// 出生年月日
-			'age'  => array(),
+      'age'  => array(),
+      // 所在公司
+      'current_company' => null,
         ),
 		// 所在城市
 		'city' => null,
