@@ -2,35 +2,39 @@
 {% block title %}积分商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.pmall.masthead {
-    background-color: rgba(56, 67, 77, 0.9);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: #fff;
-}
-.pmall.masthead > .masthead-cover {
-    background-color: rgba(0, 0, 0, 0);
-    height: 100%;
-}
-.pmall.masthead .container {
-    min-height: 400px;
-}
-.redemption .ui.items .item .content{
-	height: 130px !important;
-	cursor: auto;
-}
-.redemption .ui.items .item .content .i-stats {
-	padding-top: 1rem !important;
-}
-.redemption .ui.items .item .content .advantage{
-	margin-top:0.8em;
-	min-height:0;
-}
-.redemption .ui.items .item .content .advantage + .advantage{
-	margin-top:0.3em;
-	margin-bottom: 0.5em;
-}
+    .pmall.masthead {
+        background-color: rgba(56, 67, 77, 0.9);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+    }
+    .pmall.masthead > .masthead-cover {
+        background-color: rgba(0, 0, 0, 0);
+        height: 100%;
+    }
+    .pmall.masthead .container {
+        min-height: 400px;
+    }
+    .redemption .ui.items .item .content{
+    	height: 130px !important;
+    	cursor: auto;
+    }
+    .redemption .ui.items .item .content .i-stats {
+    	padding-top: 1rem !important;
+    }
+    .redemption .ui.items .item .content .advantage{
+    	margin-top:0.8em;
+    	min-height:0;
+    }
+    .redemption .ui.items .item .content .advantage + .advantage{
+    	margin-top:0.3em;
+    	margin-bottom: 0.5em;
+    }
+    .social.submitbox h2 + p {
+        line-height: 2rem;
+        margin-bottom: 1rem;
+    }
 </style>
 {% endblock %}
 
@@ -105,9 +109,14 @@
 				<h2 class="ui header">
 					怎样获取鸟币？
 				</h2>
-				<p>快来攒经验，赢鸟币，兑换更酷更好玩的创新产品！</p>
+				<p>
+                    快来攒经验，赢鸟币，兑换更酷更好玩的创新产品！
+                    {% if visitor.is_login %}
+                    <br >已有鸟币：<b class="ui magenta text">{{ current_point.balance.money|default 0 }}</b>
+                    {% endif %}
+                </p>
 				<a href="{{ app_url_my }}/point" class="ui inverted magenta button">
-					<i class="basic chart icon"></i> 获取积分规则
+					<i class="basic chart icon"></i> 获取鸟币方法
 				</a>
 			</div>
 		</div>

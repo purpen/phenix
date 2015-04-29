@@ -20,7 +20,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -112,6 +112,15 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
      * 积分商城
      */
     public function pmall(){
+        $current_point = array();
+        if($this->visitor->id){
+            // 用户实时积分
+            $point_model = new Sher_Core_Model_UserPointBalance();
+            $current_point = $point_model->load($this->visitor->id);
+        }
+        
+        $this->stash['current_point'] = $current_point;
+        
         return $this->to_html_page('page/shop/pmall.html');
     }
 	
