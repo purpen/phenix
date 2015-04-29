@@ -121,7 +121,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	public function view() {
 		$id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.fever'];
+		$redirect_url = Doggy_Config::$vars['app.url.shop'];
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}

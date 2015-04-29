@@ -237,4 +237,4 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
   }
 	
 }
-?>
+
