@@ -354,6 +354,19 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    * 京东报名-参展用户
    */
   public function sign_t_jd(){
+    $row = array();
+    $this->stash['mode'] = 'create';
+
+    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+
+    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+    $this->stash['pid'] = new MongoId();
+  
+    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
+
+		$this->stash['contact'] = $row;
     
     return $this->to_html_page('wap/promo/sign_t_jd.html');
   

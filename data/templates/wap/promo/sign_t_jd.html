@@ -154,7 +154,7 @@
 
   //取消
   $('.cancel.btn').click(function(){
-    phenix.redirect('{{ app_url_wap }}', 0);
+    phenix.redirect('{{ app_url_wap_promo }}/jd', 0);
   });
 	
 {% endblock %}
@@ -206,21 +206,23 @@
 
 							<div class="field">
 								<label>公司名称</label>
-							  	<input type="text" name="email" value="{{ contact.company }}" />
+							  	<input type="text" name="company" value="{{ contact.company }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>职位</label>
-							  	<input type="text" name="email" value="{{ contact.position }}" />
+							  	<input type="text" name="position" value="{{ contact.position }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>上传图片</label>
+
 								<input type="hidden" name="cover_id" id="contact_cover_id" value="{{ contact.cover_id }}" />
+
 							  	<div id="phenix-uploader"></div>
-						
+						    <div class="description">请上传jpg格式图片,不大于3M</div>
 								<div id="asset-list" class="ui four items">
 									{% if mode == 'edit' %}
 										{% asset_list var:'assets' parent_id:contact._id size:20 asset_type:10 %}
