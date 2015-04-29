@@ -15,7 +15,12 @@ header.ui.wap{
 * { -webkit-appearance: none; }
 
 html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
-
+.wrap {
+	max-width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+}
 .fp-table {
 	display: table;
 	width: 100%;
@@ -64,11 +69,38 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index: 100000;
 }
 .bodybg {
-  z-index: -1;
+  z-index: 1;
   position: absolute;
   left: 0;
   width: 100%;
   bottom: 0;
+}
+/*.s1{
+	background:url({{ app_url_packaged }}/images/promo/jd.jpg);
+	background-size:cover;
+	background-position:center bottom;
+}*/
+.s1-1{
+	position:absolute;
+	width:100%;
+	top:10%;
+	left:0;
+}
+.sc1-1{
+	position:absolute;
+	width:100%;
+	top: 50%;
+	left: 0;
+	margin-top: -120px;
+	z-index: 2;
+}
+.s1-2{
+	position:absolute;
+	width:66%;
+	bottom:60px;
+	left:50%;
+	margin-left:-33%;
+	z-index: 3;
 }
 
 
@@ -95,7 +127,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% endblock %}
 
 {% block jquery %}
-	bgm = new Audio5js({
+	/*bgm = new Audio5js({
 	    swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 	    ready: function () {
 	        this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
@@ -113,14 +145,16 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 	$('#music-control').click(function(){
 	    bgm.playPause();
-	});
+	});*/
 {% endblock %}
 {% block content %}
 <div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section s1">
-		<img src="http://frstatic.qiniudn.com/images/egg/egg_2.jpg" class="bodybg">
-		
+		<img src="{{ app_url_packaged }}/images/promo/jdc.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/promo/jdc1.png" class="sc1-1">
+		<!--<img src="{{ app_url_packaged }}/images/promo/jd1.jpg" class="s1-1">-->
+		<img src="{{ app_url_packaged }}/images/promo/jd2.png" class="s1-2">
 		
 		
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
