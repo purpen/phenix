@@ -10,7 +10,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
     'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
-	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
+	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view','test');
 	
 	/**
 	 * 默认入口
