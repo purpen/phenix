@@ -148,10 +148,10 @@
 
 			onTransitionEnd: function(swiper, speed) {
 				for (var i = 0; i < swiper.slides.length; i++) {
-				//	es = swiper.slides[i].style;
-				//	es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
+					es = swiper.slides[i].style;
+					es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
 
-				//	swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
+					swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
 
 
 				}
