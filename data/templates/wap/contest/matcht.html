@@ -840,6 +840,11 @@
 {% endblock %}
 
 {% block jquery %}
+  //快捷注册
+  {% if quickly_signup=='1' %}
+    alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
+  {%endif%}
+
 	bgm = new Audio5js({
       swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
       ready: function () {
@@ -884,6 +889,7 @@
 
 	//ajax加载大学排行列表
   ajax_load_colleges(page,1);
+
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
