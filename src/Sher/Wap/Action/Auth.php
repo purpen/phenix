@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'forget', 'logout', 'verify_code', 'check_account');
+	protected $exclude_method_list = array('execute', 'login', 'signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup');
 	
 	/**
 	 * 入口
@@ -233,6 +233,111 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		
 		return $this->ajax_json("欢迎你加入太火鸟！", false, $redirect_url);
 	}
+
+	/**
+	 * 快捷注册
+	 */
+	public function do_quick_register(){
+        $service = DoggyX_Session_Service::instance();
+        $s_t = $service->session->login_token;
+        if (empty($s_t) || $s_t != $this->stash['t']) {
+            return $this->ajax_json('页面已经超时,重新刷新后登录', true);
+        }
+		
+	    if (empty($this->stash['account']) || empty($this->stash['verify_code'])) {
+            return $this->ajax_note('数据错误,请重试', true);
+        }
+
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);
+    }
+		
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('验证码有误，请重新获取！', true);
+		}
+
+    $pwd = substr($this->stash['account'], -6);
+		
+        try {
+			$user = new Sher_Core_Model_User();
+			
+			$user_info = array(
+                'account' => $this->stash['account'],
+				'nickname' => $this->stash['account'],
+        'password' => sha1($pwd),
+        //快捷注册标记
+        'kind'  => 8,
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+			
+			$profile = $user->get_profile();
+			$profile['phone'] = $this->stash['account'];
+			$user_info['profile'] = $profile;
+			
+            $ok = $user->create($user_info);
+			if($ok){
+				$user_id = $user->id;
+
+        //注册成功,给用户发短信提示修改密码
+        //$msg = printf("感谢您加入太火鸟,您的默认密码为当前手机号后6位,为了您的账户安全,请尽快登录太火鸟官网修改密码! %s 【太火鸟】", Doggy_Config::$vars['app.url.wap']);
+        //Sher_Core_Helper_Util::send_defined_mms($this->stash['account'], $msg);
+
+        //统计好友邀请
+        if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+          $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+          //统计邀请记录
+          if($user_invite_id){
+            $invite_mode = new Sher_Core_Model_InviteRecord();
+            $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+            //送邀请人红包
+            //$this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+          }
+        
+        }
+
+        //周年庆活动送100红包
+        if(Doggy_Config::$vars['app.anniversary2015.switch']){
+          //$this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+        }
+
+				// 删除验证码
+				$verify = new Sher_Core_Model_Verify();
+				$verify->remove($code['_id']);
+				
+				Sher_Core_Helper_Auth::create_user_session($user_id);
+			}
+			
+        } catch (Sher_Core_Model_Exception $e) {
+            Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
+            return $this->ajax_json($e->getMessage(), true);
+        }
+
+    //指定入口送抽奖码
+    if($this->stash['evt']=='match2_praise'){
+      $this->send_match_praise($user_id, $user_info['account']);
+    }
+		
+    //周年庆活动跳到提示分享页面
+    if(Doggy_Config::$vars['app.anniversary2015.switch']){
+      //当前用户邀请码
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+    }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
+      //大赛2
+      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
+    }else{
+ 		  $redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
+    }
+
+		$this->clear_auth_return_url();
+		
+		return $this->ajax_json("欢迎你加入太火鸟！", false, $redirect_url);
+	}
+
 	/**
 	 * 忘记密码页面
 	 */
@@ -341,6 +446,36 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     // 添加到统计列表
     $digged->add_item_custom($key_id, $match_item);
 
+  }
+
+  /**
+   * 快捷注册
+   */
+  public function quickly_signup(){
+ 		// 当前有登录用户
+		if ($this->visitor->id){
+      //指定入口送抽奖码
+      if($this->stash['evt']=='match2_praise'){
+        $this->send_match_praise((int)$this->visitor->id, (string)$this->visitor->account);
+        //大赛2
+        $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2'; 
+			  return $this->to_redirect($redirect_url);
+      }
+
+			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
+			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
+			return $this->to_redirect($redirect_url);
+		}
+		
+		// 设置cookie
+		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
+        if (!empty($return_url)) {
+			@setcookie('auth_return_url', $return_url, 0, '/');
+        }
+		
+	  $this->gen_login_token();
+		return $this->to_html_page('wap/auth/quickly_signup.html');
+  
   }
 	
 }

@@ -70,12 +70,21 @@ class Sher_Core_ViewTag_SumRecordList extends Doggy_Dt_Tag {
           for($i=0;$i<count($result['rows']);$i++){
             $type = $result['rows'][$i]['type'];
             $target_id = $result['rows'][$i]['target_id'];
+            $kind = $result['rows'][$i]['kind'];
             if($type==1){
               $province = $p_mode->first(array('pid'=>(int)$target_id));
               $result['rows'][$i]['province'] = $province;
             }
             if($type==2){
               $result['rows'][$i]['college'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_College');           
+            }elseif($type==3){
+              if($kind==1){
+                $result['rows'][$i]['target'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_Topic');               
+              }elseif($kind==2){
+                $result['rows'][$i]['target'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_Product');               
+              }elseif($kind==3){
+                $result['rows'][$i]['target'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_Stuff');               
+              }
             }
             
           }
