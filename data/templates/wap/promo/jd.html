@@ -139,7 +139,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-.s1-2{
+.s1-2,.s2-2,.s2-3{
 	opacity:0;
 }
 @-webkit-keyframes scale-to-zero-with-center {
@@ -162,6 +162,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	left: 0;
 	z-index: 2;
 }
+
 .s2-2{
 	position:absolute;
 	width:31.25%;
@@ -201,16 +202,18 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 						if(index == 2){
 							$('.s2-1').addClass('zoomIn animated');
 							$('.s2-2').addClass('page-logo');
+							$('.s2-3').addClass('page-logo');
 						}
 			},
 			onLeave: function(index, direction){
 						if(index == 1){
 							$('.s1-1').removeClass('flip animated');
-							$('.s1-2').delay(400).removeClass('page-logo');
+							$('.s1-2').removeClass('page-logo');
 						}
 						if(index == 2){
 							$('.s2-1').removeClass('zoomIn animated');
 							$('.s2-2').removeClass('page-logo');
+							$('.s2-3').removeClass('page-logo');
 						}
 						
 						
@@ -253,7 +256,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	<div class="section">
-		<img src="{{ app_url_packaged }}/images/promo/jdb4.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/promo/jd4.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/promo/jd3.png" class="s2-1">
 		<img src="{{ app_url_packaged }}/images/promo/jd-gw.png" class="s2-2">
 		<img src="{{ app_url_packaged }}/images/promo/jd-y.png" class="s2-3">
