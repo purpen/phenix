@@ -344,8 +344,8 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
             if($from_to==2){
               $phone = (int)$this->stash['user_phone'];
               // 开始发送
-              $msg = "管理员查看了您提交的孵化项目并给您发了私信,请登录太火鸟官网查看! 【太火鸟】";
-              Sher_Core_Helper_Util::send_defined_mms($phone, $msg);
+              //$msg = "管理员查看了您提交的孵化项目并给您发了私信,请登录太火鸟官网查看! 【太火鸟】";
+              //Sher_Core_Helper_Util::send_defined_mms($phone, $msg);
             }
 
 

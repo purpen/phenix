@@ -62,6 +62,11 @@
 			$this.html(event.strftime('%-D'));
 		});
 	});
+
+  //快捷注册
+  {% if quickly_signup==1 %}
+    alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
+  {%endif%}
 	
 {% endblock %}
 
