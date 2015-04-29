@@ -113,6 +113,7 @@
 					}else{
 						$('.ui.sign-box.modal').modal('hide');
 						phenix.visitor = result.data;
+            alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
 						// 注册成功后，自动发送ajax请求
 						if (next_res_url) {
 							$.get(next_res_url);
