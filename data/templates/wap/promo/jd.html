@@ -228,6 +228,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.4s;
 	-webkit-animation-delay:0.4s;
 }
+.s2-2.bounceIn.animated{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+	-webkit-animation-duration: 0.4s;
+	animation-duration: 0.4s;
+}
 .s2-3.page-logo{
 	animation-delay:1s;
 	-webkit-animation-delay:1s;
@@ -326,7 +332,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 						}
 						if(index == 2){
 							$('.s2-1').addClass('zoomIn animated');
-							$('.s2-2').addClass('page-logo');
+							$('.s2-2').addClass('page-logo bounceIn animated');
 							$('.s2-3').addClass('page-logo');
 							$('.s2-4').addClass('page-logo');
 							$('.s2-5').addClass('page-logo');
@@ -350,7 +356,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 						}
 						if(index == 2){
 							$('.s2-1').removeClass('zoomIn animated');
-							$('.s2-2').removeClass('page-logo');
+							$('.s2-2').removeClass('page-logo bounceIn animated');
 							$('.s2-3').removeClass('page-logo');
 							$('.s2-4').removeClass('page-logo');
 							$('.s2-5').removeClass('page-logo');
