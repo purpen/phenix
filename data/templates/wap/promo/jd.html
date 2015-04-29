@@ -467,6 +467,181 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% endblock %}
 
 {% block jquery %}
+	//phenix.wap_show_sign_box();
+
+  $('#sign-type-1').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      // 显示登录框
+      $('.ui.sign-box.modal').modal('show');
+      }else{
+      phenix.redirect('{{ app_url_wap_promo }}/sign_jd');
+      }
+  });
+
+  $('#sign-type-2').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      // 显示登录框
+      $('.ui.sign-box.modal').modal('show');
+      }else{
+      phenix.redirect('{{ app_url_wap_promo }}/sign_t_jd');
+      }
+  });
+
+  $('.two.fields .field').tab();
+  $('.two.fields .field .fluid').tab();
+    /* 登录表单验证 */
+	$('#login-form').form({
+		account: {
+			identifier  : 'account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '输入你注册时填写的手机号码'
+				}
+			]
+		},
+		password: {
+			identifier  : 'password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '输入正确的登录密码'
+				},
+				{
+					type   : 'length[6]',
+					prompt : '登录密码为必须6位以上字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(result.message);
+					}else{
+						$('.ui.sign-box.modal').modal('hide');
+						phenix.visitor = result.data;
+						// 登录成功后，自动发送ajax请求
+						if (next_res_url) {
+							$.get(next_res_url);
+						}
+					}
+				}
+			});
+		}
+	});
+
+  /*注册表单验证*/
+	$('#register-form').form({
+		account: {
+			identifier  : 'account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号不能为空'
+				}
+			]
+		},
+		verify_code: {
+			identifier  : 'verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '验证码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(result.message);
+					}else{
+						$('.ui.sign-box.modal').modal('hide');
+						phenix.visitor = result.data;
+            alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
+						// 注册成功后，自动发送ajax请求
+						if (next_res_url) {
+							$.get(next_res_url);
+						}
+					}
+					
+				}
+			});
+		}
+	});
+
+  //注册时获取验证码
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#account').val();
+		if(!can_send){
+		    return false;
+		}
+		if(phone){
+      //验证手机是否注册过
+      var check_phone_url = '/app/site/auth/check_account';
+      $.get(check_phone_url, {phone: phone}, function(r){
+        if(r == 1){
+          phenix.show_error_note('手机号已存在！');
+          return false;     
+        }else{
+          // 添加发送频率
+          limitime();
+      
+          $this = $('#fetch-verify-code');
+          $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+            if(result.errorCode == 200){
+              $this.removeClass('disabled').text('获取验证码');
+            }
+          });            
+        }
+      });
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+
+
+
+
 	bgm = new Audio5js({
 	    swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 	    ready: function () {
@@ -529,10 +704,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd7.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/promo/jd8.png" class="s4-1">
-		<a href="">
+		<a href="javascript:void(0);" id="sign-type-1">
 		<img src="{{ app_url_packaged }}/images/promo/jd-join1.png" class="s4-2">
 		</a>
-		<a href="">
+		<a href="javascript:void(0);" id="sign-type-2">
 		<img src="{{ app_url_packaged }}/images/promo/jd-bao1.png" class="s4-3">
 		</a>
 		<img src="{{ app_url_packaged }}/images/promo/jd-time.png" class="s4-4">
@@ -540,6 +715,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	</div>
 
 </div>
+
+
+{% include "mm/loginbox.html" %}
 {% endblock %}
 
 
