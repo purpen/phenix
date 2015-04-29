@@ -25,7 +25,7 @@
 				},
 				{
 					type   : 'maxLength[20]',
-					prompt : '标题最多20个字符'
+					prompt : '品名最多20个字符'
 				}
 			]
 		},
@@ -38,7 +38,7 @@
 				},
 				{
 					type   : 'maxLength[20]',
-					prompt : '标题最多20个字符'
+					prompt : '品牌/设计最多20个字符'
 				}
 			]
 		},
@@ -115,7 +115,7 @@
         	endpoint: '{{ app_url_upload }}/contact'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui fluid green labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -178,41 +178,41 @@
 
 							<div class="field">
 								<label>品名</label>
-							  	<input type="text" name="title" value="{{ contact.title }}" />
+							  	<input type="text" name="title" value="" />
 								<div class="description">产品名称</div>
 							</div>
 							<div class="field">
 								<label>品牌/设计师</label>
-							  	<input type="text" name="title" value="{{ contact.brand }}" />
+							  	<input type="text" name="brand" value="" />
 								<div class="description"></div>
 							</div>
 							<div class="field">
 								<label>产品故事</label>
-							  	<textarea name="content">{{ contact.content }}</textarea>
+							  	<textarea name="content"></textarea>
                   <div class="description">小于140字</div>
 							</div>
 
 							<div class="field">
 								<label>联系人</label>
-							  	<input type="text" name="name" value="{{ contact.name }}" />
+							  	<input type="text" name="name" value="{{ visitor.profile.realname }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>电话</label>
-							  	<input type="text" name="tel" value="{{ contact.tel }}" />
+							  	<input type="text" name="tel" value="{{ visitor.profile.phone }}" />
 								<div class="description">留下你的电话，便于我们及时和您取得联系。</div>
 							</div>
 
 							<div class="field">
 								<label>公司名称</label>
-							  	<input type="text" name="company" value="{{ contact.company }}" />
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
 								<label>职位</label>
-							  	<input type="text" name="position" value="{{ contact.position }}" />
+							  	<input type="text" name="position" value="{{ visitor.profile.job }}" />
 								<div class="description"></div>
 							</div>
 
