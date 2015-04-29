@@ -1012,6 +1012,31 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.87s;
 	-webkit-animation-delay:0.87s;
 }
+#loading{
+	  background: #000;
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  z-index: 9999;
+	  top: 0;
+	}
+	.loadbox{
+		display: block;
+		  position: relative;
+		  width: 100%;
+		  height: 100%;
+		  margin: 0 auto;
+		  margin-top: 50%;
+	}
+	.loadbg{
+		display: block;
+		  position: absolute;
+		  z-index: 1000;
+		  width: 100%;
+		  height: 100%;
+		  background: url(http://static.oschina.net/uploads/img/201409/26073952_Vd2W.gif) no-repeat;
+		  background-size: 100%;
+	}
 </style>
 {% endblock %}
 
@@ -1300,6 +1325,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		
 		});
 	</script>
+	<script>document.write('<style>#loading{display:none}</style>');</script>
 
 
 {% endblock %}
@@ -1350,6 +1376,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/promo/jd-share.jpg"></div>
+<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section">
