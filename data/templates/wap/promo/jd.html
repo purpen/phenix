@@ -83,6 +83,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   width: 100%;
   bottom: 0;
 }
+.animated{
+	-webkit-animation-duration: 0.6s;
+	animation-duration: 0.6s;
+}
 /*.s1{
 	background:url({{ app_url_packaged }}/images/promo/jd.jpg);
 	background-size:cover;
@@ -139,7 +143,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-.s1-2,.s2-2,.s2-3{
+.s1-2,.s2-2,.s2-3,.s1-4,.s2-5,.s2-6,.s1-7,.s2-8,.s2-9{
 	opacity:0;
 }
 @-webkit-keyframes scale-to-zero-with-center {
@@ -177,7 +181,57 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	right:7.8125%;
 	z-index:2;
 }
+.s2-4{
+	position:absolute;
+	width:31.25%;
+	top:30%;
+	left:34.375%;
+	z-index:2;
+}
+.s2-5{
+	position:absolute;
+	width:31.25%;
+	top:45%;
+	left:7.8125%;
+	z-index:2;
+}
+.s2-6{
+	position:absolute;
+	width:31.25%;
+	top:45%;
+	right:7.8125%;
+	z-index:2;
+}
+.s2-7{
+	position:absolute;
+	width:31.25%;
+	top:60%;
+	left:34.375%;
+	z-index:2;
+}
+.s2-8{
+	position:absolute;
+	width:31.25%;
+	top:75%;
+	left:7.8125%;
+	z-index:2;
+}
+.s2-9{
+	position:absolute;
+	width:31.25%;
+	top:75%;
+	right:7.8125%;
+	z-index:2;
+}
 
+.s2-2.page-logo{
+	animation-delay:0.4s;
+	-webkit-animation-delay:0.4s;
+}
+.s2-3.page-logo{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
 
 
 
@@ -203,6 +257,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s2-1').addClass('zoomIn animated');
 							$('.s2-2').addClass('page-logo');
 							$('.s2-3').addClass('page-logo');
+							$('.s2-4').addClass('page-logo');
+							$('.s2-5').addClass('page-logo');
+							$('.s2-6').addClass('page-logo');
+							$('.s2-7').addClass('page-logo');
+							$('.s2-8').addClass('page-logo');
+							$('.s2-9').addClass('page-logo');
 						}
 			},
 			onLeave: function(index, direction){
@@ -214,6 +274,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s2-1').removeClass('zoomIn animated');
 							$('.s2-2').removeClass('page-logo');
 							$('.s2-3').removeClass('page-logo');
+							$('.s2-4').removeClass('page-logo');
+							$('.s2-5').removeClass('page-logo');
+							$('.s2-6').removeClass('page-logo');
+							$('.s2-7').removeClass('page-logo');
+							$('.s2-8').removeClass('page-logo');
+							$('.s2-9').removeClass('page-logo');
 						}
 						
 						
@@ -260,9 +326,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/promo/jd3.png" class="s2-1">
 		<img src="{{ app_url_packaged }}/images/promo/jd-gw.png" class="s2-2">
 		<img src="{{ app_url_packaged }}/images/promo/jd-y.png" class="s2-3">
-		
-		
-		
+		<img src="{{ app_url_packaged }}/images/promo/jd-c.png" class="s2-4">
+		<img src="{{ app_url_packaged }}/images/promo/jd-z.png" class="s2-5">
+		<img src="{{ app_url_packaged }}/images/promo/jd-l.png" class="s2-6">
+		<img src="{{ app_url_packaged }}/images/promo/jd-g.png" class="s2-7">
+		<img src="{{ app_url_packaged }}/images/promo/jd-d.png" class="s2-8">
+		<img src="{{ app_url_packaged }}/images/promo/jd-h.png" class="s2-9">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
