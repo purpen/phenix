@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}会员等级{% endblock %}
+{% block title %}会员等级 - {% endblock %}
 {% block page_css %}
 <style type="text/css">
     .integral .three.wide.column,.thirteen.wide.column{
@@ -100,6 +100,11 @@
                                 </div>
                                 <div class="item">
                                     鸟币: <b>{{ current_point.balance.money|default 0 }}</b>
+                                    <span>
+                                        <a href="{{ app_url_shop }}/pmall" class="ui magenta link" target="_blank">
+                                            <i class="angle right icon"></i> 兑换消费
+                                        </a>
+                                    </span>
                                 </div>
                                 <!--
                                 <div class="item">

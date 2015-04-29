@@ -129,7 +129,7 @@
 			<div class="three fields">
 				<div class="field">
 					<label for="space_id">所属位置：</label>
-					{% space_list var:'spacelist' page:page %}
+					{% space_list var:'spacelist' page:page size:100 %}
 					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="space_id" value="{{ advertise.space_id }}" />
 					    <div class="default text">请选择</div>
