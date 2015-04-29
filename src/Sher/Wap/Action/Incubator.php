@@ -71,10 +71,17 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 			return $this->ajax_json('联系电话不能为空！', true);
 		}
 		if(empty($this->stash['email'])){
-			return $this->ajax_json('邮箱不能为空！', true);
+			//return $this->ajax_json('邮箱不能为空！', true);
 		}
 		
 		$id = (int)$this->stash['_id'];
+
+    //是否来自京东众筹
+    if((int)$this->stash['category_id']==4){
+      $from_jd = true;
+    }else{
+      $from_jd = false;
+    }
 		
 		//保存信息
 		$data = array();
@@ -83,7 +90,10 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		$data['content'] = $this->stash['content'];
 		$data['name'] = $this->stash['name'];
 		$data['tel'] = $this->stash['tel'];
-		$data['email'] = $this->stash['email'];
+		$data['email'] = isset($this->stash['email'])?$this->stash['email']:'';
+    $data['position'] = isset($this->stash['position'])?$this->stash['position']:'';
+    $data['company'] = isset($this->stash['company'])?$this->stash['company']:'';
+    $data['brand'] = isset($this->stash['brand'])?$this->stash['brand']:'';
 
 		$data['cover_id'] = $this->stash['cover_id'];
 		// 检查是否有附件
@@ -121,12 +131,19 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('产品合作保存失败:'.$e->getMessage(), true);
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 
-    	$this->stash['is_error'] = false;
+    $this->stash['is_error'] = false;
+    if($from_jd){
+      $this->stash['show_time'] = 3000;
+    	$this->stash['note'] = '保存成功,审核通过后管理员会第一时间联系您!';
+      $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/jd';
+    }else{
     	$this->stash['note'] = '保存成功!';
-		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.incubator'];
+      $redirect_url = Doggy_Config::$vars['app.url'].'/incubator';
+    }
+		$this->stash['redirect_url'] = $redirect_url;
 		
 		return $this->to_taconite_page('ajax/note.html');
     }
