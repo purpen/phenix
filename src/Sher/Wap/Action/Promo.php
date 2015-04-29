@@ -8,11 +8,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-<<<<<<< HEAD
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd');
-=======
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year');
->>>>>>> origin/ts_new
+
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd');
+
 	
 	/**
 	 * 网站入口
