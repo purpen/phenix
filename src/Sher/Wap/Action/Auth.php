@@ -244,7 +244,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             return $this->ajax_json('页面已经超时,重新刷新后登录', true);
         }
 		
-	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
+	    if (empty($this->stash['account']) || empty($this->stash['verify_code'])) {
             return $this->ajax_note('数据错误,请重试', true);
         }
 
@@ -330,7 +330,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       //大赛2
       $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2?quickly_signup=1';  
     }else{
- 		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1');
+ 		  $redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
     }
 
 		$this->clear_auth_return_url();
