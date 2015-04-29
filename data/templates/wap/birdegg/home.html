@@ -108,15 +108,15 @@
 		var mySwiper = new Swiper('.swiper-container', {
 
 		    direction: 'vertical',
-			mousewheelControl: false,
-			watchSlidesProgress: false,
+			mousewheelControl: true,
+			watchSlidesProgress: true,
 		/*	followFinger : false,*/
 			onInit: function(swiper){
 			   swiperAnimateCache(swiper);
 			   swiperAnimate(swiper);
 				 swiper.myactive = 0;
 			},
-			/*onProgress: function(swiper) {
+			onProgress: function(swiper) {
 				for (var i = 0; i < swiper.slides.length; i++) {
 					var slide = swiper.slides[i];
 					var progress = slide.progress;
@@ -158,7 +158,7 @@
 
 				swiper.myactive = swiper.activeIndex;
 
-			},*/
+			},
 			onSetTransition: function(swiper, speed) {
 
 				for (var i = 0; i < swiper.slides.length; i++) {
