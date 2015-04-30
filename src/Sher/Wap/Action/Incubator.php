@@ -137,7 +137,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
     $this->stash['is_error'] = false;
     if($from_jd){
       $this->stash['show_note_time'] = 3000;
-    	$this->stash['note'] = '报名成功,审核通过后管理员会第一时间联系您!谢谢支持';
+    	$this->stash['note'] = '申请已提交,我们将尽快与您联系.';
       $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/jd';
     }else{
     	$this->stash['note'] = '保存成功!';
