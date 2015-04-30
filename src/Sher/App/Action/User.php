@@ -16,7 +16,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab  = 'page_user';
 	protected $page_html = 'page/user/index.html';
 	
-	protected $exclude_method_list = array();
+	protected $exclude_method_list = array('execute', 'vcenter', 'ajax_fetch_activity', 'topics', 'fans', 'follow', 'submitted', 'support', 'like', 'ajax_fetch_profile');
 	
 	public function _init() {
         $user_id = $this->stash['id'];
@@ -218,9 +218,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	/**
 	 * 查看个人资料
 	 */
-	public function profile(){
-		
-	}
+	public function profile(){}
 	
 	/**
 	 * 关注某人
@@ -230,7 +228,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	public function ajax_follow(){
 		$user_id = $this->visitor->id;
 		$follow_id = $this->stash['id'];
-    $this->stash['follow_type'] = isset($this->stash['follow_type'])?(int)$this->stash['follow_type']:1;
+        $this->stash['follow_type'] = isset($this->stash['follow_type'])?(int)$this->stash['follow_type']:1;
 		
 		if(empty($follow_id) || empty($user_id)){
 			return $this->ajax_note('请求失败,缺少必要参数', true);
@@ -321,8 +319,8 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 
 	 * @return string
 	 */
-  public function ajax_message(){
-    $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:1;
+    public function ajax_message(){
+        $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:1;
 		$to = $this->stash["to"];
         $content = $this->stash["content"];
 		if(empty($to)){
@@ -365,91 +363,103 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * @return string
 	 */
 	public function ajax_fetch_counter(){
-    $model = new Sher_Core_Model_User();
-    $user = $model->load((int)$this->visitor->id);
-    $this->stash['page_notice_success'] = false;
-    if(empty($user)){
-      return $this->to_taconite_page('ajax/user_notice.html');
-    }
-    $this->stash['total_count'] = (
+        $model = new Sher_Core_Model_User();
+        $user = $model->load((int)$this->visitor->id);
+        $this->stash['page_notice_success'] = false;
+        if(empty($user)){
+            return $this->to_taconite_page('ajax/user_notice.html');
+        }
+        $this->stash['total_count'] = (
 		  ($this->stash['message_count'] = $user['counter']['message_count']) +
 		  ($this->stash['alert_count'] = $user['counter']['alert_count']) +
 		  ($this->stash['notice_count'] = $user['counter']['notice_count']) +
 		  ($this->stash['fans_count'] = $user['counter']['fans_count']) +
 		  ($this->stash['comment_count'] = $user['counter']['comment_count']) +
 		  ($this->stash['people_count'] = $user['counter']['people_count'])
-    );
+        );
 
-    if((int)$this->stash['total_count']>0){
-      $this->stash['page_notice_success'] = true;   
-    }
-    return $this->to_taconite_page('ajax/user_notice.html');
+        if((int)$this->stash['total_count'] > 0){
+            $this->stash['page_notice_success'] = true;   
+        }
+        
+        return $this->to_taconite_page('ajax/user_notice.html');
 	}
-
-  /**
-   * 验证用户基本资料是否齐全
-   */
-  public function ajax_check_userinfo(){
-  
-    if($this->visitor->id && !empty($this->visitor->profile)){
-      if(empty($this->visitor->profile['realname'])){
-        return $this->to_raw_json(false);
-      }
-      if(empty($this->visitor->profile['phone'])){
-        return $this->to_raw_json(false);
-      }
-      if(empty($this->visitor->profile['job'])){
-        return $this->to_raw_json(false);
-      }
-      if(empty($this->visitor->profile['address'])){
-        return $this->to_raw_json(false);
-      }
-    }else{
-      return $this->to_raw_json(false);
+    
+    /**
+     * 获取用户信息
+     */
+    public function ajax_fetch_profile(){
+        return $this->to_taconite_page('ajax/user_card.html');
     }
-    return $this->to_raw_json(true);
-  }
 
-  /**
-   * 举报
-   */
-  public function ajax_report(){
-    $target_id = isset($this->stash['target_id'])?$this->stash['target_id']:0;
-    $target_type = isset($this->stash['target_type'])?(int)$this->stash['target_type']:1;
-    $target_user_id = isset($this->stash['target_user_id'])?(int)$this->stash['target_user_id']:0;
-    $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
-    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:10;
-    $user_id = (int)$this->visitor->id;
-    $content = $this->stash["content"];
+    /**
+     * 验证用户基本资料是否齐全
+     */
+    public function ajax_check_userinfo(){
+        if($this->visitor->id && !empty($this->visitor->profile)){
+            if(empty($this->visitor->profile['realname'])){
+                return $this->to_raw_json(false);
+            }
+            if(empty($this->visitor->profile['phone'])){
+                return $this->to_raw_json(false);
+            }
+            if(empty($this->visitor->profile['job'])){
+                return $this->to_raw_json(false);
+            }
+            if(empty($this->visitor->profile['address'])){
+                return $this->to_raw_json(false);
+            }
+        }else{
+            return $this->to_raw_json(false);
+        }
+        
+        return $this->to_raw_json(true);
+    }
+
+    /**
+     * 举报
+     */
+    public function ajax_report(){
+        $target_id = isset($this->stash['target_id'])?$this->stash['target_id']:0;
+        $target_type = isset($this->stash['target_type'])?(int)$this->stash['target_type']:1;
+        $target_user_id = isset($this->stash['target_user_id'])?(int)$this->stash['target_user_id']:0;
+        $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
+        $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:10;
+        $user_id = (int)$this->visitor->id;
+        $content = $this->stash["content"];
+        
 		if(empty($target_id)){
-      return $this->ajax_notification("缺少必要参数",true);
-    }
-    if(empty($content)){
-      return $this->ajax_notification("你没有输入举报内容",true);
-    }
-    $data = array();
-		try {
-      $report = new Sher_Core_Model_Report();
-      $data['target_id'] = $target_id;
-      $data['target_type'] = $target_type;
-      $data['target_user_id'] = $target_user_id;
-      $data['evt'] = $evt;
-      $data['kind'] = $kind;
-      $data['user_id'] = $user_id;
-      $data['content'] = $content;
-      $ok = $report->create($data);
-      if($ok){
-      
-      }else{
-        return $this->ajax_notification('保存失败',true);       
-      }
+            return $this->ajax_notification("缺少必要参数",true);
+        }
+        if(empty($content)){
+            return $this->ajax_notification("你没有输入举报内容",true);
+        }
+        
+        $data = array();
+		try{
+            $report = new Sher_Core_Model_Report();
+            $data['target_id'] = $target_id;
+            $data['target_type'] = $target_type;
+            $data['target_user_id'] = $target_user_id;
+            $data['evt'] = $evt;
+            $data['kind'] = $kind;
+            $data['user_id'] = $user_id;
+            $data['content'] = $content;
+            
+            $ok = $report->create($data);
+            if($ok){
+                // skip
+            }else{
+                return $this->ajax_notification('保存失败',true);       
+            }
 
-    } catch (Doggy_Model_ValidateException $e) {
-      return $this->ajax_notification('操作失败:'.$e->getMessage(),true);
-    }
+        }catch(Doggy_Model_ValidateException $e){
+            return $this->ajax_notification('操作失败:'.$e->getMessage(),true);
+        }
+        
 		$this->stash['mode'] = 'report';
+        
 		return $this->to_taconite_page('ajax/send_ok.html');
-
-  }
+    }
 	
 }
