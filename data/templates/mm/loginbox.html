@@ -1,53 +1,28 @@
 <div class="ui small sign-box modal">
   	<i class="flat close icon"></i>
   	<div class="ui header">
-    	登录太火鸟
+    	参与活动报名
   	</div>
 <div class="ui responsive grid">
 	<div class="ui column width">
 		<div class="ui log-in signup">
 
 			<div class="ui bottom attached segment">
-
 				<div class="two fields" style="margin-bottom:20px;text-align:center;">
-					<div class="field active" data-tab="first" style="display: inline-block;">
+					<div class="field" data-tab="first" style="display: inline-block;margin-left:-5px;">
 						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="first" style="border-radius:0;min-width: 115px;padding: 1em 1.5em;">
-								 登录
+								 快速注册
 						</a>
 					</div>
-					<div class="field" data-tab="two" style="display: inline-block;margin-left:-5px;">
-						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="two" style="border-radius:0;min-width: 115px;padding: 1em 1.5em;">
-								 快速注册
+					<div class="field active" data-tab="two" style="display: inline-block;">
+            <a class="fluid ui green btn-4 btn-4c icon btn" data-tab="two" style="border-radius:0;min-width: 115px;padding: 1em 1.5em;">
+						
+								 登录
 						</a>
 					</div>
 				</div>
 
 				<div class="ui active tab" data-tab="first">
-				<form action="{{ app_url_wap }}/auth/ajax_login" class="ui small top form segment" method="post" id="login-form">
-					<input type="hidden" name="t" value="{{ login_token }}" />
-
-					<div class="field">
-					  	<input type="text" name="account" placeholder="手机号" />
-					</div>
-					<div class="field">
-					  	<input type="password" name="password" id="password" placeholder="登录密码" />
-					</div>
-					<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms" checked="checked">
-				          	<label>自动登录</label>
-				        </div>
-					
-						<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
-					</div>
-			
-					<div class="field ">
-						<div class="fluid ui active magenta submit button" >登录</div>
-					</div>
-
-				</form>
-        </div>
-				<div class="ui tab" data-tab="two">
 				<form action="{{ app_url_wap }}/auth/ajax_signup" class="ui small form segment" method="post" id="register-form">
           <input type="hidden" name="user_invite_code" value="{{ user_invite_code }}" />
           <input type="hidden" name="evt" value="{{ evt }}" />
@@ -71,6 +46,32 @@
 					
 					<div class="field">
 				    	<div class="fluid ui active magenta submit button" >快速注册</div>
+					</div>
+
+				</form>
+
+        </div>
+				<div class="ui tab" data-tab="two">
+				<form action="{{ app_url_wap }}/auth/ajax_login" class="ui small top form segment" method="post" id="login-form">
+					<input type="hidden" name="t" value="{{ login_token }}" />
+
+					<div class="field">
+					  	<input type="text" name="account" placeholder="手机号" />
+					</div>
+					<div class="field">
+					  	<input type="password" name="password" id="password" placeholder="登录密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label>自动登录</label>
+				        </div>
+					
+						<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+					</div>
+			
+					<div class="field ">
+						<div class="fluid ui active magenta submit button" >登录</div>
 					</div>
 
 				</form>
