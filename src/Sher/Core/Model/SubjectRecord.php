@@ -1,6 +1,6 @@
 <?php
 /**
- * 针对专题/单页等预约,赞等统计
+ * 针对专题/单页等预约,报名,赞等统计
  * @author tianshuai
  */
 class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
@@ -12,6 +12,8 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
   const EVENT_APPOINTMENT = 1;
   //赞
 	const EVENT_LOVE = 2;
+  // 报名
+  const EVENT_SIGN = 3;
 	
   protected $schema = array(
     'user_id' => null,
@@ -21,6 +23,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     'tags' => array(),
     'type'   => 1,
     'event'  => self::EVENT_APPOINTMENT,
+    'state' => 0,
   );
 	
   protected $joins = array(
@@ -28,7 +31,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id', 'type', 'event');
+    protected $int_fields = array('user_id', 'type', 'event', 'state');
 	
     protected function before_save(&$data) {
         if (isset($data['tags']) && !is_array($data['tags'])) {
@@ -58,12 +61,12 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
   }
 	
   /**
-   * 检测是否预约过
+   * 检测是否存在记录
    */
-	public function check_appoint($user_id, $target_id){
+	public function check_appoint($user_id, $target_id, $event=self::EVENT_APPOINTMENT){
     $query['user_id'] = (int)$user_id;
     $query['target_id'] = $target_id;
-		$query['event'] = self::EVENT_APPOINTMENT;
+		$query['event'] = (int)$event;
     $result = $this->count($query);
     return $result>0?true:false;
 	}

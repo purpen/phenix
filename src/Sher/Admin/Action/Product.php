@@ -186,6 +186,13 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			if($data['process_saled'] && !in_array($data['stage'], array(Sher_Core_Model_Inventory::STAGE_SHOP, Sher_Core_Model_Inventory::STAGE_EXCHANGE))){
 				return $this->ajax_json('产品当前阶段设置有误！', true);
 			}
+
+      //如果设置积分兑换,判断鸟币与兑换金额准确
+      if(!empty($data['exchanged'])){
+        if((Sher_Core_Util_Shopping::bird_coin_transf_money($data['max_bird_coin']) + $data['exchange_price']) != $data['sale_price']){
+   			  return $this->ajax_json('积分兑换数据输入不准确！', true);       
+        }
+      }
 			
 			if(empty($id)){
 				$mode = 'create';
