@@ -8,13 +8,31 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year');
+
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd');
+
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	/**
+	 * 京东
+	 */
+	public function jd(){
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+		return $this->to_html_page('wap/promo/jd.html');
 	}
 	
 	/**
@@ -333,13 +351,98 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   }
 
   /**
-   * 京东报名
+   * 京东报名-普通用户
    */
   public function sign_jd(){
-
-    return $this->to_html_page('wap/promo/sign_jd');
+    
+    return $this->to_html_page('wap/promo/sign_jd.html');
   
+  }
+
+  /**
+   * 京东报名-参展用户
+   */
+  public function sign_t_jd(){
+    $row = array();
+    $this->stash['mode'] = 'create';
+
+    $callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+    $this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+    $this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
+
+    $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+    $this->stash['pid'] = new MongoId();
+  
+    $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_CONTACT;
+
+		$this->stash['contact'] = $row;
+    
+    return $this->to_html_page('wap/promo/sign_t_jd.html');
+  
+  }
+
+  /**
+   * 保存京东报名
+   */
+  public function save_sign_jd(){
+
+    $model = new Sher_Core_Model_SubjectRecord();
+
+    $is_sign = $model->check_appoint($this->visitor->id, 2, 3);
+
+    if($is_sign){
+      return $this->ajax_note('您已报名!', true);
+    }
+
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job'])){
+      return $this->ajax_note('请求失败,缺少用户必要参数!', true);
+    }
+
+    $user_data = array();
+    $user_data['profile']['realname'] = $this->stash['realname'];
+    $user_data['profile']['phone'] = $this->stash['phone'];
+    $user_data['profile']['company'] = $this->stash['company'];
+    $user_data['profile']['job'] = $this->stash['job'];
+
+    try {
+      //更新基本信息
+      $user_ok = $this->visitor->save($user_data);
+      if(!$user_ok){
+        return $this->ajax_note('更新用户信息失败!', true);
+      }
+    } catch (Sher_Core_Model_Exception $e) {
+      return $this->ajax_note("更新失败:".$e->getMessage(), true);
+    }
+
+    $data = array();
+    $data['user_id'] = (int)$this->visitor->id;
+    $data['target_id'] = 2;
+    $data['event'] = 3;
+    try{
+      $ok = $model->apply_and_save($data);
+      if($ok){
+        $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/jd';
+    	  $this->stash['is_error'] = false;
+        $this->stash['show_note_time'] = 3000;
+    	  $this->stash['note'] = '报名成功,审核通过后工作人员会第一时间联系您,谢谢支持!';
+		    $this->stash['redirect_url'] = $redirect_url;
+		    return $this->to_taconite_page('ajax/note.html');
+      }else{
+        return $this->ajax_note('报名失败!', true);
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+      return $this->ajax_note('报名失败!'.$e->getMessage(), true);
+    }
+  
+  }
+
+
+  /**
+   * test
+   */
+  public function test(){
+    return $this->to_html_page('wap/test.html'); 
   }
 	
 }
-?>
+

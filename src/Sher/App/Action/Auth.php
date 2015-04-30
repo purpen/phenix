@@ -307,6 +307,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     	if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
 			return $this->ajax_json('验证码不正确!', true);
     	}
+
+    //验证密码长度
+    if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
+      return $this->ajax_json('密码长度介于6-30字符内！', true);    
+    }
 		
 		// 验证密码是否一致
 		$password_confirm = $this->stash['password_confirm'];

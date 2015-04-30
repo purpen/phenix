@@ -1,11 +1,11 @@
 <taconite>
 {% if is_error %}
 	<eval>
-		phenix.show_error_note('{{ note }}', 3000);
+		phenix.show_error_note('{{ note }}', {{ show_note_time | default 3000 }});
 	</eval>
 {% else %}
 	<eval>
-		phenix.show_ok_note('{{ note }}', 1000);
+  phenix.show_ok_note('{{ note }}', {{ show_note_time | default 1000 }});
 	</eval>
 {% endif %}
 
@@ -14,7 +14,7 @@
 {% endif %}
 {% if redirect_url %}
 	<eval>
-		phenix.redirect('{{ redirect_url }}', 500);
+		phenix.redirect('{{ redirect_url }}', {{ show_note_time | default 500 }});
 	</eval>
 {% endif %}
 </taconite>

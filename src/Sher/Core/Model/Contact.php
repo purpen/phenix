@@ -20,6 +20,13 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 		'tel' => null,
     #邮箱
     'email' =>  null,
+    #公司
+    'company' => null,
+    #职位
+    'position' => null,
+    #品牌/设计师
+    'designer' => null,
+    'brand' => null,
 
     #分类
     'category_id' => 0,
@@ -76,6 +83,8 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
       $row['cate_name'] = '产品众筹';
     }elseif($row['category_id']==3){
       $row['cate_name'] = '产品销售';
+    }elseif($row['category_id']==4){
+      $row['cate_name'] = '京东众筹';
     }else{
       $row['cate_name'] = '未定义';
     }

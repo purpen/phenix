@@ -42,7 +42,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$this->stash['profile'] = $this->visitor->profile;
 		
 		$this->set_target_css_state('user_account');
-		return $this->to_html_page("wap/account.html");
+		return $this->to_html_page("wap/my/account.html");
 	}
 	
 	/**
@@ -216,42 +216,56 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	/**
 	 * 更新账户信息
 	 */
-    public function save_account() {
+  public function save_account() {
 		$user_info = array();
 		$user_info['_id'] = $this->visitor->id;
-		
+
 		if (empty($this->stash['nickname'])) {
 			return $this->ajax_notification('昵称不能为空！', true);
 		}
-		
+
+		if (strlen($this->stash['nickname'])<4 || strlen($this->stash['nickname'])>30) {
+			return $this->ajax_notification('长度大于等于4个字符，小于30个字符，每个汉字占3个字符！', true);
+		}
+
+        //正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+        $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+        if (!preg_match($e, $this->stash['nickname'])) {
+          return $this->ajax_notification('格式不正确！ 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾', true);
+        }
+
 		// 验证昵称是否重复
-		if (!$this->visitor->_check_name($this->stash['nickname'])) {
+		if (!$this->visitor->_check_name($this->stash['nickname'], $this->visitor->id)) {
 			return $this->ajax_notification('昵称已经被占用！', true);
 		}
-		
+
 		$user_info['nickname'] = $this->stash['nickname'];
-		
+
 		// 修改密码
 		$current_password = $this->stash['current_password'];
 		$password = $this->stash['password'];
 		$repeat_password = $this->stash['repeat_password'];
-		
+
 		if (!empty($current_password) && !empty($password) && !empty($repeat_password)){
 			// 验证当前密码
 			if ($this->visitor->password != sha1($current_password)){
 				return $this->ajax_notification('当前密码不正确！', true);
 			}
+      //验证密码长度
+      if(strlen($password)<6 || strlen($password)>30){
+  		  return $this->ajax_notification('密码长度介于6-30字符内！', true);    
+      }
 			// 验证新密码是否一致
 			if ($password != $repeat_password){
 				return $this->ajax_notification('新密码与确认密码不一致！', true);
 			}
-			
+
 			$user_info['password'] = sha1($password);
 		}
-		
+
         //更新基本信息
         $this->visitor->save($user_info);
-        
+
         return $this->ajax_notification('更新成功！');
     }
 	
