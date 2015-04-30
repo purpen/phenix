@@ -389,7 +389,17 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
      * 获取用户信息
      */
     public function ajax_fetch_profile(){
-        return $this->to_taconite_page('ajax/user_card.html');
+        $user = $this->stash['user'];
+        
+        $user_info = array(
+            'nickname' => 'purpen',
+            'city' => $user['city'],
+            'job'  => $user['profile']['job'],
+             
+            'last_char' => $this->stash['last_char'],
+            
+        );
+        return $this->to_json(200,'',$user_info);
     }
 
     /**

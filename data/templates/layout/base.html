@@ -123,7 +123,11 @@
 	    {% endblock %}
 		{% block layout_footer %}
 		{% endblock %}
-		
+        
+        <!-- mustache templates begin -->
+        {% block templates %}
+        {% endblock %}
+        <!-- mustache templates end -->
 
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
