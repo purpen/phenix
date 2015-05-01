@@ -122,7 +122,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-.s1-2,.s2-1,.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7,.s2-8,.s2-9,.s2-10,.s2-11,.s2-12,.s2-13,.s2-14,.s2-15,.s2-16,.s3-1,.s3-2,.s3-3,.s3-4,.s3-5,.s3-6,.s3-7,.s3-8,.s4-2,.s4-3,.s4-4,.s4-5{
+.s1-2,.s2-1,.s2-2,.s2-3,.s2-4,.s2-5,.s2-6,.s2-7,.s2-8,.s2-9,.s2-10,.s2-11,.s2-12,.s2-13,.s2-14,.s2-15,.s2-16,.s3-1,.s3-2,.s3-3,.s3-4,.s3-5,.s3-6,.s3-7,.s3-8,.s4-01,.s4-2,.s4-3,.s4-4,.s4-5{
 	opacity:0;
 }
 .s2-1.zoomIn.animated,.s3-1.zoomIn.animated,.s5-1.zoomIn.animated{
@@ -422,6 +422,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	left: 0;
 	z-index: 2;
 }
+.s4-01{
+	position:absolute;
+	width:30%;
+	top: 2%;
+	left: 35%;
+	z-index: 2;
+}
 .s4-2{
 	position:absolute;
 	width:32.8%;
@@ -455,8 +462,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-duration: 1s;
 }
 .s4-2.page-logo{
-	animation-delay:2s;
-	-webkit-animation-delay:2s;
+	animation-delay:2.2s;
+	-webkit-animation-delay:2.2s;
 }
 .s4-3.fadeInRightBig.animated{
 	animation-delay:2s;
@@ -469,6 +476,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 .s4-5.pages-logo{
 	animation-delay:1.4s;
 	-webkit-animation-delay:1.4s;
+}
+.s4-01.page-logo{
+	animation-delay:1.8s;
+	-webkit-animation-delay:1.8s;
 }
 .s5-2{
 	position:absolute;
@@ -1558,6 +1569,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s4-3').addClass('fadeInRightBig animated');
 							$('.s4-4').addClass('pages-logo');
 							$('.s4-5').addClass('pages-logo');
+							$('.s4-01').addClass('pages-logo');
 						}
 			},
 			onLeave: function(index, direction){
@@ -1686,6 +1698,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 							$('.s4-3').removeClass('fadeInRightBig animated');
 							$('.s4-4').removeClass('pages-logo');
 							$('.s4-5').removeClass('pages-logo');
+							$('.s4-01').removeClass('pages-logo');
 						}
 						
 						
@@ -1790,14 +1803,14 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/promo/jd/1.png" class="s5-01">
 		<img src="{{ app_url_packaged }}/images/promo/jd/2.png" class="s5-02">
 		<img src="{{ app_url_packaged }}/images/promo/jd/3.png" class="s5-03">
-		<img src="{{ app_url_packaged }}/images/promo/jd/04.png" class="s5-04">
+		<img src="{{ app_url_packaged }}/images/promo/jd/4-1.png" class="s5-04">
 		<img src="{{ app_url_packaged }}/images/promo/jd/5.png" class="s5-05">
 		<img src="{{ app_url_packaged }}/images/promo/jd/6.png" class="s5-06">
 		<img src="{{ app_url_packaged }}/images/promo/jd/7.png" class="s5-07">
 		<img src="{{ app_url_packaged }}/images/promo/jd/8.png" class="s5-08">
 		<img src="{{ app_url_packaged }}/images/promo/jd/9.png" class="s5-09">
 		<img src="{{ app_url_packaged }}/images/promo/jd/10.png" class="s5-010">
-		<img src="{{ app_url_packaged }}/images/promo/jd/11.png" class="s5-011">
+		<img src="{{ app_url_packaged }}/images/promo/jd/11-1.png" class="s5-011">
 		<img src="{{ app_url_packaged }}/images/promo/jd/12.png" class="s5-012">
 		<img src="{{ app_url_packaged }}/images/promo/jd/13.png" class="s5-013">
 		<img src="{{ app_url_packaged }}/images/promo/jd/14.png" class="s5-014">
@@ -1869,6 +1882,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj5.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/promo/jd/logo.jpg" class="s4_01">
 		<img src="{{ app_url_packaged }}/images/promo/jd/jd5_1.png" class="s4-1">
 		<a href="javascript:void(0);" id="sign-type-1">
 		<img src="{{ app_url_packaged }}/images/promo/jd/jd5_2.png" class="s4-2">
