@@ -628,8 +628,8 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       }
     }
     
-    // 赠与红包 结束日期:2015-6-30
-    $end_time = strtotime('2015-06-30 23:59');
+    // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
+    $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
 	
