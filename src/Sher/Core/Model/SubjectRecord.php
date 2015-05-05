@@ -14,10 +14,18 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	const EVENT_LOVE = 2;
   // 报名
   const EVENT_SIGN = 3;
+
+  //状态
+  // 通过
+  const STATE_OK = 1;
+  // 未通过
+  const STATE_NO = 2;
 	
   protected $schema = array(
+    // 号码
+    'number' => 0,
     'user_id' => null,
-    //1,apple_watch;2,
+    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名
     'target_id' => null,
     'info' => null,
     'tags' => array(),
@@ -31,7 +39,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('user_id', 'target_id');
-    protected $int_fields = array('user_id', 'type', 'event', 'state');
+    protected $int_fields = array('user_id', 'type', 'event', 'state', 'number');
 	
     protected function before_save(&$data) {
         if (isset($data['tags']) && !is_array($data['tags'])) {
@@ -90,6 +98,26 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 		$query['event']  = self::EVENT_APPOINTMENT;
     return $this->remove($query);
 	}
+
+  /**
+   * ajax更改状态
+   */
+  public function mark_as_state($id, $state=1){
+    $data = $this->extend_load((string)$id);
+
+    if(empty($data)){
+      return array('status'=>0, 'msg'=>'内容不存在');
+    }
+    if($data['state']==(int)$state){
+      return array('status'=>0, 'msg'=>'重复的操作');  
+    }
+    $ok = $this->update_set((string)$id, array('state' => $state));
+    if($ok){
+      return array('status'=>1, 'msg'=>'操作成功', 'target_id'=>$data['target_id'], 'number'=>$data['number'], 'user_id'=>$data['user_id']);  
+    }else{
+      return array('status'=>0, 'msg'=>'操作失败');   
+    }
+  }
 	
 }
 
