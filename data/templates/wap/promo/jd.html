@@ -1361,6 +1361,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;
 		background-size: 100%;
 	}
+	#music-control img.playing{
+		-webkit-animation: 2.3s spin linear infinite;
+	}
+	@-webkit-keyframes spin {
+	    0% {
+	        -webkit-transform: rotateZ(0deg);
+	    }
+
+	    100% {
+	        -webkit-transform: rotateZ(360deg);
+	    }
+	}
+	
 </style>
 {% endblock %}
 
@@ -1747,6 +1760,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 	        this.on('ended', function(){
 	            bgm.play();
+							$("#music-control img").removeClass("playing");
 	        })           
 	    }
 	});
@@ -1757,7 +1771,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div id="music-control"><img class="playing" src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj1.jpg" class="bodybg">
