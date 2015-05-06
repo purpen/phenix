@@ -1361,6 +1361,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;
 		background-size: 100%;
 	}
+	#music-control.playing{
+		-webkit-animation: 2.3s spin linear infinite;
+	}
+	@-webkit-keyframes spin {
+	    0% {
+	        -webkit-transform: rotateZ(0deg);
+	    }
+
+	    100% {
+	        -webkit-transform: rotateZ(360deg);
+	    }
+	}
+	
 </style>
 {% endblock %}
 
@@ -1753,11 +1766,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 	$('#music-control').click(function(){
 	    bgm.playPause();
+			if($(this).hasClass("playing")){
+				$(this).removeClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //关闭
+			}
+			else{
+				$(this).addClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
+			}
 	});
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj1.jpg" class="bodybg">
@@ -1800,21 +1821,21 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	<div class="section s4">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj4.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/promo/jd/jd_4.png" class="s5-1">
-		<img src="{{ app_url_packaged }}/images/promo/jd/1.png" class="s5-01">
-		<img src="{{ app_url_packaged }}/images/promo/jd/2.png" class="s5-02">
-		<img src="{{ app_url_packaged }}/images/promo/jd/3.png" class="s5-03">
-		<img src="{{ app_url_packaged }}/images/promo/jd/4-1.png" class="s5-04">
-		<img src="{{ app_url_packaged }}/images/promo/jd/5.png" class="s5-05">
-		<img src="{{ app_url_packaged }}/images/promo/jd/6.png" class="s5-06">
-		<img src="{{ app_url_packaged }}/images/promo/jd/7.png" class="s5-07">
-		<img src="{{ app_url_packaged }}/images/promo/jd/8.png" class="s5-08">
-		<img src="{{ app_url_packaged }}/images/promo/jd/9.png" class="s5-09">
-		<img src="{{ app_url_packaged }}/images/promo/jd/10.png" class="s5-010">
-		<img src="{{ app_url_packaged }}/images/promo/jd/11-1.png" class="s5-011">
-		<img src="{{ app_url_packaged }}/images/promo/jd/12.png" class="s5-012">
-		<img src="{{ app_url_packaged }}/images/promo/jd/13.png" class="s5-013">
-		<img src="{{ app_url_packaged }}/images/promo/jd/14.png" class="s5-014">
-		<img src="{{ app_url_packaged }}/images/promo/jd/15.png" class="s5-015">
+		<img src="{{ app_url_packaged }}/images/promo/jd/001.png" class="s5-01">
+		<img src="{{ app_url_packaged }}/images/promo/jd/002.png" class="s5-02">
+		<img src="{{ app_url_packaged }}/images/promo/jd/003.png" class="s5-03">
+		<img src="{{ app_url_packaged }}/images/promo/jd/004.png" class="s5-04">
+		<img src="{{ app_url_packaged }}/images/promo/jd/005.png" class="s5-05">
+		<img src="{{ app_url_packaged }}/images/promo/jd/006.png" class="s5-06">
+		<img src="{{ app_url_packaged }}/images/promo/jd/007.png" class="s5-07">
+		<img src="{{ app_url_packaged }}/images/promo/jd/008.png" class="s5-08">
+		<img src="{{ app_url_packaged }}/images/promo/jd/009.png" class="s5-09">
+		<img src="{{ app_url_packaged }}/images/promo/jd/0010.png" class="s5-010">
+		<img src="{{ app_url_packaged }}/images/promo/jd/0011.png" class="s5-011">
+		<img src="{{ app_url_packaged }}/images/promo/jd/0012.png" class="s5-012">
+		<img src="{{ app_url_packaged }}/images/promo/jd/0013.png" class="s5-013">
+		<img src="{{ app_url_packaged }}/images/promo/jd/0014.png" class="s5-014">
+		<!--<img src="{{ app_url_packaged }}/images/promo/jd/15.png" class="s5-015">-->
 		<!--<img src="{{ app_url_packaged }}/images/promo/1.png" class="s5-2">
 		<img src="{{ app_url_packaged }}/images/promo/2.png" class="s5-3">
 		<img src="{{ app_url_packaged }}/images/promo/3.png" class="s5-4">
