@@ -85,6 +85,10 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
                   $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Topic');
                   $type_str = '话题';
                   break;
+                case 3:
+                  $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Try');
+                  $type_str = '新品试用';
+                  break;
                 case 4:
                   $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Product');
                   $type_str = '创意产品';
