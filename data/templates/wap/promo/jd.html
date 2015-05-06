@@ -1766,13 +1766,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 	$('#music-control').click(function(){
 	    bgm.playPause();
-			//$(this).removeClass("playing");
-			if(!$(this).hasClass(playing)){
-				$(this).addClass("playing");
-			}
-			else{
+	});
+	$('#music-control').click(function(){
+			$(this).hasClass(playing){
 				$(this).removeClass("playing");
 			}
+			$(this.).addClass("playing");
 	});
 {% endblock %}
 {% block content %}
