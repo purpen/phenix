@@ -1760,18 +1760,18 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 	        this.on('ended', function(){
 	            bgm.play();
-							$("#music-control > img").removeClass("playing");
 	        })           
 	    }
 	});
 
 	$('#music-control').click(function(){
 	    bgm.playPause();
+			$this.removeClass("playing");
 	});
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
-<div id="music-control"><img class="playing" src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj1.jpg" class="bodybg">
