@@ -118,4 +118,108 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 
   }
 
+	/**
+	 * 导出参与列表
+	 */
+	public function export(){
+		$query = array();
+		$options = array();
+		$page = 1;
+		$size = 500;
+
+    $query['target_id'] = (int)$this->stash['target_id'];
+    //$query['state'] = isset($this->stash['state'])?(int)$this->stash['state']:0;
+		
+		if(empty($query)){
+			return $this->ajax_json('请选择导出数据条件！', true);
+		}
+		
+		// 设置不超时
+		set_time_limit(0);
+			
+		 header('Content-Type: application/vnd.ms-excel');
+		 header('Content-Disposition: attachment;filename="data.csv"');
+		 header('Cache-Control: max-age=0');
+		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    //fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+     $fp = fopen('php://output', 'a');
+
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
+		// 输出Excel列名信息
+		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '地址', '状态');
+		foreach($head as $i => $v){
+			// CSV的Excel支持GBK编码，一定要转换，否则乱码
+			// $head[$i] = iconv('utf-8', 'gbk', $v);
+		}
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+		
+		$service = Sher_Core_Service_SubjectRecord::instance();
+		
+		$is_end = false;
+		$counter = 0;
+		$limit = 1000;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			$result = $service->get_all_list($query, $options);
+			
+			$max = count($result['rows']);
+			for($i=0; $i<$max; $i++){
+				$counter ++;
+				if($limit == $counter){
+					ob_flush();
+					flush();
+					$counter = 0;
+				}
+				
+        $user = $result['rows'][$i]['user'];
+        $number = isset($result['rows'][$i]['number'])?$result['rows'][$i]['number']:0;
+        $realname = isset($user['profile']['realname'])?$user['profile']['realname']:'--';
+        $phone = isset($user['profile']['phone'])?$user['profile']['phone']:'--';
+        $company = isset($user['profile']['company'])?$user['profile']['company']:'--';
+        $job = isset($user['profile']['job'])?$user['profile']['job']:'--';
+        $address = isset($user['profile']['address'])?$user['profile']['address']:'--';
+        $state = $result['rows'][$i]['state'];
+        if($state==0){
+          $stat_str = '未审核';
+        }elseif($state==1){
+          $stat_str = '通过';       
+        }elseif($state==2){
+          $stat_str = '拒绝';       
+        }
+				
+				$row = array($user['_id'], $number, $realname, $phone, $company, $job, $address, $stat_str);
+				
+				/*
+				foreach($row as $k => $v){
+					// CSV的Excel支持GBK编码，一定要转换，否则乱码
+					// $row[$i] = iconv('utf-8', 'gbk', $v);
+				}*/
+				
+				fputcsv($fp, $row);
+				
+				unset($row);
+				unset($user);
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		}
+		
+		fclose($fp);
+
+	}
+
 }

@@ -60,8 +60,9 @@ class Sher_Admin_Action_Gift extends Sher_Admin_Action_Base implements DoggyX_Ac
     $expired_days = 7;
     $before_prefix = 'G';
 		$total_count = $this->stash['total_count'];
-		$amount = $this->stash['amount'];
-		$product_id = $this->stash['product_id']||0;
+    $amount = $this->stash['amount'];
+    $min_cost = isset($this->stash['min_cost'])?(float)$this->stash['min_cost']:0;
+		$product_id = isset($this->stash['product_id'])?(int)$this->stash['product_id']:0;
     if(!empty($this->stash['expired_day'])){
       $expired_days = (int)$this->stash['expired_day'];
     }
@@ -74,13 +75,13 @@ class Sher_Admin_Action_Gift extends Sher_Admin_Action_Base implements DoggyX_Ac
 		}
 		
 		try{
-			// 单次生成不超过500
-			if($total_count > 500){
+			// 单次生成不超过100
+			if($total_count > 100){
 				return $this->ajax_json('超过单次生成最大数量！', true);
 			}
 			
 			$model = new Sher_Core_Model_Gift();
-			$ok = $model->create_batch_gift($product_id, $amount, $this->visitor->id, $total_count, $before_prefix, $expired_days);
+			$ok = $model->create_batch_gift($product_id, $amount, $min_cost, $this->visitor->id, $total_count, $before_prefix, $expired_days);
 			
 			$next_url = Doggy_Config::$vars['app.url.admin'].'/gift';
 			

@@ -45,6 +45,7 @@
 				<th></th>
 				<th>礼品码</th>
 				<th>抵扣金额</th>
+        <th>最低消费额</th>
 				<th>关联产品</th>
 				<th>使用用户</th>
 				<th>状 态</th>
@@ -69,6 +70,11 @@
 				<td>
 					<span class="ui magenta text">
 						<small>￥</small>{{ b.amount }}
+					</span>
+				</td>
+				<td>
+					<span class="ui magenta text">
+						{{ b.min_cost }}
 					</span>
 				</td>
 				<td>{{ b.product_id }}</td>
