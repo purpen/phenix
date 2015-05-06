@@ -1768,7 +1768,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	    bgm.playPause();
 			if($(this).hasClass("playing")){
 				$(this).removeClass("playing");
-				$(this > img).attr("src","http://frstatic.qiniudn.com/images/swipe.png");
+				$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/swipe.png");
 			}
 			else{
 				$(this).addClass("playing");
