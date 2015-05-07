@@ -170,6 +170,17 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 
     return $this->to_html_page('wap/birdegg/sz.html');
   }
+
+  /**
+   * 深圳蛋年报名入口
+   */
+  public function sz_apply(){
+
+    $this->stash['area_options'] = Sher_Core_Util_Constant::birdegg_area_options();
+    $this->stash['interest_options'] = Sher_Core_Util_Constant::birdegg_interest_options();
+
+ 		return $this->to_html_page('wap/birdegg/sz_apply.html'); 
+  }
 	
 }
 ?>

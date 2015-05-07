@@ -27,7 +27,10 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     'user_id' => null,
     //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名
     'target_id' => null,
-    'info' => null,
+    // 3.蛋年: 领域, 感兴趣的/
+    'option01' => 0,
+    'option02' => 0,
+    'info' => array(),
     'tags' => array(),
     'type'   => 1,
     'event'  => self::EVENT_APPOINTMENT,

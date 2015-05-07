@@ -222,4 +222,34 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 
 	}
 
+	/**
+	 * 删除参与记录
+	 */
+	public function del_attend(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('ID不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_SubjectRecord();
+			foreach($ids as $id){
+				$record = $model->load($id);
+				// 
+				if ($record){
+					$model->remove($id);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
 }
