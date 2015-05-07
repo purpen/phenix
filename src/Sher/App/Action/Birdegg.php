@@ -181,6 +181,17 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		
 		return $this->to_html_page('page/birdegg/submit.html');
 	}
+
+  /**
+   * 深圳蛋年报名入口
+   */
+  public function sz_apply(){
+
+    $this->stash['area_options'] = Sher_Core_Util_Constant::birdegg_area_options();
+    $this->stash['interest_options'] = Sher_Core_Util_Constant::birdegg_interest_options();
+
+ 		return $this->to_html_page('page/birdegg/sz_apply.html'); 
+  }
 	
 	/**
 	 * 编辑器参数

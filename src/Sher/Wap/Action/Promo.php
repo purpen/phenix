@@ -436,6 +436,77 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   
   }
 
+  /**
+   * 保存报名/预约用户信息
+   */
+  public function save_sign(){
+
+    $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
+    $event = isset($this->stash['event'])?$this->stash['event']:1;
+
+    if(empty($target_id)){
+      return $this->ajax_note('参数不存在!', true);   
+    }
+
+    $model = new Sher_Core_Model_SubjectRecord();
+    $is_sign = $model->check_appoint($this->visitor->id, $target_id, $event);
+
+    if($is_sign){
+      return $this->ajax_note('您已经参与,不能重复操作!', true);
+    }
+
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job'])){
+      return $this->ajax_note('请求失败,缺少用户必要参数!', true);
+    }
+
+    $user_data = array();
+    $user_data['profile']['realname'] = $this->stash['realname'];
+    $user_data['profile']['phone'] = $this->stash['phone'];
+    $user_data['profile']['company'] = $this->stash['company'];
+    $user_data['profile']['job'] = $this->stash['job'];
+
+    try {
+      //更新基本信息
+      $user_ok = $this->visitor->save($user_data);
+      if(!$user_ok){
+        return $this->ajax_note('更新用户信息失败!', true);
+      }
+    } catch (Sher_Core_Model_Exception $e) {
+      return $this->ajax_note("更新失败:".$e->getMessage(), true);
+    }
+
+    $data = array();
+    $data['user_id'] = (int)$this->visitor->id;
+    $data['target_id'] = $target_id;
+    $data['event'] = $event;
+    $data['info'] = $user_data['profile'];
+    $data['option01'] = isset($this->stash['option01'])?(int)$this->stash['option01']:0;
+    $data['option02'] = isset($this->stash['option02'])?(int)$this->stash['option02']:0;
+    try{
+      $ok = $model->apply_and_save($data);
+      if($ok){
+        if($target_id==3){
+          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/sz';
+    	    $this->stash['note'] = '报名成功!';
+        }else{
+          $redirect_url = Doggy_Config::$vars['app.url.wap'];
+    	    $this->stash['note'] = '操作成功!';
+        }
+
+    	  $this->stash['is_error'] = false;
+        $this->stash['show_note_time'] = 2000;
+
+		    $this->stash['redirect_url'] = $redirect_url;
+		    return $this->to_taconite_page('ajax/note.html');
+      }else{
+        return $this->ajax_note('保存失败!', true);
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+      return $this->ajax_note('保存失败!'.$e->getMessage(), true);
+    }
+  
+  }
+
 
   /**
    * test

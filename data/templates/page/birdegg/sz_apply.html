@@ -1,0 +1,185 @@
+{%extends 'layout/column.html'%}
+{% block title %}蛋年报名-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .ui.submit.segment {
+    	 margin-bottom: 3rem;
+    	 padding: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+
+{% endblock %}
+
+{% block jquery %}
+
+	$('#sign-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			company: {
+				identifier  : 'company',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '请添写所在公司'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			},
+			option01: {
+				identifier  : 'option01',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '请选择所属领域'
+					}
+				]
+			},
+			option02: {
+				identifier  : 'option02',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '请选择你感兴趣的'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+
+  //取消
+  $('.cancel.btn').click(function(){
+    phenix.redirect('{{ app_url_action_base }}/birdegg/sz', 0);
+  });
+
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_birdegg }}/sz">
+						<i class="basic icon community"></i> 蛋年
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">报名</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="nopad row">
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						蛋年报名
+					</h2>
+				</div>
+				
+				<div class="ui submit segment">
+					<form action="{{ app_url_action_base }}/promo/save_sign" class="ui form" method="post" id="sign-form">
+						<input type="hidden" name="target_id" value="3" />
+						<input type="hidden" name="event" value="3" />
+					
+            <div class="two fields">
+              <div class="field">
+                <label for="title">姓名</label>
+                  <input type="text" name="realname" value="{{ visitor.profile.realname }}" />
+              </div>
+              <div class="field">
+                <label for="title">手机号</label>
+                  <input type="text" name="phone" value="{{ visitor.profile.phone }}" />
+              </div>
+            </div>
+            <div class="two fields">
+              <div class="field">
+                <label for="title">所在公司</label>
+                  <input type="text" name="company" value="{{ visitor.profile.company }}" />
+              </div>
+              <div class="field">
+                <label for="title">职位</label>
+                  <input type="text" name="job" value="{{ visitor.profile.job }}" />
+              </div>
+            </div>
+
+			<div class="two fields">
+				<div class="field">
+					<label for="space_id">所属领域：</label>
+					<div class="ui options fluid selection dropdown">
+						<input type="hidden" name="option01" value="" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for k, d in area_options %}
+              <div data-value="{{ k }}" class="item">{{ d }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui pointing top label">请选择一项领域</div>
+				</div>
+
+				<div class="field">
+				  	<label for="mode">感兴趣的：</label>
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="option02" value="" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for k, d in interest_options %}
+							<div data-value="{{ k }}" class="item">{{ d }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui pointing top label">请选择你感兴趣的</div>
+				</div>
+			</div>
+						
+						<div class="ui right floated aligned grid">
+							<div class="column">
+								<div class="ui gray cancel large inverted button">取消</div>
+								<div class="ui magenta large submit inverted button">确认提交</div>
+							</div>
+						</div>
+					
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

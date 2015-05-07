@@ -268,4 +268,29 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     public static function top_topic_category_key($category_id){
         return self::DIG_TOPIC_CATEGROY.'_'.$category_id;
     }
+
+  /**
+   * 蛋年报名选项解析--所属领域
+   */
+  public static function birdegg_area_options($id=0){
+    $array = array(1=>'智能家居', 2=>'智能可穿戴', 3=>'无人机', 4=>'机器人', 5=>'3D打印', 10=>'其它');
+    if(empty($id)){
+      return $array;
+    }else{
+      return $array[(int)$id];
+    }
+  }
+
+  /**
+   * 蛋年报名选项解析--感兴趣的
+   */
+  public static function birdegg_interest_options($id=0){
+    $array = array(1=>'我需要媒体', 2=>'我需要融资', 3=>'我需要工业设计', 4=>'我需要元器件', 5=>'我需要销售渠道', 10=>'其它');
+    if(empty($id)){
+      return $array;
+    }else{
+      return $array[(int)$id];
+    }
+  }
+
 }
