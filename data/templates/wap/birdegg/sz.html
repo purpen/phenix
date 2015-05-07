@@ -97,7 +97,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index: 1000;
 	width: 100%;
 	height: 100%;
-	background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;
+	/*background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;*/
+	color:#fff;
+	font-size:30px;
+	text-align:center;
 	background-size: 100%;
 }
 #music-control.playing{
@@ -125,8 +128,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 #vio{
 	position:absolute;
 	top:5%;
-	left:10%;
+	left:5%;
 	z-index:2;
+	width:90%;
 }
 
 </style>
@@ -145,7 +149,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			
 		});
 	</script>
-	<script>document.write('<style>#loading{display:none}</style>');</script>
+	<!--<script>document.write('<style>#loading{display:none}</style>');</script>-->
 	
 {% endblock %}
 
@@ -180,7 +184,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
-<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+<div id='loading'><div class="loadbox"><div class="loadbg">正在加载中，图片可能较大，建议您在WIFI环境下观看</div></div></div>
 <div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section">
