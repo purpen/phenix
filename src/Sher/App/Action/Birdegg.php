@@ -10,7 +10,7 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
     'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
-	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
+	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view','sz');
 
 	public function _init() {
 		$this->set_target_css_state('page_social');
