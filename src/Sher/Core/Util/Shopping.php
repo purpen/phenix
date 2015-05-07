@@ -76,6 +76,20 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		if($gift['expired_at'] && $gift['expired_at'] < time()){
 			throw new Sher_Core_Model_Exception('礼品码已过期！');
 		}
+
+		$product_model = new Sher_Core_Model_Product();
+		$product = $product_model->find_by_id((int)$product_id);
+		
+    //验证产品
+		if (empty($product)){
+			throw new Sher_Core_Model_Exception('产品不存在！');
+		}
+
+    // 礼品券最低消费限额
+    if(!empty($gift['min_cost']) && $gift['min_cost']>$product['sale_price']){
+ 			throw new Sher_Core_Model_Exception('该礼品券要求当前商品最低消费限额 '.$gift['min_cost'].'元！');   
+    }
+
 		$gift_money = $gift['amount'];
 		
 		return $gift_money;
