@@ -397,6 +397,23 @@ transition: all .3s ease-in-out 0s;
 		$(this).addClass('active');
 		$('.p1,.p2,.p3,.p4,.p5,.p6,.p7,.p8,.p9').removeClass('active');
 	});
+  //报名按钮
+  $('.attend.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    var url = "{{ app_url_action_base }}/birdegg/sz_apply";
+    phenix.redirect(url);
+  });
+
+	// 分享按钮
+	var pic_url = 'http://frstatic.qiniudn.com/images/egg-header.jpg';
+	phenix.bind_share_list(pic_url);
+
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/birdegg/sz'});
 	
 {% endblock %}
 
@@ -708,7 +725,17 @@ transition: all .3s ease-in-out 0s;
 				</div>
 			</div>
 			<img src="{{ app_url_packaged }}/images/birdegg/logo4.png">
+
+        <div class="center aligned row">
+          <div class="column">
+            <div class="share box">
+              {% include "block/big-circel-share.html" %}
+            </div>
+          </div>
+        </div>
 		</div>
+
+
 	</section>
 
 </div>
