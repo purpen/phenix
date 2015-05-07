@@ -214,6 +214,14 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
+
+  /**
+   * 深圳
+   */
+  public function sz(){
+	
+    return $this->to_html_page('page/birdegg/bird.html');
+  }
 	
 }
 ?>

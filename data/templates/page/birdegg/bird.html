@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
 #bird{
-	background:url(http://frstatic.qiniudn.com/images/birdegg/bird_bg.jpg) no-repeat left top;
+	background:url(http://frstatic.qiniudn.com/images/birdegg/bird_bg1.jpg) no-repeat left top;
 	background-size:cover;
 }
 .pagex {
@@ -49,21 +49,21 @@
 }
 
 .xxp {
-  background: url(http://frstatic.qiniudn.com/images/egg_xxpo.jpg);
+  background: url({{ app_url_packaged }}/images/birdegg/xxp.jpg);
   width: 350px;
   height: 350px;
   position: relative;
 	background-size:cover;
 }
 .lkf {
-  background: url(http://frstatic.qiniudn.com/images/egg_xxpo.jpg);
+  background: url({{ app_url_packaged }}/images/birdegg/lkf.jpg);
   width: 350px;
   height: 350px;
   position: relative;
 	background-size:cover;
 }
 .hhq {
-  background: url(http://frstatic.qiniudn.com/images/egg_xxpo.jpg);
+  background: url({{ app_url_packaged }}/images/birdegg/hyq.jpg);
   width: 350px;
   height: 350px;
   position: relative;
@@ -100,76 +100,62 @@
 	margin-top:30.6px;
 }
 .fch{
-	background: url(http://frstatic.qiniudn.com/images/egg_xxpo.jpg);
+	background: url({{ app_url_packaged }}/images/birdegg/fch.jpg);
   width: 272px;
   height: 272px;
   position: relative;
 	background-size:cover;
 }
 .yns{
-	background: url({{ app_url_packaged }}/images/birdegg/);
+	background: url({{ app_url_packaged }}/images/birdegg/yns.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.lhb{
+	background: url({{ app_url_packaged }}/images/birdegg/lhb.jpg);
   width: 272px;
   height: 272px;
   position: relative;
 	background-size:cover;
 }
 .lhj{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.pet{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.zp{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.lcc{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.pnf{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.lxl{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.lzr{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
-.hz{
-	background: url({{ app_url_packaged }}/images/birdegg/);
+	background: url({{ app_url_packaged }}/images/birdegg/lhj.jpg);
   width: 272px;
   height: 272px;
   position: relative;
 	background-size:cover;
 }
 .sc{
+	background: url({{ app_url_packaged }}/images/birdegg/sc.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.twl{
+	background: url({{ app_url_packaged }}/images/birdegg/twl.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.hz{
+	background: url({{ app_url_packaged }}/images/birdegg/hz.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.ltl{
+	background: url({{ app_url_packaged }}/images/birdegg/ltl.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.lzr{
 	background: url({{ app_url_packaged }}/images/birdegg/);
   width: 272px;
   height: 272px;
@@ -197,13 +183,6 @@
   position: relative;
 	background-size:cover;
 }
-.lhb{
-	background: url({{ app_url_packaged }}/images/birdegg/);
-  width: 272px;
-  height: 272px;
-  position: relative;
-	background-size:cover;
-}
 
 
 #video {
@@ -218,8 +197,11 @@
 .mt-45{
 	margin-top:45px;
 }
+.mt-40{
+	margin-top:40px;
+}
 .mr-30{
-	margin-right:30px;
+	margin-right:40px;
 }
 .h-570{
 	height:570px;
@@ -256,6 +238,7 @@
 	float:left;
 	font-size:24px;
 	padding-bottom:3px;
+	height:28px;
 	color:#fff;
 }
 .w-95.active,.w-95:hover{
@@ -303,7 +286,14 @@ transition: all .3s ease-in-out 0s;
 	float: left;
 	position: relative;
 }
-
+#vio{
+	position:absolute;
+	right:0;
+	top:20px;
+}
+.inverted.attend{
+	font-size:1.2rem;
+}
 
 </style>
 {% endblock %}
@@ -328,11 +318,11 @@ transition: all .3s ease-in-out 0s;
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: 35000,
+		cycleInterval: false,
 		pauseOnHover: 1,
 		
 		// Dragging
-		mouseDragging: 1,
+		mouseDragging: 0,
 		touchDragging: 1,
 		releaseSwing: 1,
 		
@@ -416,25 +406,19 @@ transition: all .3s ease-in-out 0s;
 		<img src="{{ app_url_packaged }}/images/birdegg/bg.png" class="ui image">
 	</section>
 	<section>
-		<div class="w-1180">
-			<div class="ui grid">
-				<div class="row">
-					
-				</div>
-				<div class="row">
-					<div class="eigtht wide column">
-						
-					</div>
-					<div class="eight wide column">
-						<div id="video"><iframe src="http://player.youku.com/embed/XNzM4NjkyOTI0" width="100%" height="100%" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>
-					</div>
-				</div>
+		<div class="w-1180" style="position:relative;">
+			<img src="{{ app_url_packaged }}/images/birdegg/video.png">
+			<div id="vio">
+				<video width="560" controls="controls">
+				  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+				</video>
 			</div>
 		</div>
 	</section>
 	<section>
 		<div class="w-1180">
-			<div class="h-350 mt-50">
+			<img src="{{ app_url_packaged }}/images/birdegg/h1.png">
+			<div class="h-350">
 				<div class="w-350">
 					<div class="xxp">
 						<div class="word">
@@ -467,10 +451,19 @@ transition: all .3s ease-in-out 0s;
 	</section>
 	
 	<section>
-		<div class="w-1180 mt-50">
+		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h2.png">
 			<div class="h-272">
 				<div class="w-272 mr-32">
-					<div class="fch">
+					<div class="lhb">
+						<div class="guest-word">
+							<h5 class="ui header">雷海波</h5>
+							<h5>太火鸟创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="fch">
 						<div class="guest-word">
 							<h5 class="ui header">封昌红</h5>
 							<h5>深圳工业设计协会秘书长</h5>
@@ -485,19 +478,11 @@ transition: all .3s ease-in-out 0s;
 						</div>
 					</div>
 				</div>
-				<div class="w-272 mr-32">
-				  <div class="lhj">
+				<div class="w-272">
+					<div class="lhj">
 						<div class="guest-word">
 							<h5 class="ui header">刘宏蛟</h5>
 							<h5>硬蛋</h5>
-						</div>
-					</div>
-				</div>
-				<div class="w-272">
-					<div class="zp">
-						<div class="guest-word">
-							<h5 class="ui header">张鹏</h5>
-							<h5>极客公园创始人</h5>
 						</div>
 					</div>
 				</div>
@@ -505,34 +490,34 @@ transition: all .3s ease-in-out 0s;
 			
 			<div class="h-272 mt-32">
 				<div class="w-272 mr-32">
-					<div class="lcc">
-						<div class="guest-word">
-							<h5 class="ui header">刘成城</h5>
-							<h5>36氪CEO</h5>
-						</div>
-					</div>
-				</div>
-				<div class="w-272 mr-32">
-				  <div class="pnf">
-						<div class="guest-word">
-							<h5 class="ui header">潘农菲</h5>
-							<h5>大疆副总裁</h5>
-						</div>
-					</div>
-				</div>
-				<div class="w-272 mr-32">
-				  <div class="lxl">
-						<div class="guest-word">
-							<h5 class="ui header">李晓亮</h5>
-							<h5>麦开CEO</h5>
-						</div>
-					</div>
-				</div>
-				<div class="w-272">
 					<div class="hz">
 						<div class="guest-word">
 							<h5 class="ui header">黄灼</h5>
 							<h5>机智云CEO</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="twl">
+						<div class="guest-word">
+							<h5 class="ui header">童玮亮</h5>
+							<h5>梧桐树资本合伙人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="sc">
+						<div class="guest-word">
+							<h5 class="ui header">申晨</h5>
+							<h5>熊猫自媒体创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272">
+					<div class="ltl">
+						<div class="guest-word">
+							<h5 class="ui header">林泰龙</h5>
+							<h5>富士康</h5>
 						</div>
 					</div>
 				</div>
@@ -579,20 +564,21 @@ transition: all .3s ease-in-out 0s;
 	
 	<section>
 		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h3.png">
 			<div class="h-570">
 				<div class="w-570 mr-30">
 					<div class="t1"></div>
 				</div>
 				<div class="w-570">
-					<div class="t1"></div>
+					<div class="t2"></div>
 				</div>
 			</div>
-			<div class="h-570 mt-45">
+			<div class="h-570 mt-40">
 				<div class="w-570 mr-30">
-					<div class="t1"></div>
+					<div class="t3"></div>
 				</div>
 				<div class="w-570">
-					<div class="t1"></div>
+					<div class="t4"></div>
 				</div>
 			</div>
 			
@@ -602,6 +588,7 @@ transition: all .3s ease-in-out 0s;
 	
 	<section>
 		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h4.png">
 			<div class="w-95 p1 mr-25 active">
 				智能家居
 			</div>
@@ -635,39 +622,94 @@ transition: all .3s ease-in-out 0s;
 		</div>
 			
 			
-		<div class="frames">
+		<div class="frames mt-45">
 			<div class="slide clearfix">
 				<div class="item active">
 					<div class="w-1180">
-						<img src="http://static.taihuoniao.me/images/birdegg/bg.png">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_1.png">
 					</div>
 					
 				</div>
 				<div class="item">
 					<div class="w-1180">
-						<img src="http://static.taihuoniao.me/images/birdegg/bg.png">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_2.png">
 					</div>
 				</div>
 				<div class="item">
-					
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_3.png">
+					</div>
 				</div>
 				<div class="item">
-					
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_4.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_5.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_6.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_7.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_8.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_9.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_10.png">
+					</div>
 				</div>
 			</div>
 		
-			<a class="prev" href="#">
+			<!--<a class="prev" href="#">
 				<i class="flat arrow_left icon"></i>
 			</a>
 			<a class="next" href="#">
 				<i class="flat arrow_right icon"></i>
-			</a>
+			</a>-->
 		</div>
 
 	</section>
-
-
-
+	<section class="w-1180">
+		<img src="{{ app_url_packaged }}/images/birdegg/h5.png">
+		<img src="{{ app_url_packaged }}/images/birdegg/logo1.png">
+	</section>
+	<section class="w-1180">
+		<img src="{{ app_url_packaged }}/images/birdegg/h6.png">
+		<img src="{{ app_url_packaged }}/images/birdegg/logo2.png">
+	</section>
+	<section class="w-1180">
+		<img src="{{ app_url_packaged }}/images/birdegg/h7.png">
+		<img src="{{ app_url_packaged }}/images/birdegg/logo3.png">
+	</section>
+	<section class="w-1180">
+		<div class="ui grid" style="margin:0;">
+			<div class="row">
+				<div class="center aligned column">
+					<a class="ui magenta active inverted attend button">
+											立即报名
+						        </a>
+				</div>
+			</div>
+			<img src="{{ app_url_packaged }}/images/birdegg/logo4.png">
+		</div>
+	</section>
 
 </div>
 {% include "block/qrcode.html" %}
