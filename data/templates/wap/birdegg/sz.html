@@ -174,6 +174,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
+#p2 .st{
+	opacity:0;
+}
+#p2 .st.fadeInUp{
+	opacity:1;
+}
 .s2-1{
 	top:0;
 	left:7.5%;
@@ -214,6 +220,35 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	left:26.5%;
 	width:47%;
 }
+.s2-2.fadeInUp{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+.s2-3.fadeInUp{
+	animation-delay:0.7s;
+	-webkit-animation-delay:0.7s;
+}
+.s2-4.fadeInUp{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s2-5.fadeInUp{
+	animation-delay:0.9s;
+	-webkit-animation-delay:0.9s;
+}
+.s2-6.fadeInUp{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s2-7.fadeInUp{
+	animation-delay:1.1s;
+	-webkit-animation-delay:1.1s;
+}
+.s2-8.fadeInUp{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+
 
 
 </style>
@@ -232,6 +267,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			afterLoad: function(anchorLink, index){
 				if(index == 2){
 					$('.s2-1').addClass('zoomInDown animated');
+					$('.st').addClass('fadeInUp animated');
 				}
 					
 					
@@ -239,6 +275,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			onLeave: function(index, direction){
 				if(index == 2){
 					$('.s2-1').removeClass('zoomInDown animated');
+					$('.st').removeClass('fadeInUp animated');
 				}
 				
 			}
@@ -297,7 +334,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
-	<div class="section">
+	<div class="section" id="p2">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg2.jpg" class="bodybg">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2.png" class="st s2-1">
 		<div id="vio">
