@@ -554,15 +554,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			afterLoad: function(anchorLink, index){
 				if(index == 2){
 					$('.s2-1').addClass('zoomInDown animated');
-					$('#p2 > .st').addClass('fadeInUp animated');
+					$('#p2 .st').addClass('fadeInUp animated');
 				}
 				if(index == 3){
 					$('.s3-1').addClass('zoomInDown animated');
-					$('#p3 > .st').addClass('fadeInUp animated');
+					$('#p3 .st').addClass('fadeInUp animated');
 				}
 				if(index == 4){
 					$('.s4-1').addClass('zoomInDown animated');
-					$('#p4 > .st').addClass('page-logo animated');
+					$('#p4 .st').addClass('page-logo animated');
 				}
 					
 					
@@ -570,15 +570,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			onLeave: function(index, direction){
 				if(index == 2){
 					$('.s2-1').removeClass('zoomInDown animated');
-					$('#p2 > .st').removeClass('fadeInUp animated');
+					$('#p2 .st').removeClass('fadeInUp animated');
 				}
 				if(index == 3){
 					$('.s3-1').removeClass('zoomInDown animated');
-					$('#p3 > .st').removeClass('fadeInUp animated');
+					$('#p3 .st').removeClass('fadeInUp animated');
 				}
 				if(index == 4){
 					$('.s4-1').removeClass('zoomInDown animated');
-					$('#p4 > .st').removeClass('page-logo animated');
+					$('#p4 .st').removeClass('page-logo animated');
 				}
 				
 			}
@@ -633,7 +633,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 <div class="wrap">
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg1.jpg" class="bodybg">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/t1.png" class="s1">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t1.png" class="st s1">
 		
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
