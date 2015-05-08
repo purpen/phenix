@@ -159,10 +159,44 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	70% 	{transform:scale(.9)}
 	100% 	{opacity:1;transform:scale(1)}
 }
-.s2-1,.s3-1{
+.page-logo {
+  -webkit-animation: 1s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+}
+@-webkit-keyframes scale-to-zero-with-center {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0) scale(20);
+        opacity: 0;
+    }
+   /* 30% {
+        opacity: 0.3;
+    }
+    60% {
+        -webkit-transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+    }*/
+		20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+		70% 	{opacity:1;-webkit-transform:scale(1.2)}
+		/*70% 	{-webkit-transform:scale(.9)}*/
+		100% 	{opacity:1;-webkit-transform:scale(1)}
+		
+}
+@-webkit-keyframes scale-to-zero-with-left {
+    0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+.s2-1,.s3-1,.s4-1{
 	opacity:0;
 }
-.s2-1.zoomInDown.animated,.s3-1.zoomIn.animated,.s5-1.zoomIn.animated{
+.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated{
 	opacity:1;
 }
 
@@ -334,6 +368,172 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	left:20%;
 }
 
+.s4-2{
+	position:absolute;
+	width:23%;
+	top:15%;
+	left:10%;
+	z-index:2;
+}
+.s4-3{
+	position:absolute;
+	width:23%;
+	top:15%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-4{
+	position:absolute;
+	width:23%;
+	top:15%;
+	right:10%;
+	z-index:2;
+}
+.s4-5{
+	position:absolute;
+	width:23%;
+	top:32%;
+	left:10%;
+	z-index:2;
+}
+.s4-6{
+	position:absolute;
+	width:23%;
+	top:32%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-7{
+	position:absolute;
+	width:23%;
+	top:32%;
+	right:10%;
+	z-index:2;
+}
+.s4-8{
+	position:absolute;
+	width:23%;
+	top:49%;
+	left:10%;
+	z-index:2;
+}
+.s4-9{
+	position:absolute;
+	width:23%;
+	top:49%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-10{
+	position:absolute;
+	width:23%;
+	top:49%;
+	right:10%;
+	z-index:2;
+}
+.s4-11{
+	position:absolute;
+	width:23%;
+	top:66%;
+	left:10%;
+	z-index:2;
+}
+.s4-12{
+	position:absolute;
+	width:23%;
+	top:66%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-13{
+	position:absolute;
+	width:23%;
+	top:66%;
+	right:10%;
+	z-index:2;
+}
+.s4-14{
+	position:absolute;
+	width:23%;
+	top:83%;
+	left:10%;
+	z-index:2;
+}
+.s4-15{
+	position:absolute;
+	width:23%;
+	top:83%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-16{
+	position:absolute;
+	width:23%;
+	top:83%;
+	right:10%;
+	z-index:2;
+}
+.s4-8.page-logo{
+	animation-delay:0.4s;
+	-webkit-animation-delay:0.4s;
+}
+.s4-6.page-logo{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s4-11.page-logo{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+.s4-4.page-logo{
+	animation-delay:1.6s;
+	-webkit-animation-delay:1.6s;
+}
+.s4-13.page-logo{
+	animation-delay:2s;
+	-webkit-animation-delay:2s;
+}
+.s4-2.page-logo{
+	animation-delay:2.4s;
+	-webkit-animation-delay:2.4s;
+}
+.s4-7.page-logo{
+	animation-delay:2.8s;
+	-webkit-animation-delay:2.8s;
+}
+.s4-12.page-logo{
+	animation-delay:3.2s;
+	-webkit-animation-delay:3.2s;
+}
+.s4-3.page-logo{
+	animation-delay:3.6s;
+	-webkit-animation-delay:3.6s;
+}
+.s4-14.page-logo{
+	animation-delay:4s;
+	-webkit-animation-delay:4s;
+}
+.s4-5.page-logo{
+	animation-delay:4.2s;
+	-webkit-animation-delay:4.2s;
+}
+.s4-15.page-logo{
+	animation-delay:4.6s;
+	-webkit-animation-delay:4.6s;
+}
+.s4-8.page-logo{
+	animation-delay:5s;
+	-webkit-animation-delay:5s;
+}
+.s4-16.page-logo{
+	animation-delay:5.4s;
+	-webkit-animation-delay:5.4s;
+}
+.s4-10.page-logo{
+	animation-delay:5.8s;
+	-webkit-animation-delay:5.8s;
+}
+
 
 
 </style>
@@ -358,6 +558,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s3-1').addClass('zoomInDown animated');
 					$('.st').addClass('fadeInUp animated');
 				}
+				if(index == 4){
+					$('.s4-1').addClass('zoomInDown animated');
+					$('.st').addClass('page-logo animated');
+				}
 					
 					
 			},
@@ -369,6 +573,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				if(index == 3){
 					$('.s3-1').removeClass('zoomInDown animated');
 					$('.st').removeClass('fadeInUp animated');
+				}
+				if(index == 4){
+					$('.s4-1').removeClass('zoomInDown animated');
+					$('.st').removeClass('page-logo animated');
 				}
 				
 			}
@@ -462,6 +670,27 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p13.png" class="st s3-14">
 	</div>
 	
+	<div class="section" id="p4">
+		<img src="{{ app_url_packaged }}/images/promo/jd/bj2.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_2.png" class="st s4-1">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_jw2.png" class="st s4-2">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_ym2.png" class="st s4-3">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_wr2.png" class="st s4-4">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_dw2.png" class="st s4-5">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_lh2.png" class="st s4-6">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_hg2.png" class="st s4-7">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_cx3.png" class="st s4-8">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_cs2.png" class="st s4-9">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_zz2.png" class="st s4-10">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_jl2.png" class="st s4-11">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_jp2.png" class="st s4-12">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_gh2.png" class="st s4-13">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_zd2.png" class="st s4-14">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_sc2.png" class="st s4-15">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_nh2.png" class="st s4-16">
+		
+		
+	</div>
 	
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj2.jpg" class="bodybg">
