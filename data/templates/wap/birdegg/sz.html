@@ -162,7 +162,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 .s2-1{
 	opacity:0;
 }
-.s2-1.zoomIn.animated,.s3-1.zoomIn.animated,.s5-1.zoomIn.animated{
+.s2-1.zoomInDown.animated,.s3-1.zoomIn.animated,.s5-1.zoomIn.animated{
 	opacity:1;
 }
 
@@ -231,14 +231,14 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			},
 			afterLoad: function(anchorLink, index){
 				if(index == 2){
-					$('.s2-1').addClass('zoomIn animated');
+					$('.s2-1').addClass('zoomInDown animated');
 				}
 					
 					
 			},
 			onLeave: function(index, direction){
 				if(index == 2){
-					$('.s2-1').removeClass('zoomIn animated');
+					$('.s2-1').removeClass('zoomInDown animated');
 				}
 				
 			}
