@@ -193,10 +193,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
         opacity: 1;
     }
 }
-.s2-1,.s3-1,.s4-1{
+.s2-1,.s3-1,.s4-1,.s5-1{
 	opacity:0;
 }
-.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated{
+.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated,.s5-1.zoomInDown.animated{
 	opacity:1;
 }
 
@@ -208,13 +208,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
-#p2 .st,#p3 .st,#p4 .st{
+#p2 .st,#p3 .st,#p4 .st,#p5 .st{
 	opacity:0;
 }
-#p2 .st.fadeInUp,#p3 .st.fadeInUp{
+#p2 .st.fadeInUp,#p3 .st.fadeInUp,#p5 .st.fadeInLeft,#p5 .st.fadeInRight{
 	opacity:1;
 }
-.s2-1,.s3-1,.s4-1{
+.s2-1,.s3-1,.s4-1,.s5-1{
 	position:absolute;
 	z-index: 2;
 	top:0;
@@ -535,8 +535,42 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:5.8s;
 	-webkit-animation-delay:5.8s;
 }
-
-
+.s5-2{
+	top:20%;
+	left:7.5%;
+	width:85%;
+}
+.s5-3{
+	top:40%;
+	left:7.5%;
+	width:85%;
+}
+.s5-4{
+	top:60%;
+	left:7.5%;
+	width:85%;
+}
+.s5-5{
+	top:80%;
+	left:7.5%;
+	width:85%;
+}
+.s5-2.fadeInLeft{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s5-3.fadeInRight{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s5-4.fadeInLeft{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+.s5-5.fadeInRight{
+	animation-delay:1.4s;
+	-webkit-animation-delay:1.4s;
+}
 
 </style>
 {% endblock %}
@@ -564,6 +598,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s4-1').addClass('zoomInDown animated');
 					$('#p4 .st').addClass('page-logo animated');
 				}
+				if(index == 5){
+					$('.s5-1').addClass('zoomInDown animated');
+					$('.s5-2').addClass('fadeInLeft animated');
+					$('.s5-4').addClass('fadeInLeft animated');
+					$('.s5-3').addClass('fadeInRight animated');
+					$('.s5-5').addClass('fadeInRight animated');
+				}
 					
 					
 			},
@@ -579,6 +620,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				if(index == 4){
 					$('.s4-1').removeClass('zoomInDown animated');
 					$('#p4 .st').removeClass('page-logo animated');
+				}
+				if(index == 5){
+					$('.s5-1').removeClass('zoomInDown animated');
+					$('.s5-2').removeClass('fadeInLeft animated');
+					$('.s5-4').removeClass('fadeInLeft animated');
+					$('.s5-3').removeClass('fadeInRight animated');
+					$('.s5-5').removeClass('fadeInRight animated');
 				}
 				
 			}
@@ -690,8 +738,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/promo/jd/jd_zd2.png" class="st s4-14">
 		<img src="{{ app_url_packaged }}/images/promo/jd/jd_sc2.png" class="st s4-15">
 		<img src="{{ app_url_packaged }}/images/promo/jd/jd_nh2.png" class="st s4-16">
-		
-		
+	</div>
+	
+	<div class="section" id="p5">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg5.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t5.png" class="s5-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p1.png" class="st s5-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p2.png" class="st s5-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p3.png" class="st s5-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p4.png" class="st s5-5">
 	</div>
 	
 	<div class="section">
