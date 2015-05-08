@@ -64,6 +64,9 @@
               </div>
                     <p class="attribute">ID：{{ f.user._id }}</p>
                     <p class="attribute">Number：{{ f.number }}</p>
+                    {% if target_id==3 %}
+                    <p class="attribute">领域: {{ f.option01 }}, 兴趣: {{ f.option02 }}</p>
+                    {%endif%}
             </td>
             <td>
               <p>{{ f.user.profile.realname }}</p>
