@@ -181,6 +181,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
 			}
 	});
+	var media = document.getElementById("media"); 
+	media.addEventListener("play", function () {
+		$('#music-control').removeClass("playing");
+		bgm.playPause();
+	}, false);
+	media.addEventListener("pause", function () {
+		$('#music-control').addClass("playing");
+		bgm.play();
+	}, false);
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
@@ -196,7 +205,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj2.jpg" class="bodybg">
 		
 		<div id="vio">
-			<video width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/poster.png">
+			<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/poster.png">
 			  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
 			</video>
 		</div>
