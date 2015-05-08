@@ -123,15 +123,84 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   width: 100%;
   bottom: 0;
 }
+.st{
+	position:absolute;
+	z-index: 2;
+}
+.s1{
+	width:86%;
+	left:7%;
+	top:27.5%;
+}
+.active .page-bounceIn{
+	-webkit-animation:bounceIn 1s .2s ease both;
+	-moz-animation:bounceIn 1s .2s ease both;
+	animation:bounceIn 1s .2s ease both;
+}
+@-webkit-keyframes bounceIn{
+	0% 		{opacity:0;-webkit-transform:scale(.3)}
+	50% 	{opacity:1;-webkit-transform:scale(1.05)}
+	70% 	{-webkit-transform:scale(.9)}
+	100% 	{opacity:1;-webkit-transform:scale(1)}
+}
+@-moz-keyframes bounceIn{
+	0% 		{opacity:0;-moz-transform:scale(.3)}
+	50% 	{opacity:1;-moz-transform:scale(1.05)}
+	70% 	{-moz-transform:scale(.9)}
+	100% 	{opacity:1;-moz-transform:scale(1)}
+}
+@keyframes bounceIn{
+	0% 		{opacity:0;transform:scale(.3)}
+	50% 	{opacity:1;transform:scale(1.05)}
+	70% 	{transform:scale(.9)}
+	100% 	{opacity:1;transform:scale(1)}
+}
+
 
 
 #vio{
 	position:absolute;
-	top:5%;
-	left:5%;
+	top:16%;
+	left:7.5%;
 	z-index:2;
-	width:90%;
+	width:85%;
 }
+.s2-1{
+	top:0;
+	left:7.5%;
+	width:85%;
+}
+.s2-2{
+	top:55%;
+	left:7.5%;
+	width:85%;
+}
+.s2-3{
+	top:60%;
+	left:7.5%;
+	width:85%;
+}
+.s2-4{
+	top:63%;
+	left:7.5%;
+	width:85%;
+}
+.s2-5{
+	top:66%;
+	left:7.5%;
+	width:85%;
+}
+.s2-6{
+	top:69%;
+	left:7.5%;
+	width:85%;
+}
+.s2-7{
+	top:75%;
+	width:38%;
+	left:31%;
+}
+
 
 </style>
 {% endblock %}
@@ -143,8 +212,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		$('.wrap').fullpage({
 			'css3':true,
 			afterRender: function(){
-						$('.s1-1').addClass('page-bounceIn');
-						$('.s1-3').addClass('page-fadeInDown');
+					$('.s1').addClass('page-bounceIn');
+					//$('.bodybg').addClass('page-fadeInDown');
 			},
 			
 		});
@@ -197,10 +266,31 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 <div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
 	<div class="section">
-		<img src="{{ app_url_packaged }}/images/promo/jd/bj1.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg1.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t1.png" class="st s1">
 		
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
+	<div class="section">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg2.jpg" class="bodybg">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2.png" class="st s2-1">
+		<div id="vio">
+			<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/poster.png">
+			  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+			</video>
+		</div>
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p1.png" class="st s2-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p2.png" class="st s2-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p3.png" class="st s2-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p4.png" class="st s2-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p5.png" class="st s2-6">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p6.png" class="st s2-7">
+		
+		
+		
+	</div>
+	
+	
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj2.jpg" class="bodybg">
 		
