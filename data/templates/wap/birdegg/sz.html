@@ -159,7 +159,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	70% 	{transform:scale(.9)}
 	100% 	{opacity:1;transform:scale(1)}
 }
-.s2-1{
+.s2-1,.s3-1{
 	opacity:0;
 }
 .s2-1.zoomInDown.animated,.s3-1.zoomIn.animated,.s5-1.zoomIn.animated{
@@ -174,13 +174,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
-#p2 .st{
+#p2 .st,#p3 .st{
 	opacity:0;
 }
-#p2 .st.fadeInUp{
+#p2 .st.fadeInUp,#p3 .st.fadeInUp{
 	opacity:1;
 }
-.s2-1{
+.s2-1,.s3-1{
 	top:0;
 	left:7.5%;
 	width:85%;
@@ -220,33 +220,113 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	left:26.5%;
 	width:47%;
 }
-.s2-2.fadeInUp{
+.s2-2.fadeInUp,.s3-2.fadeInUp{
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-.s2-3.fadeInUp{
+.s2-3.fadeInUp,.s3-3.fadeInUp{
 	animation-delay:0.8s;
 	-webkit-animation-delay:0.8s;
 }
-.s2-4.fadeInUp{
+.s2-4.fadeInUp,.s3-4.fadeInUp{
 	animation-delay:1s;
 	-webkit-animation-delay:1s;
 }
-.s2-5.fadeInUp{
+.s2-5.fadeInUp,.s3-5.fadeInUp{
 	animation-delay:1.2s;
 	-webkit-animation-delay:1.2s;
 }
-.s2-6.fadeInUp{
+.s2-6.fadeInUp,.s3-6.fadeInUp{
 	animation-delay:1.4s;
 	-webkit-animation-delay:1.4s;
 }
-.s2-7.fadeInUp{
+.s2-7.fadeInUp,.s3-7.fadeInUp{
 	animation-delay:1.6s;
 	-webkit-animation-delay:1.6s;
 }
-.s2-8.fadeInUp{
+.s2-8.fadeInUp,.s3-8.fadeInUp{
 	animation-delay:1.8s;
 	-webkit-animation-delay:1.8s;
+}
+.s3-9.fadeInUp{
+	animation-delay:2s;
+	-webkit-animation-delay:2s;
+}
+.s3-10.fadeInUp{
+	animation-delay:2.2s;
+	-webkit-animation-delay:2.2s;
+}
+.s3-11.fadeInUp{
+	animation-delay:2.4s;
+	-webkit-animation-delay:2.4s;
+}
+.s3-12.fadeInUp{
+	animation-delay:2.6s;
+	-webkit-animation-delay:2.6s;
+}
+.s3-13.fadeInUp{
+	animation-delay:2.8s;
+	-webkit-animation-delay:2.8s;
+}
+.s3-2{
+	width:54%;
+	top:20%;
+	left:23%;
+}
+.s3-3{
+	width:54%;
+	top:23%;
+	left:23%;
+}
+.s3-4{
+	width:54%;
+	top:30%;
+	left:23%;
+}
+.s3-5{
+	width:54%;
+	top:33%;
+	left:23%;
+}
+.s3-6{
+	width:54%;
+	top:38%;
+	left:23%;
+}
+.s3-7{
+	width:54%;
+	top:41%;
+	left:23%;
+}
+.s3-8{
+	width:54%;
+	top:46%;
+	left:23%;
+}
+.s3-9{
+	width:50%;
+	top:16%;
+	left:23%;
+}
+.s3-10{
+	width:54%;
+	top:16%;
+	left:23%;
+}
+.s3-11{
+	width:58%;
+	top:16%;
+	left:23%;
+}
+.s3-12{
+	width:70%;
+	top:16%;
+	left:23%;
+}
+.s3-13{
+	width:73%;
+	top:16%;
+	left:23%;
 }
 
 
@@ -269,12 +349,20 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s2-1').addClass('zoomInDown animated');
 					$('.st').addClass('fadeInUp animated');
 				}
+				if(index == 3){
+					$('.s3-1').addClass('zoomInDown animated');
+					$('.st').addClass('fadeInUp animated');
+				}
 					
 					
 			},
 			onLeave: function(index, direction){
 				if(index == 2){
 					$('.s2-1').removeClass('zoomInDown animated');
+					$('.st').removeClass('fadeInUp animated');
+				}
+				if(index == 3){
+					$('.s3-1').removeClass('zoomInDown animated');
 					$('.st').removeClass('fadeInUp animated');
 				}
 				
@@ -349,9 +437,24 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp4.png" class="st s2-6">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp5.png" class="st s2-7">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp6.png" class="st s2-8">
-		
-		
-		
+	</div>
+	
+	<div class="section" id="p3">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg3.jpg" class="bodybg">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3.png" class="st s3-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p1.png" class="st s3-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p2.png" class="st s3-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p3.png" class="st s3-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p4.png" class="st s3-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p5.png" class="st s3-6">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p6.png" class="st s3-7">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p7.png" class="st s3-8">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p8.png" class="st s3-9">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p9.png" class="st s3-10">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p10.png" class="st s3-11">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p11.png" class="st s3-12">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p12.png" class="st s3-13">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p13.png" class="st s3-14">
 	</div>
 	
 	
