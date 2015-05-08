@@ -127,6 +127,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	position:absolute;
 	z-index: 2;
 }
+.animated{
+	-webkit-animation-duration: 0.6s;
+	animation-duration: 0.6s;
+}
 .s1{
 	width:86%;
 	left:7%;
@@ -155,7 +159,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	70% 	{transform:scale(.9)}
 	100% 	{opacity:1;transform:scale(1)}
 }
-
+.s2-1{
+	opacity:0;
+}
+.s2-1.zoomIn.animated,.s3-1.zoomIn.animated,.s5-1.zoomIn.animated{
+	opacity:1;
+}
 
 
 #vio{
@@ -171,7 +180,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	width:85%;
 }
 .s2-2{
-	top:55%;
+	top:54.5%;
 	left:7.5%;
 	width:85%;
 }
@@ -220,7 +229,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s1').addClass('page-bounceIn');
 					//$('.bodybg').addClass('page-fadeInDown');
 			},
-			
+			afterLoad: function(anchorLink, index){
+				if(index == 2){
+					$('.s2-1').addClass('zoomIn animated');
+				}
+					
+					
+			},
+			onLeave: function(index, direction){
+				if(index == 2){
+					$('.s2-1').removeClass('zoomIn animated');
+				}
+				
+			}
 		});
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script>
