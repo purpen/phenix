@@ -10,7 +10,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
     'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
-	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz');
+	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz', 'sz_share');
 	
 	/**
 	 * 默认入口
@@ -167,7 +167,14 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
    * 深圳
    */
   public function sz(){
-
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
     return $this->to_html_page('wap/birdegg/sz.html');
   }
 
@@ -180,6 +187,21 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
     $this->stash['interest_options'] = Sher_Core_Util_Constant::birdegg_interest_options();
 
  		return $this->to_html_page('wap/birdegg/sz_apply.html'); 
+  }
+
+  /**
+   * 分享窗口
+   */
+  public function sz_share(){
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+ 		return $this->to_html_page('wap/birdegg/sz_share.html'); 
   }
 	
 }

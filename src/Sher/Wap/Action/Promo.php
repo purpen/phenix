@@ -486,8 +486,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $ok = $model->apply_and_save($data);
       if($ok){
         if($target_id==3){
-          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/sz';
-    	    $this->stash['note'] = '报名成功!';
+          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/sz_share';
+    	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
         }else{
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
     	    $this->stash['note'] = '操作成功!';
