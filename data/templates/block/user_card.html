@@ -1,0 +1,45 @@
+<div class="ui items">
+	<div class="mess item">
+		<div class="image" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ topic.user.last_char|default 0 }}.jpg');">
+			<div class="auth">
+				<label>{{ topic.user.screen_name }}</label>
+                <div class="action">
+    				<div class="ui icon small white letter inverted button">
+                        <i class="mail icon"></i>
+    				</div>
+                    <a href="{{ app_url_user }}/ajax_cancel_follow?id=47" class="ui small white inverted button ajax" id="user_{{ topic.user.id }}_ship">已关注</a>
+                </div>
+			</div>
+			<img src="{{ topic.user.small_avatar_url }}" class="ui small avatar image" />
+		</div>
+		<div class="content">
+			<h2 class="ui header">
+                {{ topic.user.city }} {{ topic.user.profile.job }} <span>Lv.{{ topic.user.ext_state.rank_id|default 1 }}</span>
+            </h2>
+			<p>{{ topic.user.summary|truncate 60 }}</p>
+			<div class="ui relaxed horizontal divided list">
+				<div class="item">
+					<div class="content">
+                        <a href="{{ app_url_user }}/{{ topic.user._id }}/topics" target="_blank"></a>
+					    <div class="header">{{ topic.user.topic_count|default 0 }}</div>
+	                    <div class="description">话题</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a href="{{ app_url_user }}/{{ topic.user._id }}/submitted" target="_blank"></a>
+					    <div class="header">{{ topic.user.product_count|default 0 }}</div>
+	                    <div class="description">产品创意</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a href="{{ app_url_user }}/{{ topic.user._id }}/fans" target="_blank"></a>
+					    <div class="header">{{ topic.user.fans_count|default 0 }}</div>
+	                    <div class="description">粉丝</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
