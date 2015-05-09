@@ -27,6 +27,7 @@ class Sher_Admin_Action_Redis extends Sher_Admin_Action_Base {
     $redis = new Sher_Core_Cache_Redis();
     $this->stash['cup'] = $redis->get('china_design_share_num');
     $this->stash['jd2015'] = $redis->get('jd2015_share_num');
+    $this->stash['birdegg_sz_share_num'] = $redis->get('birdegg_sz_share_num');
 		return $this->to_html_page('admin/redis/list.html');
 	}
 	
