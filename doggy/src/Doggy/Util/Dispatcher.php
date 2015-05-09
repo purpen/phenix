@@ -12,11 +12,11 @@ class Doggy_Util_Dispatcher {
         foreach($parameters as $param => $value){
             $method = 'set_'.$param;
 			if(!is_array($value)){
-				$value = htmlspecialchars(urldecode($value), ENT_NOQUOTES);
+				$value = htmlspecialchars($value, ENT_NOQUOTES);
 			}else{
 				// 循环检查数组的值
 				for($i=0;$i<count($value);$i++){
-					$value[$i] = htmlspecialchars(urldecode($value[$i]), ENT_NOQUOTES);
+					$value[$i] = htmlspecialchars($value[$i], ENT_NOQUOTES);
 				}
 			}
             if (method_exists($obj,$method)) {
