@@ -193,10 +193,26 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
         opacity: 1;
     }
 }
-.s2-1,.s3-1,.s4-1,.s5-1{
+.pages-logo{
+	-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+}
+@-webkit-keyframes scale-to-zero-with-left {
+    0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+.s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
 	opacity:0;
 }
-.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated,.s5-1.zoomInDown.animated{
+.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated,.s5-1.zoomInDown.animated,.s6-1.zoomInDown.animated{
 	opacity:1;
 }
 
@@ -208,13 +224,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
-#p2 .st,#p3 .st,#p4 .st,#p5 .st{
+#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p6 .st{
 	opacity:0;
 }
 #p2 .st.fadeInUp,#p3 .st.fadeInUp,#p5 .st.fadeInLeft,#p5 .st.fadeInRight{
 	opacity:1;
 }
-.s2-1,.s3-1,.s4-1,.s5-1{
+.s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
 	position:absolute;
 	z-index: 2;
 	top:0;
@@ -571,6 +587,29 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:2s;
 	-webkit-animation-delay:2s;
 }
+#p6 .st{
+	width:15%;
+}
+.s6-2{
+	top:16%;
+	left:6.5%;
+}
+.s6-3{
+	top:16%;
+	left:24.5%;
+}
+.s6-4{
+	top:16%;
+	left:42.5%;
+}
+.s6-5{
+	top:16%;
+	left:60.5%;
+}
+.s6-6{
+	top:16%;
+	left:78.5%;
+}
 
 </style>
 {% endblock %}
@@ -605,6 +644,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5-3').addClass('fadeInRight animated');
 					$('.s5-5').addClass('fadeInRight animated');
 				}
+				if(index == 6){
+					$('.s6-1').addClass('zoomInDown animated');
+					$('#p6 .st').addClass('pages-logo animated');
+				}
 					
 					
 			},
@@ -627,6 +670,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5-4').removeClass('fadeInLeft animated');
 					$('.s5-3').removeClass('fadeInRight animated');
 					$('.s5-5').removeClass('fadeInRight animated');
+				}
+				if(index == 6){
+					$('.s6-1').removeClass('zoomInDown animated');
+					$('#p6 .st').removeClass('pages-logo animated');
 				}
 				
 			}
@@ -747,6 +794,17 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p2.png" class="st s5-3">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p3.png" class="st s5-4">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p4.png" class="st s5-5">
+	</div>
+	
+	<div class="section" id="p6">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg6.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6.png" class="s6-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/1.jpg" class="st s6-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/2.jpg" class="st s6-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/3.jpg" class="st s6-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/4.jpg" class="st s6-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/5.jpg" class="st s6-6">
+		
 	</div>
 	
 	<div class="section">
