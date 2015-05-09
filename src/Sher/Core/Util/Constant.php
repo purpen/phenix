@@ -273,7 +273,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
    * 蛋年报名选项解析--所属领域
    */
   public static function birdegg_area_options($id=0){
-    $array = array(1=>'智能家居', 2=>'智能可穿戴', 3=>'无人机', 4=>'机器人', 5=>'3D打印', 10=>'其它');
+    $array = array(1=>'智能家居', 2=>'智能可穿戴', 3=>'无人机', 4=>'机器人', 5=>'3D打印', 6=>'媒体', 10=>'其它');
     if(empty($id)){
       return $array;
     }else{
