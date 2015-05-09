@@ -96,10 +96,10 @@
 <div class="shop list" id="shoplist">
 	<div class="ui responsive grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_onsale:1 size:15 sort:sort_text %}
+			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_onsale:1 size:20 sort:sort_text %}
 			{% if list.rows %}
 			<div class="column">
-				<div class="ui three items">
+				<div class="ui four items">
 					{% for product in list.rows %}
 				  		{% include "block/product_item.html" %}
 				    {% endfor %}
