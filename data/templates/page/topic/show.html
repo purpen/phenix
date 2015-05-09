@@ -357,6 +357,7 @@
 	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 4});
     
     // 显示用户信息
+    /*
     var is_ajax = false;
     $('.ui.icard.image').hover(function(e){
         var uid = $(this).data('uid'),pos = $(this).position(),w = $(this).width(),h = $(this).height(),template = $('#user_card').html();
@@ -374,7 +375,7 @@
         }
     },function(){
         //$('#user_card_box').hide();
-    });
+    });*/
 	
 {% endblock %}
 
