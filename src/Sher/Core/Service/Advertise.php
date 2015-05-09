@@ -6,7 +6,7 @@
 class Sher_Core_Service_Advertise extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
-		'ordby'  => array('ordby' => -1, 'created_on' => -1),
+		'ordby'  => array('ordby' => -1, 'updated_on' => -1),
     );
 
     protected static $instance;
