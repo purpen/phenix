@@ -231,7 +231,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-#p2 .st.fadeInUp,#p3 .st.fadeInUp,#p5 .st.fadeInLeft,#p5 .st.fadeInRight,#p7 .st.flip{
+#p2 .st.fadeInUp,#p4 .st.fadeInUp,#p4 .st.fadeInLeft,#p4 .st.fadeInRight,#p4 .st.fadeInDown,#p5 .st.fadeInLeft,#p5 .st.fadeInRight,#p7 .st.flip{
 	opacity:1;
 }
 .s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
@@ -344,7 +344,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:2.8s;
 	-webkit-animation-delay:2.8s;
 }
-.s3-2{
+/*.s3-2{
 	width:60%;
 	top:20%;
 	left:20%;
@@ -408,7 +408,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	width:60%;
 	top:87%;
 	left:20%;
-}
+}*/
 
 .s4-2{
 	position:absolute;
@@ -433,30 +433,30 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 }
 .s4-5{
 	position:absolute;
-	width:23%;
+	width:20%;
 	top:32%;
-	left:10%;
+	left:9%;
 	z-index:2;
 }
 .s4-6{
 	position:absolute;
-	width:23%;
+	width:20%;
 	top:32%;
-	left:38.5%;
+	left:29.7%;
 	z-index:2;
 }
 .s4-7{
 	position:absolute;
-	width:23%;
+	width:20%;
 	top:32%;
-	right:10%;
+	right:50.4%;
 	z-index:2;
 }
 .s4-8{
 	position:absolute;
-	width:23%;
-	top:49%;
-	left:10%;
+	width:20%;
+	top:32%;
+	left:70%;
 	z-index:2;
 }
 .s4-9{
@@ -527,66 +527,23 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:1s;
 	-webkit-animation-delay:1s;
 }
-.s4-8.page-logo{
-	animation-delay:0.4s;
-	-webkit-animation-delay:0.4s;
-}
-.s4-6.page-logo{
-	animation-delay:0.8s;
-	-webkit-animation-delay:0.8s;
-}
-.s4-11.page-logo{
+.s4-5.fadeInRight{
 	animation-delay:1.2s;
 	-webkit-animation-delay:1.2s;
 }
-.s4-4.page-logo{
-	animation-delay:1.6s;
-	-webkit-animation-delay:1.6s;
+.s4-6.fadeInUp{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
 }
-.s4-13.page-logo{
-	animation-delay:2s;
-	-webkit-animation-delay:2s;
+.s4-7.fadeInDown{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
 }
-.s4-2.page-logo{
-	animation-delay:2.4s;
-	-webkit-animation-delay:2.4s;
+.s4-8.fadeInLeft{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
 }
-.s4-7.page-logo{
-	animation-delay:2.8s;
-	-webkit-animation-delay:2.8s;
-}
-.s4-12.page-logo{
-	animation-delay:3.2s;
-	-webkit-animation-delay:3.2s;
-}
-.s4-3.page-logo{
-	animation-delay:3.6s;
-	-webkit-animation-delay:3.6s;
-}
-.s4-14.page-logo{
-	animation-delay:4s;
-	-webkit-animation-delay:4s;
-}
-.s4-5.page-logo{
-	animation-delay:4.2s;
-	-webkit-animation-delay:4.2s;
-}
-.s4-15.page-logo{
-	animation-delay:4.6s;
-	-webkit-animation-delay:4.6s;
-}
-.s4-8.page-logo{
-	animation-delay:5s;
-	-webkit-animation-delay:5s;
-}
-.s4-16.page-logo{
-	animation-delay:5.4s;
-	-webkit-animation-delay:5.4s;
-}
-.s4-10.page-logo{
-	animation-delay:5.8s;
-	-webkit-animation-delay:5.8s;
-}
+
 .s5-2{
 	top:15%;
 	left:7.5%;
@@ -1013,6 +970,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				if(index == 3){
 					$('.s4-1').addClass('zoomInDown animated');
 					$('.s4-2,.s4-3,.s4-4').addClass('pages-logo animated');
+					$('.s4-5').addClass('fadeInRight animated');
+					$('.s4-6').addClass('fadeInUp animated');
+					$('.s4-7').addClass('fadeInDown animated');
+					$('.s4-8').addClass('fadeInLeft animated');
 					
 					//$('#p4 .st').addClass('page-logo animated');
 				}
@@ -1049,6 +1010,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				if(index == 3){
 					$('.s4-1').removeClass('zoomInDown animated');
 					$('.s4-2,.s4-3,.s4-4').removeClass('pages-logo animated');
+					$('.s4-5').removeClass('fadeInRight animated');
+					$('.s4-6').removeClass('fadeInUp animated');
+					$('.s4-7').removeClass('fadeInDown animated');
+					$('.s4-8').removeClass('fadeInLeft animated');
 					//$('#p4 .st').removeClass('page-logo animated');
 				}
 				if(index == 4){
