@@ -1,7 +1,890 @@
 {%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
+header.ui.wap{
+	display:none !important;
+	opacity:0;
+}
+#mfrbird{
+	margin:0;
+}
+.mmfoot{
+	display:none;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+.wrap {
+	max-width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+}
+.fp-table {
+	display: table;
+	width: 100%;
+}
+.fp-tableCell {
+	display: table-cell;
+	width: 100%;
+	height: 100%;
+	position:relative;
+}
+.fp-section.fp-table{
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+.fp-viewing-firstPage {
+	height: 100%;
+	position: relative;
+}
+@-webkit-keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+@-moz-keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+@keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+.swipe { 
+	position: absolute; 
+	width: 28px; 
+	height: 16px; 
+	bottom: 45px; 
+	left: 50%; 
+	margin-left: -14px;
+	z-index:4;
+	animation: swipe 1.5s linear infinite;
+  -webkit-animation: swipe 1.5s linear infinite; 
+}
+#music-control {
+	width: 30px;
+	height: 30px;
+	position: fixed;
+	right: 5px;
+	top: 5px;
+	z-index: 3;
+}
+#loading{
+  background: #000;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+}
+.loadbox{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+  margin: 0 auto;
+	margin-top: 50%;
+}
+.loadbg{
+	display: block;
+	position: absolute;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+	/*background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;*/
+	color:#fff;
+	font-size:18px;
+	text-align:center;
+	background-size: 100%;
+}
+#music-control.playing{
+	-webkit-animation: 2.3s spin linear infinite;
+}
+@-webkit-keyframes spin {
+   0% {
+       -webkit-transform: rotateZ(0deg);
+   }
+
+   100% {
+       -webkit-transform: rotateZ(360deg);
+   }
+}
+.bodybg {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+	height:100%;
+  width: 100%;
+  bottom: 0;
+}
+.st{
+	position:absolute;
+	z-index: 2;
+}
+.animated{
+	-webkit-animation-duration: 0.6s;
+	animation-duration: 0.6s;
+}
+.s1{
+	width:86%;
+	left:7%;
+	top:27.5%;
+}
+.active .page-bounceIn{
+	-webkit-animation:bounceIn 1s .2s ease both;
+	-moz-animation:bounceIn 1s .2s ease both;
+	animation:bounceIn 1s .2s ease both;
+}
+@-webkit-keyframes bounceIn{
+	0% 		{opacity:0;-webkit-transform:scale(.3)}
+	50% 	{opacity:1;-webkit-transform:scale(1.05)}
+	70% 	{-webkit-transform:scale(.9)}
+	100% 	{opacity:1;-webkit-transform:scale(1)}
+}
+@-moz-keyframes bounceIn{
+	0% 		{opacity:0;-moz-transform:scale(.3)}
+	50% 	{opacity:1;-moz-transform:scale(1.05)}
+	70% 	{-moz-transform:scale(.9)}
+	100% 	{opacity:1;-moz-transform:scale(1)}
+}
+@keyframes bounceIn{
+	0% 		{opacity:0;transform:scale(.3)}
+	50% 	{opacity:1;transform:scale(1.05)}
+	70% 	{transform:scale(.9)}
+	100% 	{opacity:1;transform:scale(1)}
+}
+.page-logo {
+  -webkit-animation: 1s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+}
+@-webkit-keyframes scale-to-zero-with-center {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0) scale(20);
+        opacity: 0;
+    }
+   /* 30% {
+        opacity: 0.3;
+    }
+    60% {
+        -webkit-transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+    }*/
+		20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+		70% 	{opacity:1;-webkit-transform:scale(1.2)}
+		/*70% 	{-webkit-transform:scale(.9)}*/
+		100% 	{opacity:1;-webkit-transform:scale(1)}
+		
+}
+@-webkit-keyframes scale-to-zero-with-left {
+    0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+.pages-logo{
+	-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+}
+@-webkit-keyframes scale-to-zero-with-left {
+    0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+.s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
+	opacity:0;
+}
+.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated,.s5-1.zoomInDown.animated,.s6-1.zoomInDown.animated{
+	opacity:1;
+}
+
+
+#vio{
+	position:absolute;
+	top:16%;
+	left:7.5%;
+	z-index:2;
+	width:85%;
+}
+#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p6 .st,#p7 .st,#vio{
+	opacity:0;
+}
+#vio.fadeIn{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+#p2 .st.fadeInUp,#p3 .st.fadeInUp,#p5 .st.fadeInLeft,#p5 .st.fadeInRight,#p7 .st.flip{
+	opacity:1;
+}
+.s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
+	position:absolute;
+	z-index: 2;
+	top:0;
+	left:7.5%;
+	width:85%;
+}
+.s2-2{
+	top:54.5%;
+	left:7.5%;
+	width:85%;
+}
+.s2-3{
+	top:60%;
+	left:7.5%;
+	width:85%;
+}
+.s2-4{
+	top:63.5%;
+	left:7.5%;
+	width:85%;
+}
+.s2-5{
+	top:67%;
+	left:7.5%;
+	width:85%;
+}
+.s2-6{
+	top:70.5%;
+	left:7.5%;
+	width:85%;
+}
+.s2-7{
+	top:74%;
+	left:7.5%;
+	width:85%;
+}
+.s2-8{
+	top:79%;
+	left:26.5%;
+	width:47%;
+}
+.s2-2.fadeInUp,.s3-2.fadeInUp{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+.s2-3.fadeInUp,.s3-3.fadeInUp{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s2-4.fadeInUp,.s3-4.fadeInUp{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s2-5.fadeInUp,.s3-5.fadeInUp{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+.s2-6.fadeInUp,.s3-6.fadeInUp{
+	animation-delay:1.4s;
+	-webkit-animation-delay:1.4s;
+}
+.s2-7.fadeInUp,.s3-8.fadeInUp{
+	animation-delay:1.6s;
+	-webkit-animation-delay:1.6s;
+}
+.s2-8.fadeInUp,.s3-9.fadeInUp{
+	animation-delay:1.8s;
+	-webkit-animation-delay:1.8s;
+}
+.s3-10.fadeInUp{
+	animation-delay:2s;
+	-webkit-animation-delay:2s;
+}
+.s3-11.fadeInUp{
+	animation-delay:2.2s;
+	-webkit-animation-delay:2.2s;
+}
+.s3-12.fadeInUp{
+	animation-delay:2.4s;
+	-webkit-animation-delay:2.4s;
+}
+.s3-13.fadeInUp{
+	animation-delay:2.6s;
+	-webkit-animation-delay:2.6s;
+}
+.s3-14.fadeInUp{
+	animation-delay:2.8s;
+	-webkit-animation-delay:2.8s;
+}
+.s3-2{
+	width:60%;
+	top:20%;
+	left:20%;
+}
+.s3-3{
+	width:60%;
+	top:23%;
+	left:20%;
+}
+.s3-4{
+	width:60%;
+	top:32%;
+	left:20%;
+}
+.s3-5{
+	width:60%;
+	top:36%;
+	left:20%;
+}
+.s3-6{
+	width:60%;
+	top:42.5%;
+	left:20%;
+}
+.s3-7{
+	width:60%;
+	top:41%;
+	left:20%;
+}
+.s3-8{
+	width:60%;
+	top:46%;
+	left:20%;
+}
+.s3-9{
+	width:60%;
+	top:56%;
+	left:20%;
+}
+.s3-10{
+	width:60%;
+	top:60%;
+	left:20%;
+}
+.s3-11{
+	width:60%;
+	top:65%;
+	left:20%;
+}
+.s3-12{
+	width:60%;
+	top:69.5%;
+	left:20%;
+}
+.s3-13{
+	width:60%;
+	top:83%;
+	left:20%;
+}
+.s3-14{
+	width:60%;
+	top:87%;
+	left:20%;
+}
+
+.s4-2{
+	position:absolute;
+	width:23%;
+	top:15%;
+	left:10%;
+	z-index:2;
+}
+.s4-3{
+	position:absolute;
+	width:23%;
+	top:15%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-4{
+	position:absolute;
+	width:23%;
+	top:15%;
+	right:10%;
+	z-index:2;
+}
+.s4-5{
+	position:absolute;
+	width:23%;
+	top:32%;
+	left:10%;
+	z-index:2;
+}
+.s4-6{
+	position:absolute;
+	width:23%;
+	top:32%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-7{
+	position:absolute;
+	width:23%;
+	top:32%;
+	right:10%;
+	z-index:2;
+}
+.s4-8{
+	position:absolute;
+	width:23%;
+	top:49%;
+	left:10%;
+	z-index:2;
+}
+.s4-9{
+	position:absolute;
+	width:23%;
+	top:49%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-10{
+	position:absolute;
+	width:23%;
+	top:49%;
+	right:10%;
+	z-index:2;
+}
+.s4-11{
+	position:absolute;
+	width:23%;
+	top:66%;
+	left:10%;
+	z-index:2;
+}
+.s4-12{
+	position:absolute;
+	width:23%;
+	top:66%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-13{
+	position:absolute;
+	width:23%;
+	top:66%;
+	right:10%;
+	z-index:2;
+}
+.s4-14{
+	position:absolute;
+	width:23%;
+	top:83%;
+	left:10%;
+	z-index:2;
+}
+.s4-15{
+	position:absolute;
+	width:23%;
+	top:83%;
+	left:38.5%;
+	z-index:2;
+}
+.s4-16{
+	position:absolute;
+	width:23%;
+	top:83%;
+	right:10%;
+	z-index:2;
+}
+.s4-8.page-logo{
+	animation-delay:0.4s;
+	-webkit-animation-delay:0.4s;
+}
+.s4-6.page-logo{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s4-11.page-logo{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+.s4-4.page-logo{
+	animation-delay:1.6s;
+	-webkit-animation-delay:1.6s;
+}
+.s4-13.page-logo{
+	animation-delay:2s;
+	-webkit-animation-delay:2s;
+}
+.s4-2.page-logo{
+	animation-delay:2.4s;
+	-webkit-animation-delay:2.4s;
+}
+.s4-7.page-logo{
+	animation-delay:2.8s;
+	-webkit-animation-delay:2.8s;
+}
+.s4-12.page-logo{
+	animation-delay:3.2s;
+	-webkit-animation-delay:3.2s;
+}
+.s4-3.page-logo{
+	animation-delay:3.6s;
+	-webkit-animation-delay:3.6s;
+}
+.s4-14.page-logo{
+	animation-delay:4s;
+	-webkit-animation-delay:4s;
+}
+.s4-5.page-logo{
+	animation-delay:4.2s;
+	-webkit-animation-delay:4.2s;
+}
+.s4-15.page-logo{
+	animation-delay:4.6s;
+	-webkit-animation-delay:4.6s;
+}
+.s4-8.page-logo{
+	animation-delay:5s;
+	-webkit-animation-delay:5s;
+}
+.s4-16.page-logo{
+	animation-delay:5.4s;
+	-webkit-animation-delay:5.4s;
+}
+.s4-10.page-logo{
+	animation-delay:5.8s;
+	-webkit-animation-delay:5.8s;
+}
+.s5-2{
+	top:15%;
+	left:7.5%;
+	width:85%;
+}
+.s5-3{
+	top:32%;
+	left:7.5%;
+	width:85%;
+}
+.s5-4{
+	top:49%;
+	left:7.5%;
+	width:85%;
+}
+.s5-5{
+	top:66%;
+	left:7.5%;
+	width:85%;
+}
+.s5-2.fadeInLeft{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s5-3.fadeInRight{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+.s5-4.fadeInLeft{
+	animation-delay:1.6s;
+	-webkit-animation-delay:1.6s;
+}
+.s5-5.fadeInRight{
+	animation-delay:2s;
+	-webkit-animation-delay:2s;
+}
+#p6 .st{
+	width:19%;
+}
+.s6-2{
+	top:16%;
+	left:9%;
+}
+.s6-3{
+	top:16%;
+	left:30%;
+}
+.s6-4{
+	top:16%;
+	left:51%;
+}
+.s6-5{
+	top:16%;
+	left:72%;
+}
+.s6-6{
+	top:24%;
+	left:9%;
+}
+.s6-7{
+	top:24%;
+	left:30%;
+}
+.s6-8{
+	top:24%;
+	left:51%;
+}
+.s6-9{
+	top:24%;
+	left:72%;
+}
+.s6-10{
+	top:32%;
+	left:9%;
+}
+.s6-11{
+	top:32%;
+	left:30%;
+}
+.s6-12{
+	top:32%;
+	left:51%;
+}
+.s6-13{
+	top:32%;
+	left:72%;
+}
+.s6-14{
+	top:40%;
+	left:9%;
+}
+.s6-15{
+	top:40%;
+	left:30%;
+}
+.s6-16{
+	top:40%;
+	left:51%;
+}
+.s6-17{
+	top:40%;
+	left:72%;
+}
+.s6-18{
+	top:48%;
+	left:9%;
+}
+.s6-19{
+	top:48%;
+	left:30%;
+}
+.s6-20{
+	top:48%;
+	left:51%;
+}
+.s6-21{
+	top:48%;
+	left:72%;
+}
+.s6-22{
+	top:56%;
+	left:9%;
+}
+.s6-23{
+	top:56%;
+	left:30%;
+}
+.s6-24{
+	top:56%;
+	left:51%;
+}
+.s6-25{
+	top:56%;
+	left:72%;
+}
+.s6-26{
+	top:64%;
+	left:9%;
+}
+.s6-27{
+	top:64%;
+	left:30%;
+}
+.s6-28{
+	top:64%;
+	left:51%;
+}
+.s6-29{
+	top:64%;
+	left:72%;
+}
+.s6-30{
+	top:72%;
+	left:9%;
+}
+.s6-31{
+	top:72%;
+	left:30%;
+}
+.s6-32{
+	top:72%;
+	left:51%;
+}
+.s6-33{
+	top:72%;
+	left:72%;
+}
+.s6-2.pages-logo{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
+.s6-3.pages-logo{
+	animation-delay:0.74s;
+	-webkit-animation-delay:0.74s;
+}
+.s6-4.pages-logo{
+	animation-delay:0.62s;
+	-webkit-animation-delay:0.62s;
+}
+.s6-5.pages-logo{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s6-6.pages-logo{
+	animation-delay:0.78s;
+	-webkit-animation-delay:0.78s;
+}
+.s6-7.pages-logo{
+	animation-delay:0.76s;
+	-webkit-animation-delay:0.76s;
+}
+.s6-8.pages-logo{
+	animation-delay:0.64s;
+	-webkit-animation-delay:0.64s;
+}
+.s6-9.pages-logo{
+	animation-delay:0.96s;
+	-webkit-animation-delay:0.96s;
+}
+.s6-10.pages-logo{
+	animation-delay:1.1s;
+	-webkit-animation-delay:1.1s;
+}
+.s6-11.pages-logo{
+	animation-delay:0.66s;
+	-webkit-animation-delay:0.66s;
+}
+.s6-12.pages-logo{
+	animation-delay:0.82s;
+	-webkit-animation-delay:0.82s;
+}
+.s6-13.pages-logo{
+	animation-delay:0.94s;
+	-webkit-animation-delay:0.94s;
+}
+.s6-14.pages-logo{
+	animation-delay:0.68s;
+	-webkit-animation-delay:0.68s;
+}
+.s6-15.pages-logo{
+	animation-delay:0.98s;
+	-webkit-animation-delay:0.98s;
+}
+.s6-16.pages-logo{
+	animation-delay:0.84s;
+	-webkit-animation-delay:0.84s;
+}
+.s6-17.pages-logo{
+	animation-delay:0.7s;
+	-webkit-animation-delay:0.7s;
+}
+.s6-18.pages-logo{
+	animation-delay:0.72s;
+	-webkit-animation-delay:0.72s;
+}
+.s6-19.pages-logo{
+	animation-delay:1.12s;
+	-webkit-animation-delay:1.12s;
+}
+.s6-20.pages-logo{
+	animation-delay:0.86s;
+	-webkit-animation-delay:0.86s;
+}
+.s6-21.pages-logo{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s6-22.pages-logo{
+	animation-delay:1.14s;
+	-webkit-animation-delay:1.14s;
+}
+.s6-23.pages-logo{
+	animation-delay:0.92s;
+	-webkit-animation-delay:0.92s;
+}
+.s6-24.pages-logo{
+	animation-delay:1.22s;
+	-webkit-animation-delay:1.22s;
+}
+.s6-25.pages-logo{
+	animation-delay:0.88s;
+	-webkit-animation-delay:0.88s;
+}
+.s6-26.pages-logo{
+	animation-delay:1.16s;
+	-webkit-animation-delay:1.16s;
+}
+.s6-27.pages-logo{
+	animation-delay:1.02s;
+	-webkit-animation-delay:1.02s;
+}
+.s6-28.pages-logo{
+	animation-delay:1.08s;
+	-webkit-animation-delay:1.08s;
+}
+.s6-29.pages-logo{
+	animation-delay:0.9s;
+	-webkit-animation-delay:0.9s;
+}
+.s6-30.pages-logo{
+	animation-delay:1.18s;
+	-webkit-animation-delay:1.18s;
+}
+.s6-31.pages-logo{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
+.s6-32.pages-logo{
+	animation-delay:1.04s;
+	-webkit-animation-delay:1.04s;
+}
+.s6-33.pages-logo{
+	animation-delay:1.06s;
+	-webkit-animation-delay:1.06s;
+}
+.s7-1{
+	width:58%;
+	left:21%;
+	top:16%;
+}
+.s7-2{
+	width:46%;
+	left:27%;
+	top:50%;
+}
+.s7-3{
+	width:56%;
+	left:22%;
+	top:65%;
+}
+.s7-4{
+	width:56%;
+	left:22%;
+	top:75%;
+}
+.s7-3.pages-logo{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s7-4.pages-logo{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s7-2.page-logo{
+	animation-delay:1.4s;
+	-webkit-animation-delay:1.4s;
+}
+
+
+
 
 </style>
 {% endblock %}
@@ -9,20 +892,81 @@
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
 	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/jquery.tagcloud.js"></script>
 	<script type="text/javascript" >
 		$('.wrap').fullpage({
-			'verticalCentered': true,
-			'sectionsColor':['#000','#000','#000','#000','#000','#190119'],
-			'css3':false,
-			'slidesNavigation': true,
+			'css3':true,
 			afterRender: function(){
-						$('.s1-1').addClass('page-bounceIn');
-						$('.s1-3').addClass('page-fadeInDown');
+					$('.s1').addClass('page-bounceIn');
+					//$('.bodybg').addClass('page-fadeInDown');
 			},
-			
+			afterLoad: function(anchorLink, index){
+				if(index == 2){
+					$('.s2-1').addClass('zoomInDown animated');
+					$('#vio').addClass('fadeIn animated');
+					$('#p2 .st').addClass('fadeInUp animated');
+				}
+				if(index == 3){
+					$('.s3-1').addClass('zoomInDown animated');
+					$('#p3 .st').addClass('fadeInUp animated');
+				}
+				if(index == 4){
+					$('.s4-1').addClass('zoomInDown animated');
+					$('#p4 .st').addClass('page-logo animated');
+				}
+				if(index == 5){
+					$('.s5-1').addClass('zoomInDown animated');
+					$('.s5-2').addClass('fadeInLeft animated');
+					$('.s5-4').addClass('fadeInLeft animated');
+					$('.s5-3').addClass('fadeInRight animated');
+					$('.s5-5').addClass('fadeInRight animated');
+				}
+				if(index == 6){
+					$('.s6-1').addClass('zoomInDown animated');
+					$('#p6 .st').addClass('pages-logo animated');
+				}
+				if(index == 7){
+					$('.s7-1').addClass('flip animated');
+					$('.s7-2').addClass('page-logo animated');
+					$('.s7-3,.s7-4').addClass('pages-logo animated');
+				}
+					
+					
+			},
+			onLeave: function(index, direction){
+				if(index == 2){
+					$('.s2-1').removeClass('zoomInDown animated');
+					$('#vio').removeClass('fadeIn animated');
+					$('#p2 .st').removeClass('fadeInUp animated');
+				}
+				if(index == 3){
+					$('.s3-1').removeClass('zoomInDown animated');
+					$('#p3 .st').removeClass('fadeInUp animated');
+				}
+				if(index == 4){
+					$('.s4-1').removeClass('zoomInDown animated');
+					$('#p4 .st').removeClass('page-logo animated');
+				}
+				if(index == 5){
+					$('.s5-1').removeClass('zoomInDown animated');
+					$('.s5-2').removeClass('fadeInLeft animated');
+					$('.s5-4').removeClass('fadeInLeft animated');
+					$('.s5-3').removeClass('fadeInRight animated');
+					$('.s5-5').removeClass('fadeInRight animated');
+				}
+				if(index == 6){
+					$('.s6-1').removeClass('zoomInDown animated');
+					$('#p6 .st').removeClass('pages-logo animated');
+				}
+				if(index == 7){
+					$('.s7-1').removeClass('flip animated');
+					$('.s7-2').removeClass('page-logo animated');
+					$('.s7-3,.s7-4').removeClass('pages-logo animated');
+				}
+				
+			}
 		});
 	</script>
+	<script>document.write('<style>#loading{display:none}</style>');</script>
 	
 {% endblock %}
 
@@ -44,29 +988,159 @@
   });
 
   $('#music-control').click(function(){
-      bgm.playPause();
-  });
-
-  alert(123);
-
-  $.fn.tagcloud.defaults = {
-    size: {start: 14, end: 18, unit: 'pt'},
-    color: {start: '#cde', end: '#f52'}
-  };
-
-  $('#whatever a').tagcloud();
-
-  alert(22);
+	    bgm.playPause();
+			if($(this).hasClass("playing")){
+				$(this).removeClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //关闭
+			}
+			else{
+				$(this).addClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
+			}
+	});
+	var media = document.getElementById("media"); 
+	media.addEventListener("play", function () {
+		$('#music-control').removeClass("playing");
+		bgm.pause();
+	}, false);
+	media.addEventListener("pause", function () {
+		$('#music-control').addClass("playing");
+		bgm.play();
+	}, false);
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div id='loading'><div class="loadbox"><div class="loadbg">正在加载中，图片可能较大，建议您在WIFI环境下观看</div></div></div>
+<div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="wrap">
-  <div id="whatever">
-    <a href="/path" rel="7">peace</a>
-    <a href="/path" rel="3">unity</a>
-    <a href="/path" rel="10">love</a>
-    <a href="/path" rel="5">having fun</a>
-  </div>
-</div>
+	<div class="section">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg1.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t1.png" class="st s1">
+		
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	<div class="section" id="p2">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg2.jpg" class="bodybg">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2.png" class="s2-1">
+		<div id="vio">
+			<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/poster.png">
+			  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+			</video>
+		</div>
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t2p1.png" class="st s2-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp1.png" class="st s2-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp2.png" class="st s2-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp3.png" class="st s2-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp4.png" class="st s2-6">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp5.png" class="st s2-7">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tp6.png" class="st s2-8">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="p3">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg3.jpg" class="bodybg">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3.png" class="s3-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p1.png" class="st s3-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p2.png" class="st s3-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p3.png" class="st s3-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p4.png" class="st s3-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p5.png" class="st s3-6">
+		<!--<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p6.png" class="st s3-7">-->
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p7.png" class="st s3-8">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p8.png" class="st s3-9">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p9.png" class="st s3-10">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p10.png" class="st s3-11">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p11.png" class="st s3-12">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p12.png" class="st s3-13">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t3p13.png" class="st s3-14">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="p4">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg4.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t4.png" class="s4-1">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_jw2.png" class="st s4-2">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_ym2.png" class="st s4-3">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_wr2.png" class="st s4-4">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_dw2.png" class="st s4-5">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_lh2.png" class="st s4-6">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_hg2.png" class="st s4-7">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_cx3.png" class="st s4-8">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_cs2.png" class="st s4-9">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_zz2.png" class="st s4-10">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_jl2.png" class="st s4-11">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_jp2.png" class="st s4-12">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_gh2.png" class="st s4-13">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_zd2.png" class="st s4-14">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_sc2.png" class="st s4-15">
+		<img src="{{ app_url_packaged }}/images/promo/jd/jd_nh2.png" class="st s4-16">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="p5">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg5.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t5.png" class="s5-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p1.png" class="st s5-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p2.png" class="st s5-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p3.png" class="st s5-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t5p4.png" class="st s5-5">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="p6">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg6.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6.png" class="s6-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/1.jpg" class="st s6-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/2.jpg" class="st s6-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/3.jpg" class="st s6-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/4.jpg" class="st s6-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/5.jpg" class="st s6-6">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/6.jpg" class="st s6-7">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/7.jpg" class="st s6-8">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/8.jpg" class="st s6-9">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/9.jpg" class="st s6-10">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/10.jpg" class="st s6-11">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/11.jpg" class="st s6-12">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/12.jpg" class="st s6-13">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/13.jpg" class="st s6-14">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/14.jpg" class="st s6-15">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/15.jpg" class="st s6-16">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/16.jpg" class="st s6-17">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/17.jpg" class="st s6-18">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/18.jpg" class="st s6-19">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/19.jpg" class="st s6-20">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/20.jpg" class="st s6-21">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/21.jpg" class="st s6-22">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/22.jpg" class="st s6-23">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/23.jpg" class="st s6-24">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/24.jpg" class="st s6-25">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/25.jpg" class="st s6-26">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/26.jpg" class="st s6-27">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/27.jpg" class="st s6-28">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/28.jpg" class="st s6-29">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/29.jpg" class="st s6-30">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/30.jpg" class="st s6-31">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/31.jpg" class="st s6-32">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/32.jpg" class="st s6-33">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="p7">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg7.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p1.png" class="st s7-1">
+		<a href=""><img src="{{ app_url_packaged }}/images/birdegg/wap/t6p2.png" class="st s7-2"></a>
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p3.png" class="st s7-3">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p4.png" class="st s7-4">
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+		
+</div>	
+{% include "mm/loginbox.html" %}
 {%endblock%}

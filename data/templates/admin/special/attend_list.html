@@ -64,6 +64,9 @@
               </div>
                     <p class="attribute">ID：{{ f.user._id }}</p>
                     <p class="attribute">Number：{{ f.number }}</p>
+                    {% if target_id==3 %}
+                    <p class="attribute">领域: {{ f.option01 }}, 兴趣: {{ f.option02 }}</p>
+                    {%endif%}
             </td>
             <td>
               <p>{{ f.user.profile.realname }}</p>
@@ -111,7 +114,8 @@
 						</a> | 
 			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=2" class="ui ajax link item">
 							拒绝
-						</a>
+						</a> | 
+						<a href="{{ app_url_admin }}/special/del_attend?id={{ f._id }}" class="ui confirm-request link">删除</a>
             </td>
           </tr>
         {%endif%}
