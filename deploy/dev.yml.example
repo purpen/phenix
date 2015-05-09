@@ -63,6 +63,9 @@ app.birdegg.category_id: 80
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
+# 案例作品
+app.stuff.okcase_category_id: 34
+
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'

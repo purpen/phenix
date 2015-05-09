@@ -242,9 +242,9 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% product_list var:'newest' page:1 is_shop:1 only_onsale:1 size:3 sort:'latest' %}
+					{% product_list var:'newest' page:1 is_shop:1 only_onsale:1 size:4 sort:'latest' %}
 					{% if newest.rows %}
-					<div class="ui three items">
+					<div class="ui four items">
 						{% for product in newest.rows %}
 					  		{% include "block/product_item.html" %}
 					    {% endfor %}
@@ -280,9 +280,9 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:9 sort:'stick:latest' %}
+					{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:12 sort:'stick:latest' %}
 					{% if hotest.rows %}
-					<div class="ui three items">
+					<div class="ui four items">
 						{% for product in hotest.rows %}
 					  		{% include "block/product_item.html" %}
 					    {% endfor %}

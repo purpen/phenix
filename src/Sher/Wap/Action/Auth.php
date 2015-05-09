@@ -237,8 +237,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包
-            //$this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+            //送邀请人红包(30元,满199可用)
+            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
           }
         
         }
@@ -332,7 +332,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$user_id = $user->id;
 
         //注册成功,给用户发短信提示修改密码
-        //$msg = printf("感谢您加入太火鸟,您的默认密码为当前手机号后6位,为了您的账户安全,请尽快登录太火鸟官网修改密码! %s 【太火鸟】", Doggy_Config::$vars['app.url.wap']);
+        //$msg = printf("感谢您加入太火鸟,您的默认密码为当前手机号后6位,为了您的账户安全,请尽快登录太火鸟官网修改密码! %s", Doggy_Config::$vars['app.url.wap']);
         //Sher_Core_Helper_Util::send_defined_mms($this->stash['account'], $msg);
 
         //统计好友邀请
@@ -343,7 +343,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
             //送邀请人红包
-            //$this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+            //$this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
           }
         
         }
@@ -582,8 +582,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       }
     }
     
-    // 赠与红包 结束日期:2015-6-30
-    $end_time = strtotime('2015-06-30 23:59');
+    // 赠与红包 使用默认时间30天
+    $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
 

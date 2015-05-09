@@ -108,6 +108,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_COOPERATE;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_COOPERATE;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
         

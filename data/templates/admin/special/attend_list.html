@@ -15,7 +15,9 @@
 		</a>
 
 	  	<div class="right menu">
-
+        <a href="{{ app_url_admin_base }}/special/export?target_id={{target_id}}" class="item">
+          导出Excel
+        </a>
 	    </div>
 	</div>
 	
@@ -29,11 +31,13 @@
 					</div>
 				</th>
 				<th>缩略图</th>
-				<th>ID</th>
+				<th>ID/number</th>
         <th>姓名/电话</th>
 				<th>职业/公司</th>
         <th>地址</th>
-				<th>状态</th>
+				<th>激活</th>
+        <th>状态</th>
+        <th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -59,6 +63,10 @@
 
               </div>
                     <p class="attribute">ID：{{ f.user._id }}</p>
+                    <p class="attribute">Number：{{ f.number }}</p>
+                    {% if target_id==3 %}
+                    <p class="attribute">领域: {{ f.option01 }}, 兴趣: {{ f.option02 }}</p>
+                    {%endif%}
             </td>
             <td>
               <p>{{ f.user.profile.realname }}</p>
@@ -87,7 +95,28 @@
               {% endif %}
             </p>
             </td>
-
+            <td id="stat-{{ f._id }}">
+              {% if f.state == 1 %}
+              <label class="ui green label">通过</label>
+              {% endif %}
+              
+              {% if f.state == 2 %}
+              <label class="ui orange label">未通过</label>
+              {% endif %}
+              
+              {% if f.state == 0 %}
+              <label class="ui gray label">审核中</label>
+              {% endif %}
+            </td>
+            <td>
+			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=1" class="ui ajax link item">
+							通过
+						</a> | 
+			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=2" class="ui ajax link item">
+							拒绝
+						</a> | 
+						<a href="{{ app_url_admin }}/special/del_attend?id={{ f._id }}" class="ui confirm-request link">删除</a>
+            </td>
           </tr>
         {%endif%}
 			{% endfor %}

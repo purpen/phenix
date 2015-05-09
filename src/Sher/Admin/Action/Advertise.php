@@ -27,8 +27,8 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 	 */
 	public function advertise(){
 		$this->set_target_css_state('advertise');
-		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/advertise?page=#p#', $this->stash['q']);
+		$space_id = isset($this->stash['space_id'])?(int)$this->stash['space_id']:0;
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/advertise?space_id=%d&page=#p#', $space_id, $this->stash['q']);
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/advertise/ad_list.html');

@@ -1,0 +1,744 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#bird{
+	background-color:rgba(30,0,59,1);
+	background:url(http://frstatic.qiniudn.com/images/birdegg/bird_bg1.jpg) no-repeat left top;
+	background-size:cover;
+}
+.pagex {
+  height: 700px !important;
+}
+.pagex .ui.image {
+  margin: 0 auto;
+}
+.w-1180 {
+  width: 1180px;
+  height: 100%;
+  margin: 0 auto;
+  overflow-y: hidden;
+}
+.mt-50 {
+  margin-top: 50px;
+}
+.h-350 {
+  height: 350px;
+}
+.w-350 {
+  width: 350px;
+  height: 350px;
+  display: inline-block;
+  float: left;
+}
+.w-350 .word {
+  position: absolute;
+  bottom: 30px;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+}
+.word h4{
+	margin-bottom: 5px !important;
+	font-size: 24px !important;
+}
+.word h5 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 100;
+}
+
+.xxp {
+  background: url({{ app_url_packaged }}/images/birdegg/xxp.jpg);
+  width: 350px;
+  height: 350px;
+  position: relative;
+	background-size:cover;
+}
+.lkf {
+  background: url({{ app_url_packaged }}/images/birdegg/lkf.jpg);
+  width: 350px;
+  height: 350px;
+  position: relative;
+	background-size:cover;
+}
+.hhq {
+  background: url({{ app_url_packaged }}/images/birdegg/hyq.jpg);
+  width: 350px;
+  height: 350px;
+  position: relative;
+	background-size:cover;
+}
+.h-272{
+	height:272px;
+}
+.w-272{
+	width: 272px;
+  height: 272px;
+  display: inline-block;
+  float: left;
+}
+.guest-word {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+}
+.guest-word h5 {
+  margin: 0 0 3px 0!important;
+  line-height: 20px !important;
+}
+.guest-word h5+h5 {
+  font-weight: 100;
+  line-height: 14px !important;
+}
+.mr-32{
+	margin-right:30.6px;
+}
+.mt-32{
+	margin-top:30.6px;
+}
+.fch{
+	background: url({{ app_url_packaged }}/images/birdegg/fch.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.yns{
+	background: url({{ app_url_packaged }}/images/birdegg/yns.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.lhb{
+	background: url({{ app_url_packaged }}/images/birdegg/lhb.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.lhj{
+	background: url({{ app_url_packaged }}/images/birdegg/lhj.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.sc{
+	background: url({{ app_url_packaged }}/images/birdegg/sc.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.twl{
+	background: url({{ app_url_packaged }}/images/birdegg/twl.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.hz{
+	background: url({{ app_url_packaged }}/images/birdegg/hz.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.ltl{
+	background: url({{ app_url_packaged }}/images/birdegg/ltl.jpg);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.lzr{
+	background: url({{ app_url_packaged }}/images/birdegg/);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.xdd{
+	background: url({{ app_url_packaged }}/images/birdegg/);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.jw{
+	background: url({{ app_url_packaged }}/images/birdegg/);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+.wjg{
+	background: url({{ app_url_packaged }}/images/birdegg/);
+  width: 272px;
+  height: 272px;
+  position: relative;
+	background-size:cover;
+}
+
+
+#video {
+  width: 100%;
+  height: 333px;
+  background: #000;
+  position: relative;
+  z-index: 0;
+}
+
+
+.mt-45{
+	margin-top:45px;
+}
+.mt-40{
+	margin-top:40px;
+}
+.mr-30{
+	margin-right:40px;
+}
+.h-570{
+	height:570px;
+}
+.w-570{
+	width:570px;
+	height:570px;
+	display:inline-block;
+	float:left;
+}
+.t1{
+	background:url({{ app_url_packaged }}/images/birdegg/t1.jpg);
+	width:570px;
+	height:570px;
+}
+.t2{
+	background:url({{ app_url_packaged }}/images/birdegg/t2.jpg);
+	width:570px;
+	height:570px;
+}
+.t3{
+	background:url({{ app_url_packaged }}/images/birdegg/t3.jpg);
+	width:570px;
+	height:570px;
+}
+.t4{
+	background:url({{ app_url_packaged }}/images/birdegg/t4.jpg);
+	width:570px;
+	height:570px;
+}
+.w-95{
+	width:96px;
+	display:inline-block;
+	float:left;
+	font-size:24px;
+	padding-bottom:3px;
+	height:28px;
+	color:#fff;
+}
+.w-95.active,.w-95:hover{
+	color:#bdff5e;
+	border-bottom:2px solid #bdff5e;
+	cursor:pointer;
+}
+.mr-25{
+	margin-right:24.4px;
+}
+
+.frames{
+	height: 700px;
+	position: relative;
+}
+.frames .next.disabled,.frames .prev.disabled {
+color: rgba(255,255,255,.65);
+cursor: default;
+}
+.frames:hover .prev {
+left: 40px;
+}
+.frames:hover .next {
+right: 40px;
+}
+.frames .prev{
+left:-55px;
+}
+.frames .next {
+right: -55px;
+}
+.frames .next,.frames .prev {
+top: 306.5px;
+color: #FFF;
+font-size: 40px;
+position: absolute;
+text-decoration: none;
+-webkit-transition: all .3s ease-in-out 0s;
+transition: all .3s ease-in-out 0s;
+}
+.slide .item{
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	float: left;
+	position: relative;
+}
+#vio{
+	position:absolute;
+	right:0;
+	top:20px;
+}
+.inverted.attend{
+	font-size:1.2rem;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}	
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	var s = e(window).width();
+	e(".frames > .slide > .item").width(s);
+	
+	var $frame = $('.frames');
+	// Call Sly on frame
+	var sly = new Sly($frame, {
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: false,
+		pauseOnHover: 1,
+		
+		// Dragging
+		mouseDragging: 0,
+		touchDragging: 1,
+		releaseSwing: 1,
+		
+		prev: ".frames .prev",
+		next: ".frames .next",
+		
+		// Mixed options
+		startAt: 0,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeInOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	}).init();
+	
+	$(window).resize(function() {
+		var s=$(window).width();
+		e(".frames > .slide > .item").width(s);
+		
+		$frame.sly('reload');
+	});
+	
+	$('.p1').click(function(){
+		sly.activate(0);
+		$(this).addClass('active');
+		$('.p2,.p3,.p4,.p5,.p6,.p7,.p8,.p9,.p10').removeClass('active');
+	});
+	
+	$('.p2').click(function(){
+		sly.activate(1);
+		$(this).addClass('active');
+		$('.p1,.p3,.p4,.p5,.p6,.p7,.p8,.p9,.p10').removeClass('active');
+	});
+	$('.p3').click(function(){
+		sly.activate(2);
+		$(this).addClass('active');
+		$('.p1,.p2,.p4,.p5,.p6,.p7,.p8,.p9,.p10').removeClass('active');
+	});
+	$('.p4').click(function(){
+		sly.activate(3);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p5,.p6,.p7,.p8,.p9,.p10').removeClass('active');
+	});
+	$('.p5').click(function(){
+		sly.activate(4);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p4,.p6,.p7,.p8,.p9,.p10').removeClass('active');
+	});
+	$('.p6').click(function(){
+		sly.activate(5);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p4,.p5,.p7,.p8,.p9,.p10').removeClass('active');
+	});
+	$('.p7').click(function(){
+		sly.activate(6);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p4,.p5,.p6,.p8,.p9,.p10').removeClass('active');
+	});
+	$('.p8').click(function(){
+		sly.activate(7);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p4,.p5,.p6,.p7,.p9,.p10').removeClass('active');
+	});
+	$('.p9').click(function(){
+		sly.activate(8);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p4,.p5,.p6,.p7,.p8,.p10').removeClass('active');
+	});
+	$('.p10').click(function(){
+		sly.activate(9);
+		$(this).addClass('active');
+		$('.p1,.p2,.p3,.p4,.p5,.p6,.p7,.p8,.p9').removeClass('active');
+	});
+  //报名按钮
+  $('.attend.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+    var url = "{{ app_url_action_base }}/birdegg/sz_apply";
+    phenix.redirect(url);
+  });
+
+	// 分享按钮
+	var pic_url = 'http://frstatic.qiniudn.com/images/egg-header.jpg';
+	phenix.bind_share_list(pic_url);
+
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/birdegg/sz'});
+	
+{% endblock %}
+
+{% block content %}
+<div id="bird">
+	<section class="pagex">
+		<img src="{{ app_url_packaged }}/images/birdegg/bg.png" class="ui image">
+	</section>
+	<section>
+		<div class="w-1180" style="position:relative;">
+			<img src="{{ app_url_packaged }}/images/birdegg/video.png">
+			<div id="vio">
+				<video width="560" controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/poster.png">
+				  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+				</video>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h1.png">
+			<div class="h-350">
+				<div class="w-350">
+					<div class="xxp">
+						<div class="word">
+							<h4 class="ui header">徐小平</h4>
+							<h5>真格基金创始人</h5>
+						</div>
+					</div>
+				</div>
+				
+				<div class="w-350" style="margin:0 65px">
+					<div class="lkf">
+						<div class="word">
+							<h4 class="ui header">李开复</h4>
+							<h5>创新工场创始人</h5>
+						</div>
+					</div>
+				</div>
+				
+				<div class="w-350">
+					<div class="hhq">
+						<div class="word">
+							<h4 class="ui header">胡海泉</h4>
+							<h5>著名歌手</h5>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	
+	<section>
+		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h2.png">
+			<div class="h-272">
+				<div class="w-272 mr-32">
+					<div class="lhb">
+						<div class="guest-word">
+							<h5 class="ui header">雷海波</h5>
+							<h5>太火鸟创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="fch">
+						<div class="guest-word">
+							<h5 class="ui header">封昌红</h5>
+							<h5>深圳工业设计协会秘书长</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="yns">
+						<div class="guest-word">
+							<h5 class="ui header">姚乃胜</h5>
+							<h5>京东金融副总裁</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272">
+					<div class="lhj">
+						<div class="guest-word">
+							<h5 class="ui header">刘宏蛟</h5>
+							<h5>硬蛋</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="h-272 mt-32">
+				<div class="w-272 mr-32">
+					<div class="hz">
+						<div class="guest-word">
+							<h5 class="ui header">黄灼</h5>
+							<h5>机智云CEO</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="twl">
+						<div class="guest-word">
+							<h5 class="ui header">童玮亮</h5>
+							<h5>梧桐树资本合伙人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="sc">
+						<div class="guest-word">
+							<h5 class="ui header">申晨</h5>
+							<h5>熊猫自媒体创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272">
+					<div class="ltl">
+						<div class="guest-word">
+							<h5 class="ui header">林泰龙</h5>
+							<h5>富士康</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="h-272 mt-32">
+				<div class="w-272 mr-32">
+					<div class="sc">
+						<div class="guest-word">
+							<h5 class="ui header">申晨</h5>
+							<h5>熊猫自媒体创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="xdd">
+						<div class="guest-word">
+							<h5 class="ui header">许单单</h5>
+							<h5>3W咖啡创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272 mr-32">
+				  <div class="jw">
+						<div class="guest-word">
+							<h5 class="ui header">贾伟</h5>
+							<h5>洛可可创始人</h5>
+						</div>
+					</div>
+				</div>
+				<div class="w-272">
+					<div class="lhb">
+						<div class="guest-word">
+							<h5 class="ui header">雷海波</h5>
+							<h5>太火鸟创始人</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+				
+		</div>
+	</section>
+	
+	<section>
+		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h3.png">
+			<div class="h-570">
+				<div class="w-570 mr-30">
+					<div class="t1"></div>
+				</div>
+				<div class="w-570">
+					<div class="t2"></div>
+				</div>
+			</div>
+			<div class="h-570 mt-40">
+				<div class="w-570 mr-30">
+					<div class="t3"></div>
+				</div>
+				<div class="w-570">
+					<div class="t4"></div>
+				</div>
+			</div>
+			
+		</div>
+	</section>
+	
+	
+	<section>
+		<div class="w-1180">
+			<img src="{{ app_url_packaged }}/images/birdegg/h4.png">
+			<div class="w-95 p1 mr-25 active">
+				智能家居
+			</div>
+			<div class="w-95 p2 mr-25">
+				智能影音
+			</div>
+			<div class="w-95 p3 mr-25">
+				宠物设备
+			</div>
+			<div class="w-95 p4 mr-25">
+				户外休闲
+			</div>
+			<div class="w-95 p5 mr-25">
+				健康周边
+			</div>
+			<div class="w-95 p6 mr-25">
+				美颜瘦身
+			</div>
+			<div class="w-95 p7 mr-25">
+				母婴用品
+			</div>
+			<div class="w-95 p8 mr-25">
+				汽车周边
+			</div>
+			<div class="w-95 p9 mr-25">
+				智能穿戴
+			</div>
+			<div class="w-95 p10">
+				智能情趣
+			</div>
+		</div>
+			
+			
+		<div class="frames mt-45">
+			<div class="slide clearfix">
+				<div class="item active">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_1.png">
+					</div>
+					
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_2.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_3.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_4.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_5.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_6.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_7.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_8.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_9.png">
+					</div>
+				</div>
+				<div class="item">
+					<div class="w-1180">
+						<img src="{{ app_url_packaged }}/images/birdegg/top100_10.png">
+					</div>
+				</div>
+			</div>
+		
+			<!--<a class="prev" href="#">
+				<i class="flat arrow_left icon"></i>
+			</a>
+			<a class="next" href="#">
+				<i class="flat arrow_right icon"></i>
+			</a>-->
+		</div>
+
+	</section>
+	<section class="w-1180">
+		<img src="{{ app_url_packaged }}/images/birdegg/h5.png">
+		<img src="{{ app_url_packaged }}/images/birdegg/logo1.png">
+	</section>
+	<section class="w-1180">
+		<img src="{{ app_url_packaged }}/images/birdegg/h6.png">
+		<img src="{{ app_url_packaged }}/images/birdegg/logo2.png">
+	</section>
+	<section class="w-1180">
+		<img src="{{ app_url_packaged }}/images/birdegg/h7.png">
+		<img src="{{ app_url_packaged }}/images/birdegg/logo3.png">
+	</section>
+	<section class="w-1180">
+		<div class="ui grid" style="margin:0;">
+			<div class="row">
+				<div class="center aligned column">
+					<a class="ui magenta active inverted attend button">
+											立即报名
+						        </a>
+				</div>
+			</div>
+			<img src="{{ app_url_packaged }}/images/birdegg/logo4.png">
+
+        <div class="center aligned row" style="margin-bottom: 2.5rem;">
+          <div class="column">
+            <div class="share box">
+              {% include "block/big-circel-share.html" %}
+            </div>
+          </div>
+        </div>
+		</div>
+
+
+	</section>
+
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}

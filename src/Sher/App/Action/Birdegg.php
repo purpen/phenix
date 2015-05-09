@@ -7,10 +7,10 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 	public $stash = array(
 		'page'=>1,
     'st'=>0,
-    'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
+    //'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
 	);
 	
-	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view');
+	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view','sz');
 
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -181,6 +181,17 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		
 		return $this->to_html_page('page/birdegg/submit.html');
 	}
+
+  /**
+   * 深圳蛋年报名入口
+   */
+  public function sz_apply(){
+
+    $this->stash['area_options'] = Sher_Core_Util_Constant::birdegg_area_options();
+    $this->stash['interest_options'] = Sher_Core_Util_Constant::birdegg_interest_options();
+
+ 		return $this->to_html_page('page/birdegg/sz_apply.html'); 
+  }
 	
 	/**
 	 * 编辑器参数
@@ -213,6 +224,14 @@ class Sher_App_Action_Birdegg extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
+
+  /**
+   * 深圳
+   */
+  public function sz(){
+	
+    return $this->to_html_page('page/birdegg/bird.html');
   }
 	
 }

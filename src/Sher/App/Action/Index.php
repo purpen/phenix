@@ -65,7 +65,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         if($product_ids){
             $product_model = new Sher_Core_Model_Product();
             $id_arr = explode(',', $product_ids);
-            foreach(array_slice($id_arr, 0, 6) as $i){
+            foreach(array_slice($id_arr, 0, 8) as $i){
                 $product = $product_model->extend_load((int)$i);
                 if(!empty($product)){
                     array_push($products, $product);

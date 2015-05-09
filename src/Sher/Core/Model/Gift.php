@@ -23,6 +23,9 @@ class Sher_Core_Model_Gift extends Sher_Core_Model_Base {
         'code' => '',
 		# 抵扣金额
 		'amount' => 0,
+
+    #最低限额
+    'min_cost' => 0,
 		
 		# 使用产品
 		'product_id' => 0,
@@ -49,6 +52,7 @@ class Sher_Core_Model_Gift extends Sher_Core_Model_Base {
 	
     protected $required_fields = array('code','amount');
     protected $int_fields = array('product_id','user_id','used_by','used_at','used','expired_at');
+		protected $float_fields = array('amount', 'min_cost');
 	
     protected $joins = array();
 	
@@ -107,7 +111,7 @@ class Sher_Core_Model_Gift extends Sher_Core_Model_Base {
 	 * 批量生成码
 	 * @var $count 默认生成数量
 	 */
-	public function create_batch_gift($product_id, $amount, $user_id, $count=100, $prefix='G', $expired_days=7){
+	public function create_batch_gift($product_id, $amount, $min_cost, $user_id, $count=100, $prefix='G', $expired_days=7){
 		for($i=0; $i<$count; $i++){
 			$code = self::rand_number_str(10);
 			
@@ -116,7 +120,8 @@ class Sher_Core_Model_Gift extends Sher_Core_Model_Base {
 				$this->create(array(
 					'code'   => $prefix.$code,
 					'product_id' => (int)$product_id,
-					'amount' => (float)$amount,
+          'amount' => (float)$amount,
+          'min_cost' => (float)$min_cost,
 					'user_id' => (int)$user_id,
 					'expired_at' => time() + $expired_days*24*60*60,
 				));

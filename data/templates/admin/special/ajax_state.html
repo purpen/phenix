@@ -1,0 +1,25 @@
+<taconite>
+{% if success %}
+  <replaceContent select="#stat-{{ id }}">
+              {% if state == 1 %}
+              <label class="ui green label">通过</label>
+              {% endif %}
+              
+              {% if state == 2 %}
+              <label class="ui orange label">未通过</label>
+              {% endif %}
+              
+              {% if state == 0 %}
+              <label class="ui gray label">审核中</label>
+              {% endif %}
+
+  </replaceContent>
+	<eval>
+  phenix.show_ok_note('{{ message }}', 2000);
+	</eval>
+{% else %}
+	<eval>
+		phenix.show_error_note('{{ message }}', 3000);
+	</eval>
+{% endif %}
+</taconite>
