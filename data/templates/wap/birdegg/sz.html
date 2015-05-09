@@ -224,10 +224,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
-#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p6 .st{
+#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p6 .st,#p7 .st{
 	opacity:0;
 }
-#p2 .st.fadeInUp,#p3 .st.fadeInUp,#p5 .st.fadeInLeft,#p5 .st.fadeInRight{
+#p2 .st.fadeInUp,#p3 .st.fadeInUp,#p5 .st.fadeInLeft,#p5 .st.fadeInRight,#p7 .st.flip{
 	opacity:1;
 }
 .s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
@@ -846,6 +846,40 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:1.06s;
 	-webkit-animation-delay:1.06s;
 }
+.s7-1{
+	width:58%;
+	left:27%;
+	top:16%;
+}
+.s7-2{
+	width:46%;
+	left:27%;
+	top:50%;
+}
+.s7-3{
+	width:46%;
+	left:27%;
+	top:65%;
+}
+.s7-4{
+	width:46%;
+	left:27%;
+	top:75%;
+}
+.s7-3.page-logo{
+	animation-delay:0.8s;
+	-webkit-animation-delay:0.8s;
+}
+.s7-4.page-logo{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.s7-2.pages-logo{
+	animation-delay:1.4s;
+	-webkit-animation-delay:1.4s;
+}
+
+
 
 
 </style>
@@ -885,6 +919,11 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s6-1').addClass('zoomInDown animated');
 					$('#p6 .st').addClass('pages-logo animated');
 				}
+				if(index == 7){
+					$('.s7-1').addClass('flip animated');
+					$('.s7-2').addClass('page-logo animated');
+					$('.s7-3,.s7-4').addClass('pages-logo animated');
+				}
 					
 					
 			},
@@ -911,6 +950,11 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				if(index == 6){
 					$('.s6-1').removeClass('zoomInDown animated');
 					$('#p6 .st').removeClass('pages-logo animated');
+				}
+				if(index == 7){
+					$('.s7-1').removeClass('flip animated');
+					$('.s7-2').removeClass('page-logo animated');
+					$('.s7-3,.s7-4').removeClass('pages-logo animated');
 				}
 				
 			}
@@ -1071,17 +1115,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		
 	</div>
 	
-	<div class="section">
-		<img src="{{ app_url_packaged }}/images/promo/jd/bj2.jpg" class="bodybg">
+	<div class="section" id="p7">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg7.jpg" class="bodybg">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t7p1.png" class="st s7-1">
+		<a href=""><img src=" {{ app_url_packaged }}/images/birdegg/wap/t7p2.png" class="st s7-2"></a>
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t7p3.png" class="st s7-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/t7p4.png" class="st s7-4">
 		
-		<div id="vio">
-			<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/poster.png">
-			  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
-			</video>
-		</div>
-		
-		
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	<div class="section">
 		<img src="{{ app_url_packaged }}/images/promo/jd/bj3.jpg" class="bodybg">
