@@ -1007,6 +1007,20 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		$('#music-control').addClass("playing");
 		bgm.play();
 	}, false);
+
+
+  //弹出登录框
+	phenix.wap_show_sign_box();
+
+  $('#sign-button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      // 显示登录框
+      $('.ui.sign-box.modal').modal('show');
+      }else{
+      phenix.redirect('{{ app_url_wap }}/birdegg/sz_apply');
+      }
+  });
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
@@ -1128,7 +1142,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	<div class="section" id="p7">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg7.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p1.png" class="st s7-1">
-		<a href=""><img src="{{ app_url_packaged }}/images/birdegg/wap/t6p2.png" class="st s7-2"></a>
+		<a href="javascript:void(0);" id="sign-button"><img src="{{ app_url_packaged }}/images/birdegg/wap/t6p2.png" class="st s7-2"></a>
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p3.png" class="st s7-3">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p4.png" class="st s7-4">
 		
