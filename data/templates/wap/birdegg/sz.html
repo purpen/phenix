@@ -231,7 +231,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-#p2 .st.fadeInUp,#p4 .st.fadeInUp,#p4 .st.fadeInLeft,#p4 .st.fadeInRight,#p4 .st.fadeInDown,#p5 .st.fadeInLeft,#p5 .st.fadeInRight,#p7 .st.flip{
+#p2 .st.fadeInUp,#p4 .st.fadeInUp,#p4 .st.fadeInLeft,#p4 .st.fadeInRight,#p4 .st.fadeInDown,#p5 .st.fadeInLeft,#p5 .st.fadeInRight,#p7 .st.flip,#p7 .st.bounceInUp{
 	opacity:1;
 }
 .s2-1,.s3-1,.s4-1,.s5-1,.s6-1{
@@ -945,14 +945,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	top:50%;
 }
 .s7-3{
-	width:56%;
-	left:22%;
-	top:65%;
+	width:85%;
+	left:7.5%;
+	top:70%;
 }
 .s7-4{
-	width:56%;
-	left:22%;
-	top:75%;
+	width:85%;
+	left:7.5%;
+	top:74%;
+}
+.s7-5{
+	width:85%;
+	left:7.5%;
+	top:79%;
 }
 .s7-3.pages-logo{
 	animation-delay:0.8s;
@@ -962,9 +967,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:1s;
 	-webkit-animation-delay:1s;
 }
+.s7-5.bounceInUp{
+	animation-delay:1.2s;
+	-webkit-animation-delay:1.2s;
+}
 .s7-2.page-logo{
-	animation-delay:1.4s;
-	-webkit-animation-delay:1.4s;
+	animation-delay:1.6s;
+	-webkit-animation-delay:1.6s;
 }
 
 
@@ -1087,6 +1096,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s7-1').addClass('flip animated');
 					$('.s7-2').addClass('page-logo animated');
 					$('.s7-3,.s7-4').addClass('pages-logo animated');
+					$('.s7-5').addClass('bounceInUp animated');
 				}
 					
 					
@@ -1126,6 +1136,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s7-1').removeClass('flip animated');
 					$('.s7-2').removeClass('page-logo animated');
 					$('.s7-3,.s7-4').removeClass('pages-logo animated');
+					$('.s7-5').removeClass('bounceInUp animated');
 				}
 				
 			}
@@ -1323,8 +1334,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg7.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p1.png" class="st s7-1">
 		<a href="javascript:void(0);" id="sign-button"><img src="{{ app_url_packaged }}/images/birdegg/wap/t6p2.png" class="st s7-2"></a>
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p3.png" class="st s7-3">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/t6p4.png" class="st s7-4">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/tt6p1.png" class="st s7-3">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/tt6p2.png" class="st s7-4">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/tt6p3.png" class="st s7-5">
 		
 	</div>
 	
