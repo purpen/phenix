@@ -759,7 +759,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				
 			}else{
 				$mode = 'edit';
-				$ok = $model->apply_and_update($data);
+				$ok = $model->apply_and_update_alias($data);
 			}
 			
 			if(!$ok){

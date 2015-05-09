@@ -7,16 +7,71 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     
     public $stash = array(
 		'page' => 1,
+    'size' => 20,
 		'q' => '',
 		'ref' => '',
-		't' => 2,
+		't' => 0,
 		'index_name' => 'full',
+    'evt' => 'content',
+    'db' => 'phenix',
+    's' => 0,
+    'asc' => 1,
 	);
+
+	protected $exclude_method_list = array('execute', 'xc');
 	
-	public function execute() {
+    public function execute() {
+      return $this->xc();
        	$words = Sher_Core_Service_Search::instance()->check_query_string($this->stash['q']);
         return $this->_display_search_list($words);
 	}
+
+  /**
+   * 迅搜引擎,不走数据库
+   */
+  public function xc(){
+    $db = $this->stash['db'];
+    // 全文搜索/标签搜索
+    $evt = $this->stash['evt'];
+
+    //搜索类型
+ 		if($this->stash['t'] == 1){
+			$this->set_target_css_state('product');
+		}elseif($this->stash['t'] == 2){
+			$this->set_target_css_state('topic');
+		}elseif($this->stash['t'] == 4){
+			$this->set_target_css_state('stuff');
+		}elseif($this->stash['t'] == 5){
+			$this->set_target_css_state('vote');
+    }else{
+      $this->set_target_css_state('all');
+    }
+
+    $q = $this->stash['q'];
+
+    $options = array(
+      'page' => $this->stash['page'],
+      'size' => $this->stash['size'],
+      'evt'  => $evt,
+      'sort' => $this->stash['s'],
+      'asc'  => $this->stash['asc'],
+    );
+    
+    $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
+    if($result['success']){
+      foreach($result['data'] as $k=>$v){
+
+      }
+
+      //var_dump($result['data']);
+      $this->stash['result'] = $result;
+
+    }else{
+      
+    }
+
+		return $this->to_html_page('page/search.html');
+  }
 	
 	/**
 	 * 搜索结果页
@@ -55,7 +110,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
 			$this->set_target_css_state('vote');
 		}
         
-		return $this->to_html_page('page/search.html');
+		return $this->to_html_page('page/search_old.html');
 	}
 	
 	/**
@@ -116,6 +171,26 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     	$this->stash['tags'] = $tags;
     	return $this->display_tab_page('tab_hot', 'page/index_tag.html');
     }
+
+  /**
+   * 删除索引-需要管理员权限
+   */
+  public function del(){
+    $id = $this->stash['id'];
+    if(empty($id)){
+      return $this->ajax_note('参数为空!', true);
+    }
+    if(!$this->visitor->can_admin){
+      return $this->ajax_note('没有权限!', true);   
+    }
+    $result = Sher_Core_Util_XunSearch::del_ids($id);
+    if($result['success']){
+      return $this->to_taconite_page('ajax/del_ok.html');   
+    }else{
+      return $this->ajax_note($result['msg'], true);   
+    }
+
+  }
     
 }
-?>
+

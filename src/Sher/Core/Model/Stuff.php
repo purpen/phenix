@@ -264,6 +264,20 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	 * 保存之后，更新相关count
 	 */
   	protected function after_save() {
+      //索引数据
+      $xs_data = array(
+        'pid' => 'stuff_'.(string)$this->data['_id'],
+        'kind' => 'Stuff',
+        'oid' => $this->data['_id'],
+        'cid' => $this->data['from_to'],
+        'title' => $this->data['title'],
+        'cover_id' => $this->data['cover_id'],
+        'content' => $this->data['description'],
+        'user_id' => $this->data['user_id'],
+        'tags' => !empty($this->data['tags']) ? implode(',', $this->data['tags']) : '',
+        'created_on' => $this->data['created_on'],
+        'updated_on' => $this->data['updated_on'],
+      );
     	// 如果是新的记录
     	if($this->insert_mode){
             $category_id = $this->data['category_id'];
@@ -309,21 +323,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
             
 
           //添加全文索引
-          /**
-          $xs_data = array(
-            'pid' => 'Stuff'.(string)$this->data['_id'],
-            'oid' => $this->data['_id'],
-            'cid' => $this->data['from_to'],
-            'title' => $this->data['title'],
-            'content' => $this->data['description'],
-            'user_id' => $this->data['user_id'],
-            'tags' => !empty($this->data['tags']) ? implode(',', $this->data['tags']) : '',
-            'created_on' => $this->data['created_on'],
-            'updated_on' => $this->data['updated_on'],
-          );
-            Sher_Core_Util_XunSearch::add($xs_data);
-          */
-        }
+          Sher_Core_Util_XunSearch::add($xs_data);
+      }else{
+        //更新索引
+        Sher_Core_Util_XunSearch::update($xs_data);     
+      }
   	}
 	
 	/**
@@ -411,6 +415,9 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
       }
       unset($num_mode);
     }
+
+    //删除索引
+    Sher_Core_Util_XunSearch::del_ids('stuff_'.(string)$id);
 		
 		return true;
 	}

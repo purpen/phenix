@@ -16,10 +16,6 @@
 .social.search .suggest a {
     color: #fff;
 }
-
-.content em{
-  color: red;
-}
 </style>
 {% endblock %}
 
@@ -33,7 +29,7 @@
 		<div class="row">
 			<div class="ten wide column white section-title">
                 <h1 class="block title">高级搜索</h1>
-				<form class="ui form" action="{{ app_url_search }}" method="get">
+				<form class="ui form" action="{{ app_url_search }}" method="post">
                  	<div class="ui icon input">
                 		<input name="q" type="text" value="{{ q }}" />
                 		<i class="search icon"></i>
@@ -67,11 +63,10 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui ten tabs">
-            <a href="{{ app_url_domain }}/search?t=0&q={{ q }}" class="{{ css_all }} tab">全部</a>
-            <a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>
-            <a href="{{ app_url_domain }}/search?t=2&q={{ q }}" class="{{ css_topic }} tab">话题</a>
-            <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
-            <a href="{{ app_url_domain }}/search?t=4&q={{ q }}" class="{{ css_stuff }} tab">智品</a>
+                        <a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>
+					  	<a href="{{ app_url_domain }}/search?t=2&q={{ q }}" class="{{ css_topic }} tab">话题</a>
+                        <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
+                        <a href="{{ app_url_domain }}/search?t=4&q={{ q }}" class="{{ css_stuff }} tab">智品</a>
 					</div>
 				</div>
 			</div>
@@ -82,8 +77,9 @@
 		<div class="row">
 			<div class="column">
 				{% if q %}
-					{%if result.success %}
-					    搜索 “{{ q }}” , 找到约 {{ result.data_count }} 条结果
+					{%if has_scws %}
+						{% search_list var:'list' search_word:q index_name:index_name page:page type:t size:15 %}
+					    搜索 “{{ highlight }}” , 找到约 {{ list.total_rows }} 条结果
 					{%else%}
 					    搜索 “{{ q }}” , 找到约 0 条结果
 					{%endif%}
@@ -96,9 +92,9 @@
 			<div class="column">
 				<div class="search result">
 					<div class="ui search selection list">
-					{% for item in result.data %}
-						{% if item %}
-            <div class="item" id="item-{{ item.pid }}">
+					{% for item in list.rows %}
+						{% if item.type == 2 %}
+						<div class="item">
 							{% if item.topic.asset_count > 0 %}
 								{% asset_list var:'assets' parent_id:item.topic._id size:1 asset_type:55 sort:'positive' %}
 								{% for asset in assets.rows %}
@@ -107,29 +103,47 @@
 							{% endif %}
 							<div class="content">
 								<div class="header">
-							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
+							      	<a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line" target="_blank">{{ item.topic.title }}</a>
 								</div>
 								<div class="attribute">
 									<span class="category"><a href="{{ item.topic.category.view_url }}" class="ui link">{{ item.topic.category.title }}</a></span> | 
 									<span class="author">
-                    <a href="{{ item.topic.user.home_url }}" class="ui link">@{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
-                    {% if visitor.can_admin %}
-                      <span><a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request"><small>删除</small></a></span>
-                    {%endif%}
+										<a href="{{ item.topic.user.home_url }}" class="ui link">@{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>于{{ item.topic.created_on|relative_datetime }}发表
 									</span>
 								</div>
-								<div class="">
-							    <p>{{ item.high_content }}</p>
+							</div>
+						</div>
+						{% endif %}
+						
+						{% if item.type == 1 %}
+						<div class="item">
+							<img class="ui medium image" src="{{ item.product.cover.thumbnails.small.view_url }}" />
+							<div class="content">
+								<div class="header">
+							      	<a href="{{ item.product.view_url }}" class="ui line" target="_blank">{{ item.product.title }}</a>
 								</div>
-								<div class="">
-							    <p>
-                    {% if item.tags %}
-                      {%for tag in item.tags%}
-                        <a href="#" >{{ tag }}</a>&nbsp;
-                      {%endfor%}
-                    {%endif%}
-                  
-                  </p>
+								<div class="attribute">
+									<span class="category">{{ item.product.category.title }}</span> | 
+									<span class="author">
+										<a href="{{ item.product.user.home_url }}" class="ui link">@{{ item.product.user.nickname }}</a>  <i class="time icon"></i>于{{ item.product.created_on|relative_datetime }}发表
+									</span>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+                        
+						{% if item.type == 4 %}
+						<div class="item">
+							<img class="ui medium image" src="{{ item.stuff.cover.thumbnails.small.view_url }}" />
+							<div class="content">
+								<div class="header">
+							      	<a href="{{ item.stuff.view_url }}" class="ui line" target="_blank">{{ item.stuff.title }}</a>
+								</div>
+								<div class="attribute">
+									<span class="category">{{ item.stuff.category.title }}</span> | 
+									<span class="author">
+										<a href="{{ item.stuff.user.home_url }}" class="ui link">@{{ item.stuff.user.nickname }}</a>  <i class="time icon"></i>于{{ item.stuff.created_on|relative_datetime }}发表
+									</span>
 								</div>
 							</div>
 						</div>

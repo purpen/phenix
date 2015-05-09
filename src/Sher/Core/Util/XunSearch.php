@@ -22,28 +22,40 @@ class Sher_Core_Util_XunSearch {
    * 添加文档
    */
   public static function add($data=array(), $db='phenix') {
-    $xs = new \XS($db);
-    $index = $xs->index; // 获取 索引对象
-    // 创建文档对象
-    $doc = new XSDocument;
-    $doc->setFields($data);
- 
-    // 添加到索引数据库中
-    $index->add($doc);
+
+    try{
+      $xs = new \XS($db);
+      $index = $xs->index; // 获取 索引对象
+      // 创建文档对象
+      $doc = new XSDocument;
+      $doc->setFields($data);
+   
+      // 添加到索引数据库中
+      $index->add($doc);
+
+    }catch(XSException $e){
+      Doggy_Log_Helper::warn('add:'.$e->getTraceAsString(), 'search');
+    }
+
   }
 
   /**
    * 更新文档
    */
   public static function update($data=array(), $db='phenix') {
-    $xs = new \XS($db);
-    $index = $xs->index; // 获取 索引对象
-    // 创建文档对象
-    $doc = new XSDocument;
-    $doc->setFields($data);
- 
-    // 更新到索引数据库中
-    $index->update($doc);
+    try{
+      $xs = new \XS($db);
+      $index = $xs->index; // 获取 索引对象
+      // 创建文档对象
+      $doc = new XSDocument;
+      $doc->setFields($data);
+   
+      // 更新到索引数据库中
+      $index->update($doc);   
+    }catch(XSException $e){
+      Doggy_Log_Helper::warn('update:'.$e->getTraceAsString(), 'search');
+    }
+
   }
 
   /**
@@ -51,38 +63,97 @@ class Sher_Core_Util_XunSearch {
     * ID可为数组
    */
   public static function del_ids($ids, $db='phenix') {
-    $xs = new \XS($db);
-    $index = $xs->index; // 获取 索引对象
- 
-    // 删除
-    $index->del($ids);
+    try{
+      $xs = new \XS($db);
+      $index = $xs->index; // 获取 索引对象
+   
+      // 删除
+      $ok = $index->del($ids);
+      if($ok){
+        return array('success'=>true, 'msg'=>'操作成功!');
+      }else{
+        return array('success'=>false, 'msg'=>'删除失败!');       
+      }
+
+    }catch(XSException $e){
+      Doggy_Log_Helper::warn('delete:'.$e->getTraceAsString(), 'search');
+      return array('success'=>false, 'msg'=>'删除失败!'.$e->getTraceAsString());    
+    }
+
   }
 
   /**
    * 搜索
    */
-  public static function search($str, $kind=0, $options=array(), $db='phenix') {
+  public static function search($str, $options=array(), $db='phenix') {
     if(empty($str)){
-      return false;
+      return array('success'=>false, 'msg'=>'搜索内容为空!');
     }
     $page = isset($options['page'])?(int)$options['page']:1;
     $size = isset($options['size'])?(int)$options['size']:50;
-    $sort = isset($options['sort'])?$options['sort']:'created_on';
-    $desc = isset($options['desc'])?$options['desc']:false;
+    $sort = isset($options['sort'])?(int)$options['sort']:0;
+    $asc = isset($options['asc'])?(boolean)$options['asc']:false;
 
-    $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
-    $search = $xs->search; // 获取 搜索对象
+    $evt = isset($options['evt'])?(string)$options['evt']:'content';
 
-    $search->setQuery($str); // 设置搜索语句
-    //$search->addWeight('subject', 'xunsearch'); // 增加附加条件：提升标题中包含 'xunsearch' 的记录的权重
-    //$search->setSort($sort, $desc); // 排序
+    try{
+      $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
+      $search = $xs->search; // 获取 搜索对象
 
-    $current_per = ($page-1)*$size;
-    $search->setLimit($size, $current_per); // 设置返回结果最多为 5 条，并跳过前 10 条
- 
-    $docs = $search->search(); // 执行搜索，将搜索结果文档保存在 $docs 数组中
-    //$count = $search->count(); // 获取搜索结果的匹配总数估算值
-    return $docs;
+      //是否搜索标签
+      if($evt=='tag'){
+        $str = sprintf('tags:%s', $str);
+      }
+
+      $search->setQuery($str); // 设置搜索语句
+      //$search->addWeight('subject', 'xunsearch'); // 增加附加条件：提升标题中包含 'xunsearch' 的记录的权重
+
+      //排序
+      if(!empty($sort)){
+        if($sort==1){
+          $search->setSort('created_on', $asc); // 最新
+        }elseif($sort==2){
+          $search->setSort('updated_on', $asc); // 更新
+        }
+      }
+
+      $current_per = ($page-1)*$size;
+      $search->setLimit($size, $current_per); // 设置返回结果最多为 5 条，并跳过前 10 条
+   
+      $docs = $search->search(); // 执行搜索，将搜索结果文档保存在 $docs 数组中
+      $count = $search->count(); // 获取搜索结果的匹配总数估算值
+      $data = array();
+      foreach($docs as $k=>$v){
+        $data[$k]['pid'] = $v['pid'];
+        $data[$k]['oid'] = $v['oid'];
+        $data[$k]['tid'] = $v['tid'];
+        $data[$k]['cid'] = $v['cid'];
+        $data[$k]['kind'] = $v['kind'];
+        $data[$k]['title'] = $v['title'];
+        $data[$k]['content'] = htmlspecialchars_decode($v['content']);
+        $data[$k]['user_id'] = $v['user_id'];
+        $data[$k]['tags'] = !empty($v['tags'])?explode(',', $v['tags']):array();
+        $data[$k]['created_on'] = $v['created_on'];
+        $data[$k]['updated_on'] = $v['updated_on'];
+        $data[$k]['high_title'] = $search->highlight($v->title); // 高亮处理 title 字段
+        $data[$k]['high_content'] = htmlspecialchars_decode($search->highlight($v->content)); // 高亮处理 content 字段
+        switch($v['kind']){
+          case 'Stuff':
+            $data[$k]['view_url'] = Sher_Core_Helper_Url::stuff_view_url($v['oid']);
+            break;
+          case 'Topic':
+            $data[$k]['view_url'] = Sher_Core_Helper_Url::topic_view_url($v['oid']);
+            break;
+        }
+
+      }
+
+      $result = array('success'=>true, 'data'=>$data, 'data_count'=>$count, 'msg'=>'success');
+      return $result;
+    }catch(XSException $e){
+      Doggy_Log_Helper::warn('search:'.$e->getTraceAsString(), 'search');
+      return array('success'=>false, 'msg'=>'搜索异常!');
+    }
 
   }
 
