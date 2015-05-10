@@ -11,8 +11,10 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   const TYPE_PRO = 1;
   //大学
   const TYPE_COLLEGE = 2;
-  //微信分享数
+  //微信分享数/商品/灵感/话题
   const TYPE_WXSHARE = 3;
+  //微信分享数/专题
+  const TYPE_SUBJECT_SHARE = 4;
 
   //属性
   // 话题
@@ -21,6 +23,8 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
   const KIND_PRODUCT = 2;
   // 灵感
   const KIND_STUFF = 3;
+  // 专题
+  const KIND_SUBJECT = 4;
 
 	
     protected $schema = array(

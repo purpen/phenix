@@ -293,4 +293,16 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     }
   }
 
+  /**
+   * 专题分享统计-ID转名称
+   */
+  public static function subject_share_name($id=0){
+    $array = array(1=>'支持原创设计', 2=>'2015京东众筹', 3=>'蛋年(深圳)', 4=>'--', 5=>'--', 10=>'--');
+    if(empty($id)){
+      return $array;
+    }else{
+      return $array[(int)$id];
+    }
+  }
+
 }

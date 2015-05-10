@@ -1545,10 +1545,10 @@ float: left;
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
 
-    var m_name = '中国智能硬件·蛋年创新大会南飞深圳，火爆来袭不见不散';
+    var m_name = '[中国智能硬件·蛋年创新大会] 南飞深圳 火爆来袭不见不散~';
     var img_url = 'http://frstatic.qiniudn.com/images/birdegg/wap/sdg.jpg';
     var link = '{{ app_url_wap }}/birdegg/sz';
-    var desc_str = '5大阵容强强联手，10位嘉宾T.E.D干货分享，400平米露天楼体大屏，1200人畅谈智能…狂欢夜，等你来。';
+    var desc_str = '5大阵容强强联手 10位顶级嘉宾T.E.D干货分享 400平米楼体大屏 1200人狂欢夜等你来~';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -1607,8 +1607,8 @@ float: left;
 
   //记录分享数
   function record_share_num(){
-    var url = '{{ app_url_wap }}/app/site/redis/incr';
-    $.get(url, { key: 'birdegg_sz_share_num' });
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 3, count_name:'count', type: 4, kind:4 });
   }
 
 		$('.wrap').fullpage({
@@ -1790,7 +1790,7 @@ float: left;
 
 
   //弹出登录框
-	phenix.wap_show_sign_box();
+	phenix.wap_show_sign_box('{{ app_url_wap }}/birdegg/sz_apply', 1);
 
   $('#sign-button').click(function(){
 		// 所有ajax请求，验证是否登录

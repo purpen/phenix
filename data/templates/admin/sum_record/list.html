@@ -42,7 +42,10 @@
 			省份
 		</a>
     <a href="{{ app_url_admin_base }}/sum_record/get_list?type=3" class="{%if type==3%}active{%endif%} item">
-			微信分享
+			微信分享(文章,灵感,商品)
+		</a>
+    <a href="{{ app_url_admin_base }}/sum_record/get_list?type=4" class="{%if type==4%}active{%endif%} item">
+			微信分享(专题)
 		</a>
 
 	  	<div class="right menu">
@@ -116,6 +119,9 @@
           {% if s.type==3 %}
             微信分享
           {%endif%}
+          {% if s.type==4 %}
+            专题分享
+          {%endif%}
           </p>
 		      <p class="attribute">ID：{{ s.target_id }}</p>
 		      <p class="attribute">名称：
@@ -127,6 +133,9 @@
           {%endif%}
            {% if s.type==3 %}
             {{ s.target.title }}
+          {%endif%} 
+           {% if s.type==4 %}
+            {{ s.target_name }}
           {%endif%} 
           </p>
 				</td>
@@ -143,6 +152,9 @@
           {% if s.kind==3 %}
             灵感
           {%endif%}
+          {% if s.kind==4 %}
+            专题
+          {%endif%}
         </td>
         <td>
           {% if s.type==1 %}
@@ -152,6 +164,9 @@
           {{ s.match2_count }}/{{ s.match2_love_count }}
           {%endif%}
           {% if s.type==3 %}
+          {{ s.count }}
+          {%endif%}
+          {% if s.type==4 %}
           {{ s.count }}
           {%endif%}
         </td>
