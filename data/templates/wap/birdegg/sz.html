@@ -209,10 +209,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
         opacity: 1;
     }
 }
-.s2-1,.s3-1,.s4-1,.s5-1,.s5n-1,.s6-1,.sn-1,.sn-3,.sn-5,.sw-1{
+.s2-1,.s3-1,.s4-1,.s5-1,.s5n-1,.s6-1,.sn-1,.sn-3,.sn-5,.sw-1,.s5t-1{
 	opacity:0;
 }
-.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated,.s5-1.zoomInDown.animated,.s5n-1.zoomInDown.animated,.s6-1.zoomInDown.animated,.sn-1.zoomInDown.animated,.sn-3.zoomInDown.animated,.sn-5.zoomInDown.animated,.sw-1.zoomInDown.animated{
+.s2-1.zoomInDown.animated,.s3-1.zoomInDown.animated,.s4-1.zoomInDown.animated,.s5-1.zoomInDown.animated,.s5n-1.zoomInDown.animated,.s6-1.zoomInDown.animated,.sn-1.zoomInDown.animated,.sn-3.zoomInDown.animated,.sn-5.zoomInDown.animated,.sw-1.zoomInDown.animated,.s5t-1.zoomInDown.animated{
 	opacity:1;
 }
 
@@ -224,17 +224,17 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
-#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p5-2 .st,#p6 .st,#p7 .st,#vio,#pn .st,#pw .st{
+#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p5-2 .st,#p6 .st,#p7 .st,#vio,#pn .st,#pw .st,#pt .st{
 	opacity:0;
 }
 #vio.fadeIn{
 	animation-delay:0.6s;
 	-webkit-animation-delay:0.6s;
 }
-#p2 .st.fadeInUp,#p4 .st.fadeInUp,#p4 .st.fadeInLeft,#p4 .st.fadeInRight,#p4 .st.fadeInDown,#p7 .st.flip,#p7 .st.bounceInUp,#pw .st.fadeInUp{
+#p2 .st.fadeInUp,#p4 .st.fadeInUp,#p4 .st.fadeInLeft,#p4 .st.fadeInRight,#p4 .st.fadeInDown,#p7 .st.flip,#p7 .st.bounceInUp,#pw .st.fadeInUp,#pt .st.fadeIn{
 	opacity:1;
 }
-.s2-1,.s3-1,.s4-1,.s5-1,.s5n-1,.s6-1,.sw-1{
+.s2-1,.s3-1,.s4-1,.s5-1,.s5n-1,.s6-1,.sw-1,.s5t-1{
 	position:absolute;
 	z-index: 2;
 	top:0;
@@ -1195,7 +1195,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:2s;
 	-webkit-animation-delay:2s;
 }
-.sn-1{
+.sn-1,.st-1{
 	position:absolute;
 	z-index:2;
 	width:85%;
@@ -1413,6 +1413,129 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	animation-delay:4.2s;
 	-webkit-animation-delay:4.2s;
 }
+.fp-slides {
+z-index: 1;
+height: 100%;
+overflow: hidden;
+position: relative;
+-webkit-transition: all 0.3s ease-out;
+transition: all 0.3s ease-out;
+}
+.fp-slidesContainer {
+float: left;
+position: relative;
+}
+.fp-section.fp-table, .fp-slide.fp-table {
+display: table;
+table-layout: fixed;
+width: 100%;
+}
+.fp-slide, .fp-slidesContainer {
+height: 100%;
+display: block;
+}
+.fp-slide {
+float: left;
+}
+.fp-controlArrow.fp-next:before {
+	font-family: "FontFlatIcons";
+	font-size: 27px;
+	line-height: 1;
+	display: inline-block;
+	content: '\e0d3';
+}
+.fp-controlArrow.fp-next{
+	-webkit-animation: arrowRt 1.5s linear infinite;
+	-moz-animation: arrowRt 1.5s linear infinite;
+	animation: arrowRt 1.5s linear infinite;
+}
+.fp-controlArrow.fp-next {
+	right: 0px;
+	display: inline-block;
+	opacity: .75;
+	color: #FFF;
+	margin: 0 .25em 0 0;
+	width: 1.23em;
+	height: 1em;
+	font-family: FontFlatIcons;
+	font-style: normal;
+	line-height: 1;
+	font-weight: 400;
+	text-decoration: inherit;
+	text-align: center;
+	speak: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fp-controlArrow.fp-prev:before{
+	font-family: "FontFlatIcons";
+	font-size: 27px;
+	line-height: 1;
+	display: inline-block;
+	content: '\e010';
+}
+.fp-controlArrow.fp-prev {
+	-webkit-animation: arrowUp 1.5s linear infinite;
+	-moz-animation: arrowUp 1.5s linear infinite;
+	animation: arrowUp 1.5s linear infinite;
+}
+.fp-controlArrow.fp-prev {
+	left: 0px;
+	display: inline-block;
+	opacity: .75;
+	color: #FFF;
+	margin: 0 .25em 0 0;
+	width: 1.23em;
+	height: 1em;
+	font-family: FontFlatIcons;
+	font-style: normal;
+	line-height: 1;
+	font-weight: 400;
+	text-decoration: inherit;
+	text-align: center;
+	speak: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fp-controlArrow{
+	top: 50%;
+	font-size: 27px;
+	margin-top: -80px;
+}
+.fp-controlArrow {
+	position: absolute;
+	z-index: 4;
+	cursor: pointer;
+}
+.slide img{
+	width:82%;
+	position:absolute;
+	z-index:2;
+	left:9%;
+	top:4%;
+}
+#pt{
+	background: url(http://frstatic.qiniudn.com/images/birdegg/wap/bg5.jpg);
+}
+.s5t-1{
+	position:relative !important;
+}
+.pt1.fadeIn{
+	animation-delay:0.6s;
+	-webkit-animation-delay:0.6s;
+}
 </style>
 {% endblock %}
 
@@ -1492,6 +1615,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			'css3':true,
 			'loopBottom':true,
 			'loopTop':true,
+			'slidesNavigation': true,
+			'verticalCentered': true,
 			afterRender: function(){
 					$('.s1').addClass('page-bounceIn');
 					//$('.bodybg').addClass('page-fadeInDown');
@@ -1532,19 +1657,23 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5n-5').addClass('pages-logo animated');
 				}
 				if(index == 6){
+					$('.s5t-1').addClass('zoomInDown animated');
+					$('.pt1').addClass('fadeIn animated');
+				}
+				if(index == 7){
 					$('.sw-1').addClass('zoomInDown animated');
 					$('.sw-2,.sw-4,.sw-6,.sw-8,.sw-10').addClass('pages-logo animated');
 					$('.ai').addClass('pages-logo animated');
 				}
-				if(index == 7){
+				if(index == 8){
 					$('.sn-1,.sn-3,.sn-5').addClass('zoomInDown animated');
 					$('#pn .st').addClass('pages-logo animated');
 				}
-				if(index == 8){
+				if(index == 9){
 					$('.s6-1').addClass('zoomInDown animated');
 					$('#p6 .st').addClass('pages-logo animated');
 				}
-				if(index == 9){
+				if(index == 10){
 					$('.s7-1').addClass('flip animated');
 					$('.s7-2').addClass('page-logo animated');
 					$('.s7-3,.s7-4').addClass('pages-logo animated');
@@ -1588,19 +1717,23 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5n-5').removeClass('pages-logo animated');
 				}
 				if(index == 6){
+					$('.s5t-1').removeClass('zoomInDown animated');
+					$('.pt1').removeClass('fadeIn animated');
+				}
+				if(index == 7){
 					$('.sw-1').removeClass('zoomInDown animated');
 					$('.sw-2,.sw-4,.sw-6,.sw-8,.sw-10').removeClass('pages-logo animated');
 					$('.ai').removeClass('pages-logo animated');
 				}
-					if(index == 7){
+					if(index == 8){
 						$('.sn-1,.sn-3,.sn-5').removeClass('zoomInDown animated');
 						$('#pn .st').removeClass('pages-logo animated');
 					}
-				if(index == 8){
+				if(index == 9){
 					$('.s6-1').removeClass('zoomInDown animated');
 					$('#p6 .st').removeClass('pages-logo animated');
 				}
-				if(index == 9){
+				if(index == 10){
 					$('.s7-1').removeClass('flip animated');
 					$('.s7-2').removeClass('page-logo animated');
 					$('.s7-3,.s7-4').removeClass('pages-logo animated');
@@ -1686,7 +1819,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			</video>
 		</div>
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/to2p1.png" class="st s2-2">
-		<img src=" {{ app_url_packaged }}/images/birdegg/wap/to2p2.png" class="st s2-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/p2_1.png" class="st s2-3">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/to2p3.png" class="st s2-4">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/to2p4.png" class="st s2-5">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/to2p5.png" class="st s2-6">
@@ -1724,12 +1857,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/012.jpg" class="st s4-12">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/013.jpg" class="st s4-13">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/014.jpg" class="st s4-14">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/015.jpg" class="st s4-15">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/g015.jpg" class="st s4-15">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/016.jpg" class="st s4-16">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/017.jpg" class="st s4-17">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/018.jpg" class="st s4-18">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/019.jpg" class="st s4-19">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/020.jpg" class="st s4-20">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/g020.jpg" class="st s4-20">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
@@ -1752,6 +1885,43 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/4_4a.png" class="st s5n-5">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
+	
+	<div class="section" id="pt">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/q1.png" class="s5t-1">
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt1.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt2.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt3.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt4.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt5.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt6.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt7.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt8.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt9.png">
+		</div>
+		<div class="slide">
+			<img src="{{ app_url_packaged}}/images/birdegg/wap/pt10.png">
+		</div>
+		
+	</div>
+	
+	
 	
 	<div class="section" id="pw">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg9.jpg" class="bodybg">
