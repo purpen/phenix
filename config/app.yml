@@ -160,7 +160,7 @@ app.follow.max: 2000
 
 # 投票时间段设置，默认：15天
 app.vote.interval: 15
-app.vote.lowest: 10
+app.vote.lowest: 200
 
 # 预售时间段设置，默认：15天
 app.presale.interval: 15
