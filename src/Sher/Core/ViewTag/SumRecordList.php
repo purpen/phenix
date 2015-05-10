@@ -85,6 +85,8 @@ class Sher_Core_ViewTag_SumRecordList extends Doggy_Dt_Tag {
               }elseif($kind==3){
                 $result['rows'][$i]['target'] = & DoggyX_Model_Mapper::load_model((int)$target_id,'Sher_Core_Model_Stuff');               
               }
+            }elseif($type==4){
+              $result['rows'][$i]['target_name'] = Sher_Core_Util_Constant::subject_share_name((int)$target_id);
             }
             
           }

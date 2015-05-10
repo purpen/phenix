@@ -2,7 +2,29 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+header.ui.wap{
+	display:none !important;
+	opacity:0;
+}
+#mfrbird{
+	margin:0;
+}
+.mmfoot{
+	display:none;
+}
+* { -webkit-appearance: none; }
 
+html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+.wrap {
+	max-width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+}
+
+.share-background{
+  background: url({{ app_url_packaged }}/images/birdegg/share.jpg) no-repeat;
+}
 </style>
 {% endblock %}
 
@@ -10,10 +32,10 @@
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
 
-    var m_name = '特邀嘉宾 {{ visitor.profile.realname }}，诚邀您出席千人狂欢夜【中国智能硬件蛋年创新大会·深圳站】';
-    var img_url = 'http://frstatic.qiniudn.com/images/promo/jd-share2.jpg';
+    var m_name = '{{ visitor.profile.realname }} 诚邀你出席[中国智能硬件·蛋年创新大会] 不见不散~';
+    var img_url = 'http://frstatic.qiniudn.com/images/birdegg/wap/sdg.jpg';
     var link = '{{ app_url_wap }}/birdegg/sz';
-    var desc_str = '蛋年大会蔓延深圳，五大阵容强强联合';
+    var desc_str = '5大阵容强强联手 10位顶级嘉宾T.E.D干货分享 400平米楼体大屏 1200人狂欢夜等你来~';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -72,8 +94,8 @@
 
   //记录分享数
   function record_share_num(){
-    var url = '{{ app_url_wap }}/app/site/redis/incr';
-    $.get(url, { key: 'birdegg_sz_share_num' });
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 3, count_name:'count', type: 4, kind:4 });
   }
 
 	</script>
@@ -86,7 +108,8 @@
 {% block content %}
 
 <div class="wrap">
-  分享：点击右上角，分享您的专属邀请链接
+	<img src="http://frstatic.qiniudn.com/images/birdegg/share.jpg" style="width: 100%;height: 100%;position: absolute;z-index:1;">
+	<a href="{{ app_url_wap }}/birdegg/sz"><img src="{{ app_url_packaged }}/images/birdegg/back_botton.png" style="width: 40%;left:30%;top:60%;position: absolute;z-index:2;"></a>
 		
 </div>	
 {% include "mm/loginbox.html" %}
