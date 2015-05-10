@@ -69,13 +69,16 @@
         <div class="row">
             <div class="column">
                 {% if featurelist.total_rows %}
-				<div class="ui socialstick four blocks">
+				<div class="ui socialstick stickcount four blocks">
                     {% for ft in featurelist.rows %}
 					<div class="block">
 						<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.thumbnails.medium.view_url }}');"{% endif %}>
                             <a class="transparent" href="{{ ft.view_url }}" target="_blank">
     							<div class="sub title">
     								{{ ft.title }}
+            						<div class="extra count">
+            							<i class="unhide icon"></i> <span>{{ ft.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.comment_count }}</span>
+            						</div>
     							</div>
                             </a>
 						</div>
