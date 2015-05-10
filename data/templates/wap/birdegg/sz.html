@@ -1437,7 +1437,6 @@ display: block;
 .fp-slide {
 float: left;
 }
-
 .fp-controlArrow.fp-next:before {
 	font-family: "FontFlatIcons";
 	font-size: 27px;
@@ -1445,7 +1444,7 @@ float: left;
 	display: inline-block;
 	content: '\e0d3';
 }
-#pt .fp-controlArrow.fp-next{
+.fp-controlArrow.fp-next{
 	-webkit-animation: arrowRt 1.5s linear infinite;
 	-moz-animation: arrowRt 1.5s linear infinite;
 	animation: arrowRt 1.5s linear infinite;
@@ -1481,7 +1480,7 @@ float: left;
 	display: inline-block;
 	content: '\e010';
 }
-#pt .fp-controlArrow.fp-prev {
+.fp-controlArrow.fp-prev {
 	-webkit-animation: arrowUp 1.5s linear infinite;
 	-moz-animation: arrowUp 1.5s linear infinite;
 	animation: arrowUp 1.5s linear infinite;
@@ -1509,6 +1508,16 @@ float: left;
 	-moz-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+.fp-controlArrow{
+	top: 50%;
+	font-size: 27px;
+	margin-top: -80px;
+}
+.fp-controlArrow {
+	position: absolute;
+	z-index: 4;
+	cursor: pointer;
 }
 
 .pt1{
