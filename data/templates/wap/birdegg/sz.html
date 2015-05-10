@@ -1533,6 +1533,7 @@ float: left;
 .frames {
   height: 80%;
   position: relative;
+	z-index: 2;
 }
 .clearfix {
   display: block;
@@ -1547,8 +1548,9 @@ float: left;
 .slide .item img{
 	width:82%;
 	left:9%;
-	z-index:2;
-	top:14%;
+	z-index: 2;
+	top: 18%;
+	position: absolute;
 }
 </style>
 {% endblock %}
@@ -1812,13 +1814,13 @@ float: left;
       phenix.redirect('{{ app_url_wap }}/birdegg/sz_apply');
       }
   });
-
+	
 	var s = e(window).width();
 	e(".frames > .slide > .item").width(s);
 	
 	var $frame = $('.frames');
 	// Call Sly on frame
-	var sly = new Sly($frame, {
+	$frame.sly({
 		horizontal: 1,
 		itemNav: 'basic',
 		smart: 1,
@@ -1827,16 +1829,23 @@ float: left;
 		
 		// Automated cycling
 		cycleBy: "items",
-		cycleInterval: false,
+		cycleInterval: 3500,
 		pauseOnHover: 1,
 		
 		// Dragging
-		mouseDragging: 0,
+		mouseDragging: 1,
 		touchDragging: 1,
 		releaseSwing: 1,
 		
 		prev: ".frames .prev",
 		next: ".frames .next",
+		
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'items',
+		activatePageOn: 'click',
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+		},
 		
 		// Mixed options
 		startAt: 0,
@@ -1846,7 +1855,7 @@ float: left;
 		dragHandle: 1,
 		dynamicHandle: 1,
 		clickBar: 1,
-	}).init();
+	});
 	
 	$(window).resize(function() {
 		var s=$(window).width();
@@ -1854,6 +1863,7 @@ float: left;
 		
 		$frame.sly('reload');
 	});
+	
 {% endblock %}
 {% block content %}
 <div style="display:none;"><img src="http://frstatic.qiniudn.com/images/birdegg/wap/sdg.jpg"></div>
