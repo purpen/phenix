@@ -224,7 +224,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	z-index:2;
 	width:85%;
 }
-#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p6 .st,#p7 .st,#vio,#pn .st,#pw .st{
+#p2 .st,#p3 .st,#p4 .st,#p5 .st,#p5-2 .st,#p6 .st,#p7 .st,#vio,#pn .st,#pw .st{
 	opacity:0;
 }
 #vio.fadeIn{
@@ -639,39 +639,39 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 	-webkit-animation-delay:1.7s;
 }
 
-.s5-2{
+.s5-2,.s5n-2{
 	top:13%;
 	left:7.5%;
 	width:85%;
 }
-.s5-3{
+.s5-3,.s5n-3{
 	top:42%;
 	left:7%;
 	width:86%;
 }
-.s5-4{
+.s5-4,.s5n-4{
 	top:54%;
 	left:7.5%;
 	width:85%;
 }
-.s5-5{
+.s5-5,.s5n-5{
 	top:83%;
 	left:7%;
 	width:86%;
 }
-.s5-2.fadeInLeft{
+.s5-2.fadeInLeft,.s5n-2.fadeInLeft{
 	animation-delay:0.8s;
 	-webkit-animation-delay:0.8s;
 }
-.s5-3.fadeInDown{
+.s5-3.fadeInDown,.s5n-3.fadeInDown{
 	animation-delay:1.2s;
 	-webkit-animation-delay:1.2s;
 }
-.s5-4.fadeInRight{
+.s5-4.fadeInRight,.s5n-4.fadeInRight{
 	animation-delay:0.8s;
 	-webkit-animation-delay:0.8s;
 }
-.s5-5.fadeInUp{
+.s5-5.fadeInUp,.s5n-5.fadeInUp{
 	animation-delay:1.2s;
 	-webkit-animation-delay:1.2s;
 }
@@ -1235,19 +1235,26 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5-5').addClass('fadeInUp animated');
 				}
 				if(index == 5){
+					$('.s5-1').addClass('zoomInDown animated');
+					$('.s5n-2').addClass('fadeInLeft animated');
+					$('.s5n-4').addClass('fadeInRight animated');
+					$('.s5n-3').addClass('fadeInDown animated');
+					$('.s5n-5').addClass('fadeInUp animated');
+				}
+				if(index == 6){
 					$('.sn-1,.sn-3,.sn-5').addClass('zoomInDown animated');
 					$('#pn .st').addClass('pages-logo animated');
 				}
-				if(index == 6){
+				if(index == 7){
 					$('.sw-1').addClass('zoomInDown animated');
 					$('.sw-2,.sw-4,.sw-6,.sw-8,.sw-10').addClass('pages-logo animated');
 					$('.sw-3,.sw-5,.sw-7,.sw-9,.sw-11').addClass('fadeInUp animated');
 				}
-				if(index == 7){
+				if(index == 8){
 					$('.s6-1').addClass('zoomInDown animated');
 					$('#p6 .st').addClass('pages-logo animated');
 				}
-				if(index == 8){
+				if(index == 9){
 					$('.s7-1').addClass('flip animated');
 					$('.s7-2').addClass('page-logo animated');
 					$('.s7-3,.s7-4').addClass('pages-logo animated');
@@ -1284,19 +1291,26 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5-5').removeClass('fadeInUp animated');
 				}
 				if(index == 5){
+					$('.s5-1').removeClass('zoomInDown animated');
+					$('.s5n-2').removeClass('fadeInLeft animated');
+					$('.s5n-4').removeClass('fadeInRight animated');
+					$('.s5n-3').removeClass('fadeInDown animated');
+					$('.s5n-5').removeClass('fadeInUp animated');
+				}
+				if(index == 6){
 					$('.sn-1,.sn-3,.sn-5').removeClass('zoomInDown animated');
 					$('#pn .st').removeClass('pages-logo animated');
 				}
-				if(index == 6){
+				if(index == 7){
 					$('.sw-1').removeClass('zoomInDown animated');
 					$('.sw-2,.sw-4,.sw-6,.sw-8,.sw-10').removeClass('pages-logo animated');
 					$('.sw-3,.sw-5,.sw-7,.sw-9,.sw-11').removeClass('fadeInUp animated');
 				}
-				if(index == 7){
+				if(index == 8){
 					$('.s6-1').removeClass('zoomInDown animated');
 					$('#p6 .st').removeClass('pages-logo animated');
 				}
-				if(index == 8){
+				if(index == 9){
 					$('.s7-1').removeClass('flip animated');
 					$('.s7-2').removeClass('page-logo animated');
 					$('.s7-3,.s7-4').removeClass('pages-logo animated');
@@ -1435,6 +1449,16 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p2.png" class="st s5-3">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p3.jpg" class="st s5-4">
 		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p4.png" class="st s5-5">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="p5-2">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg5.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/t5.png" class="s5n-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p5.jpg" class="st s5n-2">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p6.png" class="st s5n-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p7.jpg" class="st s5n-4">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tt5p8.png" class="st s5n-5">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
