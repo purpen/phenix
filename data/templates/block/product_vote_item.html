@@ -14,6 +14,9 @@
             {{ product.advantage }}
         </div>
 		<div class="i-stats">
+			<div class="ui magenta tiny progress">
+			  	<div class="bar" style="width: {{ product.vote_percent }}%;"></div>
+			</div>
 			<div class="vote clearfix">
 				{% if product.voted_finished %}
     				<div class="ui divided horizontal vstatus list">
