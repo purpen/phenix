@@ -1444,8 +1444,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
   //记录分享数
   function record_share_num(){
-    var url = '{{ app_url_wap }}/app/site/redis/incr';
-    $.get(url, { key: 'jd2015_share_num' });
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 2, count_name:'count', type: 4, kind:4 });
   }
 
 
