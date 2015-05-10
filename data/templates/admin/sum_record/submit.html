@@ -75,6 +75,7 @@
 	<form action="{{ app_url_admin_base }}/sum_record/save" class="ui form" method="post" id="sum-record-form">
 		<input name="_id" type="hidden" value="{{ sum_record._id }}" />
 		
+    {% if is_match2 %}
 		<div class="inline field">
 			<label>点赞数量:</label>
       <input type="text" name="match2_love_count" value="{{ sum_record.match2_love_count }}" />
@@ -82,6 +83,11 @@
 		<div class="inline field">
 			<label>创建量:</label>
       <input type="text" name="match2_count" value="{{ sum_record.match2_count }}" />
+		</div>
+    {%endif%}
+		<div class="inline field">
+			<label>数量:</label>
+      <input type="text" name="count" value="{{ sum_record.count }}" />
 		</div>
 		
 		<div class="inline field">
