@@ -11,7 +11,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
     'page_title_suffix'=>'中国智能硬件蛋年创新大会',
 	);
 	
-	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz', 'sz_share');
+	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz');
 	
 	/**
 	 * 默认入口
