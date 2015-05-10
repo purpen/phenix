@@ -1227,13 +1227,13 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5n-5').addClass('pages-logo animated');
 				}
 				if(index == 6){
-					$('.sn-1,.sn-3,.sn-5').addClass('zoomInDown animated');
-					$('#pn .st').addClass('pages-logo animated');
-				}
-				if(index == 7){
 					$('.sw-1').addClass('zoomInDown animated');
 					$('.sw-2,.sw-4,.sw-6,.sw-8,.sw-10').addClass('pages-logo animated');
 					$('.sw-3,.sw-5,.sw-7,.sw-9,.sw-11').addClass('fadeInUp animated');
+				}
+				if(index == 7){
+					$('.sn-1,.sn-3,.sn-5').addClass('zoomInDown animated');
+					$('#pn .st').addClass('pages-logo animated');
 				}
 				if(index == 8){
 					$('.s6-1').addClass('zoomInDown animated');
@@ -1283,14 +1283,14 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					$('.s5n-5').removeClass('pages-logo animated');
 				}
 				if(index == 6){
-					$('.sn-1,.sn-3,.sn-5').removeClass('zoomInDown animated');
-					$('#pn .st').removeClass('pages-logo animated');
-				}
-				if(index == 7){
 					$('.sw-1').removeClass('zoomInDown animated');
 					$('.sw-2,.sw-4,.sw-6,.sw-8,.sw-10').removeClass('pages-logo animated');
 					$('.sw-3,.sw-5,.sw-7,.sw-9,.sw-11').removeClass('fadeInUp animated');
 				}
+					if(index == 7){
+						$('.sn-1,.sn-3,.sn-5').removeClass('zoomInDown animated');
+						$('#pn .st').removeClass('pages-logo animated');
+					}
 				if(index == 8){
 					$('.s6-1').removeClass('zoomInDown animated');
 					$('#p6 .st').removeClass('pages-logo animated');
@@ -1447,16 +1447,6 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
-	<div class="section" id="pn">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg9.jpg" class="bodybg">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/tn1.png" class="sn-1">
-		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tn4.png" class="st sn-2">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/tn2.png" class="sn-3">
-		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tn5.png" class="st sn-4">
-		<img src="{{ app_url_packaged }}/images/birdegg/wap/tn3.png" class="sn-5">
-		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tn6.png" class="st sn-6">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-	</div>
 	<div class="section" id="pw">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg9.jpg" class="bodybg">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/sw1.png" class="sw-1">
@@ -1470,6 +1460,17 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/ttw8.png" class="st sw-9">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/ttw9.png" class="st sw-10">
 		<img src="{{ app_url_packaged }}/images/birdegg/wap/ttw10.png" class="st sw-11">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	</div>
+	
+	<div class="section" id="pn">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/bg9.jpg" class="bodybg">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/tn1.png" class="sn-1">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tn4.png" class="st sn-2">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/tn2.png" class="sn-3">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tn5.png" class="st sn-4">
+		<img src="{{ app_url_packaged }}/images/birdegg/wap/tn3.png" class="sn-5">
+		<img src=" {{ app_url_packaged }}/images/birdegg/wap/tn6.png" class="st sn-6">
 		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 	
