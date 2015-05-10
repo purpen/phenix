@@ -8,7 +8,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		'page'=>1,
     'sort'=>0,
     //'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
-    'page_title_suffix'=>'中国智能硬件蛋年创新大会',
+    'page_title_suffix'=>'中国智能硬件·蛋年创新大会',
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz');
