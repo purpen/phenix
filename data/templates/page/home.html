@@ -2,70 +2,14 @@
 
 {% block page_css %}
 <style type="text/css">
-	
-
-  
-  
-	/*#fixedslide .pages>a{
-		height: 10px;
-		margin: 0 8px;
-		width: 10px;
-		box-shadow: inset 0 0 0 2px #eee;
-		-webkit-box-shadow: inset 0 0 0 2px #eee;
-		background-color: #e3e3e3;
-	}
-	#fixedslide .pages>a.active, #fixedslide .pages>a:hover {
-		background-color: #ccc;
-	}
-	#fixedslide .pages>a.active {
-		height: 15px;
-		width: 15px;
-		box-shadow: inset 0 0 0 2px #fff;
-		-webkit-box-shadow: inset 0 0 0 2px #fff;
-	}
-	#fixedslide .next, #fixedslide .prev{
-		width: 2.5em;
-		height: 1.5em;
-		text-align: center;
-	}
-	#fixedslide .arrow_left,#fixedslide .arrow_right{
-		font-size: 1.4em;
-		color:rgba(0,0,0,0.6);
-	}
-	#fixedslide .next:hover .arrow_right, #fixedslide .prev:hover .arrow_left{
-		color:rgba(0,0,0,1);
-	}*/
-	/*  icon  */
-	/*#fixedslide .arrow_left.blac,#fixedslide .arrow_right.blac{
-		color:rgba(255,255,255,0.6);
-	}
-	#fixedslide .next:hover .arrow_right.blac, #fixedslide .prev:hover .arrow_left.blac{
-		color:rgba(255,255,255,1);
-	}
-	
-	
-	
-	#fixedslide .pages>a,#fixedslide .pages>a:hover{
-		height: 10px;
-		margin: 0 8px;
-		width: 10px;
-		background-color: #fff;
-	}
-	#fixedslide .pages>a.active {
-		height: 15px;
-		width: 15px;
-		box-shadow: inset 0 0 0 2px #000;
-		-webkit-box-shadow: inset 0 0 0 2px #000;
-	}*/
-	
-	/* a  */
-	/*#fixedslide .pages>a.blac,#fixedslide .pages>a.blac:hover{
-		background-color: #000;
-	}
-	#fixedslide .pages>a.active.blac {
-		box-shadow: inset 0 0 0 2px #fff;
-		-webkit-box-shadow: inset 0 0 0 2px #fff;
-	}*/
+    .ui.groom.blocks {
+        margin: 1.5rem 0;
+    }
+    .ui.shoplist.block .ui.items .magenta.item .image + .content {
+        height: 130px;
+        margin-left: 0;
+        padding: 1rem 1rem 55px !important;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -184,7 +128,7 @@
 		</a>
 	</div>
 
-	<section class="ui block">
+	<section class="ui white background block">
 		<div class="ui responsive grid">
 			{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
             {% if adslide2.rows %}
@@ -202,7 +146,11 @@
                 </div>
             </div>
             {%endif%}
-			
+        </div>
+    </section>
+        
+	<section class="ui big shoplist block">
+		<div class="ui responsive grid">
 			<div class="two column middle aligned row">
 				<div class="column">
 					<h2 class="block title">
@@ -232,7 +180,7 @@
 			<div class="row">
 				<div class="column">
 					<h2 class="block title">
-						<a href="{{ app_url_topic }}" class="ui line">精选话题</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
+						<a href="{{ app_url_topic }}" class="ui line">孵化社区</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
 					</h2>
 				</div>
 			</div>
@@ -240,44 +188,69 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-                    <div class="ui compact grid">
-                        <div class="eight wide column">
-        					{% ad_list var:'ad' page:1 size:1 name:'home_page_topic' sort_field:'latest' state:2 %}
-        					{% if ad %}
-        					<div class="advert content" style="background-image:url({{ ad.cover.fileurl }});">
-        						<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-        				      		<!--<img src="{{ ad.cover.fileurl }}" class="ui image" width="100%" />-->
-        						</a>
-        						<div class="bword">
-        							<a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">{{ ad.title|truncate 60 '' }}</a>
-        						</div>
-        					</div>
-        					{% endif %}
+                    {% ad_list var:'stkad' size:4 name:'home_page_topic' state:2 %}
+                    {% if stkad.total_rows %}
+                    <div class="ui socialstick stickcount four blocks">
+                        {% for skad in stkad.rows %}
+                        <div class="block">
+            				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
+                                <a class="transparent" href="{{ skad.view_url }}" target="_blank">
+            						{% if skad.cate_title %}
+            						<label class="ui cate label">{{ skad.cate_title }}</label>
+            						{% endif %}
+            						<div class="sub title">
+            							{{ skad.title }}
+                						<div class="extra count">
+                							<i class="unhide icon"></i> {{ skad.click_count }}
+                						</div>
+            						</div>
+                                </a>
+            				</div>
                         </div>
-                        <div class="eight wide column">
-        					{% topic_list var:'list' type:1 page:1 size:6 %}
-        					<div class="ui divided stick list">
-        						{% for topic in list.rows %}
-        					  	<div class="item">
-        							<div class="right floated compact ui label">{{ topic.view_count }}</div>
-        					    	<div class="content">
-        					      	  	<a class="ui line header" href="{{ topic.view_url }}" title="{{ topic.title }}">{{ topic.title|truncate 42 }}</a>
-        					      		<div class="description">
-        									<ul class="ui horizontal bulleted link list">
-        										<li class="item"><a href="{{ topic.user.home_url }}" class="ui user link">@{{ topic.user.nickname }}</a></li>
-        										<li class="item">{{ topic.created_on|relative_datetime }} 发表</li>
-        										{% if topic.last_user %}
-        										<li class="item">{{ topic.last_reply_time|relative_datetime }} 回复</li>
-        										{% endif %}
-        									</ul>
-        								</div>
-        					    	</div>
-        					  	</div>
-        						{% endfor %}
-        					</div>
-                        </div>
+                        {% endfor %}
                     </div>
+                    {% endif %}
                     
+					{% topic_list var:'list' type:1 page:1 size:6 %}
+                    <div class="ui two homesocial blocks">
+                        {% for topic in list.rows %}
+                        <div class="block">
+                            <div class="ui headline header">
+        						{% if topic.cover %}
+                                <a class="ui image" href="{{ topic.view_url }}" title="{{ topic.title }}">
+        						    <img src="{{ topic.cover.thumbnails.mini.view_url }}" />
+                                </a>
+                                {% else %}
+                        		<a class="ui small avatar image" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
+                              		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+                        		</a>
+        						{% endif %}
+                                <div class="content">
+    					      	  	<a class="ui line" href="{{ topic.view_url }}" title="{{ topic.title }}">
+                                        {{ topic.title|truncate 38 }}
+                                    </a>
+                                    <div class="sub header">
+                                        {{ topic.strip_description|truncate 100 }}
+                                    </div>
+                                    <div class="extra">
+    									<div class="ui horizontal list">
+    										<div class="item">
+                                                <a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>
+                                            </div>
+    										<div class="item">
+                                                <i class="unhide icon"></i> {{ topic.view_count }}
+                                            </div>
+    										<div class="item">
+                                                <i class="thumbs outline up icon"></i> {{ topic.love_count }}
+                                            </div>
+    										
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -300,7 +273,7 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui four voteist cards">
-						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:4 %}
+						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:8 %}
 						{% for product in list.rows %}
 							{% include "block/product_vote_item.html" %}
 						{% endfor %}
@@ -309,88 +282,7 @@
 			</div>
 		</div>
 	</section>
-
-	<section class="ui big succase block">
-		<div class="ui responsive grid">
-			<div class="middle aligned row">
-				<div class="ten wide column">
-					<h2 class="block title">
-						成功案例 <small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
-					</h2>
-				</div>
-                <div class="six wide right aligned column">
-					<a href="{{ app_url_action_base }}/guide/succase" class="ui gray inverted button">
-						更多案例
-					</a>
-                </div>
-			</div>
-			<div class="row">
-				<div class="center aligned column">
-					<div class="ui three items">
-						<div class="magenta item">
-							<div class="image">
-								<a href="{{ app_url_action_base }}/guide/ldm" title="全球首款智能配奶机-智能时代如何打造爆款产品
-								">
-						      		<img src="{{ app_url_packaged }}/images/case-ldm.jpg" class="ui image" />
-								</a>
-							</div>
-							<div class="content">
-								<h4 class="ui header">
-									<a href="{{ app_url_action_base }}/guide/ldm" title="全球首款智能配奶机-智能时代如何打造爆款产品" class="ui link">造梦者恒氧净化机
-									</a>
-									<p class="sub header">缔造淘宝众筹及净化产品众筹新神话</p>
-								</h4>
-								<div class="name">
-									众筹金额:<span class="ui magenta text">12,052,927
-									</span>     支持人数:<span class="ui magenta text">4842</span>      达成率:<span class="ui magenta text">2410％</span>
-								</div>
-							</div>
-						</div>
-			
-						<div class="magenta item">
-							<div class="image">
-								<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品
-								">
-						      		<img src="{{ app_url_packaged }}/images/case-milk.jpg" class="ui image" />
-								</a>
-							</div>
-							<div class="content">
-								<h4 class="ui header">
-									<a href="{{ app_url_action_base }}/guide/milk" title="全球首款智能配奶机-智能时代如何打造爆款产品" class="ui link">婴萌智能配奶机
-									</a>
-									<p class="sub header">智能时代如何打造爆款产品</p>
-								</h4>
-								<div class="name">
-									众筹金额:<span class="ui magenta text">3,245,356
-									</span>     支持人数:<span class="ui magenta text">3794</span>      达成率:<span class="ui magenta text">649％</span>
-								</div>
-							</div>
-						</div>
-			
-						<div class="magenta item">
-							<div class="image">
-								<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯
-								">
-						      		<img src="{{ app_url_packaged }}/images/case-fifty.jpg" class="ui image" />
-								</a>
-							</div>
-							<div class="content">
-								<h4 class="ui header">
-									<a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯" class="ui link">55度杯
-									</a>
-									<p class="sub header">摇一摇变55度的魔法水杯</p>
-								</h4>
-								<div class="name">
-									众筹金额:<span class="ui magenta text">1,251,374
-									</span>     支持人数:<span class="ui magenta text">3094</span>      达成率:<span class="ui magenta text">625％</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+    
 
   	<section class="ui big together white background block">
     	<div class="ui responsive grid">

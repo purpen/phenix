@@ -2,7 +2,7 @@
 <?php
 /**
  * Deploy static files
- * 同步到Qiniu qrsync
+ * 同步到Qiniu qrsync --忽略图片文件
  */
 system("doggy dev");
 
@@ -76,9 +76,10 @@ function deploy_sync($conf_dir){
 	echo "Start to sync files ... \n";
 	echo "$conf_dir...\n";
 	//system("qrsync -skipsym $conf_dir");
-	system("/opt/qiniu/qrsync -skipsym $conf_dir/frbird.json");
+	system("/opt/qiniu/qrsync -skipsym $conf_dir/frbird_css.json");
+	system("/opt/qiniu/qrsync -skipsym $conf_dir/frbird_js.json");
 	
-	echo "Sync files is ok! \n";
+	echo "Sync files ignore img is ok! \n";
 }
 
 echo "Deploying ... \n";
