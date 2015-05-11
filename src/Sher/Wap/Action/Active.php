@@ -193,8 +193,7 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
    * 登录成功后弹出报名窗口
    */
   public function ajax_popup(){
-    echo "<script>alert(124);$('.ui.user-info-box.modal').modal('show');</script>";
-    return;
+    return $this->to_taconite_page('wap/active/ajax_popup_sign.html');
   
   }
 	
