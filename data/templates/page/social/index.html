@@ -303,7 +303,7 @@
         					热门评论
         				</h2>
                         <div class="ui comments segment">
-                    		{% comment_list var:'comments' sort:2 size:5 load_item:1 %}
+                    		{% comment_list var:'comments' sort:2 size:5 load_item:1 nearly_day:30 %}
                     		{% for comment in comments.rows %}
                                 <div class="onecomment">
                                 	<a class="avatar" href="{{ comment.user.home_url }}">
