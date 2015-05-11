@@ -196,15 +196,9 @@
 </script>
 {% endblock %}
 {% block jquery %}
-	$('.ui.attend.btn').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-      phenix.redirect('{{ app_url_wap }}/auth/login');
-			return false;
-		}
-    $('.ui.user-info-box.modal').modal('show');
-    return false;
-  });
+
+  //弹出登录框
+	phenix.wap_show_sign_box('{{ app_url_wap }}/active/ajax_popup', 2);
 	
 	// 申请表地址信息
 	$('.ui.district.dropdown').livequery(function(){
@@ -276,7 +270,8 @@
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+      // 显示登录框
+      $('.ui.sign-box.modal').modal('show');
 			return false;
 		}
     $('.ui.user-info-box.modal').modal('show');
@@ -305,12 +300,16 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui breadcrumb">
-				  	<a class="section" href="{{ app_url_wap }}">
-						<i class="icon home"></i>首页
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_wap }}">
+						<i class="icon home"></i> 首页
 					</a>
-				  	<div class="divider"> / </div>
-				  	<div class="active section">活动</div>
+					<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_wap }}/active">
+						活动
+					</a>
+					<i class="angle right icon divider"></i>
+          <div class="active section">{{ active.title }}</div>
 				</div>
 			</div>
 		</div>
@@ -554,4 +553,5 @@
 	  </div>
 	</div>
 {% include "block/wap_attend_user_info.html" %}
+{% include "mm/loginbox.html" %}
 {% endblock %}

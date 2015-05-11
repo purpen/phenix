@@ -99,6 +99,8 @@ server {
 
 	location /active {
 		rewrite ^/active[/]?$ /app/wap/active last;
+    rewrite ^/active/c(\d+)[/]?$ /app/wap/active/get_list?category_id=$1 last;
+    rewrite ^/active/c(\d+)/p(\d+)[/]?$ /app/wap/active?category_id=$1&page=$2 last;
 		rewrite ^/active/view-(\d+).html$ /app/wap/active/view?id=$1 last;
         rewrite ^/active(.*)$ /app/wap/active$1 last;
     }
