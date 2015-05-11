@@ -57,7 +57,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 
     // 大于N天的评论
     if($nearly_day){
-      $n_time = $time - (int)$nearly_day*24*60*60;
+      $n_time = time() - (int)$nearly_day*24*60*60;
       $query['created_on'] = array('$gt'=>$n_time);
     }
 
