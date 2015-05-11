@@ -86,9 +86,9 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
           //短信提醒
           if(!empty($user['profile']['phone'])){
             if($state==1 && !empty($number)){
-              $msg = "恭喜您，您报名的【中国智能硬件蛋年创新大会·深圳站】已经通过审核，太火鸟诚邀您出席。【时间】2015年5月16日19:00；【地点】深圳·中芬产业园·花样年福年广场。更多详情：http://dwz.cn/JsnBw";
+              $msg = "恭喜您，您报名的 中国智能硬件蛋年创新大会·深圳站 已经通过审核，您的票号为 $number,太火鸟诚邀您出席。时间: 2015年5月16日18:00；地点: 深圳·中芬产业园·花样年福年广场。更多详情：http://dwz.cn/JsnBw";
             }elseif($state==2){
-              $msg = "亲爱的会员您好，我们很遗憾的通知您，由于报名人数过多，会场空间有限，您报名的【中国智能硬件蛋年创新大会·深圳站】未通过审核，更多精彩活动请关注：http://dwz.cn/ISlKP";
+              $msg = "亲爱的会员您好，我们很遗憾的通知您，由于报名人数过多，会场空间有限，您报名的 中国智能硬件蛋年创新大会·深圳站 未通过审核，更多精彩活动请关注：http://dwz.cn/ISlKP";
             }
             // 开始发送
             $message = Sher_Core_Helper_Util::send_defined_mms($user['profile']['phone'], $msg);

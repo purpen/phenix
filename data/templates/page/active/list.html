@@ -19,7 +19,7 @@
 	</div>
 </div>
 
-{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 size:1 %}
+{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'asc_created' size:1 %}
 
 {% for active in current_list.rows %}
 <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">

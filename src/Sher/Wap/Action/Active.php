@@ -188,6 +188,14 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
       return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
     }
   }
+
+  /**
+   * 登录成功后弹出报名窗口
+   */
+  public function ajax_popup(){
+    return $this->to_taconite_page('wap/active/ajax_popup_sign.html');
+  
+  }
 	
 }
-?>
+
