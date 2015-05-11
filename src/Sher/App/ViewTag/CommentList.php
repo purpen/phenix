@@ -24,6 +24,8 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         //加载关联表
         $load_item = 0;
         $sku_id = 0;
+        //显示最近N天的评论
+        $nearly_day = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -51,6 +53,12 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 
     if($sku_id){
       $query['sku_id'] = (int)$sku_id;
+    }
+
+    // 大于N天的评论
+    if($nearly_day){
+      $n_time = $time - (int)$nearly_day*24*60*60;
+      $query['created_on'] = array('$gt'=>$n_time);
     }
 
 		// 排序
