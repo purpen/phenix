@@ -196,6 +196,10 @@
 </script>
 {% endblock %}
 {% block jquery %}
+
+  //弹出登录框
+	phenix.wap_show_sign_box('{{ app_url_wap }}/active/ajax_popup', 2);
+
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -276,7 +280,8 @@
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+      // 显示登录框
+      $('.ui.sign-box.modal').modal('show');
 			return false;
 		}
     $('.ui.user-info-box.modal').modal('show');
