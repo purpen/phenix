@@ -10,6 +10,9 @@
         margin-left: 0;
         padding: 1rem 1rem 55px !important;
     }
+		#homepage .sticktopic .block.title {
+		    margin-bottom: 0rem; 
+		}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -177,12 +180,17 @@
 	
 	<section class="ui small topic white background block">
 	    <div class="ui responsive sticktopic grid">
-			<div class="row">
+			<div class="two column middle aligned row">
 				<div class="column">
 					<h2 class="block title">
 						<a href="{{ app_url_topic }}" class="ui line">孵化社区</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
 					</h2>
 				</div>
+				<div class="right aligned column">
+					<a href="{{ app_url_topic }}" class="ui inverted gray button">
+						进入社区
+					</a>
+        </div>
 			</div>
 		</div>
 		<div class="ui responsive grid">
