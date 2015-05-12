@@ -27,7 +27,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
 	}
 
   /**
-   * 迅搜引擎,不走数据库
+   * 迅搜引擎,不走数据库/图片和用户名需要查询数据库
    */
   public function xc(){
     $db = $this->stash['db'];
