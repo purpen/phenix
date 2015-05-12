@@ -1,7 +1,7 @@
 <?php
 /**
- * 定时创建全文索引
- * @author purpen
+ * 定时创建全文索引---迅搜
+ * @author tianshuai
  */
 
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
@@ -22,20 +22,34 @@ ini_set('memory_limit','512M');
 date_default_timezone_set('Asia/shanghai');
 
 echo "-------------------------------------------------\n";
-echo "===============INDEX WORKER WAKE UP===============\n";
+echo "===============INDEX XunSearch WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
+
+// 取最后一次更新的索引时间
+$digged = new Sher_Core_Model_DigList();
+$key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_LAST_TIME;
+$last_created_on = $digged->load($key_id);
+if(!empty($last_created_on) && !empty($last_created_on['items'])){
+  $topic_last_created_on = (int)$last_created_on['items']['topic_last_created_on'];
+  $stuff_last_created_on = (int)$last_created_on['items']['stuff_last_created_on'];
+  $product_last_created_on = (int)$last_created_on['items']['product_last_created_on'];
+}else{
+  $topic_last_created_on = 0;
+  $stuff_last_created_on = 0;
+  $product_last_created_on = 0;
+}
 
 $indexer = Sher_Core_Service_TextIndexer::instance();
 
-echo "Prepare to build topic fulltext index...\n";
+echo "Prepare to build topic xun_search fulltext index...\n";
 $topic = new Sher_Core_Model_Topic();
 $page = 1;
 $size = 1000;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array();
-	$options = array('field' => array('_id', 'deleted'), 'page'=>$page, 'size'=>$size);
+	$query = array('deleted'=>0, 'created'=>array('$gt'=>$topic_last_created_on));
+	$options = array('page'=>$page, 'size'=>$size);
 	$list = $topic->find($query, $options);
 	if(empty($list)){
 		echo "Get topic list is null,exit......\n";
@@ -178,7 +192,7 @@ echo "-------------//////////////-------------\n";
 */
 
 echo "All index works done.\n";
-echo "===========================INDEX WORKER DONE==================\n";
+echo "===========================INDEX XunSearch WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 
 // sleep 1 hours
