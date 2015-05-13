@@ -28,10 +28,13 @@ function batch_send_message($msg, $users=array()){
   }
   echo "begin send message ...\n";
   $number = 100000;
+  $digged = new Sher_Core_Model_DigList();
   foreach($users as $k=>$v){
     $msg = sprintf("尊敬的嘉宾您好，您的“中国智能硬件蛋年创新大会·深圳站“活动票号：%d，时间：2015年5月16日18:00；地点：深圳·花样年福年广场。更多详情：http://dwz.cn/JsnBw #该信息转发无效#", $number);
     // 开始发送
     $message = Sher_Core_Helper_Util::send_defined_mms($v, $msg);
+    // 添加到统计列表
+    $digged->add_item_custom($birdegg_sz_jb, array('phone'=>$v, 'number'=>$number));
     echo "send success: $v \n";
     $number++;
     sleep(1);
