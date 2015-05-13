@@ -36,6 +36,7 @@
 				<form class="ui form" action="{{ app_url_search }}" method="get">
                  	<div class="ui icon input">
                 		<input name="q" type="text" value="{{ q }}" />
+                		<input name="t" type="hidden" value="{{ t }}" />
                 		<i class="search icon"></i>
                 	</div>
                 </form>
@@ -99,12 +100,10 @@
 					{% for item in result.data %}
 						{% if item %}
             <div class="item" id="item-{{ item.pid }}">
-							{% if item.topic.asset_count > 0 %}
-								{% asset_list var:'assets' parent_id:item.topic._id size:1 asset_type:55 sort:'positive' %}
+								{% asset_list var:'assets' parent_id:item.oid size:1 asset_type:item.asset_type sort:'positive' %}
 								{% for asset in assets.rows %}
 							  	<img class="ui medium image" src="{{ asset.thumbnails.small.view_url }}" />
 								{% endfor %}
-							{% endif %}
 							<div class="content">
 								<div class="header">
 							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
@@ -112,7 +111,7 @@
 								<div class="attribute">
 									<span class="category"><a href="{{ item.topic.category.view_url }}" class="ui link">{{ item.topic.category.title }}</a></span> | 
 									<span class="author">
-                    <a href="{{ item.topic.user.home_url }}" class="ui link">@{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
+                    <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
                     {% if visitor.can_admin %}
                       <span><a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request"><small>删除</small></a></span>
                     {%endif%}

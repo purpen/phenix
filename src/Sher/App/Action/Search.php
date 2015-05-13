@@ -55,6 +55,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
       'evt'  => $evt,
       'sort' => $this->stash['s'],
       'asc'  => $this->stash['asc'],
+      't'    => $this->stash['t'],
     );
     
     $result = Sher_Core_Util_XunSearch::search($q, $options, $db);

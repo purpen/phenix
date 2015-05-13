@@ -1,0 +1,287 @@
+<?php
+/**
+ * 定时创建全文索引---迅搜
+ * @author tianshuai
+ */
+
+$config_file =  dirname(__FILE__).'/../deploy/app_config.php';
+if (!file_exists($config_file)) {
+    die("Can't find config_file: $config_file\n");
+}
+include $config_file;
+
+define('DOGGY_VERSION',$cfg_doggy_version);
+define('DOGGY_APP_ROOT',$cfg_app_deploy_root);
+define('DOGGY_APP_CLASS_PATH',$cfg_app_class_path);
+require $cfg_doggy_bootstrap;
+@require 'autoload.php';
+require $cfg_app_rc;
+
+set_time_limit(0);
+ini_set('memory_limit','512M');
+
+date_default_timezone_set('Asia/shanghai');
+
+echo "-------------------------------------------------\n";
+echo "===============INDEX XunSearch WORKER WAKE UP===============\n";
+echo "-------------------------------------------------\n";
+
+// 取最后一次更新的索引时间
+$digged = new Sher_Core_Model_DigList();
+$key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_LAST_TIME;
+$last_created_on = $digged->load($key_id);
+if(!empty($last_created_on) && !empty($last_created_on['items'])){
+  $topic_last_created_on = (int)$last_created_on['items']['topic_last_created_on'];
+  $stuff_last_created_on = (int)$last_created_on['items']['stuff_last_created_on'];
+  $product_last_created_on = (int)$last_created_on['items']['product_last_created_on'];
+}else{
+  $topic_last_created_on = 0;
+  $stuff_last_created_on = 0;
+  $product_last_created_on = 0;
+}
+echo "Prepare to build topic xun_search fulltext index...\n";
+$topic = new Sher_Core_Model_Topic();
+$page = 1;
+$size = 100;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array('deleted'=>0, 'created_on'=>array('$gt'=>$topic_last_created_on));
+  $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
+  $last_created_on = 0;
+  $fail_ids = array();
+	$list = $topic->find($query, $options);
+	if(empty($list)){
+		echo "Get topic list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i<$max; $i++) {
+    $item = $list[$i];
+    if ($item) {
+      //添加全文索引
+      $xs_data = array(
+        'pid' => 'topic_'.(string)$item['_id'],
+        'kind' => 'Topic',
+        'oid' => $item['_id'],
+        'cid' => 1,
+        'title' => $item['title'],
+        'cover_id' => $item['cover_id'],
+        'content' => $item['description'],
+        'user_id' => $item['user_id'],
+        'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
+        'created_on' => $item['created_on'],
+        'updated_on' => $item['updated_on'],
+      );
+      
+      $result = Sher_Core_Util_XunSearch::update($xs_data);
+      if($result['success']){
+        //取最后一个创建时间点
+        $last_created_on = $item['created_on'];
+        $total++;
+      }else{
+        //记录失败ids
+        $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_TOPIC_FAIL_IDS, $item['_id']);  
+      }
+
+    }
+
+	}
+	if($max < $size){
+    //记录时间点
+    if(!empty($last_created_on)){
+
+      $digged->add_item_custom($key_id, array('topic_last_created_on'=>$last_created_on));
+    }
+    //初始化变量
+    $last_created_on = 0;
+    unset($item);
+		echo "Topic list is end!!!!!!!!!,exit.\n";
+		break;
+	}
+	$page++;
+	echo "Page $page topic updated---------\n";
+}
+echo "Total $total topic rows updated.\n";
+
+echo "-------------//////////////-------------\n";
+
+echo "Prepare to build product xun_search fulltext index...\n";
+$product = new Sher_Core_Model_Product();
+$page = 1;
+$size = 100;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array('deleted'=>0, 'published'=>1, 'created_on'=>array('$gt'=>$product_last_created_on));
+  $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
+	$list = $product->find($query, $options);
+	if(empty($list)){
+		echo "Get product list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i<$max; $i++) {
+    $item = $list[$i];
+    if ($item) {
+      if($item['stage']==12){
+        $stage = 9;
+      }else{
+        $stage = $item['stage'];
+      }
+      //添加全文索引
+      $xs_data = array(
+        'pid' => 'product_'.(string)$item['_id'],
+        'kind' => 'Product',
+        'oid' => $item['_id'],
+        'cid' => $stage,
+        'title' => $item['title'],
+        'cover_id' => $item['cover_id'],
+        'content' => $item['content'],
+        'desc'  =>$item['advantage'],
+        'user_id' => $item['user_id'],
+        'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
+        'created_on' => $item['created_on'],
+        'updated_on' => $item['updated_on'],
+      );
+      
+      $result = Sher_Core_Util_XunSearch::update($xs_data);
+      if($result['success']){
+        //取最后一个创建时间点
+        $last_created_on = $item['created_on'];
+        $total++;
+      }else{
+        //记录失败ids
+        $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_FAIL_IDS, $item['_id']);  
+      }
+
+    }
+	}
+	if($max < $size){
+    //记录时间点
+    if(!empty($last_created_on)){
+      $digged->update_set($key_id, array('items.product_last_created_on'=>$last_created_on));   
+    }
+    //初始化变量
+    $last_created_on = 0;
+    unset($item);
+		echo "Product list is end!!!!!!!!!,exit.\n";
+		break;
+	}
+	$page++;
+	echo "Page $page product updated---------\n";
+}
+echo "Total $total product rows updated.\n";
+
+echo "-------------//////////////-------------\n";
+
+echo "Prepare to build stuff xun_search fulltext index...\n";
+$stuff = new Sher_Core_Model_Stuff();
+$page = 1;
+$size = 100;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array('deleted'=>0, 'published'=>1, 'created_on'=>array('$gt'=>$topic_last_created_on));
+  $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
+	$list = $stuff->find($query, $options);
+	if(empty($list)){
+		echo "Get stuff list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i<$max; $i++) {
+    $item = $list[$i];
+    if ($item) {
+      //添加全文索引
+      $xs_data = array(
+        'pid' => 'stuff_'.(string)$item['_id'],
+        'kind' => 'Stuff',
+        'oid' => $item['_id'],
+        'cid' => isset($item['from_to'])?$item['from_to']:0,
+        'title' => $item['title'],
+        'cover_id' => $item['cover_id'],
+        'content' => $item['description'],
+        'user_id' => $item['user_id'],
+        'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
+        'created_on' => $item['created_on'],
+        'updated_on' => $item['updated_on'],
+      );
+      
+      $result = Sher_Core_Util_XunSearch::update($xs_data);
+      if($result['success']){
+        //取最后一个创建时间点
+        $last_created_on = $item['created_on'];
+        $total++;
+      }else{
+        //记录失败ids
+        $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_STUFF_FAIL_IDS, $item['_id']);  
+      }
+
+    }
+	}
+	if($max < $size){
+    //记录时间点
+    if(!empty($last_created_on)){
+      $digged->update_set($key_id, array('items.stuff_last_created_on'=>$last_created_on));   
+    }
+    //初始化变量
+    $last_created_on = 0;
+    unset($item);
+		echo "Product list is end!!!!!!!!!,exit.\n";
+		break;
+	}
+	$page++;
+	echo "Page $page stuff updated---------\n";
+}
+echo "Total $total stuff rows updated.\n";
+
+
+/*
+echo "Prepare to build user fulltext index...\n";
+$user = new Sher_Core_Model_User();
+$page = 1;
+$size = 1000;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array();
+	$options = array('field' => array('_id', 'state'), 'page'=>$page, 'size'=>$size);
+	$list = $user->find($query, $options);
+	if(empty($list)){
+		echo "get user list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i<$max; $i++) {
+	    if ($list[$i]['state'] != Sher_Core_Model_User::STATE_OK) {
+	        echo "remove index:".$list[$i]['_id']. '...';
+	        $indexer->remove_target_index($list[$i]['_id']);
+	        echo "ok.\n";
+	    }
+	    else {
+	        echo "update user index:".$list[$i]['_id']. '...';
+	        $indexer->build_user_index($list[$i]['_id']);
+	        echo "ok.\n";
+	    }
+	    $total++;
+	}
+	if($max < $size){
+		echo "user list is end!!!!!!!!!,exit.\n";
+		break;
+	}
+	$page++;
+	echo "page $page user updated---------\n";
+}
+echo "total $total user rows updated.\n";
+
+echo "-------------//////////////-------------\n";
+*/
+
+echo "All index works done.\n";
+echo "===========================INDEX XunSearch WORKER DONE==================\n";
+echo "SLEEP TO NEXT LAUNCH .....\n";
+
+// sleep 1 hours
+sleep(10);
+exit(0);
