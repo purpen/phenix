@@ -42,7 +42,7 @@ if(!empty($last_created_on) && !empty($last_created_on['items'])){
 echo "Prepare to build topic xun_search fulltext index...\n";
 $topic = new Sher_Core_Model_Topic();
 $page = 1;
-$size = 100;
+$size = 1000;
 $is_end = false;
 $total = 0;
 while(!$is_end){
@@ -91,7 +91,7 @@ while(!$is_end){
     //记录时间点
     if(!empty($last_created_on)){
 
-      $digged->add_item_custom($key_id, array('topic_last_created_on'=>$last_created_on));
+      $digged->update_set($key_id, array('items.topic_last_created_on'=>$last_created_on), true);
     }
     //初始化变量
     $last_created_on = 0;
@@ -182,7 +182,7 @@ $size = 100;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('deleted'=>0, 'published'=>1, 'created_on'=>array('$gt'=>$topic_last_created_on));
+	$query = array('deleted'=>0, 'published'=>1, 'created_on'=>array('$gt'=>$stuff_last_created_on));
   $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
 	$list = $stuff->find($query, $options);
 	if(empty($list)){

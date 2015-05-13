@@ -113,20 +113,6 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	 * 保存之后，更新相关count
 	 */
     protected function after_save() {
-        //添加全文索引
-        $xs_data = array(
-          'pid' => 'topic_'.(string)$this->data['_id'],
-          'kind' => 'Topic',
-          'oid' => $this->data['_id'],
-          'cid' => 1,
-          'title' => $this->data['title'],
-          'cover_id' => $this->data['cover_id'],
-          'content' => $this->data['description'],
-          'user_id' => $this->data['user_id'],
-          'tags' => !empty($this->data['tags']) ? implode(',', $this->data['tags']) : '',
-          'created_on' => $this->data['created_on'],
-          'updated_on' => $this->data['updated_on'],
-        );
 
       // 如果是新的记录
       if($this->insert_mode) {
@@ -161,13 +147,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         $service = Sher_Core_Service_Point::instance();
         $service->send_event('evt_new_post', $this->data['user_id']);
 
-
-        Doggy_Log_Helper::warn('1111111111');
-        Sher_Core_Util_XunSearch::add($xs_data);
-      }else{
-        Doggy_Log_Helper::warn('22222222222');
-        Sher_Core_Util_XunSearch::update($xs_data);
       }
+
     }
 	
 	/**

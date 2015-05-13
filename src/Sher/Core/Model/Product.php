@@ -595,6 +595,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             // 根据类型创建timeline
             $service = Sher_Core_Service_Timeline::instance();
             $service->broad_product_published($this->data['user_id'], $id);
+          // 更新全文索引
+          Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
         }
 	}
 	
@@ -901,6 +903,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$textindex = new Sher_Core_Model_TextIndex();
 		$textindex->remove(array('target_id' => $id));
 		unset($textindex);
+
+    //删除索引
+    Sher_Core_Util_XunSearch::del_ids('product_'.(string)$id);
 		
 		return true;
 	}

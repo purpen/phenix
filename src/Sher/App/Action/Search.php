@@ -7,7 +7,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     
     public $stash = array(
 		'page' => 1,
-    'size' => 20,
+    'size' => 5,
 		'q' => '',
 		'ref' => '',
 		't' => 0,
@@ -60,11 +60,44 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     
     $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
     if($result['success']){
+      $user_model = new Sher_Core_Model_User();
+      $asset_model = new Sher_Core_Model_Asset();
       foreach($result['data'] as $k=>$v){
+        // 获取用户信息
+        if($v['user_id']){
+          $user = $user_model->find_by_id((int)$v['user_id']);
+          $result['data'][$k]['nickname'] = $user['nickname'];
+          $result['data'][$k]['home_url'] = Sher_Core_Helper_Url::user_home_url($user['_id']);
+        }
+
+        // 生成路径
+        switch($v['kind']){
+          case 'Stuff':
+            $result['data'][$k]['view_url'] = Sher_Core_Helper_Url::stuff_view_url($v['oid']);
+            break;
+          case 'Topic':
+            $result['data'][$k]['view_url'] = Sher_Core_Helper_Url::topic_view_url($v['oid']);
+            break;
+          case 'Product':
+            $result['data'][$k]['view_url'] = Sher_Core_Helper_Search::gen_view_url($v['cid'], $v['oid']);
+            break;
+          default:
+            $result['data'][$k]['view_url'] = '#';
+        }
+
+        //封面图
+        if($v['cover_id']){
+          $result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
+        }
+
+        // 获取asset_type
+        $result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
 
       }
 
-      //var_dump($result['data']);
+      $pager_url = sprintf('%s/search?t=%d&q=%s&evt=%s&size=%d&sort=%d&page=#p#', Doggy_Config::$vars['app.url.domain'], $this->stash['t'], $this->stash['q'], $this->stash['evt'], $this->stash['size'], $this->stash['s']);
+      
+      $this->stash['pager_url'] = $pager_url;
       $this->stash['result'] = $result;
 
     }else{
@@ -192,6 +225,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     }
 
   }
+
     
 }
 

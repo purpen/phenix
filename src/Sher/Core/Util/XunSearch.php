@@ -97,7 +97,7 @@ class Sher_Core_Util_XunSearch {
     }
     $str_f = $str;
     $page = isset($options['page'])?(int)$options['page']:1;
-    $size = isset($options['size'])?(int)$options['size']:50;
+    $size = isset($options['size'])?(int)$options['size']:5;
     $sort = isset($options['sort'])?(int)$options['sort']:0;
     $asc = isset($options['asc'])?(boolean)$options['asc']:false;
 
@@ -127,7 +127,6 @@ class Sher_Core_Util_XunSearch {
         }
       }
 
-
       //是否搜索标签
       if($evt=='tag'){
         $str_f = sprintf('tags:%s ', $str_f);
@@ -152,8 +151,10 @@ class Sher_Core_Util_XunSearch {
    
       $docs = $search->search(); // 执行搜索，将搜索结果文档保存在 $docs 数组中
       $count = $search->count(); // 获取搜索结果的匹配总数估算值
+      //页码数
+      $total_page = ceil($count/$size);
       $data = array();
-      $user_model = new Sher_Core_Model_User();
+
       foreach($docs as $k=>$v){
         $data[$k]['pid'] = $v['pid'];
         $data[$k]['oid'] = $v['oid'];
@@ -161,6 +162,7 @@ class Sher_Core_Util_XunSearch {
         $data[$k]['cid'] = $v['cid'];
         $data[$k]['kind'] = $v['kind'];
         $data[$k]['title'] = $v['title'];
+        $data[$k]['cover_id'] = $v['cover_id'];
         $data[$k]['content'] = strip_tags(htmlspecialchars($v['content']));
         $data[$k]['user_id'] = $v['user_id'];
         $data[$k]['tags'] = !empty($v['tags'])?explode(',', $v['tags']):array();
@@ -168,33 +170,10 @@ class Sher_Core_Util_XunSearch {
         $data[$k]['updated_on'] = $v['updated_on'];
         $data[$k]['high_title'] = $search->highlight($v->title); // 高亮处理 title 字段
         $data[$k]['high_content'] = htmlspecialchars_decode($search->highlight($v->content)); // 高亮处理 content 字段
-        switch($v['kind']){
-          case 'Stuff':
-            $data[$k]['view_url'] = Sher_Core_Helper_Url::stuff_view_url($v['oid']);
-            break;
-          case 'Topic':
-            $data[$k]['view_url'] = Sher_Core_Helper_Url::topic_view_url($v['oid']);
-            break;
-          case 'Product';
-            $data[$k]['view_url'] = self::gen_view_url($v['cid'], $v['oid']);
-            break;
-          default:
-            $data[$k]['view_url'] = '#';
-        }
-
-        // 获取用户信息
-        if($v['user_id']){
-          $user = $user_model->find_by_id((int)$v['user_id']);
-          $data[$k]['nickname'] = $user['nickname'];
-          $data[$k]['home_url'] = Sher_Core_Helper_Url::user_home_url($user['_id']);
-        }
-
-        // 获取asset_type
-        $data[$k]['asset_type'] = self::gen_asset_type($v['kind']);
 
       }
 
-      $result = array('success'=>true, 'data'=>$data, 'data_count'=>$count, 'msg'=>'success');
+      $result = array('success'=>true, 'data'=>$data, 'total_count'=>$count, 'total_page'=>$total_page, 'msg'=>'success');
       return $result;
     }catch(XSException $e){
       Doggy_Log_Helper::warn('search:'.$e->getTraceAsString(), 'search');
@@ -202,52 +181,6 @@ class Sher_Core_Util_XunSearch {
     }
 
   }
-
-	/**
-	 * 获取产品不同阶段的URL
-	 */
-	public static function gen_view_url($stage, $id){
-		$stage = isset($stage) ? (int)$stage : 0;
-		switch($stage) {
-			case Sher_Core_Model_Product::STAGE_VOTE:
-				$view_url = Sher_Core_Helper_Url::vote_view_url($id);
-				break;
-			case Sher_Core_Model_Product::STAGE_PRESALE:
-				$view_url = Sher_Core_Helper_Url::sale_view_url($id);
-				break;
-			case Sher_Core_Model_Product::STAGE_SHOP:
-				$view_url = Sher_Core_Helper_Url::shop_view_url($id);
-				break;
-			case Sher_Core_Model_Product::STAGE_EXCHANGE:
-				$view_url = Sher_Core_Helper_Url::shop_view_url($id);
-				break;
-			default:
-				$view_url = Doggy_Config::$vars['app.url.fever'];
-		}
-		
-		return $view_url;
-	}
-
-	/**
-	 * 根据类型获取图片asset_type
-	 */
-	public static function gen_asset_type($kind){
-		switch($kind) {
-			case 'Topic':
-				$asset_type = 55;
-				break;
-			case 'Stuff':
-				$asset_type = 70;
-				break;
-			case 'Product':
-				$asset_type = 10;
-				break;
-			default:
-				$asset_type = 0;
-		}
-		
-		return $asset_type;
-	}
 
 	
 }
