@@ -16,7 +16,11 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	public function execute(){
 		// echo phpinfo();
         $account = '123@Qg.com';
-        print preg_match('/qq\.com/i', $account, $matches);
+        //print preg_match('/qq\.com/i', $account, $matches);
+        
+        $time = rand(30,120);
+        
+        print $time."\n";
 	}
 	
 	/**
