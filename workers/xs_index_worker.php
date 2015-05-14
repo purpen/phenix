@@ -237,51 +237,10 @@ while(!$is_end){
 echo "Total $total stuff rows updated.\n";
 
 
-/*
-echo "Prepare to build user fulltext index...\n";
-$user = new Sher_Core_Model_User();
-$page = 1;
-$size = 1000;
-$is_end = false;
-$total = 0;
-while(!$is_end){
-	$query = array();
-	$options = array('field' => array('_id', 'state'), 'page'=>$page, 'size'=>$size);
-	$list = $user->find($query, $options);
-	if(empty($list)){
-		echo "get user list is null,exit......\n";
-		break;
-	}
-	$max = count($list);
-	for ($i=0; $i<$max; $i++) {
-	    if ($list[$i]['state'] != Sher_Core_Model_User::STATE_OK) {
-	        echo "remove index:".$list[$i]['_id']. '...';
-	        $indexer->remove_target_index($list[$i]['_id']);
-	        echo "ok.\n";
-	    }
-	    else {
-	        echo "update user index:".$list[$i]['_id']. '...';
-	        $indexer->build_user_index($list[$i]['_id']);
-	        echo "ok.\n";
-	    }
-	    $total++;
-	}
-	if($max < $size){
-		echo "user list is end!!!!!!!!!,exit.\n";
-		break;
-	}
-	$page++;
-	echo "page $page user updated---------\n";
-}
-echo "total $total user rows updated.\n";
-
-echo "-------------//////////////-------------\n";
-*/
-
 echo "All index works done.\n";
 echo "===========================INDEX XunSearch WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 
 // sleep 1 hours
-sleep(10);
+sleep(300);
 exit(0);

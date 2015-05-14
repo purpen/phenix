@@ -8,7 +8,6 @@ class Sher_Core_Util_XunSearch {
     const DB_PHENIX = 'phenix';
 
   public function __construct() {
-    echo 'aaaaaaaaaaaa';exit;
   }
 	
 	/**

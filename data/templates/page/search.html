@@ -84,7 +84,7 @@
 			<div class="column">
 				{% if q %}
 					{%if result.success %}
-					    搜索 “{{ q }}” , 找到约 {{ result.data_count }} 条结果
+					    搜索 “{{ q }}” , 找到约 {{ result.total_count }} 条结果
 					{%else%}
 					    搜索 “{{ q }}” , 找到约 0 条结果
 					{%endif%}

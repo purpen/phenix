@@ -38,6 +38,9 @@ app.redis.default:
     host: '10.9.29.163'
     port: 6379
 
+#xun_search db name
+app.xun_search_db: 'phenix'
+
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
 
