@@ -30,6 +30,9 @@
   margin-right: .85em;
   color: rgba(0,0,0,.4);
 }
+#searchpage .idea.tags .ui.line:hover{
+	color:#f36;
+}
 </style>
 {% endblock %}
 
@@ -133,7 +136,7 @@
 							    <p class="idea tags">
                     {% if item.tags %}
                       {%for tag in item.tags%}
-                        <a href="#" class="ui line">{{ tag }}</a>&nbsp;
+                        <a href="#" class="ui line">#{{ tag }}</a>&nbsp;
                       {%endfor%}
                     {%endif%}
                   
