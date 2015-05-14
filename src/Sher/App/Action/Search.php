@@ -70,6 +70,9 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
           $result['data'][$k]['home_url'] = Sher_Core_Helper_Url::user_home_url($user['_id']);
         }
 
+        //描述内容过滤
+        $result['data'][$k]['content'] = $v['content'];
+
         // 生成路径
         switch($v['kind']){
           case 'Stuff':

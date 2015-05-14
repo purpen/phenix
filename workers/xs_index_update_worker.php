@@ -41,6 +41,17 @@ if(!empty($topic_ids) && !empty($topic_ids['items'])){
     if(empty($item)){
       continue;
     }
+    //获取封面图
+    if($item['cover_id']){
+      $cover_id = $item['cover_id'];
+    }else{
+      $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Topic');
+      if(!empty($cover)){
+        $cover_id = $cover['_id'];
+      }else{
+        $cover_id = '';
+      }
+    }
 
     //添加全文索引
     $xs_data = array(
@@ -49,7 +60,7 @@ if(!empty($topic_ids) && !empty($topic_ids['items'])){
       'oid' => $item['_id'],
       'cid' => 1,
       'title' => $item['title'],
-      'cover_id' => $item['cover_id'],
+      'cover_id' => $cover_id,
       'content' => $item['description'],
       'user_id' => $item['user_id'],
       'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
@@ -65,7 +76,8 @@ if(!empty($topic_ids) && !empty($topic_ids['items'])){
       echo "success update topic id $v .\n";
     }else{
       //记录失败ids
-      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_TOPIC_FAIL_IDS, $item['_id']);  
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_TOPIC_FAIL_IDS, $item['_id']);
+      echo "fail update topic id: $v $result[msg]";
     }
 
   }//endfor
@@ -92,6 +104,17 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
     }else{
       $stage = $item['stage'];
     }
+    //获取封面图
+    if($item['cover_id']){
+      $cover_id = $item['cover_id'];
+    }else{
+      $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Product');
+      if(!empty($cover)){
+        $cover_id = $cover['_id'];
+      }else{
+        $cover_id = '';
+      }
+    }
 
     //添加全文索引
     $xs_data = array(
@@ -100,7 +123,7 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
       'oid' => $item['_id'],
       'cid' => $stage,
       'title' => $item['title'],
-      'cover_id' => $item['cover_id'],
+      'cover_id' => $cover_id,
       'content' => $item['content'],
       'desc'  =>$item['advantage'],
       'user_id' => $item['user_id'],
@@ -117,7 +140,8 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
       echo "success update product id $v .\n";
     }else{
       //记录失败ids
-      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_FAIL_IDS, $item['_id']);  
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_FAIL_IDS, $item['_id']);
+      echo "fail update product id: $v $result[msg]";
     }
 
   }//endfor
@@ -139,6 +163,17 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
     if(empty($item)){
       continue;
     }
+    //获取封面图
+    if($item['cover_id']){
+      $cover_id = $item['cover_id'];
+    }else{
+      $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Stuff');
+      if(!empty($cover)){
+        $cover_id = $cover['_id'];
+      }else{
+        $cover_id = '';
+      }
+    }
 
     //添加全文索引
     $xs_data = array(
@@ -147,7 +182,7 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
       'oid' => $item['_id'],
       'cid' => isset($item['from_to'])?$item['from_to']:0,
       'title' => $item['title'],
-      'cover_id' => $item['cover_id'],
+      'cover_id' => $cover_id,
       'content' => $item['description'],
       'user_id' => $item['user_id'],
       'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
@@ -163,7 +198,8 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
       echo "success update stuff id $v .\n";
     }else{
       //记录失败ids
-      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_STUFF_FAIL_IDS, $item['_id']);  
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_STUFF_FAIL_IDS, $item['_id']);
+      echo "fail update stuff id: $v $result[msg]";
     }
 
   }//endfor

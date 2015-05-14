@@ -165,7 +165,7 @@ class Sher_Core_Util_XunSearch {
         $data[$k]['kind'] = $v['kind'];
         $data[$k]['title'] = $v['title'];
         $data[$k]['cover_id'] = $v['cover_id'];
-        $data[$k]['content'] = strip_tags(htmlspecialchars($v['content']));
+        $data[$k]['content'] = $v['content'];
         $data[$k]['user_id'] = $v['user_id'];
         $data[$k]['tags'] = !empty($v['tags'])?explode(',', $v['tags']):array();
         $data[$k]['created_on'] = $v['created_on'];

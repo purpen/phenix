@@ -66,7 +66,7 @@ class Sher_Core_Helper_Search {
 	public static function gen_asset_type($kind){
 		switch($kind) {
 			case 'Topic':
-				$asset_type = 55;
+				$asset_type = 50;
 				break;
 			case 'Stuff':
 				$asset_type = 70;
@@ -81,5 +81,19 @@ class Sher_Core_Helper_Search {
 		return $asset_type;
 	}
 
+	/**
+	 * 根据来源获取asse对象
+	 */
+  public static function fetch_asset($id, $kind='Stuff'){
+    $asset_type = self::gen_asset_type($kind);
+    if(!empty($id) && !empty($asset_type)){
+      $asset_obj = new Sher_Core_Model_Asset();
+      $asset = $asset_obj->first(array('parent_id'=>(int)$id, 'asset_type'=>$asset_type));
+    }else{
+      $asset = null;
+    }
+		return $asset;
+	}
+
 }
-?>
+

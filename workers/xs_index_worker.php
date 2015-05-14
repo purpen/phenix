@@ -59,6 +59,17 @@ while(!$is_end){
 	for ($i=0; $i<$max; $i++) {
     $item = $list[$i];
     if ($item) {
+      //获取封面图
+      if($item['cover_id']){
+        $cover_id = $item['cover_id'];
+      }else{
+        $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Topic');
+        if(!empty($cover)){
+          $cover_id = $cover['_id'];
+        }else{
+          $cover_id = '';
+        }
+      }
       //添加全文索引
       $xs_data = array(
         'pid' => 'topic_'.(string)$item['_id'],
@@ -66,7 +77,7 @@ while(!$is_end){
         'oid' => $item['_id'],
         'cid' => 1,
         'title' => $item['title'],
-        'cover_id' => $item['cover_id'],
+        'cover_id' => $cover_id,
         'content' => $item['description'],
         'user_id' => $item['user_id'],
         'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
@@ -129,6 +140,17 @@ while(!$is_end){
       }else{
         $stage = $item['stage'];
       }
+      //获取封面图
+      if($item['cover_id']){
+        $cover_id = $item['cover_id'];
+      }else{
+        $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Product');
+        if(!empty($cover)){
+          $cover_id = $cover['_id'];
+        }else{
+          $cover_id = '';
+        }
+      }
       //添加全文索引
       $xs_data = array(
         'pid' => 'product_'.(string)$item['_id'],
@@ -136,7 +158,7 @@ while(!$is_end){
         'oid' => $item['_id'],
         'cid' => $stage,
         'title' => $item['title'],
-        'cover_id' => $item['cover_id'],
+        'cover_id' => $cover_id,
         'content' => $item['content'],
         'desc'  =>$item['advantage'],
         'user_id' => $item['user_id'],
@@ -193,6 +215,17 @@ while(!$is_end){
 	for ($i=0; $i<$max; $i++) {
     $item = $list[$i];
     if ($item) {
+      //获取封面图
+      if($item['cover_id']){
+        $cover_id = $item['cover_id'];
+      }else{
+        $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Stuff');
+        if(!empty($cover)){
+          $cover_id = $cover['_id'];
+        }else{
+          $cover_id = '';
+        }
+      }
       //添加全文索引
       $xs_data = array(
         'pid' => 'stuff_'.(string)$item['_id'],
@@ -200,7 +233,7 @@ while(!$is_end){
         'oid' => $item['_id'],
         'cid' => isset($item['from_to'])?$item['from_to']:0,
         'title' => $item['title'],
-        'cover_id' => $item['cover_id'],
+        'cover_id' => $cover_id,
         'content' => $item['description'],
         'user_id' => $item['user_id'],
         'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
