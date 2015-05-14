@@ -30,6 +30,5 @@ class Sher_Admin_Action_Redis extends Sher_Admin_Action_Base {
 		return $this->to_html_page('admin/redis/list.html');
 	}
 	
-	
 }
-?>
+

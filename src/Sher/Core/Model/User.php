@@ -421,6 +421,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		}else{
 			$row['mentor_info'] = $this->find_mentors($row['mentor']);
 		}
+        
+        $row['last_char'] = substr((string)$id, -1);
         $row['ext_state'] = DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_UserExtState');
     }
 	

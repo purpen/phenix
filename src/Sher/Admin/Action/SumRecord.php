@@ -49,6 +49,9 @@ class Sher_Admin_Action_SumRecord extends Sher_Admin_Action_Base implements Dogg
 			$sum_record = $model->find_by_id($id);
 			$this->stash['sum_record'] = $sum_record;
 		}
+    if($sum_record['type']==1 || $sum_record['type']==2){
+      $this->stash['is_match2'] = true;
+    }
     $this->stash['mode'] = $mode;
 		
 		return $this->to_html_page('admin/sum_record/submit.html');
@@ -68,8 +71,14 @@ class Sher_Admin_Action_SumRecord extends Sher_Admin_Action_Base implements Dogg
 			}else{
 				$mode = 'edit';
         $data['_id'] = (string)$this->stash['_id'];
-        $data['match2_count'] = (int)$this->stash['match2_count'];
-        $data['match2_love_count'] = (int)$this->stash['match2_love_count'];
+        if(isset($this->stash['match2_count'])){
+          $data['match2_count'] = (int)$this->stash['match2_count'];      
+        }
+        if(isset($this->stash['match2_love_count'])){
+          $data['match2_love_count'] = (int)$this->stash['match2_love_count'];
+        }
+        $data['count'] = (int)$this->stash['count'];
+
 				$ok = $model->apply_and_update($data);
 			}
 			if(!$ok){

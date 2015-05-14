@@ -403,6 +403,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			return $this->ajax_json('验证码有误，请重新获取！', true);
 		}
 
+    //密码默认手机后6位
     $pwd = substr($this->stash['account'], -6);
 		
         try {

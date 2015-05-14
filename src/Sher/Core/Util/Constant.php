@@ -286,7 +286,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
    * 蛋年报名选项解析--所属领域
    */
   public static function birdegg_area_options($id=0){
-    $array = array(1=>'智能家居', 2=>'智能可穿戴', 3=>'无人机', 4=>'机器人', 5=>'3D打印', 10=>'其它');
+    $array = array(1=>'智能家居', 2=>'智能可穿戴', 3=>'无人机', 4=>'机器人', 5=>'3D打印', 6=>'媒体', 10=>'其它');
     if(empty($id)){
       return $array;
     }else{
@@ -299,6 +299,18 @@ class Sher_Core_Util_Constant extends Doggy_Object {
    */
   public static function birdegg_interest_options($id=0){
     $array = array(1=>'我需要媒体', 2=>'我需要融资', 3=>'我需要工业设计', 4=>'我需要元器件', 5=>'我需要销售渠道', 10=>'其它');
+    if(empty($id)){
+      return $array;
+    }else{
+      return $array[(int)$id];
+    }
+  }
+
+  /**
+   * 专题分享统计-ID转名称
+   */
+  public static function subject_share_name($id=0){
+    $array = array(1=>'支持原创设计', 2=>'2015京东众筹', 3=>'蛋年(深圳)', 4=>'--', 5=>'--', 10=>'--');
     if(empty($id)){
       return $array;
     }else{

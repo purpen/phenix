@@ -123,7 +123,11 @@
 	    {% endblock %}
 		{% block layout_footer %}
 		{% endblock %}
-		
+        
+        <!-- mustache templates begin -->
+        {% block templates %}
+        {% endblock %}
+        <!-- mustache templates end -->
 
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
@@ -170,32 +174,28 @@
 			phenix.visitor = {{ visitor_json }};
 			
     		phenix.initial();
+            
+            // 用户提醒 登录行为
+            if(phenix.visitor.is_login){
+                var user_id = phenix.visitor.id;
+                $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
+                // 定时提示,每次5分钟,最多12次
+                var limit_notice_times = 0;
+                setInterval(function(){
+                    if(limit_notice_times >= 12){
+                        return
+                    }else{
+                      // get默认是异步请求async为true
+                      $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
+                    }
+                    limit_notice_times += 1;
+                }, 1000*60*1);
+            }
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}
 		});
 		//-->
-
-    //用户提醒
-    $(function(){
-      //登录行为
-      if(phenix.visitor.is_login){
-        var user_id = phenix.visitor.id;
-        $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
-        //定时提示,每次5分钟,最多12次
-        var limit_notice_times=0;
-        setInterval(function(){
-            if(limit_notice_times>=12){
-                return
-            }else{
-                //get默认是异步请求async为true
-                $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
-            }
-            limit_notice_times+=1;
-        },1000*60*1);
-
-      }
-    });
 		</script>
 		
 		{% if css_use_bundle %}

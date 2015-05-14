@@ -3,13 +3,16 @@
 		{% if result.total_rows %}
         <div class="topic guess" id="topic_guess_list">
             <h3 class="ui header">相关话题</h3>
-			<div class="ui socialstick four blocks">
+			<div class="ui socialstick stickcount four blocks">
                 {% for ft in result.rows %}
 				<div class="block">
 					<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.thumbnails.medium.view_url }}');"{% endif %}>
                         <a class="transparent" href="{{ ft.topic.view_url }}" target="_blank">
 							<div class="sub title">
 								{{ ft.topic.title }}
+        						<div class="extra count">
+        							<i class="unhide icon"></i> <span>{{ ft.topic.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.topic.comment_count }}</span>
+        						</div>
 							</div>
                         </a>
 					</div>

@@ -170,13 +170,16 @@
 	<div class="ui responsive grid">
         <div class="row">
             <div class="column">
-                <div class="ui socialstick four blocks">
+                <div class="ui socialstick stickcount four blocks">
                     {% for skad in stkad.rows %}
                     <div class="block">
         				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
                             <a class="transparent" href="{{ skad.view_url }}" target="_blank">
         						<div class="sub title">
         							{{ skad.title }}
+            						<div class="extra count">
+            							<i class="unhide icon"></i> <span>{{ skad.click_count }}</span>
+            						</div>
         						</div>
                             </a>
         				</div>
@@ -300,7 +303,7 @@
         					热门评论
         				</h2>
                         <div class="ui comments segment">
-                    		{% comment_list var:'comments' sort:2 size:5 load_item:1 %}
+                    		{% comment_list var:'comments' sort:2 size:5 load_item:1 nearly_day:30 %}
                     		{% for comment in comments.rows %}
                                 <div class="onecomment">
                                 	<a class="avatar" href="{{ comment.user.home_url }}">
