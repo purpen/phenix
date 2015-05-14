@@ -21,7 +21,7 @@ class Sher_Core_Util_XunSearch {
    * 添加文档
    */
   public static function add($data=array(), $db='phenix') {
-
+    $db = Doggy_Config::$vars['app.xun_search_db'];
     try{
       $xs = new \XS($db);
       $index = $xs->index; // 获取 索引对象
@@ -42,6 +42,7 @@ class Sher_Core_Util_XunSearch {
    * 更新文档
    */
   public static function update($data=array(), $db='phenix') {
+    $db = Doggy_Config::$vars['app.xun_search_db'];
     try{
       $xs = new \XS($db);
       $index = $xs->index; // 获取 索引对象
@@ -68,6 +69,7 @@ class Sher_Core_Util_XunSearch {
     * ID可为数组
    */
   public static function del_ids($ids, $db='phenix') {
+    $db = Doggy_Config::$vars['app.xun_search_db'];
     try{
       $xs = new \XS($db);
       $index = $xs->index; // 获取 索引对象
@@ -91,6 +93,7 @@ class Sher_Core_Util_XunSearch {
    * 搜索
    */
   public static function search($str, $options=array(), $db='phenix') {
+    $db = Doggy_Config::$vars['app.xun_search_db'];
     if(empty($str)){
       return array('success'=>false, 'msg'=>'搜索内容为空!');
     }
