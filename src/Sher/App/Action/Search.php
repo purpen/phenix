@@ -7,7 +7,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     
     public $stash = array(
 		'page' => 1,
-    'size' => 5,
+    'size' => 20,
 		'q' => '',
 		'ref' => '',
 		't' => 0,
@@ -78,7 +78,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         }
 
         //描述内容过滤
-        $result['data'][$k]['content'] = $a = strip_tags(html_entity_decode($v['high_content'], ENT_QUOTES));
+        $result['data'][$k]['content'] = $a = strip_tags(html_entity_decode($v['high_content']), '<em>');
         //echo "$a \n";
 
         // 生成路径

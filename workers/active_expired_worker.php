@@ -65,6 +65,6 @@ while(!$is_end){
 }
 
 echo "update active expired [$total] is OK! \n";
-// sleep 3 minute
-sleep(10);
+// sleep 1 hour
+sleep(3600);
 exit(0);

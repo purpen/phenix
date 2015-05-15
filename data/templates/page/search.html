@@ -133,7 +133,6 @@
 							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
 								</div>
 								<div class="attribute">
-									<span class="category"><a href="{{ item.topic.category.view_url }}" class="ui link">{{ item.topic.category.title }}</a></span> | 
 									<span class="author">
                     <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
                     {% if visitor.can_admin %}
