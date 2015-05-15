@@ -32,9 +32,9 @@ function batch_send_message($msg, $users=array()){
   foreach($users as $k=>$v){
     $msg = sprintf("尊敬的嘉宾您好，您的“中国智能硬件蛋年创新大会·深圳站“活动票号：%d，时间：2015年5月16日18:00；地点：深圳·花样年福年广场。更多详情：http://dwz.cn/JsnBw #该信息转发无效#", $number);
     // 开始发送
-    $message = Sher_Core_Helper_Util::send_defined_mms($v, $msg);
+    //$message = Sher_Core_Helper_Util::send_defined_mms($v, $msg);
     // 添加到统计列表
-    $digged->add_item_custom($birdegg_sz_jb, array('phone'=>$v, 'number'=>$number));
+    //$digged->add_item_custom($birdegg_sz_jb, array('phone'=>$v, 'number'=>$number));
     echo "send success: $v \n";
     $number++;
     sleep(1);
@@ -46,4 +46,44 @@ $msg = '太火鸟';
 $users = array(
   15001120509,13552722577,
 );
-batch_send_message($msg, $users);
+
+
+
+//batch_send_message($msg, $users);
+
+
+// 批量发短信--读取文件
+function batch_send_message_for_file(){
+
+  $fp = fopen("/home/tian/dan.csv", "r"); 
+  if($fp){ 
+    echo "file open success~! \n";
+    $data = array();
+    $base = 1000;
+    $digged = new Sher_Core_Model_DigList();
+    echo "begin send message ...\n";
+    for($i=1;! feof($fp);$i++) 
+    { 
+      $line = fgets($fp);
+      $arr = explode(',', $line);
+      if(empty($arr) || count($arr)<2){
+        continue;
+      }
+      $number = $base + $i;
+      $msg = sprintf("尊敬的嘉宾您好，您的“中国智能硬件蛋年创新大会·深圳站“活动票号：%d，时间：2015年5月16日18:00；地点：深圳·花样年福年广场。更多详情：http://dwz.cn/JsnBw #该信息转发无效#", $number);
+      // 开始发送
+      //$message = Sher_Core_Helper_Util::send_defined_mms($arr[1], $msg);
+      // 添加到统计列表
+      //$digged->add_item_custom('birdegg_sz_jb', array('name'=>$arr[0], 'phone'=>$arr[1], 'number'=>$number));
+      echo "send success: $arr[0]-$arr[1] \n";
+      sleep(1);
+    } 
+  } else 
+  { 
+    echo "open file fail!"; 
+  } 
+  fclose($fp); 
+
+}
+
+batch_send_message_for_file();

@@ -30,7 +30,7 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
     $model = new Sher_Core_Model_DigList();
     $query = array();
     $options['page'] = $this->stash['page'];
-    $options['size'] = 10;
+    $options['size'] = 100;
     //$options['sort'] = array();
     $data = $model->find($query, $options);
     foreach($data as $key=>$val){
@@ -127,6 +127,57 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
     }
     
   }
+
+	/**
+	 * 导出items列表
+	 */
+	public function export(){
+
+    $id = $this->stash['id'];
+
+		if(empty($id)){
+			return $this->ajax_note('请选择导出数据条件！', true);
+		}
+
+    $digged = new Sher_Core_Model_DigList();
+    $dig = $digged->load((string)$id);
+    if(empty($dig) || empty($dig['items'])){
+ 			return $this->ajax_note('数据不存在！', true);   
+    }
+		
+		// 设置不超时
+		set_time_limit(0);
+			
+		 header('Content-Type: application/vnd.ms-excel');
+		 header('Content-Disposition: attachment;filename="data.csv"');
+		 header('Cache-Control: max-age=0');
+		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    //fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+     $fp = fopen('php://output', 'a');
+
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
+		// 输出Excel列名信息
+		$head = array('姓名', '电话', '票号');
+
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+			
+    foreach($dig['items'] as $k=>$v){
+      
+      $row = array($v['name'], $v['phone'], $v['number']);
+      
+      fputcsv($fp, $row);
+      
+      unset($row);
+    }
+		
+		fclose($fp);
+
+	}
 
 }
 
