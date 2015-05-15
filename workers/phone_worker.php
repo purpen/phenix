@@ -81,7 +81,7 @@ echo "===========================PHONE WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 $hr = date('G');
 if($hr >= 9 && $hr <= 23){
-    $time = rand(5, 30);
+    $time = rand(5, 10);
 }else{
     $time = rand(300, 600);
 }
