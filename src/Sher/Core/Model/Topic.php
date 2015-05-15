@@ -113,39 +113,42 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	 * 保存之后，更新相关count
 	 */
     protected function after_save() {
-        // 如果是新的记录
-        if($this->insert_mode) {
-            $category_id = $this->data['category_id'];
-            $fid = $this->data['fid'];
-      
-            $category = new Sher_Core_Model_Category();
-            if (!empty($category_id)) {
-                $category->inc_counter('total_count', 1, $category_id);
-            }
-            if (!empty($fid)) {
-                $category->inc_counter('total_count', 1, $fid);
-            }
-      
-            $target_id = $this->data['target_id'];
-            if (!empty($target_id)) {
-                $product = new Sher_Core_Model_Product();
-                $product->inc_counter('topic_count', 1, $target_id);
-                unset($product);
-            }
-      
-            // 更新话题总数
-            Sher_Core_Util_Tracker::update_topic_counter();
 
-            // 如果是发布状态,创建动态
-            if ($this->data['published'] == 1) {
-                $service = Sher_Core_Service_Timeline::instance();
-                $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
-            }
-            
-            // 增长积分
-            $service = Sher_Core_Service_Point::instance();
-            $service->send_event('evt_new_post', $this->data['user_id']);
+      // 如果是新的记录
+      if($this->insert_mode) {
+        $category_id = $this->data['category_id'];
+        $fid = $this->data['fid'];
+  
+        $category = new Sher_Core_Model_Category();
+        if (!empty($category_id)) {
+            $category->inc_counter('total_count', 1, $category_id);
         }
+        if (!empty($fid)) {
+            $category->inc_counter('total_count', 1, $fid);
+        }
+  
+        $target_id = $this->data['target_id'];
+        if (!empty($target_id)) {
+            $product = new Sher_Core_Model_Product();
+            $product->inc_counter('topic_count', 1, $target_id);
+            unset($product);
+        }
+  
+        // 更新话题总数
+        Sher_Core_Util_Tracker::update_topic_counter();
+
+        // 如果是发布状态,创建动态
+        if ($this->data['published'] == 1) {
+            $service = Sher_Core_Service_Timeline::instance();
+            $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
+        }
+        
+        // 增长积分
+        $service = Sher_Core_Service_Point::instance();
+        $service->send_event('evt_new_post', $this->data['user_id']);
+
+      }
+
     }
 	
 	/**
@@ -335,6 +338,9 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		$textindex = new Sher_Core_Model_TextIndex();
 		$textindex->remove(array('target_id' => $id));
 		unset($textindex);
+
+    //删除索引
+    Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
 		
 		return true;
 	}

@@ -217,6 +217,13 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
 			}
+
+      //如果是发布状态,更新索引
+      $product = $model->load((int)$id);
+      if($product['published']==1){
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());

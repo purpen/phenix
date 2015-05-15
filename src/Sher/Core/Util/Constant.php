@@ -108,6 +108,19 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     # 大赛参加大学统计
     const DIG_MATCH2_COLLEGE = 'match2_college_top';
 
+    # 搜索任务记录最后创建日期
+    const DIG_XUN_SEARCH_LAST_TIME = 'xun_search_last_time';
+
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----话题
+    const DIG_XUN_SEARCH_RECORD_TOPIC_UPDATE_IDS = 'xun_search_record_topic_update_ids';
+    const DIG_XUN_SEARCH_RECORD_TOPIC_FAIL_IDS = 'xun_search_record_topic_fail_ids';
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----灵感
+    const DIG_XUN_SEARCH_RECORD_STUFF_UPDATE_IDS = 'xun_search_record_stuff_update_ids';
+    const DIG_XUN_SEARCH_RECORD_STUFF_FAIL_IDS = 'xun_search_record_stuff_fail_ids';
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----商品
+    const DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS = 'xun_search_record_product_update_ids';
+    const DIG_XUN_SEARCH_RECORD_PRODUCT_FAIL_IDS = 'xun_search_record_product_fail_ids';
+
     /**
      * DigList stuff计数器
      */

@@ -72,4 +72,4 @@ while(!$is_end){
 }
 
 echo "sync [$total] is OK! \n";
-?>
+
