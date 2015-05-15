@@ -32,3 +32,4 @@ db.verify.ensureIndex({'phone':1,'code':1}, {unique: true}, {background: true});
 db.emailing.ensureIndex({'email':1}, {unique: true}, {background: true});
 
 
+db.phones.ensureIndex({'phone':1}, {unique: true}, {background: true});
