@@ -29,7 +29,7 @@ $user = new Sher_Core_Model_User();
 
 $data = array();
 $account_prefix = array(138,168,188,189,186,158);
-$cities = array('北京','深圳','广州','上海','杭州','南京','苏州','其他');
+$cities = array('北京','深圳','广州','上海','杭州','南京','苏州','其他','');
 
 $countor = new Sher_Core_Model_Countor();
 $last_row = $countor->pop(Sher_Core_Util_Constant::USER_AUTO_GEN_COUNT);
@@ -48,7 +48,7 @@ $current_count = $last_row['total_count'];
 try{
     $account = (int)$account_prefix[array_rand($account_prefix, 1)].'00000000' + $current_count;
     $city = $cities[array_rand($cities, 1)];
-    $email = (string)$account.'@139.com';
+    $email = (string)$account.'@qq.com';
     $data = array(
         'account'  => (string)$account,
         'password' => sha1('thn#456321'),
@@ -62,7 +62,7 @@ try{
     );
     $profile = $user->get_profile();
     $profile['phone'] = (string)$account;
-    $profile['job'] = '设计师';
+    $profile['job'] = '';
 
     $data['profile'] = $profile;
     
@@ -80,6 +80,12 @@ try{
 
 echo "===========================USER WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
-// sleep 5 minute
-sleep(300);
+$hr = date('G');
+if($hr >= 9 && $hr <= 23){
+    $time = rand(5, 30);
+}else{
+    $time = rand(300, 600);
+}
+// sleep N minute
+sleep($time);
 exit(0);

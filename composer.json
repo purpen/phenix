@@ -16,6 +16,6 @@
 		"elvis-bi/taobao-top-client": "*",
 		"purpen/qiniu": "1.0.2",
 		"mailgun/mailgun-php": "~1.7.2",
-    "hightman/xunsearch": "*@beta"
+        "hightman/xunsearch": "*@beta"
     }
 }

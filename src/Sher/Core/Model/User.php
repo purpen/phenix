@@ -223,7 +223,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记 7.ajax快捷注册 8.快捷注册; 9为小号;
+        # 标记 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号;
         'kind' => 0,
 
         # 用户唯一邀请码

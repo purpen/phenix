@@ -274,6 +274,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     ## 记数器
     const USER_AUTO_GEN_COUNT = 'user_auto_gen';
     
+    const PHONE_AUTO_GET_COUNT = 'phone_auto_gen';
+    
     
     /**
      * 版块置顶key
