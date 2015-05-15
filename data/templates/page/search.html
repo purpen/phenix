@@ -36,10 +36,26 @@
 .ui.search.list>.item>.image+.content{
 	max-width:70%;
 }
+.searcmu.buttons > .button{
+	min-width:86px;
+}
+.search .ui.label{
+	border-radius: 2.5rem;
+	margin-left: 15px;
+	padding: .1em .8em !important;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+	//最新
+  $('.ui.lastest.button').click(function(){
+    phenix.redirect("{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&s=1");
+  });
+  //相关度
+  $('.ui.relation.button').click(function(){
+    phenix.redirect("{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&s=0");
+  });
 	
 {% endblock %}
 
@@ -111,6 +127,17 @@
 		</div>
 		<div class="row">
 			<div class="column">
+				<div class="ui small searcmu buttons">
+					<div class="ui magenta lastest button {{ css_lastest }}">
+						最新
+					</div>
+					<div class="ui magenta relation button {{ css_relation }}">
+						相关度
+					</div>
+				</div>
+				
+				
+				<!--
 				<div class="ui divided horizontal list">
 					<div class="item">
             <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&s=1" class="ui link {{ css_lastest }}">最新</a>
@@ -118,7 +145,7 @@
 					<div class="item">
             <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&s=0" class="ui link {{ css_relation }}">相关度</a>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
 		<div class="row">
@@ -134,12 +161,13 @@
 							<div class="content">
 								<div class="header">
 							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
+											<label class="ui magenta label">创新孵化</label>
 								</div>
 								<div class="attribute">
 									<span class="author">
                     <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
                     {% if visitor.can_admin %}
-                      <span><a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request"><small>删除</small></a></span>
+                      <span><a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request ui link"><small>删除</small></a></span>
                     {%endif%}
 									</span>
 								</div>
