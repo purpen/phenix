@@ -55,11 +55,11 @@ $users = array(
 // 批量发短信--读取文件
 function batch_send_message_for_file(){
 
-  $fp = fopen("/home/tian/dan.csv", "r"); 
+  $fp = fopen("/home/tian/dan_new2.csv", "r"); 
   if($fp){ 
     echo "file open success~! \n";
     $data = array();
-    $base = 1000;
+    $base = 1369;
     $digged = new Sher_Core_Model_DigList();
     echo "begin send message ...\n";
     for($i=1;! feof($fp);$i++) 
@@ -74,8 +74,8 @@ function batch_send_message_for_file(){
       // 开始发送
       //$message = Sher_Core_Helper_Util::send_defined_mms($arr[1], $msg);
       // 添加到统计列表
-      //$digged->add_item_custom('birdegg_sz_jb', array('name'=>$arr[0], 'phone'=>$arr[1], 'number'=>$number));
-      echo "send success: $arr[0]-$arr[1] \n";
+      //$digged->add_item_custom('birdegg_sz_jb_new', array('name'=>$arr[0], 'phone'=>$arr[1], 'number'=>$number));
+      echo "send success: $arr[0]-$arr[1]-tracked: $number \n";
       sleep(1);
     } 
   } else 
