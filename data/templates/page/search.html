@@ -110,16 +110,10 @@
 			<div class="column">
 				<div class="ui divided horizontal list">
 					<div class="item">
-						<a href="" class="ui link">最新</a>
+            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&s=1" class="ui link {{ css_lastest }}">最新</a>
 					</div>
 					<div class="item">
-						<a href="" class="ui link">最新</a>
-					</div>
-					<div class="item">
-						<a href="" class="ui link">最新</a>
-					</div>
-					<div class="item">
-						<a href="" class="ui link">最新</a>
+            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&s=0" class="ui link {{ css_relation }}">相关度</a>
 					</div>
 				</div>
 			</div>
@@ -148,7 +142,7 @@
 									</span>
 								</div>
 								<div class="">
-							    <p>{{ item.high_content }}</p>
+							    <p>{{ item.content }}</p>
 								</div>
 								<div class="">
 							    <p class="idea tags">

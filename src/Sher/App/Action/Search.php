@@ -14,8 +14,8 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
 		'index_name' => 'full',
     'evt' => 'content',
     'db' => 'phenix',
-    's' => 0,
-    'asc' => 1,
+    's' => 1,
+    'asc' => 0,
 	);
 
 	protected $exclude_method_list = array('execute', 'xc');
@@ -33,6 +33,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     $db = $this->stash['db'];
     // 全文搜索/标签搜索
     $evt = $this->stash['evt'];
+    $sort = (int)$this->stash['s'];
 
     //搜索类型
  		if($this->stash['t'] == 1){
@@ -57,6 +58,12 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
       'asc'  => $this->stash['asc'],
       't'    => $this->stash['t'],
     );
+
+    if($sort==0){
+  		$this->set_target_css_state('relation');
+    }elseif($sort==1){
+   		$this->set_target_css_state('lastest');    
+    }
     
     $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
     if($result['success']){
@@ -71,7 +78,8 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         }
 
         //描述内容过滤
-        $result['data'][$k]['content'] = $v['content'];
+        $result['data'][$k]['content'] = $a = strip_tags(html_entity_decode($v['high_content'], ENT_QUOTES));
+        //echo "$a \n";
 
         // 生成路径
         switch($v['kind']){
