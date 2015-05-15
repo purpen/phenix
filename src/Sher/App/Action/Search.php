@@ -78,8 +78,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         }
 
         //描述内容过滤
-        $result['data'][$k]['content'] = $a = strip_tags(html_entity_decode($v['high_content']), '<em>');
-        //echo "$a \n";
+        $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
 
         // 生成路径
         switch($v['kind']){
@@ -100,6 +99,9 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         if($v['cover_id']){
           $result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
         }
+
+        // 获取对象属性
+        $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($v['kind'], $v['cid']);
 
         // 获取asset_type
         $result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
