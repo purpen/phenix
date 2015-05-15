@@ -776,6 +776,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			if($file_count && !empty($this->stash['file_id'])){
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
+
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1); 
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
@@ -839,6 +842,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 			
 			$this->stash['topic'] = &DoggyX_Model_Mapper::load_model($id,'Sher_Core_Model_Topic');
+
+      // 更新到索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);   
+
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("话题保存失败：".$e->getMessage());
