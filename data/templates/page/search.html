@@ -17,8 +17,21 @@
     color: #fff;
 }
 
-.content em{
+.content em {
   color: red;
+  font-style: inherit;
+  margin-left: 0.2rem;
+}
+.ui.list .item>img{
+	margin-top: 1rem;
+	margin-left: 1rem;
+}
+#searchpage .idea.tags .ui.line {
+  margin-right: .85em;
+  color: rgba(0,0,0,.4);
+}
+#searchpage .idea.tags .ui.line:hover{
+	color:#f36;
 }
 </style>
 {% endblock %}
@@ -95,6 +108,24 @@
 		</div>
 		<div class="row">
 			<div class="column">
+				<div class="ui divided horizontal list">
+					<div class="item">
+						<a href="" class="ui link">最新</a>
+					</div>
+					<div class="item">
+						<a href="" class="ui link">最新</a>
+					</div>
+					<div class="item">
+						<a href="" class="ui link">最新</a>
+					</div>
+					<div class="item">
+						<a href="" class="ui link">最新</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
 				<div class="search result">
 					<div class="ui search selection list">
 					{% for item in result.data %}
@@ -120,10 +151,10 @@
 							    <p>{{ item.high_content }}</p>
 								</div>
 								<div class="">
-							    <p>
+							    <p class="idea tags">
                     {% if item.tags %}
                       {%for tag in item.tags%}
-                        <a href="#" >{{ tag }}</a>&nbsp;
+                        <a href="#" class="ui line">#{{ tag }}</a>&nbsp;
                       {%endfor%}
                     {%endif%}
                   
