@@ -80,7 +80,12 @@ try{
 
 echo "===========================USER WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
-$time = rand(30, 120);
+$hr = date('G');
+if($hr >= 9 && $hr <= 23){
+    $time = rand(5, 30);
+}else{
+    $time = rand(300, 600);
+}
 // sleep N minute
 sleep($time);
 exit(0);
