@@ -428,6 +428,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			if($file_count && !empty($this->stash['file_id'])){
 				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}
+
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 2); 
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());

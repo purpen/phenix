@@ -21,9 +21,12 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
 	
     protected function extra_extend_model_row(&$row) {
         switch($row['_id']){
-            case 'dig_match_praise_stat':
+          case Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT:
                 $str = '校园行线下抽奖';
                 break;
+            case Sher_Core_Util_Constant::DIG_XUN_SEARCH_LAST_TIME:
+              $str = '搜索定时统计(记录最后一次创建时间点)';
+              break;
             default:
                 $str = '未定义';
         }
