@@ -442,6 +442,8 @@ transition: all .3s ease-in-out 0s;
 	});
   //报名按钮
   $('.baoming').click(function(){
+    phenix.show_ok_note('报名已结束!', 2000);
+    return false;
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			phenix.show_login_box();
