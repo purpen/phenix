@@ -1817,6 +1817,8 @@ float: left;
 	phenix.wap_show_sign_box('{{ app_url_wap }}/birdegg/sz_apply', 1);
 
   $('#sign-button').click(function(){
+    phenix.show_ok_note('报名已结束!', 2000);
+    return false;
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
       // 显示登录框
