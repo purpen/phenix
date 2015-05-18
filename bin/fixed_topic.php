@@ -23,28 +23,28 @@ echo "Prepare to merge topic category...\n";
 // 合并子类别
 $categories = array(
     array(
-        'old' => 22,
-        'new' => 21,
+        'old' => 21,
+        'new' => 59,
     ),
     array(
-        'old' => 20,
-        'new' => 19,
+        'old' => 16,
+        'new' => 59,
     ),
     array(
-        'old' => 23,
-        'new' => 19,
+        'old' => 60,
+        'new' => 61,
     ),
     array(
-        'old' => 29,
-        'new' => 27,
+        'old' => 19,
+        'new' => 61,
     ),
     array(
-        'old' => 25,
-        'new' => 27,
+        'old' => 24,
+        'new' => 15,
     ),
     array(
-        'old' => 26,
-        'new' => 27,
+        'old' => 28,
+        'new' => 15,
     ),
 );
 
@@ -64,13 +64,25 @@ echo "Topic child category merge ok.\n";
 
 // 合并父类别
 $parent = array(
+    //硬道理/智囊团
     array(
-        'cid' => 21,
-        'fid' => 12,
+        'cid' => 59,
+        'fid' => 58,
     ),
+    //硬道理/智囊团
     array(
-        'cid' => 19,
-        'fid' => 12,
+        'cid' => 61,
+        'fid' => 58,
+    ),
+    //最新动态
+    array(
+        'cid' => 15,
+        'fid' => 11,
+    ),
+    //自由讨论
+    array(
+        'cid' => 27,
+        'fid' => 14,
     ),
 );
 

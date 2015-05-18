@@ -8,13 +8,20 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	 * 深圳蛋年专题
+	 */
+	public function sz(){
+		return $this->to_html_page('page/promo/sz.html');
 	}
 	
 	/**
