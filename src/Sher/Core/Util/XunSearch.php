@@ -114,19 +114,19 @@ public function __construct() {
       if($t){
         switch($t){
           case 1:
-            $condition += 'kind:Product cid:9 ';
+            $condition .= 'kind:Product cid:9 ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 5:
-            $condition += 'kind:Product cid:1 ';
+            $condition .= 'kind:Product cid:1 ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 2:
-            $condition += 'kind:Topic ';
+            $condition .= 'kind:Topic ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 4:
-            $condition += 'kind:Stuff ';
+            $condition .= 'kind:Stuff ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
         }
