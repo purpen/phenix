@@ -1,0 +1,243 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}太火鸟 - 2015中国智能硬件蛋年创新大会专题报道{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	body{
+		background:#1d0345;
+		color:#fff;
+	}
+	.ui.social{
+		padding:0;
+	}
+	.ui.items {
+	  margin: 1rem 0 0;
+	}
+	.ui.items > .item,.ui.items > .item:hover{
+		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+		cursor:auto;
+		background:rgba(0,0,0,0);
+	}
+	.block.title>small{
+		color: rgba(255,255,255,.7);
+		font-size:20px;
+	}
+	.block.title{
+		font-size:24px;
+		color:#fff;
+		padding: 15px 0 8px;
+	}
+	.ui.items > .item .image,.ui.items > .item .image img{
+		border-radius:0 !important;
+	}
+	
+	.ui.speak.items > .item,.ui.circle.items > .item{
+		  margin-bottom: 1.5rem;
+	}
+	.ui.speak.items .content,.ui.circle.items .content{
+		padding:0 !important;
+	}
+	.ui.speak.items .item .content h4,.ui.circle.items .item .content h4 {
+		margin: .6em 0 5px;
+		color:#fff;
+	}
+	.ui.circle.items .item .content h4{
+		font-size:1rem !important;
+	}
+	.ui.speak.items .content h5,.ui.circle.items .content h5 {
+		margin: 0;
+	}
+	.six.wide .block.title{
+		margin-bottom:0px;
+	}
+	.section-title+.block.title{
+		margin-top: 15px;
+		margin-bottom:0px !important;
+	}
+	.six.wide p{
+		margin:8px 0 0;
+	}
+	.six.wide span{
+		margin-right:15px;
+	}
+	.ui.header .ui.link {
+	  color: #fff;
+	}
+	.section-title .ui.header{
+		font-size: 0.96rem!important;
+		margin-bottom: 10px;
+		font-weight: 400;
+	}
+
+
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="birdegg page">
+	<div class="yue">
+		<img src="{{ app_url_packaged }}/images/promo/szbanner.jpg" width="100%">
+	</div>
+	<div class="ui block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<h3 class="block title">演讲嘉宾</h3>
+				<div class="column">
+					<div class="ui center aligned two speak items">
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="钟晓渝" src="{{ app_url_packaged }}/images/promo/szzly.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">钟晓渝</h4>
+								<h5> 深圳政协副主席</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="封昌红" src="{{ app_url_packaged }}/images/promo/szfch.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">封昌红</h4>
+								<h5>深圳工业设计协会 / 秘书长</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="刘宏蛟" src="{{ app_url_packaged }}/images/promo/szlhj.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">刘宏蛟</h4>
+								<h5>硬蛋负责人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="刘向峰" src="{{ app_url_packaged }}/images/promo/szlxf.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">刘向峰</h4>
+								<h5>京东JD+孵化器 / 总监</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="申晨" src="{{ app_url_packaged }}/images/promo/szsc.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">申晨</h4>
+								<h5>熊猫传媒集团 / 董事长</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="刘宗孺" src="{{ app_url_packaged }}/images/promo/szlzr.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">刘宗孺</h4>
+								<h5>Broadlink / CEO</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="张建民" src="{{ app_url_packaged }}/images/promo/szzjm.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">张建民</h4>
+								<h5>中世纵横设计 / 董事长</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="李一舟" src="{{ app_url_packaged }}/images/promo/szlyz.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">李一舟</h4>
+								<h5>匙悟科技 / 创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="Satish" src="{{ app_url_packaged }}/images/promo/szsk.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">Satish</h4>
+								<h5>Keysight</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="武守坤" src="{{ app_url_packaged }}/images/promo/szwsk.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">武守坤</h4>
+								<h5>金百泽科技 / 董事长</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="孙丹青" src="{{ app_url_packaged }}/images/promo/szsdq.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">孙丹青</h4>
+								<h5>微信硬件</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="李大维" src="{{ app_url_packaged }}/images/promo/szldw.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">李大维</h4>
+								<h5>上海新车间创客空间 / 创始人</h5>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="image">
+								
+								<img alt="杨世毅" src="{{ app_url_packaged }}/images/promo/szysy.jpg">
+							</div>
+							<div class="content">
+								<h4 class="ui header">杨世毅</h4>
+								<h5>京东企业发展部 / 投资总监</h5>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+					
+				</div>
+			</div>
+		
+		
+		</div>
+	</div>
+
+
+</div>
+{% endblock %}
