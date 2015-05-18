@@ -35,6 +35,12 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     $evt = $this->stash['evt'];
     $sort = (int)$this->stash['s'];
 
+    if($evt=='tag'){
+      $this->stash['evt_s'] = '标签';
+    }else{
+      $this->stash['evt_s'] = '内容';  
+    }
+
     //搜索类型
  		if($this->stash['t'] == 1){
 			$this->set_target_css_state('product');

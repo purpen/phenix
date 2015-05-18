@@ -347,7 +347,7 @@
 					<div class="idea tags">
 						{% for tag in stuff.tags %}
 							{% if tag %}
-							<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui line">
+							<a href="{{ app_url_searh }}?q={{ tag }}&evt=tag" class="ui line">
 								# {{ tag }}
 							</a>
 							{% endif %}
