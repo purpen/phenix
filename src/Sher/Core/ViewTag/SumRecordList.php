@@ -70,7 +70,7 @@ class Sher_Core_ViewTag_SumRecordList extends Doggy_Dt_Tag {
           for($i=0;$i<count($result['rows']);$i++){
             $type = $result['rows'][$i]['type'];
             $target_id = $result['rows'][$i]['target_id'];
-            $kind = $result['rows'][$i]['kind'];
+            $kind = isset($result['rows'][$i]['kind'])?(int)$result['rows'][$i]['kind']:0;
             if($type==1){
               $province = $p_mode->first(array('pid'=>(int)$target_id));
               $result['rows'][$i]['province'] = $province;
