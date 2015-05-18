@@ -114,33 +114,32 @@ public function __construct() {
       if($t){
         switch($t){
           case 1:
-            $condition += 'kind:Product cid:9';
-            $str_f = sprintf('%s %s', $condition, $str_f);
+            $condition += 'kind:Product cid:9 ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 5:
-            $condition += 'kind:Product cid:1';
-            $str_f = sprintf('%s %s', $condition, $str_f);
+            $condition += 'kind:Product cid:1 ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 2:
-            $condition += 'kind:Topic';
-            $str_f = sprintf('%s %s', $condition, $str_f);
+            $condition += 'kind:Topic ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 4:
-            $condition += 'kind:Stuff';
-            $str_f = sprintf('%s %s', $condition, $str_f);
+            $condition += 'kind:Stuff ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
         }
       }
 
       //是否搜索标签
       if($evt=='tag'){
-        $str_f = sprintf('%s tags:%s',$condition, $str);
+        $str_f = sprintf('%stags:%s', $condition, $str);
       }else{
         $search->addWeight('title', $str); // 增加附加条件：提升标题中包含 关键字 的记录的权重       
       }
 
       $search->setQuery($str_f); // 设置搜索语句
-
 
       //排序
       if(!empty($sort)){
