@@ -89,9 +89,9 @@
                     <div class="integral row">
                         <div class="three wide column">
                             <img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
-														<!--  头像加V
+														{% if user.mentor==50 %}
 														<img src="{{ app_url_packaged }}/images/V.png" class="image-PV">
-														-->
+                            {%endif%}
                         </div>
                         <div class="thirteen wide column">
                             <h3 class="ui header">{{ user.nickname }}</h3>
