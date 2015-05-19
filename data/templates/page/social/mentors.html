@@ -104,7 +104,7 @@
 						<div class="mentor">
 							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
 							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
-							{% if user.mentor==50 %}
+							{% if user.kind==1 %}
 							<img src="{{ app_url_packaged }}/images/V.png" class="image-MV">
               {%endif%}
 							<h3>{{ user.nickname }}</h3>
