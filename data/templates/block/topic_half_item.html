@@ -2,6 +2,9 @@
 	<td class="hide-on-mobile author">
 		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+					{% if topic.user.mentor==50 %}
+					<img src="{{ app_url_packaged }}/images/V.png" class="image-V">
+          {%endif%}
 		</a>
 	</td>
 	<td>
