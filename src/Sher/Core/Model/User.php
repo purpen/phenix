@@ -92,6 +92,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'name' => '方案解决商'
 		),
 		array(
+			'id' => 50,
+			'name' => '官方认证'
+		),
+		array(
 			'id' => 40,
 			'name' => '其他'
 		),

@@ -60,7 +60,6 @@
 				    <div class="default text">请选择</div>
 				    <i class="angle down icon"></i>
 				    <div class="menu">
-						<div data-value="0" class="{% if user.mentor == 0 %}active {% endif %}item">无</div>
 						{% for mentor in mentors %}
 						<div data-value="{{ mentor.id }}" class="{% if mentor.id == user.mentor %}active {% endif %}item">{{ mentor.name }}</div>
 						{% endfor %}
