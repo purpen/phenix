@@ -104,6 +104,9 @@
 						<div class="mentor">
 							<a href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank" class="user"></a>
 							<img src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+							{% if user.mentor==50 %}
+							<img src="{{ app_url_packaged }}/images/V.png" class="image-MV">
+              {%endif%}
 							<h3>{{ user.nickname }}</h3>
 							<p>{{ user.mentor_info.name }} {{ user.city }}</p>
 						</div>
