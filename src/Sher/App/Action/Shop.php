@@ -243,14 +243,32 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      'evt' => 'tag',
+      't' => 1,
 		);        
 		if(!empty($sword)){
-            $addition_criteria = array(
+      $sword_x = str_replace(',', ' OR ', $sword);
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword_x, $options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        $product_mode = new Sher_Core_Model_Product();
+        $items = array();
+        foreach($xun_arr['data'] as $k=>$v){
+          $product = $product_mode->extend_load((int)$v['oid']);
+          if(!empty($product)){
+            array_push($items, array('product'=>$product));
+          }
+        }
+        $result['rows'] = $items;
+        $result['total_rows'] = $xun_arr['total_count'];
+      }else{
+             $addition_criteria = array(
                 'type' => 1,
                 'target_id' => array('$ne' => (int)$current_id),
             );
             $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
-			$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);
+			  $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+      }
+
 		}
 		
 		$this->stash['result'] = $result;
