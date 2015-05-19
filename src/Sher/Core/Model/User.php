@@ -40,6 +40,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	// 专家身份
 	protected $mentors = array(
 		array(
+			'id' => 0,
+			'name' => '无'
+		),
+		array(
 			'id' => 1,
 			'name' => '工业设计'
 		),
@@ -90,6 +94,38 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		array(
 			'id' => 40,
 			'name' => '其他'
+		),
+	);
+
+	// 用户身份
+	protected $kinds = array(
+		array(
+			'id' => 0,
+			'name' => '无'
+		),
+		array(
+			'id' => 1,
+			'name' => '官方认证'
+		),
+		array(
+			'id' => 6,
+			'name' => '短信营销'
+		),
+		array(
+			'id' => 7,
+			'name' => 'ajax快捷注册'
+		),
+		array(
+			'id' => 8,
+			'name' => '快捷注册'
+		),
+		array(
+			'id' => 9,
+			'name' => '小号'
+		),
+		array(
+			'id' => 9,
+			'name' => '硬件工程师'
 		),
 	);
 	
@@ -440,6 +476,21 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		}
 		return $this->mentors;
 	}
+
+	/**
+	 * 获取用户身份或某个
+	 */
+	public function find_kinds($id=0){
+		if($id){
+			for($i=0;$i<count($this->kinds);$i++){
+				if ($this->kinds[$i]['id'] == $id){
+					return $this->kinds[$i];
+				}
+			}
+			return array();
+		}
+		return $this->kinds;
+	}
 	
 	/**
 	 * 设置用户身份
@@ -457,6 +508,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 * 设置类型kind 
 	 */
 	public function update_kind($id, $kind){
+		// 验证是否设定身份
+		$result = $this->find_kinds((int)$kind);
+		if(empty($result)){
+			throw new Sher_Core_Model_Exception('Update user kind ['.$kind.'] not defined!');
+		}
 		return $this->update_set((int)$id, array('kind' => (int)$kind));
 	}
 	
