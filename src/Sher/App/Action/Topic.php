@@ -107,7 +107,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		);
         
 		if(!empty($sword)){
-      $sword_x = str_replace(',', 'OR', $sword);
+      $sword_x = str_replace(',', ' OR ', $sword);
       $xun_arr = Sher_Core_Util_XunSearch::search($sword_x, $options);
       if($xun_arr['success'] && !empty($xun_arr['data'])){
         $topic_mode = new Sher_Core_Model_Topic();
@@ -119,6 +119,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
           }
         }
         $result['rows'] = $items;
+        $result['total_rows'] = $xun_arr['total_count'];
       }else{
         $addition_criteria = array(
             'type' => 2,
@@ -129,7 +130,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
       }
 
 		}
-        
 		$this->stash['result'] = $result;
 		
 		return $this->to_taconite_page('ajax/guess_topics.html');
