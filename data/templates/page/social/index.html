@@ -290,7 +290,7 @@
                                 {% for user in users.rows %}
                                 <div class="ui image">
                                     <img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
-																		{% if user.mentor==50 %}
+																		{% if user.kind==1 %}
 																		<img src="{{ app_url_packaged }}/images/V.png" class="image-HV">
 									                  {%endif%}
                                 </div>
