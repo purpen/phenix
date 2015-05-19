@@ -6,13 +6,7 @@
 {% block jquery %}
 	$('#user-form').form({
 		mentor: {
-			identifier  : 'mentor',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '专家身份不能为空'
-				}
-			]
+
 		}
 	}, {
 		inline: true,
@@ -70,6 +64,20 @@
 						{% for mentor in mentors %}
 						<div data-value="{{ mentor.id }}" class="{% if mentor.id == user.mentor %}active {% endif %}item">{{ mentor.name }}</div>
 						{% endfor %}
+				    </div>
+				</div>
+			</div>
+
+			<div class="inline field">
+				<label for="pid">用户认证：</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="kind" value="{{ user.kind }}" />
+				    <div class="default text">请选择</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+						<div data-value="0" class="{% if user.kind == 0 %}active {% endif %}item">无</div>
+						<div data-value="1" class="{% if user.kind == 1 %}active {% endif %}item">官方认证</div>
+						<div data-value="2" class="{% if user.kind == 2 %}active {% endif %}item">未定义</div>
 				    </div>
 				</div>
 			</div>
