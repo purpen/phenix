@@ -1,14 +1,22 @@
 <header class="ui wap">
 	<div class="ui responsive two column grid">
 		<div class="middle aligned row">
-			<div class="column">
+			<div class="ui three wide column" style="width:18.75%;">
 				<h4 class="ui header">
 					<a href="{{ app_url_wap }}" class="ui link">
 						<img src="{{ app_url_packaged }}/images/logo-home.png" class="ui tiny image" />
 					</a>
 				</h4>
 			</div>
-			<div class="right aligned column">
+			<div class="ui ten center aligned wide column" style="width:62.5%;">
+					<form class="search item" method="post" action="{{ app_url_wap }}/search" id="searchbar">
+					 	<div class="ui icon input">
+							<input name="q" type="text" value="{{ q }}" />
+							<i class="search icon"></i>
+						</div>
+					</form>
+			</div>
+			<div class="right three wide aligned column" style="width:18.75%;">
         <!--
 				<a href="{{ app_url_wap }}/shop/cart" class="ui small icon gray basket button">
 					{% if items_count > 0 %}
