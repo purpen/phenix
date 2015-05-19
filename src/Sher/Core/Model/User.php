@@ -40,6 +40,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	// 专家身份
 	protected $mentors = array(
 		array(
+			'id' => 0,
+			'name' => '无'
+		),
+		array(
 			'id' => 1,
 			'name' => '工业设计'
 		),
@@ -94,6 +98,38 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		array(
 			'id' => 40,
 			'name' => '其他'
+		),
+	);
+
+	// 用户身份
+	protected $kinds = array(
+		array(
+			'id' => 0,
+			'name' => '无'
+		),
+		array(
+			'id' => 1,
+			'name' => '官方认证'
+		),
+		array(
+			'id' => 6,
+			'name' => '短信营销'
+		),
+		array(
+			'id' => 7,
+			'name' => 'ajax快捷注册'
+		),
+		array(
+			'id' => 8,
+			'name' => '快捷注册'
+		),
+		array(
+			'id' => 9,
+			'name' => '小号'
+		),
+		array(
+			'id' => 9,
+			'name' => '硬件工程师'
 		),
 	);
 	
@@ -227,18 +263,18 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号;
+        # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号;
         'kind' => 0,
 
         # 用户唯一邀请码
         'invite_code' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1);
 	
     protected $required_fields = array('account', 'password');
 
-    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality');
+    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality','kind');
     
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count');
 	
@@ -444,6 +480,21 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		}
 		return $this->mentors;
 	}
+
+	/**
+	 * 获取用户身份或某个
+	 */
+	public function find_kinds($id=0){
+		if($id){
+			for($i=0;$i<count($this->kinds);$i++){
+				if ($this->kinds[$i]['id'] == $id){
+					return $this->kinds[$i];
+				}
+			}
+			return array();
+		}
+		return $this->kinds;
+	}
 	
 	/**
 	 * 设置用户身份
@@ -455,6 +506,18 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			throw new Sher_Core_Model_Exception('Update user mentor ['.$mentor.'] not defined!');
 		}
 		return $this->update_set((int)$id, array('mentor' => (int)$mentor));
+	}
+
+	/**
+	 * 设置类型kind 
+	 */
+	public function update_kind($id, $kind){
+		// 验证是否设定身份
+		$result = $this->find_kinds((int)$kind);
+		if(empty($result)){
+			throw new Sher_Core_Model_Exception('Update user kind ['.$kind.'] not defined!');
+		}
+		return $this->update_set((int)$id, array('kind' => (int)$kind));
 	}
 	
     /**
