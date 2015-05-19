@@ -529,6 +529,9 @@
 					<div class="ui header">
 						<a class="ui small avatar icard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
 				      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+									{% if topic.user.mentor==50 %}
+									<img src="{{ app_url_packaged }}/images/V.png" class="image-WV">
+                  {%endif%}
 						</a>
 						<div class="content">
 							{{ topic.title }}
