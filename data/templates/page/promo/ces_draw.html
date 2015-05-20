@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}十万火计-抽奖 -{% endblock %}
+{% block title %}CES-抽奖 -{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -157,7 +157,7 @@
 
   //加载全部
   function ajax_load_all(){
-     $.get('/promo/ajax_fetch_match2_praise_list', {evt:0}, function(result){
+     $.get('/promo/ajax_fetch_match2_praise_list', {evt:0, type:2}, function(result){
       result = eval('('+ result +')');
       if(result.success){
         praised = new Array();

@@ -374,9 +374,17 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
    * ajax获取抽奖列表
    */
   public function ajax_fetch_match2_praise_list(){
+    $type = isset($this->stash['type'])?(int)$this->stash['type']:1;
     //抽奖名单
     $digged = new Sher_Core_Model_DigList();
-    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    if($type==1){
+      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;   
+    }elseif($type==2){
+      $key_id = Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT;  
+    }else{
+      $key_id = '';
+    }
+
     $result = $digged->load($key_id);
     $praises = array();
     $praised = array();
@@ -401,9 +409,16 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     $account = isset($this->stash['account'])?$this->stash['account']:0;
     $praise = isset($this->stash['praise'])?(int)$this->stash['praise']:0;
     $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+    $type = isset($this->stash['type'])?(int)$this->stash['type']:1;
 
     $digged = new Sher_Core_Model_DigList();
-    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    if($type==1){
+      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;   
+    }elseif($type==2){
+      $key_id = Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT;  
+    }else{
+      $key_id = '';
+    }
     if($evt==0){
       $evt_new = 1;
     }else{
