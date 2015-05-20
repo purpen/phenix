@@ -20,37 +20,58 @@
 </div>
 
 {% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'asc_created' size:1 %}
-
-{% for active in current_list.rows %}
-<div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
-	<div class="ui responsive grid">
-        <div class="row">
-    		<div class="center aligned column white section-title">
-    			<!--<h2 class="block title">{{ active.title }}</h2>
-    			<p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
-    			<hr>-->
-    			<div class="buttons" style="margin-top: 195px;">
-    			    <a href="{{ active.view_url }}" class="ui white inverted button" target="_blank">
-    					<i class="ticket icon"></i> 立即报名
-    				</a>
-    			</div>
-    		</div>
-        </div>
-	</div>
-</div>
-{% else %}
-<div class="activity masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/featured-image.jpg');">
-	<div class="ui responsive grid">
-        <div class="row">
-    		<div class="center aligned column white section-title">
-    			<h2 class="block title">硬件活动</h2>
-    			<p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
-    			<hr>
-    		</div>
-        </div>
-	</div>
-</div>
-{%endfor%}
+{% if current_list.rows %}
+  {% for active in current_list.rows %}
+  <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
+    <div class="ui responsive grid">
+          <div class="row">
+          <div class="center aligned column white section-title">
+            <!--<h2 class="block title">{{ active.title }}</h2>
+            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
+            <hr>-->
+            <div class="buttons" style="margin-top: 195px;">
+                <a href="{{ active.view_url }}" class="ui white inverted button" target="_blank">
+                <i class="ticket icon"></i> 立即报名
+              </a>
+            </div>
+          </div>
+          </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="activity masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/featured-image.jpg');">
+    <div class="ui responsive grid">
+          <div class="row">
+          <div class="center aligned column white section-title">
+            <h2 class="block title">硬件活动</h2>
+            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
+            <hr>
+          </div>
+          </div>
+    </div>
+  </div>
+  {%endfor%}
+{%else%}
+  {% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'asc_created' size:1 %}
+  {% for active in current_list.rows %}
+  <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
+    <div class="ui responsive grid">
+          <div class="row">
+          <div class="center aligned column white section-title">
+            <!--<h2 class="block title">{{ active.title }}</h2>
+            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
+            <hr>-->
+            <div class="buttons" style="margin-top: 195px;">
+                <a href="{{ active.view_url }}" class="ui white inverted button" target="_blank">
+                <i class="ticket icon"></i> 查看详情
+              </a>
+            </div>
+          </div>
+          </div>
+    </div>
+  </div>
+  {% endfor %}
+{%endif%}
 
 <section class="ui big camp block">
 	<div class="ui responsive grid">
