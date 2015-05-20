@@ -9,8 +9,8 @@
 
 {% block layout_js %}
   <script type="text/javascript">
-    function ajax_change_match_praise(user, account, praise, evt, is_del){
-      $.get('/admin/dig/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt, is_del:is_del}, function(result){
+    function ajax_change_match_praise(user, account, praise, evt, is_del, type){
+      $.get('/admin/dig/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt, is_del:is_del, type:type}, function(result){
         var obj = $("div.item[praise="+ praise +"]");
         if(is_del==1){
           obj.remove();    
@@ -35,7 +35,8 @@
     var account = obj.attr('account');
     var praise = obj.attr('praise');
     var evt = obj.attr('evt');
-    ajax_change_match_praise(user, account, praise, evt, 1);
+    var type = obj.attr('type');
+    ajax_change_match_praise(user, account, praise, evt, 1, type);
     
   });
 
@@ -46,7 +47,8 @@
     var account = obj.attr('account');
     var praise = obj.attr('praise');
     var evt = obj.attr('evt');
-    ajax_change_match_praise(user, account, praise, evt, 0);
+    var type = obj.attr('type');
+    ajax_change_match_praise(user, account, praise, evt, 0, type);
   });
 
 {% endblock %}
@@ -76,7 +78,7 @@
   <div class="item-list">
     {% if dig._id=='dig_match_praise_stat' %}
       {% for d in dig.items %}
-      <div class="item" user="{{ d.user }}" account="{{ d.account }}" praise="{{ d.praise }}" evt="{{ d.evt }}">
+      <div class="item" user="{{ d.user }}" account="{{ d.account }}" praise="{{ d.praise }}" evt="{{ d.evt }}" type="1">
         ID: <span>{{ d.user }}</span> | 抽奖号: <span>{{ d.praise }}</span> | 账户名: <span>{{ d.account }}</span> | 状态: <span class="evt-box">{{ d.evt }}</span> 操作: <a href="javascript:void(0);" class="dig_match_praise_del_btn">删除</a>|<a href="javascript:void(0);" class="dig_match_praise_set_btn">更改状态</a>
       </div>
       {%endfor%}
@@ -84,7 +86,7 @@
 
     {% if dig._id=='ces_praise_stat' %}
       {% for d in dig.items %}
-      <div class="item" user="{{ d.user }}" account="{{ d.account }}" praise="{{ d.praise }}" evt="{{ d.evt }}">
+      <div class="item" user="{{ d.user }}" account="{{ d.account }}" praise="{{ d.praise }}" evt="{{ d.evt }}" type=2>
         ID: <span>{{ d.user }}</span> | 抽奖号: <span>{{ d.praise }}</span> | 账户名: <span>{{ d.account }}</span> | 状态: <span class="evt-box">{{ d.evt }}</span> 操作: <a href="javascript:void(0);" class="dig_match_praise_del_btn">删除</a>|<a href="javascript:void(0);" class="dig_match_praise_set_btn">更改状态</a>
       </div>
       {%endfor%}

@@ -107,9 +107,16 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
     $praise = isset($this->stash['praise'])?(int)$this->stash['praise']:0;
     $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
     $is_del = isset($this->stash['is_del'])?(int)$this->stash['is_del']:0;
+    $type = isset($this->stash['type'])?(int)$this->stash['type']:1;
 
     $digged = new Sher_Core_Model_DigList();
-    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    if($type==1){
+      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;   
+    }elseif($type==2){
+      $key_id = Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT;  
+    }else{
+      $key_id = '';
+    }
 
     if($evt==0){
       $evt_new = 1;
