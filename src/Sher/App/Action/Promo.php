@@ -357,6 +357,20 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
   }
 
   /**
+   * ces线下抽奖
+   */
+  public function ces_draw(){
+    //管理员权限
+    if(!$this->visitor->can_admin){
+      return $this->ajax_note("没有权限!", true); 
+    }
+
+
+		return $this->to_html_page('page/promo/ces_draw.html');
+
+  }
+
+  /**
    * ajax获取抽奖列表
    */
   public function ajax_fetch_match2_praise_list(){
