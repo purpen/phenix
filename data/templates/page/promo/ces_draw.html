@@ -150,7 +150,7 @@
   
   //ajax改变抽奖号状态
   function ajax_change_match_praise(praise,user,account,evt){
-    $.get('/promo/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt}, function(result){
+    $.get('/promo/ajax_change_match_praise', {praise:praise, user:user, account:account, evt:evt, type:2}, function(result){
       ajax_load_all();
     });
   }
