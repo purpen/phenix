@@ -363,6 +363,49 @@ h3.ui.header{
     // ... we can show it here.
     cal.show();
   }
+
+  //获取地图坐标
+  function fetch_map_point(map_x, map_y, map_matter){
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(map_x, map_y);
+
+    var marker = new BMap.Marker(point);// 创建标注
+    map.centerAndZoom(point, map_matter);
+    map.addControl(new BMap.NavigationControl());
+    map.addOverlay(marker);             // 将标注添加到地图中
+    marker.enableDragging();           // 可拖拽
+
+    marker.addEventListener("dragend",function(e){
+      $("input[name='map_x']").val(e.point.lng);
+      $("input[name='map_y']").val(e.point.lat);
+    });
+
+    map.addEventListener("zoomend", function (e) {
+      $("input[name='map_matter']").val(map.getZoom());
+    });
+    $("input[name='map_matter']").val(map.getZoom());
+  }
+
+  //获取地图搜索
+  function fetch_map_name(str, map_matter){
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(str, map_matter);
+    var point = map.getCenter();
+    var marker = new BMap.Marker(point);// 创建标注
+    map.addControl(new BMap.NavigationControl());
+    map.addOverlay(marker);             // 将标注添加到地图中
+    marker.enableDragging();           // 可拖拽
+
+    marker.addEventListener("dragend",function(e){
+      $("input[name='map_x']").val(e.point.lng);
+      $("input[name='map_y']").val(e.point.lat);
+    });
+
+    map.addEventListener("zoomend", function (e) {
+      $("input[name='map_matter']").val(map.getZoom());
+    });
+    $("input[name='map_matter']").val(map.getZoom());
+  }
   </script>
 {% endblock %}
 
@@ -376,24 +419,8 @@ h3.ui.header{
     map_y = {{ active.map_info.y }};
     map_matter = {{ active.map_info.matter }};
   {%endif%}
-  var map = new BMap.Map("allmap");
-  var point = new BMap.Point(map_x, map_y);
 
-  var marker = new BMap.Marker(point);// 创建标注
-  map.centerAndZoom(point, map_matter);
-  map.addControl(new BMap.NavigationControl());
-  map.addOverlay(marker);             // 将标注添加到地图中
-  marker.enableDragging();           // 可拖拽
-
-  marker.addEventListener("dragend",function(e){
-    $("input[name='map_x']").val(e.point.lng);
-    $("input[name='map_y']").val(e.point.lat);
-  });
-
-  map.addEventListener("zoomend", function (e) {
-    $("input[name='map_matter']").val(map.getZoom());
-  });
-  $("input[name='map_matter']").val(map.getZoom());
+  fetch_map_point(map_x, map_y, map_matter);
 
 	$('#active-form').form({
 		title: {
@@ -756,6 +783,15 @@ h3.ui.header{
       }
     });
   });
+
+  $(':input[name=map_text]').keydown(function(e){
+    if(e.keyCode==13){
+      var val = $(this).val();
+fetch_map_name(val, 15);
+
+      return false;
+    }
+  });
 	
 {% endblock %}
 
@@ -880,7 +916,7 @@ h3.ui.header{
 		<div style="margin-bottom:0.5em;">
 			<label>地图</label>
 		</div>
-		<input type="text" value=""  disabled="disabled" placeholder="点击右侧显示地图" />
+		<input type="text" value="北京" name="map_text" placeholder="点击右侧显示地图" />
 		<div type="button" value="按钮" class="map-box-btn" /></div>
       <div id="map-box">
 
