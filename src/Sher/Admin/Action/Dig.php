@@ -111,7 +111,7 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 
     $digged = new Sher_Core_Model_DigList();
     if($type==1){
-      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;   
+      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
     }elseif($type==2){
       $key_id = Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT;  
     }else{

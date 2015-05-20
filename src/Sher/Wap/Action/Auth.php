@@ -373,7 +373,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     //指定入口送抽奖码/红包
     if($this->stash['evt']=='ces_praise'){
       $this->send_match_praise($user_id, $user_info['account'], 2);
-      $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'C', 'min_amounts'=>'A'));
+      $this->give_bonus($user_id, 'D1', array('count'=>5, 'xname'=>'D1', 'bonus'=>'C', 'min_amounts'=>'A'));
     }
 		
     //周年庆活动跳到提示分享页面
