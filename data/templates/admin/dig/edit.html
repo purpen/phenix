@@ -81,6 +81,14 @@
       </div>
       {%endfor%}
     {%endif%}
+
+    {% if dig._id=='dig_ces_praise_stat' %}
+      {% for d in dig.items %}
+      <div class="item" user="{{ d.user }}" account="{{ d.account }}" praise="{{ d.praise }}" evt="{{ d.evt }}">
+        ID: <span>{{ d.user }}</span> | 抽奖号: <span>{{ d.praise }}</span> | 账户名: <span>{{ d.account }}</span> | 状态: <span class="evt-box">{{ d.evt }}</span> 操作: <a href="javascript:void(0);" class="dig_match_praise_del_btn">删除</a>|<a href="javascript:void(0);" class="dig_match_praise_set_btn">更改状态</a>
+      </div>
+      {%endfor%}
+    {%endif%}
   </div>
 	
 {% endblock %}

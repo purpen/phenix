@@ -369,6 +369,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     if($this->stash['evt']=='match2_praise'){
       $this->send_match_praise($user_id, $user_info['account']);
     }
+
+    //指定入口送抽奖码
+    if($this->stash['evt']=='ces_praise'){
+      $this->send_match_praise($user_id, $user_info['account'], 2);
+    }
 		
     //周年庆活动跳到提示分享页面
     if(Doggy_Config::$vars['app.anniversary2015.switch']){
@@ -591,9 +596,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
   /**
    *指定入口送抽奖码
    */
-  protected function send_match_praise($user_id, $account){
+  protected function send_match_praise($user_id, $account, $type=1){
     $digged = new Sher_Core_Model_DigList();
-    $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+    if($type==1){
+      $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;   
+    }elseif($type==2){
+      $key_id = Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT;   
+    }else{
+      $key_id = '';
+    }
+
     $result = $digged->load($key_id);
     //统计奖品号
     $items_arr = array();
