@@ -150,7 +150,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
     	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 		
 		// 输出Excel列名信息
-		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '地址', '状态', '领域', '兴趣');
+		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '地址', '状态');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
 			// $head[$i] = iconv('utf-8', 'gbk', $v);
@@ -195,12 +195,8 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
         }elseif($state==2){
           $stat_str = '拒绝';       
         }
-        
-        switch($result['rows'][$i]['option01']){
-          case 1
-        }
 				
-				$row = array($user['_id'], $number, $realname, $phone, $company, $job, $address, $stat_str, Sher_Core_Util_Constant::birdegg_area_options($result['rows'][$i]['option01']),Sher_Core_Util_Constant::birdegg_interest_options($result['rows'][$i]['option02']));
+				$row = array($user['_id'], $number, $realname, $phone, $company, $job, $address, $stat_str);
 				
 				/*
 				foreach($row as $k => $v){
