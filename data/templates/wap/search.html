@@ -259,9 +259,9 @@
 					{% for item in result.data %}
 						{% if item %}
             <div class="item" id="item-{{ item.pid }}">
-              {% if item.cover_id %}
+             <!-- {% if item.cover_id %}
 							  	<img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" />
-              {%endif%}
+              {%endif%}-->
 							<div class="content">
 								<div class="header">
 							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
