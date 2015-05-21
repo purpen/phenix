@@ -51,7 +51,7 @@
 	.ui.list .item>img{
 		margin-top: 1rem;
 		margin-left: 0rem;
-		margin-bottom: 0.5rem;
+		margin-bottom: 1rem;
 	}
 	#searchpage .idea.tags .ui.line {
 	  margin-right: .85em;
@@ -261,7 +261,7 @@
 						{% if item %}
             <div class="item" id="item-{{ item.pid }}">
               {% if item.cover_id %}
-							  	<img width="180px" src="{{ item.asset.thumbnails.small.view_url }}" />
+							  	<img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" />
               {%endif%}
 							<div class="content">
 								<div class="header">
