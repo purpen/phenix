@@ -27,6 +27,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'VA', # 情人节红包20
         'RE', # 注册送
         'IV', # 邀请送
+        'D1', # 线下活动,注册抽奖(ces,大赛)
 	);
 	
     protected $schema = array(

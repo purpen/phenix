@@ -27,6 +27,9 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
             case Sher_Core_Util_Constant::DIG_XUN_SEARCH_LAST_TIME:
               $str = '搜索定时统计(记录最后一次创建时间点)';
               break;
+            case Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT:
+              $str = 'CES线下抽奖';
+              break;
             default:
                 $str = '未定义';
         }

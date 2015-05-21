@@ -19,7 +19,7 @@ class Sher_App_Action_Captcha extends Sher_App_Action_Base {
     public function view(){
     	session_start();
     	$captcha = new Sher_Core_Util_Captcha();
-    	return $captcha->create(6, array('width'=>20, 'height'=>30));
+    	return $captcha->create(4, array('width'=>20, 'height'=>30));
   	}
 
   	/**
