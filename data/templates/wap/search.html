@@ -1,0 +1,93 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin: 0em 0 3em;
+	}
+	.search.item .ui.icon.input>input~.icon {
+	  border-left: 1px solid rgba(244,33,86,.9);
+	  color: rgba(255,255,255,.9);
+	  background-color: #f36;
+	  cursor: pointer;
+	  opacity: 1;
+	}
+	.search.item .ui.icon.input>.icon {
+	  border-left: 1px solid rgba(0,0,0,.25);
+	}
+	.ui.icon.input>.icon {
+	  cursor: default;
+	  position: absolute;
+	  opacity: .5;
+	  top: 0;
+	  right: 0;
+	  margin: 0;
+	  width: 2.6em;
+	  height: 100%;
+	  padding-top: .82em;
+	  text-align: center;
+	  border-radius: 0 .2125em .2125em 0;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	//最新
+  $('.ui.lastest.button').click(function(){
+    phenix.redirect("{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=1");
+  });
+  //相关度
+  $('.ui.relation.button').click(function(){
+    phenix.redirect("{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0");
+  });
+	
+{% endblock %}
+{% block content %}
+<section class="social search catemenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ten wide column white section-title">
+                <h1 class="block title">高级搜索</h1>
+				<form class="ui form" action="{{ app_url_search }}" method="get">
+                 	<div class="ui icon input">
+                		<input name="q" type="text" value="{{ q }}" />
+                		<input name="t" type="hidden" value="{{ t }}" />
+                		<i class="search icon"></i>
+                	</div>
+                </form>
+                <div class="suggest">
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=智能睡眠灯" class="ui link">智能睡眠灯</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=智能配奶机" class="ui link">智能配奶机</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=十万火计" class="ui link">十万火计</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=蛋年" class="ui link">蛋年创新大会</a>
+                        </div>
+                    </div>
+                    
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
