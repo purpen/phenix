@@ -179,6 +179,12 @@ server {
           	rewrite ^/birdegg/(\d+)-(\d+).html$ /app/wap/birdegg/view?id=$1&page=$2 last;
 			rewrite ^/birdegg(.*)$ /app/wap/birdegg$1 last;
 		}
+		
+		location /search {
+		     rewrite ^/search[/]?$ /app/wap/search last;
+		     rewrite ^/search/([^/]+)[/]?$ /app/wap/search?q=$1 last;
+		     rewrite ^/search/(\d+)/([^/]+)/p(\d+).html$ /app/wap/search?t=$1&q=$2&page=$3 last;
+		}
 	
 	location /__file_result__/ {
 	    internal;
