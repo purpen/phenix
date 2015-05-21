@@ -222,7 +222,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="ui twelve wide column">
+			<div class="column">
 				<div class="search result">
 					<div class="ui search selection list">
 					{% for item in result.data %}
@@ -267,7 +267,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="column">
+			<div class="ui center aligned column">
 				{% if result.total_count %}
 					{% pager url:pager_url,total_rows:result.total_count,total_page:result.total_page,current_page:page,var:'pager',pager_size:9 %}
 					{%include 'block/pager.html'%}
