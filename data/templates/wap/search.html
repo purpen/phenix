@@ -61,7 +61,7 @@
 		color:#f36;
 	}
 	.ui.search.list>.item>.image+.content{
-		max-width:53%;
+		display: inherit !important;
 	}
 	.searcmu.buttons > .button{
 		min-width:86px;
@@ -257,7 +257,7 @@
 						{% if item %}
             <div class="item" id="item-{{ item.pid }}">
               {% if item.cover_id %}
-							  	<img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" />
+							  	<img width="120px" src="{{ item.asset.thumbnails.small.view_url }}" />
               {%endif%}
 							<div class="content">
 								<div class="header">
