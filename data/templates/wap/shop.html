@@ -2,9 +2,7 @@
 {% block title%}太火鸟商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  i.angle.down{
-		float:right;
-	}
+
 </style>
 {% endblock %}
 
@@ -46,7 +44,7 @@
 				{% else %}
 			    <div class="default text">全部类别</div>
 				{% endif %}
-			    <i class="angle down icon"></i>
+			    <i class="angle down dropdown icon"></i>
 			    <div class="menu">
 					{% for cat in category.rows %}
 				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
