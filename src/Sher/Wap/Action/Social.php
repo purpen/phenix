@@ -173,6 +173,10 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     $this->stash['comment_target_id'] = $topic['_id'];
     $this->stash['comment_target_user_id'] = $topic['user_id'];
     $this->stash['comment_type'] = 2;
+	'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+	 $this->_comment_param($comment_options);
 
     //微信分享
     $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
