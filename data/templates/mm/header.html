@@ -1,22 +1,22 @@
 <header class="ui wap">
 	<div class="ui responsive two column grid">
 		<div class="middle aligned row">
-			<div class="ui three wide column" style="width:18.75%;">
+			<div class="column">
 				<h4 class="ui header">
 					<a href="{{ app_url_wap }}" class="ui link">
 						<img src="{{ app_url_packaged }}/images/logo-home.png" class="ui tiny image" />
 					</a>
 				</h4>
 			</div>
-			<div class="ui ten center aligned wide column" style="width:62.5%;">
+			<!--<div class="ui ten center aligned wide column" style="width:62.5%;">
 					<form class="search item" method="post" action="{{ app_url_wap }}/search" id="searchbar">
 					 	<div class="ui icon input">
 							<input name="q" type="text" value="{{ q }}" />
 							<i class="search icon"></i>
 						</div>
 					</form>
-			</div>
-			<div class="right three wide aligned column" style="width:18.75%;">
+			</div>-->
+			<div class="right aligned column">
         <!--
 				<a href="{{ app_url_wap }}/shop/cart" class="ui small icon gray basket button">
 					{% if items_count > 0 %}
@@ -27,6 +27,9 @@
 					<i class="cart icon"></i>
 				</a>
         -->
+				<a class="ui small icon gray button" href="{{ app_url_wap }}/search">
+					<i class="search icon"></i>
+				</a>
 				{% if visitor %}
 				<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
 			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
