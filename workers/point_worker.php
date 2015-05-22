@@ -93,29 +93,32 @@ for ($i = 0; $i < $cnt; $i++) {
     $make_point = false;
     if ($daily_limit > 0) {
         $_day_key = "d$evt_day";
-        $today_cnt = isset($user_quota_row['daily_point_limit'][$_day_key])?$user_quota_row['daily_point_limit'][$_day_key]: 0;
+        $today_cnt = isset($user_quota_row['daily_point_limit'][$_day_key][$evt_code][$award_point_type])?$user_quota_row['daily_point_limit'][$_day_key][$evt_code][$award_point_type]: 0;
+
         $delta = intval($daily_limit) - intval($today_cnt);
         if ($delta <= 0) {
             echo "Exceed DAILY QUOTA => User $user_id EVT: $evt_code DAY:$evt_day LIMIT: $daily_limit\n";
             $evt_model->mark_done($record_id, $make_point);
             continue;
         }
+        //统计的每天上限次数而不是积分总量,已注掉by tianshuai
         if ($delta < $award_point_amount) {
-            $award_point_amount = $delta;
+            //$award_point_amount = $delta;
         }
     }
     if ($month_limit > 0) {
         // check month quota
         $_month_key = "m$evt_month";
-        $this_month_cnt = isset($user_quota_row['month_point_limit'][$_month_key])?$user_quota_row['month_point_limit'][$_month_key]: 0;
+        $this_month_cnt = isset($user_quota_row['month_point_limit'][$_month_key][$evt_code][$award_point_type])?$user_quota_row['month_point_limit'][$_month_key][$evt_code][$award_point_type]: 0;
         $month_delta = intval($month_limit) - intval($this_month_cnt);
         if ($month_delta <= 0) {
             echo "Exceed MONTHLY QUOTA => User $user_id EVT: $evt_code MONTH:$evt_month LIMIT: $month_limit\n";
             $evt_model->mark_done($record_id, $make_point);
             continue;
         }
+        //统计的每月上限次数而不是积分总量,已注掉by tianshuai
         if ($month_delta < $award_point_amount) {
-            $award_point_amount = $month_delta;
+            //$award_point_amount = $month_delta;
         }
     }
 
