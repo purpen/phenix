@@ -163,7 +163,7 @@ class Sher_Wap_Action_Search extends Sher_Wap_Action_Base {
 			$this->set_target_css_state('vote');
 		}
         
-		return $this->to_html_page('page/search_old.html');
+		return $this->to_html_page('wap/search.html');
 	}
 	
 	/**

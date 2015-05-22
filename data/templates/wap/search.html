@@ -174,13 +174,12 @@
 		<div class="row">
 			<div class="ten wide column white section-title">
                 <h1 class="block title">高级搜索</h1>
-				<form class="ui form" action="{{ app_url_search }}" method="get">
-                 	<div class="ui icon input">
-                		<input name="q" type="text" value="{{ q }}" />
-                		<input name="t" type="hidden" value="{{ t }}" />
-                		<i class="search icon"></i>
-                	</div>
-                </form>
+								<form class="search item" method="post" action="{{ app_url_domain }}/search" id="searchbar">
+								 	<div class="ui icon input">
+										<input name="q" type="text" value="{{ q }}" />
+										<i class="search icon"></i>
+									</div>
+								</form>
                 <div class="suggest">
                     <div class="ui horizontal list">
                         <div class="item">
