@@ -139,6 +139,8 @@
 
     //图片上传弹出按钮
     $('.comment-upload-btn').click(function(){
+			log();
+			alert(123);
       $('.comment-insert-img').modal('show');
       return false; 
     });
@@ -461,5 +463,4 @@
 		</form>
 	</div>
 </div>
-{% include "block/qrcode.html" %}
 {% endblock %}
