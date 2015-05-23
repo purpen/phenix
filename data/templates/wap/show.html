@@ -139,8 +139,6 @@
 
     //图片上传弹出按钮
     $('.comment-upload-btn').click(function(){
-			log();
-			alert(123);
       $('.comment-insert-img').modal('show');
       return false; 
     });
@@ -393,6 +391,7 @@
 	</section>
 
 </div>
+<div class="ui page dimmer">
 <div class="ui comment-insert-img small modal transition">
   	<i class="flat close icon"></i>
 	<div class="header">
@@ -462,5 +461,6 @@
 			</div>
 		</form>
 	</div>
+</div>
 </div>
 {% endblock %}
