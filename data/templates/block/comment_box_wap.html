@@ -155,6 +155,7 @@
 
 {% block layout_js %}
 <script type="text/javascript">
+alert(123);
   //编辑器指定插入位置
   (function($){
       $.fn.extend({
@@ -201,7 +202,6 @@
 
     //图片上传弹出按钮
     $('.comment-upload-btn').click(function(){
-				alert(123);
       $('.comment-insert-img').modal('show');
       return false; 
     });
