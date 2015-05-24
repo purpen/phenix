@@ -129,6 +129,7 @@ if(!empty($is_exist)){
 
       $ok = $user_point_stat_model->create($data);
       if($ok){
+        $total++;
         echo "create success id: , user_id: $user_id.. \n";
       }else{
         echo "create fail!";
