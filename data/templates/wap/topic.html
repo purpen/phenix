@@ -22,6 +22,27 @@
 					</div>
 				</div>
 			</div>
+			
+			{% if process_saled %}
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
+				<div class="ui fluid selection dropdown">
+					{% if current %}
+					<div class="default text">{{ current.title }}</div>
+					{% else %}
+				    <div class="default text">全部类别</div>
+					{% endif %}
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+						{% for cat in category.rows %}
+					  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/topic?cid={{ cat._id }}">{{ cat.title }}</a>
+						{% endfor %}
+				    </div>
+				</div>
+			</div>
+		</div>
+			
 			<div class="row">
 				<div class="column">
 					{% category_list var:'category' only_open:1 domain:2 istop:1 %}
