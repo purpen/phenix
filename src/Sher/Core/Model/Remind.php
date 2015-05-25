@@ -38,6 +38,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const EVT_VOTE_FAVOR = 13;
     # 投票-反对
     const EVT_VOTE_OPPOSE = 14;
+    # 回复评论
+    const EVT_REPLY_COMMENT = 15;
 
     // 类型
     const KIND_TOPIC = 1; //话题
@@ -93,8 +95,10 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
         $obj = null;
+        $r_obj = null;
         $info = null;
         $kind_str = null;
+        $c_type_str = null;
         switch ($row['kind']) {
             case self::KIND_TOPIC:
                 $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Topic');
@@ -106,6 +110,27 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 break;
             case self::KIND_COMMENT:
                 $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Comment');
+                if($obj){
+                  switch ($obj['type']) {
+                    case 2:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Topic');
+                      $c_type_str = '话题';
+                      break;
+                    case 3:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Try');
+                      $c_type_str = '新品试用';
+                      break;
+                    case 4:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Product');
+                      $c_type_str = '创意产品';
+                      break;
+                    case 6:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Stuff');
+                      $c_type_str = '创意灵感';
+                      break;
+                  }
+                
+                }
                 $kind_str = '评论';
                 break;
             case self::KIND_TRY:
@@ -144,9 +169,14 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
             case self::EVT_LOVE:
                 $info = "赞了你的";
                 break;
+            case self::EVT_REPLY_COMMENT:
+                $info = "回复了你的";
+                break;
         }
         
         $row['target'] = $obj;
+        $row['comment_target'] = $r_obj;
+        $row['comment_type_str'] = $c_type_str;
         $row['info'] = $info;
         $row['kind_str'] = $kind_str;
     }

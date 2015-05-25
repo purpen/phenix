@@ -235,12 +235,18 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	        $comment_user = $this->extend_load($comment_id);
 	        
 	        // 给用户添加提醒
-	        if($ok){
-	          $user = new Sher_Core_Model_User();
-	          $user->update_counter_byinc($comment_user['user_id'], 'comment_count', 1);     
-	        }
+          $remind = new Sher_Core_Model_Remind();
+          $arr = array(
+              'user_id'=> $comment_user['user_id'],
+              's_user_id'=> $user_id,
+              'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
+              'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
+              'related_id'=> $comment_user['_id'],
+              'parent_related_id'=> $comment_user['target_id'],
+          );
+          $ok = $remind->create($arr);    
 	        return $reply_row;
-		}
+		  }
 	   	return null;
     }
 

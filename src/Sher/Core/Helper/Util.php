@@ -517,5 +517,42 @@ class Sher_Core_Helper_Util {
       }
       
     }
+
+
+  /**
+   *获取当前是一年的第几周
+   */
+  public static function get_week_now($stamp=0){
+    if($stamp){
+      $datearr = getdate((int)$stamp);   
+    }else{
+      $datearr = getdate();   
+    }
+    $year = strtotime($datearr['year'].'-1-1');
+    $startdate = getdate($year);
+    $firstweekday = 7-$startdate['wday'];//获得第一周几天
+    $yday = $datearr['yday']+1-$firstweekday;//今年的第几天
+    return ceil($yday/7)+1;//取到第几周
+  }
+
+  /**
+   *获取自然周的开始日期和结束日期
+   */
+  function get_week_date($year, $weeknum){
+    $firstdayofyear=mktime(0,0,0,1,1,$year);
+    $firstweekday=date('N',$firstdayofyear);
+    $firstweenum=date('W',$firstdayofyear);
+    if($firstweenum==1){
+      $day=(1-($firstweekday-1))+7*($weeknum-1);
+      $startdate=date('Y-m-d',mktime(0,0,0,1,$day,$year));
+      $enddate=date('Y-m-d',mktime(0,0,0,1,$day+6,$year));
+    }else{
+      $day=(9-$firstweekday)+7*($weeknum-1);
+      $startdate=date('Y-m-d',mktime(0,0,0,1,$day,$year));
+      $enddate=date('Y-m-d',mktime(0,0,0,1,$day+6,$year));
+    }
+     
+    return array($startdate,$enddate);
+  }
     	
 }
