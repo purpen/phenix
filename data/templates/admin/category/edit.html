@@ -137,12 +137,15 @@
 			  	<label for="tags">分类标签：</label>
 				<textarea rows="3" name="tags" class="small">{{ category.tags_s }}</textarea>
 				<div class="ui pointing top label">
-					分类标签，含：近义词、同类词、英文词!
+					分类标签，含：近义词、同类词、英文词! 同时用于网站meta_keys关键字优化
 				</div>
 			</div>
 			<div class="inline field">
 			  	<label for="tags">分类描述：</label>
 				<textarea rows="3" name="summary" class="small">{{ category.summary }}</textarea>
+				<div class="ui pointing top label">
+					用于网站meta_description搜索优化
+				</div>
 			</div>
 			
 			<input type="submit" class="ui magenta inverted button" value="确认保存">

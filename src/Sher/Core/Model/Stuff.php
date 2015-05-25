@@ -39,6 +39,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'fid' => 0,
 		
 	    'title' => '',
+      'short_title' => '',
         'description' => '',
     	'tags' => array(),
         'like_tags' => array(),
@@ -133,6 +134,10 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         }else{
             $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
         }
+
+		if(!isset($row['short_title']) || empty($row['short_title'])){
+			$row['short_title'] = $row['title'];
+		}
         
 		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';

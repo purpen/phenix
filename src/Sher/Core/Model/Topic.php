@@ -16,6 +16,13 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	# 推荐
 	const STICK_EDITOR = 1;
 	const STICK_HOME = 2;
+
+  #标题颜色
+  const T_COLOR_NULL = 0;
+  const T_COLOR_RED = 1;
+  const T_COLOR_BLUE = 2;
+  const T_COLOR_GREEN = 3;
+  const T_COLOR_YELLOW = 4;
 	
     protected $schema = array(
 	    'user_id' => null,
@@ -32,8 +39,12 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     	'active_id' => 0,
 		
 	    'title' => '',
+      'short_title' => '',
         'description' => '',
     	'tags' => array(),
+
+      # 标题颜色
+      't_color' => 0,
 		
  		'cover_id' => '',
 		'asset' => array(),
@@ -76,7 +87,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published');
+	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color');
 	
 	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	
@@ -158,6 +169,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		$row['view_url'] = Sher_Core_Helper_Url::topic_view_url($row['_id']);
 		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $row['_id'], 0);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+
+		if(!isset($row['short_title']) || empty($row['short_title'])){
+			$row['short_title'] = $row['title'];
+		}
         
 		if(isset($row['description'])){
 			// 转码

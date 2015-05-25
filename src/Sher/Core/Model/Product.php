@@ -20,6 +20,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'taobao_iid' => null,
 		# 产品名称
 	    'title'   => '',
+    # 短标题
+      'short_title' => '',
 		# 优势/亮点
 		'advantage' => '',
 		# 简述
@@ -255,6 +257,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
 		if(!isset($row['view_url']) || empty($row['view_url'])){
 			$row['view_url'] = $this->gen_view_url($row);
+		}
+		if(!isset($row['short_title']) || empty($row['short_title'])){
+			$row['short_title'] = $row['title'];
 		}
 		$row['mm_view_url'] = sprintf(Doggy_Config::$vars['app.url.mm_shop.view'], $row['_id']);
 		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $row['_id']);

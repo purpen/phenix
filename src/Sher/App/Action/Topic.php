@@ -678,7 +678,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		$model = new Sher_Core_Model_Topic();
 		$topic = $model->load((int)$this->stash['id']);
-		// 仅管理员或本人具有删除权限
+		// 仅管理员或本人具有权限
 		if (!$this->visitor->can_admin() && !($topic['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
@@ -749,6 +749,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['cover_id'] = $this->stash['cover_id'];
 		
 		$data['try_id'] = $this->stash['try_id'];
+
+    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+    $data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
