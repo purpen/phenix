@@ -50,6 +50,9 @@ class Sher_Core_Model_UserPointStat extends Sher_Core_Model_Base  {
 
   protected $int_fields = array('state', 'user_id', 'kind', 'user_grade');
 
+	protected $joins = array(
+	  'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+	);
 
 	/**
 	 * 扩展数据
