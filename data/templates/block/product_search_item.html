@@ -39,7 +39,7 @@
 		</h4>
 		<div class="schedule p-sell">
 			{% if item.product.stage == 5 %}
-     	   	<div class="ui magenta progress">
+     	   	<div class="ui magenta tiny progress">
         		<div class="bar" style="width:{{ item.product.presale_percent }}%;"></div>
       	  	</div>
         	<div class="status clearfix">
@@ -58,7 +58,7 @@
       	  	{%endif%}
 			
       	  	{% if item.product.stage == 9 %}
-        	<div class="ui magenta progress">
+        	<div class="ui magenta tiny progress">
           	  	<div class="bar" style="width:0%;"></div>
         	</div>
         	<div class="status clearfix">
