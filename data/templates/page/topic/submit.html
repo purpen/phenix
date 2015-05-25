@@ -266,6 +266,32 @@
 							<label for="title">标题</label>
 						  	<input type="text" name="title" value="{{ topic.title }}" />
 						</div>
+            
+            {% if visitor.can_admin %}
+            <div class="four fields">
+              <div class="field">
+                <label for="title">{{ label_title }}短标题</label>
+                  <input type="text" name="short_title" value="{{ topic.short_title }}" />
+              </div>
+
+              <div class="field">
+                  <label for="t_color">标题背景颜色</label>
+                <div class="ui fluid selection dropdown">
+                  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
+                    <div class="default text">请选择</div>
+                    <i class="angle down icon"></i>
+                    <div class="menu" style="z-index:9999;">
+                      <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
+                      <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
+                      <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
+                      <div data-value="3" class="{% if topic.t_color == 3 %}active {% endif %}item">绿色</div>
+                    </div>
+                  </div>
+              </div>
+
+            </div>
+
+            {%endif%}
 					
 						<div class="field">
 							<label for="description">描述</label>

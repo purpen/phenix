@@ -287,6 +287,14 @@
 							<label for="title">{{ label_title }}名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
+            {% if visitor.can_admin %}
+            <div class="four fields">
+              <div class="field">
+                <label for="title">{{ label_title }}短标题</label>
+                  <input type="text" name="short_title" value="{{ stuff.short_title }}" />
+              </div>
+            </div>
+            {%endif%}
                         
 						<div class="field">
 							<label>{{ label_title }}标签</label>
