@@ -8,6 +8,13 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 	public $stash = array(
 		'page' => 1,
 		'size' => 50,
+    's' => 1,
+    'month' => '',
+    'week' => '',
+    'month_sort' => 0,
+    'week_sort' => 0,
+    'sort_point' => 0,
+    'sort_money' => 0,
 	);
 	
 	public function _init() {
@@ -25,7 +32,8 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+
+    $this->set_target_css_state('all');
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_stat?page=#p#');

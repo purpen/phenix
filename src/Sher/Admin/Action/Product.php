@@ -113,6 +113,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
+
+    //短标题
+    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		
 		// 投票时间
 		$data['voted_start_time'] = $this->stash['voted_start_time'];
@@ -189,7 +192,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 
       //如果设置积分兑换,判断鸟币与兑换金额准确
       if(!empty($data['exchanged'])){
-        if((Sher_Core_Util_Shopping::bird_coin_transf_money($data['max_bird_coin']) + $data['exchange_price']) != $data['sale_price']){
+        if(Sher_Core_Util_Shopping::bird_coin_transf_money($data['max_bird_coin']) > $data['sale_price']){
    			  return $this->ajax_json('积分兑换数据输入不准确！', true);       
         }
       }

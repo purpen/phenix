@@ -19,6 +19,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $schema = array(
 		'title' => '',
+    'short_title' => '',
 		# 简述，活动亮点
 		'description' => '',
 		# 内容，详细说明
@@ -73,9 +74,13 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	/**
 	 * 扩展关联数据
 	 */
-    protected function extra_extend_model_row(&$row) {
+  protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = sprintf(Doggy_Config::$vars['app.url.try.view'], $row['_id']);
     	$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.try.view'], $row['_id']);
+
+		if(!isset($row['short_title']) || empty($row['short_title'])){
+			$row['short_title'] = $row['title'];
+		}
 		
 		# 审核通过人数
 		$row['pass_count'] = count($row['pass_users']);
@@ -98,7 +103,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 			}
 		}
 		
-    }
+  }
 	
 	/**
 	 * 批量更新附件所属
