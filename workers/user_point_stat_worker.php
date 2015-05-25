@@ -64,8 +64,12 @@ if(!empty($is_exist)){
     echo "begining stat....... \n";
     for ($i=0; $i<$max; $i++) {
       $user_id = (int)$list[$i]['_id']['user_id'];
-      $exp = $list[$i]['exp'];
-      $money = $list[$i]['money'];
+      $exp = (int)$list[$i]['exp'];
+      $money = (int)$list[$i]['money'];
+      // 遇到升级或用户鸟币消费,则跳过不统计
+      if($exp<0 || $money<0){
+        continue;
+      }
 
       //查询上一次所在周
       $exp_week = 0;
@@ -129,6 +133,7 @@ if(!empty($is_exist)){
 
       $ok = $user_point_stat_model->create($data);
       if($ok){
+        $total++;
         echo "create success id: , user_id: $user_id.. \n";
       }else{
         echo "create fail!";
