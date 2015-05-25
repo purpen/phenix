@@ -26,6 +26,7 @@ class Sher_Core_ViewTag_UserPointStatList extends Doggy_Dt_Tag {
       $month_latest = 0;
       $kind = 0;
       $state = 0;
+      $sort = 0;
 
 		
         $var = 'list';
@@ -48,9 +49,11 @@ class Sher_Core_ViewTag_UserPointStatList extends Doggy_Dt_Tag {
       }
       if($week){
         $query['week'] = (int)$week;
+        $query['week_latest'] = 1;
       }
       if($month){
         $query['month'] = (int)$month;
+        $query['month_latest'] = 1;
       }
       if($week_latest){
         $query['week_latest'] = 1;
@@ -63,6 +66,29 @@ class Sher_Core_ViewTag_UserPointStatList extends Doggy_Dt_Tag {
       }
       if($kind){
         $query['kind'] = (int)$kind;
+      }
+
+      if($sort){
+        switch((int)$sort){
+          case 1:
+            if($week){
+              $sort_field = 'week_point';           
+            }elseif($month){
+              $sort_field = 'month_point';           
+            }else{
+              $sort_field = 'sort_point';           
+            }
+            break;
+          case 2:
+            if($week){
+              $sort_field = 'week_money';           
+            }elseif($month){
+              $sort_field = 'month_money';           
+            }else{
+              $sort_field = 'sort_money';
+            }
+            break;
+        }
       }
 
 		

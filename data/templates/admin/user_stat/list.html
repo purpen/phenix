@@ -2,6 +2,12 @@
 {% block page_css %}
 {% endblock %}
 
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+{%endblock%}
+
 {% block content %}
 	<h3 class="ui header">用户积分统计</h3>
 	
@@ -37,6 +43,39 @@
 		</div>
 	</div>
   -->
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/user_stat" method="get" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="month" placeholder="月份: 201505" value="{{ month }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="week" placeholder="周: 201520" value="{{ week }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+
+			</div>
+			<div class="five fields">
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="s" value="{{ s }}" />
+					    <div class="default text">排序</div>
+					    <div class="menu">
+							<div data-value="1" class="{% if s==1 %}active {% endif %}item">积分</div>
+							<div data-value="2" class="{% if s == 2 %}active {% endif %}item">鸟币</div>
+					    </div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
+	</div>
 	
 	<table class="ui table segment">
 		<thead>
@@ -52,7 +91,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% user_point_stat_list var:'list' kink:1 state:1 size:50 %}
+			{% user_point_stat_list var:'list' sort:s week:week month:month kind:1 state:1 size:50 %}
 			
 			{% for b in list.rows %}
 			<tr id="{{ b._id }}">
