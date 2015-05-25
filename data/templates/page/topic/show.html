@@ -529,6 +529,9 @@
 					<div class="ui header">
 						<a class="ui small avatar icard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
 				      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+									{% if topic.user.kind==1 %}
+									<img src="{{ app_url_packaged }}/images/V.png" class="image-WV">
+                  {%endif%}
 						</a>
 						<div class="content">
 							{{ topic.title }}
@@ -572,7 +575,7 @@
 					<div class="idea tags">
 						{% for tag in topic.tags %}
 						{% if tag %}
-						<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui line">
+						<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
 							# {{ tag }}
 						</a>
 						{% endif %}

@@ -100,6 +100,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     
     # 大赛抽奖统计
     const DIG_MATCH_PRAISE_STAT = 'dig_match_praise_stat';
+
+    #CES线下抽奖
+    const DIG_CES_PRAISE_STAT = 'ces_praise_stat';
 	
 	const FEATURED_STUFF = 'featured_stuff_list';
 

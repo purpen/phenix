@@ -36,6 +36,8 @@ apply the script
     $ v.switch taihuoniao
     $ pip install -r requirements.txt
 
+    quit env: deactivate
+
 
 # Running supervisord daemon
 

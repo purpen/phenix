@@ -1,0 +1,147 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+{%endblock%}
+
+{% block content %}
+	<h3 class="ui header">用户积分统计</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/user_stat" class="{{ css_all }} item">
+			全部
+		</a>
+
+    <!--
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/block/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+      -->
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/block" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/user_stat" method="get" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="month" placeholder="月份: 201505" value="{{ month }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="week" placeholder="周: 201520" value="{{ week }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+
+			</div>
+			<div class="five fields">
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="s" value="{{ s }}" />
+					    <div class="default text">排序</div>
+					    <div class="menu">
+							<div data-value="1" class="{% if s==1 %}active {% endif %}item">积分</div>
+							<div data-value="2" class="{% if s == 2 %}active {% endif %}item">鸟币</div>
+					    </div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>用户</th>
+				<th>天/积/鸟</th>
+				<th>周/积/鸟</th>
+				<th>月/积/鸟</th>
+				<th>总^积/鸟/等级</th>
+				<th>状 态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% user_point_stat_list var:'list' sort:s week:week month:month kind:1 state:1 size:50 %}
+			
+			{% for b in list.rows %}
+			<tr id="{{ b._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+					<a class="ui image label link" href="{{ b.user.home_url }}" target="_blank">
+					  	<img src="{{ b.user.mini_avatar_url }}">
+					  	{{ b.user.nickname }}
+					</a>
+				</td>
+				<td>
+          {{ b.day }}|{{ b.day_point_cnt }}/{{ b.day_money_cnt }}
+				</td>
+				<td>
+          {{ b.week }}|{{ b.week_point_cnt }}/{{ b.week_money_cnt }}
+				</td>
+				<td>
+          {{ b.month }}|{{ b.month_point_cnt }}/{{ b.month_money_cnt }}
+				</td>
+				<td>
+          {{ b.total_point }}/{{ b.total_money }}/{{ b.user_grade }}
+				</td>
+        <td>
+          {{ b.state }}
+        </td>
+        <td>
+          --
+          <!--
+          <a href="{{ app_url_admin }}/user_stat/deleted?id={{ b._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+          -->
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

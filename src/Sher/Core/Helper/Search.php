@@ -95,5 +95,44 @@ class Sher_Core_Helper_Search {
 		return $asset;
 	}
 
+  /**
+   * 获取对象属性
+   */
+  public static function kind_name($kind, $cid=0){
+    $cid = (int)$cid;
+ 		switch($kind) {
+			case 'Topic':
+				$kind_name = '话题';
+				break;
+			case 'Stuff':
+        if($cid==1){
+          $kind_name = '大赛作品';
+        }elseif($cid==2){
+          $kind_name = '蛋年作品';
+        }else{
+          $kind_name = '产品灵感';
+        }
+				break;
+			case 'Product':
+        if($cid==1){
+          $kind_name = '创意投票';
+        }elseif($cid==5){
+          $kind_name = '预售商品';
+        }elseif($cid==9){
+          $kind_name = '商品';
+        }elseif($cid==12){
+          $kind_name = '积分兑换';
+        }else{
+          $kind_name = '';
+        }
+				break;
+			default:
+				$kind_name = '';
+		}
+		
+		return $kind_name; 
+  
+  }
+
 }
 

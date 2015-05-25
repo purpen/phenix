@@ -109,35 +109,37 @@ public function __construct() {
     try{
       $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
       $search = $xs->search; // 获取 搜索对象
-
+      $condition = '';
       //类型
       if($t){
         switch($t){
           case 1:
-            $str_f = sprintf('kind:Product cid:9 %s', $str_f);
+            $condition .= 'kind:Product cid:9 ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 5:
-            $str_f = sprintf('kind:Product cid:1 %s', $str_f);
+            $condition .= 'kind:Product cid:1 ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 2:
-            $str_f = sprintf('kind:Topic %s', $str_f);
+            $condition .= 'kind:Topic ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 4:
-            $str_f = sprintf('kind:Stuff %s', $str_f);
+            $condition .= 'kind:Stuff ';
+            $str_f = sprintf('%s%s', $condition, $str);
             break;
-            
         }
       }
 
       //是否搜索标签
       if($evt=='tag'){
-        $str_f = sprintf('tags:%s ', $str_f);
+        $str_f = sprintf('%stags:%s', $condition, $str);
       }else{
-        $search->addWeight('title', $str); // 增加附加条件：提升标题中包含 'xunsearch' 的记录的权重       
+        $search->addWeight('title', $str); // 增加附加条件：提升标题中包含 关键字 的记录的权重       
       }
 
       $search->setQuery($str_f); // 设置搜索语句
-
 
       //排序
       if(!empty($sort)){

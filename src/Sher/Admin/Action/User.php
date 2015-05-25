@@ -161,11 +161,13 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	 * 更新用户信息
 	 */
 	public function modify(){
-		if(empty($this->stash['_id']) || empty($this->stash['mentor'])){
+		if(empty($this->stash['_id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
 		$user_id = (int)$this->stash['_id'];
 		$model = new Sher_Core_Model_User();
+    $mentor = isset($this->stash['mentor'])?(int)$this->stash['mentor']:0;
+    $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:0;
 		// 验证是否有某人
 		$user = $model->load($user_id);
 		if(empty($user)){
@@ -173,7 +175,8 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		}
 		
 		try{
-			$ok = $model->update_mentor($user_id, (int)$this->stash['mentor']);
+			$ok = $model->update_mentor($user_id, $mentor);
+			$model->update_kind($user_id, $kind);
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('Update failed: '.$e->getMessage(), true);
 		}

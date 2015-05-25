@@ -93,11 +93,15 @@
                         {%endif%}
                         <div class="content">
                           <a href="{{ d.s_user.home_url }}" class="ui link header inline" target="_blank">{{ d.s_user.nickname }}</a>
+
                           <div class="description fsize inline">
                             <span>{{ d.info }}</span><span>{{ d.kind_str }}</span>
                           </div>
                           {% if d.kind==3 %}
                             <span>{{ d.target.content_original }}</span>
+                          {% if d.kind==3 %}
+                           <a class="ui link" href="{{ d.comment_target.view_url }}" target="_blank">查看原文</a>
+                          {%endif%}
                           {%else%}
                             <a class="ui link" href="{{ d.target.view_url }}" title="{{ d.target.title }}" target="_blank">
                               {{ d.target.title }}

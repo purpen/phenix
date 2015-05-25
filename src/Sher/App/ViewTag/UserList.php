@@ -95,6 +95,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		if($all_mentors){
 			$query['mentor'] = array(
 				'$gt' => (int)$mentor,
+        '$ne' => 50,
 			);
 		}
 		// 获取某类专家
