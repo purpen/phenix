@@ -253,3 +253,8 @@
 
 </div>
 {% endblock %}
+{% block templates %}
+<div id="user_card_box" class="user idcard"></div>
+{% mustache id:'user_card' tpl:'mustache/user_card.mustache' %}
+{% endblock %}
+
