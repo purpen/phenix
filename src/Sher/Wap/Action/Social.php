@@ -85,6 +85,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
 		$this->stash['category_prefix_url'] = $prefix_url;
 		
+		
 		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
 		
 		if($cid){
