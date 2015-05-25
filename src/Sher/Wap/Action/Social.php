@@ -9,7 +9,6 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		'page' => 1,
 		'size' => 20,
 		'category_id' => 0,
-		'cid'  => 0,
 	);
 	
 	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show');
@@ -86,23 +85,17 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	/*	$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
 		$this->stash['category_prefix_url'] = $prefix_url;
 		return $this->to_html_page('wap/topic.html');*/
-		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
 		
-		if($cid){
-			// 获取某类别列表
-			$category = new Sher_Core_Model_Category();
-			$current = $category->load((int)$cid);
-			if(empty($current)){
-				return $this->show_message_page('请选择某个分类');
-			}
-			$this->stash['current'] = $current;
+		$category = new Sher_Core_Model_Category();
+		$child = $category->load((int)$category_id);
+		if(empty($child)){
+			return $this->show_message_page('请选择某个分类');
 		}
+		$this->stash['child'] = $child;
 		
-		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
-		$this->stash['category_prefix_url'] = $prefix_url;
-		
-		$this->stash['process_saled'] = 1;
-    $this->stash['is_shop'] = 1;
+		$page = "?page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$category_id).$page;
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('wap/topic.html');
 	}
 	

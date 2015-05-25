@@ -23,20 +23,19 @@
 				</div>
 			</div>
 			
-			{% if process_saled %}
 		<div class="row">
 			<div class="column">
-				{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
+				{% category_list var:'children' page:1 only_open:only_open domain:2 pid:cat._id %}
 				<div class="ui fluid selection dropdown">
-					{% if current %}
-					<div class="default text">{{ current.title }}</div>
+					{% if child %}
+					<div class="default text">{{ child.title }}</div>
 					{% else %}
 				    <div class="default text">全部类别</div>
 					{% endif %}
 				    <i class="angle down icon"></i>
 				    <div class="menu">
-						{% for cat in category.rows %}
-					  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/topic?cid={{ cat._id }}">{{ cat.title }}</a>
+						{% for child in children.rows %}
+					  		<a class="ui {{ child.active }} item" href="{{ category_prefix_url }}{{ child._id }}">{{ child.title }}</a>
 						{% endfor %}
 				    </div>
 				</div>
