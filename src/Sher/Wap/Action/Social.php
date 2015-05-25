@@ -82,9 +82,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 社区首页
 	 */
 	public function topic(){
-		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
+		/*$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
 		$this->stash['category_prefix_url'] = $prefix_url;
-		return $this->to_html_page('wap/topic.html');
+		return $this->to_html_page('wap/topic.html');*/
 		
 		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
 		
