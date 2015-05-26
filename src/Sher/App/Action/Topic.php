@@ -199,7 +199,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 获取当前分类信息
 		if ($category_id){
       //根据分类ID,显示描述信息
-      //$this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
+      $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
 			$category = new Sher_Core_Model_Category();
 			$current_category = $category->extend_load((int)$category_id);
 			// 存在父级分类，标识是二级分类
