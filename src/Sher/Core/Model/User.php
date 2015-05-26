@@ -539,7 +539,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 判断是否是编辑
      */
     public function can_edit() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_EDITOR || $this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_EDITOR || $this->data['role_id'] == self::ROLE_CHIEF || $this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
     }
 	
     /**
