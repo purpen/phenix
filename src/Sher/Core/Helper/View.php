@@ -234,6 +234,10 @@ class Sher_Core_Helper_View {
       case 18:
         $str = '我们用专业的数据说明，让你更了解产品的优缺点';
         break;
+      // 孵化需求
+      case 61:
+        $str = '孵化一个产品将会有数以万计的需求，缺技术？少人才？我们搭建平台，你可以在这里寻求资源与帮助。';
+        break;
       }
     }
     return $str;
