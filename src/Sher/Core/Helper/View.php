@@ -230,12 +230,10 @@ class Sher_Core_Helper_View {
       case 27:
         $str = '只要发自内心的想去吐槽，槽点自然而然会呈现在你眼前！';
         break;
-      }
       // 产品评测-产品专区
       case 18:
         $str = '我们用专业的数据说明，让你更了解产品的优缺点';
         break;
-      }
     }
     return $str;
   }
