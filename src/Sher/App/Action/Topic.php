@@ -112,8 +112,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		);
         
 		if(!empty($sword)){
-      $sword_x = str_replace(',', ' OR ', $sword);
-      $xun_arr = Sher_Core_Util_XunSearch::search($sword_x, $options);
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
       if($xun_arr['success'] && !empty($xun_arr['data'])){
         $topic_mode = new Sher_Core_Model_Topic();
         $items = array();
