@@ -41,7 +41,7 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	    }
 
 	    if ($this->admin_method_list === '*' || in_array($invoke_method,$this->admin_method_list)) {
-	        if (!$login_user->is_admin()) {
+	        if (!$login_user->is_admin() && !$login_user->can_admin()) {
 	            $handle = true;
 	            return $this->deny();
 	        }
