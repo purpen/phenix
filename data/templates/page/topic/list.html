@@ -40,7 +40,7 @@
 					</h1>
 					{% category_list var:'category' only_open:1 domain:domain pid:parent_category._id current:cid %}
 				{% endif %}
-				<p>{{ current_category.summary }}</p>
+				<p>{{ category_desc }}</p>
 				<hr>
 			</div>
 			<div class="right aligned four wide column">

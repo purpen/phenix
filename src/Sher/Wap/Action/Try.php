@@ -58,7 +58,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 		}
 
     //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件孵化平台", $try['title']);
+    $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
     if(!empty($try['tags'])){
       $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
     }
