@@ -6,7 +6,7 @@
 		概况统计
 	</a>
     
-    {% if visitor.is_admin %}
+    {% if visitor.is_customer %}
 	<div class="header item">
 	    产品
 	</div>
@@ -21,13 +21,16 @@
 	</a>
     {% endif %}
     
-    {% if visitor.is_admin %}
+    {% if visitor.is_customer %}
 	<div class="header item">
 	    销售
 	</div>
 	<a class="{{ css_page_orders }} item" href="{{ app_url_admin_base }}/orders">
 		订单管理
 	</a>
+    {% endif %}
+    
+    {% if visitor.is_admin %}
 	<a class="{{ css_page_bonus }} item" href="{{ app_url_admin_base }}/bonus">
 		红包管理
 	</a>
@@ -36,19 +39,22 @@
 	</a>
 	{% endif %}
     
-	{% if visitor.is_admin %}
+    {% if visitor.is_chief %}
 	<div class="header item">
 	    <i class="users icon"></i>用户
 	</div>
-	<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
-		用户管理
-	</a>
 	<a class="{{ css_page_user_point_stat }} item" href="{{ app_url_admin_base }}/user_stat">
 		用户积分统计
 	</a>
     {% endif %}
-    
     {% if visitor.is_admin %}
+	<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
+		用户管理
+	</a>
+    {% endif %}
+    
+    
+    {% if visitor.is_chief %}
 	<div class="header item">
         <b>积分</b>
 	</div>
@@ -58,6 +64,8 @@
     <a class="{{ css_page_point_list }} item" href="{{ app_url_admin_base }}/point">
 		积分记录
 	</a>
+    {% endif %}
+    
     {% if visitor.is_system %}
     <a class="{{ css_page_point_settings }} item" href="{{ app_url_admin_base }}/point/settings_type">
         积分配置
@@ -66,8 +74,8 @@
         会员成长等级
     </a>
     {% endif %}
-    {% endif %}
-
+    
+    {% if visitor.is_chief %}
 	<div class="header item"><b>社区</b></div>
 	<a class="{{ css_page_active }} item" href="{{ app_url_admin_base }}/active">
 		活动管理
@@ -75,16 +83,26 @@
 	<a class="{{ css_page_stuff }} item" href="{{ app_url_admin_base }}/stuff">
 		灵感管理
 	</a>
-    {% if visitor.is_admin %}
-	<a class="{{ css_page_special }} item" href="{{ app_url_admin_base }}/special">
-		专题管理
-	</a>
-    {% endif %}
 	<a class="{{ css_page_try }} item" href="{{ app_url_admin_base }}/try">
 		产品公测
 	</a>
+	<a class="{{ css_page_comment }} item" href="{{ app_url_admin_base }}/comment">
+		评论管理
+	</a>
+	<a class="{{ css_page_report }} item" href="{{ app_url_admin_base }}/report">
+		举报管理
+	</a>
+    {% endif %}
+    
+    {% if visitor.is_admin %}
 	<a class="{{ css_page_advertise }} item" href="{{ app_url_admin_base }}/advertise">
 		广告图推荐
+	</a>
+    {% endif %}
+    
+    {% if visitor.is_admin %}
+	<a class="{{ css_page_special }} item" href="{{ app_url_admin_base }}/special">
+		专题管理
 	</a>
 	<a class="{{ css_page_cake }} item" href="{{ app_url_admin_base }}/cake">
 		公告管理
@@ -95,12 +113,8 @@
 	<a class="{{ css_page_tags }} item" href="{{ app_url_admin_base }}/tags">
 		关键词管理
 	</a>
-	<a class="{{ css_page_comment }} item" href="{{ app_url_admin_base }}/comment">
-		评论管理
-	</a>
-	<a class="{{ css_page_report }} item" href="{{ app_url_admin_base }}/report">
-		举报管理
-	</a>
+    {% endif %}
+	
     {% if visitor.is_admin %}
 	<div class="header item"><b>辅助模块</b></div>
 	<a class="{{ css_page_block }} item" href="{{ app_url_admin_base }}/block">
@@ -113,6 +127,7 @@
 		统计管理
 	</a>
     {% endif %}
+    
 	<div class="header item"><b>系统</b></div>
 	<a class="{{ css_page_asset }} item" href="{{ app_url_admin_base }}/asset">
 		附件管理

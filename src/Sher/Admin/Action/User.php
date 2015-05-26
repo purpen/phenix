@@ -48,24 +48,30 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 			$this->set_target_css_state('blocked');
 		}
 		
-		if (isset($this->stash['role'])){
+		if(isset($this->stash['role'])){
 			if ($this->stash['role'] == 'admin') {
 				$this->stash['only_admin'] = 1;
 				$this->set_target_css_state('admin');
 			} elseif ($this->stash['role'] == 'editor') {
 				$this->stash['only_editor'] = 1;
 				$this->set_target_css_state('editor');
+			} elseif ($this->stash['role'] == 'chief') {
+				$this->stash['only_chief'] = 1;
+				$this->set_target_css_state('chief');
+			} elseif ($this->stash['role'] == 'customer') {
+				$this->stash['only_customer'] = 1;
+				$this->set_target_css_state('customer');
 			} else {
 				$this->stash['only_user'] = 1;
 				$this->set_target_css_state('user');
 			}
 		}
 
-    //优质用户
-    if(isset($this->stash['quality_user'])){
-      $this->stash['quality'] = 1;
-      $this->set_target_css_state('quality');   
-    }
+        // 优质用户
+        if(isset($this->stash['quality_user'])){
+          $this->stash['quality'] = 1;
+          $this->set_target_css_state('quality');   
+        }
 		
 		if (!empty($q)) {
 			// 是否为数字
@@ -121,6 +127,14 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 				$msg = '设为普通会员成功！';
 				break;
 			case 'editor':
+				$model->change_user_role($this->stash['id'], $role);
+				$msg = '设为兼职编辑成功！';
+				break;
+			case 'customer':
+				$model->change_user_role($this->stash['id'], $role);
+				$msg = '设为客服人员成功！';
+				break;
+			case 'chief':
 				$model->change_user_role($this->stash['id'], $role);
 				$msg = '设为编辑人员成功！';
 				break;
