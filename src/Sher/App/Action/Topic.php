@@ -107,6 +107,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			'sort_field' => 'latest',
       'evt' => 'tag',
       't' => 2,
+      'oid' => $current_id,
+      'type' => 1,
 		);
         
 		if(!empty($sword)){

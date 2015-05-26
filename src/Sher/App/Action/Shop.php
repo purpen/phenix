@@ -260,6 +260,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'sort_field' => 'latest',
       'evt' => 'tag',
       't' => 1,
+      'oid' => $current_id,
+      'type' => 1,
 		);        
 		if(!empty($sword)){
       $sword_x = str_replace(',', ' OR ', $sword);

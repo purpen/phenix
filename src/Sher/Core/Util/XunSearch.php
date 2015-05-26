@@ -105,6 +105,8 @@ public function __construct() {
 
     $evt = isset($options['evt'])?(string)$options['evt']:'content';
     $t = isset($options['t'])?(string)$options['t']:0;
+    $oid = isset($options['oid'])?(string)$options['oid']:0;
+    $type = isset($options['type'])?(int)$options['type']:0;
 
     try{
       $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
@@ -128,6 +130,16 @@ public function __construct() {
           case 4:
             $condition .= 'kind:Stuff ';
             $str_f = sprintf('%s%s', $condition, $str);
+            break;
+        }
+      }
+
+      if($type){
+        switch($type){
+          case 1:
+            $condition .= sprintf("-oid:%s ", $oid);
+            break;
+          case 2:
             break;
         }
       }
