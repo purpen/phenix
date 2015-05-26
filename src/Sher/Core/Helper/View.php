@@ -168,7 +168,7 @@ class Sher_Core_Helper_View {
     $category_model = new Sher_Core_Model_Category();
     $category = $category_model->extend_load((int)$id);
     if(!empty($category)){
-      return self::meta_category_id($category, $type);
+      return self::meta_category_obj($category, $type);
     }else{
       return null;
     }
