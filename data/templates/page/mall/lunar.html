@@ -1,0 +1,577 @@
+{%extends 'layout/column.html'%}
+{% block title %}lunar -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.section{
+		height:1200px;
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:800px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+	}
+	.section1{
+		background:url({{ app_url_packaged }}/images/promo/lu3.jpg) no-repeat center bottom /cover;
+		color:#fff;
+		height:1000px;
+	}
+	.section1 .contide{
+		padding-top:60px;
+	}
+	.section1 h1{
+		font-weight: normal;
+		font-size: 60px;
+	  margin: 0;
+	  padding: 20px 0 5px;
+	}
+	.section1 p{
+		font-size: 26px;
+		margin: 0;
+		padding-bottom: 30px;
+	}
+	.section1 .cirecle{
+		background: #969696;
+		font-size: 32px;
+	  border: 1px solid #fff;
+	  border-radius: 40px;
+	  width: 60%;
+	  margin: 10% 20%;
+	  padding: 10px 0;
+	}
+	.section1 .logo{
+		position:absolute;
+		right:50px;
+		bottom:80px;
+	}
+	.section2 .ttp{
+		position:absolute;
+		top:90px;
+		left:50%;
+		margin-left:-26%;
+		z-index: 2;
+	}
+	.section2 .rote{
+		display:inline-block;
+		float:left;
+		width:33.333%;
+		height:100%;
+		position:relative;
+	}
+	.rote.first{
+		background:url({{ app_url_packaged }}/images/promo/lu5.jpg) no-repeat center bottom /cover;
+	}
+	.rote.sectet{
+		background:url({{ app_url_packaged }}/images/promo/lu6.jpg) no-repeat center bottom /cover;
+	}
+	.rote.third{
+		background:url({{ app_url_packaged }}/images/promo/lu7.jpg) no-repeat center bottom /cover;
+	}
+	.rote .bgc{
+		background:rgba(0,0,0,0.3);
+		position:absolute;
+		width:100%;
+		bottom:0;
+		left:0;
+	}
+	.rote .bgc.fac{
+		height:84.7%;
+	}
+	.rote .bgc.fb{
+		height:78.2%;
+	}
+	.rote .bgc.fc{
+		height:80.3%;
+	}
+	.rote .bgc .pb{
+		position: absolute;
+		bottom: 140px;
+	  color: #fff;
+	  text-align: center;
+	  width: 100%;
+	}
+	.rote .bgc .pb h2{
+		font-size: 78px;
+		font-weight: normal;
+	  margin: 0 0 40px 0;
+	}
+	.rote .bgc .pb p{
+		font-size: 24px;
+		margin: 0;
+	}
+	.bgc h1{
+		color:#fff;
+		text-align:center;
+		font-size:100px;
+		font-weight: 100;
+	}
+	.section3{
+		background:url({{ app_url_packaged }}/images/promo/lu14.jpg) no-repeat center bottom /cover;
+	}
+	.section3 .kro{
+		position: absolute;
+		right: 10%;
+	  top: 44%;
+	}
+	.section3 .excle{
+		position: absolute;
+		left: 5%;
+	  top: 70%;
+	}
+	.section4,.section6,.section8,.section10{
+		background:#f1f1f1;
+	}
+	.section4 .contide img+img{
+		margin-top:100px;
+	}
+	.section4>img{
+		margin:5% 0;
+		margin-top: 100px;
+	}
+	.section4 .contide + img{
+		margin-left:6.25%;
+	}
+	.section5{
+		background:url({{ app_url_packaged }}/images/promo/lu23.jpg) no-repeat center bottom /cover;
+	}
+	.section6{
+		height:1000px;
+	}
+	.section6 > img{
+		border-radius:50%;
+		margin:150px 2% 60px;
+		width:21%;
+	}
+	.section6 .contide + img{
+		margin-left:14.5%;
+	}
+	.space img{
+		margin:0 2%;
+		width:21%;
+	}
+	.space img:first-child {
+	  margin-left: 14.5%;
+	}
+	.section7{
+		background:url({{ app_url_packaged }}/images/promo/lu36.jpg) no-repeat center bottom /cover;
+	}
+	.section7 .contide img{
+		width:53%;
+	}
+	.section7 > img{
+		width:20%;
+		position:absolute;
+		right:120px;
+		bottom:120px;
+	}
+	.fud{
+		width:33.333%;
+		display:inline-block;
+		float:left;
+		height:30%;
+		text-align:center;
+		padding-top:400px;
+	}
+	.section7 .contide + .fud{
+		text-align:right;
+	}
+	.section7 .contide + .fud + .fud + .fud{
+		text-align:left;
+	}
+	.fud img{
+		width:46%;
+	}
+	.section8 .contide img{
+		width:50%;
+	}
+	.section8 > img{
+		width: 70%;
+	  margin: 150px 15%;
+	}
+	.section9{
+		background:url({{ app_url_packaged }}/images/promo/lu37.jpg) no-repeat center bottom /cover;
+		height:900px;
+	}
+	.section10{
+		margin:30px;
+		height: 715px;
+	}
+	.section10 .continar{
+		height:100%;
+		width:100%;
+	}
+	.set{
+		display:inline-block;
+		float:left;
+		height:100%;
+	}
+	.set:first-child{
+		width: 42%;
+	  margin-right: 1.5%;
+		background:url({{ app_url_packaged }}/images/promo/lu38.jpg) no-repeat center bottom /cover;
+	}
+	.set:nth-child(2){
+		width:56.5%;
+	}
+	.set .pos{
+		background:url({{ app_url_packaged }}/images/promo/lu39.jpg) no-repeat center bottom /cover;
+		height:50%;
+	}
+	.set .pos+.pos{
+		background:url({{ app_url_packaged }}/images/promo/lu40.jpg) no-repeat center bottom /cover;
+		height:47.7%;
+	}
+	.set:nth-child(2) .pos+.pos{
+		margin-top: 2.3%;
+	}
+	/*.set img{
+		width:100%;
+	}
+	.set:first-child{
+		width: 42%;
+	  margin-right: 1.5%;
+	}
+	.set:nth-child(2){
+		width:56.5%;
+	}
+	.set:nth-child(2) img+img{
+		margin-top: 2.3%;
+	}*/
+	.section11{
+		background:#fff;
+		height: auto;
+	}
+	.section11 .row:first-child p{
+		color:#000;
+		line-height: 24px;
+	  font-size: 18px;
+	}
+	.section11 .row:nth-child(2){
+		color:#222;
+		padding-bottom: 20px;
+	}
+	.section11 .ui.medium.image{
+		display:inline-block;
+		margin-right: 20px;
+	}
+	.section11 .ui.medium.image + .content{
+		vertical-align: middle;
+		font-weight: 400;
+	}
+	.section11 .ui.medium.image + .content > .sub.header{
+		line-height: 18px;
+		margin-top: 0.3em;
+	  font-size: 15px;
+	}
+	.section11 .ui.medium.image + .content > .sub.header b{
+		font-size: 18px;
+		line-height: 34px;
+	  font-weight: normal;
+	}
+	.section11 .row:nth-child(3){
+		color:#222;
+		border-top:1px solid rgba(0,0,0,0.1);
+		padding-top: 50px;
+		padding-bottom: 50px;
+	}
+	.section11 .row:nth-child(3) .content{
+		width:55%;
+	}
+	.section11 .ui.responsive.grid{
+		padding-bottom: 80px;
+	}
+	.ui.white .row{
+		padding:5px 0;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$('.ui.tabox').smint({
+  		'scrollSpeed' : 1000
+  	});
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>lunar智能睡眠记录器</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<a href="#team" class="ui link item">我们的团队</a>|
+			<a href="http://www.taihuoniao.com/topic/view-103238-1.html" title="匙悟科技智能非穿戴式睡眠监测设备" class="ui item link" target="_blank">讨论区</a>
+			<a href="#buy" class="ui inverted active gray button" title="lunar智能睡眠记录器">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="lunar">
+	<div class="section section1">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu.png" alt="lunar" width="35%">
+			<h1>只做助眠  这件小事</h1>
+			<p>123人团队·700多个日夜</p>
+			<img src="{{ app_url_packaged }}/images/promo/lu1.png" alt="lunar" width="80%">
+			<div class="cirecle">
+				零辐射 · 免充电 · 非穿戴
+			</div>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/lu2.png" alt="12sleep" width="14%" class="logo">
+	</div>
+	<div class="section section2">
+		<img src="{{ app_url_packaged }}/images/promo/lu4.png" width="52%" class="ttp" alt="中国医师协会《2014中国睡眠指数》报告">
+		<div class="rote first">
+			<div class="bgc fac">
+				<h1>84.7%</h1>
+				<div class="pb" style="opacity:0;">
+					<h2>白领</h2>
+					<p>饱受睡眠问题困扰，睡个好觉成为“奢侈品”</p>
+				</div>
+				<img src="{{ app_url_packaged }}/images/promo/lu8.png" width="100%" class="pb" alt="中国医师协会《2014中国睡眠指数》报告">
+			</div>
+		</div>
+		<div class="rote sectet">
+			<div class="bgc fb">
+				<h1>78.2%</h1>
+				<div class="pb" style="opacity:0;">
+					<h2>中小学生</h2>
+					<p>“缺觉”， 健康睡眠必不可少</p>
+				</div>
+				<img src="{{ app_url_packaged }}/images/promo/lu9.png" width="100%" class="pb" alt="中国医师协会《2014中国睡眠指数》报告">
+			</div>
+		</div>
+		<div class="rote third">
+			<div class="bgc fc">
+				<h1>80.3%</h1>
+				<div class="pb" style="opacity:0;">
+					<h2>中老年人</h2>
+					<p>55岁以上中老年人出现睡眠紊乱，睡眠质量亟需关注</p>
+				</div>
+				<img src="{{ app_url_packaged }}/images/promo/lu10.png" width="100%" class="pb" alt="中国医师协会《2014中国睡眠指数》报告">
+			</div>
+		</div>
+	</div>
+	<div class="section section3">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu11.png" alt="lunar" width="80%">
+			
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/lu12.png" alt="lunar" class="kro" width="18%">
+		<img src="{{ app_url_packaged }}/images/promo/lu13.png" alt="lunar" class="excle" width="70%">
+			
+	</div>
+	<div class="section section4">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu15.png" alt="不止检测 专业助眠" width="62%">
+			<img src="{{ app_url_packaged }}/images/promo/lu16.jpg" alt="不止检测 专业助眠" width="100%">
+		</div>
+			<img src="{{ app_url_packaged }}/images/promo/lu17.png" alt="不止检测 专业助眠" width="17%">
+			<img src="{{ app_url_packaged }}/images/promo/lu18.png" alt="不止检测 专业助眠" width="17%">
+			<img src="{{ app_url_packaged }}/images/promo/lu19.png" alt="不止检测 专业助眠" width="17%">
+			<img src="{{ app_url_packaged }}/images/promo/lu20.png" alt="不止检测 专业助眠" width="17%">
+			<img src="{{ app_url_packaged }}/images/promo/lu21.png" alt="不止检测 专业助眠" width="17%">
+	</div>
+	<div class="section section5">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu22.png" alt="lunar" width="80%">
+		</div>
+	</div>
+	<div class="section section6">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu24.png" alt="睡眠检测到底怎么做" width="80%">
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/lu25.jpg" alt="睡眠检测">
+		<img src="{{ app_url_packaged }}/images/promo/lu26.jpg" alt="睡眠检测">
+		<img src="{{ app_url_packaged }}/images/promo/lu27.jpg" alt="睡眠检测">
+		<div class="space">
+			<img src="{{ app_url_packaged }}/images/promo/lu28.jpg" alt="睡眠检测">
+			<img src="{{ app_url_packaged }}/images/promo/lu29.jpg" alt="睡眠检测">
+			<img src="{{ app_url_packaged }}/images/promo/lu30.jpg" alt="睡眠检测">
+		</div>
+	</div>
+	<div class="section section7">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu31.png" alt="无负担睡眠检测">
+		</div>
+		<div class="fud">
+			<img src="{{ app_url_packaged }}/images/promo/lu32.png" alt="无负担睡眠检测">
+		</div>
+		<div class="fud">
+			<img src="{{ app_url_packaged }}/images/promo/lu33.png" alt="无负担睡眠检测">
+		</div>
+		<div class="fud">
+			<img src="{{ app_url_packaged }}/images/promo/lu34.png" alt="无负担睡眠检测">
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/lu35.png" alt="无负担睡眠检测">
+	</div>
+	<div class="section section8">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu36.png" alt="lunar技术优势">
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/lu41.jpg" alt="lunar技术优势">
+	</div>
+	<div class="section section9">
+	</div>
+	<div class="section section10">
+		<div class="continar">
+			<div class="set ">
+				<!--<img src="{{ app_url_packaged }}/images/promo/lu38.jpg" alt="lunar技术优势">-->
+			</div>
+			<div class="set ">
+				<div class="pos">
+				</div>
+				<div class="pos">
+				</div>
+				
+				<!--<img src="{{ app_url_packaged }}/images/promo/lu39.jpg" alt="lunar技术优势">
+				<img src="{{ app_url_packaged }}/images/promo/lu40.jpg" alt="lunar技术优势">-->
+			</div>
+		</div>
+	</div>
+	<div class="section section11">
+		<a name="team"></a>
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/promo/lu42.jpg" width="80%" alt="匙悟科技团队">
+		</div>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<p>团队主要包括清华、北大毕业的设计研究者和技术专家，浸染行业多年的软硬件专家、智能产品研发专家和生产管理专家，
+					实战型的ID、MD、UI、UE设计师，超过10年行业经验的睡眠、心理健康等专家。</p>
+					<p>我们相信：万物互联，所有的产品终将智能化,好产品能让“情怀落地”，让“生活更美”。</p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="column">
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu43.jpg" alt="李一舟">
+						<div class="content">
+							李一舟
+							<div class="sub header">
+								<b>匙悟科技创始人& CEO</b><br />
+								清华大学设计学博士，资深用户体验设计师,科技自媒体人。
+							</div>
+						</div>
+					</h2>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="eight wide column">
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu44.jpg" alt="肖军涛">
+						<div class="content">
+							肖军涛
+							<div class="sub header">
+								<b>联合创始人&产品群策略负责人</b><br />
+								国内最资深的工业设计师之一，10多年设计管 理经验，硅谷创新硬件项目负责人。
+							</div>
+						</div>
+					</h2>
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu45.jpg" alt="张   勇">
+						<div class="content">
+							张   勇
+							<div class="sub header">
+								<b>联合创始人& 硬件技术负责人</b><br />
+								16年医疗和健康解决方案经验，多个智能硬件 核心专利持有人，硬件技术专家。
+							</div>
+						</div>
+					</h2>
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu46.jpg" alt="亢海生">
+						<div class="content">
+							亢海生
+							<div class="sub header">
+								<b>联合创始人& 硬件生产负责人</b><br />
+								原某上市医疗集团研发中心部门负责人，拥有 20多年硬件生产经验，精于成本控制和市场管理。
+							</div>
+						</div>
+					</h2>
+				</div>
+				<div class="eight wide column">
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu48.jpg" alt="唐   科">
+						<div class="content">
+							唐   科
+							<div class="sub header">
+								<b>联合创始人& 软件技术负责人</b><br />
+								曾负责流媒体盒子等多个软硬件项目，拥有 10多年软硬件、PHP、嵌入式等经验。
+							</div>
+						</div>
+					</h2>
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu49.jpg" alt="李   婧">
+						<div class="content">
+							李   婧
+							<div class="sub header">
+								<b>联合创始人& 品牌市场负责人</b><br />
+								曾就职于全球第二大广告传播集团，擅长社会化 营销和跨界营销，曾服务过宝洁、奥迪等世界500强企业。
+							</div>
+						</div>
+					</h2>
+					<h2 class="ui header">
+						<img class="ui medium image" src="{{ app_url_packaged }}/images/promo/lu50.jpg" alt="李俊魁">
+						<div class="content">
+							李俊魁
+							<div class="sub header">
+								<b>联合创始人& 产品设计负责人</b><br />
+								知名设计集团前创意群总监，十年设计和团队管理经验 屡次获得国内外设计奖项及中国百强设计师。
+							</div>
+						</div>
+					</h2>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="center aligned column">
+					<a name="buy"></a>
+					<a href="http://www.taihuoniao.com/sale/1054304330.html" target="_blank" class="ui inverted active gray button" title="lunar智能睡眠记录器">立即购买</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+</div>
+{% endblock %}
