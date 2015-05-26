@@ -26,6 +26,8 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $only_system = 0;
         $only_admin = 0;
 		$only_editor = 0;
+        $only_customer = 0;
+        $only_chief = 0;
         $only_common_user = 0;
         
         $only_dead = 0;
@@ -80,6 +82,12 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         }
         if ($only_editor) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_EDITOR;
+        }
+        if ($only_customer) {
+            $query['role_id'] = Sher_Core_Model_User::ROLE_CUSTOMER;
+        }
+        if ($only_chief) {
+            $query['role_id'] = Sher_Core_Model_User::ROLE_CHIEF;
         }
         if ($only_admin) {
             $query['role_id'] = Sher_Core_Model_User::ROLE_ADMIN;
