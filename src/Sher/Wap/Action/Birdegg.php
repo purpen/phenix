@@ -7,8 +7,9 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
     'sort'=>0,
-    //'page_title_suffix'=>'[蛋年] 挑战世界吉尼斯 最火爆智能硬件征集中',
-    'page_title_suffix'=>'中国智能硬件·蛋年创新大会',
+    'page_title_suffix' => '中国智能硬件蛋年创新大会-太火鸟智能硬件孵化平台',
+    'page_keywords_suffix' => '太火鸟,智能硬件,智能硬件孵化平台,蛋年,蛋年创新大会,硬件圈,媒体圈,投资圈,平台圈,机构圈,媒体圈',
+    'page_description_suffix' => '中国智能硬件.蛋年创新大会是中国首个集合硬件、媒体、投资、平台、机构等多阵营的业内创新交流大会，蛋年创新大会与您聚焦中国智能硬件的发展趋势，畅聊智能硬件发展未来。',
 	);
 	
 	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz');
@@ -98,6 +99,13 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 		}
 		
 		$stuff = $model->extended_model_row($stuff);
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-中国智能硬件蛋年创新大会-太火鸟智能硬件孵化平台", $stuff['title']);
+    if(!empty($stuff['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $stuff['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = sprintf("中国智能硬件.蛋年创新大会是中国首个集合硬件、媒体、投资、平台、机构等多阵营的业内创新交流大会，蛋年创新大会与您聚焦中国智能硬件的发展趋势，畅聊智能硬件发展未来。", '');
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);

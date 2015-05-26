@@ -179,6 +179,10 @@
 		  	<label>活动标题：</label>
 			<input type="text" name="title"  value="{{ try.title }}" />
 		</div>
+		<div class="field">
+		  	<label>短标题：</label>
+			<input type="text" name="short_title"  value="{{ try.short_title }}" />
+		</div>
 		
 		<div class="field">
 		  	<label>活动亮点：</label>
@@ -191,11 +195,11 @@
 			<input type="hidden" name="banner_id" id="try_banner_id" value="{{ try.banner_id }}" />
 			
 		  	<div id="phenix-uploader"></div>
-			<div id="asset-list" class="ui four items">
+			<div id="asset-list" class="ui four blocks">
 				{% if mode == 'edit' %}
 					{% asset_list var:'assets' parent_id:try._id size:20 asset_type:30 %}
 					{% for asset in assets.rows %}
-					<div class="thumb item" id="{{ asset._id }}">
+					<div class="thumb block" id="{{ asset._id }}">
 						<div class="image">
 							<img src="{{ asset.thumbnails.small.view_url }}" />
 							<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />

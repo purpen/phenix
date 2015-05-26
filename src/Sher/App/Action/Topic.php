@@ -13,8 +13,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
-        'cid'  => 0,
-		'ref'  => null,
+    'cid'  => 0,
+    'ref'  => null,
+    'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
+    'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
+    'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
 	protected $page_tab = 'page_topic';
@@ -203,6 +206,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				// 获取父级分类
 				$parent_category = $category->extend_load((int)$current_category['pid']);
 			}
+
+      //添加网站meta标签
+      $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
+      $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
+      $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
 		}
 		
 		$this->stash['cid'] = $this->stash['category_id'];
@@ -369,6 +377,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         if (!empty($topic)) {
             $topic = $model->extended_model_row($topic);
         }
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("（%s）-太火鸟智能硬件社区", $topic['title']);
+    if(!empty($topic['tags'])){
+      $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
+    }
+    $this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);
