@@ -152,7 +152,7 @@ public function __construct() {
           array_push($x_tag_arr, sprintf("tags:%s", $v));
         }
         $x_tag_str = implode(' OR ', $x_tag_arr);
-        $str_f = sprintf('%s%s', $condition, $x_tag_str);
+        $str_f = sprintf('%s(%s)', $condition, $x_tag_str);
       }else{
         $search->addWeight('title', $str); // 增加附加条件：提升标题中包含 关键字 的记录的权重       
       }
