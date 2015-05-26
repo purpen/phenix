@@ -161,5 +161,50 @@ class Sher_Core_Helper_View {
     return $str;
   }
 
+  /**
+   * 根据分类类型,显示网站meta信息--传ID
+   */
+  public static function meta_category_id($id, $type=1){
+    $category_model = new Sher_Core_Model_Category();
+    $category = $category_model->extend_load((int)$id);
+    if(!empty($category)){
+      return self::meta_category_id($category, $type);
+    }else{
+      return null;
+    }
+  
+  }
+
+  /**
+   * 根据分类类型,显示网站meta信息--传obj
+   */
+  public static function meta_category_obj($obj, $type=1){
+    $str = '';
+    if(!empty($obj)){
+      switch($type){
+      //title
+      case 1:
+        $domain = $obj['domain'];
+        //商品
+        if($domain==1){
+          $str = sprintf("%s-太火鸟商店-智能硬件购物第一品牌", $obj['title']);
+        }elseif($domain==2){
+          $str = sprintf("%s-太火鸟话题-最大的智能硬件社区", $obj['title']);       
+        }elseif($domain==4){
+          $str = sprintf("%s-智品库-太火鸟智能硬件孵化平台创新产品汇集库", $obj['title']);       
+        }
+        break;
+      //key_words
+      case 2:
+        $str = $obj['tags_s'];
+        break;
+      // desctription
+      case 3:
+        $str = $obj['summary'];
+        break;
+      }
+    }
+    return $str;
+  }
+
 }
-?>
