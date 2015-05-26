@@ -104,13 +104,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		// 获取当前类别
 		if($category_id){
 			$category = new Sher_Core_Model_Category();
-			$current_category = $category->extend_load((int)$category_id);
+      $current_category = $category->extend_load((int)$category_id);
+      //添加网站meta标签
+      $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
+      $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
+      $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
 		}
-
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
-    $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
-    $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
 
 		$this->stash['current_category'] = $current_category;
 		
