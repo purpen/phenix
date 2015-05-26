@@ -438,14 +438,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $row['view_fans_url'] = Sher_Core_Helper_Url::user_fans_list_url($id);
         $row['is_ok'] = $row['state'] == self::STATE_OK;
         if ($row['role_id'] == self::ROLE_SYSTEM){
-        	$row['is_system'] = $row['is_admin'] = true;
-        	$row['can_system'] = $row['can_admin'] = true;
-			$row['can_edit']  = true;
+        	$row['is_system'] = $row['is_admin'] = $row['is_editor'] = true;
+        	$row['can_system'] = $row['can_admin'] = $row['can_edit'] = true;
         }
-        if ($row['role_id'] == self::ROLE_ADMIN || $row['role_id'] == self::ROLE_EDITOR){
-            $row['is_admin'] = true;
-            $row['can_admin'] = true;
-			$row['can_edit']  = true;
+        if ($row['role_id'] == self::ROLE_ADMIN){
+            $row['is_admin'] = $row['is_editor'] = true;
+            $row['can_admin'] = $row['can_edit'] = true;
         }
         if ($row['role_id'] == self::ROLE_EDITOR){
             $row['is_editor'] = true;
@@ -531,14 +529,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 判断是否是管理员
      */
     public function is_admin() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN || $this->data['role_id'] == self::ROLE_EDITOR);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
     }
     /**
      * 判断是否是管理员
      */
     public function can_admin() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN || $this->data['role_id'] == self::ROLE_EDITOR);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
     }
+    
     /**
      * 判断是否是系统管理员
      */
