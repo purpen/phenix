@@ -68,11 +68,12 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$cid = $top_category_id;
 			$is_top = true;
 
+    }else{
       //添加网站meta标签
       $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_id($cid, 1);
       $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_id($cid, 2);   
       $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_id($cid, 3);
-		}
+    }
 		$this->stash['is_top'] = $is_top;
 		$this->stash['top_category_id'] = $top_category_id;
 		$this->stash['cid'] = $cid;

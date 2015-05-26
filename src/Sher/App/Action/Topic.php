@@ -383,7 +383,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
     if(!empty($topic['tags'])){
       $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
     }
-    $this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140);
+    $this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);
