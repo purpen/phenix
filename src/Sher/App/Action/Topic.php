@@ -376,7 +376,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 当前用户是否有管理权限
 		if ($this->visitor->id){
-			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_admin){
+			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_edit){
 				$editable = true;
 			}
 		}
@@ -678,8 +678,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		$model = new Sher_Core_Model_Topic();
 		$topic = $model->load((int)$this->stash['id']);
-		// 仅管理员或本人具有删除权限
-		if (!$this->visitor->can_admin() && !($topic['user_id'] == $this->visitor->id)){
+		// 仅编辑权限或本人具有删除权限
+		if (!$this->visitor->can_edit() && !($topic['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
         if (!empty($topic)) {
@@ -794,8 +794,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
 
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1); 
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1); 
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
@@ -860,9 +860,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			$this->stash['topic'] = &DoggyX_Model_Mapper::load_model($id,'Sher_Core_Model_Topic');
 
-      // 更新到索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);   
-
+            // 更新到索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("话题保存失败：".$e->getMessage());
@@ -899,8 +898,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$model = new Sher_Core_Model_Topic();
 			$topic = $model->load((int)$id);
 			
-			// 仅管理员或本人具有删除权限
-			if ($this->visitor->can_admin() || $topic['user_id'] == $this->visitor->id){
+			// 仅编辑权限或本人具有删除权限
+			if ($this->visitor->can_edit() || $topic['user_id'] == $this->visitor->id){
 				$model->remove((int)$id);
 				
 				// 删除关联对象
@@ -949,7 +948,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$topic = $model->load((int)$id);
 			
 			// 仅管理员或本人具有删除权限
-			if ($this->visitor->can_admin() || $topic['user_id'] == $this->visitor->id){
+			if ($this->visitor->can_edit() || $topic['user_id'] == $this->visitor->id){
 				$model->remove((int)$id);
 				
 				// 删除关联对象

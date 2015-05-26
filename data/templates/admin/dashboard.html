@@ -14,6 +14,7 @@
 {% block content %}
 	<div class="ui grid">
 		<div class="four column row">
+            {% if visitor.is_admin %}
 			<div class="column">
 				<div class="ui purple segment">
 					<h3 class="ui purple header">
@@ -22,6 +23,7 @@
 					</h3>
 				</div>
 			</div>
+            {% endif %}
 			<div class="column">
 				<div class="ui magenta segment">
 					<h3 class="ui magenta header">
@@ -38,6 +40,7 @@
 					</h3>
 				</div>
 			</div>
+            {% if visitor.is_admin %}
 			<div class="column">
 				<div class="ui orange segment">
 					<h3 class="ui orange header">
@@ -46,8 +49,10 @@
 					</h3>
 				</div>
 			</div>
+            {% endif %}
 		</div>
 		
+        {% if visitor.is_admin %}
 		<div class="row">
 			<div class="ten wide column">
 				<h3 class="ui header">最新15个订单</h3>
@@ -132,6 +137,38 @@
 				</table>
 			</div>
 		</div>
-		
+		{% endif %}
+        
+        {% if visitor.is_editor %}
+		<div class="row">
+			<div class="ten wide column">
+				<h3 class="ui header">最新15个社区话题</h3>
+				{% topic_list var:'topics' page:1 size:15 %}
+				<table class="ui segment table">
+					<thead>
+						<tr>
+							<th>标题</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						{% for topic in topics.rows %}
+							<tr>
+								<td>
+									<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title }}</a>
+									<div class="attribute">
+										<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
+										<span class="author">
+											<a href="{{ topic.user.home_url }}" class="ui link">{{ topic.user.nickname }}</a>  <i class="time icon"></i>于{{ topic.created_on|relative_datetime }}发表
+										</span>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+        {% endif %}
 	</div>
 {% endblock %}

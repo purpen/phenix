@@ -112,7 +112,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		// 当前用户是否有管理权限
 		$editable = false;
 		if ($this->visitor->id){
-			if ($this->visitor->id == $stuff['user_id'] || $this->visitor->can_admin){
+			if ($this->visitor->id == $stuff['user_id'] || $this->visitor->can_edit){
 				$editable = true;
 			}
 		}
@@ -204,16 +204,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             return $this->show_message_page('编辑的产品不存在或被删除！', true);
         }
 		// 仅管理员或本人具有删除权限
-		if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
+		if (!$this->visitor->can_edit() && !($stuff['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
         
 		$stuff = $model->extended_model_row($stuff);
 
-    //如果是大赛,隐藏商品参数
-    if($stuff['from_to']==1 || $stuff['from_to']==3){
-      $this->stash['is_match'] = true;
-    }
+        // 如果是大赛,隐藏商品参数
+        if($stuff['from_to']==1 || $stuff['from_to']==3){
+            $this->stash['is_match'] = true;
+        }
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -373,11 +373,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			}else{
 				$mode = 'edit';
 
-        //如果是大赛,用户更改了省份或大学,需要重新统计排行
-        if($data['from_to']==1){
-          $old_stuff = $model->find_by_id((int)$id);
-        }
-				$ok = $model->apply_and_update($data);
+            // 如果是大赛,用户更改了省份或大学,需要重新统计排行
+            if($data['from_to']==1){
+                $old_stuff = $model->find_by_id((int)$id);
+            }
+			$ok = $model->apply_and_update($data);
 
         if($ok){
           //如果是大赛,用户更改了省份或大学,需要重新统计排行
@@ -499,7 +499,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
-			if (!$this->visitor->can_admin()){
+			if (!$this->visitor->can_edit()){
 				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
@@ -531,7 +531,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		try{
-			if (!$this->visitor->can_admin()){
+			if (!$this->visitor->can_edit()){
 				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
 			}
 			
@@ -562,7 +562,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$stuff = $model->load((int)$id);
 			
 			// 仅管理员或本人具有删除权限
-			if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
+			if (!$this->visitor->can_edit() && !($stuff['user_id'] == $this->visitor->id)){
 				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
 			}
 			
@@ -614,7 +614,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			$stuff = $model->load((int)$id);
 			
 			// 仅管理员或本人具有删除权限
-			if (!$this->visitor->can_admin() && !($stuff['user_id'] == $this->visitor->id)){
+			if (!$this->visitor->can_edit() && !($stuff['user_id'] == $this->visitor->id)){
 				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
 			}
 			

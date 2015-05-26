@@ -5,11 +5,14 @@
  */
 Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX_Action_VisitorAware {
 	
-	//匿名用户函数清单
+	// 匿名用户函数清单
 	protected $exclude_method_list = array();
 	
-	//管理员函数清单
+	// 管理员函数清单
 	protected $admin_method_list = array();
+    
+    // 系统管理员函数清单
+    protected $system_method_list = array();
 	
 	/**
 	 * 检查用户权限
@@ -45,13 +48,13 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	        return;
 	    }
 
-	    // if ($this->system_method_list === '*' || in_array($invoke_method,$this->system_method_list)) {
-	    //     if (!$login_user->is_system()) {
-	    //         $handle = true;
-	    //         return $this->custom_authorize_info_page();
-	    //     }
-	    //     return;
-	    // }
+        if ($this->system_method_list === '*' || in_array($invoke_method,$this->system_method_list)) {
+            if (!$login_user->is_system()) {
+                $handle = true;
+                return $this->custom_authorize_info_page();
+            }
+            return;
+        }
 	    // most login-user
 		
 	    return;

@@ -555,14 +555,14 @@
 					</div>
 					{% endif %}
 					
-					<div class="post froala-element clearfix">
+					<div class="post froala-view froala-element clearfix">
 						{{ topic.description }}
 					</div>
 					
 					<!--附件列表-->
 					{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
 					{% if assets.rows %}
-					<div class="post froala-element clearfix">
+					<div class="post froala-view froala-element clearfix">
 						{% for asset in assets.rows %}
 						<p>
 							<img width="" src="{{ asset.thumbnails.hd.view_url }}" alt="{{ topic.title }}" class="fr-fin" />
@@ -594,16 +594,19 @@
 						</div>
 						
 						<div class="ui icon black editable buttons">
-							{% if visitor.can_admin %}
-								{% if topic.top == 1 %}
-								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
-									<i class="pin icon"></i>
-								</div>
-								{% else %}
-								<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
-									<i class="pin icon"></i>
-								</div>
-								{% endif %}
+							{% if visitor.can_edit %}
+                                {% if visitor.is_admin %}
+    								{% if topic.top == 1 %}
+    								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
+    									<i class="pin icon"></i>
+    								</div>
+    								{% else %}
+    								<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
+    									<i class="pin icon"></i>
+    								</div>
+    								{% endif %}
+                                {% endif %}
+                                
 								{% if topic.top == 2 %}
 								<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
 									<i class="basic pin icon"></i>
