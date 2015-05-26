@@ -187,11 +187,11 @@ class Sher_Core_Helper_View {
         $domain = $obj['domain'];
         //商品
         if($domain==1){
-          $str = sprintf("%s-太火鸟商店-智能硬件购物第一品牌", $obj['name']);
+          $str = sprintf("%s-太火鸟商店-智能硬件购物第一品牌", $obj['title']);
         }elseif($domain==2){
-          $str = sprintf("%s-太火鸟话题-最大的智能硬件社区", $obj['name']);       
+          $str = sprintf("%s-太火鸟话题-最大的智能硬件社区", $obj['title']);       
         }elseif($domain==4){
-          $str = sprintf("%s-智品库-太火鸟智能硬件孵化平台创新产品汇集库", $obj['name']);       
+          $str = sprintf("%s-智品库-太火鸟智能硬件孵化平台创新产品汇集库", $obj['title']);       
         }
         break;
       //key_words
