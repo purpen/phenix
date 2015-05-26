@@ -104,7 +104,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		// 获取当前类别
 		if($category_id){
 			$category = new Sher_Core_Model_Category();
-			$current_category = $category->load((int)$category_id);
+			$current_category = $category->extend_load((int)$category_id);
 		}
 
     //添加网站meta标签
@@ -168,7 +168,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
     if(!empty($product['tags_s'])){
       $this->stash['page_keywords_suffix'] = $product['tags_s'];   
     }
-    $this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['category']['title'], $product['short_title'], $product['short_title']);
+    $this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
