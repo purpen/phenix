@@ -115,7 +115,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$stuff = $model->extended_model_row($stuff);
 
     //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("【%s】评测-太火鸟创新产品汇集库", $stuff['title']);
+    $this->stash['page_title_suffix'] = sprintf("【%s】-太火鸟创新产品汇集库", $stuff['title']);
     if(!empty($stuff['tags_s'])){
       $this->stash['page_keywords_suffix'] = $stuff['tags_s'];   
     }
