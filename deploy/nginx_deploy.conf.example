@@ -82,6 +82,11 @@ server {
         rewrite ^/promo[/]?$ /app/wap/promo last;
 		rewrite ^/promo/(.*)$ /app/wap/promo/$1 last;
     }
+
+    location /mall {
+        rewrite ^/mall[/]?$ /app/wap/mall last;
+		rewrite ^/promo/(.*)$ /app/wap/mall/$1 last;
+    }
 	
     location /wxpay {
         rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
@@ -241,6 +246,11 @@ server {
         location /promo {
             rewrite ^/promo[/]?$ /app/site/promo last;
 			rewrite ^/promo/(.*)$ /app/site/promo/$1 last;
+        }
+
+        location /mall {
+            rewrite ^/mall[/]?$ /app/site/mall last;
+			rewrite ^/mall/(.*)$ /app/site/mall/$1 last;
         }
 		
         location /dream {
