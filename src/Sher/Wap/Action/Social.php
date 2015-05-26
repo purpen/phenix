@@ -87,6 +87,21 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	public function topic(){
 		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
 		$this->stash['category_prefix_url'] = $prefix_url;
+		
+		
+		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
+		
+		if($cid){
+			$category = new Sher_Core_Model_Category();
+			$child = $category->load((int)$category_id);
+			if(empty($child)){
+				return $this->show_message_page('请选择某个分类');
+			}
+			$this->stash['child'] = $child;
+		}
+		$page = "?page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$category_id).$page;
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('wap/topic.html');
 	}
 	

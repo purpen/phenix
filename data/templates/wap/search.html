@@ -1,0 +1,324 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin: 0em 0 3em;
+	}
+	.search.item{
+		width:80%;
+		margin:0 10%;
+	}
+	.search.item .ui.icon.input>input~.icon {
+	  border-left: 1px solid rgba(244,33,86,.9);
+	  color: rgba(255,255,255,.9);
+	  background-color: #f36;
+	  cursor: pointer;
+	  opacity: 1;
+	}
+	.search.item .ui.icon.input>.icon {
+	  border-left: 1px solid rgba(0,0,0,.25);
+	}
+	.ui.selection.list .item:hover {
+	    background-color: rgba(0, 0, 0, 0.05);
+	    color: rgba(0, 0, 0, 0.7);
+	}
+	.ui.selection.list .item:active {
+	    background-color: rgba(0, 0, 0, 0.25);
+	    color: rgba(0, 0, 0, 0.7);
+	}
+	.social.search .suggest {
+	    margin: 1rem auto 0;
+	}
+	.social.search .suggest a {
+	    color: #fff;
+	}
+
+	.content em {
+	  color: red;
+	  font-style: inherit;
+	  margin-left: 0.2rem;
+	}
+	.ui.list .item>img{
+		margin-top: 1.2rem;
+		margin-left: 0rem;
+		margin-bottom: 1.2rem;
+	}
+	#searchpage .idea.tags .ui.line {
+	  margin-right: .85em;
+	  color: rgba(0,0,0,.4);
+	}
+	#searchpage .idea.tags .ui.line:hover{
+		color:#f36;
+	}
+	.ui.search.list>.item>.image+.content{
+		max-width:50%;
+	}
+	.searcmu.buttons > .button{
+		min-width:86px;
+	}
+	.ui.searcmu.buttons .button:first-child {
+	  border-left: 1px solid #f36;
+	}
+	.search .ui.label{
+		border-radius: 2.5rem;
+		padding: 0.05em 0.5em !important;
+	}
+	#searchpage {
+	  padding-top: 1rem;
+	  padding-bottom: 2rem;
+	  background-color: #fff;
+	  min-height: 350px;
+	}
+	#searchpage .ui.tabox {
+	  margin: 0 auto .8em;
+	}
+	.ui.tabox {
+	  border-bottom: 1px solid #e4e5e7;
+	  margin: 2.5em auto 1.5em;
+	}
+	.ui.tabox .ui.tabs {
+	  display: block;
+	  font-size: 0rem;
+	  width: 100%!important;
+	}
+	.ui.tabox .ui.grid{
+		margin:0;
+	}
+	#searchpage .ui.tabox .ui.ten.tabs .tab {
+	  width: 18%;
+	  font-size: 1.15rem;
+	  text-align: center;
+	}
+	.ui.tabox .ui.tabs .tab:hover, .ui.tabox .ui.tabs .active.tab {
+	  border-bottom: 2px solid #f36;
+	  color: #f36;
+	  -webkit-transition: all .3s ease-in-out 0s;
+	  transition: all .3s ease-in-out 0s;
+	}
+	.ui.tabox .ui.tabs .tab {
+	  border-bottom: 2px solid transparent;
+	  -webkit-box-sizing: border-box;
+	  -moz-box-sizing: border-box;
+	  box-sizing: border-box;
+	  cursor: pointer;
+	  color: #444;
+	  display: inline-block;
+	  font-size: 1.5rem;
+	  padding-bottom: .8%;
+	  padding-top: .8%;
+	  text-align: left;
+	  text-decoration: none;
+	}
+	.ui.search.list>.item>.content {
+	  margin: 1rem .5rem;
+	}
+	.ui.search.list>.item>.content>.header {
+	  font-size: 1rem;
+	  font-weight: 700;
+	  line-height: 1.33em;
+	  margin-bottom: .5rem;
+	}
+	a.line,a.line:visited{
+		color:#444;
+		border-bottom:2px solid rgba(255,255,255,0);
+		-webkit-transition:all .3s ease-in-out 0s;
+		transition:all .3s ease-in-out 0s;
+		text-decoration:none;
+		font-weight:400;
+	}
+	a.line:hover,a.line.active{
+		color:#f36;
+		text-decoration:none;
+		padding-bottom:3px;
+		border-bottom:2px solid #f36;
+	}
+	.ui.medium.image {
+	  width: 120px;
+	}
+	.author{
+		font-size:0.9rem;
+	}
+	.idea.tags{
+		margin:.5rem 0;
+	}
+	.ui.pagination.menu .item {
+	  min-width: 2em !important;
+	}
+	.social.search{
+		background:url({{ app_url_packaged }}/images/wap_search.jpg) no-repeat center center /cover;
+		padding: 0px 0 30px;
+		color:#fff;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	//最新
+  $('.ui.lastest.button').click(function(){
+    phenix.redirect("{{ app_url_wap }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=1");
+  });
+  //相关度
+  $('.ui.relation.button').click(function(){
+    phenix.redirect("{{ app_url_wap }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0");
+  });
+	
+{% endblock %}
+{% block content %}
+<section class="social search catemenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ten wide column white section-title">
+                <h1 class="block title">高级搜索</h1>
+				<form class="ui form" action="{{ app_url_wap }}/search" method="get">
+                 	<div class="ui icon input">
+                		<input name="q" type="text" value="{{ q }}" />
+                		<input name="t" type="hidden" value="{{ t }}" />
+                		<i class="search icon"></i>
+                	</div>
+                </form>
+                <div class="suggest">
+                    <div class="ui horizontal list">
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=智能睡眠灯" class="ui link">智能睡眠灯</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=智能配奶机" class="ui link">智能配奶机</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=十万火计" class="ui link">十万火计</a>
+                        </div>
+                        <div class="item">
+                            <a href="{{ app_url_searh }}?q=蛋年" class="ui link">蛋年创新大会</a>
+                        </div>
+                    </div>
+                    
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
+<div id="searchpage">
+	<div class="ui tabox">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui ten tabs">
+            <a href="{{ app_url_domain }}/search?t=0&q={{ q }}" class="{{ css_all }} tab">全部</a>
+            <a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>
+            <a href="{{ app_url_domain }}/search?t=2&q={{ q }}" class="{{ css_topic }} tab">话题</a>
+            <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
+            <a href="{{ app_url_domain }}/search?t=4&q={{ q }}" class="{{ css_stuff }} tab">智品</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% if q %}
+					{%if result.success %}
+            搜索{{ evt_s }} “{{ q }}” , 找到约 {{ result.total_count }} 条结果
+					{%else%}
+            搜索{{ evt_s }} “{{ q }}” , 找到约 0 条结果
+					{%endif%}
+				{% else %}  
+					你没有输入足够的关键词，请输入要搜索的短语！
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="ui small searcmu buttons">
+					<div class="ui magenta lastest button {{ css_lastest }}">
+						最新
+					</div>
+					<div class="ui magenta relation button {{ css_relation }}">
+						相关度
+					</div>
+				</div>
+				
+				
+				<!--
+				<div class="ui divided horizontal list">
+					<div class="item">
+            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=1" class="ui link {{ css_lastest }}">最新</a>
+					</div>
+					<div class="item">
+            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0" class="ui link {{ css_relation }}">相关度</a>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+				<div class="search result">
+					<div class="ui search selection list">
+					{% for item in result.data %}
+						{% if item %}
+            <div class="item" id="item-{{ item.pid }}">
+             <!-- {% if item.cover_id %}
+							  	<img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" />
+              {%endif%}-->
+							<div class="content">
+								<div class="header">
+							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
+                      <label class="ui magenta label">{{ item.kind_name }}</label>
+								</div>
+								<div class="attribute">
+									<span class="author">
+                    <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
+                    {% if visitor.can_admin %}
+                      <span><a href="/app/wap/search/del?id={{ item.pid }}" class="confirm-request ui link"><small>删除</small></a></span>
+                    {%endif%}
+									</span>
+								</div>
+								<div class="">
+							    <p style="word-break: break-all;">{{ item.content }}</p>
+								</div>
+								<div class="">
+							    <p class="idea tags">
+                    {% if item.tags %}
+                      {%for tag in item.tags%}
+                      <a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">#{{ tag }}</a>&nbsp;
+                      {%endfor%}
+                    {%endif%}
+                  
+                  </p>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="ui center aligned column">
+				{% if result.total_count %}
+					{% pager url:pager_url,total_rows:result.total_count,total_page:result.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{%include 'block/pager.html'%}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
