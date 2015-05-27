@@ -1,0 +1,127 @@
+{%extends 'layout/column.html'%}
+{% block title %}网站地图 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	h3{
+		margin:10px 0;
+		color:#f36;
+	}
+	.ui.link{
+		line-height: 24px;
+		margin-right: 10px;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<section class="ui big frbird block">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column white section-title">
+				<h2 class="block title">网站地图</h2>
+				<p>切换观察的角度，你会发现平行世界的美</p>
+				<hr>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="ui big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3>首页</h3>
+				<h3>商店</h3>
+				<a href="{{ app_url_domin }}/shop" target="_blank" title="商店" class="ui link">商店</a>
+				<a href="{{ app_url_domin }}/shop/c0" target="_blank" title="全部" class="ui link">全部</a>
+				<a href="{{ app_url_domin }}/shop/c30" target="_blank" title="运动健康" class="ui link">运动健康</a>
+				<a href="{{ app_url_domin }}/shop/c31" target="_blank" title="数码电子" class="ui link">数码电子</a>
+				<a href="{{ app_url_domin }}/shop/c32" target="_blank" title="智能家居" class="ui link">智能家居</a>
+				<a href="{{ app_url_domin }}/shop/c33" target="_blank" title="娱乐生活" class="ui link">娱乐生活</a>
+				<a href="{{ app_url_domin }}/shop/c34" target="_blank" title="户外休闲" class="ui link">户外休闲</a>
+				<a href="{{ app_url_domin }}/sale" target="_blank" title="新品预售" class="ui link">新品预售</a><br/>
+				<a href="{{ app_url_domin }}/shopping/cart" target="_blank" title="购物车" class="ui link">购物车</a>
+				<a href="{{ app_url_domin }}/shop/list-c0-s2-p1" target="_blank" title="热门" class="ui link">热门</a>
+				<a href="{{ app_url_domin }}/shop/list-c0-s1-p1" target="_blank" title="最新" class="ui link">最新</a>
+				<a href="{{ app_url_domin }}/shop/list-c0-s4-p1" target="_blank" title="按销量" class="ui link">按销量</a>
+				<a href="{{ app_url_domin }}/shop/list-c0-s3-p1" target="_blank" title="按销售价格" class="ui link">按销售价格</a>
+				<a href="{{ app_url_domin }}/my/favorite" target="_blank" title="收藏" class="ui link">收藏</a>
+				<h3>发现</h3>
+				<a href="{{ app_url_domin }}/fever" target="_blank" title="创意投票" class="ui link">创意投票</a>
+				<a href="{{ app_url_domin }}/fever/c30" target="_blank" title="运动健康" class="ui link">运动健康</a>
+				<a href="{{ app_url_domin }}/fever/c31" target="_blank" title="数码电子" class="ui link">数码电子</a>
+				<a href="{{ app_url_domin }}/fever/c32" target="_blank" title="智能家居" class="ui link">智能家居</a>
+				<a href="{{ app_url_domin }}/fever/c33" target="_blank" title="娱乐生活" class="ui link">娱乐生活</a>
+				<a href="{{ app_url_domin }}/fever/c34" target="_blank" title="户外休闲" class="ui link">户外休闲</a><br />
+				<a href="{{ app_url_domin }}/topic" target="_blank" title="话题" class="ui link">话题</a>
+				<a href="{{ app_url_domin }}/topic/c59" target="_blank" title="智创学堂" class="ui link">智创学堂</a>
+				<a href="{{ app_url_domin }}/topic/c61" target="_blank" title="孵化需求" class="ui link">孵化需求</a>
+				<a href="{{ app_url_domin }}/topic/c15" target="_blank" title="活动动态" class="ui link">活动动态</a>
+				<a href="{{ app_url_domin }}/topic/c21" target="_blank" title="品牌专区" class="ui link">品牌专区</a>
+				<a href="{{ app_url_domin }}/topic/c18" target="_blank" title="产品评测" class="ui link">产品评测</a>
+				<a href="{{ app_url_domin }}/topic/c27" target="_blank" title="自由讨论" class="ui link">自由讨论</a><br/>
+				<a href="{{ app_url_domin }}/stuff" target="_blank" title="智品库" class="ui link">智品库</a>
+				<a href="{{ app_url_domin }}/stuff/c36" target="_blank" title="智能手环" class="ui link">智能手环</a>
+				<a href="{{ app_url_domin }}/stuff/c37" target="_blank" title="智能手表" class="ui link">智能手表</a>
+				<a href="{{ app_url_domin }}/stuff/c52" target="_blank" title="健康监测" class="ui link">健康监测</a>
+				<a href="{{ app_url_domin }}/stuff/c53" target="_blank" title="智能家居" class="ui link">智能家居</a>
+				<a href="{{ app_url_domin }}/stuff/c55" target="_blank" title="智能首饰" class="ui link">智能首饰</a>
+				<a href="{{ app_url_domin }}/stuff/c56" target="_blank" title="智能母婴" class="ui link">智能母婴</a>
+				<a href="{{ app_url_domin }}/stuff/c57" target="_blank" title="创意产品" class="ui link">创意产品</a>
+				<a href="{{ app_url_domin }}/stuff/c54" target="_blank" title="新奇特" class="ui link">新奇特</a><br/>
+				<a href="{{ app_url_domin }}/try" target="_blank" title="新品试用" class="ui link">新品试用</a><br/>
+				<a href="{{ app_url_domin }}/active/list" target="_blank" title="活动" class="ui link">活动</a><br/>
+				<a href="{{ app_url_domin }}/cooperate" target="_blank" title="孵化资源" class="ui link">孵化资源</a>
+				<a href="{{ app_url_domin }}/cooperate?rid=62" target="_blank" title="设计公司" class="ui link">设计公司</a>
+				<a href="{{ app_url_domin }}/cooperate?rid=64" target="_blank" title="技术开发" class="ui link">技术开发</a>
+				<a href="{{ app_url_domin }}/cooperate?rid=63" target="_blank" title="合作院校" class="ui link">合作院校</a><br/>
+				<a href="{{ app_url_domin }}/contest/dream2" target="_blank" title="十万火计" class="ui link">十万火计</a>
+				<a href="{{ app_url_domin }}/contest/dream" target="_blank" title="第一季" class="ui link">第一季</a>
+				<a href="{{ app_url_domin }}/contest/dream2" target="_blank" title="第二季" class="ui link">第二季</a><br/>
+				<a href="{{ app_url_domin }}/birdegg" target="_blank" title="蛋年创新大会" class="ui link">蛋年创新大会</a>
+				<a href="{{ app_url_domin }}/promo/birdegg" target="_blank" title="北京站" class="ui link">北京站</a>
+				<a href="{{ app_url_domin }}/promo/sz" target="_blank" title="深圳站" class="ui link">深圳站</a><br/>
+				<h3>孵化</h3>
+				<h3>关于太火鸟</h3>
+				<a href="{{ app_url_domin }}/guide/about" target="_blank" title="关于我们" class="ui link">关于我们</a>
+				<a href="{{ app_url_domin }}/guide/media" target="_blank" title="媒体报道" class="ui link">媒体报道</a>
+				<a href="{{ app_url_domin }}/guide/contact" target="_blank" title="联系我们" class="ui link">联系我们</a>
+				<a href="{{ app_url_domin }}/guide/succase" target="_blank" title="成功案例" class="ui link">成功案例</a>
+				<a href="{{ app_url_domin }}/guide/join" target="_blank" title="加入我们" class="ui link">加入我们</a><br/>
+				<h3>帮助中心</h3>
+				<a href="{{ app_url_domin }}/fire" target="_blank" title="创意征集" class="ui link">创意征集</a>
+				<a href="{{ app_url_domin }}/try" target="_blank" title="新品试用" class="ui link">新品试用</a>
+				<a href="{{ app_url_domin }}/helper/rule" target="_blank" title="投票规则" class="ui link">投票规则</a>
+				<a href="{{ app_url_domin }}/incubator" target="_blank" title="产品合作" class="ui link">产品合作</a><br/>
+				<h3>服务</h3>
+				<a href="{{ app_url_domin }}/helper" target="_blank" title="如何工作" class="ui link">如何工作</a>
+				<a href="{{ app_url_domin }}/my/service" target="_blank" title="售后政策" class="ui link">售后政策</a>
+				<a href="{{ app_url_domin }}/helper/question" target="_blank" title="常见问题" class="ui link">常见问题</a>
+				<a href="{{ app_url_domin }}/helper/agreement" target="_blank" title="服务条款" class="ui link">服务条款</a>
+				<a href="{{ app_url_domin }}/helper/map" target="_blank" title="网站地图" class="ui link">网站地图</a>
+				<a href="{{ app_url_domin }}/helper/link" target="_blank" title="友情链接" class="ui link">友情链接</a><br/>
+				<h3>用户</h3>
+				<a href="{{ app_url_domin }}/auth/login" target="_blank" title="登录" class="ui link">登录</a>
+				<a href="{{ app_url_domin }}/auth/signup" target="_blank" title="注册" class="ui link">注册</a>
+				{% if visitor %}
+				<a href="{{ visitor.home_url }}" target="_blank" title="个人主页" class="ui link">个人主页</a>
+				{% else %}
+				<a href="{{ app_url_domin }}/auth/login" target="_blank" title="个人主页" class="ui link">个人主页</a>
+				{% endif %}
+				<a href="{{ app_url_domin }}/my/point" target="_blank" title="积分规则" class="ui link">积分规则</a><br/>
+				<h3>品牌</h3>
+				<a href="javascript:void(0);" target="_blank" title="GOPRO" class="ui link">GOPRO</a>
+				<a href="javascript:void(0);" target="_blank" title="Fitbit" class="ui link">Fitbit</a><br/>
+				<h3>搜索</h3>
+				<a href="{{ app_url_domin }}/search" target="_blank" title="全部" class="ui link">全部</a>
+				<a href="{{ app_url_domin }}/search?t=5&q=" target="_blank" title="创意" class="ui link">创意</a>
+				<a href="{{ app_url_domin }}/search?t=2&q=" target="_blank" title="话题" class="ui link">话题</a>
+				<a href="{{ app_url_domin }}/search?t=1&q=" target="_blank" title="商品" class="ui link">商品</a>
+				<a href="{{ app_url_domin }}/search?t=4&q=" target="_blank" title="智品" class="ui link">智品</a><br/>
+				<a href="{{ app_url_domin }}/search?t=0&q=&evt=content&s=1" target="_blank" title="最新" class="ui link">最新</a>
+				<a href="{{ app_url_domin }}/search?t=0&q=&evt=content&s=0" target="_blank" title="相关度" class="ui link">相关度</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
