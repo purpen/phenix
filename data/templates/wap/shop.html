@@ -28,10 +28,10 @@
 				</a>
 				{% if !presaled %}
 			  	<div class="divider"> / </div>
-			  	<div class="active section">商品列表</div>
+			  	<div class="section">商品列表</div>
 				{% else %}
 			  	<div class="divider"> / </div>
-				<div class="active section">新品预售</div>
+				<div class="section">新品预售</div>
 				{% endif %}
 
 			  <div class="divider"> / </div>
@@ -45,7 +45,7 @@
 	</div>
 	<div class="row">
 		<div class="column">
-			{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
+			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid %}
 			<div class="ui fluid selection dropdown">
 				{% if current %}
 				<div class="default text">{{ current.title }}</div>
@@ -54,6 +54,7 @@
 				{% endif %}
 			    <i class="angle down icon"></i>
 			    <div class="menu">
+            <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>
             <a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>
 					{% for cat in category.rows %}
 				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
