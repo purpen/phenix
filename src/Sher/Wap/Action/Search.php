@@ -89,28 +89,29 @@ class Sher_Wap_Action_Search extends Sher_Wap_Action_Base {
         // 生成路径
         switch($v['kind']){
           case 'Stuff':
-            $result['data'][$k]['view_url'] = Sher_Core_Helper_Url::stuff_view_url($v['oid']);
+            $result['data'][$k]['view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($v['oid']);
             break;
           case 'Topic':
-            $result['data'][$k]['view_url'] = Sher_Core_Helper_Url::topic_view_url($v['oid']);
+            $result['data'][$k]['view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $v['oid'], 0);
             break;
           case 'Product':
-            $result['data'][$k]['view_url'] = Sher_Core_Helper_Search::gen_view_url($v['cid'], $v['oid']);
+            $result['data'][$k]['view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $v['oid']);
             break;
           default:
             $result['data'][$k]['view_url'] = '#';
         }
 
-        //封面图
+        //封面图---手机上暂不调用图片
         if($v['cover_id']){
-          $result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
+          //$result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
+          $result['data'][$k]['asset'] = '';
         }
 
         // 获取对象属性
         $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($v['kind'], $v['cid']);
 
         // 获取asset_type
-        $result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
+        //$result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
 
       }
 
