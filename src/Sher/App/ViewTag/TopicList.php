@@ -126,6 +126,8 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			case 5:
 				$options['sort_field'] = 'view';
 				break;
+      case 6:
+        $options['sort_field'] = 'stick:view';
 		}
 		
         if ($user_id) {
