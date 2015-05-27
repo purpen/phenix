@@ -314,7 +314,7 @@
 								{% if mode == 'edit' %}
 									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
 									{% for asset in assets.rows %}
-									<div class="thumb card" id="{{ asset._id }}">
+									<div class="thumb card block" id="{{ asset._id }}">
 										<div class="image">
 											<img src="{{ asset.thumbnails.mini.view_url }}" />
 											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
