@@ -48,8 +48,8 @@ position: fixed !important;
 	margin-bottom:5px !important;
 }
 .ui.products.segment{
-	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
-	box-shadow: 0 0 0 0px rgba(0,0,0,.1);
+	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
 	border-radius: 0;
 	padding:0 !important;
 }
@@ -326,9 +326,7 @@ position: fixed !important;
 </div>
 
 <!--产品内容-->
-<div class="presale">			
-	<div>
-		<div>
+<div class="presale">	
             <div class="ui segment">
     			<h4 class="ui dividing header">
     				{{ product.title }}
@@ -496,14 +494,9 @@ position: fixed !important;
                 {% endif %}
             </div>
 			
-		</div>
-	</div>
 </div>
 
 <!--商品介绍-->
-<div>
-	<div>
-		<div>
 			<div class="ui products segment">
 				<h4 class="ui dividing header">
 					产品详情
@@ -512,13 +505,9 @@ position: fixed !important;
 					{{ product.content }}
 				</div>
 			</div>
-		</div>
-	</div>
 	{% if product.stage == 9 %}
     {% if product.comment_count %}
     <!--商品评价-->
-    <div>
-      <div>
         <div class="ui reply segment">
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
@@ -584,9 +573,6 @@ position: fixed !important;
             {% endfor %}
           </div>
           
-        </div>
-      </div>
-    </div>
     {% endif %}<!--if product.comment_count-->
   {% endif %}<!--if stage==9-->
 </div>
