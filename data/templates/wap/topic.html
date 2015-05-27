@@ -27,7 +27,7 @@
 			
 			<div class="row">
 				<div class="column">
-					{% category_list var:'children' page:1 only_open:only_open domain:2 pid:cat._id child:cid %}
+					{% category_list var:'children' page:1 only_open:1 domain:2 pid:cid current:cid %}
 					<div class="ui fluid selection dropdown">
 						{% if child %}
 						<div class="default text">{{ child.title }}</div>
