@@ -28,7 +28,7 @@
 				</a>
 				{% if process_saled %}
 			  	<div class="divider"> / </div>
-			  	<div class="active section">热门商品</div>
+			  	<div class="active section">商品列表</div>
 				{% else %}
 			  	<div class="divider"> / </div>
 				<div class="active section">新品预售</div>
@@ -48,6 +48,7 @@
 				{% endif %}
 			    <i class="angle down icon"></i>
 			    <div class="menu">
+            <a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>
 					{% for cat in category.rows %}
 				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
 					{% endfor %}
@@ -59,17 +60,21 @@
 </div>
 
 <!--商店商品-->
-{% product_list var:'sale' process_saled:process_saled process_presaled:process_presaled only_approved:1 only_onsale:1 category_id:cid is_shop:1 page:page sort:'stick:latest' %}
+{% product_list var:'sale' is_shop:is_shop presaled:presaled only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
 {% if sale.total_rows %}
 <div class="ui responsive grid" id="mproducts">
 	<div class="row">
 		<div class="column">
 			<div class="ui one items">
 				{% for product in sale.rows %}
-					{% if process_saled %}
+					{% if product.stage==9 %}
 			  			{% include "mm/product-item.html" %}
-					{% else %}
+					{% endif %}
+          {% if product.stage==5 %}
 						{% include "mm/product-presale-item.html" %}
+					{% endif %}
+					{% if product.stage==12 %}
+			  			{% include "mm/product-item.html" %}
 					{% endif %}
 			    {% endfor %}
 			</div>

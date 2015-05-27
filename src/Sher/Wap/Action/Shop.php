@@ -52,7 +52,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function shop(){
 		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
-		
+    $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
 		if($cid){
 			// 获取某类别列表
 			$category = new Sher_Core_Model_Category();
@@ -67,12 +67,18 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current, 3);
 			$this->stash['current'] = $current;
 		}
+
+    if(empty($presale)){
+      $this->stash['is_shop'] = 1;
+      $this->stash['presaled'] = 0;
+    else{
+      $this->stash['is_shop'] = 0;
+      $this->stash['presaled'] = 1;   
+    }
 		
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.shop', 'c'.$cid).'p#p#';
 		$this->stash['pager_url'] = $pager_url;
-		
-		$this->stash['process_saled'] = 1;
-    $this->stash['is_shop'] = 1;
+
 		return $this->to_html_page('wap/shop.html');
 	}
 	
