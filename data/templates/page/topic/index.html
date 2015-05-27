@@ -131,7 +131,7 @@
 						<table class="ui basic table">
 							{% for topic in list.rows %}
 								<tr>
-									<td>
+									<td class="{%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
 							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
 									</td>
 								</tr>

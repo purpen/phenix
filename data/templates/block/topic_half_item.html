@@ -8,7 +8,7 @@
 		</a>
 	</td>
 	<td>
-      	<h3 class="title">
+    <h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
 			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
                 {% if topic.top %}
                 <i class="ui pop basic pin icon" data-content="置顶推荐" data-variation="inverted"></i>
