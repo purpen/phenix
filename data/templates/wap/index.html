@@ -71,24 +71,18 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
-            {% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
-            <div id="frslide" class="frame">
-            	<div class="ui slide">
-            		{% for ad in ad.rows %}
-            		<div class="item">
-            			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
-            	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
-            			</a>
-            		</div>
-            		{% endfor %}
-            	</div>
-            	<div class="pages"></div>
-            </div>
+{% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
+<div id="frslide" class="frame">
+	<div class="ui slide">
+		{% for ad in ad.rows %}
+		<div class="item">
+			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
+	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
+			</a>
 		</div>
+		{% endfor %}
 	</div>
+	<div class="pages"></div>
 </div>
 
 

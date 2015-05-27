@@ -5,6 +5,9 @@
 	#mfrbird {
 	    margin: 0em 0 3em;
 	}
+	.social.search > .ui.responsive.grid{
+		margin-top:0 !important;
+	}
 	.search.item{
 		width:80%;
 		margin:0 10%;
@@ -33,6 +36,10 @@
 	.social.search .suggest a {
 	    color: #fff;
 	}
+	.social.search .suggest .ui.horizontal.list>.item{
+		margin-right:1em !important;
+		margin-left:0 !important;
+	}
 
 	.content em {
 	  color: red;
@@ -55,7 +62,7 @@
 		max-width:50%;
 	}
 	.searcmu.buttons > .button{
-		min-width:86px;
+		min-width:120px;
 	}
 	.ui.searcmu.buttons .button:first-child {
 	  border-left: 1px solid #f36;
@@ -167,7 +174,7 @@
 <section class="social search catemenu">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ten wide column white section-title">
+			<div class="column white section-title">
                 <h1 class="block title">高级搜索</h1>
 				<form class="ui form" action="{{ app_url_wap }}/search" method="get" id="searchbar">
                  	<div class="ui icon input">
@@ -229,7 +236,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="column">
+			<div class="center aligned column">
 				<div class="ui small searcmu buttons">
 					<div class="ui magenta lastest button {{ css_lastest }}">
 						最新
@@ -238,17 +245,6 @@
 						相关度
 					</div>
 				</div>
-				
-				
-				<!--
-				<div class="ui divided horizontal list">
-					<div class="item">
-            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=1" class="ui link {{ css_lastest }}">最新</a>
-					</div>
-					<div class="item">
-            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0" class="ui link {{ css_relation }}">相关度</a>
-					</div>
-				</div>-->
 			</div>
 		</div>
 		<div class="row">
