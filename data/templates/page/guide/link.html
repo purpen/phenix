@@ -1,0 +1,132 @@
+{%extends 'layout/column.html'%}
+{% block title %}友情链接 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.frind.block .row:first-child img{
+		margin: 5px 5px 5px 0;
+		border: 1px solid #ccc;
+		width: 150px;
+	}
+	.ui.frind.block .space.row a.ui.link{
+		margin-right: 15px;
+	  min-width: 62px;
+	  height: 20px;
+	  margin-bottom: 5px;
+	  display: inline-block;
+		padding:0;
+	}
+	.ui.frind.block .logo.row .ui.three.items>.item{
+		background: rgba(0,0,0,0);
+		border: 0px solid #fff;
+	  box-shadow: 0 0px 0px #C7C7C7;
+		-webkit-box-shadow: 0 0px 0px #C7C7C7;
+		cursor:auto;
+	}
+	.ui.frind.block .logo.row .content a.ui.link:hover{
+		text-decoration:underline;
+	}
+	.ui.frind.block .logo.row .column:nth-child(2) p{
+		margin:7px 0;
+	}
+	
+</style>
+{% endblock %}
+{% block content %}
+<section class="ui big frbird block">
+	<div class="ui responsive center aligned grid">
+		<div class="row">
+			<div class="center aligned column white section-title">
+				<h2 class="block title">友情链接</h2>
+				<p>分享信息，链接资源，在智创的世界里，我们携手会走得更远</p>
+				<hr>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="ui frind big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">
+					友情链接
+				</h3>
+				<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技"></a>
+				<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园"></a>
+				<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技"></a>
+				<a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国"></a>
+				<a href="http://techcrunch.cn" title="TC" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC"></a>
+				<a href="http://www.huodongxing.com/" title="活动行" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_huodongxing.jpg" alt="活动行"></a>
+				<a href="http://www.zhidx.com/" title="智东西" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_zhidongxi.jpg" alt="智东西"></a>
+			</div>
+		</div>
+		
+		<!--<div class="space row">
+			<div class="column">
+				<h3 class="ui header">
+					文字链接
+				</h3>
+				<div class="ui list">
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a><br />
+					<a href="" title="" target="_blank" class="ui link item">拉勾网网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+					<a href="" title="" target="_blank" class="ui link item">拉勾网</a>
+				</div>
+				
+			</div>
+		</div>-->
+		
+		<div class="logo row">
+			<div class="column">
+				<h3 class="ui header">太火鸟Logo下载</h3>
+				<div class="ui three items">
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/link-logo1.jpg" alt="太火鸟logo">
+						</div>
+						<div class="content">
+							<a href="http://frstatic.qiniudn.com/images/c_logo.pdf?attname=" class="ui active link" target="_blank" title="PDF">PDF</a> &nbsp;|&nbsp; <a href="http://frstatic.qiniudn.com/images/c_logo.png?attname=" class="ui active link" target="_blank" title="PNG">PNG</a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/link-logo2.jpg" alt="太火鸟logo">
+						</div>
+						<div class="content">
+							<a href="http://frstatic.qiniudn.com/images/b_logo.pdf?attname=" class="ui active link" target="_blank" title="PDF">PDF</a> &nbsp;|&nbsp; <a href="http://frstatic.qiniudn.com/images/b_logo.png?attname=" class="ui active link" target="_blank" title="PNG">PNG</a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="image">
+							<img src="{{ app_url_packaged }}/images/link-logo3.jpg" alt="太火鸟logo">
+						</div>
+						<div class="content">
+							<a href="http://frstatic.qiniudn.com/images/w_logo.pdf?attname=" class="ui active link" target="_blank" title="PDF">PDF</a> &nbsp;|&nbsp; <a href="http://frstatic.qiniudn.com/images/w_logo.png?attname=" class="ui active link" target="_blank" title="PNG">PNG</a>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+			
+			<div class="ten wide column">
+				<h4 class="ui header">链接互换说明</h4>
+				<p>欢迎与“太火鸟”交换链接，操作流程如下：</p>
+				<p>1. 首先请先在贵站做好“太火鸟”的文字或 LOGO链接。</p>
+				<p>2. 链接文字：“太火鸟”</p>
+				<p>3. 链接地址： http://www.taihuoniao.com</p>
+				<p>4. 特别注意：Google PR值 低于等于3 的网站请将“太火鸟”链接放在贵站首页。</p>
+				<p>5. 做好链接后，将贵网站名称、地址、logo、联系人、Email、站点简介等发Email至service@taihuoniao.com</p>
+				<p>6. 商务合作链接请联系：QQ-1296854313</p>
+				
+			</div>
+		</div>
+		
+
+	</div>
+</div>
+{% endblock %}
