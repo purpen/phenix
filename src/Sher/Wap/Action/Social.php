@@ -118,6 +118,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		if(empty($child)){
 			return $this->show_message_page('请选择某个分类');
 		}
+    //根据分类ID,显示描述信息
+    $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
+
     //添加网站meta标签
     $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($child, 1);
     $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($child, 2);   

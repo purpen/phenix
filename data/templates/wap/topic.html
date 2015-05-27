@@ -50,25 +50,12 @@
 		</div>
 	</section>
 	
-	{% category_list var:'category' only_open:1 domain:2 istop:1 sort:'stick:latest' %}
+	{% topic_list var:'list' is_top:1 sort:6 page:1 size:20 %}
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% for cat in category.rows %}
 				<div class="ui topiclist segment">
-					{% category_list var:'children' page:1 only_open:1 domain:2 pid:cat._id %}
-					<div class="ui category relaxed divided list">
-						{% for child in children.rows %}
-						<div class="item">
-							<div class="content">
-						    	<div class="header"><a href="{{ category_prefix_url }}{{ child._id }}" title="{{ child.title }}" class="ui line link">{{ child.title }}</a> <small>（{{ child.total_count }}）</small></div>
-						        <small>{{ child.summary }}</small>
-								</div>
-							</div>
-							{% endfor %}
-						</div>
-					
-						{% topic_list var:'list' category_id:cat._id is_top:1 time:time sort:sort page:1 size:5 %}
+						
 						<div class="ui topic relaxed divided list">
 							{% for topic in list.rows %}
 							<div class="item">
@@ -80,7 +67,6 @@
 							{% endfor %}
 						</div>
 					</div>
-					{% endfor %}
 				
 				</div>
 			</div>
