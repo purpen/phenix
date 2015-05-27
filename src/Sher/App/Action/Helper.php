@@ -25,6 +25,22 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 友情链接
+	 */
+	public function link() {
+		$this->set_target_css_state('page_link');
+		return $this->to_html_page('page/guide/link.html');
+	}
+	
+	/**
+	 * 网站地图
+	 */
+	public function map() {
+		$this->set_target_css_state('page_map');
+		return $this->to_html_page('page/guide/map.html');
+	}
+	
+	/**
 	 * 投票规则说明
 	 */
 	public function rule(){
