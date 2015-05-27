@@ -37,7 +37,9 @@
 					    <i class="angle down icon"></i>
 					    <div class="menu">
 							{% for child in children.rows %}
+                {% if child.pid %}
 						  		<a class="ui {{ child.active }} item" href="{{ category_prefix_url }}{{ child._id }}">{{ child.title }}</a>
+                {%endif%}
 							{% endfor %}
 					    </div>
 					</div>
