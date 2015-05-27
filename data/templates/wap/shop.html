@@ -33,6 +33,13 @@
 			  	<div class="divider"> / </div>
 				<div class="active section">新品预售</div>
 				{% endif %}
+
+			  <div class="divider"> / </div>
+        {% if current %}
+        <div class="active section">{{ current.title }}</div>
+        {%else%}
+			  	<div class="active section">全部类别</div>
+        {%endif%}
 			</div>
 		</div>
 	</div>
