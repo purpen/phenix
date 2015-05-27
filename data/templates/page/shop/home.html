@@ -262,13 +262,11 @@
 					<h2 class="block title">
 						热门推荐 
 						<small>
-							{% category_list var:'category' only_open:1 domain:domain %}
 							<div class="ui divided horizontal sticklink list">
-								{% for cat in category.rows %}
-							  	<div class="item">
-									<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-								</div>
-								{% endfor %}
+                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s1-p1">最新</a></div>
+                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s2-p1">热门</a></div>
+                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s3-p1">按价格</a></div>
+                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s4-p1">按销量</a></div>
 							</div>
 						</small>
 					</h2>
