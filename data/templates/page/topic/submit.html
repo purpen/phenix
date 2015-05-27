@@ -38,9 +38,9 @@
 		typingTimer: 5000,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
-		defaultImageAlt: '{{ topic.title }}',
+		defaultImageTitle: '{{ topic.title }}',
 		{% else %}
-		defaultImageAlt: '太火鸟',
+		defaultImageTitle: '太火鸟',
 		{% endif %}
 		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
