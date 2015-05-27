@@ -47,6 +47,11 @@ position: fixed !important;
 .product.attrs .ui.small.magenta.att.button{
 	margin-bottom:5px !important;
 }
+.ui.segment{
+	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
+	box-shadow: 0 0 0 0px rgba(0,0,0,.1);
+	border-radius: 0;
+}
 </style>
 {% endblock %}
 
@@ -317,9 +322,9 @@ position: fixed !important;
 </div>
 
 <!--产品内容-->
-<div class="ui responsive presale grid">			
-	<div class="row">
-		<div class="column">
+<div class="presale">			
+	<div>
+		<div>
             <div class="ui segment">
     			<h4 class="ui dividing header">
     				{{ product.title }}
@@ -492,9 +497,9 @@ position: fixed !important;
 </div>
 
 <!--商品介绍-->
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
+<div>
+	<div>
+		<div>
 			<div class="ui segment">
 				<h4 class="ui dividing header">
 					产品详情
@@ -508,8 +513,8 @@ position: fixed !important;
 	{% if product.stage == 9 %}
     {% if product.comment_count %}
     <!--商品评价-->
-    <div class="row">
-      <div class="column">
+    <div>
+      <div>
         <div class="ui reply segment">
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
