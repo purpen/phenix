@@ -17,6 +17,7 @@
 	$('#editor').editable({
 		inlineMode: false,
 		toolbarFixed: false,
+        theme: 'gray',
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'bird',
@@ -30,7 +31,7 @@
 		{% else %}
 		defaultImageAlt: '太火鸟',
 		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ try._id }}', 'file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' },
 		defaultImageWidth: '',
@@ -179,6 +180,10 @@
 		  	<label>活动标题：</label>
 			<input type="text" name="title"  value="{{ try.title }}" />
 		</div>
+		<div class="field">
+		  	<label>短标题：</label>
+			<input type="text" name="short_title"  value="{{ try.short_title }}" />
+		</div>
 		
 		<div class="field">
 		  	<label>活动亮点：</label>
@@ -191,11 +196,11 @@
 			<input type="hidden" name="banner_id" id="try_banner_id" value="{{ try.banner_id }}" />
 			
 		  	<div id="phenix-uploader"></div>
-			<div id="asset-list" class="ui four items">
+			<div id="asset-list" class="ui four blocks">
 				{% if mode == 'edit' %}
 					{% asset_list var:'assets' parent_id:try._id size:20 asset_type:30 %}
 					{% for asset in assets.rows %}
-					<div class="thumb item" id="{{ asset._id }}">
+					<div class="thumb block" id="{{ asset._id }}">
 						<div class="image">
 							<img src="{{ asset.thumbnails.small.view_url }}" />
 							<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />

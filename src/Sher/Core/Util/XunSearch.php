@@ -105,6 +105,8 @@ public function __construct() {
 
     $evt = isset($options['evt'])?(string)$options['evt']:'content';
     $t = isset($options['t'])?(string)$options['t']:0;
+    $oid = isset($options['oid'])?(string)$options['oid']:0;
+    $type = isset($options['type'])?(int)$options['type']:0;
 
     try{
       $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
@@ -132,9 +134,25 @@ public function __construct() {
         }
       }
 
+      if($type){
+        switch($type){
+          case 1:
+            $condition .= sprintf("-oid:%s ", $oid);
+            break;
+          case 2:
+            break;
+        }
+      }
+
       //是否搜索标签
       if($evt=='tag'){
-        $str_f = sprintf('%stags:%s', $condition, $str);
+        $tag_arr = explode(',', $str);
+        $x_tag_arr = array();
+        foreach($tag_arr as $v){
+          array_push($x_tag_arr, sprintf("tags:%s", $v));
+        }
+        $x_tag_str = implode(' OR ', $x_tag_arr);
+        $str_f = sprintf('%s(%s)', $condition, $x_tag_str);
       }else{
         $search->addWeight('title', $str); // 增加附加条件：提升标题中包含 关键字 的记录的权重       
       }

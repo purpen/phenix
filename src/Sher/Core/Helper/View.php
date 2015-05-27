@@ -161,5 +161,86 @@ class Sher_Core_Helper_View {
     return $str;
   }
 
+  /**
+   * 根据分类类型,显示网站meta信息--传ID
+   */
+  public static function meta_category_id($id, $type=1){
+    $category_model = new Sher_Core_Model_Category();
+    $category = $category_model->extend_load((int)$id);
+    if(!empty($category)){
+      return self::meta_category_obj($category, $type);
+    }else{
+      return null;
+    }
+  
+  }
+
+  /**
+   * 根据分类类型,显示网站meta信息--传obj
+   */
+  public static function meta_category_obj($obj, $type=1){
+    $str = '';
+    if(!empty($obj)){
+      switch($type){
+      //title
+      case 1:
+        $domain = $obj['domain'];
+        //商品
+        if($domain==1){
+          $str = sprintf("%s-太火鸟商店-智能硬件购物第一品牌", $obj['title']);
+        }elseif($domain==2){
+          $str = sprintf("%s-太火鸟话题-最大的智能硬件社区", $obj['title']);       
+        }elseif($domain==4){
+          $str = sprintf("%s-智品库-太火鸟智能硬件孵化平台创新产品汇集库", $obj['title']);       
+        }
+        break;
+      //key_words
+      case 2:
+        $str = $obj['tags_s'];
+        break;
+      // desctription
+      case 3:
+        $str = $obj['summary'];
+        break;
+      }
+    }
+    return $str;
+  }
+
+  /**
+   *根据分类ID,显示描述信息
+   */
+  public static function category_desc_show($id, $type=1){
+    $str = '';
+    if(!empty($id)){
+      switch((int)$id){
+      //智创学堂
+      case 59:
+        $str = '智能硬件最新观点有哪些？新人小白如何创业？从“0”到“1”这里有答案！';
+        break;
+      //活动动态
+      case 15:
+        $str = '你总是需要多了解一些正在发生着的有关科技创意好玩的事。';
+        break;
+      // 品牌专区--产品专区
+      case 21:
+        $str = '新奇的想法、怪怪的想法、好想法、坏想法……有想法总比没想法强！';
+        break;
+      // 自由讨论-话题&吐槽
+      case 27:
+        $str = '只要发自内心的想去吐槽，槽点自然而然会呈现在你眼前！';
+        break;
+      // 产品评测-产品专区
+      case 18:
+        $str = '我们用专业的数据说明，让你更了解产品的优缺点';
+        break;
+      // 孵化需求
+      case 61:
+        $str = '孵化一个产品将会有数以万计的需求，缺技术？少人才？我们搭建平台，你可以在这里寻求资源与帮助。';
+        break;
+      }
+    }
+    return $str;
+  }
+
 }
-?>

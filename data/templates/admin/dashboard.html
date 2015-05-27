@@ -14,6 +14,7 @@
 {% block content %}
 	<div class="ui grid">
 		<div class="four column row">
+            {% if visitor.can_admin %}
 			<div class="column">
 				<div class="ui purple segment">
 					<h3 class="ui purple header">
@@ -22,6 +23,7 @@
 					</h3>
 				</div>
 			</div>
+            {% endif %}
 			<div class="column">
 				<div class="ui magenta segment">
 					<h3 class="ui magenta header">
@@ -38,6 +40,7 @@
 					</h3>
 				</div>
 			</div>
+            {% if visitor.can_admin %}
 			<div class="column">
 				<div class="ui orange segment">
 					<h3 class="ui orange header">
@@ -46,8 +49,10 @@
 					</h3>
 				</div>
 			</div>
+            {% endif %}
 		</div>
 		
+        {% if visitor.can_admin %}
 		<div class="row">
 			<div class="ten wide column">
 				<h3 class="ui header">最新15个订单</h3>
@@ -132,6 +137,6 @@
 				</table>
 			</div>
 		</div>
-		
+		{% endif %}
 	</div>
 {% endblock %}

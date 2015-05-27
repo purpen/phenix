@@ -13,8 +13,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
-        'cid'  => 0,
-		'ref'  => null,
+    'cid'  => 0,
+    'ref'  => null,
+    'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
+    'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
+    'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
 	protected $page_tab = 'page_topic';
@@ -104,11 +107,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			'sort_field' => 'latest',
       'evt' => 'tag',
       't' => 2,
+      'oid' => $current_id,
+      'type' => 1,
 		);
         
 		if(!empty($sword)){
-      $sword_x = str_replace(',', ' OR ', $sword);
-      $xun_arr = Sher_Core_Util_XunSearch::search($sword_x, $options);
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
       if($xun_arr['success'] && !empty($xun_arr['data'])){
         $topic_mode = new Sher_Core_Model_Topic();
         $items = array();
@@ -195,6 +199,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$is_top = true;
 		// 获取当前分类信息
 		if ($category_id){
+      //根据分类ID,显示描述信息
+      $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
 			$category = new Sher_Core_Model_Category();
 			$current_category = $category->extend_load((int)$category_id);
 			// 存在父级分类，标识是二级分类
@@ -203,6 +209,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				// 获取父级分类
 				$parent_category = $category->extend_load((int)$current_category['pid']);
 			}
+
+      //添加网站meta标签
+      $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
+      $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
+      $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
 		}
 		
 		$this->stash['cid'] = $this->stash['category_id'];
@@ -369,6 +380,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         if (!empty($topic)) {
             $topic = $model->extended_model_row($topic);
         }
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);
+    if(!empty($topic['tags'])){
+      $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
+    }
+    $this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);
@@ -376,7 +394,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 当前用户是否有管理权限
 		if ($this->visitor->id){
-			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_admin){
+			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_edit){
 				$editable = true;
 			}
 		}
@@ -678,8 +696,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		$model = new Sher_Core_Model_Topic();
 		$topic = $model->load((int)$this->stash['id']);
-		// 仅管理员或本人具有权限
-		if (!$this->visitor->can_admin() && !($topic['user_id'] == $this->visitor->id)){
+
+		// 仅编辑权限或本人具有删除权限
+		if (!$this->visitor->can_edit() && !($topic['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('你没有权限编辑的该主题！', true);
 		}
         if (!empty($topic)) {
@@ -797,8 +816,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
 
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1); 
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1); 
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
@@ -863,9 +882,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			$this->stash['topic'] = &DoggyX_Model_Mapper::load_model($id,'Sher_Core_Model_Topic');
 
-      // 更新到索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);   
-
+            // 更新到索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("话题保存失败：".$e->getMessage());
@@ -902,8 +920,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$model = new Sher_Core_Model_Topic();
 			$topic = $model->load((int)$id);
 			
-			// 仅管理员或本人具有删除权限
-			if ($this->visitor->can_admin() || $topic['user_id'] == $this->visitor->id){
+			// 仅编辑权限或本人具有删除权限
+			if ($this->visitor->can_edit() || $topic['user_id'] == $this->visitor->id){
 				$model->remove((int)$id);
 				
 				// 删除关联对象
@@ -952,7 +970,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$topic = $model->load((int)$id);
 			
 			// 仅管理员或本人具有删除权限
-			if ($this->visitor->can_admin() || $topic['user_id'] == $this->visitor->id){
+			if ($this->visitor->can_edit() || $topic['user_id'] == $this->visitor->id){
 				$model->remove((int)$id);
 				
 				// 删除关联对象

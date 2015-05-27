@@ -53,10 +53,11 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		$this->set_target_css_state('home');
 		$follow_id = $this->stash['id'];
 		
-		// 本人首次登录，需先完成资料
+		// 本人首次登录，需先完成资料---不需要了
 		if($this->visitor->id == (int)$this->stash['id'] && $this->stash['visitor']['first_login'] == 1){
-			$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile?first_login=1';
-			return $this->to_redirect($user_profile_url);
+      $this->stash['is_first_login'] = 1;
+			//$user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile?first_login=1';
+			//return $this->to_redirect($user_profile_url);
 		}
 		
 		$this->stash['profile'] = $this->stash['user']['profile'];

@@ -14,7 +14,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	
 	// 用户角色
     const ROLE_USER   = 1;
+    
 	const ROLE_EDITOR = 5;
+    // 主编、运营主管
+    const ROLE_CHIEF  = 6;
+    // 客服人员
+    const ROLE_CUSTOMER = 7;
     const ROLE_ADMIN  = 8;
     const ROLE_SYSTEM = 9;
     
@@ -136,6 +141,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     protected $roles = array(
         'user' => self::ROLE_USER,
 		'editor' => self::ROLE_EDITOR,
+        'chief' => self::ROLE_CHIEF,
+        'customer' => self::ROLE_CUSTOMER,
         'admin' => self::ROLE_ADMIN,
         'system' => self::ROLE_SYSTEM,
     );
@@ -303,7 +310,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 * 保存之后事件
 	 */
     protected function after_save() {
-        //更新用户总数
+        // 更新用户总数
         if($this->insert_mode){
             Sher_Core_Util_Tracker::update_user_counter();
             parent::after_save();
@@ -438,14 +445,22 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $row['view_fans_url'] = Sher_Core_Helper_Url::user_fans_list_url($id);
         $row['is_ok'] = $row['state'] == self::STATE_OK;
         if ($row['role_id'] == self::ROLE_SYSTEM){
-        	$row['is_system'] = $row['is_admin'] = true;
-        	$row['can_system'] = $row['can_admin'] = true;
-			$row['can_edit']  = true;
+        	$row['is_system'] = $row['is_admin'] = $row['is_editor'] = $row['is_customer'] = $row['is_chief'] = true;
+        	$row['can_system'] = $row['can_admin'] = $row['can_edit'] = true;
         }
-        if ($row['role_id'] == self::ROLE_ADMIN || $row['role_id'] == self::ROLE_EDITOR){
-            $row['is_admin'] = true;
-            $row['can_admin'] = true;
-			$row['can_edit']  = true;
+        if ($row['role_id'] == self::ROLE_ADMIN){
+            $row['is_admin'] = $row['is_editor'] = $row['is_customer'] = $row['is_chief'] = true;
+            $row['can_admin'] = $row['can_edit'] = true;
+        }
+        // 客服人员
+        if ($row['role_id'] == self::ROLE_CUSTOMER){
+            $row['is_customer'] = true;
+            $row['can_admin'] = $row['can_service'] = true;
+        }
+        // 主编、运营人员
+        if ($row['role_id'] == self::ROLE_CHIEF){
+            $row['is_chief']  = $row['is_editor'] = true;
+            $row['can_admin'] = $row['can_edit'] = true;
         }
         if ($row['role_id'] == self::ROLE_EDITOR){
             $row['is_editor'] = true;
@@ -524,20 +539,32 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 判断是否是编辑
      */
     public function can_edit() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_EDITOR || $this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_EDITOR || $this->data['role_id'] == self::ROLE_CHIEF || $this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
     }
 	
     /**
      * 判断是否是管理员
      */
     public function is_admin() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN || $this->data['role_id'] == self::ROLE_EDITOR);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN);
     }
     /**
-     * 判断是否是管理员
+     * 判断是否是客服人员
+     */
+    public function is_customer() {
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_CUSTOMER);
+    }
+    /**
+     * 判断是否是主编或运营人员
+     */
+    public function is_chief() {
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_CHIEF);
+    }
+    /**
+     * 判断是否有管理权限
      */
     public function can_admin() {
-        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN || $this->data['role_id'] == self::ROLE_EDITOR);
+        return empty($this->data)?false:($this->data['role_id'] == self::ROLE_SYSTEM || $this->data['role_id'] == self::ROLE_ADMIN || $this->data['role_id'] == self::ROLE_CHIEF || $this->data['role_id'] == self::ROLE_CUSTOMER);
     }
     /**
      * 判断是否是系统管理员

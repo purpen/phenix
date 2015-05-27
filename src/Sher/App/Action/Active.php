@@ -11,6 +11,9 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		'page' => 1,
 		'ref'  => null,
     'category_id' => 0,
+    'page_title_suffix' => '太火鸟-智能硬件爱好者活动聚集地',
+    'page_keywords_suffix' => '太火鸟,智能硬件,智能硬件孵化平台,智能硬件活动',
+    'page_description_suffix' => '太火鸟-智能硬件爱好者活动聚集地，智能硬件校园巡回宣讲，十万火计创意征集大赛，中国智能硬件蛋年创新大会等上百场活动等待你的发起和参与。',
 	);
 	
 	protected $page_tab = 'page_active';
@@ -90,6 +93,9 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
       $this->stash['user_info'] = &$this->stash['visitor'];
       $this->stash['is_attend'] = $this->check_user_attend($this->visitor->id, $active['_id'], 1);
     }
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟-智能硬件爱好者活动聚集地", $active['title']);
 
 		// 增加pv++
 		$inc_ran = rand(1,6);

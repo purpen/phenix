@@ -12,6 +12,9 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		'pid'  => 0,
 		'cid'  => 0,
 		'sort' => 0,
+    'page_title_suffix' => '智品库-太火鸟智能硬件孵化平台创新产品汇集库',
+    'page_keywords_suffix' => '太火鸟,智能硬件,智品库,智能手环,智能手表,健康监测,智能家居,智能首饰,智能母婴,创意产品,新奇特',
+    'page_description_suffix' => '智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。',
 	);
 	
 	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view');
@@ -64,6 +67,11 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 			$this->stash['all_stuff'] = 'active';
 			$cid = $top_category_id;
 			$is_top = true;
+
+      //添加网站meta标签
+      $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_id($cid, 1);
+      $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_id($cid, 2);   
+      $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_id($cid, 3);
 		}
 		$this->stash['is_top'] = $is_top;
 		$this->stash['top_category_id'] = $top_category_id;
@@ -98,6 +106,13 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		}
 		
 		$stuff = $model->extended_model_row($stuff);
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("【%s】-太火鸟创新产品汇集库", $stuff['title']);
+    if(!empty($stuff['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $stuff['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = "智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。";
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);

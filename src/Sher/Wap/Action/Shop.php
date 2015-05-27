@@ -14,6 +14,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		'n'=>1, // 数量
 		's' => 1, // 型号
 		'payaway' => '', // 支付机构
+    'page_title_suffix' => '太火鸟商店-智能硬件购物第一品牌',
+    'page_keywords_suffix' => '太火鸟,太火鸟商店,太火鸟智能硬件商店,智能硬件,智能硬件商店,数码电子,智能家居,智能可穿戴设备,智能出行,智能家电,智能清洁,游戏影音,娱乐生活',
+    'page_description_suffix' => '太火鸟商店是中国智能硬件购物第一品牌商店。在线销售智能家居，智能可穿戴设备，智能出行设备，智能家电，智能清洁设备，游戏影音设备，娱乐生活设备等上千种智能产品，全面、权威，为您提供完美的智能硬件购物体验。',
 	);
 	
 	// 一个月时间
@@ -53,10 +56,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if($cid){
 			// 获取某类别列表
 			$category = new Sher_Core_Model_Category();
-			$current = $category->load((int)$cid);
+			$current = $category->extend_load((int)$cid);
 			if(empty($current)){
 				return $this->show_message_page('请选择某个分类');
 			}
+
+      //添加网站meta标签
+      $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current, 1);
+      $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current, 2);   
+      $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current, 3);
 			$this->stash['current'] = $current;
 		}
 		
@@ -100,6 +108,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
+    if(!empty($product['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $product['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
 
     //判断是否为秒杀产品 
     $snatch_time = 0;

@@ -1,5 +1,5 @@
 {%extends 'layout/sns.html'%}
-{% block title %}{{ stuff.title }}-{% endblock %}
+{% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .ui.reply.segment{
@@ -290,11 +290,11 @@
 						</a>
 					</div>
 					
-					<div class="post froala-element clearfix">
+					<div class="post froala-view froala-element clearfix">
 						{{ stuff.description }}
 					</div>
 					
-					<div class="post froala-element clearfix">
+					<div class="post froala-view froala-element clearfix">
 						{% if stuff.cover %}
 						<p>
 							<img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
@@ -376,7 +376,7 @@
 										<div class="ui pop favorite magenta button" data-content="收藏" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
 											<i class="empty star icon"></i> <small>{{ stuff.favorite_count }}</small>
 										</div>
-										{% if visitor.can_admin %}
+										{% if visitor.can_edit %}
 											{% if stuff.featured %}
 											<div class="ui pop top active button" data-content="取消精选" data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
 												<i class="bookmark icon"></i>

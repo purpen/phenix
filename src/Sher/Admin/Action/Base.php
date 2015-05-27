@@ -16,6 +16,4 @@ class Sher_Admin_Action_Base extends Sher_Core_Action_Authorize {
 	
 	protected $admin_method_list = '*';
 	
-	
 }
-?>
