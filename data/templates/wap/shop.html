@@ -26,7 +26,7 @@
 			  	<a class="section" href="{{ app_url_wap }}">
 					<i class="icon home"></i>首页
 				</a>
-				{% if process_saled %}
+				{% if !presaled %}
 			  	<div class="divider"> / </div>
 			  	<div class="active section">商品列表</div>
 				{% else %}
@@ -36,7 +36,6 @@
 			</div>
 		</div>
 	</div>
-    {% if process_saled %}
 	<div class="row">
 		<div class="column">
 			{% category_list var:'category' only_open:only_open domain:1 show_all:1 current:cid %}
@@ -56,7 +55,6 @@
 			</div>
 		</div>
 	</div>
-    {% endif %}
 </div>
 
 <!--商店商品-->

@@ -71,7 +71,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     if(empty($presale)){
       $this->stash['is_shop'] = 1;
       $this->stash['presaled'] = 0;
-    else{
+    }else{
       $this->stash['is_shop'] = 0;
       $this->stash['presaled'] = 1;   
     }
