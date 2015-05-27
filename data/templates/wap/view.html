@@ -62,6 +62,16 @@ position: fixed !important;
 .ui.products.segment h4.ui.dividing.header{
 	margin:0 1em !important;
 }
+h4 > .ui.active.green.icon.share.button{
+	padding: 0.3em 0.2em 0em !important;
+	float: right;
+}
+h4 > .ui.active.green.icon.share.button > .icon{
+	padding:0 !important;
+}
+.labeled.active.button,.active.inverted.button{
+	width:100% !important;
+}
 </style>
 {% endblock %}
 
@@ -336,8 +346,8 @@ position: fixed !important;
   <div class="ui segment">
 		<h4 class="ui dividing header">
 			{{ product.title }}
-			<div class="ui active green icon share button" style="padding: 0.3em 0.2em 0em;float: right;">
- 				<i class="share icon" style="padding:0;"></i>
+			<div class="ui active green icon share button">
+ 				<i class="share icon"></i>
  			</div>
 		</h4>
            
