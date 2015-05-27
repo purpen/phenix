@@ -50,12 +50,12 @@
 		</div>
 	</section>
 	
-						{% topic_list var:'list' is_top:1 time:time sort:6 page:1 size:20 %}
+	{% topic_list var:'list' is_top:1 sort:6 page:1 size:20 %}
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
 				<div class="ui topiclist segment">
-
+						
 						<div class="ui topic relaxed divided list">
 							{% for topic in list.rows %}
 							<div class="item">
@@ -64,9 +64,9 @@
 							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}</small>
 							    </div>
 							</div>
+							{% endfor %}
 						</div>
 					</div>
-					{% endfor %}
 				
 				</div>
 			</div>
