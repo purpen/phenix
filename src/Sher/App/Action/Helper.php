@@ -7,7 +7,7 @@ class Sher_App_Action_Helper extends Sher_App_Action_Base {
 	
 	public $stash = array();
 	
-	protected $exclude_method_list = array('execute','rule','question','standard','agreement','law','itry');
+	protected $exclude_method_list = array('execute','rule','question','standard','agreement','law','itry','map','link');
 
 	/**
 	 * 默认入口
