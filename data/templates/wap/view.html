@@ -256,6 +256,9 @@ i.cart.icon{
 		var r_id = $(this).data('id');
 		phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+r_id);
 	});
+	
+	// 加载推荐商品 
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
 
 	{% if is_snatch %}
     var times = {{ snatch_time }} ;
@@ -594,9 +597,10 @@ i.cart.icon{
             </div>
             {% endfor %}
           </div>
-          <div id="product_guess_list"><!--ajax fetch--></div>
+          
     {% endif %}<!--if product.comment_count-->
   {% endif %}<!--if stage==9-->
 </div>
+<div id="product_guess_list"><!--ajax fetch--></div>
 {% include "block/sharebox.html" %}
 {% endblock %}
