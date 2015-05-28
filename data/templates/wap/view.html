@@ -358,9 +358,6 @@ i.cart.icon{
 <!--产品图片-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 <div id="frslide" class="frame">
-	<div class="ui active green icon share button">
-		<i class="share icon"></i>
-	</div>
 	<div class="ui slide">
 		<div class="item">
 			<img src="{{ product.cover.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image" />
@@ -374,6 +371,9 @@ i.cart.icon{
 		{% endfor %}
 	</div>
 	<div class="pages"></div>
+	<div class="ui active green icon share button">
+		<i class="share icon"></i>
+	</div>
 </div>
 
 <!--产品内容-->
