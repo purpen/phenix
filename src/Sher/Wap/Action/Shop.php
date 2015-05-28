@@ -25,7 +25,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire');
+	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product');
 	
 	/**
 	 * 商城入口
@@ -1182,6 +1182,53 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		return $this->ajax_json('鸟币使用成功!', false, null, $data);
   }
+
+	/**
+	 * 获取推荐产品
+	 */
+	public function ajax_guess_product(){
+		$sword = $this->stash['sword'];
+        $current_id = $this->stash['id'];
+		$size = $this->stash['size'] || 4;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+      'evt' => 'tag',
+      't' => 1,
+      'oid' => $current_id,
+      'type' => 1,
+		);        
+		if(!empty($sword)){
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        $product_mode = new Sher_Core_Model_Product();
+        $items = array();
+        foreach($xun_arr['data'] as $k=>$v){
+          $product = $product_mode->extend_load((int)$v['oid']);
+          if(!empty($product)){
+            array_push($items, array('product'=>$product));
+          }
+        }
+        $result['rows'] = $items;
+        $result['total_rows'] = $xun_arr['total_count'];
+      }else{
+             $addition_criteria = array(
+                'type' => 1,
+                'target_id' => array('$ne' => (int)$current_id),
+            );
+            $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
+			  $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+      }
+
+		}
+		
+		$this->stash['result'] = $result;
+		
+		return $this->to_taconite_page('ajax/guess_products_wap.html');
+	}
 	
 }
 
