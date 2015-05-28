@@ -30,6 +30,48 @@
 		.ui.register.segment{
 			margin-bottom:1em !important;
 		}
+		.ui.register.segment .rule{
+			text-align: left;
+			line-height: 25px;
+		}
+		.ui.register.segment .reg-border{
+			border:1px solid rgba(0,0,0,0.2);
+			background:#fff;
+			padding: 2px 0 3px;
+			width:192px;
+			margin:0 auto;
+			position: relative;
+		}
+		.ui.register.segment .reg-border a.inverted.active{
+			width:128px !important;
+		}
+		.ui.register.segment .reg-border .adreg{
+			color: #222;
+			padding: 0.2em;
+			display: inline-block;
+			font-size: 14px;
+		}
+		.add{
+			position: absolute;
+			  top: 14px;
+			  text-align: center;
+			  left: 0;
+			  color: rgba(0,0,0,0);
+			  width: 128px;
+			  font-size: 16px;
+			  opacity: 1;
+			  z-index: -1;
+			  transition: all 1.5s;
+		}
+		.add-active{
+				top: -50px;
+				z-index:3;
+				color:#222;
+			  transition-delay: .3s;
+			  -webkit-animation: arrow 1.5s ease both;
+			  -moz-animation: arrow 1.5s ease both;
+			  animation: arrow 1.5s ease both;
+		}
     
 </style>
 {% endblock %}
@@ -306,14 +348,28 @@
             					<i class="search icon"></i> 浏览全部红人
             				</a>
                         </div>
-                <!--  签到  
+                <!--  签到  -->
 								<div class="ui center aligned register segment">
-									<a href="javascript:void(0);" class="ui inverted green active button">签到</a>
+									<div class="reg-border">
+									<!--<a href="javascript:void(0);" class="ui inverted green active button">签到</a> -->
+									<!--  已签到 -->
+									<a href="javascript:void(0);" class="ui inverted gray active button">已签到</a>
+									<div class="add add-active">
+															             经验 +2 &nbsp;鸟币 +1  
+															</div>
 									
+									<!--   end  -->
+									<div class="adreg">	
+										连签7天
+									</div>
+									</div>
 									
-
-
-								</div>-->
+									<p class="rule">1、每天签到获2个经验<br />
+										2、连续7天签到获1枚鸟币
+									</p>
+								</div>
+								
+								<!-- end  -->
 
         				<h2 class="block title">
         					热门评论
