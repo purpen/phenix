@@ -2,9 +2,7 @@
 {% block title%}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.ui.fluid.dropdown>.down.icon{
-		float:right;
-	}
+
 </style>
 {% endblock %}
 
@@ -89,7 +87,7 @@
 	<div class="row">
 		<div class="column">
 			<div class="ui pagination">
-				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:3 %}
+				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:1 %}
 				{% include 'block/pager.html' %}
 			</div>
 		</div>

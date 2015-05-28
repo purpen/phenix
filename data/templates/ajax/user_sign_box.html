@@ -1,0 +1,43 @@
+<taconite>
+	<replace select="#user-sign-box"><![CDATA[
+      <div class="ui center aligned register segment" id="user-sign-box">
+        <div class="reg-border">
+        {% if result.has_sign %}
+        <!--  已签到 -->
+        <a href="javascript:void(0);" class="ui inverted gray active button">已签到</a>
+        {%else%}
+        <a href="javascript:void(0);" id="sign-in-btn" class="ui inverted green active button">签到</a>
+        {%endif%}
+
+
+        {% if is_doing %}
+          {% if result.is_true %}
+            <div class="add">
+              经验 +2 &nbsp; {% if result.give_money %}鸟币 +1{%endif%}
+            </div>
+          {%endif%}
+        {%endif%}
+        
+        <!--   end  -->
+        <div class="adreg">	
+          连签{{ result.continuity_times }}天
+        </div>
+        </div>
+        
+        <p class="rule">1、每天签到获2个经验值<br />
+          2、连续7天签到获1枚鸟币
+        </p>
+      </div>
+	]]></replace>
+	
+	<eval>
+    {% if is_doing %}
+      {% if result.is_true %}
+        $('.add').addClass('add-active');
+      {%else%}
+        phenix.show_error_note("{{ result.msg }}");
+      {%endif%}
+    {%endif%}
+
+	</eval>
+</taconite>

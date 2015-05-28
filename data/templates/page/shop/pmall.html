@@ -35,6 +35,10 @@
         line-height: 2rem;
         margin-bottom: 1rem;
     }
+
+    #shoplist .ui.magenta.progress{
+      height:0 !important;
+    }
 </style>
 {% endblock %}
 
@@ -86,7 +90,7 @@
 	<div class="product redemption list">
 		<div class="ui responsive grid">
 			<div class="row">
-				{% product_list var:'list' stage:16 only_onsale:1 size:10 %}
+				{% product_list var:'list' stage:12 only_onsale:1 size:10 %}
 				<div class="column">
 					<div class="ui four items">
                         {% for d in list.rows %}
