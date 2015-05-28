@@ -85,6 +85,22 @@ i.cart.icon{
 	position: relative !important;
 	padding-top:0 !important;
 }
+#frslide .ui.active.green.icon.share.button{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 99;
+	background: rgba(0,0,0,0.2);
+	border-radius: 54%;
+	border: 0px solid #f36;
+	width: 40px;
+	height: 40px;
+	color: #fff;
+}
+#frslide .ui.active.green.icon.share.button .share.icon{
+	line-height: 1;
+	width:1em;
+}
 </style>
 {% endblock %}
 
@@ -342,8 +358,8 @@ i.cart.icon{
 <!--产品图片-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 <div id="frslide" class="frame">
-	<div class="ui active green icon share button" style="position: absolute;top: 10px;right: 10px;z-index: 99;background: rgba(0,0,0,0.2);border-radius: 54%;border: 0px solid #f36;width: 40px;height: 40px;color: #fff;">
-		<i class="share icon" style="line-height: 1.5;width:1em;"></i>
+	<div class="ui active green icon share button">
+		<i class="share icon"></i>
 	</div>
 	<div class="ui slide">
 		<div class="item">
