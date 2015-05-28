@@ -109,6 +109,20 @@
 			}
 		}, 'json');
 	});
+
+  //每日签到点击
+  $('#sign-in-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      //ajax加载签到事件
+      $.post('{{ app_url_my }}/ajax_sign_in', {type:1});
+
+    });
+  });
     
 {% endblock %}
 
@@ -306,6 +320,7 @@
             					<i class="search icon"></i> 浏览全部红人
             				</a>
                         </div>
+
                 <!--  签到  
 								<div class="ui center aligned register segment">
 									<a href="javascript:void(0);" class="ui inverted green active button">签到</a>

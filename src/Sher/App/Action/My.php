@@ -858,4 +858,35 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
   }
 
+  /**
+   * 获取用户签到数据
+   */
+  public function ajax_fetch_user_sign(){
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+    $continuity_times = 0;
+    if($user_sign){
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date']==$yesterday){
+        $continuity_times = $user_sign['sign_times'];
+      }
+      $result = array('is_true'=>1, 'continuity_times'=>$continuity_times, 'data'=>$user_sign);
+    }else{
+      $result = array('is_true'=>0, 'msg'=>'数据不存在', 'continuity_times'=>$continuity_times,);
+    }
+    $this->stash['result'] = $result;
+    return $this->to_taconite_page('ajax/user_sign_box.html');
+  }
+
+  /**
+   * 用户每日签到
+   */
+  public function ajax_sign_in(){
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $result = $user_sign_model->sign_in((int)$this->visitor->id);
+
+    $this->stash['result'] = $result;
+    return $this->to_taconite_page('ajax/user_sign_box.html');
+  }
+
 }

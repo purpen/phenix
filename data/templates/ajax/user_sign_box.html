@@ -1,0 +1,15 @@
+<taconite>
+	<replace select="#user-sign-box">
+
+	</replace>
+	
+	<eval>
+    {% if result.is_true %}
+    alert({{ result.continuity_times }});
+    {%else%}
+    alert("{{result.msg}}");
+alert({{ result.continuity_times }});
+    {%endif%}
+
+	</eval>
+</taconite>
