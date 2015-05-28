@@ -72,7 +72,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
     }else{
       //判断是否已签到
       if($user_sign['last_date']==$today){
-        return array('is_true'=>0, 'msg'=>'今天已经签到过了!', 'continuity_times'=>$user_sign['sign_times']);
+        return array('is_true'=>0, 'is_sign'=>1, 'msg'=>'今天已经签到过了!', 'continuity_times'=>$user_sign['sign_times']);
       }
 
       $sign_times = 1;
@@ -89,7 +89,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
         }
                 
         //达到连续签到天数送鸟币
-        if($sign_times % self::MONEY_DAYS == 0){
+        if(!empty((int)$sign_times) && (int)$sign_times % self::MONEY_DAYS == 0){
           $give_money = 1;
           $money_count = $user_sign['money_count'] + self::MONEY_NUM;
         }
@@ -110,11 +110,18 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
     }
 
     if($ok){
-      $user_sign = $this->extend_load($user_id);
-      $user_sign['give_money'] = $give_money;
-      return array('is_true'=>1, 'msg'=>'签到成功!', 'continuity_times'=>$user_sign['sign_times'], 'data'=>$user_sign);
+      // 增加经验值
+      $service = Sher_Core_Service_Point::instance();
+      $service->send_event('evt_sign_in', (int)$user_id);
+      // 如果连续签到N天,加鸟币
+      if($give_money==1){
+        $service->make_money_in((int)$user_id, self::MONEY_NUM, sprintf("连续签到%d天", self::MONEY_DAYS));
+      }
+
+      $new_user_sign = $this->extend_load($user_id);
+      return array('is_true'=>1, 'msg'=>'签到成功!', 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);
     }else{
-      return array('is_true'=>0, 'msg'=>'签到失败!', 'continuity_times'=>$user_sign['sign_times']);
+      return array('is_true'=>0, 'msg'=>'签到失败!', 'has_sign'=>0, 'continuity_times'=>0, 'give_money'=>0);
     }
   
   }

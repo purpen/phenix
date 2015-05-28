@@ -30,6 +30,49 @@
 		.ui.register.segment{
 			margin-bottom:1em !important;
 		}
+		.ui.register.segment .rule{
+			text-align: left;
+			line-height: 25px;
+		}
+		.ui.register.segment .reg-border{
+			border:1px solid rgba(0,0,0,0.2);
+			background:#fff;
+			padding: 2px 0 3px;
+			width:213px;
+			margin:0 auto;
+			position: relative;
+		}
+		.ui.register.segment .reg-border a.inverted.active{
+			width:128px !important;
+		}
+		.ui.register.segment .reg-border .adreg{
+      width: 70px;
+			color: #222;
+			padding: 0.2em;
+			display: inline-block;
+			font-size: 14px;
+		}
+		.add{
+			position: absolute;
+			  top: 14px;
+			  text-align: center;
+			  left: 0;
+			  color: rgba(0,0,0,0);
+			  width: 128px;
+			  font-size: 16px;
+			  opacity: 1;
+			  z-index: -1;
+			  transition: all 1.5s;
+		}
+		.add-active{
+				top: -50px;
+				z-index:3;
+				color:#222;
+			  transition-delay: .3s;
+			  -webkit-animation: arrow 1.5s ease both;
+			  -moz-animation: arrow 1.5s ease both;
+			  animation: arrow 1.5s ease both;
+		}
     
 </style>
 {% endblock %}
@@ -110,6 +153,9 @@
 		}, 'json');
 	});
 
+  //ajax加载签到数据
+  $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+
   //每日签到点击
   $('#sign-in-btn').livequery(function(){
     $(this).click(function(){
@@ -119,7 +165,7 @@
         return false;
       }
       //ajax加载签到事件
-      $.post('{{ app_url_my }}/ajax_sign_in', {type:1});
+      $.post('{{ app_url_user }}/ajax_sign_in', {type:1});
 
     });
   });
@@ -321,14 +367,12 @@
             				</a>
                         </div>
 
-                <!--  签到  
-								<div class="ui center aligned register segment">
-									<a href="javascript:void(0);" class="ui inverted green active button">签到</a>
-									
-									
+                <!--  ajax签到  -->
+								<div class="ui center aligned register segment" id="user-sign-box">
 
-
-								</div>-->
+								</div>
+								
+								<!-- end  -->
 
         				<h2 class="block title">
         					热门评论

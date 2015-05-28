@@ -5,6 +5,83 @@
   #comment-list{
     font-size:16px !important;
   }
+
+	#topic_guess_wap_list .image{
+		height: 140px;
+	  background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
+	  background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
+	  background-image: linear-gradient(to top,rgba(255,94,58,.8) 0,#f36 100%);
+	  overflow: hidden;
+	  background-color: rgba(56,67,77,.9);
+	  background-position: center center;
+	  background-repeat: no-repeat;
+	  -webkit-background-size: cover;
+	  background-size: cover;
+	  position: relative;
+	}
+	.ui.socialstick.blocks{
+		margin-bottom:1rem !important;
+	}
+	.ui.socialstick.blocks>.block>.image>.transparent {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  z-index: 10;
+	  background-color: rgba(0,0,0,.1);
+	  -webkit-transition: all .3s ease .1s;
+	  transition: all .3s ease .1s;
+	}
+	.ui.socialstick.blocks > .block > .image > .transparent > .sub.title {
+	    bottom: 0.5rem;
+	    color: rgba(255,255,255,0.9);
+	    font-weight: bold;
+	    line-height: 1.3;
+	    padding: 0.3rem 1rem;
+			font-size:14px !important;
+	    position: absolute;
+	    z-index: 99;
+	    -webkit-transition: all 0.3s ease 0.1s;
+	    -moz-transition: all 0.3s ease 0.1s;
+	    -o-transition: all 0.3s ease 0.1s;
+	    -ms-transition: all 0.3s ease 0.1s;
+		transition: all 0.3s ease 0.1s;
+	}
+	.ui.socialstick.blocks > .block > .image:hover > .transparent {
+		background-color: rgba(0,0,0,0.7);
+	}
+	.ui.socialstick.blocks > .block > .image:hover > .transparent > .sub.title {
+		bottom: 2rem;
+	    color: rgba(255,255,255,1.0);
+	}
+
+	.ui.stickcount.blocks > .block > .image .ui.cate.label {
+	    background-color: rgba(255, 51, 102, 0.7);
+	    border-radius: 2.5rem;
+	    color: #fff;
+	    font-size: 1rem;
+	    left: 1rem;
+	    padding: 0.5rem 1rem;
+	    position: absolute;
+	    top: 1rem;
+	}
+	.ui.stickcount.blocks {
+	    margin-bottom: 0.5rem;
+	}
+	.ui.stickcount.blocks > .block > .image > .transparent > .sub.title {
+	    bottom: -2rem;
+	}
+	.ui.stickcount.blocks > .block > .image > .transparent > .sub.title > .extra.count {
+	    padding-top: 1rem;
+	    font-weight: 400;
+	}
+	.ui.stickcount.blocks > .block > .image > .transparent > .sub.title > .extra.count > span {
+	    margin-right: 0.75rem;
+	}
+	.ui.stickcount.blocks > .block > .image:hover > .transparent > .sub.title {
+		bottom: 1rem;
+	}
 </style>
 {% endblock %}
 
@@ -239,6 +316,39 @@
 							</div>
 						</div>
           </div>
+
+					<div id="topic_guess_wap_list">
+						<h3 class="ui header">相关话题</h3>
+						<div class="ui socialstick stickcount two blocks">
+							<div class="block">
+								<div class="image" style="background-image: url('http://frbird.qiniudn.com/topic/150408/5524ddf3fc8b12931c8bb538-1-me.jpg');">
+							  	<a class="transparent" href="http://www.taihuoniao.com/topic/view-102964-1.html" target="_blank">
+										<div class="sub title">
+											南京市委书记莅临太火鸟孵化团队喵星 
+							      	<div class="extra count">
+							        	<i class="unhide icon"></i> <span>313</span> <i class="comment outline icon"></i> <span>0</span>
+							        </div>
+										</div>
+							    </a>
+								</div>
+							</div>
+							
+							<div class="block">
+								<div class="image" style="background-image: url('http://frbird.qiniudn.com/topic/141031/54533c4a621e19c4128b5ab0-1-me.jpg');">
+							    <a class="transparent" href="http://www.taihuoniao.com/topic/view-100689-1.html" target="_blank">
+									  <div class="sub title">
+											风起 大浪来袭 设计服务公司缘何坐以待毙？
+							        <div class="extra count">
+							        	<i class="unhide icon"></i> <span>409</span> <i class="comment outline icon"></i> <span>0</span>
+							        </div>
+										</div>
+							    </a>
+								</div>
+							</div>
+															
+															
+						</div>
+					</div>
 				
             <div class="ui big reply segment">
               <!--ajax comment-->
@@ -252,4 +362,5 @@
 	</section>
 
 </div>
+
 {% endblock %}

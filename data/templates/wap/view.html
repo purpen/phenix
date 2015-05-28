@@ -2,6 +2,10 @@
 {% block title%}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+body{
+	max-width: 767px;
+	margin: auto;
+}
 .ui.money.list .item .content {
 	margin-left: 0%;
 }
@@ -43,6 +47,43 @@ position: fixed !important;
 }
 .product.snatched + .ui.labeled.icon.button{
 	padding-left: 1.4em!important;
+}
+.product.attrs .ui.small.magenta.att.button{
+	margin-bottom:5px !important;
+}
+.ui.segment{
+	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	border-radius: 0;
+}
+.ui.products.segment{
+	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	border-radius: 0;
+	padding:0 !important;
+	margin:0 !important;
+}
+.ui.products.segment h4.ui.dividing.header{
+	margin:0 1em !important;
+}
+h4 > .ui.active.green.icon.share.button{
+	padding: 0.3em 0.2em 0em !important;
+	float: right;
+}
+h4 > .ui.active.green.icon.share.button > .icon{
+	padding:0 !important;
+}
+.labeled.active.icon.button,.active.inverted.button{
+	width:100% !important;
+	padding-left:0% !important;
+	padding-right:0 !important;
+}
+i.cart.icon{
+	-webkit-box-shadow: -0px 0 0 0 rgba(0,0,0,.05) inset !important;
+  box-shadow: 0px 0 0 0 rgba(0,0,0,.05) inset !important;
+	background-color: rgba(0,0,0,.0) !important;
+	position: relative !important;
+	padding-top:0 !important;
 }
 </style>
 {% endblock %}
@@ -268,6 +309,9 @@ position: fixed !important;
 
 	{% endif %}
 	
+	// 加载推荐商品 
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
+	
 {% endblock %}
 
 {% block content %}
@@ -296,223 +340,207 @@ position: fixed !important;
 </div>
 
 <!--产品图片-->
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
-			{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
-			<div id="frslide" class="frame">
-				<div class="ui slide">
-					<div class="item">
-						<img src="{{ product.cover.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image" />
-					</div>
-					{% for asset in assets.rows %}
-						{% if asset._id != product.cover_id %}
-						<div class="item">
-							<img src="{{ asset.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image"  />
-						</div>
-						{% endif %}
-					{% endfor %}
-				</div>
-				<div class="pages"></div>
-			</div>
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+<div id="frslide" class="frame">
+	<div class="ui slide">
+		<div class="item">
+			<img src="{{ product.cover.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image" />
 		</div>
+		{% for asset in assets.rows %}
+			{% if asset._id != product.cover_id %}
+			<div class="item">
+				<img src="{{ asset.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image"  />
+			</div>
+			{% endif %}
+		{% endfor %}
 	</div>
+	<div class="pages"></div>
 </div>
 
 <!--产品内容-->
-<div class="ui responsive presale grid">			
-	<div class="row">
-		<div class="column">
-            <div class="ui segment">
-    			<h4 class="ui dividing header">
-    				{{ product.title }}
-    			</h4>
-                
-                {% if product.stage == 9 %}
-                    {% if skus %}
-            			<table class="ui basic buy action table">
-            				<tr>
-            					<td>
-            						<div class="product attrs">
-            							{% for m in skus %}
-            							<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
-            							{% endfor %}
-            						</div>
-            					</td>
-            				</tr>
-            			</table>
-                    {% endif %}
-                    <div class="ui grid">			
-                    	<div class="row">
-                    		<div class="six wide column">
-                    			<label class="price">
-                    				<span id="current-price" class="ui magenta text">
-                                        <small>￥</small>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
-                                    </span>
-                    			</label>
-                    		</div>
-                    		<div class="right aligned ten wide column">
-                    			<div class="ui small star rating hover">
-                    			  	<i class="icon active"></i>
-                    			  	<i class="icon"></i>
-                    			  	<i class="icon"></i>
-                    			  	<i class="icon"></i>
-                    			  	<i class="icon"></i>
-                    			</div>
-                    			<small><span class="ui magenta text">{{ product.comment_count }}</span> 条评价</small>
-                    		</div>
-                        </div>
-                        <div class="row">
-                            <div class="center aligned column">
-                                <!--购买动作-->
-                                {% if product.snatched %}
-                    
-                                    {% if !product.snatched_start %}
-                                        <div class="product snatched">
-                                            <span class="ui text">倒计时：<span id="clock"></span></span>
-                                        </div>
-                                        <div class="ui active magenta labeled tobuy icon button">
-                                            准备开抢
-                                        </div>
-                                    {% else %}
-                                        {% if product.can_saled %}
-                                            <div class="ui active green labeled tobuy nowbuy icon button">
-                                                立即抢购
-                                            </div>
-                                        {%else%}
-                                            <div class="ui active black labeled icon button">
-                                                已抢完
-                                            </div>
-                                        {%endif%}
-                                    {% endif %}
-                        
-                                {% else %}
-                                    {% if product.is_try %}
-                                        <div class="ui danger message">
-                                            此产品为试用商品，不可销售!
-                                        </div>
-                                    {%else%}
-                                        {% if product.can_saled %}
-                                            <div class="ui active magenta labeled icon nowbuy button">
-                                                <i class="cart icon"></i>立即购买
-                                            </div>
-                                        {%else%}
-                                            <div class="ui active gray inverted button">
-                                                <i class="cart icon"></i> 已售罄
-                                            </div>
-                                        {%endif%}
-                                    {%endif%}
-                                {%endif%}
-                    
-                    			<div class="ui active green icon share button">
-                    				<i class="share icon"></i>
-                    			</div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                
-                {% if product.stage == 5 %}
-    				<div class="ui very relaxed divided money selection list">
-    					<div class="item">
-    						<div class="right floated">
-    							<span class="ui magenta text"><small>￥</small>{{ product.presale_count|default 0 }}</span>
-    						</div>
-    						<div class="content">
-    							<div class="header">预定人数</div>
-    						</div>
-    					</div>
-    					<div class="item">
-    						<div class="right floated">
-    							<span class="ui magenta text"><small>￥</small>{{ product.presale_money|default 0 }}</span>
-    						</div>
-    						<div class="content">
-    							<div class="header">完成金额</div>
-    						</div>
-    					</div>
-    					<div class="item">
-    						<div class="right floated">
-    							<span class="ui magenta text">{{ product.presale_percent }}<small>%</small></span>
-    						</div>
-    						<div class="content">
-    							<div class="header">达成率</div>
-    						</div>
-    					</div>
-    				</div>
-        			{% sku_list var:'presales' product_id:product._id stage:5 %}
-        			<div class="ui one levels">
-        				{% for presale in presales.rows %}
-        				<div class="ui level">
-        					<h3 class="ui header">{{ presale.name }}</h3>
-        					<div class="content">
-        						<p class="time">
-        							{% if presale.mode %}
-        								{{ presale.mode }}
-        							{% endif %}
-        							{% if presale.limited_count %}
-        								, 限量{{ presale.limited_count }}个
-        							{% endif %}
-        						</p>
-        						<p class="time">
-        							{{ presale.summary }}
-        						</p>
-        						<div class="price">
-        							￥ {{ presale.price }}
-        						</div>
-        					</div>
-        					<div class="actions">
-        						{% if !product.presale_finished %}
-        							{% if presale.quantity %}
-        								<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
-        									现在预定
-        								</div>
-        							{% else %}
-        								<div class="ui disabled active gray button">
-        									已抢完
-        								</div>
-        							{% endif %}
-        						{% else %}
-        							{% if presale.quantity %}
-        								<div class="ui disabled button">
-        									预售结束
-        								</div>
-        							{% else %}
-        								<div class="ui disabled active gray button">
-        									已抢完
-        								</div>
-        							{% endif %}
-        						{% endif %}
-        						<p class="small">已有{{ presale.sold }}位预定者</p>
-        					</div>
-        				</div>
-        				{% endfor %}
-        			</div>
-                {% endif %}
-            </div>
+<div class="presale">	
+  <div class="ui segment">
+		<h4 class="ui dividing header">
+			{{ product.title }}
+			<div class="ui active green icon share button">
+ 				<i class="share icon"></i>
+ 			</div>
+		</h4>
+           
+           {% if product.stage == 9 %}
+               {% if skus %}
+       			<table class="ui basic buy action table">
+       				<tr>
+       					<td>
+       						<div class="product attrs">
+       							{% for m in skus %}
+       							<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
+       							{% endfor %}
+       						</div>
+       					</td>
+       				</tr>
+       			</table>
+               {% endif %}
+               <div class="ui grid">			
+               	<div class="row">
+               		<div class="six wide column">
+               			<label class="price">
+               				<span id="current-price" class="ui magenta text">
+                                   <small>￥</small>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+                               </span>
+               			</label>
+               		</div>
+               		<div class="right aligned ten wide column">
+               			<div class="ui small star rating hover">
+               			  	<i class="icon active"></i>
+               			  	<i class="icon"></i>
+               			  	<i class="icon"></i>
+               			  	<i class="icon"></i>
+               			  	<i class="icon"></i>
+               			</div>
+               			<small><span class="ui magenta text">{{ product.comment_count }}</span> 条评价</small>
+               		</div>
+                   </div>
+                   <div class="row">
+                       <div class="center aligned column">
+                           <!--购买动作-->
+                           {% if product.snatched %}
+               
+                               {% if !product.snatched_start %}
+                                   <div class="product snatched">
+                                       <span class="ui text">倒计时：<span id="clock"></span></span>
+                                   </div>
+                                   <div class="ui active magenta labeled tobuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                       准备开抢
+                                   </div>
+                               {% else %}
+                                   {% if product.can_saled %}
+                                       <div class="ui active green labeled tobuy nowbuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                           立即抢购
+                                       </div>
+                                   {%else%}
+                                       <div class="ui active black labeled icon button" style="width:100%;padding:0.8em 0 !important;">
+                                           已抢完
+                                       </div>
+                                   {%endif%}
+                               {% endif %}
+                   
+                           {% else %}
+                               {% if product.is_try %}
+                                   <div class="ui danger message">
+                                       此产品为试用商品，不可销售!
+                                   </div>
+                               {%else%}
+                                   {% if product.can_saled %}
+                                       <div class="ui active magenta labeled icon nowbuy button">
+                                           <i class="cart icon"></i>立即购买
+                                       </div>
+                                   {%else%}
+                                       <div class="ui active gray inverted button">
+                                           <i class="cart icon"></i> 已售罄
+                                       </div>
+                                   {%endif%}
+                               {%endif%}
+                           {%endif%}
+               
+               			
+                       </div>
+                   </div>
+               </div>
+           {% endif %}
+           
+           {% if product.stage == 5 %}
+			<div class="ui very relaxed divided money selection list">
+				<div class="item">
+					<div class="right floated">
+						<span class="ui magenta text"><small>￥</small>{{ product.presale_count|default 0 }}</span>
+					</div>
+					<div class="content">
+						<div class="header">预定人数</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="right floated">
+						<span class="ui magenta text"><small>￥</small>{{ product.presale_money|default 0 }}</span>
+					</div>
+					<div class="content">
+						<div class="header">完成金额</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="right floated">
+						<span class="ui magenta text">{{ product.presale_percent }}<small>%</small></span>
+					</div>
+					<div class="content">
+						<div class="header">达成率</div>
+					</div>
+				</div>
+			</div>
+   			{% sku_list var:'presales' product_id:product._id stage:5 %}
+   			<div class="ui one levels">
+   				{% for presale in presales.rows %}
+   				<div class="ui level">
+   					<h3 class="ui header">{{ presale.name }}</h3>
+   					<div class="content">
+   						<p class="time">
+   							{% if presale.mode %}
+   								{{ presale.mode }}
+   							{% endif %}
+   							{% if presale.limited_count %}
+   								, 限量{{ presale.limited_count }}个
+   							{% endif %}
+   						</p>
+   						<p class="time">
+   							{{ presale.summary }}
+   						</p>
+   						<div class="price">
+   							￥ {{ presale.price }}
+   						</div>
+   					</div>
+   					<div class="actions">
+   						{% if !product.presale_finished %}
+   							{% if presale.quantity %}
+   								<div class="ui magenta booked button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
+   									现在预定
+   								</div>
+   							{% else %}
+   								<div class="ui disabled active gray button">
+   									已抢完
+   								</div>
+   							{% endif %}
+   						{% else %}
+   							{% if presale.quantity %}
+   								<div class="ui disabled button">
+   									预售结束
+   								</div>
+   							{% else %}
+   								<div class="ui disabled active gray button">
+   									已抢完
+   								</div>
+   							{% endif %}
+   						{% endif %}
+   						<p class="small">已有{{ presale.sold }}位预定者</p>
+   					</div>
+   				</div>
+   				{% endfor %}
+   			</div>
+           {% endif %}
+       </div>
 			
-		</div>
-	</div>
 </div>
 
 <!--商品介绍-->
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
-			<div class="ui segment">
-				<h4 class="ui dividing header">
-					产品详情
-				</h4>
-				<div class="product content froala-element">
-					{{ product.content }}
-				</div>
-			</div>
-		</div>
+<div class="ui products segment">
+	<h4 class="ui dividing header">
+		产品详情
+	</h4>
+	<div class="product content froala-element">
+		{{ product.content }}
 	</div>
+</div>
 	{% if product.stage == 9 %}
     {% if product.comment_count %}
     <!--商品评价-->
-    <div class="row">
-      <div class="column">
         <div class="ui reply segment">
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
@@ -578,11 +606,164 @@ position: fixed !important;
             {% endfor %}
           </div>
           
-        </div>
-      </div>
-    </div>
     {% endif %}<!--if product.comment_count-->
   {% endif %}<!--if stage==9-->
 </div>
+<div id="product_guess_wap_list">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">你可能喜欢的产品</h3>
+				<div class="ui two items">
+					<div class="magenta item" style="margin-bottom: 20px;">
+						<div class="image">
+							<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" target="_blank">
+							      		<img src="http://frbird.qiniudn.com/product/141203/547eabfd621e1947648b5356-1-m.jpg" alt="TORO儿童云手机 GPS定位低辐射女生男生手机">
+									</a>
+						</div>
+						<div class="content">
+								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
+									<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" class="ui link">
+										TORO儿童云手机 GPS定位低辐射女生
+									</a>
+								</h2>
+								<div class="schedule p-sell" style="margin-bottom: 0;">
+
+						      	  	        	<div class="ui magenta tiny progress">
+						          	  	<div class="bar" style="width:0%;"></div>
+						        	</div>
+						        	<div class="status clearfix" style="font-size: 14px !important;margin-top: 5px;">
+						          	  	<div class="name">
+						            		<span class="unit">￥</span>
+						            		<span class="price" style="font-size: 14px !important;">468</span>
+						            		<span class="like" style="font-size: 14px !important;line-height: 16px;">
+						            			            				<i class="icon heart"></i>
+						            			            			<span class="count">2</span>
+						          		  	</span>
+						        		</div>
+						      	  	</div>
+						      	  				<a href="http://dev.taihuoniao.com/shop/1120686199.html" class="link-extra" target="_blank">
+										TORO儿童云手机 GPS定位低辐射女生男生手机
+									</a>
+						  		</div>
+						  	</div>
+					</div>
+					
+					
+					<div class="magenta item" style="margin-bottom: 20px;">
+						<div class="image">
+							<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" target="_blank">
+							      		<img src="http://frbird.qiniudn.com/product/141203/547eabfd621e1947648b5356-1-m.jpg" alt="TORO儿童云手机 GPS定位低辐射女生男生手机">
+									</a>
+						</div>
+						<div class="content">
+								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
+									<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" class="ui link">
+										TORO儿童云手机 GPS定位低辐射女生
+									</a>
+								</h2>
+								<div class="schedule p-sell" style="margin-bottom: 0;">
+
+						      	  	        	<div class="ui magenta tiny progress">
+						          	  	<div class="bar" style="width:0%;"></div>
+						        	</div>
+						        	<div class="status clearfix" style="font-size: 14px !important;margin-top: 5px;">
+						          	  	<div class="name">
+						            		<span class="unit">￥</span>
+						            		<span class="price" style="font-size: 14px !important;">468</span>
+						            		<span class="like" style="font-size: 14px !important;line-height: 16px;">
+						            			            				<i class="icon heart"></i>
+						            			            			<span class="count">2</span>
+						          		  	</span>
+						        		</div>
+						      	  	</div>
+						      	  				<a href="http://dev.taihuoniao.com/shop/1120686199.html" class="link-extra" target="_blank">
+										TORO儿童云手机 GPS定位低辐射女生男生手机
+									</a>
+						  		</div>
+						  	</div>
+					</div>
+					
+					
+					<div class="magenta item">
+						<div class="image">
+							<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" target="_blank">
+							      		<img src="http://frbird.qiniudn.com/product/141203/547eabfd621e1947648b5356-1-m.jpg" alt="TORO儿童云手机 GPS定位低辐射女生男生手机">
+									</a>
+						</div>
+						<div class="content">
+								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
+									<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" class="ui link">
+										TORO儿童云手机 GPS定位低辐射女生
+									</a>
+								</h2>
+								<div class="schedule p-sell" style="margin-bottom: 0;">
+
+						      	  	        	<div class="ui magenta tiny progress">
+						          	  	<div class="bar" style="width:0%;"></div>
+						        	</div>
+						        	<div class="status clearfix" style="font-size: 14px !important;margin-top: 5px;">
+						          	  	<div class="name">
+						            		<span class="unit">￥</span>
+						            		<span class="price" style="font-size: 14px !important;">468</span>
+						            		<span class="like" style="font-size: 14px !important;line-height: 16px;">
+						            			            				<i class="icon heart"></i>
+						            			            			<span class="count">2</span>
+						          		  	</span>
+						        		</div>
+						      	  	</div>
+						      	  				<a href="http://dev.taihuoniao.com/shop/1120686199.html" class="link-extra" target="_blank">
+										TORO儿童云手机 GPS定位低辐射女生男生手机
+									</a>
+						  		</div>
+						  	</div>
+						
+					</div>
+					
+					
+					<div class="magenta item">
+						<div class="image">
+							<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" target="_blank">
+							      		<img src="http://frbird.qiniudn.com/product/141203/547eabfd621e1947648b5356-1-m.jpg" alt="TORO儿童云手机 GPS定位低辐射女生男生手机">
+									</a>
+						</div>
+						<div class="content">
+								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
+									<a href="http://dev.taihuoniao.com/shop/1120686199.html" title="TORO儿童云手机 GPS定位低辐射女生男生手机" class="ui link">
+										TORO儿童云手机 GPS定位低辐射女生
+									</a>
+								</h2>
+								<div class="schedule p-sell" style="margin-bottom: 0;">
+
+						      	  	        	<div class="ui magenta tiny progress">
+						          	  	<div class="bar" style="width:0%;"></div>
+						        	</div>
+						        	<div class="status clearfix" style="font-size: 14px !important;margin-top: 5px;">
+						          	  	<div class="name">
+						            		<span class="unit">￥</span>
+						            		<span class="price" style="font-size: 14px !important;">468</span>
+						            		<span class="like" style="font-size: 14px !important;line-height: 16px;">
+						            			            				<i class="icon heart"></i>
+						            			            			<span class="count">2</span>
+						          		  	</span>
+						        		</div>
+						      	  	</div>
+						      	  				<a href="http://dev.taihuoniao.com/shop/1120686199.html" class="link-extra" target="_blank">
+										TORO儿童云手机 GPS定位低辐射女生男生手机
+									</a>
+						  		</div>
+						  	</div>
+						
+					</div>
+					
+					
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% include "block/sharebox.html" %}
 {% endblock %}
