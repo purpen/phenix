@@ -92,21 +92,18 @@
 	<a class="{{ css_page_report }} item" href="{{ app_url_admin_base }}/report">
 		举报管理
 	</a>
-    {% endif %}
-    
-    {% if visitor.is_admin %}
 	<a class="{{ css_page_advertise }} item" href="{{ app_url_admin_base }}/advertise">
 		广告图推荐
 	</a>
-    {% endif %}
-    
-    {% if visitor.is_admin %}
 	<a class="{{ css_page_special }} item" href="{{ app_url_admin_base }}/special">
 		专题管理
 	</a>
 	<a class="{{ css_page_cake }} item" href="{{ app_url_admin_base }}/cake">
 		公告管理
 	</a>
+    {% endif %}
+    
+    {% if visitor.is_admin %}
 	<a class="{{ css_page_edm }} item" href="{{ app_url_admin_base }}/edm">
 		EDM管理
 	</a>

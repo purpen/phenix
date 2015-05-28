@@ -38,6 +38,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_onsale = 0;
 		$only_stick = 0;
     $is_shop = 0;
+    $presaled = 0;
     // 搜索类型
     $s_type = 0;
     $s_mark = null;
@@ -107,6 +108,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 	    if ($is_shop) {
 	      $query['stage'] = array('$in'=>array(5, 9));
 	    }
+    //预售
+    if($presaled){
+      $query['stage'] = 5;
+    }
 		
 		if($process_saled){
 			$query['process_saled'] = 1;

@@ -38,40 +38,37 @@
 		typingTimer: 5000,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
-		defaultImageAlt: '{{ topic.title }}',
+		defaultImageTitle: '{{ topic.title }}',
 		{% else %}
-		defaultImageAlt: '太火鸟',
+		defaultImageTitle: '太火鸟',
 		{% endif %}
 		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
 		maxImageSize: 1024 * 1024 * 3, // 3M
-		imageErrorCallback:  function (error) {
-			if (error.code == 5){
-				error.message = '图片太大，请选择小于3M！';
-			}
-			phenix.show_error_note(error.message, 5000);
-		},
-		insertImageCallback: function (imageURL) {
-			// 记录插入图片数
-			$('#file_count').val(file_count);
-			
-			file_count++;
-			
-			// 重置参数
-			$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-		},
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
-	    // Catch image removal from the editor.
-        afterRemoveImageCallback: function ($img) {
-          // Set the image source to the image delete params.
-          this.options.imageDeleteParams = {file_url: $img.attr('src')};
-
-          // Make the delete request.
-          this.deleteImage($img);
-        }
-	});
+	}).on('editable.imageInserted',  function (e, editor, imageURL) {
+		// 记录插入图片数
+		$('#file_count').val(file_count);
+		
+		file_count++;
+        
+		// 重置参数
+		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
+        
+    }).on('editable.afterRemoveImage', function (e, editor, $img) {
+        // Set the image source to the image delete params.
+        this.options.imageDeleteParams = {file_url: $img.attr('src')};
+        
+        // Make the delete request.
+        this.deleteImage($img);
+    }).on('editable.imageError', function (e, editor, error) {
+		if (error.code == 5){
+			error.message = '图片太大，请选择小于3M！';
+		}
+		phenix.show_error_note(error.message, 5000);
+    });
 	
 	$('#topic-form').form({
 		title: {
@@ -285,7 +282,7 @@
                       <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
                       <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
                       <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
-                      <div data-value="3" class="{% if topic.t_color == 3 %}active {% endif %}item">绿色</div>
+
                     </div>
                   </div>
               </div>
