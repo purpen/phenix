@@ -57,6 +57,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
   public function sign_in($user_id){
     $user_sign = $this->extend_load((int)$user_id);
     $give_money = 0;
+    $sign_times = 1;
 
     //今天日期
     $today = (int)date('Ymd');
@@ -75,7 +76,6 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
         return array('is_true'=>0, 'is_sign'=>1, 'msg'=>'今天已经签到过了!', 'continuity_times'=>$user_sign['sign_times']);
       }
 
-      $sign_times = 1;
       $max_sign_times = $user_sign['max_sign_times']; 
       $exp_count = $user_sign['exp_count'] + self::EXP_NUM;
       $money_count = $user_sign['money_count'];
