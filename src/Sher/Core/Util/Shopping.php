@@ -188,7 +188,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     $bird_coin = (int)$bird_coin;
     if (empty($bird_coin)){
       $message['msg'] = '请输入正确数量';
-      return $message;
+      //return $message;
 		}
 		$model = new Sher_Core_Model_Product();
 		$product = $model->find_by_id((int)$product_id);

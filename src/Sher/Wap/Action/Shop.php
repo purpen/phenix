@@ -641,15 +641,19 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       if($is_snatched){
         $order_info['kind'] = 2;
       }
-      //是否积分兑换过
-      if(!empty($order_info['bird_coin_count'])){
+
+      //验证积分兑换
+      if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['is_exchanged']) && $order_info['items'][0]['is_exchanged']==1){
+      
         $product_id = $order_info['items'][0]['product_id'];
         //再次验证用户积分并冻结用户相应的积分数量
         $check_bird = Sher_Core_Util_Shopping::check_and_freeze_bird_coin($order_info['bird_coin_count'], $order_info['user_id'], $product_id);
         if(!$check_bird['stat']){
  				  return 	$this->ajax_json($check_bird['msg'], true);       
         }
+        
       }
+
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
