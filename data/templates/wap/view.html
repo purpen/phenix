@@ -75,11 +75,14 @@ h4 > .ui.active.green.icon.share.button > .icon{
 }
 .labeled.active.icon.button,.active.inverted.button{
 	width:100% !important;
-	padding-left:30% !important;
+	padding-left:0% !important;
 	padding-right:0 !important;
 }
 i.cart.icon{
-	width:30% !important;
+	-webkit-box-shadow: -0px 0 0 0 rgba(0,0,0,.05) inset !important;
+  box-shadow: 0px 0 0 0 rgba(0,0,0,.05) inset !important;
+	background-color: rgba(0,0,0,.0);
+	position: relative;
 }
 </style>
 {% endblock %}
@@ -428,11 +431,11 @@ i.cart.icon{
                                    </div>
                                {%else%}
                                    {% if product.can_saled %}
-                                       <div class="ui active magenta labeled icon nowbuy button" style="padding-left:35%;padding-right:0;">
+                                       <div class="ui active magenta labeled icon nowbuy button">
                                            <i class="cart icon"></i>立即购买
                                        </div>
                                    {%else%}
-                                       <div class="ui active gray inverted button" style="padding-left:35%;padding-right:0;">
+                                       <div class="ui active gray inverted button">
                                            <i class="cart icon"></i> 已售罄
                                        </div>
                                    {%endif%}
@@ -605,7 +608,7 @@ i.cart.icon{
     {% endif %}<!--if product.comment_count-->
   {% endif %}<!--if stage==9-->
 </div>
-<div id="product_guess_list">
+<div id="product_guess_wap_list">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
