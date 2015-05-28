@@ -495,10 +495,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         }
         $result = array('is_true'=>1, 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times, 'data'=>$user_sign);
       }else{
-        $result = array('is_true'=>0, 'msg'=>'数据不存在', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times,);
+        $result = array('is_true'=>0, 'msg'=>'数据不存在', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
       }
     }else{
-      $result = array('is_true'=>0, 'msg'=>'未注册', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times,);   
+      $result = array('is_true'=>0, 'msg'=>'未注册', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);   
     }
     $this->stash['result'] = $result;
     //加载签到操作
