@@ -5,10 +5,21 @@
 	#mfrbird {
 	    margin: 0em 0 3em;
 	}
+	.ml{
+		margin-left:275px;
+	}
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+
+	$('a.launch').click(function(){
+		$('.sidebar.menu').toggleClass('active');
+		$(document.body).toggleClass('ml');
+	});
+
+
 	var s=e('#frslide').width();
 	e("#frslide > .ui.slide > .item").width(s);
 	
