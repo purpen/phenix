@@ -27,7 +27,7 @@
 				</h4>
 			</div>
 			<div class="six wide right aligned column" style="width:37.5%;">
-				<a class="ui small icon gray button" href="{{ app_url_wap }}/shop/cart">
+				<a class="ui small icon" href="{{ app_url_wap }}/shop/cart">
 					<i class="cart icon"></i>
 				</a>
 				{% if visitor %}
@@ -35,7 +35,7 @@
 			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
 				</a>
 				{% else %}
-				<a href="{{ app_url_wap }}/auth/login" class="ui small icon gray button">
+				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
 					<i class="user icon"></i>
 				</a>
 				{% endif %}
