@@ -1,25 +1,28 @@
 <taconite>
-	<replace select="#topic_guess_list"><![CDATA[
+	<replace select="#topic_guess_wap_list"><![CDATA[
 		{% if result.total_rows %}
-        <div class="topic guess" id="topic_guess_list">
-            <h3 class="ui header">相关话题</h3>
-			<div class="ui socialstick stickcount four blocks">
-                {% for ft in result.rows %}
-				<div class="block">
-					<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.thumbnails.medium.view_url }}');"{% endif %}>
-                        <a class="transparent" href="{{ ft.topic.view_url }}" target="_blank">
-							<div class="sub title">
-								{{ ft.topic.title }}
-        						<div class="extra count">
-        							<i class="unhide icon"></i> <span>{{ ft.topic.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.topic.comment_count }}</span>
-        						</div>
+
+					<div id="topic_guess_wap_list">
+						<h3 class="ui header">相关话题</h3>
+						<div class="ui socialstick stickcount two blocks">
+							                {% for ft in result.rows %}
+							<div class="block" style="margin-bottom:20px;">
+								<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.thumbnails.medium.view_url }}');"{% endif %}>
+							    <a class="transparent" href="{{ ft.topic.wap_view_url }}">
+									  <div class="sub title">
+											{{ ft.topic.title }}
+							        <div class="extra count">
+							        	<i class="unhide icon"></i> <span>{{ ft.topic.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.topic.comment_count }}</span>
+							        </div>
+										</div>
+							    </a>
+								</div>
 							</div>
-                        </a>
+						{% endfor %}													
+															
+						</div>
 					</div>
-				</div>
-				{% endfor %}
-			</div>
-        </div>
+
 		{% endif %}
 	]]></replace>
 </taconite>
