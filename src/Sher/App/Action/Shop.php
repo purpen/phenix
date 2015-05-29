@@ -251,7 +251,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	public function ajax_guess_product(){
 		$sword = $this->stash['sword'];
         $current_id = $this->stash['id'];
-		$size = $this->stash['size'] || 3;
+		$size = $this->stash['size'];
 		
 		$result = array();
 		$options = array(

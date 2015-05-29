@@ -116,7 +116,7 @@ public function __construct() {
       if($t){
         switch($t){
           case 1:
-            $condition .= 'kind:Product cid:9 ';
+            $condition .= 'kind:Product (cid:9 AND cid:5 AND cid:12) ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 5:
@@ -134,6 +134,7 @@ public function __construct() {
         }
       }
 
+      //用于相关搜索,过滤当前结果
       if($type){
         switch($type){
           case 1:

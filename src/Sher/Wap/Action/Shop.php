@@ -1193,7 +1193,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function ajax_guess_product(){
 		$sword = $this->stash['sword'];
         $current_id = $this->stash['id'];
-		$size = $this->stash['size'] || 4;
+		$size = $this->stash['size'];
 		
 		$result = array();
 		$options = array(
