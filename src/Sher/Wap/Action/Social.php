@@ -14,7 +14,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'ajax_guess_topics');
 	
 	/**
 	 * 社区入口
@@ -362,6 +362,53 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		
         return $this->to_taconite_page('ajax/check_upload_assets.html');
     }
+
+	/**
+	 * 获取相关话题
+	 */
+	public function ajax_guess_topics(){
+		$sword = $this->stash['sword'];
+        $current_id = $this->stash['id'];
+		$size = $this->stash['size'];
+        
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+      'evt' => 'tag',
+      't' => 2,
+      'oid' => $current_id,
+      'type' => 1,
+		);
+        
+		if(!empty($sword)){
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        $topic_mode = new Sher_Core_Model_Topic();
+        $items = array();
+        foreach($xun_arr['data'] as $k=>$v){
+          $topic = $topic_mode->extend_load((int)$v['oid']);
+          if(!empty($topic)){
+            array_push($items, array('topic'=>$topic));
+          }
+        }
+        $result['rows'] = $items;
+        $result['total_rows'] = $xun_arr['total_count'];
+      }else{
+        $addition_criteria = array(
+            'type' => 2,
+            'target_id' => array('$ne' => (int)$current_id),
+        );
+        $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
+        $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+      }
+
+		}
+		$this->stash['result'] = $result;
+		
+		return $this->to_taconite_page('ajax/guess_topics.html');
+	}
 	
 	/**
 	 * 批量更新附件所属

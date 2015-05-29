@@ -1,22 +1,62 @@
 <taconite>
-	<replace select="#product_guess_list"><![CDATA[
+	<replace select="#product_guess_wap_list"><![CDATA[
 		{% if result.total_rows %}
-		<div class="product white guess" id="product_guess_list">
-            <div class="ui responsive {%if type=='2'%}{%else%}grid{%endif%}">
-				<div class="row">
-					<div class="column">
-						<h3 class="ui header">
-							你可能喜欢的产品
-						</h3>
-						<div class="ui four items">
-							{% for item in result.rows %}
-						  		{% include "block/product_search_item.html" %}
-						    {% endfor %}
+
+
+<div id="product_guess_wap_list">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">你可能喜欢的产品</h3>
+				<div class="ui two items">
+
+								{% for item in result.rows %}
+					<div class="magenta item" style="margin-bottom:20px;">
+						<div class="image">
+							<a href="{{ item.product.mm_view_url }}" title="{{ item.product.title }}">
+							      		<img src="{{ item.product.cover.thumbnails.md.view_url }}" alt="{{ item.product.title }}">
+									</a>
 						</div>
+						<div class="content">
+								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
+									<a href="{{ item.product.mm_view_url }}" title="{{ item.product.title }}" class="ui link">
+										{{ item.product.title }}
+									</a>
+								</h2>
+								<div class="schedule p-sell" style="margin-bottom: 0;">
+
+						      	  	        	<div class="ui magenta tiny progress">
+						          	  	<div class="bar" style="width:0%;"></div>
+						        	</div>
+						        	<div class="status clearfix" style="font-size: 14px !important;margin-top: 5px;">
+						          	  	<div class="name">
+						            		<span class="unit">￥</span>
+						            		<span class="price" style="font-size: 14px !important;">{{ item.product.sale_price}}</span>
+						            		<span class="like" style="font-size: 14px !important;line-height: 16px;">
+            			{% if item.product.love_count %}
+            				<i class="icon heart"></i>
+            			{% else %}
+            				<i class="icon empty heart"></i>
+            			{% endif %}
+            			<span class="count">{{ item.product.love_count }}</span>
+						          		  	</span>
+						        		</div>
+						      	  	</div>
+						      	  				<a href="{{ item.product.mm_view_url }}" class="link-extra">
+										{{ item.product.title }}
+									</a>
+						  		</div>
+						  	</div>
+						
 					</div>
+						    {% endfor %}				
+					
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+
 		{% endif %}
 	]]></replace>
 </taconite>
