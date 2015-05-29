@@ -16,28 +16,7 @@
 							<a href="{{ item.product.wap_view_url }}" title="{{ item.product.title }}">
 							      		<img src="{{ item.product.cover.thumbnails.md.view_url }}" alt="{{ item.product.title }}">
 									</a>
-    	{% if item.product.stage == 5 %}
-		<div class="presell">
-			{% if !item.product.presale_finished %}
-				预售新品
-			{% else %}
-				预售结束
-			{% endif %}
-		</div>
-    	{%endif%}
-		
-    	{% if item.product.stage == 9 %}
-      		{% if item.product.is_try %}
-		    <div class="presell">
-          	  试用新品
-		    </div>
-      	  	{%endif%}
-    	{%endif%}
-    	{% if item.product.stage == 12 %}
-		    <div class="presell">
-          	  积分兑换
-		    </div>
-    	{%endif%}
+
 						</div>
 						<div class="content">
 								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
