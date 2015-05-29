@@ -407,7 +407,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		}
 		$this->stash['result'] = $result;
 		
-		return $this->to_taconite_page('ajax/guess_topics.html');
+		return $this->to_taconite_page('ajax/guess_topics_wap.html');
 	}
 	
 	/**
