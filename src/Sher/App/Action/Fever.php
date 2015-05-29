@@ -453,7 +453,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			$model = new Sher_Core_Model_Product();
       $ok = $model->mark_as_approved($id);
       if(!$ok['success']){
-        return $this->ajax_json('审核失败!', true);
+        return $this->ajax_json($ok['msg'], true);
       }
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
