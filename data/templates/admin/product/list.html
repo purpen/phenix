@@ -199,7 +199,7 @@
 				<td>
 					<p>
 						{% if product.stage == 1 %}
-							<a href="{{ app_url_fever }}/ajax_approved?id={{ product._id }}" class="ui link item ajax">通过审核</a>
+							<a href="{{ app_url_admin }}/product/ajax_approved?id={{ product._id }}" class="ui link item ajax">通过审核</a>
 							{% if product.approved == 1%}
 							<a href="{{ app_url_admin_base }}/product/update_presale?id={{ product._id }}" class="ui link item">预售设置</a>
 							{% endif %}
