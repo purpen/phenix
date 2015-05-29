@@ -5,25 +5,11 @@
 	#mfrbird {
 	    margin: 0em 0 3em;
 	}
-	.ml{
-		margin-left:260px;
-	}
-	.ui.sidebar {
-	  width: 260px!important;
-	  margin-left: -260px!important;
-	}
+	
 </style>
 {% endblock %}
 
 {% block jquery %}
-
-
-	$('a.launch').click(function(){
-		$('.sidebar.menu').toggleClass('active');
-		$(document.body).toggleClass('ml');
-	});
-
-
 	var s=e('#frslide').width();
 	e("#frslide > .ui.slide > .item").width(s);
 	
