@@ -13,7 +13,7 @@
 								{% for item in result.rows %}
 					<div class="magenta item" style="margin-bottom:20px;">
 						<div class="image">
-							<a href="{{ item.product.mm_view_url }}" title="{{ item.product.title }}">
+							<a href="{{ item.product.wap_view_url }}" title="{{ item.product.title }}">
 							      		<img src="{{ item.product.cover.thumbnails.md.view_url }}" alt="{{ item.product.title }}">
 									</a>
     	{% if item.product.stage == 5 %}
@@ -41,7 +41,7 @@
 						</div>
 						<div class="content">
 								<h2 class="ui header" style="font-size:14px;height:18px;overflow:hidden;margin-bottom: 8px;">
-									<a href="{{ item.product.mm_view_url }}" title="{{ item.product.title }}" class="ui link">
+									<a href="{{ item.product.wap_view_url }}" title="{{ item.product.title }}" class="ui link">
 										{{ item.product.title }}
 									</a>
 								</h2>
@@ -85,7 +85,7 @@
 						        		</div>
 						      	  	</div>
                         {%endif%}
-						      	  				<a href="{{ item.product.mm_view_url }}" class="link-extra">
+						      	  				<a href="{{ item.product.wap_view_url }}" class="link-extra">
 										{{ item.product.title }}
 									</a>
 						  		</div>
