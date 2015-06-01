@@ -81,6 +81,7 @@
                 {% active_list var:'old_list' published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
 				<div class="ui three activity cards">
                     {% for active in old_list.rows %}
+                    {% if current_list.rows.0._id != active._id %}
 					<div class="card">
 						<div class="image">
                             <a href="{{ active.view_url }}" title="{{ active.title }}" target="_blank">
@@ -118,6 +119,7 @@
                             </div>
 						</div>
 					</div>
+          {%endif%}
                     {%endfor%}
 				</div>
 				
