@@ -1,0 +1,352 @@
+{%extends 'layout/column.html'%}
+{% block title %}fitbit -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+		margin-top:-4px;
+		color:#fff;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:800px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+	}
+	.ui.white .row{
+		padding:5px 0;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+	
+	
+	.section1{
+		background:url({{ app_url_packaged }}/images/mall/fitbit1.jpg) no-repeat center bottom /cover;
+		height:994px;
+	}
+	.section1 .contide{
+		padding-top:120px;
+	}
+	.section2{
+		background:url({{ app_url_packaged }}/images/mall/fitbit2.jpg) no-repeat center bottom /cover;
+		color:#fff;
+	}
+	.section3{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit3.jpg) no-repeat left bottom /cover;*/
+		color:#fff;
+	}
+	.section4{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit4.jpg) no-repeat left bottom /cover;
+		color:#fff;
+		height:1000px;*/
+	}
+	.section5{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit5.jpg) no-repeat left bottom /cover;
+		color:#fff;
+		height:1000px;*/
+	}
+	.section6{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit6.jpg) no-repeat left bottom /cover;
+		color:#fff;
+		height:1000px;*/
+	}
+	.section7{
+		background:url({{ app_url_packaged }}/images/mall/fitbit7.jpg) no-repeat center center /cover;
+		color:#fff;
+		height:800px;
+	}
+	.section8{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit8.jpg) no-repeat center center /cover;
+		color:#fff;
+		height:800px;*/
+	}
+	.section9{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit9.jpg) no-repeat center center /cover;
+		color:#fff;
+		height:800px;*/
+	}
+	.section10{
+		/*background:url({{ app_url_packaged }}/images/mall/fitbit10.jpg) no-repeat center center /cover;
+		color:#fff;
+		height:800px;*/
+		background:#fff;
+	}
+	
+	.cont{
+		position: absolute;
+		left: 20%;
+	  top: 30%;
+	  width: 500px;
+	}
+	.cont h2{
+		font-size: 30px;
+		margin-bottom: 10px;
+	}
+	.cont p{
+		font-size: 18px;
+		margin: 0;
+	}
+	i.fit-1{
+		background-image:url({{ app_url_packaged }}/images/mall/fit2-1.png);
+		width:90px;
+		height:90px;
+	}
+	i.fit-2{
+		background-image:url({{ app_url_packaged }}/images/mall/fit2-2.png);
+		width:90px;
+		height:90px;
+	}
+	i.fit-3{
+		background-image:url({{ app_url_packaged }}/images/mall/fit2-3.png);
+		width:90px;
+		height:90px;
+	}
+	i.fit-4{
+		background-image:url({{ app_url_packaged }}/images/mall/fit2-4.png);
+		width:90px;
+		height:90px;
+	}
+	i.fit-5{
+		background-image:url({{ app_url_packaged }}/images/mall/fit2-5.png);
+		width:90px;
+		height:90px;
+	}
+	i.fit-6{
+		background-image:url({{ app_url_packaged }}/images/mall/fit2-6.png);
+		width:90px;
+		height:90px;
+	}
+	.ui.header .icon+.content{
+		vertical-align: middle;
+	}
+	.six.wide h2.ui.header{
+		padding:20px 0;
+		height:80px;
+		width:440px;
+	}
+	.six.wide{
+		position:relative;
+	}
+	.row .six.wide:first-child h2.ui.header:first-child{
+		position: absolute;
+		right: 0;
+		top: 20px;
+	}
+	.row .six.wide:first-child h2.ui.header:nth-child(2){
+		position: absolute;
+		right: 0;
+		top: 170px;
+	}
+	.row .six.wide:first-child h2.ui.header:nth-child(3){
+		position: absolute;
+		right: 0;
+		top: 340px;
+	}
+	.row .four.wide+.six.wide h2.ui.header:first-child{
+		position: absolute;
+		left: 0;
+		top: 20px;
+	}
+	.row .four.wide+.six.wide h2.ui.header:nth-child(2){
+		position: absolute;
+		left: 0;
+		top: 170px;
+	}
+	.row .four.wide+.six.wide h2.ui.header:nth-child(3){
+		position: absolute;
+		left: 0;
+		top: 340px;
+	}
+	.six.wide .sub.header{
+		color:#fff !important;
+	}
+	
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$('.ui.tabox').smint({
+  		'scrollSpeed' : 1000
+  	});
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>fitbit</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<!--<a href="#team" class="ui link item">我们的团队</a>|-->
+			<a href="http://www.taihuoniao.com/topic/view-103238-1.html" title="匙悟科技智能非穿戴式睡眠监测设备" class="ui item link" target="_blank">讨论区</a>
+			<a href="#buy" class="ui inverted active gray button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="fitbit">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="fitbit">
+	<div class="section section1">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/fit.png" alt="fitbit" width="80%">
+		</div>
+	</div>
+	<div class="section section2">
+		<div class="ui responsive grid" style="padding-top:150px;padding-bottom:150px;">
+			<div class="row">
+				<div class="six wide column">
+					<h2 class="ui header">
+						<i class="fit-1 icon"></i>
+						<div class="content">
+						全天活动
+						<div class="sub header">记录步数、距离、消耗卡路里数和活跃时间</div>
+						</div>
+					</h2>
+					
+					<h2 class="ui header">
+						<i class="fit-2 icon"></i>
+						<div class="content">
+						手表＋显示器
+						<div class="sub header">通过oled显示屏查看每日统计数据、时间和模式</div>
+						</div>
+					</h2>
+					
+					<h2 class="ui header">
+						<i class="fit-3 icon"></i>
+						<div class="content">
+						来电显示
+						<div class="sub header">手机在附近时，查看来电通知</div>
+						</div>
+					</h2>
+					
+				</div>
+				<div class="four wide column">
+					<img src="{{ app_url_packaged }}/images/mall/fit2-7.png">
+				</div>
+				<div class="six wide column">
+					<h2 class="ui header">
+						<i class="fit-4 icon"></i>
+						<div class="content">
+						长久待机时间
+						<div class="sub header">7-10天长久待机时间，超过其他同类智能产品</div>
+						</div>
+					</h2>
+					
+					<h2 class="ui header">
+						<i class="fit-5 icon"></i>
+						<div class="content">
+						自动睡眠记录＋闹钟
+						<div class="sub header">自动监测您的睡眠质量，并用静音震动闹钟将您唤醒</div>
+						</div>
+					</h2>
+					
+					<h2 class="ui header">
+						<i class="fit-6 icon"></i>
+						<div class="content">
+						无线同步
+						<div class="sub header">将数据无线同步至最新推出的智能手机和电脑上</div>
+						</div>
+					</h2>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section section3">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit3.jpg" width="100%">
+		<div class="cont">
+			<h2>充满活力 <br />
+				掌控生活</h2>
+			<p>利用Charge记录全天活动，比如行走步数、行走距离、消耗卡路里数、 攀爬楼层数以及活跃时间，充满活力，增加运动量。</p>
+		</div>
+	</div>
+	<div class="section section4">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit4.jpg" width="100%">
+		<div class="cont">
+			<h2>实时提供 <br />
+				真实进度</h2>
+			<p>通过手腕上佩戴设备的明亮oled屏幕查看您的每一个数据，使用锻炼模式 检查您的锻炼数据，或只是找到战胜下一个目标的激情。</p>
+		</div>
+	</div>
+	<div class="section section5">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit5.jpg" width="100%">
+		<div class="cont">
+			<h2>绝不错过 <br />
+				重要来电</h2>
+			<p>Charge内置来电显示功能，手机在附近时，它会显示来电 帮助您掌控全天日程安排。</p>
+		</div>
+	</div>
+	<div class="section section6">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit6.jpg" width="100%">
+		<div class="cont">
+			<h2>晚安  <br />
+				祝您好梦</h2>
+			<p>使用Charge自动监测夜间睡眠，然后通过数字面板查看睡眠质量，让您睡 得更好，生活更有品质，想要早晨起床变得更加容易，您可以设置静音震动
+				闹钟，让您更加舒适地醒来。</p>
+		</div>
+	</div>
+	<div class="section section7">
+		
+	</div>
+	<div class="section section8">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit8.jpg" width="100%">
+		
+	</div>
+	<div class="section section9">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit9.jpg" width="100%">
+		
+	</div>
+	<div class="section section10">
+		<img src="{{ app_url_packaged }}/images/mall/fitbit10.jpg" width="100%">
+		<div class="ui responsive grid" style="padding: 0 0 80px;">
+			<div class="row">
+				<div class="center aligned column">
+					<a name="buy"></a>
+					<a href="http://www.taihuoniao.com/sale/1054304330.html" target="_blank" class="ui inverted active gray button" title="lunar智能睡眠记录器">立即购买</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
