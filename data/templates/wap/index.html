@@ -39,10 +39,24 @@
 	  max-width: 100%;
 	  float: left;
 	}
-	/*.ui.menu.fluid{
-		width:100% !important;
-		margin:0 !important;
-	}*/
+	#mchildmenu .next, #mchildmenu .prev {
+	  top: 29px;
+	  color: rgba(0,0,0,0.7);
+	  font-size: 20px;
+	  position: absolute;
+	  text-decoration: none;
+	  width: 80px;
+	  -webkit-transition: all .3s ease-in-out 0s;
+	  transition: all .3s ease-in-out 0s;
+	}
+	#mchildmenu .prev {
+	  left: -50px;
+	  text-align: right;
+	}
+	#mchildmenu .next {
+	  right: -50px;
+	  text-align: left;
+	}
 </style>
 {% endblock %}
 
@@ -105,6 +119,8 @@
 		touchDragging: 1,
 		releaseSwing: 1,
 		startAt: 0,
+		prev: "#mchildmenu .prev",
+		next: "#mchildmenu .next",
 		pagesBar: $frame.find('.pages'),
 		pageItem: 'pages',
 		activatePageOn: 'click',
@@ -212,6 +228,12 @@
 			</div>
 		</div>
 	</div>
+	<a class="prev" href="#">
+		<i class="flat arrow_left icon"></i>
+	</a>
+	<a class="next" href="#">
+		<i class="flat arrow_right icon"></i>
+	</a>
 </div>
 
 <!--二级导航-->
