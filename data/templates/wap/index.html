@@ -25,6 +25,24 @@
 		color: #f36 !important;
 	  vertical-align: middle;
 	}
+	#mchildmenu {
+	  margin-bottom: .5rem;
+	  max-height: 73px;
+	  position: relative;
+	}
+	#mchildmenu>.ui.slide {
+	  height: 100%;
+	  width: 100%;
+	}
+	#mchildmenu>.ui.slide>.item {
+	  display: inline-block;
+	  max-width: 100%;
+	  float: left;
+	}
+	.ui.menu.fluid{
+		width:100% !important;
+		margin:0 !important;
+	}
 </style>
 {% endblock %}
 
@@ -72,6 +90,42 @@
 		$frame.sly('reload');
 	});
 	
+	var s=e('#mchildmenu').width();
+	e("#mchildmenu > .ui.slide > .item").width(s);
+	
+	var $frame = $('#mchildmenu');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'pages',
+		activatePageOn: 'click',
+		pageBuilder: function (index) {
+			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
+		},
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+	
+	$(window).resize(function() {
+		var s=$('#mchildmenu').width();
+		e("#mchildmenu > .ui.slide > .item").width(s);
+		
+		$frame.sly('reload');
+	});
+	
 	$('#pc-site').click(function(){
 		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');
 		phenix.redirect('http://www.taihuoniao.com', 0);
@@ -112,9 +166,53 @@
 	<div class="pages"></div>
 </div>
 
+<div id="mchildmenu" class="frame">
+	<div class="ui slide">
+		<div class="ui fluid four item labeled main icon magenta menu">
+			<a class="item" href="{{ app_url_wap }}/shop">
+	    	<i class="block layout icon"></i>
+	    	全部商品
+	  	</a>
+	  	<a class="item" href="{{ app_url_wap }}/topic">
+	    	<i class="basic community icon"></i>
+	    	社区话题
+	  	</a>
+	  	<a class="item" href="{{ app_url_wap }}/try">
+	    	<i class="star icon"></i>
+	    	新品试用
+	  	</a>
+	  	<a class="item" href="{{ app_url_wap }}/contest/dream2">
+	    	<i class="cloud upload icon"></i>
+	    	十万火计
+	  	</a>
+	
+		</div>
+		<div class="ui fluid four item labeled main icon magenta menu">
+			
+			<a class="item" href="{{ app_url_wap }}/active">
+	    	<i class="time icon"></i>
+	    	活动
+	  	</a>
+	  	<a class="item" href="{{ app_url_wap }}/birdegg">
+	    	<i class="basic community icon"></i>
+	    	蛋年
+	  	</a>
+	  	<a class="item" href="{{ app_url_wap }}/incubator">
+	    	<i class="basic idea icon"></i>
+	    	孵化
+	  	</a>
+	  	<a class="item" href="{{ app_url_wap }}/clients">
+	    	<i class="mobile icon"></i>
+	    	客户端
+	  	</a>
+			
+		</div>
+		
+	</div>
+</div>
 
 <!--二级导航-->
-<div class="ui responsive grid" id="mchildmenu">
+<!--<div class="ui responsive grid" id="mchildmenu">
 	<div class="row">
 		<div class="column">
 			<div class="ui fluid four item labeled icon main magenta menu">
@@ -153,7 +251,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 
 <!--商店商品-->
 {% if products %}
