@@ -204,9 +204,16 @@
 								</td>
 								<td>
 							      	<div class="content">
-							          	<div class="header">
-											<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
-										</div>
+									{% if item.sku == item.product_id %}
+						          	<div class="header">
+										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
+									</div>
+									{% else %}
+									{% sku_list var:'sku' sku:item.sku %}
+						          	<div class="header">
+                          <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+									</div>
+									{% endif %}
 							          	<p class="attribute">编号：{{ item.sku }}</p>
 							      	</div>
 								</td>
