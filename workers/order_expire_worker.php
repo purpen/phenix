@@ -47,13 +47,18 @@ while(!$is_end){
 		// 未支付订单才允许关闭
 		if ($order['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 关闭订单
-      $ok = $order_model->close_order($order['_id']);
-      if($ok){
-        echo "success update order status:".$order['_id']."\n";
-        $total++;     
-      }else{
-        echo "update order:".$order['_id']." faile!!!\n";
+      try{
+        $ok = $order_model->close_order($order['_id']);
+        if($ok){
+          echo "success update order status:".$order['_id']."\n";
+          $total++;     
+        }else{
+          echo "update order:".$order['_id']." faile!!!\n";
+        }
+      } catch (Sher_Core_Model_Exception $e) {
+        echo "update order:".$order['_id']." faile!!!". $e->getMessage()."\n";
       }
+
     }else{
       echo $order['_id']."order status error!!!\n";
     }
