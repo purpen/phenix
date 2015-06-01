@@ -40,7 +40,6 @@
 	  float: left;
 	}
 	#mchildmenu .next, #mchildmenu .prev {
-	  top: 29px;
 	  color: rgba(0,0,0,0.7);
 	  font-size: 20px;
 	  position: absolute;
@@ -52,10 +51,54 @@
 	#mchildmenu .prev {
 	  left: -50px;
 	  text-align: right;
+		height: 73px;
+		line-height: 73px;
 	}
 	#mchildmenu .next {
 	  right: -50px;
 	  text-align: left;
+		height: 73px;
+		line-height: 73px;
+	}
+	.fp-controlArrow.page_right {
+	  -webkit-animation: arrowRt 1.5s linear infinite;
+	  -moz-animation: arrowRt 1.5s linear infinite;
+	  animation: arrowRt 1.5s linear infinite;
+	}
+	.fp-controlArrow.page_left {
+		-webkit-animation: arrowUp 1.5s linear infinite;
+		-moz-animation: arrowUp 1.5s linear infinite;
+		animation: arrowUp 1.5s linear infinite;
+	}
+	@-webkit-keyframes arrowRt {
+		0%{-webkit-transform:translateX(-10px);opacity:0}
+		60%{-webkit-transform:translateX(0px);opacity:1}
+		100%{-webkit-transform:translateX(10px);opacity:0}
+	}
+	@-moz-keyframes arrowRt {
+		0%{-webkit-transform:translateX(-10px);opacity:0}
+		60%{-webkit-transform:translateX(0px);opacity:1}
+		100%{-webkit-transform:translateX(10px);opacity:0}
+	}
+	@keyframes arrowRt {
+		0%{-webkit-transform:translateX(-10px);opacity:0}
+		60%{-webkit-transform:translateX(0px);opacity:1}
+		100%{-webkit-transform:translateX(10px);opacity:0}
+	}
+	@-webkit-keyframes arrowUp {
+		0%{-webkit-transform:translateX(10px);opacity:0}
+		60%{-webkit-transform:translateX(0px);opacity:1}
+		100%{-webkit-transform:translateX(-10px);opacity:0}
+	}
+	@-moz-keyframes arrowUp {
+		0%{-webkit-transform:translateX(10px);opacity:0}
+		60%{-webkit-transform:translateX(0px);opacity:1}
+		100%{-webkit-transform:translateX(-10px);opacity:0}
+	}
+	@keyframes arrowUp {
+		0%{-webkit-transform:translateX(10px);opacity:0}
+		60%{-webkit-transform:translateX(0px);opacity:1}
+		100%{-webkit-transform:translateX(-10px);opacity:0}
 	}
 </style>
 {% endblock %}
@@ -229,10 +272,10 @@
 		</div>
 	</div>
 	<a class="prev" href="#">
-		<i class="flat arrow_left icon"></i>
+		<i class="flat fp-controlArrow page_left icon"></i>
 	</a>
 	<a class="next" href="#">
-		<i class="flat arrow_right icon"></i>
+		<i class="flat fp-controlArrow page_right icon"></i>
 	</a>
 </div>
 
