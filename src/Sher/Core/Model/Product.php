@@ -747,7 +747,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 );
             }
             // 恢复积分兑换数量
-            if($row['exchanged']){
+            if(isset($row['exchanged']) && !empty($row['exchanged'])){
                 $updated = array(
 				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'exchange_count'=>1),
                 );
