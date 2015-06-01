@@ -24,6 +24,14 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		$this->set_target_css_state('page_shop');
 		return $this->to_html_page('page/mall/lunar.html');
 	}
+	
+	/**
+	 * lunar 祝眠灯
+	 */
+	public function fitbit(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/fitbit.html');
+	}
 
 
 }
