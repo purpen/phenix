@@ -142,11 +142,11 @@
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			alert(result.data.ids);
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 
+  //上传附件
 	$('#phenix-file-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -169,12 +169,11 @@
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
-			$('#product-upload-form').addClass('error');
-			phenix.show_error_message(result.message, $('#product-upload-form'));
+			$('#file-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#file-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			alert(result.data.ids);
-			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+			$.get('{{ app_url_action_base }}/uploader/check_upload_files', {'assets': result.data.ids, 'asset_type': {{ file_asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 	
@@ -366,15 +365,16 @@
             <!--
 						<div class="field">
 							<label>上传附件 <small class="description">(小于10M)</small></label>
-							<input type="hidden" name="cover_id" id="topic_asset_id" value="{{ topic.cover_id }}" />
+							<input type="hidden" name="file_id" id="topic_file_id" value="{{ topic.file_id }}" />
 							<div id="phenix-file-uploader"></div>
 						
 							<div id="file-list" class="ui six blocks">
 								{% if mode == 'edit' %}
 									{% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
 									{% for asset in assets.rows %}
+											<input type="hidden" class="file_id_list" name="file_asset[]" value="{{ asset._id }}" />
 									<div class="thumb card block" id="{{ asset._id }}">
-
+                    {{ asset.filename }}
 										<div class="buttons">
 											<div class="ui large links">
                         <span>{{ asset.filename }}</span>
@@ -388,7 +388,7 @@
 								{% endif %}
 							</div>
 						</div>
-            -->
+-->
 						<div class="ui right floated aligned grid">
                             <div class="row">
     							<div class="column">
