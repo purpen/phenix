@@ -3,12 +3,108 @@
 
 {% block page_css %}
 <style class="text/css">
-    
+    .try.masthead {
+			{% if try.banner_id %}
+			background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+			{% else %}
+		    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+			{% endif %}
+		    height: 500px;
+			color: #fff;
+		}
+		.try.masthead .column {
+			padding-top: 120px;
+		}
+		.try.masthead > .masthead-cover {
+		    background-color: rgba(0, 0, 0, 0.15);
+		    height: 100%;
+		}
+		.try .ui.header .sub.header {
+			color: rgba(255, 255, 255, 0.9);
+			font-size: 1.5rem;
+		}
+		.try .ui.list .count span{
+			font-size:16px !important;
+		}
+		.try .presell{
+			padding: .5rem 0.25rem;
+		  min-width: 80px;
+			text-align: center;
+			border-radius: 0;
+		}
+		.presell.apply{
+			left:88px;
+			background:rgba(244,87,129,0.5);
+			padding:.5rem .8rem;
+		}
+		.presell.callback{
+			left:88px;
+			background:rgba(40,135,198,0.5);
+			padding:.5rem .8rem;
+		}
+		.presell.end{
+			left:88px;
+			background:rgba(106,108,85,0.5);
+			padding:.5rem .8rem;
+		}
+		.trycm{
+			text-align:center;
+		}
+		.trycm .ui.icon.header{
+			font-weight:400;
+			font-size: 1.23em;
+			margin:0;
+		}
+		.trycm .ui.icon.header .sub.header{
+			font-size:1rem;
+			color:#5d6266;
+		}
+		.trycm .ui.icon.header:first-child{
+			float:left;
+		}
+		.trycm .ui.icon.header:nth-child(2){
+		}
+		.trycm .ui.icon.header:last-child{
+			float:right;
+		}
+		.tryapply .circle{
+			width:120px;
+			height:120px;
+			border-radius:50%;
+			background:#3cc9b4;
+			color:#fff;
+			font-size: 20px;
+			display: inline-block;
+			line-height: 120px;
+		}
+		.tryapply .litle.fu{
+			color:#3cc9b4;
+			font-size:60px;
+			display:inline-block;
+			height:100px;
+			vertical-align: middle;
+			line-height:85px;
+			margin:0 40px;
+			font-weight: 100;
+		}
+		.tryfirm img{
+			margin: 0 5px 5px 0;
+		  border: 1px solid #ccc;
+		  width: 150px;
+		}
+		
+		
+		
 </style>
 {% endblock %}
 
 {% block jquery %}
-	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
+		});
+	});
 {% endblock %}
 
 {% block content %}
@@ -22,7 +118,38 @@
 	</div>
 </div>
 
-<div class="try masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/crowdfunding-product.jpg');">
+<div class="try masthead">
+	<div class="masthead-cover">
+		<div class="ui responsive grid">
+			<div class="column">
+				<h1 class="ui header">
+					<div class="content">
+						{{ try.title }}
+						<div class="sub header">
+							{{ try.description }}
+						</div>
+					</div>
+				</h1>
+				{% if !try.is_end %}
+				<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank" class="ui white applytry inverted button">
+					<i class="ticket icon"></i> 申请试用
+				</a>
+				{% else %}
+				<a href="javascript:void(0);" class="ui active white inverted button">
+					<i class="lock icon"></i> 已结束
+				</a>
+				{% endif %}
+				<a href="{{ try.product.view_url }}" class="ui white inverted button" target="_blank">
+					<i class="browser icon"></i> 产品详情
+				</a>
+				<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约{% if !try.is_end %}, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}, 结束时间：{{ try.end_time }}{% endif %}</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--<div class="try masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/crowdfunding-product.jpg');">
     <div class="masthead-cover">
     	<div class="ui responsive grid">
     		<div class="center aligned column white section-title">
@@ -39,11 +166,18 @@
     		</div>
     	</div>
     </div>
-</div>
+</div>-->
 	
 <div class="ui try">
 	<div class="mainlist">
 		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h3 class="ui header">
+						往期试用
+					</h3>
+				</div>
+			</div>
 			<div class="row">
 				<div class="column">
 					<div class="ui three cards">
@@ -54,15 +188,33 @@
 									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 										<img src="{{ t.cover.thumbnails.resp.view_url }}" >
 									</a>
+									<div class="presell">
+										第 14 期
+									</div>
+									{%if !t.is_end%}
+									<div class="presell apply">
+										申请中
+									</div>
+									{%endif%}
+									<!--<div class="presell callback">
+										报告回收中
+									</div>-->
+									{%if t.is_end%}
+									<div class="presell end">
+										已结束
+									</div>
+									{%endif%}
+									
+										
 								</div>
 								<div class="content">
 									<div class="header">
 										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
-											{{ t.title|truncate, 24, '' }}{%if t.is_end%}（已结束）{%endif%}
+											{{ t.title|truncate, 24, '' }}
 										</a>
                                     </div>
                                     <div class="description">{{ t.description }}</div>
-									<div class="i-stats">
+									<!--<div class="i-stats">
 										<div class="trycm">
 											<div class="name">
 												产品数量：<span class="count">{{ t.try_count }}</span> 个 申请人数：<span class="count">{{ t.apply_count }}</span> 人
@@ -71,7 +223,32 @@
 												<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
 											</div>
 										</div>
+									</div>-->
+									
+									<div class="i-stats">
+										<div class="trycm">
+											<div class="ui icon header">
+												{{ t.try_count }}
+												<div class="sub header">
+													产品数量
+												</div>
+											</div>
+											<div class="ui icon header">
+												{{ t.apply_count }} 
+												<div class="sub header">
+													申请人数
+												</div>
+											</div>
+											<div class="ui icon header">
+												{{ t.pass_count }} 
+												<div class="sub header">
+													试用报告
+												</div>
+											</div>
+									
+										</div>
 									</div>
+									
 								</div>
 							</div>
 						{% endfor %}
@@ -80,6 +257,51 @@
 			</div>
 		</div><!--end responsive grid-->
 	</div>
+</div>
+
+<div class="ui responsive tryapply grid">
+	<div class="row">
+		<div class="column">
+			<h3 class="ui header">
+				新品试用申请流程
+			</h3>
+			<p>太火鸟新品试用是专注于智能设备的免费试用平台，每1-2周提供一款智能或新奇设备供你免费体验，你的反馈将影响产品的设计，决定产品命运。点击“现在申请”马上参与！申请步骤如下：</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="center aligned column">
+			<div class="circle">
+				提交申请
+			</div>
+			<div class="litle fu">></div>
+			<div class="circle">
+				进行审核
+			</div>
+			<div class="litle fu">></div>
+			<div class="circle">
+				等待收货
+			</div>
+			<div class="litle fu">></div>
+			<div class="circle">
+				提交报告
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="column">
+			<h3 class="ui header">
+				合作厂商
+			</h3>
+			<div class="tryfirm">
+				<img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技">
+				<img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园">
+				<img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技">
+				<img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC">
+				<img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国">
+			</div>
+		</div>
+	</div>
+
 </div>
 
 <div class="section breadcrumb">
