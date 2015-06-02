@@ -120,7 +120,7 @@
             {% if try_latest.rows %}
             {% for try in try_latest.rows %}
 
-<div class="try masthead" style="{% if try.banner_id %}background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);{% else %}background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);{% endif %}">
+<div class="try masthead" style="{% if try.banner_id %}background: url('{{ try.banner.fileurl }}') no-repeat scroll center center / cover rgba(45, 53, 56, 1);{% else %}background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);{% endif %}">
 	<div class="masthead-cover">
 		<div class="ui responsive grid">
 			<div class="column">
