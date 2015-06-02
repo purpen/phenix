@@ -552,7 +552,7 @@ i.cart.icon{
 			
 </div>
 
-<!--商品介绍-->
+<!--商品介绍
 <div class="ui products segment">
 	<h4 class="ui dividing header">
 		产品详情
@@ -561,10 +561,12 @@ i.cart.icon{
 		{{ product.content }}
 	</div>
 </div>
-	{% if product.stage == 9 %}
-    {% if product.comment_count %}
+-->
+
+<!--	{% if product.stage == 9 %}
+    {% if product.comment_count %}-->
     <!--商品评价-->
-        <div class="ui reply segment">
+   <!--     <div class="ui reply segment">
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
           </h4>
@@ -629,9 +631,9 @@ i.cart.icon{
             {% endfor %}
           </div>
           
-    {% endif %}<!--if product.comment_count-->
-  {% endif %}<!--if stage==9-->
-</div>
+    {% endif %}--><!--if product.comment_count-->
+  <!--{% endif %}  <!----if stage==9--->
+</div>-->
 
 <div id="product_guess_wap_list" style="display:none;">
 
