@@ -667,6 +667,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$new_file_id = new MongoId();
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+
+		// 附件上传参数
+		$this->stash['file_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['file_domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$this->stash['file_asset_type'] = Sher_Core_Model_Asset::TYPE_FILE_TOPIC;
+		$this->stash['file_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		// 评测对象
 		if(isset($this->stash['tid'])){
@@ -731,6 +737,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['new_file_id'] = (string)$new_file_id;
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
+
+		// 附件上传参数
+		$this->stash['file_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['file_domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$this->stash['file_asset_type'] = Sher_Core_Model_Asset::TYPE_FILE_TOPIC;
+		$this->stash['file_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		$this->editor_params();
 		
