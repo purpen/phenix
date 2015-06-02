@@ -20,6 +20,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 		
 		$state = 0;
         $ignore_id = 0;
+        $step_stat = 0;
 		
         $var = 'list';
         $include_pager = 0;
