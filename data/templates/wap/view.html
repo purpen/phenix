@@ -6,6 +6,9 @@ body{
 	max-width: 767px;
 	margin: auto;
 }
+#mfrbird{
+	margin-top:0;
+}
 .ui.money.list .item .content {
 	margin-left: 0%;
 }
@@ -338,7 +341,7 @@ i.cart.icon{
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid" id="mshoppage">
+<!--<div class="ui responsive grid" id="mshoppage">
 	<div class="row">
 		<div class="column">
 			<div class="ui breadcrumb">
@@ -360,7 +363,7 @@ i.cart.icon{
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 
 <!--产品图片-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
@@ -551,7 +554,19 @@ i.cart.icon{
        </div>
 			
 </div>
-
+<div class="ui segment">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<a href="" class="ui link">
+					<p>
+						商品详情
+					</p>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 <!--商品介绍
 <div class="ui products segment">
 	<h4 class="ui dividing header">
