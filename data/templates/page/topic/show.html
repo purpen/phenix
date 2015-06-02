@@ -559,18 +559,6 @@
 						{{ topic.description }}
 					</div>
 					
-					<!--附件列表-->
-					{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
-					{% if assets.rows %}
-					<div class="post froala-view froala-element clearfix">
-						{% for asset in assets.rows %}
-						<p>
-							<img width="" src="{{ asset.thumbnails.hd.view_url }}" alt="{{ topic.title }}" class="fr-fin" />
-						</p>
-						{% endfor %}
-					</div>
-					{% endif %}
-					
 					{% if topic.tags %}
 					<div class="idea tags">
 						{% for tag in topic.tags %}

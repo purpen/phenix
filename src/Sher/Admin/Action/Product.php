@@ -674,6 +674,32 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}
 
+	/**
+	 * 通过审核
+	 */
+	public function ajax_approved(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+      return $this->ajax_notification('访问的创意不存在!', true);
+		}
+		if (!$this->visitor->can_admin()){
+      return $this->ajax_notification('抱歉，你没有相应权限！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+      $ok = $model->mark_as_approved($id);
+      if(!$ok['success']){
+        return $this->ajax_notification($ok['msg'], true);
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("操作失败：".$e->getMessage());
+      return $this->ajax_notification('操作失败!'.$e->getMessage(), true);
+		}
+		
+    return $this->ajax_notification('审核成功!', false);
+	}
+
   /**
    * 产品合作
    */

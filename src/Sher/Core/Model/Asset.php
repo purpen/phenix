@@ -36,6 +36,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_TOPIC   = 50;
 	# 话题编辑器图片
 	const TYPE_EDITOR_TOPIC = 55;
+  #话题附件
+  const TYPE_FILE_TOPIC = 56;
 
     # 合作联系图片,1.产品合作
     const TYPE_CONTACT = 60;

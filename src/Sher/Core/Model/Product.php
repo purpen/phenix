@@ -614,12 +614,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	public function mark_as_approved($id) {
 		 $ok = $this->update_vote_date($id);
-         if($ok){
+         if($ok['success']){
              $data = $this->load($id);
              // 增加积分
              $service = Sher_Core_Service_Point::instance();
              // 创意审核通过（进入投票环节）
              $service->send_event('evt_idea_pass', $data['user_id']);
+             // 送5鸟币
+            $service->make_money_in($data['user_id'], 5, "创意投票通过审核");
          }
          return $ok;
 	}
@@ -697,7 +699,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                     );
                 }
                 // 如果是积分兑换,减少数量
-                if($row['exchanged']){
+                if(isset($row['exchanged']) && !empty($row['exchanged'])){
                     $updated = array(
                         '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'exchange_count'=>-1),
                     );
@@ -745,7 +747,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 );
             }
             // 恢复积分兑换数量
-            if($row['exchanged']){
+            if(isset($row['exchanged']) && !empty($row['exchanged'])){
                 $updated = array(
 				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'exchange_count'=>1),
                 );
@@ -794,7 +796,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 * 更新投票开始、截止日期
 	 * @注意：开启投票时，一定通过审核的产品
 	 */
-	protected function update_vote_date($id){
+  protected function update_vote_date($id){
+    $result = array('success'=>false);
+    $product = $this->load((int)$id);
+    if(empty($product)){
+      $result['msg'] = '产品不存在!';
+      return $result;
+    }
+    if(!empty($product['approved'])){
+      $result['msg'] = '已通过审核!';
+      return $result;   
+    }
 		// 获取时间间隔
 		$interval = Doggy_Config::$vars['app.vote.interval'];
 		
@@ -804,7 +816,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$date->add(new DateInterval("P${interval}D"));
 		$finish_time = $date->getTimestamp();
 		
-		return $this->update_set($id, array('approved'=>1, 'voted_start_time'=>$now, 'voted_finish_time'=>$finish_time));
+    $ok = $this->update_set($id, array('approved'=>1, 'voted_start_time'=>$now, 'voted_finish_time'=>$finish_time));
+    if($ok){
+      $result['success'] = true;
+    }else{
+      $result['msg'] = '操作失败!';
+    }
+    return $result;
 	}
 	
 	
