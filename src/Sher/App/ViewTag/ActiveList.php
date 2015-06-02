@@ -25,6 +25,7 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
         $published = 0;
         $step_stat = 0;
         $deleted = 0;
+        $ingore_id = 0;
 		
 		$sort = 'latest';
 		
@@ -89,6 +90,11 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
             }elseif((int)$deleted == 2){
                 $query['deleted'] = 1;
             }
+        }
+
+        //忽略的ID
+        if($ingore_id){
+          $query['_id'] = array('$ne'=>(int)$ingore_id);
         }
 		
         $service = Sher_Core_Service_Active::instance();

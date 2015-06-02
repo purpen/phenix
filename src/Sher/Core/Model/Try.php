@@ -24,6 +24,10 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'description' => '',
 		# 内容，详细说明
 		'content' => '',
+    # 第几期
+    'season' => 0,
+    # 状态: 1,申请中, 2,审核中, 3.提交反馈, 5.结束
+    'step_stat' => 0,
 		
 		# 封面图
 		'cover_id' => '',
@@ -68,7 +72,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat');
 	
 	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count');
 	/**

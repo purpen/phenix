@@ -142,7 +142,38 @@
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			
+			alert(result.data.ids);
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+
+	$('#phenix-file-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
+        	endpoint: '{{ app_url_upload }}/topic_file'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择文件</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        //allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 10M = 10 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			alert(result.data.ids);
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
@@ -331,7 +362,33 @@
 								{% endif %}
 							</div>
 						</div>
+
+            <!--
+						<div class="field">
+							<label>上传附件 <small class="description">(小于10M)</small></label>
+							<input type="hidden" name="cover_id" id="topic_asset_id" value="{{ topic.cover_id }}" />
+							<div id="phenix-file-uploader"></div>
 						
+							<div id="file-list" class="ui six blocks">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
+									{% for asset in assets.rows %}
+									<div class="thumb card block" id="{{ asset._id }}">
+
+										<div class="buttons">
+											<div class="ui large links">
+                        <span>{{ asset.filename }}</span>
+												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+													<i class="remove icon"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+            -->
 						<div class="ui right floated aligned grid">
                             <div class="row">
     							<div class="column">

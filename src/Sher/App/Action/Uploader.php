@@ -216,8 +216,17 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	public function topic() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
 		$asset_type = Sher_Core_Model_Asset::TYPE_TOPIC;
-
 		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传帖子附件
+	 */
+	public function topic_file() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$asset_type = Sher_Core_Model_Asset::TYPE_FILE_TOPIC;
+
+		return $this->handle_file_upload($asset_type, $asset_domain);
 	}
 
 	/**
@@ -347,6 +356,56 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		}
 		
 		return $this->ajax_json('上传图片成功！', false, null, $new_assets);
+	}
+
+	/**
+	 * 处理附件的上传
+	 */
+	protected function handle_file_upload($asset_type, $asset_domain) {
+		// 验证用户
+		if (!$this->visitor->id) {
+            return $this->ajax_json('Session已过期，请重新登录！', true);
+        }
+		try{
+			$new_assets = array();
+			for($i=0; $i<count($this->asset); $i++){
+				Doggy_Log_Helper::debug("Upload asset[$i] start.");
+			
+				$file = $this->asset[$i]['path'];
+		        $filename = $this->asset[$i]['name'];
+		        $size = $this->asset[$i]['size'];
+			
+				# 保存附件
+				$asset = new Sher_Core_Model_Asset();
+				//create new one
+				$asset->set_file($file);
+				
+				$image_info['size'] = $size;
+		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
+				$image_info['file_id'] =  $this->stash['file_id'];
+		        $image_info['filename'] = basename($filename);
+				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, $asset_domain);
+				$image_info['domain'] = $asset_domain;
+		        $image_info['asset_type'] = $asset_type;
+				
+				if(isset($this->stash['x:parent_id'])){
+					$image_info['parent_id'] = $this->stash['x:parent_id'];
+				}
+			
+				$ok = $asset->apply_and_save($image_info);
+				
+				Doggy_Log_Helper::debug("Create asset[$i] ok.");
+				
+		        if ($ok) {					
+					$new_assets['ids'][] = (string)$asset->_id;
+				}
+			}
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::warn("上传附件失败：".$e->getMessage());
+			return $this->ajax_json("上传附件失败：".$e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('上传附件成功！', false, null, $new_assets);
 	}
 	
 	/**
