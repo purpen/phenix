@@ -3,11 +3,11 @@
 		{% for asset in asset_list %}
 		<div class="thumb block" id="{{ asset._id }}">
 
-				<input type="hidden" class="file_id_list" name="asset_file[]" value="{{ asset._id }}" />
-      {{ asset.filename }}
+				<input type="hidden" class="file_id_list" name="file_asset[]" value="{{ asset._id }}" />
 			<div class="buttons">
         
 				<div class="ui links">
+          <span>{{ asset.filename|truncate 15, '' }}</span>
 					<a href="{{ app_url_fever }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}&asset_domain={{ asset_domain }}" class="ui link ajax pop" data-content="删除" data-variation="inverted">
 						<i class="remove icon"></i>
 					</a>

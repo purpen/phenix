@@ -558,6 +558,15 @@
 					<div class="post froala-view froala-element clearfix">
 						{{ topic.description }}
 					</div>
+
+          {% if topic.file_asset %}
+          {% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
+          {% for asset in assets.rows %}
+          <div>
+            <span>{{ asset.filename }}</span> <a href="{{ asset.fileurl }}"><span>下载</span></a>
+          </div>
+          {%endfor%}
+          {%endif%}
 					
 					{% if topic.tags %}
 					<div class="idea tags">

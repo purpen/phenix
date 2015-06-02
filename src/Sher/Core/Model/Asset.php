@@ -13,6 +13,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     const STATE_FAIL = 0;		//处理失败
     const STATE_PENDING = 1;
     const STATE_OK = 2;
+
+    //类型
+    const KIND_IMG = 1;
+    const KIND_FILE = 2;
 	
 	# 照片
     const TYPE_PHOTO = 1;
@@ -95,6 +99,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 			'huge'    => array(),
 			'massive' => array(),
 		),
+
+    // 类型
+    'kind' => 1,
 		
 		'domain' => Sher_Core_Util_Constant::STROAGE_ASSET,
 		'asset_type' => self::TYPE_PRODUCT,
@@ -115,7 +122,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'massive' => 'ma.jpg',
 	);
 	
-	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1,'asset_type'=>1,'parent_id'=>1, 'size'=>1, 'desc'=>1, 'width'=>1, 'height'=>1, 'filename'=>1);
+	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1,'asset_type'=>1,'parent_id'=>1, 'size'=>1, 'desc'=>1, 'width'=>1, 'height'=>1, 'filename'=>1, 'kind'=>1);
 	
 	# 响应式设计所需图
 	protected $thumbnails_resp = array(
