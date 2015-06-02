@@ -125,14 +125,14 @@
 			<div class="column">
 				<h1 class="ui header">
 					<div class="content">
-						{{ try.title }}
+						{{ try.short_title }}
 						<div class="sub header">
 							{{ try.description }}
 						</div>
 					</div>
 				</h1>
 				{% if !try.is_end %}
-				<a href="{{ t.view_url }}" title="{{ t.short_title }}" target="_blank" class="ui white applytry inverted button">
+				<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank" class="ui white applytry inverted button">
 					<i class="ticket icon"></i> 申请试用
 				</a>
 				{% else %}
@@ -210,7 +210,7 @@
 										报告回收中
 									</div>
                   {%endif%}
-									{%if t.step_stat==3%}
+									{%if t.step_stat==5%}
 									<div class="presell end">
 										已结束
 									</div>
