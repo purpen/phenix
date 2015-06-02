@@ -838,10 +838,16 @@ fetch_map_name(val, 15);
 				<label>活动标题</label>
 			  	<input type="text" name="title" value="{{ active.title }}" />
 			</div>
-			<div class="field">
-				<label>活动副标题</label>
-			  	<input type="text" name="sub_title" value="{{ active.sub_title }}" />
-			</div>
+      <div class="three fields">
+        <div class="field">
+          <label>活动副标题</label>
+            <input type="text" name="sub_title" value="{{ active.sub_title }}" />
+        </div>
+        <div class="field">
+          <label>期数</label>
+            <input type="text" name="season" value="{{ active.season }}" />
+        </div>
+      </div>
 
 			<div class="field">
 				<label>活动简介</label>

@@ -19,6 +19,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
         $size = 10;
 		
 		$state = 0;
+        $ignore_id = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -36,6 +37,14 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 		if ($state) {
 			$query['state'] = (int)$state;
 		}
+
+        if($step_stat){
+          $query['step_stat'] = (int)$step_stat;
+        }
+
+        if($ignore_id){
+          $query['_id'] = array('$ne'=>(int)$ignore_id);
+        }
 		
         $service = Sher_Core_Service_Try::instance();
         $options['page'] = $page;

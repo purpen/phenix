@@ -78,7 +78,7 @@
 		<div class="row">
 			<div class="column">
                 
-                {% active_list var:'old_list' published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
+                {% active_list var:'old_list' ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
 				<div class="ui three activity cards">
                     {% for active in old_list.rows %}
 					<div class="card">
