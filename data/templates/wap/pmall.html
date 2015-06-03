@@ -2,12 +2,33 @@
 {% block title%}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+.redemption .ui.items .item .content{
+	height: 130px !important;
+	cursor: auto;
+}
+.redemption .ui.items .item .content .i-stats {
+	padding-top: 1rem !important;
+}
+.redemption .ui.items .item .content .advantage{
+	margin-top:0.8em;
+	min-height:0;
+}
+.redemption .ui.items .item .content .advantage + .advantage{
+	margin-top:0.3em;
+	margin-bottom: 0.5em;
+}
+.social.submitbox h2 + p {
+    line-height: 2rem;
+    margin-bottom: 1rem;
+}
+.ui.magenta.progress{
+  height:0 !important;
+}
 </style>
 {% endblock %}
 {% block content %}
 <!--   积分换购   -->
-<div class="ui responsive grid" id="mproducts">
+<div class="ui redemption responsive grid" id="mproducts">
 	<div class="row">
 		{% product_list var:'list' stage:12 only_onsale:1 size:10 %}
 		<div class="column">
