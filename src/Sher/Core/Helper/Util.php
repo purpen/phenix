@@ -538,7 +538,7 @@ class Sher_Core_Helper_Util {
   /**
    *获取自然周的开始日期和结束日期
    */
-  function get_week_date($year, $weeknum){
+  public static function get_week_date($year, $weeknum){
     $firstdayofyear=mktime(0,0,0,1,1,$year);
     $firstweekday=date('N',$firstdayofyear);
     $firstweenum=date('W',$firstdayofyear);
@@ -553,6 +553,37 @@ class Sher_Core_Helper_Util {
     }
      
     return array($startdate,$enddate);
+  }
+
+  /**
+   * 百度推送链接
+   */
+  public static function push_baidu_url($urls, $type=1){
+    if(empty($urls)){
+      return array('success'=>false, 'msg'=>'url is empty!');
+    }
+    if($type==1){
+      $name = 'Topic';
+    }elseif($type==2){
+      $name = 'Stuff';
+    }elseif($type==3){
+      $name = 'Product';
+    }else{
+      $name = '';
+    }
+    $api = sprintf("http://data.zz.baidu.com/urls?site=%s&token=%s", Doggy_Config::$vars['app.domain.base'], Doggy_Config::$vars['baidu_push_token']);
+    $ch = curl_init();
+    $options =  array(
+        CURLOPT_URL => $api,
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POSTFIELDS => implode("\n", $urls),
+        CURLOPT_HTTPHEADER => array('Content-Type: text/plain'),
+    );
+    curl_setopt_array($ch, $options);
+    $result = curl_exec($ch);
+    return array('success'=>true, 'msg'=>'success', 'data'=>$result);
+
   }
     	
 }

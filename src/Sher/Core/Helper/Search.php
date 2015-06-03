@@ -24,6 +24,15 @@ class Sher_Core_Helper_Search {
       case 3:
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS;
         break;
+      case 10:
+        $key_id = Sher_Core_Util_Constant::DIG_PUSH_BAIDU_TOPIC_IDS;
+        break;
+      case 11:
+        $key_id = Sher_Core_Util_Constant::DIG_PUSH_BAIDU_STUFF_IDS;
+        break;
+      case 12:
+        $key_id = Sher_Core_Util_Constant::DIG_PUSH_BAIDU_PRODUCT_IDS;
+        break;
       default:
         $key_id = null;
     }
