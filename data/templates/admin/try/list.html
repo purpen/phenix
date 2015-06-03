@@ -35,9 +35,11 @@
 			<tr>
 				<th></th>
 				<th>活动标题</th>
+        <th>期数</th>
 				<th>试用数量</th>
 				<th>申请人数</th>
 				<th>活动时间</th>
+        <th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -54,6 +56,7 @@
 					<a href="{{ t.view_url }}" target="_blank" class="ui link" title="{{ t.title }}">{{ t.title |truncate 20 }}</a>
 					<p>ID: {{ t._id }}</p>
 				</td>
+        <td>{{ t.season }}</td>
 				<td>{{ t.try_count }}</td>
 				<td>{{ t.apply_count|default 0 }} 人 / 
 					<a href="{{ app_url_admin_base }}/try/verify?id={{ t._id }}" class="ui magenta link">查看</a>
@@ -76,6 +79,20 @@
 						{% endif %}
 					</p>
 				</td>
+        <td>
+          {% if t.step_stat==1 %}
+            申请中
+          {%endif%}
+          {% if t.step_stat==2 %}
+            审核中
+          {%endif%}
+          {% if t.step_stat==3 %}
+            报告回收中
+          {%endif%}
+          {% if t.step_stat==5 %}
+            结束
+          {%endif%}
+        </td>
 				<td>
 					<div class="ui small divided horizontal list">
 						{% if t.state %}

@@ -21,8 +21,12 @@
 
 {% block jquery %}
 	var file_count = 1;
+  var asset_count = 1;
 	var ord = function(){
 		return file_count++;
+	};
+	var ford = function(){
+		return asset_count++;
 	};
 	
 	$('#editor').editable({
@@ -142,16 +146,16 @@
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			alert(result.data.ids);
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 
+  //上传附件
 	$('#phenix-file-uploader').fineUploader({
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
+			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ford, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
         	endpoint: '{{ app_url_upload }}/topic_file'
       	},
 		text: {
@@ -169,12 +173,11 @@
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
-			$('#product-upload-form').addClass('error');
-			phenix.show_error_message(result.message, $('#product-upload-form'));
+			$('#file-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#file-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			alert(result.data.ids);
-			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+			$.get('{{ app_url_action_base }}/uploader/check_upload_files', {'assets': result.data.ids, 'asset_type': {{ file_asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 	
@@ -363,22 +366,22 @@
 							</div>
 						</div>
 
-            <!--
+{% if visitor.can_edit %}
 						<div class="field">
 							<label>上传附件 <small class="description">(小于10M)</small></label>
-							<input type="hidden" name="cover_id" id="topic_asset_id" value="{{ topic.cover_id }}" />
+							<input type="hidden" name="file_id" id="topic_file_id" value="{{ topic.file_id }}" />
 							<div id="phenix-file-uploader"></div>
 						
 							<div id="file-list" class="ui six blocks">
 								{% if mode == 'edit' %}
 									{% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
 									{% for asset in assets.rows %}
+											<input type="hidden" class="file_id_list" name="file_asset[]" value="{{ asset._id }}" />
 									<div class="thumb card block" id="{{ asset._id }}">
-
 										<div class="buttons">
 											<div class="ui large links">
-                        <span>{{ asset.filename }}</span>
-												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+                        <span>{{ asset.filename|truncate 15, '' }}</span>
+												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除" data-variation="inverted">
 													<i class="remove icon"></i>
 												</a>
 											</div>
@@ -388,7 +391,7 @@
 								{% endif %}
 							</div>
 						</div>
-            -->
+            {%endif%}
 						<div class="ui right floated aligned grid">
                             <div class="row">
     							<div class="column">

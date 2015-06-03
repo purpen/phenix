@@ -359,7 +359,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 
 	/**
-	 * 处理附件的上传
+	 * 处理文件的上传
 	 */
 	protected function handle_file_upload($asset_type, $asset_domain) {
 		// 验证用户
@@ -379,15 +379,17 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
 				$asset->set_file($file);
+
+        $ext = end(explode('.', basename($filename)));
 				
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
 				$image_info['file_id'] =  $this->stash['file_id'];
 		        $image_info['filename'] = basename($filename);
-				$image_info['filepath'] = Sher_Core_Util_Image::gen_path($filename, $asset_domain);
+				$image_info['filepath'] = sprintf("%s.%s", Sher_Core_Util_Image::gen_path($filename, $asset_domain), $ext);
 				$image_info['domain'] = $asset_domain;
 		        $image_info['asset_type'] = $asset_type;
-				
+				$image_info['kind'] = 2;
 				if(isset($this->stash['x:parent_id'])){
 					$image_info['parent_id'] = $this->stash['x:parent_id'];
 				}
@@ -493,6 +495,26 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
         }else{
             return $this->to_taconite_page('ajax/check_upload_assets.html');   
         }
+    }
+
+	/**
+     * 检查指定附件的状态并返回附件列表到上传队列中
+     *
+     * @return void
+     */
+    public function check_upload_files(){
+		$assets_ids = $this->stash['assets'];
+		$asset_type = $this->stash['asset_type'];
+		$asset_domain = $this->stash['asset_domain'];
+		
+        if(empty($assets_ids)){
+            $result['error_message'] = '没有上传的附件';
+            $result['code'] = 401;
+            return $this->ajax_response('ajax/check_upload_files.html', $result);
+        }
+        $model = new Sher_Core_Model_Asset();
+		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
+        return $this->to_taconite_page('ajax/check_upload_files.html');
     }
 	
 	/**
