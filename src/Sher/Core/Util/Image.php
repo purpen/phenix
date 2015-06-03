@@ -13,7 +13,7 @@ class Sher_Core_Util_Image {
 	/**
 	 * Qiniu upload token
 	 */
-	public static function qiniu_token($callback_url=null) {
+	public static function qiniu_token($callback_url=null, $ext=false) {
 		$key = Doggy_Config::$vars['app.qiniu.key'];
 		$secret = Doggy_Config::$vars['app.qiniu.secret'];
 		
@@ -21,15 +21,23 @@ class Sher_Core_Util_Image {
 		
 		if (is_null($callback_url)){
 			$callback_url = Doggy_Config::$vars['app.url.qiniu.assets'];
-		}
+    }
+
+    if($ext){
+      $key = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)$(ext)';
+      $persistentOps = '';
+    }else{
+      $key = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)';
+      $persistentOps = 'avthumb/imageView/1/w/580/h/580/q/85|avthumb/imageView/1/w/160/h/120/q/90';
+    }
 		
         $policy = array(
                 'scope'        => Doggy_Config::$vars['app.qiniu.bucket'],
                 'deadline'     => time() + 3600,
-				'saveKey'      => '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)',
+				'saveKey'      => $key,
                 'callbackUrl'  => $callback_url,
 				'callbackBody' => 'filepath=$(key)&filename=$(fname)&size=$(fsize)&width=$(imageInfo.width)&height=$(imageInfo.height)&mime=$(mimeType)&hash=$(etag)&user_id=$(x:user_id)&parent_id=$(x:parent_id)&asset_type=$(x:asset_type)&domain=$(x:domain)&file_id=$(x:pid)',
-				'persistentOps' => 'avthumb/imageView/1/w/580/h/580/q/85|avthumb/imageView/1/w/160/h/120/q/90',
+				'persistentOps' => $persistentOps,
 				'persistentNotifyUrl' => '',
                 'returnUrl'    => null,
                 'returnBody'   => null,
