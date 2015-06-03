@@ -297,7 +297,7 @@
 {% endblock %}
 {% block content %}
 <div class='active page'>
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="margin:0;">
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
@@ -329,7 +329,7 @@
 		
 		
 		{% if active.step_stat==1 %}
-      <div class="row">
+      <div class="ui center aligned row">
         <div class="center aligned column attend-box">
         {% if is_attend %}
           <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
@@ -417,7 +417,7 @@
 			</div>
 			
 		{% if active.step_stat==1 %}
-      <div class="row">
+      <div class="ui center aligned row">
         <div class="center aligned column attend-box">
         {% if is_attend %}
           <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">

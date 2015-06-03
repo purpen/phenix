@@ -1,0 +1,52 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.items .item .image+.content .header {
+  font-size: 1.1rem!important;
+}
+a.line{
+	color:#444;
+}
+.redemption .ui.items .item .content{
+	height: 130px !important;
+	cursor: auto;
+}
+.redemption .ui.items .item .content .i-stats {
+	padding-top: 1rem !important;
+}
+.redemption .ui.items .item .content .advantage{
+	margin-top:0.8em;
+	min-height:0;
+}
+.redemption .ui.items .item .content .advantage + .advantage{
+	margin-top:0.3em;
+	margin-bottom: 0.5em;
+}
+.social.submitbox h2 + p {
+    line-height: 2rem;
+    margin-bottom: 1rem;
+}
+.ui.magenta.progress{
+  height:0 !important;
+}
+</style>
+{% endblock %}
+{% block content %}
+<!--   积分换购   -->
+<div class="ui redemption responsive grid" id="mproducts">
+	<div class="row">
+		{% product_list var:'list' stage:12 only_onsale:1 size:10 %}
+		<div class="column">
+			<div class="ui one items">
+				{% for d in list.rows %}
+        {% if d.max_bird_coin %}
+{% include "block/exchange_item_wap.html" %}
+        {%endif%}
+        {%endfor%}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
