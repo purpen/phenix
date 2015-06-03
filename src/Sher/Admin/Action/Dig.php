@@ -63,6 +63,7 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 
 		}
 		$this->stash['mode'] = $mode;
+    print_r($dig['items']);
 		
 		return $this->to_html_page('admin/dig/edit.html');
 	}

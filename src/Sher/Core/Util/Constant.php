@@ -124,6 +124,11 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS = 'xun_search_record_product_update_ids';
     const DIG_XUN_SEARCH_RECORD_PRODUCT_FAIL_IDS = 'xun_search_record_product_fail_ids';
 
+    # 优质内容ID记录,用于主动推送至百度-----话题,灵感,商品
+    const DIG_PUSH_BAIDU_TOPIC_IDS = 'push_baidu_topic_ids';
+    const DIG_PUSH_BAIDU_STUFF_IDS = 'push_baidu_stuff_ids';
+    const DIG_PUSH_BAIDU_PRODUCT_IDS = 'push_baidu_product_ids';
+
     /**
      * DigList stuff计数器
      */

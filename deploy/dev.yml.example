@@ -66,6 +66,9 @@ app.comeon.product_id: 1120800090
 # 案例作品
 app.stuff.okcase_category_id: 34
 
+# 百度推送 token
+baidu_push_token: ''
+
 # 支付宝
 app.alipay.partner: '2088411237666512'
 app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'

@@ -605,7 +605,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $service = Sher_Core_Service_Timeline::instance();
             $service->broad_product_published($product['user_id'], $id);
           // 更新全文索引
-          Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+          //更新百度推送
+          Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
         }
 	}
 	
