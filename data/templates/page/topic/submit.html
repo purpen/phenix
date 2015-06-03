@@ -21,8 +21,12 @@
 
 {% block jquery %}
 	var file_count = 1;
+  var asset_count = 1;
 	var ord = function(){
 		return file_count++;
+	};
+	var ford = function(){
+		return asset_count++;
 	};
 	
 	$('#editor').editable({
@@ -151,7 +155,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
+			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ford, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
         	endpoint: '{{ app_url_upload }}/topic_file'
       	},
 		text: {
