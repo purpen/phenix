@@ -25,7 +25,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product');
+	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view');
 	
 	/**
 	 * 商城入口
