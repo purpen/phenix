@@ -48,8 +48,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		
  		'cover_id' => '',
 		'asset' => array(),
+    'file_asset' => array(),
 		# 附件图片数
-		'asset_count' => 0,
+    'asset_count' => 0,
+    'file_count' => 0,
 		
 		# 视频链接
 		'video_url' => array(),
@@ -89,7 +91,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	protected $required_fields = array('user_id');
 	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color');
 	
-	protected $counter_fields = array('asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
+	protected $counter_fields = array('asset_count', 'file_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	
 	protected $joins = array(
 	    'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
@@ -403,6 +405,13 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	 */
 	public function update_topic_asset_count($id, $asset_count){
 		return $this->update_set($id, array('asset_count'=>(int)$asset_count));
+	}
+
+	/**
+	 * 重新更新文件的数量
+	 */
+	public function update_topic_file_count($id, $file_count){
+		return $this->update_set($id, array('file_count'=>(int)$file_count));
 	}
 	
 }

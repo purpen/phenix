@@ -788,11 +788,18 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
 		
-		// 检查是否有附件
+		// 检查是否有图片
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
 		}else{
 			$data['asset'] = array();
+		}
+
+		// 检查是否有附件
+		if(isset($this->stash['file_asset'])){
+			$data['file_asset'] = $this->stash['file_asset'];
+		}else{
+			$data['file_asset'] = array();
 		}
 		
 		try{
@@ -818,9 +825,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
-			// 上传成功后，更新所属的附件
+			// 上传成功后，更新所属的图片
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
+			}
+
+			// 上传成功后，更新所属的附件
+			if(isset($data['file_asset']) && !empty($data['file_asset'])){
+				$this->update_batch_assets($data['file_asset'], $id);
 			}
 			
 			// 保存成功后，更新编辑器图片
