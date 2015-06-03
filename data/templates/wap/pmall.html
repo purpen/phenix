@@ -1,0 +1,25 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+{% block content %}
+<!--   积分换购   -->
+<div class="ui responsive grid" id="mproducts">
+	<div class="row">
+		{% product_list var:'list' stage:12 only_onsale:1 size:10 %}
+		<div class="column">
+			<div class="ui one items">
+				{% for d in list.rows %}
+        {% if d.max_bird_coin %}
+{% include "block/exchange_item.html" %}
+        {%endif%}
+        {%endfor%}
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
