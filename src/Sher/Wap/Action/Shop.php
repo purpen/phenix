@@ -354,7 +354,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       //抢购数量只能为1
       $quantity = 1;
     }elseif($is_exchanged){
-      $price = $product_data['exchange_price'];
+      //积分兑换数量只能为1
+      $quantity = 1;
+      $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
@@ -416,6 +418,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		for($i=0; $i<count($items); $i++){
 			$total_money += $items[$i]['price']*$items[$i]['quantity'];
 		}
+
+    $this->stash['item_stage'] = 'shop'; 
+
+    // 验证是否为积分兑换或抢购
+    if(count($items)==1){
+      if(isset($items[0]['is_snatched']) && $items[0]['is_snatched']==1){
+        $this->stash['item_stage'] = 'snatched';     
+      }elseif(isset($items[0]['is_exchanged']) && $items[0]['is_exchanged']==1){
+        $this->stash['item_stage'] = 'exchange';     
+      }
+    }
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();

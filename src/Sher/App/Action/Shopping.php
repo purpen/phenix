@@ -217,6 +217,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     }elseif($is_exchanged){
       //积分兑换也取sale_price价格
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
+      //积分兑换数量只能为1
+      $quantity = 1;
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
