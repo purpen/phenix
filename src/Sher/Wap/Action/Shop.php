@@ -373,7 +373,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				'view_url' => $product_data['view_url'],
 				'subtotal' => $price*$quantity,
         'is_snatched' => $is_snatched?1:0,
-        'is_exchanged' => $is_changed?1:0,
+        'is_exchanged' => $is_exchanged?1:0,
 			),
 		);
 		$total_money = $price*$quantity;
