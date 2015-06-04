@@ -9,6 +9,7 @@ class Sher_Core_Model_Areas extends Sher_Core_Model_Base  {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
+      '_id' => null,
 		'city'   => null,
     	'parent_id' => 0,
 		'child'   => 0,

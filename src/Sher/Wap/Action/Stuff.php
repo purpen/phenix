@@ -138,11 +138,18 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$this->stash['stuff'] = $stuff;
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
-		
-    	// 评论参数
-    	$this->stash['comment_target_id'] = $stuff['_id'];
-    	$this->stash['comment_target_user_id'] = (int)$stuff['user_id'];
-    	$this->stash['comment_type'] = Sher_Core_Model_Comment::TYPE_STUFF;
+
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
+
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::stuff_comment_url($id, '#p#');
 
@@ -513,6 +520,25 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+
+		// 评论的链接URL
+		$this->stash['pager_url'] = $options['comment_pager'];
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = $options['comment_show_rich'];
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 	
 }
-?>
