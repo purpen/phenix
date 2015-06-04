@@ -296,7 +296,7 @@
       }else{
         $('.qq-upload-list').children().eq(id).fadeOut();
         
-        $.get('{{ app_url_action_base }}/app/site/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ comment_asset_type||default 0 }}, 'asset_domain':'{{ comment_domain }}'});
+        $.get('{{ app_url_wap }}/app/site/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ comment_asset_type||default 0 }}, 'asset_domain':'{{ comment_domain }}'});
       }
     });
 
