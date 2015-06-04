@@ -421,13 +421,46 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
     $this->stash['item_stage'] = 'shop'; 
 
+    $is_exchanged = false;
+    $is_snatched = false;
+
     // 验证是否为积分兑换或抢购
     if(count($items)==1){
       if(isset($items[0]['is_snatched']) && $items[0]['is_snatched']==1){
-        $this->stash['item_stage'] = 'snatched';     
+        $is_snatched = true;
+        $this->stash['item_stage'] = 'snatched';  
       }elseif(isset($items[0]['is_exchanged']) && $items[0]['is_exchanged']==1){
+        $is_exchanged = true;
         $this->stash['item_stage'] = 'exchange';     
       }
+    }
+
+    if($is_exchanged){
+
+      // 获取产品信息
+      $product = new Sher_Core_Model_Product();
+      $product_data = $product->extend_load((int)$items[0]['product_id']);
+      if(empty($product_data)){
+        return $this->show_message_page('挑选的产品不存在或被删除，请核对！', true);
+      }
+
+      //验证当前用户鸟币是否足够
+      // 用户实时积分
+      $point_model = new Sher_Core_Model_UserPointBalance();
+      $current_point = $point_model->load($this->visitor->id);
+      if(!$current_point){
+        $current_bird_coin = 0;
+        //return $this->show_message_page('鸟币数量不足！');     
+      }else{
+        $current_bird_coin = isset($current_point['balance']['money'])?(int)$current_point['balance']['money']:0;
+        //if($current_bird_coin < $product_data['max_bird_coin']){
+          //return $this->show_message_page('您的鸟币数量不足！');      
+        //}     
+      }
+      $this->stash['max_bird_coin'] = $product_data['max_bird_coin'];
+      $this->stash['min_bird_coin'] = $product_data['min_bird_coin'];
+      $this->stash['current_bird_coin'] = $current_bird_coin;
+    
     }
 		
 		// 获取快递费用
