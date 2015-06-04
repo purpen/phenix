@@ -78,7 +78,7 @@ h4 > .ui.active.green.icon.share.button > .icon{
 	padding-left:0% !important;
 	padding-right:0 !important;
 }
-i.cart.icon{
+i.cart.icon,i.exchange.icon{
 	-webkit-box-shadow: -0px 0 0 0 rgba(0,0,0,.05) inset !important;
   box-shadow: 0px 0 0 0 rgba(0,0,0,.05) inset !important;
 	background-color: rgba(0,0,0,.0) !important;
@@ -565,7 +565,7 @@ i.cart.icon{
                {% endif %}
                <div class="ui grid">			
                	<div class="row">
-               		<div class="six wide column">
+               		<div class="sixteen wide column">
                			<label class="price">
                				<span class="ui magenta text">
                                         {% if product.exchange_price %}
@@ -576,6 +576,7 @@ i.cart.icon{
                                </span>
                			</label>
                		</div>
+                  <!--
                		<div class="right aligned ten wide column">
                			<div class="ui small star rating hover">
                			  	<i class="icon active"></i>
@@ -586,6 +587,7 @@ i.cart.icon{
                			</div>
                			<small><span class="ui magenta text">{{ product.comment_count }}</span> 条评价</small>
                		</div>
+                  -->
                    </div>
                    <div class="row">
                        <div class="center aligned column">
