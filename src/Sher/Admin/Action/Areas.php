@@ -7,7 +7,7 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 	);
 	
 	public function _init() {
@@ -25,15 +25,21 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $this->set_target_css_state('all');
 		$page = (int)$this->stash['page'];
+    $size = (int)$this->stash['size'];
 		$model = new Sher_Core_Model_Areas();
-
+    $query = array();
+    $options = array('page'=>$page,'size'=>$size, 'sort'=>array('_id'=>1));
     $areas = $model->find($query, $options);
+    $this->stash['areas'] = $areas;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/areas/get_list?page=#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
+
+    $total_count = $this->stash['total_count'] = 490;
+    $this->stash['total_page'] = ceil($total_count/$size);
 		
 		return $this->to_html_page('admin/areas/list.html');
 	}
@@ -42,17 +48,19 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 创建/更新
 	 */
 	public function submit(){
-		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
+		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		$mode = 'create';
 		
 		$model = new Sher_Core_Model_Areas();
+    $provinces = $model->fetch_provinces();
 		if(!empty($id)){
 			$mode = 'edit';
 			$area = $model->find_by_id($id);
-      $area['_id'] = (string)$area['_id'];
+      $area['_id'] = (int)$area['_id'];
 			$this->stash['area'] = $area;
 
 		}
+    $this->stash['provinces'] = $provinces;
 		$this->stash['mode'] = $mode;
 		
 		return $this->to_html_page('admin/areas/submit.html');
@@ -65,24 +73,23 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 		$id = $this->stash['_id'];
 
 		$data = array();
-		$data['mark'] = $this->stash['mark'];
-		$data['title'] = $this->stash['title'];
-		$data['content'] = $this->stash['content'];
-		$data['remark'] = $this->stash['remark'];
-		$data['state'] = 1;
+		$data['city'] = $this->stash['city'];
+		$data['parent_id'] = isset($this->stash['parent_id'])?(int)$this->stash['parent_id']:0;
+		$data['child'] = isset($this->stash['child'])?(int)$this->stash['child']:0;
+		$data['layer'] = (int)$this->stash['layer'];
+		$data['sort'] = (int)$this->stash['sort'];
 
 		try{
 			$model = new Sher_Core_Model_Areas();
 			
 			if(empty($id)){
 				$mode = 'create';
-				$data['user_id'] = (int)$this->visitor->id;
 				$ok = $model->apply_and_save($data);
 				
-				$id = (string)$model->id;
+				$id = (int)$model->id;
 			}else{
 				$mode = 'edit';
-				$data['_id'] = $id;
+        $data['_id'] = (int)$id;
 				$ok = $model->apply_and_update($data);
 			}
 			
@@ -116,12 +123,10 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 			$model = new Sher_Core_Model_Areas();
 			
 			foreach($ids as $id){
-				$area = $model->load($id);
+				$area = $model->load((int)$id);
 				
 				if (!empty($area)){
-					$model->remove($id);
-					// 删除关联对象
-					$model->mock_after_remove($id);
+					$model->remove((int)$id);
 				}
 			}
 			

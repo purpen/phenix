@@ -3,15 +3,15 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">块管理</h3>
+	<h3 class="ui header">城市管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/block" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/areas" class="{{ css_all }} item">
 			全部
 		</a>
 
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/block/submit" class="item">
+			<a href="{{ app_url_admin_base }}/areas/submit" class="item">
 				<i class="add icon"></i>添加
 			</a>
 	    </div>
@@ -40,16 +40,18 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th>标识</th>
-				<th>标题</th>
-				<th>状 态</th>
+        <th>ID</th>
+				<th>城市名</th>
+				<th>父类</th>
+				<th>子类</th>
+				<th>层级</th>
+				<th>排序</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% block_list var:'blocks' status:1 size:30 %}
 			
-			{% for b in blocks.rows %}
+			{% for b in areas %}
 			<tr id="{{ b._id }}">
 				<td>
 					<div class="ui checkbox">
@@ -59,18 +61,27 @@
 				</td>
 
 				<td>
-          {{b.mark}}
+          {{b._id}}
 				</td>
 				<td>
-          {{ b.title }}
+          {{ b.city }}
 				</td>
         <td>
-          {{ b.state }}
+          {{ b.parent_id }}
+        </td>
+				<td>
+          {{ b.child }}
+				</td>
+        <td>
+          {{ b.layer }}
         </td>
         <td>
-					<a href="{{ app_url_admin_base }}/block/submit?id={{ b._id }}" class="ui link item">编辑</a>
+          {{ b.sort }}
+        </td>
+        <td>
+					<a href="{{ app_url_admin_base }}/areas/submit?id={{ b._id }}" class="ui link item">编辑</a>
           | 
-          <a href="{{ app_url_admin }}/block/deleted?id={{ b._id }}" class="ui confirm-request link item">
+          <a href="{{ app_url_admin }}/areas/deleted?id={{ b._id }}" class="ui confirm-request link item">
               删除
           </a>
         </td>
@@ -79,11 +90,10 @@
 		</tbody>
 	</table>
 	
-	{% if blocks.total_rows %}
+	{% if areas %}
 	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:blocks.total_rows,total_page:blocks.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{% pager url:pager_url,total_rows:total_count,total_page:total_page,current_page:page, var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
-		<label class="page_count">{{ blocks.total_rows }}个</label>
 	</div>
 	{% endif %}
 	

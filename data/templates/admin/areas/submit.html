@@ -3,26 +3,27 @@
 {% endblock %}
 
 {% block layout_js %}
-	{% if js_use_bundle %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
-	{% else %}
-		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
-	{% endif %}
+
 {% endblock %}
 
 {% block jquery %}
-	var file_count = 1;
-	var ord = function(){
-		return file_count++;
-	};
 
-	$('#block-form').form({
-		mark: {
-			identifier  : 'mark',
+	$('#area-form').form({
+		city: {
+			identifier  : 'city',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标记名不能为空'
+					prompt : '城市名不能为空'
+				}
+			]
+		},
+		layer: {
+			identifier  : 'layer',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '层级不能为空'
 				}
 			]
 		}
@@ -49,58 +50,17 @@
 		}
 	});
 
-	$('#editor').editable({
-		inlineMode: false,
-		toolbarFixed: false,
-        theme: 'gray',
-		language: 'zh_cn',
-		borderColor: '#999',
-		editorClass: 'frbird',
-		minHeight: 300,
-		plainPaste: true,
-		alwaysBlank: true,
-		typingTimer: 5000,
-		imageMargin: '20px',
-		{% if mode == 'edit' %}
-		defaultImageTitle: '{{ chunk.title }}',
-		{% else %}
-		defaultImageTitle: '太火鸟',
-		{% endif %}
-		buttons: ["bold", "italic", "underline", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "undo", "redo", "selectAll", "html"],
-		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ chunk._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
-		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
-		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
-	}).on('editable.imageInserted',  function (e, editor, imageURL) {
-		file_count++;
-		
-		// 重置参数
-		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-        
-    }).on('editable.afterRemoveImage', function (e, editor, $img) {
-        // Set the image source to the image delete params.
-        this.options.imageDeleteParams = {file_url: $img.attr('src')};
-        
-        // Make the delete request.
-        this.deleteImage($img);
-    }).on('editable.imageError', function (e, editor, error) {
-		if (error.code == 5){
-			error.message = '图片太大，请选择小于3M！';
-		}
-		phenix.show_error_note(error.message, 5000);
-    });
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">块管理</h3>
+	<h3 class="ui header">城市管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/block" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/areas" class="{{ css_all }} item">
 			全部
 		</a>
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/block/submit" class="item">
+			<a href="{{ app_url_admin_base }}/areas/submit" class="item">
 				<i class="add icon"></i>添加
 			</a>
 	    </div>
@@ -108,7 +68,7 @@
 	
   <!--
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/block" method="post">
+		<form action="{{ app_url_admin_base }}/areas" method="post">
 			<label>搜索：</label>
 			<div class="ui icon input">
 				<input placeholder="红包码..." type="text" name="q">
@@ -118,33 +78,50 @@
 	</div>
   -->
 	
-	<form class="ui form segment" action="{{ app_url_admin_base }}/block/save" method="post" id="block-form">
-		<input name="_id" type="hidden" value="{{ chunk._id }}" />
-		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-		
+	<form class="ui form segment" action="{{ app_url_admin_base }}/areas/save" method="post" id="area-form">
+		<input type="hidden" name="_id" value="{{ area._id }}" />
 		<div class="inline field">
-			<label>标识:</label>
-			<input type="text" name="mark" value="{{ chunk.mark }}" />
-		</div>
-		<div class="inline field">
-			<label>标题:</label>
-			<input type="text" name="title" value="{{ chunk.title }}" />
+			<label>城市名:</label>
+			<input type="text" name="city" value="{{ area.city }}" />
 		</div>
 
-    <div class="field">
-      <label>内容:</label>
-      <textarea name="content" placeholder="内容" id="editor">
-        {{ chunk.content }}
-      </textarea>
-    </div>
+		<div class="three fields">
+      <div class="field">
+        <label for="parent_id">所属父类：</label>
+        <div class="ui fluid selection dropdown">
+          <input type="hidden" name="parent_id" value="{{ area.parent_id }}" />
+            <div class="default text">请选择</div>
+            <i class="angle down icon"></i>
+            <div class="menu">
+            <div data-value="0" class="item">无</div>
+            {% for p in provinces %}
+            <div data-value="{{ p._id }}" class="{% if p._id == area.parent_id %}active {% endif %}item">{{ p.city }}</div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="ui pointing top label">必须选择一个所对应的省份,如果不添则属于父级!</div>
+      </div>
 
-    <div class="field">
-      <label>备注:</label>
-      <textarea name="remark" placeholder="备注">
-        {{ chunk.remark }}
-      </textarea>
-    </div>
-		
+
+      <div class="field">
+        <label for="layer">层级：</label>
+        <div class="ui fluid selection dropdown">
+          <input type="hidden" name="layer" value="{{ area.layer }}" />
+            <div class="default text">请选择</div>
+            <i class="angle down icon"></i>
+            <div class="menu">
+            <div data-value="1" class="{% if area.layer==1 %}active {% endif %}item">省份</div>
+            <div data-value="2" class="{% if area.layer==2 %}active {% endif %}item">城市</div>
+            </div>
+        </div>
+        <div class="ui pointing top label">必须选择一项!</div>
+      </div>
+  </div>
+
+		<div class="inline field">
+			<label>排序:</label>
+			<input type="text" name="sort" value="{{ area.sort }}" />
+		</div>	
 		<div class="inline field">
 			<div class="ui magenta submit inverted button">
 				确认提交
