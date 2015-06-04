@@ -226,6 +226,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
       if($product['published']==1){
         // 更新全文索引
         Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+        //更新百度推送
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
       }
 			
 		}catch(Sher_Core_Model_Exception $e){

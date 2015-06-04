@@ -262,9 +262,10 @@
 {% endblock %}
 {% block jquery %}
   //提交作品按钮
-  $('#submit-idea').click(function(){
-    var url = "{{ app_url_contest }}/submit?season=qsyd";
-    phenix.redirect(url);
+  $('.ui.attend.button').click(function(){
+    phenix.show_ok_note('活动已结束!');
+    //var url = "{{ app_url_contest }}/submit?season=qsyd";
+    //phenix.redirect(url);
   });
 
 	$('.ui.college.dropdown').livequery(function(){
@@ -345,7 +346,7 @@
 			</div>
 
 		<div class="right aligned four wide column">
-			<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui magenta attend inverted button">
+			<a href="javascript:void(0);" class="ui magenta attend inverted button">
 				<i class="edit icon"></i> 提交作品
 			</a>
 		</div>
@@ -619,9 +620,6 @@
 			<div class="center aligned column">
 				<a href="{{ app_url_contest }}/qsyd_list " class="ui inverted origin button">
 					全部创意
-				</a>
-				<a href="{{ app_url_contest }}/submit?season=qsyd " class="ui inverted origin button">
-					提交创意
 				</a>
 			
 			</div>

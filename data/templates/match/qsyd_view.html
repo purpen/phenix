@@ -45,6 +45,11 @@
 
 	phenix.bind_share_list();
 
+  //提交作品按钮
+  $('#submit-idea').click(function(){
+    phenix.show_ok_note('活动已结束');
+  });
+
   //分享
   phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
@@ -221,7 +226,7 @@
 	});
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ stuff.tags_s }}', size: 3});
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ stuff.tags_s }}', size: 4});
 	
 {% endblock %}
 
@@ -256,17 +261,7 @@
 				  	<div class="active section">{{ stuff.title }}</div>
 				</div>
 			</div>
-			<div class="five wide right aligned column">
-				{% if visitor.is_login %}
-				<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui gray inverted button">
-					<i class="add icon"></i> 提交大赛作品
-				</a>
-				{% else %}
-				<a href="{{ app_url_contest }}/submit?season=qsyd" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="add icon"></i> 提交大赛作品
-				</a>
-				{% endif %}
-			</div>
+
 		</div>
 		
 		<div class="nopad row">

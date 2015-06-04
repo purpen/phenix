@@ -554,6 +554,93 @@ i.cart.icon{
    				{% endfor %}
    			</div>
            {% endif %}
+
+           {% if product.stage == 12 %}
+               {% if skus %}
+       			<table class="ui basic buy action table">
+       				<tr>
+       					<td>
+       						<div class="product attrs">
+       							{% for m in skus %}
+       							<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
+       							{% endfor %}
+       						</div>
+       					</td>
+       				</tr>
+       			</table>
+               {% endif %}
+               <div class="ui grid">			
+               	<div class="row">
+               		<div class="six wide column">
+               			<label class="price">
+               				<span class="ui magenta text">
+                                        {% if product.exchange_price %}
+                                        (兑换要求：<small>￥</small>{{ product.exchange_price }} + {{ product.max_bird_coin }}鸟币) 
+                                        {%else%}
+                                        (兑换要求：{{ product.max_bird_coin }}鸟币)
+                                        {%endif%}
+                               </span>
+               			</label>
+               		</div>
+               		<div class="right aligned ten wide column">
+               			<div class="ui small star rating hover">
+               			  	<i class="icon active"></i>
+               			  	<i class="icon"></i>
+               			  	<i class="icon"></i>
+               			  	<i class="icon"></i>
+               			  	<i class="icon"></i>
+               			</div>
+               			<small><span class="ui magenta text">{{ product.comment_count }}</span> 条评价</small>
+               		</div>
+                   </div>
+                   <div class="row">
+                       <div class="center aligned column">
+                           <!--购买动作-->
+                           {% if product.snatched %}
+               
+                               {% if !product.snatched_start %}
+                                   <div class="product snatched">
+                                       <span class="ui text">倒计时：<span id="clock"></span></span>
+                                   </div>
+                                   <div class="ui active magenta labeled tobuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                       准备开抢
+                                   </div>
+                               {% else %}
+                                   {% if product.can_saled %}
+                                       <div class="ui active green labeled tobuy nowbuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                           立即抢购
+                                       </div>
+                                   {%else%}
+                                       <div class="ui active black labeled icon button" style="width:100%;padding:0.8em 0 !important;">
+                                           已抢完
+                                       </div>
+                                   {%endif%}
+                               {% endif %}
+                   
+                           {% else %}
+                               {% if product.is_try %}
+                                   <div class="ui danger message">
+                                       此产品为试用商品，不可销售!
+                                   </div>
+                               {%else%}
+                                   {% if product.can_saled %}
+                                       <div class="ui active magenta labeled icon nowbuy button">
+                                           <i class="cart icon"></i>立即兑换
+                                       </div>
+                                   {%else%}
+                                       <div class="ui active gray inverted button">
+                                           <i class="cart icon"></i> 已售罄
+                                       </div>
+                                   {%endif%}
+                               {%endif%}
+                           {%endif%}
+               
+               			
+                       </div>
+                   </div>
+               </div>
+           {% endif %}
+
        </div>
 			
 </div>
