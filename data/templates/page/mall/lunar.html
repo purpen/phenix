@@ -2,6 +2,7 @@
 {% block title %}lunar -{% endblock %}
 
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
 	.section{
 		height:1200px;
@@ -74,20 +75,11 @@
 		background:url({{ app_url_packaged }}/images/promo/lu7.jpg) no-repeat center bottom /cover;
 	}
 	.rote .bgc{
-		background:rgba(0,0,0,0.3);
+		background:rgba(0,0,0,0.5);
 		position:absolute;
 		width:100%;
 		bottom:0;
 		left:0;
-	}
-	.rote .bgc.fac{
-		height:84.7%;
-	}
-	.rote .bgc.fb{
-		height:78.2%;
-	}
-	.rote .bgc.fc{
-		height:80.3%;
 	}
 	.rote .bgc .pb{
 		position: absolute;
@@ -160,6 +152,7 @@
 	}
 	.section7{
 		background:url({{ app_url_packaged }}/images/promo/lu36.jpg) no-repeat center bottom /cover;
+		background-attachment: fixed;
 	}
 	.section7 .contide img{
 		width:53%;
@@ -313,6 +306,36 @@
 	.ui.white .eight+.eight a.ui.item{
 		margin:0 10px;
 	}
+	.cirecle.bounceInUp1{
+		opacity:0;
+	}
+	#p0 .bounceInUp1{
+		-webkit-animation: bounceInUp 1s ease-in-out 0s;
+		-moz-animation: bounceInUp 1s ease-in-out 0s;
+		-o-animation: bounceInUp 1s ease-in-out 0s;
+		animation: bounceInUp 1s ease-in-out 0s;
+		opacity:1;
+	}
+	#p1 .fadeInUp1{
+		-webkit-animation: fadeInUp 1s ease-in-out 0s;
+		-moz-animation: fadeInUp 1s ease-in-out 0s;
+		-o-animation: fadeInUp 1s ease-in-out 0s;
+		animation: fadeInUp 1s ease-in-out 0s;
+		opacity:1;
+	}
+	.bgc{
+		opacity:0;
+	}
+	.rote .bgc.fac{
+		height:84.7%;
+	}
+	.rote .bgc.fb{
+		height:78.2%;
+	}
+	.rote .bgc.fc{
+		height:80.3%;
+	}
+	
 </style>
 {% endblock %}
 {% block jquery %}
@@ -321,9 +344,20 @@
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
-	$('.ui.tabox').smint({
-  		'scrollSpeed' : 1000
-  	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if (scrollTop > 160){
+				$('body').attr("id","p0");
+			}
+			if (scrollTop > 800){
+				$('body').attr("id","p1");
+			}
+			if (scrollTop > 2300){
+				$('body').attr("id","p2")
+			}
+	})
+			
+
 {% endblock %}
 {% block content %}
 <div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="  max-width: 100% !important;">
@@ -346,7 +380,7 @@
 			<h1>只做助眠  这件小事</h1>
 			<p>123人团队·700多个日夜</p>
 			<img src="{{ app_url_packaged }}/images/promo/lu1.png" alt="lunar" width="80%">
-			<div class="cirecle">
+			<div class="cirecle bounceInUp1">
 				零辐射 · 免充电 · 非穿戴
 			</div>
 		</div>
@@ -355,7 +389,7 @@
 	<div class="section section2">
 		<img src="{{ app_url_packaged }}/images/promo/lu4.png" width="52%" class="ttp" alt="中国医师协会《2014中国睡眠指数》报告">
 		<div class="rote first">
-			<div class="bgc fac">
+			<div class="bgc fac fadeInUp1">
 				<h1>84.7%</h1>
 				<div class="pb" style="opacity:0;">
 					<h2>白领</h2>
@@ -365,7 +399,7 @@
 			</div>
 		</div>
 		<div class="rote sectet">
-			<div class="bgc fb">
+			<div class="bgc fb fadeInUp1">
 				<h1>78.2%</h1>
 				<div class="pb" style="opacity:0;">
 					<h2>中小学生</h2>
@@ -375,7 +409,7 @@
 			</div>
 		</div>
 		<div class="rote third">
-			<div class="bgc fc">
+			<div class="bgc fc fadeInUp1">
 				<h1>80.3%</h1>
 				<div class="pb" style="opacity:0;">
 					<h2>中老年人</h2>
