@@ -38,7 +38,7 @@ margin-top: 5px;
 #gritter-notice-wrapper {
 position: fixed !important;
 }
-.six.wide .price .ui.magenta.text{
+.six.wide .price .ui.magenta.text,.sixteen.wide .price .ui.magenta.text{
 	font-size:20px !important;
 }
 .product.snatched {
@@ -571,7 +571,7 @@ i.cart.icon{
                {% endif %}
                <div class="ui grid">			
                	<div class="row">
-               		<div class="ten wide column">
+               		<div class="sixteen wide column">
                			<label class="price">
                				<span class="ui magenta text">
                                         {% if product.exchange_price %}
@@ -582,7 +582,7 @@ i.cart.icon{
                                </span>
                			</label>
                		</div>
-               		<div class="right aligned six wide column">
+               		<!--<div class="right aligned six wide column">
                			<div class="ui small star rating hover">
                			  	<i class="icon active"></i>
                			  	<i class="icon"></i>
@@ -591,7 +591,7 @@ i.cart.icon{
                			  	<i class="icon"></i>
                			</div>
                			<small><span class="ui magenta text">{{ product.comment_count }}</span> 条评价</small>
-               		</div>
+               		</div>-->
                    </div>
                    <div class="row">
                        <div class="center aligned column">
