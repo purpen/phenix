@@ -56,7 +56,7 @@
     <input type="hidden" name="type" value="{{ comment_type }}" />
     <input type="hidden" name="star" value="0" />
     <div class="field">
-      <textarea name="content" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
+      <textarea name="content" id="comment-area" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
       <div id="comment"></div>
     </div>
 
@@ -296,7 +296,7 @@
       }else{
         $('.qq-upload-list').children().eq(id).fadeOut();
         
-        $.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ comment_asset_type||default 0 }}, 'asset_domain':'{{ comment_domain }}'});
+        $.get('{{ app_url_action_base }}/app/site/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ comment_asset_type||default 0 }}, 'asset_domain':'{{ comment_domain }}'});
       }
     });
 
