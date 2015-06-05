@@ -3,26 +3,18 @@
 {% endblock %}
 
 {% block layout_js %}
-	{% if js_use_bundle %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
-	{% else %}
-		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
-	{% endif %}
+
 {% endblock %}
 
 {% block jquery %}
-	var file_count = 1;
-	var ord = function(){
-		return file_count++;
-	};
 
-	$('#block-form').form({
-		mark: {
-			identifier  : 'mark',
+	$('#inlink-tag-form').form({
+		tag: {
+			identifier  : 'tag',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标记名不能为空'
+					prompt : '标签不能为空'
 				}
 			]
 		}
@@ -49,66 +41,47 @@
 		}
 	});
 
-	$('#editor').editable({
-		inlineMode: false,
-		toolbarFixed: false,
-        theme: 'gray',
-		language: 'zh_cn',
-		borderColor: '#999',
-		editorClass: 'frbird',
-		minHeight: 300,
-		plainPaste: true,
-		alwaysBlank: true,
-		typingTimer: 5000,
-		imageMargin: '20px',
-		{% if mode == 'edit' %}
-		defaultImageTitle: '{{ chunk.title }}',
-		{% else %}
-		defaultImageTitle: '太火鸟',
-		{% endif %}
-		buttons: ["bold", "italic", "underline", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "undo", "redo", "selectAll", "html"],
-		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ chunk._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
-		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
-		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
-	}).on('editable.imageInserted',  function (e, editor, imageURL) {
-		file_count++;
-		
-		// 重置参数
-		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-        
-    }).on('editable.afterRemoveImage', function (e, editor, $img) {
-        // Set the image source to the image delete params.
-        this.options.imageDeleteParams = {file_url: $img.attr('src')};
-        
-        // Make the delete request.
-        this.deleteImage($img);
-    }).on('editable.imageError', function (e, editor, error) {
-		if (error.code == 5){
-			error.message = '图片太大，请选择小于3M！';
-		}
-		phenix.show_error_note(error.message, 5000);
-    });
+
+  //添加link项目
+  $('.add-link').click(function(){
+    var html = '';
+    html+='<div class="links-box two fields">';
+    html+='<div class="field"><input type="text" name="links[]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="del_link_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#links-box-edit').append(html);
+  });
+
+  //删除partner
+	$("input[name='del_link_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.links-box').remove();
+		});
+	});
+
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">块管理</h3>
+	<h3 class="ui header">内链标签管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/block" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/inlink_tag" class="{{ css_all }} item">
 			全部
 		</a>
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/block/submit" class="item">
+			<a href="{{ app_url_admin_base }}/inlink_tag/submit" class="item">
 				<i class="add icon"></i>添加
+			</a>
+			<a href="{{ app_url_admin_base }}/inlink_tag/batch_submit" class="item">
+				<i class="add icon"></i>批量添加
 			</a>
 	    </div>
 	</div>
 	
   <!--
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/block" method="post">
+		<form action="{{ app_url_admin_base }}/inlink_tag" method="post">
 			<label>搜索：</label>
 			<div class="ui icon input">
 				<input placeholder="红包码..." type="text" name="q">
@@ -118,31 +91,81 @@
 	</div>
   -->
 	
-	<form class="ui form segment" action="{{ app_url_admin_base }}/block/save" method="post" id="block-form">
-		<input name="_id" type="hidden" value="{{ chunk._id }}" />
-		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+	<form class="ui form segment" action="{{ app_url_admin_base }}/inlink_tag/save" method="post" id="inlink-tag-form">
+		<input name="_id" type="hidden" value="{{ inlink_tag._id }}" />
 		
-		<div class="inline field">
-			<label>标识:</label>
-			<input type="text" name="mark" value="{{ chunk.mark }}" />
-		</div>
-		<div class="inline field">
-			<label>标题:</label>
-			<input type="text" name="title" value="{{ chunk.title }}" />
-		</div>
-
-    <div class="field">
-      <label>内容:</label>
-      <textarea name="content" placeholder="内容" id="editor">
-        {{ chunk.content }}
-      </textarea>
+		<div class="three fields">
+      <div class=" field">
+        <label>标签:</label>
+        <input type="text" name="tag" value="{{ inlink_tag.tag }}" />
+      </div>
     </div>
+		<div class="three fields">
+      <div class=" field">
+        <label for="kind">所属：</label>
+        <div class="ui fluid selection dropdown">
+          <input type="hidden" name="kind" value="{{ inlink_tag.kind }}" />
+            <div class="default text">请选择</div>
+            <i class="angle down icon"></i>
+            <div class="menu">
+            <div data-value="1" class="{% if inlink_tag.kind==1 %}active {% endif %}item">全部</div>
+            <div data-value="2" class="{% if inlink_tag.kind==2 %}active {% endif %}item">话题</div>
+            <div data-value="3" class="{% if inlink_tag.kind==3 %}active {% endif %}item">灵感</div>
+            <div data-value="4" class="{% if inlink_tag.kind==4 %}active {% endif %}item">商品</div>
+            <div data-value="5" class="{% if inlink_tag.kind==5 %}active {% endif %}item">投票</div>
+            <div data-value="6" class="{% if inlink_tag.kind==6 %}active {% endif %}item">试用</div>
+            </div>
+        </div>
+        <div class="ui pointing top label">现在只用于全部!</div>
+      </div>
 
-    <div class="field">
-      <label>备注:</label>
-      <textarea name="remark" placeholder="备注">
-        {{ chunk.remark }}
-      </textarea>
+  </div>
+
+      <div id="link-box">
+        <div class="five fields">
+          <div class="five wide field">
+              <label>链接:</label>
+          </div>
+
+          <div class="two wide field">
+              <label></label>
+          </div>
+        </div>
+
+        {% if mode == 'edit' %}
+          {% if inlink_tag.links %}
+            {% for p in inlink_tag.links %}
+              <div class="links-box two fields">
+
+                <div class="field">
+                  <input type="text" name="links[]" value="{{ p }}" />
+                </div>
+                <div class="field">
+                  <input type="button" name="del_link_box" value="删除" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+      <!--ajax追加-->
+      <div id="links-box-edit"></div>
+
+      <div class="ui aligned grid">
+        <div class="column">
+          <div class="ui magenta add-link button">
+            添加链接
+          </div>
+        </div>
+      </div>
+
+		<div class="three fields">
+      <div class="field">
+        <label>备注:</label>
+        <textarea name="remark" placeholder="备注">
+          {{ inlink_tag.remark }}
+        </textarea>
+      </div>
     </div>
 		
 		<div class="inline field">
