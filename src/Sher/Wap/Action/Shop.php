@@ -207,6 +207,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       $this->stash['page_keywords_suffix'] = $product['tags_s'];   
     }
     $this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
+
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+		$this->stash['product'] = $product;
+		$this->stash['id'] = $id;
 		
 		return $this->to_html_page('wap/n_view.html');
 	}

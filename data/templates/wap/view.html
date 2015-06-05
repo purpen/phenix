@@ -641,10 +641,10 @@ i.cart.icon,i.exchange.icon{
                    </div>
                </div>
            {% endif %}
-
        </div>
 			
 </div>
+
 <div class="ui segment" style="padding: 0;">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -652,6 +652,20 @@ i.cart.icon,i.exchange.icon{
 				<a href="{{ app_url_shop }}/n_view?id={{id}}" class="ui link">
 					<p>
 						商品详情<i class="angle right icon" style="float: right;"></i>
+					</p>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui segment" style="padding: 0;">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<a href="{{ app_url_shop }}/n_view?id={{id}}" class="ui link">
+					<p>
+						用户评价<span style="float:right;">>></span>
 					</p>
 				</a>
 			</div>
@@ -692,102 +706,10 @@ i.cart.icon,i.exchange.icon{
 	</div>
 </div>
 
-<!--<div class="ui segment" style="padding: 0;">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<a href="{{ app_url_shop }}/n_view?id={{id}}" class="ui link">
-					<p>
-						用户评价<span style="float:right;">>></span>
-					</p>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>-->
+<!--商品介绍-->
 
-<!--商品介绍
-<div class="ui products segment">
-	<h4 class="ui dividing header">
-		产品详情
-	</h4>
-	<div class="product content froala-element">
-		{{ product.content }}
-	</div>
+
 </div>
--->
-
-<!--	{% if product.stage == 9 %}
-    {% if product.comment_count %}-->
-    <!--商品评价-->
-   <!--     <div class="ui reply segment">
-          <h4 class="ui dividing header">
-            用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-          </h4>
-          <div class="ui threaded minimal comments">
-            {% comment_list var:'comments' page:page target_id:product._id %}
-            {% for comment in comments.rows %}
-            <div class="comment" id="{{ comment._id }}">
-              <a class="avatar" href="{{ comment.user.home_url }}">
-                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-              </a>
-              <div class="content">
-                <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-                <div class="metadata">
-                  <div class="date">{{ comment.created_on }}</div>
-                  {% include "block/star.html" %}
-                </div>
-                
-                <div class="text">
-                  {{ comment.content }}
-                </div>
-                {% if visitor.is_login %}
-                <div class="actions">
-                  <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-                  <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-                </div>
-                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-                  <input type="hidden" name="type" value="2" />
-                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
-                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
-                  <div class="field">
-                    <textarea name="content" class="reply-content"></textarea>
-                  </div>
-                  <div class="ui active button magenta submit labeled icon">
-                    <i class="icon location"></i> 回复
-                  </div>
-                </form>
-                {% endif %}
-              </div>
-          
-              {% if comment.reply %}
-              <div class="comments">
-                {% for reply in comment.reply %}
-                  <div class="comment">
-                    <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-                      <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-                    </a>
-                    <div class="content">
-                      <a class="author">{{ reply.user.nickname }}</a>
-                      <div class="metadata">
-                        <div class="date">{{ reply.replied_on }}</div>
-                      </div>
-                      <div class="text">
-                        {{ reply.content }}
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-              {% endif %}
-          
-            </div>
-            {% endfor %}
-          </div>
-          
-    {% endif %}--><!--if product.comment_count-->
-  <!--{% endif %}  if stage==9
-</div>-->
 
 <div id="product_guess_wap_list" style="display:none;">
 

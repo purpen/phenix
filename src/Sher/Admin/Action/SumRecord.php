@@ -28,7 +28,7 @@ class Sher_Admin_Action_SumRecord extends Sher_Admin_Action_Base implements Dogg
 	 */
 	public function get_list() {
     $this->set_target_css_state('all_list');
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sum_record?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sum_record?type=%s&page=#p#', $this->stash['type']);
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/sum_record/list.html');

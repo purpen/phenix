@@ -67,6 +67,9 @@ class Sher_Core_ViewTag_UserPointStatList extends Doggy_Dt_Tag {
       if($kind){
         $query['kind'] = (int)$kind;
       }
+      if($user_id){
+        $query['user_id'] = (int)$user_id;
+      }
 
       if($sort){
         switch((int)$sort){
