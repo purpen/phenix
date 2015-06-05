@@ -1,0 +1,181 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block layout_js %}
+
+{% endblock %}
+
+{% block jquery %}
+
+	$('#inlink-tag-form').form({
+		tag: {
+			identifier  : 'tag',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+
+  //添加link项目
+  $('.add-link').click(function(){
+    var html = '';
+    html+='<div class="links-box two fields">';
+    html+='<div class="field"><input type="text" name="links[]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="del_link_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#links-box-edit').append(html);
+  });
+
+  //删除partner
+	$("input[name='del_link_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.links-box').remove();
+		});
+	});
+
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">内链标签管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/inlink_tag" class="{{ css_all }} item">
+			全部
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/inlink_tag/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+			<a href="{{ app_url_admin_base }}/inlink_tag/batch_submit" class="item">
+				<i class="add icon"></i>批量添加
+			</a>
+	    </div>
+	</div>
+	
+  <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/inlink_tag" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="红包码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+  -->
+	
+	<form class="ui form segment" action="{{ app_url_admin_base }}/inlink_tag/save" method="post" id="inlink-tag-form">
+		<input name="_id" type="hidden" value="{{ inlink_tag._id }}" />
+		
+		<div class="three fields">
+      <div class=" field">
+        <label>标签:</label>
+        <input type="text" name="tag" value="{{ inlink_tag.tag }}" />
+      </div>
+    </div>
+		<div class="three fields">
+      <div class=" field">
+        <label for="kind">所属：</label>
+        <div class="ui fluid selection dropdown">
+          <input type="hidden" name="kind" value="{{ inlink_tag.kind }}" />
+            <div class="default text">请选择</div>
+            <i class="angle down icon"></i>
+            <div class="menu">
+            <div data-value="1" class="{% if inlink_tag.kind==1 %}active {% endif %}item">全部</div>
+            <div data-value="2" class="{% if inlink_tag.kind==2 %}active {% endif %}item">话题</div>
+            <div data-value="3" class="{% if inlink_tag.kind==3 %}active {% endif %}item">灵感</div>
+            <div data-value="4" class="{% if inlink_tag.kind==4 %}active {% endif %}item">商品</div>
+            <div data-value="5" class="{% if inlink_tag.kind==5 %}active {% endif %}item">投票</div>
+            <div data-value="6" class="{% if inlink_tag.kind==6 %}active {% endif %}item">试用</div>
+            </div>
+        </div>
+        <div class="ui pointing top label">现在只用于全部!</div>
+      </div>
+
+  </div>
+
+      <div id="link-box">
+        <div class="five fields">
+          <div class="five wide field">
+              <label>链接:</label>
+          </div>
+
+          <div class="two wide field">
+              <label></label>
+          </div>
+        </div>
+
+        {% if mode == 'edit' %}
+          {% if inlink_tag.links %}
+            {% for p in inlink_tag.links %}
+              <div class="links-box two fields">
+
+                <div class="field">
+                  <input type="text" name="links[]" value="{{ p }}" />
+                </div>
+                <div class="field">
+                  <input type="button" name="del_link_box" value="删除" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+      <!--ajax追加-->
+      <div id="links-box-edit"></div>
+
+      <div class="ui aligned grid">
+        <div class="column">
+          <div class="ui magenta add-link button">
+            添加链接
+          </div>
+        </div>
+      </div>
+
+		<div class="three fields">
+      <div class="field">
+        <label>备注:</label>
+        <textarea name="remark" placeholder="备注">
+          {{ inlink_tag.remark }}
+        </textarea>
+      </div>
+    </div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit inverted button">
+				确认提交
+			</div>
+			<div class="ui gray cancel inverted button">
+				取消
+			</div>
+		</div>
+	</form>
+	
+{% endblock %}
