@@ -91,7 +91,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% user_point_stat_list var:'list' sort:s week:week month:month kind:1 state:1 size:50 %}
+			{% user_point_stat_list var:'list' sort:s week:week month:month user_id:user_id kind:1 state:1 size:50 %}
 			
 			{% for b in list.rows %}
 			<tr id="{{ b._id }}">
