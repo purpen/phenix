@@ -1,0 +1,111 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}lunar -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird{
+		margin-top:0;
+	}
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:300px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+	}
+	.section1{
+		background:url({{ app_url_packaged }}/images/mall/lub1.png) no-repeat center bottom /cover;
+		color:#fff;
+		height:420px;
+	}
+	.section1 .contide{
+		padding-top:20px;
+	}
+	.section1 h1{
+		font-weight: normal;
+		font-size: 25px;
+	  margin: 0;
+	  padding: 20px 0 5px;
+	}
+	.section1 p{
+		font-size: 18px;
+		margin: 0;
+		padding-bottom: 30px;
+	}
+	.section1 .cirecle{
+		background: #969696;
+		font-size: 16px;
+	  border: 1px solid #fff;
+	  border-radius: 40px;
+	  width: 70%;
+	  margin: 10% 15%;
+	  padding: 10px 0;
+	}
+	.section1 .logo{
+		position:absolute;
+		right:50px;
+		bottom:80px;
+	}
+	.section2 .ttp{
+		position:absolute;
+		top:20px;
+		left:50%;
+		margin-left:-26%;
+		z-index: 2;
+	}
+	.section2 .rote{
+		display:inline-block;
+		float:left;
+		width:33.333%;
+		height:400px;
+		position:relative;
+	}
+	.rote.first{
+		background:url({{ app_url_packaged }}/images/mall/lu3.jpg) no-repeat center bottom /cover;
+	}
+	.rote.sectet{
+		background:url({{ app_url_packaged }}/images/mall/lu4.jpg) no-repeat center bottom /cover;
+	}
+	.rote.third{
+		background:url({{ app_url_packaged }}/images/mall/lu5.jpg) no-repeat center bottom /cover;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lunar">
+	<div class="section section1">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/lu1.png" alt="lunar" width="35%">
+			<h1>只做助眠  这件小事</h1>
+			<p>123人团队·700多个日夜</p>
+			<img src="{{ app_url_packaged }}/images/mall/lu.png" alt="lunar" width="80%">
+			<div class="cirecle bounceInUp1">
+				零辐射 · 免充电 · 非穿戴
+			</div>
+		</div>
+		<img src="{{ app_url_packaged }}/images/mall/lu2.png" alt="12sleep" width="14%" class="logo">
+	</div>
+	<div class="section section2">
+		<img src="{{ app_url_packaged }}/images/promo/lu4.png" width="60%" class="ttp" alt="中国医师协会《2014中国睡眠指数》报告">
+		<div class="rote first">
+		</div>
+		<div class="rote sectet">
+		</div>
+		<div class="rote third">
+		</div>
+	</div>
+
+
+
+
+
+
+
+{% endblock %}
