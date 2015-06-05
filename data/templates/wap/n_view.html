@@ -106,7 +106,7 @@ $('.service.column').click(function(){
     {% if product.comment_count %}
 
     <!--商品评价-->
-   <div class="ui reply segment">
+   <div class="ui reply segment" style="display:none;">
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
           </h4>
@@ -180,7 +180,7 @@ $('.service.column').click(function(){
 
 
 
-<div class="ui service segment">
+<div class="ui service segment" style="display:none;">
 	<h4 class="ui dividing header">
 	      售后服务
 	    </h4>
