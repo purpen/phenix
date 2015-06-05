@@ -94,7 +94,9 @@ $('.service.column').click(function(){
 
 <!--商品介绍-->
 <div class="ui products segment">
-
+	<h4 class="ui dividing header">
+    产品详情
+  </h4>
 	<div class="product content froala-element">
 		{{ product.content }}
 	</div>
@@ -104,7 +106,7 @@ $('.service.column').click(function(){
     {% if product.comment_count %}
 
     <!--商品评价-->
-   <div class="ui reply segment">
+   <div class="ui reply segment" id="reply">
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
           </h4>
@@ -182,7 +184,9 @@ $('.service.column').click(function(){
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<h4 class="ui header">售后服务</h4>
+				<h4 class="ui dividing header">
+          售后服务
+        </h4>
 				<div class="ui selection list">
 											<div class="item">
 												客服热线：010- 8459&nbsp;9327&nbsp;/&nbsp;8459&nbsp;9323
