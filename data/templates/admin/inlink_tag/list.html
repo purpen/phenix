@@ -46,12 +46,13 @@
 				<th>标签</th>
 				<th>类型</th>
 				<th>链接</th>
+				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
 			
-			{% for b in tags.rows %}
+			{% for b in tags %}
 			<tr id="{{ b._id }}">
 				<td>
 					<div class="ui checkbox">
@@ -62,6 +63,26 @@
 
 				<td>
           {{b.tag}}
+				</td>
+				<td>
+          {% if b.kind==1 %}
+            全部
+          {%endif%}
+          {% if b.kind==2 %}
+            话题
+          {%endif%}
+          {% if b.kind==3 %}
+            灵感
+          {%endif%}
+          {% if b.kind==4 %}
+            商品
+          {%endif%}
+          {% if b.kind==5 %}
+            投票
+          {%endif%}
+          {% if b.kind==6 %}
+            试用
+          {%endif%}
 				</td>
 				<td>
           {% for l in b.links %}

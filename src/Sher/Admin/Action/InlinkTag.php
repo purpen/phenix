@@ -45,6 +45,7 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 
     $options = array('page'=>$page, 'size'=>$size, 'sort'=>array('created_on'=>1));
 
+		$model = new Sher_Core_Model_InlinkTag();
     $tags = $model->find($query, $options);
     $this->stash['tags'] = $tags;
 
@@ -80,24 +81,13 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 	}
 
 	/**
-	 * 创建/更新--批量
+	 * 创建--批量
 	 */
 	public function batch_submit(){
-		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
 		$mode = 'create';
-		
-		$model = new Sher_Core_Model_InlinkTag();
-		if(!empty($id)){
-			$mode = 'edit';
-			$tag = $model->find_by_id($id);
-      $tag = $model->extended_model_row($tag);
-      $tag['_id'] = (string)$tag['_id'];
-			$this->stash['inlink_tag'] = $tag;
-
-		}
 		$this->stash['mode'] = $mode;
 		
-		return $this->to_html_page('admin/inlink_tag/submit.html');
+		return $this->to_html_page('admin/inlink_tag/batch_submit.html');
 	}
 
 	/**
@@ -107,9 +97,10 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 		$id = $this->stash['_id'];
 
 		$data = array();
-		$data['mark'] = $this->stash['tag'];
+		$data['tag'] = $this->stash['tag'];
 		$data['kind'] = (int)$this->stash['kind'];
-		$data['links'] = $this->stash['links'];
+		$data['links'] = isset($this->stash['links'])?$this->stash['links']:array();
+    $data['remark'] = $this->stash['remark'];
 		$data['state'] = 1;
 
 		try{
@@ -135,6 +126,38 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 			Doggy_Log_Helper::warn("Save inlink tag failed: ".$e->getMessage());
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/inlink_tag';
+		
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+	}
+
+	/**
+	 * 批量保存
+	 */
+	public function batch_save(){		
+
+    $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
+    $tags = $this->stash['tags'];
+    $user_id = $this->visitor->id;
+    if(empty($tags)){
+      return $this->ajax_json('请输入标签!', true);  
+    }
+
+    $tag_arr = preg_split("/[\s,，]+/", $tags);
+
+
+		$model = new Sher_Core_Model_InlinkTag();
+    foreach($tag_arr as $k=>$v){
+      $data = array();
+      $data['tag'] = $v;
+      $data['kind'] = $kind;
+      $data['user_id'] = (int)$user_id;
+      $tag_obj = $model->first(array('kind'=>$kind, 'tag'=>$v));
+      if(empty($tag_obj)){
+        $ok = $model->create($data);     
+      }
+    }
 		
 		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/inlink_tag';
 		
