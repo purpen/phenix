@@ -352,7 +352,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     //如果是抢购End
 
     //如果是积分兑换Start
-    if(!empty($product_data['exchanged'])){
+    if(isset($product_data['exchanged']) && !empty($product_data['exchanged'])){
       //验证兑换是否开启
       if(!$product_data['exchanged']){
         return $this->show_message_page('积分兑换未开启！');     
