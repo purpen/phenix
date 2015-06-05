@@ -16,7 +16,8 @@
 		padding-right: .7em;
 	}
 	.ui.mini .ui.image{
-		
+		display: inline-block;
+	  margin: 0 .136em;
 	}
 </style>
 {% endblock %}
@@ -102,9 +103,9 @@ $(window).resize(function() {
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui topiclist segment" style="overflow:hidden;">
+				<div class="ui topiclist segment">
 						
-						<div class="ui topic relaxed divided list">
+						<div class="ui topic relaxed divided list"  style="overflow:hidden;">
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content">
