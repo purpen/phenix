@@ -66,6 +66,10 @@ $('.service.column').click(function(){
 	$('.reply.segment').hide();
 })
 
+{%if evt==2%}
+  $('.reply.column').click(); 
+{%endif%}
+
 
 {% endblock %}
 
