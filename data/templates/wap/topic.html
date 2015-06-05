@@ -60,7 +60,31 @@
 								<div class="content">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
 							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}</small>
-																												
+												
+												<div id="frslide" class="frame">
+													<div class="ui slide">
+														<div class="item">
+															<div class="ui mini images">
+																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96ef-36-ti.jpg" style="width: 31%;">
+																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-1-ti.jpg" style="width: 31%;">
+																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-2-ti.jpg" style="width: 31%;">
+															</div>
+														</div>
+														<div class="item">
+
+															<div class="ui mini images">
+																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-3-ti.jpg" style="width: 31%;">
+																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-4-ti.jpg" style="width: 31%;">
+																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-5-ti.jpg" style="width: 31%;">
+
+															</div>
+														</div>
+
+													</div>
+												</div>																		
+												<div class="ui center aligned count text">
+														<small>35张图片</small>
+												</div>																
 							    </div>
 							</div>
 							{% endfor %}
