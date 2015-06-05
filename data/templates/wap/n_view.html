@@ -1,0 +1,204 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+#shopview > .ui.responsive.grid{
+	padding:0;
+	margin:0;
+	background:rgba(0,0,0,0.2);
+	color:#fff;
+}
+#shopview > .ui.responsive.grid > .row > .column{
+	padding:15px 0;
+}
+#shopview > .ui.responsive.grid > .row > .column:hover,#shopview > .ui.responsive.grid > .row > .column.active{
+	color:#f36;
+	background:rgba(0,0,0,0.1);
+}
+
+.ui.segment{
+	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	border-radius: 0;
+}
+.ui.products.segment{
+	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+	border-radius: 0;
+	padding:0 !important;
+	margin:0 !important;
+}
+.ui.products.segment > .product.content.froala-element > p:first-child{
+	margin-top:0;
+}
+.ui.reply.segment,.service.segment{
+	margin-top:0;
+}
+
+</style>
+{%endblock%}
+{% block jquery %}
+$('.products.column').click(function(){
+	$(this).addClass('active');
+	$('.products.segment').show();
+	$('.reply.column').removeClass('active');
+	$('.reply.segment').hide();
+	$('.service.column').removeClass('active');
+	$('.service.segment').hide();
+})
+$('.reply.column').click(function(){
+	$(this).addClass('active');
+	$('.reply.segment').show();
+	$('.products.column').removeClass('active');
+	$('.products.segment').hide();
+	$('.service.column').removeClass('active');
+	$('.service.segment').hide();
+})
+$('.service.column').click(function(){
+	$(this).addClass('active');
+	$('.service.segment').show();
+	$('.products.column').removeClass('active');
+	$('.products.segment').hide();
+	$('.reply.column').removeClass('active');
+	$('.reply.segment').hide();
+})
+
+
+{% endblock %}
+
+{% block content %}
+<div id="shopview">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui five center aligned wide column products active">
+					<a class="tab">
+						产品详情
+					</a>
+			</div>
+			<div class="ui six center aligned wide column reply">
+					<a class="tab">
+						用户评价
+					</a>
+			</div>
+			<div class="five center aligned wide column service">
+					<a class="tab">
+						售后服务
+					</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--商品介绍-->
+<div class="ui products segment">
+
+	<div class="product content froala-element">
+		{{ product.content }}
+	</div>
+</div>
+
+	{% if product.stage == 9 %}
+    {% if product.comment_count %}
+
+    <!--商品评价-->
+   <div class="ui reply segment">
+          <h4 class="ui dividing header">
+            用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+          </h4>
+          <div class="ui threaded minimal comments">
+            {% comment_list var:'comments' page:page target_id:product._id %}
+            {% for comment in comments.rows %}
+            <div class="comment" id="{{ comment._id }}">
+              <a class="avatar" href="{{ comment.user.home_url }}">
+                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+              </a>
+              <div class="content">
+                <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+                <div class="metadata">
+                  <div class="date">{{ comment.created_on }}</div>
+                  {% include "block/star.html" %}
+                </div>
+                
+                <div class="text">
+                  {{ comment.content }}
+                </div>
+                {% if visitor.is_login %}
+                <div class="actions">
+                  <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+                  <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+                </div>
+                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+                  <input type="hidden" name="type" value="2" />
+                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
+                  <div class="field">
+                    <textarea name="content" class="reply-content"></textarea>
+                  </div>
+                  <div class="ui active button magenta submit labeled icon">
+                    <i class="icon location"></i> 回复
+                  </div>
+                </form>
+                {% endif %}
+              </div>
+          
+              {% if comment.reply %}
+              <div class="comments">
+                {% for reply in comment.reply %}
+                  <div class="comment">
+                    <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+                      <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+                    </a>
+                    <div class="content">
+                      <a class="author">{{ reply.user.nickname }}</a>
+                      <div class="metadata">
+                        <div class="date">{{ reply.replied_on }}</div>
+                      </div>
+                      <div class="text">
+                        {{ reply.content }}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+          
+            </div>
+            {% endfor %}
+          </div>
+          
+    {% endif %}<!--if product.comment_count-->
+  {% endif %}
+</div>
+    <!--if product.comment_count-->
+  <!--if stage==9-->
+</div>
+
+
+
+<div class="ui service segment">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h4 class="ui header">售后服务</h4>
+				<div class="ui selection list">
+											<div class="item">
+												客服热线：010- 8459&nbsp;9327&nbsp;/&nbsp;8459&nbsp;9323
+											</div>
+											<div class="item">
+												QQ客服：211470932
+											</div>
+											<div class="item">
+												客服邮箱：service#taihuoniao.com(#换成@)
+											</div>
+										</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{%endblock%}

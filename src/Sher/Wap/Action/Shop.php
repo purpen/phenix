@@ -172,6 +172,49 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
+	 * 商品详情
+	 */
+	public function n_view(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.wap'];
+		if(empty($id)){
+			return $this->show_message_page('访问的产品不存在！', $redirect_url);
+		}
+		
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$id);
+		if(empty($product) || $product['deleted']){
+			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
+		}
+		
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
+		
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
+		}
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
+    if(!empty($product['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $product['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
+
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+		
+		return $this->to_html_page('wap/n_view.html');
+	}
+	
+	/**
 	 * 完整购物车页面
 	 */
 	public function cart() {
