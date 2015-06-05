@@ -210,6 +210,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+		$this->stash['product'] = $product;
+		$this->stash['id'] = $id;
 		
 		return $this->to_html_page('wap/n_view.html');
 	}
