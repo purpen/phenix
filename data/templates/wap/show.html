@@ -92,6 +92,14 @@
 	  font-style: italic;
 	  border-left: solid 5px #cccccc;
 	}
+	
+	.ui.topic.segment,.ui.reply.segment{
+		-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
+	  box-shadow: 0 0 0 0px rgba(0,0,0,.1);
+		border-radius: 0;
+	}
+	
+	
 </style>
 {% endblock %}
 
@@ -262,7 +270,7 @@
 {% block content %}
 <div id="postpage">
 	<section class="ui big block">
-		<div class="ui responsive grid">
+		<div class="ui responsive grid" style="padding:0;">
 			<div class="row">
 				<div class="column">
 					<div class="ui breadcrumb">
@@ -279,7 +287,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="column">
+				<div class="column" style="padding:0;">
 						<div class="ui big topic segment">
 							<div class="ui header">
 								<div class="content">
@@ -330,7 +338,7 @@
 						</div>
           </div>
 
-					<div id="topic_guess_wap_list">
+					<div id="topic_guess_wap_list" style="padding: 0 3%;">
 
 					</div>
 				
