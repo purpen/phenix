@@ -132,10 +132,12 @@ $('.service.column').click(function(){
                   {{ comment.content }}
                 </div>
                 {% if visitor.is_login %}
+                <!--
                 <div class="actions">
                   <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
                   <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
                 </div>
+                -->
                 <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
                   <input type="hidden" name="type" value="2" />
                   <input type="hidden" name="comment_id" value="{{ comment._id }}" />
