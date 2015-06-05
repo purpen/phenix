@@ -2,61 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	#frslide {
-	  max-height: 85px;
-	  overflow: hidden;
-	}
-	#frslide>.ui.slide>.ui.mini {
-	  display: inline-block;
-	  max-width: 100%;
-	  float: left;
-	}
-	.ui.divided.list>.item{
-		padding-left: .7em;
-		padding-right: .7em;
-	}
-	.ui.mini .ui.image{
-		display: inline-block;
-	  margin: 0 .136em;
-	}
 </style>
 {% endblock %}
 {% block jquery %}
-var s=e('#frslide').width();
-e("#frslide > .ui.slide > .ui.mini").width(s);
-
-var $frame = $('#frslide');
-// Call Sly on frame
-$frame.sly({
-	horizontal: 1,
-	itemNav: 'basic',
-	smart: 1,
-	activateMiddle: 1,
-	activateOn: 'click',
-	mouseDragging: 1,
-	touchDragging: 1,
-	releaseSwing: 1,
-	startAt: 0,
-	pagesBar: $frame.find('.pages'),
-	pageItem: 'pages',
-	activatePageOn: 'click',
-	pageBuilder: function (index) {
-		return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
-	},
-	speed: 300,
-	elasticBounds: 1,
-	easing: 'easeOutExpo',
-	dragHandle: 1,
-	dynamicHandle: 1,
-	clickBar: 1,
-});
-
-$(window).resize(function() {
-	var s=$('#frslide').width();
-	e("#frslide > .ui.slide > .ui.mini").width(s);
-	
-	$frame.sly('reload');
-});
 {% endblock %}
 {% block content %}
 <div id="topicpage">
@@ -110,27 +58,7 @@ $(window).resize(function() {
 							<div class="item">
 								<div class="content">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
-							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}</small>
-												
-												<div id="frslide" class="frame">
-													<div class="ui slide">
-															<div class="ui mini">
-																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96ef-36-ti.jpg" style="width: 31%;">
-																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-1-ti.jpg" style="width: 31%;">
-																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-2-ti.jpg" style="width: 31%;">
-															</div>
-
-															<div class="ui mini">
-																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-3-ti.jpg" style="width: 31%;">
-																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-4-ti.jpg" style="width: 31%;">
-																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-5-ti.jpg" style="width: 31%;">
-
-															</div>
-
-													</div>
-												</div>				
-												
-																										
+							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}</small>		
 							    </div>
 							</div>
 							{% endfor %}
