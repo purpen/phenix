@@ -135,6 +135,12 @@
 		{% endblock %}
 
 		<script type="text/javascript">
+		//sidebar menu
+		$('a.launch').click(function(){
+			$('.ui.sidebar.menu').toggleClass('active');
+			$(document.body).toggleClass('left pushed');
+		});
+		
 		<!--
 		$(function(e){
 			phenix.url = {

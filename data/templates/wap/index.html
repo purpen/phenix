@@ -105,13 +105,6 @@
 {% endblock %}
 
 {% block jquery %}
-
-	//sidebar menu
-	$('a.launch').click(function(){
-		$('.ui.sidebar.menu').toggleClass('active');
-		$(document.body).toggleClass('left pushed');
-	});
-
 	var s=e('#frslide').width();
 	e("#frslide > .ui.slide > .item").width(s);
 	
