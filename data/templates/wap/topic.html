@@ -6,11 +6,16 @@
 	  max-height: 85px;
 	  overflow: hidden;
 	}
+	#frslide>.ui.slide>.ui.mini.images {
+	  display: inline-block;
+	  max-width: 100%;
+	  float: left;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
 var s=e('#frslide').width();
-e("#frslide > .ui.slide > .item").width(s);
+e("#frslide > .ui.slide > .ui.mini.images").width(s);
 
 var $frame = $('#frslide');
 // Call Sly on frame
@@ -40,7 +45,7 @@ $frame.sly({
 
 $(window).resize(function() {
 	var s=$('#frslide').width();
-	e("#frslide > .ui.slide > .item").width(s);
+	e("#frslide > .ui.slide > .ui.mini.images").width(s);
 	
 	$frame.sly('reload');
 });
@@ -101,14 +106,11 @@ $(window).resize(function() {
 												
 												<div id="frslide" class="frame">
 													<div class="ui slide">
-														<div class="item">
 															<div class="ui mini images">
 																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96ef-36-ti.jpg" style="width: 31%;">
 																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-1-ti.jpg" style="width: 31%;">
 																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-2-ti.jpg" style="width: 31%;">
 															</div>
-														</div>
-														<div class="item">
 
 															<div class="ui mini images">
 																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-3-ti.jpg" style="width: 31%;">
@@ -116,7 +118,6 @@ $(window).resize(function() {
 																<img class="ui image" src="http://frbird.qiniudn.com/topic/150604/556fc62bfc8b12923c8c96f2-5-ti.jpg" style="width: 31%;">
 
 															</div>
-														</div>
 
 													</div>
 												</div>																		
