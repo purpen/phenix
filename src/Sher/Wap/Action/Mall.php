@@ -16,7 +16,7 @@ class Sher_Wap_Action_Mall extends Sher_Wap_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){
-		//return $this->lunar();
+		return $this->lunar();
 	}
 
 	/**

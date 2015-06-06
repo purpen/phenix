@@ -61,6 +61,18 @@
 	  position: relative;
 		opacity:0;
 	}
+	.rote.fadeInUp.animated:nth-child(2){
+		animation-delay:0.2s;
+		-webkit-animation-delay:0.2s;
+	}
+	.rote.fadeInUp.animated:nth-child(3){
+		animation-delay:0.4s;
+		-webkit-animation-delay:0.4s;
+	}
+	.rote.fadeInUp.animated:nth-child(4){
+		animation-delay:0.6s;
+		-webkit-animation-delay:0.6s;
+	}
 	.section2 .rote:last-child{
 		margin-right:0;
 		float:right;
@@ -86,7 +98,202 @@
 		left:0;
 		opacity:0;
 	}
-
+	.section4{
+		height:600px;
+		background:url({{ app_url_packaged }}/images/mall/gro7.jpg) no-repeat center center /cover;
+		position:relative;
+	}
+	.section9{
+		height:600px;
+		background:url({{ app_url_packaged }}/images/mall/gro19.jpg) no-repeat center center /cover;
+		position:relative;
+	}
+	.section9 img{
+		position:absolute;
+		top:50%;
+		left:50%;
+		margin-top:-100px;
+		margin-left:-300px;
+		opacity:0;
+	}
+	.section4 img{
+		position:absolute;
+		top:50%;
+		left:50%;
+		margin-top:-100px;
+		margin-left:-200px;
+		opacity:0;
+	}
+	.section4 img.zoomIn.animated,.section9 img.zoomIn.animated{
+		opacity:1;
+	}
+	.section5{
+		height:700px;
+	}
+	.section5 .contide{
+		height: 400px;
+	}
+	.pleft{
+		width:485px;
+		height:350px;
+		position:absolute;
+		left:0px;
+		top:90px;
+		opacity:0;
+	}
+	.pright{
+		width:485px;
+		height:350px;
+		position:absolute;
+		right:0px;
+		top:90px;
+		opacity:0;
+	}
+	.section5 .contide .ui.responsive.grid{
+		position:absolute;
+		top:480px;
+		opacity:0;
+	}
+	.section6{
+		min-height:600px;
+		position:relative;
+	}
+	.section6 .oro{
+		display: inline-block;
+	  float: left;
+	  width: 50%;
+	  height: 100%;
+	  position: relative;
+	}
+	.oro.oleft{
+		background:url({{ app_url_packaged }}/images/mall/gro11.jpg) no-repeat center center /cover;
+		min-height:600px;
+	}
+	.oro.oright{
+		background:url({{ app_url_packaged }}/images/mall/gro12.jpg) no-repeat center center /cover;
+		min-height:600px;
+	}
+	.oro .txtl{
+		width:350px;
+		position:absolute;
+		right:80px;
+		top:50%;
+		margin-top:-158px;
+		color:#fff;
+		text-align:right;
+		opacity:0;
+	}
+	.oro .txtr{
+		width:350px;
+		position:absolute;
+		left:80px;
+		top:50%;
+		margin-top:-158px;
+		color:#fff;
+		text-align:left;
+		opacity:0;
+	}
+	.oro p{
+		-webkit-font-smoothing: initial;
+		line-height: 21px !important;
+	}
+	.oro h1{
+		color:#ffea00;
+		font-size:50px;
+		margin-bottom: 0;
+	}
+	.section7{
+		background:#f1f1f1;
+		height:700px;
+	}
+	.section7 img{
+		margin-left: -67px;
+		float: left;
+		opacity:0;
+	}
+	.section7 img.zoomIn.animated{
+		opacity:1;
+	}
+	.section7 img.zoomIn.animated:nth-child(2){
+		animation-delay:0.2s;
+		-webkit-animation-delay:0.2s;
+	}
+	.section7 img.zoomIn.animated:nth-child(3){
+		animation-delay:0.4s;
+		-webkit-animation-delay:0.4s;
+	}
+	.section7 img.zoomIn.animated:nth-child(4){
+		animation-delay:0.6s;
+		-webkit-animation-delay:0.6s;
+	}
+	
+	.section7 img:first-child{
+		margin-left:0;
+		margin-top: 50px;
+	}
+	.section7 img:nth-child(3){
+		margin-top: 50px;
+	}
+	.section7 .contide{
+		height: 610px;
+	}
+	.section7 .ui.responsive.grid{
+		position:absolute;
+		top:480px;
+		opacity:0;
+	}
+	@-webkit-keyframes fadeInLeft{0%{opacity:0;-webkit-transform:translate3d(-20%,0,0);transform:translate3d(-20%,0,0)}100%{opacity:1;-webkit-transform:none;transform:none}}@keyframes fadeInLeft{0%{opacity:0;-webkit-transform:translate3d(-20%,0,0);-ms-transform:translate3d(-20%,0,0);transform:translate3d(-20%,0,0)}100%{opacity:1;-webkit-transform:none;-ms-transform:none;transform:none}}.fadeInLeft{-webkit-animation-name:fadeInLeft;animation-name:fadeInLeft}
+	@-webkit-keyframes fadeInRight{0%{opacity:0;-webkit-transform:translate3d(20%,0,0);transform:translate3d(20%,0,0)}100%{opacity:1;-webkit-transform:none;transform:none}}@keyframes fadeInRight{0%{opacity:0;-webkit-transform:translate3d(20%,0,0);-ms-transform:translate3d(20%,0,0);transform:translate3d(20%,0,0)}100%{opacity:1;-webkit-transform:none;-ms-transform:none;transform:none}}.fadeInRight{-webkit-animation-name:fadeInRight;animation-name:fadeInRight}
+	
+	.section8{
+		height:765px;
+		position:relative;
+	}
+	.tleft{
+		display: inline-block;
+	  float: left;
+	  width: 50%;
+	  height: 565px;
+	  position: relative;
+		margin:100px 0;
+		border-right:1px solid rgba(0,0,0,0.3);
+	}
+	.tright{
+		display: inline-block;
+	  float: left;
+	  width: 49.5%;
+	  height: 100%;
+	  position: relative;
+		margin:100px 0;
+	}
+	.tleft .ui.grid{
+		position:absolute;
+		right:80px;
+		top:50px;
+		width:400px;
+		height:100%;
+	}
+	.tright .ui.grid{
+		position:absolute;
+		left:80px;
+		top:50px;
+		width:450px;
+		height:100%;
+	}
+	.section8 img,.section8 h2,.section8 p{
+		opacity:0;
+	}
+	.section8 img.zoomIn.animated{
+		opacity:1;
+	}
+	.section8 .tright img.zoomIn.animated,.section8 .tright h2.fadeInUp,.section8 .tright p.fadeInUp{
+		animation-delay:0.4s;
+		-webkit-animation-delay:0.4s;
+	}
+	.section8 h2.fadeInUp,.section8 p.fadeInUp{
+		opacity:1;
+	}
+	
 </style>
 {% endblock %}
 {% block jquery %}
@@ -110,10 +317,66 @@
 			if (scrollTop > 850){
 				$('.rote').removeClass('fadeInUp animated');
 			}
-			
-			if (scrollTop > 2300){
-				$('body').attr("id","p3")
+			if (scrollTop > 1360){
+				$('.gleft').removeClass('fadeInLeft animated');
+				$('.gright').removeClass('fadeInRight animated');
 			}
+			if (scrollTop > 1600){
+				$('.section4 img').addClass('zoomIn animated');
+				$('.section3 .ui.responsive.grid').removeClass('fadeInUp animated');
+			}
+			if (scrollTop > 1800){
+				$('.pleft').addClass('fadeInLeft animated');
+				$('.pright').addClass('fadeInRight animated');
+			}
+			if(scrollTop > 2200){
+				$('.section5 .ui.responsive.grid').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 2750){
+				$('.pleft').removeClass('fadeInLeft animated');
+				$('.pright').removeClass('fadeInRight animated');
+			}
+			if(scrollTop > 2915){
+				$('.section5 .ui.responsive.grid').removeClass('fadeInUp animated');
+				$('.txtl').addClass('fadeInLeft animated');
+				$('.txtr').addClass('fadeInRight animated');
+			}
+			if(scrollTop > 3180){
+				$('.section7 img').addClass('zoomIn animated');
+			}
+			if(scrollTop > 3330){
+				$('.section7 .ui.responsive.grid').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 3470){
+				$('.txtl').removeClass('fadeInLeft animated');
+				$('.txtr').removeClass('fadeInRight animated');
+			}
+			if(scrollTop > 4025){
+				$('.section7 img').removeClass('zoomIn animated');
+			}
+			if(scrollTop > 4190){
+				$('.section7 .ui.responsive.grid').removeClass('fadeInUp animated');
+			}
+			if(scrollTop > 3800){
+				$('.section8 img').addClass('zoomIn animated');
+			}
+			if(scrollTop > 4010){
+				$('.section8 h2').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 4110){
+				$('.section8 p').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 4705){
+				$('.section8 img').removeClass('zoomIn animated');
+			}
+			if(scrollTop > 4780){
+				$('.section8 h2').removeClass('fadeInUp animated');
+			}
+			if(scrollTop > 4920){
+				$('.section8 p').removeClass('fadeInUp animated');
+				$('.section9 img').addClass('zoomIn animated');
+			}
+			
 	})
 {% endblock %}
 {% block content %}
@@ -133,30 +396,30 @@
 <div class="gopro">
 	<div class='section section1'>
 		<div class="contide">
-			<img src="{{ app_url_packaged }}/images/mall/gro.jpg">
+			<img src="{{ app_url_packaged }}/images/mall/gro.jpg" alt="GoPro">
 		</div>
 	</div>
 	<div class="section section2">
 		<div class="rote">
-			<img src="{{ app_url_packaged }}/images/mall/gro1.jpg" width="100%">
+			<img src="{{ app_url_packaged }}/images/mall/gro1.jpg" width="100%" alt="GoPro">
 		</div>
 		<div class="rote">
-			<img src="{{ app_url_packaged }}/images/mall/gro2.jpg" width="100%">
+			<img src="{{ app_url_packaged }}/images/mall/gro2.jpg" width="100%" alt="GoPro">
 		</div>
 		<div class="rote">
-			<img src="{{ app_url_packaged }}/images/mall/gro3.jpg" width="100%">
+			<img src="{{ app_url_packaged }}/images/mall/gro3.jpg" width="100%" alt="GoPro">
 		</div>
 		<div class="rote">
-			<img src="{{ app_url_packaged }}/images/mall/gro4.jpg" width="100%">
+			<img src="{{ app_url_packaged }}/images/mall/gro4.jpg" width="100%" alt="GoPro">
 		</div>
 	</div>
 	<div class="section section3">
 		<div class="contide">
 			<div class="gleft">
-				<img src="{{ app_url_packaged }}/images/mall/gro5.png">
+				<img src="{{ app_url_packaged }}/images/mall/gro5.png" alt="GoPro">
 			</div>
 			<div class="gright">
-				<img src="{{ app_url_packaged }}/images/mall/gro6.png">
+				<img src="{{ app_url_packaged }}/images/mall/gro6.png" alt="GoPro">
 			</div>
 			<div class="ui responsive grid">
 				<div class="row">
@@ -167,9 +430,90 @@
 				</div>
 			</div>
 		</div>
-		
+	</div>
+	<div class="section section4">
+			<img src="{{ app_url_packaged }}/images/mall/gro8.png" width="400" height="200" alt="捕捉分享">
+	</div>
+	<div class="section section5">
+		<div class="contide">
+			<div class="pleft">
+				<img src="{{ app_url_packaged }}/images/mall/gro9.jpg" width="100%" alt="GoPro">
+			</div>
+			<div class="pright">
+				<img src="{{ app_url_packaged }}/images/mall/gro10.jpg" width="100%" alt="GoPro">
+			</div>
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="center aligned column">
+						<h2 class="ui header">快速、功能强大的照片捕捉</h2>
+						<p>使用 HERO4 Black，能够以每秒高达 30 帧的速率连拍 12MP 照片，帮您捕捉到您不想错过的每一个瞬间。您可以拍摄单张照片，也可以选择延时模式以 0.5 至 60 秒的设定时间间隔自动拍摄照片，非常适合将摄像机固定到其他设备上进行拍摄而够不到快门按钮时的场景。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section section6">
+		<div class="oro oleft">
+			<div class="txtl">
+				<h1>2 X</h1>
+				<h2 class="ui header">2 倍性能</h2>
+				<p>与最畅销的前身产品相比，HERO4Black的处理器功能强劲2倍，视频帧速率快2倍，且画质更佳，因此可以拍摄更清晰、更丰富、更细腻的镜头。HERO4 Black 将强大的新功能和技术完美组合，并对音频、可用性、无线连接等进行了改进，它是迄今为止最先进、性能最高的 GoPro 产品。</p>
+			</div>
+		</div>
+		<div class="oro oright">
+			<div class="txtr">
+				<h1>4K 30</h1>
+				<h2 class="ui header">是分辨率 1080p 的 4 倍</h2>
+				<p>4K30、2.7K60、1 1080p120、720p2401— HERO4 Black 是首款能够拍摄超高分辨率、高帧速率视频的摄像机，功能非常强大。过去只有大型、昂贵的摄像机才能做到的，如今使用 HERO4 Black 便可以做到，小包装带来真正的专业视频画质。令人惊叹的清晰度、液体般流畅的慢动作回放、影院级画质捕捉，一切尽在 HERO4 Black。</p>
+			</div>
+		</div>
 	</div>
 	
+	<div class="section section7">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/gro13.png" width="300" alt="GoPro">
+			<img src="{{ app_url_packaged }}/images/mall/gro14.png" width="300" alt="GoPro">
+			<img src="{{ app_url_packaged }}/images/mall/gro15.png" width="300" alt="GoPro">
+			<img src="{{ app_url_packaged }}/images/mall/gro16.png" width="300" alt="GoPro">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class='center aligned column'>
+						<h2 class="ui header">适合天黑之后使用的全新设置</h2>
+						<p>以全新的方式拍摄夜空。全新的夜间照片和夜间延迟模式为单张和延时照片提供可自定义的曝光设置，最长可曝光 30 秒。无论您是拍摄银河还是篝火晚会，使用夜间照片和夜间延迟模式都能够以前所未有的方式拍摄超低光场景。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section8">
+		<div class="tleft">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/mall/gro17.jpg" alt="GoPro">
+						<h2 class="ui header right aligned">使用 HiLight Tag <br />标记最重要的瞬间</h2>
+						<p class="ui right aligned">通过全新的 HERO4 功能 HiLight Tag，您可以在录制的同时标记重要瞬间，这样稍后您就能快速找到最佳片段，使用 GoPro 应用程序或 GoPro Studio 就可以方便地回放、编辑或分享。 只需按下摄像机或 Smart Remote 上的专用按钮，3也可以使用 GoPro 应用程序为您的精彩瞬间添加标记。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tright">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/mall/gro18.jpg" alt="GoPro">
+						<h2 class="ui header">世界上最具身临其境感的视频</h2>
+						<p>HERO4 Black 采用 SuperView™，这是 GoPro 专有的视频模式，可捕捉世界上最逼真的广角远景。它可让您在拍摄时捕捉自己和周围事物的更多画面，从而呈现出每次冒险活动既有魅力又很有代入感的连续镜头。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section9">
+		<img src="{{ app_url_packaged }}/images/mall/gro20.png" width="600" height="200" alt="GoPro">
+	</div>
 
 
 
