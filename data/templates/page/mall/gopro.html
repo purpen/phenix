@@ -1,0 +1,185 @@
+{%extends 'layout/column.html'%}
+{% block title %}GoPro -{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+<style type="text/css">
+	.ui.white .row{
+		padding:5px 0;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+		border-bottom:1px solid rgba(0,0,0,0.3);
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+		background-color:#fff;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:1000px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+		position:relative;
+	}
+	.section1{
+		height:540px;
+	}
+	.section2{
+		min-height:400px;
+	}
+	.section2 .rote {
+	  display: inline-block;
+	  float: left;
+	  width: 24%;
+	  height: 100%;
+		margin-right:1.33%;
+	  position: relative;
+		opacity:0;
+	}
+	.section2 .rote:last-child{
+		margin-right:0;
+		float:right;
+	}
+	.section3{
+		height:700px;
+	}
+	.section3 .gleft{
+		position:absolute;
+		left:0;
+		top:0;
+		opacity:0;
+	}
+	.section3 .gright{
+		position:absolute;
+		right:0;
+		top:0;
+		opacity:0;
+	}
+	.section3 .ui.responsive.grid{
+		position:absolute;
+		top:400px;
+		left:0;
+		opacity:0;
+	}
+
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if (scrollTop > 160){
+				$('.rote').addClass('fadeInUp animated');
+			}
+			if (scrollTop > 550){
+				$('.gleft').addClass('fadeInLeft animated');
+				$('.gright').addClass('fadeInRight animated');
+			}
+			if (scrollTop > 800){
+				$('.section3 .ui.responsive.grid').addClass('fadeInUp animated');
+			}
+			if (scrollTop > 850){
+				$('.rote').removeClass('fadeInUp animated');
+			}
+			
+			if (scrollTop > 2300){
+				$('body').attr("id","p3")
+			}
+	})
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>GoPro</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="http://www.taihuoniao.com/topic/view-103238-1.html" title="GoPro" class="ui item link" target="_blank">讨论区</a>
+			<a href="#.buy" class="ui inverted active gray button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="GoPro">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="gopro">
+	<div class='section section1'>
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/gro.jpg">
+		</div>
+	</div>
+	<div class="section section2">
+		<div class="rote">
+			<img src="{{ app_url_packaged }}/images/mall/gro1.jpg" width="100%">
+		</div>
+		<div class="rote">
+			<img src="{{ app_url_packaged }}/images/mall/gro2.jpg" width="100%">
+		</div>
+		<div class="rote">
+			<img src="{{ app_url_packaged }}/images/mall/gro3.jpg" width="100%">
+		</div>
+		<div class="rote">
+			<img src="{{ app_url_packaged }}/images/mall/gro4.jpg" width="100%">
+		</div>
+	</div>
+	<div class="section section3">
+		<div class="contide">
+			<div class="gleft">
+				<img src="{{ app_url_packaged }}/images/mall/gro5.png">
+			</div>
+			<div class="gright">
+				<img src="{{ app_url_packaged }}/images/mall/gro6.png">
+			</div>
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="center aligned column">
+						<h2 class="ui header">迄今为止最先进的GoPro摄像机</h2>
+						<p>HERO4 Black 摄像机的画质是迄今为止最佳的，并且处理器性能强劲 2 倍2，能够以每秒 240 帧的速率拍摄超慢速画面，它将 GoPro 获得 Emmy 奖的性能提升到了一个全新的水平。令人惊叹的高分辨率 4K30 和 2.7K601视频与 1080p120 和 720p240 慢动作相结合，不管是拍您自己还是您周围的世界，都可以拍摄出令人惊叹、身临其境般的连续镜头。通过适用于照片和视频的 Protune™ 设置，可以手动控制色彩、ISO 限制、曝光度等设置。HERO4 Black 的防水性能为 131 英尺（40 米），可以高达每秒 30 帧的速度拍摄 12MP 照片，音质更佳，适合力求完美的用户用来拍摄生活点滴的终极解决方案。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+
