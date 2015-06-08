@@ -237,7 +237,7 @@
 	.section7 img:nth-child(2),.section7 img:nth-child(4){
 		margin-top: -100px;
 	}
-	.section7 .contide{
+	.section3 .contide,.section7 .contide{
 		height: 610px;
 	}
 	.section7 .ui.responsive.grid{
@@ -322,6 +322,7 @@
 		top:0px;
 		width:400px;
 		height:100%;
+		opacity:0;
 	}
 	.oright .ui.grid{
 		position:absolute;
@@ -329,6 +330,7 @@
 		top:0px;
 		width:400px;
 		height:100%;
+		opacity:0;
 	}
 	.section11{
 		height:600px;
@@ -340,6 +342,7 @@
 		width:25%;
 		display:inline-block;
 		float:left;
+		color:#fff;
 	}
 	.ftg{
 		background:url({{ app_url_packaged }}/images/mall/gro28.jpg) no-repeat center center /cover;
@@ -348,6 +351,7 @@
 		width:25%;
 		display:inline-block;
 		float:left;
+		color:#fff;
 	}
 	.fsg{
 		background:url({{ app_url_packaged }}/images/mall/gro29.jpg) no-repeat center center /cover;
@@ -356,6 +360,7 @@
 		width:25%;
 		display:inline-block;
 		float:left;
+		color:#fff;
 	}
 	.ffg{
 		background:url({{ app_url_packaged }}/images/mall/gro30.jpg) no-repeat center center /cover;
@@ -364,6 +369,24 @@
 		width:25%;
 		display:inline-block;
 		float:left;
+		color:#fff;
+	}
+	.fog .ui.grid,.ftg .ui.grid,.fsg .ui.grid,.ffg .ui.grid{
+		width:80%;
+		height:100%;
+		margin:0 10%;
+		position:absolute;
+		top:100px;
+		left:0;
+		-webkit-font-smoothing: initial;
+		opacity:0;
+	}
+	.section12{
+		height:720px;
+		background:#fff;
+	}
+	.section12 .ui.grid{
+		padding-top:30px;
 	}
 </style>
 {% endblock %}
@@ -388,6 +411,9 @@
 				$('.section8 img').removeClass('zoomIn animated');
 				$('.section8 h2').removeClass('fadeInUp animated');
 				$('.section8 p').removeClass('fadeInUp animated');
+				$('.oleft .ui.grid').removeClass('fadeInLeft animated');
+				$('.oright .ui.grid').removeClass('fadeInRight animated');
+				$('.section11 .ui.grid').removeClass('fadeInUp animated');
 				
 			}
 	
@@ -463,7 +489,20 @@
 				$('.section8 p').removeClass('fadeInUp animated');
 				$('.section9 img').addClass('zoomIn animated');
 			}
-			
+			if(scrollTop > 5180){
+				$('.oleft .ui.grid').addClass('fadeInLeft animated');
+				$('.oright .ui.grid').addClass('fadeInRight animated');
+			}
+			if(scrollTop > 6160){
+				$('.section11 .ui.grid').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 6265){
+				$('.oleft .ui.grid').removeClass('fadeInLeft animated');
+				$('.oright .ui.grid').removeClass('fadeInRight animated');
+			}
+			if(scrollTop > 6870){
+				$('.section11 .ui.grid').removeClass('fadeInUp animated');
+			}
 	})
 {% endblock %}
 {% block content %}
@@ -475,7 +514,7 @@
 		<div class="eight wide column">
 			<a href="javascript:void(0)" class="ui link item active">概述</a>|
 			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
-			<a href="http://www.taihuoniao.com/topic/view-103238-1.html" title="GoPro" class="ui item link" target="_blank">讨论区</a>
+			<a href="http://www.taihuoniao.com/topic/view-103372-1.html" title="GoPro" class="ui item link" target="_blank">讨论区</a>
 			<a href="#.buy" class="ui inverted active gray button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="GoPro">立即购买</a>
 		</div>
 	</div>
@@ -629,19 +668,71 @@
 	
 	<div class="section section11">
 		<div class="fog">
-			
+			<div class="ui grid">
+				<div class="row">
+					<div class="center aligned column">
+						<img src="{{ app_url_packaged }}/images/mall/gro23.png" width="70" alt="自动低光模式">
+						<h3 class="ui header">自动低光模式</h3>
+						<p>让摄像机来为您思考。自动低光模式会根据光线条件智能地改变帧速率，以实现最佳的低光性能，这样即使您在明亮和昏暗环境中来回移动也无需调节摄像机的设置。</p>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="ftg">
-			
+			<div class="ui grid">
+				<div class="row">
+					<div class="center aligned column">
+						<img src="{{ app_url_packaged }}/images/mall/gro24.png" width="70" alt="QuikCapture 模式">
+						<h3 class="ui header">QuikCapture 模式</h3>
+						<p>使用全新的 QuikCapture 模式，即刻捕捉当前的瞬间。它将您的 GoPro 变身为一键操作式摄像机，只需按下一个按钮就可以自动开机并开始录制。按下该按钮一次即可录制视频，按住该按钮两秒即可拍摄延时照片。从此无需再担心错过任何精彩瞬间。</p>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="fsg">
-			
+			<div class="ui grid">
+				<div class="row">
+					<div class="center aligned column">
+						<img src="{{ app_url_packaged }}/images/mall/gro25.png" width="70" alt="专业级音频性能">
+						<h3 class="ui header">专业级音频性能</h3>
+						<p>HERO4 Black 采用功能强大的全新音频系统，可以捕捉到无杂音、高保真的声音。其麦克风采用最先进的技术，动态范围增大近一倍，而一流的音频算法确保您录制的声音比之前更顺畅、更自然。此外，HERO4 Black 采用最新的集成 ADC（模拟-数字转换器），能够与各种专业级低灵敏度外部麦克风兼容4，无论是录制语音、即兴演奏会还是现场表演，都能捕捉到逼真的立体声效果，性能更强。</p>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="ffg">
-			
+			<div class="ui grid">
+				<div class="row">
+					<div class="center aligned column">
+						<img src="{{ app_url_packaged }}/images/mall/gro26.png" width="70" alt="Protune ™">
+						<h3 class="ui header">Protune ™</h3>
+						<p>Protune 发挥出了摄像机的全部潜能，它能够提供最低限度的压缩、专为专业制作而优化的影院级视频，并提供适用于照片和视频的高级手动控制。通过色彩、ISO 限制、白平衡、清晰度和曝光等可自定义设置，尽情发挥您的创意，享受 GoPro 摄像机提供的最大程度的手动控制体验。</p>
+					</div>
+				</div>
+			</div>
 		</div>
-			
 	</div>
+	
+	<div class="section section12">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/gro31.jpg" alt="GoPro">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="center aligned column">
+						<h2 class="ui header">改进的摄像机控制体验</h2>
+						<p>HERO4 Black 采用全新的专用按钮，让您能够快速访问和调整摄像机的设置。 <br/>简化的菜单让导航设置比以往更加直观。</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class='center aligned column'>
+						<a href=" " target="_blank" class="ui inverted active gray button" title="GoPro">立即购买</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 
 </div>
 
