@@ -1,0 +1,62 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}lunar -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird{
+		margin-top:0;
+	}
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:300px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+		color:#fff;
+		padding-left: 60px;
+	}
+	.section2{
+		background:url({{ app_url_packaged }}/images/mall/wfit2.jpg) no-repeat left center /cover;
+		height:400px;
+		margin-top:-3px;
+	}
+	.section3{
+		background:url({{ app_url_packaged }}/images/mall/wfit3.jpg) no-repeat left center /cover;
+		height:400px;
+		margin-top:-3px;
+	}
+	
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="fitbit">
+	<div class="section section1">
+		<img src="{{ app_url_packaged }}/images/mall/wfit.jpg" alt="fitbit" width="100%">
+		<img src="{{ app_url_packaged }}/images/mall/wfit1.jpg" alt="fitbit" style="margin-top: -3px;" width="100%">
+	</div>
+	<div class="section section2">
+		<div class="contide">
+			<h2>充满活力 <br />
+				掌控生活</h2>
+			<p>利用Charge记录全天活动，比如行走步数、行走距离、消耗卡路里数、 攀爬楼层数以及活跃时间，充满活力，增加运动量。</p>
+		</div>
+	</div>
+	<div class="section section3">
+		<div class="contide">
+			<h2>实时提供 <br />
+				真实进度</h2>
+			<p>通过手腕上佩戴设备的明亮oled屏幕查看您的每一个数据，使用锻炼模式 检查您的锻炼数据，或只是找到战胜下一个目标的激情。</p>
+		</div>
+	</div>
+
+
+
+</div>
+{% endblock %}
