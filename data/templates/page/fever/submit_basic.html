@@ -131,6 +131,9 @@
 		.modal .btn:hover{
 			background:#eee;
 		}
+		#Mode + .ui.red.pointing{
+			margin-top:-5px;
+		}
 		
 </style>
 {% endblock %}
@@ -151,13 +154,11 @@
 				}
 			]
 		},
-		
-		//terms
 		terms: {
 			identifier  : 'terms',
 			rules: [
 				{
-					type   : 'empty',
+					type   : 'checked',
 					prompt : '您确认阅读并同意我们的条款'
 				}
 			]
