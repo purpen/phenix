@@ -293,7 +293,40 @@
 	.section8 h2.fadeInUp,.section8 p.fadeInUp{
 		opacity:1;
 	}
-	
+	.section10{
+		height:700px;
+		position:relative;
+	}
+	.oleft{
+		display: inline-block;
+	  float: left;
+	  width: 50%;
+	  height: 500px;
+	  position: relative;
+		margin:100px 0;
+	}
+	.oright{
+		display: inline-block;
+	  float: left;
+	  width: 50%;
+	  height: 500px;
+	  position: relative;
+		margin:100px 0;
+	}
+	.oleft .ui.grid{
+		position:absolute;
+		right:80px;
+		top:0px;
+		width:400px;
+		height:100%;
+	}
+	.oright .ui.grid{
+		position:absolute;
+		left:80px;
+		top:0px;
+		width:400px;
+		height:100%;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -304,6 +337,22 @@
 	});
 	$(window).scroll(function(){
 	    var scrollTop = $(window).scrollTop();
+			if(scrollTop < 160){
+				$('.gleft').removeClass('fadeInLeft animated');
+				$('.gright').removeClass('fadeInRight animated');
+				$('.section3 .ui.responsive.grid').removeClass('fadeInUp animated');
+				$('.pleft').removeClass('fadeInLeft animated');
+				$('.pright').removeClass('fadeInRight animated');
+				$('.section5 .ui.responsive.grid').removeClass('fadeInUp animated');
+				$('.txtl').removeClass('fadeInLeft animated');
+				$('.txtr').removeClass('fadeInRight animated');
+				$('.section7 img').removeClass('zoomIn animated');
+				$('.section8 img').removeClass('zoomIn animated');
+				$('.section8 h2').removeClass('fadeInUp animated');
+				$('.section8 p').removeClass('fadeInUp animated');
+				
+			}
+	
 			if (scrollTop > 160){
 				$('.rote').addClass('fadeInUp animated');
 			}
@@ -515,7 +564,30 @@
 		<img src="{{ app_url_packaged }}/images/mall/gro20.png" width="600" height="200" alt="GoPro">
 	</div>
 
-
+	<div class="section section10">
+		<div class="oleft">
+			<div class="ui grid">
+				<div class="row">
+					<div class="ui right aligned column">
+						<img src="{{ app_url_packaged }}/images/mall/gro21.png" alt="GoPro">
+						<h2 class="ui header">轻松制作延时视频</h2>
+						<p>喜欢您在 GoPro 频道上看到的延时视频吗？现在，您可以轻松制作您自己的延时视频，而无需在编辑室内花上几个小时。在延时视频模式下，1摄像机自动捕捉延时视频。这是将日出、公路之旅或家庭聚会作为时间短、可共享的视频进行展示的极佳方式。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="oright">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/mall/gro22.png" alt="GoPro">
+						<h2 class="ui header">使用内置 Wi-Fi 和蓝牙 控制、查看并分享</h2>
+						<p>HERO4 Black 采用 SuperView™，这是 GoPro 专有的视频模式，可捕捉世界上最逼真的广角远景。它可让您在拍摄时捕捉自己和周围事物的更多画面，从而呈现出每次冒险活动既有魅力又很有代入感的连续镜头。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 
