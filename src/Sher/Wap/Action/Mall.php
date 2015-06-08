@@ -9,7 +9,7 @@ class Sher_Wap_Action_Mall extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'lunar');
+	protected $exclude_method_list = array('execute', 'test', 'lunar','fitbit','gopro');
 
 	
 	/**
@@ -24,6 +24,20 @@ class Sher_Wap_Action_Mall extends Sher_Wap_Action_Base {
 	 */
 	public function lunar(){
 		return $this->to_html_page('wap/mall/lunar.html');
+	}
+	
+	/**
+	 * fitbit
+	 */
+	public function fitbit(){
+		return $this->to_html_page('wap/mall/fitbit.html');
+	}
+	
+	/**
+	 * gopro
+	 */
+	public function gopro(){
+		return $this->to_html_page('wap/mall/gopro.html');
 	}
 
   /**
