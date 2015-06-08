@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}lunar -{% endblock %}
+{% block title %}fitbit -{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	#mfrbird{
@@ -7,10 +7,11 @@
 	}
 	.section{
 		position:relative;
-		-webkit-font-smoothing: antialiased;
+		-webkit-font-smoothing: initial;
 	}
 	.section img{
 		text-align:center;
+		width:100%;
 	}
 	.contide{
 		width:300px;
@@ -29,7 +30,21 @@
 		height:400px;
 		margin-top:-5px;
 	}
-	
+	.section4{
+		background:url({{ app_url_packaged }}/images/mall/wfit4.jpg) no-repeat left center /cover;
+		height:400px;
+		margin-top:-8px;
+	}
+	.section5{
+		background:url({{ app_url_packaged }}/images/mall/wfit5.jpg) no-repeat left center /cover;
+		height:400px;
+		margin-top:-5px;
+	}
+	.section6 .ui.responsive.grid{
+		margin:-5px 0 0;
+		padding:20px 0 40px;
+		
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -38,7 +53,7 @@
 <div class="fitbit">
 	<div class="section section1">
 		<img src="{{ app_url_packaged }}/images/mall/wfit.jpg" alt="fitbit" width="100%">
-		<img src="{{ app_url_packaged }}/images/mall/wfit1.jpg" alt="fitbit" style="margin-top: -3px;" width="100%">
+		<img src="{{ app_url_packaged }}/images/mall/wfit1.jpg" alt="fitbit" style="margin-top: -5px;" width="100%">
 	</div>
 	<div class="section section2">
 		<div class="contide">
@@ -52,6 +67,34 @@
 			<h2>实时提供 <br />
 				真实进度</h2>
 			<p>通过手腕上佩戴设备的明亮oled屏幕查看您的每一个数据，使用锻炼模式 检查您的锻炼数据，或只是找到战胜下一个目标的激情。</p>
+		</div>
+	</div>
+	<div class="section section4">
+		<div class="contide">
+			<h2>绝不错过 <br />
+				重要来电</h2>
+			<p>Charge内置来电显示功能，手机在附近时，它会显示来电 帮助您掌控全天日程安排。</p>
+		</div>
+	</div>
+	<div class="section section5">
+		<div class="contide">
+			<h2>晚安  <br />
+				祝您好梦</h2>
+			<p>使用Charge自动监测夜间睡眠，然后通过数字面板查看睡眠质量，让您睡 得更好，生活更有品质，想要早晨起床变得更加容易，您可以设置静音震动
+				闹钟，让您更加舒适地醒来。</p>
+		</div>
+	</div>
+	<div class="section section6">
+		<img src="{{ app_url_packaged }}/images/mall/wfit6.jpg" alt="fitbit" style="margin-top:-5px">
+		<img src="{{ app_url_packaged }}/images/mall/wfit7.jpg" alt="fitbit" style="margin-top:-5px">
+		<img src="{{ app_url_packaged }}/images/mall/wfit8.jpg" alt="fitbit" style="margin-top:-5px">
+		<img src="{{ app_url_packaged }}/images/mall/wfit9.jpg" alt="fitbit" style="margin-top:-5px">
+		<div class="ui white background responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<a href="http://www.taihuoniao.com/shop/1064682972.html" target="_blank" class="ui inverted active gray button" title="Fitbit Surge">立即购买</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
