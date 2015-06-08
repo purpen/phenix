@@ -104,6 +104,18 @@
 		{% block page_css %}{% endblock %}
     <!--把jquery放到body之前-->
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+
+    <script>
+      {% if baidu_talk_server %}
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?1dbd78eabac6f4dcc9e73ac23e0792ab";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+      {%endif%}
+    </script>
 	</head>
 	
 	<body>
