@@ -89,7 +89,7 @@
 
 <div id="homepage">
 	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
-		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" />
+		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" alt="太火鸟-中国最火爆的智能硬件孵化平台"/>
 		<div class="attention">
 			关注太火鸟
 		</div>
@@ -221,7 +221,10 @@
                             <div class="ui headline header">
         						{% if topic.cover %}
                                 <a class="ui image" href="{{ topic.view_url }}" title="{{ topic.title }}">
-        						    <img src="{{ topic.cover.thumbnails.mini.view_url }}" />
+										{% if loop.odd %}
+        						    <img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="智能硬件－{{ topic.title }}"/>										{else}
+												<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}"/>	
+										{% endif %}
                                 </a>
                                 {% else %}
                         		<a class="ui small avatar image" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
