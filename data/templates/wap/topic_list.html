@@ -44,6 +44,12 @@
 	.like i.icon{
 		margin-right:0;
 	}
+	.ui.category.list{
+		margin-bottom:0;
+	}
+	.ui.topic.relaxed.list{
+		margin-top:0;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -106,7 +112,7 @@
 						</div>
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list" style="margin-top:0;">
+						<div class="ui topic relaxed divided list">
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content" style="display:block;">
