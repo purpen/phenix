@@ -121,11 +121,11 @@
 										<div class="swiper-wrapper">
 										{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
 										{% for asset in assets.rows %}
-										<div class="swiper-slide" >
 											{% if topic.cover._id != asset._id %}
+											<div class="swiper-slide" >
 										  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+											</div>
 											{% endif %}
-										</div>
 										{% endfor %}
 										</div>
 									</div>
