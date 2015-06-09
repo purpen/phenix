@@ -92,6 +92,7 @@
   $('#topic-more').livequery(function(){
     $(this).click(function(){
       var page = parseInt($(this).attr('current_page')) + 1;
+      var child_id = $(this).attr('child-id');
       ajax_load_more(child_id, page, 2);
     });
   });

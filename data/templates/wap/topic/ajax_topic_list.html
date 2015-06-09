@@ -40,7 +40,7 @@
 			<div class="row">
 				<div class="column">
           {% if list.rows %}
-            <span><a href="javascript:void(0);" id="topic-more" current_page="{{page}}">更多>></span>
+          <span><a href="javascript:void(0);" id="topic-more" child-id="{{child._id}}" current_page="{{page}}">更多>></span>
           {%else%}
             <span><a href="javascript:void(0);" current_page="{{page}}">没有更多>></span>
           {%endif%}
