@@ -68,10 +68,13 @@
 	.topic-box-list .item:first-child {
 	  border-top-width: 0;
 	}
-	.topic-box-list>.item {
+	.topic-box-list>.item,.ui.divided.list .item {
 	  border-top: 1px solid rgba(0,0,0,.1);
 	  padding-left: .5em !important;
 	  padding-right: .5em !important;
+	}
+	.ui.divided.list > div >.item:first-child{
+		border-top: 1px solid rgba(0,0,0,.1) !important;
 	}
 	.topic-box-list .item {
 	  font-size: 1em;
