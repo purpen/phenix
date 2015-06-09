@@ -2,6 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	#mfrbird{
+		margin-top:0;
+	}
   #comment-list{
     font-size:16px !important;
   }
@@ -29,16 +32,16 @@
 	  width: 100%;
 	  height: 100%;
 	  z-index: 10;
-	  background-color: rgba(0,0,0,.1);
+	  background-color: rgba(0,0,0,0.2);
 	  -webkit-transition: all .3s ease .1s;
 	  transition: all .3s ease .1s;
 	}
 	.ui.socialstick.blocks > .block > .image > .transparent > .sub.title {
 	    bottom: 0.5rem;
-	    color: rgba(255,255,255,0.9);
+	    color: rgba(255,255,255,0.95);
 	    font-weight: bold;
 	    line-height: 1.3;
-	    padding: 0.3rem 1rem;
+	    padding: 0.3rem 0.4rem;
 			font-size:14px !important;
 	    position: absolute;
 	    z-index: 99;
@@ -97,6 +100,7 @@
 		-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
 	  box-shadow: 0 0 0 0px rgba(0,0,0,.1);
 		border-radius: 0;
+		padding:1em 3%;
 	}
 	
 	
@@ -270,8 +274,8 @@
 {% block content %}
 <div id="postpage">
 	<section class="ui big block">
-		<div class="ui responsive grid" style="padding:0;">
-			<div class="row">
+		<div class="ui responsive grid" style="padding:0;margin-top:0;">
+			<!--<div class="row">
 				<div class="column">
 					<div class="ui breadcrumb">
 					  	<a class="section" href="{{ app_url_wap }}">
@@ -285,7 +289,7 @@
               <div class="active section">{{ topic.short_title }}</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 			<div class="row">
 				<div class="column" style="padding:0;">
 						<div class="ui big topic segment">
