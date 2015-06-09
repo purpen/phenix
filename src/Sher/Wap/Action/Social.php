@@ -14,7 +14,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'ajax_guess_topics');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'ajax_guess_topics', 'ajax_topic_list');
 	
 	/**
 	 * 社区入口
@@ -159,7 +159,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$category_id).$page;
 		$this->stash['pager_url'] = $pager_url;
 		
-		return $this->to_html_page('wap/ajax_topic_list.html');
+		return $this->to_taconite_page('wap/topic/ajax_topic_list.html');
 	}
 	
 	/**

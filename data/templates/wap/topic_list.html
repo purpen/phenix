@@ -62,7 +62,7 @@
   <script type="text/javascript" >
     function ajax_load_more(child_id, page){
       var url = '{{ app_url_wap }}/topic/ajax_topic_list';
-      $.get(url, { category_id: child_id, page:page type:1 });
+      $.get(url, { category_id: child_id, page:page, type:1 });
     }
   </script>
 
@@ -92,7 +92,6 @@
   $('#topic-more').click(function(){
     var page = parseInt($(this).attr('current_page')) + 1;
     ajax_load_more(child_id, page);
-    alert(current_page);
   });
 {% endblock %}
 
@@ -193,6 +192,7 @@
 					</div>
 				</div>
 			</div>
+      <!--
 			<div class="row">
 				<div class="column">
 					{% if list.total_page %}
@@ -201,6 +201,16 @@
 						{% include 'block/pager.html' %}
 					</div>
 					{% endif %}
+				<div>
+			</div>
+      -->
+			<div class="row">
+				<div class="column">
+          {% if list.rows %}
+            <span><a href="javascript:void(0);" id="topic-more" current_page="{{page}}">更多>></span>
+          {%else%}
+            <span><a href="javascript:void(0);" current_page="{{page}}">没有更多>></span>
+          {%endif%}
 				<div>
 			</div>
 		</div>
