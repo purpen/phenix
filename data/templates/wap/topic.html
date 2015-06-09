@@ -146,12 +146,12 @@
 							
 							
 							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}<span class="like" style="float: right;">
-								<i class="thumbs outline up icon"></i>
-								<span class="count love-count">
-									{{ topic.love_count|default 0 }}
-								</span>&nbsp;
-								<i class="unhide icon"></i> 
-								<span class="count">{{ topic.view_count }}</span> 
+									<i class="unhide icon"></i> 
+									<span class="count">{{ topic.view_count }}</span>&nbsp;
+									<i class="thumbs outline up icon"></i>
+									<span class="count love-count">
+										{{ topic.love_count|default 0 }}
+									</span>
 						</span></small>		
 							    </div>
 							</div>
