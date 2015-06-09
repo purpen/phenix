@@ -1,11 +1,11 @@
 <taconite>
   {% if type==1 %}
-	<replaceContent select="#topic-box"><![CDATA[
+	<replaceContent select="#topic-box">
 
 		<div id="topic-box" style="padding:0;margin:0">
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list item-box">]]>
+						<div class="ui topic relaxed divided list item-box">
 							{% for topic in list.rows %}
 <![CDATA[
 							<div class="item">
@@ -34,10 +34,12 @@
 							</span>
 					</span></small>
 							    </div>
-							</div>]]>
+							</div>
+]]>
 							{% endfor %}
-						<![CDATA[</div>
-
+						</div>
+</div>
+<![CDATA[
 			<div class="row">
 				<div class="column">
           {% if list.rows %}
@@ -47,8 +49,10 @@
           {%endif%}
 				</div>
 			</div>
-    </div>
-	]]></replaceContent>
+]]>
+		
+
+	</replaceContent>
 
   {%endif%}
 
