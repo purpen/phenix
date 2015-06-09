@@ -118,6 +118,14 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		
 		// 添加随机数
 		$data['random'] = Sher_Core_Helper_Util::gen_random();
+
+    // 描述加内链---注掉,放到action
+    /**
+    if(!empty($data['description'])){
+      $content = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
+      $data['description'] = $content;
+    }
+    **/
 		
 	    parent::before_save($data);
 	}

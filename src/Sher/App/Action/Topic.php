@@ -775,6 +775,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
+    //自动添加关键词内链
+    $data['description'] = $content = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
 		
