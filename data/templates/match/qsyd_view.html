@@ -47,7 +47,9 @@
 
   //提交作品按钮
   $('#submit-idea').click(function(){
-    phenix.show_ok_note('活动已结束');
+    //phenix.show_ok_note('活动已结束');
+    var url = "{{ app_url_contest }}/submit?season=qsyd";
+    phenix.redirect(url);
   });
 
   //分享
