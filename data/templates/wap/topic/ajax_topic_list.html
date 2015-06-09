@@ -5,8 +5,9 @@
 		<div id="topic-box" style="padding:0;margin:0">
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list item-box">
+						<div class="ui topic relaxed divided list item-box">]]>
 							{% for topic in list.rows %}
+<![CDATA[
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
@@ -33,9 +34,9 @@
 							</span>
 					</span></small>
 							    </div>
-							</div>
+							</div>]]>
 							{% endfor %}
-						</div>
+						<![CDATA[</div>
 
 			<div class="row">
 				<div class="column">
