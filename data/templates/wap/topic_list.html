@@ -62,7 +62,7 @@
   <script type="text/javascript" >
     function ajax_load_more(child_id, page, type){
       var url = '{{ app_url_wap }}/topic/ajax_topic_list';
-      $.get(url, { category_id: child_id, page:page, type:1 });
+      $.get(url, { category_id: child_id, page:page, type:type });
     }
   </script>
 
