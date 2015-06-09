@@ -2,7 +2,7 @@
   {% if type==1 %}
 	<replaceContent select="#topic-box"><![CDATA[
 
-		<div class="ui responsive grid" id="topic-box" style="padding:0;margin:0">
+		<div id="topic-box" style="padding:0;margin:0">
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
 						<div class="ui topic relaxed divided list item-box">
@@ -40,9 +40,9 @@
 			<div class="row">
 				<div class="column">
           {% if list.rows %}
-          <span><a href="javascript:void(0);" id="topic-more" child-id="{{child._id}}" current_page="{{page}}">更多>></span>
+          <span><a href="javascript:void(0);" id="topic-more" class="ui gray more fluid button" child-id="{{child._id}}" current_page="{{page}}">查看更多</span>
           {%else%}
-            <span><a href="javascript:void(0);" current_page="{{page}}">没有更多>></span>
+            <span><a class="ui gray more active fluid button" href="javascript:void(0);" current_page="{{page}}">没有更多</span>
           {%endif%}
 				</div>
 			</div>
