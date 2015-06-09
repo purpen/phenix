@@ -585,5 +585,75 @@ class Sher_Core_Helper_Util {
     return array('success'=>true, 'msg'=>'success', 'data'=>$result);
 
   }
+
+  /**
+   * 生成内链
+   */
+  public static function gen_inlink_keyword($content, $type=1, $current_id=0){
+    if(empty($content)){
+      return null;
+    }
+    $inline_tag_model = new Sher_Core_Model_InlinkTag();
+    $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1));
+    foreach($tags as $key=>$val){
+      $tag = $val['tag'];
+      $regEx = '/(?!((&lt;.*?)|(&lt;a.*?)))('.$tag.')(?!(([^&lt;&gt;]*?)&gt;)|([^&gt;]*?&lt;\/a&gt;))/si';
+
+      //排除图片中的关键词 
+      $content = preg_replace('|(&lt;img[^&gt;]*?)('.$tag.')([^&gt;]*?&gt;)|U', '$1%&&&&&%$3', $content);
+      if(preg_match($regEx, $content)){
+        //exit;
+        $link = null;
+        if(!empty($val['links'])){
+          $link = $val['links'][0];
+        }else{
+          $options = array(
+            'page' => 1,
+            'size' => 10,
+            'sort_field' => 'latest',
+            'evt' => 'tag',
+            't' => 0,
+            'oid' => $current_id,
+            'type' => 1,
+          );
+          $urls = array();
+          $xun_arr = Sher_Core_Util_XunSearch::search($tag, $options);
+          if($xun_arr['success'] && !empty($xun_arr['data'])){
+            foreach($xun_arr['data'] as $k=>$v){
+              // 生成路径
+              switch($v['kind']){
+                case 'Stuff':
+                  $url = Sher_Core_Helper_Url::stuff_view_url($v['oid']);
+                  break;
+                case 'Topic':
+                  $url = Sher_Core_Helper_Url::topic_view_url($v['oid']);
+                  break;
+                case 'Product':
+                  $url = Sher_Core_Helper_Search::gen_view_url($v['cid'], $v['oid']);
+                  break;
+                default:
+                  $url = null;
+              }
+              if(!empty($url)){
+                array_push($urls, $url);
+              }
+            } //endfor
+            if(!empty($urls)){
+              $link = array_rand($urls, 1);
+            }
+          } //endif
+        }
+        if(!empty($link)){
+          $u_link = '&lt;a class="inlink-tag" href="'.$link.'" target="_blank"&gt;'.$tag.'&lt;/a&gt;';
+
+          $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次    
+        }
+        //还原图片中的关键词 
+        $content = str_replace('%&&&&&%', $tag, $content); 
+      }
+    }
+    return $content; 
+  
+  }
     	
 }
