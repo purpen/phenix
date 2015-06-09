@@ -44,7 +44,7 @@
           {%else%}
             <span><a href="javascript:void(0);" current_page="{{page}}">没有更多>></span>
           {%endif%}
-				<div>
+				</div>
 			</div>
 		</div>
 
@@ -90,10 +90,17 @@
 	
 	<eval>
 
-  $('.topic-count').text('{{ child.total_count }}');
-  $('.topic-reply-count').text('{{ child.reply_count|default 0 }}');
-  $('.cate-title').text('{{ child.title }}');
-  $('#cate-desc').text('{{ category_desc }}');
+	  var mySwiper1 = new Swiper('.tslide',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+
+    $('.select-category-btn[child-id={{child._id}}]').addClass('active').siblings('a').removeClass('active');
+
+    $('.topic-count').text('{{ child.total_count }}');
+    $('.topic-reply-count').text('{{ child.reply_count|default 0 }}');
+    $('.cate-title').text('{{ child.title }}');
+    $('#cate-desc').text('{{ category_desc }}');
 
 	</eval>
 </taconite>
