@@ -42,7 +42,7 @@
 <![CDATA[
 			<div class="row">
 				<div class="column">
-          {% if list.rows %}
+          {% if list.total_page>1 %}
           <span><a href="javascript:void(0);" id="topic-more" class="ui gray more fluid button" child-id="{{child._id}}" current_page="{{page}}">查看更多</a></span>
           {%else%}
           <span><a class="ui gray more active fluid button" href="javascript:void(0);" current_page="{{page}}">没有更多</a></span>
