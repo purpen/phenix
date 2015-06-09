@@ -89,9 +89,11 @@
   });
 
   //加载更多
-  $('#topic-more').click(function(){
-    var page = parseInt($(this).attr('current_page')) + 1;
-    ajax_load_more(child_id, page, 2);
+  $('#topic-more').livequery(function(){
+    $(this).click(function(){
+      var page = parseInt($(this).attr('current_page')) + 1;
+      ajax_load_more(child_id, page, 2);
+    });
   });
 {% endblock %}
 
@@ -204,15 +206,7 @@
 				<div>
 			</div>
       -->
-			<div class="row">
-				<div class="column">
-          {% if list.rows %}
-            <span><a href="javascript:void(0);" id="topic-more" current_page="{{page}}">更多>></span>
-          {%else%}
-            <span><a href="javascript:void(0);" current_page="{{page}}">没有更多>></span>
-          {%endif%}
-				<div>
-			</div>
+
 		</div>
 	</section>
 </div>
