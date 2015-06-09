@@ -46,8 +46,6 @@
           {%endif%}
 				</div>
 			</div>
-		</div>
-
 
 	]]></replaceContent>
 
@@ -95,7 +93,8 @@
 		  slidesPerView : 'auto',
 	  });
 
-    $('.select-category-btn[child-id={{child._id}}]').addClass('active').siblings('a').removeClass('active');
+    $('.select-category-btn').removeClass('active');
+    $('.select-category-btn[child-id={{child._id}}]').addClass('active');
 
     $('.topic-count').text('{{ child.total_count }}');
     $('.topic-reply-count').text('{{ child.reply_count|default 0 }}');
