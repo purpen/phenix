@@ -33,7 +33,7 @@
 	color: #444;
 	text-decoration: none;
   font-weight: 700;
-	height: 43px;
+	padding: 10px 0;
 }
 .ui.topiclist.segment{
 	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
@@ -64,7 +64,16 @@
 <div id="topicpage">
 	<div id="tmenu">
 		<div class="swiper-wrapper">
-			<div class="swiper-slide">
+			
+			{% for child in children.rows %}
+        {% if child.pid %}
+				<div class="swiper-slide">
+		  		<a class="ui {{ child.active }} item" href="{{ category_prefix_url }}{{ child._id }}">{{ child.title }}</a>
+				</div>
+        {%endif%}
+			{% endfor %}
+			
+			<!--<div class="swiper-slide">
 				<a class="ui  item" href="http://t.taihuoniao.com/topic/c15">业界动态</a>
 			</div>
 			<div class="swiper-slide">
@@ -87,7 +96,7 @@
 			</div>
 			<div class="swiper-slide">
 				<a class="ui  item" href="http://t.taihuoniao.com/topic/c17">产品评测</a>
-			</div>
+			</div>-->
 			
 			
 		</div>
