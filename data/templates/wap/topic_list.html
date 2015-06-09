@@ -60,7 +60,7 @@
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
   <script type="text/javascript" >
-    function ajax_load_more(child_id, page){
+    function ajax_load_more(child_id, page, type){
       var url = '{{ app_url_wap }}/topic/ajax_topic_list';
       $.get(url, { category_id: child_id, page:page, type:1 });
     }
@@ -84,14 +84,14 @@
   //ajax选择分类
   $('.select-category-btn').click(function(){
     var child_id = $(this).attr('child-id');
-      ajax_load_more(child_id, 1);
+      ajax_load_more(child_id, 1, 1);
     
   });
 
   //加载更多
   $('#topic-more').click(function(){
     var page = parseInt($(this).attr('current_page')) + 1;
-    ajax_load_more(child_id, page);
+    ajax_load_more(child_id, page, 2);
   });
 {% endblock %}
 
@@ -110,7 +110,7 @@
 		</div>
 	</div>
 	<section class="ui big block">
-		<div class="ui responsive grid" id="topic-box" style="padding:0;margin:0">
+		<div class="ui responsive grid" style="padding:0;margin:0">
 			<!--<div class="row">
 				<div class="column">
 					<div class="ui breadcrumb">
@@ -130,17 +130,17 @@
 						<div class="ui category relaxed divided list">
 							<div class="item">
 							  	<div class="content">
-									<div class="header">
+									<div class="header cate-title">
 										{{ child.title }}
 									</div>
-							    	<p><small>{{ category_desc }}</small></p>
-									<small>主题：<span class="count">{{ child.total_count }}</span> , 回帖：<span class="count">{{ child.reply_count|default 0 }}</span></small>
+							    	<p><small id="cate-desc">{{ category_desc }}</small></p>
+									<small>主题：<span class="count topic-count">{{ child.total_count }}</span> , 回帖：<span class="count topic-reply-count">{{ child.reply_count|default 0 }}</span></small>
 							  	</div>
 							</div>
 						</div>
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list">
+						<div class="ui topic relaxed divided list" id="topic-box">
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content" style="display:block;">

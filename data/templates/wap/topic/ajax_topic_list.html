@@ -1,37 +1,11 @@
 <taconite>
+  {% if type==1 %}
 	<replaceContent select="#topic-box"><![CDATA[
 
 		<div class="ui responsive grid" id="topic-box" style="padding:0;margin:0">
-			<div class="row">
-				<div class="column">
-					<div class="ui breadcrumb">
-					  	<a class="section" href="{{ app_url_wap }}">
-							<i class="icon home"></i>首页
-						</a>
-					  	<div class="divider"> / </div>
-					  	<a class="section" href="{{ app_url_wap }}/social">发现</a>
-					  	<div class="divider"> / </div>
-					  	<div class="active section">{{ child.title }}</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column" style="padding:0;">
-					<div class="ui topiclist segment">
-						<div class="ui category relaxed divided list">
-							<div class="item">
-							  	<div class="content">
-									<div class="header">
-										{{ child.title }}
-									</div>
-							    	<p><small>{{ category_desc }}</small></p>
-									<small>主题：<span class="count">{{ child.total_count }}</span> , 回帖：<span class="count">{{ child.reply_count|default 0 }}</span></small>
-							  	</div>
-							</div>
-						</div>
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list">
+						<div class="ui topic relaxed divided list item-box">
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content" style="display:block;">
@@ -62,10 +36,7 @@
 							</div>
 							{% endfor %}
 						</div>
-						
-					</div>
-				</div>
-			</div>
+
 			<div class="row">
 				<div class="column">
           {% if list.rows %}
@@ -79,8 +50,50 @@
 
 
 	]]></replaceContent>
+
+  {%endif%}
+
+  {% if type==2 %}
+  	<append select=".item-box"><![CDATA[
+						{% topic_list var:'list' category_id:category_id sort:sort page:page %}
+							{% for topic in list.rows %}
+							<div class="item">
+								<div class="content" style="display:block;">
+							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
+								<div class="tslide">
+										<div class="swiper-wrapper">
+										{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+										{% for asset in assets.rows %}
+											{% if topic.cover._id != asset._id %}
+											<div class="swiper-slide" >
+										  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+											</div>
+											{% endif %}
+										{% endfor %}
+										</div>
+									</div>
+										
+										
+							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
+							<i class="unhide icon"></i> 
+							<span class="count">{{ topic.view_count }}</span>&nbsp;
+							<i class="thumbs outline up icon"></i>
+							<span class="count love-count">
+								{{ topic.love_count|default 0 }}
+							</span>
+					</span></small>
+							    </div>
+							</div>
+							{% endfor %}
+	]]></append>
+  {%endif%}
 	
 	<eval>
+
+  $('.topic-count').text('{{ child.total_count }}');
+  $('.topic-reply-count').text('{{ child.reply_count|default 0 }}');
+  $('.cate-title').text('{{ child.title }}');
+  $('#cate-desc').text('{{ category_desc }}');
 
 	</eval>
 </taconite>
