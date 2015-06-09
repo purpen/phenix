@@ -54,6 +54,35 @@
 	.ui.topic.relaxed.list{
 		margin-top:0;
 	}
+	.ui.active.item{
+		color:#f36;
+		border-bottom:3px solid #f36;
+	}
+	#topic-box{
+		margin-top: 0;
+	}
+	#topic-box:not(.horizontal) .item {
+	  padding-top: .5em;
+	  padding-bottom: .5em;
+	}
+	#topic-box .item:first-child {
+	  border-top-width: 0;
+	}
+	#topic-box>.item {
+	  border-top: 1px solid rgba(0,0,0,.1);
+	  padding-left: .5em;
+	  padding-right: .5em;
+	}
+	#topic-box .item {
+	  font-size: 1em;
+	}
+	#topic-box .item {
+	  display: list-item;
+	  list-style-type: none;
+	  list-style-position: inside;
+	  padding: .3em 0;
+	  line-height: 1.2em;
+	}
 </style>
 {% endblock %}
 
