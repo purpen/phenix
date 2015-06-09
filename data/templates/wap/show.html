@@ -2,6 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	#mfrbird{
+		margin-top:0;
+	}
   #comment-list{
     font-size:16px !important;
   }
@@ -97,6 +100,7 @@
 		-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
 	  box-shadow: 0 0 0 0px rgba(0,0,0,.1);
 		border-radius: 0;
+		padding:1em 3%;
 	}
 	
 	
@@ -270,8 +274,8 @@
 {% block content %}
 <div id="postpage">
 	<section class="ui big block">
-		<div class="ui responsive grid" style="padding:0;">
-			<div class="row">
+		<div class="ui responsive grid" style="padding:0;magin-top:0;">
+			<!--<div class="row">
 				<div class="column">
 					<div class="ui breadcrumb">
 					  	<a class="section" href="{{ app_url_wap }}">
@@ -285,7 +289,7 @@
               <div class="active section">{{ topic.short_title }}</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 			<div class="row">
 				<div class="column" style="padding:0;">
 						<div class="ui big topic segment">
