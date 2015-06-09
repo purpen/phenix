@@ -133,6 +133,34 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/topic_list.html');
 	}
+
+	/**
+	 * ajax话题列表
+	 */
+	public function ajax_topic_list(){
+		$category_id = $this->stash['category_id'];
+		
+		// 获取某类别列表
+		$category = new Sher_Core_Model_Category();
+		$child = $category->extend_load((int)$category_id);
+		if(empty($child)){
+			return $this->show_message_page('请选择某个分类');
+		}
+    //根据分类ID,显示描述信息
+    $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($child, 1);
+    $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($child, 2);   
+    $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($child, 3);
+		$this->stash['child'] = $child;
+		
+		$page = "?page=#p#";
+		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$category_id).$page;
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('wap/ajax_topic_list.html');
+	}
 	
 	/**
 	 * 显示主题详情帖
