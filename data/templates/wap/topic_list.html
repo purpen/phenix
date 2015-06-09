@@ -111,7 +111,6 @@
 {% endblock %}
 
 {% block jquery %}
-	window.onload = function() {
 	  var mySwiper1 = new Swiper('.tslide',{
 		  freeMode : true,
 		  slidesPerView : 'auto',
@@ -120,7 +119,6 @@
 		  freeMode : true,
 		  slidesPerView : 'auto',
 	  });
-	}
 
   //ajax选择分类
   $('.select-category-btn').click(function(){
