@@ -62,7 +62,7 @@
 <div id="topicpage">
 	<div id="tmenu">
 		<div class="swiper-wrapper">
-			{% category_list var:'children' page:1 only_open:1 domain:1 pid:cid current:cid %}
+			{% category_list var:'children' page:1 only_open:1 domain:2 pid:cid current:cid %}
 			{% for child in children.rows %}
         {% if child.pid %}
 				<div class="swiper-slide">
