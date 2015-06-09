@@ -54,29 +54,29 @@
 	.ui.topic.relaxed.list{
 		margin-top:0;
 	}
-	.ui.active.item{
+	.swiper-slide .ui.active.item{
 		color:#f36;
 		border-bottom:3px solid #f36;
 	}
-	#topic-box{
+	.topic-box-list{
 		margin-top: 0;
 	}
-	#topic-box:not(.horizontal) .item {
+	.topic-box-list:not(.horizontal) .item {
 	  padding-top: .5em;
 	  padding-bottom: .5em;
 	}
-	#topic-box .item:first-child {
+	.topic-box-list .item:first-child {
 	  border-top-width: 0;
 	}
-	#topic-box>.item {
+	.topic-box-list>.item {
 	  border-top: 1px solid rgba(0,0,0,.1);
 	  padding-left: .5em;
 	  padding-right: .5em;
 	}
-	#topic-box .item {
+	.topic-box-list .item {
 	  font-size: 1em;
 	}
-	#topic-box .item {
+	.topic-box-list .item {
 	  display: list-item;
 	  list-style-type: none;
 	  list-style-position: inside;
@@ -172,7 +172,7 @@
 						</div>
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div id="topic-box">
+						<div id="topic-box" class="topic-box-list">
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content" style="display:block;">
