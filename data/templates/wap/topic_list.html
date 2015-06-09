@@ -106,10 +106,10 @@
 						</div>
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list">
+						<div class="ui topic relaxed divided list" style="margin-top:0;">
 							{% for topic in list.rows %}
 							<div class="item">
-								<div class="content">
+								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
 										
 										<!-- 帖子图  -->
@@ -129,7 +129,7 @@
 										<!-- end  -->
 										
 										
-							        <small><a class="ui small link" href="{{ topic.user.home_url }}">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;">
+							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
 							<i class="unhide icon"></i> 
 							<span class="count">{{ topic.view_count }}</span>&nbsp;
 							<i class="thumbs outline up icon"></i>
