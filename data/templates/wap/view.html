@@ -676,11 +676,16 @@ i.cart.icon,i.exchange.icon{
 <div class="product inventor ui segment" style="background:#f36;color:#fff;">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="nine wide column">
+			<div class="sixteen wide center aligned column">
 				<div class="inventor info">
 					<h3 class="ui header">
 						设计者
 					</h3>
+					<div class="inventor avatar">
+						<a href="javascript:void(0);" class="ui big avatar image" >
+							<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+						</a>
+					</div>
 					<h4 class="ui header">
 						<div class="content">
 							{{ product.designer.nickname }}
@@ -692,14 +697,6 @@ i.cart.icon,i.exchange.icon{
 					<div class="summary">
 						{{ product.designer.summary }}
 					</div>
-				</div>
-			</div>
-			<div class="one wide column"></div>
-			<div class="six wide center aligned column">
-				<div class="inventor avatar">
-					<a href="javascript:void(0);" class="ui big avatar image" >
-						<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
-					</a>
 				</div>
 			</div>
 		</div>

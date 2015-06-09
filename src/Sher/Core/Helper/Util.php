@@ -600,7 +600,8 @@ class Sher_Core_Helper_Util {
       $regEx = '/(?!((&lt;.*?)|(&lt;a.*?)))('.$tag.')(?!(([^&lt;&gt;]*?)&gt;)|([^&gt;]*?&lt;\/a&gt;))/si';
 
       //排除图片中的关键词 
-      $content = preg_replace('|(&lt;img[^&gt;]*?)('.$tag.')([^&gt;]*?&gt;)|U', '$1%&&&&&%$3', $content);
+      $content = preg_replace("/(&lt;img\s[^&gt;]*?)(".$tag.")([^&gt;]*?&gt;)/", '$1%&&&&&%$3', $content);
+      echo $content;exit;
       if(preg_match($regEx, $content)){
         //exit;
         $link = null;
