@@ -66,13 +66,13 @@
 		<div class="swiper-wrapper">
 			{% category_list var:'children' page:1 only_open:1 domain:2 pid:cid current:cid %}
 			{% for child in children.rows %}
-				<div class="swiper-slide">
+				
         {% if child.pid %}
-				
+				<div class="swiper-slide">
 		  		<a class="ui {{ child.active }} item" href="{{ category_prefix_url }}{{ child._id }}">{{ child.title }}</a>
-				
-        {%endif%}
 				</div>
+        {%endif%}
+				
 			{% endfor %}
 			
 			<!--<div class="swiper-slide">
