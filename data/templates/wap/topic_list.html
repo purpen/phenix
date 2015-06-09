@@ -117,9 +117,22 @@
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
+								<div class="tslide">
+										<div class="swiper-wrapper">
+										{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+										{% for asset in assets.rows %}
+										<div class="swiper-slide" >
+											{% if topic.cover._id != asset._id %}
+										  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+											{% endif %}
+										</div>
+										{% endfor %}
+										</div>
+									</div>
+										
 										
 										<!-- 帖子图  -->
-										<div class="tslide">
+										<!--<div class="tslide">
 												<div class="swiper-wrapper">
 													<div class="swiper-slide" ><img src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce055-3-ti.jpg"></div>
 													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-1-ti.jpg"></div>
@@ -131,7 +144,7 @@
 													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce055-3-ti.jpg"></div>
 													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-2-ti.jpg"></div>
 												</div>
-										</div>	
+										</div>	-->
 										<!-- end  -->
 										
 										
