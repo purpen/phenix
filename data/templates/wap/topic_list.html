@@ -56,6 +56,19 @@
 	}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+  <script type="text/javascript" >
+    function ajax_load_more(child_id, page, type){
+      var url = '{{ app_url_wap }}/topic/ajax_topic_list';
+      $.get(url, { category_id: child_id, page:page, type:type });
+    }
+  </script>
+
+
+{% endblock %}
+
 {% block jquery %}
 	window.onload = function() {
 	  var mySwiper1 = new Swiper('.tslide',{
@@ -67,10 +80,24 @@
 		  slidesPerView : 'auto',
 	  });
 	}
+
+  //ajax选择分类
+  $('.select-category-btn').click(function(){
+    var child_id = $(this).attr('child-id');
+      ajax_load_more(child_id, 1, 1);
+    
+  });
+
+  //加载更多
+  $('#topic-more').livequery(function(){
+    $(this).click(function(){
+      var page = parseInt($(this).attr('current_page')) + 1;
+      var child_id = $(this).attr('child-id');
+      ajax_load_more(child_id, page, 2);
+    });
+  });
 {% endblock %}
-{% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
-{% endblock %}
+
 {% block content %}
 <div id="topicpage">
 	<div id="tmenu">
@@ -79,7 +106,7 @@
 			{% for child in children.rows %}
         {% if child.pid %}
 				<div class="swiper-slide">
-		  		<a class="ui {{ child.active }} item" href="{{ category_prefix_url }}{{ child._id }}">{{ child.title }}</a>
+          <a class="ui {{ child.active }} item select-category-btn" child-id="{{child._id}}" href="javascript:void(0);">{{ child.title }}</a>
 				</div>
         {%endif%}
 			{% endfor %}
@@ -106,17 +133,17 @@
 						<div class="ui category relaxed divided list">
 							<div class="item">
 							  	<div class="content">
-									<div class="header">
+									<div class="header cate-title">
 										{{ child.title }}
 									</div>
-							    	<p><small>{{ category_desc }}</small></p>
-									<small>主题：<span class="count">{{ child.total_count }}</span> , 回帖：<span class="count">{{ child.reply_count|default 0 }}</span></small>
+							    	<p><small id="cate-desc">{{ category_desc }}</small></p>
+									<small>主题：<span class="count topic-count">{{ child.total_count }}</span> , 回帖：<span class="count topic-reply-count">{{ child.reply_count|default 0 }}</span></small>
 							  	</div>
 							</div>
 						</div>
 						
 						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
-						<div class="ui topic relaxed divided list">
+						<div class="ui topic relaxed divided list" id="topic-box">
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content" style="display:block;">
@@ -168,6 +195,7 @@
 					</div>
 				</div>
 			</div>
+      <!--
 			<div class="row">
 				<div class="column">
 					{% if list.total_page %}
@@ -178,6 +206,8 @@
 					{% endif %}
 				<div>
 			</div>
+      -->
+
 		</div>
 	</section>
 </div>
