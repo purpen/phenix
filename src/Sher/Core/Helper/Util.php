@@ -641,7 +641,8 @@ class Sher_Core_Helper_Util {
               }
             } //endfor
             if(!empty($urls)){
-              $link = array_rand($urls, 1);
+              $link_index = array_rand($urls, 1);
+              $link = $urls[$link_index];
             }
           } //endif
         }
@@ -655,7 +656,7 @@ class Sher_Core_Helper_Util {
       //还原图片中的关键词 
       $content = str_replace('%&&&&&%', $tag, $content); 
     } //endfor
-    return htmlentities($content); 
+    return htmlentities($content,ENT_COMPAT,'UTF-8'); 
   
   }
     	
