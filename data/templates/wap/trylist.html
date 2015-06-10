@@ -2,7 +2,17 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.try .presell{
+	.presell {
+	  border-radius: 0 .25em 0 0;
+	  padding: .5rem .8rem;
+	  font-size: 14px;
+	  background: rgba(0,0,0,.5);
+	  position: absolute;
+	  bottom: 0;
+	  color: #fff;
+	  z-index: 999;
+	}
+	.presell{
 		padding: .5rem 0.25rem;
 	  min-width: 80px;
 		text-align: center;
@@ -55,7 +65,7 @@
 {% endblock %}
 
 {% block content %}
-<div class='games page'>
+<div class='games page try'>
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
@@ -101,10 +111,10 @@
 		-->
 		
 			<div class="column">
-				<div class="ui one cards">
+				<div class="ui one items">
 					{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 %}
 					{% for t in list.rows %}
-						<div class="card">
+						<div class="magenta item">
 							<div class="image">
 								<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 									<img src="{{ t.cover.thumbnails.resp.view_url }}" >
