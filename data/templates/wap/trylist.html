@@ -105,37 +105,6 @@
 			</div>
 		</div>
 		<div class="row">
-			<!--
-			<div class="column">
-				<div class="ui one items">
-					{% try_list var:'list' page:page state:1 %}
-					{% for t in list.rows %}
-					<div class="magenta item">
-						<div class="image">
-							<a href="{{ t.wap_view_url }}" title="{{ t.title }}">
-					      		<img src="{{ t.cover.thumbnails.resp.view_url }}" alt="{{ t.title }}" />
-							</a>
-						</div>
-						<div class="content">
-							<div class="header">
-								<a href="{{ t.wap_view_url }}" title="{{ t.title }}" class="ui link">
-									{{ t.title|truncate, 16, '' }}{%if t.is_end%}（已结束）{%endif%}
-								</a>
-                            </div>
-                            <div class="advantage">{{ t.description }}</div>
-							<div class="name">
-								产品数量：<span class="count">{{ t.try_count }}</span>个 申请人数：<span class="count">{{ t.apply_count }}</span>人
-							</div>
-							<div class="ui text result">
-								<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		-->
-		
 			<div class="column">
 				<div class="ui one items">
 					{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 %}
@@ -179,17 +148,6 @@
 									</a>
                                   </div>
                                   <div class="description">{{ t.description }}</div>
-								<!--<div class="i-stats">
-									<div class="trycm">
-										<div class="name">
-											产品数量：<span class="count">{{ t.try_count }}</span> 个 申请人数：<span class="count">{{ t.apply_count }}</span> 人
-										</div>
-										<div class="ui text result">
-											<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
-										</div>
-									</div>
-								</div>-->
-								
 								<div class="i-stats">
 									<div class="trycm">
 										<div class="ui icon header">
