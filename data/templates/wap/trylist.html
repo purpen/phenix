@@ -58,6 +58,32 @@
 	.trycm .ui.icon.header:last-child{
 		float:right;
 	}
+	.try .i-stats .trycm {
+	  border-top: 2px solid rgba(0,0,0,.1);
+	  padding-bottom: .5rem;
+	  padding-top: .7rem;
+	}
+	.ui.one.items .item .content{
+		background: 0 0;
+	  margin: 0;
+	  padding: 1rem 1rem 75px!important;
+	  -webkit-box-shadow: none;
+	  box-shadow: none;
+	  font-size: 1em;
+	  border: 0;
+	  border-radius: 0;
+	}
+	.content .i-stats{
+		background: -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0)),to(#fff 26%) repeat scroll 0 0 rgba(0,0,0,));
+		  background: -webkit-linear-gradient(top,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+		  background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+		  bottom: .5rem;
+		  left: 1rem;
+		  padding-top: 15px;
+		  position: absolute;
+		  right: 1rem;
+		}
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -148,7 +174,7 @@
 							</div>
 							<div class="content">
 								<div class="header">
-									<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+									<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link" target="_blank">
 										{{ t.title|truncate, 24, '' }}
 									</a>
                                   </div>
