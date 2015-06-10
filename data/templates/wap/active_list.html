@@ -20,6 +20,39 @@
 		color: #fff;
 		z-index: 999;
 	}
+	.i-stats {
+	  background: -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0)),to(#fff 26%) repeat scroll 0 0 rgba(0,0,0,));
+	  background: -webkit-linear-gradient(top,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+	  background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+	  bottom: .5rem;
+	  left: 1rem;
+	  padding-top: 15px;
+	  position: absolute;
+	  right: 1rem;
+	}
+	.image +.content {
+	  background: 0 0;
+	  margin: 0;
+	  padding: 1rem 1rem 75px!important;
+	  -webkit-box-shadow: none;
+	  box-shadow: none;
+	  font-size: 1em;
+	  border: 0;
+	  border-radius: 0;
+	}
+	.i-stats>.love {
+	  border-top: 2px solid rgba(0,0,0,.1);
+	  padding-bottom: .5rem;
+	  padding-top: .7rem;
+	  position: relative;
+	}
+	.i-stats>.love>.apply {
+	  position: absolute;
+	  right: 0;
+	  text-align: right;
+	  top: .75rem;
+	  z-index: 9;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -27,7 +60,7 @@
 {% block content %}
 <div class='active page'>
 	<div class="ui responsive grid">
-		<div class="row">
+		<!--<div class="row">
 			<div class="column">
 				<div class="ui breadcrumb">
 				  	<a class="section" href="{{ app_url_wap }}">
@@ -37,7 +70,7 @@
 				  	<div class="active section">活动</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		
 		<div class="row">
 			<div class="column">
@@ -48,11 +81,38 @@
 						<div class="image">
               <a href="{{ active.wap_view_url }}" target="_blank"><img src="{{ active.cover.thumbnails.resp.view_url }}"></a>
 							<div class="presell">
-                {{ active.step_str }}
+                第 {{ active.season }} 期
 							</div>
 						</div>
 						<div class="content">
-              {{ active.title }}－{{ active.conduct_city }}站 
+							<div class="header">
+            		<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui link" target="_blank">{{ active.title|truncate 26 '' }}－{{ active.conduct_city }}站 </a>
+          	  	</div>
+                <div class="description">
+                    <span class="people">
+                        活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人
+                    </span>
+                </div>
+                <div class="i-stats">
+                    <div class="love">
+                        <span class="address">
+                            <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}
+                        </span>
+                        <span class="apply">
+                            {% if active.step_stat == 2 %}
+                                已结束
+                            {% else %}
+                            <a class="ui line" href="{{ active.view_url }}">
+                                我要报名
+                      	  	</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+
+
+
 						</div>
 					</div>
         {%endfor%}
