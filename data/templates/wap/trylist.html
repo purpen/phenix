@@ -2,7 +2,52 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+	.try .presell{
+		padding: .5rem 0.25rem;
+	  min-width: 80px;
+		text-align: center;
+		border-radius: 0;
+	}
+	.presell.apply{
+		left:88px;
+		background:rgba(255,51,102,0.5);
+		padding:.5rem .8rem;
+	}
+	.presell.callback{
+		left:88px;
+		background:rgba(0,111,188,0.5);
+		padding:.5rem .8rem;
+	}
+	.presell.recoe{
+		left:88px;
+		background:rgba(0,188,156,0.5);
+		padding:.5rem .8rem;
+	}
+	.presell.end{
+		left:88px;
+		background:rgba(102,102,102,0.5);
+		padding:.5rem .8rem;
+	}
+	.trycm{
+		text-align:center;
+	}
+	.trycm .ui.icon.header{
+		font-weight:400;
+		font-size: 1.23em;
+		margin:0;
+	}
+	.trycm .ui.icon.header .sub.header{
+		font-size:1rem;
+		color:#5d6266;
+	}
+	.trycm .ui.icon.header:first-child{
+		float:left;
+	}
+	.trycm .ui.icon.header:nth-child(2){
+	}
+	.trycm .ui.icon.header:last-child{
+		float:right;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -24,6 +69,7 @@
 			</div>
 		</div>
 		<div class="row">
+			<!--
 			<div class="column">
 				<div class="ui one items">
 					{% try_list var:'list' page:page state:1 %}
@@ -52,6 +98,94 @@
 					{% endfor %}
 				</div>
 			</div>
+		-->
+		
+			<div class="column">
+				<div class="ui one cards">
+					{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 %}
+					{% for t in list.rows %}
+						<div class="card">
+							<div class="image">
+								<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
+									<img src="{{ t.cover.thumbnails.resp.view_url }}" >
+								</a>
+                {% if t.season %}
+								<div class="presell">
+                  第 {{ t.season }} 期
+								</div>
+                {%endif%}
+								{%if t.step_stat==1%}
+								<div class="presell apply">
+									申请中
+								</div>
+								{%endif%}
+								{%if t.step_stat==2%}
+								<div class="presell recoe">
+									名单审核中
+								</div>
+                {%endif%}
+								{%if t.step_stat==3%}
+								<div class="presell callback">
+									报告回收中
+								</div>
+                {%endif%}
+								{%if t.step_stat==5%}
+								<div class="presell end">
+									已结束
+								</div>
+								{%endif%}
+									
+							</div>
+							<div class="content">
+								<div class="header">
+									<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+										{{ t.title|truncate, 24, '' }}
+									</a>
+                                  </div>
+                                  <div class="description">{{ t.description }}</div>
+								<!--<div class="i-stats">
+									<div class="trycm">
+										<div class="name">
+											产品数量：<span class="count">{{ t.try_count }}</span> 个 申请人数：<span class="count">{{ t.apply_count }}</span> 人
+										</div>
+										<div class="ui text result">
+											<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
+										</div>
+									</div>
+								</div>-->
+								
+								<div class="i-stats">
+									<div class="trycm">
+										<div class="ui icon header">
+											{{ t.try_count }}
+											<div class="sub header">
+												产品数量
+											</div>
+										</div>
+										<div class="ui icon header">
+											{{ t.apply_count }} 
+											<div class="sub header">
+												申请人数
+											</div>
+										</div>
+										<div class="ui icon header">
+											{{ t.pass_count }} 
+											<div class="sub header">
+												试用报告
+											</div>
+										</div>
+								
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		
+		
+		
 		</div>
 	</div>
 </div>
