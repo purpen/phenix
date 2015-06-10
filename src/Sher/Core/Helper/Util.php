@@ -593,15 +593,16 @@ class Sher_Core_Helper_Util {
     if(empty($content)){
       return null;
     }
+    $content = html_entity_decode($content);
     $inline_tag_model = new Sher_Core_Model_InlinkTag();
     $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1));
     foreach($tags as $key=>$val){
       $tag = $val['tag'];
-      $regEx = '/(?!((&lt;.*?)|(&lt;a.*?)))('.$tag.')(?!(([^&lt;&gt;]*?)&gt;)|([^&gt;]*?&lt;\/a&gt;))/si';
+      $regEx = '/(?!((<.*?)|(<a.*?)))('.$tag.')(?!(([^<>]*?)>)|([^>]*?<\/a>))/si';
 
       //排除图片中的关键词 
-      $content = preg_replace("/(&lt;img\s[^&gt;]*?)(".$tag.")([^&gt;]*?&gt;)/", '$1%&&&&&%$3', $content);
-      echo $content;exit;
+      $content = preg_replace('|(<img[^>]*?)('.$tag.')([^>]*?>)|U', '$1%&&&&&%$3', $content);
+      //echo $content;exit;
       if(preg_match($regEx, $content)){
         //exit;
         $link = null;
@@ -640,20 +641,22 @@ class Sher_Core_Helper_Util {
               }
             } //endfor
             if(!empty($urls)){
-              $link = array_rand($urls, 1);
+              $link_index = array_rand($urls, 1);
+              $link = $urls[$link_index];
             }
           } //endif
         }
         if(!empty($link)){
-          $u_link = '&lt;a class="inlink-tag" href="'.$link.'" target="_blank"&gt;'.$tag.'&lt;/a&gt;';
+          $u_link = '<a class="inlink-tag" href="'.$link.'" target="_blank">'.$tag.'</a>';
 
           $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次    
         }
-        //还原图片中的关键词 
-        $content = str_replace('%&&&&&%', $tag, $content); 
+
       }
-    }
-    return $content; 
+      //还原图片中的关键词 
+      $content = str_replace('%&&&&&%', $tag, $content); 
+    } //endfor
+    return htmlentities($content,ENT_COMPAT,'UTF-8'); 
   
   }
     	
