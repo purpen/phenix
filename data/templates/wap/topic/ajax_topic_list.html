@@ -11,18 +11,25 @@
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
-								<div class="tslide">
-										<div class="swiper-wrapper">
-										{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
-										{% for asset in assets.rows %}
-											{% if topic.cover._id != asset._id %}
-											<div class="swiper-slide" >
-										  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+										{% if !topic.asset_count %}
+											<div class="description">
+												{{ topic.strip_description|truncate 70 }}
 											</div>
+											{% else %}
+
+											<div class="tslide">
+													<div class="swiper-wrapper">
+													{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+													{% for asset in assets.rows %}
+														{% if topic.cover._id != asset._id %}
+														<div class="swiper-slide" >
+													  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+														</div>
+														{% endif %}
+													{% endfor %}
+													</div>
+												</div>
 											{% endif %}
-										{% endfor %}
-										</div>
-									</div>
 										
 										
 							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
@@ -63,18 +70,25 @@
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
-								<div class="tslide">
-										<div class="swiper-wrapper">
-										{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
-										{% for asset in assets.rows %}
-											{% if topic.cover._id != asset._id %}
-											<div class="swiper-slide" >
-										  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+										{% if !topic.asset_count %}
+											<div class="description">
+												{{ topic.strip_description|truncate 70 }}
 											</div>
+											{% else %}
+
+											<div class="tslide">
+													<div class="swiper-wrapper">
+													{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+													{% for asset in assets.rows %}
+														{% if topic.cover._id != asset._id %}
+														<div class="swiper-slide" >
+													  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+														</div>
+														{% endif %}
+													{% endfor %}
+													</div>
+												</div>
 											{% endif %}
-										{% endfor %}
-										</div>
-									</div>
 										
 										
 							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
