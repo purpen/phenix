@@ -77,8 +77,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }
 		
 		//$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.shop', 'c'.$cid).'p#p#';
-		//$pager_url =  Doggy_Config::$vars['app.url.wap'].'/shop?'.'cid='.$cid.'&page=#p#';
-		$pager_url =  Doggy_Config::$vars['app.url.wap'].'/shop?cid="$cid"&page=#p#';
+		$pager_url =  Doggy_Config::$vars['app.url.wap'].'/shop?'.'cid='.$cid.'&page=#p#';
 		$this->stash['pager_url'] = $pager_url;
 
 		return $this->to_html_page('wap/shop.html');
