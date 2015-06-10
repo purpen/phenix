@@ -13,7 +13,7 @@
 	overflow: hidden;
 }
 .tslide .swiper-slide {
-	padding:5px 10px 5px 0;
+	padding:8px 10px 5px 0;
 	width:32%;
 }
 .tslide .swiper-slide img{
@@ -39,6 +39,9 @@
   font-weight: 700;
 	padding: 10px 0;
 }
+.ui.topic.relaxed.list > .item:first-child{
+	padding-top: 0.5em !important;
+}
 .ui.topiclist.segment{
 	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
   box-shadow: 0 0 0 0px rgba(0,0,0,.1);
@@ -47,6 +50,20 @@
 }
 .like i.icon{
 	margin-right:0;
+}
+.ui.relaxed.list:not(.horizontal) .item {
+  padding-top: 1.2em !important;
+  padding-bottom: .8em !important;
+}
+.item .content .header{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.description{
+	font-size: 0.85rem;
+	color: rgba(0,0,0,0.65);
+  padding: 8px 0 5px;
 }
 </style>
 {% endblock %}
@@ -131,6 +148,11 @@
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
+									{% if !topic.asset_count %}
+										<div class="description">
+											{{ topic.strip_description|truncate 70 }}
+										</div>
+										{% else %}
 							
 										<div class="tslide">
 												<div class="swiper-wrapper">
@@ -144,7 +166,7 @@
 												{% endfor %}
 												</div>
 											</div>
-							
+										{% endif %}
 							
 							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}<span class="like" style="float: right;margin-top: 1px;">
 									<i class="unhide icon"></i> 

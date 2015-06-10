@@ -449,7 +449,7 @@
 	    </div>
 	</div>
 	
-	<form action="{{ app_url_admin_base }}/product/save" class="ui form" method="post" id="product-form">
+	<form action="{{ app_url_admin_base }}/product/save?page={{ page }}" class="ui form" method="post" id="product-form">
 		<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
 		<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
 		
