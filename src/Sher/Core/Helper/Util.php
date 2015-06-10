@@ -602,6 +602,8 @@ class Sher_Core_Helper_Util {
 
       //排除图片中的关键词 
       $content = preg_replace('|(<img[^>]*?)('.$tag.')([^>]*?>)|U', '$1%&&&&&%$3', $content);
+      //清除之前生成的内链 
+      $content = preg_replace('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $tag, $content);
       //echo $content;exit;
       if(preg_match($regEx, $content)){
         //exit;
@@ -649,7 +651,7 @@ class Sher_Core_Helper_Util {
         if(!empty($link)){
           $u_link = '<a class="inlink-tag" href="'.$link.'" target="_blank">'.$tag.'</a>';
 
-          $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次    
+          $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次
         }
 
       }
