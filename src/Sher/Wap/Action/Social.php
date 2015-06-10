@@ -156,10 +156,6 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($child, 3);
 		$this->stash['child'] = $child;
 		
-		$page = "?page=#p#";
-		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$category_id).$page;
-		$this->stash['pager_url'] = $pager_url;
-		
 		return $this->to_taconite_page('wap/topic/ajax_topic_list.html');
 	}
 	

@@ -106,5 +106,9 @@
     $('.cate-title').text('{{ child.title }}');
     $('#cate-desc').text('{{ category_desc }}');
 
+    {% if type==2 %}
+      $('#topic-more').attr('current_page', '{{page}}');
+    {%endif%}
+
 	</eval>
 </taconite>
