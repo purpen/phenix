@@ -60,6 +60,11 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+.description{
+	font-size: 0.85rem;
+	color: rgba(0,0,0,0.65);
+  padding: 8px 0 5px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -143,6 +148,10 @@
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
+							
+										<div class="description">
+											{{ topic.strip_description|truncate 70 }}
+										</div>
 							
 										<div class="tslide">
 												<div class="swiper-wrapper">
