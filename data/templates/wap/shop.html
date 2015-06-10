@@ -55,7 +55,7 @@
             <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>
             <a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>
 					{% for cat in category.rows %}
-				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
+				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop/cid={{ cat._id }}">{{ cat.title }}</a>
 					{% endfor %}
 			    </div>
 			</div>
