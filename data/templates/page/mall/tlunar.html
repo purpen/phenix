@@ -1,0 +1,182 @@
+{%extends 'layout/column.html'%}
+{% block title %}lunar -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lightbox{
+	top:10px;
+}
+.lb-outerContainer{
+	position:relative;
+	background-color: rgba(0,0,0,0);
+}
+.lb-number{
+	display:none !important;
+}
+.lb-data .lb-close{
+	position:absolute;
+	top:-40px;
+	right:40px;
+	width:40px;
+	height:40px;
+}
+.lb-nav a.lb-next,.lb-nav a.lb-prev{
+	opacity:0.6;
+}
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  border-radius: 3px;
+}
+.ui.photos .row{
+	padding:5px 0;
+}
+.ui.photos h3{
+	font-weight: normal;
+  margin: 0;
+  line-height: 41px;
+}
+.ui.photos{
+	top:0;
+	left:0;
+	width:100%;
+	z-index:999;
+	opacity:1;
+	padding-top:3px !important;
+	border-bottom:1px solid rgba(0,0,0,0.15);
+}
+.ui.photos .eight+.eight{
+	text-align:right;
+	line-height: 41px;
+}
+.ui.photos .eight+.eight a.ui.item{
+	margin:0 10px;
+}
+.card{
+	margin:0.5% !important;
+}
+.ui.grid{
+	margin:0;
+}
+.ui.four.cards {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+.lb-cancel{
+	background: url({{ app_url_packaged }}/images/mall/loading1.gif) no-repeat;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="ui photos responsive grid" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>lunar智能睡眠记录器 图集</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="{{ app_url_domain }}/mall/lunar" class="ui link item">概述</a>|
+			<a href="{{ app_url_domain }}/mall/lunar#.team" class="ui link item">我们的团队</a>|
+			<a href="javascript:void(0)" class="ui link item active">图集</a>|
+			<a href="http://www.taihuoniao.com/topic/view-103238-1.html" title="匙悟科技智能非穿戴式睡眠监测设备" class="ui item link" target="_blank">讨论区</a>
+			<a href="{{ app_url_domain }}/mall/lunar#.buy" class="ui inverted active gray button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="lunar智能睡眠记录器">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui grid">
+		<div class="row">
+			<div class="ui four cards">
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut01.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/lut1.jpg" alt="lunar" />
+		      </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut02.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut2.jpg" alt="lunar" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut03.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut3.jpg" alt="lunar" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut04.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut4.jpg" alt="lunar" />
+	      	</a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut05.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/lut5.jpg" alt="lunar" />
+		      </a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut06.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut6.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut07.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut7.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut08.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut8.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut09.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut9.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut010.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut10.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut011.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut11.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut012.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut12.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut013.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut13.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut014.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut14.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut015.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut15.jpg" alt="lunar" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/lut016.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/lut16.jpg" alt="lunar" />
+	      	</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}

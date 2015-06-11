@@ -45,6 +45,9 @@
 </div>
 {% if list.total_page>1 %}
   <div id="topic-more" child-id="{{ child_id }}" current_page="{{ page }}" status="0"></div>
+	<div style="text-align:center;margin:10px auto;">
+		<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
+	</div>
 {%else%}
   <div id="topic-more" child-id="{{ child_id }}" current_page="{{ page }}" status="1"></div>
 {%endif%}
