@@ -155,9 +155,7 @@
     });
   });
 
-  {% if category_id %}
-    ajax_load_more('{{category_id}}', 1, 1);
-  {%endif%}
+  ajax_load_more('{{category_id}}', 1, 1);
 {% endblock %}
 
 {% block content %}
@@ -176,107 +174,29 @@
 	</div>
 	<section class="ui big block">
 		<div class="ui responsive grid" style="padding:0;margin:0">
-			<!--<div class="row">
-				<div class="column">
-					<div class="ui breadcrumb">
-					  	<a class="section" href="{{ app_url_wap }}">
-							<i class="icon home"></i>首页
-						</a>
-					  	<div class="divider"> / </div>
-					  	<a class="section" href="{{ app_url_wap }}/social">发现</a>
-					  	<div class="divider"> / </div>
-					  	<div class="active section">{{ child.title }}</div>
-					</div>
-				</div>
-			</div>-->
+
 			<div class="row">
 				<div class="column" style="padding:0;">
 					<div class="ui topiclist segment">
 						<div class="ui category relaxed divided list">
-							<div class="item">
+							<div class="item" id="show-pid-box" style="display:none;">
 							  	<div class="content">
 									<div class="header cate-title">
-										{{ child.title }}
+                    <!--ajax load-->
 									</div>
-							    	<p><small id="cate-desc">{{ category_desc }}</small></p>
-									<small>主题：<span class="count topic-count">{{ child.total_count }}</span> , 回帖：<span class="count topic-reply-count">{{ child.reply_count|default 0 }}</span></small>
+							    	<p><small id="cate-desc"></small></p>
+									<small>主题：<span class="count topic-count"></span> , 回帖：<span class="count topic-reply-count"></span></small>
 							  	</div>
 							</div>
 						</div>
-						
-						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
+            <!--ajax load-->
 						<div id="topic-box" class="topic-box-list">
-							{% for topic in list.rows %}
-							<div class="item">
-								<div class="content" style="display:block;">
-							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
-								
-								{% if !topic.asset_count %}
-									<div class="description">
-										{{ topic.strip_description|truncate 70 }}
-									</div>
-									{% else %}
 
-									<div class="tslide">
-											<div class="swiper-wrapper">
-											{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
-											{% for asset in assets.rows %}
-												{% if topic.cover._id != asset._id %}
-												<div class="swiper-slide" >
-											  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
-												</div>
-												{% endif %}
-											{% endfor %}
-											</div>
-										</div>
-									{% endif %}
-										
-										
-										<!-- 帖子图  -->
-										<!--<div class="tslide">
-												<div class="swiper-wrapper">
-													<div class="swiper-slide" ><img src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce055-3-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-1-ti.jpg"></div>
-													<div class="swiper-slide"><img src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-2-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-2-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-1-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce055-3-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-1-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce055-3-ti.jpg"></div>
-													<div class="swiper-slide" ><img  src="http://frbird.qiniudn.com/topic/150609/55765018fc8b12ec3c8ce058-2-ti.jpg"></div>
-												</div>
-										</div>	-->
-										<!-- end  -->
-										
-										
-							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
-							<i class="unhide icon"></i> 
-							<span class="count">{{ topic.view_count }}</span>&nbsp;
-							<i class="thumbs outline up icon"></i>
-							<span class="count love-count">
-								{{ topic.love_count|default 0 }}
-							</span>
-					</span></small>
-							    </div>
-							</div>
-							{% endfor %}
 						</div>
 						
 					</div>
 				</div>
 			</div>
-      <!--
-			<div class="row">
-				<div class="column">
-					{% if list.total_page %}
-					<div class="ui pagination">
-						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:3 %}
-						{% include 'block/pager.html' %}
-					</div>
-					{% endif %}
-				<div>
-			</div>
-      -->
 
 		</div>
 	</section>

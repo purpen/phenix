@@ -1,13 +1,11 @@
 <taconite>
   {% if type==1 %}
-	<replaceContent select="#topic-box">
-
+	<replaceContent select="#topic-box"><![CDATA[
 		<div id="topic-box" style="padding:0;margin:0">
 						
-						{% topic_list var:'list' category_id:category_id time:time sort:sort page:page %}
+						{% topic_list var:'list' category_id:category_id sort:sort page:page %}
 						<div class="ui topic relaxed divided list item-box">
 							{% for topic in list.rows %}
-<![CDATA[
 							<div class="item">
 								<div class="content" style="display:block;">
 							    	<div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a></div>
@@ -42,24 +40,20 @@
 					</span></small>
 							    </div>
 							</div>
-]]>
 							{% endfor %}
 						</div>
 </div>
-<![CDATA[
 			<div class="row">
 				<div class="column">
           {% if list.total_page>1 %}
-          <span><a href="javascript:void(0);" id="topic-more" class="ui gray more fluid button" child-id="{{child._id}}" current_page="{{page}}">查看更多</a></span>
+          <span><a href="javascript:void(0);" id="topic-more" class="ui gray more fluid button" child-id="{{child_id}}" current_page="{{page}}">查看更多</a></span>
           {%else%}
           <span><a class="ui gray more active fluid button" href="javascript:void(0);" current_page="{{page}}">没有更多</a></span>
           {%endif%}
 				</div>
 			</div>
-]]>
-		
 
-	</replaceContent>
+	]]></replaceContent>
 
   {%endif%}
 
@@ -113,12 +107,16 @@
 	  });
 
     $('.select-category-btn').removeClass('active');
-    $('.select-category-btn[child-id={{child._id}}]').addClass('active');
-
-    $('.topic-count').text('{{ child.total_count }}');
-    $('.topic-reply-count').text('{{ child.reply_count|default 0 }}');
-    $('.cate-title').text('{{ child.title }}');
-    $('#cate-desc').text('{{ category_desc }}');
+    $('.select-category-btn[child-id={{child_id}}]').addClass('active');
+    {% if child %}
+      $('#show-pid-box').show();
+      $('.topic-count').text('{{ child.total_count }}');
+      $('.topic-reply-count').text('{{ child.reply_count|default 0 }}');
+      $('.cate-title').text('{{ child.title }}');
+      $('#cate-desc').text('{{ category_desc }}');
+    {%else%}
+      $('#show-pid-box').hide();
+    {%endif%}
 
     {% if type==2 %}
       $('#topic-more').attr('current_page', '{{page}}');
