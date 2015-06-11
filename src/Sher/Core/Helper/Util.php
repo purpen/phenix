@@ -667,5 +667,19 @@ class Sher_Core_Helper_Util {
     return htmlentities($content,ENT_COMPAT,'UTF-8'); 
   
   }
+
+  /**
+   * 转换为utf8编码
+   */
+	public static function characet($data){
+    if( !empty($data) ){
+      $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
+      if( $fileType != 'UTF-8'){
+        $data = mb_convert_encoding($data ,'utf-8' , $fileType);
+      }
+    }
+    return $data;
+  }
+
     	
 }
