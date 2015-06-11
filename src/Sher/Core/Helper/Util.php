@@ -589,10 +589,11 @@ class Sher_Core_Helper_Util {
   /**
    * 生成内链
    */
-  public static function gen_inlink_keyword($content, $type=1, $current_id=0){
+  public static function gen_inlink_keyword($content, $type=1, $current_id=0, $times=2){
     if(empty($content)){
       return null;
     }
+    $count = 0;
     $content = html_entity_decode($content);
     $inline_tag_model = new Sher_Core_Model_InlinkTag();
     $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1));
@@ -609,6 +610,7 @@ class Sher_Core_Helper_Util {
       //echo $content;exit;
       //过滤曾经生成的链接
       if(preg_match('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $content)){
+        $count++;
         continue;
       }
       if(preg_match($regEx, $content)){
@@ -656,13 +658,16 @@ class Sher_Core_Helper_Util {
         }
         if(!empty($link)){
           $u_link = '<a class="inlink-tag" href="'.$link.'" target="_blank">'.$tag.'</a>';
-
           $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次
+          $count++;
         }
 
       }
       //还原图片中的关键词 
-      $content = str_replace('%&&&&&%', $tag, $content); 
+      $content = str_replace('%&&&&&%', $tag, $content);
+      if($count>=$times){
+        break;
+      }
     } //endfor
     return htmlentities($content,ENT_COMPAT,'UTF-8'); 
   
