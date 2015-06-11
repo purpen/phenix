@@ -1,7 +1,7 @@
 ### 生产环境版本:
-php: v5.3.0+
+php: v5.3.28
 mongodb: v2.6.4
-nginx
+nginx: v1.6.2
 git
 redis: v2.8.9
 
