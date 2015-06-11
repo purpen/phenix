@@ -107,10 +107,11 @@
 
     <script>
       {% if baidu_talk_server %}
+        var server_code = "{{server_code}}";
         var _hmt = _hmt || [];
         (function() {
         var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?1dbd78eabac6f4dcc9e73ac23e0792ab";
+        hm.src = "//hm.baidu.com/hm.js?" + server_code;
         var s = document.getElementsByTagName("script")[0]; 
         s.parentNode.insertBefore(hm, s);
         })();
@@ -228,9 +229,10 @@
 		{% endif %}
 
     {% if baidu_talk_server %}
+    var server_code = "{{ server_code }}";
 			<script type="text/javascript">
 			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa6fa7c04b9ccd632817643f9ac3e41de' type='text/javascript'%3E%3C/script%3E"));
+			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F"+ server_code +"' type='text/javascript'%3E%3C/script%3E"));
 			</script>
     {%endif%}
 	</body>
