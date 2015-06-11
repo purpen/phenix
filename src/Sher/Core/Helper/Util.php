@@ -603,8 +603,14 @@ class Sher_Core_Helper_Util {
       //排除图片中的关键词 
       $content = preg_replace('|(<img[^>]*?)('.$tag.')([^>]*?>)|U', '$1%&&&&&%$3', $content);
       //清除之前生成的内链 
+      /**
       $content = preg_replace('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $tag, $content);
+      **/
       //echo $content;exit;
+      //过滤曾经生成的链接
+      if(preg_match('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $content)){
+        continue;
+      }
       if(preg_match($regEx, $content)){
         //exit;
         $link = null;
@@ -661,5 +667,19 @@ class Sher_Core_Helper_Util {
     return htmlentities($content,ENT_COMPAT,'UTF-8'); 
   
   }
+
+  /**
+   * 转换为utf8编码
+   */
+	public static function characet($data){
+    if( !empty($data) ){
+      $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
+      if( $fileType != 'UTF-8'){
+        $data = mb_convert_encoding($data ,'utf-8' , $fileType);
+      }
+    }
+    return $data;
+  }
+
     	
 }

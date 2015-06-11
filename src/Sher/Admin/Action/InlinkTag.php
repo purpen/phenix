@@ -143,20 +143,27 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
     if(empty($tags)){
       return $this->ajax_json('请输入标签!', true);  
     }
-
-    $tag_arr = preg_split("/[\s,，]+/", $tags);
-
-
+    $tag_arr = preg_split("/[\s,]+/", $tags);
 		$model = new Sher_Core_Model_InlinkTag();
     foreach($tag_arr as $k=>$v){
+      $tag = $v;
       $data = array();
-      $data['tag'] = $v;
+      $data['tag'] = $tag;
       $data['kind'] = $kind;
       $data['user_id'] = (int)$user_id;
-      $tag_obj = $model->first(array('kind'=>$kind, 'tag'=>$v));
-      if(empty($tag_obj)){
-        $ok = $model->create($data);     
+
+      try{
+        $tag_obj = $model->first(array('kind'=>$kind, 'tag'=>$tag));
+        if(empty($tag_obj)){
+          $ok = $model->create($data);        
+        }     
+      }catch(Sher_Core_Model_Exception $e){
+        continue;
+      }catch(Exception $e){
+        echo $e->getMessage();
+        continue;
       }
+
     }
 		
 		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/inlink_tag';
