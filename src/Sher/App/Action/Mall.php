@@ -32,6 +32,7 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		$this->set_target_css_state('page_shop');
     //加载百度在线客服交流
     $this->stash['baidu_talk_server'] = true;
+    $this->stash['server_code'] = '1dbd78eabac6f4dcc9e73ac23e0792ab';
 		return $this->to_html_page('page/mall/fitbit.html');
 	}
 	
@@ -40,6 +41,9 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 	 */
 	public function gopro(){
 		$this->set_target_css_state('page_shop');
+    //加载百度在线客服交流
+    $this->stash['baidu_talk_server'] = true;
+    $this->stash['server_code'] = '7b69d6f73a00457e5b1d5824df47a5c1';
 		return $this->to_html_page('page/mall/gopro.html');
 	}
 
