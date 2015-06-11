@@ -8,7 +8,7 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro');
 	
 	/**
 	 * 网站入口
@@ -26,6 +26,14 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * lunar 图集
+	 */
+	public function tlunar(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tlunar.html');
+	}
+	
+	/**
 	 * fitbit
 	 */
 	public function fitbit(){
@@ -34,6 +42,13 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
     $this->stash['baidu_talk_server'] = true;
     $this->stash['server_code'] = '1dbd78eabac6f4dcc9e73ac23e0792ab';
 		return $this->to_html_page('page/mall/fitbit.html');
+	}
+	/**
+	 * fitbit 图集
+	 */
+	public function tfitbit(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tfitbit.html');
 	}
 	
 	/**
@@ -45,6 +60,14 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
     $this->stash['baidu_talk_server'] = true;
     $this->stash['server_code'] = '7b69d6f73a00457e5b1d5824df47a5c1';
 		return $this->to_html_page('page/mall/gopro.html');
+	}
+	
+	/**
+	 * GoPro 图集
+	 */
+	public function tgopro(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tgopro.html');
 	}
 
 }
