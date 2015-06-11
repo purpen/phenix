@@ -589,19 +589,30 @@ class Sher_Core_Helper_Util {
   /**
    * 生成内链
    */
-  public static function gen_inlink_keyword($content, $type=1, $current_id=0){
+  public static function gen_inlink_keyword($content, $type=1, $current_id=0, $times=2){
     if(empty($content)){
       return null;
     }
+    $count = 0;
+    $content = html_entity_decode($content);
     $inline_tag_model = new Sher_Core_Model_InlinkTag();
     $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1));
     foreach($tags as $key=>$val){
       $tag = $val['tag'];
-      $regEx = '/(?!((&lt;.*?)|(&lt;a.*?)))('.$tag.')(?!(([^&lt;&gt;]*?)&gt;)|([^&gt;]*?&lt;\/a&gt;))/si';
+      $regEx = '/(?!((<.*?)|(<a.*?)))('.$tag.')(?!(([^<>]*?)>)|([^>]*?<\/a>))/si';
 
       //排除图片中的关键词 
-      $content = preg_replace("/(&lt;img\s[^&gt;]*?)(".$tag.")([^&gt;]*?&gt;)/", '$1%&&&&&%$3', $content);
-      echo $content;exit;
+      $content = preg_replace('|(<img[^>]*?)('.$tag.')([^>]*?>)|U', '$1%&&&&&%$3', $content);
+      //清除之前生成的内链 
+      /**
+      $content = preg_replace('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $tag, $content);
+      **/
+      //echo $content;exit;
+      //过滤曾经生成的链接
+      if(preg_match('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $content)){
+        $count++;
+        continue;
+      }
       if(preg_match($regEx, $content)){
         //exit;
         $link = null;
@@ -640,21 +651,40 @@ class Sher_Core_Helper_Util {
               }
             } //endfor
             if(!empty($urls)){
-              $link = array_rand($urls, 1);
+              $link_index = array_rand($urls, 1);
+              $link = $urls[$link_index];
             }
           } //endif
         }
         if(!empty($link)){
-          $u_link = '&lt;a class="inlink-tag" href="'.$link.'" target="_blank"&gt;'.$tag.'&lt;/a&gt;';
-
-          $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次    
+          $u_link = '<a class="inlink-tag" href="'.$link.'" target="_blank">'.$tag.'</a>';
+          $content = preg_replace($regEx, $u_link, $content, 1);  // 最多替换1次
+          $count++;
         }
-        //还原图片中的关键词 
-        $content = str_replace('%&&&&&%', $tag, $content); 
+
       }
-    }
-    return $content; 
+      //还原图片中的关键词 
+      $content = str_replace('%&&&&&%', $tag, $content);
+      if($count>=$times){
+        break;
+      }
+    } //endfor
+    return htmlentities($content,ENT_COMPAT,'UTF-8'); 
   
   }
+
+  /**
+   * 转换为utf8编码
+   */
+	public static function characet($data){
+    if( !empty($data) ){
+      $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
+      if( $fileType != 'UTF-8'){
+        $data = mb_convert_encoding($data ,'utf-8' , $fileType);
+      }
+    }
+    return $data;
+  }
+
     	
 }
