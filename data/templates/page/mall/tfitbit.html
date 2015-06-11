@@ -1,0 +1,156 @@
+{%extends 'layout/column.html'%}
+{% block title %}fitbit -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lightbox{
+	top:10px;
+}
+.lb-outerContainer{
+	position:relative;
+	background-color: rgba(0,0,0,0);
+}
+.lb-number{
+	display:none !important;
+}
+.lb-data .lb-close{
+	position:absolute;
+	top:-40px;
+	right:40px;
+	width:40px;
+	height:40px;
+}
+.lb-nav a.lb-next,.lb-nav a.lb-prev{
+	opacity:0.6;
+}
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  border-radius: 3px;
+}
+.ui.photos .row{
+	padding:5px 0;
+}
+.ui.photos h3{
+	font-weight: normal;
+  margin: 0;
+  line-height: 41px;
+}
+.ui.photos{
+	top:0;
+	left:0;
+	width:100%;
+	z-index:999;
+	opacity:1;
+	padding-top:3px !important;
+	border-bottom:1px solid rgba(0,0,0,0.15);
+}
+.ui.photos .eight+.eight{
+	text-align:right;
+	line-height: 41px;
+}
+.ui.photos .eight+.eight a.ui.item{
+	margin:0 10px;
+}
+.card{
+	margin:0.5% !important;
+}
+.ui.grid{
+	margin:0;
+}
+.ui.four.cards {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="ui photos responsive grid" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>fitbit 图集</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="{{ app_url_domain }}/mall/fitbit" class="ui link item">概述</a>|
+			<a href="javascript:void(0)" class="ui link item active">图集</a>|
+			<a href="http://www.taihuoniao.com/topic/view-103326-1.html" title="GPS定位 史上最强智能运动手表——Fitbit Surge" class="ui item link" target="_blank">讨论区</a>
+			<a href="{{ app_url_domain }}/mall/fitbit#.buy" class="ui inverted active gray button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="Fitbit Surge">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui grid">
+		<div class="row">
+			<div class="ui four cards">
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt01.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/fitt.jpg" alt="fitbit" />
+		      </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt02.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt2.jpg" alt="fitbit" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt03.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt3.jpg" alt="fitbit" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt04.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt4.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt05.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/fitt5.jpg" alt="fitbit" />
+		      </a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt06.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt6.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt07.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt7.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt08.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt8.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt09.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt9.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt010.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt10.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt011.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt11.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/fitt012.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/fitt12.jpg" alt="fitbit" />
+	      	</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -8,7 +8,7 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit');
 	
 	/**
 	 * 网站入口
@@ -26,6 +26,14 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * lunar 图集
+	 */
+	public function tlunar(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tlunar.html');
+	}
+	
+	/**
 	 * fitbit
 	 */
 	public function fitbit(){
@@ -33,6 +41,13 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
     //加载百度在线客服交流
     $this->stash['baidu_talk_server'] = true;
 		return $this->to_html_page('page/mall/fitbit.html');
+	}
+	/**
+	 * fitbit 图集
+	 */
+	public function tfitbit(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tfitbit.html');
 	}
 	
 	/**
