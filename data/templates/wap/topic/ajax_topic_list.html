@@ -127,6 +127,11 @@
 
     {% if type==2 %}
       $('#topic-more').attr('current_page', '{{page}}');
+      {% if list.total_page>1 %}
+        $('#topic-more').attr('status', 0);
+      {%else%}
+        $('#topic-more').attr('status', 1);
+      {%endif%}
     {%endif%}
 
 	</eval>
