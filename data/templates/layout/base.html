@@ -229,9 +229,10 @@
 		{% endif %}
 
     {% if baidu_talk_server %}
+    var server_code = "{{ server_code }}";
 			<script type="text/javascript">
 			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa6fa7c04b9ccd632817643f9ac3e41de' type='text/javascript'%3E%3C/script%3E"));
+			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F"+ server_code +"' type='text/javascript'%3E%3C/script%3E"));
 			</script>
     {%endif%}
 	</body>
