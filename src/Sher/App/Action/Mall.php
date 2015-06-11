@@ -57,6 +57,14 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		$this->set_target_css_state('page_shop');
 		return $this->to_html_page('page/mall/gopro.html');
 	}
+	
+	/**
+	 * GoPro 图集
+	 */
+	public function tgopro(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tgopro.html');
+	}
 
 }
 
