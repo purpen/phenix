@@ -104,7 +104,7 @@
 		{% block page_css %}{% endblock %}
     <!--把jquery放到body之前-->
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
-
+    <!--百度统计-->
     <script>
       {% if baidu_talk_server %}
         var server_code = "{{server_code}}";
@@ -115,8 +115,18 @@
         var s = document.getElementsByTagName("script")[0]; 
         s.parentNode.insertBefore(hm, s);
         })();
+
       {%endif%}
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?a6fa7c04b9ccd632817643f9ac3e41de";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+
     </script>
+
 	</head>
 	
 	<body>
