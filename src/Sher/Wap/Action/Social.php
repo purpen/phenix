@@ -21,7 +21,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 社区入口
 	 */
 	public function execute(){
-		return $this->topic();
+		return $this->get_list();
 	}
 	
 	/**
@@ -86,6 +86,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 社区首页
 	 */
 	public function topic(){
+    return $this->get_list();
 		$prefix_url = Doggy_Config::$vars['app.url.wap.social'].'/c';
 		$this->stash['category_prefix_url'] = $prefix_url;
 		
