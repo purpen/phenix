@@ -155,6 +155,24 @@
     });
   });
 
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-200){
+      var stat = $('#topic-more').attr('status');
+      var page = parseInt($('#topic-more').attr('current_page')) + 1;
+      var child_id = $('#topic-more').attr('child-id');
+
+      if(stat==0){
+        //防止频繁请求(在没加载完成时只允许请求一次)
+        $('#topic-more').attr('status', 1);
+        ajax_load_more(child_id, page, 2);  
+      }
+　　}
+  });
+
   ajax_load_more('{{category_id}}', 1, 1);
 {% endblock %}
 

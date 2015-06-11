@@ -43,6 +43,12 @@
 							{% endfor %}
 						</div>
 </div>
+{% if list.total_page>1 %}
+  <div id="topic-more" child-id="{{ child_id }}" current_page="{{ page }}" status="0"></div>
+{%else%}
+  <div id="topic-more" child-id="{{ child_id }}" current_page="{{ page }}" status="1"></div>
+{%endif%}
+<!--
 			<div class="row">
 				<div class="column">
           {% if list.total_page>1 %}
@@ -52,6 +58,7 @@
           {%endif%}
 				</div>
 			</div>
+      -->
 
 	]]></replaceContent>
 
