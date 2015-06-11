@@ -603,8 +603,14 @@ class Sher_Core_Helper_Util {
       //排除图片中的关键词 
       $content = preg_replace('|(<img[^>]*?)('.$tag.')([^>]*?>)|U', '$1%&&&&&%$3', $content);
       //清除之前生成的内链 
+      /**
       $content = preg_replace('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $tag, $content);
+      **/
       //echo $content;exit;
+      //过滤曾经生成的链接
+      if(preg_match('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $content)){
+        continue;
+      }
       if(preg_match($regEx, $content)){
         //exit;
         $link = null;

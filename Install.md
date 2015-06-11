@@ -1,3 +1,11 @@
+### 生产环境版本:
+php: v5.3.0+
+mongodb: v2.6.4
+nginx
+git
+redis: v2.8.9
+
+
 ### PHP5.3.0+安装（for Mac）
 依赖库Datetime
 
