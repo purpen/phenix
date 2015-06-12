@@ -191,10 +191,10 @@
 {% endblock %}
 
 {% block jquery %}
-	/*bgm = new Audio5js({
+	bgm = new Audio5js({
       swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
       ready: function () {
-          this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
+          this.load('http://frstatic.qiniudn.com/wechat/js/5.mp3');
           this.play();
 
           this.on('canplay', function(){
@@ -205,7 +205,7 @@
               bgm.play();
           })           
       }
-  });*/
+  });
 
   $('#music-control').click(function(){
 	    bgm.playPause();
