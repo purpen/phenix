@@ -24,9 +24,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function xin(){
 		
-		$this->stash['page_title_suffix'] = '69',
-	   // $this->stash['page_keywords_suffix'] = '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
-	    //$this->stash['page_description_suffix'] = '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
+		$this->stash['page_title_suffix'] = '69';
 		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
