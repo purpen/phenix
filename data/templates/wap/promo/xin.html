@@ -50,6 +50,11 @@
 	}
 	#array{
 		position:absolute;z-index:999;-webkit-animation: start 1.5s infinite ease-in-out;
+		width: 20px;
+		height: 15px;
+		top: 94%;
+		left: 50%;
+		margin-left: -10px;
 	}
 	#music-control {
 		width: 30px;
@@ -85,6 +90,8 @@
 		    direction: 'vertical',
 			mousewheelControl: true,
 			watchSlidesProgress: true,
+			followFinger : false,
+			speed:500,
 			onInit: function(swiper) {
 				swiper.myactive = 0;
 			},
