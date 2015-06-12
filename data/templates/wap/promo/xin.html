@@ -92,6 +92,18 @@
 		top: 5px;
 		z-index: 100000;
 	}
+	#music-control.playing{
+		-webkit-animation: 2.3s spin linear infinite;
+	}
+	@-webkit-keyframes spin {
+	    0% {
+	        -webkit-transform: rotateZ(0deg);
+	    }
+
+	    100% {
+	        -webkit-transform: rotateZ(360deg);
+	    }
+	}
 	.swiper-slide img{
 		width:100%;
 		height:100%;
@@ -190,8 +202,16 @@
   });*/
 
   $('#music-control').click(function(){
-      bgm.playPause();
-  });
+	    bgm.playPause();
+			if($(this).hasClass("playing")){
+				$(this).removeClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //关闭
+			}
+			else{
+				$(this).addClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
+			}
+	});
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
