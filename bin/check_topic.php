@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * 生成话题关键词内链
+ * 验证话题描述是否存在
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -39,16 +39,14 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
     $desc = $list[$i]['description'];
+    $id = $list[$i]['_id'];
     if(empty($desc)){
-      continue;
+      echo "desc is empty id: $id. \n";
+		  $total++;
     }
-    //$new_desc = Sher_Core_Helper_Util::gen_inlink_keyword($desc, 1, $list[$i]['_id']);
-		//$model->update_set($list[$i]['_id'], array('description'=>$new_desc));
-		echo "add keyword topic[".$list[$i]['_id']."]..........\n";
-		$total++;
+    
 	}
 	if($max < $size){
-		echo "topic list is end!!!!!!!!!,exit.\n";
 		break;
 	}
 	$page++;
