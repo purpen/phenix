@@ -116,7 +116,13 @@
 	  opacity: 1 !important;
 	  background: #fff !important;
 	}
-	
+	#vio {
+	  position: absolute;
+	  top: 14%;
+	  left: 7.5%;
+	  z-index: 2;
+	  width: 85%;
+	}
 	
 </style>
 	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
@@ -212,6 +218,15 @@
 				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
 			}
 	});
+	var media = document.getElementById("media"); 
+	media.addEventListener("play", function () {
+		$('#music-control').removeClass("playing");
+		bgm.pause();
+	}, false);
+	media.addEventListener("pause", function () {
+		$('#music-control').addClass("playing");
+		bgm.play();
+	}, false);
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
@@ -220,6 +235,14 @@
   <div class="swiper-wrapper">
 		<div class="swiper-slide">
 			<img src="http://frstatic.qiniudn.com/images/promo/tu1.jpg">
+			
+			
+			<div id="vio">
+				<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/wap/tovio.jpg">
+				  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+				</video>
+			</div>
+			
 		</div>
 		<div class="swiper-slide">
 			<img src="http://frstatic.qiniudn.com/images/promo/tu2.jpg">
