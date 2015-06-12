@@ -42,8 +42,8 @@ while(!$is_end){
     if(empty($desc)){
       continue;
     }
-    $new_desc = Sher_Core_Helper_Util::gen_inlink_keyword($desc, 1, $list[$i]['_id']);
-		$model->update_set($list[$i]['_id'], array('description'=>$new_desc));
+    //$new_desc = Sher_Core_Helper_Util::gen_inlink_keyword($desc, 1, $list[$i]['_id']);
+		//$model->update_set($list[$i]['_id'], array('description'=>$new_desc));
 		echo "add keyword topic[".$list[$i]['_id']."]..........\n";
 		$total++;
 	}
