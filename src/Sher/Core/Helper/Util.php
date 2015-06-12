@@ -593,10 +593,24 @@ class Sher_Core_Helper_Util {
     if(empty($content)){
       return null;
     }
+
     $count = 0;
     $content = html_entity_decode($content);
+    //验证文章长度来判断标签数量
+    $content_size = strlen(strip_tags($content));
+    if($content_size<500){
+      $times = 1;
+    }elseif($content_size>=500 && $content_size<1000){
+      $times = 2;
+    }elseif($content_size>=1000 && $content_size<3000){
+      $times = 3;
+    }elseif($content_size>=3000){
+      $times = 4;
+    }
     $inline_tag_model = new Sher_Core_Model_InlinkTag();
     $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1));
+    //打乱顺序
+    shuffle($tags);
     foreach($tags as $key=>$val){
       $tag = $val['tag'];
       $regEx = '/(?!((<.*?)|(<a.*?)))('.$tag.')(?!(([^<>]*?)>)|([^>]*?<\/a>))/si';
@@ -614,7 +628,6 @@ class Sher_Core_Helper_Util {
         continue;
       }
       if(preg_match($regEx, $content)){
-        //exit;
         $link = null;
         if(!empty($val['links'])){
           $link = $val['links'][0];
