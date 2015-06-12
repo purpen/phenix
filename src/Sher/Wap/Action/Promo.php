@@ -22,6 +22,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	/**
 	 * 深圳蛋年专题
 	 */
+	public function xin(){
+		return $this->to_html_page('wap/promo/xin.html');
+	}
+	
+	/**
+	 * 深圳蛋年专题
+	 */
 	public function sz(){
 		return $this->to_html_page('wap/promo/sz.html');
 	}
