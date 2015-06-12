@@ -81,32 +81,62 @@
 			fixPagesHeight();
 		})
 		fixPagesHeight();
-		scaleW=window.innerWidth/320;
-		scaleH=window.innerHeight/480;
-		var resizes = document.querySelectorAll('.resize');
-		for (var j=0; j<resizes.length; j++) {
-			resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-			resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-			resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-			resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
-		}
-		var scales = document.querySelectorAll('.txt');
-		for (var i=0; i<scales.length; i++) {
-			ss=scales[i].style;
-			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
-		}
+
 
 		var mySwiper = new Swiper('.swiper-container', {
-		  direction: 'vertical',
-			mousewheelControl: false,
-			watchSlidesProgress: false,
-		/*	followFinger : false,*/
-			onInit: function(swiper){
-			   swiperAnimateCache(swiper);
-			   swiperAnimate(swiper);
-				 swiper.myactive = 0;
+
+		    direction: 'vertical',
+			mousewheelControl: true,
+			watchSlidesProgress: true,
+			onInit: function(swiper) {
+				swiper.myactive = 0;
+
+			},
+			onProgress: function(swiper) {
+				for (var i = 0; i < swiper.slides.length; i++) {
+					var slide = swiper.slides[i];
+					var progress = slide.progress;
+					var translate, boxShadow;
+
+					translate = progress * swiper.height * 0.8;
+					scale = 1 - Math.min(Math.abs(progress * 0.2), 1);
+					boxShadowOpacity = 0;
+
+					slide.style.boxShadow = '0px 0px 10px rgba(0,0,0,' + boxShadowOpacity + ')';
+
+					if (i == swiper.myactive) {
+						es = slide.style;
+						es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,' + (translate) + 'px,0) scale(' + scale + ')';
+						es.zIndex=0;
+
+
+					}else{
+						es = slide.style;
+						es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform ='';
+						es.zIndex=1;
+
+					}
+
+				}
+
+			},
+
+
+			onTransitionEnd: function(swiper, speed) {
+				for (var i = 0; i < swiper.slides.length; i++) {
+				//	es = swiper.slides[i].style;
+				//	es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = '';
+
+				//	swiper.slides[i].style.zIndex = Math.abs(swiper.slides[i].progress);
+
+
+				}
+
+				swiper.myactive = swiper.activeIndex;
+
 			},
 			onSetTransition: function(swiper, speed) {
+
 				for (var i = 0; i < swiper.slides.length; i++) {
 					//if (i == swiper.myactive) {
 
@@ -114,11 +144,10 @@
 						es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
 					//}
 				}
-			},
-			onSlideChangeEnd: function(swiper){
-				swiperAnimate(swiper);
-			},
-		});    
+
+			}
+
+		});
 		
 	</script>       
 {% endblock %}
