@@ -9,7 +9,7 @@
 	
 	<body>
 		<div class="uiehr_box" id="ue_height" style=" width:100%; position:relative">
-			<iframe src="http://h5.m.taobao.com/dream/detail.html?pid={{ id }}"  style="border:none !important; height:100%; width:100%; color:#666"></iframe>
+			<iframe src="{%if url %}{{ url }}{%else%}http://h5.m.taobao.com/dream/detail.html?pid={{ id }}{%endif%}"  style="border:none !important; height:100%; width:100%; color:#666"></iframe>
      	 	<div style="width:100%; left:50%; margin-left:-50%; position:fixed; bottom:100px; background:#ff9900; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; padding:5px 0px;" >
     		 	<div style="width:100%; font-size:16px; line-height:25px; text-align:center; color:#fff; position:relative ">
     				<p style=" line-height:25px;">如果页面加载不成功,</p>
