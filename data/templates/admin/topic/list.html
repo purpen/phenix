@@ -98,6 +98,8 @@
 				<th class="five wide">名称</th>
         <th>分类</th>
         <th>赞名单</th>
+        <th>收藏数</th>
+        <th>评论数</th>
         <th>推荐</th>
 				<th>管理操作</th>
 			</tr>
@@ -134,6 +136,8 @@
         <td>
           <span>{{ topic.love_count }}</span> | <a href="{{ app_url_admin_base }}/topic/get_love_list?target_id={{ topic._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>
+        <td>{{ topic.favorite_count }}</td>
+        <td>{{ topic.comment_count }}</td>
 
 				<td>
 					<p>
