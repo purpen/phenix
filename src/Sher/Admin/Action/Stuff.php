@@ -8,6 +8,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+    'sort' => 0,
 	);
 	
 	public function _init() {
@@ -31,7 +32,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
     $this->stash['category_id'] = 0;
     $this->stash['is_top'] = true;
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff?sort=%d&page=#p#', $this->stash['sort']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -162,9 +163,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
   public function search(){
     $this->stash['is_search'] = true;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/stuff/search?s=%d&q=%s&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/stuff/search?s=%d&q=%s&sort=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort']);
     return $this->to_html_page('admin/stuff/list.html');
   
   }
@@ -223,4 +224,4 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
   }
 
 }
-?>
+

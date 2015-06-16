@@ -1,0 +1,102 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">话题管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/topic" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+
+	    </div>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th>ID</th>
+        <th>姓名/电话</th>
+				<th>职业</th>
+        <th>地址</th>
+				<th>状态</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% favorite_list var:'list' target_id:target_id type:2 page:page size:50 %}
+
+			{% for f in list.rows %}
+        {% if f.user %}
+          <tr id="{{ f._id }}">
+            <td>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ f._id }}" class="checkbox" />
+                  <label></label>
+              </div>
+            </td>
+            <td>
+              <a class="ui image label link" href="{{ f.user.home_url }}" target="_blank">
+                  <img src="{{ f.user.mini_avatar_url }}">
+                  {{ f.user.nickname }}
+              </a>
+            </td>
+            <td>
+
+              </div>
+                    <p class="attribute">ID：{{ f.user._id }}</p>
+            </td>
+            <td>
+              <p>{{ f.user.profile.realname }}</p>
+              <p>{{ f.user.profile.phone }}</p>
+            </td>
+            <td>
+              <p>{{ f.user.profile.job }}</p>
+            </td>
+            <td>
+              <p>{{ f.user.profile.address }}</p>
+            </td>
+            <td>
+					  {{ f.user.created_on|date 'Y-m-d H:i'}}
+            <p>
+              {% if f.user.state == 2 %}
+              <label class="ui magenta label">已激活</label>
+              {% endif %}
+              
+              {% if f.user.state == 1 %}
+              <label class="ui orange label">未激活</label>
+              {% endif %}
+              
+              {% if f.user.state == 0 %}
+              <label class="ui gray label">已禁用</label>
+              {% endif %}
+            </p>
+            </td>
+
+          </tr>
+        {%endif%}
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}

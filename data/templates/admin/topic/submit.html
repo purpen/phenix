@@ -1,0 +1,236 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑灵感-{% endblock %}
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
+<style type="text/css">
+	.ui.ok.button {
+		margin-top: 1.7em;
+	}
+	.ui.add.button {
+		padding: 0.3em;
+		margin-left: 1em;
+	}
+	.ui.close.button {
+		margin-top: 1.65em;
+	}
+	.ui.close.button > .icon {
+		margin-top: 0.4em;
+	}
+	.ui.stage.header {
+		margin-top: 2.5em;
+	}
+	.ui.items .item .actions {
+		text-align: center;
+	}
+	.field > .ui.checkbox {
+		margin-right: 1em;
+	}
+	.ui.checkbox .box, .ui.checkbox label {
+		padding-left: 1.5em;
+	}
+  .icon-photo-banner:before {
+    content: "\f03e";
+  }
+  .partner-box.two.fields .field:first-child,.process-box.two.fields .field:first-child{
+	width:90%;
+}
+  .partner-box.two.fields .field:nth-child(2),.process-box.two.fields .field:nth-child(2){
+	width:10%;
+}
+  .partner-box.two.fields .field input[type="button"],.process-box.two.fields .field input[type="button"]{
+	padding: 10px 15px;
+	margin-right:5px;
+	border: 1px solid #f36;
+	border-radius: 5px;
+}
+.partner-box.five.fields .field input[type="button"],.process-box.five.fields .field input[type="button"],.partner-box.seven.fields .field input[type="button"],.process-box.seven.fields .field input[type="button"]{
+	padding: 10px 12px;
+	margin-right:2px;
+	border: 1px solid #f36;
+	border-radius: 5px;
+}
+  #map-box .one.fields .field{
+	width:98%;
+}
+.ui.form .seven.fields>.field {
+	width: 13.28% !important;
+	padding-left: .5%;
+	padding-right: .5%;
+}
+.desc-box .desc-box+.buttons{
+	padding:.8em;
+}
+.desc-box input[type="button"],.desc-box+.buttons{
+	display:inline-block;
+	float:right;
+}
+.desc-box input[type="button"]{
+	border: 1px solid #f36;
+	border-radius: 4px;
+	color: #f36;
+	cursor: pointer;
+}
+.ui.segment .two.fields input[type="text"]+input[type="button"]{
+  padding: 0 0!important;
+  height: 29px;
+  width: 38px;
+  border: 0px solid rgba(0,0,0,0);
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  margin-bottom: 9px;
+}
+.ui.magenta.button,.field,input[type="text"]{
+	margin-bottom:1px !important;
+}
+.ui.form .inline.fields .field>:first-child{
+	margin-left:1px;
+}
+.field{
+  overflow:hidden;
+}
+.ui.form .field {
+	padding-bottom: 1em;
+}
+h3.ui.header{
+	font-weight:500;
+}
+#process-box .seven.fields .field,#partner-box-edit .five.fields .field,#partner-box .five.fields .field{
+	padding-bottom:0.3em;
+}
+#process-box .seven.fields .field:last-child,#partner-box-edit .five.fields .field:last-child,#partner-box .five.fields .field:last-child,#process-box .seven.fields .field:last-child input[type="button"],#process-box-edit .seven.fields .field:last-child,#process-box-edit .seven.fields .field:last-child input[type="button"],#partner-box-edit .five.fields .field:last-child,#partner-box .five.fields .field:last-child,#partner-box .five.fields .field:last-child input[type="button"],#partner-box-edit .five.fields .field:last-child input[type="button"]{
+	float:right;
+}
+
+#partner-box-edit .partner-box .field:first-child,#partner-box-edit .partner-box .field:nth-child(2),#partner-box .partner-box .field:first-child,#partner-box .partner-box .field:nth-child(2){
+	width: 12.5% !important;
+	padding-right:0;
+	padding-left:0.5%;
+}
+#partner-box-edit .partner-box .field:nth-child(5),#partner-box .partner-box input[type="hidden"]+.field,#partner-box .partner-box .field:last-child{
+	width:14% !important;
+	padding-right:0;
+	padding-left:0.5%;
+}
+#partner-box-edit .partner-box .field:nth-child(3),#partner-box-edit .partner-box .field:nth-child(4),#partner-box .partner-box .field:nth-child(3),#partner-box .partner-box .field:nth-child(4){
+	width: 30%;
+	padding-right:0;
+	padding-left:0.5%;
+}
+.process-box.seven.fields .field label,.partner-box.five.fields .field label{
+	border: 1px solid rgba(0,0,0,.15);
+	padding: .65em .8em;
+	border-radius: .2125em;
+	min-height: 19px;
+  max-height: 19px;
+	overflow:hidden;
+}
+.map-box-btn{
+	width:34px;
+	height:34px;
+	background:url({{ app_url_packaged }}/images/active_map.png) no-repeat;
+	cursor: pointer;
+	position: relative;
+	float: right;
+	top: -37px;
+	right: 3px;
+}
+#partner-box .partner-box input[type="hidden"]+.field+.field {
+  width: 12.5% !important;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	$('#stuff-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">灵感管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/stuff" class="item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i>编辑灵感
+			</div>
+			{% endif %}
+      <!--
+			<a href="{{ app_url_admin_base }}/stuff/submit" class="item">
+				<i class="add icon"></i>新增活动
+			</a>
+      -->
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
+		<input name="_id" type="hidden" value="{{ stuff._id }}" />
+		
+		<div class="inline field">
+			<label>赞数量:</label>
+      <input type="hidden" name="love_count" value="{{ stuff.love_count }}" />
+      现有数量: <input type="text" name="o_love_count" value="{{ stuff.love_count }}" disabled="disabled" />
+			增加数量: <input type="text" name="add_love_count" value="0" />
+		</div>
+		<div class="inline field">
+			<label>浏览量:</label>
+      <input type="text" name="view_count" value="{{ stuff.view_count }}" /><span style="color:red;"> *保证浏览数量要大于点赞数量</span>
+		</div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit button">
+				确认提交
+			</div>
+			<div class="ui gray cancel button">
+				取消
+			</div>
+		</div>
+		
+	</form>
+</div>
+
+{% endblock %}

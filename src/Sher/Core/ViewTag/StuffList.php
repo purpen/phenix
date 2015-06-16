@@ -56,8 +56,6 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-     	
-        $options['sort_field'] = $sort;
 		
 		// 限制分类
 		if($category_id){

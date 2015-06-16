@@ -83,6 +83,9 @@
 	<a class="{{ css_page_stuff }} item" href="{{ app_url_admin_base }}/stuff">
 		灵感管理
 	</a>
+	<a class="{{ css_page_topic }} item" href="{{ app_url_admin_base }}/topic">
+		话题管理
+	</a>
 	<a class="{{ css_page_try }} item" href="{{ app_url_admin_base }}/try">
 		产品公测
 	</a>
@@ -115,6 +118,22 @@
 	</a>
 	<a class="{{ css_page_tags }} item" href="{{ app_url_admin_base }}/tags">
 		关键词管理
+	</a>
+    {% endif %}
+
+    {% if visitor.is_admin %}
+	<div class="header item"><b>实验室</b></div>
+	<a class="{{ css_page_block }} item" href="{{ app_url_admin_base }}/block">
+		会员管理
+	</a>
+	<a class="{{ css_page_dig }} item" href="{{ app_url_admin_base }}/dig">
+		志愿者管理
+	</a>
+	<a class="{{ css_sum_record }} item" href="{{ app_url_admin_base }}/sum_record">
+		预约管理
+	</a>
+	<a class="{{ css_page_inlink_tag }} item" href="{{ app_url_admin_base }}/inlink_tag">
+		分类管理
 	</a>
     {% endif %}
 	
