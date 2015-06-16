@@ -1,21 +1,23 @@
 <?php
 /**
- * 分类管理
- * @author purpen
+ * 分类管理--实验室
+ * @author tianshuai
  */
-class Sher_Core_Model_Category extends Sher_Core_Model_Base {    
-    protected $collection = "category";
+class Sher_Core_Model_Classify extends Sher_Core_Model_Base {    
+    protected $collection = "classify";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
-	const IS_HIDED = -1; 
-	const IS_OPENED = 1;
+  // 是否公开
+	const IS_HIDED = 0; 
+  const IS_OPENED = 1;
+
+  // 类型
+  const KIND_D3IN = 1;
 	
     protected $schema = array(
 		'name' => '',
 		'title' => '',
 		'summary' => '',
-		# 类组
-		'gid' => 0,
 		# 父级分类
 		'pid' => 0,
 		# 分类标签，含：近义词、同类词、英文词
@@ -23,89 +25,63 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域
-		'domain' => Sher_Core_Util_Constant::TYPE_TOPIC,
+		'kind' => self::KIND_D3IN,
 		# 是否公开
 		'is_open' => self::IS_OPENED,
-		# 主题或内容数量
+		# 数量
 		'total_count' => 0,
-		# 回复总数
-		'reply_count' => 0,
-		# 分类状态
+		# 状态
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'pid'=>1,'order_by'=>1,'kind'=>1,'total_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1);
 	
-	// 类组
-	protected $groups = array(
-		array(
-			'id' => 1,
-			'name' => '官方专区',
-		),
-		array(
-			'id' => 2,
-			'name' => '产品专区',
-		),
-		array(
-			'id' => 3,
-			'name' => '我是鸟粉',
-		),
-		array(
-			'id' => 4,
-			'name' => '大赛专区',
-		),
-		array(
-			'id' => 5,
-			'name' => '硬件专区',
-		),
-	);
-	
-    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state');
+    protected $int_fields = array('pid','order_by','kind','is_open','total_count','state');
 
 	protected $required_fields = array('name','title');
 	
     protected $joins = array();
+
+	// 类组
+	protected $kinds = array(
+		array(
+			'id' => self::KIND_D3IN,
+			'name' => '实验室',
+		),
+	);
 	
 	/**
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
-		if (isset($row['gid'])) {
-			$row['group']  = $this->find_groups($row['gid']);
-		}
-		
-		if (isset($row['domain'])) {
-			if ($row['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
-				$row['view_url'] = Sher_Core_Helper_Url::topic_list_url($row['_id']);
-			} else if ($row['domain'] == Sher_Core_Util_Constant::TYPE_PRODUCT){
-				$row['view_url'] = Sher_Core_Helper_Url::vote_list_url($row['_id']);
-			}
+		if (isset($row['kind'])) {
+			$row['kind_str']  = $this->find_kinds($row['kind']);
 		}
 	}
 	
 	/**
 	 * 获取全部类组或某个
 	 */
-	public function find_groups($id=0){
+	public function find_kinds($id=0){
 		if($id){
-			for($i=0;$i<count($this->groups);$i++){
-				if ($this->groups[$i]['id'] == $id){
-					return $this->groups[$i];
+			for($i=0;$i<count($this->kinds);$i++){
+				if ($this->kinds[$i]['id'] == $id){
+					return $this->kinds[$i];
 				}
 			}
 		}
-		return $this->groups;
+		return $this->kinds;
 	}
 	
 	
 	/**
 	 * 获取顶级分类
 	 */
-	public function find_top_category($domain=0){
+	public function find_top_classify($kind=0){
 		$query = array('pid' =>0 );
-		if ($domain){
-			$query['domain'] = (int)$domain;
+		if ($kind){
+			$query['kind'] = (int)$kind;
 		}
 		
 		return $this->find($query);
