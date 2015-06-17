@@ -117,7 +117,7 @@
 		          	<p class="attribute">ID：{{ active._id }}</p>
 				</td>
         <td>
-          <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表</a>
+          <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表({{ active.signup_count }})</a>
         </td>
         <td>
           <span class="ui small green label">{{ active.season }}</span>      

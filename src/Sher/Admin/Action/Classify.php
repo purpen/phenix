@@ -28,24 +28,33 @@ class Sher_Admin_Action_Classify extends Sher_Admin_Action_Base implements Doggy
 	public function get_list() {
     $query = array();
     $options = array();
+    $query['kind'] = Sher_Core_Model_Classify::KIND_D3IN;
+    $query['pid'] = 0;
 		$only_open = (int)$this->stash['only_open'];
 		if ($only_open == Sher_Core_Model_Classify::IS_OPENED) {
-      $this->set_target_css_state('open_category');
+      $this->set_target_css_state('open_classify');
       $query['is_open'] = 1;
-		} elseif ($only_open == Sher_Core_Model_Classify::IS_HIDED) {
-			$this->set_target_css_state('hide_category');
+		} elseif ($only_open == 2) {
+			$this->set_target_css_state('hide_classify');
       $query['is_open'] = 0;
 		} else {
 			$this->set_target_css_state('all_classify');
 		}
 
-    $model = new Sher_Core_Model_DigList();
+    $model = new Sher_Core_Model_Classify();
     $options['page'] = (int)$this->stash['page'];
     $options['size'] = (int)$this->stash['size'];
     //$options['sort'] = array();
     $data = $model->find($query, $options);
     foreach($data as $key=>$val){
       $data[$key] = $model->extended_model_row($val);
+      // 子类
+      $children = $model->find(array('pid'=>$val['_id'], 'kind'=>Sher_Core_Model_Classify::KIND_D3IN));
+      if($children){
+        $data[$key]['children'] = $children;
+      }else{
+        $data[$key]['children'] = null;     
+      }
     }
 
     $this->stash['classifies'] = $data;
@@ -67,7 +76,7 @@ class Sher_Admin_Action_Classify extends Sher_Admin_Action_Base implements Doggy
 		$this->stash['kinds'] = $classify->find_kinds();
 		
 		// 获取顶级分类
-		$this->stash['top_category'] = $classify->find_top_classify();
+		$this->stash['top_classify'] = $classify->find_top_classify();
 		
 		$this->stash['mode'] = $mode;
 		return $this->to_html_page('admin/classify/edit.html');

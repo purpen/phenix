@@ -4,7 +4,7 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#category-form').form({
+	$('#classify-form').form({
 		name: {
 			identifier  : 'name',
 			rules: [
@@ -35,11 +35,11 @@
 	<h3 class="ui header">分类管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/category" class="{{css_all_category}} item">全部列表</a>
-		<a href="{{ app_url_admin_base }}/category?only_open=1" class="{{css_open_category}} item">公开列表</a>
-		<a href="{{ app_url_admin_base }}/category?only_open=-1" class="{{css_hide_category}} item">隐藏列表</a>
+		<a href="{{ app_url_admin_base }}/classify" class="{{css_all_classify}} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/classify?only_open=1" class="{{css_open_classify}} item">公开列表</a>
+		<a href="{{ app_url_admin_base }}/classify?only_open=2" class="{{css_hide_classify}} item">隐藏列表</a>
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/category/edit" class="active item">
+			<a href="{{ app_url_admin_base }}/classify/edit" class="active item">
 				+新增分类
 			</a>
 	    </div>
@@ -52,58 +52,41 @@
 		<h4>编辑分类</h4>
 		{% endif %}
 		
-		<form action="{{ app_url_admin_base }}/category/save" class="ajax-form" method="post" id="category-form">
-			<input type="hidden" name="_id" value="{{ category._id }}" id="target_id" />
+		<form action="{{ app_url_admin_base }}/classify/save" class="ajax-form" method="post" id="classify-form">
+			<input type="hidden" name="_id" value="{{ classify._id }}" id="target_id" />
 			<div class="inline field">
 			  	<label for="name">标识：</label>
-				<input type="text" name="name" value="{{ category.name }}" />
+				<input type="text" name="name" value="{{ classify.name }}" />
 			</div>
 			<div class="inline field">
 			  	<label for="title">名称：</label>
-				<input type="text" name="title" value="{{ category.title }}" />
+				<input type="text" name="title" value="{{ classify.title }}" />
 			</div>
 			
 			<div class="inline field">
 				<label for="pid">所属父级：</label>
 				<div class="ui selection dropdown">
-					<input type="hidden" name="pid" value="{{ category.pid }}" />
+					<input type="hidden" name="pid" value="{{ classify.pid }}" />
 				    <div class="default text">请选择</div>
 				    <i class="angle down icon"></i>
 				    <div class="menu">
-						{% for cate in top_category %}
-						<div data-value="{{ cate._id }}" class="{% if cate._id == category.pid %}active {% endif %}item">{{ cate.title }}</div>
+						{% for cate in top_classify %}
+						<div data-value="{{ cate._id }}" class="{% if cate._id == classify.pid %}active {% endif %}item">{{ cate.title }}</div>
 						{% endfor %}
 				    </div>
 				</div>
 			</div>
 			
 			<div class="inline field">
-				<label for="domain">所属类组：</label>
+				<label for="kind">所属类组：</label>
 				<div class="ui selection dropdown">
-					<input type="hidden" name="gid" value="{{ category.gid }}" />
+					<input type="hidden" name="kind" value="{{ classify.kind }}" />
 				    <div class="default text">请选择</div>
 				    <i class="angle down icon"></i>
 				    <div class="menu">
-						{% for g in groups %}
-						<div data-value="{{ g.id }}" class="{% if g.id == cate.gid %}active {% endif %}item">{{ g.name }}</div>
+						{% for g in kinds %}
+						<div data-value="{{ g.id }}" class="{% if g.id == cate.kind %}active {% endif %}item">{{ g.name }}</div>
 						{% endfor %}
-				    </div>
-				</div>
-			</div>
-			
-			<div class="inline field">
-				<label for="domain">所属区域：</label>
-				<div class="ui selection dropdown">
-					<input type="hidden" name="domain" value="{{ category.domain }}" />
-				    <div class="default text">请选择</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-				        <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">商品类域</div>
-				        <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区类域</div>
-				        <div data-value="3" class="{% if category.domain == 3%}active {% endif %}item">活动类域</div>
-						<div data-value="4" class="{% if category.domain == 4%}active {% endif %}item">产品类域</div>
-                        <div data-value="6" class="{% if category.domain == 6%}active {% endif %}item">资源类域</div>
-                        <div data-value="7" class="{% if category.domain == 7%}active {% endif %}item">案例类域</div>
 				    </div>
 				</div>
 			</div>
@@ -112,12 +95,12 @@
 			    <div class="field">
 					<label for="is_open">是否公开：</label>
 			      	<div class="ui radio checkbox">
-			        	<input type="radio" name="is_open" value="1" {% if category.is_open == 1 %}checked="checked"{% endif %} />
+			        	<input type="radio" name="is_open" value="1" {% if classify.is_open == 1 %}checked="checked"{% endif %} />
 						<label></label> 
 			      	</div>
 			      	<label class="checkbox title">公开</label>
 			      	<div class="ui radio checkbox">
-			        	<input type="radio" name="is_open" value="-1" {% if category.is_open < 1 %}checked="checked"{% endif %} /> 
+			        	<input type="radio" name="is_open" value="-1" {% if classify.is_open < 1 %}checked="checked"{% endif %} /> 
 			        	<label></label>
 			      	</div>
 			      	<label class="checkbox title">隐藏</label>
@@ -128,23 +111,23 @@
 			</div>
 			<div class="inline field">
 			  	<label for="order_by">排序：</label>
-				<input type="text" class="form-control" name="order_by" value="{{ category.order_by }}" />
+				<input type="text" class="form-control" name="order_by" value="{{ classify.order_by }}" />
 				<div class="ui pointing left label">
 					数字越小，越靠前!
 				</div>
 			</div>
 			<div class="inline field">
 			  	<label for="tags">分类标签：</label>
-				<textarea rows="3" name="tags" class="small">{{ category.tags_s }}</textarea>
+				<textarea rows="3" name="tags" class="small">{{ classify.tags_s }}</textarea>
 				<div class="ui pointing top label">
-					分类标签，含：近义词、同类词、英文词! 同时用于网站meta_keys关键字优化
+				  标签	
 				</div>
 			</div>
 			<div class="inline field">
 			  	<label for="tags">分类描述：</label>
-				<textarea rows="3" name="summary" class="small">{{ category.summary }}</textarea>
+				<textarea rows="3" name="summary" class="small">{{ classify.summary }}</textarea>
 				<div class="ui pointing top label">
-					用于网站meta_description搜索优化
+					描述
 				</div>
 			</div>
 			

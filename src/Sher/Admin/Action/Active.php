@@ -87,6 +87,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['title'] = $this->stash['title'];
 		$data['sub_title'] = $this->stash['sub_title'];
 		$data['season'] = !empty($this->stash['season'])?(int)$this->stash['season']:0;
+		$data['kind'] = !empty($this->stash['kind'])?(int)$this->stash['kind']:1;
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		$data['cover_id'] = $this->stash['cover_id'];
