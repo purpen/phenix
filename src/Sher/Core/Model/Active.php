@@ -8,9 +8,11 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     protected $collection = "active";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
-	# 类型: 官方／个人
+	# 类型: 官方／个人/实验室
     const KIND_OFFICIAL    = 1;
-    const KIND_PERSONAL   = 2;
+    const KIND_D3IN = 2;
+    const KIND_PERSONAL   = 3;
+
 
     # 进行状态：开始，结束，暂停
     const STEP_PAUSE = 0;

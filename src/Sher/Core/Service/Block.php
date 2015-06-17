@@ -32,4 +32,4 @@ class Sher_Core_Service_Block extends Sher_Core_Service_Base {
     }
 	
 }
-?>
+

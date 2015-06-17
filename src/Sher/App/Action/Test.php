@@ -262,6 +262,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
       }
       $is = true;
     }
+    phpinfo();
   }
 
   public function test_preg(){
