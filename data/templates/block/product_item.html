@@ -1,7 +1,7 @@
 <div class="magenta item" id="product-{{ product._id }}">
   	<div class="image">
 		<a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank">
-      <img src="{{ product.cover.thumbnails.md.view_url }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}{%else%}{{ product.title }}{%endif%}" />
+      <img src="{{ product.cover.thumbnails.md.view_url }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" />
 		</a>
         {% if product.stage== 5 %}
 		<div class="presell">
