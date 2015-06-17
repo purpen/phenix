@@ -49,6 +49,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_subject = 0;
 		
 		$sort = 'latest';
+
+    // 投票状态显示
+    $vote_type = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -142,7 +145,15 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		// 是否成功案例
 		if($only_okcase){
 			$query['okcase'] = 1;
-		}
+    }
+
+    // 投票状态显示
+    if($vote_type){
+      if((int)$vote_type==2){
+        //进行中的投票
+        $query['voted_finish_time'] = array('$gt'=>time());
+      }
+    }
 		
 	    // 搜索
 	    if($s_type){
@@ -164,6 +175,22 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
 		$options['sort_field'] = $sort;
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+		}
 		
         $result = $service->get_product_list($query, $options);
 		
