@@ -24,13 +24,16 @@ ini_set('memory_limit','512M');
 echo "set topic add inlink-tag ...\n";
 
 $model = new Sher_Core_Model_Topic();
+$asset_model = new Sher_Core_Model_Asset();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 while(!$is_end){
+  $time = time() - 15*24*60*60;
 	$query = array();
-	$options = array('field' => array('_id', 'description'),'page'=>$page,'size'=>$size);
+  $query['created_on'] = array('$gt'=>$time);
+	$options = array('field' => array('_id', 'asset_count'),'page'=>$page,'size'=>$size);
 	$list = $model->find($query, $options);
 	if(empty($list)){
 		echo "get topic list is null,exit......\n";
@@ -38,11 +41,17 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
-    $desc = $list[$i]['description'];
+    $asset_count = $list[$i]['asset_count'];
     $id = $list[$i]['_id'];
-    if(empty($desc)){
-      echo "desc is empty id: $id. \n";
-		  $total++;
+    if(empty($asset_count)){
+      $new_asset_count = $asset_model->count(array('parent_id'=>$id, 'asset_type'=>55));
+      if(!empty($new_asset_count)){
+        //$model->update_set($id, array('asset_count'=>$new_asset_count));
+        echo "desc is empty id: $id. \n";
+        echo "new asset account $new_asset_count \n";
+        $total++;
+      }
+
     }
     
 	}
