@@ -222,7 +222,7 @@
         						{% if topic.cover %}
                                 <a class="ui image" href="{{ topic.view_url }}" title="{{ topic.title }}">
 										{% if loop.odd %}
-        						    <img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="智能硬件－{{ topic.title }}"/>										{% else %}
+        						    <img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区"/>										{% else %}
 												<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}"/>	
 										{% endif %}
                                 </a>
