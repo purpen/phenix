@@ -1,0 +1,496 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu > .ui.responsive.grid > .row{
+	padding:1.2rem 0 .8rem;
+	border-bottom: 1px solid rgba(255,255,255,0.85);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+#laboratory .ui.about.block .ui.header .sub.header{
+	line-height: 1.5;
+	margin: 1em;
+}
+.bgf1.background{
+	background: -ms-linear-gradient(top, #f1f1f1,  rgba(255,255,255,0.85));        /* IE 10 */
+	background:-moz-linear-gradient(top,#f1f1f1,rgba(255,255,255,0.85));/*火狐*/ 
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#f1f1f1), to(rgba(255,255,255,0.85)));/*谷歌*/ 
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f1f1f1), to(rgba(255,255,255,0.85)));      /* Safari 4-5, Chrome 1-9*/
+	background: -webkit-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));   /*Safari5.1 Chrome 10+*/
+	background: -o-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
+}
+.ui.tool.block .ui.four.cards .card{
+	margin-bottom:1%;
+}
+.depict{
+	position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.45);
+  padding: .5rem 0;
+  text-indent: .8rem;
+}
+.ui.vip.block{
+	background:#f4f4f4;
+}
+.ui.vip.block .blocks .block i.icon{
+	font-size: 58px;
+	margin: 0;
+}
+.ui.vip.block .blocks .block .content{
+	margin:1.5rem 1rem;
+}
+.ui.vip.block .blocks .block .content h4{
+	color:#f36;
+}
+.ui.vip.block .blocks .block p{
+	font-size:16px;
+	white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.ui.together.block{
+	background:#e4e4e4;
+}
+.ui.together.block a>img{
+	margin: 5px;
+  width: 150px;
+}
+.ui.contact.block{
+	background:url({{ app_url_packaged }}/images/dbj.jpg) no-repeat center center /cover;
+	padding:5% 0;
+	color:#fff;
+}
+.ui.contact.block .five.wide.column{
+	text-align:left;
+}
+.d3in{
+	background:url({{ app_url_packaged }}/images/d3in.jpg) no-repeat center center /cover;
+	color:#fff;
+}
+.d3in .lab.submenu a.ui.line{
+	color:#fff;
+}
+.d3in .lab.submenu a.ui.line:hover{
+	color:#f36;
+}
+.d3in .ui.title h1.ui.header{
+	-webkit-font-smoothing: antialiased;
+  font-weight: 400;
+}
+.d3in .ui.title{
+	padding:8rem 0;
+}
+.d3in .ui.title h1 span{
+	font-size: 35px;
+  vertical-align: top;
+}
+.d3in .ui.title h1+p{
+	font-size:36px;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+{% endblock %}
+{% block content %}
+<div id="laboratory">
+	<div class="d3in">
+		<div class="lab submenu">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="eight wide column">
+						<h3>D3IN铟立方未来实验室</h3>
+					</div>
+					<div class="eight right aligned wide column">
+						<a href="" class="ui line item">活动</a>
+						<a href="" class="ui line item">实验室预约</a>
+						<a href="" class="ui line item">工具&设备</a>
+						<a href="" class="ui line item">会员</a>
+						<a href="" class="ui line item">关于实验室</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui title responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h1 class="ui header">D<span>3</span>IN铟立方未来实验室</h1>
+					<p>Design－Driven 3 Innovation</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<a href="" class="ui inverted button">即将开放预约</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="ui big white background about block">
+		<div class="ui center aligned responsive grid">
+			<div class="row">
+				<div class="center aligned twelve wide column">
+					<h3 class="ui header">
+						<div class="content">
+								关于D3IN铟立方未来实验室
+							<div class="sub header">
+								D 3 IN铟立方未来实验室，R&S RTE 1104数字示波器、Tektronix DPO 7254C示波器、Agilent MSO-X 93204A、Agilent EXG N5172B射频矢量信号发生器、Keysight PXA实时频谱分析仪、Keysight E5080A ENA网络分析仪、R&S CMW 270无线通信测试仪、Agilent EXM无线测试仪等专业设备仪器映入眼前，据介绍，实验室还在进一步完善中，未来将有更多专业的测试仪器进驻到实验室之中。
+							</div>
+						</div>
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui big bgf1 background block">
+		<div class="ui responsive center aligned grid">
+			<div class="row">
+				<div class="five wide column">
+					<!--<img src="{{ app_url_packaged }}/images/d3in/" alt="">-->
+					<h3 class="ui header">培训课／主题沙龙</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+					
+				</div>
+				<div class="five wide column">
+					<h3 class="ui header">开源硬件分享</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+				</div>	
+				<div class="five wide column">
+					<h3 class="ui header">技术分享</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio</p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="center aligned column">
+					<a href="" class="ui magenta inverted button" style="min-width: 160px;">
+						活动列表
+					</a>
+					<a href="" class="ui magenta inverted button">
+						实验室预约
+					</a>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="ui big bgf1 background block">
+		<div class="ui responsive center aligned grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">实验室导师</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="three wide column">
+					<div class="image">
+						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+					</div>
+					<h4 class="ui header">
+						<div class="content">
+								陈文龙
+							<div class="sub header">
+								台湾创意中心执行长
+							</div>
+						</div>
+					</h4>
+				</div>
+				
+				<div class="three wide column">
+					<div class="image">
+						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+					</div>
+					<h4 class="ui header">
+						<div class="content">
+								陈文龙
+							<div class="sub header">
+								台湾创意中心执行长
+							</div>
+						</div>
+					</h4>
+				</div>
+				
+				<div class="three wide column">
+					<div class="image">
+						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+					</div>
+					<h4 class="ui header">
+						<div class="content">
+								陈文龙
+							<div class="sub header">
+								台湾创意中心执行长
+							</div>
+						</div>
+					</h4>
+				</div>
+				
+				<div class="three wide column">
+					<div class="image">
+						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+					</div>
+					<h4 class="ui header">
+						<div class="content">
+								陈文龙
+							<div class="sub header">
+								台湾创意中心执行长
+							</div>
+						</div>
+					</h4>
+				</div>
+				
+				<div class="three wide column">
+					<div class="image">
+						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+					</div>
+					<h4 class="ui header">
+						<div class="content">
+								陈文龙
+							<div class="sub header">
+								台湾创意中心执行长
+							</div>
+						</div>
+					</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui big bgf1 tool background block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">实验室工具</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui four cards">
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150323/550fb1acfc8b12971c8b847f-1-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="http://frbird.qiniudn.com/product/150323/550fb1acfc8b12971c8b847f-1-m.jpg">
+							<div class="depict">
+								实验室工具实验室工具
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui big vip block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">实验室VIP会员</h3>
+					<p>您需要体验Plex最好的一切。您的订阅让您享用独有的高级功能且提早使用新功能。</p>
+				</div>
+			</div>
+			
+			<div class="center aligned row">
+				<div class="ui three blocks">
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">免费沙龙</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>免费参加太火鸟定期举办的沙龙，分享会</p>
+						</div>
+					</div>
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">免费分享会</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>免费参加外聘讲师做的training，分享会</p>
+						</div>
+					</div>
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">使用测试仪器</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>提前预约，免费使用各类测试仪器</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="center aligned row">
+				<div class="ui three blocks">
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">单独储物空间</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>免费提供1个单独储物空间</p>
+						</div>
+					</div>
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">开放工作区域</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>无单独办公位置，提供开放工作区域</p>
+						</div>
+					</div>
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">产品咨询服务</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>免费提供产品DFM review咨询服务</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="center aligned row">
+				<div class="ui three blocks">
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">技术支持</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>免费提供产品trouble shooting技术支持</p>
+						</div>
+					</div>
+					<div class="ui center aligned block">
+						<div class="content">
+							<h4 class="ui header">产品测试指导</h4>
+							<i class="flat icon_about_01 icon"></i>
+							<p>免费提供产品的测试指导</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui header">加入VIP会员订阅计划</h3>
+					<a href="" class="ui magenta inverted active button">800元 / 月</a>
+					<a href="" class="ui magenta inverted active button">2112元 / 季 (88折)</a>
+					<a href="" class="ui magenta inverted active button">3840元 / 半年 (8折)</a>
+					<a href="" class="ui magenta inverted active button">6720元 / 全年 (8折)</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui together big block">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class='center aligned column'>
+					<h3 class="ui header">合作伙伴</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+					<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技"></a>
+					<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园"></a>
+					<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技"></a>
+					<a href="http://techcrunch.cn" title="TC" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC"></a>
+					<a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui contact big block">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<div class="ui five wide column">
+					<h4 class="ui header">项目合作与展示</h4>
+					<p>如果您有项目合作、展示、招募人才、合办活动，请联系项目合作负责人 任虹：tina@bjmakerspace.com ，微信：renhongtina</p>
+				</div>
+				<div class="ui five wide column">
+					<h4 class="ui header">活动讲师申请</h4>
+					<p>申请担任工作坊主讲人，或是自己有好玩的项目想拿来空间办工作坊与大家分享，请联系负责人 孙帅：sunshine@bjmakerspace.com 微信：BH1KZK</p>
+				</div>
+				<div class="ui five wide column">
+					<h4 class="ui header">会员与服务</h4>
+					<p>有关会员与服务、3D打印等制作的需求，请联系客服“北创”：v@bjmakerspace.com ，微信：Maker</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.tool.block .ui.four.cards .card{
+	margin-bottom:1%;
+}
+.depict{
+	position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.45);
+  padding: .5rem 0;
+  text-indent: .8rem;
+}
+
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+				<a href="" class="ui line active item">活动</a>
+				<a href="" class="ui line item">实验室预约</a>
+				<a href="" class="ui line item">工具&设备</a>
+				<a href="" class="ui line item">会员</a>
+				<a href="" class="ui line item">关于实验室</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui tool big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui four cards">
+				<div class="card">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-m.jpg">
+						<div class="depict">
+							实验室工具实验室工具
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+						<div class="depict">
+							实验室工具实验室工具
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+						<div class="depict">
+							实验室工具实验室工具
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+						<div class="depict">
+							实验室工具实验室工具
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+						<div class="depict">
+							实验室工具实验室工具
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
+						<div class="depict">
+							实验室工具实验室工具
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

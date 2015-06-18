@@ -1,0 +1,261 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.table th{
+	text-align:center;
+}
+.ui.table tbody tr,.ui.table tbody tr:nth-child(2n){
+	background:#fff;
+}
+.ui.table tbody tr:hover{
+	background:rgba(255,51,102,0.75);
+	cursor: pointer;
+}
+.clss{
+	background:#f1f1f1 !important;
+}
+
+/* 已预约的 */
+.okyu{
+	background:#ccc !important;
+	cursor:auto !important;
+}
+p a.ui.link{
+	color:#f36;
+	margin-left:1em;
+}
+
+
+</style>
+{% endblock %}
+{% block jquery %}
+$('.ui.table tbody tr').click(function(){
+	$(this).toggleClass('clss');
+})
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+				<a href="" class="ui line item">活动</a>
+				<a href="" class="ui line active item">实验室预约</a>
+				<a href="" class="ui line item">工具&设备</a>
+				<a href="" class="ui line item">会员</a>
+				<a href="" class="ui line item">关于实验室</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">实验室预约</h3>
+				<p>您希望什么时间前来？</p>
+			</div>
+		</div>
+		
+		<div class="ui center aligned row">
+			<div class="five wide center aligned column">
+				<table class="ui celled table">
+					<thead>
+						<tr>
+							<th>6月22日 星期一</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="clss">
+							<td>10:00-11:00</td>
+						</tr>
+						<tr class="clss">
+							<td>11:00-12:00</td>
+						</tr>
+						<tr class="clss">
+							<td>12:00-13:00</td>
+						</tr>
+						<tr class="clss">
+							<td>13:00-14:00</td>
+						</tr>
+						<tr class="okyu">
+							<td>14:00-15:00</td>
+						</tr>
+						<tr>
+							<td>15:00-16:00</td>
+						</tr>
+						<tr>
+							<td>16:00-17:00</td>
+						</tr>
+						<tr>
+							<td>17:00-18:00</td>
+						</tr>
+						<tr>
+							<td>18:00-19:00</td>
+						</tr>
+						<tr>
+							<td>19:00-20:00</td>
+						</tr>
+						<tr>
+							<td>20:00-21:00</td>
+						</tr>
+						<tr>
+							<td>21:00-22:00</td>
+						</tr>
+							
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="five wide center aligned column">
+				<table class="ui celled table">
+					<thead>
+						<tr>
+							<th>6月22日 星期一</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>10:00-11:00</td>
+						</tr>
+						<tr>
+							<td>11:00-12:00</td>
+						</tr>
+						<tr>
+							<td>12:00-13:00</td>
+						</tr>
+						<tr>
+							<td>13:00-14:00</td>
+						</tr>
+						<tr>
+							<td>14:00-15:00</td>
+						</tr>
+						<tr>
+							<td>15:00-16:00</td>
+						</tr>
+						<tr>
+							<td>16:00-17:00</td>
+						</tr>
+						<tr>
+							<td>17:00-18:00</td>
+						</tr>
+						<tr>
+							<td>18:00-19:00</td>
+						</tr>
+						<tr>
+							<td>19:00-20:00</td>
+						</tr>
+						<tr>
+							<td>20:00-21:00</td>
+						</tr>
+						<tr>
+							<td>21:00-22:00</td>
+						</tr>
+							
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="five wide center aligned column">
+				<table class="ui celled table">
+					<thead>
+						<tr>
+							<th>6月22日 星期一</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>10:00-11:00</td>
+						</tr>
+						<tr>
+							<td>11:00-12:00</td>
+						</tr>
+						<tr>
+							<td>12:00-13:00</td>
+						</tr>
+						<tr>
+							<td>13:00-14:00</td>
+						</tr>
+						<tr>
+							<td>14:00-15:00</td>
+						</tr>
+						<tr>
+							<td>15:00-16:00</td>
+						</tr>
+						<tr>
+							<td>16:00-17:00</td>
+						</tr>
+						<tr>
+							<td>17:00-18:00</td>
+						</tr>
+						<tr>
+							<td>18:00-19:00</td>
+						</tr>
+						<tr>
+							<td>19:00-20:00</td>
+						</tr>
+						<tr>
+							<td>20:00-21:00</td>
+						</tr>
+						<tr>
+							<td>21:00-22:00</td>
+						</tr>
+							
+					</tbody>
+				</table>
+			</div>
+			
+		</div>	
+		
+		<div class="row">
+			<div class="column">
+				<p>费用</p>
+				<p>80元/次    <a class="ui link"> 加入VIP会员订阅计划 </a></p>
+				<p>支付方式</p>
+				<a href="" class="ui white active inverted button">在线支付</a>&nbsp;&nbsp;
+				<a href="" class="ui white active inverted button">现场支付</a>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="right aligned column">
+				<a href="" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;
+				<a href="" class="ui magenta inverted button">下一步</a>
+			</div>
+		</div>
+		
+		
+		
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
