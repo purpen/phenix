@@ -32,8 +32,11 @@
 	<h3 class="ui header">活动管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/active" class="active item">
+    <a href="{{ app_url_admin_base }}/active?kind=0" class="item {{ css_all }}">
 			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/active?kind=2" class=" item {{ css_d3in }}">
+			实验室
 		</a>
 
 	  	<div class="right menu">
@@ -80,6 +83,7 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">名称</th>
+        <th>类型</th>
         <th>报名列表</th>
         <th>期数</th>
 				<th>是否发布</th>
@@ -90,9 +94,9 @@
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% active_list var:'list' page:page deleted:1 s_type:s s_mark:q size:20 %}
+			  {% active_list var:'list' kind:kind page:page deleted:1 s_type:s s_mark:q size:20 %}
       {%else%}
-			  {% active_list var:'list' page:page deleted:1 size:20 %}
+			  {% active_list var:'list' kind:kind page:page deleted:1 size:20 %}
       {%endif%}
 
 			{% for active in list.rows %}
@@ -116,6 +120,14 @@
 					</div>
 		          	<p class="attribute">ID：{{ active._id }}</p>
 				</td>
+        <td>
+          {% if active.kind==1 %}
+            官方
+          {%endif%}
+          {% if active.kind==2 %}
+            实验室
+          {%endif%}
+        </td>
         <td>
           <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表({{ active.signup_count }})</a>
         </td>

@@ -390,7 +390,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
           }
         }
         //自动更新第几期
-        $recent_season = $this->find(array('_id'=>array('$ne'=>$data['_id']), 'published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
+        $recent_season = $this->find(array('_id'=>array('$ne'=>$data['_id']), 'kind'=>$data['kind'], 'published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
         if(empty($recent_season)){
           $current_season = 1;
         }else{
@@ -440,4 +440,4 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
   }
 	
 }
-?>
+

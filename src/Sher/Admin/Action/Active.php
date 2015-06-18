@@ -8,6 +8,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+    'kind' => 0,
 	);
 	
 	public function _init() {
@@ -25,10 +26,21 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $kind = (int)$this->stash['kind'];
+    switch($kind){
+      case 1:
+        $this->set_target_css_state('offical');
+        break;
+      case 2:
+        $this->set_target_css_state('d3in');
+        break;
+      default:
+        $this->set_target_css_state('all');
+    }
+
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active?kind=%d&page=#p#', $kind);
 		
 		$this->stash['pager_url'] = $pager_url;
 		

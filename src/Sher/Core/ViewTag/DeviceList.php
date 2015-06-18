@@ -21,6 +21,7 @@ class Sher_Core_ViewTag_DeviceList extends Doggy_Dt_Tag {
 		$used = 0;
 		$state = 0;
     $kind = 0;
+    $sort = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -47,7 +48,7 @@ class Sher_Core_ViewTag_DeviceList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Device::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = $sort_field;
+		$options['sort_field'] = $sort;
         $result = $service->get_device_list($query,$options);
 		
         $context->set($var, $result);

@@ -1,0 +1,153 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.table{
+	background:#fff;
+}
+.ui.table th{
+	text-align:center;
+}
+.ui.four.blocks .block{
+	height:230px;
+	margin-bottom:1rem;
+}
+.ui.four.blocks .block .content{
+	margin: 1rem 0;
+}
+.ui.four.blocks .block .content.aligned{
+	margin:102.5px 0;
+}
+.ui.four.blocks .block .content p {
+  font-size: 16px;
+  border-bottom: 1px solid #f1f1f1;
+  margin: 0;
+  padding: 10px 10px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.ui.four.blocks .block .content p:hover{
+	background:rgba(255,51,102,0.75);
+	cursor:pointer;
+}
+.ui.four.blocks .block .content p:last-child{
+	border-bottom:0px solid #fff;
+}
+.clss{
+	background:#f1f1f1 !important;
+}
+
+/* 已预约的 */
+.okyu{
+	background:#ccc !important;
+	cursor:auto !important;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+$('.ui.four.blocks .block .content p').click(function(){
+	$(this).toggleClass('clss');
+})
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+				<a href="" class="ui line item">活动</a>
+				<a href="" class="ui line active item">实验室预约</a>
+				<a href="" class="ui line item">工具&设备</a>
+				<a href="" class="ui line item">会员</a>
+				<a href="" class="ui line item">关于实验室</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">实验室预约</h3>
+				<p>您希望选择什么测试服务项？</p>
+			</div>
+		</div>
+		
+		<div class="ui center aligned row">
+			<div class="ui four center aligned blocks">
+				<div class="center aligned block">
+					<div class="content aligned">
+						<h4 class="ui header">DC电源</h4>
+					</div>
+				</div>
+				<div class="center aligned block">
+					<div class="content">
+						<h4 class="ui header">信号完整性测试</h4>
+						<p class="clss">时钟信号测试</p>
+						<p class="okyu">crystal验证</p>
+						<p>USB/Ethernet/SDIO/DDR测试</p>
+					</div>
+				</div>
+				<div class="center aligined block">
+					<div class="content">
+						<h4 class="ui header">WiFi/BT性能测试</h4>
+						<p>802.11a/b/g/n 发射接收性能测试</p>
+						<p>802.11ac 发射接收性能测试</p>
+						<p>BT BDR/EDR/BLE 发射接收性能测试</p>
+						<p>WiFi/BT吞吐量测试</p>
+					</div>
+				</div>
+				<div class="center aligined block">
+					<div class="content aligned">
+						<h4 class="ui header">EMI Pre-test</h4>
+					</div>
+				</div>	
+				<div class="center aligined block">
+					<div class="content aligned">
+						<h4 class="ui header">阻抗匹配测试</h4>
+					</div>
+				</div>
+				<div class="center aligined block">
+					<div class="content aligned">
+						<h4 class="ui header">天线匹配/隔离度测试</h4>
+					</div>
+				</div>
+				<div class="center aligined block">
+					<div class="content">
+						<h4 class="ui header">可靠性测试</h4>
+						<p>高低温</p>
+						<p>变电压</p>
+						<p>Thermal 测试</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="right aligned column">
+				<a href="" class="ui magenta inverted button">取消</a>&nbsp;&nbsp;
+				<a href="" class="ui magenta inverted button">下一步</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
