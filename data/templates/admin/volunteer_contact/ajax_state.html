@@ -1,0 +1,26 @@
+<taconite>
+  {% for d in result %}
+  <replaceContent select=".state-{{ d }}"><![CDATA[
+          {% if state %}
+            {% if state==1 %}
+              <label class="ui green label">通过</label>
+            {%endif%}
+            {% if state==2 %}
+              <label class="ui magenta label">拒绝</label>
+            {%endif%}
+          {%else%}
+            <label class="ui gray label">未处理</label>
+          {%endif%}
+          ]]></replaceContent>
+	
+  <replaceContent select=".stat-btn-{{d}}"><![CDATA[
+            {% if state==1 %}
+              <a href="{{ app_url_admin }}/volunteer_contact/ajax_set_state?id={{ d }}&state=2" class="ui link ajax">拒绝</a>
+            {%endif%}
+            {% if state==2 %}
+              <a href="{{ app_url_admin }}/volunteer_contact/ajax_set_state?id={{ d }}&state=1" class="ui link ajax">通过</a>
+            {%endif%}
+            ]]></replaceContent>
+
+  {%endfor%}
+</taconite>

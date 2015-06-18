@@ -277,6 +277,7 @@
 		</div>
 	</div>
 	
+	{% device_list var:'device_list' kind:1 state:1 page:1 size:8 sort:'stick:latest' %}
 	<div class="ui big bgf1 tool background block">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -286,70 +287,10 @@
 			</div>
 			<div class="row">
 				<div class="ui four cards">
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150323/550fb1acfc8b12971c8b847f-1-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://frbird.qiniudn.com/product/150323/550fb1acfc8b12971c8b847f-1-m.jpg">
-							<div class="depict">
-								实验室工具实验室工具
-							</div>
-						</div>
-					</div>
+          {% for d in device_list.rows %}
+            {% include "block/d3in/device_item.html" %}
+          {%endfor%}
+
 				</div>
 			</div>
 		</div>
