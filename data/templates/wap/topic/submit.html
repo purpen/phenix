@@ -153,7 +153,7 @@
 									{% endif %}
 								{% endif %}
 							
-								{% category_list var:'category' only_open:1 domain:2 istop:1 current:cid %}
+								{% category_list var:'category' only_open:1 domain:2 is_child:1 current:cid %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
 						   	 		<div class="icon">
