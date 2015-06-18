@@ -59,8 +59,8 @@ class Sher_App_ViewTag_ContactList extends Doggy_Dt_Tag {
         $query['state'] = 0;
       }elseif((int)$state==2){
         $query['state'] = 1;
-      }else{
-        $query['state'] = 0;
+      }elseif((int)$state==3){
+        $query['state'] = 2;
       }
     }
 		

@@ -67,6 +67,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     # 评论图片
     const TYPE_COMMENT = 85;
 
+  # 实验室图片/编辑器图片
+  const TYPE_DEVICE = 86;
+  const TYPE_DEVICE_EDITOR = 87;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',

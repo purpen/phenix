@@ -1,0 +1,78 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style class="text/css">
+	
+</style>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">产品公测</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+	  	<a class="item" href="{{ app_url_admin_base }}/try">全部列表</a>
+		<a class="active item">
+			{{ try.title }}
+		</a>
+	</div>
+	
+	<h4>试用人数：{{ try.try_count }} 人, 申请人数：{{ try.pass_count }} / {{ try.apply_count }} 人</h4>
+	
+	{% apply_list var:'list' target_id:id page:page size:30 %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>申请人</th>
+				<th>用户信息</th>
+				<th>申请理由</th>
+				<th>申请时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for t in list.rows %}
+			<tr id="listr-{{ t._id }}" {% if t.result %}class="positive"{% endif %}>
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ t._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<a href="{{ t.user.home_url }}" target="_blank" class="ui link">{{ t.user.nickname }}</a>
+				</td>
+				<td>
+					<p>
+						{{ t.name }}<br />
+						{{ t.phone }}<br />
+						{{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}
+					</p>
+				</td>
+				<td class="seven wide">{{ t.content|truncate 1500 }}</td>
+				<td>{{ t.created_on|date 'y-m-d H:i' }}
+				</td>
+				<td>
+					<div class="ui small divided horizontal list">
+						{% if !t.result %}
+						<a href="{{ app_url_admin_base }}/try/pass?id={{ t._id }}" class="ui magenta link ajax item" id="verify-{{ t._id }}-button">通过</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/try/reject?id={{ t._id }}" class="ui link ajax item" id="verify-{{ t._id }}-button">驳回</a>
+						{% endif %}
+						
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

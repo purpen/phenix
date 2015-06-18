@@ -66,7 +66,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% contact_list var:'list' page:page state:state size:20  %}
+			{% contact_list var:'list' page:page kind:1 state:state size:20  %}
 			{% for contact in list.rows %}
 			<tr id="{{ contact._id }}">
 				<td>

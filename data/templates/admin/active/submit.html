@@ -979,7 +979,7 @@ fetch_map_name(val, 15);
 			</div>
 			
 			<div class="grouped inline fields">
-				<label>活动类型</label>
+				<label>活动场合</label>
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="line_stat" value="2" {% if active.line_stat == 2 %}checked="checked"{% endif %} /> 
@@ -992,44 +992,21 @@ fetch_map_name(val, 15);
 				</div>
 
 			</div>
-			
-      <!--
-			<h3 class="ui dividing stage header">官方/个人</h3>
-			<div class="inline field">
-				<div class="ui checkbox">
-		          	<input type="checkbox" name="process_voted" {% if active.kind %}checked="checked"{% endif %} />
-		          	<label>官方</label>
-		        </div>
-				<div class="ui checkbox">
-		          	<input type="checkbox" name="process_presaled" {% if active.kind %}checked="checked"{% endif %} />
-		          	<label>个人</label>
-		        </div>
+
+			<div class="grouped inline fields">
+				<label>活动类型</label>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="1" {% if active.kind == 1 %}checked="checked"{% endif %} /> 
+						<label>官方</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="2" {% if active.kind == 2 %}checked="checked"{% endif %} /> 
+						<label>实验室</label>
+					</div>
+				</div>
+
 			</div>
-
-    -->
-		
-		
-
-		
-
-		
-			<!--<h3 class="ui dividing header">报名设置</h3>
-			<div class="three fields">
-				<div class="field">
-				  <label>名额上线：</label>
-					<input type="text" name="max_number_count" value="{{ active.max_number_count }}" />
-				  <div class="description">零为无上线</div>
-				</div>
-				<div class="field">
-				  	<label>费用：</label>
-					<input type="text" name="pay_money" value="{{ active.pay_money }}" />
-				<div class="description">零为免费</div>
-				</div>
-
-			</div>-->
-
-		
-
       
       <div id="process-box">
 		<div style="margin-bottom:0.5em">

@@ -8,9 +8,11 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
     protected $collection = "active";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
-	# 类型: 官方／个人
+	# 类型: 官方／个人/实验室
     const KIND_OFFICIAL    = 1;
-    const KIND_PERSONAL   = 2;
+    const KIND_D3IN = 2;
+    const KIND_PERSONAL   = 3;
+
 
     # 进行状态：开始，结束，暂停
     const STEP_PAUSE = 0;
@@ -388,7 +390,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
           }
         }
         //自动更新第几期
-        $recent_season = $this->find(array('_id'=>array('$ne'=>$data['_id']), 'published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
+        $recent_season = $this->find(array('_id'=>array('$ne'=>$data['_id']), 'kind'=>$data['kind'], 'published'=>1, 'state'=>1), array('size'=>1, 'sort'=>array('season'=>-1)));
         if(empty($recent_season)){
           $current_season = 1;
         }else{
@@ -438,4 +440,4 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
   }
 	
 }
-?>
+

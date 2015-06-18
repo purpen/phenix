@@ -14,7 +14,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){
-		return $this->to_html_page('page/d3in/index.html');
+		return $this->d3in();
 	}
 	
 	/**
@@ -28,6 +28,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 活动
 	 */
 	public function active(){
+    $this->set_target_css_state('sub_active');
 		return $this->to_html_page('page/d3in/active.html');
 	}
 	
@@ -35,6 +36,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 活动
 	 */
 	public function tool(){
+    $this->set_target_css_state('sub_device');
 		return $this->to_html_page('page/d3in/tool.html');
 	}
 	
@@ -42,6 +44,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 会员
 	 */
 	public function member(){
+    $this->set_target_css_state('sub_member');
 		return $this->to_html_page('page/d3in/member.html');
 	}
 	
