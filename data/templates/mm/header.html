@@ -32,16 +32,19 @@
 				</a>
 				{% if visitor %}
 				
-				
+				<!--  ajax签到  -->
+				<div id="wap-user-sign-box">
+					
+				</div>
 				<!--<a class="ui inverted green active button" style="padding: 7px 10px;" id="wap-user-sign-box">
 					签到
 				</a>-->
 				
 				<!-- end  -->
 				
-				<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
+				<!--<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
 			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
-				</a>
+				</a>-->
 				{% else %}
 				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
 					<i class="user icon"></i>
