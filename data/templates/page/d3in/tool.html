@@ -45,70 +45,35 @@
 				<h3>D3IN铟立方未来实验室</h3>
 			</div>
 			<div class="eight right aligned wide column">
-				<a href="" class="ui line active item">活动</a>
-				<a href="" class="ui line item">实验室预约</a>
-				<a href="" class="ui line item">工具&设备</a>
-				<a href="" class="ui line item">会员</a>
-				<a href="" class="ui line item">关于实验室</a>
+        {% include "block/d3in/sub_nav.html" %}
 			</div>
 		</div>
 	</div>
 </div>
+
+{% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
 <div class="ui tool big block">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui four cards">
-				<div class="card">
-					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-m.jpg">
-						<div class="depict">
-							实验室工具实验室工具
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-						<div class="depict">
-							实验室工具实验室工具
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-						<div class="depict">
-							实验室工具实验室工具
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-						<div class="depict">
-							实验室工具实验室工具
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-						<div class="depict">
-							实验室工具实验室工具
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/150608/557575bcfc8b127e378cde36-2-m.jpg">
-						<div class="depict">
-							实验室工具实验室工具
-						</div>
-					</div>
-				</div>
+        {% for d in list.rows %}
+          {% include "block/d3in/device_item.html" %}
+        {%endfor%}
 			</div>
 		</div>
 		
 	</div>
+
+		<div class="row">
+			<div class="column">
+        {% if list.total_rows %}
+          <div class="ui pagination">
+            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+            {%include 'block/pager.html'%}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
 </div>
 {% endblock %}

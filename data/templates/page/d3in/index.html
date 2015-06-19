@@ -122,11 +122,7 @@
 						<h3>D3IN铟立方未来实验室</h3>
 					</div>
 					<div class="eight right aligned wide column">
-						<a href="" class="ui line item">活动</a>
-						<a href="" class="ui line item">实验室预约</a>
-						<a href="" class="ui line item">工具&设备</a>
-						<a href="" class="ui line item">会员</a>
-						<a href="" class="ui line item">关于实验室</a>
+            {% include "block/d3in/sub_nav.html" %}
 					</div>
 				</div>
 			</div>
@@ -184,10 +180,10 @@
 			
 			<div class="row">
 				<div class="center aligned column">
-					<a href="" class="ui magenta inverted button" style="min-width: 160px;">
+          <a href="{{ app_url_d3in }}/active" class="ui magenta inverted button" style="min-width: 160px;">
 						活动列表
 					</a>
-					<a href="" class="ui magenta inverted button">
+					<a href="{{ app_url_d3in }}/yuyue" class="ui magenta inverted button">
 						实验室预约
 					</a>
 				</div>

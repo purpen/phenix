@@ -60,6 +60,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约
 	 */
 	public function yuyue(){
+    $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/yuyue.html');
 	}
 	
@@ -67,6 +68,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约2
 	 */
 	public function choose(){
+    $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/choose.html');
 	}
 	
@@ -74,6 +76,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约成功
 	 */
 	public function ok(){
+    $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/ok.html');
 	}
 
@@ -100,6 +103,11 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 		
 		try{
 			$model = new Sher_Core_Model_Contact();
+
+      $has_record = $model->first(array('user_id'=>(int)$this->visitor->id, 'kind'=>2, 'state'=>array('$in'=>array(0,1))));
+      if(!empty($has_record)){
+ 			  return $this->ajax_note('不能重复申请！', true);       
+      }
 			// 新建记录
 			if(empty($id)){
 				$data['user_id'] = (int)$this->visitor->id;
