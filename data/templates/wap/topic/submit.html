@@ -1,0 +1,229 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{{ page_title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#topic-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[75]',
+					prompt : '标题最多75个字符'
+				}
+			]
+		},
+		description: {
+			identifier  : 'description',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '详细内容不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_topic }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui fluid green labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_wap }}/social/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#topic-category').val(id);
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#topic_cover_id').val(id);
+			return false;
+		});
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
+	<div class="ui responsive grid">		
+		<div class="nopad row">
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						{{ page_title }}
+					</h2>
+				</div>
+				
+				<form action="{{ app_url_wap }}/social/save" class="ui form" method="post" id="topic-form">
+					<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+					<input type="hidden" name="file_count" id="file_count" />
+					<input type="hidden" name="try_id" value="{{ try_id }}" />
+					
+					<div class="ui segment">
+						<div class="ui {{ hide }} field">
+							<label>类别</label>
+						   	<div class="ui options">
+								{% if mode == 'edit' %}
+						    		<input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+								{% else %}
+									{% if !is_top %}
+										<input type="hidden" name="category_id" value="{{ cid }}" id="topic-category" />
+									{% else %}
+										<input type="hidden" name="category_id" id="topic-category" />
+									{% endif %}
+								{% endif %}
+							
+								{% category_list var:'category' only_open:1 domain:2 is_child:1 current:cid %}
+								{% for cat in category.rows %}
+						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+						   	 		<div class="icon">
+						   				<i class="fa fa-check"></i>
+						   			</div>
+						   	 		{{ cat.title }}
+						   	 	</div>
+								{% endfor %}
+						   	 </div>
+						</div>
+						
+						<div class="field">
+							<label for="title">标题</label>
+						  	<input type="text" name="title" value="{{ topic.title }}" />
+						</div>
+				
+						<div class="field">
+							<label for="description">描述</label>
+						  	<textarea name="description" placeholder="此处无需省略一万字..." id="editor">{{ topic.description }}</textarea>
+							<div class="description">更详细的内容可以登录电脑版更新！</div>
+						</div>
+						
+						<div class="ui hide field">
+							<label>标签</label>
+						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
+							<div class="description">标签之间使用，逗号隔开</div>
+						</div>
+						
+						<div class="field">
+							<label>上传封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
+							<div id="phenix-uploader"></div>
+					
+							<div id="asset-list" class="ui four items">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
+									{% for asset in assets.rows %}
+									<div class="thumb item" id="{{ asset._id }}">
+										<div class="image">
+											<img src="{{ asset.thumbnails.mini.view_url }}" />
+											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+										</div>
+										<div class="buttons">
+											<div class="ui large links">
+												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+													<i class="remove icon"></i>
+												</a>
+												<a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+													<i class="checkered flag icon"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="ui center aligned grid">
+						<div class="column">
+							<div class="fluid ui active magenta submit button">确认提交</div>
+						</div>
+					</div>
+				
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

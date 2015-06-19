@@ -48,30 +48,16 @@ p.heigh{
 </style>
 {% endblock %}
 {% block jquery %}
-$('.ui.appoint.button').click(function(){
+$('.ui.volunteer.button').click(function(){
 	// 所有ajax请求，验证是否登录
 	if (!phenix.visitor.is_login){
 		phenix.show_login_box();
 		return false;
 	}
-	$('#addbook-form-box').modal('show');
+	$('#volunteer-form-box').modal('show');
 });
 
-$('.ui.province.dropdown').livequery(function(){
-	$(this).dropdown({
-		onChange : function(value, text){
-			if (value) {
-				$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
-			}
-		}
-	});
-});
-
-$('.ui.district.dropdown').livequery(function(){
-	$(this).dropdown();
-});
-
-$('#addbook-form').livequery(function(){
+$('#volunteer-form').livequery(function(){
 	$(this).form({
 		name: {
 			identifier  : 'name',
@@ -82,8 +68,8 @@ $('#addbook-form').livequery(function(){
 				}
 			]
 		},
-		phone: {
-			identifier  : 'password',
+		tel: {
+			identifier  : 'tel',
 			rules: [
 				{
 					type   : 'empty',
@@ -95,13 +81,48 @@ $('#addbook-form').livequery(function(){
 				}
 			]
 		},
-		zip: {
-			identifier  : 'zip',
+		email: {
+			identifier  : 'email',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '专业不能为空'
+					prompt : '请添写邮箱'
+				},
+				{
+					type   : 'email',
+					prompt : '邮箱格式不正确'
 				}
+			]
+		},
+		position: {
+			identifier  : 'position',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '职业不能为空'
+				}
+			]
+		},
+		sex: {
+			identifier  : 'sex',
+			rules: [
+				{
+					type   : 'checked',
+					prompt : '您的姓别?'
+				}
+			]
+		},
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请添写申请理由'
+				},
+        {
+          type  : 'maxLength[140]',
+          prompt  : '不能大于140个字符'
+        }
 			]
 		}
 	}, {
@@ -121,11 +142,7 @@ $('#addbook-form').livequery(function(){
 				<h3>D3IN铟立方未来实验室</h3>
 			</div>
 			<div class="eight right aligned wide column">
-				<a href="" class="ui line item">活动</a>
-				<a href="" class="ui line item">实验室预约</a>
-				<a href="" class="ui line item">工具&设备</a>
-				<a href="" class="ui line active item">会员</a>
-				<a href="" class="ui line item">关于实验室</a>
+        {% include "block/d3in/sub_nav.html" %}
 			</div>
 		</div>
 	</div>
@@ -154,7 +171,7 @@ $('#addbook-form').livequery(function(){
 				<p class="heigh">你，看到这里，有木有心动呐，速度将邮件猛砸过来吧！</p>
 			</div>
 			<div class="center aligned column">
-				<div class="ui magenta inverted appoint button">提交申请</div>
+				<div class="ui magenta inverted volunteer button">提交申请</div>
 			</div>
 			
 			
@@ -164,22 +181,23 @@ $('#addbook-form').livequery(function(){
 
 
 
-<div class="ui small addbook modal" id="addbook-form-box">
+<div class="ui small volunteer modal" id="volunteer-form-box">
   	<i class="flat close icon"></i>
 	<div class="ui header" id="modal-header">
     	申请志愿者
   	</div>
 	<div class="container">
-		<form action=" " class="ui form" method="post" id="addbook-form">
+		<form action="{{ app_url_action_base }}/d3in/volunteer_save" class="ui form" method="post" id="volunteer-form">
 		  	<div class="content">
-				<input type="hidden" name="_id" />
-				<input type="hidden" name="is_default" value="1" />
-				<input type="hidden" name="product_id" value="{{ product._id }}" />
 				
 				<div class="two fields">
 					<div class="field">
 						<label>姓名</label>
-				  		<input type="text" name="name" />
+            <input type="text" name="name" value="{{ visitor.profile.realname }}" />
+					</div>
+					<div class="field">
+						<label>职业</label>
+					  	<input type="text" name="position" value="{{ visitor.profile.job }}" />
 					</div>
 				</div>
 				
@@ -187,11 +205,11 @@ $('#addbook-form').livequery(function(){
 				<div class="field">
 					<label>性别</label>
 					<div class="ui checkbox">
-						<input type="checkbox" name="gender" />
+            <input type="radio" name="sex" {%if visitor.sex==1%}checked="checked"{%endif%} />
 						<label> 男</label>
 					</div>
 					<div class="ui checkbox">
-						<input type="checkbox" name="gender" />
+						<input type="radio" name="sex" {%if visitor.sex==2%}checked="checked"{%endif%} />
 						<label></label>
 						<label> 女</label>
 					</div>
@@ -199,22 +217,18 @@ $('#addbook-form').livequery(function(){
 				
 				<div class="two fields">
 					<div class="field">
-						<label>专业</label>
-					  	<input type="text" name="zip" />
+						<label>联系电话</label>
+					  <input type="text" name="tel" placeholder="11位手机号码" value="{{ visitor.profile.phone }}" />
+					</div>
+					<div class="field">
+						<label>邮箱</label>
+					  <input type="text" name="email" placeholder="" value="{{ visitor.email }}" />
 					</div>
 				</div>
 				
 				<div class="field">
-					<label>特长</label>
-					<textarea name="address" class="small">{{ addbook.address }}</textarea>
-				</div>
-				
-				
-				<div class="two fields">
-					<div class="field">
-						<label>联系电话</label>
-					  <input type="text" name="phone" placeholder="11位手机号码" />
-					</div>
+					<label>申请理由</label>
+					<textarea name="content" class="small"></textarea>
 				</div>
 		
 				<div class="field">
@@ -225,14 +239,5 @@ $('#addbook-form').livequery(function(){
 		</form>
 	</div>
 </div>
-
-
-
-
-
-
-
-
-
 
 {% endblock %}

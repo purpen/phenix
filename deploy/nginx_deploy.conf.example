@@ -263,6 +263,11 @@ server {
             rewrite ^/mall[/]?$ /app/site/mall last;
 			rewrite ^/mall/(.*)$ /app/site/mall/$1 last;
         }
+
+        location /d3in {
+            rewrite ^/d3in[/]?$ /app/site/d3in last;
+			rewrite ^/d3in/(.*)$ /app/site/d3in/$1 last;
+        }
 		
         location /dream {
             rewrite ^/dream(.*)$ /app/site/social/dream/$1 last;

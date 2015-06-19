@@ -11,6 +11,7 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
     's' => 1,
     'month' => '',
     'week' => '',
+    'day' => '',
     'month_sort' => 0,
     'week_sort' => 0,
     'sort_point' => 0,
