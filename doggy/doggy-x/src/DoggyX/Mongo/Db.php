@@ -31,7 +31,7 @@ class DoggyX_Mongo_Db {
 		}
         
         // 建立连接
-        $mongo = new MongoClient($host, $mos);
+        $mongo = new Mongo($host, $mos);
         
         if (isset($options['slaveOk'])) {
             $mongo->setSlaveOkay($options['slaveOk']);
