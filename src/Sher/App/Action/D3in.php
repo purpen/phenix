@@ -8,7 +8,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','yuyue','choose','ok');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','yuyue','choose','ok','volunteer');
 	
 	/**
 	 * 网站入口
@@ -52,6 +52,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in volunteer
 	 */
 	public function volunteer(){
+
 		return $this->to_html_page('page/d3in/volunteer.html');
 	}
 	
@@ -59,6 +60,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约
 	 */
 	public function yuyue(){
+    $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/yuyue.html');
 	}
 	
@@ -66,6 +68,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约2
 	 */
 	public function choose(){
+    $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/choose.html');
 	}
 	
@@ -73,8 +76,63 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约成功
 	 */
 	public function ok(){
+    $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/ok.html');
 	}
+
+  /**
+   * 提交申请志愿者信息
+   */
+  public function volunteer_save(){
+ 		// 验证数据
+		if(empty($this->stash['name']) || empty($this->stash['tel']) || empty($this->stash['email']) || empty($this->stash['position']) || empty($this->stash['content'])){
+			return $this->ajax_note('信息不全！', true);
+		}
+		$mode = 'create';
+		
+		$data = array();
+    $id = null;
+		$data['title'] = '申请实验室志愿者';
+		$data['content'] = $this->stash['content'];
+    $data['name'] = $this->stash['name'];
+		$data['tel'] = $this->stash['tel'];
+    $data['email'] = $this->stash['email'];
+    $data['sex'] = (int)$this->stash['sex'];
+    $data['position'] = $this->stash['position'];
+    $data['kind'] = 2;
+		
+		try{
+			$model = new Sher_Core_Model_Contact();
+
+      $has_record = $model->first(array('user_id'=>(int)$this->visitor->id, 'kind'=>2, 'state'=>array('$in'=>array(0,1))));
+      if(!empty($has_record)){
+ 			  return $this->ajax_note('不能重复申请！', true);       
+      }
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = (int)$this->visitor->id;
+				
+				$ok = $model->apply_and_save($data);
+				
+			}else{
+				$mode = 'edit';
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->ajax_note('保存失败,请重新提交', true);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("申请失败：".$e->getMessage());
+			return $this->ajax_json('申请保存失败:'.$e->getMessage(), true);
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.d3in'].'/volunteer';
+		
+    return $this->to_taconite_page('page/d3in/ajax_volunteer.html');
+  
+  }
 	
 }
-?>
+
