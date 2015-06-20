@@ -202,21 +202,22 @@
     alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
   {%endif%}
 
-	$.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+	//ajax加载签到数据
+  $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
 
-	  //每日签到点击
-	  $('#sign-in-btn').livequery(function(){
-	    $(this).click(function(){
-	      // 所有ajax请求，验证是否登录
-	      if (!phenix.visitor.is_login){
-	        phenix.show_login_box();
-	        return false;
-	      }
-	      //ajax加载签到事件
-	      $.post('{{ app_url_user }}/ajax_sign_in', {type:1});
+  //每日签到点击
+  $('#sign-in-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      //ajax加载签到事件
+      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
 
-	    });
-	  });
+    });
+  });
 	
 {% endblock %}
 
