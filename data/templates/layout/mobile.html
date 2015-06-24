@@ -142,23 +142,6 @@
 			$(document.body).toggleClass('left pushed');
 		});
 		
-		//ajax加载签到数据
-	  $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
-
-	  //每日签到点击
-	  $('#wap-sign-in-btn').livequery(function(){
-	    $(this).click(function(){
-	      // 所有ajax请求，验证是否登录
-	      if (!phenix.visitor.is_login){
-	        phenix.show_login_box();
-	        return false;
-	      }
-	      //ajax加载签到事件
-	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
-
-	    });
-	  });
-		
 		<!--
 		$(function(e){
 			phenix.url = {
@@ -177,6 +160,24 @@
     		{% block jquery %}{% endblock %}
 		});
 		//-->
+		
+		
+		//ajax加载签到数据
+	  $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+
+	  //每日签到点击
+	  $('sign-in-btn').livequery(function(){
+	    $(this).click(function(){
+	      // 所有ajax请求，验证是否登录
+	      if (!phenix.visitor.is_login){
+	        phenix.show_login_box();
+	        return false;
+	      }
+	      //ajax加载签到事件
+	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
+
+	    });
+	  });
 		</script>
 		
 		{% if css_use_bundle %}
