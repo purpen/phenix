@@ -35,6 +35,12 @@
 				<!--  ajax签到  -->
 				<div id="wap-user-sign-box" style="display: inline-block;position:relative;">
 				</div>
+				{% else %}
+				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
+					<i class="user icon"></i>
+				</a>
+				{% endif %}
+				
 				{% if is_doing %}
           {% if result.is_true %}
             <div class="add">
@@ -42,16 +48,6 @@
             </div>
           {%endif%}
         {%endif%}
-				<!-- end  -->
-				
-				<!--<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
-			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
-				</a>-->
-				{% else %}
-				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
-					<i class="user icon"></i>
-				</a>
-				{% endif %}
 			</div>
 			
 			<!--<div class="column">
