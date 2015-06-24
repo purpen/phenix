@@ -1,14 +1,4 @@
 <taconite>
-	<eval>
-    {% if is_doing %}
-      {% if result.is_true %}
-        $('.add').addClass('add-active');
-      {%else%}
-        phenix.show_error_note("{{ result.msg }}");
-      {%endif%}
-    {%endif%}
-
-	</eval>
 	<replace select="#wap-user-sign-box"><![CDATA[
       <div id="wap-user-sign-box" style="display: inline-block;position:relative;">
         {% if result.has_sign %}
@@ -33,4 +23,14 @@
       </div>
 	]]></replace>
 	
+	<eval>
+    {% if is_doing %}
+      {% if result.is_true %}
+        $('.add').addClass('add-active');
+      {%else%}
+        phenix.show_error_note("{{ result.msg }}");
+      {%endif%}
+    {%endif%}
+
+	</eval>
 </taconite>
