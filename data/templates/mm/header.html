@@ -31,14 +31,16 @@
 					<i class="cart icon" style="margin-right: 8px;"></i>
 				</a>
 				{% if visitor %}
-				<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
-			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
-				</a>
+				
+				<!--  ajax签到  -->
+				<div id="wap-user-sign-box" style="display: inline-block;position:relative;">
+				</div>
 				{% else %}
 				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
 					<i class="user icon"></i>
 				</a>
 				{% endif %}
+				
 			</div>
 			
 			<!--<div class="column">
