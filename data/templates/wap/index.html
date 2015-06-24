@@ -124,24 +124,10 @@
 		z-index:3;
 		color:#222;
 	  transition-delay: .3s;
-		-webkit-animation: arrow 2s ease both;
-    -moz-animation: arrow 2s ease both;
-    animation: arrow 2s ease both;
-	}
-	@-webkit-keyframes arrow {
-	        0%{opacity:1}
-	        95%{opacity:1}
-	        100%{opacity:0}
-	}
-	@-moz-keyframes arrow {
-	        0%{opacity:1}
-	        95%{opacity:1}
-	        100%{opacity:0}
-	}
-	@keyframes arrow {
-	        0%{opacity:1}
-	        95%{opacity:1}
-	        100%{opacity:0}
+		transition: color 1s, top 2s ;
+		-webkit-transition: color 1s, top 2s;
+		-moz-transition: color 1s, top 2s;
+		-o-transition: color 1s, top 2s;
 	}
 </style>
 {% endblock %}
