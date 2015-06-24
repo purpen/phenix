@@ -143,7 +143,9 @@
 		});
 		
 		//ajax加载签到数据
-	  $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+		if (phenix.visitor.is_login){
+	  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+		}
 		/*$('#wap-user-sign-box #sign-in-btn').click(function(){
 			$.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
 		});*/
