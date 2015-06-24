@@ -19,7 +19,13 @@
 			<div class="six wide column" style="width:37.5%;">
 				<a class="launch item active ui small icon" style="padding: 15px 10px 15px 0;cursor: pointer;"><i class="fa-navicon icon" style="font-size: 1.4rem !important;"></i></a>
 				
-				<div class="add" style="color:#000;">经验 +2 &nbsp;</div>
+				{% if is_doing %}
+          {% if result.is_true %}
+            <div class="add">
+              经验 +2 &nbsp; {% if result.give_money %}鸟币 +1{%endif%}
+            </div>
+          {%endif%}
+        {%endif%}
 			</div>
 			<div class="four wide column" style="width:25%;">
 				<h4 class="ui header">
