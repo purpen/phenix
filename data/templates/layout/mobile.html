@@ -20,6 +20,27 @@
     <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
+			#wap-user-sign-box .add{
+				position: absolute;
+				  top: 14px;
+				  text-align: center;
+				  left: 0;
+				  color: rgba(0,0,0,0);
+				  width: 128px;
+				  font-size: 16px;
+				  opacity: 1;
+				  z-index: -1;
+				  transition: all 1.5s;
+			}
+			#wap-user-sign-box .add-active{
+					top: -50px;
+					z-index:3;
+					color:#222;
+				  transition-delay: .3s;
+				  -webkit-animation: arrow 1.5s ease both;
+				  -moz-animation: arrow 1.5s ease both;
+				  animation: arrow 1.5s ease both;
+			}
 			body {
 			    background: #f1f1f1;
 			    color: #5d6266;
@@ -156,17 +177,6 @@
 					$('.ui.sidebar.menu').toggleClass('active');
 					$(document.body).toggleClass('left pushed');
 				});
-				
-				{% if is_doing %}
-		      {% if result.is_true %}
-		        $('.add').addClass('add-active');
-		      {%else%}
-		        phenix.show_error_note("{{ result.msg }}");
-		      {%endif%}
-		    {%endif%}
-				/*$('.add').click(function(){
-					$(this).addClass('add-active');
-				});*/
 				
 				//ajax加载签到数据
 	      if (phenix.visitor.is_login){
