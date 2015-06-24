@@ -34,13 +34,14 @@
 				
 				<!--  ajax签到  -->
 				<div id="wap-user-sign-box" style="display: inline-block;position:relative;">
-					
-					
-	         
-	            <div class="add">
-	              经验 +2 &nbsp; {% if result.give_money %}鸟币 +1{%endif%}
-	            </div>
 				</div>
+				{% if is_doing %}
+          {% if result.is_true %}
+            <div class="add">
+              经验 +2 &nbsp; {% if result.give_money %}鸟币 +1{%endif%}
+            </div>
+          {%endif%}
+        {%endif%}
 				<!-- end  -->
 				
 				<!--<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
