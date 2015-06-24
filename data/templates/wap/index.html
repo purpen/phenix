@@ -109,35 +109,32 @@
 	  text-align: center;
 	  font-size: 16px;
 	  opacity: 1;
-	  transition: all 2.5s;
-	  top: 30px;
 	  left: -20px;
 	  line-height: 20px;
 	  margin-right: -15px;
 	}
 	.add-active{
-		top: -50px;
 		z-index:3;
 		color:#222;
 		-webkit-animation-duration:2s;
-	  -webkit-animation: arrow 2s ease-in both;
-	  -moz-animation: arrow 2s ease-in both;
-	  animation: arrow 2s ease-in both;
+	  -webkit-animation: arrowa 2s ease-in both;
+	  -moz-animation: arrowa 2s ease-in both;
+	  animation: arrowa 2s ease-in both;
 	}
-	@-webkit-keyframes arrow {
-	        0%{opacity:1}
-	        95%{opacity:1}
-	        100%{opacity:0}
+	@-webkit-keyframes arrowa {
+	        0%{opacity:1,top:30px;}
+	        95%{opacity:1,top:-10px;}
+	        100%{opacity:0,top:-20px;}
 	}
-	@-moz-keyframes arrow {
-	        0%{opacity:1}
-	        95%{opacity:1}
-	        100%{opacity:0}
+	@-moz-keyframes arrowa {
+	        0%{opacity:1,top:30px;}
+	        95%{opacity:1,top:-10px;}
+	        100%{opacity:0,top:-20px;}
 	}
-	@keyframes arrow {
-	        0%{opacity:1}
-	        95%{opacity:1}
-	        100%{opacity:0}
+	@keyframes arrowa {
+	        0%{opacity:1,top:30px;}
+	        95%{opacity:1,top:-10px;}
+	        100%{opacity:0,top:-20px;}
 	}
 </style>
 {% endblock %}
