@@ -15,8 +15,6 @@ require $cfg_app_rc;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
-$indexer = Sher_Core_Service_OrdersIndexer::instance();
-
 echo "check order...\n";
 $order = new Sher_Core_Model_Orders();
 $page = 1;
@@ -24,7 +22,7 @@ $size = 1000;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('from_site'=>1);
+	$query = array('from_site'=>6);
 	$options = array('page'=>$page, 'size'=>$size);
 	$list = $order->find($query, $options);
 	if(empty($list)){
