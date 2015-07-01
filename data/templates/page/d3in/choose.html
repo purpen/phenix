@@ -90,51 +90,19 @@ $('.ui.four.blocks .block .content p').click(function(){
 		
 		<div class="ui center aligned row">
 			<div class="ui four center aligned blocks">
-				<div class="center aligned block">
-					<div class="content aligned">
-						<h4 class="ui header">DC电源</h4>
-					</div>
-				</div>
-				<div class="center aligned block">
-					<div class="content">
-						<h4 class="ui header">信号完整性测试</h4>
-						<p class="clss">时钟信号测试</p>
-						<p class="okyu">crystal验证</p>
-						<p>USB/Ethernet/SDIO/DDR测试</p>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content">
-						<h4 class="ui header">WiFi/BT性能测试</h4>
-						<p>802.11a/b/g/n 发射接收性能测试</p>
-						<p>802.11ac 发射接收性能测试</p>
-						<p>BT BDR/EDR/BLE 发射接收性能测试</p>
-						<p>WiFi/BT吞吐量测试</p>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content aligned">
-						<h4 class="ui header">EMI Pre-test</h4>
-					</div>
-				</div>	
-				<div class="center aligined block">
-					<div class="content aligned">
-						<h4 class="ui header">阻抗匹配测试</h4>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content aligned">
-						<h4 class="ui header">天线匹配/隔离度测试</h4>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content">
-						<h4 class="ui header">可靠性测试</h4>
-						<p>高低温</p>
-						<p>变电压</p>
-						<p>Thermal 测试</p>
-					</div>
-				</div>
+
+        {% for d in classifies %}
+          <div class="center aligined block">
+            <div class="content aligned1">
+              <h4 class="ui header">{{ d.title }}</h4>
+              {% if d.children %}
+                {% for c in d.children %}
+                  <p class="clss1 okyu1">{{ c.title }}</p>
+                {%endfor%}
+              {%endif%}
+            </div>
+          </div>
+        {%endfor%}
 			</div>
 		</div>
 		

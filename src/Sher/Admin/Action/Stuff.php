@@ -9,6 +9,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		'page' => 1,
 		'size' => 20,
     'sort' => 0,
+    'load_college' => 0,
 	);
 	
 	public function _init() {
@@ -70,6 +71,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/swhj2_list?page=#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
+    $this->stash['load_college'] = 1;
 		
 		return $this->to_html_page('admin/stuff/list.html');
 	}

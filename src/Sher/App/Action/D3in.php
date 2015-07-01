@@ -6,6 +6,7 @@
 class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	public $stash = array(
 		'page'=>1,
+    'size'=>50,
 	);
 	
 	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','yuyue','choose','ok','volunteer');
@@ -69,6 +70,28 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 */
 	public function choose(){
     $this->set_target_css_state('sub_appoint');
+    $query = array();
+    $options = array();
+    $model = new Sher_Core_Model_Classify();
+
+    $query['kind'] = Sher_Core_Model_Classify::KIND_D3IN;
+    $query['pid'] = 0;
+    $options['page'] = (int)$this->stash['page'];
+    $options['size'] = (int)$this->stash['size'];
+    $data = $model->find($query, $options);
+    foreach($data as $key=>$val){
+      $data[$key] = $model->extended_model_row($val);
+      // 子类
+      $children = $model->find(array('pid'=>$val['_id'], 'kind'=>Sher_Core_Model_Classify::KIND_D3IN));
+      if($children){
+        $data[$key]['children'] = $children;
+      }else{
+        $data[$key]['children'] = null;     
+      }
+    }
+
+    $this->stash['classifies'] = $data;
+
 		return $this->to_html_page('page/d3in/choose.html');
 	}
 	
