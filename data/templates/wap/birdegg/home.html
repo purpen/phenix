@@ -85,7 +85,123 @@
 {% block layout_js %}
 	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/zepto.min.js" type="text/javascript"></script>
 	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/touch.js" type="text/javascript"></script>
-	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/index.js" type="text/javascript"></script>
+	<!--<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/index.js" type="text/javascript"></script>-->
+	<script type="text/javascript">
+		(function(){
+
+		//配置
+		var config = {
+			'audio':{
+				'icon':'audio-record-play',
+				'text':true
+			},
+			'loading': 'loading-ic'
+		};
+
+		//loading
+		window.onload = function(){
+			$('#loading').hide();
+		}
+		s=window.innerHeight/500;
+		ss=250*(1-s);
+
+		$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
+
+		/*var s = 1
+		      var vScale = window.innerWidth/360
+		      var hScale = window.innerHeight/600
+
+		      s = vScale<hScale?vScale:hScale
+		$('.wrap').css('-webkit-transform','scale('+s+','+s+')');*/	
+
+		var pageIndex = 1,
+			pageTotal = $('.page').length,
+			towards = { up:1, right:2, down:3, left:4},
+			isAnimating = false;
+
+		//禁用手机默认的触屏滚动行为
+		document.addEventListener('touchmove',function(event){
+			event.preventDefault(); },false);
+
+		$(document).swipeUp(function(){
+			if (isAnimating) return;
+			if (pageIndex < pageTotal) { 
+				pageIndex+=1; 
+			}else{
+				pageIndex=1;
+			};
+			pageMove(towards.up);
+		})
+		$(document).swipeDown(function(){
+			if (isAnimating) return;
+			if (pageIndex > 1) { 
+				pageIndex-=1; 
+			}else{
+				pageIndex=pageTotal;
+			};
+			pageMove(towards.down);	
+		})
+
+		function pageMove(tw){
+			var lastPage;
+			if(tw=='1'){
+				if(pageIndex==1){
+					lastPage = ".page-"+pageTotal+"-1";
+				}else{
+					lastPage = ".page-"+(pageIndex-1)+"-1";
+				}
+
+			}else if(tw=='3'){
+				if(pageIndex==pageTotal){
+					lastPage = ".page-1"+"-1";
+				}else{
+					lastPage = ".page-"+(pageIndex+1)+"-1";
+				}
+
+			}
+
+			var nowPage = ".page-"+pageIndex+"-1";
+
+			switch(tw) {
+				case towards.up:
+					outClass = 'pt-page-moveToTop';
+					inClass = 'pt-page-moveFromBottom';
+					break;
+				case towards.down:
+					outClass = 'pt-page-moveToBottom';
+					inClass = 'pt-page-moveFromTop';
+					break;
+				case towards.right:
+					outClass = 'pt-page-moveToRight';
+					inClass = 'pt-page-moveFromLeft';
+					break;
+				case towards.left:
+					outClass = 'pt-page-moveToLeft';
+					inClass = 'pt-page-moveFromRight';
+					break;
+			}
+			isAnimating = true;
+			$(nowPage).removeClass("hide");
+
+			$(lastPage).addClass(outClass);
+			$(nowPage).addClass(inClass);
+
+			setTimeout(function(){
+				$(lastPage).removeClass('page-current');
+				$(lastPage).removeClass(outClass);
+				$(lastPage).addClass("hide");
+				$(lastPage).find("img").addClass("hide");
+
+				$(nowPage).addClass('page-current');
+				$(nowPage).removeClass(inClass);
+				$(nowPage).find("img").removeClass("hide");
+
+				isAnimating = false;
+			},600);
+		}
+
+		})();
+	</script>
 {% endblock %}
 
 {% block jquery %}
