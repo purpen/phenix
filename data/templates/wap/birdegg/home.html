@@ -79,122 +79,89 @@
 	}
 
 </style>
-	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
-	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
-{% endblock %}
-{% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate.min.js" type="text/javascript"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
-	
-	<script type="text/javascript">  
-		function fixPagesHeight() {
-			$('.swiper-slide,.swiper-container').css({
-				height: $(window).height(),
-			})
-		}
-		$(window).on('resize', function() {
-			fixPagesHeight();
-		})
-		fixPagesHeight();
-		scaleW=window.innerWidth/320;
-		scaleH=window.innerHeight/480;
-		var resizes = document.querySelectorAll('.resize');
-		for (var j=0; j<resizes.length; j++) {
-			resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-			resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-			resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-			resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
-		}
-		var scales = document.querySelectorAll('.txt');
-		for (var i=0; i<scales.length; i++) {
-			ss=scales[i].style;
-			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
-		}
-
-		var mySwiper = new Swiper('.swiper-container', {
-		  direction: 'vertical',
-			mousewheelControl: false,
-			watchSlidesProgress: false,
-		/*	followFinger : false,*/
-			onInit: function(swiper){
-			   swiperAnimateCache(swiper);
-			   swiperAnimate(swiper);
-				 swiper.myactive = 0;
-			},
-			onSetTransition: function(swiper, speed) {
-				for (var i = 0; i < swiper.slides.length; i++) {
-					//if (i == swiper.myactive) {
-
-						es = swiper.slides[i].style;
-						es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
-					//}
-				}
-			},
-			onSlideChangeEnd: function(swiper){
-				swiperAnimate(swiper);
-			},
-		});    
-		
-	</script>
-{% endblock %}
-
-{% block jquery %}
-	bgm = new Audio5js({
-      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
-      ready: function () {
-          this.load('http://frstatic.qiniudn.com/wechat/js/Uncharted Worlds.mp3');
-          this.play();
-
-          this.on('canplay', function(){
-              //console.log('canplay');
-          });   
-
-          this.on('ended', function(){
-              bgm.play();
-          })           
-      }
-  });
-
-  $('#music-control').click(function(){
-      bgm.playPause();
-  });
+	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/zhaopin/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/zhaopin/css/index.css" />
+	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/zhaopin/css/animations.css" />
 {% endblock %}
 {% block content %}
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="swiper-container vertical">
-  <div class="swiper-wrapper">
-		<div class="swiper-slide p1">
-			<img src="http://frstatic.qiniudn.com/images/egg/menu1.png" class="ani resize" style="width:320px;height:85px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="0s">
-			<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="ani resize" style="width:224px;height:90px;top:85px;left:10px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="0.5s">
-			<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="ani resize" style="width:224px;height:49px;top:175px;left:10px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="1s">
-			<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="ani resize" style="width:224px;height:102px;top:224px;left:10px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
-			
+<div>
+	<div class="page page-1-1 page-current">
+		<div class="wrap">
+			<img class="img_1 pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/cover.png" />
+			<img class="img_2 pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/wording_cover.png" />
+			<img class="img_3 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
 		</div>
-		<div class="swiper-slide p2">
-			<img src="http://frstatic.qiniudn.com/images/egg/menu1.png" class="ani resize" style="width:320px;height:85px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="0s">
-			<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="ani resize" style="width:224px;height:90px;top:85px;left:10px;" swiper-animate-effect="fadeInUpBig" swiper-animate-duration="1s" swiper-animate-delay="0.5s">
-			<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="ani resize" style="width:224px;height:49px;top:175px;left:10px;" swiper-animate-effect="fadeInUpBig" swiper-animate-duration="1s" swiper-animate-delay="1s">
-			<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="ani resize" style="width:224px;height:102px;top:224px;left:10px;" swiper-animate-effect="fadeInUpBig" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
-		</div>
-		
-		<div class="swiper-slide p3">
-			<img src="http://frstatic.qiniudn.com/images/egg/menu1.png" class="ani resize" style="width:320px;height:85px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="0.2s">
-			<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="ani resize" style="width:224px;height:90px;top:85px;left:10px;" swiper-animate-effect="fadeInDownBig" swiper-animate-duration="1s" swiper-animate-delay="0.5s">
-			<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="ani resize" style="width:224px;height:49px;top:175px;left:10px;" swiper-animate-effect="fadeInDownBig" swiper-animate-duration="1s" swiper-animate-delay="1s">
-			<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="ani resize" style="width:224px;height:102px;top:224px;left:10px;" swiper-animate-effect="fadeInDownBig" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
-		</div>
-		
-		
 	</div>
-	<img src="http://www.swiper.com.cn/demo/tiger/images/arrow.png" style="width:20px;height:15px; top:450px; left:150px;" id="array" class="resize"> 
-</div>
-
-
-
-
-
-
+	<div class="page page-2-1 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/wording.png" />
+			<img class="img_2 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/circle.png" />
+			<img class="img_3 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/people.png" />
+			<img class="img_4 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/dot1.png" />
+			<img class="img_5 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/check_develop.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
+			<img class="img_7 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/floating_develop.png" />
+		</div>
+	</div>
+	<div class="page page-2-2 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/introduction.png" />
+			<img class="img_2 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/btn_develop.png" />
+			<img class="img_3 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/dot2.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
+		</div>
+	</div>
+	<div class="page page-3-1 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/wording_design.png" />
+			<img class="img_2 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/circle-design.png" />
+			<img class="img_3 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/people_design.png" />
+			<img class="img_4 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/dot1.png" />
+			<img class="img_5 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/check_design.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
+			<img class="img_7 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/floating_design.png" />
+		</div>
+	</div>
+	<div class="page page-3-2 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/introduction_design.png" />
+			<img class="img_2 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/btn_design.png" />
+			<img class="img_3 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/dot2.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
+		</div>
+	</div>
+	
+	<div class="page page-4-1 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/wording_production.png" />
+			<img class="img_2 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/circle-production.png" />
+			<img class="img_3 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/people_production.png" />
+			<img class="img_4 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/dot1.png" />
+			<img class="img_5 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/check_production.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
+			<img class="img_7 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/floating_production.png" />
+			<img class="img_8 hide pt-page-scaleUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/pic_shadow_production.png" />
+		</div>
+	</div>
+	
+	<div class="page page-4-2 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/introduction_production.png" />
+			<img class="img_2 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/btn_production.png" />
+			<img class="img_3 hide pt-page-flipInLeft" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/dot2.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/icon_up.png" />
+		</div>
+	</div>
+	<div class="page page-5-1 hide">
+		<div class="wrap">
+			<img class="img_1 hide pt-page-rotateCubeBottomIn" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/pic_back.png" />
+			<img class="img_2 hide pt-page-rotateCubeTopIn" src="http://www.zzfriend.com/demo/shouji/zhaopin/img/btn_join.png" />
+		</div>
+	</div>
+</div>	
+	<script src="http://www.zzfriend.com/demo/shouji/zhaopin/js/zepto.min.js"></script>
+	<script src="http://touch.code.baidu.com/touch.min.js"></script>
+	<script src="http://www.zzfriend.com/demo/shouji/zhaopin/js/index.js"></script>
 
 
 
