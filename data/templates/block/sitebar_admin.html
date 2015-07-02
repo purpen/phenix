@@ -121,7 +121,7 @@
 	</a>
     {% endif %}
 
-    {% if visitor.is_admin %}
+    {% if visitor.is_chief %}
 	<div class="header item"><b>实验室</b></div>
 	<a class="{{ css_page_block }} item" href="{{ app_url_admin_base }}/block">
 		会员管理
@@ -129,7 +129,7 @@
 	<a class="{{ css_page_volunteer_contact }} item" href="{{ app_url_admin_base }}/volunteer_contact">
 		志愿者管理
 	</a>
-	<a class="{{ css_sum_record }} item" href="{{ app_url_admin_base }}/sum_record">
+	<a class="{{ css_d_appoint }} item" href="{{ app_url_admin_base }}/d_appoint">
 		预约管理
 	</a>
 	<a class="{{ css_page_device }} item" href="{{ app_url_admin_base }}/device">
