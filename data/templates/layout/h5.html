@@ -128,7 +128,15 @@
 	</head>
 	
 	<body>
-
+		<section id="mfrbird">
+			{% block layout_promo %}{% endblock %}
+		    {% block layout_header %}{% endblock %}
+		    {% block layout_content %}
+		        {% block content %}{% endblock %}
+		    {% endblock %}
+			{% block layout_footer %}
+			{% endblock %}
+		</section>
 		<script type="text/javascript">
 		<!--
 		$(function(e){
