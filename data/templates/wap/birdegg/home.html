@@ -81,127 +81,13 @@
 </style>
 	<link rel="stylesheet" href="http://www.zzfriend.com/demo/shouji/ztjob/css/animations.css">
 	<link rel="stylesheet" href="http://www.zzfriend.com/demo/shouji/ztjob/css/index.css">
+	<link rel="stylesheet" href="http://www.zzfriend.com/demo/shouji/ztjob/css/load.css">
+	<link rel="stylesheet" href="http://www.zzfriend.com/demo/shouji/ztjob/css/reset.css">
 {% endblock %}
 {% block layout_js %}
 	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/zepto.min.js" type="text/javascript"></script>
 	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/touch.js" type="text/javascript"></script>
-	<!--<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/index.js" type="text/javascript"></script>-->
-	<script type="text/javascript">
-		(function(){
-
-		//配置
-		var config = {
-			'audio':{
-				'icon':'audio-record-play',
-				'text':true
-			},
-			'loading': 'loading-ic'
-		};
-
-		//loading
-		window.onload = function(){
-			$('#loading').hide();
-		}
-		s=window.innerHeight/500;
-		ss=250*(1-s);
-
-		$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
-
-		/*var s = 1
-		      var vScale = window.innerWidth/360
-		      var hScale = window.innerHeight/600
-
-		      s = vScale<hScale?vScale:hScale
-		$('.wrap').css('-webkit-transform','scale('+s+','+s+')');*/	
-
-		var pageIndex = 1,
-			pageTotal = $('.page').length,
-			towards = { up:1, right:2, down:3, left:4},
-			isAnimating = false;
-
-		//禁用手机默认的触屏滚动行为
-		document.addEventListener('touchmove',function(event){
-			event.preventDefault(); },false);
-
-		$(document).swipeUp(function(){
-			if (isAnimating) return;
-			if (pageIndex < pageTotal) { 
-				pageIndex+=1; 
-			}else{
-				pageIndex=1;
-			};
-			pageMove(towards.up);
-		})
-		$(document).swipeDown(function(){
-			if (isAnimating) return;
-			if (pageIndex > 1) { 
-				pageIndex-=1; 
-			}else{
-				pageIndex=pageTotal;
-			};
-			pageMove(towards.down);	
-		})
-
-		function pageMove(tw){
-			var lastPage;
-			if(tw=='1'){
-				if(pageIndex==1){
-					lastPage = ".page-"+pageTotal+"-1";
-				}else{
-					lastPage = ".page-"+(pageIndex-1)+"-1";
-				}
-
-			}else if(tw=='3'){
-				if(pageIndex==pageTotal){
-					lastPage = ".page-1"+"-1";
-				}else{
-					lastPage = ".page-"+(pageIndex+1)+"-1";
-				}
-
-			}
-
-			var nowPage = ".page-"+pageIndex+"-1";
-
-			switch(tw) {
-				case towards.up:
-					outClass = 'pt-page-moveToTop';
-					inClass = 'pt-page-moveFromBottom';
-					break;
-				case towards.down:
-					outClass = 'pt-page-moveToBottom';
-					inClass = 'pt-page-moveFromTop';
-					break;
-				case towards.right:
-					outClass = 'pt-page-moveToRight';
-					inClass = 'pt-page-moveFromLeft';
-					break;
-				case towards.left:
-					outClass = 'pt-page-moveToLeft';
-					inClass = 'pt-page-moveFromRight';
-					break;
-			}
-			isAnimating = true;
-			$(nowPage).removeClass("hide");
-
-			$(lastPage).addClass(outClass);
-			$(nowPage).addClass(inClass);
-
-			setTimeout(function(){
-				$(lastPage).removeClass('page-current');
-				$(lastPage).removeClass(outClass);
-				$(lastPage).addClass("hide");
-				$(lastPage).find("img").addClass("hide");
-
-				$(nowPage).addClass('page-current');
-				$(nowPage).removeClass(inClass);
-				$(nowPage).find("img").removeClass("hide");
-
-				isAnimating = false;
-			},600);
-		}
-
-		})();
-	</script>
+	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/index.js" type="text/javascript"></script>
 {% endblock %}
 
 {% block jquery %}
@@ -226,7 +112,6 @@
   });
 {% endblock %}
 {% block content %}
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div id="loading">
  	<div class="spinner">
 		<div class="double-bounce1"></div>
@@ -236,89 +121,89 @@
 <div id="content" style="display:none">
 	<div class="page page-1-1 page-current">
 		<div class="wrap">
-			<img class="img_1 pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-text.png" />
-                <img class="img_2 pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-yuan.png" />
-			<img class="img_3 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />
+			<img class="img_1 pt-page-moveFromTop" src="img/t1-text.png" />
+                <img class="img_2 pt-page-moveCircle" src="img/t1-yuan.png" />
+			<img class="img_3 pt-page-moveIconUp" src="img/icon_up.png" />
 		</div>
 	</div>
 	<div class="page page-2-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-3.png" />
-			<img class="img_3 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-2.png" />
-                <img class="img_6 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />
+			<img class="img_1 hide pt-page-moveFromLeft" src="img/t2-3.png" />
+			<img class="img_3 hide pt-page-moveCircle" src="img/t2-2.png" />
+                <img class="img_6 pt-page-moveIconUp" src="img/icon_up.png" />
 		</div>
 	</div>
 	<div class="page page-3-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveFromRight" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-2.png" />
-			<img class="img_2 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-1.png" />
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveFromRight" src="img/t3-2.png" />
+			<img class="img_2 hide pt-page-moveCircle" src="img/t3-1.png" />
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div>
 	<div class="page page-4-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-1.png" /> 
-			<img class="img_3 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-2.png" />
-                <img class="img_4 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-3.png" /> 
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveFromLeft" src="img/t4-1.png" /> 
+			<img class="img_3 pt-page-moveFromRight hide" src="img/t4-2.png" />
+                <img class="img_4 pt-page-moveFromBottom hide" src="img/t4-3.png" /> 
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div> 
         
         <div class="page page-5-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-1.png" /> 
-			<img class="img_2 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-2.png" />
-                <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-3.png" /> 
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveFromBottom" src="img/t5-1.png" /> 
+			<img class="img_2 pt-page-moveFromLeft hide" src="img/t5-2.png" />
+                <img class="img_3 pt-page-moveFromLeft hide" src="img/t5-3.png" /> 
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div>
         
         <div class="page page-6-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-1.png" /> 
-			<img class="img_2 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-2.png" />
-                <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-3.png" /> 
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveCircle" src="img/t6-1.png" /> 
+			<img class="img_2 pt-page-moveFromRight hide" src="img/t6-2.png" />
+                <img class="img_3 pt-page-moveFromLeft hide" src="img/t6-3.png" /> 
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div>
         
         <div class="page page-7-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t7-1.png" /> 
-			<img class="img_2 pt-page-moveCircle hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t7-2.png" />
-                <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t7-3.png" /> 
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveFromTop" src="img/t7-1.png" /> 
+			<img class="img_2 pt-page-moveCircle hide" src="img/t7-2.png" />
+                <img class="img_3 pt-page-moveFromLeft hide" src="img/t7-3.png" /> 
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div>
         
         <div class="page page-8-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t8-1.png" /> 
-			<img class="img_2 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t8-2.png" />
-                <img class="img_3 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t8-3.png" /> 
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveCircle" src="img/t8-1.png" /> 
+			<img class="img_2 pt-page-moveFromRight hide" src="img/t8-2.png" />
+                <img class="img_3 pt-page-moveFromBottom hide" src="img/t8-3.png" /> 
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div>
         
         <div class="page page-9-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t9-1.png" /> 
-			<img class="img_2 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t9-2.png" /> 
-			<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+			<img class="img_1 hide pt-page-moveCircle" src="img/t9-1.png" /> 
+			<img class="img_2 pt-page-moveFromBottom hide" src="img/t9-2.png" /> 
+			<img class="img_6 hide pt-page-moveIconUp" src="img/icon_up.png" /> 
 		</div>
 	</div>
         
          <div class="page page-10-1 hide">
 		<div class="wrap">
-			<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-1.png" /> 
+			<img class="img_1 hide pt-page-moveCircle" src="img/t10-1.png" /> 
 			<div class="text">
                 	<h2 style="padding:5px; margin:0px">中通快递股份有限公司招聘</h2> 
                     电话：<a href="tel:021-69787567">021-69787567</a>(汪小姐)<br> 
                     邮箱：<a href="mailto:zp-hr@zto.cn">zp-hr@zto.cn</a><br> 
                 </div>
-                 <img onclick="shareDialog()" class="img_3 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-3.png" />
-                 <a href="http://m.zzfriend.com"><img  id="img" class="img_logo pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-5.png" /></a>
-                <a href="#"><img  id="img" class="img_7 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-4.png" /></a>
+                 <img onclick="shareDialog()" class="img_3 pt-page-moveFromBottom hide" src="img/t10-3.png" />
+                 <a href="http://m.zzfriend.com"><img  id="img" class="img_logo pt-page-moveFromBottom hide" src="img/t10-5.png" /></a>
+                <a href="#"><img  id="img" class="img_7 pt-page-moveFromBottom hide" src="img/t10-4.png" /></a>
 		</div>
 	</div> 
 </div>
@@ -328,18 +213,34 @@
 </div></div>
 <div id="share" onClick="closeDialog()">
 	<div class="shareImg"></div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
+</div>		
+    <script type="text/javascript">
+ var imgUrl = 'http://www.zzfriend.com/demo/shouji/ztjob/img/job-logo.png';
+var lineLink = 'http://www.zzfriend.com/demo/shouji/ztjob/?v='+Math.round(Math.random()*999)+3000;
+var descContent = "让我们一起闯荡江湖，让我们一起创造奇迹！";
+var shareTitle = '找的就是你，被埋没是一种罪过——中通快递喊你来面试啦！';
+var appid = 'wxdb943f961ca9da9d'; 
+gSound = 'img/1.mp3'; 
+</script>
+    <script src="js/zepto.min.js"></script>
+<script src="js/touch.js"></script>
+<script src="js/index.js"></script>
+    <script type="text/javascript">
+document.onreadystatechange = loading; 
+function loading(){
+	if(document.readyState == "complete")
+	{ 
+		$("#loading").hide();
+		$("#content").show();
+		playbksound();
+	}
+}
+function shareDialog(){
+	 $("#share").show();			
+}
+function closeDialog(){
+	$("#share").hide();
+}
+</script>
 
 {%endblock%}
