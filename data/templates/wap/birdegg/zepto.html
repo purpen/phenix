@@ -41,26 +41,6 @@
 		document.addEventListener('touchmove',function(event){
 			event.preventDefault(); },false);
 	
-		/*	$(document).swipeUp(function(){
-				if (isAnimating) return;
-				if (pageIndex < pageTotal) { 
-					pageIndex+=1; 
-				}else{
-					pageIndex=1;
-				};
-				pageMove(towards.up);
-			});*/
-
-			$(document).swipeDown(function(){
-				if (isAnimating) return;
-				if (pageIndex > 1) { 
-					pageIndex-=1; 
-				}else{
-					pageIndex=pageTotal;
-				};
-				pageMove(towards.down);	
-			});
-
 			function pageMove(tw){
 				var lastPage;
 				if(tw=='1'){
@@ -110,6 +90,26 @@
 					isAnimating = false;
 				},600);
 			}
+	
+		  $(document).swipeUp(function(){
+				if (isAnimating) return;
+				if (pageIndex < pageTotal) { 
+					pageIndex+=1; 
+				}else{
+					pageIndex=1;
+				};
+				pageMove(towards.up);
+			});
+
+			$(document).swipeDown(function(){
+				if (isAnimating) return;
+				if (pageIndex > 1) { 
+					pageIndex-=1; 
+				}else{
+					pageIndex=pageTotal;
+				};
+				pageMove(towards.down);	
+			});
 	
 	</script>
 
