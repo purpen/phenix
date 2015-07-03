@@ -91,7 +91,7 @@
 				},600);
 			}
 	
-		  $(document).swipeUp(function(){
+		  $(document).slideUp(function(){
 				if (isAnimating) return;
 				if (pageIndex < pageTotal) { 
 					pageIndex+=1; 
@@ -101,7 +101,7 @@
 				pageMove(towards.up);
 			});
 
-			$(document).swipeDown(function(){
+			$(document).slideDown(function(){
 				if (isAnimating) return;
 				if (pageIndex > 1) { 
 					pageIndex-=1; 
