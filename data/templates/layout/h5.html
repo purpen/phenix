@@ -111,13 +111,27 @@
 			}
 
 		</style>
+		
+		{% if css_use_bundle %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frmobile.min.{{ css_bundle_version }}.css" type="text/css" />
+		{% else %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frmobile.min.css" type="text/css" />
+		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
+		<!--把jquery放到body之前-->
+		<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>-->
 	</head>
 	
 	<body>
+		{% include "mm/header.html" %}
 		<section id="mfrbird">
 			{% block layout_promo %}{% endblock %}
+		    {% block layout_header %}{% endblock %}
 		    {% block layout_content %}
 		        {% block content %}{% endblock %}
 		    {% endblock %}
@@ -125,6 +139,84 @@
 			{% endblock %}
 		</section>
 		{% include "mm/footer.html" %}
+
+		{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
+		{% else %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
+		{% endif %}
+		
+		{% block layout_js %}{% endblock %}
+		{% block page_js %}
+			{% if js_use_bundle %}
+				<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>-->
+			{% else %}
+			<!--	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>-->
+			{% endif %}
+		{% endblock %}
+
+		<script type="text/javascript">
+		<!--
+	/*	$(function(e){
+			phenix.url = {
+				domain: '{{ app_url_domain }}',
+        		css: '{{ app_url_css}}',
+        		js: '{{ app_url_js}}',
+        		images: '{{ app_url_images}}',
+				app_url_action_base: '{{ app_url_action_base }}'
+			};
+			
+			phenix.visitor = {{ visitor_json }};
+			
+    		phenix.initial();
+
+				
+				//sidebar menu
+				$('a.launch').click(function(){
+					$('.ui.sidebar.menu').toggleClass('active');
+					$(document.body).toggleClass('left pushed');
+				});
+				
+				//ajax加载签到数据
+	      if (phenix.visitor.is_login){
+			  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+				}
+			  //每日签到点击
+			  $('#sign-in-btn').livequery(function(){
+			    $(this).click(function(){
+			      //ajax加载签到事件
+			      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
+
+			    });
+			  });
+			
+    		{% block layout_jquery %}{% endblock %}
+    		{% block jquery %}{% endblock %}
+		});*/
+		//-->
+		</script>
+		
+		{% if css_use_bundle %}
+		<div class="ui tongji hide">
+			<script type="text/javascript">
+			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdb22f2cd57330bf18e5b0ff1e27e745f' type='text/javascript'%3E%3C/script%3E"));
+			</script>
+			
+			<script>
+			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			  ga('create', 'UA-50478715-2', 'auto');
+			  ga('send', 'pageview');
+
+			</script>
+		</div>
+		{% endif %}
 		
 	</body>
 </html>
