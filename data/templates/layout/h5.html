@@ -123,8 +123,6 @@
 		{% endif %}
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
-		<!--把jquery放到body之前-->
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 	</head>
 	
 	<body>
@@ -139,66 +137,9 @@
 			{% endblock %}
 		</section>
 		{% include "mm/footer.html" %}
-
-		{% if js_use_bundle %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
-		{% else %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
-		{% endif %}
 		
-		{% block layout_js %}{% endblock %}
-		{% block page_js %}
-			{% if js_use_bundle %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
-			{% else %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
-			{% endif %}
-		{% endblock %}
-
-		<script type="text/javascript">
-		<!--
-		$(function(e){
-			phenix.url = {
-				domain: '{{ app_url_domain }}',
-        		css: '{{ app_url_css}}',
-        		js: '{{ app_url_js}}',
-        		images: '{{ app_url_images}}',
-				app_url_action_base: '{{ app_url_action_base }}'
-			};
-			
-			phenix.visitor = {{ visitor_json }};
-			
-    		phenix.initial();
-
-				
-				//sidebar menu
-				$('a.launch').click(function(){
-					$('.ui.sidebar.menu').toggleClass('active');
-					$(document.body).toggleClass('left pushed');
-				});
-				
-				//ajax加载签到数据
-	      if (phenix.visitor.is_login){
-			  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
-				}
-			  //每日签到点击
-			  $('#sign-in-btn').livequery(function(){
-			    $(this).click(function(){
-			      //ajax加载签到事件
-			      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
-
-			    });
-			  });
-			
-    		{% block layout_jquery %}{% endblock %}
-    		{% block jquery %}{% endblock %}
-		});
-		//-->
-		</script>
 		
-		{% if css_use_bundle %}
+		<!--{% if css_use_bundle %}
 		<div class="ui tongji hide">
 			<script type="text/javascript">
 			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
@@ -216,7 +157,7 @@
 
 			</script>
 		</div>
-		{% endif %}
+		{% endif %}-->
 		
 	</body>
 </html>
