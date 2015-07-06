@@ -1,9 +1,9 @@
 <?php
 /**
- * 区块
+ * 会员-实验室
  * @author tianshuai
  */
-class Sher_Core_Service_Block extends Sher_Core_Service_Base {
+class Sher_Core_Service_DMember extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
@@ -14,11 +14,11 @@ class Sher_Core_Service_Block extends Sher_Core_Service_Base {
     /**
      * current service instance
      *
-     * @return Sher_Core_Service_Block
+     * @return Sher_Core_Service_DMember
      */
     public static function instance() {
         if (is_null(self::$instance)) {
-            return self::$instance = new Sher_Core_Service_Block();
+            return self::$instance = new Sher_Core_Service_DMember();
         }
         return self::$instance;
     }
@@ -26,7 +26,7 @@ class Sher_Core_Service_Block extends Sher_Core_Service_Base {
     /**
      * 获取列表
      */
-    public function get_block_list($query=array(), $options=array()) {
+    public function get_d_member_list($query=array(), $options=array()) {
 	    $model = new Sher_Core_Model_Block();
 		  return $this->query_list($model, $query, $options);
     }

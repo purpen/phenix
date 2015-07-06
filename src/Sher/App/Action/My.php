@@ -636,7 +636,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         }
 
         $this->stash['my'] = true;
-        $this->stash['order'] = $model->find_by_rid($rid);
+        $new = $model->find_by_rid($rid);
+        $this->stash['order'] = $new;
         return $this->to_taconite_page('ajax/refund_ok.html');
     }
 

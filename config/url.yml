@@ -155,6 +155,10 @@ app.url.my.orders: '{$app.url.domain}/my/orders'
 app.url.my.order_view: '{$app.url.domain}/my/order_view?rid=%s'
 app.url.my.order_mm_view: '{$app.domain.mobile}/my/order_view?rid=%s'
 
+#实验室
+app.url.my.d_order_view: '{$app.url.domain}/my/d_order_view?rid=%s'
+app.url.my.d_order_wap_view: '{$app.domain.mobile}/my/d_order_view?rid=%s'
+
 #个人主页
 app.url.user:			'{$app.url.domain}/user'
 app.url.user.love:		'{$app.url.domain}/user/%s/love'
