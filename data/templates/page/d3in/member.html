@@ -100,10 +100,10 @@
 						<tr>
 							<td>会费</td>
 							<td>无</td>
-							<td>800元/月；</br>
-							2112元/季（88折）；</br>
-							3840元/半年（8折）；</br>
-							6720元/年（7折）；</td>
+							<td>{{ vip_money.month }}元/月；</br>
+							{{ vip_money.quarter }}元/季（88折）；</br>
+							{{ vip_money.self_year }}元/半年（8折）；</br>
+							{{ vip_money.year }}元/年（7折）；</td>
 							<td>无（特殊耗材除外）</td>
 						</tr>
 						<tr>
@@ -147,18 +147,15 @@
 				</br>
 				
 			</div>
-			<div class="center aligned column">
-				<h3 class="ui header">加入VIP会员订阅计划</h3>
-				<a href="" class="ui magenta inverted active button">800元 / 月</a>
-				<a href="" class="ui magenta inverted active button">2112元 / 季 (88折)</a>
-				<a href="" class="ui magenta inverted active button">3840元 / 半年 (8折)</a>
-				<a href="" class="ui magenta inverted active button">6720元 / 全年 (8折)</a>
-			</div>
+      <div class="center aligned column">
+        <h3 class="ui header">加入VIP会员订阅计划</h3>
+        <a href="{{ app_url_d3in }}/buy?evt=month" class="ui magenta inverted active button">{{ vip_money.month }}元 / 月</a>
+        <a href="{{ app_url_d3in }}/buy?evt=quarter" class="ui magenta inverted active button">{{ vip_money.quarter }}元 / 季 (88折)</a>
+        <a href="{{ app_url_d3in }}/buy?evt=self_year" class="ui magenta inverted active button">{{ vip_money.self_year }}元 / 半年 (8折)</a>
+        <a href="{{ app_url_d3in }}/buy?evt=year" class="ui magenta inverted active button">{{ vip_money.year }}元 / 全年 (8折)</a>
+      </div>
 		</div>
 	</div>
 </div>
-
-
-
 
 {% endblock %}
