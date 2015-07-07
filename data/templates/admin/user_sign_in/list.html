@@ -71,11 +71,10 @@
 					  	<label></label>
 					</div>
 				</th>
-				<th>签到ID</th>
 				<th>用户信息</th>
 				<th>最后签到时间</th>
 				<th>连续签到天数</th>
-				<th>连续登陆天数</th>
+				<th>最高签到天数</th>
 				<th>经验总值</th>
 				<th>鸟币总值</th>
 			</tr>
@@ -90,9 +89,6 @@
 					  	<input name="ids" type="checkbox" value="{{ sign._id }}" class="checkbox" />
 					  	<label></label>
 					</div>
-				</td>
-				<td>
-						<p class="attribute">{{ sign._id }}</p>
 				</td>
 				<td>
 					<a class="ui image label link" href="{{ sign.user.home_url }}" target="_blank">
