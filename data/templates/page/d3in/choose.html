@@ -63,8 +63,32 @@
 {% endblock %}
 {% block jquery %}
 $('.ui.four.blocks .block .content p').click(function(){
-	$(this).toggleClass('clss');
+	//$(this).toggleClass('clss');
 })
+
+$('.choose_option').click(function(){
+  var class_id = $(this).attr('class_id');
+  if($(this).hasClass('clss')){
+    $(this).removeClass('clss');
+    phenix.remove_asset_id('choose_ids', class_id);
+  }else{
+    $(this).addClass('clss');
+    phenix.record_asset_id('choose_ids', class_id);
+  }
+
+});
+
+$('#next-step').click(function(){
+  var ids = $("#choose_ids").val();
+  if(ids){
+    phenix.redirect('/d3in/yuyue?ids='+ids);
+  }else{
+    phenix.show_error_note('请先选择一项服务', 3000);  
+    return false;
+  }
+});
+
+
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
@@ -90,58 +114,27 @@ $('.ui.four.blocks .block .content p').click(function(){
 		
 		<div class="ui center aligned row">
 			<div class="ui four center aligned blocks">
-				<div class="center aligned block">
-					<div class="content aligned">
-						<h4 class="ui header">DC电源</h4>
-					</div>
-				</div>
-				<div class="center aligned block">
-					<div class="content">
-						<h4 class="ui header">信号完整性测试</h4>
-						<p class="clss">时钟信号测试</p>
-						<p class="okyu">crystal验证</p>
-						<p>USB/Ethernet/SDIO/DDR测试</p>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content">
-						<h4 class="ui header">WiFi/BT性能测试</h4>
-						<p>802.11a/b/g/n 发射接收性能测试</p>
-						<p>802.11ac 发射接收性能测试</p>
-						<p>BT BDR/EDR/BLE 发射接收性能测试</p>
-						<p>WiFi/BT吞吐量测试</p>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content aligned">
-						<h4 class="ui header">EMI Pre-test</h4>
-					</div>
-				</div>	
-				<div class="center aligined block">
-					<div class="content aligned">
-						<h4 class="ui header">阻抗匹配测试</h4>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content aligned">
-						<h4 class="ui header">天线匹配/隔离度测试</h4>
-					</div>
-				</div>
-				<div class="center aligined block">
-					<div class="content">
-						<h4 class="ui header">可靠性测试</h4>
-						<p>高低温</p>
-						<p>变电压</p>
-						<p>Thermal 测试</p>
-					</div>
-				</div>
+        <input type="hidden" name="choose_ids" id="choose_ids" value="{{ ids }}" />
+
+        {% for d in classifies %}
+          <div class="center aligined block">
+            <div class="content aligned1">
+              <h4 class="ui header">{{ d.title }}</h4>
+              {% if d.children %}
+                {% for c in d.children %}
+                  <p class="choose_option clss1 okyu1" class_id="{{ c._id }}">{{ c.title }}</p>
+                {%endfor%}
+              {%endif%}
+            </div>
+          </div>
+        {%endfor%}
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="right aligned column">
-				<a href="" class="ui magenta inverted button">取消</a>&nbsp;&nbsp;
-				<a href="" class="ui magenta inverted button">下一步</a>
+        <a href="{{ app_url_domain }}/d3in" class="ui magenta inverted button">取消</a>&nbsp;&nbsp;
+				<a href="javascript:void(0);" class="ui magenta inverted button" id="next-step">下一步</a>
 			</div>
 		</div>
 	</div>

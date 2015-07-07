@@ -130,6 +130,8 @@ app.dt.extension_lib.sher_app:
     'report_list':'Sher_Core_ViewTag_ReportList'
     'user_point_stat_list':'Sher_Core_ViewTag_UserPointStatList'
     'device_list':'Sher_Core_ViewTag_DeviceList'
+    'd_order_list':'Sher_Core_ViewTag_DOrderList'
+    'd_member_list':'Sher_Core_ViewTag_DMemberList'
   filters: []
 
 app.js.use_bundle: false

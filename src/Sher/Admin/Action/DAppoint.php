@@ -1,9 +1,9 @@
 <?php
 /**
- * 块管理
- * @author purpen
+ * 实验室预约管理
+ * @author tianshuai
  */
-class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -11,7 +11,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	);
 	
 	public function _init() {
-		$this->set_target_css_state('page_block');
+		$this->set_target_css_state('page_d_appoint');
     }
 	
 	/**
@@ -25,43 +25,35 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('all');
+    $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/block?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/d_appoint?page=#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
 		
-		return $this->to_html_page('admin/block/list.html');
+		return $this->to_html_page('admin/d_appoint/list.html');
 	}
 	
 	/**
-	 * 创建/更新
+	 * 创建/更新块
 	 */
 	public function submit(){
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
 		$mode = 'create';
 		
-		$model = new Sher_Core_Model_Block();
+		$model = new Sher_Core_Model_DAppoint();
 		if(!empty($id)){
 			$mode = 'edit';
-			$block = $model->find_by_id($id);
-      $block = $model->extended_model_row($block);
-      $block['_id'] = (string)$block['_id'];
-			$this->stash['chunk'] = $block;
+			$appoint = $model->find_by_id($id);
+      $appoint = $model->extended_model_row($block);
+      $appoint['_id'] = (string)$appoint['_id'];
+			$this->stash['appoint'] = $appoint;
 
 		}
 		$this->stash['mode'] = $mode;
 		
-		// 编辑器上传附件
-		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
-		$this->stash['editor_pid'] = new MongoId();
-
-		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_BLOCK;
-		
-		return $this->to_html_page('admin/block/submit.html');
+		return $this->to_html_page('admin/d_appoint/submit.html');
 	}
 
 	/**
@@ -78,7 +70,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 		$data['state'] = 1;
 
 		try{
-			$model = new Sher_Core_Model_Block();
+			$model = new Sher_Core_Model_DAppoint();
 			
 			if(empty($id)){
 				$mode = 'create';
@@ -102,11 +94,11 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("Save block failed: ".$e->getMessage());
+			Doggy_Log_Helper::warn("Save d_appoint failed: ".$e->getMessage());
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/block';
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/d_appoint';
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
@@ -131,18 +123,18 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	public function deleted(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_notification('块不存在！', true);
+			return $this->ajax_notification('预约不存在！', true);
 		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_Block();
+			$model = new Sher_Core_Model_DAppoint();
 			
 			foreach($ids as $id){
-				$block = $model->load($id);
+				$appoint = $model->load($id);
 				
-				if (!empty($block)){
+				if (!empty($appoint)){
 					$model->remove($id);
 					// 删除关联对象
 					$model->mock_after_remove($id);
@@ -159,4 +151,4 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 }
-
+?>

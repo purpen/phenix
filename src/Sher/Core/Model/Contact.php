@@ -166,12 +166,12 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
     $ok = $this->update_set($id, array('state' => $state));
     if($ok){
       //如果是实验室申请者通过/拒绝,更改用户表标识
-      if($data['kind']==2){
+      if($data['kind']==self::KIND_D3IN){
         $user_model = new Sher_Core_Model_User();
         if($state==1){
           $user_model->update_user_identify($data['user_id'], 'd3in_volunteer', 1);
         }elseif($state==2){
-          $user_model->update_user_identify($data['user_id'], 'd3in_vip', 0);       
+          $user_model->update_user_identify($data['user_id'], 'd3in_volunteer', 0);       
         }    
       }
 
