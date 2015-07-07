@@ -29,8 +29,8 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
     $this->set_target_css_state('all_list');
 		$page = (int)$this->stash['page'];
 
-    $this->stash['category_id'] = 0;
-    $this->stash['is_top'] = true;
+		$this->stash['category_id'] = 0;
+		$this->stash['is_top'] = true;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff?sort=%d&page=#p#', $this->stash['sort']);
 		
