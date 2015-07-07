@@ -21,7 +21,13 @@
 	padding: 1rem 5%;
 	margin:1rem 0;
 }
-
+.inline.fields .field {
+  min-height: 1.3em;
+	margin: 1rem 0;
+}
+.grouped.inline.fields{
+	margin-bottom: 2rem;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -65,20 +71,45 @@ $('#pay_btn').click(function(){
 		</div>
 		<div class="row ui white responsive grid">
 			<div class="column">
+				<div class="grouped inline fields">
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='month'%}checked="checked"{%endif%} value="month" />
+							<label>{{ vip_money.month }}元 / 月</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='quarter'%}checked="checked"{%endif%} value="quarter" />
+							<label>{{ vip_money.quarter }}元 / 季 (&nbsp;88折&nbsp;)</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='self_year'%}checked="checked"{%endif%} value="self_year" />
+							<label>{{ vip_money.self_year }}元 / 半年 (&nbsp;8折&nbsp;)</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='year'%}checked="checked"{%endif%} value="year" />
+							<label>{{ vip_money.year }}元 / 全年 (&nbsp;8折&nbsp;)</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--<div class="column">
         <label><p><input type="radio" name="vip_evt" {%if evt=='month'%}checked="checked"{%endif%} value="month" /> {{ vip_money.month }}元 / 月</p></label>
 				<label><p><input type="radio" name="vip_evt" {%if evt=='quarter'%}checked="checked"{%endif%} value="quarter" /> {{ vip_money.quarter }}元 / 季 (88折)</p></label>
 				<label><p><input type="radio" name="vip_evt" {%if evt=='self_year'%}checked="checked"{%endif%} value="self_year" /> {{ vip_money.self_year }}元 / 半年 (8折)</p></label>
 				<label><p><input type="radio" name="vip_evt" {%if evt=='year'%}checked="checked"{%endif%} value="year" /> {{ vip_money.year }}元 / 全年 (8折)</p></label>
-			</div>
-      <div>
+			</div>-->
 
-			<div class="row">
 				<div class="center aligned column">
           <a href="javascript:void(0);" id="pay_btn" class="ui magenta inverted button">
 						下一步
 					</a>
 				</div>
-			</div>
       </div>
 		</div>
 	</div>
