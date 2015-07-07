@@ -50,7 +50,7 @@
 	border-bottom:0px solid #fff;
 }
 .clss{
-	background:#f1f1f1 !important;
+	background:#e1e1e1 !important;
 }
 
 /* 已预约的 */
@@ -113,9 +113,8 @@ $('#next-step').click(function(){
 		</div>
 		
 		<div class="ui center aligned row">
+			<input type="hidden" name="choose_ids" id="choose_ids" value="{{ ids }}" />
 			<div class="ui four center aligned blocks">
-        <input type="hidden" name="choose_ids" id="choose_ids" value="{{ ids }}" />
-
         {% for d in classifies %}
           <div class="center aligined block">
             <div class="content aligned1">
