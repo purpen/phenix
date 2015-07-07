@@ -860,4 +860,78 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
   }
 
+  /**
+   * 实验室 订单
+   */
+  public function d_order(){
+    $this->set_target_css_state('user_d_order');
+    $s = (int)$this->stash['s'];
+		switch($s){
+			case 1: // 未支付订单
+				$this->set_target_css_state('nopayed');
+				break;
+			case 4: // 已完成订单
+				$this->set_target_css_state('finished');
+				break;
+			case 9: // 已关闭订单：取消的订单、过期的订单
+				$this->set_target_css_state('closed');
+				break;
+      default:
+				$this->set_target_css_state('all');
+
+		}
+
+    return $this->to_html_page('page/my/d_order.html');
+  }
+
+  /**
+   * 实验室 订单详情
+   */
+  public function d_order_view(){
+
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！');
+		}
+
+    $this->set_target_css_state('user_d_order');
+		$model = new Sher_Core_Model_DOrder();
+		$order_info = $model->find_by_rid($rid);
+
+		// 仅查看本人的订单
+		if($this->visitor->id != $order_info['user_id']){
+			return $this->show_message_page('你没有权限查看此订单！');
+		}
+
+    $s = (int)$this->stash['s'];
+
+		switch($s){
+			case 1: // 未支付订单
+				$this->set_target_css_state('nopayed');
+				break;
+			case 4: // 已完成订单
+				$this->set_target_css_state('finished');
+				break;
+			case 9: // 已关闭订单：取消的订单、过期的订单
+				$this->set_target_css_state('closed');
+				break;
+      default:
+				$this->set_target_css_state('all');
+
+		}
+
+		$this->stash['order_info'] = $order_info;
+
+    return $this->to_html_page('page/my/d_order_view.html');
+  }
+
+  /**
+   * 实验室 预约列表
+   */
+  public function d_appoint(){
+    $this->set_target_css_state('user_d_appoint');
+    return $this->to_html_page('page/my/d_appoint.html');
+  }
+
+
 }
