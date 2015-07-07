@@ -23,6 +23,8 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
 
     'pay_money'   => 0,
     'total_money' => 0,
+    # 优惠类型
+    'discount_type' => 0,
 
 		## 支付方式
     'payment_method' => 0,
@@ -78,7 +80,7 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
   protected $joins = array();
 
   protected $required_fields = array('user_id', 'item_id', 'item_name');
-  protected $int_fields = array('rid', 'user_id', 'kind', 'state', 'expired_time', 'from_site', 'finished_date');
+  protected $int_fields = array('rid', 'user_id', 'kind', 'state', 'expired_time', 'from_site', 'finished_date', 'discount_type');
   protected $float_fields = array('pay_money', 'total_money', 'refunded_price');
 	
 	
@@ -294,6 +296,18 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
 
       //更新订单状态 
       $ok = $this->update_set((int)$id, $updated);
+
+      if($ok){
+        //支付成功
+        if($status == Sher_Core_Util_Constant::ORDER_PUBLISHED){
+          $order = $this->find_by_id((int)$id);
+          // 如果是大于等于包月并且类型是实验室,自动创建会员账号
+          if($order['kind']==self::KIND_D3IN && in_array((int)$order['item_id'], array(2,3,4,5))){
+            $member_model = new Sher_Core_Model_DMember();
+            $member_model->gen_d3in_member($order['user_id'], array('item_id'=>(int)$order['item_id'], 'pay_money'=>$order['pay_money']));
+          }
+        }
+      }
 
       return $ok;
 	}

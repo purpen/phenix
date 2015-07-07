@@ -164,6 +164,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！');
 		}
+		$this->set_target_css_state('user_orders');
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 
