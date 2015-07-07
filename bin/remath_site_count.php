@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * Remath sitedata count
+ * Remath site data count
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {

@@ -7,9 +7,9 @@
 	// 删除灵感
 	$('.item.ajax-delete').bind('click', function(){
 		var selected_ids = [];
-    if(!window.confirm('你确定要执行批量删除操作？')){
-      return false;
-    }
+		if(!window.confirm('你确定要执行批量删除操作？')){
+		  return false;
+		}
 		
 		$('input.checkbox:checked').each(function(){
 			var v = $(this).val();
@@ -99,12 +99,12 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">名称</th>
-        <th>赞名单</th>
-        <th>收藏数</th>
-        <th>评论数</th>
-        <th>审核</th>
-        <th>推荐</th>
-        <th>来自</th>
+				<th>赞名单</th>
+				<th>收藏数</th>
+				<th>评论数</th>
+				<th>审核</th>
+				<th>推荐</th>
+				<th>来自</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
