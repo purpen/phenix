@@ -22,6 +22,9 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
     '_id' => null,
     'kind' => self::KIND_D3IN,
 
+    // 类型
+    'item_type' => 1;
+
     // 会员有效期
     'begin_time' => 0,
     'end_time' => 0,
@@ -31,12 +34,15 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
     // 累计充值金额
     'total_price' => 0,
 
+    // 预约总次数
+    'appoint_times' => 0,
+
     //备注
     'remark'  => null,
 		'state' => self::STATE_OK,
   );
 
-  protected $int_fields = array('state', 'kind', 'begin_time', 'end_time');
+  protected $int_fields = array('state', 'kind', 'item_type', 'begin_time', 'end_time', 'appoint_times');
   protected $float_fields = array('last_price', 'total_price');
 
 
@@ -67,9 +73,12 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
       $member = $this->find_by_id((int)$user_id);
       $data['_id'] = (int)$user_id;
       $data['last_price'] = $options['pay_money'];
+      $data['item_type'] = (int)$options['item_id'];
 
       $end_time = 0;
       switch((int)$options['item_id']){
+        case 1:
+          $end_time = strtotime('1 day');
         case 2:
           $end_time = strtotime('1 month');
           break;
@@ -110,7 +119,10 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
         if($ok){
           //更新用户表为VIP会员类型
           $user_model = new Sher_Core_Model_User();
-          $user_model->update_user_identify((int)$user_id, 'd3in_vip', 1); 
+          if(in_array((int)$options['item_id'], array(2,3,4,5,6))){
+            $user_model->update_user_identify((int)$user_id, 'd3in_vip', 1);         
+          }
+          $user_model->update_user_identify((int)$user_id, 'd3in_tag', 1);  
         }
       
       }
