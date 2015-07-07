@@ -23,7 +23,7 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
     'kind' => self::KIND_D3IN,
 
     // 类型
-    'item_type' => 1;
+    'item_type' => 1,
 
     // 会员有效期
     'begin_time' => 0,
@@ -79,6 +79,7 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
       switch((int)$options['item_id']){
         case 1:
           $end_time = strtotime('1 day');
+          break;
         case 2:
           $end_time = strtotime('1 month');
           break;
