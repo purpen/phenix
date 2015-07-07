@@ -3,7 +3,7 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">块管理</h3>
+	<h3 class="ui header">预约管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/block" class="{{ css_all }} item">
@@ -47,7 +47,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% block_list var:'blocks' status:1 size:30 %}
+			{% d_appoint_list var:'blocks' status:1 size:30 %}
 			
 			{% for b in blocks.rows %}
 			<tr id="{{ b._id }}">

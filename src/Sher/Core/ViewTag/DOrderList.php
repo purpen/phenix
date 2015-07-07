@@ -1,9 +1,9 @@
 <?php
 /**
- * 块列表标签
+ * 实验室订单列表标签
  * @author tianshuai
  */
-class Sher_Core_ViewTag_BlockList extends Doggy_Dt_Tag {
+class Sher_Core_ViewTag_DOrderList extends Doggy_Dt_Tag {
     protected $argstring;
 	
     public function __construct($argstring, $parser, $pos = 0) {
@@ -18,8 +18,9 @@ class Sher_Core_ViewTag_BlockList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
 
-		$used = 0;
-		$status = 0;
+		$user_id = 0;
+		$state = 0;
+    $kind = 0;
 
 		
         $var = 'list';
@@ -37,16 +38,22 @@ class Sher_Core_ViewTag_BlockList extends Doggy_Dt_Tag {
         $query = array();
 
 		
-		if($status){
-			$query['state'] = (int)$status;
+		if($state){
+			$query['state'] = (int)$state;
+		}
+		if($user_id){
+			$query['user_id'] = (int)$user_id;
+		}
+		if($kind){
+			$query['kind'] = (int)$kind;
 		}
 
 		
-        $service = Sher_Core_Service_Block::instance();
+        $service = Sher_Core_Service_DOrder::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
-        $result = $service->get_block_list($query,$options);
+        $result = $service->get_d_order_list($query,$options);
 		
         $context->set($var, $result);
 		

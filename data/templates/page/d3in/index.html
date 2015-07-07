@@ -183,7 +183,7 @@
           <a href="{{ app_url_d3in }}/active" class="ui magenta inverted button" style="min-width: 160px;">
 						活动列表
 					</a>
-					<a href="{{ app_url_d3in }}/yuyue" class="ui magenta inverted button">
+					<a href="{{ app_url_d3in }}/choose" class="ui magenta inverted button">
 						实验室预约
 					</a>
 				</div>
@@ -375,10 +375,10 @@
 			<div class="row">
 				<div class="center aligned column">
 					<h3 class="ui header">加入VIP会员订阅计划</h3>
-					<a href="" class="ui magenta inverted active button">800元 / 月</a>
-					<a href="" class="ui magenta inverted active button">2112元 / 季 (88折)</a>
-					<a href="" class="ui magenta inverted active button">3840元 / 半年 (8折)</a>
-					<a href="" class="ui magenta inverted active button">6720元 / 全年 (8折)</a>
+          <a href="{{ app_url_d3in }}/buy?evt=month" class="ui magenta inverted active button">{{ vip_money.month }}元 / 月</a>
+          <a href="{{ app_url_d3in }}/buy?evt=quarter" class="ui magenta inverted active button">{{ vip_money.quarter }}元 / 季 (88折)</a>
+          <a href="{{ app_url_d3in }}/buy?evt=self_year" class="ui magenta inverted active button">{{ vip_money.self_year }}元 / 半年 (8折)</a>
+          <a href="{{ app_url_d3in }}/buy?evt=year" class="ui magenta inverted active button">{{ vip_money.year }}元 / 全年 (8折)</a>
 				</div>
 			</div>
 		</div>
