@@ -74,7 +74,12 @@
           {{ d.summary }}
         </td>
         <td>
-          {{ d.state_label }}
+          <label class="ui {%if d.state==0%}gray {%endif%}{%if d.state==1%}red {%endif%}{%if d.state==20%}green {%endif%} label">{{ d.state_label }}</label>
+          
+          {% if d.state==20 %}
+            <p>支付时间: {{ d.finished_date|date }}</p>
+            <p>交易号: {{ d.trade_no }}</p>
+          {%endif%}
         </td>
         <td>
           {{ d.created_on|date }}

@@ -43,7 +43,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% d_member_list var:'members' load_user:1 kind:1 state:0 size:30 %}
+			{% d_member_list var:'members' load_user:1 kind:1 state:0 page:page size:30 %}
 			
 			{% for d in members.rows %}
 			<tr id="{{ d._id }}">
@@ -68,10 +68,10 @@
           {{ d.last_price }}/{{ d.total_price }}
         </td>
         <td>
-          {% if d.state==1 %}
-            <label class="ui magenta label">正常</label>
+          {% if d.is_expired %}
+            <label class="ui magenta label">过期</label>
           {%else%}
-            <label class="ui gray label">禁用</label>
+            <label class="ui green label">正常</label>
           {%endif%}
         </td>
         <td>

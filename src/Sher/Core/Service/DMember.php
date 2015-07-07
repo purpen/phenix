@@ -27,7 +27,7 @@ class Sher_Core_Service_DMember extends Sher_Core_Service_Base {
      * 获取列表
      */
     public function get_d_member_list($query=array(), $options=array()) {
-	    $model = new Sher_Core_Model_Block();
+	    $model = new Sher_Core_Model_DMember();
 		  return $this->query_list($model, $query, $options);
     }
 	

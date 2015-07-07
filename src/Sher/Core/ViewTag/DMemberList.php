@@ -61,7 +61,7 @@ class Sher_Core_ViewTag_DMemberList extends Doggy_Dt_Tag {
 
             for($i=0;$i<count($result['rows']);$i++){
               $user_id = $result['rows'][$i]['_id'];
-              $user = $user_model->find_by_id((int)$user_id);
+              $user = $user_model->extend_load((int)$user_id);
               if($user){
                   $result['rows'][$i]['user'] = $user;              
               }

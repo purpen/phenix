@@ -187,6 +187,14 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 			return $this->show_message_page('请求参数不正确！', $redirect_url);
 		}
 
+    $mode = new Sher_Core_Model_DMember();
+    $member = $mode->find_by_id((int)$this->visitor->id);
+    if(!empty($member)){
+      if($member['end_time'] > time()){
+ 			  return $this->show_message_page('您已是会员或临时会员用户,无需支付！', $redirect_url);     
+      }
+    }
+
     $this->set_target_css_state('sub_member');
 
     $vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
@@ -230,6 +238,14 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       return $this->ajax_json('请求参数不正确!', true);   
     }
 
+    $member_mode = new Sher_Core_Model_DMember();
+    $member = $member_mode->find_by_id((int)$this->visitor->id);
+    if(!empty($member)){
+      if($member['end_time'] > time()){
+        return $this->ajax_json('您已是会员或临时会员用户,无需支付!', true);
+      }
+    }
+
     $vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
     $data = array();
     $pay_money = 0;
@@ -238,7 +254,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     $item_id = Sher_Core_Util_D3in::member_vip_info($evt, 'item_id');
     $item_name = Sher_Core_Util_D3in::member_vip_info($evt, 'item_name');
     
-    if(empty((float)$pay_money)){
+    if(empty($pay_money)){
       return $this->ajax_json('类型错误!', true);   
     }
 
