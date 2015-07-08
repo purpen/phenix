@@ -2,6 +2,7 @@
 {% block title %}铟立方未来实验室 -{% endblock %}
 
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
 .lab.submenu>.ui.responsive.grid>.row{
 	padding:1rem 0;
@@ -40,14 +41,67 @@ p a.ui.link{
 	color:#f36;
 	margin-left:1em;
 }
-
+.swiper-button-prev{
+	left:0;
+}
+.swiper-button-next{
+	right:0;
+}
+.swiper-slide .ui.grid.row{
+	margin:0 2%;
+}
+.row.chooli{
+	margin:0 0 1rem;
+}
+.row.chooli span{
+	margin-right: 15px;
+  background: green;
+  padding: 0.5px 6px;
+}
+.row.chooli span.black{
+	background:#f36;
+}
+.row.chooli .ui.white.button.active{
+	color:rgba(0,0,0,0.8);
+	-webkit-user-select: initial;
+	  -moz-user-select: initial;
+	  -ms-user-select: initial;
+	  user-select: initial;
+	cursor:auto;
+	text-transform: none;
+}
+.swiper-slide td {
+	position:relative;
+}
+.swiper-slide td span{
+	background: green;
+  padding: 10px 6px;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  left: 25%;
+}
+.swiper-slide td span.black{
+	background:#f36;
+}
 
 </style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
 {% endblock %}
 {% block jquery %}
 $('.ui.table tbody tr').click(function(){
 	$(this).toggleClass('clss');
 })
+var mySwiper = new Swiper('.swiper-container',{
+  freeMode : true,
+  slidesPerView : 'auto',
+	nextButton: '.swiper-button-next',
+	prevButton: '.swiper-button-prev',
+	noSwiping : 'true',
+	noSwipingClass : 'stop-swiping',
+});
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
@@ -71,170 +125,122 @@ $('.ui.table tbody tr').click(function(){
 			</div>
 		</div>
 		
-		<div class="ui center aligned row">
-			<div class="five wide center aligned column">
-				<table class="ui celled table">
-					<thead>
-						<tr>
-							<th>6月22日 星期一</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="clss">
-							<td>10:00-11:00</td>
-						</tr>
-						<tr class="clss">
-							<td>11:00-12:00</td>
-						</tr>
-						<tr class="clss">
-							<td>12:00-13:00</td>
-						</tr>
-						<tr class="clss">
-							<td>13:00-14:00</td>
-						</tr>
-						<tr class="okyu">
-							<td>14:00-15:00</td>
-						</tr>
-						<tr>
-							<td>15:00-16:00</td>
-						</tr>
-						<tr>
-							<td>16:00-17:00</td>
-						</tr>
-						<tr>
-							<td>17:00-18:00</td>
-						</tr>
-						<tr>
-							<td>18:00-19:00</td>
-						</tr>
-						<tr>
-							<td>19:00-20:00</td>
-						</tr>
-						<tr>
-							<td>20:00-21:00</td>
-						</tr>
-						<tr>
-							<td>21:00-22:00</td>
-						</tr>
-							
-					</tbody>
-				</table>
+		<div class="row chooli">
+			<div class="column">
+        {% for d in classes %}
+        <div class="ui white active inverted button"><span class="black"></span>{{ d.title }}</div>&nbsp;
+        {%endfor%}
 			</div>
+		</div>
+		
+		
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+
+        {% for d in appoint_date_arr %}
+
+				<div class="swiper-slide stop-swiping">
+					<div class="ui center aligned grid row">
 			
-			<div class="five wide center aligned column">
-				<table class="ui celled table">
-					<thead>
-						<tr>
-							<th>6月22日 星期一</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>10:00-11:00</td>
-						</tr>
-						<tr>
-							<td>11:00-12:00</td>
-						</tr>
-						<tr>
-							<td>12:00-13:00</td>
-						</tr>
-						<tr>
-							<td>13:00-14:00</td>
-						</tr>
-						<tr>
-							<td>14:00-15:00</td>
-						</tr>
-						<tr>
-							<td>15:00-16:00</td>
-						</tr>
-						<tr>
-							<td>16:00-17:00</td>
-						</tr>
-						<tr>
-							<td>17:00-18:00</td>
-						</tr>
-						<tr>
-							<td>18:00-19:00</td>
-						</tr>
-						<tr>
-							<td>19:00-20:00</td>
-						</tr>
-						<tr>
-							<td>20:00-21:00</td>
-						</tr>
-						<tr>
-							<td>21:00-22:00</td>
-						</tr>
+            {% for c in d %}
+						<div class="five wide center aligned column">
+							<table class="ui celled table">
+								<thead>
+									<tr>
+                    <th id="{{ c.id }}">{{ c.date }} {{ c.week }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr name="10" class="clss">
+										<td>
+											<span></span>
+											10:00-11:00</td>
+									</tr>
+									<tr name="11" class="clss">
+										<td>
+												11:00-12:00</td>
+									</tr>
+									<tr name="12" class="clss">
+										<td>12:00-13:00</td>
+									</tr>
+									<tr name="13" class="clss">
+										<td>13:00-14:00</td>
+									</tr>
+									<tr name="14" class="okyu">
+										<td><span class="black"></span>
+                      14:00-15:00</td>
+									</tr>
+									<tr name="15">
+										<td>15:00-16:00</td>
+									</tr>
+									<tr name="16">
+										<td>16:00-17:00</td>
+									</tr>
+									<tr name="17">
+										<td>17:00-18:00</td>
+									</tr>
+									<tr name="18">
+										<td>18:00-19:00</td>
+									</tr>
+									<tr name="19">
+										<td>19:00-20:00</td>
+									</tr>
+									<tr name="20">
+										<td>20:00-21:00</td>
+									</tr>
+									<tr name="21">
+										<td>21:00-22:00</td>
+									</tr>
 							
-					</tbody>
-				</table>
-			</div>
+								</tbody>
+							</table>	
+						</div>
+            {%endfor%}
 			
-			<div class="five wide center aligned column">
-				<table class="ui celled table">
-					<thead>
-						<tr>
-							<th>6月22日 星期一</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>10:00-11:00</td>
-						</tr>
-						<tr>
-							<td>11:00-12:00</td>
-						</tr>
-						<tr>
-							<td>12:00-13:00</td>
-						</tr>
-						<tr>
-							<td>13:00-14:00</td>
-						</tr>
-						<tr>
-							<td>14:00-15:00</td>
-						</tr>
-						<tr>
-							<td>15:00-16:00</td>
-						</tr>
-						<tr>
-							<td>16:00-17:00</td>
-						</tr>
-						<tr>
-							<td>17:00-18:00</td>
-						</tr>
-						<tr>
-							<td>18:00-19:00</td>
-						</tr>
-						<tr>
-							<td>19:00-20:00</td>
-						</tr>
-						<tr>
-							<td>20:00-21:00</td>
-						</tr>
-						<tr>
-							<td>21:00-22:00</td>
-						</tr>
-							
-					</tbody>
-				</table>
+					</div>
+				</div>
+
+        {%endfor%}
+				
+				
+		
+		
+		
 			</div>
-			
-		</div>	
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</div>
 		
 		<div class="row">
+        {% if vip_state != 3 %}
 			<div class="column">
 				<p>费用</p>
-        <p>80元/次    <a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 加入VIP会员订阅计划 </a></p>
+        <p>
+        {{ vip_money.day }}元/次    
+        {% if vip_state==0 %}<a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 加入VIP会员订阅计划 </a>{%endif%}{% if vip_state==1 %}<a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 会员到期,点击续费 </a>{%endif%}
+        {% if vip_state==2 %}<a href="javascript:void(0);" class="ui link"> 该会员被禁用,暂时无法预约,请联系管理员 </a>{%endif%}
+        </p>
 				<p>支付方式</p>
-				<a href="" class="ui white active inverted button">在线支付</a>&nbsp;&nbsp;
-				<a href="" class="ui white active inverted button">现场支付</a>
+				
+				<div class="ui checkbox" style="margin-right:1rem;">
+					<input type="radio" name="pay_ment" id="" />
+					<label for="">在线支付</label>
+				</div>
+				<div class="ui checkbox">
+					<input name="pay_ment" type="radio" id="" />
+					<label for="">现场支付</label>
+				</div>
+
 			</div>
+      {%endif%}
 		</div>
 		
 		<div class="row">
 			<div class="right aligned column">
         <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;
+        {% if vip_state != 2 %}
 				<a href="" class="ui magenta inverted button">下一步</a>
+        {%endif%}
 			</div>
 		</div>
 		
@@ -242,7 +248,6 @@ $('.ui.table tbody tr').click(function(){
 		
 	</div>
 </div>
-
 
 
 

@@ -9,7 +9,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     'size'=>50,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','yuyue','choose','ok','volunteer','buy');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy');
 	
 	/**
 	 * 网站入口
@@ -63,18 +63,98 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * d3in 预约
+	 * d3in 预约2
 	 */
 	public function yuyue(){
+    if(isset($this->stash['ids']) && !empty($this->stash['ids'])){
+      $id_arr = explode(',', $this->stash['ids']);
+    }else{
+      $id_arr = array();
+    }
+		$redirect_url = Doggy_Config::$vars['app.url.d3in']."/choose";
+    if(empty($id_arr)){
+			return $this->show_message_page('缺少请求参数！', $redirect_url);
+    }
+    if(count($id_arr) > 2){
+			return $this->show_message_page('最多只能预约两个项目！', $redirect_url);
+    }
+
+    $vip_state = 0;
+
+    if ($this->visitor->id){
+      if($this->_check_whether_appoint()){
+        return $this->show_message_page('您已经预约过了！', Doggy_Config::$vars['app.url.d3in']);
+      }
+
+      $member_model = new Sher_Core_Model_DMember();
+      $member = $member_model->find_by_id((int)$this->visitor->id);
+      if(!empty($member)){
+        if($member['state']==Sher_Core_Model_DMember::STATE_OK){
+          if($member['end_time'] <= time()){
+            //会员过期
+            $vip_state = 1;
+          }else{
+            //有效的
+            $vip_state = 3;
+          }
+        }else{
+          //会员禁用
+          $vip_state = 2;
+        }
+      }
+    }
+
+    $classes = array();
+		$class_model = new Sher_Core_Model_Classify();
+    foreach($id_arr as $v){
+      $class = $class_model->find_by_id((int)$v);
+      if($class){
+        array_push($classes, $class);
+      }
+    }
+    if(empty($classes)){
+ 			return $this->show_message_page('测试项目不存在！', $redirect_url);     
+    }
+    if($vip_state==3){
+      $da = ($member['end_time'] - time())/(60*60*24);
+      if($da > 30){
+        $expire_day = 30;
+      }else{
+        $expire_day = ceil($da);
+      }
+    }else{
+      $expire_day = 7;
+    }
+    $appoint_date_arr = Sher_Core_Util_D3in::appoint_date_arr($expire_day);
+    $this->stash['appoint_date_arr'] = $appoint_date_arr;
+
+    $this->stash['classes'] = $classes;
+    
+    $vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
+    $this->stash['vip_money'] = $vip_money;
+
+    $this->stash['vip_state'] = $vip_state;
+
     $this->set_target_css_state('sub_appoint');
 		return $this->to_html_page('page/d3in/yuyue.html');
 	}
 	
 	/**
-	 * d3in 预约2
+	 * d3in 预约1
 	 */
 	public function choose(){
+		$redirect_url = Doggy_Config::$vars['app.url.d3in'];
+    if ($this->visitor->id){
+      if($this->_check_whether_appoint()){
+        return $this->show_message_page('您已经预约过了！', $redirect_url);
+      }
+    }
     $this->set_target_css_state('sub_appoint');
+    if(isset($this->stash['ids']) && !empty($this->stash['ids'])){
+      $id_arr = explode(',', $this->stash['ids']);
+    }else{
+      $id_arr = array();
+    }
     $query = array();
     $options = array();
     $model = new Sher_Core_Model_Classify();
@@ -89,6 +169,15 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       // 子类
       $children = $model->find(array('pid'=>$val['_id'], 'kind'=>Sher_Core_Model_Classify::KIND_D3IN));
       if($children){
+        if(!empty($id_arr)){
+          foreach($children as $k=>$v){
+            if(in_array($v['_id'], $id_arr)){
+              $children[$k]['checked'] = true;
+            }else{
+              $children[$k]['checked'] = false;           
+            }
+          }
+        }
         $data[$key]['children'] = $children;
       }else{
         $data[$key]['children'] = null;     
@@ -342,6 +431,21 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 		
 		return $this->to_redirect($pay_url);
 	}
+
+
+  /**
+   * 验证是否可预约
+   */
+  protected function _check_whether_appoint($options=array()){
+    $user_id = $this->visitor->id;
+    $appoint_model = new Sher_Core_Model_DAppoint();
+    $appoint = $appoint_model->first(array('user_id'=>$user_id, 'state'=>Sher_Core_Model_DAppoint::STATE_NORMAL));
+    if(!empty($appoint)){
+      return $appoint;
+    }else{
+      return null;
+    }
+  }
 	
 }
 
