@@ -50,6 +50,40 @@ p a.ui.link{
 .swiper-slide .ui.grid.row{
 	margin:0 2%;
 }
+.row.chooli{
+	margin:0 0 1rem;
+}
+.row.chooli span{
+	margin-right: 15px;
+  background: green;
+  padding: 0.5px 6px;
+}
+.row.chooli span.black{
+	background:#f36;
+}
+.row.chooli .ui.white.button.active{
+	color:rgba(0,0,0,0.8);
+	-webkit-user-select: initial;
+	  -moz-user-select: initial;
+	  -ms-user-select: initial;
+	  user-select: initial;
+	cursor:auto;
+	text-transform: none;
+}
+.swiper-slide td {
+	position:relative;
+}
+.swiper-slide td span{
+	background: green;
+  padding: 10px 6px;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  left: 25%;
+}
+.swiper-slide td span.black{
+	background:#f36;
+}
 
 </style>
 {% endblock %}
@@ -91,6 +125,13 @@ var mySwiper = new Swiper('.swiper-container',{
 			</div>
 		</div>
 		
+		<div class="row chooli">
+			<div class="column">
+				<div class="ui white active inverted button"><span></span>U5855A TrueIR 热像仪</div>&nbsp;
+				<div class="ui white active inverted button"><span class="black"></span>66319D 双路移动通信直流电源</div>
+			</div>
+		</div>
+		
 		
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
@@ -107,10 +148,14 @@ var mySwiper = new Swiper('.swiper-container',{
 								</thead>
 								<tbody>
 									<tr class="clss">
-										<td>10:00-11:00</td>
+										<td>
+											<span></span>
+											10:00-11:00</td>
 									</tr>
 									<tr class="clss">
-										<td>11:00-12:00</td>
+										<td>
+												<span class="black"></span>
+												11:00-12:00</td>
 									</tr>
 									<tr class="clss">
 										<td>12:00-13:00</td>
