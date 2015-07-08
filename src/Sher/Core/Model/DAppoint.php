@@ -14,6 +14,8 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
   const STATE_CLOSE = 0;
   // 结束 
   const STATE_OVER = 2;
+  // 过期
+  const STATE_EXPIRE = 3;
 	
 	protected $schema = array(
     'title' => null,
@@ -25,9 +27,13 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     'remark'  => null,
     'user_id' => 0,
 
-    // 预约开始/结束时间 时间戳格式
+    // 预约开始/结束时间 时间戳格式--不用
     'begin_time' => 0,
     'end_time' => 0,
+
+    // 预约项目\时间段
+    // array('项目ID'=>array(item_name=>'项目名称',date=>'日期',tiem=>'时间段', state=>'状态'),'项目ID'=>array('项目名称','日期','时间段'));
+    'items' => array(),
 
     // 是否是会员 0,否; 1,是;
     'is_vip' => 0,
@@ -35,7 +41,7 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     'pay_type' => 1,
 
     // 状态
-		'state' => 1,
+		'state' => self::STATE_NORMAL,
   	);
 
   protected $required_fields = array('class_id', 'user_id', 'begin_time', 'end_time');

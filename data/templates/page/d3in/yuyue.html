@@ -411,28 +411,35 @@ var mySwiper = new Swiper('.swiper-container',{
 		</div>
 		
 		<div class="row">
+        {% if vip_state != 3 %}
 			<div class="column">
 				<p>费用</p>
-        <p>80元/次    <a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 加入VIP会员订阅计划 </a></p>
+        <p>
+        {{ vip_money.day }}元/次    
+        {% if vip_state==0 %}<a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 加入VIP会员订阅计划 </a>{%endif%}{% if vip_state==1 %}<a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 会员到期,点击续费 </a>{%endif%}
+        {% if vip_state==2 %}<a href="javascript:void(0);" class="ui link"> 该会员被禁用,暂时无法预约,请联系管理员 </a>{%endif%}
+        </p>
 				<p>支付方式</p>
 				
 				<div class="ui checkbox" style="margin-right:1rem;">
-					<input type="checkbox" id="" />
+					<input type="radio" name="pay_ment" id="" />
 					<label for="">在线支付</label>
 				</div>
 				<div class="ui checkbox">
-					<input type="checkbox" id="" />
+					<input name="pay_ment" type="radio" id="" />
 					<label for="">现场支付</label>
 				</div>
-				<!--<a href="" class="ui white active inverted button">在线支付</a>&nbsp;&nbsp;
-				<a href="" class="ui white active inverted button">现场支付</a>-->
+
 			</div>
+      {%endif%}
 		</div>
 		
 		<div class="row">
 			<div class="right aligned column">
         <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;
+        {% if vip_state != 2 %}
 				<a href="" class="ui magenta inverted button">下一步</a>
+        {%endif%}
 			</div>
 		</div>
 		

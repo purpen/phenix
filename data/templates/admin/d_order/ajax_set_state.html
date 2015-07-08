@@ -1,9 +1,9 @@
 <taconite>
   {% for d in result %}
     {% if state==0 %}
-    <replace select="#item-{{ d }} .state-btn"><![CDATA[
+    <replaceContent select="#item-{{ d }} .state-btn"><![CDATA[
       --
-    ]]></replace>
+    ]]></replaceContent>
     {%endif%}
   {%endfor%}
 
