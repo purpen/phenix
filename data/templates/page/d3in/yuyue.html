@@ -127,8 +127,9 @@ var mySwiper = new Swiper('.swiper-container',{
 		
 		<div class="row chooli">
 			<div class="column">
-				<div class="ui white active inverted button"><span></span>U5855A TrueIR 热像仪</div>&nbsp;
-				<div class="ui white active inverted button"><span class="black"></span>66319D 双路移动通信直流电源</div>
+        {% for d in classes %}
+        <div class="ui white active inverted button"><span class="black"></span>{{ d.title }}</div>&nbsp;
+        {%endfor%}
 			</div>
 		</div>
 		
@@ -136,317 +137,72 @@ var mySwiper = new Swiper('.swiper-container',{
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
 
+        {% for d in appoint_date_arr %}
+
 				<div class="swiper-slide stop-swiping">
 					<div class="ui center aligned grid row">
 			
+            {% for c in d %}
 						<div class="five wide center aligned column">
 							<table class="ui celled table">
 								<thead>
 									<tr>
-										<th>6月22日 星期一</th>
+                    <th id="{{ c.id }}">{{ c.date }} {{ c.week }}</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr class="clss">
+									<tr name="10" class="clss">
 										<td>
 											<span></span>
 											10:00-11:00</td>
 									</tr>
-									<tr class="clss">
+									<tr name="11" class="clss">
 										<td>
-												<span class="black"></span>
 												11:00-12:00</td>
 									</tr>
-									<tr class="clss">
+									<tr name="12" class="clss">
 										<td>12:00-13:00</td>
 									</tr>
-									<tr class="clss">
+									<tr name="13" class="clss">
 										<td>13:00-14:00</td>
 									</tr>
-									<tr class="okyu">
-										<td>14:00-15:00</td>
+									<tr name="14" class="okyu">
+										<td><span class="black"></span>
+                      14:00-15:00</td>
 									</tr>
-									<tr>
+									<tr name="15">
 										<td>15:00-16:00</td>
 									</tr>
-									<tr>
+									<tr name="16">
 										<td>16:00-17:00</td>
 									</tr>
-									<tr>
+									<tr name="17">
 										<td>17:00-18:00</td>
 									</tr>
-									<tr>
+									<tr name="18">
 										<td>18:00-19:00</td>
 									</tr>
-									<tr>
+									<tr name="19">
 										<td>19:00-20:00</td>
 									</tr>
-									<tr>
+									<tr name="20">
 										<td>20:00-21:00</td>
 									</tr>
-									<tr>
+									<tr name="21">
 										<td>21:00-22:00</td>
 									</tr>
 							
 								</tbody>
 							</table>	
 						</div>
-			
-						<div class="five wide center aligned column">
-							<table class="ui celled table">
-								<thead>
-									<tr>
-										<th>6月22日 星期一</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>10:00-11:00</td>
-									</tr>
-									<tr>
-										<td>11:00-12:00</td>
-									</tr>
-									<tr>
-										<td>12:00-13:00</td>
-									</tr>
-									<tr>
-										<td>13:00-14:00</td>
-									</tr>
-									<tr>
-										<td>14:00-15:00</td>
-									</tr>
-									<tr>
-										<td>15:00-16:00</td>
-									</tr>
-									<tr>
-										<td>16:00-17:00</td>
-									</tr>
-									<tr>
-										<td>17:00-18:00</td>
-									</tr>
-									<tr>
-										<td>18:00-19:00</td>
-									</tr>
-									<tr>
-										<td>19:00-20:00</td>
-									</tr>
-									<tr>
-										<td>20:00-21:00</td>
-									</tr>
-									<tr>
-										<td>21:00-22:00</td>
-									</tr>
-							
-								</tbody>
-							</table>
-						</div>
-			
-						<div class="five wide center aligned column">
-							<table class="ui celled table">
-								<thead>
-									<tr>
-										<th>6月22日 星期一</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>10:00-11:00</td>
-									</tr>
-									<tr>
-										<td>11:00-12:00</td>
-									</tr>
-									<tr>
-										<td>12:00-13:00</td>
-									</tr>
-									<tr>
-										<td>13:00-14:00</td>
-									</tr>
-									<tr>
-										<td>14:00-15:00</td>
-									</tr>
-									<tr>
-										<td>15:00-16:00</td>
-									</tr>
-									<tr>
-										<td>16:00-17:00</td>
-									</tr>
-									<tr>
-										<td>17:00-18:00</td>
-									</tr>
-									<tr>
-										<td>18:00-19:00</td>
-									</tr>
-									<tr>
-										<td>19:00-20:00</td>
-									</tr>
-									<tr>
-										<td>20:00-21:00</td>
-									</tr>
-									<tr>
-										<td>21:00-22:00</td>
-									</tr>
-							
-								</tbody>
-							</table>
-						</div>
+            {%endfor%}
 			
 					</div>
 				</div>
+
+        {%endfor%}
 				
 				
-				
-			<!-- -->	
-				<div class="swiper-slide stop-swiping">
-					<div class="ui center aligned grid row">
-						<div class="five wide center aligned column">
-							<table class="ui celled table">
-								<thead>
-									<tr>
-										<th>6月22日 星期一</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="clss">
-										<td>10:00-11:00</td>
-									</tr>
-									<tr class="clss">
-										<td>11:00-12:00</td>
-									</tr>
-									<tr class="clss">
-										<td>12:00-13:00</td>
-									</tr>
-									<tr class="clss">
-										<td>13:00-14:00</td>
-									</tr>
-									<tr class="okyu">
-										<td>14:00-15:00</td>
-									</tr>
-									<tr>
-										<td>15:00-16:00</td>
-									</tr>
-									<tr>
-										<td>16:00-17:00</td>
-									</tr>
-									<tr>
-										<td>17:00-18:00</td>
-									</tr>
-									<tr>
-										<td>18:00-19:00</td>
-									</tr>
-									<tr>
-										<td>19:00-20:00</td>
-									</tr>
-									<tr>
-										<td>20:00-21:00</td>
-									</tr>
-									<tr>
-										<td>21:00-22:00</td>
-									</tr>
-						
-								</tbody>
-							</table>
-						</div>
-						
-						<div class="five wide center aligned column">
-							<table class="ui celled table">
-								<thead>
-									<tr>
-										<th>6月22日 星期一</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="clss">
-										<td>10:00-11:00</td>
-									</tr>
-									<tr class="clss">
-										<td>11:00-12:00</td>
-									</tr>
-									<tr class="clss">
-										<td>12:00-13:00</td>
-									</tr>
-									<tr class="clss">
-										<td>13:00-14:00</td>
-									</tr>
-									<tr class="okyu">
-										<td>14:00-15:00</td>
-									</tr>
-									<tr>
-										<td>15:00-16:00</td>
-									</tr>
-									<tr>
-										<td>16:00-17:00</td>
-									</tr>
-									<tr>
-										<td>17:00-18:00</td>
-									</tr>
-									<tr>
-										<td>18:00-19:00</td>
-									</tr>
-									<tr>
-										<td>19:00-20:00</td>
-									</tr>
-									<tr>
-										<td>20:00-21:00</td>
-									</tr>
-									<tr>
-										<td>21:00-22:00</td>
-									</tr>
-						
-								</tbody>
-							</table>
-						</div>
-						
-						<div class="five wide center aligned column">
-							<table class="ui celled table">
-								<thead>
-									<tr>
-										<th>6月22日 星期一</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="clss">
-										<td>10:00-11:00</td>
-									</tr>
-									<tr class="clss">
-										<td>11:00-12:00</td>
-									</tr>
-									<tr class="clss">
-										<td>12:00-13:00</td>
-									</tr>
-									<tr class="clss">
-										<td>13:00-14:00</td>
-									</tr>
-									<tr class="okyu">
-										<td>14:00-15:00</td>
-									</tr>
-									<tr>
-										<td>15:00-16:00</td>
-									</tr>
-									<tr>
-										<td>16:00-17:00</td>
-									</tr>
-									<tr>
-										<td>17:00-18:00</td>
-									</tr>
-									<tr>
-										<td>18:00-19:00</td>
-									</tr>
-									<tr>
-										<td>19:00-20:00</td>
-									</tr>
-									<tr>
-										<td>20:00-21:00</td>
-									</tr>
-									<tr>
-										<td>21:00-22:00</td>
-									</tr>
-						
-								</tbody>
-							</table>
-						</div>
-					</div>	
-				</div>
-		<!--   -->
 		
 		
 		

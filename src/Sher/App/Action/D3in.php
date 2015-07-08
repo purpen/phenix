@@ -127,6 +127,8 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     }
     $appoint_date_arr = Sher_Core_Util_D3in::appoint_date_arr($expire_day);
     $this->stash['appoint_date_arr'] = $appoint_date_arr;
+
+    $this->stash['classes'] = $classes;
     
     $vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
     $this->stash['vip_money'] = $vip_money;
