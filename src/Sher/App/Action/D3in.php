@@ -187,11 +187,11 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 			return $this->show_message_page('请求参数不正确！', $redirect_url);
 		}
 
-    $mode = new Sher_Core_Model_DMember();
-    $member = $mode->find_by_id((int)$this->visitor->id);
+    $member_mode = new Sher_Core_Model_DMember();
+    $member = $member_mode->find_by_id((int)$this->visitor->id);
     if(!empty($member)){
-      if($member['end_time'] > time()){
- 			  return $this->show_message_page('您已是会员或临时会员用户,无需支付！', $redirect_url);     
+      if($member['state']==0 || $member['end_time'] > time()){
+ 			  //return $this->show_message_page('您已是会员或临时会员用户,无需支付！', $redirect_url);     
       }
     }
 
@@ -241,8 +241,8 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     $member_mode = new Sher_Core_Model_DMember();
     $member = $member_mode->find_by_id((int)$this->visitor->id);
     if(!empty($member)){
-      if($member['end_time'] > time()){
-        return $this->ajax_json('您已是会员或临时会员用户,无需支付!', true);
+      if($member['state']==0 || $member['end_time'] > time()){
+        //return $this->ajax_json('您已是会员或临时会员用户,无需支付!', true);
       }
     }
 

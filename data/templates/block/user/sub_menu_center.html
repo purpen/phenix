@@ -46,6 +46,18 @@
 		<i class="flat mail icon"></i> 我的邀请
 	</a>
 
+  {% if user.identify.d3in_tag %}
+	<div class="header item">
+	    <i class="fa-shopping-cart icon"></i>我的实验室
+	</div>
+	<a href="{{ app_url_my }}/d_order" class="{{ css_user_d_order }} item">
+		<i class="flat order icon"></i> 我的订单
+	</a>
+	<a href="{{ app_url_my }}/d_appoint" class="{{ css_user_d_appoint }} item">
+		<i class="flat dollar78 icon"></i> 我的预约
+	</a>
+  {%endif%}
+
 	<div class="header item">
 	    <i class="fa-shopping-cart icon"></i>个人订购
 	</div>

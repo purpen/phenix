@@ -268,6 +268,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'd3in_volunteer' => 0,
       // 实验室 会员
       'd3in_vip' => 0,
+      // 实验室 标记 --证明参与过实验室预约
+      'd3in_tag' => 0,
     ),
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
@@ -282,7 +284,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'kind' => 0,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1);
 	
     protected $required_fields = array('account', 'password');
 
@@ -690,7 +692,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     * 实验室\
 	 */
 	public function update_user_identify($user_id, $field, $value=0) {
-		if(!in_array($field,array('d3in_volunteer', 'd3in_vip'))){
+		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag'))){
 			return;
 		}
 		$this->update_set((int)$user_id, array('identify.'.$field => $value));

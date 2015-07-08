@@ -70,7 +70,7 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	
 	/**
 	 * Override this to define custom login info page
-	 *
+	 * 重定向登陆信息页面
 	 * @return string
 	 */
 	protected function custom_authorize_info_page() {

@@ -8,7 +8,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-    'kind' => 0,
+		'kind' => 0,
 	);
 	
 	public function _init() {
@@ -303,7 +303,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
    */
   public function ajax_stick(){
  		$ids = $this->stash['id'];
-    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
 		if(empty($ids)){
 			return $this->ajax_notification('缺少Id参数！', true);
 		}
@@ -425,7 +425,5 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		fclose($fp);
 
 	}
-
-
 }
 

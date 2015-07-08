@@ -1,0 +1,125 @@
+{%extends 'layout/admin.html'%}
+
+// css代码块
+{% block page_css %}
+
+{% endblock %}
+
+// js代码块
+{% block jquery %}
+
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">签到管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/user_sign_in" class="{{ css_all_list }} item">
+			全部
+		</a>
+<!--
+	  	<div class="right menu">
+				<a href="{{ app_url_admin }}/user_sign_in/deleted" class="item ajax-delete">
+						批量删除
+				</a>
+	    </div>
+-->
+	</div>
+
+	<div class="ui grid">
+		<div class="middle aligned row">
+			<div class="six wide column">
+				<label>排序：</label>
+				<a href="{{ app_url_admin_base }}/user_sign_in?sort=1&page={{page}}" class="ui link {%if sort==1%}active{%endif%}">签到日期</a>
+				<a href="{{ app_url_admin_base }}/user_sign_in?sort=2&page={{page}}" class="ui link {%if sort==2%}active{%endif%}">签到天数</a>
+				<a href="{{ app_url_admin_base }}/user_sign_in?sort=3&page={{page}}" class="ui link {%if sort==3%}active{%endif%}">经验总值</a>
+				<a href="{{ app_url_admin_base }}/user_sign_in?sort=4&page={{page}}" class="ui link {%if sort==4%}active{%endif%}">鸟币数量</a>
+			</div>
+			<!--
+			<div class="ten wide column">
+				<div class="ui sub nav">
+				  <form action="{{ app_url_admin_base }}/user_sign_in/search" method="get">
+					<label>搜索：</label>
+					<div class="ui selection dropdown">
+					  <input type="hidden" name="s" value="{{ s }}" />
+					  <div class="default text">选择条件</div>
+					  <i class="dropdown icon"></i>
+					  <div class="menu">
+						<div class="item" data-value="1">ID</div>
+						<div class="item" data-value="2">标题</div>
+						<div class="item" data-value="3">标签</div>
+					  </div>
+					</div>
+		
+					<div class="ui icon input">
+					  <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+					  <i class="flat search link icon"></i>
+					</div>
+				  </form>
+				</div>
+			</div>
+			-->
+		</div>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>用户信息</th>
+				<th>最后签到时间</th>
+				<th>连续签到天数</th>
+				<th>最高签到天数</th>
+				<th>经验总值</th>
+				<th>鸟币总值</th>
+			</tr>
+		</thead>
+		<tbody>
+				{% sign_list var:'list' load_user:1 sort:sort page:page size:30 %}
+
+				{% for sign in list.rows %}
+			<tr id="{{ sign._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ sign._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<a class="ui image label link" href="{{ sign.user.home_url }}" target="_blank">
+					  	<img src="{{ sign.user.mini_avatar_url }}">
+						{{ sign.user.nickname }}
+					</a>
+				</td>
+				<td>
+						{{ sign.last_date }}
+				</td>
+				<td>
+						{{ sign.sign_times }}
+				</td>
+				<td>
+						{{ sign.max_sign_times }}	
+				</td>
+				<td>
+						{{ sign.exp_count }}
+				</td>
+				<td>
+						{{ sign.money_count }}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
