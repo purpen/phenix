@@ -91,12 +91,13 @@
 	.layer a{
 		float:right;
 		min-width: 56px;
-		padding: 7px 10px;
-	  margin: 12px 15px 0 0;
+		padding: 7px 10px !important;
+	  margin: 8px 5px 0px 0 !important;
 	  font-size: 18px;
 	}
 	.try .layer .ui.list .item{
 		padding:0;
+		color:#fff;
 	}
 	
 	
@@ -252,7 +253,7 @@
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
 		$this.countdown(finalDate, function(event) {
-			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
+			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div>'));
 		});
 	});
 	
