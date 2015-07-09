@@ -9,7 +9,7 @@
 	
 	<eval>
     {% if stat %}
-      window.setTimeout("$('.ui.applytry.modal').attr('href','{{ app_url_wap }}/try_success.html')", 1500);
+    window.setTimeout("$('.ui.applytry.modal').attr('href','{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}')", 1500);
     {%endif%}
 	</eval>
 </taconite>

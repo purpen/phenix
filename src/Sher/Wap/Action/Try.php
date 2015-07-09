@@ -18,20 +18,35 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist','view','test');
+	protected $exclude_method_list = array('execute','getlist','view','apply_success');
 	
 	
-	/**
-	  *拉票
-	 */
-	public function test(){
-		return $this->to_html_page('wap/try_success.html');
-	}
 	/**
 	 * 入口
 	 */
 	public function execute(){
 		return $this->getlist();
+	}
+
+	/**
+	  *拉票
+	 */
+	public function apply_success(){
+    $apply_id = isset($this->stash['apply_id'])?$this->stash['apply_id']:null;
+		$redirect_url = Doggy_Config::$vars['app.url.wap.try'];
+		if(empty($apply_id)){
+			return $this->show_message_page('传入参数不正确！', $redirect_url);
+		}
+    $apply_model = new Sher_Core_Model_Apply();
+    $apply = $apply_model->extend_load($apply_id);
+ 		if(empty($apply)){
+			return $this->show_message_page('不存在的申请名单！', $redirect_url);
+    }
+
+    $user_id = $apply['user_id'];
+    $this->stash['apply'] = $apply;
+
+		return $this->to_html_page('wap/try_success.html');
 	}
 	
 	/**
@@ -143,6 +158,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 				$this->stash['user_id'] = $user_id;
 				
 				$ok = $model->apply_and_save($this->stash);
+        if(!$ok){
+          $this->stash['msg'] = '提交失败，请重试！';
+          return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');       
+        }
+        $apply = $model->get_data();
+        $this->stash['apply'] = $apply;
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());

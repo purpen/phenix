@@ -240,7 +240,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
    */
   public function vote_list(){
   
- 		return $this->to_taconite_page('admin/try/vote_list.html'); 
+ 		return $this->to_html_page('admin/try/vote_list.html'); 
   }
 	
 	
