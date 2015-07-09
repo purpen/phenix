@@ -45,6 +45,12 @@
 	.try .ui.header .sub.header {
 		font-size: 1.1rem;
 	}
+	.try .ui.header .sub.header div{
+		padding:3px 5px;
+		min-width:85px;
+		border:1px solid rgba(0,0,0,0.1);
+		border-radius:5px;
+	}
 	.try .ui.list .count span{
 		font-size:16px !important;
 	}
@@ -296,7 +302,7 @@
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
-								<span>免费试用</span> &nbsp;  <span>{{ try.try_count }}</span>&nbsp; <span>{{ try.apply_count }} 人申请</span>
+								<div>免费试用</div> &nbsp;  <div>{{ try.try_count }}</div>&nbsp; <div>{{ try.apply_count }} 人申请</div>
 							</div>
 						</div>
 					</h3>
