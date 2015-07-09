@@ -500,18 +500,7 @@ h4.ui.header .map-advantage {
 	      animation: "slide",
 	});
 	
-	skrollr.init({
-		forceHeight: false,
-		mobileCheck:function(){},
-		mobileDeceleration:0.004,
-	});
-	
-	$('textarea.comment-textarea').maxlength({
-      'feedback' : '.wordscount'
-  });
 
-  //ajax获取报名列表头像
-  fetch_signup_avatar();
 {% endblock %}
 
 {% block content %}
@@ -532,7 +521,9 @@ h4.ui.header .map-advantage {
                 <div class="ui tabs">
                     <a class="active tab" href="#start">活动首页</a>
                     <a class="tab" href="#abstract">活动简介</a>
+  {% if active.process %}
                     <a class="tab" href="#process">活动日程</a>
+                    {%endif%}
                     <a class="tab" href="#report">活动报名</a>
                     <a class="tab" href="#place">活动地点</a>
                     <a class="tab" href="#part">合作伙伴</a>
@@ -631,7 +622,7 @@ h4.ui.header .map-advantage {
   {%endif%}
 
   {% if active.process %}
-  <section class="ui process gray background block">
+  <section class="ui process gray background block" style="">
     <div class="ui responsive grid">
       <div class="row">
         <div class="center aligned column section-title">
@@ -669,7 +660,6 @@ h4.ui.header .map-advantage {
           </div>
         {%endfor%}
 
-			
 			<div class="rundown-timeline-container bottom">
 				<div class="timeline-block">
 					<div class="timeline-red-dot"></div>
