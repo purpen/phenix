@@ -144,8 +144,8 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 		}
 		$this->stash['stat'] = 1;
     $this->stash['msg'] = '申请提交成功，等待审核.';
-    //return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
-	return $this->to_html_page('wap/try_success.html');
+    return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+	//return $this->to_html_page('wap/try_success.html');
 	}
 
   /**
