@@ -48,10 +48,11 @@
 	.try .ui.header .sub.header div{
 		padding:3px 5px;
 		min-width:60px;
-		border:1px solid rgba(0,0,0,0.1);
+		border:1px solid #f36;
 		border-radius:5px;
 		display: inline-block;
 		font-size: 14px;
+		color:#f36;
 	}
 	.try .ui.list .count span{
 		font-size:16px !important;
@@ -81,6 +82,9 @@
 	}
 	.ui.divided.horizontal.timer.list .item:first-child{
 		padding-left:0;
+	}
+	h4.ui.header{
+		line-height:2.33;
 	}
   
 	
@@ -297,17 +301,17 @@
 	<div class="trytitle">
 		<img src="http://frbird.qiniudn.com/try/141010/54373a4b621e19c3128b4691-1-resp.jpg" width="100%">
 
-		<div class="ui responsive grid">
+		<div class="ui white background responsive grid" style="padding:1rem 1.5%;margin:0 auto;">
 			<div class="row">
 				<div class="center aligned column">
-					<h3 class="ui header">
+					<h4 class="ui header">
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
 								<div>免费试用</div> &nbsp;  <div>{{ try.try_count }}</div>&nbsp; <div>{{ try.apply_count }} 人申请</div>
 							</div>
 						</div>
-					</h3>
+					</h4>
 				</div>
 			</div>
 		</div>
