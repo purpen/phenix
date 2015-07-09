@@ -630,6 +630,7 @@ h4.ui.header .map-advantage {
   </div>
   {%endif%}
 
+  {% if active.process %}
   <section class="ui process gray background block">
     <div class="ui responsive grid">
       <div class="row">
@@ -643,7 +644,6 @@ h4.ui.header .map-advantage {
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
-      {% if active.process %}
         {% for p in active.process %}
           <div class="rundown-timeline-container">
             <div class="timeline-block">
@@ -666,13 +666,14 @@ h4.ui.header .map-advantage {
             </div>
           </div>
         {%endfor%}
-      {%endif%}
+      
 			
 			<div class="rundown-timeline-container bottom">
 				<div class="timeline-block">
 					<div class="timeline-red-dot"></div>
 				</div>
 			</div>
+    {%endif%}
 			
 		</div>
 		<div class="row">
