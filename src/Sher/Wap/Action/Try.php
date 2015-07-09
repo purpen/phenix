@@ -18,8 +18,15 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist','view');
+	protected $exclude_method_list = array('execute','getlist','view','test');
 	
+	
+	/**
+	  *拉票
+	 */
+	public function test(){
+		return $this->to_html_page('wap/try_success.html');
+	}
 	/**
 	 * 入口
 	 */

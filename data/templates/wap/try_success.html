@@ -1,0 +1,116 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.try-top{
+	position: relative;
+	overflow: hidden;
+  padding-bottom: 20px;
+  background: #fff;
+}
+.blur-image-block {
+  height: 248px;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
+.blur-image-block .blur-image {
+  margin: -4px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  height: 100%;
+  display: block;
+}
+.blur-image {
+  filter: url(blur.svg#blur);
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=4, MakeShadow=false);
+}
+.top-content .text-block {
+  padding: 0 12px;
+  line-height: 20px;
+  color: #fff;
+}
+.top-content .text-block::before {
+  height: 145px;
+  display: inline-block;
+  vertical-align: middle;
+  content: "";
+}
+.top-content .round-bg {
+  background-image: url("{{ app_url_packaged }}/images/round_bg.png");
+  background-position: center top;
+  background-repeat: no-repeat;
+  height: 44px;
+  position: absolute;
+  top: 213px;
+  width: 100%;
+  background-size: 414px;
+}
+.top-content .avatar {
+  width: 92px;
+  height: 92px;
+  display: inline-block;
+  margin: 0 auto;
+  border: 4px solid #fff;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+.top-content .avatar img {
+  width: 92px;
+  height: 92px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+.top-content .avatar-name {
+  position: relative;
+  z-index: 3;
+  padding-top: 20px;
+}
+.top-content .avatar-name span {
+  color: #474747;
+}
+.top-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+}
+
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="try-top">
+	<div class="blur-image-block">
+		<i class="blur-image" style="background:url('http://frbird.qiniudn.com/try/141010/54373a4b621e19c3128b4691-1-resp.jpg');background-size: 100%"></i>
+	</div>
+	<div class="top-content">
+		<div class="text-block"></div>
+		<div class="round-bg"></div>
+		<div class="avatar avatar-92">
+			<img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avn.jpg">
+		</div>	
+		<div class="avatar-name">
+			<span class="wish-name">user</span>
+		</div>
+	</div>
+	
+		
+</div>
+{% endblock %}
