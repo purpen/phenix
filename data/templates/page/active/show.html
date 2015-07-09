@@ -500,6 +500,18 @@ h4.ui.header .map-advantage {
 	      animation: "slide",
 	});
 	
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	$('textarea.comment-textarea').maxlength({
+      'feedback' : '.wordscount'
+  });
+
+  //ajax获取报名列表头像
+  fetch_signup_avatar();
 
 {% endblock %}
 
