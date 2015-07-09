@@ -641,12 +641,10 @@ h4.ui.header .map-advantage {
       </div>
     </div>
   </section>
-  {%endif%}
 
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
-      {% if active.process %}
         {% for p in active.process %}
           <div class="rundown-timeline-container">
             <div class="timeline-block">
@@ -669,7 +667,6 @@ h4.ui.header .map-advantage {
             </div>
           </div>
         {%endfor%}
-      {%endif%}
 			
 			<div class="rundown-timeline-container bottom">
 				<div class="timeline-block">
@@ -678,6 +675,10 @@ h4.ui.header .map-advantage {
 			</div>
 			
 		</div>
+
+	</div>
+  </div>
+{%endif%}
 		<div class="row">
 			<div class="center aligned column">
 				<div class="attend-box">
@@ -691,13 +692,12 @@ h4.ui.header .map-advantage {
 			                <i class="ticket icon"></i> 立即报名
 			            </a>
 			          {%endif%}	
+          {%endif%}
 				</div>
 				<p>共有 <span class="attend-num">{{ active.signup_count }}</span> 人报名</p>
-				{%endif%}
+				
 			</div>
 		</div>
-	</div>
-  </div>
 
   <section class="ui report block">
     <!--ajax获取报名者头像-->
