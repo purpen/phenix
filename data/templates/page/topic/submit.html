@@ -20,8 +20,9 @@
 {% endblock %}
 
 {% block jquery %}
+	
 	var file_count = 1;
-  var asset_count = 1;
+	var asset_count = 1;
 	var ord = function(){
 		return file_count++;
 	};
@@ -108,7 +109,6 @@
 				},
 				success: function(data){
 					phenix.after_submit();
-					
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
@@ -120,6 +120,7 @@
 		}
 	});
 	
+	// 上传图片
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -150,7 +151,7 @@
 		}
 	});
 
-  //上传附件
+	//上传附件
 	$('#phenix-file-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -212,6 +213,13 @@
 		});
 	});
 	
+	// 触发保存草稿箱
+	$('.save.button').click(function(){
+		$('input[name=published]').val(0); // 设置topic里面published的值
+		//alert($('input[name=published]').val());
+		$(this).submit(); // 调用此表单的提交方法
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -255,13 +263,13 @@
 						{% endif %}
 					</h2>
 				</div>
-				
 				<div class="ui big segment">
 					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
 						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
 						<input type="hidden" name="try_id" value="{{ try_id }}" />
+						<input type="hidden" name="published" value="1" />
 						
 						<div class="ui {{ hide }} field">
 							<label>类别</label>
@@ -299,31 +307,31 @@
 						  	<input type="text" name="title" value="{{ topic.title }}" />
 						</div>
             
-            {% if visitor.can_admin %}
-            <div class="four fields">
-              <div class="field">
-                <label for="title">{{ label_title }}短标题</label>
-                  <input type="text" name="short_title" value="{{ topic.short_title }}" />
-              </div>
-
-              <div class="field">
-                  <label for="t_color">标题背景颜色</label>
-                <div class="ui fluid selection dropdown">
-                  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
-                    <div class="default text">请选择</div>
-                    <i class="angle down icon"></i>
-                    <div class="menu" style="z-index:9999;">
-                      <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
-                      <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
-                      <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
-
-                    </div>
-                  </div>
-              </div>
-
-            </div>
-
-            {%endif%}
+						{% if visitor.can_admin %}
+						<div class="four fields">
+						  <div class="field">
+							<label for="title">{{ label_title }}短标题</label>
+							  <input type="text" name="short_title" value="{{ topic.short_title }}" />
+						  </div>
+			
+						  <div class="field">
+							  <label for="t_color">标题背景颜色</label>
+							<div class="ui fluid selection dropdown">
+							  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
+								<div class="default text">请选择</div>
+								<i class="angle down icon"></i>
+								<div class="menu" style="z-index:9999;">
+								  <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
+								  <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
+								  <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
+			
+								</div>
+							  </div>
+						  </div>
+			
+						</div>
+			
+						{%endif%}
 					
 						<div class="field">
 							<label for="description">描述</label>
@@ -396,6 +404,7 @@
                             <div class="row">
     							<div class="column">
     								<div class="ui gray cancel inverted button">取消</div>
+									<div class="ui green inverted save button">保存草稿</div>
     								<div class="ui magenta inverted submit button">确认提交</div>
     							</div>
                             </div>

@@ -29,8 +29,8 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
     $this->set_target_css_state('all_list');
 		$page = (int)$this->stash['page'];
 
-    $this->stash['category_id'] = 0;
-    $this->stash['is_top'] = true;
+		$this->stash['category_id'] = 0;
+		$this->stash['is_top'] = true;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/topic?sort=%d&page=#p#', $this->stash['sort']);
 		
@@ -43,19 +43,18 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 创建/更新
 	 */
 	public function submit(){
+		
 		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		$mode = 'create';
-		
 		$model = new Sher_Core_Model_Topic();
 
 		if(!empty($id)){
 			$mode = 'edit';
 			$topic = $model->find_by_id($id);
-      $topic = $model->extended_model_row($topic);
+			$topic = $model->extended_model_row($topic);
 			$this->stash['topic'] = $topic;
 		}
-    $this->stash['mode'] = $mode;
-		
+		$this->stash['mode'] = $mode;
 		return $this->to_html_page('admin/topic/submit.html');
 	}
 
@@ -138,7 +137,7 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
    */
   public function ajax_stick(){
  		$ids = $this->stash['id'];
-    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
 		if(empty($ids)){
 			return $this->ajax_notification('缺少Id参数！', true);
 		}

@@ -17,12 +17,12 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	const STICK_EDITOR = 1;
 	const STICK_HOME = 2;
 
-  #标题颜色
-  const T_COLOR_NULL = 0;
-  const T_COLOR_RED = 1;
-  const T_COLOR_BLUE = 2;
-  const T_COLOR_GREEN = 3;
-  const T_COLOR_YELLOW = 4;
+	#标题颜色
+	const T_COLOR_NULL = 0;
+	const T_COLOR_RED = 1;
+	const T_COLOR_BLUE = 2;
+	const T_COLOR_GREEN = 3;
+	const T_COLOR_YELLOW = 4;
 	
     protected $schema = array(
 	    'user_id' => null,
