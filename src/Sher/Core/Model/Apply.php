@@ -28,6 +28,8 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'province' => '',
 		'district' => '',
 		'address' => '',
+    'wx' => null,
+    'qq' => null,
 		
     	'result' => self::RESULT_REJECT,
 		'type' => self::TYPE_TRY,
@@ -118,4 +120,4 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
 	
 }
-?>
+
