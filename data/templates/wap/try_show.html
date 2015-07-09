@@ -43,7 +43,6 @@
 	    height: 100%;
 	}
 	.try .ui.header .sub.header {
-		color: rgba(255, 255, 255, 0.9);
 		font-size: 1.1rem;
 	}
 	.try .ui.list .count span{
@@ -293,14 +292,14 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<h1 class="ui header">
+					<h3 class="ui header">
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
-								免费试用  {{ try_count }} {{ try.apply_count }} 人申请
+								免费试用  {{ try.try_count }} {{ try.apply_count }} 人申请
 							</div>
 						</div>
-					</h1>
+					</h3>
 				</div>
 			</div>
 		</div>
