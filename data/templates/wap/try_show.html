@@ -2,6 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	#mfrbird{
+		margin-top:0;
+	}
 	.try .masthead {
 		{% if try.banner_id %}
 		background: url("{{ try.banner.fileurl }}") no-repeat scroll -432px center / cover rgba(45, 53, 56, 1);
@@ -33,8 +36,8 @@
 		margin: 1em auto;
 	}
 	.try .masthead .column {
-		padding-top: 80px;
-		padding-bottom:40px;
+		padding-top: 90px;
+		padding-bottom:30px;
 	}
 	.try .masthead > .masthead-cover {
 	    background-color: rgba(0, 0, 0, 0.15);
