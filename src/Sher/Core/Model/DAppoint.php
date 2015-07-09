@@ -32,7 +32,7 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     'end_time' => 0,
 
     // 预约项目\时间段
-    // array('项目ID'=>array(item_name=>'项目名称',date=>'日期',tiem=>'时间段', state=>'状态'),'项目ID'=>array('项目名称','日期','时间段'));
+    // array(item_id=>'项目ID', item_name=>'项目名称',date=>'日期',tiem=>'时间段', state=>'状态');
     'items' => array(),
 
     // 是否是会员 0,否; 1,是;
