@@ -36,8 +36,7 @@
 		margin: 1em auto;
 	}
 	.try .masthead .column {
-		padding-top: 90px;
-		padding-bottom:30px;
+		padding-top: 120px;
 	}
 	.try .masthead > .masthead-cover {
 	    background-color: rgba(0, 0, 0, 0.15);
@@ -258,7 +257,7 @@
 		</div>
 	</div>-->
 	
-	<div class="masthead">
+	<!--<div class="masthead">
 		<div class="masthead-cover">
 			<div class="ui responsive grid" style="margin:0 auto;">
 				<div class="column">
@@ -286,9 +285,30 @@
 				</div>
 			</div>
 		</div>
+	</div>-->
+	
+	<div class="trytitle">
+		<img src="{{ t.cover.thumbnails.resp.view_url }}" width="100%">
+
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h1 class="ui header">
+						<div class="content">
+							{{ try.title }}
+							<div class="sub header">
+								免费试用  {{ t.try_count }} {{ t.apply_count }} 人申请
+							</div>
+						</div>
+					</h1>
+				</div>
+			</div>
+		</div>
 	</div>
 	
-    <div class="product overview">
+	
+	
+  <div class="product overview">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
