@@ -433,9 +433,17 @@
 	
 	
 	<div class="layer">
-	  <a href="javascript:void(0);" class="ui magenta applytry inverted button">
+		{% if !try.is_end %}
+	  <a href="javascript:void(0);" class="ui magenta active applytry inverted button">
 			<!--<i class="ticket icon"></i>--> 申请试用
 		</a>
+		{% else %}
+		<a href="javascript:void(0);" class="ui active magenta inverted button">
+			 已结束
+		</a>
+		{% endif %}
+		
+		
 	  {% if !try.is_end %}剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}结束时间：{{ try.end_time }}{% endif %}</div>
 	</div>
 	
