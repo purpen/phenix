@@ -91,6 +91,9 @@ p a.ui.link{
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
 {% endblock %}
 {% block jquery %}
+
+var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
+
 $('.ui.table tbody tr').click(function(){
 	$(this).toggleClass('clss');
 })
@@ -102,6 +105,62 @@ var mySwiper = new Swiper('.swiper-container',{
 	noSwiping : 'true',
 	noSwipingClass : 'stop-swiping',
 });
+
+$('.appoint-btn').click(function(){
+  var id = $(this).attr('data-value');
+  var item_name = $(this).text();
+  $('[name=item_name]').val(item_name);
+  $('.option-date').show();
+});
+
+$('.date-btn').click(function(){
+  var id = $(this).attr('data-value');
+  $('.option-hour').show();
+  $('#rest-time').show();
+
+});
+
+// 选择时间点
+$('.option-hour [name=hour]').click(function(){
+  rest_time = parseInt($('#rest-time .t').attr('rest-val'));
+  if($(this).is(":checked")){
+    rest_time -= 1;
+  }else{
+    rest_time += 1;
+  }
+  if(rest_time <0 ){
+    phenix.show_error_note('您的时间用完!');
+    $(this).prop('checked', false);
+    return;
+    }else if(rest_time>4){
+    phenix.show_error_note('操作有误!');
+    $(this).prop('checked', true);
+    return;  
+    }
+  $('#rest-time .t').attr('rest-val', rest_time).text(rest_time);
+});
+
+//确定btn
+$('#gen-btn').click(function(){
+  var item_id = $('[name=item_id]').val();
+  var item_name = $('[name=item_name]').val();
+  var date_id = $('[name=date_id]').val();
+  var hour_arr = new Array();
+  $('[name=hour]:checked').each(function(){
+    hour_arr.push($(this).val());
+  });
+  hour_ids = hour_arr.join('|');
+
+  if(!item_id || !date_id || !hour_ids){
+    phenix.show_error_note('信息不完整!');
+    return;
+  }
+
+  $('#item-show').show();
+  
+  
+});
+
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
@@ -130,9 +189,72 @@ var mySwiper = new Swiper('.swiper-container',{
         {% for d in classes %}
         <div class="ui white active inverted button"><span class="black"></span>{{ d.title }}</div>&nbsp;
         {%endfor%}
+
 			</div>
 		</div>
-		
+
+		<div class="row" id="item-show" style="display:none;">
+			<div class="column">
+        预约结果: 
+
+			</div>
+		</div>
+
+      <div class="row">
+        <div class="column">
+                <div class="ui fluid selection option-item dropdown" style="position:relative;width:100px;">
+                    <input type="hidden" name="item_id" value="" />
+                    <input type="hidden" name="item_name" value="" />
+                      <div class="default text">--开始预约--</div>
+                      <i class="angle down icon" style="position:absolute;right:0;"></i>
+                      <div class="menu">
+                        {% for d in classes %}
+                        <div data-value="{{ d._id }}" class=" item appoint-btn">{{ d.title }}</div>
+                        {%endfor%}
+                        
+                      </div>
+                  </div>
+
+                <div class="ui fluid selection option-date dropdown" style="position:relative;width:100px;display:none;">
+                    <input type="hidden" name="date_id" value="" />
+                      <div class="default text">--选择日期--</div>
+                      <i class="angle down icon" style="position:absolute;right:0;"></i>
+                      <div class="menu">
+                        {% for d in appoint_date_arr %}
+                          {% for c in d %}
+                            <div data-value="{{ c.id }}" class=" item date-btn">{{ c.date }}</div>
+                          {%endfor%}
+                        {%endfor%}
+                      </div>
+                  </div>
+
+                  <div class="option-hour" style="display:none;">
+                    <label><input name="hour" type="checkbox" value="9" />9:00-10:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="10" />10:00-11:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="11" />11:00-12:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="12" />12:00-13:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="13" />13:00-14:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="14" />14:00-15:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="15" />15:00-16:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="16" />16:00-17:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="17" />17:00-18:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="18" />18:00-19:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="19" />19:00-20:00</label>&nbsp;
+                    <label><input name="hour" type="checkbox" value="20" />20:00-21:00</label>&nbsp;
+
+                    <br />
+<input type="button" name="gen-btn" id="gen-btn" value="确定" />
+                  </div>
+                  
+
+        </div>
+    </div>
+
+    <div class="row" id="rest-time" style="display:none;">
+      <div class="column">
+        剩余<span rest-val="4" class="t">4</span>小时
+      </div>
+    </div>
 		
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
@@ -201,15 +323,17 @@ var mySwiper = new Swiper('.swiper-container',{
 				</div>
 
         {%endfor%}
-				
-				
-		
-		
 		
 			</div>
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
+
+    <div class="row">
+      <div class="column">
+
+      </div>
+    </div>
 		
 		<div class="row">
         {% if vip_state != 3 %}
@@ -248,15 +372,5 @@ var mySwiper = new Swiper('.swiper-container',{
 		
 	</div>
 </div>
-
-
-
-
-
-
-
-
-
-
 
 {% endblock %}
