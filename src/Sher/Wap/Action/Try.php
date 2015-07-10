@@ -115,6 +115,20 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 		// 评测报告分类
 		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
 
+    $apply_model = new Sher_Core_Model_Apply();
+
+    // 当前用户是否申请过
+    $is_applied = false;
+    if($this->visitor->id){
+      $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
+      if(!empty($has_one_apply)){
+        $is_applied = true;
+        $this->stash['apply'] = $has_one_apply;
+      }
+    }
+
+    $this->stash['is_applied'] = $is_applied;
+
     //评论参数
     $comment_options = array(
       'comment_target_id' =>  $try['_id'],
