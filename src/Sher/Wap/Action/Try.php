@@ -288,7 +288,6 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         if($list[$i]['user_id']==$apply['user_id']){
           break;
         }
-
       }
       if($max < $size){
         break;
@@ -296,8 +295,26 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
       $page++;
     }
 
+    //获取拉票前10统计
+    $vote_count_top = 0;
+    $query = array('target_id'=>$apply['target_id'], 'type'=>Sher_Core_Model_Apply::TYPE_TRY);
+    $options = array('page'=>1,'size'=>10,'sort'=>array('vote_count'=>-1));
+    $apply_top = $apply_model->find($query, $options);
+    //前10总票数
+    foreach($apply_top as $k=>$v){
+      $vote_count_top += (int)$v['vote_count'];
+    }
+    //插入百分比
+    $user_model = new Sher_Core_Model_User();
+    foreach($apply_top as $k=>$v){
+      $user = $user_model->extend_load($v['user_id']);
+      $apply_top[$k]['user'] = $user;
+      $apply_top[$k]['percent'] = (int)($v['vote_count']/(float)$vote_count_top)*100;
+    }
+
     $this->stash['apply'] = $apply;
     $this->stash['rank_no'] = $total;
+    $this->stash['apply_top'] = $apply_top;
   
     return $this->to_taconite_page('wap/try/ajax_rank_box.html');
   }
