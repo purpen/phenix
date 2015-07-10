@@ -131,6 +131,9 @@
   background: #fff;
   padding: 24px 12px;
 }
+.myCard a{
+	text-decoration: none;
+}
 .myCard .card {
   display: -moz-box;
   display: -webkit-box;
@@ -181,10 +184,12 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
+	margin:0;
 }
 .myCard .des .xinxi {
   color: #f36;
   font-size: 12px;
+	margin:0;
 }
 .myCard .des .xinxi span {
   position: relative;
@@ -238,11 +243,14 @@ $('[data-countdown]').each(function() {
 	<p>
 		我正在申请{{ try.title }}免费试用机会，
 		{% if !try.is_end %}离投票结束还有
-		<div data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>，投我一票吧！{% else %}投票已结束！{% endif %}</div>
+		<div data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>，投我一票吧！
+		{% else %}
+		投票已结束！
+		{% endif %}
 	</p>
 </div>
 <div class="myCard">
-	<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
+	<a href="{{ try.view_url }}" title="{{ try.title }}" target="_blank">
 		<div class="card">
 			<div class="pic">
 				<img src="http://m.jguo.com/assets/data/upload/20150702/44031435817906.jpg" alt="" width="80" height="80">
