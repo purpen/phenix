@@ -270,7 +270,34 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			return $this->ajax_note('申请信息不存在！', true);
 		}
 
+    //获取当前用户排行,笨方法
+    $page = 1;
+    $size = 200;
+    $is_end = false;
+    $total = 0;
+    while(!$is_end){
+      $query = array('target_id'=>$apply['target_id'], 'type'=>Sher_Core_Model_Apply::TYPE_TRY);
+      $options = array('page'=>$page,'size'=>$size,'sort'=>array('vote_count'=>-1));
+      $list = $apply_model->find($query, $options);
+      if(empty($list)){
+        break;
+      }
+      $max = count($list);
+      for ($i=0; $i < $max; $i++) {
+        $total++;
+        if($list[$i]['user_id']==$apply['user_id']){
+          break;
+        }
+
+      }
+      if($max < $size){
+        break;
+      }
+      $page++;
+    }
+
     $this->stash['apply'] = $apply;
+    $this->stash['rank_no'] = $total;
   
     return $this->to_taconite_page('wap/try/ajax_rank_box.html');
   }
