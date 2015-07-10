@@ -61,8 +61,31 @@
     </div>
 	]]></replaceContent>
 
-	
 	<eval>
+        $('.tabLabel li').on('click', function(e){
+            handleTab(e);
+        });
 
+        $('.InviteBtn a').on('click', function(e) {
+            e.preventDefault();
+            $('.bgLayer').addClass('cover');
+        });
+
+        function handleTab(e) {
+            var oDiv = $('.tab');
+            var target = e.currentTarget,
+                index = $(target).index(),
+                aBtn = $(target),
+                aDiv = $(target).parent().parent().parent().parent().find('.tabCont > div:eq('+index+')');
+            if($('.selTeam').length){
+                $('.selTeam').removeClass('on');
+                $('.teamListSel .state').addClass('noDis');
+            }
+            $(target).parent().find('li').removeClass('on');
+            $(target).parent().parent().parent().parent().find('.tabCont > div').addClass('noDis');
+            aBtn.addClass('on');
+            aDiv.removeClass('noDis');
+        }
+        //loadApprove();
 	</eval>
 </taconite>
