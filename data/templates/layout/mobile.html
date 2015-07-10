@@ -176,12 +176,8 @@
 				//sidebar menu
 				$('a.launch').on('click',function(e){
 					e.preventDefault();
-					$('.ui.sidebar.menu').addClass('active');
-					$(document.body).addClass('left pushed');
-					if (!$('html').hasClass('left pushed')) {
-					    $('.ui.sidebar.menu').removeClass('active');
-           }
-					
+					$('.ui.sidebar.menu').toggleClass('active');
+					$(document.body).toggleClass('left pushed');
 				});
 				
 				//ajax加载签到数据
