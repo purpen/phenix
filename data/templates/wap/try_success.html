@@ -242,11 +242,11 @@ $('[data-countdown]').each(function() {
 <div class="say-con">
 	<p>
 		我正在申请{{ try.title }}免费试用机会，
-		<!--{% if !try.is_end %}离投票结束还有-->
-		<div style="display:inline-block;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>，投我一票吧！
-		<!--{% else %}
+		{% if !try.is_end %}离投票结束还有
+		<span style="display:inline-block;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，投我一票吧！
+		{% else %}
 		投票已结束！
-		{% endif %}-->
+		{% endif %}
 	</p>
 </div>
 <div class="myCard">
