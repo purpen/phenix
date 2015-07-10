@@ -4,6 +4,7 @@
 <style type="text/css">
 #mfrbird{
 	margin-top:0;
+	margin-bottom:0;
 }
 .try-top{
 	position: relative;
@@ -210,7 +211,7 @@
   border-radius: 4px;
 }
 .try-user{
-	padding-bottom: 60px;
+	padding-bottom: 0px;
 	background: #f7f7f7;
 }
 .try-user .tabTit {
@@ -465,9 +466,23 @@ ul a{
   color: #fff;
   text-decoration: none;
 }
+.shareLayer {
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 13;
+}
 </style>
 {% endblock %}
 {% block jquery %}
+$('.showdiv').click(function(){
+    $('#mask').css('display','');
+});
+$('#mask').click(function(){
+    $('#mask').css('display','none');
+});
 
 $(document).ready(function(){
 
@@ -612,5 +627,9 @@ $('[data-countdown]').each(function() {
 
 <div class="layer submitBtn"><a class="play" href="/mb/event/index/id/490.html">试用名单审核中...</a></div>
 
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0);" align="center">
+  <div class="shareLayer">
+  </div>
+</div>
 
 {% endblock %}
