@@ -487,7 +487,7 @@ ul a{
     {%else%}
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
-    var link = '{{ try.wap_view_url }}';
+    var link = '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}';
     var desc_str = '太火鸟-新品试用';
 
     wx.config({
@@ -733,16 +733,17 @@ $('.support-btn').click(function(){
   </div>
 </div>
 
-{% if is_current_user %}
-  <div class="layer submitBtn showdiv"><a class="play">立即拉票</a></div>
-{%else%}
-  <div class="layer"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+{% if !try.is_end %}
+  {% if is_current_user %}
+    <div class="layer submitBtn showdiv"><a class="play">立即拉票</a></div>
+  {%else%}
+    <div class="layer"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+  {%endif%}
 {%endif%}
-
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);" align="center">
   <div class="shareLayer">
 	<img src="{{ app_url_packaged }}/images/H5_htc.png" width="100%" >
   </div>
 </div>
-
+{% include "mm/loginbox.html" %}
 {% endblock %}
