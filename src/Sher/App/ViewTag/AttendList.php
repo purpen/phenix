@@ -42,7 +42,13 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
             $query['user_id'] = (int)$user_id;
         }
         if ($target_id) {
-            $query['target_id'] = (int)$target_id;
+          //如果是试用申请拉票
+          if($event==2){
+             $query['target_id'] = (string)$target_id;         
+          }else{
+             $query['target_id'] = (int)$target_id;         
+          }
+
         }
         if ($event) {
           $query['event'] = (int)$event;
