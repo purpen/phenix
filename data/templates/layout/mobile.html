@@ -174,7 +174,7 @@
 
 				
 				//sidebar menu
-				$('a.launch').click(function(e){
+				$('a.launch').on('click',function(e){
 					e.preventDefault();
 					$('.ui.sidebar.menu').toggleClass('active');
 					$(document.body).toggleClass('left pushed');
