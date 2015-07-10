@@ -43,8 +43,15 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			return $this->show_message_page('不存在的申请名单！', $redirect_url);
     }
 
+    $try_model = new Sher_Core_Model_Try();
+    $try = $try_model->extend_load($apply['target_id']);
+    if(empty($try)){
+ 			return $this->show_message_page('试用产品不存在！', $redirect_url);   
+    }
+
     $user_id = $apply['user_id'];
     $this->stash['apply'] = $apply;
+    $this->stash['try'] = $try;
 
 		return $this->to_html_page('wap/try_success.html');
 	}
