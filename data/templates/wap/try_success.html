@@ -150,10 +150,10 @@ $('[data-countdown]').each(function() {
 		<div class="text-block"></div>
 		<div class="round-bg"></div>
 		<div class="avatar avatar-92">
-			<img src="http://frbird.qiniudn.com/avatar/141113/5464b1ef621e19bc128b6522-avn.jpg">
+			<img src="{{ apply.user.big_avatar_url }}">
 		</div>	
 		<div class="avatar-name">
-			<span class="wish-name">user</span>
+      <span class="wish-name">{{ apply.user.nickname }}</span>
 		</div>
 	</div>
 </div>
@@ -166,7 +166,4 @@ $('[data-countdown]').each(function() {
 	
 	
 </div>
-
-
-
 {% endblock %}

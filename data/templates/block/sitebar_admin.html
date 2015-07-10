@@ -47,12 +47,18 @@
 		用户积分统计
 	</a>
     {% endif %}
+	
     {% if visitor.is_admin %}
 	<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
 		用户管理
 	</a>
     {% endif %}
     
+	{% if visitor.is_admin %}
+	<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
+		用户签到
+	</a>
+    {% endif %}
     
     {% if visitor.is_chief %}
 	<div class="header item">
@@ -127,11 +133,10 @@
 	<a class="{{ css_page_d_member }} item" href="{{ app_url_admin_base }}/d_member">
 		会员管理
 	</a>
-  <!--
 	<a class="{{ css_d_appoint }} item" href="{{ app_url_admin_base }}/d_appoint">
 		预约管理
 	</a>
-  -->
+
 	<a class="{{ css_page_volunteer_contact }} item" href="{{ app_url_admin_base }}/volunteer_contact">
 		志愿者管理
 	</a>

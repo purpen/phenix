@@ -27,6 +27,7 @@
 				<th>申请人</th>
 				<th>用户信息</th>
 				<th>申请理由</th>
+        <th>拉票数</th>
 				<th>申请时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -45,12 +46,16 @@
 				</td>
 				<td>
 					<p>
-						{{ t.name }}<br />
-						{{ t.phone }}<br />
-						{{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}
+						姓名: {{ t.name }}<br />
+						电话: {{ t.phone }}<br />
+            地址: {{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}<br />
+            邮编: {{ t.zip }}<br />
+            微信: {{ t.wx }}<br />
+            QQ: {{ t.qq }}
 					</p>
 				</td>
-				<td class="seven wide">{{ t.content|truncate 1500 }}</td>
+				<td class="seven wide">{{ t.content|truncate 1800 }}</td>
+        <td><a href="{{ app_url_admin_base }}/try/vote_list?apply_id={{ t._id }}" target="_blank">支持名单({{ t.vote_count }})</a></td>
 				<td>{{ t.created_on|date 'y-m-d H:i' }}
 				</td>
 				<td>

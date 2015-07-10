@@ -9,16 +9,19 @@
 				<div class="ajax result"></div>
 				<input type="hidden" name="target_id" value="{{ try._id }}" />
 				<div class="ui signup-box">
-					<div class="two fields">
-						<div class="field">
-							<label>姓名</label>
-							<input type="text" name="name" value="" />
-						</div>
+
+					<div class="field">
+						<label>申请理由</label>
+						<textarea name="content" class="small"></textarea>
+						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
 					</div>
+
 					<div class="two fields">
 						<div class="field">
-							<label>手机号</label>
-							<input type="text" name="phone" value="" placeholder="填写手机号，方便信息核实" />
+              <input type="text" name="name" value="{{ visitor.profile.realname }}" placeholder="你的真实姓名" />
+						</div>
+						<div class="field">
+              <input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
 						</div>
 					</div>
 					<div class="field">
@@ -49,11 +52,19 @@
 					<div class="field">
 						<input type="text" name="address" value="" placeholder="街道或小区" />
 					</div>
+
+					<div class="three fields">
 					<div class="field">
-						<label>申请理由</label>
-						<textarea name="content" class="small"></textarea>
-						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
+						<input type="text" name="zip" value="" placeholder="邮编" />
 					</div>
+						<div class="field">
+							<input type="text" name="wx" value="" placeholder="微信号(可选)" />
+						</div>
+						<div class="field">
+							<input type="text" name="qq" value="" placeholder="QQ号(可选)" />
+						</div>
+					</div>
+
 				</div>
 		  	</div>
       <!--显示错误信息-->

@@ -28,9 +28,13 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'province' => '',
 		'district' => '',
 		'address' => '',
+    'wx' => null,
+    'qq' => null,
 		
     	'result' => self::RESULT_REJECT,
 		'type' => self::TYPE_TRY,
+    # 支持人数
+    'vote_count' => 0,
 		
 		'state'  => 0,
     );
@@ -43,7 +47,9 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'target_id', 'content');
 	
-    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result');
+    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result', 'vote_count');
+
+	  protected $counter_fields = array('vote_count');
 	
 	/**
 	 * 扩展关联数据
@@ -115,7 +121,21 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	public function mark_set_result($id, $result){
 		return $this->update_set($id, array('result'=>(int)$result));
 	}
+
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
 	
 	
 }
-?>
+
