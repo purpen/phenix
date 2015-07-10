@@ -161,7 +161,7 @@
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+      $('.ui.sign-box.modal').modal('show');
 			return false;
 		}
 		
@@ -443,9 +443,16 @@
 	
 	<div class="layer">
 		{% if !try.is_end %}
-	  <a href="javascript:void(0);" class="ui magenta active applytry inverted button">
-			<!--<i class="ticket icon"></i>--> 申请试用
-		</a>
+      {% if is_applied %}
+      <a href="{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}" class="ui magenta active inverted button">
+          <!--<i class="ticket icon"></i>--> 我要拉票
+        </a>
+      {%else%}
+        <a href="javascript:void(0);" class="ui magenta active applytry inverted button">
+          <!--<i class="ticket icon"></i>--> 申请试用
+        </a>
+      {%endif%}
+
 		{% else %}
 		<a href="javascript:void(0);" class="ui active magenta inverted button">
 			 已结束
@@ -458,4 +465,5 @@
 	
 </div>
 {% include "block/wap_apply_try.html" %}
+{% include "mm/loginbox.html" %}
 {% endblock %}

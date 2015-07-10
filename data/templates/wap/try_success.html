@@ -476,6 +476,83 @@ ul a{
 }
 </style>
 {% endblock %}
+
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+
+    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来为我拉票吧!';
+    {% if try.cover %}
+      var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
+    {%else%}
+      var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
+    {%endif%}
+    var link = '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}';
+    var desc_str = '太火鸟-新品试用';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数/同时送积分
+  function record_share_num(){
+
+  }
+
+</script>
+{% endblock %}
+
 {% block jquery %}
 $('.showdiv').click(function(){
     $('#mask').css('display','');
@@ -521,6 +598,18 @@ $('[data-countdown]').each(function() {
 		$this.html(event.strftime('%D天%H时%M分钟'));
 	});
 });
+
+//我要支持
+$('.support-btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      $('.ui.sign-box.modal').modal('show');
+			return false;
+		}
+    var url = "{{ app_url_wap }}/try/ajax_support";
+    var apply_id = "{{ apply._id }}";
+    $.post(url, {apply_id:apply_id, type:1 });
+});
 {% endblock %}
 {% block content %}
 <div class="try-top">
@@ -552,7 +641,7 @@ $('[data-countdown]').each(function() {
 	<a href="{{ try.view_url }}" title="{{ try.title }}" target="_blank">
 		<div class="card">
 			<div class="pic">
-				<img src="http://m.jguo.com/assets/data/upload/20150702/44031435817906.jpg" alt="" width="80" height="80">
+				<img src="{{ try.cover.thumbnails.resp.view_url }}" alt="{{ try.title }}" width="80" height="80">
 			</div>
 			<div class="des">
 			  <p class="tit">{{ try.title }}</p>
@@ -644,12 +733,17 @@ $('[data-countdown]').each(function() {
   </div>
 </div>
 
-<div class="layer submitBtn showdiv"><a class="play">立即拉票</a></div>
-
+{% if !try.is_end %}
+  {% if is_current_user %}
+    <div class="layer submitBtn showdiv"><a class="play">立即拉票</a></div>
+  {%else%}
+    <div class="layer"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+  {%endif%}
+{%endif%}
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);" align="center">
   <div class="shareLayer">
 	<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%" >
   </div>
 </div>
-
+{% include "mm/loginbox.html" %}
 {% endblock %}
