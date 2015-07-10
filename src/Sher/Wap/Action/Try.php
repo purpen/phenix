@@ -309,7 +309,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     foreach($apply_top as $k=>$v){
       $user = $user_model->extend_load($v['user_id']);
       $apply_top[$k]['user'] = $user;
-      $apply_top[$k]['percent'] = (int)($v['vote_count']/(float)$vote_count_top)*100;
+      $apply_top[$k]['percent'] = (int)(($v['vote_count']/(float)$vote_count_top)*100);
     }
 
     $this->stash['apply'] = $apply;
