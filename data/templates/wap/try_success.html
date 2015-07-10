@@ -554,6 +554,10 @@ ul a{
 {% endblock %}
 
 {% block jquery %}
+
+  //弹出登录框
+	phenix.wap_show_sign_box('', 1);
+
 $('.showdiv').click(function(){
     $('#mask').css('display','');
 });
