@@ -48,8 +48,28 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     if(empty($try)){
  			return $this->show_message_page('试用产品不存在！', $redirect_url);   
     }
+    $apply_user_id = $apply['user_id'];
+    $is_current_user = false;
+    // 是否是当前用户
+    if($this->visitor->id){
+      if($apply_user_id==(int)$this->visitor->id){
+        $is_current_user = true;
+      }else{
+      
+      }
+    }
 
-    $user_id = $apply['user_id'];
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+
+    $this->stash['is_current_user'] = $is_current_user;
     $this->stash['apply'] = $apply;
     $this->stash['try'] = $try;
 
@@ -195,6 +215,46 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     $this->stash['msg'] = '申请提交成功，等待审核.';
     return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 	}
+
+  /**
+   * ajax 支持拉票
+   */
+  public function ajax_support(){
+    $apply_id = isset($this->stash['apply_id'])?$this->stash['apply_id']:0;
+    if(empty($apply_id)){
+  	  return $this->ajax_json('缺少请求参数！', true);      
+    }
+
+    $apply_model = new Sher_Core_Model_Apply();
+    $apply = $apply_model->load($apply_id);
+    if(empty($apply)){
+   	  return $this->ajax_json('申请信息不存在！', true);     
+    }
+
+    $attend_model = new Sher_Core_Model_Attend();
+    $is_attend = $attend_model->check_signup($this->visitor->id, $apply_id, Sher_Core_Model_Attend::EVENT_APPLY);
+    if($is_attend){
+   	  return $this->ajax_json('您已经投过票了！', true);     
+    }
+
+    $data = array(
+      'user_id' => (int)$this->visitor->id,
+      'target_id' => $apply_id,
+      'event' => Sher_Core_Model_Attend::EVENT_APPLY,
+    );
+
+    $this->stash['success'] = false;
+    try{
+      $ok = $attend_model->apply_and_save($data);
+      if($ok){
+        $this->stash['success'] = true;
+      }
+    }catch(Sher_Core_Model_Exception $e){
+      Doggy_Log_Helper::warn("Save try apply attend failed: ".$e->getMessage());
+    }
+
+    return $this->to_taconite_page('wap/try/ajax_support.html');
+  }
 
   /**
    * 评论参数

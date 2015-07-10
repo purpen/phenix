@@ -1,6 +1,6 @@
 <?php
 /**
- * 活动报名表
+ * 活动报名/试用申请拉票表
  * @author purpen
  */
 class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
@@ -71,7 +71,12 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
    * 检测是否报名
    */
   public function check_signup($user_id, $target_id, $event=1){
-    $query['target_id'] = (int) $target_id;
+    if($event==self::EVENT_ACTIVE){
+      $query['target_id'] = (int) $target_id;   
+    }elseif($event==self::EVENT_APPLY){
+      $query['target_id'] = $target_id;   
+    }
+
     $query['user_id'] = (int) $user_id;
     $query['event'] = (int) $event;
     $result = $this->count($query);
