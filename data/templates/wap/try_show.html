@@ -276,7 +276,7 @@
         'feedback' : '.wordscount'
     });
 
-    $('.support.button').click(function(){
+    $('.support-btn').click(function(){
       phenix.show_ok_note('新功能即将上线!');
       return false;
       phenix.redirect("{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
@@ -454,7 +454,7 @@
 	<div class="layer">
 		{% if !try.is_end %}
       {% if is_applied %}
-      <a href="javascript:void(0);" class="ui magenta active inverted support button">
+      <a href="javascript:void(0);" class="ui magenta active inverted support-btn button">
           <!--<i class="ticket icon"></i>--> 我要拉票
         </a>
       {%else%}
