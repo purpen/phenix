@@ -209,7 +209,168 @@
   -o-border-radius: 4px;
   border-radius: 4px;
 }
-
+.try-user{
+	padding-bottom: 60px;
+	background: #f7f7f7;
+}
+.try-user .tabTit {
+  background: #fff;
+  padding: 0 12px;
+}
+.try-user .show ul {
+  display: -moz-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+}
+.tab .tabLabel {
+  display: -moz-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+.try-user .show ul li {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -o-flex: 1;
+  flex: 1;
+  display: block;
+  text-align: center;
+}
+.tab .tabLabel li {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -o-flex: 1;
+  flex: 1;
+  display: block;
+  text-align: center;
+}
+.try-user .show ul li a p {
+  line-height: 30px;
+}
+.try-user .show ul li a p {
+  padding-top: 20px;
+  font-size: 30px;
+}
+.try-user .show ul li a em {
+  display: block;
+  font-size: 12px;
+}
+.try-user .show ul li .tit {
+  padding: 10px 0;
+}
+.tab .tabLabel li:last-child {
+  border-right: 0 none;
+}
+.try-user .show ul .on {
+  border-bottom: 2px solid #f36;
+}
+.noDis {
+  display: none;
+}
+.try-user .rank {
+  margin-bottom: 15px;
+  padding: 10px 12px;
+}
+.try-user .rank .tips {
+  color: #a3a3a3;
+  font-size: 10px;
+  padding: 2px 0 12px 0;
+}
+.try-user .rank li {
+	display: inline-block;
+  padding: 0;
+}
+.rank .avt {
+  height: 32px;
+}
+.avt a {
+  border: none!important;
+}
+.avt a {
+  border-color: #fff !important;
+}
+.try-user .avt a {
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  border: 1px solid #fff;
+  display: inline-block;
+  background-size: 100%;
+}
+.try-user .ticket {
+  color: #474747;
+}
+.try-user .ticket li {
+  display: -moz-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  padding: 10px 12px;
+}
+.try-user .ticket li .progressBar {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -o-flex: 1;
+  flex: 1;
+  display: block;
+  padding: 0 20px;
+}
+.try-user .ticket li .progressBar .ticketInfo {
+  overflow: hidden;
+  line-height: 20px;
+  height: 20px;
+}
+.try-user .ticket li .progressBar .ticketInfo .name i {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  margin-left: 10px;
+}
+.try-user .ticket li .progressBar .ticketInfo .name i img {
+  width: 100%;
+}
+.try-user .ticket li .progressBar .ticketInfo .progressNum {
+  float: right;
+  line-height: 20px;
+  height: 20px;
+}
+.try-user .ticket li .progressBar .bar {
+  background: #ebebeb;
+  height: 2px;
+  margin-top: 25px;
+}
+.try-user .ticket li .progressBar .bar span {
+  display: block;
+  height: 2px;
+}
+.try-user .ticket li:nth-child(even) {
+  background: #fff;
+}
 
 </style>
 {% endblock %}
@@ -242,7 +403,7 @@ $('[data-countdown]').each(function() {
 <div class="say-con">
 	<p>
 		我正在申请{{ try.title }}免费试用机会，
-		{% if try.is_end %}离投票结束还有
+		{% if !try.is_end %}离投票结束还有
 		<span data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，投我一票吧！
 		{% else %}
 		投票已结束！
@@ -263,10 +424,59 @@ $('[data-countdown]').each(function() {
           <span>{{ try.apply_count }} 人申请</span>
          </p>
        </div>
-			
-			
 		</div>
 	</a>
+</div>
+
+<div class="try-user">
+  <div class="tab">
+    <div class="tabTit">
+      <div class="show">
+        <ul class="tabLabel">
+          <li class="on">
+            <a href="javascript:;"><p>0</p><em>名</em></a>
+            <p class="tit">好友支持</p>
+          </li>
+          <li>
+           	<a href="javascript:loadRank();"><p>1240</p><em>位</em></a>
+	          <p class="tit">总排名</p>
+          </li>
+        </ul>
+      </div>
+  	</div>
+  	<div class="tabCont">
+      <div class="tabCont1">
+        <div class="rank">
+          <p class="tips" style="font-size: 12px;">小贴士：拉票数第一直接获得试用机会！</p>
+          <ul class="approveList">
+						<li class="approve">
+						  <div class="avt">
+                <a href="javascript:;" style="background-image: url(/mb/user/avatar/uid/403789.html)"></a>
+              </div>
+						</li>
+			
+          </ul>
+        </div>
+      </div>
+      <div class="tabCont2 noDis">
+        <ul class="ticket">
+					<li>
+					  <div class="avt">
+              <a href="/mb/event/vote/id/490/uid/320490.html" style="background-image: url(/mb/user/avatar/uid/320490.html)"></a>
+            </div>
+            <div class="progressBar">
+              <p class="ticketInfo"><span class="name"> 看透说不... <i><img src="/assets/default/i/082.png"></i></span> <span class="progressNum">412 票</span></p>
+              <p class="bar"><span style="width: 100%; background: #fb5448;"></span></p>
+            </div>
+          </li>
+
+
+
+
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 
