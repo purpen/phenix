@@ -394,7 +394,31 @@ ul,li{
 ul a{
 	text-decoration: none;
 }
-
+.layer {
+  margin: 0;
+  height: 72px;
+  line-height: 72px;
+}
+.submitBtn {
+  border: 0 none;
+  padding: 0;
+  display: -moz-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+}
+.layer {
+  background: rgba(0,0,0,0.7);
+  height: 56px;
+  line-height: 56px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 12;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -540,7 +564,7 @@ $('[data-countdown]').each(function() {
   </div>
 </div>
 
-
+<div class="layer submitBtn"><a class="play" href="/mb/event/index/id/490.html">试用名单审核中...</a></div>
 
 
 {% endblock %}
