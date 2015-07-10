@@ -550,6 +550,13 @@ ul a{
 
   }
 
+  //拉票排行
+  function fetch_rank(){
+    var url = "{{ app_url_wap }}/try/ajax_fetch_rank";
+    var apply_id = "{{ apply._id }}";
+    $.get(url, {apply_id:apply_id, type:1});
+  }
+
 </script>
 {% endblock %}
 
@@ -614,6 +621,10 @@ $('.support-btn').click(function(){
     var apply_id = "{{ apply._id }}";
     $.post(url, {apply_id:apply_id, type:1 });
 });
+
+//获取拉票排行
+fetch_rank();
+
 {% endblock %}
 {% block content %}
 <div class="try-top">
@@ -659,83 +670,10 @@ $('.support-btn').click(function(){
 	</a>
 </div>
 
-<div class="try-user">
-  <div class="tab">
-    <div class="tabTit">
-      <div class="show">
-        <ul class="tabLabel">
-          <li class="on">
-            <a href="javascript:;"><p>0</p><em>名</em></a>
-            <p class="tit">好友支持</p>
-          </li>
-          <li>
-           	<a href="javascript:loadRank();"><p>1240</p><em>位</em></a>
-	          <p class="tit">总排名</p>
-          </li>
-        </ul>
-      </div>
-  	</div>
-  	<div class="tabCont">
-      <div class="tabCont1">
-        <div class="rank">
-          <p class="tips" style="font-size: 12px;">小贴士：拉票数第一直接获得试用机会！</p>
-          <ul class="approveList">
-	
-						<!-- 支持者 -->
-						<li class="approve">
-						  <div class="avt">
-                <a href="javascript:;" style="background-image: url(http://m.jiguo.com/assets/data/avatar/000/40/37/89_avatar_small.jpg)"></a>
-              </div>
-						</li>
-						
-						<li class="approve">
-						  <div class="avt">
-                <a href="javascript:;" style="background-image: url(http://m.jiguo.com/assets/data/avatar/000/40/37/89_avatar_small.jpg)"></a>
-              </div>
-						</li>
-						
-			
-          </ul>
-        </div>
-      </div>
-      <div class="tabCont2 noDis">
-        <ul class="ticket">
-					<li>
-					  <div class="avt">
-              <a href="/mb/event/vote/id/490/uid/320490.html" style="background-image: url(http://m.jiguo.com/assets/data/avatar/000/32/04/90_avatar_small.jpg)"></a>
-            </div>
-            <div class="progressBar">
-              <p class="ticketInfo"><span class="name"> 看透说不... <i><img src="{{ app_url_packaged }}/images/082.png"></i></span> <span class="progressNum">412 票</span></p>
-              <p class="bar"><span style="width: 100%; background: #fb5448;"></span></p>
-            </div>
-          </li>
-
-					<li>
-					  <div class="avt">
-	              <a href="/mb/event/vote/id/490/uid/158707.html" style="background-image: url(http://m.jiguo.com/assets/data/avatar/000/32/04/90_avatar_small.jpg)"></a>                                        </div>
-	          <div class="progressBar">
-	              <p class="ticketInfo"><span class="name">宇.. <i><img src="{{ app_url_packaged }}/images/083.png"></i></span> <span class="progressNum">163 票</span></p>
-	              <p class="bar"><span style="width: 40%; background: #fb5448;"></span></p>
-	          </div>
-					</li>
-					
-					<li>
-					  <div class="avt">
-              <a href="/mb/event/vote/id/490/uid/470988.html" style="background-image: url(http://m.jiguo.com/assets/data/avatar/000/32/04/90_avatar_small.jpg)"></a>
-          	</div>
-          	<div class="progressBar">
-              <p class="ticketInfo"><span class="name">长白山 <i><img src="{{ app_url_packaged }}/images/084.png"></i></span> <span class="progressNum">51 票</span></p>
-              <p class="bar"><span style="width: 12%%; background: #fb5448;"></span></p>
-          	</div>
-      		</li>
-
-
-
-        </ul>
-      </div>
-    </div>
-  </div>
+<div class="try-user" id="rank-box">
+  <!--ajax fetch rank-->
 </div>
+
 
 {% if !try.is_end %}
   {% if is_current_user %}

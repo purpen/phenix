@@ -1,0 +1,68 @@
+<taconite>
+	<replaceContent select="#rank-box"><![CDATA[
+    <div class="tab">
+      <div class="tabTit">
+        <div class="show">
+          <ul class="tabLabel">
+            <li class="on">
+            <a href="javascript:;"><p>{{ apply.vote_count }}</p><em>名</em></a>
+              <p class="tit">好友支持</p>
+            </li>
+            <li>
+              <a href="javascript:loadRank();"><p>1240</p><em>位</em></a>
+              <p class="tit">总排名</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="tabCont">
+        <div class="tabCont1">
+          <div class="rank">
+            {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
+            <p class="tips" style="font-size: 12px;">小贴士：拉票数第一直接获得试用机会！</p>
+            <ul class="approveList">
+    
+              <!-- 支持者 -->
+              {% for d in list.rows %}
+              <li class="approve">
+                <div class="avt">
+                  <a href="javascript:;" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
+                </div>
+              </li>
+              {%endfor%}
+              
+            </ul>
+          </div>
+        </div>
+        <div class="tabCont2 noDis">
+          {% apply_list var:'list' target_id:apply.target_id page:1 size:10 %}
+          <ul class="ticket">
+              {% for d in list.rows %}
+            <li>
+              <div class="avt">
+                <a href="javascript:void(0);" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
+              </div>
+              <div class="progressBar">
+                <p class="ticketInfo"><span class="name"> {{ d.user.nickname }} 
+                  {%if d.loop.counter==1%}<i><img src="{{ app_url_packaged }}/images/082.png"></i>{%endif%}
+                  {%if d.loop.counter==2%}<i><img src="{{ app_url_packaged }}/images/083.png"></i>{%endif%}
+                  {%if d.loop.counter==3%}<i><img src="{{ app_url_packaged }}/images/084.png"></i>{%endif%}
+                
+                </span> <span class="progressNum">{{ d.vote_count|default 0 }} 票</span></p>
+                <p class="bar"><span style="width: 100%; background: #fb5448;"></span></p>
+              </div>
+            </li>
+
+            {%endfor%}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+	]]></replaceContent>
+
+	
+	<eval>
+
+	</eval>
+</taconite>
