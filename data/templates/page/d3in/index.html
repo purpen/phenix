@@ -104,14 +104,71 @@
 .d3in .ui.title h1+p{
 	font-size:36px;
 }
-
+.lab.submenu{
+	width:100%;
+	top:0;
+	left:0;
+	transition:all .5s ease-out;
+}
+@-webkit-keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateY(-400px); 
+    } 
+    50%{
+       opacity: 0.3; 
+    }
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+@keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(-400px); 
+    } 
+    50%{
+       opacity: 0.3; 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+} 
+.fadeInDown{ 
+    opacity: 0; 
+    -webkit-transform: translateY(-400px); 
+    transform: translateY(-400px);
+}
+.fadeInDown.animated { 
+    -webkit-animation-name: fadeInDown; 
+    animation-name: fadeInDown; 
+}
+.animated { 
+    -webkit-animation-duration: 0.8s; 
+    animation-duration: 0s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+}
 </style>
 {% endblock %}
 {% block jquery %}
-	$('.lab.submenu').smint({
-  		'scrollSpeed' : 1000
-  	});
-	
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if(scrollTop >125 ){
+				$('.lab.submenu').css({"background":"#fff","position":"fixed","z-index":"100"});
+				$('.lab.submenu h3,.d3in .lab.submenu a.ui.line').css('color','#444');
+				$('.lab.submenu').addClass('fadeInDown animated');
+				$('.d3in .ui.title').css('padding-top','180px');
+			}
+			if(scrollTop < 125){
+				$('.lab.submenu').css({"background":"auto","position":"auto","color":"auto"});
+				$('.lab.submenu h3,.d3in .lab.submenu a.ui.line').css('color','auto');
+				$('.lab.submenu').removeClass('fadeInDown animated');
+				$('.d3in .ui.title').css('padding-top','8rem');
+			}
+	})
 {% endblock %}
 {% block content %}
 <div id="laboratory">
