@@ -252,6 +252,29 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
   }
 
   /**
+   * ajax过滤不可预约时间点
+   */
+  public function ajax_filter_time(){
+    $item_id = isset($this->stash['item_id'])?(int)$this->stash['item_id']:0;
+    $date_id = isset($this->stash['date_id'])?(int)$this->stash['date_id']:0;
+    $time_arr = array();
+    try{
+      $appoint_record_model = new Sher_Core_Model_DAppointRecord();
+      $appoint_record = $appoint_record_model->filter_appoint_time($item_id, $date_id);
+      if($appoint_record){
+        foreach($appoint_record as $v){
+          array_push($time_arr, $v['appoint_time']);
+        }
+      }
+    }catch(Sher_Core_Model_Exception $e){
+      Doggy_Log_Helper::warn("d3in find appoint_record failed: ".$e->getMessage());
+    }
+    $appoint_times = implode(',', $time_arr);
+    $this->stash['appoint_times'] = $appoint_times;
+    return $this->to_taconite_page('page/d3in/ajax_filter_time.html');
+  }
+
+  /**
    * 支付页面
    */
 	public function buy(){
@@ -446,6 +469,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       return null;
     }
   }
+
 	
 }
 
