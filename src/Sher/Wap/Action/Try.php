@@ -18,7 +18,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist','view','apply_success');
+	protected $exclude_method_list = array('execute','getlist','view','apply_success', 'ajax_fetch_rank');
 	
 	
 	/**
@@ -222,19 +222,19 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
   public function ajax_support(){
     $apply_id = isset($this->stash['apply_id'])?$this->stash['apply_id']:0;
     if(empty($apply_id)){
-  	  return $this->ajax_json('缺少请求参数！', true);      
+  	  return $this->ajax_note('缺少请求参数！', true);      
     }
 
     $apply_model = new Sher_Core_Model_Apply();
     $apply = $apply_model->load($apply_id);
     if(empty($apply)){
-   	  return $this->ajax_json('申请信息不存在！', true);     
+   	  return $this->ajax_note('申请信息不存在！', true);     
     }
 
     $attend_model = new Sher_Core_Model_Attend();
     $is_attend = $attend_model->check_signup($this->visitor->id, $apply_id, Sher_Core_Model_Attend::EVENT_APPLY);
     if($is_attend){
-   	  return $this->ajax_json('您已经投过票了！', true);     
+   	  return $this->ajax_note('您已经支持过了！', true);     
     }
 
     $data = array(
@@ -254,6 +254,69 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     }
 
     return $this->to_taconite_page('wap/try/ajax_support.html');
+  }
+
+  /**
+   * ajax 获取拉票排行
+   */
+  public function ajax_fetch_rank(){
+    $apply_id = isset($this->stash['apply_id'])?$this->stash['apply_id']:null;
+		if(empty($apply_id)){
+			return $this->ajax_note('传入参数不正确！', true);
+		}
+    $apply_model = new Sher_Core_Model_Apply();
+    $apply = $apply_model->extend_load($apply_id);
+		if(empty($apply)){
+			return $this->ajax_note('申请信息不存在！', true);
+		}
+
+    //获取当前用户排行,笨方法
+    $page = 1;
+    $size = 200;
+    $is_end = false;
+    $total = 0;
+    while(!$is_end){
+      $query = array('target_id'=>$apply['target_id'], 'type'=>Sher_Core_Model_Apply::TYPE_TRY);
+      $options = array('page'=>$page,'size'=>$size,'sort'=>array('vote_count'=>-1));
+      $list = $apply_model->find($query, $options);
+      if(empty($list)){
+        break;
+      }
+      $max = count($list);
+      for ($i=0; $i < $max; $i++) {
+        $total++;
+        if($list[$i]['user_id']==$apply['user_id']){
+          break;
+        }
+      }
+      if($max < $size){
+        break;
+      }
+      $page++;
+    }
+
+    //获取拉票前10统计
+    $vote_count_top = 0;
+    $query = array('target_id'=>$apply['target_id'], 'type'=>Sher_Core_Model_Apply::TYPE_TRY);
+    $options = array('page'=>1,'size'=>10,'sort'=>array('vote_count'=>-1));
+    $apply_top = $apply_model->find($query, $options);
+    //前10总票数
+    foreach($apply_top as $k=>$v){
+      $vote_count_top += (int)$v['vote_count'];
+    }
+    //插入百分比
+    $user_model = new Sher_Core_Model_User();
+    foreach($apply_top as $k=>$v){
+      $user = $user_model->extend_load($v['user_id']);
+      $apply_top[$k]['user'] = $user;
+      $apply_top[$k]['percent'] = (int)(($v['vote_count']/(float)$vote_count_top)*100);
+    }
+
+    $this->stash['apply'] = $apply;
+    $this->stash['rank_no'] = $total;
+    $this->stash['apply_top'] = $apply_top;
+  
+    return $this->to_taconite_page('wap/try/ajax_rank_box.html');
   }
 
   /**

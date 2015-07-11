@@ -1,0 +1,90 @@
+<taconite>
+	<replaceContent select="#rank-box"><![CDATA[
+    <div class="tab">
+      <div class="tabTit">
+        <div class="show">
+          <ul class="tabLabel">
+            <li class="on">
+            <a href="javascript:;"><p>{{ apply.vote_count }}</p><em>名</em></a>
+              <p class="tit">好友支持</p>
+            </li>
+            <li>
+            <a href="javascript:loadRank();"><p>{{ rank_no }}</p><em>位</em></a>
+              <p class="tit">总排名</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="tabCont">
+        <div class="tabCont1">
+          <div class="rank">
+            {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
+            <!--<p class="tips" style="font-size: 12px;">小贴士：拉票数第一直接获得试用机会！</p>-->
+            <ul class="approveList">
+    
+              <!-- 支持者 -->
+              {% for d in list.rows %}
+              <li class="approve">
+                <div class="avt">
+                  <a href="javascript:;" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
+                </div>
+              </li>
+              {%endfor%}
+              
+            </ul>
+          </div>
+        </div>
+        <div class="tabCont2 noDis">
+          <ul class="ticket">
+              {% for d in apply_top %}
+            <li>
+              <div class="avt">
+                <a href="javascript:void(0);" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
+              </div>
+              <div class="progressBar">
+                <p class="ticketInfo"><span class="name"> {{ d.user.nickname }} 
+                  {%if loop.counter==1%}<i><img src="{{ app_url_packaged }}/images/082.png"></i>{%endif%}
+                  {%if loop.counter==2%}<i><img src="{{ app_url_packaged }}/images/083.png"></i>{%endif%}
+                  {%if loop.counter==3%}<i><img src="{{ app_url_packaged }}/images/084.png"></i>{%endif%}
+                
+                </span> <span class="progressNum">{{ d.vote_count|default 0 }} 票</span></p>
+                <p class="bar"><span style="width: {{ d.percent }}%; background: #fb5448;"></span></p>
+              </div>
+            </li>
+
+            {%endfor%}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+	]]></replaceContent>
+
+	<eval>
+        $('.tabLabel li').on('click', function(e){
+            handleTab(e);
+        });
+
+        $('.InviteBtn a').on('click', function(e) {
+            e.preventDefault();
+            $('.bgLayer').addClass('cover');
+        });
+
+        function handleTab(e) {
+            var oDiv = $('.tab');
+            var target = e.currentTarget,
+                index = $(target).index(),
+                aBtn = $(target),
+                aDiv = $(target).parent().parent().parent().parent().find('.tabCont > div:eq('+index+')');
+            if($('.selTeam').length){
+                $('.selTeam').removeClass('on');
+                $('.teamListSel .state').addClass('noDis');
+            }
+            $(target).parent().find('li').removeClass('on');
+            $(target).parent().parent().parent().parent().find('.tabCont > div').addClass('noDis');
+            aBtn.addClass('on');
+            aDiv.removeClass('noDis');
+        }
+        //loadApprove();
+	</eval>
+</taconite>
