@@ -205,6 +205,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         }
         $apply = $model->get_data();
         $this->stash['apply'] = $apply;
+        $this->stash['try'] = $row;
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
