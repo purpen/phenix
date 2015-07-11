@@ -106,18 +106,20 @@ var mySwiper = new Swiper('.swiper-container',{
 	noSwipingClass : 'stop-swiping',
 });
 
-$('.appoint-btn').click(function(){
-  var id = $(this).attr('data-value');
-  var item_name = $(this).text();
+//选择预约项目
+$('.begin-appoint-btn').click(function(){
+  var item_id = $(this).attr('data-cid');
+  var item_name = $(this).attr('data-title');
+  $('[name=item_id]').val(item_id);
   $('[name=item_name]').val(item_name);
   $('.option-date').show();
 });
 
-$('.date-btn').click(function(){
-  var id = $(this).attr('data-value');
+//选择日期
+$('.option-date [name=date]').click(function(){
+  var date_id = $(this).val();
   $('.option-hour').show();
   $('#rest-time').show();
-
 });
 
 // 选择时间点
@@ -187,13 +189,15 @@ $('#gen-btn').click(function(){
 		<div class="row chooli">
 			<div class="column">
         {% for d in classes %}
-        <div class="ui white active inverted button"><span class="black"></span>{{ d.title }}</div>&nbsp;
+        <div class="ui white active inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
         {%endfor%}
 
 			</div>
 		</div>
 
 		<div class="row" id="item-show" style="display:none;">
+                    <input type="hidden" name="item_id" value="" />
+                    <input type="hidden" name="item_name" value="" />
 			<div class="column">
         预约结果: 
 
@@ -202,32 +206,16 @@ $('#gen-btn').click(function(){
 
       <div class="row">
         <div class="column">
-                <div class="ui fluid selection option-item dropdown" style="position:relative;width:100px;">
-                    <input type="hidden" name="item_id" value="" />
-                    <input type="hidden" name="item_name" value="" />
-                      <div class="default text">--开始预约--</div>
-                      <i class="angle down icon" style="position:absolute;right:0;"></i>
-                      <div class="menu">
-                        {% for d in classes %}
-                        <div data-value="{{ d._id }}" class=" item appoint-btn">{{ d.title }}</div>
-                        {%endfor%}
-                        
-                      </div>
-                  </div>
 
-                <div class="ui fluid selection option-date dropdown" style="position:relative;width:100px;display:none;">
-                    <input type="hidden" name="date_id" value="" />
-                      <div class="default text">--选择日期--</div>
-                      <i class="angle down icon" style="position:absolute;right:0;"></i>
-                      <div class="menu">
-                        {% for d in appoint_date_arr %}
-                          {% for c in d %}
-                            <div data-value="{{ c.id }}" class=" item date-btn">{{ c.date }}</div>
-                          {%endfor%}
-                        {%endfor%}
-                      </div>
-                  </div>
+                  <div class="option-date" style="display:none;">
+{% for d in appoint_date_arr %}
+  {% for c in d %}
+                    <label><input name="date" type="radio" value="{{ c.id }}" />{{ c.date }}</label>&nbsp;
+                {%endfor%}
+{%endfor%}
 
+                  </div>
+                  <br /><br />
                   <div class="option-hour" style="display:none;">
                     <label><input name="hour" type="checkbox" value="9" />9:00-10:00</label>&nbsp;
                     <label><input name="hour" type="checkbox" value="10" />10:00-11:00</label>&nbsp;
