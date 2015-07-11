@@ -34,7 +34,7 @@
 		</thead>
 		<tbody>
 
-			{% attend_list var:'list' target_id:target_id event:2 page:page size:40 %}
+			{% attend_list var:'list' target_id:apply_id event:2 page:page size:40 %}
 
 			{% for attend in list.rows %}
         {% if attend.user %}
