@@ -108,11 +108,9 @@
 </style>
 {% endblock %}
 {% block jquery %}
-	skrollr.init({
-		forceHeight: false,
-		mobileCheck:function(){},
-		mobileDeceleration:0.004,
-	});
+	$('.lab.submenu').smint({
+  		'scrollSpeed' : 1000
+  	});
 	
 {% endblock %}
 {% block content %}
