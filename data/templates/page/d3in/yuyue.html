@@ -281,13 +281,16 @@ $('.next-step.button').click(function(){
     return false;
   }
   var is_vip = $('[name=is_vip]').val();
+  var pay_ment = 0;
   if(is_vip==0){
-    var pay_ment = $('[name=pay_ment]:checked').val();
+    pay_ment = $('[name=pay_ment]:checked').val();
     if(!pay_ment){
       phenix.show_error_note('请选择支付方式!');
       return false;
     }
   }
+  var url = "{{ app_url_d3in }}/appoint_sumbit";
+  $.post(url, {appoint_result:appoint_result, is_vip:is_vip, pay_ment:pay_ment});
 
 });
 
@@ -489,7 +492,7 @@ $('.next-step.button').click(function(){
 			<div class="right aligned column">
         <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;
         {% if vip_state != 2 %}
-				<a href="" class="ui magenta inverted next-step button">下一步</a>
+				<a href="javascript:void(0);" class="ui magenta inverted next-step button">下一步</a>
         {%endif%}
 			</div>
 		</div>
