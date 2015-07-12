@@ -1,8 +1,13 @@
-<div class="card" id="item-{{d._id}}">
-  <div class="image">
-    <img src="{{ d.cover.thumbnails.md.view_url }}">
-    <div class="depict">
-      {{ d.title }}
-    </div>
-  </div>
+<div class="ui white row" id="item-{{d._id}}">
+	<div class="six wide center aligned column">
+		<img src="{{ d.cover.thumbnails.md.view_url }}" alt="{{ d.title }}">
+	</div>
+	<div class="ten wide column">
+		<h4 class="ui header">
+			{{ d.title }}
+			<div class="content">
+				{{ d.content }}
+			</div>
+		</h4>
+	</div>
 </div>
