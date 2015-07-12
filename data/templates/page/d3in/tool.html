@@ -34,6 +34,31 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.ui.white.row {
+  margin-top: 3%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+	color:#f36;
+}
+.ui.white.row .ten.wide{
+	padding-left:3%;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
 
 
 </style>
@@ -54,7 +79,79 @@
 	</div>
 </div>
 
+<!--<div class="ui tool big block">
+	<div class="ui responsive grid" style="padding:0 11%">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">工具&设备</h3>
+			</div>
+		</div>
+		
+		<div class="ui white row">
+			<div class="six wide center aligned column">
+				<img src="http://frbird.qiniudn.com/try/150710/559f87e120de8d8c218c3d43-1-m.jpg" alt="{{ d.title }}">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					CMW270移动终端综合测试仪
+					<div class="content">
+						主要特性与技术指标<br />
+						• 频率范围：100MHz~6GHz<br />
+						• 测试能力：<br />
+						802.11a\b\g\n进行信令和非信令测试，<br />
+						802.11ac进行非信令测试<br />
+						蓝牙4.0进行信令测试；<br />
+						集成WiFi、BT的自动化测试程序，可以输出标准测试报告<br />
+						• 接口：<br />
+						LAN: x1 100M, x1 1000M<br />
+						USB: x4 USB2.0, x4 USB1.1<br />
+					</div>
+				</h4>
+			</div>
+		</div>
+		
+		
+		<div class="ui white row">
+			<div class="six wide center aligned column">
+				<img src="http://frbird.qiniudn.com/try/150710/559f87e120de8d8c218c3d43-1-m.jpg" alt="{{ title }}">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					主要特性与技术指标
+					<div class="content">
+						• 卓越的信号完整度提供卓越的测量精度W<br />
+						• 2GHz带宽的示波器探测系统<br />
+						• 4条模拟通道<br />
+						• 20 GS/s的实时采样率 <br />
+						• 支持以太网和USB 2.0...<br />
+						• 15 英寸电容触摸屏支持多点触控<br />
+						• Microsoft® Windows 7 64位操作系统，简便连接及集成到用户环境中<br />
+					</div>
+				</h4>
+			</div>
+		</div>
+		
+	</div>
+</div>-->
+
 {% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
+<div class="ui tool big block">
+	<div class="ui responsive grid" style="padding:0 11%">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">工具&设备</h3>
+			</div>
+		</div>
+		
+		{% for d in list.rows %}
+      {% include "block/d3in/device_item.html" %}
+    {%endfor%}
+	</div>
+</div>
+		
+
+
+<!--{% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
 <div class="ui tool big block">
 	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
@@ -78,5 +175,5 @@
       </div>
     </div>
 
-</div>
+</div>-->
 {% endblock %}

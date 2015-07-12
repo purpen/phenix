@@ -1,8 +1,29 @@
-<div class="card" id="item-{{d._id}}">
+<!--<div class="card" id="item-{{d._id}}">
   <div class="image">
     <img src="{{ d.cover.thumbnails.md.view_url }}">
     <div class="depict">
       {{ d.title }}
     </div>
   </div>
+</div>-->
+
+<div class="ui white row" id="item-{{d._id}}">
+	<div class="six wide center aligned column">
+		<img src="{{ d.cover.thumbnails.md.view_url }}" alt="{{ d.title }}">
+	</div>
+	<div class="ten wide column">
+		<h4 class="ui header">
+			{{ d.title }}
+			<div class="content">
+				{{ d.content }}
+				<!--• 卓越的信号完整度提供卓越的测量精度W<br />
+				• 2GHz带宽的示波器探测系统<br />
+				• 4条模拟通道<br />
+				• 20 GS/s的实时采样率 <br />
+				• 支持以太网和USB 2.0...<br />
+				• 15 英寸电容触摸屏支持多点触控<br />
+				• Microsoft® Windows 7 64位操作系统，简便连接及集成到用户环境中<br />-->
+			</div>
+		</h4>
+	</div>
 </div>
