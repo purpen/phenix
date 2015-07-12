@@ -275,6 +275,65 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
   }
 
   /**
+   * 确认预约
+   */
+  public function appoint_sumbit(){
+    $appoint_result = isset($this->stash['appoint_result'])?$this->stash['appoint_result']:null;
+    if(empty($appoint_result)){
+      return $this->ajax_note('缺少请求参数!', true);
+    }
+    $is_vip = isset($this->stash['is_vip'])?(int)$this->stash['is_vip']:0;
+    $pay_ment = isset($this->stash['pay_ment'])?(int)$this->stash['pay_ment']:0;
+
+    $user_id = $this->visitor->id;
+
+    $is_error = false;
+    $is_appointed = false;
+    $appointed_arr = array();
+    
+    $appointes_arr = explode('$$', $appoint_result);
+    $appoint_record_model = new Sher_Core_Model_DAppointRecord();
+    // 第一次循环--验证
+    foreach($appointes_arr as $k=>$v){
+      $appoint_arr = explode('|', $v);
+      if(is_array($appoint_arr) && count($appoint_arr)>=3){
+        
+      }else{
+        $note = '系统出错!请重试';
+        $is_error = true;
+        break;
+      }
+
+      $time_arr = explode(',', $appoint_arr[2]);
+      //验证是否被抢约
+      foreach($time_arr as $v){
+        $has_one = $appoint_record_model->check_is_appointed($appoint_arr[0], $appoint_arr[1], $v);
+        if(!empty($has_one)){
+          $is_appointed = true;
+          //记录被抢约时间
+          array_push($appointed_arr, array('item_id'=>$appoint_arr[0], 'date_id'=>$appoint_arr[1], 'time_id'=>$v));
+        }else{
+          //保存预约信息
+          $ok = $appoint_record_model->record_appoint($appoint_arr[0], $appoint_arr[1], $v, $user_id);
+          if($ok){
+          
+          }
+          
+        }
+      } //end for tiem_arr
+
+    } //end for appoint_arr
+
+    if($is_error){ //出错
+      return $this->ajax_note($note, true);
+    }elseif($is_appointed){ //已被抢约
+      return $this->ajax_note('项目被抢约,请重新选择!', true);     
+    }
+
+
+  }
+
+  /**
    * 支付页面
    */
 	public function buy(){

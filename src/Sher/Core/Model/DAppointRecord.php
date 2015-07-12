@@ -50,6 +50,39 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
   public function filter_appoint_time($item_id, $date_id){
     return $this->find(array('class_id'=>(int)$item_id, 'appoint_date'=>$date_id, 'rest_count'=>0, 'state'=>1));
   }
+
+  /**
+   * 验证是否被预约
+   */
+  public function check_is_appointed($item_id, $date_id, $time_id){
+    $this->first(array('class_id'=>(int)$item_id, 'appoint_date'=>$date_id, 'appoint_time'=>(int)$time_id, 'rest_count'=>0, 'state'=>1));
+  }
+
+  /**
+   * 保存预约记录
+   */
+  public function record_appoint($item_id, $date_id, $time_id, $user_id){
+    $has_one = $this->first(array('class_id'=>(int)$item_id, 'appoint_date'=>$date_id, 'appoint_time'=>(int)$time_id));
+    $data = array(
+      'class_id' => (int)$item_id,
+      'appoint_date' => (int)$date_id,
+      'appoint_time' => (int)$time_id,
+    );
+    if(empty($has_one)){
+      $data['user_id'] = array((int)$user_id);
+      $ok = $this->apply_and_save($data);
+    }else{
+      if($has_one['state']==1){
+        if($has_one['rest_count']>0){ // 可预约
+          
+        }else{ // 不可预约
+        
+        }
+      }else{
+      
+      }
+    }
+  }
 	
 }
 
