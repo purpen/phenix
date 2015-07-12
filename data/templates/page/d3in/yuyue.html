@@ -200,8 +200,8 @@ $('.begin-appoint-btn').click(function(){
 
 //选择日期
 $('.option-date .field').click(function(){
-  var date_id = $(this).val();
-  var item_id = $(this).attr('data-cid');
+  var date_id = $('.option-date [name=date]:checked').val();
+  var item_id = $('.option-date [name=date]:checked').attr('data-cid');
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
   $.get(url, {item_id:item_id, date_id:date_id, type:1});
@@ -213,8 +213,8 @@ $('.option-date .field').click(function(){
 // 选择时间点
 $('.option-hour .field').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
-  var time_id = $(this).val();
-  if($('.option-hour .field input[type="checkbox"]').is(":checked")){
+  var time_id = $('.option-hour .field [name=hour]:checked').val();
+  if($(this).is(":checked")){
     phenix.record_asset_id('record-times', time_id);
     rest_time -= 1;
   }else{
@@ -223,12 +223,12 @@ $('.option-hour .field').click(function(){
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $('.option-hour .field input[type="checkbox"]').prop('checked', false);
-    //phenix.remove_asset_id('record-times', time_id);
+    $('.option-hour .field [name=hour]:checked').prop('checked', false);
+    phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $('.option-hour .field input[type="checkbox"]').prop('checked', true);
+    $('.option-hour .field [name=hour]:checked').prop('checked', true);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
@@ -394,13 +394,41 @@ $('.next-step.button').click(function(){
                     				<input name="hour" type="checkbox" value="13" /><label>13:00-14:00</label>
 													</div>
 												</div>
-                    <label><input name="hour" type="checkbox" value="14" />14:00-15:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="15" />15:00-16:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="16" />16:00-17:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="17" />17:00-18:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="18" />18:00-19:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="19" />19:00-20:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="20" />20:00-21:00</label>&nbsp;
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="14" /><label>14:00-15:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="15" /><label>15:00-16:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="16" /><label>16:00-17:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+														<input name="hour" type="checkbox" value="17" /><label>17:00-18:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+														<input name="hour" type="checkbox" value="18" /><label>18:00-19:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="19" /><label>19:00-20:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
+													</div>
+												</div>
 
                     <br />
 <input type="button" name="gen-btn" id="gen-btn" value="确定" />
