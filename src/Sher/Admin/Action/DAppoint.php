@@ -8,6 +8,7 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+    'state' => 0,
 	);
 	
 	public function _init() {
@@ -25,10 +26,25 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $state = (int)$this->stash['state'];
+    switch($state){
+      case 0:
+        $this->set_target_css_state('all');
+        break;
+      case -1:
+        $this->set_target_css_state('close');
+        break;
+      case 1:
+        $this->set_target_css_state('ing');
+        break;
+      case 2:
+        $this->set_target_css_state('over');
+        break;
+    }
+
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/d_appoint?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/d_appoint?state=%d&page=#p#', $state);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -36,7 +52,7 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 	}
 	
 	/**
-	 * 创建/更新块
+	 * 创建/更新
 	 */
 	public function submit(){
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
