@@ -214,7 +214,7 @@ $('.option-date .field').click(function(){
 $('.option-hour .field').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
-  if($(.option-hour .field input[type="checkbox"]).is(":checked")){
+  if($('.option-hour .field input[type="checkbox"]').is(":checked")){
     phenix.record_asset_id('record-times', time_id);
     rest_time -= 1;
   }else{
