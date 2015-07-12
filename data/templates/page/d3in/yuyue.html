@@ -199,7 +199,7 @@ $('.begin-appoint-btn').click(function(){
 });
 
 //选择日期
-$('.option-date [name=date]').click(function(){
+$('.option-date ui.radio.checkbox [name=date]').click(function(){
   var date_id = $(this).val();
   var item_id = $(this).attr('data-cid');
   //过滤已预约时间
