@@ -83,6 +83,7 @@
 </div>
 
 
+{% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
 <div class="ui tool big block">
 	<div class="ui responsive grid" style="padding:0 11%">
 		<div class="row">
@@ -99,29 +100,5 @@
 		
 
 
-<!--{% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
-<div class="ui tool big block">
-	<div class="ui responsive grid" style="padding:0 11%;">
-		<div class="row">
-			<div class="ui four cards">
-        {% for d in list.rows %}
-          {% include "block/d3in/device_item.html" %}
-        {%endfor%}
-			</div>
-		</div>
-		
-	</div>
 
-		<div class="row">
-			<div class="column">
-        {% if list.total_rows %}
-          <div class="ui pagination">
-            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-            {%include 'block/pager.html'%}
-          </div>
-        {% endif %}
-      </div>
-    </div>
-
-</div>-->
 {% endblock %}
