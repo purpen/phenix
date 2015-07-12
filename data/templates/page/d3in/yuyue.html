@@ -212,7 +212,7 @@ $('.begin-appoint-btn').click(function(){
 //选择日期
 $('.option-date [name=date]').click(function(){
   var date_id = $(this).val();
-  var item_id = $(this).attr('data-cid');
+  var item_id = $('[name=item_id]').val();
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
   $.get(url, {item_id:item_id, date_id:date_id, type:1});
@@ -225,21 +225,23 @@ $('.option-date [name=date]').click(function(){
 $('.option-hour [name=hour]').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
-  if($(this).is(":checked")){
+  if($(this).prop("checked")){
+    $(this).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
     rest_time -= 1;
   }else{
+    $(this).prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
     rest_time += 1;
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $(this).prop('checked', false);
+    $(this).prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $(this).prop('checked', true);
+    $(this).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }

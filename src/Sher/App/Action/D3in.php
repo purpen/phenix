@@ -285,11 +285,37 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     $is_vip = isset($this->stash['is_vip'])?(int)$this->stash['is_vip']:0;
     $pay_ment = isset($this->stash['pay_ment'])?(int)$this->stash['pay_ment']:0;
 
+    if($this->_check_whether_appoint()){
+      return $this->ajax_note('您已经预约过了!', true);
+    }
+
     $user_id = $this->visitor->id;
+
+    // 验证是否会员
+    if($is_vip==1){
+      $d_member_model = new Sher_Core_Model_DMember();
+      $d_member = $d_member_model->extend_load($user_id);
+      if(empty($d_member)){
+        return $this->ajax_note('非会员用户!', true);     
+      }else{
+        if($d_member['state']==0){
+          return $this->ajax_note('会员已禁用,请联系管理员!', true);        
+        }elseif($d_member['is_expired']){
+          return $this->ajax_note('会员已过期,请及时续费!', true);        
+        }
+      }
+    }else{
+      if(empty($pay_ment)){
+        return $this->ajax_note('请选择付款方式!', true);      
+      }
+    }
 
     $is_error = false;
     $is_appointed = false;
     $appointed_arr = array();
+    $appointing_arr =array();
+    $items = array();
+    $is_success = false;
     
     $appointes_arr = explode('$$', $appoint_result);
     $appoint_record_model = new Sher_Core_Model_DAppointRecord();
@@ -297,9 +323,20 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     foreach($appointes_arr as $k=>$v){
       $appoint_arr = explode('|', $v);
       if(is_array($appoint_arr) && count($appoint_arr)>=3){
-        
+        $o_time_arr = explode(',', $appoint_arr[2]);
+        $n_time_arr = array();
+        foreach($o_time_arr as $v){
+          array_push($n_time_arr, (int)$v);
+        }
+        $item = array(
+          'item_id'=>(int)$appoint_arr[0],
+          'date_id'=>(int)$appoint_arr[1],
+          'time_ids'=>$n_time_arr,
+          'state'=>1,
+        );
+        array_push($items, $item);
       }else{
-        $note = '系统出错!请重试';
+        $note = '参数传入错误!请重试';
         $is_error = true;
         break;
       }
@@ -316,7 +353,8 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
           //保存预约信息
           $ok = $appoint_record_model->record_appoint($appoint_arr[0], $appoint_arr[1], $v, $user_id);
           if($ok){
-          
+            //记录预约成功的项目
+            array_push($appointing_arr, array('item_id'=>$appoint_arr[0], 'date_id'=>$appoint_arr[1], 'time_id'=>$v, 'user_id'=>$user_id));
           }
           
         }
@@ -325,9 +363,32 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     } //end for appoint_arr
 
     if($is_error){ //出错
+      //出错,删除预约成功的对象
+      $this->cancel_appointed($appointing_arr);
       return $this->ajax_note($note, true);
     }elseif($is_appointed){ //已被抢约
+      //出错,删除预约成功的对象
+      $this->cancel_appointed($appointing_arr);
       return $this->ajax_note('项目被抢约,请重新选择!', true);     
+    }
+
+    if(!$is_error && !$is_appointed){
+      $appoint_model = new Sher_Core_Model_DAppoint();
+      $data = array(
+        'user_id' => $user_id,
+        'is_vip' => $is_vip,
+        'pay_type' => $pay_ment,
+        'items' => $items,
+      );
+      //创建预约表单
+      $ok = $appoint_model->apply_and_save($data);
+      if($ok){
+        $is_success = true;
+      }else{
+        //出错,删除预约成功的对象
+        $this->cancel_appointed($appointing_arr);
+        return $this->ajax_note('预约失败!', true);  
+      }
     }
 
 
@@ -526,6 +587,16 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       return $appoint;
     }else{
       return null;
+    }
+  }
+
+  /**
+   * 删除已预约成功的对象
+   */
+  protected function cancel_appointed($arr){
+    $appoint_record_model = new Sher_Core_Model_DAppointRecord();
+    foreach($arr as $k=>$v){
+      $appoint_record_model->cancel_appointed($v['item_id'], $v['date_id'], $v['time_id'], $v['user_id']);
     }
   }
 
