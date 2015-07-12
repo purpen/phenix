@@ -223,12 +223,12 @@ $('.option-hour .field').click(function(){
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $(this).prop('checked', false);
+    $('.option-hour .field input[type="checkbox"]').prop('checked', false);
     phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $(this).prop('checked', true);
+    $('.option-hour .field input[type="checkbox"]').prop('checked', true);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
