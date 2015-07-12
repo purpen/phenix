@@ -199,8 +199,7 @@ $('.begin-appoint-btn').click(function(){
 });
 
 //选择日期
-$('.option-date input[type="radio"]').click(function(){
-	alert(123);
+$('.option-date [name=date]').click(function(){
   var date_id = $(this).val();
   var item_id = $(this).attr('data-cid');
   //过滤已预约时间
@@ -356,16 +355,17 @@ $('.next-step.button').click(function(){
 										<div class="seven inline fields">
 {% for d in appoint_date_arr %}
   {% for c in d %}
-                <div class="field">
-	    							<div class="ui radio checkbox">
-											<input name="date" type="radio" value="{{ c.id }}" />
-											<label>{{ c.date }}</label>
-										</div>
-								</div>
+                			<div class="field">
+				    							<div class="ui radio checkbox">
+														<input name="date" type="radio" value="{{ c.id }}" />
+														<label>{{ c.date }}</label>
+													</div>
+											</div>
                 {%endfor%}
 {%endfor%}
 
-                  </div>
+                  	</div>
+									</div>
                   <br /><br />
                   <div class="option-hour" style="display:none;">
                     <label><input name="hour" type="checkbox" value="9" />9:00-10:00</label>&nbsp;
