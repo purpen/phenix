@@ -84,6 +84,9 @@ p a.ui.link{
 .swiper-slide td span.black{
 	background:#f36;
 }
+.srven.fields .field {
+  display: inline-block;
+}
 
 </style>
 {% endblock %}
@@ -344,10 +347,13 @@ $('.next-step.button').click(function(){
       <div class="row">
         <div class="column">
 
-                  <div class="option-date" style="display:none;">
+                  <div class="option-date ui from" style="display:none;">
+										<div class="seven inline fields">
 {% for d in appoint_date_arr %}
   {% for c in d %}
-                    <label><input name="date" type="radio" value="{{ c.id }}" />{{ c.date }}</label>&nbsp;
+                <div class="field">    
+	<input name="date" type="radio" value="{{ c.id }}" /></label>{{ c.date }}</label>
+	</div>&nbsp;&nbsp;
                 {%endfor%}
 {%endfor%}
 
@@ -381,7 +387,7 @@ $('.next-step.button').click(function(){
       </div>
     </div>
 		
-		<div class="swiper-container">
+<!--		<div class="swiper-container">
 			<div class="swiper-wrapper">
 
         {% for d in appoint_date_arr %}
@@ -453,7 +459,7 @@ $('.next-step.button').click(function(){
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
-
+-->
     <div class="row">
       <div class="column">
 
