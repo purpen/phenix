@@ -43,6 +43,13 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
 		
 		return true;
 	}
+
+  /**
+   * 过滤已预约时间点
+   */
+  public function filter_appoint_time($item_id, $date_id){
+    return $this->find(array('class_id'=>(int)$item_id, 'appoint_date'=>$date_id, 'rest_count'=>0, 'state'=>1));
+  }
 	
 }
 
