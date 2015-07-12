@@ -73,12 +73,12 @@
                                     <div class="header">
                                 {{ i.item_name }}
                               </div>
-                                    <p class="attribute">日期：{{ i.date_id }}</p>
-                                    <p class="attribute">时间：
+                                    <p class="attribute">时间：{{ i.date_id }} | 
                                       {% for t in i.time_ids %}
-                                        {{ t }}&nbsp;&nbsp;
+                                        {{ t }}&nbsp;
                                       {%endfor%}
                                     </p>
+
                                 </div>
                           </td>
                         </tr>
@@ -88,7 +88,11 @@
                   </div>
                   <div class="center aligned three wide column">
                     <p>
-                      
+                    会员: 
+                    {% if d.is_vip %}是
+                    {%else%}否
+                    <p>支付方式: {%if d.pay_type==1%}在线{%endif%}{%if d.pay_type==1%}现场{%endif%}</p>
+                    {%endif%}
                     </p>
 
 
