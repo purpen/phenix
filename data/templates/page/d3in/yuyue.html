@@ -86,14 +86,20 @@ p a.ui.link{
 }
 .seven.fields .field {
   display: inline-block;
+	width:120px;
+	margin: 8px 0;
+	float: left;
 }
 .seven.fields .field .ui.radio.checkbox label{
 	padding-left: 1.5em;
-	margin-right: 1.5em;
+	margin-right: 0em;
 }
-.ui.checkbox input[type="checkbox"],input[type="radio"]{
+input[type="radio"]{
 	z-index:100;
 	width:100%;
+	margin: 0;
+  padding: 0;
+	height: 100%;
 }
 
 </style>
@@ -371,6 +377,10 @@ $('.next-step.button').click(function(){
                   	</div>
 									</div>
                   <br /><br />
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
                   <div class="option-hour" style="display:none;">
 											<div class="ui fields">
 												<div class="field">
