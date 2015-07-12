@@ -351,9 +351,12 @@ $('.next-step.button').click(function(){
 										<div class="seven inline fields">
 {% for d in appoint_date_arr %}
   {% for c in d %}
-                <div class="field">    
-	<input name="date" type="radio" value="{{ c.id }}" /><label>{{ c.date }}</label>
-	</div>&nbsp;&nbsp;
+                <div class="field">
+	    							<div class="ui radio checkbox">
+											<input name="date" type="radio" value="{{ c.id }}" />
+											<label>{{ c.date }}</label>
+										</div>
+								</div>&nbsp;&nbsp;
                 {%endfor%}
 {%endfor%}
 
