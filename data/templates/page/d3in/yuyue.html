@@ -84,6 +84,16 @@ p a.ui.link{
 .swiper-slide td span.black{
 	background:#f36;
 }
+.seven.fields .field {
+  display: inline-block;
+}
+.seven.fields .field .ui.radio.checkbox label{
+	padding-left: 1.5em;
+	margin-right: 1.5em;
+}
+.ui.checkbox input[type="checkbox"]{
+	z-index:100;
+}
 
 </style>
 {% endblock %}
@@ -192,9 +202,9 @@ $('.begin-appoint-btn').click(function(){
 });
 
 //选择日期
-$('.option-date [name=date]').click(function(){
-  var date_id = $(this).val();
-  var item_id = $(this).attr('data-cid');
+$('.option-date .field').click(function(){
+  var date_id = $('.option-date [name=date]:checked').val();
+  var item_id = $('.option-date [name=date]:checked').attr('data-cid');
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
   $.get(url, {item_id:item_id, date_id:date_id, type:1});
@@ -204,7 +214,7 @@ $('.option-date [name=date]').click(function(){
 });
 
 // 选择时间点
-$('.option-hour [name=hour]').click(function(){
+$('.option-hour .field').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
   if($(this).is(":checked")){
@@ -309,7 +319,7 @@ $('.next-step.button').click(function(){
 	</div>
 </div>
 <div class="ui big block">
-	<div class="ui responsive grid" style="padding:0 11%;">
+	<div class="ui responsive grid" style="padding:0 11% 3%;">
 		<div class="row">
 			<div class="column">
 				<h3 class="ui header">实验室预约</h3>
@@ -345,27 +355,83 @@ $('.next-step.button').click(function(){
         <div class="column">
 
                   <div class="option-date" style="display:none;">
+										<div class="seven inline fields">
 {% for d in appoint_date_arr %}
   {% for c in d %}
-                    <label><input name="date" type="radio" value="{{ c.id }}" />{{ c.date }}</label>&nbsp;
+                			<div class="field">
+				    							<div class="ui radio checkbox">
+														<input name="date" type="radio" value="{{ c.id }}" />
+														<label>{{ c.date }}</label>
+													</div>
+											</div>
                 {%endfor%}
 {%endfor%}
 
-                  </div>
+                  	</div>
+									</div>
                   <br /><br />
                   <div class="option-hour" style="display:none;">
-                    <label><input name="hour" type="checkbox" value="9" />9:00-10:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="10" />10:00-11:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="11" />11:00-12:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="12" />12:00-13:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="13" />13:00-14:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="14" />14:00-15:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="15" />15:00-16:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="16" />16:00-17:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="17" />17:00-18:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="18" />18:00-19:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="19" />19:00-20:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="20" />20:00-21:00</label>&nbsp;
+											<div class="ui fields">
+												<div class="field">
+													<div class="ui checkbox">
+														<input name="hour" type="checkbox" value="9" /><label>9:00-10:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="10" /><label>10:00-11:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="11" /><label>11:00-12:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="12" /><label>12:00-13:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="13" /><label>13:00-14:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="14" /><label>14:00-15:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="15" /><label>15:00-16:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="16" /><label>16:00-17:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+														<input name="hour" type="checkbox" value="17" /><label>17:00-18:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+														<input name="hour" type="checkbox" value="18" /><label>18:00-19:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="19" /><label>19:00-20:00</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui checkbox">
+                    				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
+													</div>
+												</div>
 
                     <br />
 <input type="button" name="gen-btn" id="gen-btn" value="确定" />
@@ -381,7 +447,7 @@ $('.next-step.button').click(function(){
       </div>
     </div>
 		
-		<div class="swiper-container">
+	<!--	<div class="swiper-container">
 			<div class="swiper-wrapper">
 
         {% for d in appoint_date_arr %}
@@ -453,7 +519,7 @@ $('.next-step.button').click(function(){
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
-
+	-->	
     <div class="row">
       <div class="column">
 
@@ -490,7 +556,7 @@ $('.next-step.button').click(function(){
 		
 		<div class="row">
 			<div class="right aligned column">
-        <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;
+        <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;&nbsp;&nbsp;
         {% if vip_state != 2 %}
 				<a href="javascript:void(0);" class="ui magenta inverted next-step button">下一步</a>
         {%endif%}
