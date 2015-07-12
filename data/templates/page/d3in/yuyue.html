@@ -91,8 +91,9 @@ p a.ui.link{
 	padding-left: 1.5em;
 	margin-right: 1.5em;
 }
-.ui.checkbox input[type="checkbox"]{
+.ui.checkbox input[type="checkbox"],input[type="radio"]{
 	z-index:100;
+	width:100%;
 }
 
 </style>
@@ -202,9 +203,9 @@ $('.begin-appoint-btn').click(function(){
 });
 
 //选择日期
-$('.option-date .field').click(function(){
-  var date_id = $('.option-date [name=date]:checked').val();
-  var item_id = $('.option-date [name=date]:checked').attr('data-cid');
+$('.option-date [name=date]').click(function(){
+  var date_id = $(this).val();
+  var item_id = $(this).attr('data-cid');
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
   $.get(url, {item_id:item_id, date_id:date_id, type:1});
@@ -214,7 +215,7 @@ $('.option-date .field').click(function(){
 });
 
 // 选择时间点
-$('.option-hour .field').click(function(){
+$('.option-hour [name=hour]').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
   if($(this).is(":checked")){
