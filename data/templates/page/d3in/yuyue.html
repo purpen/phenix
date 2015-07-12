@@ -91,6 +91,9 @@ p a.ui.link{
 	padding-left: 1.5em;
 	margin-right: 1.5em;
 }
+.ui.checkbox input[type="checkbox"]{
+	z-index:100;
+}
 
 </style>
 {% endblock %}
@@ -228,7 +231,7 @@ $('.option-hour .field').click(function(){
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $('.option-hour .field [name=hour]:checked').prop('checked', true);
+    $('.option-hour [name=hour]').prop('checked', true);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
@@ -444,7 +447,7 @@ $('.next-step.button').click(function(){
       </div>
     </div>
 		
-		<div class="swiper-container">
+	<!--	<div class="swiper-container">
 			<div class="swiper-wrapper">
 
         {% for d in appoint_date_arr %}
@@ -516,7 +519,7 @@ $('.next-step.button').click(function(){
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
-		
+	-->	
     <div class="row">
       <div class="column">
 
