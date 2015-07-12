@@ -89,7 +89,7 @@ p a.ui.link{
 }
 .seven.fields .field .ui.radio.checkbox label{
 	padding-left: 1.5em;
-	margin-right: 0.8em;
+	margin-right: 1.5em;
 }
 
 </style>
@@ -351,7 +351,7 @@ $('.next-step.button').click(function(){
       <div class="row">
         <div class="column">
 
-                  <div class="option-date ui from" style="display:none;">
+                  <div class="option-date" style="display:none;">
 										<div class="seven inline fields">
 {% for d in appoint_date_arr %}
   {% for c in d %}
@@ -360,7 +360,7 @@ $('.next-step.button').click(function(){
 											<input name="date" type="radio" value="{{ c.id }}" />
 											<label>{{ c.date }}</label>
 										</div>
-								</div>&nbsp;&nbsp;
+								</div>
                 {%endfor%}
 {%endfor%}
 
