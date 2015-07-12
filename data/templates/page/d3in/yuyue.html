@@ -216,7 +216,7 @@ $('.option-date .field').click(function(){
 // 选择时间点
 $('.option-hour .field').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
-  var time_id = $('.option-hour .field [name=hour]:checked').val();
+  var time_id = $(this).val();
   if($(this).is(":checked")){
     phenix.record_asset_id('record-times', time_id);
     rest_time -= 1;
@@ -226,12 +226,12 @@ $('.option-hour .field').click(function(){
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $('.option-hour .field [name=hour]:checked').prop('checked', false);
+    $(this).prop('checked', false);
     phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $('.option-hour [name=hour]').prop('checked', true);
+    $(this).prop('checked', true);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
