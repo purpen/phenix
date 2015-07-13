@@ -285,7 +285,6 @@ $('.option-date [name=date]').click(function(){
 $('.option-hour [name=hour]').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
-alert(time_id)
   if($(this).prop("checked")){
     $(this).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
