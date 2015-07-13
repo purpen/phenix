@@ -8,6 +8,7 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+    'state' => 0,
 	);
 	
 	public function _init() {
@@ -25,10 +26,28 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $state = (int)$this->stash['state'];
+    switch($state){
+      case 0:
+        $this->set_target_css_state('all');
+        break;
+      case -1:
+        $this->set_target_css_state('close');
+        break;
+      case 1:
+        $this->set_target_css_state('ing');
+        break;
+      case 2:
+        $this->set_target_css_state('over');
+        break;
+      case 10:
+        $this->set_target_css_state('finish');
+        break;
+    }
+
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/d_appoint?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/d_appoint?state=%d&page=#p#', $state);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -36,7 +55,7 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 	}
 	
 	/**
-	 * 创建/更新块
+	 * 创建/更新
 	 */
 	public function submit(){
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
@@ -150,5 +169,33 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+  /**
+   * 更改状态
+   */
+  public function ajax_set_state(){
+ 		$ids = $this->stash['id'];
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_DAppoint();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+
+    $arr = array();
+		foreach($ids as $id){
+			$result = $model->close_appoint($id);
+      if($result){
+        array_push($arr, $id);
+      }
+		}
+
+    $this->stash['result'] = $arr;
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('admin/d_appoint/ajax_set_state.html');
+
+  }
+
 }
-?>
+

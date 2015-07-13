@@ -3,6 +3,7 @@
 
 {% block page_css %}
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
 .lab.submenu>.ui.responsive.grid>.row{
 	padding:1rem 0;
@@ -84,7 +85,76 @@ p a.ui.link{
 .swiper-slide td span.black{
 	background:#f36;
 }
+.five.fields .field {
+  display: inline-block;
+	width:120px;
+	margin: 8px 0;
+	float: left;
+	padding-left:0 !important;
+	padding-right:0 !important;
+}
+.five.fields .field .ui.radio.checkbox label{
+	padding-left: 1.5em;
+	margin-right: 0em;
+}
 
+.five.fields .field .ui.radio.checkbox input[type="radio"]{
+	z-index:100;
+	width:100%;
+	margin: 0;
+  padding: 0;
+	top:-2px;
+	height: 100%;
+}
+.option-hour .field input[type="checkbox"]{
+	z-index:100;
+	width:100%;
+	margin: 0;
+  padding: 0;
+	top:-2px;
+	height: 100%;
+}
+.option-hour .three.fields{
+	margin-left: -1%;
+	margin-right: -1%;
+}
+.option-hour .three.fields .field {
+	width: 31.33333333% !important;
+	margin: 8px 1%;
+  text-align: center;
+  padding: 20px 0 !important;
+  background: #e3e3e3;
+}
+.option-hour .field .ui.checkbox{
+	width: 120px;
+}
+input#gen-btn{
+	margin-top: 20px;
+}
+.option-hour.ui.form .field :disabled{
+	opacity:0;
+}
+.ui.form .fields:after{
+	display:none;
+}
+.ui.buttons .button:first-child {
+  border-left: 0px solid gray;
+}
+.ui.success.message {
+  background-color: #DEFCD5;
+  color: #52A954;
+}
+.ui.success.message .header .appoint-result{
+	font-weight: 400;
+	font-size: 1.05rem;
+	margin-top: 10px;
+}
+.ui.success.message .header .appoint-result .item{
+	margin:3px 0;
+}
+.ui.success.message .header{
+	font-size:1.2em;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -94,28 +164,39 @@ p a.ui.link{
     //选择时间点次数
     var init_times = 4;
 
-    function regain_appoint_option(item_id){
+    function regain_appoint_option(){
+      var item_id = $('[name=item_id]').val();
       var obj = $('.appoint-result .item[name='+ item_id +']');
       if(obj.length>0){
         var result = $(obj).find("[name='result[]']").val();
         var arr = result.split('|');
-        $('.option-date [name=date]').each(function(){
-          var d = $(this).val();
-          if(arr[1]==d){
-            $(this).prop('checked', true);
-          }
-        });
-        var time_arr = arr[2].split(',');
-        $('#record-times').val('');
-        $('.option-hour [name=hour]').each(function(){
-          var t = $(this).val();
-          if(time_arr.indexOf(t)>=0){
-            phenix.record_asset_id('record-times', t);
-            $(this).prop('checked', true);
-          }
+        //过滤已预约时间
+        var url = "{{ app_url_d3in }}/ajax_filter_time"; 
+        $.get(url, {item_id:item_id, date_id:arr[1], type:1}, function(){
+          $('.option-date [name=date]').each(function(){
+            var d = $(this).val();
+            if(arr[1]==d){
+              $(this).prop('checked', true);
+            }
+          });
+          var time_arr = arr[2].split(',');
+          $('#record-times').val('');
+          $('.option-hour [name=hour]').each(function(){
+            var t = $(this).val();
+            if(time_arr.indexOf(t)>=0){
+              phenix.record_asset_id('record-times', t);
+              $(this).prop('checked', true);
+            }
+          });
         });
         
       }else{
+        var date_obj = $('.option-date [name=date]:checked');
+        if($(date_obj).length>0){
+          //过滤已预约时间
+          var url = "{{ app_url_d3in }}/ajax_filter_time"; 
+          $.get(url, {item_id:item_id, date_id:$(date_obj).val(), type:1}, function(){});  
+        }
         clear_times();
       }
     }
@@ -155,6 +236,26 @@ p a.ui.link{
         $(obj).val(appoint_result);
       }
     }
+
+    //获取并设置有效剩余时间数
+    function set_rest_times(){
+      var data = $('[name=appoint_result]').val();
+      var rest_times = 0;
+      if(!data){
+        rest_times = init_times;
+      }else{
+        var arr_p = data.split('$$');
+        for(var i=0; i<arr_p.length; i++){
+          var arr_c = arr_p[i].split('|');
+          var time_arr = arr_c[2].split(',');
+          rest_times += time_arr.length;
+        }
+        rest_times = init_times - rest_times;
+      }
+      $('#rest-time .t').attr('rest-val', rest_times).text(rest_times);
+      return rest_times;
+    }
+
   </script>
 {% endblock %}
 {% block jquery %}
@@ -185,19 +286,52 @@ $('.begin-appoint-btn').click(function(){
     $(this).prop('checked', false);
   });
 
-  //还原已预约值
-  regain_appoint_option(item_id);
+   //还原已预约值
+  regain_appoint_option();
+  //重置剩余次数
+  set_rest_times();
 
   $('.option-date').show();
+});
+
+$('.begin-appoint-btn:first-child').click(function(){
+	$(this).addClass('active');
+	$('.begin-appoint-btn:nth-child(2)').removeClass('active');
+});
+$('.begin-appoint-btn:nth-child(2)').click(function(){
+	$(this).addClass('active');
+	$('.begin-appoint-btn:first-child').removeClass('active');
 });
 
 //选择日期
 $('.option-date [name=date]').click(function(){
   var date_id = $(this).val();
-  var item_id = $(this).attr('data-cid');
+  var item_id = $('[name=item_id]').val();
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
-  $.get(url, {item_id:item_id, date_id:date_id, type:1});
+  $.get(url, {item_id:item_id, date_id:date_id, type:1}, function(){
+      var item_id = $('[name=item_id]').val();
+      var obj = $('.appoint-result .item[name='+ item_id +']');
+      if(obj.length>0){
+
+        var result = $(obj).find("[name='result[]']").val();
+        var arr = result.split('|');
+        var time_arr = arr[2].split(',');
+        if(date_id==arr[1]){
+          $('#record-times').val('');
+          $('.option-hour [name=hour]').each(function(){
+            var t = $(this).val();
+            if(time_arr.indexOf(t)>=0){
+              phenix.record_asset_id('record-times', t);
+              $(this).prop('checked', true);
+            }
+          });         
+        }
+
+      }
+  });
+  //重置剩余次数
+  set_rest_times();
   $('[name=date_id]').val(date_id);
   $('.option-hour').show();
   $('#rest-time').show();
@@ -207,21 +341,23 @@ $('.option-date [name=date]').click(function(){
 $('.option-hour [name=hour]').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
-  if($(this).is(":checked")){
+  if($(this).prop("checked")){
+    $(this).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
     rest_time -= 1;
   }else{
+    $(this).prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
     rest_time += 1;
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $(this).prop('checked', false);
+    $(this).prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $(this).prop('checked', true);
+    $(this).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
@@ -309,7 +445,7 @@ $('.next-step.button').click(function(){
 	</div>
 </div>
 <div class="ui big block">
-	<div class="ui responsive grid" style="padding:0 11%;">
+	<div class="ui responsive grid" style="padding:0 11% 3%;">
 		<div class="row">
 			<div class="column">
 				<h3 class="ui header">实验室预约</h3>
@@ -319,10 +455,11 @@ $('.next-step.button').click(function(){
 		
 		<div class="row chooli">
 			<div class="column">
+				<div class="ui buttons">
         {% for d in classes %}
-        <div class="ui white active inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
+        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
         {%endfor%}
-
+				</div>
 			</div>
 		</div>
 
@@ -334,54 +471,116 @@ $('.next-step.button').click(function(){
                     <input type="hidden" name="rest_times" value="4" />
                     <input type="hidden" name="appoint_result" value="" />
 			<div class="column">
-        预约结果: 
-        <div class="appoint-result">
+				<div class="ui success message">
+					<div class="header">
+					预约结果: 
+						<div class="appoint-result">
         
-        </div>
+		        </div>
+					</div>
+				</div>
 			</div>
 		</div>
 
-      <div class="row">
-        <div class="column">
+		<div class="row">
+      <div class="column">
 
-                  <div class="option-date" style="display:none;">
+        <div class="option-date ui form" style="display:none;">
+					<div class="five fields">						
 {% for d in appoint_date_arr %}
-  {% for c in d %}
-                    <label><input name="date" type="radio" value="{{ c.id }}" />{{ c.date }}</label>&nbsp;
-                {%endfor%}
+{% for c in d %}
+            <div class="field">
+    				   <div class="ui radio checkbox">
+							   <input name="date" type="radio" value="{{ c.id }}" />
+										<label>{{ c.date }}</label>
+							 </div>
+						 </div>
+            {%endfor%}
 {%endfor%}
+          </div>
+				</div>
+                 
+			</div>
+		</div>
+		<div class="row">
+			<div class="column">
+         <div class="option-hour ui form" style="display:none;">
+			    <div class="ui three fields">
+						<div class="field">
+							<div class="ui checkbox">
+								<input name="hour" type="checkbox" value="9" /><label>9:00-10:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="10" /><label>10:00-11:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="11" /><label>11:00-12:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="12" /><label>12:00-13:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="13" /><label>13:00-14:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="14" /><label>14:00-15:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="15" /><label>15:00-16:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="16" /><label>16:00-17:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+								<input name="hour" type="checkbox" value="17" /><label>17:00-18:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+								<input name="hour" type="checkbox" value="18" /><label>18:00-19:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="19" /><label>19:00-20:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
+							</div>
+						</div>
+           </div>
+					<input class="ui magenta inverted button" type="button" name="gen-btn" id="gen-btn" value="确定" />
+                 
 
-                  </div>
-                  <br /><br />
-                  <div class="option-hour" style="display:none;">
-                    <label><input name="hour" type="checkbox" value="9" />9:00-10:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="10" />10:00-11:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="11" />11:00-12:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="12" />12:00-13:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="13" />13:00-14:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="14" />14:00-15:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="15" />15:00-16:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="16" />16:00-17:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="17" />17:00-18:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="18" />18:00-19:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="19" />19:00-20:00</label>&nbsp;
-                    <label><input name="hour" type="checkbox" value="20" />20:00-21:00</label>&nbsp;
+       	</div>
+   		</div>
+		</div>
 
-                    <br />
-<input type="button" name="gen-btn" id="gen-btn" value="确定" />
-                  </div>
-                  
-
-        </div>
-    </div>
-
-    <div class="row" id="rest-time" style="display:none;">
+     <div class="row" id="rest-time" style="display:none;">
       <div class="column">
         剩余<span rest-val="4" class="t">4</span>小时
       </div>
     </div>
 		
-		<div class="swiper-container">
+	<!--	<div class="swiper-container">
 			<div class="swiper-wrapper">
 
         {% for d in appoint_date_arr %}
@@ -453,8 +652,8 @@ $('.next-step.button').click(function(){
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
-
-    <div class="row">
+	-->	
+		<div class="row">
       <div class="column">
 
       </div>
@@ -490,14 +689,12 @@ $('.next-step.button').click(function(){
 		
 		<div class="row">
 			<div class="right aligned column">
-        <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;
+        <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;&nbsp;&nbsp;
         {% if vip_state != 2 %}
 				<a href="javascript:void(0);" class="ui magenta inverted next-step button">下一步</a>
         {%endif%}
 			</div>
 		</div>
-		
-		
 		
 	</div>
 </div>
