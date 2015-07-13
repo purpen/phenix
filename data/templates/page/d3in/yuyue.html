@@ -243,7 +243,6 @@ $('.option-date [name=date]').click(function(){
   $.get(url, {item_id:item_id, date_id:date_id, type:1});
   $('[name=date_id]').val(date_id);
   $('.option-hour').show();
-	$('.option-hour .ui.fields').addClass('slideInRight animated');
   $('#rest-time').show();
 });
 
@@ -414,17 +413,17 @@ $('.next-step.button').click(function(){
 											<div class="ui three fields">
 												<div class="field">
 													<div class="ui checkbox">
-														<input name="hour" type="checkbox" value="9" /><label>9:00-10:00</label>
+														<input name="hour" type="checkbox" value="9:00-10:00" /><label>9:00-10:00</label>
 													</div>
 												</div>
 												<div class="field">
 													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="10" /><label>10:00-11:00</label>
+                    				<input name="hour" type="checkbox" value="10:00-11:00" /><label>10:00-11:00</label>
 													</div>
 												</div>
 												<div class="field">
 													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="11" /><label>11:00-12:00</label>
+                    				<input name="hour" type="checkbox" value="11:00-12:00" /><label>11:00-12:00</label>
 													</div>
 												</div>
 												<div class="field">
