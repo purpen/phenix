@@ -9,7 +9,7 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
   // 常量
   // 状态关闭
   const STATE_NO = 0;
-  // 状态正常
+  // 状态成功
   const STATE_OK = 1;
 	
 	protected $schema = array(
@@ -26,7 +26,7 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
 
   protected $required_fields = array('class_id');
 
-  protected $int_fields = array('state', 'user_id', 'class_id', 'appoint_date', 'appoint_time', 'appoint_count', 'rest_count');
+  protected $int_fields = array('state', 'class_id', 'appoint_date', 'appoint_time', 'appoint_count', 'rest_count');
 
 
 	/**
@@ -80,7 +80,7 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
    * 保存预约记录
    */
   public function record_appoint($item_id, $date_id, $time_id, $user_id){
-    $has_one = $this->first(array('class_id'=>(int)$item_id, 'appoint_date'=>$date_id, 'appoint_time'=>(int)$time_id));
+    $has_one = $this->first(array('class_id'=>(int)$item_id, 'appoint_date'=>(int)$date_id, 'appoint_time'=>(int)$time_id));
     $data = array(
       'class_id' => (int)$item_id,
       'appoint_date' => (int)$date_id,
@@ -88,7 +88,7 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
     );
     if(empty($has_one)){ // 暂不判断设备数量 默认只有一台测试设备
       $data['user_id'] = array((int)$user_id);
-      $ok = $this->apply_and_save($data);
+      $ok = $this->create($data);
     }else{
       if($has_one['rest_count']>0){ // 可预约
         $ok = $this->update_set($has_one['_id'], array('rest_count'=>$has_one['rest_count'] - 1, 'appoint_count'=>$has_one['appoint_count'] + 1, 'user_id'=>array_push($has_one['user_id'], (int)$user_id)));
@@ -104,9 +104,9 @@ class Sher_Core_Model_DAppointRecord extends Sher_Core_Model_Base  {
    * 删除预约记录,释放名额
    */
   public function cancel_appointed($item_id, $date_id, $time_id, $user_id){
-    $has_one = $this->first(array('class_id'=>(int)$item_id, 'appoint_date'=>$date_id, 'appoint_time'=>(int)$time_id));
+    $has_one = $this->first(array('class_id'=>(int)$item_id, 'appoint_date'=>(int)$date_id, 'appoint_time'=>(int)$time_id));
     if(!empty($has_one)){
-      if($has_one['appoint_count']>0){
+      if($has_one['appoint_count']>1){
         foreach($has_one['user_id'] as $k=>$v){
           if($v==(int)$user_id){
             unset($has_one['user_id'][$k]);

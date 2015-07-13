@@ -48,6 +48,9 @@ class Sher_Core_ViewTag_DAppointList extends Doggy_Dt_Tag {
         case 2:
           $query['state'] = 2;
           break;
+        case 10:
+          $query['state'] = 10;
+          break;
         case -1:
           $query['state'] = 0;
           break;

@@ -83,7 +83,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 
     if ($this->visitor->id){
       if($this->_check_whether_appoint()){
-        return $this->show_message_page('您已经预约过了！', Doggy_Config::$vars['app.url.d3in']);
+        return $this->show_message_page('您已经预约过了！', Doggy_Config::$vars['app.url.my'].'/d_appoint');
       }
 
       $member_model = new Sher_Core_Model_DMember();
@@ -143,7 +143,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 * d3in 预约1
 	 */
 	public function choose(){
-		$redirect_url = Doggy_Config::$vars['app.url.d3in'];
+		$redirect_url = Doggy_Config::$vars['app.url.my'].'/d_appoint';
     if ($this->visitor->id){
       if($this->_check_whether_appoint()){
         return $this->show_message_page('您已经预约过了！', $redirect_url);
@@ -316,6 +316,8 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     $appointing_arr =array();
     $items = array();
     $is_success = false;
+    $times_count = 0;
+    $is_overtop = false;
     
     $appointes_arr = explode('$$', $appoint_result);
     $appoint_record_model = new Sher_Core_Model_DAppointRecord();
@@ -325,8 +327,8 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       if(is_array($appoint_arr) && count($appoint_arr)>=3){
         $o_time_arr = explode(',', $appoint_arr[2]);
         $n_time_arr = array();
-        foreach($o_time_arr as $v){
-          array_push($n_time_arr, (int)$v);
+        foreach($o_time_arr as $t){
+          array_push($n_time_arr, (int)$t);
         }
         $item = array(
           'item_id'=>(int)$appoint_arr[0],
@@ -343,18 +345,23 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 
       $time_arr = explode(',', $appoint_arr[2]);
       //验证是否被抢约
-      foreach($time_arr as $v){
-        $has_one = $appoint_record_model->check_is_appointed($appoint_arr[0], $appoint_arr[1], $v);
+      foreach($time_arr as $t){
+        $times_count += 1;
+        if($times_count>4){
+          $is_overtop = true;
+          break;
+        }
+        $has_one = $appoint_record_model->check_is_appointed($appoint_arr[0], $appoint_arr[1], $t);
         if(!empty($has_one)){
           $is_appointed = true;
           //记录被抢约时间
-          array_push($appointed_arr, array('item_id'=>$appoint_arr[0], 'date_id'=>$appoint_arr[1], 'time_id'=>$v));
+          array_push($appointed_arr, array('item_id'=>$appoint_arr[0], 'date_id'=>$appoint_arr[1], 'time_id'=>$t));
         }else{
           //保存预约信息
-          $ok = $appoint_record_model->record_appoint($appoint_arr[0], $appoint_arr[1], $v, $user_id);
+          $ok = $appoint_record_model->record_appoint($appoint_arr[0], $appoint_arr[1], $t, $user_id);
           if($ok){
             //记录预约成功的项目
-            array_push($appointing_arr, array('item_id'=>$appoint_arr[0], 'date_id'=>$appoint_arr[1], 'time_id'=>$v, 'user_id'=>$user_id));
+            array_push($appointing_arr, array('item_id'=>$appoint_arr[0], 'date_id'=>$appoint_arr[1], 'time_id'=>$t, 'user_id'=>$user_id));
           }
           
         }
@@ -366,13 +373,17 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       //出错,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
       return $this->ajax_note($note, true);
+    }elseif($is_overtop){
+      //时间超出限制,删除预约成功的对象
+      $this->cancel_appointed($appointing_arr);
+      return $this->ajax_note($note, true);
     }elseif($is_appointed){ //已被抢约
       //出错,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
       return $this->ajax_note('项目被抢约,请重新选择!', true);     
     }
 
-    if(!$is_error && !$is_appointed){
+    if(!$is_error && !$is_appointed && !$is_overtop){
       $appoint_model = new Sher_Core_Model_DAppoint();
       $data = array(
         'user_id' => $user_id,
@@ -383,6 +394,10 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       //创建预约表单
       $ok = $appoint_model->apply_and_save($data);
       if($ok){
+        $data = $appoint_model->get_data();
+        if($is_vip==1){
+          $appoint_model->finish_appoint($data['_id']);       
+        }
         $is_success = true;
       }else{
         //出错,删除预约成功的对象
@@ -390,7 +405,8 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
         return $this->ajax_note('预约失败!', true);  
       }
     }
-
+    $this->stash['success'] = $is_success;
+		return $this->to_taconite_page('page/d3in/ajax_appoint_sumbit.html');
 
   }
 
@@ -575,6 +591,33 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 		return $this->to_redirect($pay_url);
 	}
 
+  /**
+   * 更改预约状态
+   */
+  public function ajax_set_state(){
+ 		$id = $this->stash['id'];
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+		if(empty($id)){
+			return $this->ajax_note('缺少Id参数！', true);
+		}
+
+    $model = new Sher_Core_Model_DAppoint();
+    $appoint = $model->load($id);
+    if(empty($appoint)){
+ 		  return $this->ajax_note('内容不存在或已删除！', true);  
+    }
+    if($this->visitor->id != $appoint['user_id']){
+  	  return $this->ajax_note('没有权限！', true);   
+    }
+
+    $ok = $model->close_appoint($id);
+    if(!$ok){
+   	  return $this->ajax_note('操作失败！', true);   
+    }
+		
+		return $this->to_taconite_page('page/d3in/ajax_set_state.html');
+  }
+
 
   /**
    * 验证是否可预约
@@ -582,7 +625,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
   protected function _check_whether_appoint($options=array()){
     $user_id = $this->visitor->id;
     $appoint_model = new Sher_Core_Model_DAppoint();
-    $appoint = $appoint_model->first(array('user_id'=>$user_id, 'state'=>Sher_Core_Model_DAppoint::STATE_NORMAL));
+    $appoint = $appoint_model->first(array('user_id'=>$user_id, 'state'=>Sher_Core_Model_DAppoint::STATE_OK));
     if(!empty($appoint)){
       return $appoint;
     }else{

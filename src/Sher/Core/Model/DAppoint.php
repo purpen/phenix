@@ -8,12 +8,14 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 
   // 常量
   // 预约状态
-  // 正常
-  const STATE_NORMAL = 1;
-  // 关闭
-  const STATE_CLOSE = 0;
-  // 结束 
+  // 状态关闭
+  const STATE_NO = 0;
+  // 等待付款
+  const STATE_PAY = 1;
+  // 状态结束
   const STATE_OVER = 2;
+  // 状态成功
+  const STATE_OK = 10;
 	
 	protected $schema = array(
 
@@ -38,7 +40,7 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 
     // 状态
-		'state' => self::STATE_NORMAL,
+		'state' => self::STATE_PAY,
   	);
 
   protected $required_fields = array('user_id');
@@ -97,6 +99,76 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 				break;
 		}
 		return $label;
+	}
+
+	/**
+	 * 关闭预约
+	 */
+	public function close_appoint($id, $options=Array()){
+        return $this->_handle_state($id, self::STATE_NO, $options);
+	}
+
+	/**
+	 * 等待付款
+	 */
+	public function pay_appoint($id, $options=Array()){
+        return $this->_handle_state($id, self::STATE_PAY, $options);
+	}
+
+	/**
+	 * 预约成功
+	 */
+	public function finish_appoint($id, $options=Array()){
+        return $this->_handle_state($id, self::STATE_OK, $options);
+	}
+
+	/**
+	 * 结束预约
+	 */
+	public function over_appoint($id, $options=Array()){
+        return $this->_handle_state($id, self::STATE_OVER, $options);
+	}
+	
+	/**
+	 * 处理预约状态
+	 */
+	protected function _handle_state($id, $state, $options=Array()){
+        if(is_null($id)){
+            $id = $this->id;
+        }
+        if(empty($id)){
+            throw new Sher_Core_Model_Exception('DAppoint id is Null');
+        }
+        if(!isset($state)){
+            throw new Sher_Core_Model_Exception('DAppoint state is Null');
+        }
+        
+		$updated = array(
+			'state' => $state,
+		);
+		
+		// 取消预约
+		if($state == self::STATE_NO){
+      $appoint = $this->load($id);
+      if(!empty($appoint)){
+        $appoint_record_model = new Sher_Core_Model_DAppointRecord();
+        foreach($appoint['items'] as $k=>$v){
+          foreach($v['time_ids'] as $t){
+            //释放名额
+            $appoint_record_model->cancel_appointed((int)$v['item_id'], (int)$v['date_id'], (int)$t, $appoint['user_id']);         
+          }
+        }
+      }
+
+		}
+
+    //预约成功
+    if($state == self::STATE_OK){
+    
+    }
+
+    $ok = $this->update_set($id, $updated);
+    return $ok;
 	}
 	
 }

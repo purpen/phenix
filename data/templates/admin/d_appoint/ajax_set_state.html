@@ -1,0 +1,21 @@
+<taconite>
+  {% for d in result %}
+    
+    <replaceContent select="#item-{{ d }} .state-btn"><![CDATA[
+      {% if state==0 %}
+
+      {%endif%}
+    ]]></replaceContent>
+
+    <replaceContent select="#item-{{ d }} .state-box"><![CDATA[
+      {% if state==0 %}
+            取消
+      {%endif%}
+    ]]></replaceContent>
+
+  {%endfor%}
+
+	<eval>
+    //phenix.show_ok_note('{{ note }}');
+	</eval>
+</taconite>
