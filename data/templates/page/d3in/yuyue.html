@@ -85,17 +85,19 @@ p a.ui.link{
 .swiper-slide td span.black{
 	background:#f36;
 }
-.seven.fields .field {
+.five.fields .field {
   display: inline-block;
 	width:120px;
 	margin: 8px 0;
 	float: left;
+	padding-left:0 !important;
+	padding-right:0 !important;
 }
-.seven.fields .field .ui.radio.checkbox label{
+.five.fields .field .ui.radio.checkbox label{
 	padding-left: 1.5em;
 	margin-right: 0em;
 }
-.seven.fields .field .ui.radio.checkbox input[type="radio"]{
+.five.fields .field .ui.radio.checkbox input[type="radio"]{
 	z-index:100;
 	width:100%;
 	margin: 0;
@@ -130,6 +132,9 @@ input#gen-btn{
 }
 .option-hour.ui.form .field :disabled{
 	opacity:0;
+}
+.ui.form .fields:after{
+	display:none;
 }
 </style>
 {% endblock %}
@@ -389,101 +394,99 @@ $('.next-step.button').click(function(){
 			</div>
 		</div>
 
-      <div class="row">
-        <div class="column">
+		<div class="row">
+      <div class="column">
 
-                  <div class="option-date" style="display:none;">
-										<div class="seven inline fields">
+        <div class="option-date ui form" style="display:none;">
+					<div class="five fields">						
 {% for d in appoint_date_arr %}
-  {% for c in d %}
-                			<div class="field">
-				    							<div class="ui radio checkbox">
-														<input name="date" type="radio" value="{{ c.id }}" />
-														<label>{{ c.date }}</label>
-													</div>
-											</div>
-                {%endfor%}
+{% for c in d %}
+            <div class="field">
+    				   <div class="ui radio checkbox">
+							   <input name="date" type="radio" value="{{ c.id }}" />
+										<label>{{ c.date }}</label>
+							 </div>
+						 </div>
+            {%endfor%}
 {%endfor%}
-
-                  	</div>
-									</div>
-                  <br /><br />
+          </div>
 				</div>
+                 
 			</div>
-			<div class="row">
-				<div class="column">
-                  <div class="option-hour ui form" style="display:none;">
-											<div class="ui three fields">
-												<div class="field">
-													<div class="ui checkbox">
-														<input name="hour" type="checkbox" value="9:00-10:00" /><label>9:00-10:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="10:00-11:00" /><label>10:00-11:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="11:00-12:00" /><label>11:00-12:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="12" /><label>12:00-13:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="13" /><label>13:00-14:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="14" /><label>14:00-15:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="15" /><label>15:00-16:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="16" /><label>16:00-17:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-														<input name="hour" type="checkbox" value="17" /><label>17:00-18:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-														<input name="hour" type="checkbox" value="18" /><label>18:00-19:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="19" /><label>19:00-20:00</label>
-													</div>
-												</div>
-												<div class="field">
-													<div class="ui checkbox">
-                    				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
-													</div>
-												</div>
-                  </div>
-									
-<input class="ui magenta inverted button" type="button" name="gen-btn" id="gen-btn" value="确定" />
-                  
+		</div>
+		<div class="row">
+			<div class="column">
+         <div class="option-hour ui form" style="display:none;">
+			    <div class="ui three fields">
+						<div class="field">
+							<div class="ui checkbox">
+								<input name="hour" type="checkbox" value="9" /><label>9:00-10:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="10" /><label>10:00-11:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="11" /><label>11:00-12:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="12" /><label>12:00-13:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="13" /><label>13:00-14:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="14" /><label>14:00-15:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="15" /><label>15:00-16:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="16" /><label>16:00-17:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+								<input name="hour" type="checkbox" value="17" /><label>17:00-18:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+								<input name="hour" type="checkbox" value="18" /><label>18:00-19:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="19" /><label>19:00-20:00</label>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui checkbox">
+              				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
+							</div>
+						</div>
+           </div>
+					<input class="ui magenta inverted button" type="button" name="gen-btn" id="gen-btn" value="确定" />
+                 
 
-        </div>
-    </div>
+       	</div>
+   		</div>
 		</div>
 
-    <div class="row" id="rest-time" style="display:none;">
+     <div class="row" id="rest-time" style="display:none;">
       <div class="column">
         剩余<span rest-val="4" class="t">4</span>小时
       </div>
@@ -562,7 +565,7 @@ $('.next-step.button').click(function(){
 			<div class="swiper-button-prev"></div>
 		</div>
 	-->	
-    <div class="row">
+		<div class="row">
       <div class="column">
 
       </div>
