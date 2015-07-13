@@ -3,6 +3,7 @@
 
 {% block page_css %}
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
 .lab.submenu>.ui.responsive.grid>.row{
 	padding:1rem 0;
@@ -110,11 +111,23 @@ p a.ui.link{
 	top:-2px;
 	height: 100%;
 }
-.option-hour .field {
-	width:120px;
-	margin: 8px 0;
+.option-hour .three.fields{
+	margin-left: -1%;
+	margin-right: -1%;
 }
-
+.option-hour .three.fields .field {
+	width: 31.33333333% !important;
+	margin: 8px 1%;
+  text-align: center;
+  padding: 20px 0 !important;
+  background: #999;
+}
+.option-hour .field .ui.checkbox{
+	width: 120px;
+}
+input#gen-btn{
+	margin-top: 20px;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -230,6 +243,7 @@ $('.option-date [name=date]').click(function(){
   $.get(url, {item_id:item_id, date_id:date_id, type:1});
   $('[name=date_id]').val(date_id);
   $('.option-hour').show();
+	$('.option-hour .ui.fields').addClass('slideInRight animated');
   $('#rest-time').show();
 });
 
@@ -396,8 +410,8 @@ $('.next-step.button').click(function(){
 			</div>
 			<div class="row">
 				<div class="column">
-                  <div class="option-hour" style="display:none;">
-											<div class="ui fields">
+                  <div class="option-hour ui form" style="display:none;">
+											<div class="ui three fields">
 												<div class="field">
 													<div class="ui checkbox">
 														<input name="hour" type="checkbox" value="9" /><label>9:00-10:00</label>
@@ -458,14 +472,14 @@ $('.next-step.button').click(function(){
                     				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
 													</div>
 												</div>
-
-                    <br />
-<input type="button" name="gen-btn" id="gen-btn" value="确定" />
                   </div>
+									
+<input class="ui magenta inverted button" type="button" name="gen-btn" id="gen-btn" value="确定" />
                   
 
         </div>
     </div>
+		</div>
 
     <div class="row" id="rest-time" style="display:none;">
       <div class="column">
