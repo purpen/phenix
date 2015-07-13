@@ -2,15 +2,15 @@
 	
   <eval>
   var appoint_times = "{{ appoint_times }}";
-  if(appoint_times){
     var time_arr = appoint_times.split(',');
     $('.option-hour [name=hour]').each(function(){
       var t = $(this).val();
       if(time_arr.indexOf(t)>=0){
-        $(this).prop('checked', true).attr('disabled', true);
+        $(this).prop('checked', true).prop('disabled', true);
+      }else{
+        $(this).prop('checked', false).prop('disabled', false);       
       }
     }); 
-  }
 
 	</eval>
 </taconite>

@@ -97,6 +97,7 @@ p a.ui.link{
 	padding-left: 1.5em;
 	margin-right: 0em;
 }
+
 .five.fields .field .ui.radio.checkbox input[type="radio"]{
 	z-index:100;
 	width:100%;
@@ -163,28 +164,39 @@ input#gen-btn{
     //选择时间点次数
     var init_times = 4;
 
-    function regain_appoint_option(item_id){
+    function regain_appoint_option(){
+      var item_id = $('[name=item_id]').val();
       var obj = $('.appoint-result .item[name='+ item_id +']');
       if(obj.length>0){
         var result = $(obj).find("[name='result[]']").val();
         var arr = result.split('|');
-        $('.option-date [name=date]').each(function(){
-          var d = $(this).val();
-          if(arr[1]==d){
-            $(this).prop('checked', true);
-          }
-        });
-        var time_arr = arr[2].split(',');
-        $('#record-times').val('');
-        $('.option-hour [name=hour]').each(function(){
-          var t = $(this).val();
-          if(time_arr.indexOf(t)>=0){
-            phenix.record_asset_id('record-times', t);
-            $(this).prop('checked', true);
-          }
+        //过滤已预约时间
+        var url = "{{ app_url_d3in }}/ajax_filter_time"; 
+        $.get(url, {item_id:item_id, date_id:arr[1], type:1}, function(){
+          $('.option-date [name=date]').each(function(){
+            var d = $(this).val();
+            if(arr[1]==d){
+              $(this).prop('checked', true);
+            }
+          });
+          var time_arr = arr[2].split(',');
+          $('#record-times').val('');
+          $('.option-hour [name=hour]').each(function(){
+            var t = $(this).val();
+            if(time_arr.indexOf(t)>=0){
+              phenix.record_asset_id('record-times', t);
+              $(this).prop('checked', true);
+            }
+          });
         });
         
       }else{
+        var date_obj = $('.option-date [name=date]:checked');
+        if($(date_obj).length>0){
+          //过滤已预约时间
+          var url = "{{ app_url_d3in }}/ajax_filter_time"; 
+          $.get(url, {item_id:item_id, date_id:$(date_obj).val(), type:1}, function(){});  
+        }
         clear_times();
       }
     }
@@ -224,6 +236,25 @@ input#gen-btn{
         $(obj).val(appoint_result);
       }
     }
+
+    //获取并设置有效剩余时间数
+    function set_rest_times(){
+      var data = $('[name=appoint_result]').val();
+      var rest_times = 0;
+      if(!data){
+        rest_times = init_times;
+      }else{
+        var arr_p = data.split('$$');
+        for(var i=0; i<arr_p.length; i++){
+          var arr_c = arr_p[i].split('|');
+          var time_arr = arr_c[2].split(',');
+          rest_times += time_arr.length;
+        }     
+      }
+      $('#rest-time .t').attr('rest-val', rest_times).text(rest_times);
+      return rest_times;
+    }
+
   </script>
 {% endblock %}
 {% block jquery %}
@@ -254,8 +285,8 @@ $('.begin-appoint-btn').click(function(){
     $(this).prop('checked', false);
   });
 
-  //还原已预约值
-  regain_appoint_option(item_id);
+   //还原已预约值
+  regain_appoint_option();   
 
   $('.option-date').show();
 });
@@ -275,7 +306,29 @@ $('.option-date [name=date]').click(function(){
   var item_id = $('[name=item_id]').val();
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
-  $.get(url, {item_id:item_id, date_id:date_id, type:1});
+  $.get(url, {item_id:item_id, date_id:date_id, type:1}, function(){
+      var item_id = $('[name=item_id]').val();
+      var obj = $('.appoint-result .item[name='+ item_id +']');
+      if(obj.length>0){
+
+        var result = $(obj).find("[name='result[]']").val();
+        var arr = result.split('|');
+        var time_arr = arr[2].split(',');
+        if(date_id==arr[1]){
+          $('#record-times').val('');
+          $('.option-hour [name=hour]').each(function(){
+            var t = $(this).val();
+            if(time_arr.indexOf(t)>=0){
+              phenix.record_asset_id('record-times', t);
+              $(this).prop('checked', true);
+            }
+          });         
+        }
+
+      }
+  });
+  //重置剩余次数
+  set_rest_times();
   $('[name=date_id]').val(date_id);
   $('.option-hour').show();
   $('#rest-time').show();

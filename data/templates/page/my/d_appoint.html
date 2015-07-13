@@ -1,49 +1,72 @@
-{%extends 'layout/admin.html'%}
+{%extends 'layout/column.html'%}
+{% block title %}我的预约-实验室-{% endblock %}
 {% block page_css %}
+<style class="text/css">
+    
+</style>
 {% endblock %}
-
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
 {% block content %}
-	<h3 class="ui header">预约管理</h3>
-	
-	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/d_appoint" class="{{ css_all }} item">
-			全部
-		</a>
-		<a href="{{ app_url_admin_base }}/d_appoint?state=1" class="{{ css_ing }} item">
-			待付款
-		</a>
-		<a href="{{ app_url_admin_base }}/d_appoint?state=10" class="{{ css_finish }} item">
-			完成
-		</a>
-		<a href="{{ app_url_admin_base }}/d_appoint?state=2" class="{{ css_over }} item">
-			结束
-		</a>
-		<a href="{{ app_url_admin_base }}/d_appoint?state=-1" class="{{ css_close }} item">
-			关闭
-		</a>
-
-	</div>
-	
-  <!--
-	<div class="ui grid">
-		<div class="middle aligned row">
-
-			<div class="ten wide column">
-				<div class="ui sub nav">
-					<form action="{{ app_url_admin_base }}/d_appoint" method="post">
-						<label>搜索：</label>
-						<div class="ui icon input">
-							<input placeholder="标题..." type="text" name="q">
-							<i class="flat search link icon"></i>
-						</div>
-					</form>
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的预约</div>
 				</div>
 			</div>
 		</div>
 	</div>
-  -->
-	
-			{% d_appoint_list var:'list' load_item:1 state:state size:30 %}
+</div>
+
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="three wide column">
+						<h2 class="ui header">我的预约</h2>
+					</div>
+					<div class="right aligned thirteen wide column">
+						<div class="ui horizontal bulleted list">
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint" class="ui {{ css_all }} link">全部</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=1" class="ui {{ css_ing }} link">待付款</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=10" class="ui {{ css_finish }} link">完成</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=2" class="ui {{ css_over }} link">结束</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=-1" class="ui {{ css_close }} link">取消</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			{% d_appoint_list var:'list' load_item:1 state:state page:page size:10 %}
 			
 			{% for d in list.rows %}
 
@@ -102,15 +125,16 @@
                   </div>
                   <div class="center aligned three wide column">
 
+
                   </div>
                   <div class="center aligned three wide column">
                     
                       <p class="state-box">
                         {% if d.state==0 %}
-                          取消
+                          已取消
                         {%endif%}
                         {% if d.state==1 %}
-                          等待付款
+                          待付款
                         {%endif%}
                         {% if d.state==10 %}
                           完成
@@ -121,24 +145,31 @@
                       </p>
                       {% if d.state == 1 %}
                       <p class="state-btn">
-                      <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray ajax button">取消</a>
+                      <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
                       </p>
+                      {% endif %}
+                      {% if d.state == 10 %}
+                        {% if d.is_vip == 1 %}
+                        <p class="state-btn">
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        </p>
+                        {%endif%}
                       {% endif %}
                     
                   </div>
                 </div>
               </div>
             </div>
-
 			{% endfor %}
-
-	
-	{% if list.total_rows %}
-	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
-		{%include 'block/pager.html'%}
-		<label class="page_count">{{ list.total_rows }}个</label>
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
 	</div>
-	{% endif %}
-	
+</div>
+
 {% endblock %}

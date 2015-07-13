@@ -40,6 +40,9 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
       case 2:
         $this->set_target_css_state('over');
         break;
+      case 10:
+        $this->set_target_css_state('finish');
+        break;
     }
 
 		$page = (int)$this->stash['page'];
@@ -166,5 +169,33 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+  /**
+   * 更改状态
+   */
+  public function ajax_set_state(){
+ 		$ids = $this->stash['id'];
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_DAppoint();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+
+    $arr = array();
+		foreach($ids as $id){
+			$result = $model->close_appoint($id);
+      if($result){
+        array_push($arr, $id);
+      }
+		}
+
+    $this->stash['result'] = $arr;
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('admin/d_appoint/ajax_set_state.html');
+
+  }
+
 }
-?>
+
