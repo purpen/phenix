@@ -248,26 +248,26 @@ $('.option-date [name=date]').click(function(){
 });
 
 // 选择时间点
-$('.option-hour [name=hour]').click(function(){
+$('.option-hour .field,.option-hour [name=hour]').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
-  var time_id = $(this).val();
-  if($(this).prop("checked")){
-    $(this).prop('checked', false);
+  var time_id = $('.option-hour [name=hour]').val();
+  if($('.option-hour [name=hour]').prop("checked")){
+    $('.option-hour [name=hour]').prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
     rest_time -= 1;
   }else{
-    $(this).prop('checked', true);
+    $('.option-hour [name=hour]').prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
     rest_time += 1;
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $(this).prop('checked', true);
+    $('.option-hour [name=hour]').prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $(this).prop('checked', false);
+    $('.option-hour [name=hour]').prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
