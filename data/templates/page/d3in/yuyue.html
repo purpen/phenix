@@ -136,6 +136,24 @@ input#gen-btn{
 .ui.form .fields:after{
 	display:none;
 }
+.ui.buttons .button:first-child {
+  border-left: 0px solid gray;
+}
+.ui.success.message {
+  background-color: #DEFCD5;
+  color: #52A954;
+}
+.ui.success.message .header .appoint-result{
+	font-weight: 400;
+	font-size: 1.05rem;
+	margin-top: 10px;
+}
+.ui.success.message .header .appoint-result .item{
+	margin:3px 0;
+}
+.ui.success.message .header{
+	font-size:1.2em;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -242,6 +260,15 @@ $('.begin-appoint-btn').click(function(){
   $('.option-date').show();
 });
 
+$('.begin-appoint-btn:first-child').click(function(){
+	$(this).addClass('active');
+	$('.begin-appoint-btn:nth-child(2)').removeClass('active');
+});
+$('.begin-appoint-btn:nth-child(2)').click(function(){
+	$(this).addClass('active');
+	$('.begin-appoint-btn:first-child').removeClass('active');
+});
+
 //选择日期
 $('.option-date [name=date]').click(function(){
   var date_id = $(this).val();
@@ -258,6 +285,7 @@ $('.option-date [name=date]').click(function(){
 $('.option-hour [name=hour]').click(function(){
   rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var time_id = $(this).val();
+alert(time_id)
   if($(this).prop("checked")){
     $(this).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
@@ -372,10 +400,11 @@ $('.next-step.button').click(function(){
 		
 		<div class="row chooli">
 			<div class="column">
+				<div class="ui buttons">
         {% for d in classes %}
-        <div class="ui white active inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
+        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
         {%endfor%}
-
+				</div>
 			</div>
 		</div>
 
@@ -387,10 +416,14 @@ $('.next-step.button').click(function(){
                     <input type="hidden" name="rest_times" value="4" />
                     <input type="hidden" name="appoint_result" value="" />
 			<div class="column">
-        预约结果: 
-        <div class="appoint-result">
+				<div class="ui success message">
+					<div class="header">
+					预约结果: 
+						<div class="appoint-result">
         
-        </div>
+		        </div>
+					</div>
+				</div>
 			</div>
 		</div>
 
