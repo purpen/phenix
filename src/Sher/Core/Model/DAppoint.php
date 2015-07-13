@@ -33,6 +33,9 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     // 付款方式 1.在线; 2.现场
     'pay_type' => 1,
 
+    // 是否完成付款
+    'is_payed' => 0,
+
     // 是否前来参加
     'is_attend' => 1,
 
