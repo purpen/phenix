@@ -287,7 +287,9 @@ $('.begin-appoint-btn').click(function(){
   });
 
    //还原已预约值
-  regain_appoint_option();   
+  regain_appoint_option();
+  //重置剩余次数
+  set_rest_times();
 
   $('.option-date').show();
 });
