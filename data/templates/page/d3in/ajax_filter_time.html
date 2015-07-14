@@ -3,7 +3,8 @@
   <eval>
   var appoint_times = "{{ appoint_times }}";
     var time_arr = appoint_times.split(',');
-    $('.option-hour [name=hour]').each(function(){
+    var item_id = "{{ item_id }}";
+    $('.option-hour [name=hour-'+ item_id +']').each(function(){
       var t = $(this).val();
       if(time_arr.indexOf(t)>=0){
         $(this).prop('checked', true).prop('disabled', true);

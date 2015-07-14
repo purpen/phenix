@@ -125,8 +125,13 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     }else{
       $expire_day = 7;
     }
+    // 日期数组
     $appoint_date_arr = Sher_Core_Util_D3in::appoint_date_arr($expire_day);
     $this->stash['appoint_date_arr'] = $appoint_date_arr;
+
+    // 时间段数组
+    $appoint_time_arr = Sher_Core_Util_D3in::appoint_time_arr();
+    $this->stash['appoint_time_arr'] = $appoint_time_arr;   
 
     $this->stash['classes'] = $classes;
     
@@ -686,24 +691,26 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
   public function ajax_close_order(){
  		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_notification('缺少Id参数！', true);
+			return $this->ajax_note('缺少Id参数！', true);
 		}
 		
 		$model = new Sher_Core_Model_DOrder();
-    $order = $model->find_by_id((string)$id);
+    $order = $model->find_by_id((int)$id);
     if(empty($order)){
- 			return $this->ajax_notification('订单不存在或已删除！', true);   
+ 			return $this->ajax_note('订单不存在或已删除！', true);   
     }
     if($order['user_id'] != $this->visitor->id){
-  	  return $this->ajax_notification('没有权限！', true);    
+  	  return $this->ajax_note('没有权限！', true);    
     }
 
 		$ok = $model->close_order((int)$id);
+
+    $new_order = $model->extend_load((int)$id);
+    $this->stash['order'] = $new_order;
 		
 		return $this->to_taconite_page('page/d3in/ajax_close_order.html');
 
   }
-
 
   /**
    * 验证是否可预约
