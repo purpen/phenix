@@ -155,6 +155,14 @@ input#gen-btn{
 .ui.success.message .header{
 	font-size:1.2em;
 }
+.ui.form .fields:after {
+  content: ' ';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -464,41 +472,25 @@ $('.next-step.button').click(function(){
 			</div>
 		</div>
 
-		<div class="row" id="item-show" style="display:none;">
-                    <input type="hidden" name="item_id" value="" />
-                    <input type="hidden" name="item_name" value="" />
-                    <input type="hidden" name="date_id" value="" />
-                    <input type="hidden" name="time_ids" id="record-times" value="" />
-                    <input type="hidden" name="rest_times" value="4" />
-                    <input type="hidden" name="appoint_result" value="" />
-			<div class="column">
-				<div class="ui success message">
-					<div class="header">
-					预约结果: 
-						<div class="appoint-result">
-        
-		        </div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="row">
       <div class="column">
 
-        <div class="option-date ui form" style="display:none;">
-					<div class="five fields">						
+        <div class="option-date ui segment form" style="display:none;">
+					
+					<div class="five fields">					
 {% for d in appoint_date_arr %}
 {% for c in d %}
+					
             <div class="field">
     				   <div class="ui radio checkbox">
 							   <input name="date" type="radio" value="{{ c.id }}" />
 										<label>{{ c.date }}</label>
 							 </div>
 						 </div>
+						
             {%endfor%}
-{%endfor%}
-          </div>
+{%endfor%}						
+					</div>
 				</div>
                  
 			</div>
@@ -568,6 +560,27 @@ $('.next-step.button').click(function(){
 							</div>
 						</div>
            </div>
+
+					 <div class="row" id="item-show" style="display:none;margin-top: 20px;">
+			                    <input type="hidden" name="item_id" value="" />
+			                    <input type="hidden" name="item_name" value="" />
+			                    <input type="hidden" name="date_id" value="" />
+			                    <input type="hidden" name="time_ids" id="record-times" value="" />
+			                    <input type="hidden" name="rest_times" value="4" />
+			                    <input type="hidden" name="appoint_result" value="" />
+						<div class="column">
+							<div class="ui success message">
+								<div class="header">
+								预约结果: 
+									<div class="appoint-result">
+
+					        </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
 					<input class="ui magenta inverted button" type="button" name="gen-btn" id="gen-btn" value="确定" />
                  
 
@@ -576,8 +589,8 @@ $('.next-step.button').click(function(){
 		</div>
 
      <div class="row" id="rest-time" style="display:none;">
-      <div class="column">
-        剩余<span rest-val="4" class="t">4</span>小时
+      <div class="column" style="font-size: 1.15rem;letter-spacing: 3px;">
+        剩余<span rest-val="4" class="t" style="color:#f36;">4</span>小时
       </div>
     </div>
 		
