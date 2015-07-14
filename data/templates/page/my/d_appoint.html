@@ -8,6 +8,45 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
+
+	$('#checkout-form').form({
+
+		evt: {
+			identifier  : 'evt',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择一种类型'
+				}
+			]
+		}
+	}, {
+		inline : false,
+	    error: {
+	      method  : function(message){
+		      phenix.show_error_note(message, 3000);
+		  }
+	    },
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(result.message, 5000);
+					}else{						
+						phenix.redirect(result.redirect_url, 0);
+					}
+				}
+			});
+		}
+	});
 	
 {% endblock %}
 {% block content %}
@@ -144,7 +183,15 @@
                       {% if d.state == 1 %}
 
                       <p class="state-btn">
-                      <a href="#" class="ui small gray button">付款</a>
+          <form action="{{ app_url_d3in }}/confirm" method="post" id="checkout-form" class="ui form">
+            <input type="hidden" name="evt" value="day" />
+            <input type="hidden" name="item_id" value="{{ d._id }}" />
+							<div class="right aligned ten wide column">
+								<div class="ui magenta checkout submit inverted button">
+                  付款
+                </div>
+							</div>
+          </form>
                       <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
                       </p>
                       {% endif %}

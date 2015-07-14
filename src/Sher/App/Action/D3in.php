@@ -483,6 +483,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
    */
   public function confirm(){
     $evt = isset($this->stash['evt'])?$this->stash['evt']:null;
+
     if(empty($evt)){
       return $this->ajax_json('缺少请求参数!', true);
     }
@@ -490,6 +491,15 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     if(!in_array($evt, array('day', 'month', 'quarter', 'self_year', 'year'))){
       return $this->ajax_json('请求参数不正确!', true);   
     }
+
+    if($evt=='day'){
+      $appoint_id = isset($this->stash['item_id'])?$this->stash['item_id']:null;
+      if(empty($appoint_id)){
+        return $this->ajax_json('预约ID不存在!', true);       
+      }
+    }
+
+    $kind = Sher_Core_Model_DOrder::KIND_D3IN;
 
     $member_mode = new Sher_Core_Model_DMember();
     $member = $member_mode->find_by_id((int)$this->visitor->id);
@@ -511,6 +521,13 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       return $this->ajax_json('类型错误!', true);   
     }
 
+    if($evt=='day'){
+      $item_id = $appoint_id;
+    }else{
+      $kind = Sher_Core_Model_DOrder::KIND_VIP;
+    }
+
+    $data['kind'] = $kind;
     $data['item_id'] = $item_id;
     $data['item_name'] = $item_name;
     $data['pay_money'] = $pay_money;
@@ -553,6 +570,26 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 		
 		$model = new Sher_Core_Model_DOrder();
 		$order_info = $model->find_by_rid($rid);
+
+    if(empty($order_info)){
+			return $this->show_message_page('订单不存在或已删除！');
+    }
+
+    if($order_info['state'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->show_message_page('订单不是未付款状态！');
+    }
+
+    // 如果类型为预约付款,验证预约状态是否正确
+    if($order_info['kind'] == Sher_Core_Model_DOrder::KIND_D3IN){
+      $appoint_model = new Sher_Core_Model_DAppoint();
+      $appoint = $appoint_model->load($order_info['item_id']);
+      if(empty($appoint)){
+ 			  return $this->show_message_page('预约表不存在或已删除！');     
+      }
+      if($appoint['state'] != Sher_Core_Model_DAppoint::STATE_PAY){
+ 			  return $this->show_message_page('预约表已经完成付款操作或已关闭！');     
+      }
+    }
 		
 		$this->stash['order'] = $order_info;
 		
@@ -575,6 +612,26 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 		
 		$model = new Sher_Core_Model_DOrder();
 		$order_info = $model->find_by_rid($rid);
+
+    if(empty($order_info)){
+			return $this->show_message_page('订单不存在或已删除！');
+    }
+
+    if($order_info['state'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->show_message_page('订单不是未付款状态！');
+    }
+
+    // 如果类型为预约付款,验证预约状态是否正确
+    if($order_info['kind'] == Sher_Core_Model_DOrder::KIND_D3IN){
+      $appoint_model = new Sher_Core_Model_DAppoint();
+      $appoint = $appoint_model->load($order_info['item_id']);
+      if(empty($appoint)){
+ 			  return $this->show_message_page('预约表不存在或已删除！');     
+      }
+      if($appoint['state'] != Sher_Core_Model_DAppoint::STATE_PAY){
+ 			  return $this->show_message_page('预约表状态不是付款状态！');     
+      }
+    }
 		
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Pay away:'.$payaway);
@@ -621,6 +678,30 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     }
 		
 		return $this->to_taconite_page('page/d3in/ajax_set_state.html');
+  }
+
+  /**
+   * 关闭订单
+   */
+  public function ajax_close_order(){
+ 		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_DOrder();
+    $order = $model->find_by_id((string)$id);
+    if(empty($order)){
+ 			return $this->ajax_notification('订单不存在或已删除！', true);   
+    }
+    if($order['user_id'] != $this->visitor->id){
+  	  return $this->ajax_notification('没有权限！', true);    
+    }
+
+		$ok = $model->close_order((int)$id);
+		
+		return $this->to_taconite_page('page/d3in/ajax_close_order.html');
+
   }
 
 
