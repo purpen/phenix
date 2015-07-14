@@ -454,7 +454,8 @@ $('.next-step.button').click(function(){
 			<div class="column">
 				<div class="ui buttons">
         {% for d in classes %}
-        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
+        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}>
+	<!--<span class="black"></span>-->{{ d.title }}</div>&nbsp;
         {%endfor%}
 				</div>
 			</div>
