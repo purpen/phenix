@@ -90,13 +90,11 @@
                     </table>
                   </div>
                   <div class="center aligned three wide column">
-                    <p>
-                    会员: 
-                    {% if d.is_vip %}是
-                    {%else%}否
-                    <p>支付方式: {%if d.pay_type==1%}在线{%endif%}{%if d.pay_type==1%}现场{%endif%}</p>
+                    {%if d.is_vip%}
+                    <p>会员免支付</p>
+                    {%else%}
+                    <p>支付方式: {%if d.pay_type==1%}在线{%endif%}{%if d.pay_type==2%}现场{%endif%}</p>
                     {%endif%}
-                    </p>
 
 
                   </div>
@@ -123,6 +121,13 @@
                       <p class="state-btn">
                       <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray ajax button">取消</a>
                       </p>
+                      {% endif %}
+                      {% if d.state == 10 %}
+                        {% if d.is_vip == 1 %}
+                        <p class="state-btn">
+                        <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        </p>
+                        {%endif%}
                       {% endif %}
                     
                   </div>

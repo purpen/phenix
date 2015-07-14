@@ -395,8 +395,13 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       $ok = $appoint_model->apply_and_save($data);
       if($ok){
         $data = $appoint_model->get_data();
+        //如果是会员或现场支付,完成预约
         if($is_vip==1){
           $appoint_model->finish_appoint($data['_id']);       
+        }else{
+          if($pay_ment==2){
+            $appoint_model->finish_appoint($data['_id']);
+          }
         }
         $is_success = true;
       }else{

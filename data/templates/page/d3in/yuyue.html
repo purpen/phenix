@@ -249,7 +249,8 @@ input#gen-btn{
           var arr_c = arr_p[i].split('|');
           var time_arr = arr_c[2].split(',');
           rest_times += time_arr.length;
-        }     
+        }
+        rest_times = init_times - rest_times;
       }
       $('#rest-time .t').attr('rest-val', rest_times).text(rest_times);
       return rest_times;
@@ -286,7 +287,9 @@ $('.begin-appoint-btn').click(function(){
   });
 
    //还原已预约值
-  regain_appoint_option();   
+  regain_appoint_option();
+  //重置剩余次数
+  set_rest_times();
 
   $('.option-date').show();
 });
@@ -693,8 +696,6 @@ $('.next-step.button').click(function(){
         {%endif%}
 			</div>
 		</div>
-		
-		
 		
 	</div>
 </div>
