@@ -155,6 +155,14 @@ input#gen-btn{
 .ui.success.message .header{
 	font-size:1.2em;
 }
+.ui.form .fields:after {
+  content: ' ';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -164,103 +172,143 @@ input#gen-btn{
     //选择时间点次数
     var init_times = 4;
 
-    function regain_appoint_option(){
-      var item_id = $('[name=item_id]').val();
-      var obj = $('.appoint-result .item[name='+ item_id +']');
-      if(obj.length>0){
-        var result = $(obj).find("[name='result[]']").val();
-        var arr = result.split('|');
-        //过滤已预约时间
-        var url = "{{ app_url_d3in }}/ajax_filter_time"; 
-        $.get(url, {item_id:item_id, date_id:arr[1], type:1}, function(){
-          $('.option-date [name=date]').each(function(){
-            var d = $(this).val();
-            if(arr[1]==d){
-              $(this).prop('checked', true);
-            }
-          });
-          var time_arr = arr[2].split(',');
-          $('#record-times').val('');
-          $('.option-hour [name=hour]').each(function(){
-            var t = $(this).val();
-            if(time_arr.indexOf(t)>=0){
-              phenix.record_asset_id('record-times', t);
-              $(this).prop('checked', true);
-            }
-          });
-        });
-        
-      }else{
-        var date_obj = $('.option-date [name=date]:checked');
-        if($(date_obj).length>0){
-          //过滤已预约时间
-          var url = "{{ app_url_d3in }}/ajax_filter_time"; 
-          $.get(url, {item_id:item_id, date_id:$(date_obj).val(), type:1}, function(){});  
-        }
-        clear_times();
-      }
-    }
-
-    //清除记录
-    function clear_times(){
-      $('#record-times').val('');
-      var rest_times = $('[name=rest_times]').val();
-      $('#rest-time .t').attr('rest-val', rest_times).text(rest_times);
-    }
-
     //拼接结果集
-    function join_appoint_result(val){
-      var obj = $('[name=appoint_result]');
+    function join_result(item_id, date_id, time_id){
+      var obj = $(':input[name=appoint_result]');
       var result = $(obj).val();
       var appoint_result;
+      var str = item_id + '|' + date_id + '|' + time_id;
       
-      if(result == ''){
-        $(obj).val(val);
+      if(!result){
+        var appoint_result = str; 
+        $(obj).val(appoint_result);
       }else{
-        var current_item_id = val.split('|')[0];
         var arr_p = result.split('$$');
         var has_item = false;
         for(var i=0; i<arr_p.length; i++){
           var arr_c = arr_p[i].split('|');
-          if(arr_c[0]==current_item_id){
+          if(arr_c[0]==item_id){
             has_item = true;
-            arr_p[i] = val;
+            if(arr_c[1]==date_id){
+              if(time_id){
+                if(arr_c[2]){
+                  var time_arr = arr_c[2].split(',');
+                  if(time_arr.indexOf(time_id)<0){
+                    time_arr.push(time_id);
+                  }else{
+                    for(var j=0;j<time_arr.length;j++){
+                      if(time_arr[j]==time_id){
+                        time_arr.splice(j, 1);
+                      }
+                    }
+                  }
+                  arr_p[i] = item_id + '|' + date_id + '|' + time_arr.join(',');
+                }else{
+                  arr_p[i] = item_id + '|' + date_id + '|' + time_id;        
+                }              
+              }else{
+                arr_p[i] = item_id + '|' + date_id + '|';
+              }
+            }else{
+              arr_p[i] = str;
+            }
           }
         }
         if(!has_item){
-          arr_p.push(val);
+          arr_p.push(str);
           appoint_result = arr_p.join('$$');
         }else{
           appoint_result = arr_p.join('$$');
         }
         $(obj).val(appoint_result);
       }
+      return appoint_result;
     }
 
-    //获取并设置有效剩余时间数
-    function set_rest_times(){
-      var data = $('[name=appoint_result]').val();
-      var rest_times = 0;
-      if(!data){
-        rest_times = init_times;
-      }else{
-        var arr_p = data.split('$$');
-        for(var i=0; i<arr_p.length; i++){
-          var arr_c = arr_p[i].split('|');
-          var time_arr = arr_c[2].split(',');
-          rest_times += time_arr.length;
-        }
-        rest_times = init_times - rest_times;
+    // 展示结果
+    function show_result_box(item_id){
+      var obj = $(':input[name=appoint_result]');
+      var result = $(obj).val();
+      if(!result){
+        return;  
       }
-      $('#rest-time .t').attr('rest-val', rest_times).text(rest_times);
-      return rest_times;
+      var arr_p = result.split('$$');
+      for(var i=0; i<arr_p.length; i++){
+        var arr_c = arr_p[i].split('|');
+        if(arr_c[0]==item_id){
+          var result_item = $('.result-list[item-id='+ item_id +']');
+          var item_name = $('.begin-appoint-btn[data-cid='+ item_id +']').attr('data-title');
+          $(result_item).find('.item-name').text(item_name);
+          var date_arr = new Array();
+          date_arr[0] = arr_c[1].substr(0, 4);
+          date_arr[1] = arr_c[1].substr(4, 2);
+          date_arr[2] = arr_c[1].substr(6, 2);
+          $(result_item).find('.item-date').text(date_arr[0]+'-'+date_arr[1]+'-'+date_arr[2]);
+          if(arr_c[2]){
+            var time_arr = arr_c[2].split(',');
+            var time_ids = '';
+            for(var j=0; j<time_arr.length; j++){
+              time_ids += time_trans(time_arr[j]) + ' ';
+            }
+            $(result_item).find('.item-time').text(time_ids);
+          }else{
+            $(result_item).find('.item-time').text('');
+          }
+        }
+      }
+    }
+
+    //通过时间ID获取可读时间
+    function time_trans(time_id){
+      var str = '';
+      switch(parseInt(time_id)){
+        case 9:
+          str = '9:00-10:00';
+          break;
+        case 10:
+          str = '10:00-11:00';
+          break;
+        case 11:
+          str = '11:00-12:00';
+          break;
+        case 12:
+          str = '12:00-13:00';
+          break;
+        case 13:
+          str = '13:00-14:00';
+          break;
+        case 14:
+          str = '14:00-15:00';
+          break;
+        case 15:
+          str = '15:00-16:00';
+          break;
+        case 16:
+          str = '16:00-17:00';
+          break;
+        case 17:
+          str = '17:00-18:00';
+          break;
+        case 18:
+          str = '18:00-19:00';
+          break;
+        case 19:
+          str = '19:00-20:00';
+          break;
+        case 20:
+          str = '20:00-21:00';
+          break;
+        default:
+          str = '';
+
+      }
+
+      return str;
     }
 
   </script>
 {% endblock %}
 {% block jquery %}
-
-var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
 
 $('.ui.table tbody tr').click(function(){
 	$(this).toggleClass('clss');
@@ -274,26 +322,6 @@ var mySwiper = new Swiper('.swiper-container',{
 	noSwipingClass : 'stop-swiping',
 });
 
-//选择预约项目
-$('.begin-appoint-btn').click(function(){
-  var item_id = $(this).attr('data-cid');
-  var item_name = $(this).attr('data-title');
-  $('[name=item_id]').val(item_id);
-  $('[name=item_name]').val(item_name);
-
-  //清空之前选中的时间点
-  $('.option-hour [name=hour]').each(function(){
-    $(this).prop('checked', false);
-  });
-
-   //还原已预约值
-  regain_appoint_option();
-  //重置剩余次数
-  set_rest_times();
-
-  $('.option-date').show();
-});
-
 $('.begin-appoint-btn:first-child').click(function(){
 	$(this).addClass('active');
 	$('.begin-appoint-btn:nth-child(2)').removeClass('active');
@@ -303,110 +331,96 @@ $('.begin-appoint-btn:nth-child(2)').click(function(){
 	$('.begin-appoint-btn:first-child').removeClass('active');
 });
 
+//选择预约项目
+$('.begin-appoint-btn').click(function(){
+  var item_id = $(this).attr('data-cid');
+
+  $('.item-box').hide();
+  $('.item-box[item-id='+ item_id +']').show();
+  //显示剩余小时
+  $('#rest-time').show();
+  // 显示预约结果
+  $('#item-show').show();
+
+});
+
 //选择日期
-$('.option-date [name=date]').click(function(){
-  var date_id = $(this).val();
-  var item_id = $('[name=item_id]').val();
+$('.option-date .date-box').click(function(){
+  var item_id = $(this).attr('item-id');
+  var date_id = $(this).find('[name=date-'+ item_id +']').val();
+
   //过滤已预约时间
   var url = "{{ app_url_d3in }}/ajax_filter_time";
   $.get(url, {item_id:item_id, date_id:date_id, type:1}, function(){
-      var item_id = $('[name=item_id]').val();
-      var obj = $('.appoint-result .item[name='+ item_id +']');
-      if(obj.length>0){
 
-        var result = $(obj).find("[name='result[]']").val();
-        var arr = result.split('|');
-        var time_arr = arr[2].split(',');
-        if(date_id==arr[1]){
-          $('#record-times').val('');
-          $('.option-hour [name=hour]').each(function(){
-            var t = $(this).val();
-            if(time_arr.indexOf(t)>=0){
-              phenix.record_asset_id('record-times', t);
-              $(this).prop('checked', true);
-            }
-          });         
-        }
-
-      }
   });
-  //重置剩余次数
-  set_rest_times();
-  $('[name=date_id]').val(date_id);
-  $('.option-hour').show();
-  $('#rest-time').show();
+
+  //切换日期时,清空剩余时间记录
+  var total_times = parseInt($('#rest-time .t').attr('rest-val'));
+  var current_times = parseInt($('input[name=current-times][item-id='+ item_id +']').val());
+
+  // 更新剩余次数
+  $('[name=current-times][item-id='+ item_id +']').val(0);
+  $('#rest-time .t').attr('rest-val', total_times + current_times).text(total_times + current_times);
+
+  // 把当前选中的日期临时保存
+  $(':input[name=current-date][item-id='+ item_id +']').val(date_id);
+
+  //注入结果集
+  join_result(item_id, date_id, '');
+  // 显示结果
+  show_result_box(item_id);
+
 });
 
 // 选择时间点
-$('.option-hour [name=hour]').click(function(){
-  rest_time = parseInt($('#rest-time .t').attr('rest-val'));
-  var time_id = $(this).val();
-  if($(this).prop("checked")){
-    $(this).prop('checked', false);
+$('.hour-box').click(function(){
+  var item_id = $(this).attr('item-id');
+  var input_obj = $(this).find('[name=hour-'+ item_id +']');
+  var time_id = $(input_obj).val();
+  var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
+  var current_times = parseInt($(':input[name=current-times][item-id='+ item_id +']').val());
+
+  var date_id = $(':input[name=current-date][item-id='+ item_id +']').val();
+  if(!date_id){
+    phenix.show_error_note('请先选择日期');
+    return;
+  }
+
+  if($(input_obj).prop("checked")){
+    $(input_obj).prop('checked', false);
     phenix.record_asset_id('record-times', time_id);
-    rest_time -= 1;
+    rest_time ++;
+    current_times --;
   }else{
-    $(this).prop('checked', true);
+    $(input_obj).prop('checked', true);
     phenix.remove_asset_id('record-times', time_id);
-    rest_time += 1;
+    rest_time --;
+    current_times ++;
   }
   if(rest_time <0 ){
     phenix.show_error_note('您的时间用完!');
-    $(this).prop('checked', true);
+    $(input_obj).prop('checked', false);
     phenix.remove_asset_id('record-times', time_id);
     return;
   }else if(rest_time>4){
     phenix.show_error_note('操作有误!');
-    $(this).prop('checked', false);
+    $(input_obj).prop('checked', true);
     phenix.record_asset_id('record-times', time_id);
     return;  
   }
 
+  // 记录本类剩余时间次数
+
+  $(':input[name=current-times][item-id='+ item_id +']').val(current_times);
+
   $('#rest-time .t').attr('rest-val', rest_time).text(rest_time);
-});
 
-//确定按钮点击事件
-$('#gen-btn').click(function(){
-  var item_id = $('[name=item_id]').val();
-  var item_name = $('[name=item_name]').val();
-  var date_id = $('[name=date_id]').val();
-  var time_ids = $('#record-times').val();
-  if(!item_id){
-    phenix.show_error_note('请选择测试项目!');
-    return;
-  }
-  if(!date_id){
-    phenix.show_error_note('请选择日期!');
-    return; 
-  }
-  if(!time_ids){
-    phenix.show_error_note('请选择时间段!');
-    return; 
-  }
+  //注入结果集
+  join_result(item_id, date_id, time_id);
+  // 显示结果
+  show_result_box(item_id);
 
-  var obj = $('.appoint-result .item[name='+ item_id +']');
-  var join_val = item_id + '|' + date_id + '|' + time_ids;
-  if(obj.length>0){
-    $(obj).find('.date-id-box').text(date_id);
-    $(obj).find('.time-id-box').text(time_ids);
-    $(obj).find("[name='result[]']").val(join_val);
-  }else{
-    var html='';
-    html += '<div class="item" name="'+ item_id +'">';
-    html += '<span class="item-name-box">'+ item_name +'</span> <span class="date-id-box">'+ date_id +'</span> <span class="time-id-box">'+ time_ids +'</span>';
-    html += '<input type="hidden" name="result[]" value="'+ join_val +'" />';
-    html += '</div>';
-    $('.appoint-result').append(html);
-  }
-  //记录预约总值
-  join_appoint_result(join_val);
-
-  //记录剩余时间次数
-  var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
-  $('[name=rest_times]').val(rest_time);
-
-  $('#item-show').show();
-  
 });
 
 //确认信息,提交
@@ -429,6 +443,7 @@ $('.next-step.button').click(function(){
   $.post(url, {appoint_result:appoint_result, is_vip:is_vip, pay_ment:pay_ment});
 
 });
+
 
 {% endblock %}
 {% block content %}
@@ -457,202 +472,98 @@ $('.next-step.button').click(function(){
 			<div class="column">
 				<div class="ui buttons">
         {% for d in classes %}
-        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}><span class="black"></span>{{ d.title }}</div>&nbsp;
+        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}>
+	<!--<span class="black"></span>-->{{ d.title }}</div>&nbsp;
         {%endfor%}
 				</div>
 			</div>
 		</div>
 
-		<div class="row" id="item-show" style="display:none;">
-                    <input type="hidden" name="item_id" value="" />
-                    <input type="hidden" name="item_name" value="" />
-                    <input type="hidden" name="date_id" value="" />
-                    <input type="hidden" name="time_ids" id="record-times" value="" />
-                    <input type="hidden" name="rest_times" value="4" />
-                    <input type="hidden" name="appoint_result" value="" />
-			<div class="column">
-				<div class="ui success message">
-					<div class="header">
-					预约结果: 
-						<div class="appoint-result">
-        
-		        </div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div class="row" id="item-show" style="display:none;margin-top: 20px;">
+			                    <input type="hidden" name="item_id" value="" />
+			                    <input type="hidden" name="item_name" value="" />
+			                    <input type="hidden" name="date_id" value="" />
+			                    <input type="hidden" name="time_ids" id="record-times" value="" />
+			                    <input type="hidden" name="rest_times" value="4" />
+			                    <input type="hidden" name="appoint_result" value="" />
+						<div class="column">
+							<div class="ui success message">
+								<div class="header">
+								预约结果: 
+									<div class="appoint-result">
+                    <table>
+                      <th>项目名称</th>
+                      <th>日期</th>
+                      <th>时间</th>
+                    {% for d in classes %}
+                      <tr class="result-list" item-id="{{ d._id }}">
+                        <td class="item-name"></td>
+                        <td class="item-date"></td>
+                        <td class="item-time"></td>
+                      </tr>
+                    {%endfor%}
+                    </table>
+					        </div>
+								</div>
+							</div>
+						</div>
+		 </div>
 
-		<div class="row">
-      <div class="column">
+        {% for class in classes %}
+          <div class="column item-box" item-id="{{ class._id }}" style="display:none;">
+              <div class="row option-date" item-id="{{ class._id }}">
+                <input type="hidden" name="current-date" item-id="{{ class._id }}" value="" />
+                <input type="hidden" name="current-times" item-id="{{ class._id }}" value="0" />
+                <div class="column">
 
-        <div class="option-date ui form" style="display:none;">
-					<div class="five fields">						
-{% for d in appoint_date_arr %}
-{% for c in d %}
-            <div class="field">
-    				   <div class="ui radio checkbox">
-							   <input name="date" type="radio" value="{{ c.id }}" />
-										<label>{{ c.date }}</label>
-							 </div>
-						 </div>
-            {%endfor%}
-{%endfor%}
-          </div>
-				</div>
-                 
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-         <div class="option-hour ui form" style="display:none;">
-			    <div class="ui three fields">
-						<div class="field">
-							<div class="ui checkbox">
-								<input name="hour" type="checkbox" value="9" /><label>9:00-10:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="10" /><label>10:00-11:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="11" /><label>11:00-12:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="12" /><label>12:00-13:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="13" /><label>13:00-14:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="14" /><label>14:00-15:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="15" /><label>15:00-16:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="16" /><label>16:00-17:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-								<input name="hour" type="checkbox" value="17" /><label>17:00-18:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-								<input name="hour" type="checkbox" value="18" /><label>18:00-19:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="19" /><label>19:00-20:00</label>
-							</div>
-						</div>
-						<div class="field">
-							<div class="ui checkbox">
-              				<input name="hour" type="checkbox" value="20" /><label>20:00-21:00</label>
-							</div>
-						</div>
-           </div>
-					<input class="ui magenta inverted button" type="button" name="gen-btn" id="gen-btn" value="确定" />
-                 
+                  <div class="ui segment form">
+                    
+                    <div class="five fields">					
+                    {% for d in appoint_date_arr %}
+                    {% for c in d %}
+                    
+                      <div class="field date-box" item-id="{{ class._id }}">
+                         <div class="ui radio checkbox">
+                           <input name="date-{{ class._id }}" item-id="{{ class._id }}" type="radio" value="{{ c.id }}" />
+                              <label>{{ c.date }}</label>
+                         </div>
+                       </div>
+                      
+                      {%endfor%}
+                    {%endfor%}						
+                    </div>
+                  </div>
+                           
+                </div>
+              </div>
 
-       	</div>
-   		</div>
-		</div>
+              <div class="row">
+                <div class="column">
+                   <div class="option-hour ui form" item-id="{{ class._id }}">
+                    <div class="ui three fields">
+                      {% for d in appoint_time_arr %}
+                        <div class="field hour-box" item-id="{{ class._id }}">
+                          <div class="ui checkbox">
+                            <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label>{{ d.title }}</label>
+                          </div>
+                        </div>
+                      {%endfor%}
+
+                     </div>
+
+                  </div>
+                </div>
+              </div>
+      </div>
+    {%endfor%}
+
 
      <div class="row" id="rest-time" style="display:none;">
-      <div class="column">
-        剩余<span rest-val="4" class="t">4</span>小时
+      <div class="column" style="font-size: 1.15rem;letter-spacing: 3px;">
+        剩余<span rest-val="4" class="t" style="color:#f36;">4</span>小时
       </div>
     </div>
-		
-	<!--	<div class="swiper-container">
-			<div class="swiper-wrapper">
 
-        {% for d in appoint_date_arr %}
-
-				<div class="swiper-slide stop-swiping">
-					<div class="ui center aligned grid row">
-			
-            {% for c in d %}
-						<div class="five wide center aligned column">
-							<table class="ui celled table">
-								<thead>
-									<tr>
-                    <th id="{{ c.id }}">{{ c.date }} {{ c.week }}</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr name="10" class="clss">
-										<td>
-											<span></span>
-											10:00-11:00</td>
-									</tr>
-									<tr name="11" class="clss">
-										<td>
-												11:00-12:00</td>
-									</tr>
-									<tr name="12" class="clss">
-										<td>12:00-13:00</td>
-									</tr>
-									<tr name="13" class="clss">
-										<td>13:00-14:00</td>
-									</tr>
-									<tr name="14" class="okyu">
-										<td><span class="black"></span>
-                      14:00-15:00</td>
-									</tr>
-									<tr name="15">
-										<td>15:00-16:00</td>
-									</tr>
-									<tr name="16">
-										<td>16:00-17:00</td>
-									</tr>
-									<tr name="17">
-										<td>17:00-18:00</td>
-									</tr>
-									<tr name="18">
-										<td>18:00-19:00</td>
-									</tr>
-									<tr name="19">
-										<td>19:00-20:00</td>
-									</tr>
-									<tr name="20">
-										<td>20:00-21:00</td>
-									</tr>
-									<tr name="21">
-										<td>21:00-22:00</td>
-									</tr>
-							
-								</tbody>
-							</table>	
-						</div>
-            {%endfor%}
-			
-					</div>
-				</div>
-
-        {%endfor%}
-		
-			</div>
-			<div class="swiper-button-next"></div>
-			<div class="swiper-button-prev"></div>
-		</div>
-	-->	
 		<div class="row">
       <div class="column">
 

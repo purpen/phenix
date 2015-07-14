@@ -566,7 +566,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			// 更新支付状态,付款成功并配货中
+			// 更新支付状态
 			$model->success_order($order_id, array('trade_no'=>$trade_no, 'trade_site'=>Sher_Core_Util_Constant::TRADE_ALIPAY));
 			
 			if (!$sync){

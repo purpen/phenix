@@ -48,7 +48,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% d_order_list var:'orders' kink:1 state:state size:size %}
+			{% d_order_list var:'orders' state:state size:size %}
 			
 			{% for d in orders.rows %}
 			<tr id="item-{{ d._id }}">

@@ -39,6 +39,9 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     // 是否前来参加
     'is_attend' => 1,
 
+    // 是否删除
+    'deleted' => 0,
+
     // 来源
     'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 
@@ -48,7 +51,7 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 
   protected $required_fields = array('user_id');
 
-  protected $int_fields = array('state', 'user_id', 'is_vip', 'pay_type');
+  protected $int_fields = array('state', 'user_id', 'is_vip', 'pay_type', 'deleted');
 
 
 	protected $joins = array(
@@ -70,6 +73,19 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 		}
 		
 	}
+
+	/**
+	 * 保存后事件
+	 */
+    protected function after_save() {
+      // 如果是新的记录
+      if($this->insert_mode){
+        //更新用户表identify实验室有行为
+        $user_model = new Sher_Core_Model_User();
+        $user_model->update_user_identify($this->data['user_id'], 'd3in_tag', 1); 
+
+      }
+    }
 
 	/**
 	 * 删除后事件

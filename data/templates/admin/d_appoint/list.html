@@ -123,11 +123,9 @@
                       </p>
                       {% endif %}
                       {% if d.state == 10 %}
-                        {% if d.is_vip == 1 %}
                         <p class="state-btn">
                         <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
                         </p>
-                        {%endif%}
                       {% endif %}
                     
                   </div>
