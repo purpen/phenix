@@ -199,7 +199,7 @@
             		<div class="ui slide">
             			{% for ad in adslide.rows %}
             			<div class="item">
-            				<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+            				<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};background-size:cover;">
             					{% if ad.mode == 2 %}
             					<div class="overlay">
             						{% if ad.cate_title %}
