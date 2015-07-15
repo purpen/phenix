@@ -39,10 +39,10 @@
 			<tr>
 				<th></th>
 				<th>项目</th>
+				<th>用户</th>
 				<th>金额</th>
-				<th>备注</th>
-				<th>状态</th>
         <th>下单时间</th>
+				<th>状态</th>
 				<th>来源</th>
 				<th>管理操作</th>
 			</tr>
@@ -61,28 +61,27 @@
 
 				<td>
           <p>
-            ID: {{ d.item_id }}
-          </p>
-          <p>
-            名称: {{ d.item_name }}
+            {{ d.item_name }}
           </p>
 				</td>
+        <td>
+          <a href="{{ d.user.home_url }}" class="ui link" target="_blank">{{ d.user.nickname }}</a>
+        </td>
 				<td>
           ￥{{ d.total_money }}
 				</td>
         <td>
-          {{ d.summary }}
+          {{ d.created_on|date }}
         </td>
         <td>
           <label class="ui {%if d.state==0%}gray {%endif%}{%if d.state==1%}red {%endif%}{%if d.state==20%}green {%endif%} label">{{ d.state_label }}</label>
           
+          <!--
           {% if d.state==20 %}
             <p>支付时间: {{ d.finished_date|date }}</p>
             <p>交易号: {{ d.trade_no }}</p>
           {%endif%}
-        </td>
-        <td>
-          {{ d.created_on|date }}
+          -->
         </td>
         <td>
           {{ d.from_site_label }}
