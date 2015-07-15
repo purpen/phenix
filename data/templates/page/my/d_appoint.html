@@ -112,12 +112,7 @@
             <div id="item-{{ d._id }}" class="order-item">
               <div class="ui top attached header">
                 <div class="ui horizontal bulleted list">
-                    <div class="item">
-                        预约号：{{ d.number }}
-                    </div>
-                    <div class="item">
-                      {{ d.user.nickname }} 
-                    </div>
+
                     <div class="item">
                         预约时间：{{ d.created_on|date }}
                     </div>
@@ -138,10 +133,8 @@
                                     <div class="header">
                                 {{ i.item_name }}
                               </div>
-                                    <p class="attribute">时间：{{ i.date_id }} | 
-                                      {% for t in i.time_ids %}
-                                        {{ t }}&nbsp;
-                                      {%endfor%}
+                              <p class="attribute">时间：{{ i.date_name }} | {{ i.times_name }}
+
                                     </p>
 
                                 </div>
@@ -162,16 +155,13 @@
                   </div>
                   <div class="center aligned three wide column">
 
-
-                  </div>
-                  <div class="center aligned four wide column">
-                    
                       <p class="state-box">
                         {% if d.state==0 %}
                           已取消
                         {%endif%}
                         {% if d.state==1 %}
                           待付款
+                          <p class="red" style="color:red;">未付款订单15分钟后自动关闭</p>
                         {%endif%}
                         {% if d.state==10 %}
                           完成
@@ -180,6 +170,9 @@
                           结束
                         {%endif%}
                       </p>
+                  </div>
+                  <div class="center aligned four wide column">
+                    
                       {% if d.state == 1 %}
 
                       <p class="state-btn">
