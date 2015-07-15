@@ -34,7 +34,7 @@ class Sher_Core_Util_D3in extends Doggy_Object {
   }
 
   /**
-   * 预约时间数组
+   * 预约日期数组
    */
   public static function appoint_date_arr($expire_days=3){
     $date_arr = array();
@@ -68,6 +68,29 @@ class Sher_Core_Util_D3in extends Doggy_Object {
 
     }
     return $date_arr;
+
+  }
+
+  /**
+   * 预约时间数组
+   */
+  public static function appoint_time_arr(){
+    $time_arr = array(
+      array('id'=>9, 'title'=>'9:00-10:00'),
+      array('id'=>10, 'title'=>'10:00-11:00'),
+      array('id'=>11, 'title'=>'11:00-12:00'),
+      array('id'=>12, 'title'=>'12:00-13:00'),
+      array('id'=>13, 'title'=>'13:00-14:00'),
+      array('id'=>14, 'title'=>'14:00-15:00'),
+      array('id'=>15, 'title'=>'15:00-16:00'),
+      array('id'=>16, 'title'=>'16:00-17:00'),
+      array('id'=>17, 'title'=>'17:00-18:00'),
+      array('id'=>18, 'title'=>'18:00-19:00'),
+      array('id'=>19, 'title'=>'19:00-20:00'),
+      array('id'=>20, 'title'=>'20:00-21:00'),
+    );
+
+    return $time_arr;
 
   }
 

@@ -104,15 +104,14 @@
                     订单金额：{{ order.pay_money }} 元
                   </p>
                 </div>
-                <div class="center aligned three wide column">
+                <div class="center aligned three wide column order-state">
                   <div id="order-{{ order.rid }}-label" class="status-label">
                     {{ order.state_label }}
                   </div>
-                            {% if order.state == 1 %}
-                            <a href="{{ app_url_d3in }}/success?rid={{ order.rid }}" class="ui small inverted magenta button">支付</a>
-                            <a href="{{ app_url_d3in }}/ajax_close_order?rid={{ order.rid }}" class="ui small inverted magenta button">关闭</a>
-                            {% endif %}
-
+                    {% if order.state == 1 %}
+                    <a href="{{ app_url_d3in }}/success?rid={{ order.rid }}" class="ui small inverted magenta button">支付</a>
+                    <a href="{{ app_url_d3in }}/ajax_close_order?id={{ order._id }}" class="ui small ajax inverted magenta button">关闭</a>
+                    {% endif %}
 
                 </div>
                 <div class="center aligned three wide column">
