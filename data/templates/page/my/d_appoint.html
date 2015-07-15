@@ -187,23 +187,23 @@
             <input type="hidden" name="evt" value="day" />
             <input type="hidden" name="item_id" value="{{ d._id }}" />
 							<div class="right aligned ten wide column">
-								<div class="ui magenta checkout submit inverted button">
+								<div class="ui magenta checkout submit small button" style="display:inline-block;float:left;margin-right:0.2em;padding:0.8em 1em;">
                   付款
                 </div>
 							</div>
           </form>
-                      <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                      <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button" style="display:inline-block;float:left;padding:0.8em 1em;">取消</a>
                       </p>
                       {% endif %}
                       {% if d.state == 10 %}
                         {% if d.is_vip == 1 %}
                         <p class="state-btn">
-                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button" style="display:inline-block;float:left;padding:0.8em 1em;">取消</a>
                         </p>
                         {%endif%}
                         {% if d.pay_type == 2 %}
                         <p class="state-btn">
-                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button" style="display:inline-block;float:left;padding:0.8em 1em;">取消</a>
                         </p>
                         {%endif%}
                       {% endif %}
