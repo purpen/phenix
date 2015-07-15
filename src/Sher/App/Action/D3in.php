@@ -586,8 +586,17 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 
     // 如果类型为预约付款,验证预约状态是否正确
     if($order_info['kind'] == Sher_Core_Model_DOrder::KIND_D3IN){
-      $appoint_model = new Sher_Core_Model_DAppoint();
-      $appoint = $appoint_model->load($order_info['item_id']);
+      if(empty($order_info['item_id'])){
+ 			  return $this->show_message_page('预约ID不存在！');     
+      }
+
+      try{
+        $appoint_model = new Sher_Core_Model_DAppoint();
+        $appoint = $appoint_model->load($order_info['item_id']);     
+      }catch(Exception $e){
+  		  return $this->show_message_page('无效的预约ID！');      
+      }
+
       if(empty($appoint)){
  			  return $this->show_message_page('预约表不存在或已删除！');     
       }

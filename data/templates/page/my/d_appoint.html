@@ -112,12 +112,7 @@
             <div id="item-{{ d._id }}" class="order-item">
               <div class="ui top attached header">
                 <div class="ui horizontal bulleted list">
-                    <div class="item">
-                        预约号：{{ d.number }}
-                    </div>
-                    <div class="item">
-                      {{ d.user.nickname }} 
-                    </div>
+
                     <div class="item">
                         预约时间：{{ d.created_on|date }}
                     </div>
@@ -138,10 +133,8 @@
                                     <div class="header">
                                 {{ i.item_name }}
                               </div>
-                                    <p class="attribute">时间：{{ i.date_id }} | 
-                                      {% for t in i.time_ids %}
-                                        {{ t }}&nbsp;
-                                      {%endfor%}
+                              <p class="attribute">时间：{{ i.date_name }} | {{ i.times_name }}
+
                                     </p>
 
                                 </div>
@@ -162,16 +155,13 @@
                   </div>
                   <div class="center aligned three wide column">
 
-
-                  </div>
-                  <div class="center aligned four wide column">
-                    
                       <p class="state-box">
                         {% if d.state==0 %}
                           已取消
                         {%endif%}
                         {% if d.state==1 %}
                           待付款
+                          <p class="order-note" style="color:red;">未付款的预约单15分钟后自动关闭!</p>
                         {%endif%}
                         {% if d.state==10 %}
                           完成
@@ -180,30 +170,33 @@
                           结束
                         {%endif%}
                       </p>
+                  </div>
+                  <div class="center aligned four wide column state-btn">
+                    
                       {% if d.state == 1 %}
 
-                      <p class="state-btn">
-          <form action="{{ app_url_d3in }}/confirm" method="post" id="checkout-form" class="ui form">
-            <input type="hidden" name="evt" value="day" />
-            <input type="hidden" name="item_id" value="{{ d._id }}" />
-							<div class="right aligned ten wide column">
-								<div class="ui magenta checkout submit inverted button">
-                  付款
-                </div>
-							</div>
-          </form>
-                      <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                      <p>
+                      <form action="{{ app_url_d3in }}/confirm" method="post" id="checkout-form" class="ui form">
+                        <input type="hidden" name="evt" value="day" />
+                        <input type="hidden" name="item_id" value="{{ d._id }}" />
+                          <div class="right aligned ten wide column">
+                            <div class="ui magenta checkout submit small button" style="display:inline-block;float:left;margin-right:0.2em;padding:0.8em 1em;">
+                              付款
+                            </div>
+                          </div>
+                      </form>
+                      <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button" style="display:inline-block;float:left;padding:0.8em 1em;">取消</a>
                       </p>
                       {% endif %}
                       {% if d.state == 10 %}
                         {% if d.is_vip == 1 %}
-                        <p class="state-btn">
-                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        <p>
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button" style="display:inline-block;float:left;padding:0.8em 1em;">取消</a>
                         </p>
                         {%endif%}
                         {% if d.pay_type == 2 %}
-                        <p class="state-btn">
-                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        <p>
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button" style="display:inline-block;float:left;padding:0.8em 1em;">取消</a>
                         </p>
                         {%endif%}
                       {% endif %}
