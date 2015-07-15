@@ -377,11 +377,11 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     if($is_error){ //出错
       //出错,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
-      return $this->ajax_note($note, true);
+      return $this->ajax_note('系统出错,请刷新重新选择!', true);
     }elseif($is_overtop){
       //时间超出限制,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
-      return $this->ajax_note($note, true);
+      return $this->ajax_note('预约时间超出指定范围,请刷新重新选择!', true);
     }elseif($is_appointed){ //已被抢约
       //出错,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
