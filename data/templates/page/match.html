@@ -1422,6 +1422,8 @@
 					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:1 size:8 %}
 					<div class="ui four items">
 						{% for topic in list.rows %}
+							<!-- 判断话题是否可以显示 -->
+							{% if topic.published %}
 						<div class="item">
 							<div class="content">
 								<h4 class="ui dividing header">
@@ -1461,6 +1463,7 @@
 								</div>
 							</div>
 						</div>
+							{% endif %}
 						{% endfor %}
 					</div>
 				</div>

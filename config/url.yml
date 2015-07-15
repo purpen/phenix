@@ -186,6 +186,7 @@ app.url.forget: 	'{$app.url.auth}/forget'
 app.url.invite: 	'{$app.url.auth}/invite'
 
 app.url.qq.login: '{$app.url.action_base}/qq'
+app.url.weixin.login: '{$app.url.action_base}/weixin'
 
 #管理面板
 app.url.admin:		'{$app.url.admin_base}'

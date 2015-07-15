@@ -376,7 +376,10 @@
 							<tbody>
 							{% topic_list var:'list' try_id:try._id time:'latest' %}
 							{% for topic in list.rows %}
-								{% include "block/report_item.html" %}
+								<!-- 判断话题是否可以显示 -->
+								{% if topic.published %}
+									{% include "block/report_item.html" %}
+								{% endif %}
 							{% endfor %}
 							</tbody>
 						</table>

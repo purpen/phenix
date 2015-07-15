@@ -43,6 +43,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
+		
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
@@ -60,7 +61,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
-        
 		return $this->to_html_page('page/topic/index.html');
 	}
     
@@ -104,10 +104,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
-      'evt' => 'tag',
-      't' => 2,
-      'oid' => $current_id,
-      'type' => 1,
+			'evt' => 'tag',
+			't' => 2,
+			'oid' => $current_id,
+			'type' => 1,
 		);
         
 		if(!empty($sword)){

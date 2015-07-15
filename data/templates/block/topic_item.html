@@ -1,9 +1,10 @@
 <tr id="{{ topic._id }}">
 	<td class="hide-on-mobile author">
 		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
-      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />                    		{% if topic.user.kind==1 %}
+      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+			{% if topic.user.kind==1 %}
 					<img src="{{ app_url_packaged }}/images/V.png" class="image-V">
-        {%endif%}
+			{%endif%}
 		</a>
 	</td>
 	<td class="nine wide">

@@ -10,7 +10,6 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 		'account' => '',
 		'nickname' => '',
 		'code' => '',
-		
 	);
 	
 	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
@@ -27,8 +26,8 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	 * 授权回调地址
 	 */
 	public function authorize(){
-		$code = $this->stash['code'];
 		
+		$code = $this->stash['code'];
 		$login_url = Doggy_Config::$vars['app.url.login'];
 		
 		$app_id = Doggy_Config::$vars['app.qq.app_id'];
