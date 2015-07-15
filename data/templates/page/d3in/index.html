@@ -30,7 +30,10 @@
 	background: -o-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
 }
 .ui.tool.block .ui.four.cards .card{
-	margin-bottom:2%;
+	margin-bottom:3%;
+	width: 23%;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 .depict{
 	position: absolute;
@@ -38,9 +41,9 @@
   bottom: 0;
   left: 0;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   background: rgba(0,0,0,0.6);
-  padding: .5rem 0;
+  padding: .6rem 0;
   text-indent: .8rem;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -104,22 +107,79 @@
 .d3in .ui.title h1+p{
 	font-size:36px;
 }
-
+.lab.submenu{
+	width:100%;
+	top:0;
+	left:0;
+}
+.five.wide h3+p{
+	text-align:left;
+}
+@-webkit-keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateY(-400px); 
+    } 
+    50%{
+       opacity: 0.3; 
+    }
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+@keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(-400px); 
+    } 
+    50%{
+       opacity: 0.3; 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+} 
+.fadeInDown{ 
+    opacity: 0; 
+    -webkit-transform: translateY(-400px); 
+    transform: translateY(-400px);
+}
+.fadeInDown.animated { 
+    -webkit-animation-name: fadeInDown; 
+    animation-name: fadeInDown; 
+}
+.animated { 
+    -webkit-animation-duration: 0.8s; 
+    animation-duration: 0s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+}
 </style>
 {% endblock %}
 {% block jquery %}
-	skrollr.init({
-		forceHeight: false,
-		mobileCheck:function(){},
-		mobileDeceleration:0.004,
-	});
-	
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if(scrollTop >125 ){
+				$('.lab.submenu').css({"background":"#fff","position":"fixed","z-index":"100"});
+				$('.lab.submenu h3,.d3in .lab.submenu a.ui.line').css('color','#444');
+				$('.lab.submenu').addClass('fadeInDown animated');
+				$('.d3in .ui.title').css('padding-top','180px');
+			}
+			if(scrollTop < 125){
+				$('.lab.submenu').css({"background":"auto","position":"auto","color":"auto"});
+				$('.lab.submenu h3,.d3in .lab.submenu a.ui.line').css('color','auto');
+				$('.lab.submenu').removeClass('fadeInDown animated');
+				$('.d3in .ui.title').css('padding-top','8rem');
+			}
+	})
 {% endblock %}
 {% block content %}
 <div id="laboratory">
 	<div class="d3in">
 		<div class="lab submenu">
-			<div class="ui responsive grid">
+			<div class="ui responsive grid" style="padding:0 11%;">
 				<div class="row">
 					<div class="eight wide column">
 						<h3>D3IN铟立方未来实验室</h3>
@@ -153,7 +213,14 @@
 						<div class="content">
 								关于D3IN铟立方未来实验室
 							<div class="sub header">
-								D 3 IN铟立方未来实验室，R&S RTE 1104数字示波器、Tektronix DPO 7254C示波器、Agilent MSO-X 93204A、Agilent EXG N5172B射频矢量信号发生器、Keysight PXA实时频谱分析仪、Keysight E5080A ENA网络分析仪、R&S CMW 270无线通信测试仪、Agilent EXM无线测试仪等专业设备仪器映入眼前，据介绍，实验室还在进一步完善中，未来将有更多专业的测试仪器进驻到实验室之中。
+								<p>太火鸟铟立方D3IN未来实验室致力于打造一个开放专业的智能硬件交流分享平台，实验室拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，为创业者在早期资源欠缺或部分能力不足的阶段提供从研发，ID&MD设计，测试，DFM review，可靠度验证，认证，生产良率把控等全方位的交流空间及系统服务！</p>
+
+								<p>在这里硬件不再是硬伤，是一种分享沉淀，是严谨专业的态度！
+								在这里你可以专注的打磨自己的产品，迈向极致，成就不可复制的你的产品！
+								在这里你可以得到来自曾经为apple，sony，微软，任天堂，华为，softbank，foxconn等知名企业服务的专家专业的技术指导！
+								在这里你可以结识只为“更好”的伙伴！</p>
+								
+								<p>铟立未来方实验室，做你的伙伴与你一起为你的梦想插上坚实有力的翅膀！</p>
 							</div>
 						</div>
 					</h3>
@@ -168,16 +235,17 @@
 				<div class="five wide column">
 					<!--<img src="{{ app_url_packaged }}/images/d3in/" alt="">-->
 					<h3 class="ui header">培训课／主题沙龙</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+					<p>D3IN实验室定期举办的专业培训课程将覆盖研发设计，测试技能，工艺制程，生产管控等领域，以多维度方式满足D3IN实验室会员的需求。 同时开展各类主题沙龙分享会，D3IN实验室会员通过互动来分享各自的收获与感悟，共创互通。
+					</p>
 					
 				</div>
 				<div class="five wide column">
-					<h3 class="ui header">开源硬件分享</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+					<h3 class="ui header">平台资源</h3>
+					<p>凭借与各个合作伙伴的良好关系，从而拥有丰富的资源接口，涉及芯片方案，IC代理，制造生产，云端服务，语音识别，模组量化等企业/厂商。D3IN实验室将提供此平台，帮助并指导有需求的D3IN实验室会员解决其所遇到的硬件&软件资源接口不足的难题。</p>
 				</div>	
 				<div class="five wide column">
-					<h3 class="ui header">技术分享</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio</p>
+					<h3 class="ui header">专家大牛</h3>
+					<p>拥有来自南方科技大学无线射频教授(前苹果公司无线资深高级工程师)，世界领先测试仪器厂KeySight(原名安捷伦)的测试专家，产品模块化设计资深硬件大师(前Foxconn资深专理)，硬件管控资深大牛(前微软资深硬件方案设计师)，结构设计大师（前摩托罗拉结构设计师），EMC整改资深大牛（比亚迪充电事业部EMC培训导师）等将会在线常驻D3IN实验室。D3IN实验室会员可向专家大牛取经，从而提升产品整体的竞争力。</p>
 				</div>
 			</div>
 			
@@ -287,9 +355,16 @@
 			<div class="row">
 				<div class="ui four cards">
           {% for d in device_list.rows %}
-            {% include "block/d3in/device_item.html" %}
+            {% include "block/d3in/device_index_item.html" %}
           {%endfor%}
 
+				</div>
+			</div>
+			<div class="row">
+				<div class="center aligned column">
+          <a href="{{ app_url_d3in }}/tool" class="ui magenta inverted button" style="min-width: 160px;">
+						查看更多
+					</a>
 				</div>
 			</div>
 		</div>
@@ -396,11 +471,12 @@
 			</div>
 			<div class="row">
 				<div class="center aligned column">
-					<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技"></a>
-					<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园"></a>
-					<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技"></a>
-					<a href="http://techcrunch.cn" title="TC" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC"></a>
-					<a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国"></a>
+					<a href="javascript:void();" title="broadlink" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_broadlink.jpg" alt="broadlink"></a>
+					<a href="javascript:void();" title="shqk" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shqk.jpg" alt="shqk"></a>
+					<a href="javascript:void();" title="honee" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_honee.jpg" alt="honee"></a>
+					
+					
+					
 				</div>
 			</div>
 		</div>
@@ -411,15 +487,15 @@
 			<div class="ui center aligned row">
 				<div class="ui five wide column">
 					<h4 class="ui header">项目合作与展示</h4>
-					<p>如果您有项目合作、展示、招募人才、合办活动，请联系项目合作负责人 任虹：tina@bjmakerspace.com ，微信：renhongtina</p>
+					<p>如果您有项目合作、展示、招募人才、合办活动，请联系项目合作负责人 麦文圳：maiwenzhen@taihuoniao.com ，微信：m1094199532</p>
 				</div>
 				<div class="ui five wide column">
 					<h4 class="ui header">活动讲师申请</h4>
-					<p>申请担任工作坊主讲人，或是自己有好玩的项目想拿来空间办工作坊与大家分享，请联系负责人 孙帅：sunshine@bjmakerspace.com 微信：BH1KZK</p>
+					<p>申请担任D3IN实验室主讲人，或是自己有好玩的项目想拿来D3IN实验室与大家分享，请联系负责人 麦文圳：maiwenzhen@taihuoniao.com 微信：m1094199532</p>
 				</div>
 				<div class="ui five wide column">
 					<h4 class="ui header">会员与服务</h4>
-					<p>有关会员与服务、3D打印等制作的需求，请联系客服“北创”：v@bjmakerspace.com ，微信：Maker</p>
+					<p>有关会员与服务、3D打印、延长使用实验室等制作的需求，请联系客服“晓麥”：maiwenzhen@taihuoniao.com，微信：m1094199532</p>
 				</div>
 			</div>
 		</div>

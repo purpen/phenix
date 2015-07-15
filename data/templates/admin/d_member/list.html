@@ -38,6 +38,7 @@
 				<th>用户</th>
 				<th>有效期</th>
 				<th>最后/总充值状态</th>
+        <th>是否过期</th>
 				<th>状 态</th>
 				<th>管理操作</th>
 			</tr>
@@ -46,7 +47,7 @@
 			{% d_member_list var:'members' load_user:1 kind:1 state:0 page:page size:30 %}
 			
 			{% for d in members.rows %}
-			<tr id="{{ d._id }}">
+			<tr id="item-{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
@@ -74,15 +75,30 @@
             <label class="ui green label">正常</label>
           {%endif%}
         </td>
+        <td class="state-box">
+          {% if d.state==0 %}
+            <label class="ui magenta label">禁用</label>
+          {%else%}
+            <label class="ui green label">正常</label>
+          {%endif%}
+        </td>
         <td>
-          <!--
-					<a href="{{ app_url_admin_base }}/d_member/submit?id={{ b._id }}" class="ui link item">编辑</a>
-          | 
-          <a href="{{ app_url_admin }}/d_member/deleted?id={{ b._id }}" class="ui confirm-request link item">
+          <p class="state-btn">
+          {% if d.state==1 %}
+			      <a href="{{ app_url_admin }}/d_member/ajax_set_state?id={{ d._id }}&state=0" class="ui ajax link item">
+							禁用
+						</a>
+          {%else%}
+			      <a href="{{ app_url_admin }}/d_member/ajax_set_state?id={{ d._id }}&state=1" class="ui ajax link item">
+							解禁
+						</a>
+          {%endif%}
+          </p>
+          <!--| 
+          <a href="{{ app_url_admin }}/d_member/deleted?id={{ d._id }}" class="ui confirm-request link item">
               删除
           </a>
           -->
-          --
         </td>
 			</tr>
 			{% endfor %}

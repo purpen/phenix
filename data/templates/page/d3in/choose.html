@@ -43,14 +43,20 @@
 	overflow: hidden;
 }
 .ui.four.blocks .block .content p:hover{
-	background:rgba(255,51,102,0.75);
+	background:#f36;
 	cursor:pointer;
+	color:#fff;
+	-webkit-transition: background-color .25s ease,color .25s ease,background .25s ease;
+	  transition:background-color .25s ease,color .25s ease,background .25s ease;
 }
 .ui.four.blocks .block .content p:last-child{
 	border-bottom:0px solid #fff;
 }
 .clss{
 	background:#e1e1e1 !important;
+}
+.clss:hover,.okyu:hover{
+	color:#5d6266 !important;
 }
 
 /* 已预约的 */
@@ -81,6 +87,11 @@ $('.choose_option').click(function(){
 $('#next-step').click(function(){
   var ids = $("#choose_ids").val();
   if(ids){
+    var id_arr = ids.split(',');
+    if(id_arr.length>2){
+      phenix.show_error_note('服务项不能超过两个!', 3000);
+      return false;
+    }
     phenix.redirect('/d3in/yuyue?ids='+ids);
   }else{
     phenix.show_error_note('请先选择一项服务', 3000);  
@@ -92,7 +103,7 @@ $('#next-step').click(function(){
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
 			<div class="eight wide column">
 				<h3>D3IN铟立方未来实验室</h3>
@@ -104,11 +115,11 @@ $('#next-step').click(function(){
 	</div>
 </div>
 <div class="ui big block">
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
 			<div class="column" style="padding-left:0;">
 				<h3 class="ui header">实验室预约</h3>
-				<p>您希望选择什么测试服务项？</p>
+        <p>您希望选择什么测试服务项？ <span class="" style="font-size:12px;color:red;">*最多可选两个测试项目</span></p>
 			</div>
 		</div>
 		
@@ -121,15 +132,16 @@ $('#next-step').click(function(){
               <h4 class="ui header">{{ d.title }}</h4>
               {% if d.children %}
                 {% for c in d.children %}
-                  <p class="choose_option clss1 okyu1" class_id="{{ c._id }}">{{ c.title }}</p>
+                <p class="choose_option {%if c.checked%}clss {%endif%}okyu1" class_id="{{ c._id }}">{{ c.title }}</p>
                 {%endfor%}
               {%endif%}
             </div>
           </div>
         {%endfor%}
 			</div>
+
 		</div>
-		
+
 		<div class="row">
 			<div class="right aligned column">
         <a href="{{ app_url_domain }}/d3in" class="ui magenta inverted button">取消</a>&nbsp;&nbsp;

@@ -1,0 +1,227 @@
+{%extends 'layout/column.html'%}
+{% block title %}我的预约-实验室-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+    
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	$('#checkout-form').form({
+
+		evt: {
+			identifier  : 'evt',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择一种类型'
+				}
+			]
+		}
+	}, {
+		inline : false,
+	    error: {
+	      method  : function(message){
+		      phenix.show_error_note(message, 3000);
+		  }
+	    },
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(result.message, 5000);
+					}else{						
+						phenix.redirect(result.redirect_url, 0);
+					}
+				}
+			});
+		}
+	});
+	
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的预约</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="three wide column">
+						<h2 class="ui header">我的预约</h2>
+					</div>
+					<div class="right aligned thirteen wide column">
+						<div class="ui horizontal bulleted list">
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint" class="ui {{ css_all }} link">全部</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=1" class="ui {{ css_ing }} link">待付款</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=10" class="ui {{ css_finish }} link">完成</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=2" class="ui {{ css_over }} link">结束</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_appoint?state=-1" class="ui {{ css_close }} link">取消</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			{% d_appoint_list var:'list' user_id:user.id load_item:1 state:state page:page size:10 %}
+			
+			{% for d in list.rows %}
+
+            <div id="item-{{ d._id }}" class="order-item">
+              <div class="ui top attached header">
+                <div class="ui horizontal bulleted list">
+                    <div class="item">
+                        预约号：{{ d.number }}
+                    </div>
+                    <div class="item">
+                      {{ d.user.nickname }} 
+                    </div>
+                    <div class="item">
+                        预约时间：{{ d.created_on|date }}
+                    </div>
+                      <div class="item">
+                          来源: {{ d.from_site_label }}
+                      </div>
+                </div>
+              </div>
+              <div class="middle aligned ui celled white grid">
+                <div class="row">
+                  <div class="seven wide column">
+                    <table class="ui basic table">
+                      <tbody>
+                        {% for i in d.items %}
+                        <tr>
+                          <td>
+                                <div class="content">
+                                    <div class="header">
+                                {{ i.item_name }}
+                              </div>
+                                    <p class="attribute">时间：{{ i.date_id }} | 
+                                      {% for t in i.time_ids %}
+                                        {{ t }}&nbsp;
+                                      {%endfor%}
+                                    </p>
+
+                                </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="center aligned three wide column">
+
+                    {%if d.is_vip%}
+                    <p>会员免支付</p>
+                    {%else%}
+                    <p>支付方式: {%if d.pay_type==1%}在线{%endif%}{%if d.pay_type==2%}现场{%endif%}</p>
+                    {%endif%}
+
+                  </div>
+                  <div class="center aligned three wide column">
+
+
+                  </div>
+                  <div class="center aligned four wide column">
+                    
+                      <p class="state-box">
+                        {% if d.state==0 %}
+                          已取消
+                        {%endif%}
+                        {% if d.state==1 %}
+                          待付款
+                        {%endif%}
+                        {% if d.state==10 %}
+                          完成
+                        {%endif%}
+                        {% if d.state==2 %}
+                          结束
+                        {%endif%}
+                      </p>
+                      {% if d.state == 1 %}
+
+                      <p class="state-btn">
+          <form action="{{ app_url_d3in }}/confirm" method="post" id="checkout-form" class="ui form">
+            <input type="hidden" name="evt" value="day" />
+            <input type="hidden" name="item_id" value="{{ d._id }}" />
+							<div class="right aligned ten wide column">
+								<div class="ui magenta checkout submit inverted button">
+                  付款
+                </div>
+							</div>
+          </form>
+                      <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                      </p>
+                      {% endif %}
+                      {% if d.state == 10 %}
+                        {% if d.is_vip == 1 %}
+                        <p class="state-btn">
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        </p>
+                        {%endif%}
+                        {% if d.pay_type == 2 %}
+                        <p class="state-btn">
+                        <a href="{{ app_url_d3in }}/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        </p>
+                        {%endif%}
+                      {% endif %}
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+			{% endfor %}
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -35,6 +35,7 @@
 				<th>分类名称/标识</th>
 				<th>状态</th>
 				<th>所属组</th>
+        <th>数量</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -50,6 +51,7 @@
 				<td>{{ cat.title }} / {{ cat.name }}</td>
 				<td>{% if cat.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
 				<td>{{ cat.kind_str.name }}</td>
+				<td>{{ cat.total_count }}</td>
 
 				<td>
 					<div class="ui divided horizontal list">
@@ -69,7 +71,8 @@
               </td>
               <td>|----{{ child.title }} / {{ child.name }}</td>
               <td>{% if child.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
-				      <td>{{ cat.kind_str.name }}</td>
+				      <td>{{ child.kind_str.name }}</td>
+				      <td>{{ child.total_count }}</td>
               <td>
                 <div class="ui divided horizontal list">
                   <a href="{{ app_url_admin_base }}/classify/edit?id={{ child._id }}" class="ui link item">编辑</a> 

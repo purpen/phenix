@@ -18,7 +18,7 @@
 	line-height: 23px;
 }
 .ui.tool.block .ui.four.cards .card{
-	margin-bottom:2%;
+	margin-bottom:3%;
 }
 .depict{
 	position: absolute;
@@ -26,15 +26,43 @@
   bottom: 0;
   left: 0;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   background: rgba(0,0,0,0.6);
-  padding: .5rem 0;
+  padding: 0.6rem 0;
   text-indent: .8rem;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
+.ui.white.row {
+  margin-top: 3%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+	color:#f36;
+}
+.ui.white.row .ten.wide{
+	padding-left:3%;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
+.ui.header .content p{
+	margin: 0;
+  line-height: 24px;
+}
 
 </style>
 {% endblock %}
@@ -42,7 +70,7 @@
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
 			<div class="eight wide column">
 				<h3>D3IN铟立方未来实验室</h3>
@@ -54,29 +82,19 @@
 	</div>
 </div>
 
+
 {% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
 <div class="ui tool big block">
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="padding:0 11%">
 		<div class="row">
-			<div class="ui four cards">
-        {% for d in list.rows %}
-          {% include "block/d3in/device_item.html" %}
-        {%endfor%}
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">工具&设备</h3>
 			</div>
 		</div>
 		
+		{% for d in list.rows %}
+      {% include "block/d3in/device_item.html" %}
+    {%endfor%}
 	</div>
-
-		<div class="row">
-			<div class="column">
-        {% if list.total_rows %}
-          <div class="ui pagination">
-            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-            {%include 'block/pager.html'%}
-          </div>
-        {% endif %}
-      </div>
-    </div>
-
 </div>
 {% endblock %}

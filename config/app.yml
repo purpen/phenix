@@ -132,6 +132,7 @@ app.dt.extension_lib.sher_app:
     'device_list':'Sher_Core_ViewTag_DeviceList'
     'd_order_list':'Sher_Core_ViewTag_DOrderList'
     'd_member_list':'Sher_Core_ViewTag_DMemberList'
+    'd_appoint_list':'Sher_Core_ViewTag_DAppointList'
   filters: []
 
 app.js.use_bundle: false

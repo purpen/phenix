@@ -1,0 +1,98 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">拉票名单</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/try" class="active item">
+			全部
+		</a>
+
+	</div>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th>ID</th>
+        <th>姓名/电话</th>
+				<th>职业</th>
+        <th>地址</th>
+				<th>状态</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% attend_list var:'list' target_id:apply_id event:2 page:page size:40 %}
+
+			{% for attend in list.rows %}
+        {% if attend.user %}
+          <tr id="{{ attend._id }}">
+            <td>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ attend._id }}" class="checkbox" />
+                  <label></label>
+              </div>
+            </td>
+            <td>
+              <a class="ui image label link" href="{{ attend.user.home_url }}" target="_blank">
+                  <img src="{{ attend.user.mini_avatar_url }}">
+                  {{ attend.user.nickname }}
+              </a>
+            </td>
+            <td>
+
+              </div>
+                    <p class="attribute">ID：{{ attend.user._id }}</p>
+            </td>
+            <td>
+              <p>{{ attend.user.profile.realname }}</p>
+              <p>{{ attend.user.profile.phone }}</p>
+            </td>
+            <td>
+              <p>{{ attend.user.profile.job }}</p>
+            </td>
+            <td>
+              <p>{{ attend.user.profile.address }}</p>
+            </td>
+            <td>
+					  {{ attend.user.created_on|date 'Y-m-d H:i'}}
+            <p>
+              {% if attend.user.state == 2 %}
+              <label class="ui magenta label">已激活</label>
+              {% endif %}
+              
+              {% if attend.user.state == 1 %}
+              <label class="ui orange label">未激活</label>
+              {% endif %}
+              
+              {% if attend.user.state == 0 %}
+              <label class="ui gray label">已禁用</label>
+              {% endif %}
+            </p>
+            </td>
+
+          </tr>
+        {%endif%}
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}

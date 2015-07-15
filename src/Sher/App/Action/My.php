@@ -881,6 +881,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 		}
 
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/d_order?s=%d&page=#p#', $s);
+		$this->stash['pager_url'] = $pager_url;
+
     return $this->to_html_page('page/my/d_order.html');
   }
 
@@ -930,6 +933,26 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function d_appoint(){
     $this->set_target_css_state('user_d_appoint');
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+    switch($state){
+      case 0:
+        $this->set_target_css_state('all');
+        break;
+      case -1:
+        $this->set_target_css_state('close');
+        break;
+      case 1:
+        $this->set_target_css_state('ing');
+        break;
+      case 2:
+        $this->set_target_css_state('over');
+        break;
+      case 10:
+        $this->set_target_css_state('finish');
+        break;
+    }
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/d_appoint?state=%d&page=#p#', $state);
+		$this->stash['pager_url'] = $pager_url;
     return $this->to_html_page('page/my/d_appoint.html');
   }
 

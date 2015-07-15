@@ -19,7 +19,7 @@
 	</div>
 </div>
 
-{% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
+{% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
 {% if current_list.rows %}
   {% for active in current_list.rows %}
   <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
@@ -52,7 +52,7 @@
   </div>
   {%endfor%}
 {%else%}
-  {% active_list var:'current_list' published:1 deleted:1 state:2 size:1 %}
+  {% active_list var:'current_list' kind:1 published:1 deleted:1 state:2 size:1 %}
   {% for active in current_list.rows %}
   <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
     <div class="ui responsive grid">
@@ -78,7 +78,7 @@
 		<div class="row">
 			<div class="column">
                 
-                {% active_list var:'old_list' ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
+                {% active_list var:'old_list' kind:1 ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
 				<div class="ui three activity cards">
                     {% for active in old_list.rows %}
 					<div class="card">

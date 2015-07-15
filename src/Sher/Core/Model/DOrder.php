@@ -10,7 +10,8 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 
   const KIND_D3IN = 1;
-  const KIND_OTHER = 2;
+  const KIND_VIP = 2;
+  const KIND_OTHER = 3;
 	
   protected $schema = array(
     'rid' => 0,
@@ -61,8 +62,12 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
 		 ## 备注
     'summary' => '',
 
-    # 订单类型 1,实验室会员
+    ## 是否删除
+    'deleted' => 0,
+
+    # 订单类型 1,实验室预约; 2,会员付费; 3, 其它
     'kind' => self::KIND_D3IN,
+
     # 状态
     'state' => Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
 
@@ -80,7 +85,7 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
   protected $joins = array();
 
   protected $required_fields = array('user_id', 'item_id', 'item_name');
-  protected $int_fields = array('rid', 'user_id', 'kind', 'state', 'expired_time', 'from_site', 'finished_date', 'discount_type');
+  protected $int_fields = array('rid', 'user_id', 'kind', 'state', 'expired_time', 'from_site', 'finished_date', 'discount_type', 'deleted');
   protected $float_fields = array('pay_money', 'total_money', 'refunded_price');
 	
 	
@@ -302,9 +307,18 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
         if($status == Sher_Core_Util_Constant::ORDER_PUBLISHED){
           $order = $this->find_by_id((int)$id);
           // 如果是大于等于包月并且类型是实验室,自动创建会员账号
-          if($order['kind']==self::KIND_D3IN && in_array((int)$order['item_id'], array(2,3,4,5))){
+          if($order['kind']==self::KIND_VIP && in_array((int)$order['item_id'], array(2,3,4,5))){
             $member_model = new Sher_Core_Model_DMember();
             $member_model->gen_d3in_member($order['user_id'], array('item_id'=>(int)$order['item_id'], 'pay_money'=>$order['pay_money']));
+          }
+          //更新预约表状态
+          if($order['kind']==self::KIND_D3IN){
+            $appoint_id = $order['item_id'];
+            $appoint_model = new Sher_Core_Model_DAppoint();
+            $appoint = $appoint_model->load($appoint_id);
+            if($appoint){
+              $appoint_model->finish_appoint($appoint_id);
+            }
           }
         }
       }

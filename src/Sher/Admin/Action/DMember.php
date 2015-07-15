@@ -68,5 +68,33 @@ class Sher_Admin_Action_DMember extends Sher_Admin_Action_Base implements DoggyX
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+  /**
+   * ajax设置会员状态
+   */
+  public function ajax_set_state(){
+ 		$ids = $this->stash['id'];
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_DMember();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+
+    $arr = array();
+		foreach($ids as $id){
+			$result = $model->update_set((int)$id, array('state'=>$state));
+      if($result){
+        array_push($arr, $id);
+      }
+		}
+
+    $this->stash['result'] = $arr;
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('admin/d_member/ajax_set_state.html');
+
+  }
+
 }
 

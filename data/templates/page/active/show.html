@@ -346,6 +346,9 @@ h4.ui.header .map-advantage {
 	top: 95px;
 	left: 517.5px;
 }
+section.ui.big.abstract.block p {
+  line-height: 25px;
+}
 </style>
 {% endblock %}
 
@@ -512,6 +515,7 @@ h4.ui.header .map-advantage {
 
   //ajax获取报名列表头像
   fetch_signup_avatar();
+
 {% endblock %}
 
 {% block content %}
@@ -532,7 +536,9 @@ h4.ui.header .map-advantage {
                 <div class="ui tabs">
                     <a class="active tab" href="#start">活动首页</a>
                     <a class="tab" href="#abstract">活动简介</a>
+  {% if active.process %}
                     <a class="tab" href="#process">活动日程</a>
+                    {%endif%}
                     <a class="tab" href="#report">活动报名</a>
                     <a class="tab" href="#place">活动地点</a>
                     <a class="tab" href="#part">合作伙伴</a>
@@ -630,7 +636,8 @@ h4.ui.header .map-advantage {
   </div>
   {%endif%}
 
-  <section class="ui process gray background block">
+  {% if active.process %}
+  <section class="ui process gray background block" style="">
     <div class="ui responsive grid">
       <div class="row">
         <div class="center aligned column section-title">
@@ -640,6 +647,7 @@ h4.ui.header .map-advantage {
       </div>
     </div>
   </section>
+  {%endif%}
   <div class="ui big block">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -666,13 +674,13 @@ h4.ui.header .map-advantage {
             </div>
           </div>
         {%endfor%}
-      {%endif%}
-			
+
 			<div class="rundown-timeline-container bottom">
 				<div class="timeline-block">
 					<div class="timeline-red-dot"></div>
 				</div>
 			</div>
+      {%endif%}
 			
 		</div>
 		<div class="row">

@@ -6,15 +6,22 @@
 	<h3 class="ui header">预约管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/block" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/d_appoint" class="{{ css_all }} item">
 			全部
 		</a>
+		<a href="{{ app_url_admin_base }}/d_appoint?state=1" class="{{ css_ing }} item">
+			待付款
+		</a>
+		<a href="{{ app_url_admin_base }}/d_appoint?state=10" class="{{ css_finish }} item">
+			完成
+		</a>
+		<a href="{{ app_url_admin_base }}/d_appoint?state=2" class="{{ css_over }} item">
+			结束
+		</a>
+		<a href="{{ app_url_admin_base }}/d_appoint?state=-1" class="{{ css_close }} item">
+			关闭
+		</a>
 
-	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/block/submit" class="item">
-				<i class="add icon"></i>添加
-			</a>
-	    </div>
 	</div>
 	
   <!--
@@ -23,7 +30,7 @@
 
 			<div class="ten wide column">
 				<div class="ui sub nav">
-					<form action="{{ app_url_admin_base }}/block" method="post">
+					<form action="{{ app_url_admin_base }}/d_appoint" method="post">
 						<label>搜索：</label>
 						<div class="ui icon input">
 							<input placeholder="标题..." type="text" name="q">
@@ -36,54 +43,104 @@
 	</div>
   -->
 	
-	<table class="ui table segment">
-		<thead>
-			<tr>
-				<th></th>
-				<th>标识</th>
-				<th>标题</th>
-				<th>状 态</th>
-				<th>管理操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% d_appoint_list var:'blocks' status:1 size:30 %}
+			{% d_appoint_list var:'list' load_item:1 state:state size:30 %}
 			
-			{% for b in blocks.rows %}
-			<tr id="{{ b._id }}">
-				<td>
-					<div class="ui checkbox">
-					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
-					  	<label></label>
-					</div>
-				</td>
+			{% for d in list.rows %}
 
-				<td>
-          {{b.mark}}
-				</td>
-				<td>
-          {{ b.title }}
-				</td>
-        <td>
-          {{ b.state }}
-        </td>
-        <td>
-					<a href="{{ app_url_admin_base }}/block/submit?id={{ b._id }}" class="ui link item">编辑</a>
-          | 
-          <a href="{{ app_url_admin }}/block/deleted?id={{ b._id }}" class="ui confirm-request link item">
-              删除
-          </a>
-        </td>
-			</tr>
+            <div id="item-{{ d._id }}" class="order-item">
+              <div class="ui top attached header">
+                <div class="ui horizontal bulleted list">
+                    <div class="item">
+                        预约号：{{ d.number }}
+                    </div>
+                    <div class="item">
+                      {{ d.user.nickname }} 
+                    </div>
+                    <div class="item">
+                        预约时间：{{ d.created_on|date }}
+                    </div>
+                      <div class="item">
+                          来源: {{ d.from_site_label }}
+                      </div>
+                </div>
+              </div>
+              <div class="middle aligned ui celled white grid">
+                <div class="row">
+                  <div class="seven wide column">
+                    <table class="ui basic table">
+                      <tbody>
+                        {% for i in d.items %}
+                        <tr>
+                          <td>
+                                <div class="content">
+                                    <div class="header">
+                                {{ i.item_name }}
+                              </div>
+                                    <p class="attribute">时间：{{ i.date_id }} | 
+                                      {% for t in i.time_ids %}
+                                        {{ t }}&nbsp;
+                                      {%endfor%}
+                                    </p>
+
+                                </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="center aligned three wide column">
+                    {%if d.is_vip%}
+                    <p>会员免支付</p>
+                    {%else%}
+                    <p>支付方式: {%if d.pay_type==1%}在线{%endif%}{%if d.pay_type==2%}现场{%endif%}</p>
+                    {%endif%}
+
+
+                  </div>
+                  <div class="center aligned three wide column">
+
+                  </div>
+                  <div class="center aligned three wide column">
+                    
+                      <p class="state-box">
+                        {% if d.state==0 %}
+                          取消
+                        {%endif%}
+                        {% if d.state==1 %}
+                          等待付款
+                        {%endif%}
+                        {% if d.state==10 %}
+                          完成
+                        {%endif%}
+                        {% if d.state==2 %}
+                          结束
+                        {%endif%}
+                      </p>
+                      {% if d.state == 1 %}
+                      <p class="state-btn">
+                      <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray ajax button">取消</a>
+                      </p>
+                      {% endif %}
+                      {% if d.state == 10 %}
+                        <p class="state-btn">
+                        <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        </p>
+                      {% endif %}
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
 			{% endfor %}
-		</tbody>
-	</table>
+
 	
-	{% if blocks.total_rows %}
+	{% if list.total_rows %}
 	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:blocks.total_rows,total_page:blocks.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
-		<label class="page_count">{{ blocks.total_rows }}个</label>
+		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 	

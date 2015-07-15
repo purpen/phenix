@@ -2,6 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	#mfrbird{
+		margin-top:0;
+	}
 	.try .masthead {
 		{% if try.banner_id %}
 		background: url("{{ try.banner.fileurl }}") no-repeat scroll -432px center / cover rgba(45, 53, 56, 1);
@@ -40,8 +43,16 @@
 	    height: 100%;
 	}
 	.try .ui.header .sub.header {
-		color: rgba(255, 255, 255, 0.9);
 		font-size: 1.1rem;
+	}
+	.try .ui.header .sub.header div{
+		padding:3px 5px;
+		min-width:60px;
+		border:1px solid #f36;
+		border-radius:5px;
+		display: inline-block;
+		font-size: 14px;
+		color:#f36;
 	}
 	.try .ui.list .count span{
 		font-size:16px !important;
@@ -65,7 +76,31 @@
 	.masthead-cover .ui.inverted.button{
 		padding: .8em 1.5em !important;
 	}
-  
+	h4.ui.header{
+		line-height:2.33;
+	}
+  .try .layer {
+	  background: rgba(0,0,0,0.7);
+	  height: 56px;
+	  line-height: 56px;
+	  position: fixed;
+	  bottom: 0;
+	  width: 100%;
+	  z-index: 12;
+		color:#fff;
+	}
+	.layer a{
+		float:right;
+		min-width: 56px;
+		padding: 7px 7px !important;
+	  margin: 10px 5px 0px 0 !important;
+	  font-size: 18px !important;
+		line-height:20px !important;
+	}
+	.try .layer .ui.list .item{
+		padding:0;
+		color:#fff;
+	}
 	
 	
 	/*.ui.tabox {
@@ -123,10 +158,14 @@
 </script>
 {% endblock %}
 {% block jquery %}
+
+  //弹出登录框
+	phenix.wap_show_sign_box('', 1);
+
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+      $('.ui.sign-box.modal').modal('show');
 			return false;
 		}
 		
@@ -190,6 +229,15 @@
 					}
 				]
 			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮编不能为空'
+					}
+				]
+			},
 			content: {
 				identifier  : 'content',
 				rules: [
@@ -227,11 +275,17 @@
     $('textarea.comment-textarea').maxlength({
         'feedback' : '.wordscount'
     });
+
+    $('.support-btn').click(function(){
+      phenix.show_ok_note('新功能即将上线!');
+      return false;
+      phenix.redirect("{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
+    });
 {% endblock %}
 
 {% block content %}
 <div class="ui try" id="trypage"> 
-	<div class="ui responsive grid">
+	<!--<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
 				<div class="ui breadcrumb">
@@ -245,11 +299,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	
-	<div class="masthead">
+	<!--<div class="masthead">
 		<div class="masthead-cover">
-			<div class="ui responsive grid">
+			<div class="ui responsive grid" style="margin:0 auto;">
 				<div class="column">
 					<h1 class="ui header">
 						<div class="content">
@@ -275,9 +329,30 @@
 				</div>
 			</div>
 		</div>
+	</div>-->
+	
+	<div class="trytitle">
+		<img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%">
+
+		<div class="ui white background responsive grid" style="padding:1rem 1.5%;margin:0 auto;">
+			<div class="row">
+				<div class="center aligned column">
+					<h4 class="ui header">
+						<div class="content">
+							{{ try.title }}
+							<div class="sub header">
+								<div>免费试用</div> &nbsp;  <div>{{ try.try_count }} 个</div>&nbsp; <div>{{ try.apply_count }} 人申请</div>
+							</div>
+						</div>
+					</h4>
+				</div>
+			</div>
+		</div>
 	</div>
 	
-    <div class="product overview">
+	
+	
+  <div class="product overview">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
@@ -375,6 +450,29 @@
 		</div>
 	</div>
 	
+	
+	<div class="layer">
+		{% if !try.is_end %}
+      {% if is_applied %}
+      <a href="javascript:void(0);" class="ui magenta active inverted support-btn button">
+          <!--<i class="ticket icon"></i>--> 我要拉票
+        </a>
+      {%else%}
+        <a href="javascript:void(0);" class="ui magenta active applytry inverted button">
+          <!--<i class="ticket icon"></i>--> 申请试用
+        </a>
+      {%endif%}
+
+		{% else %}
+		<a href="javascript:void(0);" class="ui active magenta inverted button">
+			 已结束
+		</a>
+		{% endif %}
+		
+	  {% if !try.is_end %}剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}结束时间：{{ try.end_time }}{% endif %}</div>
+	</div>
+	
 </div>
 {% include "block/wap_apply_try.html" %}
+{% include "mm/loginbox.html" %}
 {% endblock %}

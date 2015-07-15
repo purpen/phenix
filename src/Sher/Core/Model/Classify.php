@@ -29,7 +29,9 @@ class Sher_Core_Model_Classify extends Sher_Core_Model_Base {
 		# 是否公开
 		'is_open' => self::IS_OPENED,
 		# 数量
-		'total_count' => 0,
+		'total_count' => 1,
+    # 当前数量
+    'current_count' => 1,
 		# 状态
 		'state' => 0,
     );
