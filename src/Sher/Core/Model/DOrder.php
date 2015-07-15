@@ -82,7 +82,9 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
 
   );
 
-  protected $joins = array();
+	protected $joins = array(
+	  'user' => array('user_id' => 'Sher_Core_Model_User'),
+	);
 
   protected $required_fields = array('user_id', 'item_id', 'item_name');
   protected $int_fields = array('rid', 'user_id', 'kind', 'state', 'expired_time', 'from_site', 'finished_date', 'discount_type', 'deleted');
