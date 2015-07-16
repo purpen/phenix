@@ -105,6 +105,9 @@
 	#shoppage .buy.box .price{
 		display:block;
 	}
+	.rbtn.buy .ui.button{
+		margin: 10px 0;
+	}
 </style>
 {% endblock %}
 <script type="text/javascript">
@@ -612,6 +615,7 @@
 		                                    {%endif%}
 										</span>
 									</div>
+									<div class="rbtn buy">
 									{% if product.snatched %}
 										{% if !product.snatched_start %}
 										<div class="product snatched">
@@ -664,7 +668,7 @@
 									                                    {% if item_stage=='shop' %}
 									                                        {% if !product.is_try %}
 									                                            {% if product.can_saled %}
-									                                            <div class="ui active magenta tobuy buy inverted button">
+									                                            <div class="ui active magenta tobuy buy inverted button" style="float: right;padding:0.8em 1em;">
 									                                                <i class="cart icon"></i> 加入购物车
 									                                            </div>
 									                                            {% else %}
@@ -683,7 +687,8 @@
 												                                {% if !product.snatched %}
 												                                    {% if !product.is_try %}
 												                                        {% if product.can_saled %}
-												                                        <div class="ui black tobuy nowbuy inverted button">
+												                                        <div class="ui black tobuy nowbuy inverted button"
+												style="float: left;padding:0.8em 1em;">
 												                                            立即购买
 												                                        </div>
 												                                        {% endif %}
@@ -694,7 +699,7 @@
 												                                    {% endif %}
 												                                {% endif %}
 												                            {%endif%}
-										
+																							</div>
 										
 										
 										
