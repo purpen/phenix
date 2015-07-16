@@ -13,18 +13,36 @@
 		color: #fff;
 	}
 	.try .masthead .column {
-		padding-top: 120px;
+		padding-top: 100px;
+	}
+	.try .masthead .column > p{
+		padding: 8px 12px;
+		background: #080000;
+	  display: inline-block;
+	  margin: 0;
 	}
 	.try .masthead > .masthead-cover {
 	    background-color: rgba(0, 0, 0, 0.15);
 	    height: 100%;
 	}
-	.try .ui.header .sub.header {
-		color: rgba(255, 255, 255, 0.9);
-		font-size: 1.5rem;
-	}
 	.try .ui.list .count span{
 		font-size:16px !important;
+	}
+	.try .masthead .ui.header{
+		  margin-top: 0.6em;
+	}
+	.try .masthead .ui.header .sub.header{
+		color: #fff;
+		font-size: 1.5rem;
+		margin-top: 0;
+		line-height: 46px;
+	}
+	.try .masthead .ui.header .sub.header span{
+		font-size: 18px;
+	}
+	.try .apply {
+	  margin-top: 1.3em;
+	  line-height: 28px;
 	}
 </style>
 {% endblock %}
@@ -168,11 +186,14 @@
 		<div class="masthead-cover">
 			<div class="ui responsive grid">
 				<div class="column">
+					<p>产品试用第{{ try.season }}期</p>
 					<h1 class="ui header">
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
 								{{ try.description }}
+								<br/>
+								<span>市场价：¥399</span>
 							</div>
 						</div>
 					</h1>
@@ -188,7 +209,7 @@
 					<a href="{{ try.product.view_url }}" class="ui white inverted button" target="_blank">
 						<i class="browser icon"></i> 产品详情
 					</a>
-					<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约{% if !try.is_end %}, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}, 结束时间：{{ try.end_time }}{% endif %}</div>
+					<div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
 				</div>
 			</div>
 		</div>
