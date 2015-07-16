@@ -676,6 +676,24 @@
 									                                    {% endif %}
 
 									                                {%endif%}
+									
+
+												                            <!--商品 -->
+												                            {% if item_stage == 'shop' %}
+												                                {% if !product.snatched %}
+												                                    {% if !product.is_try %}
+												                                        {% if product.can_saled %}
+												                                        <div class="ui black tobuy nowbuy inverted button">
+												                                            立即购买
+												                                        </div>
+												                                        {% endif %}
+												                                    {%else%}
+												                                    <div class="ui magenta text">
+												                                        此产品为试用商品，不可销售
+												                                    </div>
+												                                    {% endif %}
+												                                {% endif %}
+												                            {%endif%}
 										
 										
 										
