@@ -9,7 +9,7 @@
 {% endblock %}
 {% block jquery %}
 
-	$('#checkout-form').form({
+	$('.checkout-form').form({
 
 		evt: {
 			identifier  : 'evt',
@@ -176,7 +176,7 @@
                       {% if d.state == 1 %}
 
                       <p>
-                      <form action="{{ app_url_d3in }}/confirm" method="post" id="checkout-form" class="ui form">
+                      <form action="{{ app_url_d3in }}/confirm" method="post" class="ui form checkout-form">
                         <input type="hidden" name="evt" value="day" />
                         <input type="hidden" name="item_id" value="{{ d._id }}" />
                           <div class="right aligned ten wide column">

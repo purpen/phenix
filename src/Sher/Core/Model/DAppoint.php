@@ -42,6 +42,9 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     // 是否删除
     'deleted' => 0,
 
+    // 类型
+    'kind' => 1,
+
     // 来源
     'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 

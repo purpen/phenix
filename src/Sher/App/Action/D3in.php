@@ -323,6 +323,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     $is_success = false;
     $times_count = 0;
     $is_overtop = false;
+    $is_empty = false;
     
     $appointes_arr = explode('$$', $appoint_result);
     $appoint_record_model = new Sher_Core_Model_DAppointRecord();
@@ -330,6 +331,10 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     foreach($appointes_arr as $k=>$v){
       $appoint_arr = explode('|', $v);
       if(is_array($appoint_arr) && count($appoint_arr)>=3){
+        if(empty($appoint_arr[2])){
+          $is_empty = true;
+          break;       
+        }
         $o_time_arr = explode(',', $appoint_arr[2]);
         $n_time_arr = array();
         foreach($o_time_arr as $t){
@@ -378,6 +383,10 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       //出错,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
       return $this->ajax_note('系统出错,请刷新重新选择!', true);
+    }elseif($is_empty){
+      //出错,没有选择预约时间
+      $this->cancel_appointed($appointing_arr);
+      return $this->ajax_note('请选择预约时间!', true);
     }elseif($is_overtop){
       //时间超出限制,删除预约成功的对象
       $this->cancel_appointed($appointing_arr);
@@ -501,6 +510,13 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
       $appoint_id = isset($this->stash['item_id'])?$this->stash['item_id']:null;
       if(empty($appoint_id)){
         return $this->ajax_json('预约ID不存在!', true);       
+      }else{
+			  $order_model = new Sher_Core_Model_DOrder();
+        $has_one = $order_model->first(array('item_id'=>$appoint_id, 'kind'=>1, 'state' => Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT));
+        if($has_one){
+          $redirect_url = Doggy_Config::$vars['app.url.d3in'].'/success?rid='.$has_one['rid'];
+          return $this->ajax_json('保存成功.', false, $redirect_url);
+        }
       }
     }
 
