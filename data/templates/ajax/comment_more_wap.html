@@ -85,7 +85,7 @@
 
       {% if comments.rows %}
 			<div class="row">
-				<div class="ui center aligned four wide column" id="load-more-btn">
+				<div class="ui center aligned four wide column" id="load-more-btn" style="margin-top:10px;">
           {% if page < comments.total_page %}
             <span><a href="javascript:void(0);" class="ui gray fluid more button" total-page="{{ comments.total_page }}" current-page="{{ page }}">查看更多</a></span>
 
