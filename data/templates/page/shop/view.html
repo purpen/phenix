@@ -485,18 +485,18 @@
 					<div class="row">
 						<div class="column">
 							<div class="container">
-								<p><small>智能手表</small></p>
-								<h1 class="block title">Elkfit Cycler C01智能骑行码表</h1>
-								<div class="ui small star rating hover">
+								<p><small>{{ product.category.title }}</small></p>
+								<h1 class="block title">{{ product.category.title }}</h1>
+								<!--<div class="ui small star rating hover">
 								  <i class="icon active"></i>
 							  	<i class="icon active"></i>
 							  	<i class="icon"></i>
 							  	<i class="icon"></i>
 							  	<i class="icon"></i>
 								</div>
-								<small><span class="count">7.3</span> ( <span  id="product-love-count">3</span>条评价 )</small>
-								<p>@小李子  发表于 5小时, 32分钟 前</p>
-								<p> 20人赞   10收藏    18条回应</p>
+								<small><span class="count">7.3</span> ( <span  id="product-love-count">product.comment_count</span>条评价 )</small>-->
+								<p>@{{ product.designer.nickname }}  发表于 {{ product.created_on|relative_datetime }} </p>
+								<p> {{ product.love_count }}人赞   {{ product.favorite_count }}收藏    {{ product.comment_count }}条回应</p>
 							</div>
 						</div>
 					</div>
