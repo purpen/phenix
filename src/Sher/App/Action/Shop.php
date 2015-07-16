@@ -142,6 +142,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 查看产品详情
 	 */
 	public function view() {
+		return $this->test();
 		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.shop'];

@@ -81,10 +81,14 @@
 	}
 	#shoppage .slidebox .frame ul li{
 		width:900px;
-		
 	}
 	#shoppage .slidebox .frame ul li img {
 		width:100%;
+	}
+	@media only screen and (min-width: 1750px){
+		#shoppage .slidebox .frame ul li{
+			width:1050px;
+		}
 	}
 	
 </style>
@@ -241,14 +245,21 @@
 					<div class="ui twelve wide column">
 						<div class="ui active segment">
 						<div class="slidebox" style="margin:-1em -1em 0;">
-							<div id="procover" class="frame" style="overflow: hidden;">
+							
+						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+							<div id="procover" class="frame">
 								<ul class="clearfix">
-								  <li class="active" style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-bi.jpg) center center no-repeat;background-size:cover;">
+								  <li class="active" style="background:url({{ product.cover.thumbnails.big.view_url }}) center center no-repeat;background-size:cover;">
 									
 								  </li>	
-									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-5-bi.jpg) center center no-repeat;background-size:cover;">	
-								  </li>
-									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-4-bi.jpg) center center no-repeat;background-size:cover;">
+								
+									{% for asset in assets.rows %}
+										{% if asset._id != product.cover_id %}
+											<li style="background:url({{ asset.thumbnails.big.view_url }}) center center no-repeat;background-size:cover;">	
+										  </li>
+										{% endif %}
+									{% endfor %}
+									<!--<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-4-bi.jpg) center center no-repeat;background-size:cover;">
 									</li>
 									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-3-bi.jpg) center center no-repeat;background-size:cover;">
 																	
@@ -258,7 +269,7 @@
 									</li>
 									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-1-bi.jpg) center center no-repeat;background-size:cover;">
 																	
-									</li>
+									</li>-->
 								</ul>
 							
 							</div>
@@ -273,9 +284,16 @@
 								<!--展示图片-->
 								<div class="ui mini pages images">
 									<div class="image active">
-										<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+										<img src="{{ product.cover.thumbnails.tiny.view_url }}" alt="{{ product.title }}">
 									</div>
-									<div class="image">																																			
+									{% for asset in assets.rows %}
+										{% if asset._id != product.cover_id %}
+										<div class="image">
+									  		<img src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
+										</div>
+										{% endif %}
+									{% endfor %}
+									<!--<div class="image">																																			
 															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-5-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
 									</div>
 									<div class="image">
@@ -289,7 +307,7 @@
 									</div>
 									<div class="image">
 															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-1-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
-									</div>
+									</div>-->
 								</div>
 							</div>
 							
