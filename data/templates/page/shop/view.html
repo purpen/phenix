@@ -1,0 +1,318 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
+<style type="text/css">
+	
+  .swiper-container {
+      width: 100%;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .swiper-slide {
+      background-size: cover;
+      background-position: center;
+  }
+  .gallery-top {
+      width: 100%;
+  }
+  .gallery-thumbs {
+      box-sizing: border-box;
+      padding: 10px 0;
+  }
+  .gallery-thumbs .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+  }
+  .gallery-thumbs .swiper-slide-active {
+      opacity: 1;
+  }
+  
+
+	.ui.view-top{
+		background: url({{ app_url_packaged }}/images/topicbg/crowdfunding-product.jpg) no-repeat scroll center center / cover #0daa7f;
+		color:#fff;	
+	}
+	.ui.view-top .container{
+		margin:80px 0 40px;
+		color: #fff;
+	}
+	.ui.view-top .container h1 {
+	  color: #fff;
+	  font-size: 2rem;
+	  margin: .5rem 0 .8rem;
+	}
+	.ui.view-top .container .ui.rating.hover .active.icon {
+	  opacity: 1;
+	}
+	.ui.view-top .container .ui.rating .active.icon {
+	  color: #f36 !important;
+	}
+	.ui.view-top .container .ui.rating .icon {
+	  color: #fff !important;
+		opacity: 0.8;
+	}
+	.ui.view-top .container .count{
+		color: #f36;
+		font-size: 22px;
+	}
+	.ui.view-top .container small+p{
+		margin-bottom:8px;
+	}
+	.ui.view-top .container p+p{
+		margin-top:8px;
+	}
+	#shoppage .product.cover .thumb.wrap{
+		text-align:center;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	#shoppage{
+		background:#f1f1f1;
+	}
+	#shoppage .slidebox .frame {
+	  height: 450px;
+	  line-height: 450px;
+	}
+	#shoppage .slidebox .ui.btn{
+		top:195px;
+	}
+	#shoppage .slidebox .frame ul li{
+		width:900px;
+		
+	}
+	#shoppage .slidebox .frame ul li img {
+		width:100%;
+	}
+	
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+  <script type="text/javascript">
+		var galleryTop = new Swiper('.gallery-top', {
+		    nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        spaceBetween: 10,
+				loop:true,
+    });
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true,
+				loop:true,
+    });
+    galleryTop.params.control = galleryThumbs;
+    galleryThumbs.params.control = galleryTop;
+	</script>
+{% endblock %}
+{% block jquery %}
+	var $frame = $('#procover');
+	var $wrap = $frame.parent();
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'forceCentered',
+		smart: 1,
+		activateMiddle: 1,
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		pagesBar: $wrap.find('.pages'),
+		pageItem: 'custom',
+		activatePageOn: 'click',
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+		// Buttons
+		prev: $wrap.find('.prev'),
+		next: $wrap.find('.next')
+	});
+{% endblock %}
+{% block content %}
+<!--<div class="ui responsive grid" style="height:600px;">
+	<div class="row">
+		<div class="ten wide column">
+			<div class="swiper-container gallery-top">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature1.jpg);">
+					</div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature2.jpg);">
+				
+					</div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature3.jpg);">
+				
+					</div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature4.jpg);">
+				
+					</div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature5.jpg);">
+				
+					</div>
+					
+				
+				</div>
+				
+				<div class="swiper-button-next swiper-button-white"></div>
+				<div class="swiper-button-prev swiper-button-white"></div>
+				
+			</div>
+			
+			<div class="swiper-container gallery-thumbs">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature1.jpg);"></div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature2.jpg);"></div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature3.jpg);"></div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature4.jpg);"></div>
+					<div class="swiper-slide" style="margin-right: 10px; background-image: url(http://www.swiper.com.cn/demo/img/nature5.jpg);"></div>
+				
+				
+				</div>
+			</div>
+			
+		</div>
+		<div class="six wide column ui segment">
+
+		</div>
+	</div>
+</div>-->
+
+<div class="shop submenu">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:domain current:product.category._id show_all:0 %}
+				<div class="ui horizontal list">
+					<div class="item">
+						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
+					</div>
+					{% for cat in category.rows %}
+				  	<div class="item">
+						<a class="ui {{ cat.active }} link" href="{{ cat.view_url }}">{{ cat.title }}</a>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="shop page">
+	<div class="ui view-top">
+		<div class="masthead">
+			<div class="masthead-cover">
+				<div class="ui responsive grid">
+					<div class="row">
+						<div class="column">
+							<div class="container">
+								<p><small>智能手表</small></p>
+								<h1 class="block title">Elkfit Cycler C01智能骑行码表</h1>
+								<div class="ui small star rating hover">
+								  <i class="icon active"></i>
+							  	<i class="icon active"></i>
+							  	<i class="icon"></i>
+							  	<i class="icon"></i>
+							  	<i class="icon"></i>
+								</div>
+								<small><span class="count">7.3</span> ( <span  id="product-love-count">3</span>条评价 )</small>
+								<p>@小李子  发表于 5小时, 32分钟 前</p>
+								<p> 20人赞   10收藏    18条回应</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui shop view" id="shoppage">
+		<div class="product cover">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="column">
+					<div class="ui very compact grid">
+					<div class="ui twelve wide column">
+						<div class="ui active segment">
+						<div class="slidebox" style="margin:-1em -1em 0;">
+							<div id="procover" class="frame" style="overflow: hidden;">
+								<ul class="clearfix">
+								  <li class="active" style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-bi.jpg) center center no-repeat;background-size:cover;">
+									
+								  </li>	
+									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-5-bi.jpg) center center no-repeat;background-size:cover;">	
+								  </li>
+									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-4-bi.jpg) center center no-repeat;background-size:cover;">
+									</li>
+									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-3-bi.jpg) center center no-repeat;background-size:cover;">
+																	
+									</li>
+								  <li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-2-bi.jpg) center center no-repeat;background-size:cover;">
+																		
+									</li>
+									<li style="background:url(http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-1-bi.jpg) center center no-repeat;background-size:cover;">
+																	
+									</li>
+								</ul>
+							
+							</div>
+							<button class="ui magenta btn prev disabled" disabled="">
+								<i class="icon angle left"></i>
+							</button>
+							<button class="ui magenta btn next">
+								<i class="icon angle right"></i>
+							</button>
+							
+							<div class="thumb wrap">
+								<!--展示图片-->
+								<div class="ui mini pages images">
+									<div class="image active">
+										<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-6-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+									</div>
+									<div class="image">																																			
+															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-5-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+									</div>
+									<div class="image">
+															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-4-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+									</div>
+									<div class="image">
+															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-3-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+									</div>
+									<div class="image">
+															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-2-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+									</div>
+									<div class="image">
+															  		<img src="http://frbird.qiniudn.com/product/150604/556fbb3dfc8b12f2358c9784-1-ti.jpg" alt="多听宝电台汽车网络电台 零流量 自动同步 USB充电">
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							
+						</div>
+						</div>
+					</div>
+					<div class="ui four wide column">
+						<div class="ui segment">
+							
+						</div>
+					</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+
+
+{% endblock %}

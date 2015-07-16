@@ -40,6 +40,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	/**
 	 * 商店首页
 	 */
+	public function test(){
+		return $this->to_html_page('page/shop/view.html');
+	}
+	/**
+	 * 商店首页
+	 */
 	public function index(){
 		return $this->to_html_page('page/shop/home.html');
 	}
