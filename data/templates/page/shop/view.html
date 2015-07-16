@@ -585,28 +585,31 @@
 									
 									<div class="bar"></div>
 								
-									<div class="product evaluating">
+									<div class="product evaluating social">
 										<h3 class="ui dividing header">
 											产品评测 <small>（{{ product.topic_count }}）</small>
 										</h3>
 										
-										<div class="ui center aligned">
+										
 										{% if product.topic_count == 0 %}
+										<div class="ui center aligned">
 											<p>还没有人为 {{ product.title }} 时尚复古便携耳机 撰写评测，你想做第一个为它写评测的人么？</p>
 											<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button" style="margin-top:2em;">
 												<i class="edit icon"></i> 发表评测
 											</a>
+										</div>
 										{% else %}
+										<div class="ui center aligned">
 											<a href="{{ product.subject_view_url }}&evaluating=1" class="ui black inverted button">
 												<i class="search icon"></i> 查看更多
 											</a>
 											<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button">
 												<i class="edit icon"></i> 发表评测
 											</a>
+										</div>
 											{% include "block/product_topic.html" %}
 										{% endif %}
 											
-										</div>
 									</div>
 									
 									{% if product.comment_count != 0 %}
@@ -658,89 +661,88 @@
 										<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>
 										{% endfor %}
 									</div>
-	                                {% endif %}
-	
-																	{% if product.snatched %}
+	                {% endif %}
 
-																		{% if !product.snatched_start %}
-																		<div class="ui active magenta tobuy appoint button">
-																			准备开抢
-																		</div>
-																		{% else %}
-																			{% if product.can_saled %}
-																			<div class="ui active magenta tobuy nowbuy inverted button">
-																				立即抢购
-																			</div>
-																			{% else %}
-																			<div class="ui active gray locknotice inverted button">
-																				已抢完
-																			</div>
-																			{% endif %}
-																		{% endif %}
+									{% if product.snatched %}
 
-																	{% else %}
+										{% if !product.snatched_start %}
+										<div class="ui active magenta tobuy appoint button">
+											准备开抢
+										</div>
+										{% else %}
+											{% if product.can_saled %}
+											<div class="ui active magenta tobuy nowbuy inverted button">
+												立即抢购
+											</div>
+											{% else %}
+											<div class="ui active gray locknotice inverted button">
+												已抢完
+											</div>
+											{% endif %}
+										{% endif %}
 
-									                                    <!--积分兑换商品不能加入购物车 -->
-									                                    {% if item_stage == 'exchange' %}
-									    									<div class="product snatched">
-									    										<span class="ui gray text">商品积分兑换</span>
-									    									</div>
-									                                    {%endif%}
-									
-																											{% if item_stage == 'exchange' %}
-													                                {% if product.can_saled %}
-													                                    <span class="redemption">
-													                                        {% if product.exchange_price %}
-													                                        (兑换要求：<small>￥</small>{{ product.exchange_price }} + {{ product.max_bird_coin }}鸟币) 
-													                                        {%else%}
-													                                        (兑换要求：{{ product.max_bird_coin }}鸟币)
-													                                        {%endif%}
-													                                    </span>
-													                                    <div class="ui magenta tobuy nowbuy inverted button">
-													                                        <i class="exchange icon"></i> 立即兑换
-													                                    </div>
-													                                {%else%}
-													                                    <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
-													                                        暂时缺货
-													                                    </div>
-													                                {%endif%}
-													                            {%endif%}
+									{% else %}
 
-									                                    {% if item_stage=='shop' %}
-									                                        {% if !product.is_try %}
-									                                            {% if product.can_saled %}
-									                                            <div class="ui active magenta tobuy buy inverted button">
-									                                                <i class="cart icon"></i> 加入购物车
-									                                            </div>
-									                                            {% else %}
-									                                            <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
-									                                                暂时缺货
-									                                            </div>
-									                                            {% endif %}
-									                                        {% endif %}				
-									                                    {% endif %}
+                  <!--积分兑换商品不能加入购物车 -->
+                  {% if item_stage == 'exchange' %}
+ 									<div class="product snatched">
+ 										<span class="ui gray text">商品积分兑换</span>
+ 									</div>
+                                 {%endif%}
 
-									                                {%endif%}
-									
+															{% if item_stage == 'exchange' %}
+	                                {% if product.can_saled %}
+	                                    <span class="redemption">
+	                                        {% if product.exchange_price %}
+	                                        (兑换要求：<small>￥</small>{{ product.exchange_price }} + {{ product.max_bird_coin }}鸟币) 
+	                                        {%else%}
+	                                        (兑换要求：{{ product.max_bird_coin }}鸟币)
+	                                        {%endif%}
+	                                    </span>
+	                                    <div class="ui magenta tobuy nowbuy inverted button">
+	                                        <i class="exchange icon"></i> 立即兑换
+	                                    </div>
+	                                {%else%}
+	                                    <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
+	                                        暂时缺货
+	                                    </div>
+	                                {%endif%}
+	                            {%endif%}
 
-												                            <!--商品 -->
-												                            {% if item_stage == 'shop' %}
-												                                {% if !product.snatched %}
-												                                    {% if !product.is_try %}
-												                                        {% if product.can_saled %}
-												                                        <div class="ui black tobuy nowbuy inverted button"
-											>
-												                                            立即购买
-												                                        </div>
-												                                        {% endif %}
-												                                    {%else%}
-												                                    <div class="ui magenta text">
-												                                        此产品为试用商品，不可销售
-												                                    </div>
-												                                    {% endif %}
-												                                {% endif %}
-												                            {%endif%}
-																							</div>
+                                 {% if item_stage=='shop' %}
+                                     {% if !product.is_try %}
+                                         {% if product.can_saled %}
+                                         <div class="ui active magenta tobuy buy inverted button">
+                                             <i class="cart icon"></i> 加入购物车
+                                         </div>
+                                         {% else %}
+                                         <div class="ui active gray locknotice inverted button" data-id="{{ product._id }}">
+                                             暂时缺货
+                                         </div>
+                                         {% endif %}
+                                     {% endif %}				
+                                 {% endif %}
+
+                             {%endif%}
+
+
+                            <!--商品 -->
+                            {% if item_stage == 'shop' %}
+                                {% if !product.snatched %}
+                                    {% if !product.is_try %}
+                                        {% if product.can_saled %}
+                                        <div class="ui black tobuy nowbuy inverted button">
+                                            立即购买
+                                        </div>
+                                        {% endif %}
+                                    {%else%}
+                                    <div class="ui magenta text">
+                                        此产品为试用商品，不可销售
+                                    </div>
+                                    {% endif %}
+                                {% endif %}
+                            {%endif%}
+											</div>
 										
 										
 										
