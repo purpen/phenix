@@ -195,7 +195,7 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 
           // 关闭该订单
           $order_model = new Sher_Core_Model_DOrder();
-          $order = $order_model->first(array('item_id'=>$id, 'kind'=>Sher_Core_Model_DOrder::KIND_D3IN, 'state'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT));
+          $order = $order_model->first(array('item_id'=>(string)$id, 'kind'=>Sher_Core_Model_DOrder::KIND_D3IN, 'state'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT));
           if($order){
             $order_model->close_order((int)$order['_id']);
           }

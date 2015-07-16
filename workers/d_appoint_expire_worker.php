@@ -49,7 +49,7 @@ while(!$is_end){
 		if ($appoint['state'] == Sher_Core_Model_DAppoint::STATE_PAY){
 			// 关闭预约单,释放名额
       try{
-        $ok = $appoint_model->close_appoint($appoint['_id']);
+        $ok = $appoint_model->close_appoint((string)$appoint['_id']);
         if($ok){
           echo "success update d-appoint state:".$appoint['_id']."\n";
           $total++;     

@@ -310,7 +310,9 @@
 						</div>
 							
 						{% if comments.total_page > 1 %}
-						<div class="fluid ui gray more button" data-page="2" id="more-comments">更多评论</div>
+            <div class="ui center aligned">
+						<div class="ui gray active more button" data-page="2" id="more-comments">更多评论</div>
+          </div>
 						{% endif %}
 						<div class="ui post segment">
 							<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论</p>

@@ -313,7 +313,14 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
     $this->stash['current_user_id'] = $current_user_id;
-		return $this->to_taconite_page('ajax/comment_list_site.html');
+    $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
+
+    if($comment_load_type==1){
+      $tmp = 'ajax/comment_more_site.html';
+    }elseif($comment_load_type==2){
+      $tmp = 'ajax/comment_list_site.html';
+    }
+		return $this->to_taconite_page($tmp);
   }
 
   /**
@@ -325,7 +332,14 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
     $this->stash['current_user_id'] = $current_user_id;
-		return $this->to_taconite_page('ajax/comment_list_wap.html');
+    $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
+
+    if($comment_load_type==1){
+      $tmp = 'ajax/comment_more_wap.html';
+    }elseif($comment_load_type==2){
+      $tmp = 'ajax/comment_list_wap.html';
+    }
+		return $this->to_taconite_page($tmp);
   }
   	
 }
