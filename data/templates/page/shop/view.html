@@ -599,15 +599,15 @@
 											</a>
 										</div>
 										{% else %}
-										<div class="ui center aligned">
-											<a href="{{ product.subject_view_url }}&evaluating=1" class="ui black inverted button">
-												<i class="search icon"></i> 查看更多
-											</a>
-											<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button">
-												<i class="edit icon"></i> 发表评测
-											</a>
-										</div>
 											{% include "block/product_topic.html" %}
+											<div class="ui center aligned">
+												<a href="{{ product.subject_view_url }}&evaluating=1" class="ui black inverted button">
+													<i class="search icon"></i> 查看更多
+												</a>
+												<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button">
+													<i class="edit icon"></i> 发表评测
+												</a>
+											</div>
 										{% endif %}
 											
 									</div>
