@@ -107,6 +107,9 @@
 	}
 	.rbtn.buy .ui.button{
 		margin: 10px 0;
+		padding: 0.8em 1em;
+		font-size: 14px;
+		float:left;
 	}
 </style>
 {% endblock %}
@@ -489,7 +492,7 @@
 				<div class="row">
 					<div class="column">
 						<div class="ui very compact grid">
-							<div class="ui twelve wide column">
+							<div class="ui eleven wide column">
 								<div class="ui active segment">
 									<div class="slidebox" style="margin:-1em -1em 0;">
 							
@@ -601,7 +604,7 @@
 									
 								</div>
 							</div>
-							<div class="ui four wide column">
+							<div class="ui five wide column">
 								<div class="ui segment">
 									<div class="buy box">
 										<span class="old price">
@@ -668,7 +671,7 @@
 									                                    {% if item_stage=='shop' %}
 									                                        {% if !product.is_try %}
 									                                            {% if product.can_saled %}
-									                                            <div class="ui active magenta tobuy buy inverted button" style="float: right;padding:0.8em 1em;">
+									                                            <div class="ui active magenta tobuy buy inverted button">
 									                                                <i class="cart icon"></i> 加入购物车
 									                                            </div>
 									                                            {% else %}
@@ -688,7 +691,7 @@
 												                                    {% if !product.is_try %}
 												                                        {% if product.can_saled %}
 												                                        <div class="ui black tobuy nowbuy inverted button"
-												style="float: left;padding:0.8em 1em;">
+											>
 												                                            立即购买
 												                                        </div>
 												                                        {% endif %}
