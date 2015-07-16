@@ -133,17 +133,16 @@
 	}
 </style>
 {% endblock %}
-<script type="text/javascript">
-    var per_page = 10;
-	function fetch_comment(current_page, per_page){
-        var total_count = {{ product.comment_count }};
-        var total_page = Math.ceil(total_count/per_page);
-        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
-        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
-    }
-</script>
 {% block layout_js %}
-	
+	<script type="text/javascript">
+	    var per_page = 10;
+		function fetch_comment(current_page, per_page){
+	        var total_count = {{ product.comment_count }};
+	        var total_page = Math.ceil(total_count/per_page);
+	        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
+	        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
+	    }
+	</script>
 {% endblock %}
 {% block jquery %}
 	var $frame = $('#procover');
