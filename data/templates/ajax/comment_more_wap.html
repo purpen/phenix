@@ -97,7 +97,7 @@
 
   {%else%}
 
-	<append select="is-comment.comments"><![CDATA[
+	<append select=".is-comment.comments"><![CDATA[
       {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
