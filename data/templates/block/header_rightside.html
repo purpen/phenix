@@ -7,7 +7,7 @@
 
 <div class="ui secondary user menu">
     {% if visitor %}
-    <div class="ui top right pointing dropdown icon basket magenta button" data-url="javascript:void(0);">
+    <div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_remind }}">
         <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
         <i class="flat speech40 icon"></i>
         <!--ajax加载用户提醒-->
@@ -17,7 +17,7 @@
     </div>
 	{% endif %}
 	
-	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
+	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_my }}/remind" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
 		{% else %}
