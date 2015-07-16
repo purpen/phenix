@@ -39,6 +39,7 @@
 			<tr>
 				<th></th>
 				<th>项目</th>
+        <th>类型</th>
 				<th>用户</th>
 				<th>金额</th>
         <th>下单时间</th>
@@ -62,6 +63,19 @@
 				<td>
           <p>
             {{ d.item_name }}
+          </p>
+				</td>
+				<td>
+          <p>
+          {% if d.kind==1 %}
+            实验室预约
+          {%endif%}
+          {% if d.kind==2 %}
+            vip会员
+          {%endif%}
+          {% if d.kind==3 %}
+            未定义
+          {%endif%}
           </p>
 				</td>
         <td>
