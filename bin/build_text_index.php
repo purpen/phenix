@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+/**
+ * 建立全文索引脚本
+ */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
     die("Can't find config_file: $config_file\n");

@@ -179,8 +179,5 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $service->session->login_token = $token;
         $this->stash['login_token'] = $token;
     }
-
-	
-	
 }
 ?>

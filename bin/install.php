@@ -195,14 +195,14 @@ function send_mailgun($name, $email, $subject, $content){
 	return $result;
 }
 
-// create_system_user();
+ create_system_user();
 
 // $user_id = create_init_user();
 
 // add_invitation($user_id);
 
-// create_category();
-
+create_category();
+create_init_user();
 // create_emailing_user();
 
 // Sher_Core_Jobs_Queue::send_edm('547d894fac6b7aef019cd352');

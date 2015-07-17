@@ -1,0 +1,153 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.table{
+	background:#fff;
+}
+.ui.table th{
+	text-align:center;
+}
+.ui.four.blocks .block{
+	height:230px;
+	margin-bottom:1rem;
+}
+.ui.four.blocks .block .content{
+	margin: 1rem 0;
+}
+.ui.four.blocks .block .content.aligned{
+	margin:102.5px 0;
+}
+.ui.four.blocks .block .content p {
+  font-size: 16px;
+  border-bottom: 1px solid #f1f1f1;
+  margin: 0;
+  padding: 10px 10px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.ui.four.blocks .block .content p:hover{
+	background:#f36;
+	cursor:pointer;
+	color:#fff;
+	-webkit-transition: background-color .25s ease,color .25s ease,background .25s ease;
+	  transition:background-color .25s ease,color .25s ease,background .25s ease;
+}
+.ui.four.blocks .block .content p:last-child{
+	border-bottom:0px solid #fff;
+}
+.clss{
+	background:#e1e1e1 !important;
+}
+.clss:hover,.okyu:hover{
+	color:#5d6266 !important;
+}
+
+/* 已预约的 */
+.okyu{
+	background:#ccc !important;
+	cursor:auto !important;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+$('.ui.four.blocks .block .content p').click(function(){
+	//$(this).toggleClass('clss');
+})
+
+$('.choose_option').click(function(){
+  var class_id = $(this).attr('class_id');
+  if($(this).hasClass('clss')){
+    $(this).removeClass('clss');
+    phenix.remove_asset_id('choose_ids', class_id);
+  }else{
+    $(this).addClass('clss');
+    phenix.record_asset_id('choose_ids', class_id);
+  }
+
+});
+
+$('#next-step').click(function(){
+  var ids = $("#choose_ids").val();
+  if(ids){
+    var id_arr = ids.split(',');
+    if(id_arr.length>2){
+      phenix.show_error_note('服务项不能超过两个!', 3000);
+      return false;
+    }
+    phenix.redirect('/d3in/yuyue?ids='+ids);
+  }else{
+    phenix.show_error_note('请先选择一项服务', 3000);  
+    return false;
+  }
+});
+
+
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">实验室预约</h3>
+        <p>您希望选择什么测试服务项？ <span class="" style="font-size:12px;color:red;">*最多可选两个测试项目</span></p>
+			</div>
+		</div>
+		
+		<div class="ui center aligned row">
+			<input type="hidden" name="choose_ids" id="choose_ids" value="{{ ids }}" />
+			<div class="ui four center aligned blocks">
+        {% for d in classifies %}
+          <div class="center aligined block">
+            <div class="content aligned1">
+              <h4 class="ui header">{{ d.title }}</h4>
+              {% if d.children %}
+                {% for c in d.children %}
+                <p class="choose_option {%if c.checked%}clss {%endif%}okyu1" class_id="{{ c._id }}">{{ c.title }}</p>
+                {%endfor%}
+              {%endif%}
+            </div>
+          </div>
+        {%endfor%}
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="right aligned column">
+        <a href="{{ app_url_domain }}/d3in" class="ui magenta inverted button">取消</a>&nbsp;&nbsp;
+				<a href="javascript:void(0);" class="ui magenta inverted button" id="next-step">下一步</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

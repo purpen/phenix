@@ -119,18 +119,22 @@
 	#vio {
 	  position: absolute;
 	  top: 14%;
-	  left: 7.5%;
+	  left: 0%;
 	  z-index: 2;
-	  width: 85%;
+	  width: 100%;
 	}
 	.tunbtn{
-		width: 60% !important;
+		width: 50% !important;
 	  position: absolute;
 	  z-index: 1111;
 	  height: auto !important;
-	  margin: 0 20%;
-	  top: 50%;
+	  margin: 0 25%;
+	  top: 60%;
 	  margin-top: -30px;
+	}
+	.swiper-container{
+		max-width:640px;
+		margin:0 auto;
 	}
 	
 </style>
@@ -144,10 +148,10 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
 
-    var m_name = '入色界，6月19日美国高端情趣时尚品牌69登陆中国';
+    var m_name = '69神器 | 全国首款智能电臀火辣来袭，比女人更懂你的原始欲望';
     var img_url = 'http://frstatic.qiniudn.com/images/promo/tu1.jpg';
     var link = '{{ app_url_wap }}/promo/xin';
-    var desc_str = '约不约？燃动本性之夜。你敢来，我就敢狂野！';
+    var desc_str = '一个会用下半身来“思考”的性感尤物，100%模拟真人互动真实体验。';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -217,11 +221,8 @@
 				height: $(window).height(),
 			})
 		}
-		/*$(window).on('resize', function() {
-			fixPagesHeight();
-		})*/
 		fixPagesHeight();
-		var mySwiper = new Swiper ('.swiper-container', {
+		/*var mySwiper = new Swiper ('.swiper-container', {
 		   direction : 'vertical',
 		  //virtualTranslate : true,
 		   mousewheelControl : true,
@@ -236,32 +237,12 @@
 			onTransitionEnd: function(swiper){
 			swiperAnimate(swiper);
 		    },
-
-
-			/*watchSlidesProgress: true,
-
-		      onProgress: function(swiper){
-		        for (var i = 0; i < swiper.slides.length; i++){
-		          var slide = swiper.slides[i];
-		          var progress = slide.progress;
-		          var translate = progress*swiper.height/4;  
-				  scale = 1 - Math.min(Math.abs(progress * 0.5), 1);
-		          var opacity = 1 - Math.min(Math.abs(progress/2),0.5);
-		          slide.style.opacity = opacity;
-				  es = slide.style;
-				  es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,'+translate+'px,-'+translate+'px) scaleY(' + scale + ')';
-
-		        }
-		      },
-
-			   onSetTransition: function(swiper, speed) {
-		        for (var i = 0; i < swiper.slides.length; i++){
-		          es = swiper.slides[i].style;
-				  es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
-
-		        }
-		      },*/
-			   })
+			})*/
+			var mySwiper = new Swiper('.swiper-container',{
+			   loop : true,
+         direction : 'vertical',
+         speed : 800,
+      })
 		
 	</script> 
 	<script>document.write('<style>#loading{display:none}</style>');</script>      
@@ -311,53 +292,38 @@
 <div class="swiper-container">
   <div class="swiper-wrapper">
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu1.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/ooootu.jpg">
 			
 			
 			<div id="vio">
-				<video id="media" width="100%"  controls="controls" poster="">
+				<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/promo/otu69.jpg">
 				  <source type="video/mp4" src="http://frstatic.qiniudn.com/wechat/js/tun.mp4">
 				</video>
 			</div>
 			
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu2.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/ootu2.jpg">
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu3.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/ootu3.jpg">
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu4.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/ootu4.jpg">
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu5.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/oootu5.jpg">
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu6.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/ootu6.jpg">
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu7.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/ootu7.jpg">
 		</div>
 		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu8.jpg">
-		</div>
-		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/images/promo/tu9.jpg">
-		</div>
-		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/wechat/js/tu010.jpg">
-		</div>
-		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/wechat/js/tu011.jpg">
-		</div>
-		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/wechat/js/tu013.jpg">
-		</div>
-		<div class="swiper-slide">
-			<img src="http://frstatic.qiniudn.com/wechat/js/tu13.jpg">
+			<img src="http://frstatic.qiniudn.com/images/promo/oootu130.jpg">
 			<a href="http://mp.weixin.qq.com/s?__biz=MzA5ODg0NTk5NQ==&mid=208711350&idx=1&sn=8044bcce7db041667e15a97ceeaadaec">
-			<img class="tunbtn" src="http://frstatic.qiniudn.com/wechat/js/tubtn.png">
+			<img class="tunbtn" src="http://frstatic.qiniudn.com/images/promo/otubtn.png">
 			</a>
 		</div>
 	</div>

@@ -12,7 +12,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
     'page_description_suffix' => '中国智能硬件.蛋年创新大会是中国首个集合硬件、媒体、投资、平台、机构等多阵营的业内创新交流大会，蛋年创新大会与您聚焦中国智能硬件的发展趋势，畅聊智能硬件发展未来。',
 	);
 	
-	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz');
+	protected $exclude_method_list = array('execute', 'index', 'zlist', 'view', 'sz','test');
 	
 	/**
 	 * 默认入口
@@ -23,7 +23,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
 	
 	
 	public function test(){
-		return $this->to_html_page('wap/birdegg/home.html');
+		return $this->to_html_page('wap/birdegg/zepto.html');
 	}
 	/**
 	 * 智能硬件蛋年活动

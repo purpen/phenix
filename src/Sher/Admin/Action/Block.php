@@ -22,10 +22,10 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 	
 	/**
-	 * 块列表
+	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $this->set_target_css_state('all');
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/block?page=#p#');
@@ -36,7 +36,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 	
 	/**
-	 * 创建/更新块
+	 * 创建/更新
 	 */
 	public function submit(){
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
@@ -65,7 +65,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 	/**
-	 * 保存块信息
+	 * 保存信息
 	 */
 	public function save(){		
 		$id = $this->stash['_id'];
@@ -126,7 +126,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 	/**
-	 * 删除块
+	 * 删除
 	 */
 	public function deleted(){
 		$id = $this->stash['id'];
@@ -159,4 +159,4 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 }
-?>
+

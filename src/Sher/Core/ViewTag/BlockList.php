@@ -1,7 +1,7 @@
 <?php
 /**
  * 块列表标签
- * @author purpen
+ * @author tianshuai
  */
 class Sher_Core_ViewTag_BlockList extends Doggy_Dt_Tag {
     protected $argstring;
@@ -56,4 +56,4 @@ class Sher_Core_ViewTag_BlockList extends Doggy_Dt_Tag {
 		
     }
 }
-?>
+

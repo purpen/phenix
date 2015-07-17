@@ -1,0 +1,121 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室-支付页面 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.white.grid.row{
+	padding: 1rem 5%;
+	margin:1rem 0;
+}
+.inline.fields .field {
+  min-height: 1.3em;
+	margin: 1rem 0;
+}
+.grouped.inline.fields{
+	margin-bottom: 2rem;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+$('#pay_btn').click(function(){
+  // 所有ajax请求，验证是否登录
+  if (!phenix.visitor.is_login){
+    phenix.show_login_box();
+    return false;
+  }
+  var evt = $("input[name='vip_evt']:checked").val();
+  if(evt){
+    phenix.redirect("{{ app_url_d3in }}/pay?evt="+evt);
+  }else{
+    phenix.show_error_note('请选择一种类型', 1000); 
+    return false;
+  }
+
+});
+
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 12%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">会员支付</h3>
+			</div>
+		</div>
+		<div class="row ui white responsive grid">
+			<div class="column">
+				<div class="grouped inline fields">
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='month'%}checked="checked"{%endif%} value="month" />
+							<label>{{ vip_money.month }}元 / 月</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='quarter'%}checked="checked"{%endif%} value="quarter" />
+							<label>{{ vip_money.quarter }}元 / 季 (&nbsp;88折&nbsp;)</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='self_year'%}checked="checked"{%endif%} value="self_year" />
+							<label>{{ vip_money.self_year }}元 / 半年 (&nbsp;8折&nbsp;)</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="vip_evt" {%if evt=='year'%}checked="checked"{%endif%} value="year" />
+							<label>{{ vip_money.year }}元 / 全年 (&nbsp;8折&nbsp;)</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--<div class="column">
+        <label><p><input type="radio" name="vip_evt" {%if evt=='month'%}checked="checked"{%endif%} value="month" /> {{ vip_money.month }}元 / 月</p></label>
+				<label><p><input type="radio" name="vip_evt" {%if evt=='quarter'%}checked="checked"{%endif%} value="quarter" /> {{ vip_money.quarter }}元 / 季 (88折)</p></label>
+				<label><p><input type="radio" name="vip_evt" {%if evt=='self_year'%}checked="checked"{%endif%} value="self_year" /> {{ vip_money.self_year }}元 / 半年 (8折)</p></label>
+				<label><p><input type="radio" name="vip_evt" {%if evt=='year'%}checked="checked"{%endif%} value="year" /> {{ vip_money.year }}元 / 全年 (8折)</p></label>
+			</div>-->
+
+				<div class="center aligned column">
+          <a href="javascript:void(0);" id="pay_btn" class="ui magenta inverted button">
+						下一步
+					</a>
+				</div>
+      </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+				
+				
+				
+				

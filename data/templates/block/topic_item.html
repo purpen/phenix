@@ -8,7 +8,7 @@
 	</td>
 	<td class="nine wide">
       	<h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
-			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
                 {% if topic.top %}
                 <i class="ui pop basic pin icon" data-content="置顶推荐" data-variation="inverted"></i>
                 {% endif %}
@@ -34,7 +34,11 @@
 						{{ topic.strip_description|truncate 70 }}
 					</div>
 				{% else %}
-					{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+					{% if topic.cover %}
+					  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+          {%else%}
+					  {% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+          {%endif%}
 					<!--展示图片-->
 					<div class="ui mini images">
 						{% if topic.cover %}

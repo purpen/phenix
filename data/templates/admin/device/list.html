@@ -1,0 +1,97 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style class="text/css">
+	
+</style>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">设备管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+	  	<a class="active item" href="{{ app_url_admin_base }}/device">全部列表</a>
+	  	<div class="right menu">
+			<a class="item" href="{{ app_url_admin_base }}/device/edit">
+				<i class="add icon"></i>新增设备
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/device" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	{% device_list var:'list' kind:kind page:page size:size %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>设备名</th>
+        <th>编号</th>
+				<th>推荐</th>
+        <th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for t in list.rows %}
+			<tr id="{{ t._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ t._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ t.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+          <p><a href="{{ t.view_url }}" target="_blank" class="ui link" title="{{ t.title }}">{{ t.title |truncate 20 }}</a></p>
+					<p>ID: {{ t._id }}</p>
+				</td>
+        <td>{{ t.mark }}</td>
+				<td>
+					<p>
+						{% if t.stick %}
+						<label class="ui green label">是</label>
+						{% else %}
+						<label class="ui black label">否</label>
+						{% endif %}
+					</p>
+				</td>
+        <td>
+          <p>
+          {% if t.state %}
+            <label class="ui green label">启用</label>
+          {%else%}
+            <label class="ui black label">禁用</label>
+          {%endif%}
+        </td>
+				<td>
+					<div class="ui small divided horizontal list">
+						<a href="{{ app_url_admin_base }}/device/edit?id={{ t._id }}" class="ui magenta link item">编辑</a>
+						<a href="{{ app_url_admin_base }}/device/delete?id={{ t._id }}" class="ui magenta link confirm-request item">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_page > 1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

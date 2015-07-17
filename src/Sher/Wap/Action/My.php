@@ -330,5 +330,54 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		return $this->to_html_page('wap/pmall.html');
 	}
 	
+	/**
+	   * 获取用户签到数据
+	   */
+	  public function ajax_wap_fetch_user_sign(){
+	    $continuity_times = 0;
+	    $has_sign = 0;
+			// 当前用户是否有权限
+			if ($this->visitor->id){
+	      $user_sign_model = new Sher_Core_Model_UserSign();
+	      $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+
+	      if($user_sign){
+	        $today = (int)date('Ymd');
+	        $yesterday = (int)date('Ymd', strtotime('-1 day'));
+	        if($user_sign['last_date']==$yesterday){
+	          $continuity_times = $user_sign['sign_times'];
+	        }elseif($user_sign['last_date']==$today){
+	          $has_sign = 1;
+	          $continuity_times = $user_sign['sign_times'];
+	        }
+	        $result = array('is_true'=>1, 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times, 'data'=>$user_sign);
+	      }else{
+	        $result = array('is_true'=>0, 'msg'=>'数据不存在', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
+	      }
+	    }else{
+	      $result = array('is_true'=>0, 'msg'=>'未注册', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);   
+	    }
+	    $this->stash['result'] = $result;
+	    //加载签到操作
+	    $this->stash['is_doing'] = false;
+	    return $this->to_taconite_page('ajax/wap_user_sign_box.html');
+	  }
+
+	  /**
+	   * 用户每日签到
+	   */
+	  public function ajax_wap_sign_in(){
+	    if ($this->visitor->id){
+	      $user_sign_model = new Sher_Core_Model_UserSign();
+	      $result = $user_sign_model->sign_in((int)$this->visitor->id);   
+	    }else{
+	      $result = array('is_true'=>0, 'has_sign'=>0, 'msg'=>'没有权限!', 'continuity_times'=>0);    
+	    }
+	    //执行签到操作
+	    $this->stash['is_doing'] = true;
+
+	    $this->stash['result'] = $result;
+	    return $this->to_taconite_page('ajax/wap_user_sign_box.html');
+	  }
 
 }

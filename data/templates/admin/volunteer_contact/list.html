@@ -1,0 +1,127 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">志愿者管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/volunteer_contact?state=0" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/volunteer_contact?state=1" class="{{ css_no_deal }} item">
+			未处理
+		</a>
+		<a href="{{ app_url_admin_base }}/volunteer_contact?state=2" class="{{ css_pass }} item">
+			通过
+		</a>
+		<a href="{{ app_url_admin_base }}/volunteer_contact?state=3" class="{{ css_regect }} item">
+			拒绝
+		</a>
+
+    <!--
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/volunteer_contact/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+      -->
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/volunteer_contact" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>个人信息</th>
+				<th>理由</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% contact_list var:'contacts' kind:2 state:state page:page size:size %}
+			
+			{% for b in contacts.rows %}
+			<tr id="{{ b._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+          <p>name: {{b.name}} | {%if b.sex==1%}男{%endif%}{%if b.sex==2%}女{%endif%}</p>
+          <p>tel: {{b.tel}}</p>
+          <p>emal: {{b.email}}</p>
+          <p>position: {{b.position}}</p>
+				</td>
+				<td>
+          {{ b.content }}
+				</td>
+        <td>
+          <p class="state-{{b._id}}">
+          {% if b.state %}
+            {% if b.state==1 %}
+              <label class="ui green label">通过</label>
+            {%endif%}
+            {% if b.state==2 %}
+              <label class="ui magenta label">拒绝</label>
+            {%endif%}
+          {%else%}
+            <label class="ui gray label">未处理</label>
+          {%endif%}
+          </p>
+        </td>
+        <td>
+          <span class="stat-btn-{{b._id}}">
+          {% if b.state %}
+            {% if b.state==1 %}
+              <a href="{{ app_url_admin }}/volunteer_contact/ajax_set_state?id={{ b._id }}&state=2" class="ui link ajax">拒绝</a>
+            {%endif%}
+            {% if b.state==2 %}
+              <a href="{{ app_url_admin }}/volunteer_contact/ajax_set_state?id={{ b._id }}&state=1" class="ui link ajax">通过</a>
+            {%endif%}
+          {%else%}
+              <a href="{{ app_url_admin }}/volunteer_contact/ajax_set_state?id={{ b._id }}&state=1" class="ui link ajax">通过</a> |
+              <a href="{{ app_url_admin }}/volunteer_contact/ajax_set_state?id={{ b._id }}&state=2" class="ui link ajax">拒绝</a>
+          {%endif%}
+          </span>
+          |
+          <a href="{{ app_url_admin }}/volunteer_contact/deleted?id={{ b._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if contacts.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:contacts.total_rows,total_page:contacts.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ contacts.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

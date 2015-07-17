@@ -133,7 +133,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'name' => '小号'
 		),
 		array(
-			'id' => 9,
+			'id' => 10,
 			'name' => '硬件工程师'
 		),
 	);
@@ -261,6 +261,16 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'visit' => array(
 			'new_user_viewed' => 0,
 		),
+
+    #用户其它认证标记
+    'identify' => array(
+      // 实验室 志愿者
+      'd3in_volunteer' => 0,
+      // 实验室 会员
+      'd3in_vip' => 0,
+      // 实验室 标记 --证明参与过实验室预约
+      'd3in_tag' => 0,
+    ),
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
 
@@ -272,12 +282,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
         # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号;
         'kind' => 0,
-
-        # 用户唯一邀请码
-        'invite_code' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1);
 	
     protected $required_fields = array('account', 'password');
 
@@ -678,6 +685,17 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			return;
 		}
 		$this->update_set((int)$user_id, array('visit.'.$field => $value));
+	}
+
+	/**
+    * 更新用户其它身份标识
+    * 实验室\
+	 */
+	public function update_user_identify($user_id, $field, $value=0) {
+		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag'))){
+			return;
+		}
+		$this->update_set((int)$user_id, array('identify.'.$field => $value));
 	}
 
     /**

@@ -112,5 +112,13 @@ app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
 #app.storage.tmpdir: '/Users/xiaoyi/data/export'
 app.storage.tmpdir: '/opt/tmp'
 
+# 实验室会员价格表
+app.d3in.vip_money:
+  day: 80
+  month: 800
+  quarter: 2112
+  self_year: 3840
+  year: 6720
+
 # session secret key
-app.session.secret_key: 'CHANGE_IT
+app.session.secret_key: 'CHANGE_IT'

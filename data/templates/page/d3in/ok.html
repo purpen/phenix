@@ -1,0 +1,62 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.white.grid.row{
+	padding: 1rem 5%;
+	margin:1rem 0;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">您的预约已确认</h3>
+			</div>
+		</div>
+		<div class="row ui white responsive grid">
+			<div class="column">
+				<p>内容：信号完整性测试</p>
+				<p>时间：2015年6月22日  10:00-12:00</p>
+				<p>地点：深圳市 福田区 保税区市花路 花样年福年</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+				
+				
+				
+				

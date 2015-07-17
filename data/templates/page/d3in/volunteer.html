@@ -1,0 +1,243 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.table th{
+	text-align:center;
+}
+.ui.table tbody tr{
+	background:rgba(0,0,0,0) !important;
+}
+.ui.white.grid.row{
+	padding: 1rem 5%;
+}
+
+p{
+	line-height: 24px !important;
+  margin: 8px 0;
+}
+p.heigh{
+	margin:24px 0;
+}
+.ui.form .field>label{
+	margin: 0 0 .8em;
+	font-size: 1.1em;
+}
+.ui.modal .ui.checkbox {
+  font-size: 1em;
+}
+.ui.modal .ui.checkbox + .ui.checkbox{
+	margin-left:2em;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+$('.ui.volunteer.button').click(function(){
+	// 所有ajax请求，验证是否登录
+	if (!phenix.visitor.is_login){
+		phenix.show_login_box();
+		return false;
+	}
+	$('#volunteer-form-box').modal('show');
+});
+
+$('#volunteer-form').livequery(function(){
+	$(this).form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '姓名不能为空'
+				}
+			]
+		},
+		tel: {
+			identifier  : 'tel',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系电话不能为空'
+				},
+				{
+					type   : 'length[11]',
+					prompt : '联系电话必须11位字符'
+				}
+			]
+		},
+		email: {
+			identifier  : 'email',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请添写邮箱'
+				},
+				{
+					type   : 'email',
+					prompt : '邮箱格式不正确'
+				}
+			]
+		},
+		position: {
+			identifier  : 'position',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '职业不能为空'
+				}
+			]
+		},
+		sex: {
+			identifier  : 'sex',
+			rules: [
+				{
+					type   : 'checked',
+					prompt : '您的姓别?'
+				}
+			]
+		},
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请添写申请理由'
+				},
+        {
+          type  : 'maxLength[140]',
+          prompt  : '不能大于140个字符'
+        }
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit();
+		}
+	});
+});
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row ui white responsive grid">
+			<div class="column">
+				<h3 class="ui center aligned header">志愿者招募</h3>
+				<p>无论你是名学生还是一位久经沙场的白领，你若有时间，有激情，热爱创客运动，喜欢动手制作，北京创客空间将提供给您一个施展拳脚的机会。现北京创客空间将开始长期的志愿者招募，拥有以下技能的小伙伴们欢迎发邮件至v@bjmakerspace.com，注明：姓名，性别，专业，特长，拥有志愿者技能点，我们将会第一时间与您联系沟通细节，北京创客空间，有你更精彩！</p>
+				
+				<p class="heigh">作为志愿者拥有的技能点</p>
+				
+				<p>课程制作，为会员或非会员举办工作坊</p>
+				<p>媒体制作，拍摄活动现场视频和照片，剪辑视频，并形成文字报道</p>
+				<p>活动推广，在多个平台对空间举办的活动进行推广</p>
+				<p>管理工作，对空间举办的活动提供后勤支持</p>
+				<p>成立兴趣小组，积极推进项目的进展，并以北京创客空间的名义参加比赛等</p>
+				<p>其他……直接来创客空间找社区经理聊聊吧</p>
+				
+				<p class="heigh">志愿者可以得到的回报 </p>
+					<p>根据志愿者能力等同于相应的会员权利，初级，普通，全日制，或设备会员等；与诸如富士康，庆科，联想等大型企业相关负责人的深入沟通与交流的机会；社区经理手把手教你如何使用空间的设备；找到一群志同道合的小伙伴，或许，你的创业合伙人就在这里等你呢。</p>
+				
+				<p class="heigh">除此之外，你还拥有下图中的创作环境哦 ~O(∩_∩)O~</p>
+				
+				<p class="heigh">你，看到这里，有木有心动呐，速度将邮件猛砸过来吧！</p>
+			</div>
+			<div class="center aligned column">
+				<div class="ui magenta inverted volunteer button">提交申请</div>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+
+
+
+<div class="ui small volunteer modal" id="volunteer-form-box">
+  	<i class="flat close icon"></i>
+	<div class="ui header" id="modal-header">
+    	申请志愿者
+  	</div>
+	<div class="container">
+		<form action="{{ app_url_action_base }}/d3in/volunteer_save" class="ui form" method="post" id="volunteer-form">
+		  	<div class="content">
+				
+				<div class="two fields">
+					<div class="field">
+						<label>姓名</label>
+            <input type="text" name="name" value="{{ visitor.profile.realname }}" />
+					</div>
+					<div class="field">
+						<label>职业</label>
+					  	<input type="text" name="position" value="{{ visitor.profile.job }}" />
+					</div>
+				</div>
+				
+				
+				<div class="field">
+					<label>性别</label>
+					<div class="ui checkbox">
+            <input type="radio" name="sex" {%if visitor.sex==1%}checked="checked"{%endif%} />
+						<label> 男</label>
+					</div>
+					<div class="ui checkbox">
+						<input type="radio" name="sex" {%if visitor.sex==2%}checked="checked"{%endif%} />
+						<label></label>
+						<label> 女</label>
+					</div>
+				</div>
+				
+				<div class="two fields">
+					<div class="field">
+						<label>联系电话</label>
+					  <input type="text" name="tel" placeholder="11位手机号码" value="{{ visitor.profile.phone }}" />
+					</div>
+					<div class="field">
+						<label>邮箱</label>
+					  <input type="text" name="email" placeholder="" value="{{ visitor.email }}" />
+					</div>
+				</div>
+				
+				<div class="field">
+					<label>申请理由</label>
+					<textarea name="content" class="small"></textarea>
+				</div>
+		
+				<div class="field">
+					<div class="ui active magenta submit button">确定</div>
+				</div>
+				
+			</div>				
+		</form>
+	</div>
+</div>
+
+{% endblock %}

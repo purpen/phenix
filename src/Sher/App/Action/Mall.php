@@ -8,7 +8,7 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk');
 	
 	/**
 	 * 网站入口
@@ -68,6 +68,25 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 	public function tgopro(){
 		$this->set_target_css_state('page_shop');
 		return $this->to_html_page('page/mall/tgopro.html');
+	}
+	
+	/**
+	 * 配奶机
+	 */
+	public function milk(){
+		$this->set_target_css_state('page_shop');
+    //加载百度在线客服交流
+    //$this->stash['baidu_talk_server'] = true;
+    //$this->stash['server_code'] = '7b69d6f73a00457e5b1d5824df47a5c1';
+		return $this->to_html_page('page/mall/milk.html');
+	}
+	
+	/**
+	 * 配奶机 图集
+	 */
+	public function tmilk(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tmilk.html');
 	}
 
 }

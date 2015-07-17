@@ -1,7 +1,7 @@
 <taconite>
-	<replace select="#order-{{ order._id }}">
+	<replace select="#order-{{ order._id }}"><![CDATA[
 		{% include 'block/order-item.html' %}
-	</replace>
+	]]></replace>
 	<eval>
   {% if my %}
 		phenix.show_ok_note('您已成功提交!', 2000, '#message-form');

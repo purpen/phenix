@@ -373,6 +373,8 @@
 			</div>
 		</div>
 	</div>
+
+{% if active.process %}
 	<div class="ui big process block">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -384,7 +386,6 @@
 				</div>
 			</div>
 			<div class="row">
-        {% if active.process %}
               {% for p in active.process %}
                 <div class="rundown-timeline-container">
                   <div class="timeline-block">
@@ -407,7 +408,7 @@
                   </div>
                 </div>
               {%endfor%}
-            {%endif%}
+
 				
 				<div class="rundown-timeline-container bottom">
 					<div class="timeline-block">
@@ -416,6 +417,10 @@
 				</div>
 			</div>
 			
+		</div>
+	</div>
+            {%endif%}
+
 		{% if active.step_stat==1 %}
       <div class="ui center aligned row">
         <div class="center aligned column attend-box">
@@ -431,9 +436,6 @@
         </div>
       </div>
     {%endif%}
-			
-		</div>
-	</div>
 	
 	<div class="ui big report block">
 		<div class="ui w-600">

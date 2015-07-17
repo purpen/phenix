@@ -1,0 +1,29 @@
+<taconite>
+  {% for d in result %}
+    
+    <replaceContent select="#item-{{ d }} .state-btn"><![CDATA[
+      {% if state==0 %}
+			      <a href="{{ app_url_admin }}/d_member/ajax_set_state?id={{ d }}&state=1" class="ui ajax link item">
+							解禁
+						</a>
+      {%else%}
+			      <a href="{{ app_url_admin }}/d_member/ajax_set_state?id={{ d }}&state=0" class="ui ajax link item">
+							禁用
+						</a>
+      {%endif%}
+    ]]></replaceContent>
+
+    <replaceContent select="#item-{{ d }} .state-box"><![CDATA[
+      {% if state==0 %}
+            <label class="ui magenta label">禁用</label>
+      {%else%}
+            <label class="ui green label">正常</label>
+      {%endif%}
+    ]]></replaceContent>
+
+  {%endfor%}
+
+	<eval>
+    //phenix.show_ok_note('{{ note }}');
+	</eval>
+</taconite>

@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * 同步订单索引状态 值 
+ * 同步订单索引状态值 
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {

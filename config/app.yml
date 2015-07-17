@@ -59,7 +59,8 @@ app.session.sid: 'sher_sid'
 #auth cookie:
 app.session.auth_sid: 'sher_asid'
 # session secret key
-app.session.secret_key: 'Frbird#2018Up'
+#app.session.secret_key: 'Frbird#2018Up'
+app.session.secret_key: 'Frbird#2015Up'
 
 # 序列编号表
 app.serialno.name: 'serialno'
@@ -81,6 +82,7 @@ app.dt.extension_lib.sher_app:
     'topic_list':'Sher_App_ViewTag_TopicList'
     'product_list':'Sher_App_ViewTag_ProductList'
     'stuff_list':'Sher_Core_ViewTag_StuffList'
+    'sign_list':'Sher_Core_ViewTag_SignList'
     'like_list':'Sher_App_ViewTag_LikeList'
     'support_list':'Sher_App_ViewTag_SupportList'
     'asset_list':'Sher_App_ViewTag_AssetList'
@@ -127,6 +129,10 @@ app.dt.extension_lib.sher_app:
     'tag_list':'Sher_Core_ViewTag_TagList'
     'report_list':'Sher_Core_ViewTag_ReportList'
     'user_point_stat_list':'Sher_Core_ViewTag_UserPointStatList'
+    'device_list':'Sher_Core_ViewTag_DeviceList'
+    'd_order_list':'Sher_Core_ViewTag_DOrderList'
+    'd_member_list':'Sher_Core_ViewTag_DMemberList'
+    'd_appoint_list':'Sher_Core_ViewTag_DAppointList'
   filters: []
 
 app.js.use_bundle: false

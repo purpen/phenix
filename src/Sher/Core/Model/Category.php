@@ -195,4 +195,4 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	
 	
 }
-?>
+

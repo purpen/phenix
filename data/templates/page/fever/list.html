@@ -82,13 +82,13 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui horizontal bulleted list">
-					<a class="ui line {{ css_type_voting }} item" href="{{ links.voting_url }}">正在投票</a>
-					<a class="ui line {{ css_type_finishing }} item" href="{{ links.finishing_url }}">即将结束</a>
+					<a class="ui line {{ css_type_voting }} item" href="{{ links.voting_url }}">全部</a>
+					<a class="ui line {{ css_type_finishing }} item" href="{{ links.finishing_url }}">正在投票</a>
 				</div>
 				<div class="ui horizontal bulleted sortby list">
 				  	<a class="ui line {{ css_sort_latest }} item" href="{{ links.sort_latest_url }}">最新</a>
 				  	<a class="ui line {{ css_sort_votest }} item" href="{{ links.sort_votest_url }}">投票</a>
-				  	<a class="ui line {{ css_sort_comment }} item" href="{{ links.sort_comment_url }}">评论</a>
+				  	<a class="ui line {{ css_sort_love }} item" href="{{ links.sort_love_url }}">点赞</a>
 				</div>
 			</div>
 		</div>
@@ -100,7 +100,7 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui three voteist cards">
-					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 size:12 %}
+					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 vote_type:type sort:sort size:12 %}
 					{% for product in list.rows %}
 						{% include "block/product_vote_item.html" %}
 					{% endfor %}

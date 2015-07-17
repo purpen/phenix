@@ -1,0 +1,89 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">分类管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/classify" class="{{css_all_classify}} item">全部</a>
+		<a href="{{ app_url_admin_base }}/classify?only_open=1" class="{{css_open_classify}} item">公开列表</a>
+		<a href="{{ app_url_admin_base }}/classify?only_open=2" class="{{css_hide_classify}} item">隐藏列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/classify/edit" class="magenta item">
+				<i class="add icon"></i> 新增分类
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/classify" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>分类名称/标识</th>
+				<th>状态</th>
+				<th>所属组</th>
+        <th>数量</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for cat in classifies %}
+			<tr id="{{ cat._id }}" {% if cat.domain == 2%}class="positive"{% endif %} {% if cat.domain == 1%}class="negative"{% endif %}>
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ cat._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ cat.title }} / {{ cat.name }}</td>
+				<td>{% if cat.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
+				<td>{{ cat.kind_str.name }}</td>
+				<td>{{ cat.total_count }}</td>
+
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="{{ app_url_admin_base }}/classify/edit?id={{ cat._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/classify/delete?id={{ cat._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+				{% if cat.children %}
+          {% for child in cat.children %}
+            <tr id="{{ child._id }}" {% if cat.kind == 2%}class="positive"{% endif %} {% if cat.kind == 1%}class="negative"{% endif %}>
+              <td>
+                <div class="ui checkbox">
+                    <input name="ids[]" type="checkbox" value="{{ child._id }}" />
+                    <label></label>
+                </div>
+              </td>
+              <td>|----{{ child.title }} / {{ child.name }}</td>
+              <td>{% if child.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
+				      <td>{{ child.kind_str.name }}</td>
+				      <td>{{ child.total_count }}</td>
+              <td>
+                <div class="ui divided horizontal list">
+                  <a href="{{ app_url_admin_base }}/classify/edit?id={{ child._id }}" class="ui link item">编辑</a> 
+                  <a href="{{ app_url_admin_base }}/classify/delete?id={{ child._id }}" class="ui link item confirm-request">删除</a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        {%endif%}
+			{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}

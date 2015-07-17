@@ -164,6 +164,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！');
 		}
+		$this->set_target_css_state('user_orders');
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 
@@ -636,7 +637,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         }
 
         $this->stash['my'] = true;
-        $this->stash['order'] = $model->find_by_rid($rid);
+        $new = $model->find_by_rid($rid);
+        $this->stash['order'] = $new;
         return $this->to_taconite_page('ajax/refund_ok.html');
     }
 
@@ -857,5 +859,102 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     }
 
   }
+
+  /**
+   * 实验室 订单
+   */
+  public function d_order(){
+    $this->set_target_css_state('user_d_order');
+    $s = (int)$this->stash['s'];
+		switch($s){
+			case 1: // 未支付订单
+				$this->set_target_css_state('nopayed');
+				break;
+			case 4: // 已完成订单
+				$this->set_target_css_state('finished');
+				break;
+			case 9: // 已关闭订单：取消的订单、过期的订单
+				$this->set_target_css_state('closed');
+				break;
+      default:
+				$this->set_target_css_state('all');
+
+		}
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/d_order?s=%d&page=#p#', $s);
+		$this->stash['pager_url'] = $pager_url;
+
+    return $this->to_html_page('page/my/d_order.html');
+  }
+
+  /**
+   * 实验室 订单详情
+   */
+  public function d_order_view(){
+
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！');
+		}
+
+    $this->set_target_css_state('user_d_order');
+		$model = new Sher_Core_Model_DOrder();
+		$order_info = $model->find_by_rid($rid);
+
+		// 仅查看本人的订单
+		if($this->visitor->id != $order_info['user_id']){
+			return $this->show_message_page('你没有权限查看此订单！');
+		}
+
+    $s = (int)$this->stash['s'];
+
+		switch($s){
+			case 1: // 未支付订单
+				$this->set_target_css_state('nopayed');
+				break;
+			case 4: // 已完成订单
+				$this->set_target_css_state('finished');
+				break;
+			case 9: // 已关闭订单：取消的订单、过期的订单
+				$this->set_target_css_state('closed');
+				break;
+      default:
+				$this->set_target_css_state('all');
+
+		}
+
+		$this->stash['order_info'] = $order_info;
+
+    return $this->to_html_page('page/my/d_order_view.html');
+  }
+
+  /**
+   * 实验室 预约列表
+   */
+  public function d_appoint(){
+    $this->set_target_css_state('user_d_appoint');
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+    switch($state){
+      case 0:
+        $this->set_target_css_state('all');
+        break;
+      case -1:
+        $this->set_target_css_state('close');
+        break;
+      case 1:
+        $this->set_target_css_state('ing');
+        break;
+      case 2:
+        $this->set_target_css_state('over');
+        break;
+      case 10:
+        $this->set_target_css_state('finish');
+        break;
+    }
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/d_appoint?state=%d&page=#p#', $state);
+		$this->stash['pager_url'] = $pager_url;
+    return $this->to_html_page('page/my/d_appoint.html');
+  }
+
 
 }

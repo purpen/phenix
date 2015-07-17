@@ -1,0 +1,203 @@
+{%extends 'layout/column.html'%}
+{% block title %}支付订单-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	// 跳转支付
+	$('.ui.checkout.button').click(function(){
+		$('.ui.paywait.modal').modal('show');
+	});
+	
+	// 点击 
+	$('.ui.radio.checkbox').on('click', 'label', function(){
+		$('.ui.radio.checkbox label').removeClass('active');
+		$(this)
+			.addClass('active');
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="cart" id="checkout">
+	<div class="ui responsive grid" style="padding:2% 10%">
+
+		<div class="row">
+			<div class="ui column">
+				<h3 class="ui header">支付订单</h3>
+				
+				<div class="ui ordered message">
+					<h3 class="ui header">
+						<div class="picicon">
+							<i class="checkmark icon"></i>
+						</div>
+						<div class="content">
+							订单已提交成功，如未支付,该订单会在15分钟内自动关闭,请尽快付款。
+							<div class="sub header">
+								订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">{{ order.payment.name }}</span>
+							</div>
+						</div>
+					</h3>
+				</div>
+				
+				<h3 class="ui header">选择支付方式</h3>
+				<form class="ui pay form" method="post" action="{{ app_url_d3in }}/payed" id="pay-form" target="_blank">
+					<input type="hidden" name="rid" value="{{ rid }}" />
+					
+					<table class="ui padded table payaway segment">
+						<tr>
+							<td class="five wide">
+								<h3 class="ui header">
+									<div class="content">
+										支付平台
+										<div class="sub header">手机等大额支付推荐使用支付宝快捷支付</div>
+									</div>
+								</h3>
+							</td>	
+							<td class="dline">
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input type="radio" value="alipay" name="payaway"> 
+										<label><img alt="alipay" src="{{ app_url_packaged }}/images/online_alipay.jpg"></label>
+									</div>
+                  <!--
+									<div class="ui radio checkbox">
+										<input type="radio" value="quickpay" name="payaway"> 
+										<label><img alt="alipay" src="{{ app_url_packaged }}/images/online_unionpay.jpg"></label>
+									</div>
+                  -->
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="five wide">
+								<h3 class="ui header">
+									<div class="content">
+										网上银行
+										<div class="sub header">支持地方银行，需开通网银支付功能</div>
+									</div>
+								</h3>
+							</td>	
+							<td class="dline">
+								<div class="field bank">
+									<div class="ui radio checkbox">
+										<input id="CMB" type="radio" value="CMB" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_zsyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="ICBCB2C" type="radio" value="ICBCB2C" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_gsyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="CCB" type="radio" value="CCB" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_jsyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="ABC" type="radio" value="ABC" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_nyyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="BOC-DEBIT" type="radio" value="BOC-DEBIT" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_zgyh.gif" /></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="COMM" type="radio" value="COMM" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_jtyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="PSBC-DEBIT" type="radio" value="PSBC-DEBIT" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_youzheng.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="GDB" type="radio" value="GDB" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_gfyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="SPDB" type="radio" value="SPDB" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_pufa.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="CEBBANK" type="radio" value="CEBBANK" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_gdyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="SPABANK" type="radio" value="SPABANK" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_payh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="CIB" type="radio" value="CIB" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_xyyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="CMBC" type="radio" value="CMBC" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_msyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="CITIC" type="radio" value="CITIC" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_zxyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="SDB" type="radio" value="SDB" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_sfyh.gif"></label>
+									</div>
+									<div class="ui radio checkbox">
+										<input id="SHBANK" type="radio" value="SHBANK" name="payaway">
+										<label><img alt="" src="{{ app_url_packaged }}/images/payOnline_shyh.gif"></label>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+                    <div class="ui grid">
+    					<div class="bottom aligned row">
+    						<div class="six wide column">
+    							<a class="ui gray inverted button" href="{{ order.view_url }}" target="_blank">
+    								<i class="browser icon"></i> 查看订单
+    							</a>
+    						</div>
+    						<div class="right aligned ten wide column">
+    							<input type="submit" class="ui magenta active checkout inverted button" value="现在支付" />
+    						</div>
+    					</div>
+                    </div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui small paywait modal">
+  	<i class="flat close icon"></i>
+	<div class="ui header">
+    	正在支付...
+  	</div>
+	<div class="container">
+		<div class="content">
+			<div class="ui header">
+				<div class="picicon">
+					<i class="payment icon"></i>
+				</div>
+				<div class="content">
+					<div class="block">
+						如果支付失败...
+						<div class="sub header">
+							立即查看 <a href="{{ app_url_helper }}" class="ui magenta link">支付常见问题</a>
+						</div>
+					</div>
+					<div class="block">
+						支付成功了
+						<div class="sub header">
+							立即查看 <a href="{{ order.view_url }}" class="ui magenta link">订单详情</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

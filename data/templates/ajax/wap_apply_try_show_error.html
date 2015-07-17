@@ -9,7 +9,8 @@
 	
 	<eval>
     {% if stat %}
-      window.setTimeout("$('.ui.applytry.modal').modal('hide')", 1500);
+      //phenix.redirect('{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}', 2000);
+      phenix.redirect('{{ try.wap_view_url }}', 2000);
     {%endif%}
 	</eval>
 </taconite>

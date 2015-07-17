@@ -54,6 +54,9 @@
 					<input type="text" name="week" placeholder="周: 201520" value="{{ week }}" />
 				</div>
 				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+				<div class="field">
 					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
 				</div>
 
@@ -91,7 +94,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% user_point_stat_list var:'list' sort:s week:week month:month user_id:user_id kind:1 state:1 size:50 %}
+			{% user_point_stat_list var:'list' sort:s week:week month:month day:day user_id:user_id kind:1 state:1 page:page size:50 %}
 			
 			{% for b in list.rows %}
 			<tr id="{{ b._id }}">

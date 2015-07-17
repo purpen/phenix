@@ -7,9 +7,9 @@
 	// 删除活动
 	$('.item.ajax-delete').bind('click', function(){
 		var selected_ids = [];
-    if(!window.confirm('你确定要执行批量删除操作？')){
-      return false;
-    }
+		if(!window.confirm('你确定要执行批量删除操作？')){
+		  return false;
+		}
 		
 		$('input.checkbox:checked').each(function(){
 			var v = $(this).val();
@@ -32,8 +32,11 @@
 	<h3 class="ui header">活动管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/active" class="active item">
+		<a href="{{ app_url_admin_base }}/active?kind=0" class="item {{ css_all }}">
 			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/active?kind=2" class=" item {{ css_d3in }}">
+			实验室
 		</a>
 
 	  	<div class="right menu">
@@ -51,16 +54,16 @@
 	<div class="ui sub nav">
 		<form action="{{ app_url_admin_base }}/active/search" method="get">
 			<label>搜索：</label>
-      <div class="ui selection dropdown">
-        <input type="hidden" name="s" value="{{ s }}" />
-        <div class="default text">选择条件</div>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item" data-value="1">ID</div>
-          <div class="item" data-value="2">标题</div>
-          <div class="item" data-value="3">标签</div>
-        </div>
-      </div>
+		<div class="ui selection dropdown">
+		  <input type="hidden" name="s" value="{{ s }}" />
+		  <div class="default text">选择条件</div>
+		  <i class="dropdown icon"></i>
+		  <div class="menu">
+			<div class="item" data-value="1">ID</div>
+			<div class="item" data-value="2">标题</div>
+			<div class="item" data-value="3">标签</div>
+		  </div>
+		</div>
 
 			<div class="ui icon input">
         <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
@@ -80,19 +83,20 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">名称</th>
-        <th>报名列表</th>
-        <th>期数</th>
+				<th>类型</th>
+				<th>报名列表</th>
+				<th>期数</th>
 				<th>是否发布</th>
-        <th>推荐</th>
+				<th>推荐</th>
 				<th>进度</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% active_list var:'list' page:page deleted:1 s_type:s s_mark:q size:20 %}
+			  {% active_list var:'list' kind:kind page:page deleted:1 s_type:s s_mark:q size:20 %}
       {%else%}
-			  {% active_list var:'list' page:page deleted:1 size:20 %}
+			  {% active_list var:'list' kind:kind page:page deleted:1 size:20 %}
       {%endif%}
 
 			{% for active in list.rows %}
@@ -110,18 +114,26 @@
 				</td>
 				<td>
 		          	<div class="header">
-                  <a href="{{ active.view_url }}" class="ui link" target="_blank" title="{{ active.title }}">
+						<a href="{{ active.view_url }}" class="ui link" target="_blank" title="{{ active.title }}">
 							{{ active.title|truncate, 32 }}
 						</a>
 					</div>
 		          	<p class="attribute">ID：{{ active._id }}</p>
 				</td>
-        <td>
-          <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表</a>
-        </td>
-        <td>
-          <span class="ui small green label">{{ active.season }}</span>      
-        </td>
+				<td>
+				  {% if active.kind==1 %}
+					官方
+				  {%endif%}
+				  {% if active.kind==2 %}
+					实验室
+				  {%endif%}
+				</td>
+				<td>
+				  <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表({{ active.signup_count }})</a>
+				</td>
+				<td>
+				  <span class="ui small green label">{{ active.season }}</span>      
+				</td>
 				<td>
 					<p>
 						{% if active.published %}
@@ -142,7 +154,7 @@
 				</td>
 				<td>
 					<p>
-            <span class="ui small green label">{{ active.step_str }}</span>
+						<span class="ui small green label">{{ active.step_str }}</span>
 					</p>
 				</td>
 				<td>

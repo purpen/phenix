@@ -77,6 +77,9 @@ app.url.stuff.list: '{$app.url.stuff}/c%d/p%s'
 app.url.stuff.view: '{$app.url.stuff}/view-%d.html'
 app.url.stuff.comment: '{$app.url.stuff}/view-%d-%d.html'
 
+# 实验室
+app.url.d3in: '{$app.url.domain}/d3in'
+
 # 活动
 app.url.active: '{$app.url.domain}/active'
 app.url.active.view: '{$app.url.active}/view-%s.html'
@@ -151,6 +154,10 @@ app.url.my.message:		'{$app.url.domain}/my/message'
 app.url.my.orders: '{$app.url.domain}/my/orders'
 app.url.my.order_view: '{$app.url.domain}/my/order_view?rid=%s'
 app.url.my.order_mm_view: '{$app.domain.mobile}/my/order_view?rid=%s'
+
+#实验室
+app.url.my.d_order_view: '{$app.url.domain}/my/d_order_view?rid=%s'
+app.url.my.d_order_wap_view: '{$app.domain.mobile}/my/d_order_view?rid=%s'
 
 #个人主页
 app.url.user:			'{$app.url.domain}/user'

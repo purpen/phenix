@@ -234,7 +234,15 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		
 		return $this->to_taconite_page('admin/verify_ok.html');
 	}
+
+  /**
+   * 支持名单
+   */
+  public function vote_list(){
+  
+ 		return $this->to_html_page('admin/try/vote_list.html'); 
+  }
 	
 	
 }
-?>
+

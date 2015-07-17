@@ -1,0 +1,407 @@
+{%extends 'layout/column.html'%}
+{% block title %}婴萌配奶机 -{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+<style type="text/css">
+	.ui.white .row{
+		padding:5px 0;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+		border-bottom:1px solid rgba(0,0,0,0.3);
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+		background-color:#fff;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:1000px;
+		margin:0 auto;
+		padding-top:40px;
+		text-align: center;
+		position:relative;
+	}
+	.section.gary.background{
+		background:#f3f3f3;
+	}
+	.section2 .contide,.section3 .contide{
+		padding-top:0;
+	}
+	.section{
+		margin-top:-3px;
+	}
+	.section4{
+		background:url({{ app_url_packaged }}/images/mall/mik4.jpg) no-repeat center center;
+		height: 600px;
+		background-size: cover;
+	}
+	.section4 .taxt{
+		width: 400px;
+	  margin-left: 60%;
+	  padding-top: 240px;
+	  color: #fff;
+		opacity:0;
+	}
+	.section5 .contide{
+		height: 700px;
+		padding: 0;
+	}
+	.section5 .contide .ui.grid{
+		width: 400px;
+		display: inline-block;
+		margin-right:30px;
+		opacity:0;
+	}
+	.section6 .ui.grid .row{
+		opacity:0;
+	}
+	.section6 .contide{
+		height:850px;
+		opacity:0;
+		z-index: 2;
+	}
+	.section6 .contide img{
+		position: absolute;
+		right: 0;
+	  top: 40px;
+	  z-index: 2;
+	}
+	.section6 .ui.grid{
+		position:absolute;
+		top:0;
+		right:0;
+		background:#b8bf3c;
+		width:100%;
+		padding:4% 10%;
+		z-index:1;
+		color:#fff;
+		margin:0;
+	}
+	.section7 .contide .ui.grid{
+		width: 400px;
+	  display: inline-block;
+	  padding-left: 60px;
+		opacity:0;
+	}
+	.section7 .contide img{
+		opacity:0;
+	}
+	.section8{
+		background:url({{ app_url_packaged }}/images/mall/mik8.jpg) center center /cover;
+		height:300px;
+	}
+	.section9{
+		background:url({{ app_url_packaged }}/images/mall/mik9.jpg) center center /cover;
+		height:300px;
+	}
+	.section10{
+		background:url({{ app_url_packaged }}/images/mall/mik10.jpg) center center /cover;
+		height:300px;
+	}
+	.section8 .ui.grid{
+		width:400px;
+		margin-left: 60%;
+	  padding-top: 80px;
+	  color: #fff;
+		opacity:0;
+	}
+	.section8 .ui.grid p,.section9 .ui.grid p,.section10 .ui.grid p{
+		font-size:24px;
+	}
+	.section8 .ui.grid h1,.section9 .ui.grid h1,.section10 .ui.grid h1{
+		font-size:32px;
+	}
+	.section9 .ui.grid{
+		width:400px;
+		margin-left: 24%;
+	  padding-top: 80px;
+	  color: #fff;
+		opacity:0;
+	}
+	.ui.grid.zoomIn{
+		opacity:1 !important;
+	}
+	.section10 .ui.grid{
+		width:400px;
+		margin-left: 60%;
+	  padding-top: 80px;
+		opacity:0;
+	}
+	.section11 .contide .ui.grid {
+	  width: 400px;
+	  display: inline-block;
+	  padding-left: 60px;
+		opacity:0;
+	}
+	.section12 .contide .ui.grid {
+	  width: 400px;
+	  display: inline-block;
+	  padding-left: 60px;
+		opacity:0;
+	}
+	.section11 img,.section12 img{
+		opacity:0;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if(scrollTop > 2140){
+				$('.section4 .taxt' ).addClass('fadeInDown animated');
+			}
+			if(scrollTop > 2945){
+				$('.section4 .taxt' ).removeClass('fadeInDown animated');
+				$('.section5 .ui.grid').addClass('fadeInLeft animated');
+			}
+			if(scrollTop > 3520){
+				$('.section5 .ui.grid').removeClass('fadeInLeft animated');
+				$('.section6 .ui.grid .row').addClass('fadeInLeft animated');
+				$('.section6 .contide').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 4500){
+				$('.section7 .ui.grid').addClass('fadeInRight animated');
+				$('.section7 .contide img').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 5320){
+				$('.section8 .ui.grid').addClass('zoomIn animated');
+			}
+			if(scrollTop > 5370){
+				$('.section9 .ui.grid').addClass('zoomIn animated');
+			}
+			if(scrollTop > 5720){
+				$('.section10 .ui.grid').addClass('zoomIn animated');
+			}
+			if(scrollTop > 6060){
+				$('.section11 .ui.grid').addClass('fadeInRight animated');
+				$('.section11 img').addClass('fadeInUp animated');
+			}
+			if(scrollTop > 6670){
+				$('.section12 .ui.grid').addClass('flash animated');
+				$('.section12 img').addClass('fadeInUp animated');
+			}
+			if(scrollTop < 160){
+				$('.section4 .taxt' ).removeClass('fadeInDown animated');
+				$('.section5 .ui.grid').removeClass('fadeInLeft animated');
+				$('.section6 .ui.grid .row').removeClass('fadeInLeft animated');
+				$('.section6 .contide').removeClass('fadeInUp animated');
+				$('.section7 .ui.grid').removeClass('fadeInRight animated');
+				$('.section7 .contide img').removeClass('fadeInUp animated');
+				$('.section8 .ui.grid').removeClass('zoomIn animated');
+				$('.section9 .ui.grid').removeClass('zoomIn animated');
+				$('.section10 .ui.grid').removeClass('zoomIn animated');
+				$('.section11 .ui.grid').removeClass('fadeInRight animated');
+				$('.section11 img').removeClass('fadeInUp animated');
+				$('.section12 .ui.grid').removeClass('flash animated');
+				$('.section12 img').removeClass('fadeInUp animated');
+			}
+	})
+	
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>婴萌配奶机</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="{{ app_url_domain }}/mall/tmilk" class="ui link item">图集</a>|
+			<a href="http://www.taihuoniao.com/topic/view-103372-1.html" title="GoPro" class="ui item link" target="_blank">讨论区</a>
+			<a href="#.buy" class="ui inverted active gray button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="GoPro">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="milk">
+	<div class="section gary background section1">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik.png" alt="婴萌配奶机">
+			<img src="{{ app_url_packaged }}/images/mall/mik1.jpg" alt="婴萌配奶机" style="margin-left:-25px;margin-top: 20px;">
+		</div>
+	</div>
+	<div class="section section2">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik2.jpg" alt="婴萌配奶机" style="margin-left:-25px;">
+		</div>
+	</div>
+	<div class="section gary background section3">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik3.jpg" alt="婴萌配奶机" style="margin-left:-60px;">
+		</div>
+	</div>
+	<div class="section section4">
+		<div class="taxt">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<h2 class="ui header">远程操作</br>被窝里也能冲奶</h2>
+						<p>蓝牙操作MilKing，距离可达100米，</br>不用下床就能冲奶！</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section section5">
+		<div class="contide">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<h2 class="ui header">一键冲奶 10秒搞定</h2>
+						<p>无论是配比还是温度测量，都比人手测量精确数倍，</br>家中老人不需要再看说明书啦！</p>
+						
+					</div>
+				</div>
+			</div>
+			<img src="{{ app_url_packaged }}/images/mall/mik5.jpg" alt="婴萌配奶机" style="vertical-align: middle;margin-right:-30px;">
+		</div>
+	</div>
+	<div class="section section6">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik6.png" alt="婴萌配奶机">
+		</div>
+		<div class="ui grid">
+			<div class="row">
+				<div class="column">
+					<h2 class="ui header">极致安全的贴心设计</h2>
+					<p>三大部件材料全部采用美国Tritan TX2001</br>
+						 婴儿奶瓶材质，成本为视频级PP的4倍。
+					</p>
+					<p>关键组件可拆卸设计，清洗更方便。</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section gary background section7">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik7.jpg" alt="婴萌配奶机" style="vertical-align: middle;">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<h2 class="ui center aligned header">拒绝奶液残留</h2>
+						<p>采用神秘的水粉分离技术，仅再漏斗处混合奶液，完全保证机体内部的清洁干燥，同时又能将奶粉完全溶解不产生结块，真正做到拒绝奶液残留的基础上配出一杯真正的好奶！</p>
+
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	<div class="section section8">
+		<div class="ui grid">
+			<div class="row">
+				<div class="column">
+					<h1 class="ui header">三大部件</h1>
+					<p>粉桶、混合仓、水箱</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section section9">
+		<div class="ui grid">
+			<div class="row">
+				<div class="column">
+					<h1 class="ui header">可拆卸设计</h1>
+					<p>轻松安装卸下不费力</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section section10">
+		<div class="ui grid">
+			<div class="row">
+				<div class="column">
+					<h1 class="ui header">易于清洗</h1>
+					<p>自身保持清洁的同时更易于亲手清洗</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="section section11">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik11.jpg" alt="婴萌配奶机" style="vertical-align: middle;margin-right:100px;">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<h2 class="ui center aligned header">恒温水箱</h2>
+						<p>绝对安全卫生的材料，持续恒温加热，可容纳</br>1300ml水，足够一整天的冲奶水量。</p>
+						<p>Tritan™材质，美国食品药品管理局FDA认证，</br>欧美地区婴幼儿用品指定材质，加热时不产生</br>双酚A。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section gary background section12">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/mik12.jpg" alt="婴萌配奶机" style="vertical-align: middle;margin-left:-80px;">
+			<div class="ui grid">
+				<div class="row">
+					<div class="column">
+						<h2 class="ui header">管理“喂养”的专属App</h2>
+						<p>每一次冲奶都将自动记录在App中，供您永久</br>保存并查看。</p>
+						<p>40000名春雨医生24小时在线咨询，随时解决</br>您遇到的一切育儿难题。</p>
+						
+						<!--<a href=" " class="ui link" target="_blank">
+							<img src="http://frstatic.qiniudn.com/images/product/ios.png" alt="婴萌配奶机 ios">
+						</a>
+						<a href=" " class="ui link" target="_blank">
+							<img src="http://frstatic.qiniudn.com/images/product/android.png" alt="婴萌配奶机 android">
+						</a>-->
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui responsive buy grid" style="padding:3% 8%;">
+			<div class="row">
+				<div class="center aligned column">
+					<a href="http://www.taihuoniao.com/shop/1111546391.html" target="_blank" class="ui inverted active gray button" title="婴萌配奶机">立即购买</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+
+{% endblock %}
+	
+	
+	
+	
+	
+	

@@ -32,4 +32,4 @@ class Sher_Core_Service_Contact extends Sher_Core_Service_Base {
     }
 	
 }
-?>
+

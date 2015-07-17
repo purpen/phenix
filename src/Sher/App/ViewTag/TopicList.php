@@ -29,7 +29,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		
 		$type = 0;
 		$time = 0;
-		$sort = 0;
+		$sort = 'latest';
 		
 		$start_time = 0;
 		$end_time = 0;

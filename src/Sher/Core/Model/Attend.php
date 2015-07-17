@@ -1,6 +1,6 @@
 <?php
 /**
- * 活动报名表
+ * 活动报名/试用申请拉票表
  * @author purpen
  */
 class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
@@ -11,8 +11,9 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   protected $int_fields = array('user_id', 'event');
 	
 	# Event: 活动报名
-	const EVENT_ACTIVE = 1;
-	const EVENT_OTHER = 2;
+  const EVENT_ACTIVE = 1;
+  # 试用申请 拉票人数
+	const EVENT_APPLY = 2;
 	
   protected $schema = array(
     'user_id' => null,
@@ -40,12 +41,17 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 	protected function after_save() {
     //如果是新的记录
     if($this->insert_mode) {
-      $active = new Sher_Core_Model_Active();
-      if ($this->data['event'] == self::EVENT_ACTIVE){
-        $active->inc_counter('signup_count', 1, (int)$this->data['target_id']);
-      }
 
-      unset($active);
+      if ($this->data['event'] == self::EVENT_ACTIVE){
+        $active = new Sher_Core_Model_Active();
+        $active->inc_counter('signup_count', 1, (int)$this->data['target_id']);
+        unset($active);
+      }
+      if ($this->data['event'] == self::EVENT_APPLY){
+        $apply = new Sher_Core_Model_Apply();
+        $apply->inc_counter('vote_count', 1, $this->data['target_id']);
+        unset($apply);
+      }
     }
 	}
 	
@@ -54,10 +60,10 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 	 */
 	public function mock_after_remove($id,$ticket) {
     //活动报名人数减1
-		$active = new Sher_Core_Model_Active();
-		$active->dec_counter('signup_count', (int)$id);
+		//$active = new Sher_Core_Model_Active();
+		//$active->dec_counter('signup_count', (int)$id);
 		
-		unset($active);
+		//unset($active);
 	}
 
 	
@@ -65,7 +71,12 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
    * 检测是否报名
    */
   public function check_signup($user_id, $target_id, $event=1){
-    $query['target_id'] = (int) $target_id;
+    if($event==self::EVENT_ACTIVE){
+      $query['target_id'] = (int) $target_id;   
+    }elseif($event==self::EVENT_APPLY){
+      $query['target_id'] = $target_id;   
+    }
+
     $query['user_id'] = (int) $user_id;
     $query['event'] = (int) $event;
     $result = $this->count($query);

@@ -39,6 +39,13 @@ class Sher_Wap_Action_Mall extends Sher_Wap_Action_Base {
 	public function gopro(){
 		return $this->to_html_page('wap/mall/gopro.html');
 	}
+	
+	/**
+	 * 配奶机
+	 */
+	public function milk(){
+		return $this->to_html_page('wap/mall/milk.html');
+	}
 
   /**
    * test

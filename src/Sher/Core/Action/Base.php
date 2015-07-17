@@ -164,7 +164,10 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 			$this->stash['items_count'] = $items_count;
 		}
 	}
-
+	
+	/**
+	 * 预置购物车
+	 */
     protected function before_to_view() {
         parent::before_to_view();
 		// 预置购物车

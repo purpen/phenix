@@ -1,0 +1,148 @@
+{%extends 'layout/column.html'%}
+{% block title %}我的订单-实验室-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+    
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的订单</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="three wide column">
+						<h2 class="ui header">我的订单</h2>
+					</div>
+					<div class="right aligned thirteen wide column">
+						<div class="ui horizontal bulleted list">
+							<div class="item">
+								<a href="{{ app_url_my }}/d_order" class="ui {{ css_all }} link">全部订单</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_order?s=1" class="ui {{ css_nopayed }} link">未支付</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_order?s=4" class="ui {{ css_finished }} link">已完成</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/d_order?s=9" class="ui {{ css_closed }} link">已关闭</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			{% d_order_list var:'list' user_id:user.id state:s size:10 page:page %}
+			
+			{% for order in list.rows %}
+
+          <div id="order-{{ order._id }}" class="order-item">
+            <div class="ui top attached header">
+              <div class="ui horizontal bulleted list">
+                  <div class="item">
+                      订单号：{{ order.rid }}
+                  </div>
+                  <div class="item">
+                  </div>
+                  <div class="item">
+                      下单时间：{{ order.created_on|date }}
+                  </div>
+              </div>
+            </div>
+            <div class="middle aligned ui celled white grid">
+              <div class="row">
+                <div class="seven wide column">
+                  <table class="ui basic table">
+                    <tbody>
+
+                      <tr>
+                        <td>
+                              <div class="content">
+                                  <div class="header">
+                              {{ order.item_name }}
+                            </div>
+
+                                  <p class="attribute">编号：{{ order.item_id }}</p>
+                              </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="center aligned three wide column">
+                  <p>
+                    订单金额：{{ order.pay_money }} 元
+                  </p>
+                </div>
+                <div class="center aligned three wide column order-state">
+                  <div id="order-{{ order.rid }}-label" class="status-label">
+                    {{ order.state_label }}
+                  </div>
+                    {% if order.state == 1 %}
+                    <a href="{{ app_url_d3in }}/success?rid={{ order.rid }}" class="ui small inverted magenta button">支付</a>
+                    <a href="{{ app_url_d3in }}/ajax_close_order?id={{ order._id }}" class="ui small ajax inverted magenta button">关闭</a>
+                    {% endif %}
+
+                </div>
+                <div class="center aligned three wide column">
+                    <p>
+                      <a href="{{ order.view_url }}" class="ui line">订单详情 »</a>
+                    </p>
+                    <!--
+                    {% if order.state == 1 %}
+                    <a href="{{ app_url_my }}/ajax_cancel_d_order?rid={{ order.rid }}" class="ui small inverted gray ajax button">取消订单</a>
+                    {% endif %}
+                    -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+			{% else %}
+			<div class="ui segment">
+				<p>您还没有相关订单</p>
+			</div>
+			{% endfor %}
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

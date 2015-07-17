@@ -239,37 +239,14 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	}
 	
 	/**
-	 * 提交创意
+	 * 提交话题
 	 */
 	public function submit(){
-		if (empty($this->stash['cid'])){
-			return $this->show_message_page('抱歉，请先选择一个分类！', true);
-		}
-		$cid = $this->stash['cid'];
-		// 是否为一级分类
-		$is_top = true;
-		$pid = 0;
-		$current_category = array();
-		$parent_category = array();
-
-		$category = new Sher_Core_Model_Category();
-		// 获取当前分类信息
-		$current_category = $category->load((int)$cid);
-		// 存在父级分类，标识是二级分类
-		if (!empty($current_category['pid'])){
-			$is_top = false;
-			// 获取父级分类
-			$parent_category = $category->extend_load((int)$current_category['pid']);
-		}
 
 		// 评测对象
 		if(isset($this->stash['tid'])){
 			$this->stash['try_id'] = $this->stash['tid'];
 		}
-
-		$this->stash['is_top'] = $is_top;
-		$this->stash['current_category'] = $current_category;
-		$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['mode'] = 'create';
 		
@@ -282,16 +259,11 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
     $this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		// 判断来源
-		if($cid == Doggy_Config::$vars['app.topic.dream_category_id'] || (isset($this->stash['ref']) && $this->stash['ref'] == 'dream')){
-			$page_title = '提交创意';
-			$this->stash['hide'] = 'hide';
-		}else{
-			$page_title = '发表话题';
-		}
+	  $page_title = '发表话题';
 		
 		$this->stash['page_title'] = $page_title;
 		
-		return $this->to_html_page('wap/submit.html');
+		return $this->to_html_page('wap/topic/submit.html');
 	}
 	
 	/**

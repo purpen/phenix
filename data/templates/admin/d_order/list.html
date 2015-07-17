@@ -1,0 +1,113 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">订单管理-实验室</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/d_order" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/d_order?state=20" class="{{ css_payed }} item">
+			已付款
+		</a>
+
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/d_order" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>项目</th>
+				<th>用户</th>
+				<th>金额</th>
+        <th>下单时间</th>
+				<th>状态</th>
+				<th>来源</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% d_order_list var:'orders' state:state size:size %}
+			
+			{% for d in orders.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+          <p>
+            {{ d.item_name }}
+          </p>
+				</td>
+        <td>
+          <a href="{{ d.user.home_url }}" class="ui link" target="_blank">{{ d.user.nickname }}</a>
+        </td>
+				<td>
+          ￥{{ d.total_money }}
+				</td>
+        <td>
+          {{ d.created_on|date }}
+        </td>
+        <td>
+          <label class="ui {%if d.state==0%}gray {%endif%}{%if d.state==1%}red {%endif%}{%if d.state==20%}green {%endif%} label">{{ d.state_label }}</label>
+          
+          <!--
+          {% if d.state==20 %}
+            <p>支付时间: {{ d.finished_date|date }}</p>
+            <p>交易号: {{ d.trade_no }}</p>
+          {%endif%}
+          -->
+        </td>
+        <td>
+          {{ d.from_site_label }}
+        </td>
+        <td>
+          <p class="state-btn">
+						{% if d.state==1 %}
+			          	<a href="{{ app_url_admin }}/d_order/ajax_set_state?id={{ d._id }}&state=0" class="ui ajax link item">
+							关闭
+						</a>
+						{% else %}
+              --
+            {%endif%}
+          </p>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if orders.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:orders.total_rows,total_page:orders.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ orders.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

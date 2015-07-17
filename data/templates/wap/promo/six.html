@@ -1,0 +1,330 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	header.ui.wap{
+		display:none !important;
+		opacity:0;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	.mmfoot{
+		display:none;
+	}
+	*{
+		margin:0;
+		padding:0;
+	}
+	html,body{
+		height:100%;
+	}
+	#loading{
+	  background: #fff;
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  z-index: 9999;
+	  top: 0;
+	}
+	.loadbox{
+		display: block;
+		position: relative;
+		width: 100%;
+		height: 100%;
+	  margin: 0 auto;
+		margin-top: 50%;
+	}
+	.loadbg{
+		display: block;
+		position: absolute;
+		z-index: 1000;
+		width: 100%;
+		height: 100%;
+		/*background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;*/
+		color:#fff;
+		font-size:18px;
+		text-align:center;
+		background-size: 100%;
+	}
+	.swiper-container {
+	  /*  width: 320px;
+	    height: 480px;*/
+		width: 100%;
+	  height: 100%;
+		background:#fff;
+		margin:0 auto;
+		position:relative;
+		overflow:hidden;
+		z-index:1;
+	} 
+	img{
+		display:block;
+	}
+	@-webkit-keyframes start {
+		0%,30% {opacity: 0;-webkit-transform: translate(0,10px);}
+		60% {opacity: 1;-webkit-transform: translate(0,0);}
+		100% {opacity: 0;-webkit-transform: translate(0,-8px);}
+	}
+	@-moz-keyframes start {
+		0%,30% {opacity: 0;-moz-transform: translate(0,10px);}
+		60% {opacity: 1;-moz-transform: translate(0,0);}
+		100% {opacity: 0;-moz-transform: translate(0,-8px);}
+	}
+	@keyframes start {
+		0%,30% {opacity: 0;transform: translate(0,10px);}
+		60% {opacity: 1;transform: translate(0,0);}
+		100% {opacity: 0;transform: translate(0,-8px);}
+	}
+	#array{
+		position:absolute;z-index:999;-webkit-animation: start 1.5s infinite ease-in-out;
+		width: 20px;
+		height: 15px;
+		top: 94%;
+		left: 50%;
+		margin-left: -10px;
+	}
+	#music-control {
+		width: 30px;
+		height: 30px;
+		position: fixed;
+		right: 5px;
+		top: 5px;
+		z-index: 100000;
+	}
+	#music-control.playing{
+		-webkit-animation: 2.3s spin linear infinite;
+	}
+	@-webkit-keyframes spin {
+	    0% {
+	        -webkit-transform: rotateZ(0deg);
+	    }
+
+	    100% {
+	        -webkit-transform: rotateZ(360deg);
+	    }
+	}
+	.swiper-slide img{
+		width:100%;
+		height:100%;
+	}
+	.swiper-pagination-bullet{
+		opacity:0.6 !important;
+		background:#fff !important;
+	}
+	.swiper-pagination-bullet-active {
+	  opacity: 1 !important;
+	  background: #fff !important;
+	}
+	#vio {
+	  position: absolute;
+	  top: 14%;
+	  left: 0%;
+	  z-index: 2;
+	  width: 100%;
+	}
+	.tunbtn{
+		width: 50% !important;
+	  position: absolute;
+	  z-index: 1111;
+	  height: auto !important;
+	  margin: 0 25%;
+	  top: 60%;
+	  margin-top: -30px;
+	}
+	.swiper-container{
+		max-width:640px;
+		margin:0 auto;
+	}
+	
+</style>
+	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
+{% endblock %}
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate.min.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+
+    var m_name = '入色界，6月19日美国高端情趣时尚品牌69登陆中国';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/tu1.jpg';
+    var link = '{{ app_url_wap }}/promo/six';
+    var desc_str = '约不约？燃动本性之夜。你敢来，我就敢狂野！';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    //var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    //$.get(url, { target_id: 3, count_name:'count', type: 4, kind:4 });
+  }
+
+	</script>
+	<script type="text/javascript">  
+		function fixPagesHeight() {
+			$('.swiper-slide,.swiper-container').css({
+				height: $(window).height(),
+			})
+		}
+		fixPagesHeight();
+		/*var mySwiper = new Swiper ('.swiper-container', {
+		   direction : 'vertical',
+		  //virtualTranslate : true,
+		   mousewheelControl : true,
+			 speed : 800,
+		   onInit: function(swiper){
+		   swiperAnimateCache(swiper);
+		   swiperAnimate(swiper);
+			  },
+		   onSlideChangeEnd: function(swiper){
+			swiperAnimate(swiper);
+		    },
+			onTransitionEnd: function(swiper){
+			swiperAnimate(swiper);
+		    },
+			})*/
+			var mySwiper = new Swiper('.swiper-container',{
+			   loop : true,
+         direction : 'vertical',
+         speed : 800,
+      })
+		
+	</script> 
+	<script>document.write('<style>#loading{display:none}</style>');</script>      
+{% endblock %}
+
+{% block jquery %}
+	bgm = new Audio5js({
+      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('http://frstatic.qiniudn.com/wechat/js/5.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+	    bgm.playPause();
+			if($(this).hasClass("playing")){
+				$(this).removeClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //关闭
+			}
+			else{
+				$(this).addClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
+			}
+	});
+	var media = document.getElementById("media"); 
+	media.addEventListener("play", function () {
+		$('#music-control').removeClass("playing");
+		bgm.pause();
+	}, false);
+	media.addEventListener("pause", function () {
+		$('#music-control').addClass("playing");
+		bgm.play();
+	}, false);
+{% endblock %}
+{% block content %}
+<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+<div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six1.jpg">
+			
+			
+			<div id="vio">
+				<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/promo/otu69.jpg">
+				  <source type="video/mp4" src="http://frstatic.qiniudn.com/wechat/js/tun.mp4">
+				</video>
+			</div>
+			
+		</div>
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six2.jpg">
+		</div>
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six3.jpg">
+		</div>
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six4.jpg">
+		</div>
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six5.jpg">
+		</div>
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six6.jpg">
+		</div>
+		<div class="swiper-slide">
+			<img src="http://frstatic.qiniudn.com/images/promo/six7.jpg">
+		</div>
+	</div>
+	<img src="http://www.swiper.com.cn/demo/tiger/images/arrow.png" id="array">
+</div>
+
+{%endblock%}
+			
+			
+			

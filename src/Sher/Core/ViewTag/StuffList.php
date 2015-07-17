@@ -37,7 +37,7 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $fever_id = 0;
         $load_college = 0;
 		$time = 0;
-		$sort = 0;
+		$sort = 'latest';
         $is_shop = 0;
         // 搜索类型
         $s_type = 0;
@@ -56,8 +56,6 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-     	
-        $options['sort_field'] = $sort;
 		
 		// 限制分类
 		if($category_id){
@@ -145,6 +143,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		$service = Sher_Core_Service_Stuff::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+
+        $options['sort_field'] = $sort;
 		
 		// 设置排序
 		switch ($sort) {

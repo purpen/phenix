@@ -82,7 +82,8 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		// 默认最新时间
 		$links['sort_latest_url'] = Sher_Core_Helper_Url::vote_advance_list_url($category_id, $type, 0, $page);
 		$links['sort_votest_url'] = Sher_Core_Helper_Url::vote_advance_list_url($category_id, $type,  1, $page);
-		$links['sort_comment_url'] = Sher_Core_Helper_Url::vote_advance_list_url($category_id, $type, 2, $page);
+		$links['sort_love_url'] = Sher_Core_Helper_Url::vote_advance_list_url($category_id, $type, 2, $page);
+		$links['sort_comment_url'] = Sher_Core_Helper_Url::vote_advance_list_url($category_id, $type, 3, $page);
 		
 		switch($sort){
 			case 0:
@@ -92,6 +93,9 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->set_target_css_state('sort_votest');
 				break;
 			case 2:
+				$this->set_target_css_state('sort_love');
+				break;
+			case 3:
 				$this->set_target_css_state('sort_comment');
 				break;
 			default:

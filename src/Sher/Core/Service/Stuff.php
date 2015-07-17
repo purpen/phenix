@@ -1,6 +1,6 @@
 <?php
 /**
- * 产品灵感标签列表
+ * 产品灵感Service类
  * @author purpen
  */
 class Sher_Core_Service_Stuff extends Sher_Core_Service_Base {
@@ -12,7 +12,7 @@ class Sher_Core_Service_Stuff extends Sher_Core_Service_Base {
 		'comment' => array('comment_count' => -1),
 		'favorite' => array('favorite_count' => -1),
 		'love' => array('love_count' => -1),
-    'view' => array('view_count' => -1),
+		'view' => array('view_count' => -1),
 	);
 
     protected static $instance;
@@ -36,6 +36,5 @@ class Sher_Core_Service_Stuff extends Sher_Core_Service_Base {
 	    $model = new Sher_Core_Model_Stuff();
 		return $this->query_list($model,$query,$options);
     }
-
 }
 ?>

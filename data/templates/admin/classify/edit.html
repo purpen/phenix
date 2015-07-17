@@ -1,0 +1,142 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#classify-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分类标识不能为空'
+				}
+			]
+		},
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分类名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">分类管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/classify" class="{{css_all_classify}} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/classify?only_open=1" class="{{css_open_classify}} item">公开列表</a>
+		<a href="{{ app_url_admin_base }}/classify?only_open=2" class="{{css_hide_classify}} item">隐藏列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/classify/edit" class="active item">
+				+新增分类
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增分类</h4>
+		{% else %}
+		<h4>编辑分类</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/classify/save" class="ajax-form" method="post" id="classify-form">
+			<input type="hidden" name="_id" value="{{ classify._id }}" id="target_id" />
+			<div class="inline field">
+			  	<label for="name">标识：</label>
+				<input type="text" name="name" value="{{ classify.name }}" />
+			</div>
+			<div class="inline field">
+			  	<label for="title">名称：</label>
+				<input type="text" name="title" value="{{ classify.title }}" />
+			</div>
+			
+			<div class="inline field">
+				<label for="pid">所属父级：</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="pid" value="{{ classify.pid }}" />
+				    <div class="default text">请选择</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+						{% for cate in top_classify %}
+						<div data-value="{{ cate._id }}" class="{% if cate._id == classify.pid %}active {% endif %}item">{{ cate.title }}</div>
+						{% endfor %}
+				    </div>
+				</div>
+			</div>
+			
+			<div class="inline field">
+				<label for="kind">所属类组：</label>
+				<div class="ui selection dropdown">
+					<input type="hidden" name="kind" value="{{ classify.kind }}" />
+				    <div class="default text">请选择</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+						{% for g in kinds %}
+						<div data-value="{{ g.id }}" class="{% if g.id == cate.kind %}active {% endif %}item">{{ g.name }}</div>
+						{% endfor %}
+				    </div>
+				</div>
+			</div>
+			
+			<div class="inline fields">
+			    <div class="field">
+					<label for="is_open">是否公开：</label>
+			      	<div class="ui radio checkbox">
+			        	<input type="radio" name="is_open" value="1" {% if classify.is_open == 1 %}checked="checked"{% endif %} />
+						<label></label> 
+			      	</div>
+			      	<label class="checkbox title">公开</label>
+			      	<div class="ui radio checkbox">
+			        	<input type="radio" name="is_open" value="-1" {% if classify.is_open < 1 %}checked="checked"{% endif %} /> 
+			        	<label></label>
+			      	</div>
+			      	<label class="checkbox title">隐藏</label>
+			    </div>
+			    <div class="field">
+			      	
+			    </div>
+			</div>
+			<div class="inline field">
+			  	<label for="total_count">数量：</label>
+				<input type="text" class="form-control" name="total_count" value="{{ classify.total_count }}" />
+			</div>
+			<div class="inline field">
+			  	<label for="order_by">排序：</label>
+				<input type="text" class="form-control" name="order_by" value="{{ classify.order_by }}" />
+				<div class="ui pointing left label">
+					数字越小，越靠前!
+				</div>
+			</div>
+			<div class="inline field">
+			  	<label for="tags">分类标签：</label>
+				<textarea rows="3" name="tags" class="small">{{ classify.tags_s }}</textarea>
+				<div class="ui pointing top label">
+				  标签	
+				</div>
+			</div>
+			<div class="inline field">
+			  	<label for="tags">分类描述：</label>
+				<textarea rows="3" name="summary" class="small">{{ classify.summary }}</textarea>
+				<div class="ui pointing top label">
+					描述
+				</div>
+			</div>
+			
+			<input type="submit" class="ui magenta inverted button" value="确认保存">
+			<input type="button" class="ui gray inverted button" value="取消">
+		</form>
+	</div>
+{% endblock %}

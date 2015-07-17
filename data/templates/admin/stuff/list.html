@@ -7,9 +7,9 @@
 	// 删除灵感
 	$('.item.ajax-delete').bind('click', function(){
 		var selected_ids = [];
-    if(!window.confirm('你确定要执行批量删除操作？')){
-      return false;
-    }
+		if(!window.confirm('你确定要执行批量删除操作？')){
+		  return false;
+		}
 		
 		$('input.checkbox:checked').each(function(){
 			var v = $(this).val();
@@ -53,26 +53,39 @@
 			</a>
 	    </div>
 	</div>
-	
-	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/stuff/search" method="get">
-			<label>搜索：</label>
-      <div class="ui selection dropdown">
-        <input type="hidden" name="s" value="{{ s }}" />
-        <div class="default text">选择条件</div>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item" data-value="1">ID</div>
-          <div class="item" data-value="2">标题</div>
-          <div class="item" data-value="3">标签</div>
-        </div>
-      </div>
 
-			<div class="ui icon input">
-        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-				<i class="flat search link icon"></i>
+	<div class="ui grid">
+		<div class="middle aligned row">
+			<div class="six wide column">
+				<label>排序：</label>
+        <a href="{{ app_url_admin_base }}/stuff?sort=0&page={{page}}" class="ui link {%if sort==0%}active{%endif%}">最新</a>
+        <a href="{{ app_url_admin_base }}/stuff?sort=4&page={{page}}" class="ui link {%if sort==4%}active{%endif%}">点赞</a>
+        <a href="{{ app_url_admin_base }}/stuff?sort=2&page={{page}}" class="ui link {%if sort==2%}active{%endif%}">评论</a>
+        <a href="{{ app_url_admin_base }}/stuff?sort=3&page={{page}}" class="ui link {%if sort==3%}active{%endif%}">收藏</a>
 			</div>
-		</form>
+			<div class="ten wide column">
+        <div class="ui sub nav">
+          <form action="{{ app_url_admin_base }}/stuff/search" method="get">
+            <label>搜索：</label>
+            <div class="ui selection dropdown">
+              <input type="hidden" name="s" value="{{ s }}" />
+              <div class="default text">选择条件</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item" data-value="1">ID</div>
+                <div class="item" data-value="2">标题</div>
+                <div class="item" data-value="3">标签</div>
+              </div>
+            </div>
+
+            <div class="ui icon input">
+              <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+              <i class="flat search link icon"></i>
+            </div>
+          </form>
+        </div>
+			</div>
+		</div>
 	</div>
 	
 	<table class="ui small table segment">
@@ -86,18 +99,20 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">名称</th>
-        <th>赞名单</th>
-        <th>审核</th>
-        <th>推荐</th>
-        <th>来自</th>
+				<th>赞名单</th>
+				<th>收藏数</th>
+				<th>评论数</th>
+				<th>审核</th>
+				<th>推荐</th>
+				<th>来自</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% stuff_list var:'list' page:page s_type:s s_mark:q size:30 %}
+			  {% stuff_list var:'list' page:page s_type:s s_mark:q load_college:load_college sort:sort page:page size:30 %}
       {%else%}
-			  {% stuff_list var:'list' is_top:is_top category_id:category_id page:page size:30 %}
+			  {% stuff_list var:'list' is_top:is_top category_id:category_id load_college:load_college sort:sort page:page size:30 %}
       {%endif%}
 
 			{% for stuff in list.rows %}
@@ -119,12 +134,17 @@
 							{{ stuff.title|truncate, 32 }}
 						</a>
 					</div>
-		          	<p class="attribute">ID：{{ stuff._id }}</p>
+            <p class="attribute">ID：{{ stuff._id }}</p>
+            {% if load_college %}
+              <p class="attribute">大学：{{ stuff.college.name }}</p>
+            {%endif%}
 				</td>
         <td>
           <span>{{ stuff.love_count }}</span> | <a href="{{ app_url_admin_base }}/stuff/get_love_list?target_id={{ stuff._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>
 
+        <td>{{ stuff.favorite_count }}</td>
+        <td>{{ stuff.comment_count }}</td>
 				<td>
 					<p>
 						{% if stuff.verified %}

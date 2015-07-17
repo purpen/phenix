@@ -1,0 +1,15 @@
+<taconite>
+    <replaceContent select="#item-{{ id }} .state-btn"><![CDATA[
+      {% if state==0 %}
+
+      {%endif%}
+    ]]></replaceContent>
+
+    <replaceContent select="#item-{{ id }} .state-box"><![CDATA[
+      {% if state==0 %}
+            已取消
+      {%endif%}
+    ]]></replaceContent>
+	<eval>
+	</eval>
+</taconite>

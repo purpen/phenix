@@ -1,7 +1,7 @@
 <?php
 /**
- * 联系表Model
- * @author purpen
+ * 联系表Model --实验 室志愿者
+ * @author tianshuai
  */
 class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 
@@ -9,6 +9,7 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 	
 	#类型kind
     const KIND_PRODUCT    = 1;
+    const KIND_D3IN = 2;
 	
     protected $schema = array(
 		'user_id'     => 0,
@@ -18,6 +19,8 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 	  'name'   => null,
 		#电话
 		'tel' => null,
+    #性别:0.保密; 1.男;2.女
+    'sex' => 0,
     #邮箱
     'email' =>  null,
     #公司
@@ -44,7 +47,7 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 		# 附件图片数
 		'asset_count' => 0,
 		
-		# 状态:0,未处理，1.已处理
+		# 状态:0,未处理，1.已处理, 2.拒绝
 		'state' => 0,
 
     #备注
@@ -54,7 +57,7 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id','title','name');
 	
-	protected $int_fields = array('user_id','kind','category_id','state','asset_count');
+	protected $int_fields = array('user_id','kind','category_id','state','asset_count','sex');
 	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -137,9 +140,7 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 			}
 			unset($asset_model);
       }
-      
-      // 更新产品总数
-      Sher_Core_Util_Tracker::update_product_counter();
+
     }
   }
 	
@@ -149,6 +150,36 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 	public function mark_set_cover($id, $cover_id){
 		return $this->update_set($id, array('cover_id'=>$cover_id));
 	}
+
+  /**
+   * 状态设置
+   */
+  public function mark_as_state($id, $state=1){
+    $data = $this->load($id);
+    $state = (int)$state;
+    if(empty($data)){
+      return array('status'=>0, 'msg'=>'内容不存在');
+    }
+    if($data['state']==$state){
+      return array('status'=>0, 'msg'=>'重复的操作');  
+    }
+    $ok = $this->update_set($id, array('state' => $state));
+    if($ok){
+      //如果是实验室申请者通过/拒绝,更改用户表标识
+      if($data['kind']==self::KIND_D3IN){
+        $user_model = new Sher_Core_Model_User();
+        if($state==1){
+          $user_model->update_user_identify($data['user_id'], 'd3in_volunteer', 1);
+        }elseif($state==2){
+          $user_model->update_user_identify($data['user_id'], 'd3in_volunteer', 0);       
+        }    
+      }
+
+      return array('status'=>1, 'msg'=>'操作成功');  
+    }else{
+      return array('status'=>0, 'msg'=>'操作失败');   
+    }
+  }
 	
 	/**
 	 * 删除某附件
@@ -179,4 +210,4 @@ class Sher_Core_Model_Contact extends Sher_Core_Model_Base {
 	}
 	
 }
-?>
+

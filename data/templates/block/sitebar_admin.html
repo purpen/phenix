@@ -47,12 +47,18 @@
 		用户积分统计
 	</a>
     {% endif %}
+	
     {% if visitor.is_admin %}
 	<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
 		用户管理
 	</a>
     {% endif %}
     
+	{% if visitor.is_admin %}
+	<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
+		用户签到
+	</a>
+    {% endif %}
     
     {% if visitor.is_chief %}
 	<div class="header item">
@@ -82,6 +88,9 @@
 	</a>
 	<a class="{{ css_page_stuff }} item" href="{{ app_url_admin_base }}/stuff">
 		灵感管理
+	</a>
+	<a class="{{ css_page_topic }} item" href="{{ app_url_admin_base }}/topic">
+		话题管理
 	</a>
 	<a class="{{ css_page_try }} item" href="{{ app_url_admin_base }}/try">
 		产品公测
@@ -115,6 +124,30 @@
 	</a>
 	<a class="{{ css_page_tags }} item" href="{{ app_url_admin_base }}/tags">
 		关键词管理
+	</a>
+    {% endif %}
+
+    {% if visitor.is_chief %}
+	<div class="header item"><b>实验室</b></div>
+
+	<a class="{{ css_page_d_member }} item" href="{{ app_url_admin_base }}/d_member">
+		会员管理
+	</a>
+	<a class="{{ css_d_appoint }} item" href="{{ app_url_admin_base }}/d_appoint">
+		预约管理
+	</a>
+
+	<a class="{{ css_page_volunteer_contact }} item" href="{{ app_url_admin_base }}/volunteer_contact">
+		志愿者管理
+	</a>
+	<a class="{{ css_page_d_order }} item" href="{{ app_url_admin_base }}/d_order">
+		订单管理
+	</a>
+	<a class="{{ css_page_device }} item" href="{{ app_url_admin_base }}/device">
+		设备管理
+	</a>
+	<a class="{{ css_page_classify }} item" href="{{ app_url_admin_base }}/classify">
+		分类管理
 	</a>
     {% endif %}
 	

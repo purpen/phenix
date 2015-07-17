@@ -8,6 +8,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
+		'kind' => 0,
 	);
 	
 	public function _init() {
@@ -25,10 +26,21 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+    $kind = (int)$this->stash['kind'];
+    switch($kind){
+      case 1:
+        $this->set_target_css_state('offical');
+        break;
+      case 2:
+        $this->set_target_css_state('d3in');
+        break;
+      default:
+        $this->set_target_css_state('all');
+    }
+
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active?kind=%d&page=#p#', $kind);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -87,6 +99,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		$data['title'] = $this->stash['title'];
 		$data['sub_title'] = $this->stash['sub_title'];
 		$data['season'] = !empty($this->stash['season'])?(int)$this->stash['season']:0;
+		$data['kind'] = !empty($this->stash['kind'])?(int)$this->stash['kind']:1;
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		$data['cover_id'] = $this->stash['cover_id'];
@@ -290,7 +303,7 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
    */
   public function ajax_stick(){
  		$ids = $this->stash['id'];
-    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
 		if(empty($ids)){
 			return $this->ajax_notification('缺少Id参数！', true);
 		}
@@ -412,7 +425,5 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		fclose($fp);
 
 	}
-
-
 }
 

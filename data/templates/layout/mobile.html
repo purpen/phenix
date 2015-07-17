@@ -10,15 +10,38 @@
 		<meta property="qc:admins" content="2554576457641105761176375">
 		<meta name="baidu_union_verify" content="f533716307633cc500536ab620c726a2">
 		<meta name="360-site-verification" content="7c6bef1e758da3cc0f4e79d444ce2114" />
+		<meta name="format-detection" content="telephone=no"/>
 		{%block meta%}
 		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}" />
 		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
-		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国最火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的创意生态系统。{%endif%}" />
+		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国最火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。{%endif%}" />
 		<meta content="太火鸟" name="author" />
 		{%endblock%}
     <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
+			#wap-user-sign-box .add{
+				color:rgba(0,0,0,0);
+				position: absolute;
+			  text-align: center;
+			  font-size: 16px;
+			  opacity: 1;
+				z-index:3;
+			  left: -20px;
+			  line-height: 20px;
+			  margin-right: -15px;
+				top:40px;
+			}
+			#wap-user-sign-box .add-active{
+				top:-60px;
+				z-index:3;
+				color:#222;
+			  transition-delay: .3s;
+				transition: color 2s ease, top 4s ease;
+				-webkit-transition: color 2s ease, top 4s ease;
+				-moz-transition: color 2s ease, top 4s ease;
+				-o-transition: color 2s ease, top 4s ease;
+			}
 			body {
 			    background: #f1f1f1;
 			    color: #5d6266;
@@ -135,12 +158,6 @@
 		{% endblock %}
 
 		<script type="text/javascript">
-		//sidebar menu
-		$('a.launch').click(function(){
-			$('.ui.sidebar.menu').toggleClass('active');
-			$(document.body).toggleClass('left pushed');
-		});
-		
 		<!--
 		$(function(e){
 			phenix.url = {
@@ -154,6 +171,34 @@
 			phenix.visitor = {{ visitor_json }};
 			
     		phenix.initial();
+
+				
+				//sidebar menu
+				$('a.launch').on('click',function(e){
+					e.preventDefault();
+					$('.ui.sidebar.menu').addClass('active');
+					$(document.body).addClass('left pushed');
+					$('#Hmask').css('display','');
+				});
+				$('#Hmask').click(function(){
+					$('.ui.sidebar.menu').removeClass('active');
+					$(document.body).removeClass('left pushed');
+			    $('#Hmask').css('display','none');
+				});
+				
+				
+				//ajax加载签到数据
+	      if (phenix.visitor.is_login){
+			  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+				}
+			  //每日签到点击
+			  $('#sign-in-btn').livequery(function(){
+			    $(this).click(function(){
+			      //ajax加载签到事件
+			      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
+
+			    });
+			  });
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}

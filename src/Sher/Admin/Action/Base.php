@@ -11,7 +11,6 @@ class Sher_Admin_Action_Base extends Sher_Core_Action_Authorize {
 	/* 默认模板 */
 	protected $page_html = 'admin/index.html';
 	
-	
 	protected $exclude_method_list = array();
 	
 	protected $admin_method_list = '*';

@@ -1,0 +1,614 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.table th{
+	text-align:center;
+}
+.ui.table tbody tr,.ui.table tbody tr:nth-child(2n){
+	background:#fff;
+}
+.ui.table tbody tr:hover{
+	background:rgba(255,51,102,0.75);
+	cursor: pointer;
+}
+.clss{
+	background:#f1f1f1 !important;
+}
+
+/* 已预约的 */
+.okyu{
+	background:#ccc !important;
+	cursor:auto !important;
+}
+p a.ui.link{
+	color:#f36;
+	margin-left:1em;
+}
+.swiper-button-prev{
+	left:0;
+}
+.swiper-button-next{
+	right:0;
+}
+.swiper-slide .ui.grid.row{
+	margin:0 2%;
+}
+.row.chooli{
+	margin:0 0 1rem;
+}
+.row.chooli span{
+	margin-right: 15px;
+  background: green;
+  padding: 0.5px 6px;
+}
+.row.chooli span.black{
+	background:#f36;
+}
+.row.chooli .ui.white.button.active{
+	color:rgba(0,0,0,0.8);
+	-webkit-user-select: initial;
+	  -moz-user-select: initial;
+	  -ms-user-select: initial;
+	  user-select: initial;
+	cursor:auto;
+	text-transform: none;
+}
+.swiper-slide td {
+	position:relative;
+}
+.swiper-slide td span{
+	background: green;
+  padding: 10px 6px;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  left: 25%;
+}
+.swiper-slide td span.black{
+	background:#f36;
+}
+.five.fields .field {
+  display: inline-block;
+	width:120px;
+	margin: 8px 0;
+	float: left;
+	padding-left:0 !important;
+	padding-right:0 !important;
+}
+.five.fields .field .ui.radio.checkbox label{
+	padding-left: 1.5em;
+	margin-right: 0em;
+}
+
+.five.fields .field .ui.radio.checkbox input[type="radio"]{
+	z-index:100;
+	width:100%;
+	margin: 0;
+  padding: 0;
+	top:-2px;
+	height: 100%;
+}
+.option-hour .field input[type="checkbox"]{
+	z-index:100;
+	width:100%;
+	margin: 0;
+  padding: 0;
+	top:-5%;
+	height: 110%;
+}
+.option-hour .three.fields{
+	margin-left: -1%;
+	margin-right: -1%;
+}
+.option-hour .three.fields .field {
+	width: 31.33333333% !important;
+	margin: 8px 1%;
+  text-align: center;
+  padding: 20px 0 !important;
+  background: #e3e3e3;
+	z-index:999;
+}
+.option-hour .field .ui.checkbox{
+	width: 120px;
+}
+input#gen-btn{
+	margin-top: 20px;
+}
+.option-hour.ui.form .field :disabled{
+	opacity:0;
+}
+.ui.form .fields:after{
+	display:none;
+}
+.ui.buttons .button:first-child {
+  border-left: 0px solid gray;
+}
+.ui.success.message {
+  background-color: #DEFCD5;
+  color: #52A954;
+}
+.ui.success.message .header .appoint-result{
+	font-weight: 400;
+	font-size: 1.05rem;
+	margin-top: 10px;
+}
+.ui.success.message .header .appoint-result .item{
+	margin:3px 0;
+}
+.ui.success.message .header{
+	font-size:1.2em;
+}
+.ui.form .fields:after {
+  content: ' ';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    //初始化
+    //选择时间点次数
+    var init_times = 4;
+
+    //拼接结果集
+    function join_result(item_id, date_id, time_id){
+      var obj = $(':input[name=appoint_result]');
+      var result = $(obj).val();
+      var appoint_result;
+      var str = item_id + '|' + date_id + '|' + time_id;
+      
+      if(!result){
+        var appoint_result = str; 
+        $(obj).val(appoint_result);
+      }else{
+        var arr_p = result.split('$$');
+        var has_item = false;
+        for(var i=0; i<arr_p.length; i++){
+          var arr_c = arr_p[i].split('|');
+          if(arr_c[0]==item_id){
+            has_item = true;
+            if(arr_c[1]==date_id){
+              if(time_id){
+                if(arr_c[2]){
+                  var time_arr = arr_c[2].split(',');
+                  if(time_arr.indexOf(time_id)<0){
+                    time_arr.push(time_id);
+                  }else{
+                    for(var j=0;j<time_arr.length;j++){
+                      if(time_arr[j]==time_id){
+                        time_arr.splice(j, 1);
+                      }
+                    }
+                  }
+                  arr_p[i] = item_id + '|' + date_id + '|' + time_arr.join(',');
+                }else{
+                  arr_p[i] = item_id + '|' + date_id + '|' + time_id;        
+                }              
+              }else{
+                arr_p[i] = item_id + '|' + date_id + '|';
+              }
+            }else{
+              arr_p[i] = str;
+            }
+          }
+        }
+        if(!has_item){
+          arr_p.push(str);
+          appoint_result = arr_p.join('$$');
+        }else{
+          appoint_result = arr_p.join('$$');
+        }
+        $(obj).val(appoint_result);
+      }
+      return appoint_result;
+    }
+
+    // 展示结果
+    function show_result_box(item_id){
+      var obj = $(':input[name=appoint_result]');
+      var result = $(obj).val();
+      if(!result){
+        return;  
+      }
+      var arr_p = result.split('$$');
+      for(var i=0; i<arr_p.length; i++){
+        var arr_c = arr_p[i].split('|');
+        if(arr_c[0]==item_id){
+          var result_item = $('.result-list[item-id='+ item_id +']');
+          var item_name = $('.begin-appoint-btn[data-cid='+ item_id +']').attr('data-title');
+          $(result_item).find('.item-name').text(item_name);
+          var date_arr = new Array();
+          date_arr[0] = arr_c[1].substr(0, 4);
+          date_arr[1] = arr_c[1].substr(4, 2);
+          date_arr[2] = arr_c[1].substr(6, 2);
+          $(result_item).find('.item-date').text(date_arr[0]+'-'+date_arr[1]+'-'+date_arr[2]);
+          if(arr_c[2]){
+            var time_arr = arr_c[2].split(',');
+            var time_ids = '';
+            for(var j=0; j<time_arr.length; j++){
+              time_ids += time_trans(time_arr[j]) + ' ';
+            }
+            $(result_item).find('.item-time').text(time_ids);
+          }else{
+            $(result_item).find('.item-time').text('');
+          }
+        }
+      }
+    }
+
+    //通过时间ID获取可读时间
+    function time_trans(time_id){
+      var str = '';
+      switch(parseInt(time_id)){
+        case 9:
+          str = '9:00-10:00';
+          break;
+        case 10:
+          str = '10:00-11:00';
+          break;
+        case 11:
+          str = '11:00-12:00';
+          break;
+        case 12:
+          str = '12:00-13:00';
+          break;
+        case 13:
+          str = '13:00-14:00';
+          break;
+        case 14:
+          str = '14:00-15:00';
+          break;
+        case 15:
+          str = '15:00-16:00';
+          break;
+        case 16:
+          str = '16:00-17:00';
+          break;
+        case 17:
+          str = '17:00-18:00';
+          break;
+        case 18:
+          str = '18:00-19:00';
+          break;
+        case 19:
+          str = '19:00-20:00';
+          break;
+        case 20:
+          str = '20:00-21:00';
+          break;
+        default:
+          str = '';
+
+      }
+
+      return str;
+    }
+
+  </script>
+{% endblock %}
+{% block jquery %}
+
+$('.ui.table tbody tr').click(function(){
+	$(this).toggleClass('clss');
+})
+var mySwiper = new Swiper('.swiper-container',{
+  freeMode : true,
+  slidesPerView : 'auto',
+	nextButton: '.swiper-button-next',
+	prevButton: '.swiper-button-prev',
+	noSwiping : 'true',
+	noSwipingClass : 'stop-swiping',
+});
+
+$('.begin-appoint-btn:first-child').click(function(){
+	$(this).addClass('active');
+	$('.begin-appoint-btn:nth-child(2)').removeClass('active');
+});
+$('.begin-appoint-btn:nth-child(2)').click(function(){
+	$(this).addClass('active');
+	$('.begin-appoint-btn:first-child').removeClass('active');
+});
+
+//选择预约项目
+$('.begin-appoint-btn').click(function(){
+  var item_id = $(this).attr('data-cid');
+
+  $('.item-box').hide();
+  $('.item-box[item-id='+ item_id +']').show();
+  //显示剩余小时
+  $('#rest-time').show();
+  // 显示预约结果
+  $('#item-show').show();
+
+});
+
+//选择日期
+$('.option-date .date-box').click(function(){
+  var item_id = $(this).attr('item-id');
+  var date_id = $(this).find('[name=date-'+ item_id +']').val();
+
+  //过滤已预约时间
+  var url = "{{ app_url_d3in }}/ajax_filter_time";
+  $.get(url, {item_id:item_id, date_id:date_id, type:1}, function(){
+
+  });
+
+  //切换日期时,清空剩余时间记录
+  var total_times = parseInt($('#rest-time .t').attr('rest-val'));
+  var current_times = parseInt($('input[name=current-times][item-id='+ item_id +']').val());
+
+  // 更新剩余次数
+  $('[name=current-times][item-id='+ item_id +']').val(0);
+  $('#rest-time .t').attr('rest-val', total_times + current_times).text(total_times + current_times);
+
+  // 把当前选中的日期临时保存
+  $(':input[name=current-date][item-id='+ item_id +']').val(date_id);
+
+  //注入结果集
+  join_result(item_id, date_id, '');
+  // 显示结果
+  show_result_box(item_id);
+
+});
+
+// 选择时间点
+$('.hour-box').click(function(){
+  var item_id = $(this).attr('item-id');
+  var input_obj = $(this).find('[name=hour-'+ item_id +']');
+  var time_id = $(input_obj).val();
+  var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
+  var current_times = parseInt($(':input[name=current-times][item-id='+ item_id +']').val());
+
+  var date_id = $(':input[name=current-date][item-id='+ item_id +']').val();
+  if(!date_id){
+    phenix.show_error_note('请先选择日期');
+    return;
+  }
+
+  if($(input_obj).prop("checked")){
+    $(input_obj).prop('checked', false);
+    phenix.record_asset_id('record-times', time_id);
+    rest_time ++;
+    current_times --;
+  }else{
+    $(input_obj).prop('checked', true);
+    phenix.remove_asset_id('record-times', time_id);
+    rest_time --;
+    current_times ++;
+  }
+  if(rest_time <0 ){
+    phenix.show_error_note('您的时间用完!');
+    $(input_obj).prop('checked', false);
+    phenix.remove_asset_id('record-times', time_id);
+    return;
+  }else if(rest_time>4){
+    phenix.show_error_note('操作有误!');
+    $(input_obj).prop('checked', true);
+    phenix.record_asset_id('record-times', time_id);
+    return;  
+  }
+
+  // 记录本类剩余时间次数
+
+  $(':input[name=current-times][item-id='+ item_id +']').val(current_times);
+
+  $('#rest-time .t').attr('rest-val', rest_time).text(rest_time);
+
+  //注入结果集
+  join_result(item_id, date_id, time_id);
+  // 显示结果
+  show_result_box(item_id);
+
+});
+
+//确认信息,提交
+$('.next-step.button').click(function(){
+  var appoint_result = $('[name=appoint_result]').val();
+  if(!appoint_result){
+    phenix.show_error_note('请选择预约项目!');
+    return false;
+  }
+  var is_vip = $('[name=is_vip]').val();
+  var pay_ment = 0;
+  if(is_vip==0){
+    pay_ment = $('[name=pay_ment]:checked').val();
+    if(!pay_ment){
+      phenix.show_error_note('请选择支付方式!');
+      return false;
+    }
+  }
+  var url = "{{ app_url_d3in }}/appoint_sumbit";
+  $.post(url, {appoint_result:appoint_result, is_vip:is_vip, pay_ment:pay_ment});
+
+});
+
+
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11% 3%;">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">实验室预约</h3>
+				<p>您希望什么时间前来？</p>
+			</div>
+		</div>
+		
+		<div class="row chooli">
+			<div class="column">
+				<div class="ui buttons">
+        {% for d in classes %}
+        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}>
+	<!--<span class="black"></span>-->{{ d.title }}</div>&nbsp;
+        {%endfor%}
+				</div>
+			</div>
+		</div>
+
+		<div class="row" id="item-show" style="display:none;margin-top: 20px;">
+			                    <input type="hidden" name="item_id" value="" />
+			                    <input type="hidden" name="item_name" value="" />
+			                    <input type="hidden" name="date_id" value="" />
+			                    <input type="hidden" name="time_ids" id="record-times" value="" />
+			                    <input type="hidden" name="rest_times" value="4" />
+			                    <input type="hidden" name="appoint_result" value="" />
+						<div class="column">
+							<div class="ui success message">
+								<div class="header">
+								预约结果: 
+									<div class="appoint-result">
+                    <table>
+                      <th>项目名称</th>
+                      <th>日期</th>
+                      <th>时间</th>
+                    {% for d in classes %}
+                      <tr class="result-list" item-id="{{ d._id }}">
+                        <td class="item-name"></td>
+                        <td class="item-date"></td>
+                        <td class="item-time"></td>
+                      </tr>
+                    {%endfor%}
+                    </table>
+					        </div>
+								</div>
+							</div>
+						</div>
+		 </div>
+
+        {% for class in classes %}
+          <div class="column item-box" item-id="{{ class._id }}" style="display:none;">
+              <div class="row option-date" item-id="{{ class._id }}">
+                <input type="hidden" name="current-date" item-id="{{ class._id }}" value="" />
+                <input type="hidden" name="current-times" item-id="{{ class._id }}" value="0" />
+                <div class="column">
+
+                  <div class="ui segment form">
+                    
+                    <div class="five fields">					
+                    {% for d in appoint_date_arr %}
+                    {% for c in d %}
+                    
+                      <div class="field date-box" item-id="{{ class._id }}">
+                         <div class="ui radio checkbox">
+                           <input name="date-{{ class._id }}" item-id="{{ class._id }}" type="radio" value="{{ c.id }}" />
+                              <label>{{ c.date }}</label>
+                         </div>
+                       </div>
+                      
+                      {%endfor%}
+                    {%endfor%}						
+                    </div>
+                  </div>
+                           
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="column">
+                   <div class="option-hour ui form" item-id="{{ class._id }}">
+                    <div class="ui three fields">
+                      {% for d in appoint_time_arr %}
+                        <div class="field hour-box" item-id="{{ class._id }}">
+                          <div class="ui checkbox">
+                            <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label>{{ d.title }}</label>
+                          </div>
+                        </div>
+                      {%endfor%}
+
+                     </div>
+
+                  </div>
+                </div>
+              </div>
+      </div>
+    {%endfor%}
+
+
+     <div class="row" id="rest-time" style="display:none;">
+      <div class="column" style="font-size: 1.15rem;letter-spacing: 3px;">
+        剩余<span rest-val="4" class="t" style="color:#f36;">4</span>小时
+      </div>
+    </div>
+
+		<div class="row">
+      <div class="column">
+
+      </div>
+    </div>
+		
+		<div class="row">
+        {% if vip_state != 3 %}
+			<div class="column">
+				<p>费用</p>
+        <p>
+        {{ vip_money.day }}元/次    
+        {% if vip_state==0 %}<a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 加入VIP会员订阅计划 </a>{%endif%}{% if vip_state==1 %}<a href="{{ app_url_d3in }}/member" class="ui link" target="_blank"> 会员到期,点击续费 </a>{%endif%}
+        {% if vip_state==2 %}<a href="javascript:void(0);" class="ui link"> 该会员被禁用,暂时无法预约,请联系管理员 </a>{%endif%}
+        </p>
+				<p>支付方式</p>
+				<input type="hidden" name="is_vip" value="0" />
+				<div class="ui checkbox" style="margin-right:1rem;">
+					<input type="radio" name="pay_ment" value="1" />
+					<label for="">在线支付</label>
+				</div>
+				<div class="ui checkbox">
+					<input name="pay_ment" type="radio" value="2" />
+					<label for="">现场支付</label>
+				</div>
+
+			</div>
+      {%endif%}
+
+      {% if vip_state == 3 %}
+      <input type="hidden" name="is_vip" value="1" />
+      {%endif%}
+		</div>
+		
+		<div class="row">
+			<div class="right aligned column">
+        <a href="{{ app_url_domin }}/d3in/choose?ids={{ ids }}" class="ui magenta inverted button">上一步</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        {% if vip_state != 2 %}
+				<a href="javascript:void(0);" class="ui magenta inverted next-step button">下一步</a>
+        {%endif%}
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+{% endblock %}

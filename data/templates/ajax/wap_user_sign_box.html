@@ -1,0 +1,39 @@
+<taconite>
+	<replace select="#wap-user-sign-box"><![CDATA[
+      <div id="wap-user-sign-box" style="display: inline-block;position:relative;">
+        {% if result.has_sign %}
+        <!--  已签到 -->
+        <a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
+			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
+				</a>
+        {%else%}
+        <a href="javascript:void(0);" id="sign-in-btn" class="ui inverted green active button" style="padding:7px 10px !important;">签到</a>
+        {%endif%}
+
+				{% if is_doing %}
+          {% if result.is_true %}
+            <div class="add">
+              经验 +2  {% if result.give_money %}</br>鸟币 +1{%endif%}
+            </div>
+          {%endif%}
+        {%endif%}
+
+
+        
+      </div>
+	]]></replace>
+	
+	<eval>
+		function settime(){
+    {% if is_doing %}
+      {% if result.is_true %}
+        $('.add').addClass('add-active');
+      {%else%}
+        phenix.show_error_note("{{ result.msg }}");
+      {%endif%}
+    {%endif%}
+		}
+		window.setTimeout(settime,500);
+
+	</eval>
+</taconite>

@@ -1,0 +1,161 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.table th{
+	text-align:center;
+}
+.ui.table tbody tr{
+	background:rgba(0,0,0,0) !important;
+}
+.ui.white.grid.row{
+	padding: 1rem 5%;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row ui white responsive grid">
+			<div class="column">
+				<h3 class="ui center aligned header">会员</h3>
+				<p>【为什么要加入会员】</p> 
+				<p> 可以帮助你不断充实提高，并实现自己IDEA的社区 </p> 
+				<p>得到使用创客空间机加设备的机会 </p> 
+				<p>拥有一个宽敞明亮的maker工位</p>
+				<p>免费参加在空间举办的线下活动</p>
+				<p>得到申请成为创客空间工作坊坊主的机会</p>
+				</br>
+				<p>【我们能提供什么】</p>
+				<p>设备列表</p>
+				<p>*基础工具包：电烙铁、焊锡丝、松香、螺丝刀、斜口钳、老虎钳、尖嘴钳、电工胶布</p>
+				<p>*基础元器件包：免费使用空间现有的电容、电阻等元器件，在空间就一完成各种电子设备的焊接</p>
+				<p>*3D打印机和耗材：Makerbot Replicator2、太尔时代3D打印机、DFRobot3D打印机、3Dsystem打印机。</p>
+				<p>*创客书吧：包含艺术、编程、机械等行业的专业书籍，数量不断增加中</p>
+				<p>*小型加工设备：小型车床、钻床、电磨、电锯等设备的使用</p>
+				<p>*大型加工设备：激光切割机、雕刻机、光纤打标机等设备的培训</p>
+				<p>*每周四的meetup与各行各业专业人士头脑风暴</p>
+				<p>*免费参加空间周末的各种线下活动（不包含付费工作坊），诸如#电动滑板共进社#之类的神奇组织</p>
+				</br>
+				<p>【只有这些么？】</p>
+				<p>我们提供一个IDEA发布和展示的平台，或寻找小伙伴或寻求技术支持，帮你把IDEA丰富完善并完成它。</p>
+				<p>神马，这还不够？欢迎来创客空间孵化器寻求帮助（Email: tina@bjmakerspace.com）</p>
+				<p>这是一个是硬件创新合作伙伴计划，为软硬件结合创业团队和中小企业提供原型面向产品的服务，提供包括工业设计和电子技术等的专业支持，供应连和小批量生产咨询，导师和关键关系建立，销售渠道和众筹管理，以及注册和办公场地。</p>
+				
+				</br>
+				<table class="ui celled table center aligned">
+					<thead>
+						<tr>
+							<th></th>
+							<th>非会员</th>
+							<th>VIP会员</th>
+							<th>鸟家族成员</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>入会条件</td>
+							<td>周一到周五 10:00-21:00</td>
+							<td>周一到周五 10:00-21:00 </br>
+							周六/周日 10:00-21:00</td>
+							<td>周一到周五 10:00-21:00</br>
+							周六/周日 10:00-21:00</td>
+						</tr>
+						<tr>
+							<td>开放时间</td>
+							<td>无</td>
+							<td>无</td>
+							<td>已投资团队/已合作团队</td>
+						</tr>
+						<tr>
+							<td>会费</td>
+							<td>无</td>
+							<td>{{ vip_money.month }}元/月；</br>
+							{{ vip_money.quarter }}元/季（88折）；</br>
+							{{ vip_money.self_year }}元/半年（8折）；</br>
+							{{ vip_money.year }}元/年（7折）；</td>
+							<td>无（特殊耗材除外）</td>
+						</tr>
+						<tr>
+							<td rowspan="6">服务内容</td>
+							<td>免费参加太火鸟定期举办的沙龙、分享会</td>
+							<td>免费参加太火鸟定期举办的沙龙、分享会</td>
+							<td>免费参加太火鸟定期举办的沙龙、分享会</td>
+						</tr>
+						<tr>
+							<td>付费参加外聘讲师做的training分享会（20元/人）</td>
+							<td>免费参加外聘讲师做的training分享会</td>
+							<td>免费参加外聘讲师做的training分享会</td>
+						</tr>
+						<tr>
+							<td>付费提前预约使用各类测试仪器</td>
+							<td>提前预约，使用各类测试仪器</td>
+							<td>提前预约，免费优先使用各类测试仪器</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>免费提供1个单独储物空间</td>
+							<td>免费提供1个单独储物空间</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>无单独办公工位，提供开放工作区域</td>
+							<td>1个月免费单独办公位置</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>免费提供产品DFM review咨询服务；</br>
+							免费提供产品trouble shooting技术支持；</br>
+							免费提供产品的测试指导；</td>
+							<td>免费提供产品DFM review咨询服务；</br>
+							免费提供产品trouble shooting技术支持；</br>
+							免费提供产品的测试指导；</td>
+						</tr>
+						
+					</tbody>
+				</table>
+				</br>
+				
+			</div>
+      <div class="center aligned column">
+        <h3 class="ui header">加入VIP会员订阅计划</h3>
+        <a href="{{ app_url_d3in }}/buy?evt=month" class="ui magenta inverted active button">{{ vip_money.month }}元 / 月</a>
+        <a href="{{ app_url_d3in }}/buy?evt=quarter" class="ui magenta inverted active button">{{ vip_money.quarter }}元 / 季 (88折)</a>
+        <a href="{{ app_url_d3in }}/buy?evt=self_year" class="ui magenta inverted active button">{{ vip_money.self_year }}元 / 半年 (8折)</a>
+        <a href="{{ app_url_d3in }}/buy?evt=year" class="ui magenta inverted active button">{{ vip_money.year }}元 / 全年 (8折)</a>
+      </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

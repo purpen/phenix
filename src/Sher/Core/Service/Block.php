@@ -1,7 +1,7 @@
 <?php
 /**
  * 区块
- * @author purpen
+ * @author tianshuai
  */
 class Sher_Core_Service_Block extends Sher_Core_Service_Base {
 	
@@ -32,4 +32,4 @@ class Sher_Core_Service_Block extends Sher_Core_Service_Base {
     }
 	
 }
-?>
+
