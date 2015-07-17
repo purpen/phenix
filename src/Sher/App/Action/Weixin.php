@@ -108,20 +108,13 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 
     $url = sprintf("https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code", $app_id, $secret, $code);
 
-		$result = $this->http_get($url);
-		if ($result)
-		{
-			$json = json_decode($result,true);
-			if (!$json || isset($json['errcode'])) {
-				$errCode = $json['errcode'];
-				$errMsg = $json['errmsg'];
-        return $this->ajax_note($errMsg.':'.(string)$errCode, true);
-			}
-			$access_token = $json['access_token'];
-			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
-      echo $access_token;
-			
-			return;
+    $wx_third_model = new Sher_Core_Util_WechatThird();
+    $result = $wx_third_model->get_access_token($url);
+    if($result['success']){
+      echo $result['data'];
+    }else{
+      echo $result['msg'];
+    }
   }
 
   /**
