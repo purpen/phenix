@@ -71,12 +71,17 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
             return $this->display_note_page('微博登录应用正在审核中，请耐心等待！');
           }
 
+          $nickname = $weibo_info['screen_name'];
+          //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+          $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+          if (!preg_match($e, $nickname)) {
+            $nickname = (string)$uid;
+          }
+
           // 检查用户名是否唯一
-          $exist = $user->_check_name($weibo_info['screen_name']);
-          if ($exist) {
-            $nickname = $weibo_info['screen_name'];
-          } else {
-            $nickname = '微博用户['.$weibo_info['screen_name'].']';
+          $exist = $user->_check_name($nickname);
+          if (!$exist) {
+            $nickname = '微博用户['.$nickname.']';
           }
 
           $this->stash['third_source'] = 'weibo';
@@ -187,7 +192,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
         //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
         $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
         if (!preg_match($e, $user_info['nickname'])) {
-          $user_info['nickname'] = $weibo_info['idstr'];
+          $user_info['nickname'] = (string)$uid;
         }
 				
 				// 检查用户名是否唯一
