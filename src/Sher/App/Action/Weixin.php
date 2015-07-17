@@ -177,7 +177,8 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           try{
             $ok = $user_model->create($user_data);
             if($ok){
-              $user_id = $user->id;
+              $user = $user_model->get_data();
+              $user_id = $user['_id'];
             }else{
               return $this->show_message_page('创建用户失败!', $error_redirect_url);
             }         
