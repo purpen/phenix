@@ -78,15 +78,6 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     $sid = $service->session->id;
     $state = $sid;
 
-    $options = array(
-      'appid'=>Doggy_Config::$vars['app.wx.app_id'], //填写高级调用功能的app id
-      'appsecret'=>Doggy_Config::$vars['app.wx.app_secret'],
-      'redirect_uri'=>$redirect_uri,
-      'state'=>$sid,
-    );
-    //$wx = new Sher_Core_Util_WechatThird($options);
-    //$result = $wx->getQRCode($scene_id);
-
     $url = sprintf("https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $app_id, $redirect_uri, $state);
     return $this->to_redirect($url);
 
@@ -97,8 +88,48 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
    * 回调 
    */
   public function call_back(){
-     echo '11111111';
-    print_r($this->stash); 
+    $code = isset($this->stash['code'])?$this->stash['code']:null;
+    if(empty($code)){
+      return $this->ajax_note('用户拒绝了授权!', true);
+    }
+
+    $state = isset($this->stash['state'])?$this->stash['state']:null;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    if($state !== $sid){
+      return $this->ajax_note('拒绝访问!', true);
+    }
+  
+    $app_id = Doggy_Config::$vars['app.wx.app_id'];
+    $secret = Doggy_Config::$vars['app.wx.app_secret'];
+
+    $url = sprintf("https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code", $app_id, $secret, $code);
+
+		$result = $this->http_get($url);
+		if ($result)
+		{
+			$json = json_decode($result,true);
+			if (!$json || isset($json['errcode'])) {
+				$errCode = $json['errcode'];
+				$errMsg = $json['errmsg'];
+        return $this->ajax_note($errMsg.':'.(string)$errCode, true);
+			}
+			$access_token = $json['access_token'];
+			$expire = $json['expires_in'] ? intval($json['expires_in']) : 7200;
+      echo $access_token;
+			
+			return;
+  }
+
+  /**
+   * 获取access_token
+   */
+  public function fetch_access_token(){
+
+  
   }
 
 	

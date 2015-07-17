@@ -16,6 +16,7 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
     'week_sort' => 0,
     'sort_point' => 0,
     'sort_money' => 0,
+    'user_id' => 0,
 	);
 	
 	public function _init() {
@@ -78,4 +79,4 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 	}
 
 }
-?>
+
