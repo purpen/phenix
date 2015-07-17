@@ -44,8 +44,8 @@ app.xun_search_db: 'phenix'
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
 
-# 产品话题-话题评论
-app.product.topic_category_id: 19
+# 产品话题-话题评测
+app.product.topic_category_id: 18
 
 # 产品话题-评测
 app.product.topic_evaluating_category_id: 18
@@ -111,6 +111,10 @@ app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 
 # 微信支付
 app.wechat.pay_sign_key: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
+
+# WeiXin API
+app.wx.app_id: 'aaaa'
+app.wx.app_secret: 'aaaa'
 
 # 七牛存储（生产环境使用云存储）
 app.url.qiniu.upload: 'http://up.qiniu.com'

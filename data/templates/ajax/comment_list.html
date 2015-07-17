@@ -6,7 +6,7 @@
 		{% endfor %}
 	]]></append>
 	<eval>
-		{% if comments.total_page == next_page %}
+		{% if comments.total_page < next_page %}
 			$('#more-comments').addClass('disabled');
 		{% else %}
 			$('#more-comments').data('page', {{ next_page }});

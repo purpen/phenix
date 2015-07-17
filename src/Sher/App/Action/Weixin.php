@@ -10,7 +10,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','login');
+	protected $exclude_method_list = array('execute','login','first_request');
 	
 	/**
 	 * 微信登录
@@ -64,6 +64,44 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 			return $this->ajax_json('等待登录！', true);
 		}
 	}
+
+  /**
+   * 第三方登录
+   */
+  public function first_request(){
+
+    $app_id = Doggy_Config::$vars['app.wx.app_id'];
+    $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/weixin/redirect_uri');
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = $sid;
+
+    $options = array(
+      'appid'=>Doggy_Config::$vars['app.wx.app_id'], //填写高级调用功能的app id
+      'appsecret'=>Doggy_Config::$vars['app.wx.app_secret'],
+      'redirect_uri'=>$redirect_uri,
+      'state'=>$sid,
+    );
+    //$wx = new Sher_Core_Util_WechatThird($options);
+    //$result = $wx->getQRCode($scene_id);
+
+    $url = sprintf("https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $app_id, $redirect_uri, $state);
+    return $this->to_redirect($url);
+
+
+  }
+
+  /**
+   * 返回
+   */
+  public function redirect_uri(){
+  
+    echo '11111111';
+    print_r($this->stash);
+  
+  }
 	
 }
-?>
+
