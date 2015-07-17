@@ -51,10 +51,6 @@
 {% endblock %}
 
 {% block jquery %}
-	// 分享
-	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
-	});
 	
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -151,6 +147,14 @@
 	});
 	
 	phenix.hook_comment_page();
+	
+	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ try.wap_view_url }}'});
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
 	
 	// ajax加载更多评论
 	$('.ui.more.button').livequery(function(){
