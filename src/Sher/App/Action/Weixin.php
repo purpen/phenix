@@ -141,7 +141,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
         if(!empty($user)){
           $user_id = $user['_id'];
           // 重新更新access_token
-          $user->update_wx_accesstoken($user_id, $access_token);
+          $user_model->update_wx_accesstoken($user_id, $access_token);
         }else{
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
@@ -182,12 +182,12 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
               return $this->show_message_page("注册失败:".$e->getMessage(), $error_redirect_url);
           }
 
-          // 实现自动登录
-          Sher_Core_Helper_Auth::create_user_session($user_id);
-          $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-		      return $this->to_redirect($user_home_url);
         }
 
+        // 实现自动登录
+        Sher_Core_Helper_Auth::create_user_session($user_id);
+        $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
+        return $this->to_redirect($user_home_url);
       }else{
         return $this->show_message_page($result['msg'], $error_redirect_url);
       }
