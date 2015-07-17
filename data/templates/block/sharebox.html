@@ -5,7 +5,7 @@
 		<hr>
   	</div>
 	<div class="content">
-		<h2 class="ui header">{{ product.title }}</h2>
+		<h2 class="ui header">{% if try %}{{ try.title }}{%else%}{{ product.title }}{% endif %}</h2>
 		<div class="phenix-share">
 			<a href="javascript:void(0);" id="sina-share" class="ui weibo circular share icon button" title="新浪微博">
 				<i class="flat icon_weibo icon"></i>
