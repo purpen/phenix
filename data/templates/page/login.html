@@ -3,8 +3,23 @@
 {% block js %}
 {% endblock %}
 
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+{% endblock %}
+
 {% block jquery %}
 	phenix.build_auth_page();
+
+  var obj = new WxLogin({
+      id:"login_container", 
+      appid: "{{ wx_params.app_id }}", 
+      scope: "snsapi_login", 
+      redirect_uri: "{{ wx_params.redirect_uri }}",
+      state: "{{ wx_params.state }}",
+      style: "",
+      href: ""
+    });
+
 {% endblock %}
 
 {% block content %}
@@ -20,6 +35,7 @@
 			
 				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
+          <div id="login_container"></div>
 					<div class="center aligned ui header">登录太火鸟</div>
 					<div class="two fields">
 						<div class="field">
