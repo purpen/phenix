@@ -99,21 +99,35 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
 
-    if($state !== $sid){
+    if($state != $sid){
       return $this->ajax_note('拒绝访问!', true);
     }
   
     $app_id = Doggy_Config::$vars['app.wx.app_id'];
     $secret = Doggy_Config::$vars['app.wx.app_secret'];
 
+    $options = array(
+      'app_id' => $app_id,
+      'secret' => $secret,
+    );
+
     $url = sprintf("https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code", $app_id, $secret, $code);
 
-    $wx_third_model = new Sher_Core_Util_WechatThird();
+    $wx_third_model = new Sher_Core_Util_WechatThird($options);
     $result = $wx_third_model->get_access_token($url);
     if($result['success']){
-      echo $result['data'];
+      $open_id = $result['data']['openid'];
+      $access_token = $result['data']['access_token'];
+      $url = sprintf("https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s", $access_token, $open_id);
+      $result = $wx_third_model->get_userinfo($url);
+      if($result['success']){
+        print_r($result['data']);
+      }else{
+        return $this->ajax_note($result['msg'], true);
+      }
+
     }else{
-      echo $result['msg'];
+      return $this->ajax_note($result['msg'], true);
     }
   }
 

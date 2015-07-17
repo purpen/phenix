@@ -7,7 +7,8 @@
 class Sher_Core_Util_WechatThird extends Doggy_Object {
 	public function __construct($options)
 	{
-
+		$this->token = isset($options['secret'])?$options['secret']:'';
+		$this->appid = isset($options['app_id'])?$options['app_id']:'';
 	}
 
 	/**
@@ -23,12 +24,40 @@ class Sher_Core_Util_WechatThird extends Doggy_Object {
 				$errMsg = $json['errmsg'];
 				return array('success'=>false, 'msg'=>$errMsg, 'code'=>$errCode);
       }else{
+        if((int)$json['expires_in']==0){
+          $r_url = sprintf("https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s", $this->appid, $json['refresh_token']);
+          $json = $this->http_get($r_url);
+          if (!$json || !empty($json['errcode'])) {
+            $errCode = $json['errcode'];
+            $errMsg = $json['errmsg'];
+            return array('success'=>false, 'msg'=>$errMsg, 'code'=>$errCode);
+          }
+        }
 			  return array('success'=>true, 'data'=>$json);
       }
     }else{
- 		  return array('success'=>false, 'msg'=>'数据为空!', 'code'=>200);   
+ 		  return array('success'=>false, 'msg'=>'数据为空!', 'code'=>500);   
     }
 	}
+
+  /**
+   * 获取用户信息
+   */
+  public function get_userinfo($url){
+    $result = $this->http_get($url);
+    if($result){
+      $json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$errCode = $json['errcode'];
+				$errMsg = $json['errmsg'];
+				return array('success'=>false, 'msg'=>$errMsg, 'code'=>(int)$errCode);
+      }else{
+        return array('success'=>true, 'data'=>$json);
+      }
+    }else{
+ 			return array('success'=>false, 'msg'=>'获取用户信息失败!', 'code'=>500);   
+    }
+  }
 	
 
 	/**
