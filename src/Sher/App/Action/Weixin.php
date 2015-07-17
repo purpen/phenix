@@ -153,7 +153,11 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           // 检查用户名是否唯一
           $exist = $user_model->_check_name($nickname);
           if (!$exist) {
-            $nickname = '微信用户['.$nickname.']';
+            $nickname = '微信用户-'.$nickname;
+            $exist_r = $user_model->_check_name($nickname);
+            if(!$exist_r){
+              $nickname = $nickname.(string)rand(1000,9999);
+            }
           }
 
           $user_data = array(

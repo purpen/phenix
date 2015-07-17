@@ -81,7 +81,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
           // 检查用户名是否唯一
           $exist = $user->_check_name($nickname);
           if (!$exist) {
-            $nickname = '微博用户['.$nickname.']';
+            $nickname = '微博用户-'.$nickname;
           }
 
           $this->stash['third_source'] = 'weibo';
@@ -200,7 +200,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 				if ($exist) {
 					$user_info['nickname'] = $user_info['nickname'];
 				} else {
-					$user_info['nickname'] = '微博用户['.$user_info['nickname'].']';
+					$user_info['nickname'] = '微博用户-'.$user_info['nickname'];
 				}
 				
 				$user_info['sina_uid'] = $weibo_info['id'];
