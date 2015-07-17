@@ -125,7 +125,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     if($result['success']){
       $open_id = $result['data']['openid'];
       $access_token = $result['data']['access_token'];
-      if(empty($open_id || empty($access_token))){
+      if(empty($open_id) || empty($access_token)){
         return $this->show_message_page('open_id or access_token is null！', $error_redirect_url);
       }
       $url = sprintf("https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s", $access_token, $open_id);
@@ -139,7 +139,9 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
         $user_model = new Sher_Core_Model_User();
         $user = $user_model->first(array('wx_open_id' => (string)$open_id));
         if(!empty($user)){
-        
+          $user_id = $user['_id'];
+          // 重新更新access_token
+          $user->update_wx_accesstoken($user_id, $access_token);
         }else{
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
@@ -149,7 +151,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           }
 
           // 检查用户名是否唯一
-          $exist = $user->_check_name($nickname);
+          $exist = $user_model->_check_name($nickname);
           if (!$exist) {
             $nickname = '微信用户['.$nickname.']';
           }
@@ -168,13 +170,16 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 
           );
 
-	        $ok = $user->create($user_data);
-          if($ok){
-            $user_id = $user->id;
-          }else{
-            $user_id = $user['_id'];
-            // 重新更新access_token
-            $user->update_wx_accesstoken($user_id, $access_token);
+          try{
+            $ok = $user_model->create($user_data);
+            if($ok){
+              $user_id = $user->id;
+            }else{
+              return $this->show_message_page('创建用户失败!', $error_redirect_url);
+            }         
+          } catch (Sher_Core_Model_Exception $e) {
+              Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+              return $this->show_message_page("注册失败:".$e->getMessage(), $error_redirect_url);
           }
 
           // 实现自动登录
@@ -190,6 +195,8 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);
     }
+
+
   }
 
 	
