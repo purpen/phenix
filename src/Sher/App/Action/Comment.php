@@ -17,7 +17,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	protected $page_tab = 'page_user';
 	protected $page_html = 'page/profile.html';
 	
-	protected $exclude_method_list = array('ajax_fetch_comment_site', 'ajax_fetch_comment_wap');
+	protected $exclude_method_list = array('ajax_fetch_list', 'ajax_fetch_comment_site', 'ajax_fetch_comment_wap');
 	
 	/**
 	 * 
