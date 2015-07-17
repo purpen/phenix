@@ -71,7 +71,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
   public function first_request(){
 
     $app_id = Doggy_Config::$vars['app.wx.app_id'];
-    $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/weixin/redirect_uri');
+    $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back');
 
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
@@ -94,14 +94,13 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
   }
 
   /**
-   * 返回
+   * 回调 
    */
-  public function redirect_uri(){
-  
-    echo '11111111';
-    print_r($this->stash);
-  
+  public function call_back(){
+     echo '11111111';
+    print_r($this->stash); 
   }
+
 	
 }
 
