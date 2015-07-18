@@ -3,6 +3,9 @@
 
 {% block page_css %}
 <style class="text/css">
+	#trypage{
+		background:#f1f1f1;
+	}
 	.try .masthead {
 		{% if try.banner_id %}
 		background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
@@ -46,6 +49,61 @@
 	.try .apply {
 	  margin-top: 1.3em;
 	  line-height: 28px;
+	}
+	.ui.content {
+		padding:1em 0;
+		background:#fff;
+	}
+	.ui.column.active{
+		background:#f6f6f6;
+	}
+	.ui.menutab{
+		border-top:1px solid #f1f1f1;
+		background:#f1f1f1;
+	}
+	.ui.menutab .row{
+		background:#fff;
+	}
+	.ui.menutab .ui.three.column{
+		padding:7px 0;
+		width:20% !important;
+	}
+	.ui.three.column:hover p,.ui.three.column:hover p,.ui.column.active p{
+		background:#f6f6f6;
+		-webkit-transition: all .25s ease;
+		  transition: all .25s ease;
+		  display: inline-block;
+		  border-bottom: 2px solid #f36;
+		  padding-bottom: 4px;
+		  color: #f36;
+		cursor:pointer;
+	}
+	.ui.three.column:hover{
+		background:#f6f6f6;
+		-webkit-transition: all .25s ease;
+		  transition: all .25s ease;
+		  color: #f36;
+			padding:7px 0;
+			cursor:pointer;
+	}
+	.ui.neif{
+		padding:20px 0;
+	}
+	.ui.neif .ui.segment{
+		-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1); 
+	  box-shadow: 0 0 0 0px rgba(0,0,0,.1); 
+		border-radius:0;
+	}
+	.ui.tabox {
+	  border-bottom: 1px solid #e4e5e7;
+	}
+	.ui.tabox .ui.tabs .tab{
+		font-size: 1.3rem;
+	}
+	#trypage .segment > .bar {
+	  background: #f1f1f1;
+	  height: 15px;
+	  margin: 0 -1em;
 	}
 </style>
 {% endblock %}
@@ -231,7 +289,121 @@
 		</div>
 	</div>
 	
-	<div class="ui tabox">
+	<div class="ui content">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h3 class="ui diving header">
+						试用流程及规则
+					</h3>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="ui menutab">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<div class="ui three wide column active" style="padding:7px 0;">
+					<p>预约</p>
+				</div>
+				<div class="ui three wide column">
+					<p>申请</p>
+				</div>
+				<div class="ui three wide column">
+					<p>名单公布</p>
+				</div>
+				<div class="ui three wide column">
+					<p>提交报告</p>
+				</div>
+				<div class="ui three wide column">
+					<p>结束</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	<div class="ui neif">
+		<div class="ui responsive grid">
+			<div clss="row">
+				<div class="column">
+					<div class="ui very compact grid">
+						<div class="ui eleven wide column">
+							<div class="ui active segment">
+								<div class="ui tabox">
+									<div class="ui four tabs">
+										<a href="#.overview" class="active tab">试用介绍</a>
+										<a href="#.people" class="tab">试用名单</a>
+										<a href="#.reviews" class="tab">讨论({{ try.comment_count||default 0 }})</a>
+										<a href="#.report" class="tab">试用报告</a>
+									</div>
+								</div>
+								
+								
+								<div class="product overview">
+									<div class="product content froala-element">
+										{{ try.content }}
+									</div>
+								</div>
+								
+								<div class="bar"></div>
+								
+								<div class="product people">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													试用名单
+												</h3>
+
+												{% if try.pass_users %}
+												<div class="avatars" id="product-apply-people">
+													{% user_list var:'userlist' user_ids:try.pass_users %}
+												    <div class="ui horizontal list">
+														{% for user in userlist  %}
+														<div class="item">
+															<a class="ui large avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+																<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+															</a>
+															<!--<div class="content">
+															      <div class="header">
+																	  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
+																  </div>
+															      <span>{{ user.city }}</span>
+															</div>-->
+														</div>
+														{% endfor %}
+													</div>
+												</div>
+												{% else %}
+												<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+									
+									
+								
+		
+							</div>
+						</div>
+						<div class="ui five wide column">
+							<div class="ui segment">
+						
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!--<div class="ui tabox">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
@@ -433,9 +605,9 @@
 				<div class="center aligned column">
 					<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui black inverted button" target="_blank">
                         <i class="tasks icon"></i> 全部报告
-                    </a>
+                    </a>-->
 					<!--通过审核的用户才能提交报告-->
-					{% if visitor.is_login %}
+				<!--	{% if visitor.is_login %}
 					<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
                         <i class="edit icon"></i> 提交报告
                     </a>
@@ -444,6 +616,7 @@
 			</div>
 		</div>
 	</div>
+-->
 </div>
 
 <div class="section breadcrumb">
