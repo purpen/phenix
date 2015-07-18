@@ -109,6 +109,12 @@
 		margin-left: 1em !important;
 		margin: 10px 0;
 	}
+	.product.overview{
+		padding-bottom:1em;
+	}
+	#trypage .product.people,#trypage .product.reviews,#trypage .product.report{
+		margin:1em auto;
+	}
 </style>
 {% endblock %}
 
@@ -388,6 +394,159 @@
 								</div>
 									
 									
+								<div class="bar"></div>
+								<div class="product reviews">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													讨论 <small>（{{ try.comment_count||default 0 }}）</small>
+												</h3>
+												<div class="ui big reply segment">
+													<div class="ui threaded minimal comments" id="comments">
+														{% comment_list var:'comments' page:page target_id:try._id type:3 %}
+														{% for comment in comments.rows %}
+														<div class="comment" id="{{ comment._id }}">
+															<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
+																<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+															</a>
+															<div class="content">
+																<a class="ui magenta link author" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a>
+																<div class="metadata">
+																	<div class="date">{{ comment.created_on }}</div>
+																</div>
+																<div class="laud">
+																	<a class="ui link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
+																		<i class="icon empty heart"></i>
+																	</a>
+																</div>
+																<div class="text">
+																	{{ comment.content|safe }}
+																</div>
+																<div class="actions">
+																	{% if visitor.is_login %}
+																	<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+																	{% endif %}
+																	{% if visitor.can_edit %}
+																	<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+																	{% else %}
+																		{% if visitor._id == reply.user_id %}
+																			<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+																		{% endif %}
+																	{% endif %}
+																</div>
+																<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+																	<input type="hidden" name="type" value="2" />
+																	<input type="hidden" name="comment_id" value="{{ comment._id }}" />
+																	<input type="hidden" name="target_id" value="{{ topic._id }}" />
+																	<div class="field">
+																		<textarea name="content" class="reply-content"></textarea>
+																	</div>
+																	<div class="ui active button magenta submit labeled icon">
+																		<i class="icon location"></i> 回复
+																	</div>
+																</form>
+															</div>
+
+
+															{% if comment.reply %}
+															<div class="comments">
+																{% for reply in comment.reply %}
+																	<div class="comment" id="{{ reply.r_id }}">
+																		<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+																			<img src="{{ reply.user.small_avatar_url }}" />
+																		</a>
+																		<div class="content">
+																			<a class="author">{{ reply.user.nickname }}</a>
+																			<div class="metadata">
+																				<div class="date">{{ reply.replied_on }}</div>
+																			</div>
+																			<div class="text">
+																				{{ reply.content }}
+																			</div>
+																			<div class="actions">
+																				{% if visitor.can_edit %}
+																				<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
+																				{% else %}
+																					{% if visitor._id == reply.user_id %}
+																						<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
+																					{% endif %}
+																				{% endif %}
+																			</div>
+																		</div>
+																	</div>
+																{% endfor %}
+															</div>
+															{% endif %}
+
+														</div>
+														{% endfor %}
+													</div>
+
+													{% if comments.total_page > 1 %}
+													<div class="fluid ui gray more button" data-page="2" id="more-comments">更多评论</div>
+													{% endif %}
+													<div class="ui post segment">
+														<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论</p>
+														<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+															<input type="hidden" name="target_id" value="{{ try._id }}" />
+															<input type="hidden" name="type" value="3" />
+															<input type="hidden" name="star" value="0" />
+
+															<div class="field">
+																<textarea name="content" class="comment-textarea" maxlength="140" placeholder="输入评论..."></textarea>
+																<div id="comment"></div>
+															</div>
+															<div class="right aligned column">
+																<small>还可以输入<span class="wordscount">140</span> 字</small>
+							                        			<div class="ui active magenta submit labeled icon inverted button">
+							                                      	<i class="icon basic direction"></i> 添加评论
+							                                    </div>
+															</div>
+														</form>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>	
+								
+								<div class="bar"></div>
+								<div class="product report">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													试用报告
+												</h3>
+												<div class="social">
+													<table class="ui topic table">
+														<tbody>
+														{% topic_list var:'list' try_id:try._id time:'latest' %}
+														{% for topic in list.rows %}
+															{% include "block/report_item.html" %}
+														{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="center aligned column">
+												<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui black inverted button" target="_blank">
+							                        <i class="tasks icon"></i> 全部报告
+							                    </a>
+												<!--通过审核的用户才能提交报告-->
+												{% if visitor.is_login %}
+												<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
+							                        <i class="edit icon"></i> 提交报告
+							                    </a>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
 								
 		
 							</div>
