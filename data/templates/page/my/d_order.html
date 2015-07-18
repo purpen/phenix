@@ -73,8 +73,6 @@
                       订单号：{{ order.rid }}
                   </div>
                   <div class="item">
-                  </div>
-                  <div class="item">
                       下单时间：{{ order.created_on|date }}
                   </div>
               </div>
@@ -101,7 +99,7 @@
                 </div>
                 <div class="center aligned three wide column">
                   <p>
-                    订单金额：{{ order.pay_money }} 元
+                    {{ order.pay_money }} 元
                   </p>
                 </div>
                 <div class="center aligned three wide column order-state">
@@ -116,7 +114,7 @@
                 </div>
                 <div class="center aligned three wide column">
                     <p>
-                      <a href="{{ order.view_url }}" class="ui line">订单详情 »</a>
+                      <a href="{{ order.view_url }}" class="ui line">详情 »</a>
                     </p>
                     <!--
                     {% if order.state == 1 %}

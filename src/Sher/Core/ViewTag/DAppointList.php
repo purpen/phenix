@@ -89,7 +89,9 @@ class Sher_Core_ViewTag_DAppointList extends Doggy_Dt_Tag {
               $date_arr[1] = substr($date_id, 4, 2);
               $date_arr[2] = substr($date_id, 6, 2);
               foreach($v['time_ids'] as $v){
-                $times_name .= Sher_Core_Util_D3in::appoint_time_arr($v).' ';
+                if(!empty($v)){
+                  $times_name .= Sher_Core_Util_D3in::appoint_time_arr($v).' ';
+                }
               }
               $class = $class_model->extend_load($class_id);
               $result['rows'][$i]['items'][$k]['item_name'] = $class['title'];

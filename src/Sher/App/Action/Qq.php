@@ -100,8 +100,15 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           );
           $qq_info = $qc_api->get_user_info($attr);
 
-          // 检测用户名是否重复
           $default_nickname = $qq_info['nickname'];
+
+          //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+          $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+          if (!preg_match($e, $default_nickname)) {
+            $default_nickname = $uid;
+          }
+
+          // 检测用户名是否重复
           if(!$user->_check_name($default_nickname)){
             $default_nickname = $qq_info['nickname'].rand(0, 1000);
           }
@@ -204,6 +211,13 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 				
 				// 检测用户名是否重复
 				$default_nickname = $qq_info['nickname'];
+
+        //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+        $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+        if (!preg_match($e, $default_nickname)) {
+          $default_nickname = $uid;
+        }
+
 				if(!$user->_check_name($default_nickname)){
 					$default_nickname = $qq_info['nickname'].rand(0, 1000);
 				}

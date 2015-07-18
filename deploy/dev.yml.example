@@ -90,6 +90,10 @@ app.qq.app_key: 'ba61849a6ab90421e849c116f4f4dea4'
 app.qq.callback_url: '{$app.url.domain}/qq/authorize'
 app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 
+# WeiXin API
+app.wx.app_id: 'aaaa'
+app.wx.app_secret: 'aaaa'
+
 # 七牛存储（开发环境使用本地存储）
 app.url.qiniu.upload: '{$app.url.action_base}/uploader'
 

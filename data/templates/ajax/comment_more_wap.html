@@ -1,0 +1,213 @@
+<taconite>
+  {% if page==1 %}
+
+	<replaceContent select="#comment-list"><![CDATA[
+    <div class="ui threaded minimal comments is-comment">
+	    <h3 class="ui dividing header">全部回应</h3>
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
+      {% for comment in comments.rows %}
+      <div class="comment" id="{{ comment._id }}">
+        <a class="avatar" href="{{ comment.user.home_url }}">
+          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+        </a>
+        <div class="content">
+          <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+          <div class="metadata">
+            <div class="date">{{ comment.created_on }}</div>
+          </div>
+          <div class="laud">
+
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon heart"></i>
+            </a>
+            {%else%}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+          </div>
+          
+          <div class="text">
+            {{ comment.content|safe }}
+          </div>
+          {% if visitor.is_login %}
+          <div class="actions">
+            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            {% if visitor.can_admin %}
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+            {%else%}
+              {% if visitor.id==comment.user_id %}
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+              {%endif%}
+            {%endif%}
+          </div>
+          <form class="ui reply hide form" action="{{ app_url_wap }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
+            <input type="hidden" name="type" value="{{ type }}" />
+            <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+            <input type="hidden" name="target_id" value="{{ target_id }}" />
+            <div class="field">
+              <textarea name="content" class="reply-content"></textarea>
+            </div>
+            <div class="ui active button magenta submit labeled icon">
+              <i class="icon location"></i> 回复
+            </div>
+          </form>
+          {% endif %}
+        </div>
+    
+        {% if comment.reply %}
+        <div class="comments">
+          {% for reply in comment.reply %}
+            <div class="comment">
+              <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+                <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+              </a>
+              <div class="content">
+                <a class="author">{{ reply.user.nickname }}</a>
+                <div class="metadata">
+                  <div class="date">{{ reply.replied_on }}</div>
+                </div>
+                <div class="text">
+                  {{ reply.content }}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+    
+      </div>
+      {% endfor %}
+    </div>
+
+      {% if comments.rows %}
+			<div class="row">
+				<div class="ui center aligned four wide column" id="load-more-btn" style="margin-top:10px;">
+          {% if page < comments.total_page %}
+            <span><a href="javascript:void(0);" class="ui gray fluid more button" total-page="{{ comments.total_page }}" current-page="{{ page }}">查看更多</a></span>
+
+          {%endif%}
+				</div>
+			</div>
+      {% endif %}
+	]]></replaceContent>
+
+  {%else%}
+
+	<append select=".is-comment.comments"><![CDATA[
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
+      {% for comment in comments.rows %}
+      <div class="comment" id="{{ comment._id }}">
+        <a class="avatar" href="{{ comment.user.home_url }}">
+          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+        </a>
+        <div class="content">
+          <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+          <div class="metadata">
+            <div class="date">{{ comment.created_on }}</div>
+          </div>
+          <div class="laud">
+
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon heart"></i>
+            </a>
+            {%else%}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+          </div>
+          
+          <div class="text">
+            {{ comment.content|safe }}
+          </div>
+          {% if visitor.is_login %}
+          <div class="actions">
+            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            {% if visitor.can_admin %}
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+            {%else%}
+              {% if visitor.id==comment.user_id %}
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+              {%endif%}
+            {%endif%}
+          </div>
+          <form class="ui reply hide form" action="{{ app_url_wap }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
+            <input type="hidden" name="type" value="{{ type }}" />
+            <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+            <input type="hidden" name="target_id" value="{{ target_id }}" />
+            <div class="field">
+              <textarea name="content" class="reply-content"></textarea>
+            </div>
+            <div class="ui active button magenta submit labeled icon">
+              <i class="icon location"></i> 回复
+            </div>
+          </form>
+          {% endif %}
+        </div>
+    
+        {% if comment.reply %}
+        <div class="comments">
+          {% for reply in comment.reply %}
+            <div class="comment">
+              <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+                <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+              </a>
+              <div class="content">
+                <a class="author">{{ reply.user.nickname }}</a>
+                <div class="metadata">
+                  <div class="date">{{ reply.replied_on }}</div>
+                </div>
+                <div class="text">
+                  {{ reply.content }}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+    
+      </div>
+      {% endfor %}
+
+
+	]]></append>
+
+  {%endif%}
+
+  <eval><![CDATA[
+    //查看大图
+    $('.comment-img-box').on('click', function(){
+      var evt = $(this).attr('show-type');
+      if(evt==1){
+        $(this).find('img').css({'max-width':'100%', 'cursor':'-webkit-zoom-out', 'cursor':'-moz-zoom-out', 'cursor':'-ms-zoom-out', 'cursor':'-o-zoom-out'});
+        $(this).attr('show-type', 2);
+      }else{
+        $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
+        $(this).attr('show-type', 1);
+      }
+    });
+
+    var total_page = parseInt("{{ comments.total_page }}");
+    var current_page = parseInt("{{ page }}");
+    var per_page = parseInt("{{ per_page }}");
+    if(current_page >= total_page && total_page != 1){
+      var html = '<span><a class="ui gray more fluid active button" href="javascript:void(0);">没有更多</a></span>';
+      $('#load-more-btn').html(html);
+    }
+  if(current_page==1){
+       $('#load-more-btn').click(function(){
+        fetch_comment(current_page+1, per_page);
+      }); 
+  }
+
+  ]]></eval>
+
+</taconite>
+

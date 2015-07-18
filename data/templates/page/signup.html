@@ -1,6 +1,10 @@
 {%extends 'layout/auth.html'%}
 {% block title %}现在注册-{% endblock %}
 
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+{% endblock %}
+
 {% block jquery %}
 	phenix.build_auth_page();
 	
@@ -67,6 +71,16 @@
 			phenix.show_error_note('请正确填写手机号码！');
 		}
 	});
+
+  var obj = new WxLogin({
+      id:"login_container", 
+      appid: "{{ wx_params.app_id }}", 
+      scope: "snsapi_login", 
+      redirect_uri: "{{ wx_params.redirect_uri }}",
+      state: "{{ wx_params.state }}",
+      style: "",
+      href: ""
+    });
 {% endblock %}
 
 {% block content %}
@@ -86,6 +100,7 @@
 					<div class="center aligned ui header">
 						注册太火鸟
 					</div>
+<div id="login_container"></div>
 					<div class="two fields">
 						<div class="field">
 							<a href="{{ weibo_auth_url }}" class="fluid ui weibo inverted button">

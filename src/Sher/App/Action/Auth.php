@@ -56,6 +56,18 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
 		
 		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back'),
+      'state' => $sid,
+    );
+    $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('page/login.html');
 	}
@@ -82,6 +94,18 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
 		
 		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back'),
+      'state' => $sid,
+    );
+    $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('page/signup.html');
 	}

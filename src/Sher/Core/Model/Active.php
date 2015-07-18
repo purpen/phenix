@@ -376,7 +376,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
         //$topic = $topic_model->first(array('active_id'=>$data['_id']));
         if(empty($data['topic_ids'])){
           $topic_data = array();
-          $cate_id = Doggy_Config::$vars['app.mode']=='dev' ? 12 : 24;
+          $cate_id = Doggy_Config::$vars['app.mode']=='dev' ? 12 : 15;
           $topic_data['user_id'] = $data['user_id'];
           $topic_data['title'] = $data['title'];
           $topic_data['description'] = $data['summary'];
