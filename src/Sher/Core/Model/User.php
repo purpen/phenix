@@ -288,7 +288,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号;
+        # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号或现有账户;
         'kind' => 0,
     );
 	
