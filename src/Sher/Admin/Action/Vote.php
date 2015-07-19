@@ -72,7 +72,7 @@
                     $mode = 'create';
                     $data = array();
                     $data['title'] = $this->stash['sub_title'];
-                    $data['relate_id'] = $this->stash['relevance_id'];
+                    $data['relate_id'] = (int)$this->stash['relevance_id'];
                     $data['status'] = 1;
                     $ok = $model_vote->create($data);
                     if($ok){
@@ -110,7 +110,7 @@
                     $mode = 'edit';
                     $data = array();
                     $data['title'] = $this->stash['sub_title'];
-                    $data['relate_id'] = $this->stash['relevance_id'];
+                    $data['relate_id'] = (int)$this->stash['relevance_id'];
                     $data['status'] = 1;
                     $ok = $model_vote->update_set($id,$data);
                     if($ok){

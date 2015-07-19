@@ -20,7 +20,7 @@ class Sher_Core_Model_Answer extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array('nums');
 	protected $float_fields = array();
-	protected $counter_fields = array();
+	protected $counter_fields = array('nums');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -53,5 +53,19 @@ class Sher_Core_Model_Answer extends Sher_Core_Model_Base {
 	 */
 	public function answer_remove($id){
 		return $this->remove(array("_id"=>$id)); 
+	}
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $id=null, $inc=1){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name = 'nums', $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
 	}
 }
