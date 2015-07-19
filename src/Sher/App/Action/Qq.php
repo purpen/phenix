@@ -10,7 +10,6 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 		'account' => '',
 		'nickname' => '',
 		'code' => '',
-		
 	);
 	
 	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
@@ -27,8 +26,8 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	 * 授权回调地址
 	 */
 	public function authorize(){
-		$code = $this->stash['code'];
 		
+		$code = $this->stash['code'];
 		$login_url = Doggy_Config::$vars['app.url.login'];
 		
 		$app_id = Doggy_Config::$vars['app.qq.app_id'];
@@ -100,11 +99,25 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           );
           $qq_info = $qc_api->get_user_info($attr);
 
-          // 检测用户名是否重复
           $default_nickname = $qq_info['nickname'];
+
+          //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+          $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+          if (!preg_match($e, $default_nickname)) {
+            $default_nickname = Sher_Core_Helper_Util::generate_mongo_id();
+          }
+
+          // 检测用户名是否重复
           if(!$user->_check_name($default_nickname)){
             $default_nickname = $qq_info['nickname'].rand(0, 1000);
           }
+
+          // 获取session id
+          $service = Sher_Core_Session_Service::instance();
+          $sid = $service->session->id;
+          $random = Sher_Core_Helper_Util::generate_mongo_id();
+          $session_random_model = new Sher_Core_Model_SessionRandom();
+          $session_random_model->gen_random($sid, $random, 1);
           
           Doggy_Log_Helper::error('QQ Login get user info:'.json_encode($qq_info));
 
@@ -117,6 +130,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           $this->stash['summary'] = null;
 				  $this->stash['city'] = null;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+          $this->stash['session_random'] = $random;
 
           return $this->to_html_page('page/landing.html');
 
@@ -124,7 +138,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           $user_id = $result['_id'];
 
           //如果未绑定手机，需要强制绑定
-          if(!Sher_Core_Helper_Util::is_mobile($result['account'])){
+          if(1==2 && !Sher_Core_Helper_Util::is_mobile($result['account'])){
             $this->stash['third_source'] = 'qq';
             $this->stash['user_id'] = $user_id;
             $this->stash['nickname'] = $result['nickname'];
@@ -208,7 +222,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
         //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
         $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
         if (!preg_match($e, $default_nickname)) {
-          $default_nickname = $uid;
+          $default_nickname = Sher_Core_Helper_Util::generate_mongo_id();
         }
 
 				if(!$user->_check_name($default_nickname)){

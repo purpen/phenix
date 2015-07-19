@@ -176,7 +176,10 @@
 						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
 						{% for topic in list.rows %}
 							{% if !topic.top %}<!--过滤置顶帖子-->
-								{% include "block/topic_item.html" %}
+								<!-- 判断话题是否可以显示 -->
+								{% if topic.published %}
+									{% include "block/topic_item.html" %}
+								{% endif %}
 							{% endif %}
 						{% endfor %}
 						</tbody>

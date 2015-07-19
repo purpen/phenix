@@ -107,6 +107,8 @@
                                     {% if t == 1 %}
         							    {% topic_list var:'list' time:0 sort:0 page:page size:15 user_id:user.id %}
             							{% for topic in list.rows %}
+											<!-- 判断话题是否可以显示 -->
+											{% if topic.published %}
                                             <tr id="{{ topic._id }}">
                                             	<td class="hide-on-mobile two wide author">
                                             		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
@@ -149,7 +151,8 @@
                                                   	</div>
                                             	</td>
                                             </tr>
-                                        {% else %}
+											{% endif %}
+										{% else %}
                                             <tr>
                                                 <td colspan="2">
                                                     还没发表过任何话题~~

@@ -114,6 +114,8 @@
 						<div class="ui computer tablet only block">
 							<table class="ui basic table">
 								{% for topic in list.rows %}
+									<!-- 判断话题是否可以显示 -->
+									{% if topic.published %}
 									<tr>
 										<td class="nine wide">
 								          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
@@ -135,6 +137,7 @@
 											</a>
 										</td>
 									</tr>
+									{% endif %}
 								{% endfor %}
 							</table>
 						</div>

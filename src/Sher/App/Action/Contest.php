@@ -59,10 +59,10 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['start_time'] = mktime(0,0,0,10,28,2014);
 		$this->stash['end_time'] = mktime(23,59,59,12,20,2014);
 
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = "十万火计创意征集大赛-校园季-太火鸟智能硬件孵化平台";
-    $this->stash['page_keywords_suffix'] = '太火鸟,智能硬件,智能硬件孵化平台,十万火计,创意征集,校园英雄帖,设计学院,设计专业,产品设计创意,联合孵化实验室,校园人气争霸';   
-    $this->stash['page_description_suffix'] = '十万火计创意征集大赛是太火鸟的特色创意征集活动，目前活动举办高校已经达到30余所，随时关注太火鸟活动动态，一起发散思维缔造性感产品。';
+		//添加网站meta标签
+		$this->stash['page_title_suffix'] = "十万火计创意征集大赛-校园季-太火鸟智能硬件孵化平台";
+		$this->stash['page_keywords_suffix'] = '太火鸟,智能硬件,智能硬件孵化平台,十万火计,创意征集,校园英雄帖,设计学院,设计专业,产品设计创意,联合孵化实验室,校园人气争霸';   
+		$this->stash['page_description_suffix'] = '十万火计创意征集大赛是太火鸟的特色创意征集活动，目前活动举办高校已经达到30余所，随时关注太火鸟活动动态，一起发散思维缔造性感产品。';
 		
 		return $this->to_html_page('page/match.html');
 	}

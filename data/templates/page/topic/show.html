@@ -380,6 +380,43 @@
     },function(){
         //$('#user_card_box').hide();
     });*/
+    
+    // 投票提交部分
+    $('#vote-save').click(function(){
+    
+      var user_id = '{{ visitor.id }}';
+      if(!user_id){
+        alert('请登陆后在投票！');
+        return false;
+      }
+      
+      var vote = {};
+      vote.topic_id = $('input[name=topic_id]').val();
+      vote.user_id = user_id;
+      vote.vote_id = '{{ vote._id }}';
+      
+      var problem = {};
+      $('input[name="problem"]').each(function(i){
+        var name = $(this).val();
+        var answer = {};
+        problem[i] = {};
+        $('#'+name).find('input:checked').each(function(j){
+          answer[j] = $(this).attr('name');
+        });
+        problem[i].id = name;
+        problem[i].answer = answer;
+      });
+      
+      var vote = JSON.stringify(vote);
+      var problem = JSON.stringify(problem);
+      
+      $.post(
+        "{{ app_url_action_base }}/topic/save_vote",
+        {vote: vote, problem: problem},
+        function(data){
+          console.log(data);
+        }, "json");
+	});
 	
 {% endblock %}
 
@@ -570,7 +607,66 @@
             {%endfor%}
             {%endif%}
 					</div>
-					
+                    
+<!--  这里是投票部分代码 开始 -->
+
+                  <input type="hidden" name="topic_id" value="{{ id }}" />
+                  
+                  {% if is_vote %}
+					<div class="post vote">
+                        <div class="ui small header">{{ vote.title }}</div>
+                        <div class="ui divider"></div>
+                        {% for problem in vote.problem %}
+                        
+                        <input type="hidden" name="problem" value="{{ problem._id }}" />
+                        <input type="hidden" name="select_type" value="{{ problem.select_type }}" />
+                        
+                        <div class="ui relaxed divided list">
+                          <div class="item">
+                            <i class="large github middle aligned icon"></i>
+                            <div class="content">
+                              <a class="header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</a>
+                              <div class="description" style="margin: 10px 0" id="{{ problem._id }}">
+                                {% if problem.select_type == 1 %}
+                                  <div class="field">
+                                    {% for answer in problem.answer %}
+                                      <div class="ui radio checkbox">
+                                          <input type="radio" name="{{ problem._id }}" style="z-index:100;" />
+                                          <label>
+                                              {{ answer.title }}&nbsp;&nbsp;
+                                          </label>
+                                      </div>
+                                    {% endfor %}
+                                  </div>
+                                {% else %}
+                                  <div class="field">
+                                    {% for answer in problem.answer %}
+                                      <div class="ui radio checkbox">
+                                          <input type="radio" name="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
+                                          <label>
+                                              {{ answer.title }}&nbsp;&nbsp;
+                                          </label>
+                                      </div>
+                                    {% endfor %}
+                                  </div>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="ui right floated aligned grid">
+                        <div class="row">
+                            <div class="column">
+                                <div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
+                            </div>
+                        </div>
+                    </div>
+                  {% endif %}
+
+<!--  这里是投票部分代码 结束 -->
+
 					{% if topic.tags %}
 					<div class="idea tags">
 						{% for tag in topic.tags %}

@@ -3,6 +3,9 @@
 
 {% block page_css %}
 <style class="text/css">
+	#trypage{
+		background:#f1f1f1;
+	}
 	.try .masthead {
 		{% if try.banner_id %}
 		background: url("{{ try.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
@@ -46,6 +49,92 @@
 	.try .apply {
 	  margin-top: 1.3em;
 	  line-height: 28px;
+	}
+	.ui.content {
+		padding:1em 0;
+		background:#fff;
+	}
+	.ui.column.active{
+		background:#f6f6f6;
+	}
+	.ui.menutab{
+		border-top:1px solid #f1f1f1;
+		background:#f1f1f1;
+	}
+	.ui.menutab .row{
+		background:#fff;
+	}
+	.ui.menutab .ui.four.column{
+		padding:7px 0;
+		width:25% !important;
+	}
+	.ui.column.active p{
+		background:#f6f6f6;
+		-webkit-transition: all .25s ease;
+		  transition: all .25s ease;
+		  display: inline-block;
+		  border-bottom: 2px solid #f36;
+		  padding-bottom: 4px;
+		  color: #f36;
+	}
+	.ui.three.column:hover{
+		background:#f6f6f6;
+		-webkit-transition: all .25s ease;
+		  transition: all .25s ease;
+		  color: #f36;
+			padding:7px 0;
+	}
+	.ui.neif{
+		padding:20px 0;
+	}
+	.ui.neif .ui.segment{
+		-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1); 
+	  box-shadow: 0 0 0 0px rgba(0,0,0,.1); 
+		border-radius:0;
+	}
+	.ui.tabox {
+	  border-bottom: 1px solid #e4e5e7;
+	}
+	.ui.tabox .ui.tabs .tab{
+		font-size: 1.3rem;
+	}
+	#trypage .segment > .bar {
+	  background: #f1f1f1;
+	  height: 15px;
+	  margin: 0 -1em;
+	}
+	.ui.horizontal.list>.item{
+		margin-left: 1em !important;
+		margin: 10px 0;
+	}
+	.product.overview{
+		padding-bottom:1em;
+	}
+	#trypage .product.people,#trypage .product.reviews,#trypage .product.report,.product.brand,.product.appli,.product.aption{
+		margin:1em auto;
+	}
+	.product.appli tr{
+		border-bottom:1px solid #f1f1f1;
+	}
+	.product.appli tr:last-child{
+		border-bottom:0px solid #f1f1f1;
+	}
+	.product.appli .ui.table td{
+		padding:10px 0;
+	}
+	.product.appli .ui.table td:first-child{
+		padding-left:10px;
+	}
+	.product.appli .ui.table  tr{
+		background-color: transparent!important;
+	}
+	.product.aption img,.product.aption p{
+		margin:0 auto;
+		display:block;
+		text-align:center;
+	}
+	.product.aption p{
+		margin-bottom: 1em;
 	}
 </style>
 {% endblock %}
@@ -166,9 +255,6 @@
 		});
 	});
 	
-    $('.ui.tabox').smint({
-    	'scrollSpeed': 1000
-    });
 	
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
@@ -225,227 +311,374 @@
 						<i class="share icon"></i>
 						分享
 					</div>
-					<div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
+					<div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div class="ui tabox">
+	<div class="ui content">
 		<div class="ui responsive grid">
 			<div class="row">
-				<div class="column">
-					<div class="ui four tabs">
-					  	<a class="active tab" href="#overview">试用介绍</a>
-					  	<a class="tab" href="#reviews">讨论 ({{ try.comment_count||default 0 }})</a>
-						<a class="tab" href="#people">试用名单</a>
-						<a class="tab" href="#report">试用报告</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="product overview">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="product content froala-element">
-						{{ try.content }}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="product reviews">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h3 class="ui dividing header">
-						讨论 <small>（{{ try.comment_count||default 0 }}）</small>
+				<div class="center aligned column">
+					<h3 class="ui diving header">
+						试用流程及规则
 					</h3>
-					<div class="ui big reply segment">
-						<div class="ui threaded minimal comments" id="comments">
-							{% comment_list var:'comments' page:page target_id:try._id type:3 %}
-							{% for comment in comments.rows %}
-							<div class="comment" id="{{ comment._id }}">
-								<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
-									<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-								</a>
-								<div class="content">
-									<a class="ui magenta link author" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a>
-									<div class="metadata">
-										<div class="date">{{ comment.created_on }}</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="ui menutab">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<!--<div class="ui three wide column active" style="padding:7px 0;">
+					<p>预约</p>
+				</div>-->
+        <div class="ui four wide column {%if try.step_stat==1%}active{%endif%}">
+					<p>申请</p>
+				</div>
+				<div class="ui four wide column {%if try.step_stat==2%}active{%endif%}">
+					<p>名单公布</p>
+				</div>
+				<div class="ui four wide column {%if try.step_stat==3%}active{%endif%}">
+					<p>提交报告</p>
+				</div>
+				<div class="ui four wide column {%if try.step_stat==5%}active{%endif%}">
+					<p>结束</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	<div class="ui neif">
+		<div class="ui responsive grid">
+			<div clss="row">
+				<div class="column">
+					<div class="ui very compact grid">
+						<div class="ui eleven wide column">
+							<div class="ui active segment">
+								<div class="ui tabox">
+									<div class="ui four tabs">
+										<a href="#.overview" class="active tab">试用介绍</a>
+										<a href="#.people" class="tab">试用名单</a>
+										<a href="#.reviews" class="tab">讨论({{ try.comment_count||default 0 }})</a>
+										<a href="#.report" class="tab">试用报告</a>
 									</div>
-									<div class="laud">
-										<a class="ui link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
-											<i class="icon empty heart"></i>
-										</a>
-									</div>
-									<div class="text">
-										{{ comment.content|safe }}
-									</div>
-									<div class="actions">
-										{% if visitor.is_login %}
-										<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-										{% endif %}
-										{% if visitor.can_edit %}
-										<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-										{% else %}
-											{% if visitor._id == reply.user_id %}
-												<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-											{% endif %}
-										{% endif %}
-									</div>
-									<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-										<input type="hidden" name="type" value="2" />
-										<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-										<input type="hidden" name="target_id" value="{{ topic._id }}" />
-										<div class="field">
-											<textarea name="content" class="reply-content"></textarea>
-										</div>
-										<div class="ui active button magenta submit labeled icon">
-											<i class="icon location"></i> 回复
-										</div>
-									</form>
 								</div>
-				
-				
-								{% if comment.reply %}
-								<div class="comments">
-									{% for reply in comment.reply %}
-										<div class="comment" id="{{ reply.r_id }}">
-											<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-												<img src="{{ reply.user.small_avatar_url }}" />
-											</a>
-											<div class="content">
-												<a class="author">{{ reply.user.nickname }}</a>
-												<div class="metadata">
-													<div class="date">{{ reply.replied_on }}</div>
+								
+								
+								<div class="product overview">
+									<div class="product content froala-element">
+										{{ try.content }}
+									</div>
+								</div>
+								
+								<div class="bar"></div>
+								
+								<div class="product people">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													试用名单
+												</h3>
+
+												{% if try.pass_users %}
+												<div class="avatars" id="product-apply-people">
+													{% user_list var:'userlist' user_ids:try.pass_users %}
+												    <div class="ui horizontal list">
+														{% for user in userlist  %}
+														<div class="item">
+															<a class="ui large avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+																<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+															</a>
+															<!--<div class="content">
+															      <div class="header">
+																	  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
+																  </div>
+															      <span>{{ user.city }}</span>
+															</div>-->
+														</div>
+														{% endfor %}
+													</div>
 												</div>
-												<div class="text">
-													{{ reply.content }}
-												</div>
-												<div class="actions">
-													{% if visitor.can_edit %}
-													<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
-													{% else %}
-														{% if visitor._id == reply.user_id %}
-															<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
-														{% endif %}
+												{% else %}
+												<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+									
+									
+								<div class="bar"></div>
+								<div class="product reviews">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													讨论 <small>（{{ try.comment_count||default 0 }}）</small>
+												</h3>
+												<div class="ui big reply segment">
+													<div class="ui threaded minimal comments" id="comments">
+														{% comment_list var:'comments' page:page target_id:try._id  type:3 check_loved:1 current_user_id:visitor.id %}
+														{% for comment in comments.rows %}
+														<div class="comment" id="{{ comment._id }}">
+															<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
+																<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+															</a>
+															<div class="content">
+																<a class="ui magenta link author" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a>
+																<div class="metadata">
+																	<div class="date">{{ comment.created_on }}</div>
+																</div>
+																<div class="laud">
+                                  {% if comment.is_loved %}
+                                  <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+                                  <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                                    <i class="icon heart"></i>
+                                  </a>
+                                  {%else%}
+                                    <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+                                  <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                                    <i class="icon empty heart"></i>
+                                  </a>          
+                                  {%endif%}
+																</div>
+																<div class="text">
+																	{{ comment.content|safe }}
+																</div>
+																<div class="actions">
+																	{% if visitor.is_login %}
+																	<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+																	{% endif %}
+																	{% if visitor.can_edit %}
+																	<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+																	{% else %}
+																		{% if visitor._id == reply.user_id %}
+																			<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+																		{% endif %}
+																	{% endif %}
+																</div>
+																<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+																	<input type="hidden" name="type" value="2" />
+																	<input type="hidden" name="comment_id" value="{{ comment._id }}" />
+																	<input type="hidden" name="target_id" value="{{ topic._id }}" />
+																	<div class="field">
+																		<textarea name="content" class="reply-content"></textarea>
+																	</div>
+																	<div class="ui active button magenta submit labeled icon">
+																		<i class="icon location"></i> 回复
+																	</div>
+																</form>
+															</div>
+
+
+															{% if comment.reply %}
+															<div class="comments">
+																{% for reply in comment.reply %}
+																	<div class="comment" id="{{ reply.r_id }}">
+																		<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+																			<img src="{{ reply.user.small_avatar_url }}" />
+																		</a>
+																		<div class="content">
+																			<a class="author">{{ reply.user.nickname }}</a>
+																			<div class="metadata">
+																				<div class="date">{{ reply.replied_on }}</div>
+																			</div>
+																			<div class="text">
+																				{{ reply.content }}
+																			</div>
+																			<div class="actions">
+																				{% if visitor.can_edit %}
+																				<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
+																				{% else %}
+																					{% if visitor._id == reply.user_id %}
+																						<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
+																					{% endif %}
+																				{% endif %}
+																			</div>
+																		</div>
+																	</div>
+																{% endfor %}
+															</div>
+															{% endif %}
+
+														</div>
+														{% endfor %}
+													</div>
+
+													{% if comments.total_page > 1 %}
+													<div style="width: 20%;margin-left: 40%;" class="fluid ui gray active more button" data-page="2" id="more-comments">更多评论</div>
 													{% endif %}
+													<div class="ui post segment">
+														<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论</p>
+														<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+															<input type="hidden" name="target_id" value="{{ try._id }}" />
+															<input type="hidden" name="type" value="3" />
+															<input type="hidden" name="star" value="0" />
+
+															<div class="field">
+																<textarea name="content" class="comment-textarea" maxlength="140" placeholder="输入评论..."></textarea>
+																<div id="comment"></div>
+															</div>
+															<div class="right aligned column">
+																<small>还可以输入<span class="wordscount">140</span> 字</small>
+							                        			<div class="ui active magenta submit labeled icon inverted button">
+							                                      	<i class="icon basic direction"></i> 添加评论
+							                                    </div>
+															</div>
+														</form>
+													</div>
+
 												</div>
 											</div>
 										</div>
-									{% endfor %}
+									</div>
+								</div>	
+								
+								<div class="bar"></div>
+								<div class="product report">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													试用报告
+												</h3>
+												<div class="social">
+													<table class="ui topic table">
+														<tbody>
+														{% topic_list var:'list' try_id:try._id time:'latest' %}
+														{% for topic in list.rows %}
+															{% include "block/report_item.html" %}
+														{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="center aligned column">
+												<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui black inverted button" target="_blank">
+							                        <i class="tasks icon"></i> 全部报告
+							                    </a>
+												<!--通过审核的用户才能提交报告-->
+												{% if visitor.is_login %}
+												<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
+							                        <i class="edit icon"></i> 提交报告
+							                    </a>
+												{% endif %}
+											</div>
+										</div>
+									</div>
 								</div>
-								{% endif %}
-				
+								
+		
 							</div>
-							{% endfor %}
 						</div>
-							
-						{% if comments.total_page > 1 %}
-            <div class="ui center aligned">
-						<div class="ui gray active more button" data-page="2" id="more-comments">更多评论</div>
-          </div>
-						{% endif %}
-						<div class="ui post segment">
-							<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论</p>
-							<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-								<input type="hidden" name="target_id" value="{{ try._id }}" />
-								<input type="hidden" name="type" value="3" />
-								<input type="hidden" name="star" value="0" />
-							
-								<div class="field">
-									<textarea name="content" class="comment-textarea" maxlength="140" placeholder="输入评论..."></textarea>
-									<div id="comment"></div>
+						<div class="ui five wide column">
+							<div class="ui segment">
+								<div class="ui grid">
+									<div class="row">
+										<div class="column">
+											<h3 class="ui dividing header">
+												App下载
+											</h3>
+											<img src="{{ app_url_packaged }}/images/iphone.png" style="width: 47%;margin-right: 6%;display: inline-block;float: left;" alt="app-iphone">
+											<!--<img src="http://static.taihuoniao.me/images/deavatar/008-s.jpg" style="width: 47%;">-->
+											<p style="width: 47%;margin-right: 6%;display: inline-block;float: left;text-align:center;">iphone</p>
+											<!--<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>-->
+										</div>
+									</div>
 								</div>
-								<div class="right aligned column">
-									<small>还可以输入<span class="wordscount">140</span> 字</small>
-                        			<div class="ui active magenta submit labeled icon inverted button">
-                                      	<i class="icon basic direction"></i> 添加评论
-                                    </div>
+								
+								<div class="bar"></div>
+                <!--
+								<div class="product brand">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													品牌介绍 
+												</h3>
+												<div class="ui large avatar image" style="display:block;margin:0 auto;">
+													<img src="http://static.taihuoniao.me/images/deavatar/008-m.jpg" alt="太火鸟">
+												</div>
+												<p>多听是中国最大的网络音频聚合平台之一。我们提供超过220万集各类音频节目，供用户随时随地免费点播收听，目前多听用户规模已超过5000万。除APP以外，多听还推出了国内首款车载网络电台智能硬件“车听宝”，并具有“无需3G流量”、“智能云端更新”、“原车操控体验”、“百万音频支持”、“顶级HIFI音质”、“服务永久免费”等六大特点。我们致力于通过移动互联网，为多年来一成不变的电台市场带来创新，为用户提供前所未有的收听体验！</p>
+											
+											</div>
+										</div>
+									</div>
 								</div>
-							</form>
-						</div>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="product people">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h3 class="ui dividing header">
-						试用名单
-					</h3>
-					
-					{% if try.pass_users %}
-					<div class="avatars" id="product-apply-people">
-						{% user_list var:'userlist' user_ids:try.pass_users %}
-					    <div class="ui horizontal list">
-							{% for user in userlist  %}
-							<div class="item">
-								<a class="ui large avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
-									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
-								</a>
-								<div class="content">
-								      <div class="header">
-										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
-									  </div>
-								      <span>{{ user.city }}</span>
+								<div class="bar"></div>
+								<a href="" class="fluid ui magenta active button" style="width: auto;margin: 0 -1em;">＋厂商试用合作申请</a>
+								<div class="bar"></div>
+                -->
+
+                {% apply_list var:'list' target_id:try._id type:1 page:1 size:8 %}
+								<div class="product appli">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													这些人也在申请
+												</h3>
+												<table class="ui table">
+													<tbody>
+                            {% for t in list.rows %}
+														<tr>
+															<td class="author">
+																<a class="ui small avatar image" href="{{ t.user.home_url }}" title="{{ t.user.nickname }}" target="_blank">
+																	<img src="{{ t.user.big_avatar_url }}" alt="{{ t.user.nickname }}">
+																</a>
+															</td>
+															<td class="seven wide">
+																<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
+															</td>
+															<td class="nine wide">
+                                {{ t.created_on|date }}
+															</td>
+														</tr>
+                            {%endfor%}
+														
+													</tbody>
+												</table>
+													
+											</div>
+										</div>
+									</div>
 								</div>
+								
+								<div class="bar"></div>
+								
+								<div class="product aption">
+									<div class="ui grid">
+										<div class="row">
+											<div class="column">
+												<h3 class="ui dividing header">
+													关注太火鸟
+												</h3>
+												<img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
+												<p>关注太火鸟有惊喜！</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								
 							</div>
-							{% endfor %}
 						</div>
 					</div>
-					{% else %}
-					<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
-					{% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div class="product report">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h3 class="ui dividing header">
-						试用报告
-					</h3>
-					<div class="social">
-						<table class="ui topic table">
-							<tbody>
-							{% topic_list var:'list' try_id:try._id time:'latest' %}
-							{% for topic in list.rows %}
-								{% include "block/report_item.html" %}
-							{% endfor %}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="center aligned column">
-					<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui black inverted button" target="_blank">
-                        <i class="tasks icon"></i> 全部报告
-                    </a>
-					<!--通过审核的用户才能提交报告-->
-					{% if visitor.is_login %}
-					<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
-                        <i class="edit icon"></i> 提交报告
-                    </a>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
+
 </div>
 
 <div class="section breadcrumb">

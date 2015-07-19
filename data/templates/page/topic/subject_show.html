@@ -244,9 +244,12 @@
 					{% topic_list var:'stick_list' size:5 sort:'latest' target_id:product._id %}
 					<div class="ui list">
 						{% for topic in stick_list.rows %}
-						<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui item link"> 
-							{{ topic.title|truncate, 16, '' }}
-						</a>
+							<!-- 判断话题是否可以显示 -->
+							{% if topic.published %}
+								<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui item link"> 
+									{{ topic.title|truncate, 16, '' }}
+								</a>
+							{% endif %}
 						{% endfor %}
 					</div>
 				</div>

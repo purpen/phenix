@@ -4,46 +4,129 @@
  *  @author  tianshuai <tianshuai@taihuoniao.com>
 
  */
-	
+class Sher_Core_Util_WechatThird extends Doggy_Object {
 	public function __construct($options)
 	{
-		$this->token = isset($options['token'])?$options['token']:'';
-		$this->appid = isset($options['appid'])?$options['appid']:'';
-		$this->appsecret = isset($options['appsecret'])?$options['appsecret']:'';
-		$this->partnerid = isset($options['partnerid'])?$options['partnerid']:'';
-		$this->partnerkey = isset($options['partnerkey'])?$options['partnerkey']:'';
-		$this->paysignkey = isset($options['paysignkey'])?$options['paysignkey']:'';
-		$this->debug = isset($options['debug'])?$options['debug']:false;
-		$this->_logcallback = isset($options['logcallback'])?$options['logcallback']:false;
+		$this->token = isset($options['secret'])?$options['secret']:'';
+		$this->appid = isset($options['app_id'])?$options['app_id']:'';
 	}
 
+  /**
+   * 获取 code
+   */
+  public function get_code($url){
+		$result = $this->http_get($url);
+    return $result;
+
+  }
+
 	/**
-	 * 获取code
+	 * 获取access_token
 	 */
-	public function getQRCode($scene_id,$type=0,$expire=1800){
-		if (!$this->access_token && !$this->checkAuth()) return false;
-		$data = array(
-			'action_name'=>$type?"QR_LIMIT_SCENE":"QR_SCENE",
-			'expire_seconds'=>$expire,
-			'action_info'=>array('scene'=>array('scene_id'=>$scene_id))
-		);
-		if ($type == 1) {
-			unset($data['expire_seconds']);
-		}
-		$result = $this->http_post(self::API_URL_PREFIX.self::QRCODE_CREATE_URL.'access_token='.$this->access_token,self::json_encode($data));
+	public function get_access_token($url){
+		$result = $this->http_post($url);
 		if ($result)
 		{
 			$json = json_decode($result,true);
 			if (!$json || !empty($json['errcode'])) {
-				$this->errCode = $json['errcode'];
-				$this->errMsg = $json['errmsg'];
-				return false;
-			}
-			return $json;
-		}
-		return false;
+				$errCode = $json['errcode'];
+				$errMsg = $json['errmsg'];
+				return array('success'=>false, 'msg'=>$errMsg, 'code'=>$errCode);
+      }else{
+        /**
+        if((int)$json['expires_in']==0){
+          $r_url = sprintf("https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s", $this->appid, $json['refresh_token']);
+          $json = $this->http_get($r_url);
+          if (!$json || !empty($json['errcode'])) {
+            $errCode = $json['errcode'];
+            $errMsg = $json['errmsg'];
+            return array('success'=>false, 'msg'=>$errMsg, 'code'=>$errCode);
+          }
+        }
+        **/
+			  return array('success'=>true, 'data'=>$json);
+      }
+    }else{
+ 		  return array('success'=>false, 'msg'=>'数据为空!', 'code'=>500);   
+    }
 	}
+
+  /**
+   * 获取用户信息
+   */
+  public function get_userinfo($url){
+    $result = $this->http_get($url);
+    if($result){
+      $json = json_decode($result,true);
+			if (!$json || !empty($json['errcode'])) {
+				$errCode = $json['errcode'];
+				$errMsg = $json['errmsg'];
+				return array('success'=>false, 'msg'=>$errMsg, 'code'=>(int)$errCode);
+      }else{
+        return array('success'=>true, 'data'=>$json);
+      }
+    }else{
+ 			return array('success'=>false, 'msg'=>'获取用户信息失败!', 'code'=>500);   
+    }
+  }
 	
+
+	/**
+	 * POST 请求
+	 * @param string $url
+	 * @param array $param
+	 * @return string content
+	 */
+	private function http_post($url,$param){
+		$oCurl = curl_init();
+		if(stripos($url,"https://")!==FALSE){
+			curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, false);
+		}
+		if (is_string($param)) {
+			$strPOST = $param;
+		} else {
+			$aPOST = array();
+			foreach($param as $key=>$val){
+				$aPOST[] = $key."=".urlencode($val);
+			}
+			$strPOST =  join("&", $aPOST);
+		}
+		curl_setopt($oCurl, CURLOPT_URL, $url);
+		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt($oCurl, CURLOPT_POST,true);
+		curl_setopt($oCurl, CURLOPT_POSTFIELDS,$strPOST);
+		$sContent = curl_exec($oCurl);
+		$aStatus = curl_getinfo($oCurl);
+		curl_close($oCurl);
+		if(intval($aStatus["http_code"])==200){
+			return $sContent;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * GET 请求
+	 * @param string $url
+	 */
+	private function http_get($url){
+		$oCurl = curl_init();
+		if(stripos($url,"https://")!==FALSE){
+			curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, FALSE);
+		}
+		curl_setopt($oCurl, CURLOPT_URL, $url);
+		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1 );
+		$sContent = curl_exec($oCurl);
+		$aStatus = curl_getinfo($oCurl);
+		curl_close($oCurl);
+		if(intval($aStatus["http_code"])==200){
+			return $sContent;
+		}else{
+			return false;
+		}
+	}
 		
 }
 

@@ -71,13 +71,25 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
             return $this->display_note_page('微博登录应用正在审核中，请耐心等待！');
           }
 
-          // 检查用户名是否唯一
-          $exist = $user->_check_name($weibo_info['screen_name']);
-          if ($exist) {
-            $nickname = $weibo_info['screen_name'];
-          } else {
-            $nickname = '微博用户['.$weibo_info['screen_name'].']';
+          $nickname = $weibo_info['screen_name'];
+          //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+          $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+          if (!preg_match($e, $nickname)) {
+            $nickname = Sher_Core_Helper_Util::generate_mongo_id();
           }
+
+          // 检查用户名是否唯一
+          $exist = $user->_check_name($nickname);
+          if (!$exist) {
+            $nickname = '微博用户-'.$nickname;
+          }
+
+          // 获取session id
+          $service = Sher_Core_Session_Service::instance();
+          $sid = $service->session->id;
+          $random = Sher_Core_Helper_Util::generate_mongo_id();
+          $session_random_model = new Sher_Core_Model_SessionRandom();
+          $session_random_model->gen_random($sid, $random, 1);
 
           $this->stash['third_source'] = 'weibo';
           $this->stash['uid'] = $uid;
@@ -88,14 +100,15 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
           $this->stash['sex'] = $weibo_info['gender'];
           $this->stash['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+          $this->stash['session_random'] = $random;
 
           return $this->to_html_page('page/landing.html');
 
         } else {  //已绑定，直接登录
           $user_id = $result['_id'];
 
-          //如果未绑定手机，需要强制绑定
-          if(!Sher_Core_Helper_Util::is_mobile($result['account'])){
+          //如果未绑定手机，需要强制绑定---现在不强制了
+          if(1==2 && !Sher_Core_Helper_Util::is_mobile($result['account'])){
             $this->stash['third_source'] = 'weibo';
             $this->stash['user_id'] = $user_id;
             $this->stash['nickname'] = $result['nickname'];
@@ -187,7 +200,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
         //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
         $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
         if (!preg_match($e, $user_info['nickname'])) {
-          $user_info['nickname'] = $weibo_info['idstr'];
+          $user_info['nickname'] = Sher_Core_Helper_Util::generate_mongo_id();
         }
 				
 				// 检查用户名是否唯一
@@ -195,7 +208,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 				if ($exist) {
 					$user_info['nickname'] = $user_info['nickname'];
 				} else {
-					$user_info['nickname'] = '微博用户['.$user_info['nickname'].']';
+					$user_info['nickname'] = '微博用户-'.$user_info['nickname'];
 				}
 				
 				$user_info['sina_uid'] = $weibo_info['id'];

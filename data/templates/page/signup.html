@@ -1,6 +1,10 @@
 {%extends 'layout/auth.html'%}
 {% block title %}现在注册-{% endblock %}
 
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+{% endblock %}
+
 {% block jquery %}
 	phenix.build_auth_page();
 	
@@ -67,6 +71,20 @@
 			phenix.show_error_note('请正确填写手机号码！');
 		}
 	});
+
+  var obj = new WxLogin({
+      id:"login_container", 
+      appid: "{{ wx_params.app_id }}", 
+      scope: "snsapi_login", 
+      redirect_uri: "{{ wx_params.redirect_uri }}",
+      state: "{{ wx_params.state }}",
+      style: "white",
+      href: ""
+    });
+
+		$('.ui.green.circular.share.icon.button').bind('click', function(){
+			$('.ui.share.basic.modal').modal('show');
+		});
 {% endblock %}
 
 {% block content %}
@@ -86,15 +104,21 @@
 					<div class="center aligned ui header">
 						注册太火鸟
 					</div>
-					<div class="two fields">
+					<div class="ui center aligned five fields">
+						<div class="field"></div>
 						<div class="field">
-							<a href="{{ weibo_auth_url }}" class="fluid ui weibo inverted button">
-								<i class="flat icon_weibo icon"></i> 用微博账号
+							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
+								<i class="flat icon_weibo icon"></i> 
 							</a>
 						</div>
 						<div class="field">
-							<a href="{{ app_url_qq_login }}" class="fluid ui qq inverted button">
-								<i class="flat icon_qq icon"></i> 用QQ账号
+							<a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
+								<i class="flat icon_qq icon"></i>
+							</a>
+						</div>
+						<div class="field">
+							<a class="ui green circular share icon button">
+								<i class="flat icon_weixin icon"></i>
 							</a>
 						</div>
 					</div>
@@ -129,6 +153,10 @@
 				    	<div class="fluid ui large active magenta submit button" >确认注册</div>
 					</div>
 				</form>
+			</div>
+			<div id="Mode" class="ui share basic modal">
+				<i class="flat close icon"></i>
+					<div id="login_container"></div>
 			</div>
 			<div class="sign-up">
 				<label>已有账号？<a href="{{ app_url_login }}" title="立即登录" class="ui link">立即登录</a></label>
