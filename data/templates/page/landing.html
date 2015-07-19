@@ -69,15 +69,15 @@
   $('#quick-register-btn').click(function(){
 
     var params = {
-    var third_source : "{{ third_source }}",
-    var uid : "{{ uid }}",
-    var access_token : "{{ access_token }}",
-    var union_id : "{{ union_id }}",
-    var nickname : "{{ nickname }}",
-    var sex : "{{ sex }}",
-    var from_site : "{{ from_site }}",
-    var login_token : "{{ login_token }}",
-    var session_random : "{{ session_random }}"
+      third_source : "{{ third_source }}",
+      uid : "{{ uid }}",
+      access_token : "{{ access_token }}",
+      union_id : "{{ union_id }}",
+      nickname : "{{ nickname }}",
+      sex : "{{ sex }}",
+      from_site : "{{ from_site }}",
+      login_token : "{{ login_token }}",
+      session_random : "{{ session_random }}"
 
     };
     var url = {{ app_url_domain }}/auth/third_register;
