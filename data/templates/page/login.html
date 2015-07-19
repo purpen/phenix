@@ -2,24 +2,28 @@
 {% block title %}现在登录-{% endblock %}
 {% block js %}
 {% endblock %}
+
 {% block layout_js %}
   <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
-	<script type="text/javascript">
-	var obj = new WxLogin({
+{% endblock %}
+
+{% block jquery %}
+	phenix.build_auth_page();
+
+  var obj = new WxLogin({
       id:"login_container", 
       appid: "{{ wx_params.app_id }}", 
       scope: "snsapi_login", 
       redirect_uri: "{{ wx_params.redirect_uri }}",
       state: "{{ wx_params.state }}",
-      style: "",
-      href: "http://frstatic.qiniudn.com/wechat/js/weixin.css"
+      style: "white",
+      href: ""
     });
-	</script>
-		
-{% endblock %}
 
-{% block jquery %}
-	phenix.build_auth_page();
+
+		$('.ui.green.circular.share.icon.button').bind('click', function(){
+			$('.ui.share.basic.modal').modal('show');
+		});
 
 {% endblock %}
 
@@ -32,22 +36,27 @@
 					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
 				</a>
 			</div>
-			<div class="ui bottom attached grid segment">
-		
-			<div class="ui ten wide column">
+			<div class="ui bottom attached segment">
+			
 				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
           <!--<div id="login_container"></div>-->
 					<div class="center aligned ui header">登录太火鸟</div>
-					<div class="two fields">
+					<div class="ui center aligned five fields">
+						<div class="field"></div>
 						<div class="field">
-							<a href="{{ weibo_auth_url }}" class="fluid ui weibo inverted button">
-								<i class="flat icon_weibo icon"></i> 用微博账号
+							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
+								<i class="flat icon_weibo icon"></i> 
 							</a>
 						</div>
 						<div class="field">
-							<a href="{{ app_url_qq_login }}" class="fluid ui qq inverted button">
-								<i class="flat icon_qq icon"></i> 用QQ账号
+							<a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
+								<i class="flat icon_qq icon"></i>
+							</a>
+						</div>
+						<div class="field">
+							<a class="ui green circular share icon button">
+								<i class="flat icon_weixin icon"></i>
 							</a>
 						</div>
 					</div>
@@ -72,11 +81,13 @@
 					</div>
 				</form>
 			</div>
-			<div class="six wide column">
-				<div id="login_container"></div>
-				
+			
+			<div id="Mode" class="ui share basic modal">
+				<i class="flat close icon"></i>
+					<div id="login_container"></div>
 			</div>
-			</div>
+			
+			
 			<div class="sign-up">
 				<label>没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册" class="ui link" >立即注册</a></label>
 			</div>
