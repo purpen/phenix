@@ -740,7 +740,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     //根据第三方来源,更新对应open_id 
     if($third_source=='weibo'){
       $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
-      $user_data['sina_uid'] = $uid;
+      $user_data['sina_uid'] = (int)$uid;
       $user_data['sina_access_token'] = $access_token;
     }elseif($third_source=='qq'){
       $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
