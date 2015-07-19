@@ -107,8 +107,8 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
         } else {  //已绑定，直接登录
           $user_id = $result['_id'];
 
-          //如果未绑定手机，需要强制绑定
-          if(!Sher_Core_Helper_Util::is_mobile($result['account'])){
+          //如果未绑定手机，需要强制绑定---现在不强制了
+          if(1==2 && !Sher_Core_Helper_Util::is_mobile($result['account'])){
             $this->stash['third_source'] = 'weibo';
             $this->stash['user_id'] = $user_id;
             $this->stash['nickname'] = $result['nickname'];
