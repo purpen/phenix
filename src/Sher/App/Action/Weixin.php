@@ -79,6 +79,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     $state = $sid;
 
     $url = sprintf("https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $app_id, $redirect_uri, $state);
+
     return $this->to_redirect($url);
 
 
@@ -128,21 +129,24 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
       if(empty($open_id) || empty($access_token)){
         return $this->show_message_page('open_id or access_token is null！', $error_redirect_url);
       }
-      $url = sprintf("https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s", $access_token, $open_id);
-      $result = $wx_third_model->get_userinfo($url);
-      if($result['success']){
-        if(!isset($result['data']['nickname']) || empty($result['data']['nickname'])){
-          return $this->show_message_page('获取用户昵称为空！', $error_redirect_url);
-        }
-        $union_id = $result['data']['unionid'];
-        $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
-        $user_model = new Sher_Core_Model_User();
-        $user = $user_model->first(array('wx_open_id' => (string)$open_id));
-        if(!empty($user)){
-          $user_id = $user['_id'];
-          // 重新更新access_token
-          $user_model->update_wx_accesstoken($user_id, $access_token);
-        }else{
+
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->first(array('wx_open_id' => (string)$open_id));
+      if(!empty($user)){
+        $user_id = $user['_id'];
+        // 重新更新access_token
+        $user_model->update_wx_accesstoken($user_id, $access_token);
+      }else{
+        //获取用户信息
+        $url = sprintf("https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s", $access_token, $open_id);
+        $result = $wx_third_model->get_userinfo($url);
+        if($result['success']){
+          if(!isset($result['data']['nickname']) || empty($result['data']['nickname'])){
+            return $this->show_message_page('获取用户昵称为空！', $error_redirect_url);
+          }
+          $union_id = $result['data']['unionid'];
+          $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
+
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
           $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
@@ -187,15 +191,20 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
               return $this->show_message_page("注册失败:".$e->getMessage(), $error_redirect_url);
           }
 
+          // 实现自动登录
+          Sher_Core_Helper_Auth::create_user_session($user_id);
+          $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
+          return $this->to_redirect($user_home_url);
+        }else{
+          return $this->show_message_page($result['msg'], $error_redirect_url);
         }
 
-        // 实现自动登录
-        Sher_Core_Helper_Auth::create_user_session($user_id);
-        $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-        return $this->to_redirect($user_home_url);
-      }else{
-        return $this->show_message_page($result['msg'], $error_redirect_url);
+
+      
       }
+
+
+
 
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);

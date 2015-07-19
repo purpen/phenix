@@ -11,6 +11,14 @@ class Sher_Core_Util_WechatThird extends Doggy_Object {
 		$this->appid = isset($options['app_id'])?$options['app_id']:'';
 	}
 
+  /**
+   * 获取 code
+   */
+  public function get_code($url){
+		$result = $this->http_get($url);
+
+  }
+
 	/**
 	 * 获取access_token
 	 */
@@ -24,6 +32,7 @@ class Sher_Core_Util_WechatThird extends Doggy_Object {
 				$errMsg = $json['errmsg'];
 				return array('success'=>false, 'msg'=>$errMsg, 'code'=>$errCode);
       }else{
+        /**
         if((int)$json['expires_in']==0){
           $r_url = sprintf("https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s", $this->appid, $json['refresh_token']);
           $json = $this->http_get($r_url);
@@ -33,6 +42,7 @@ class Sher_Core_Util_WechatThird extends Doggy_Object {
             return array('success'=>false, 'msg'=>$errMsg, 'code'=>$errCode);
           }
         }
+        **/
 			  return array('success'=>true, 'data'=>$json);
       }
     }else{
