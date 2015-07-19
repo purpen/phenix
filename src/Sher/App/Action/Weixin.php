@@ -86,9 +86,9 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
       'app_id' => $app_id,
     );
 
-    $wx_third_model = new Sher_Core_Util_WechatThird($options);
-    $result = $wx_third_model->get_code($url);
-    //return $this->to_redirect($url);
+    //$wx_third_model = new Sher_Core_Util_WechatThird($options);
+    //$result = $wx_third_model->get_code($url);
+    return $this->to_redirect($url);
 
 
   }
