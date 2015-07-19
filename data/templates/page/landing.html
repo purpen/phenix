@@ -92,13 +92,19 @@
 								 新的账号
 						</a>
 					</div>
+					<div class="field">
+						<a class="fluid ui green btn-4 btn-4c icon btn" style="border-radius:0;">
+								 直接登录
+						</a>
+					</div>
 				</div>
 
-		<form action="{{ app_url_action_base }}/auth/do_login" class="ui  form" method="post" id="login-form">
+		<form action="{{ app_url_action_base }}/auth/do_login" class="ui form" method="post" id="login-form">
 			<input type="hidden" name="t" value="{{ login_token }}" />
 			<input type="hidden" name="third_source" value="{{ third_source }}" />
 			<input type="hidden" name="uid" value="{{ uid }}" />
 			<input type="hidden" name="access_token" value="{{ access_token }}" />
+			<input type="hidden" name="access_token" value="{{ union_id }}" />
 
 				<div class="ui active tab" data-tab="first">
 					<div class="field">

@@ -145,8 +145,10 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
             return $this->show_message_page('获取用户昵称为空！', $error_redirect_url);
           }
           $union_id = $result['data']['unionid'];
-          $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
 
+          
+
+          $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
           $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
@@ -163,6 +165,19 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
               $nickname = $nickname.(string)rand(1000,9999);
             }
           }
+
+          $this->stash['third_source'] = 'weixin';
+          $this->stash['uid'] = (string)$open_id;
+				  $this->stash['access_token'] = $access_token;
+          $this->stash['union_id'] = $union_id;
+          $this->stash['nickname'] = $nickname;
+          $this->stash['sex'] = $sex;
+          $this->stash['from_site'] = Sher_Core_Util_Constant::FROM_WEIXIN;
+          $this->stash['summary'] = null;
+				  $this->stash['city'] = null;
+          $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+
+          return $this->to_html_page('page/landing.html');
 
           $user_data = array(
             'account' => (string)$open_id,

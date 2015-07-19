@@ -283,7 +283,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
           if($this->stash['third_source']=='weibo'){
             $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
           }elseif($this->stash['third_source']=='qq'){
-             $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);    
+            $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);
+          }elseif($this->stash['third_source']=='weixin'){
+            $third_info = array('wx_open_id'=>$this->stash['uid'], 'wx_access_token'=>$this->stash['access_token'], 'wx_union_id'=>$this->stash['union_id']);
           }else{
             $third_info = array();
           }
@@ -382,6 +384,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }elseif($this->stash['third_source']=='qq'){
           $user_info['qq_uid'] = $this->stash['uid'];
           $user_info['qq_access_token'] = $this->stash['access_token']; 
+        }elseif($this->stash['third_source']=='weixin'){
+          $user_info['wx_open_id'] = $this->stash['uid'];
+          $user_info['wx_access_token'] = $this->stash['access_token'];
+          $user_info['wx_union_id'] = $this->stash['union_id'];
         }else{
           //next_third
         }
@@ -657,6 +663,13 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
+
+  /**
+   * 第三方账户直接登录,生成默认用户,不绑定手机
+   */
+  public function third_register(){
+  
+  }
 	
 }
-?>
+
