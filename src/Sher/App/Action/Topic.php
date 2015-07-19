@@ -2,6 +2,7 @@
 /**
  * 社区帖子
  * @author purpen
+ * @author caowei@taohuoniao.com
  */
 class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
@@ -356,6 +357,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 显示主题详情帖
 	 */
 	public function view(){
+		
 		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.topic'];
@@ -380,12 +382,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $topic = $model->extended_model_row($topic);
         }
 
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);
-    if(!empty($topic['tags'])){
-      $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
-    }
-    $this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
+		//添加网站meta标签
+		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);
+		if(!empty($topic['tags'])){
+		  $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
+		}
+		$this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);
@@ -428,17 +430,27 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
-    //评论参数
-    $comment_options = array(
-      'comment_target_id' =>  $topic['_id'],
-      'comment_target_user_id' => $topic['user_id'],
-      'comment_type'  =>  2,
-      'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
-      //是否显示上传图片/链接
-      'comment_show_rich' => 1,
-    );
-    $this->_comment_param($comment_options);
-
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $topic['_id'],
+		  'comment_target_user_id' => $topic['user_id'],
+		  'comment_type'  =>  2,
+		  'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
+		
+		// 投票部分代码
+		$model_vote = new Sher_Core_Model_Vote();
+		$voteOne = $model_vote->find_by_id(array('relate_id' => (int)$id));
+		$vote_id = $voteOne['_id'];
+		if($vote_id){
+			$vote = $model_vote->find_votes($vote_id);
+			$this->stash['vote'] = &$vote;
+			$this->stash['is_vote'] = true;
+		}
+		
 		return $this->to_html_page($tpl);
 	}
 	
@@ -757,6 +769,62 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['page_title'] = $page_title;
 		
 		return $this->to_html_page('page/topic/submit.html');
+	}
+	
+	/**
+	 * 保存投票信息
+	 */
+	public function save_vote(){
+		
+		$back = array(0,0,0);
+		$field_name = 'nums';
+		
+		$vote = json_decode('['.$this->stash['vote'].']',true);
+		$vote = $vote[0];
+		$problem = json_decode('['.$this->stash['problem'].']',true);
+		$problem = $problem[0];
+		
+		// 更新投票次数
+		$model_vote = new Sher_Core_Model_Vote();
+		if($model_vote->inc_counter($field_name, (int)$vote['vote_id'], $inc=1)){
+			$back[0] = 1;
+		}
+		
+		$vote_record = array();
+		$i = 0;
+		$model_answer = new Sher_Core_Model_Answer();
+		foreach($problem as $k => $v){
+			foreach($v["answer"] as $key => $value){
+				$vote_record[$i]['vote_id'] = (int)$vote['vote_id'];
+				$vote_record[$i]['user_id'] = (int)$vote['user_id'];
+				$vote_record[$i]['relate_id'] = (int)$vote['topic_id'];
+				$vote_record[$i]['problem_id'] = $v['id'];
+				$vote_record[$i]['answer_id'] = $value;
+				// 更新答案次数
+				if($model_answer->inc_counter('nums', $value, $inc=1)){
+					$back[1]++;
+				}
+				$i++;
+			}
+			$i++;
+		}
+		
+		// 添加投票信息记录
+		$model_vote_record = new Sher_Core_Model_VoteRecord();
+		foreach($vote_record as $v){
+			if($model_vote_record->create($v)){
+				$back[2]++;
+			}
+		}
+		
+		if(!$back[0] || $back[1] !== count($vote_record) || $back[2] !== count($vote_record)){
+			return false;
+		}
+		
+		$model = new Sher_Core_Model_Vote();
+		$result = $model->statistics($vote['vote_id']);
+		
+		echo json_encode($result);
 	}
 	
 	/**

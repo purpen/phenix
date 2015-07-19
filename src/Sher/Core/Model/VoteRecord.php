@@ -10,19 +10,20 @@ class Sher_Core_Model_VoteRecord extends Sher_Core_Model_Base {
     protected $schema = array(
         
 		# 投票id
-        'vote_id' => null,
+        'vote_id' => 0,
+		# 关联用户id
+        'user_id' => 0,
+		# 关联项目id
+        'relate_id' => 0,
+		
         # 问题id
         'problem_id' => null,
 		# 答案id
         'answer_id' => null,
-		# 关联用户id
-        'user_id' => 0,
-		# 统计数量
-		'nums' => 0,
     );
 	
-	protected $required_fields = array();
-	protected $int_fields = array('nums');
+	protected $required_fields = array('vote_id','problem_id','answer_id',);
+	protected $int_fields = array('vote_id','user_id','relate_id');
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();

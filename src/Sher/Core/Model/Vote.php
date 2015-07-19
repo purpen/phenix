@@ -18,19 +18,19 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
         # 所属分类
         'type' => self::TYPE_TOPIC,
         # 关联项目id
-        'relate_id' => null,
+        'relate_id' => 0,
         # 问题id
         'problem_ids' => array(),
-        # 关联用户id
-        'user_id' => 0,
 		# 是否启用
 		'status' => 1,
+		# 统计数量
+		'nums' => 0,
     );
 	
-	protected $required_fields = array('title');
-	protected $int_fields = array('user_id');
+	protected $required_fields = array('title','relate_id');
+	protected $int_fields = array('user_id','relate_id','nums');
 	protected $float_fields = array();
-	protected $counter_fields = array();
+	protected $counter_fields = array('nums');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -124,5 +124,40 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name = 'nums', $id = 0, $inc = 1){
+		if(!$id){
+			$id = $this->id;
+		}
+		
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	* 投票统计
+	*/
+	public function statistics($id){
+		$nums = 0;
+		$vote = $this->find_votes((int)$id);
+		foreach($vote['problem'] as $v){
+			foreach($v['answer'] as $val){
+				$nums += (int)$val['nums'];
+			}
+		}
+		//echo $nums;
+		foreach($vote['problem'] as $k => $v){
+			foreach($v['answer'] as $key => $val){
+				$vote['problem'][$v]['answer'][$key]['nums'] = (float)(((int)$val['nums']/$nums) * 100);
+			}
+		}
+		return $vote;
 	}
 }
