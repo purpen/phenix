@@ -81,7 +81,12 @@
 
     };
     var url = "{{ app_url_domain }}/auth/third_register";
-    $.post(url, params);
+    $.post(url, params, function(result){
+      result = eval('('+ result +')');
+      if(result.success){
+        phenix.redirect(result.redirect_url, 0);
+      }
+    });
     
   });
 {% endblock %}
