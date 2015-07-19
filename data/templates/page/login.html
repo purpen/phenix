@@ -18,11 +18,80 @@
       style: "",
       href: ""
     });
-
-	$('#login_container img.qrcode,').style('width','100%');
-	$('#login_container .info').style('width','100%');
 {% endblock %}
-
+{% block page_css %}
+<style type="text/css">
+	body {
+		background: url("{{ app_url_packaged }}/images/first-lights.jpg") no-repeat scroll 100% rgba(0, 0, 0, 0);
+		min-height: 100%;
+		min-width: 100%;
+	}
+	.ui.form .inline.fields .field > input, .ui.form .inline.field > input {
+		font-size: 1em;
+	}
+	.ui.form .description {
+		color: rgba(0, 0, 0, 0.7);
+	}
+	#account {
+		width: 50%;
+	}
+	#verify_code,
+	#captcha {
+		width: 50%;
+	}
+	#captcha {
+		float: left;
+	}
+	.ui.log-in .ui.tab .inline.field:first-child{
+		margin-top: 1.5em !important;
+	}
+	.ui.log-in .ui.tab .inline.field:nth-child(2){
+		line-height: 40px !important;
+	}
+	.field{
+		width:50%;
+		float:left;
+	}
+	.ui.tab .field {
+		width: 100% !important;
+	}
+	.ui.form.auth-form > .field{
+		width:100%;
+	}
+	.ui.segment > .ui.form >.inline.field,.ui.segment > .ui.form >.inline.field+.field,.ui.segment > .ui.form >.field+.field{
+		width:100%;
+	}
+	.ui.log-in {
+	  max-width: 690px;
+	}
+	.ui.log-in .sign-up{
+		margin-top:1rem;
+	}
+	.ui.segment.bottom.attached > .ui.column{
+		margin-bottom:0;
+	}
+	#login_container iframe{
+		width:100%;
+		height:350px;
+	}
+	.impowerBox .qrcode {
+	  width: 200px;
+	  margin-top: 8px;
+	}
+	.impowerBox .info {
+	  width: 200px;
+	  margin: 0 auto;
+	}
+	.impowerBox .qrcode {
+	  width: 200px;
+	  margin-top: 8px;
+	}
+	.impowerBox .info {
+	  width: 200px;
+	  margin: 0 auto;
+	}
+</style>
+{% endblock %}
 {% block content %}
 <div class="ui responsive grid" style="max-width:100%!important;">
 	<div class="column width">
