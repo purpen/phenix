@@ -2,7 +2,15 @@
 {% block title %}现在登录-{% endblock %}
 {% block js %}
 {% endblock %}
+{% block page_css%}
+<style type="text/css">
+	.ui.log-in {
+	  max-width: 870px;
+	}
 
+
+</style>
+{% endblock %}
 {% block layout_js %}
   <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 {% endblock %}
@@ -31,11 +39,12 @@
 					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
 				</a>
 			</div>
-			<div class="ui bottom attached segment">
-			
+			<div class="ui bottom attached grid segment">
+		
+			<div class="ui ten wide column">
 				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
-          <div id="login_container"></div>
+          <!--<div id="login_container"></div>-->
 					<div class="center aligned ui header">登录太火鸟</div>
 					<div class="two fields">
 						<div class="field">
@@ -69,6 +78,11 @@
 						<div class="fluid ui large active magenta submit button" >登录</div>
 					</div>
 				</form>
+			</div>
+			<div class="six wide column">
+				<div id="login_container"></div>
+			</div>
+				
 			</div>
 			<div class="sign-up">
 				<label>没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册" class="ui link" >立即注册</a></label>
