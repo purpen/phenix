@@ -21,15 +21,6 @@
 {% block jquery %}
 	phenix.build_auth_page();
 
-  var obj = new WxLogin({
-      id:"login_container", 
-      appid: "{{ wx_params.app_id }}", 
-      scope: "snsapi_login", 
-      redirect_uri: "{{ wx_params.redirect_uri }}",
-      state: "{{ wx_params.state }}",
-      style: "",
-      href: "http://frstatic.qiniudn.com/wechat/js/weixin.css"
-    });
 {% endblock %}
 
 {% block content %}
