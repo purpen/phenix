@@ -4,6 +4,18 @@
 {% endblock %}
 {% block layout_js %}
   <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+	<script type="text/javascript">
+	var obj = new WxLogin({
+      id:"login_container", 
+      appid: "{{ wx_params.app_id }}", 
+      scope: "snsapi_login", 
+      redirect_uri: "{{ wx_params.redirect_uri }}",
+      state: "{{ wx_params.state }}",
+      style: "",
+      href: "http://frstatic.qiniudn.com/wechat/js/weixin.css"
+    });
+	</script>
+		
 {% endblock %}
 
 {% block jquery %}
