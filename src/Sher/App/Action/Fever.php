@@ -12,14 +12,13 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		'category_id' => 0,
 		'sort' => 0,
 		'step' => 0,
-    'page_title_suffix' => '智能硬件创意投票-太火鸟智能硬件孵化平台',
-    'page_keywords_suffix' => '太火鸟,智能硬件孵化,智能硬件创意,创意投票,设计创意,硬件创意,创意评论,运动健康,数码电子,智能家居,娱乐生活,户外休闲',
-    'page_description_suffix' => '太火鸟智能硬件创意投票专区，提交属于你的智能硬件创意，为你喜欢的智能硬件创意投票，为别人的智能创意发表评论。',
+		'page_title_suffix' => '智能硬件创意投票-太火鸟智能硬件孵化平台',
+		'page_keywords_suffix' => '太火鸟,智能硬件孵化,智能硬件创意,创意投票,设计创意,硬件创意,创意评论,运动健康,数码电子,智能家居,娱乐生活,户外休闲',
+		'page_description_suffix' => '太火鸟智能硬件创意投票专区，提交属于你的智能硬件创意，为你喜欢的智能硬件创意投票，为别人的智能创意发表评论。',
 	);
 	
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/topic/index.html';
-	
 	protected $exclude_method_list = array('execute', 'get_list', 'view', 'ajax_fetch_support');
 	
 	public function _init() {
@@ -45,9 +44,7 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = Sher_Core_Helper_Url::vote_advance_list_url($category_id,$type,$sort,'#p#');
-		
 		$this->stash['pager_url'] = $pager_url;
-		
 		$this->gen_advanced_links($category_id, $type, $sort, $page);
 		
         // 获取计数
@@ -110,8 +107,8 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 查看详情
 	 */
 	public function view() {
-		$id = (int)$this->stash['id'];
 		
+		$id = (int)$this->stash['id'];
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
 		if(empty($id)){
 			return $this->show_message_page('访问的创意不存在！', $redirect_url);
@@ -133,13 +130,13 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->show_message_page('访问的创意不存在或已被删除！', $redirect_url);
 		}
 
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟创意投票专区", $product['title']);
-    if(!empty($product['tags_s'])){
-      $this->stash['page_keywords_suffix'] = $product['tags_s'];   
-    }
-    $this->stash['page_description_suffix'] = sprintf("【%s】是由太火鸟社区活跃用户提交的智能硬件创意，欢迎大家对他的智能硬件创意发表宝贵的意见", $product['short_title']);
-		
+		//添加网站meta标签
+		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟创意投票专区", $product['title']);
+		if(!empty($product['tags_s'])){
+		  $this->stash['page_keywords_suffix'] = $product['tags_s'];   
+		}
+		$this->stash['page_description_suffix'] = sprintf("【%s】是由太火鸟社区活跃用户提交的智能硬件创意，欢迎大家对他的智能硬件创意发表宝贵的意见", $product['short_title']);
+			
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
 		
@@ -272,7 +269,6 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['mode'] = 'cancel';
 		$this->stash['domain']  = 'fever';
 		$this->stash['product'] = $product->extend_load($id);
-		
 		return $this->to_taconite_page('ajax/laud_ok.html');
 	}
 	

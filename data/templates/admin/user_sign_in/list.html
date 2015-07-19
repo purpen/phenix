@@ -72,7 +72,7 @@
 					</div>
 				</th>
 				<th>用户信息</th>
-				<th>最后签到时间</th>
+				<th>最后签到日期</th>
 				<th>连续签到天数</th>
 				<th>最高签到天数</th>
 				<th>经验总值</th>
@@ -80,9 +80,8 @@
 			</tr>
 		</thead>
 		<tbody>
-				{% sign_list var:'list' load_user:1 sort:sort page:page size:30 %}
-
-				{% for sign in list.rows %}
+		{% sign_list var:'list' load_user:1 sort:sort page:page size:30 %}
+		{% for sign in list.rows %}
 			<tr id="{{ sign._id }}">
 				<td>
 					<div class="ui checkbox">
@@ -112,7 +111,7 @@
 						{{ sign.money_count }}
 				</td>
 			</tr>
-			{% endfor %}
+		{% endfor %}
 		</tbody>
 	</table>
 	

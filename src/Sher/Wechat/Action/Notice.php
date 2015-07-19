@@ -16,8 +16,5 @@ class Sher_Wechat_Action_Notice extends Sher_App_Action_Base {
 	public function execute(){
 		return $this->to_html_page('page/wechat/notice.html');
 	}
-	
-	
-	
 }
 ?>

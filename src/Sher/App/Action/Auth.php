@@ -340,10 +340,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			return $this->ajax_json('验证码不正确!', true);
     	}
 
-    //验证密码长度
-    if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
-      return $this->ajax_json('密码长度介于6-30字符内！', true);    
-    }
+		//验证密码长度
+		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
+		  return $this->ajax_json('密码长度介于6-30字符内！', true);    
+		}
 		
 		// 验证密码是否一致
 		$password_confirm = $this->stash['password_confirm'];
@@ -403,7 +403,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				$user_info['sex'] = $this->stash['sex'];
 				$user_info['city'] = $this->stash['city'];
 				$user_info['from_site'] = (int)$this->stash['from_site'];
-      }
+			}
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -416,67 +416,64 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove($code['_id']);
 
-        //统计好友邀请
-        if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
-          //通过邀请码获取邀请者ID
-          $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+				//统计好友邀请
+				if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+				  //通过邀请码获取邀请者ID
+				  $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+		
+					//统计邀请记录
+					if($user_invite_id){
+					  $invite_mode = new Sher_Core_Model_InviteRecord();
+					  $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+					  //送邀请人红包(30元,满199可用)
+					  $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+					}
+				}
 
-          //统计邀请记录
-          if($user_invite_id){
-            $invite_mode = new Sher_Core_Model_InviteRecord();
-            $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包(30元,满199可用)
-            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
-          }
-        
-        }
+				//指定入口送抽奖码
+				if($this->stash['evt']=='match2_praise'){
+					$digged = new Sher_Core_Model_DigList();
+					$key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+					$result = $digged->load($key_id);
+					//统计奖品号
+					$items_arr = array();
+					if(!empty($result) && !empty($result['items'])){
+						foreach($result['items'] as $k=>$v){
+						  array_push($items_arr, $v['praise']);
+						}
+					}
+					$is_exist_random = false;
+				  
+					while(!$is_exist_random){
+						$match_random = rand(1000, 9999);
+						$is_exist_random = in_array($match_random, $items_arr)?false:true;
+					}
+		  
+					$match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
+					// 添加到统计列表
+					$digged->add_item_custom($key_id, $match_item);
+				}
 
-      //指定入口送抽奖码
-      if($this->stash['evt']=='match2_praise'){
-        $digged = new Sher_Core_Model_DigList();
-        $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
-        $result = $digged->load($key_id);
-        //统计奖品号
-        $items_arr = array();
-        if(!empty($result) && !empty($result['items'])){
-          foreach($result['items'] as $k=>$v){
-            array_push($items_arr, $v['praise']);
-          }
-        }
-        $is_exist_random = false;
-        
-        while(!$is_exist_random){
-          $match_random = rand(1000, 9999);
-          $is_exist_random = in_array($match_random, $items_arr)?false:true;
-        }
-
-        $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
-        // 添加到统计列表
-        $digged->add_item_custom($key_id, $match_item);
-
-      }
-
-        //周年庆活动送100红包
-        if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
-        }
-				
+				//周年庆活动送100红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+				  $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+				}
+					
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
-			
-        } catch (Sher_Core_Model_Exception $e) {
-            Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
-            return $this->ajax_json("注册失败:".$e->getMessage(), true);
-        }
+				
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
+			return $this->ajax_json("注册失败:".$e->getMessage(), true);
+		}
 		
-    $user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);
-    
+		$user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);
 
-    //如果是周年庆,跳转页面后提示送红包画面
-    if(Doggy_Config::$vars['app.anniversary2015.switch']){
-      $user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);;  
-    }
-		
+		//如果是周年庆,跳转页面后提示送红包画面
+		if(Doggy_Config::$vars['app.anniversary2015.switch']){
+		  $user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);;  
+		}
+				
 		return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_profile_url);
 	}
 	

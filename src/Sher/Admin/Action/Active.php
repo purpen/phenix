@@ -59,12 +59,12 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		if(!empty($id)){
 			$mode = 'edit';
 			$active = $model->find_by_id($id);
-      $active = $model->extended_model_row($active);
+			$active = $model->extended_model_row($active);
 			$this->stash['active'] = $active;
 		}
-    $this->stash['mode'] = $mode;
-    //分类数组
-    $this->stash['categories'] = $model->find_category();
+		$this->stash['mode'] = $mode;
+		//分类数组
+		$this->stash['categories'] = $model->find_category();
 		
 		// 编辑器上传附件
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
@@ -115,13 +115,13 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 		//$data['contact_tel'] = $this->stash['contact_tel'];
 		//$data['contact_email'] = $this->stash['contact_email'];
 		$data['address'] = $this->stash['address'];
-    $data['conduct_city'] = $this->stash['conduct_city'];
+		$data['conduct_city'] = $this->stash['conduct_city'];
 		$data['max_number_count'] = (int)$this->stash['max_number_count'];
 		//$data['pay_money'] = (float)$this->stash['pay_money'];
 		$data['step_stat'] = (int)$this->stash['step_stat'];
 		//$data['stick'] = (int)$this->stash['stick'];
 		$data['state'] = (int)$this->stash['state'];
-    $data['report_url'] = $this->stash['report_url'];
+		$data['report_url'] = $this->stash['report_url'];
 
     //地图信息
     $data['map_info'] = array();
@@ -248,8 +248,8 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 			foreach($ids as $id){
 				$active = $model->load((int)$id);
 				
-        if (!empty($active)){
-          //逻辑删除
+				if (!empty($active)){
+					//逻辑删除
 					$model->mark_remove((int)$id);
 				}
 			}

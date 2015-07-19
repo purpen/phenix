@@ -13,16 +13,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
-    'cid'  => 0,
-    'ref'  => null,
-    'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
-    'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
-    'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
+		'cid'  => 0,
+		'ref'  => null,
+		'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
+		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
+		'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
-	
 	protected $exclude_method_list = array('execute', 'index', 'ajax_fetch_more', 'get_list', 'view', 'ajax_guess_topics');
 	
 	public function _init() {
@@ -44,6 +43,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
+		
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
@@ -61,7 +61,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
-        
 		return $this->to_html_page('page/topic/index.html');
 	}
     
@@ -105,10 +104,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
-      'evt' => 'tag',
-      't' => 2,
-      'oid' => $current_id,
-      'type' => 1,
+			'evt' => 'tag',
+			't' => 2,
+			'oid' => $current_id,
+			'type' => 1,
 		);
         
 		if(!empty($sword)){
@@ -631,6 +630,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 提交创意
 	 */
 	public function submit(){
+		
 		$cid = $this->stash['cid'];
 		// 是否为一级分类
 		$is_top = true;
@@ -763,29 +763,32 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存主题信息
 	 */
 	public function save(){
+		
 		// 验证数据
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
+		
 		$id = (int)$this->stash['_id'];
 		$mode = 'create';
-		
 		$data = array();
-		
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
-    //自动添加关键词内链
-    $data['description'] = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
+		
+		//自动添加关键词内链
+		$data['description'] = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
 		$data['tags'] = $this->stash['tags'];
+		$data['category_id'] = $this->stash['category_id'];
 		$data['category_id'] = $this->stash['category_id'];
 		
 		$data['cover_id'] = $this->stash['cover_id'];
 		
 		$data['try_id'] = $this->stash['try_id'];
+		$data['published'] = (int)$this->stash['published'];
 
-    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
-    $data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
+		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
@@ -843,20 +846,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
 
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
-      //更新百度推送
-      if($mode=='create'){
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
-      }
-			
+			// 更新全文索引
+			Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+			//更新百度推送
+			if($mode=='create'){
+			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
+			}
+				
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
 		$redirect_url = Sher_Core_Helper_Url::topic_view_url($id);
-		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
 	
@@ -913,12 +915,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			$this->stash['topic'] = &DoggyX_Model_Mapper::load_model($id,'Sher_Core_Model_Topic');
 
-      // 更新到索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
-      //更新百度推送
-      if($mode=='create'){
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
-      }
+			// 更新到索引
+			Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+			
+			//更新百度推送
+			if($mode=='create'){
+			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
+			}
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("话题保存失败：".$e->getMessage());
