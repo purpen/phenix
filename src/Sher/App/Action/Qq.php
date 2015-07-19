@@ -112,6 +112,13 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           if(!$user->_check_name($default_nickname)){
             $default_nickname = $qq_info['nickname'].rand(0, 1000);
           }
+
+          // 获取session id
+          $service = Sher_Core_Session_Service::instance();
+          $sid = $service->session->id;
+          $random = Sher_Core_Helper_Util::generate_mongo_id();
+          $session_random_model = new Sher_Core_Model_SessionRandom();
+          $session_random_model->gen_random($sid, $random, 1);
           
           Doggy_Log_Helper::error('QQ Login get user info:'.json_encode($qq_info));
 
@@ -124,6 +131,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           $this->stash['summary'] = null;
 				  $this->stash['city'] = null;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+          $this->stash['session_random'] = $random;
 
           return $this->to_html_page('page/landing.html');
 
