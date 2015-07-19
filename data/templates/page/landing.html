@@ -80,7 +80,7 @@
       session_random : "{{ session_random }}"
 
     };
-    var url = {{ app_url_domain }}/auth/third_register;
+    var url = "{{ app_url_domain }}/auth/third_register";
     $.post(url, params);
     
   });
