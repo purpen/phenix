@@ -16,6 +16,7 @@ class Sher_Core_Util_WechatThird extends Doggy_Object {
    */
   public function get_code($url){
 		$result = $this->http_get($url);
+    return $result;
 
   }
 

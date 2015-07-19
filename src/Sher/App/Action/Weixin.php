@@ -82,7 +82,13 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 
     $url = sprintf("https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $app_id, $redirect_uri, $state);
 
-    return $this->to_redirect($url);
+    $options = array(
+      'app_id' => $app_id,
+    );
+
+    $wx_third_model = new Sher_Core_Util_WechatThird($options);
+    $result = $wx_third_model->get_code($url);
+    //return $this->to_redirect($url);
 
 
   }
