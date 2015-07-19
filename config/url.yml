@@ -224,4 +224,3 @@ app.url.guide: '{$app.url.action_base}/guide'
 # 单品页面
 app.url.goccia: '{$app.url.domain}/goccia'
 app.url.goccia.rule: '{$app.url.domain}/activity/goccia'
-

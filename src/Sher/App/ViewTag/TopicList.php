@@ -150,7 +150,6 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
         }
-        
     }
 }
 

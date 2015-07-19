@@ -1,0 +1,118 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 批量删除投票
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+		if(!window.confirm('你确定要执行批量删除操作？')){
+		  return false;
+		}
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的活动');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">投票管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/vote" class="{% if !stage %}active{%endif%} item">
+			全部
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/vote/add" class="item">
+				<i class="add icon"></i> 新增投票
+			</a>
+			<a href="{{ app_url_admin }}/vote/deleted" class="item ajax-delete">
+				<i class="remove icon"></i> 批量删除
+			</a>
+	    </div>
+	</div>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>投票ID</th>
+				<th class="five wide">投票名称</th>
+				<th>所属分类</th>
+				<th>项目ID</th>
+				<th>使用状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+            {% vote_list var:'list' page:page size:30 %}
+
+			{% for vote in list.rows %}
+			<tr id="{{ vote._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ vote._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					{{ vote._id }}
+				</td>
+				<td>
+					<a class="ui link" href="{{ vote.view_url }}" target="_blank">
+						{{ vote.title }}
+					</a>
+				</td>
+				<td>
+					{{ vote.type }}
+				</td>
+				<td>
+					{{ vote.relate_id }}
+				</td>
+				<td>
+					<p>
+						{% if vote.status %}
+							<span class="ui small green label">已启用</span>
+						{% else %}
+							<span class="ui small orange label">已禁用</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+					<p>
+						<a href="{{ app_url_admin_base }}/vote/edit?id={{ vote._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin_base }}/vote/deleted?id={{ vote._id }}&page={{ page }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
