@@ -404,7 +404,9 @@
                             <div class="row">
     							<div class="column">
     								<div class="ui gray cancel inverted button">取消</div>
+                    {% if visitor.can_edit %}
 									<div class="ui green inverted save button">保存草稿</div>
+                  {%endif%}
     								<div class="ui magenta inverted submit button">确认提交</div>
     							</div>
                             </div>

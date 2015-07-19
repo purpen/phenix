@@ -393,7 +393,7 @@
       var vote = {};
       vote.topic_id = $('input[name=topic_id]').val();
       vote.user_id = user_id;
-      vote.vote_id = {{ vote._id }};
+      vote.vote_id = '{{ vote._id }}';
       
       var problem = {};
       $('input[name="problem"]').each(function(i){

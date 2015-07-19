@@ -20,10 +20,10 @@
          * @return string
          */
         public function get_list() {
-            
+            $stage = isset($this->stash['stage'])?$this->stash['stage']:0;
             $this->set_target_css_state('page_vote');
             $pager_url = Doggy_Config::$vars['app.url.admin'].'/vote?page=#p#';
-            $this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
+            $this->stash['pager_url'] = sprintf($pager_url, $stage);
             return $this->to_html_page('admin/vote/list.html');
         }
         
