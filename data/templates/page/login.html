@@ -16,9 +16,11 @@
       redirect_uri: "{{ wx_params.redirect_uri }}",
       state: "{{ wx_params.state }}",
       style: "",
-      href: "https://frstatic.qiniudn.com/wechat/js/weixin-1.css"
+      href: ""
     });
 
+	$('#login_container img.qrcode,').css({"width":"100%","margin-top":"8px"});
+	$('#login_container .info').css("width":"100%");
 {% endblock %}
 
 {% block content %}
