@@ -76,7 +76,9 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $state = $sid;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
 
     $url = sprintf("https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $app_id, $redirect_uri, $state);
 
@@ -107,8 +109,12 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
 
-    if($state != $sid){
-      return $this->show_message_page('拒绝访问！', $error_redirect_url);
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random = $session_random_model->is_exist($sid, $state, 1);
+
+    // 验证是否非法链接来源
+    if(!$session_random){
+      return $this->show_message_page('拒绝访问,请重试！', $error_redirect_url);
     }
   
     $app_id = Doggy_Config::$vars['app.wx.app_id'];
@@ -176,46 +182,15 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           $this->stash['summary'] = null;
 				  $this->stash['city'] = null;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
+          $this->stash['session_random'] = $state;
 
           return $this->to_html_page('page/landing.html');
-
-          $user_data = array(
-            'account' => (string)$open_id,
-            'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
-            'nickname' => $nickname,
-            'sex' => $sex,
-
-            'wx_open_id' => (string)$open_id,
-            'wx_access_token' => $access_token,
-            'wx_union_id' => $union_id,
-            'state' => Sher_Core_Model_User::STATE_OK,
-            'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
-
-          );
-
-          try{
-            $ok = $user_model->create($user_data);
-            if($ok){
-              $user = $user_model->get_data();
-              $user_id = $user['_id'];
-            }else{
-              return $this->show_message_page('创建用户失败!', $error_redirect_url);
-            }         
-          } catch (Sher_Core_Model_Exception $e) {
-              Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
-              return $this->show_message_page("注册失败:".$e->getMessage(), $error_redirect_url);
-          }
 
         }else{
           return $this->show_message_page($result['msg'], $error_redirect_url);
         }
       
       }
-
-      // 实现自动登录
-      Sher_Core_Helper_Auth::create_user_session($user_id);
-      $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-      return $this->to_redirect($user_home_url);
 
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);

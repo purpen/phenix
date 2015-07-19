@@ -668,7 +668,104 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
    * 第三方账户直接登录,生成默认用户,不绑定手机
    */
   public function third_register(){
-  
+
+    $session_random = isset($this->stash['session_random'])?$this->stash['session_random']:null;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_id = $session_random_model->is_exist($sid, $session_random, 1);
+
+    // 验证是否非法链接来源
+    if(!$session_random_id){
+      return $this->ajax_note('拒绝访问,请重试！', true);
+    }else{
+      $session_random_model->remove($session_random_id);
+    }
+
+    $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
+    $uid = isset($this->stash['uid'])?$this->stash['uid']:null;
+		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
+    $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
+    $nickname = isset($this->stash['nickname'])?$this->stash['nickname']:null;
+    $sex = isset($this->stash['sex'])?(int)$this->stash['sex']:0;
+    $from_site = isset($this->stash['from_site'])?(int)$this->stash['from_site']:0;
+    $summary = isset($this->stash['summary'])?$this->stash['summary']:null;
+		$city = isset($this->stash['city'])?$this->stash['city']:null;
+    $login_token = $this->stash['login_token'];
+
+    if(empty($third_source) || empty($uid) || empty($access_token) || empty($nickname)){
+      return $this->ajax_note('缺少参数！', true);   
+    }
+
+    $user_model = new Sher_Core_Model_User();
+
+    //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    if (!preg_match($e, $nickname)) {
+      $nickname = (string)$uid;
+    }
+
+    // 检查用户名是否唯一
+    $exist = $user_model->_check_name($nickname);
+    if (!$exist) {
+      $nickname = '微信用户-'.$nickname;
+      $exist_r = $user_model->_check_name($nickname);
+      if(!$exist_r){
+        $nickname = $nickname.(string)rand(1000,9999);
+      }
+    }
+
+    $user_data = array(
+      'account' => (string)$uid,
+      'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
+      'nickname' => $nickname,
+      'sex' => $sex,
+
+      'wx_open_id' => (string)$open_id,
+      'wx_access_token' => $access_token,
+      'wx_union_id' => $union_id,
+      'state' => Sher_Core_Model_User::STATE_OK,
+      'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
+      'kind' => 20,
+    );
+
+    //根据第三方来源,更新对应open_id 
+    if($third_source=='weibo'){
+      $user_data['sina_uid'] = $uid;
+      $user_data['sina_access_token'] = $access_token;
+    }elseif($third_source=='qq'){
+      $user_data['qq_uid'] = $uid;
+      $user_data['qq_access_token'] = $access_token;
+    }elseif($third_source=='weixin'){
+      $user_data['wx_open_id'] = $uid;
+      $user_data['wx_access_token'] = $access_token;
+      $user_data['wx_union_id'] = $union_id; 
+    }else{
+      return $this->ajax_note('第三方来源不明确！', true);     
+    }
+
+    try{
+      $ok = $user_model->create($user_data);
+      if($ok){
+        $user = $user_model->get_data();
+        $user_id = $user['_id'];
+
+        // 实现自动登录
+        Sher_Core_Helper_Auth::create_user_session($user_id);
+        $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
+        return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_home_url);
+
+      }else{
+        return $this->ajax_note('创建用户失败！', true);   
+      }         
+    } catch (Sher_Core_Model_Exception $e) {
+      Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+      return $this->ajax_note("注册失败:".$e->getMessage(), true);   
+    }
+
   }
 	
 }

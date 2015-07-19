@@ -64,6 +64,26 @@
 		  $('.two.fields .field .fluid')
 					    .tab();
 	});
+
+  // 快速登录
+  $('#quick-register-btn').click(function(){
+
+    var params = {
+    var third_source : "{{ third_source }}",
+    var uid : "{{ uid }}",
+    var access_token : "{{ access_token }}",
+    var union_id : "{{ union_id }}",
+    var nickname : "{{ nickname }}",
+    var sex : "{{ sex }}",
+    var from_site : "{{ from_site }}",
+    var login_token : "{{ login_token }}",
+    var session_random : "{{ session_random }}"
+
+    };
+    var url = {{ app_url_domain }}/auth/third_register;
+    $.post(url, params);
+    
+  });
 {% endblock %}
 
 {% block content %}
@@ -93,8 +113,8 @@
 						</a>
 					</div>
 					<div class="field">
-						<a class="fluid ui green btn-4 btn-4c icon btn" style="border-radius:0;">
-								 直接登录
+						<a class="fluid ui green btn-4 btn-4c icon btn" id="quick-register-btn" style="border-radius:0;">
+								 跳过,直接登录
 						</a>
 					</div>
 				</div>
