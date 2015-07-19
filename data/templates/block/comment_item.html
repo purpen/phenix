@@ -8,17 +8,32 @@
 			<div class="date">{{ comment.created_on }}</div>
 		</div>
 		<div class="laud">
-			<a class="ui link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
-				<i class="icon heart"></i>
-			</a>
+      {% if comment.is_loved %}
+      <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+      <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+        <i class="icon heart"></i>
+      </a>
+      {%else%}
+        <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+      <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+        <i class="icon empty heart"></i>
+      </a>          
+      {%endif%}
 		</div>
 		<div class="text">
 			{{ comment.content }}
 		</div>
-		<div class="actions">
-			<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-			<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-		</div>
+    {% if visitor.is_login %}
+    <div class="actions">
+      <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+      {% if visitor.can_admin %}
+        <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+      {%else%}
+        {% if visitor.id==comment.user_id %}
+          <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+        {%endif%}
+      {%endif%}
+    </div>
 		<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
 			<input type="hidden" name="type" value="2" />
 			<input type="hidden" name="comment_id" value="{{ comment._id }}" />
@@ -30,8 +45,8 @@
 				<i class="icon edit"></i> 回复
 			</div>
 		</form>
+    {%endif%}
 	</div>
-
 
 	{% if comment.reply %}
 	<div class="comments">

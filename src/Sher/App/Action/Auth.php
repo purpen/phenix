@@ -711,7 +711,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
     $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
     if (!preg_match($e, $nickname)) {
-      $nickname = (string)$uid;
+      $nickname = Sher_Core_Helper_Util::generate_mongo_id();
     }
 
     // 检查用户名是否唯一
@@ -726,7 +726,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
     $user_data = array(
       'account' => (string)$uid,
-      'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
       'nickname' => $nickname,
       'sex' => $sex,
 
@@ -740,12 +739,15 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
     //根据第三方来源,更新对应open_id 
     if($third_source=='weibo'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
       $user_data['sina_uid'] = $uid;
       $user_data['sina_access_token'] = $access_token;
     }elseif($third_source=='qq'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
       $user_data['qq_uid'] = $uid;
       $user_data['qq_access_token'] = $access_token;
     }elseif($third_source=='weixin'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
       $user_data['wx_open_id'] = $uid;
       $user_data['wx_access_token'] = $access_token;
       $user_data['wx_union_id'] = $union_id; 

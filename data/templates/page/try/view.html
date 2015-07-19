@@ -76,7 +76,6 @@
 		  border-bottom: 2px solid #f36;
 		  padding-bottom: 4px;
 		  color: #f36;
-		cursor:pointer;
 	}
 	.ui.three.column:hover{
 		background:#f6f6f6;
@@ -84,7 +83,6 @@
 		  transition: all .25s ease;
 		  color: #f36;
 			padding:7px 0;
-			cursor:pointer;
 	}
 	.ui.neif{
 		padding:20px 0;
@@ -338,16 +336,16 @@
 				<!--<div class="ui three wide column active" style="padding:7px 0;">
 					<p>预约</p>
 				</div>-->
-				<div class="ui four wide active column">
+        <div class="ui four wide column {%if try.step_stat==1%}active{%endif%}">
 					<p>申请</p>
 				</div>
-				<div class="ui four wide column">
+				<div class="ui four wide column {%if try.step_stat==2%}active{%endif%}">
 					<p>名单公布</p>
 				</div>
-				<div class="ui four wide column">
+				<div class="ui four wide column {%if try.step_stat==3%}active{%endif%}">
 					<p>提交报告</p>
 				</div>
-				<div class="ui four wide column">
+				<div class="ui four wide column {%if try.step_stat==5%}active{%endif%}">
 					<p>结束</p>
 				</div>
 			</div>
@@ -427,7 +425,7 @@
 												</h3>
 												<div class="ui big reply segment">
 													<div class="ui threaded minimal comments" id="comments">
-														{% comment_list var:'comments' page:page target_id:try._id type:3 %}
+														{% comment_list var:'comments' page:page target_id:try._id  type:3 check_loved:1 current_user_id:visitor.id %}
 														{% for comment in comments.rows %}
 														<div class="comment" id="{{ comment._id }}">
 															<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
@@ -439,9 +437,17 @@
 																	<div class="date">{{ comment.created_on }}</div>
 																</div>
 																<div class="laud">
-																	<a class="ui link icon ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}">
-																		<i class="icon empty heart"></i>
-																	</a>
+                                  {% if comment.is_loved %}
+                                  <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+                                  <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                                    <i class="icon heart"></i>
+                                  </a>
+                                  {%else%}
+                                    <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+                                  <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                                    <i class="icon empty heart"></i>
+                                  </a>          
+                                  {%endif%}
 																</div>
 																<div class="text">
 																	{{ comment.content|safe }}
@@ -591,6 +597,7 @@
 								</div>
 								
 								<div class="bar"></div>
+                <!--
 								<div class="product brand">
 									<div class="ui grid">
 										<div class="row">
@@ -610,7 +617,9 @@
 								<div class="bar"></div>
 								<a href="" class="fluid ui magenta active button" style="width: auto;margin: 0 -1em;">＋厂商试用合作申请</a>
 								<div class="bar"></div>
-								
+                -->
+
+                {% apply_list var:'list' target_id:try._id type:1 page:1 size:8 %}
 								<div class="product appli">
 									<div class="ui grid">
 										<div class="row">
@@ -620,62 +629,21 @@
 												</h3>
 												<table class="ui table">
 													<tbody>
+                            {% for t in list.rows %}
 														<tr>
 															<td class="author">
-																<a class="ui small avatar image" href="">
-																	<img src="http://frbird.qiniudn.com/avatar/150521/555d769afc8b12f2358c41d8-avs.jpg" alt="小栗子">
+																<a class="ui small avatar image" href="{{ t.user.home_url }}" title="{{ t.user.nickname }}" target="_blank">
+																	<img src="{{ t.user.big_avatar_url }}" alt="{{ t.user.nickname }}">
 																</a>
 															</td>
 															<td class="seven wide">
-																<a class="ui link" href="">小栗子</a>
+																<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
 															</td>
 															<td class="nine wide">
-																2015  07-13  12:30
+                                {{ t.created_on|date }}
 															</td>
 														</tr>
-														
-														<tr>
-															<td class="author">
-																<a class="ui small avatar image" href="">
-																	<img src="http://frbird.qiniudn.com/avatar/150521/555d769afc8b12f2358c41d8-avs.jpg" alt="小栗子">
-																</a>
-															</td>
-															<td class="seven wide">
-																<a class="ui link" href="">小栗子</a>
-															</td>
-															<td class="nine wide">
-																2015  07-13  12:30
-															</td>
-														</tr>
-														
-														<tr>
-															<td class="author">
-																<a class="ui small avatar image" href="">
-																	<img src="http://frbird.qiniudn.com/avatar/150521/555d769afc8b12f2358c41d8-avs.jpg" alt="小栗子">
-																</a>
-															</td>
-															<td class="seven wide">
-																<a class="ui link" href="">小栗子</a>
-															</td>
-															<td class="nine wide">
-																2015  07-13  12:30
-															</td>
-														</tr>
-														
-														<tr>
-															<td class="author">
-																<a class="ui small avatar image" href="">
-																	<img src="http://frbird.qiniudn.com/avatar/150521/555d769afc8b12f2358c41d8-avs.jpg" alt="小栗子">
-																</a>
-															</td>
-															<td class="seven wide">
-																<a class="ui link" href="">小栗子</a>
-															</td>
-															<td class="nine wide">
-																2015  07-13  12:30
-															</td>
-														</tr>
-														
+                            {%endfor%}
 														
 													</tbody>
 												</table>
