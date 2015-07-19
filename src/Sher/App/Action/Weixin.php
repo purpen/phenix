@@ -191,25 +191,20 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
               return $this->show_message_page("注册失败:".$e->getMessage(), $error_redirect_url);
           }
 
-          // 实现自动登录
-          Sher_Core_Helper_Auth::create_user_session($user_id);
-          $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-          return $this->to_redirect($user_home_url);
         }else{
           return $this->show_message_page($result['msg'], $error_redirect_url);
         }
-
-
       
       }
 
-
-
+      // 实现自动登录
+      Sher_Core_Helper_Auth::create_user_session($user_id);
+      $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
+      return $this->to_redirect($user_home_url);
 
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);
     }
-
 
   }
 
