@@ -12,6 +12,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		'state' => 0,
 		'time' => '',
 		'q' => '',
+    'kind' => 0,
 	);
 	
 	/**
