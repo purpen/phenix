@@ -10,7 +10,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','login','first_request','call_back');
+	protected $exclude_method_list = array('execute','login','first_request','call_back','back');
 	
 	/**
 	 * 微信登录
