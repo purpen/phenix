@@ -173,6 +173,16 @@ th:first-child, .result-list td:first-child {
 th, td {
   padding: 0 10px !important;
 }
+.ui.inverted.black.button{
+	-webkit-box-shadow: 0 0 0 2px #222 inset!important;
+	box-shadow: 0 0 0 2px #222 inset!important;
+  color: #222;
+}
+.ui.inverted.black.button:hover,.ui.inverted.black.button.active{
+	-webkit-box-shadow: 0 0 0 2px #222 inset!important;
+	box-shadow: 0 0 0 2px #222 inset!important;
+  background-color: #222;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -482,7 +492,7 @@ $('.next-step.button').click(function(){
 			<div class="column">
 				<div class="ui buttons">
         {% for d in classes %}
-        <div class="ui green inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}>
+        <div class="ui black inverted button begin-appoint-btn" data-cid="{{ d._id }}" data-title={{ d.title }}>
 	<!--<span class="black"></span>-->{{ d.title }}</div>&nbsp;
         {%endfor%}
 				</div>
