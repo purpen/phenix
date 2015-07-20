@@ -58,11 +58,11 @@ class Sher_Core_Model_Answer extends Sher_Core_Model_Base {
 	/**
 	 * 增加计数
 	 */
-	public function inc_counter($field_name, $id=null, $inc=1){
+	public function inc_counter($field_name = 'nums', $id=null, $inc=1){
 		if(is_null($id)){
 			$id = $this->id;
 		}
-		if(empty($id) || !in_array($field_name = 'nums', $this->counter_fields)){
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
 			return false;
 		}
 		

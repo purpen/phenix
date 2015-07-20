@@ -446,11 +446,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$voteOne = $model_vote->find_by_id(array('relate_id' => (int)$id));
 		$vote_id = $voteOne['_id'];
 		if($vote_id){
-			$vote = $model_vote->find_votes($vote_id);
+			$vote = $model_vote->statistics($vote_id);
 			$this->stash['vote'] = &$vote;
 			$this->stash['is_vote'] = true;
 		}
-		
+		var_dump($vote);
 		return $this->to_html_page($tpl);
 	}
 	
@@ -781,6 +781,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$vote = json_decode('['.$this->stash['vote'].']',true);
 		$vote = $vote[0];
+		
+		// 验证拒绝重复投票
+		$model_vote_record = new Sher_Core_Model_VoteRecord();
+		$res_vote_record = $model_vote_record->find(array('user_id' => (int)$vote['user_id']));
+		if($res_vote_record){
+			echo 1;
+		}
+		exit;
 		$problem = json_decode('['.$this->stash['problem'].']',true);
 		$problem = $problem[0];
 		
@@ -810,7 +818,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		// 添加投票信息记录
-		$model_vote_record = new Sher_Core_Model_VoteRecord();
 		foreach($vote_record as $v){
 			if($model_vote_record->create($v)){
 				$back[2]++;
@@ -818,12 +825,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		if(!$back[0] || $back[1] !== count($vote_record) || $back[2] !== count($vote_record)){
+			echo 0;
 			return false;
 		}
 		
 		$model = new Sher_Core_Model_Vote();
-		$result = $model->statistics($vote['vote_id']);
-		
+		$result = $model->statistics((int)$vote['vote_id']);
 		echo json_encode($result);
 	}
 	

@@ -401,7 +401,7 @@
         var answer = {};
         problem[i] = {};
         $('#'+name).find('input:checked').each(function(j){
-          answer[j] = $(this).attr('name');
+          answer[j] = $(this).attr('values');
         });
         problem[i].id = name;
         problem[i].answer = answer;
@@ -414,7 +414,19 @@
         "{{ app_url_action_base }}/topic/save_vote",
         {vote: vote, problem: problem},
         function(data){
-          console.log(data);
+          if(data){
+            if(data == 1){
+              alert('您已经投过票了，谢谢参与！');
+              return false;
+            }
+            var date = eval(data).problem;
+            for(var i = 0; i < date.length; i++){
+              var answer = date[i].answer;
+              for(var j = 0; j < answer.length; j++){
+                $('.'+answer[j]._id).text(answer[j].nums+'%');
+              }
+            }
+          }
         }, "json");
 	});
 	
@@ -631,9 +643,9 @@
                                   <div class="field">
                                     {% for answer in problem.answer %}
                                       <div class="ui radio checkbox">
-                                          <input type="radio" name="{{ problem._id }}" style="z-index:100;" />
+                                          <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" style="z-index:100;" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label">100%</a>&nbsp;&nbsp;
+                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums }}%</a>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}
@@ -642,9 +654,9 @@
                                   <div class="field">
                                     {% for answer in problem.answer %}
                                       <div class="ui checkbox">
-                                          <input type="checkbox" name="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
+                                          <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label">100%</a>&nbsp;&nbsp;
+                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums }}%</a>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}
