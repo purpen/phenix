@@ -114,14 +114,17 @@
 	  margin-top: 10px;
 	  margin-bottom: 15px;
 	}
-	.description .field .ui.checkbox{
-		line-height: 0.8em;
+	.post.vote .description .field .ui.checkbox{
+		line-height: 0.6em;
 		margin-right: 35px;
 	}
-	.ui.relaxed.list .content h3.ui.header{
+	.post.vote .ui.relaxed.list .content h3.ui.header{
 		margin-bottom: 1em;
 		margin-top: 6px;
 	}
+	.post.vote .ui.relaxed.list .item > i{
+		margin-top:6px;
+	} 
 </style>
 {% endblock %}
 
@@ -643,7 +646,7 @@
                         
                         <div class="ui relaxed divided list">
                           <div class="item">
-                            <i class="large github middle aligned icon"></i>
+                            <i class="large fa-question middle aligned icon"></i>
                             <div class="content">
                               <h3 class="header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h3>
                               <div class="description" style="margin: 10px 0" id="{{ problem._id }}">
