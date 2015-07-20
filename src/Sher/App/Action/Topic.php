@@ -450,7 +450,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$this->stash['vote'] = &$vote;
 			$this->stash['is_vote'] = true;
 		}
-		var_dump($vote);
 		return $this->to_html_page($tpl);
 	}
 	
@@ -786,9 +785,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$model_vote_record = new Sher_Core_Model_VoteRecord();
 		$res_vote_record = $model_vote_record->find(array('user_id' => (int)$vote['user_id']));
 		if($res_vote_record){
-			echo 1;
+			echo 1;exit;
 		}
-		exit;
+		
 		$problem = json_decode('['.$this->stash['problem'].']',true);
 		$problem = $problem[0];
 		
@@ -825,8 +824,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		if(!$back[0] || $back[1] !== count($vote_record) || $back[2] !== count($vote_record)){
-			echo 0;
-			return false;
+			echo 0;exit;
 		}
 		
 		$model = new Sher_Core_Model_Vote();
