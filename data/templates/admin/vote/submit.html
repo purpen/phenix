@@ -137,7 +137,7 @@
 		<input type="hidden" name="id" value="{{ id }}" />
 		<input type="hidden" name="problem_date" value="" />
 		
-		<div class="ui segment">
+		<div class="ui segment from">
 			<h3 class="ui dividing header">填写投票信息</h3>
 			<div class="two fields">
 				<div class="field">
@@ -153,7 +153,7 @@
 			<!-- ajax追加开始 -->
 			{% if id %}
 				<div>
-					<ol id="process-box-edit" class="ui list">
+					<ol id="process-box-edit" class="ui from list">
 						{% for votes in vote.problem %}
 						<input type="hidden" name="problem" value="{{ votes._id}}" />
 						<li>
