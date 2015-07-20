@@ -20,7 +20,7 @@
          * @return string
          */
         public function get_list() {
-            $stage = isset($this->stash['stage'])?$this->stash['stage']:0;
+            $stage = isset($this->stash['stage']) ? $this->stash['stage'] : 0;
             $this->set_target_css_state('page_vote');
             $pager_url = Doggy_Config::$vars['app.url.admin'].'/vote?page=#p#';
             $this->stash['pager_url'] = sprintf($pager_url, $stage);
@@ -64,7 +64,7 @@
             $page = (int)$this->stash['page'];
             
             $problem_date = json_decode('['.$this->stash['problem_date'].']',true);
-            
+            //var_dump($problem_date);die;
             try{
                 
                 $model_vote = new Sher_Core_Model_Vote();
@@ -72,7 +72,7 @@
                     $mode = 'create';
                     $data = array();
                     $data['title'] = $this->stash['sub_title'];
-                    $data['relate_id'] = (int)$this->stash['relevance_id'];
+                    $data['relate_id'] = $this->stash['relevance_id'];
                     $data['status'] = 1;
                     $ok = $model_vote->create($data);
                     if($ok){
@@ -84,16 +84,17 @@
                             $data['select_type'] = $v['pro_type'];
                             $data['vote_id'] = $vid;
                             $ok = $model_problem->create($data);
-                            $ok = 1;
                             if($ok){
                                 $pid = $model_problem->id;
                                 $model_answer = new Sher_Core_Model_Answer();
                                 foreach ($v['pro_answer'] as $val) {
                                     $data = array();
                                     $data['title'] = $val;
-                                    $data['problem_id'] = $pid;
+                                    $data['problem_id'] = (string)$pid;
                                     $ok = $model_answer->create($data);
-                                    $ok = 1;
+                                    if(!$ok){
+                                        $is_ok++;
+                                    }
                                 }
                             }else{
                                 $is_ok++;
@@ -109,15 +110,13 @@
                 }else{
                     $mode = 'edit';
                     $data = array();
-                    $data['title'] = $this->stash['sub_title'];
+                    $data['title'] = (string)$this->stash['sub_title'];
                     $data['relate_id'] = (int)$this->stash['relevance_id'];
                     $data['status'] = 1;
                     $ok = $model_vote->update_set($id,$data);
                     if($ok){
-                        
                         $model_problem = new Sher_Core_Model_Problem();
                         $result = $model_problem->find(array("vote_id"=>(int)$id));
-                        
                         foreach($result as $v){
                             if(!$model_problem->problem_remove($v['_id'])){
                                $is_ok++;
@@ -140,8 +139,11 @@
                                 foreach ($v['pro_answer'] as $val) {
                                     $data = array();
                                     $data['title'] = $val;
-                                    $data['problem_id'] = $pid;
+                                    $data['problem_id'] = (string)$pid;
                                     $ok = $model_answer->create($data);
+                                    if(!$ok){
+                                        $is_ok++;
+                                    }
                                 }
                             }else{
                                 $is_ok++;
@@ -153,7 +155,6 @@
                         }
                     }
                 }
-                
             }catch(Sher_Core_Model_Exception $e){
                 Doggy_Log_Helper::warn("Save block failed: ".$e->getMessage());
                 return $this->ajax_json('保存失败:'.$e->getMessage(), true);
@@ -176,8 +177,8 @@
            $ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
            
            try{
+                $model = new Sher_Core_Model_Vote();
                 foreach($ids as $id){
-                    $model = new Sher_Core_Model_Vote();
                     $result = $model->vote_remove((int)$id);
                     if(!$result){
                          return $this->ajax_notification('删除数据失败！', true);
