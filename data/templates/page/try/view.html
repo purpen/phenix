@@ -145,6 +145,9 @@
 		top: 50%;
 		margin-top: -10px;
 	}
+	.ui.table td.nine.wide{
+		text-align:right;
+	}
 	
 </style>
 {% endblock %}
@@ -650,7 +653,7 @@
 																</div>
 															</td>
 															<td class="nine wide">
-                                {{ t.created_on|time }}
+                                {{ t.created_on|relative_date }}
 															</td>
 														</tr>
                             {%endfor%}
