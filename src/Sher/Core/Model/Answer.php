@@ -44,8 +44,8 @@ class Sher_Core_Model_Answer extends Sher_Core_Model_Base {
     /**
 	 * 保存之后事件
 	 */
-    protected function after_save($data){
-        parent::after_save($data);
+    protected function after_save(){
+        parent::after_save();
     }
 	
 	/**

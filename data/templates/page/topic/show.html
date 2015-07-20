@@ -386,7 +386,7 @@
     
       var user_id = '{{ visitor.id }}';
       if(!user_id){
-        alert('请登陆后在投票！');
+        phenix.show_error_note('请登陆后在投票!');
         return false;
       }
       
@@ -416,7 +416,7 @@
         function(data){
           if(data){
             if(data == 1){
-              alert('您已经投过票了，谢谢参与！');
+              phenix.show_error_note('您已经投过票了，谢谢参与！');
               return false;
             }
             var date = eval(data).problem;
@@ -645,7 +645,7 @@
                                       <div class="ui radio checkbox">
                                           <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" style="z-index:100;" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums }}%</a>&nbsp;&nbsp;
+                                            {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</a>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}
@@ -656,7 +656,7 @@
                                       <div class="ui checkbox">
                                           <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums }}%</a>&nbsp;&nbsp;
+                                            {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</a>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}

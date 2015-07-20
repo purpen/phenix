@@ -52,8 +52,8 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
     /**
 	 * 保存之后事件
 	 */
-    protected function after_save($data){
-        parent::after_save($data);
+    protected function after_save(){
+        parent::after_save();
     }
 	
 	/**
@@ -146,19 +146,19 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 	* 投票统计
 	*/
 	public function statistics($id){
-		$nums = 0;
 		$vote = $this->find_votes((int)$id);
-		return $vote;
-		foreach($vote['problem'] as $v){
-			foreach($v['answer'] as $val){
+		//return $vote;
+		foreach($vote['problem'] as $k=>$v){
+      $nums = 0;
+      //求每个问题下投票总数,计算百分比
+			foreach($v['answer'] as $key=>$val){
 				$nums += (int)$val['nums'];
 			}
-		}
-		foreach($vote['problem'] as $k => $v){
-			foreach($v['answer'] as $key => $val){
-				$vote['problem'][$v]['answer'][$key]['nums'] = (float)(((int)$val['nums']/$nums) * 100);
+			foreach($v['answer'] as $kl=>$vl){
+				$vote['problem'][$k]['answer'][$kl]['nums_rate'] = (int)(((float)$vl['nums']/$nums) * 100);
 			}
 		}
+
 		return $vote;
 	}
 }
