@@ -19,8 +19,6 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
         'type' => self::TYPE_TOPIC,
         # 关联项目id
         'relate_id' => 0,
-        # 问题id
-        'problem_ids' => array(),
 		# 是否启用
 		'status' => 1,
 		# 统计数量
@@ -28,7 +26,7 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title','relate_id');
-	protected $int_fields = array('user_id','relate_id','nums');
+	protected $int_fields = array('relate_id','nums');
 	protected $float_fields = array();
 	protected $counter_fields = array('nums');
 	protected $retrieve_fields = array();
@@ -54,8 +52,8 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
     /**
 	 * 保存之后事件
 	 */
-    protected function after_save($data){
-        parent::after_save($data);
+    protected function after_save(){
+        parent::after_save();
     }
 	
 	/**
@@ -75,7 +73,10 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 			// 查询答案信息
 			$model_answer = new Sher_Core_Model_Answer();
 			foreach($problem as $k => $v){
-				$answer = $model_answer->find(array('problem_id'=>$v['_id']));
+				$answer = $model_answer->find(array('problem_id'=>(string)$v['_id']));
+				foreach($answer as $key => $val){
+					$answer[$key]['_id'] = (string)$val['_id'];
+				}
 				$problem[$k]['answer'] = $answer;
 			}
 			$vote['problem'] = $problem;
@@ -145,19 +146,19 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 	* 投票统计
 	*/
 	public function statistics($id){
-		$nums = 0;
 		$vote = $this->find_votes((int)$id);
-		foreach($vote['problem'] as $v){
-			foreach($v['answer'] as $val){
+		//return $vote;
+		foreach($vote['problem'] as $k=>$v){
+      $nums = 0;
+      //求每个问题下投票总数,计算百分比
+			foreach($v['answer'] as $key=>$val){
 				$nums += (int)$val['nums'];
 			}
-		}
-		//echo $nums;
-		foreach($vote['problem'] as $k => $v){
-			foreach($v['answer'] as $key => $val){
-				$vote['problem'][$v]['answer'][$key]['nums'] = (float)(((int)$val['nums']/$nums) * 100);
+			foreach($v['answer'] as $kl=>$vl){
+				$vote['problem'][$k]['answer'][$kl]['nums_rate'] = (int)(((float)$vl['nums']/$nums) * 100);
 			}
 		}
+
 		return $vote;
 	}
 }
