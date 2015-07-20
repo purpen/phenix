@@ -1,0 +1,126 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1rem 0;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.tool.block .ui.four.cards .card{
+	margin-bottom:3%;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+}
+.depict{
+	position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  font-size: 14px;
+  background: rgba(0,0,0,0.6);
+  padding: 0.6rem 0;
+  text-indent: .8rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.ui.white.row {
+  margin-top: 3%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+	color:#f36;
+}
+.ui.white.row .ten.wide{
+	padding-left:3%;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
+.ui.header .content p{
+	margin: 0;
+  line-height: 24px;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big tool block">
+	<div class="ui responsive grid" style="padding:0 11%">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">开源硬件</h3>
+			</div>
+		</div>
+		<div class="ui white row">
+			<div class="six wide center aligned column">
+					<img src="{{ app_url_packaged }}/images/img_qk.jpg" alt="上海庆科">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					DSOS204A 高分辨率示波器
+					<div class="content">
+						<p>• 卓越的信号完整度提供卓越的测量精度W</p><p>• 2GHz带宽的示波器探测系统</p><p>• 4条模拟通道</p><p>• 20 GS/s的实时采样率&nbsp;</p><p>• 支持以太网和USB 2.0...</p><p>• 15 英寸电容触摸屏支持多点触控</p><p>• Microsoft® Windows 7 64位操作系统，简便连接及集成到用户环境中</p>
+					</div>
+				</h4>
+			</div>
+			
+			<div class="six wide center aligned column">
+					<img src="{{ app_url_packaged }}/images/img_broadlink.jpg" alt="broadlink">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					DSOS204A 高分辨率示波器
+					<div class="content">
+						<p>• 卓越的信号完整度提供卓越的测量精度W</p><p>• 2GHz带宽的示波器探测系统</p><p>• 4条模拟通道</p><p>• 20 GS/s的实时采样率&nbsp;</p><p>• 支持以太网和USB 2.0...</p><p>• 15 英寸电容触摸屏支持多点触控</p><p>• Microsoft® Windows 7 64位操作系统，简便连接及集成到用户环境中</p>
+					</div>
+				</h4>
+			</div>
+				
+				
+				
+				
+		</div>
+
+	</div>
+</div>
+{% endblock %}
