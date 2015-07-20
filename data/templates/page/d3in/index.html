@@ -4,7 +4,7 @@
 {% block page_css %}
 <style type="text/css">
 .lab.submenu > .ui.responsive.grid > .row{
-	padding:1.2rem 0 .8rem;
+	padding:1.6rem 0 .6rem;
 	border-bottom: 1px solid rgba(255,255,255,0.85);
 }
 .lab.submenu > .ui.responsive.grid > .row > .column{
@@ -160,6 +160,13 @@
     -webkit-animation-fill-mode: both; 
     animation-fill-mode: both; 
 }
+.three.wide > .image a > img{
+	border-radius:500px;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+	color:#f36 !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -251,7 +258,7 @@
 				<div class="five wide column">
 					<img src="{{ app_url_packaged }}/images/d3inn11.png" alt="D3in">
 					<h3 class="ui header">专家大牛</h3>
-					<p>拥有来自南方科技大学无线射频教授(前苹果公司无线资深高级工程师)，世界领先测试仪器厂KeySight(原名安捷伦)的测试专家，产品模块化设计资深硬件大师(前Foxconn资深专理)，硬件管控资深大牛(前微软资深硬件方案设计师)，结构设计大师（前摩托罗拉结构设计师），EMC整改资深大牛（比亚迪充电事业部EMC培训导师）等将会在线常驻D3IN实验室。D3IN实验室会员可向专家大牛取经，从而提升产品整体的竞争力。</p>
+					<p>拥有来自南方科技大学无线射频教授，世界领先测试仪器厂KeySight的测试专家，产品模块化设计资深硬件大师，硬件管控资深大牛，结构设计大师，EMC整改资深大牛等将会在线常驻D3IN实验室。D3IN实验室会员可向专家大牛取经，从而提升产品整体的竞争力。</p>
 				</div>
 			</div>
 			
@@ -277,15 +284,16 @@
 				</div>
 			</div>
 			<div class="row">
+				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner1"><img alt="尚志斌" class="ui image" src="{{ app_url_packaged }}/images/img_szb.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								尚志斌
 							<div class="sub header">
-								台湾创意中心执行长
+								CTO 联合创始⼈
 							</div>
 						</div>
 					</h4>
@@ -293,13 +301,13 @@
 				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner2"><img alt="全智" class="ui image" src="http://frstatic.qiniudn.com/images/img_qz.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								全智
 							<div class="sub header">
-								台湾创意中心执行长
+								南方科技大学电子与电气工程系 副教授
 							</div>
 						</div>
 					</h4>
@@ -307,13 +315,13 @@
 				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner3"><img alt="陈建敏" class="ui image" src="http://frstatic.qiniudn.com/images/img_cjm.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								陈建敏
 							<div class="sub header">
-								台湾创意中心执行长
+								大族激光   EMC整改培训讲师
 							</div>
 						</div>
 					</h4>
@@ -480,6 +488,8 @@
 					<a href="javascript:void();" title="broadlink" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_broadlink.jpg" alt="broadlink"></a>
 					<a href="javascript:void();" title="shqk" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shqk.jpg" alt="shqk"></a>
 					<a href="javascript:void();" title="honee" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_honee.jpg" alt="honee"></a>
+					<a href="javascript:void();" title="kii" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_kii.jpg" alt="kii"></a>
+					<a href="javascript:void();" title="longtooth" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_longtooth.jpg" alt="longtooth"></a>
 					
 					
 					

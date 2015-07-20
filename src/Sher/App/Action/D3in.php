@@ -9,7 +9,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     'size'=>50,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3');
 	
 	/**
 	 * 网站入口
@@ -25,6 +25,34 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     $vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
     $this->stash['vip_money'] = $vip_money;
 		return $this->to_html_page('page/d3in/index.html');
+	}
+	
+	/**
+	 * d3in 开源硬件
+	 */
+	public function hardware(){
+		$this->set_target_css_state('sub_hardware');
+		return $this->to_html_page('page/d3in/hardware.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner1(){
+		return $this->to_html_page('page/d3in/partner-1.html');
+	}
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner2(){
+		return $this->to_html_page('page/d3in/partner-2.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner3(){
+		return $this->to_html_page('page/d3in/partner-3.html');
 	}
 	
 	/**
