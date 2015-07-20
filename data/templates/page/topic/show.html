@@ -114,6 +114,9 @@
 	  margin-top: 10px;
 	  margin-bottom: 15px;
 	}
+	.description .field .ui.checkbox{
+		line-height: 0.8em;
+	}
 </style>
 {% endblock %}
 
@@ -637,15 +640,15 @@
                           <div class="item">
                             <i class="large github middle aligned icon"></i>
                             <div class="content">
-                              <a class="header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</a>
+                              <h3 class="header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h3>
                               <div class="description" style="margin: 10px 0" id="{{ problem._id }}">
                                 {% if problem.select_type == 1 %}
                                   <div class="field">
                                     {% for answer in problem.answer %}
                                       <div class="ui radio checkbox">
-                                          <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" style="z-index:100;" />
+                                          <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums }}%</a>&nbsp;&nbsp;
+                                              {{ answer.title }}&nbsp;&nbsp;<div class="ui red label {{ answer._id }}">{{ answer.nums }}%</div>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}
@@ -654,7 +657,7 @@
                                   <div class="field">
                                     {% for answer in problem.answer %}
                                       <div class="ui checkbox">
-                                          <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
+                                          <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
                                           <label>
                                               {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums }}%</a>&nbsp;&nbsp;
                                           </label>
