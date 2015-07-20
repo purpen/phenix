@@ -160,8 +160,12 @@
     -webkit-animation-fill-mode: both; 
     animation-fill-mode: both; 
 }
-.three.wide > .image > img{
+.three.wide > .image a > img{
 	border-radius:500px;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+	color:#f36 !important;
 }
 </style>
 {% endblock %}
@@ -280,23 +284,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="three wide column">
-					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
-					</div>
-					<h4 class="ui header">
-						<div class="content">
-								陈文龙
-							<div class="sub header">
-								台湾创意中心执行长
-							</div>
-						</div>
-					</h4>
-				</div>
 				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="尚志斌" class="ui image" src="{{ app_url_packaged }}/images/img_szb.jpg">
+						<a href="{{ app_url_d3in }}/partner1"><img alt="尚志斌" class="ui image" src="{{ app_url_packaged }}/images/img_szb.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
@@ -310,13 +301,27 @@
 				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner2"><img alt="全智" class="ui image" src="http://frstatic.qiniudn.com/images/img_qz.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								全智
 							<div class="sub header">
-								台湾创意中心执行长
+								南方科技大学电子与电气工程系 副教授
+							</div>
+						</div>
+					</h4>
+				</div>
+				
+				<div class="three wide column">
+					<div class="image">
+						<a href="{{ app_url_d3in }}/partner3"><img alt="陈建敏" class="ui image" src="http://frstatic.qiniudn.com/images/img_cjm.jpg"></a>
+					</div>
+					<h4 class="ui header">
+						<div class="content">
+								陈建敏
+							<div class="sub header">
+								大族激光   EMC整改培训讲师
 							</div>
 						</div>
 					</h4>

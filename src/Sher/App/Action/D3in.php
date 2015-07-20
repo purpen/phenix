@@ -28,6 +28,34 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * d3in 开源硬件
+	 */
+	public function hardware(){
+		$this->set_target_css_state('sub_hardware');
+		return $this->to_html_page('page/d3in/hardware.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner1(){
+		return $this->to_html_page('page/d3in/partner-1.html');
+	}
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner2(){
+		return $this->to_html_page('page/d3in/partner-2.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner3(){
+		return $this->to_html_page('page/d3in/partner-3.html');
+	}
+	
+	/**
 	 * d3in 活动
 	 */
 	public function active(){
