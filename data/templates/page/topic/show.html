@@ -118,7 +118,7 @@
 		line-height: 0.6em;
 		margin-right: 35px;
 	}
-	.post.vote .ui.relaxed.list .content h3.ui.header{
+	.post.vote .ui.relaxed.list .content h4.ui.header{
 		margin-bottom: 1em;
 		margin-top: 6px;
 	}
@@ -637,7 +637,7 @@
                   
                   {% if is_vote %}
 					<div class="post vote" style="margin-top: 20px">
-                        <div class="ui small header" style="color: #E40039">{{ vote.title }}</div>
+                        <h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
                         <div class="ui divider"></div>
                         {% for problem in vote.problem %}
                         
@@ -648,7 +648,7 @@
                           <div class="item">
                             <i class="large fa-question middle aligned icon"></i>
                             <div class="content">
-                              <h3 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h3>
+                              <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
                               <div class="description" style="margin: 10px 0" id="{{ problem._id }}">
                                 {% if problem.select_type == 1 %}
                                   <div class="field">
