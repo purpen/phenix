@@ -9,7 +9,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
     'size'=>50,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3');
 	
 	/**
 	 * 网站入口
