@@ -7,9 +7,9 @@
 	var vote_i = 0;
 	$('.add-problem').click(function(){
 		var html = '';
-		html += '<li><div class="list-problem"><p><input type="text" name="problem" value="" />';
-		html += "<div class='field'><div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='1' style='z-index:100;'/><label>单选</label></div>&nbsp;&nbsp;<div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='2' style='z-index:100;'/><label>多项</label></div></div>";
-		html += '<span class="ui small purple del-problem button">删除此问题</span></p></div><div class="answer"><ol class="list-answer">';
+		html += '<li><div class="list-problem"><p><input style="width:80%;margin-right:2%;vertical-align: middle;" type="text" name="problem" value="" /><span class="ui small purple del-problem button">删除此问题</span></p>';
+		html += "<div class='field'><div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='1' style='z-index:100;width:100%;'/><label>单选</label></div>&nbsp;&nbsp;<div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='2' style='z-index:100;width:100%;'/><label>多项</label></div></div>";
+		html += '</div><div class="answer"><ol class="list-answer">';
 		html+='</ol><div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed green;"><div class="column"><div class="ui small green add-answer button">添加答案</div></div></div></div></li>';
 		
 		$('#process-box-edit').append(html);
@@ -20,7 +20,7 @@
 	$('.add-answer').livequery(function(){
 		$(this).click(function(){
 			var html = "";
-			html += '<li><input type="text" name="answer" value="" /><span class="ui small blue del-answer button">删除此答案</span></li>';
+			html += '<li><input style="width:79%;margin-right:2%;vertical-align: middle;" type="text" name="answer" value="" /><span class="ui small blue del-answer button">删除此答案</span></li>';
 			$(this).parents('.answer').find('.list-answer').append(html);
 		});
 	});
@@ -159,33 +159,33 @@
 						<li>
 							<div class="list-problem">
 								<p>
-									<input type="text" name="problem" value="{{ votes.title}}" />
+									<input style="width:80%;margin-right:2%;vertical-align: middle;" type="text" name="problem" value="{{ votes.title}}" />
+									<span class="ui small purple del-problem button">
+										删除此问题
+									</span></p>
 									<div class="field">
 										<div class="ui radio checkbox">
-											<input type="radio" name="{{ votes._id}}" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;" />
+											<input type="radio" name="{{ votes._id}}" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
 											<label>
 												单选
 											</label>
 										</div>
 										&nbsp;&nbsp;
 										<div class="ui radio checkbox">
-											<input type="radio" name="{{ votes._id}}" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;" />
+											<input type="radio" name="{{ votes._id}}" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
 											<label>
 												多项
 											</label>
 										</div>
 									</div>
-									<span class="ui small purple del-problem button">
-										删除此问题
-									</span>
-								</p>
+							
 							</div>
 							<div class="answer">
 								<ol class="list-answer">
 									{% for answer in votes.answer %}
 									<input type="hidden" name="problem" value="{{ answer._id}}" />
 									<li>
-										<input type="text" name="answer" value="{{ answer.title}}" />
+										<input style="width:79%;margin-right:2%;vertical-align: middle;" type="text" name="answer" value="{{ answer.title}}" />
 										<span class="ui small blue del-answer button">删除此答案</span>
 									</li>
 									{% endfor %}
