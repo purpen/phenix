@@ -20,7 +20,7 @@
          * @return string
          */
         public function get_list() {
-            $stage = isset($this->stash['stage'])?$this->stash['stage']:0;
+            $stage = isset($this->stash['stage']) ? $this->stash['stage'] : 0;
             $this->set_target_css_state('page_vote');
             $pager_url = Doggy_Config::$vars['app.url.admin'].'/vote?page=#p#';
             $this->stash['pager_url'] = sprintf($pager_url, $stage);
@@ -64,7 +64,7 @@
             $page = (int)$this->stash['page'];
             
             $problem_date = json_decode('['.$this->stash['problem_date'].']',true);
-            
+            //var_dump($problem_date);die;
             try{
                 
                 $model_vote = new Sher_Core_Model_Vote();

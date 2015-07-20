@@ -613,8 +613,8 @@
                   <input type="hidden" name="topic_id" value="{{ id }}" />
                   
                   {% if is_vote %}
-					<div class="post vote">
-                        <div class="ui small header">{{ vote.title }}</div>
+					<div class="post vote" style="margin-top: 20px">
+                        <div class="ui small header" style="color: #E40039">{{ vote.title }}</div>
                         <div class="ui divider"></div>
                         {% for problem in vote.problem %}
                         
@@ -633,7 +633,7 @@
                                       <div class="ui radio checkbox">
                                           <input type="radio" name="{{ problem._id }}" style="z-index:100;" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;
+                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label">100%</a>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}
@@ -641,10 +641,10 @@
                                 {% else %}
                                   <div class="field">
                                     {% for answer in problem.answer %}
-                                      <div class="ui radio checkbox">
-                                          <input type="radio" name="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
+                                      <div class="ui checkbox">
+                                          <input type="checkbox" name="{{ answer._id }}" style="z-index:100;margin-right: 10px" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;
+                                              {{ answer.title }}&nbsp;&nbsp;<a class="ui red label">100%</a>&nbsp;&nbsp;
                                           </label>
                                       </div>
                                     {% endfor %}

@@ -4,14 +4,16 @@
 {% block jquery %}
 
 	// 添加problem
+	var vote_i = 0;
 	$('.add-problem').click(function(){
 		var html = '';
 		html += '<li><div class="list-problem"><p><input type="text" name="problem" value="" />';
-		html += '<div class="field"><div class="ui radio checkbox"><input type="radio" name="type" value="1" style="z-index:100;"/><label>单选</label></div>&nbsp;&nbsp;<div class="ui radio checkbox"><input type="radio" name="type" value="2" style="z-index:100;"/><label>多项</label></div></div>';
+		html += "<div class='field'><div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='1' style='z-index:100;'/><label>单选</label></div>&nbsp;&nbsp;<div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='2' style='z-index:100;'/><label>多项</label></div></div>";
 		html += '<span class="ui small purple del-problem button">删除此问题</span></p></div><div class="answer"><ol class="list-answer">';
 		html+='</ol><div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed green;"><div class="column"><div class="ui small green add-answer button">添加答案</div></div></div></div></li>';
 		
 		$('#process-box-edit').append(html);
+		vote_i++;
 	});
 
 	// 添加answer
@@ -90,7 +92,7 @@
 		$('.list-problem').each(function(i){
 			var date = {};
 			date.pro_title = $(this).find('input[name=problem]').val();
-			date.pro_type = $(this).find('input[name=type]').val();
+			date.pro_type = $(this).find('input:checked').val();
 			var answer = {}; 
 			$(this).parent('li').find('input[name=answer]').each(function(j){
 				answer[j] = $(this).val();
@@ -160,14 +162,14 @@
 									<input type="text" name="problem" value="{{ votes.title}}" />
 									<div class="field">
 										<div class="ui radio checkbox">
-											<input type="radio" name="type" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;" />
+											<input type="radio" name="{{ votes._id}}" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;" />
 											<label>
 												单选
 											</label>
 										</div>
 										&nbsp;&nbsp;
 										<div class="ui radio checkbox">
-											<input type="radio" name="type" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;" />
+											<input type="radio" name="{{ votes._id}}" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;" />
 											<label>
 												多项
 											</label>
