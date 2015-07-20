@@ -28,6 +28,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     'season' => 0,
     # 状态: 1,申请中, 2,审核中, 3.提交反馈, 5.结束
     'step_stat' => 0,
+
+    # 标签
+    'tags' => array(),
 		
 		# 封面图
 		'cover_id' => '',
@@ -57,6 +60,16 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'start_time' => 0,
 		# 结束时间
 		'end_time' => 0,
+
+    # 品牌介绍 
+    'brand_introduce' => null,
+
+    # 图片集 brand_avatar/ios/android
+    'imgs' => array(
+      'brand_avatar' => null,
+      'qr_ios' => null,
+      'qr_android' => null,
+    ),
 		
 		# 设置推荐
 		'sticked' => 0,
@@ -108,6 +121,17 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		}
 		
   }
+
+	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+    if (isset($data['tags']) && !is_array($data['tags'])) {
+        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
+    }
+		
+	  parent::before_save($data);
+	}
 	
 	/**
 	 * 批量更新附件所属

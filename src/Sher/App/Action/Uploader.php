@@ -261,8 +261,13 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	 * 上传产品公测图片
 	 */
 	public function dotry() {
+    $type = isset($this->stash['type'])?$this->stash['type']:1;
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_TRY;
-		$asset_type = Sher_Core_Model_Asset::TYPE_TRY;
+    if($type==1){
+ 		  $asset_type = Sher_Core_Model_Asset::TYPE_TRY;   
+    }elseif($type==2){
+ 		  $asset_type = Sher_Core_Model_Asset::TYPE_TRY_F;   
+    }
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
@@ -502,6 +507,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$this->stash['asset_list'] = $model->extend_load_all($assets_ids);
 		if((int)$asset_type == Sher_Core_Model_Asset::TYPE_COMMENT){
             return $this->to_taconite_page('ajax/check_comment_upload_assets.html');
+        }elseif((int)$asset_type == Sher_Core_Model_Asset::TYPE_TRY_F){
+            return $this->to_taconite_page('ajax/check_upload_try_f_assets.html'); 
         }else{
             return $this->to_taconite_page('ajax/check_upload_assets.html');   
         }

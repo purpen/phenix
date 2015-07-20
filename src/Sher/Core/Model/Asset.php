@@ -33,8 +33,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_PRODUCT = 10;
 	const TYPE_EDITOR_PRODUCT = 15;
 	
-	# 评测图片
+	# 评测图片/配图(小图)
 	const TYPE_TRY     = 30;
+  const TYPE_TRY_F   = 31;
 	
 	# 话题图片
 	const TYPE_TOPIC   = 50;

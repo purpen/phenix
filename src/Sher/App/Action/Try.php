@@ -62,6 +62,20 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			return $this->show_message_page('访问的公测产品不存在或已被删除！', $redirect_url);
 		}
 
+    //加载配图
+    $img_asset = array();
+    if(!empty($try['imgs'])){
+      $asset_model = new Sher_Core_Model_Asset();
+      foreach($try['imgs'] as $k=>$v){
+        if(!empty($v)){
+          $asset = $asset_model->extend_load($v);
+          if($asset){
+            $img_asset[$k] = $asset;
+          }
+        }
+      }
+    }
+
     //添加网站meta标签
     $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
     if(!empty($try['tags'])){
@@ -87,6 +101,8 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		$provinces = $areas->fetch_provinces();
 		
 		$this->stash['provinces'] = $provinces;
+
+    $this->stash['img_asset'] = $img_asset;
 		
 		// 评测报告分类
 		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
