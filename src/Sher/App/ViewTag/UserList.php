@@ -37,6 +37,8 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		// 某时间段内
 		$start_time = 0;
 		$end_time = 0;
+
+    $kind = 0;
 		
 		// 用户推荐
 		$last_login = 0;
@@ -75,6 +77,10 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         }
         if ($only_ok) {
             $query['state'] = Sher_Core_Model_User::STATE_OK;
+        }
+
+        if($kind){
+          $query['kind'] = (int)$kind;
         }
         
         if ($only_common_user) {

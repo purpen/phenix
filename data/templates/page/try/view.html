@@ -588,16 +588,23 @@
 											<h3 class="ui dividing header">
 												App下载
 											</h3>
-											<img src="{{ app_url_packaged }}/images/iphone.png" style="width: 47%;margin-right: 6%;display: inline-block;float: left;" alt="app-iphone">
-											<!--<img src="http://static.taihuoniao.me/images/deavatar/008-s.jpg" style="width: 47%;">-->
+                      {% if img_asset.qr_ios %}
+											<img src="{{ img_asset.qr_ios.fileurl }}" style="width: 47%;margin-right: 6%;display: inline-block;float: left;" alt="app-iphone">
+                      {%endif%}
+                      {% if img_asset.qr_android %}
+											<img src="{{ img_asset.qr_android.fileurl }}" style="width: 47%;">
+                      {%endif%}
+                      {% if img_asset.qr_ios %}
 											<p style="width: 47%;margin-right: 6%;display: inline-block;float: left;text-align:center;">iphone</p>
-											<!--<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>-->
+                      {%endif%}
+                      {% if img_asset.qr_android %}
+											<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>
+                      {%endif%}
 										</div>
 									</div>
 								</div>
 								
 								<div class="bar"></div>
-                <!--
 								<div class="product brand">
 									<div class="ui grid">
 										<div class="row">
@@ -606,9 +613,11 @@
 													品牌介绍 
 												</h3>
 												<div class="ui large avatar image" style="display:block;margin:0 auto;">
-													<img src="http://static.taihuoniao.me/images/deavatar/008-m.jpg" alt="太火鸟">
+                          {% if img_asset.brand_avatar %}
+                          <img src="{{ img_asset.brand_avatar.fileurl }}" alt="{{ try.short_title }}">
+                          {%endif%}
 												</div>
-												<p>多听是中国最大的网络音频聚合平台之一。我们提供超过220万集各类音频节目，供用户随时随地免费点播收听，目前多听用户规模已超过5000万。除APP以外，多听还推出了国内首款车载网络电台智能硬件“车听宝”，并具有“无需3G流量”、“智能云端更新”、“原车操控体验”、“百万音频支持”、“顶级HIFI音质”、“服务永久免费”等六大特点。我们致力于通过移动互联网，为多年来一成不变的电台市场带来创新，为用户提供前所未有的收听体验！</p>
+                        <p>{{ try.brand_introduce }}</p>
 											
 											</div>
 										</div>
@@ -617,7 +626,6 @@
 								<div class="bar"></div>
 								<a href="" class="fluid ui magenta active button" style="width: auto;margin: 0 -1em;">＋厂商试用合作申请</a>
 								<div class="bar"></div>
-                -->
 
                 {% apply_list var:'list' target_id:try._id type:1 page:1 size:8 %}
 								<div class="product appli">
