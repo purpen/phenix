@@ -1,0 +1,146 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1.6rem 0 0.6rem;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+.ui.tool.block .ui.four.cards .card{
+	margin-bottom:3%;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+}
+.depict{
+	position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  font-size: 14px;
+  background: rgba(0,0,0,0.6);
+  padding: 0.6rem 0;
+  text-indent: .8rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.ui.white.row {
+  margin-top: 1.5%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+	color:#f36;
+}
+.ui.white.row .ten.wide{
+	padding-left:3%;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
+.ui.header .content p{
+	margin: 0;
+  line-height: 24px;
+	font-size:14px;
+}
+.ui.header .content b{
+	font-size: 16px;
+	display: block;
+	padding: 7px 0 4px;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="eight right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big tool block">
+	<div class="ui responsive grid" style="padding:0 11%">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">开源硬件</h3>
+			</div>
+		</div>
+		<div class="ui white row">
+			<div class="six wide center aligned column">
+					<img src="{{ app_url_packaged }}/images/img_qk.jpg" alt="上海庆科">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					上海庆科
+					<div class="content">
+						<p>型号：MiCOKit-3288开发套件</p><b>产品概述</b><p>MiCOKit开发套件为您提供一个开箱即用的智能硬件解决方案，使您的产品可以快速、安全地连接至云服务平台和手机端。套件包括MiCOKit 开发板和快速连接到云平台的演示应用程序，使用智能手机戒平板电脑就能进行安全控制和操作。</p><b>技术规格</b><b>一、Wi-Fi Arduino主板</b><p>1、EMW系列低功耗、小体积Wi-Fi模块；</p><p>2、提供完整的MiCO系统-云-客户端Demo例程，方便用户进行二次开发；</p>
+						<p>3、USB转UART虚拟串口，方便调试；</p><p>4、2个工作模式选择开关、2个按钮（包括一个Reset）；</p><p>5、Micro-USB单5V供电，板载5V-3.3V高效率DC-DC；</p>
+<p>6、JTAG/SWD调试接口；</p>		<p>7、Arduino标准扩展接口，可外接各种Arduino扩展板。</p><b>二、扩展板</b><p>1、128x64 OLED双色显示屏；</p><p>2、温湿度传感器，光照传感器，红外传感器，距离传感器；</p><p>3、8mm RGB三色LED，手机控制色彩和亮度的调节；</p><p>4、可调速微型直流电机；</p><p>5、2个用户按键</p><p>6、环境传感器、运动传感器，苹果CP（开发者自行选配）；</p><p>7、Arduino传感器接口。</p>			</div>
+				</h4>
+			</div>
+		</div>
+		<div class="ui white row">
+			<div class="six wide center aligned column">
+					<img src="{{ app_url_packaged }}/images/img_broadlink.jpg" alt="broadlink">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					Broadlink
+					<div class="content">
+						<b>产品概述</b><p>Broadlink® DNA Kit 智能设备开发套件旨在降低企业和个人创客进行物联网(IoT)产品设计的 门槛，配合 DNA Kit 开放平台的软件服务可以快速的完成一款物联网智能设备的开发验证。</p><b>技术规格</b><p>1.Wi-Fi 模块 MTK7681  3.3V 插针</p><p>2.无线标准 IEEE802.11b/g/n   2.4GHz</p><p>3.微处理器 STM8S003F3 </p><p>4.功能 Demo UART 透传</p><p>5.RGB 调色灯</p><p>6.白色调亮灯</p><p>7.智能开关</p><p>8.智能 3 路排插 </p><p>9.供电 5V USB 直插</p>
+					</div>
+				</h4>
+			</div>
+		</div>
+		
+		<div class="ui white row">
+			<div class="six wide center aligned column">
+					<img src="{{ app_url_packaged }}/images/img_yzs.jpg" alt="云知声">
+			</div>
+			<div class="ten wide column">
+				<h4 class="ui header">
+					云知声
+					<div class="content">
+						<p>型号：IVM 语音模组</p>
+						<b>产品概述</b><p>IVM 语音模组是一款针对智能化硬件产品的语音解决方案。模组可做到完全无触摸的语音唤醒、语音识别和语音合成功能，结合云知声最新研发的双麦克远讲降噪技术（最远可支持 5m 内的高精度识别），实现智能终端产品全语音化的操作。</p><b>功能特性</b><p>1.远场语音增强</p><p>2.离线语音识别</p><p>3. UART 通讯</p><p>4. 热唤醒</p><p>5.热唤醒词可定制</p><b>技术特点</b><b>一、远讲识别技术</b><p>1.云知声提供了业内先进的远讲技术方案，其特点包括：</p><p>a.最远达 5m 距离的高精度语音识别</p><p>b.说话人相对设备的角度或方向不影响</p><b>二、远讲降噪 </b><p>1.基于双 MIC 盲源分离算法 </p><p>2.可以自定义接收角度，过滤掉屏蔽带外的噪音源 </p><b>三、双麦克方案 </b><p>1.使用云知声双麦克硬件方案进行语音采集，模块自带的计算单元进行语音技术处理</p><p>2.双麦克阵列技术，麦克风位置要求灵活，技术方案成本低廉 </p><p>3.使用标准串口 UART 通讯协议输出语音识别指令 </p>
+					</div>
+				</h4>
+			</div>
+		</div>
+		
+
+	</div>
+</div>
+{% endblock %}

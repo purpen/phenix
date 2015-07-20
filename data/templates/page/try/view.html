@@ -136,6 +136,19 @@
 	.product.aption p{
 		margin-bottom: 1em;
 	}
+	.author{
+		position: relative;
+	}
+	.author .content{
+		position: absolute;
+		left: 5em;
+		top: 50%;
+		margin-top: -10px;
+	}
+	.ui.table td.nine.wide{
+		text-align:right;
+	}
+	
 </style>
 {% endblock %}
 
@@ -643,12 +656,12 @@
 																<a class="ui small avatar image" href="{{ t.user.home_url }}" title="{{ t.user.nickname }}" target="_blank">
 																	<img src="{{ t.user.big_avatar_url }}" alt="{{ t.user.nickname }}">
 																</a>
-															</td>
-															<td class="seven wide">
-																<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
+																<div class="content">
+																	<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
+																</div>
 															</td>
 															<td class="nine wide">
-                                {{ t.created_on|date }}
+                                {{ t.created_on|relative_date }}
 															</td>
 														</tr>
                             {%endfor%}

@@ -4,7 +4,7 @@
 {% block page_css %}
 <style type="text/css">
 .lab.submenu>.ui.responsive.grid>.row{
-	padding:1rem 0;
+	padding:1.6rem 0 0.6rem;
 	border-bottom: 1px solid rgba(0,0,0,0.15);
 }
 .lab.submenu > .ui.responsive.grid > .row > .column{
@@ -17,16 +17,31 @@
 	margin-left: 1rem;
 	line-height: 23px;
 }
+.ui.white.grid .column p{
+	font-size:14px;
+	margin:5px 0;
+	line-height: 22px;
+}
 .ui.table th{
 	text-align:center;
 }
 .ui.table tbody tr{
 	background:rgba(0,0,0,0) !important;
 }
+td{
+	font-size:14px;
+}
 .ui.white.grid.row{
 	padding: 1rem 5% !important;
 }
-
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+}
+b{
+	font-size:15px;
+  padding: 5px 0;
+  display: block;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -49,28 +64,28 @@
 		<div class="row ui white responsive grid">
 			<div class="column">
 				<h3 class="ui center aligned header">会员</h3>
-				<p>【为什么要加入会员】</p> 
-				<p> 可以帮助你不断充实提高，并实现自己IDEA的社区 </p> 
-				<p>得到使用创客空间机加设备的机会 </p> 
-				<p>拥有一个宽敞明亮的maker工位</p>
-				<p>免费参加在空间举办的线下活动</p>
-				<p>得到申请成为创客空间工作坊坊主的机会</p>
+				<b>【为什么要加入会员】</b> 
+				<p> 拥有一个宽敞明亮的改造工位 </p> 
+				<p>得到使用铟立方未来实验室设备的机会 </p> 
+				<p>可以帮助你不断充实提高，并早日实现产品的高效</p>
+				<p>免费参加在太火鸟铟立方未来实验室举办的线下活动</p>
+				<p>能够得到申请成为太火鸟铟立方未来实验室室主的机会</p>
 				</br>
-				<p>【我们能提供什么】</p>
+				<b>【我们能提供什么】</b>
 				<p>设备列表</p>
 				<p>*基础工具包：电烙铁、焊锡丝、松香、螺丝刀、斜口钳、老虎钳、尖嘴钳、电工胶布</p>
-				<p>*基础元器件包：免费使用空间现有的电容、电阻等元器件，在空间就一完成各种电子设备的焊接</p>
-				<p>*3D打印机和耗材：Makerbot Replicator2、太尔时代3D打印机、DFRobot3D打印机、3Dsystem打印机。</p>
-				<p>*创客书吧：包含艺术、编程、机械等行业的专业书籍，数量不断增加中</p>
-				<p>*小型加工设备：小型车床、钻床、电磨、电锯等设备的使用</p>
-				<p>*大型加工设备：激光切割机、雕刻机、光纤打标机等设备的培训</p>
-				<p>*每周四的meetup与各行各业专业人士头脑风暴</p>
-				<p>*免费参加空间周末的各种线下活动（不包含付费工作坊），诸如#电动滑板共进社#之类的神奇组织</p>
+				<p>*基础元器件包：免费使用铟立方未来实验室现有的电容、电阻等元器件以及与太火鸟铟立方未来实验室有着紧密合租的上海庆科开发套件和博联的开发套件
+				都可以在铟立方未来实验室就一完成各种电子设备的焊接</p>
+				<p>*3D打印机和耗材：Makerbot Replicator2、太尔时代3D打印机、DFRobot3D打印机、3Dsystem打印机</p>
+				<p>*硬件书吧：包含产品设计、编程、机械等行业的专业书籍，数量不断增加中</p>
+				<p>*专业测试射频设备：R&S RTE 1104数字示波器、Tektronix DPO 7254C示波器、Agilent MSO-X 93204A等设备的培训</p>
+				<p>*每月的沙龙与各行各业专业人士头脑风暴</p>
+				<p>*免费参加铟立方未来实验室周末的各种线下活动（不包含AA出游计划），诸如#硬创相约徒步深圳湾#之类的有趣活动</p>
 				</br>
-				<p>【只有这些么？】</p>
-				<p>我们提供一个IDEA发布和展示的平台，或寻找小伙伴或寻求技术支持，帮你把IDEA丰富完善并完成它。</p>
-				<p>神马，这还不够？欢迎来创客空间孵化器寻求帮助（Email: tina@bjmakerspace.com）</p>
-				<p>这是一个是硬件创新合作伙伴计划，为软硬件结合创业团队和中小企业提供原型面向产品的服务，提供包括工业设计和电子技术等的专业支持，供应连和小批量生产咨询，导师和关键关系建立，销售渠道和众筹管理，以及注册和办公场地。</p>
+				<b>【只有这些么？】</b>
+				<p>我们拥有常驻硬件专业级导师，在你产品需要帮助时及时挺身而出，帮你解决硬件问题。</p>
+				<p>我们还有专业的认证辅导师，在产品需要面向更广大市场的时候，为您一路领航。</p>
+				<p>神马，这还不够？欢迎来太火鸟铟立方未来实验室寻求帮助（Email:maiwenzhen@taihuoniao.com）</p>		<p>这是一个关于再造智能硬件的奇迹的计划，为软硬件结合创业团队和中小企业提供DEMO面向产品的服务，提供包括工业设计和测试技术等的专业支持，供应连和小批量生产咨询，导师和创业团队关键关系建立，销售渠道和众筹管理，以及注册和办公场地。</p>
 				
 				</br>
 				<table class="ui celled table center aligned">

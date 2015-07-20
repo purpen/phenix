@@ -4,7 +4,7 @@
 {% block page_css %}
 <style type="text/css">
 .lab.submenu>.ui.responsive.grid>.row{
-	padding:1rem 0;
+	padding:1.6rem 0 0.6rem;
 	border-bottom: 1px solid rgba(0,0,0,0.15);
 }
 .lab.submenu > .ui.responsive.grid > .row > .column{
@@ -27,6 +27,9 @@
 }
 .grouped.inline.fields{
 	margin-bottom: 2rem;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
 }
 </style>
 {% endblock %}
@@ -51,7 +54,7 @@ $('#pay_btn').click(function(){
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
-	<div class="ui responsive grid" style="padding:0 12%;">
+	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
 			<div class="eight wide column">
 				<h3>D3IN铟立方未来实验室</h3>
@@ -63,7 +66,7 @@ $('#pay_btn').click(function(){
 	</div>
 </div>
 <div class="ui big block">
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
 			<div class="column" style="padding-left:0;">
 				<h3 class="ui header">会员支付</h3>
