@@ -10,7 +10,7 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','first_request','call_back','back');
+	protected $exclude_method_list = array('execute','first_request','call_back','qr_code');
 	
 	/**
 	 * 微信登录
@@ -182,6 +182,14 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
       return $this->show_message_page($result['msg'], $error_redirect_url);
     }
 
+  }
+
+  /**
+   * 微信二维码
+   */
+  public function qr_code(){
+    return 'no weixin code';
+  
   }
 
 	

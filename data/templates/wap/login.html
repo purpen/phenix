@@ -46,20 +46,20 @@
 						</div>
 
 						<div class="field">
-            {% if is_weixin %}
                 <a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
                   <i class="flat icon_qq icon"></i>
                 </a>
-              {%else%}
-                <a href="{{ app_url_wap }}/weixin/qr_code" class="ui qq blue circular share icon button">
-                  <i class="flat icon_qq icon"></i>
-                </a>
-              {%endif%}
 						</div>
 						<div class="field">
+              {% if is_weixin %}
 							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui green circular share icon button">
 								<i class="flat icon_weixin icon"></i>
 							</a>
+              {%else%}
+              <a href="{{ app_url_wap }}/weixin/qr_code" class="ui green circular share icon button">
+								<i class="flat icon_weixin icon"></i>
+							</a>
+              {%endif%}
 						</div>
 					</div>
 
