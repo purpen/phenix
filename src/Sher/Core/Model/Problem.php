@@ -59,14 +59,18 @@ class Sher_Core_Model_Problem extends Sher_Core_Model_Base {
 			$is_del = 0;
 			$ans_model = new Sher_Core_Model_Answer();
 			// 1. 删除答案信息
-			if(!$ans_model->remove(array('problem_id' => $id))){
-				$is_del++;
+			$answer_rows = $ans_model->find(array('problem_id' => (string)$id));
+			foreach($answer_rows as $val){
+				$ans_id = $val['_id'];
+				if(!$ans_model->remove(array('_id' => $ans_id))){
+					$is_ok++;
+				}
 			}
 			unset($ans_model);
 			
 			// 2. 删除投票信息
 			if(!$is_del){
-				return $this->remove(array("_id"=>$id)); 
+				return $this->remove($id); 
 			}else{
 				return false;
 			}

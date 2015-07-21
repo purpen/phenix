@@ -1,0 +1,34 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}微信扫码-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sign-up {
+	text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+  <script type="text/javascript">
+    var obj = new WxLogin({
+        id:"login_container", 
+        appid: "{{ wx_params.app_id }}", 
+        scope: "snsapi_login", 
+        redirect_uri: "{{ wx_params.redirect_uri }}",
+        state: "{{ wx_params.state }}",
+        style: "white",
+        href: ""
+      });
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+
+<div id="login_container"></div>
+{% endblock %}

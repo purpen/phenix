@@ -670,7 +670,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			$this->stash['comment'] = &$model->extend_load($comment_id);
 		}
 		
-		return $this->to_taconite_page('ajax/evaluate_ok.html');
+    return $this->ajax_json('操作成功!', false);
+		//return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}
 
 	/**

@@ -14,6 +14,8 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
   const STATE_PAY = 1;
   // 状态结束
   const STATE_OVER = 2;
+  // 未到
+  const STATE_ABSEND = 3;
   // 状态成功
   const STATE_OK = 10;
 	

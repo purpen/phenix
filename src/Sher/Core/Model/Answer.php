@@ -52,7 +52,7 @@ class Sher_Core_Model_Answer extends Sher_Core_Model_Base {
 	 *  关联删除数据
 	 */
 	public function answer_remove($id){
-		return $this->remove(array("_id"=>$id)); 
+		return $this->remove($id); 
 	}
 	
 	/**
