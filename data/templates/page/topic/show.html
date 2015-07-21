@@ -449,7 +449,9 @@
             for(var i = 0; i < date.length; i++){
               var answer = date[i].answer;
               for(var j = 0; j < answer.length; j++){
-                $('.'+answer[j]._id).text(answer[j].nums_rate+'%');
+                $('.bar.'+answer[j]._id).attr('style','width:'+answer[j].nums_rate+'%');
+                $('.vote_num.'+answer[j]._id).text(answer[j].nums + '票（'+answer[j].nums_rate+'%）');
+                
               }
             }
           }
@@ -676,11 +678,11 @@
                                       </div>
 																			<div style="display:block;margin:10px 0;">
 																				<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
-																					<div class="ui magenta tiny progress {{ answer._id }}" style="display:inline-block;width:80%;font-size: 1.5rem;">
-																						<div class="bar" style="width:{{ answer.nums_rate }}%;"></div>
+																					<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+																						<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 																					</div>
 																					
-																				<div style="display:inline-block;width:13%;margin-left:5%;">
+																				<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
 																			{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 																				</div>
 																			</div>
@@ -698,11 +700,11 @@
                                       </div>
 																			
 																			<div style="display:block;margin:10px 0;">
-																					<div class="ui magenta tiny progress {{ answer._id }}" style="display:inline-block;width:80%;font-size: 1.5rem;">
-																						<div class="bar" style="width:{{ answer.nums_rate }}%;"></div>
+																					<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+																						<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 																					</div>
 																					
-																					<div style="display:inline-block;width:13%;margin-left:5%;">
+																					<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
 																				{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 																					</div>
 																				</div>
