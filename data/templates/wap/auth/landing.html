@@ -1,0 +1,208 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}绑定账号-{% endblock %}
+
+
+{% block jquery %}
+	phenix.build_auth_page();
+
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#reg_account').val();
+		if(!can_send){
+		    return false;
+		}
+		if(phone){
+	        // 先输入验证码再发送
+	        var captcha = $('#captcha').val();
+	        if(captcha == ''){
+			    phenix.show_error_note('请先输入验证码！');
+	    	    return false;
+	        }
+	        // 验证验证码
+	        var url = '/app/site/captcha/check';
+	        $.get(url, {code: captcha, type: 0}, function(result){
+			  if(result == '0'){
+				  phenix.show_error_note('验证码不正确！');
+				  // 刷新验证码
+	          	  $('#captcha-img img').click();
+	          	  return false;
+	          }else{
+		  		  // 添加发送频率
+		  		  limitime();
+				  
+			      $this = $('#fetch-verify-code');
+				  $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+				      if(result.errorCode == 200){
+					      $this.removeClass('disabled').text('获取验证码');
+					  }
+				  });
+			  }
+	        });
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+	$(document).ready(function() {
+	    $('.two.fields .field')
+	            .tab();
+		  $('.two.fields .field .fluid')
+					    .tab();
+	});
+
+  // 快速登录
+  $('#quick-register-btn').click(function(){
+
+    var params = {
+      third_source : "{{ third_source }}",
+      uid : "{{ uid }}",
+      access_token : "{{ access_token }}",
+      union_id : "{{ union_id }}",
+      nickname : "{{ nickname }}",
+      sex : "{{ sex }}",
+      from_site : "{{ from_site }}",
+      login_token : "{{ login_token }}",
+      session_random : "{{ session_random }}"
+
+    };
+    var url = "{{ app_url_wap }}/auth/third_register";
+    $.post(url, params, function(result){
+      result = eval('('+ result +')');
+      if(result.success){
+        phenix.redirect(result.redirect_url, 0);
+      }
+    });
+    
+  });
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="ui column width">
+		<div class="ui log-in signup">
+			<div class="ui top attached header logo">
+				<a href="{{ app_url_wap }}" title="返回首页">
+					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+				</a>
+			</div>
+			<div class="ui bottom attached segment">
+				<div class="center aligned ui header">
+
+						补充账号信息
+				</div>
+        <!--<div style="color:red;">首次使用第三方账号登录需要先绑定太火鸟账号</div>-->
+				<div class="two fields">
+					<div class="field active" data-tab="first">
+						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="first" style="border-radius:0;">
+								 已有账号
+						</a>
+					</div>
+					<!--<div class="field" data-tab="two">
+						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="two" style="border-radius:0;">
+								 新的账号
+						</a>
+					</div>-->
+					<div class="field">
+						<a class="fluid ui green btn-4 btn-4c icon btn" id="quick-register-btn" style="border-radius:0;">
+								 跳过,直接登录
+						</a>
+					</div>
+				</div>
+
+		<form action="{{ app_url_wap }}/auth/do_login" class="ui form" method="post" id="login-form">
+			<input type="hidden" name="t" value="{{ login_token }}" />
+			<input type="hidden" name="third_source" value="{{ third_source }}" />
+			<input type="hidden" name="uid" value="{{ uid }}" />
+			<input type="hidden" name="access_token" value="{{ access_token }}" />
+			<input type="hidden" name="union_id" value="{{ union_id }}" />
+
+				<div class="ui active tab" data-tab="first">
+					<div class="field">
+					  	<input type="text" name="account" placeholder="邮箱或手机号码" />
+					</div>
+					<div class="field">
+					  	<input type="password" name="password" id="password" placeholder="密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label>自动登录</label>
+				        </div>
+					
+						<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+					</div>
+			
+					<div class="field ">
+						<div class="fluid ui big active magenta submit button" >确定</div>
+					</div>
+				</div>
+			</form>
+			<form action="{{ app_url_wap }}/auth/do_register" class="ui  form" method="post" id="register-form">
+				<input type="hidden" name="t" value="{{ login_token }}" />
+        <input type="hidden" name="third_source" value="{{ third_source }}" />
+        <input type="hidden" name="uid" value="{{ uid }}" />
+        <input type="hidden" name="access_token" value="{{ access_token }}" />
+        <input type="hidden" name="nickname" value="{{ nickname }}" />
+        <input type="hidden" name="sex" value="{{ sex }}" />
+        <input type="hidden" name="city" value="{{ city }}" />
+        <input type="hidden" name="summary" value="{{ summary }}" />
+        <input type="hidden" name="from_site" value="{{ from_site }}" />
+				
+				<div class="ui tab" data-tab="two">
+					<div class="inline field">
+						<input type="text" name="account" placeholder="手机号码" id="reg_account" style="margin-top: -25px;" />
+					</div>
+					<div class="inline field">
+						<input type="text" name="captcha" placeholder="验证码" id="captcha" />
+            			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+							<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+						</a>
+					</div>
+					<div class="inline field">
+						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+						<a href="javascript:void(0);" class="ui gray button" id="fetch-verify-code">获取验证码</a>
+					</div>
+					<div class="field">
+						<input type="password" name="password" id="password" placeholder="密码" />
+					</div>
+					<div class="field">
+						<input type="password" name="password_confirm" placeholder="确认密码" />
+					</div>
+					<div class="inline field">
+						<div class="ui checkbox">
+				          	<input type="checkbox" name="terms" checked="checked">
+				          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
+				        </div>
+					</div>
+					
+					<div class="field">
+				    	<div class="fluid ui big active magenta submit button" >确定</div>
+					</div>
+
+
+				</div>
+			</from>
+			
+			
+			</div>	
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

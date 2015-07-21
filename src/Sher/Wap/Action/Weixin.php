@@ -165,7 +165,7 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $state;
 
-          return $this->to_html_page('page/landing.html');
+          return $this->to_html_page('wap/auth/landing.html');
 
         }else{
           return $this->show_message_page($result['msg'], $error_redirect_url);
@@ -175,8 +175,7 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 
       // 实现自动登录
       Sher_Core_Helper_Auth::create_user_session($user_id);
-      $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-      return $this->to_redirect($user_home_url);
+      return $this->to_redirect(Doggy_Config::$vars['app.url.wap']);
 
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);
