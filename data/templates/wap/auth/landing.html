@@ -1,6 +1,23 @@
 {%extends 'layout/mobile.html'%}
 {% block title %}绑定账号-{% endblock %}
-
+{% block page_css %}
+<style type="text/css">
+.ui.log-in>.ui.header.logo {
+  background-color: #F2F2F2;
+  padding: 0;
+  text-align: center;
+}
+.ui.header + .two.fields .field{
+	width: 50%;
+  display: inline-block;
+  float: left;
+  margin: 0 0 1em;
+}
+.ui.header + .two.fields .field a{
+	width:100%;
+}
+</style>
+{% endblock %}
 
 {% block jquery %}
 	phenix.build_auth_page();
@@ -107,8 +124,8 @@
 				</div>
         <!--<div style="color:red;">首次使用第三方账号登录需要先绑定太火鸟账号</div>-->
 				<div class="two fields">
-					<div class="field active" data-tab="first" width="50%">
-						<a class="ui green btn-4 btn-4c icon btn" data-tab="first" style="border-radius:0;">
+					<div class="field active" data-tab="first">
+						<a class="ui fluid green btn-4 btn-4c icon btn" data-tab="first" style="border-radius:0;">
 								 已有账号
 						</a>
 					</div>
@@ -117,7 +134,7 @@
 								 新的账号
 						</a>
 					</div>-->
-					<div class="field" width="50%">
+					<div class="field">
 						<a class="fluid ui green btn-4 btn-4c icon btn" id="quick-register-btn" style="border-radius:0;">
 								 跳过,直接登录
 						</a>
