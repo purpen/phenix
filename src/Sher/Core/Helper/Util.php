@@ -699,14 +699,5 @@ class Sher_Core_Helper_Util {
     return $data;
   }
 
-  /**
-   * google 生成二维码 api
-   */
-  public static function generateQRfromGoogle($url,$widhtHeight ='150',$EC_level='L',$margin='0') 
-  { 
-    $url = urlencode($url);  
-    return '<img src="http://chart.apis.google.com/chart?chs='.$widhtHeight.'x'.$widhtHeight.'&cht=qr&chld='.$EC_level.'|'.$margin.'&chl='.$url.'" alt="太火鸟" width="'.$widhtHeight.'" height="'.$widhtHeight.'"/>'; 
-  }
-
     	
 }

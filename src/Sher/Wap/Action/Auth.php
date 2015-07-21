@@ -885,8 +885,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     );
     $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['appid'], $wx_params['redirect_uri'], $wx_params['state']);
 
-    $code_img = Sher_Core_Helper_Util::generateQRfromGoogle($url);
-    $this->stash['qr_code'] = $code_img;
+    $url = urlencode($url);
+
+    $qr_model = new Sher_Core_Util_QR($url);
+    $qr = $qr_model->image(4);
+
+    $this->stash['qr_code'] = $qr;
 		return $this->to_html_page('wap/auth/qr_code.html');
   
   }
