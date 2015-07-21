@@ -154,6 +154,31 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         }
 		
 	    $this->gen_login_token();
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+      'state' => $state,
+    );
+
+    // 判断是否为微信浏览器
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+      $is_weixin = true;
+    }else{
+      $is_weixin = false;
+    }
+
+    $this->stash['is_weixin'] = $is_weixin;
+    $this->stash['wx_params'] = $wx_params;
+
 		return $this->to_html_page('wap/signup.html');
 	}
 	
@@ -858,7 +883,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
       'state' => $state,
     );
-    $this->stash['wx_params'] = $wx_params;
+    $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['appid'], $wx_params['redirect_uri'], $wx_params['state']);
+
+    $code_img = Sher_Core_Helper_Util::generateQRfromGoogle($url);
+    $this->stash['qr_code'] = $code_img;
 		return $this->to_html_page('wap/auth/qr_code.html');
   
   }

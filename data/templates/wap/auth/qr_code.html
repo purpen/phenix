@@ -9,18 +9,7 @@
 {% endblock %}
 
 {% block layout_js %}
-  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
   <script type="text/javascript">
-    var obj = new WxLogin({
-        id:"login_container", 
-        appid: "{{ wx_params.app_id }}", 
-        scope: "snsapi_login", 
-        redirect_uri: "{{ wx_params.redirect_uri }}",
-        state: "{{ wx_params.state }}",
-        style: "white",
-        href: ""
-      });
-
   </script>
 {% endblock %}
 
@@ -30,5 +19,7 @@
 
 {% block content %}
 
-<div id="login_container"></div>
+<div id="login_container">
+  {{ qr_code }}
+</div>
 {% endblock %}

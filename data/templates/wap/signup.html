@@ -88,6 +88,34 @@
 					<h4 class="center aligned ui dividing header">
 						注册太火鸟
 					</h4>
+
+					<div class="ui center aligned five fields">
+						<div class="field"></div>
+            <!--
+						<div class="field">
+							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
+								<i class="flat icon_weibo icon"></i> 
+							</a>
+						</div>
+
+						<div class="field">
+                <a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
+                  <i class="flat icon_qq icon"></i>
+                </a>
+						</div>
+            -->
+						<div class="field">
+              {% if is_weixin %}
+							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui green circular share icon button">
+								<i class="flat icon_weixin icon"></i>
+							</a>
+              {%else%}
+              <a href="{{ app_url_wap }}/auth/qr_code" class="ui green circular share icon button">
+								<i class="flat icon_weixin icon"></i>
+							</a>
+              {%endif%}
+						</div>
+					</div>
 					
 					<div class="field">
 						<input type="text" name="account" placeholder="手机号码" id="account" />
