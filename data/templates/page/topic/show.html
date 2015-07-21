@@ -437,15 +437,15 @@
         {vote: vote, problem: problem},
         function(data){
           if(data){
-            if(data == 1){
+            /*if(data == 1){
               phenix.show_error_note('您已经投过票了，谢谢参与！');
               return false;
-            }
+            }*/
             var date = eval(data).problem;
             for(var i = 0; i < date.length; i++){
               var answer = date[i].answer;
               for(var j = 0; j < answer.length; j++){
-                $('.'+answer[j]._id).text(answer[j].nums+'%');
+                $('.'+answer[j]._id).text(answer[j].nums_rate+'%');
               }
             }
           }

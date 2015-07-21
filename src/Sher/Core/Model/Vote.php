@@ -98,9 +98,13 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 		$is_ok = 0;
 		$ans_model = new Sher_Core_Model_Answer();
 		foreach($result as $v){
-			$answer_id = $v['_id'];
-			if(!$ans_model->remove(array('problem_id' => $answer_id))){
-				$is_ok++;
+			$pro_id = $v['_id'];
+			$answer_rows = $ans_model->find(array('problem_id' => (string)$pro_id));
+			foreach($answer_rows as $val){
+				$ans_id = $val['_id'];
+				if(!$ans_model->remove(array('_id' => $ans_id))){
+					$is_ok++;
+				}
 			}
 		}
 		unset($ans_model);
@@ -109,8 +113,8 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 		if(!$is_ok){
 			$is_del = 0;
 			foreach($result as $v){
-				$pro_id = $v['vote_id'];
-				if(!$pro_model->remove(array('vote_id' => (int)$pro_id))){
+				$pro_id = $v['_id'];
+				if(!$pro_model->remove(array('_id' => $pro_id))){
 					$is_del++;
 				}
 			}
@@ -149,8 +153,8 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 		$vote = $this->find_votes((int)$id);
 		//return $vote;
 		foreach($vote['problem'] as $k=>$v){
-      $nums = 0;
-      //求每个问题下投票总数,计算百分比
+		$nums = 0;
+		//求每个问题下投票总数,计算百分比
 			foreach($v['answer'] as $key=>$val){
 				$nums += (int)$val['nums'];
 			}
