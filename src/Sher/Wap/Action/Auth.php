@@ -887,10 +887,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
     $url = urlencode($url);
 
-    $qr_model = new Sher_Core_Util_QR($url);
-    $qr = $qr_model->image(4);
-
-    $this->stash['qr_code'] = $qr;
+    $this->stash['url'] = $url;
 		return $this->to_html_page('wap/auth/qr_code.html');
   
   }
