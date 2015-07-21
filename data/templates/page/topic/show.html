@@ -667,27 +667,29 @@
                               <div class="" style="margin: 10px 0" id="{{ problem._id }}">
                                 {% if problem.select_type == 1 %}
                                     {% for answer in problem.answer %}
-		                                 <div class="field">
+		                                 <div class="field" style="padding-left:60px;">
                                       <div class="ui radio checkbox">
                                           <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;&nbsp;&nbsp;
+                                              {{ answer.title }}
                                           </label>
                                       </div>
-																			<div class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>
+																			<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>
 			                              </div>
                                     {% endfor %}
                                 {% else %} 
-                                  <div class="field">
+                                  
                                     {% for answer in problem.answer %}
+																		<div class="field" style="padding-left:60px;">
                                       <div class="ui checkbox">
                                           <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
                                           <label>
-                                            {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</a>&nbsp;&nbsp;
+                                            {{ answer.title }}
                                           </label>
                                       </div>
+																			<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>
+	                                  </div>
                                     {% endfor %}
-                                  </div>
                                 {% endif %}
                               </div>
                             </div>
