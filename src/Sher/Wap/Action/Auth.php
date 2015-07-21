@@ -292,6 +292,13 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         }else{
           //next_third
         }
+
+				$user_info['nickname'] = $this->stash['nickname'];
+				$user_info['summary'] = $this->stash['summary'];
+				$user_info['sex'] = $this->stash['sex'];
+				$user_info['city'] = $this->stash['city'];
+				$user_info['from_site'] = (int)$this->stash['from_site'];
+      }
 			
             $ok = $user->create($user_info);
 			if($ok){
