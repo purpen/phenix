@@ -100,6 +100,19 @@
                                 $is_ok++;
                             }
                         }
+                        
+                        if($is_ok){
+                            return $this->ajax_json('保存失败,请重新提交', true);
+                        }
+                        
+                        // 将提交的项目关联id加入相对应的表
+                        $vote_id = (int)$vid;
+                        $topic_id = (int)$this->stash['relevance_id'];
+                        $topic = new Sher_Core_Model_Topic();
+                        $topic_date = array('vote_id' => $vote_id);
+                        if(!$topic->update_set($topic_id,$topic_date)){
+                            $is_ok++;
+                        }
                     }else{
                         $is_ok++;
                     }
@@ -107,6 +120,7 @@
                     if($is_ok){
                         return $this->ajax_json('保存失败,请重新提交', true);
                     }
+                    
                 }else{
                     $mode = 'edit';
                     $data = array();
@@ -149,10 +163,23 @@
                                 $is_ok++;
                             }
                         }
-                        
-                        if($is_ok){
-                            return $this->ajax_json('保存失败,请重新提交', true);
-                        }
+                    }else{
+                        $is_ok++;
+                    }
+                    
+                    // 将提交的项目关联id加入相对应的表
+                    $vote_id = $id;
+                    $topic_id = (int)$this->stash['relevance_id'];
+                    $topic = new Sher_Core_Model_Topic();
+                    $topic_date = array(
+                        'vote_id' => $vote_id
+                    );
+                    if(!$topic->update_set($topic_id,$topic_date)){
+                        $is_ok++;
+                    }
+                    
+                    if($is_ok){
+                        return $this->ajax_json('保存失败,请重新提交', true);
                     }
                 }
             }catch(Sher_Core_Model_Exception $e){
@@ -182,6 +209,18 @@
                     $result = $model->vote_remove((int)$id);
                     if(!$result){
                          return $this->ajax_notification('删除数据失败！', true);
+                    }
+                    
+                    // 将提交的项目关联id加入相对应的表
+                    $vote = $model->find_by_id((int)$id);
+                    $vote_id = 0;
+                    $topic_id = $vote['relate_id'];
+                    $topic = new Sher_Core_Model_Topic();
+                    $topic_date = array(
+                        'vote_id' => $vote_id
+                    );
+                    if(!$topic->update_set($topic_id,$topic_date)){
+                        $is_ok++;
                     }
                 }
            }catch(Sher_Core_Model_Exception $e){

@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd');
+	protected $exclude_method_list = array('execute', 'login', 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code');
 	
 	/**
 	 * 入口
@@ -56,6 +56,30 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
 		
 		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+      'state' => $state,
+    );
+
+    // 判断是否为微信浏览器
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+      $is_weixin = true;
+    }else{
+      $is_weixin = false;
+    }
+
+    $this->stash['is_weixin'] = $is_weixin;
+    $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('wap/login.html');
 	}
@@ -130,6 +154,31 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         }
 		
 	    $this->gen_login_token();
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+      'state' => $state,
+    );
+
+    // 判断是否为微信浏览器
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+      $is_weixin = true;
+    }else{
+      $is_weixin = false;
+    }
+
+    $this->stash['is_weixin'] = $is_weixin;
+    $this->stash['wx_params'] = $wx_params;
+
 		return $this->to_html_page('wap/signup.html');
 	}
 	
@@ -161,6 +210,29 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
             return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
+        }
+
+        $third_info = '';
+        //第三方绑定
+        if(isset($this->stash['third_source'])){
+          if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+            return $this->ajax_json('绑定信息有误,请重试!', true);
+          }
+
+          if($this->stash['third_source']=='weibo'){
+            $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
+          }elseif($this->stash['third_source']=='qq'){
+            $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);
+          }elseif($this->stash['third_source']=='weixin'){
+            $third_info = array('wx_open_id'=>$this->stash['uid'], 'wx_access_token'=>$this->stash['access_token'], 'wx_union_id'=>$this->stash['union_id']);
+          }else{
+            $third_info = array();
+          }
+          $third_result = $user->update_set($user_id, $third_info);
+          if($third_result){
+            $third_info = '绑定成功! ';
+          }
+
         }
 		
         Sher_Core_Helper_Auth::create_user_session($user_id);
@@ -225,6 +297,33 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
+
+      //第三方绑定
+      if(isset($this->stash['third_source'])){
+        if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+          return $this->ajax_json('绑定信息有误,请重试!', true);
+        }
+
+        if($this->stash['third_source']=='weibo'){
+          $user_info['sina_uid'] = (int)$this->stash['uid'];
+          $user_info['sina_access_token'] = $this->stash['access_token'];      
+        }elseif($this->stash['third_source']=='qq'){
+          $user_info['qq_uid'] = $this->stash['uid'];
+          $user_info['qq_access_token'] = $this->stash['access_token']; 
+        }elseif($this->stash['third_source']=='weixin'){
+          $user_info['wx_open_id'] = $this->stash['uid'];
+          $user_info['wx_access_token'] = $this->stash['access_token'];
+          $user_info['wx_union_id'] = $this->stash['union_id'];
+        }else{
+          //next_third
+        }
+
+				$user_info['nickname'] = $this->stash['nickname'];
+				$user_info['summary'] = $this->stash['summary'];
+				$user_info['sex'] = $this->stash['sex'];
+				$user_info['city'] = $this->stash['city'];
+				$user_info['from_site'] = (int)$this->stash['from_site'];
+      }
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -658,6 +757,138 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		
 	  $this->gen_login_token();
 		return $this->to_html_page('wap/auth/quickly_signup.html');
+  
+  }
+
+  /**
+   * 第三方账户直接登录,生成默认用户,不绑定手机
+   */
+  public function third_register(){
+
+    $session_random = isset($this->stash['session_random'])?$this->stash['session_random']:null;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_id = $session_random_model->is_exist($sid, $session_random, 1);
+
+    // 验证是否非法链接来源
+    if(!$session_random_id){
+      return $this->ajax_note('拒绝访问,请重试！', true);
+    }else{
+      $session_random_model->remove($session_random_id);
+    }
+
+    $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
+    $uid = isset($this->stash['uid'])?$this->stash['uid']:null;
+		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
+    $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
+    $nickname = isset($this->stash['nickname'])?$this->stash['nickname']:null;
+    $sex = isset($this->stash['sex'])?(int)$this->stash['sex']:0;
+    $from_site = isset($this->stash['from_site'])?(int)$this->stash['from_site']:0;
+    $summary = isset($this->stash['summary'])?$this->stash['summary']:null;
+		$city = isset($this->stash['city'])?$this->stash['city']:null;
+    $login_token = $this->stash['login_token'];
+
+    if(empty($third_source) || empty($uid) || empty($access_token) || empty($nickname)){
+      return $this->ajax_note('缺少参数！', true);   
+    }
+
+    $user_model = new Sher_Core_Model_User();
+
+    //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    if (!preg_match($e, $nickname)) {
+      $nickname = Sher_Core_Helper_Util::generate_mongo_id();
+    }
+
+    // 检查用户名是否唯一
+    $exist = $user_model->_check_name($nickname);
+    if (!$exist) {
+      $nickname = '微信用户-'.$nickname;
+      $exist_r = $user_model->_check_name($nickname);
+      if(!$exist_r){
+        $nickname = $nickname.(string)rand(1000,9999);
+      }
+    }
+
+    $user_data = array(
+      'account' => (string)$uid,
+      'nickname' => $nickname,
+      'sex' => $sex,
+
+      'wx_open_id' => (string)$open_id,
+      'wx_access_token' => $access_token,
+      'wx_union_id' => $union_id,
+      'state' => Sher_Core_Model_User::STATE_OK,
+      'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
+      'kind' => 20,
+    );
+
+    //根据第三方来源,更新对应open_id 
+    if($third_source=='weibo'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
+      $user_data['sina_uid'] = (int)$uid;
+      $user_data['sina_access_token'] = $access_token;
+    }elseif($third_source=='qq'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
+      $user_data['qq_uid'] = $uid;
+      $user_data['qq_access_token'] = $access_token;
+    }elseif($third_source=='weixin'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
+      $user_data['wx_open_id'] = $uid;
+      $user_data['wx_access_token'] = $access_token;
+      $user_data['wx_union_id'] = $union_id; 
+    }else{
+      return $this->ajax_note('第三方来源不明确！', true);     
+    }
+
+    try{
+      $ok = $user_model->create($user_data);
+      if($ok){
+        $user = $user_model->get_data();
+        $user_id = $user['_id'];
+
+        // 实现自动登录
+        Sher_Core_Helper_Auth::create_user_session($user_id);
+        $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
+        return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_home_url);
+
+      }else{
+        return $this->ajax_note('创建用户失败！', true);   
+      }         
+    } catch (Sher_Core_Model_Exception $e) {
+      Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+      return $this->ajax_note("注册失败:".$e->getMessage(), true);   
+    }
+
+  }
+
+  /**
+   * 微信二维码
+   */
+  public function qr_code(){
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+      'state' => $state,
+    );
+    $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
+
+    $url = urlencode($url);
+
+    $this->stash['url'] = $url;
+		return $this->to_html_page('wap/auth/qr_code.html');
   
   }
 	

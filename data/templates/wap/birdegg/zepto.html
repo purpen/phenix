@@ -15,7 +15,18 @@
 	* { -webkit-appearance: none; }
 
 	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
-	
+	.page .wrap {
+	  height:100% !important;
+	}
+	.hide{ display:none;}
+
+	.page{
+		width:100%;
+		height:100%;
+		position:absolute;
+		font-size:100px;
+		text-align:center;
+	}
 </style>
 
 	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/reset.css" />
@@ -25,8 +36,8 @@
 {% endblock %}
 
 {% block layout_js %}
-	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/zepto.min.js"></script>
-	<script src="http://www.zzfriend.com/demo/shouji/ztjob/js/touch.js"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
 	<script type="text/javascript">
 		
 		s=window.innerHeight/500;
@@ -117,49 +128,55 @@
 {% block content %}
 <div class="page page-1-1 page-current">
 	<div class="wrap">
-		<img class="img_1 pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-text.png" />
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z1.jpg" width="100%" height="100%">
+	<!--	<img class="img_1 pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-text.png" />
               <img class="img_2 pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-yuan.png" />
-		<img class="img_3 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />
+		<img class="img_3 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />-->
 	</div>
 </div>
 <div class="page page-2-1 hide">
 	<div class="wrap">
-		<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-3.png" />
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z2.jpg" width="100%" height="100%">
+		<!--<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-3.png" />
 		<img class="img_3 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-2.png" />
-              <img class="img_6 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />
+              <img class="img_6 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />-->
 	</div>
 </div>
 <div class="page page-3-1 hide">
 	<div class="wrap">
-		<img class="img_1 hide pt-page-moveFromRight" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-2.png" />
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z3.jpg" width="100%" height="100%">
+		<!--<img class="img_1 hide pt-page-moveFromRight" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-2.png" />
 		<img class="img_2 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-1.png" />
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
 	</div>
 </div>
 <div class="page page-4-1 hide">
 	<div class="wrap">
-		<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-1.png" /> 
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z4.jpg" width="100%" height="100%">
+		<!--<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-1.png" /> 
 		<img class="img_3 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-2.png" />
               <img class="img_4 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
 	</div>
 </div> 
       
       <div class="page page-5-1 hide">
 	<div class="wrap">
-		<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-1.png" /> 
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z5.jpg" width="100%" height="100%">
+		<!--<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-1.png" /> 
 		<img class="img_2 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-2.png" />
               <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
 	</div>
 </div>
       
       <div class="page page-6-1 hide">
 	<div class="wrap">
-		<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-1.png" /> 
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z6.jpg" width="100%" height="100%">
+		<!--<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-1.png" /> 
 		<img class="img_2 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-2.png" />
               <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
+		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
 	</div>
 </div>
       

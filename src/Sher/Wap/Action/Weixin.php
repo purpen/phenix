@@ -1,47 +1,22 @@
 <?php
 /**
  * 微信用户验证等
- * @author purpen
+ * @author tianshuai
  */
-class Sher_App_Action_Weixin extends Sher_App_Action_Base {
+class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 	
 	public $stash = array(
 		'code' => '',
 		
 	);
 	
-	protected $exclude_method_list = array('execute','login','first_request','call_back','back');
+	protected $exclude_method_list = array('execute','first_request','call_back','qr_code');
 	
 	/**
 	 * 微信登录
 	 */
 	public function execute(){
-		// 未登录用户，登录
-		if (!$this->visitor->id){			
-			// 获取session id
-	        $service = Sher_Core_Session_Service::instance();
-	        $sid = $service->session->id;
-			$scene_id = $service->session->serial_no;
-			
-			$options = array(
-				'token'=>Doggy_Config::$vars['app.wechat.ser_token'], //填写你设定的key
-				'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'], //填写高级调用功能的app id
-				'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'], //填写高级调用功能的密钥
-			);
-			$wx = new Sher_Core_Util_Wechat($options);
-			$result = $wx->getQRCode($scene_id);
-			if ($result){
-				$this->stash['qrimg'] = $wx->getQRUrl($result['ticket']);
-			}
-			$this->stash['code'] = $scene_id;
-		
-			return $this->to_html_page('page/auth/weixin.html');
-		}
-		
-		// 已登录用户，跳过登录
-		$next_url = Sher_Core_Helper_Url::user_home_url($this->visitor->id);
-		
-       	return $this->to_redirect($next_url);
+
 	}
 	
 	/**
@@ -97,7 +72,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
    * 回调 
    */
   public function call_back(){
-		$error_redirect_url = Doggy_Config::$vars['app.url.domain'];
+		$error_redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     //如果已经登录
     if($this->visitor->id){
@@ -190,7 +165,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $state;
 
-          return $this->to_html_page('page/landing.html');
+          return $this->to_html_page('wap/auth/landing.html');
 
         }else{
           return $this->show_message_page($result['msg'], $error_redirect_url);
@@ -200,8 +175,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 
       // 实现自动登录
       Sher_Core_Helper_Auth::create_user_session($user_id);
-      $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-      return $this->to_redirect($user_home_url);
+      return $this->to_redirect(Doggy_Config::$vars['app.url.wap']);
 
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);
