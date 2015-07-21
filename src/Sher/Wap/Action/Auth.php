@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register');
+	protected $exclude_method_list = array('execute', 'login', 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code');
 	
 	/**
 	 * 入口
@@ -839,6 +839,28 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       return $this->ajax_note("注册失败:".$e->getMessage(), true);   
     }
 
+  }
+
+  /**
+   * 微信二维码
+   */
+  public function qr_code(){
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+      'state' => $state,
+    );
+    $this->stash['wx_params'] = $wx_params;
+		return $this->to_html_page('wap/auth/qr_code.html');
+  
   }
 	
 }

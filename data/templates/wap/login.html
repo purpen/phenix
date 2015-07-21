@@ -9,17 +9,7 @@
 {% endblock %}
 
 {% block layout_js %}
-  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
   <script type="text/javascript">
-    var obj = new WxLogin({
-        id:"login_container", 
-        appid: "{{ wx_params.app_id }}", 
-        scope: "snsapi_login", 
-        redirect_uri: "{{ wx_params.redirect_uri }}",
-        state: "{{ wx_params.state }}",
-        style: "white",
-        href: ""
-      });
 
   </script>
 {% endblock %}
@@ -58,7 +48,7 @@
 								<i class="flat icon_weixin icon"></i>
 							</a>
               {%else%}
-              <a href="{{ app_url_wap }}/weixin/qr_code" class="ui green circular share icon button">
+              <a href="{{ app_url_wap }}/auth/qr_code" class="ui green circular share icon button">
 								<i class="flat icon_weixin icon"></i>
 							</a>
               {%endif%}

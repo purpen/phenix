@@ -183,13 +183,5 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 
   }
 
-  /**
-   * 微信二维码
-   */
-  public function qr_code(){
-    return 'no weixin code';
-  
-  }
-
 	
 }
