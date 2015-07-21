@@ -56,6 +56,21 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
 		
 		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back'),
+      'state' => $state,
+    );
+    $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('wap/login.html');
 	}
