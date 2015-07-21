@@ -651,7 +651,7 @@
                   <input type="hidden" name="topic_id" value="{{ id }}" />
                   
                   {% if is_vote %}
-					<div class="post vote" style="margin: 20px 60px;">
+					<div class="post vote" style="margin: 20px 0 60px;">
                         <h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
                         <div class="ui divider"></div>
                         {% for problem in vote.problem %}
@@ -681,7 +681,7 @@
 																					</div>
 																					
 																				<div style="display:inline-block;width:10%;margin-left:5%;">
-																				{{ answer.nums_rate }}%
+																			{{ answer.nums }}	({{ answer.nums_rate }}%)
 																				</div>
 																			</div>
 			                              </div>
@@ -703,7 +703,7 @@
 																					</div>
 																					
 																					<div style="display:inline-block;width:10%;margin-left:5%;">
-																					{{ answer.nums_rate }}%
+																				{{ answer.nums }}	({{ answer.nums_rate }}%)
 																					</div>
 																				</div>
 				                              </div>
