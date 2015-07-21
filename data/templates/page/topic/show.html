@@ -674,7 +674,14 @@
                                               {{ answer.title }}
                                           </label>
                                       </div>
-																			<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>
+																			<div style="display:block;margin:10px 0;">
+																				<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">
+																					
+																				</div>
+																				<div style="display:inline-block;width:20%;margin-left:5%;">
+																				{{ answer.nums_rate }}%
+																				</div>
+																			</div>
 			                              </div>
                                     {% endfor %}
                                 {% else %} 
