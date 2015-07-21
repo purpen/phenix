@@ -31,7 +31,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
 	    $this->stash['wxSha1'] = sha1($wxOri);
-		return $this->to_html_page('wap/promo/xin.html');
+		return $this->to_html_page('wap/promo/zp.html');
 	}
 	
 	/**

@@ -1,0 +1,259 @@
+{%extends 'layout/h5.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	header.ui.wap{
+		display:none !important;
+		opacity:0;
+	}
+	#mfrbird{
+		margin:0;
+	}
+	.mmfoot{
+		display:none;
+	}
+	* { -webkit-appearance: none; }
+
+	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+	.page .wrap {
+	  height:100% !important;
+	}
+	.hide{ display:none;}
+
+	.page{
+		width:100%;
+		height:100%;
+		position:absolute;
+		font-size:100px;
+		text-align:center;
+	}
+	.page-current{
+		z-index:1;
+	}
+</style>
+	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/animations.css" />
+	    <link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/load.css" />
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+
+    var m_name = '69神器 | 全国首款智能电臀火辣来袭，比女人更懂你的原始欲望';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/tu1.jpg';
+    var link = '{{ app_url_wap }}/promo/xin';
+    var desc_str = '一个会用下半身来“思考”的性感尤物，100%模拟真人互动真实体验。';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    //var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    //$.get(url, { target_id: 3, count_name:'count', type: 4, kind:4 });
+  }
+
+	</script>
+	<script type="text/javascript">
+		
+		s=window.innerHeight/500;
+		ss=250*(1-s);
+
+		$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
+
+		var pageIndex = 1,
+			pageTotal = $('.page').length,
+			towards = { up:1, right:2, down:3, left:4},
+			isAnimating = false;
+		document.addEventListener('touchmove',function(event){
+			event.preventDefault(); },false);
+	
+			function pageMove(tw){
+				var lastPage;
+				if(tw=='1'){
+					if(pageIndex==1){
+						lastPage = ".page-"+pageTotal+"-1";
+					}else{
+						lastPage = ".page-"+(pageIndex-1)+"-1";
+					}
+
+				}else if(tw=='3'){
+					if(pageIndex==pageTotal){
+						lastPage = ".page-1"+"-1";
+					}else{
+						lastPage = ".page-"+(pageIndex+1)+"-1";
+					}
+
+				}
+
+				var nowPage = ".page-"+pageIndex+"-1";
+
+				switch(tw) {
+					case towards.up:
+						outClass = 'pt-page-moveToTop';
+						inClass = 'pt-page-moveFromBottom';
+						break;
+					case towards.down:
+						outClass = 'pt-page-moveToBottom';
+						inClass = 'pt-page-moveFromTop';
+						break;
+				}
+				isAnimating = true;
+				$(nowPage).removeClass("hide");
+
+				$(lastPage).addClass(outClass);
+				$(nowPage).addClass(inClass);
+
+				setTimeout(function(){
+					$(lastPage).removeClass('page-current');
+					$(lastPage).removeClass(outClass);
+					$(lastPage).addClass("hide");
+					$(lastPage).find("img").addClass("hide");
+
+					$(nowPage).addClass('page-current');
+					$(nowPage).removeClass(inClass);
+					$(nowPage).find("img").removeClass("hide");
+
+					isAnimating = false;
+				},600);
+			}
+	
+		  $(document).swipeUp(function(){
+				if (isAnimating) return;
+				if (pageIndex < pageTotal) { 
+					pageIndex+=1; 
+				}else{
+					pageIndex=1;
+				};
+				pageMove(towards.up);
+			});
+
+			$(document).swipeDown(function(){
+				if (isAnimating) return;
+				if (pageIndex > 1) { 
+					pageIndex-=1; 
+				}else{
+					pageIndex=pageTotal;
+				};
+				pageMove(towards.down);	
+			});
+	
+	</script>
+	
+	
+
+{% endblock %}
+{% block jquery %}
+	bgm = new Audio5js({
+      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load('http://frstatic.qiniudn.com/wechat/js/5.mp3');
+          this.play();
+
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+  $('#music-control').click(function(){
+	    bgm.playPause();
+			if($(this).hasClass("playing")){
+				$(this).removeClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //关闭
+			}
+			else{
+				$(this).addClass("playing");
+				//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
+			}
+	});
+{% endblock %}
+
+{% block content %}
+<div class="page page-1-1 page-current">
+	<div class="wrap">
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z1.jpg" width="100%" height="100%">
+	<!--	<img class="img_1 pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-text.png" />
+              <img class="img_2 pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-yuan.png" />
+		<img class="img_3 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />-->
+	</div>
+</div>
+<div class="page page-2-1 hide">
+	<div class="wrap">
+		<img src="http://frstatic.qiniudn.com/wechat/js/test/z2.jpg" width="100%" height="100%">
+		<!--<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-3.png" />
+		<img class="img_3 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-2.png" />
+              <img class="img_6 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />-->
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
