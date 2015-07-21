@@ -265,4 +265,4 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
 	}
 	
 }
-?>
+

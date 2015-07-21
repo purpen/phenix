@@ -22,7 +22,23 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            phenix.show_ok_note('操作成功!');
+						//phenix.redirect(data.redirect_url);
+					}
+				}
+			});
 		}
 	});
 	

@@ -23,7 +23,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -463,5 +463,21 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
             return $this->ajax_json('您的系统时间不准确,请刷新页面查看结果!', true);
         }
     }
+
+  /**
+   * 商品列表,给兼职编辑
+   */
+  public function product_list(){
+  
+		return $this->to_taconite_page('page/shop/product_list_p.html');
+  }
+
+  /**
+   * 加评论,给兼职编辑
+   */
+  public function edit_evaluate(){
+  
+		return $this->to_taconite_page('page/shop/edit_evaluate.html');
+  }
 	
 }
