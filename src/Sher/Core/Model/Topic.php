@@ -39,19 +39,19 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     	'active_id' => 0,
 		
 	    'title' => '',
-      'short_title' => '',
+		'short_title' => '',
         'description' => '',
     	'tags' => array(),
 
-      # 标题颜色
-      't_color' => 0,
+		# 标题颜色
+		't_color' => 0,
 		
  		'cover_id' => '',
 		'asset' => array(),
-    'file_asset' => array(),
+		'file_asset' => array(),
 		# 附件图片数
-    'asset_count' => 0,
-    'file_count' => 0,
+		'asset_count' => 0,
+		'file_count' => 0,
 		
 		# 视频链接
 		'video_url' => array(),
