@@ -8,6 +8,22 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+  <script type="text/javascript">
+    var obj = new WxLogin({
+        id:"login_container", 
+        appid: "{{ wx_params.app_id }}", 
+        scope: "snsapi_login", 
+        redirect_uri: "{{ wx_params.redirect_uri }}",
+        state: "{{ wx_params.state }}",
+        style: "white",
+        href: ""
+      });
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
 	phenix.build_auth_page();
 {% endblock %}
@@ -20,6 +36,34 @@
 				<form action="{{ app_url_wap }}/auth/do_login" class="ui small top form segment" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
 					<h5 class="ui center aligned dividing header">登录太火鸟</h5>
+
+					<div class="ui center aligned five fields">
+						<div class="field"></div>
+						<div class="field">
+							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
+								<i class="flat icon_weibo icon"></i> 
+							</a>
+						</div>
+
+						<div class="field">
+            {% if is_weixin %}
+                <a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
+                  <i class="flat icon_qq icon"></i>
+                </a>
+              {%else%}
+                <a href="{{ app_url_wap }}/weixin/qr_code" class="ui qq blue circular share icon button">
+                  <i class="flat icon_qq icon"></i>
+                </a>
+              {%endif%}
+						</div>
+						<div class="field">
+							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui green circular share icon button">
+								<i class="flat icon_weixin icon"></i>
+							</a>
+						</div>
+					</div>
+
+
 					<div class="field">
 						<label for="account">登录账号</label>
 					  	<input type="text" name="account" placeholder="手机号" />

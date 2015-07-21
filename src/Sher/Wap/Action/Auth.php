@@ -67,9 +67,18 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
-      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back'),
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.wap'].'/weixin/call_back'),
       'state' => $state,
     );
+
+    // 判断是否为微信浏览器
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+      $is_weixin = true;
+    }else{
+      $is_weixin = false;
+    }
+
+    $this->stash['is_weixin'] = $is_weixin;
     $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('wap/login.html');
