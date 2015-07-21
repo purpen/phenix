@@ -30,6 +30,45 @@
 	.page-current{
 		z-index:1;
 	}
+	#music-control {
+		width: 30px;
+		height: 30px;
+		position: fixed;
+		right: 5px;
+		top: 5px;
+		z-index: 100000;
+	}
+	#music-control.playing{
+		-webkit-animation: 2.3s spin linear infinite;
+	}
+	#loading{
+	  background: #fff;
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  z-index: 9999;
+	  top: 0;
+	}
+	.loadbox{
+		display: block;
+		position: relative;
+		width: 100%;
+		height: 100%;
+	  margin: 0 auto;
+		margin-top: 50%;
+	}
+	.loadbg{
+		display: block;
+		position: absolute;
+		z-index: 1000;
+		width: 100%;
+		height: 100%;
+		/*background: url({{ app_url_packaged }}/images/promo/jd.gif) no-repeat;*/
+		color:#fff;
+		font-size:18px;
+		text-align:center;
+		background-size: 100%;
+	}
 </style>
 	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/animations.css" />
 	    <link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/load.css" />
@@ -194,7 +233,7 @@
 			});
 	
 	</script>
-	
+	<script>document.write('<style>#loading{display:none}</style>');</script> 
 	
 
 {% endblock %}
@@ -229,6 +268,8 @@
 {% endblock %}
 
 {% block content %}
+<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+<div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="page page-1-1 page-current">
 	<div class="wrap">
 		<img src="http://frstatic.qiniudn.com/wechat/js/test/z1.jpg" width="100%" height="100%">
