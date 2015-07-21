@@ -883,7 +883,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
       'state' => $state,
     );
-    $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['appid'], $wx_params['redirect_uri'], $wx_params['state']);
+    $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
 
     $url = urlencode($url);
 
