@@ -120,21 +120,25 @@
 		margin: 15px 5px;
 		min-height:40px;
 	}
-	.post.vote .description .field .ui.checkbox label{
+	.post.vote .field .ui.checkbox label{
 		  line-height: 20px;
 	}
-	.post.vote .description .field .ui.checkbox label:before,.post.vote .description .field .ui.checkbox label:after{
-		margin-top: 4px;
+	.post.vote .field .ui.checkbox label:before,.post.vote .field .ui.checkbox label:after{
+		margin-top: 2px;
 	}
 	.post.vote .description .field .ui.checkbox:first-child{
 		margin-top:40px;
 	}
-	.post.vote .ui.relaxed.list .content h4.ui.header{
+	.post.vote .ui.relaxed.list h4.ui.header{
 		margin-bottom: 1em;
 		margin-top: 6px;
 	}
-	.post.vote .ui.relaxed.list .item > i{
+	.post.vote .ui.relaxed.list .votep> i{
 		margin-top:6px;
+		display: block;
+		float: left;
+	  margin: 0 1em 0 0;
+	  padding: .1em 0 0;
 	} 
 </style>
 {% endblock %}
@@ -647,7 +651,7 @@
                   <input type="hidden" name="topic_id" value="{{ id }}" />
                   
                   {% if is_vote %}
-					<div class="post vote" style="margin-top: 20px">
+					<div class="post vote" style="margin: 20px 0 60px;">
                         <h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
                         <div class="ui divider"></div>
                         {% for problem in vote.problem %}
@@ -656,33 +660,55 @@
                         <input type="hidden" name="select_type" value="{{ problem.select_type }}" />
                         
                         <div class="ui relaxed divided list">
-                          <div class="item">
+                          <div class="votep">
                             <i class="large fa-question middle aligned icon"></i>
-                            <div class="content">
+                            <div class="ui from">
                               <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-                              <div class="description" style="margin: 10px 0" id="{{ problem._id }}">
+                              <div class="" style="margin: 30px 0 20px;" id="{{ problem._id }}">
                                 {% if problem.select_type == 1 %}
-                                  <div class="field">
                                     {% for answer in problem.answer %}
+		                                 <div class="field" style="padding-left:60px;">
                                       <div class="ui radio checkbox">
                                           <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
                                           <label>
-                                              {{ answer.title }}&nbsp;&nbsp;<div class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>&nbsp;&nbsp;
+                                              {{ answer.title }}
                                           </label>
                                       </div>
+																			<div style="display:block;margin:10px 0;">
+																				<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
+																					<div class="ui magenta tiny progress {{ answer._id }}" style="display:inline-block;width:80%;font-size: 1.5rem;">
+																						<div class="bar" style="width:{{ answer.nums_rate }}%;"></div>
+																					</div>
+																					
+																				<div style="display:inline-block;width:13%;margin-left:5%;">
+																			{{ answer.nums }}票	（{{ answer.nums_rate }}%）
+																				</div>
+																			</div>
+			                              </div>
                                     {% endfor %}
-                                  </div>
-                                {% else %}
-                                  <div class="field">
+                                {% else %} 
+                                  
                                     {% for answer in problem.answer %}
+																		<div class="field" style="padding-left:60px;">
                                       <div class="ui checkbox">
                                           <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
                                           <label>
-                                            {{ answer.title }}&nbsp;&nbsp;<a class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</a>&nbsp;&nbsp;
+                                            {{ answer.title }}
                                           </label>
                                       </div>
+																			
+																			<div style="display:block;margin:10px 0;">
+																					<div class="ui magenta tiny progress {{ answer._id }}" style="display:inline-block;width:80%;font-size: 1.5rem;">
+																						<div class="bar" style="width:{{ answer.nums_rate }}%;"></div>
+																					</div>
+																					
+																					<div style="display:inline-block;width:13%;margin-left:5%;">
+																				{{ answer.nums }}票	（{{ answer.nums_rate }}%）
+																					</div>
+																				</div>
+				                              </div>
+																			<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
                                     {% endfor %}
-                                  </div>
                                 {% endif %}
                               </div>
                             </div>
