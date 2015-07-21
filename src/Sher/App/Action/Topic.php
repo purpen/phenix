@@ -783,7 +783,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 验证拒绝重复投票
 		$model_vote_record = new Sher_Core_Model_VoteRecord();
-		$res_vote_record = $model_vote_record->find(array('user_id' => (int)$vote['user_id']));
+		$res_vote_record = $model_vote_record->find(array('vote_id' => (int)$vote['vote_id'],'user_id' => (int)$vote['user_id'],'relate_id' => (int)$vote['topic_id']));
 		if($res_vote_record){
 			echo 1;exit;
 		}
