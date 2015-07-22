@@ -13,6 +13,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_PRESALE  = 5;
     const STAGE_SHOP     = 9;
     const STAGE_EXCHANGE = 12;
+    const STAGE_IDEA     = 15;
 	
     protected $schema = array(
 		'_id'     => null,
