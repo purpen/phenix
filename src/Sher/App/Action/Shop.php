@@ -468,16 +468,107 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    * 商品列表,给兼职编辑
    */
   public function product_list(){
+    if(!$this->visitor->can_edit){
+ 		  return $this->ajax_note('没有权限!', true);	   
+    }
+    $state = isset($this->stash['stage'])?(int)$this->stash['stage']:0;
+    	$this->set_target_css_state('page_product');
+		$pager_url = Doggy_Config::$vars['app.url.shop'].'/product_list?stage=%d&page=#p#';
+		switch($state){
+		case 12:
+				$this->stash['process_exchange'] = 1;
+				break;
+			case 9:
+				$this->stash['process_saled'] = 1;
+				break;
+			case 5:
+				$this->stash['process_presaled'] = 1;
+				break;
+			case 1:
+				$this->stash['process_voted'] = 1;
+				break;
+		}
   
-		return $this->to_taconite_page('page/shop/product_list_p.html');
+		return $this->to_html_page('page/shop/product_list.html');
   }
 
   /**
    * 加评论,给兼职编辑
    */
   public function edit_evaluate(){
+    if(!$this->visitor->can_edit){
+ 		  return $this->ajax_note('没有权限!', true);	   
+    }
+
+		$id = (int)$this->stash['id'];
+		
+		$model = new Sher_Core_Model_Product();
+		if(!empty($id)){
+			$product = $model->load($id);
+	        if (!empty($product)) {
+	            $product = $model->extended_model_row($product);
+	        }
+			$this->stash['product'] = $product;
+		}
   
-		return $this->to_taconite_page('page/shop/edit_evaluate.html');
+		return $this->to_html_page('page/shop/evaluate.html');
+  }
+
+	/**
+	 * 编辑快捷评价
+	 */
+	public function edit_ajax_evaluate(){
+
+    if(!$this->visitor->can_edit){
+ 		  return $this->ajax_json('没有权限!', true);	   
+    }
+		$row = array();
+		$row['user_id'] = $this->stash['user_id'];
+		$row['star'] = $this->stash['star'];
+		$row['target_id'] = $this->stash['target_id'];
+		$row['content'] = $this->stash['content'];
+		$row['type'] = (int)$this->stash['type'];
+		
+		// 验证数据
+		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
+			return $this->ajax_json('获取数据错误,请重新提交', true);
+		}
+		
+		$model = new Sher_Core_Model_Comment();
+		$ok = $model->apply_and_save($row);
+		if($ok){
+			$comment_id = $model->id;
+			$this->stash['comment'] = &$model->extend_load($comment_id);
+		}
+		
+    return $this->ajax_json('操作成功!', false);
+	}
+
+  /**
+   * 产品搜索
+   */
+  public function edit_search(){
+    if(!$this->visitor->can_edit){
+ 		  return $this->ajax_note('没有权限!', true);	   
+    }
+    $this->set_target_css_state('page_product');
+    $this->stash['is_search'] = true;
+		
+		$pager_url = Doggy_Config::$vars['app.url.shop'].'/edit_search?stage=%d&s=%d&q=%s&page=#p#';
+		switch($this->stash['stage']){
+			case 9:
+				$this->stash['process_saled'] = 1;
+				break;
+			case 5:
+				$this->stash['process_presaled'] = 1;
+				break;
+			case 1:
+				$this->stash['process_voted'] = 1;
+				break;
+		}
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q']);
+    return $this->to_html_page('page/shop/product_list.html');
+  
   }
 	
 }

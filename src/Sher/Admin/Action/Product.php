@@ -842,4 +842,4 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
   }
 
 }
-?>
+
