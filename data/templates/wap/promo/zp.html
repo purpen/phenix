@@ -75,6 +75,66 @@
 	.page-1-1{
 		background:url(http://frstatic.qiniudn.com/images/promo/zp/zp1.jpg) no-repeat center center /cover;
 	}
+	.st{
+		position:absolute;
+	}
+	.cloud1{
+		width: 15%;
+		top:3%;
+		left:5%;
+		-webkit-animation: cloudSmall 165s infinite;
+		  animation: cloudSmall 165s infinite;
+	}
+	@-webkit-keyframes cloudSmall {
+	 	0% {
+		 left: -5%;
+		}
+		 100% {
+		 left: 105%;
+		}
+	}
+	 @keyframes cloudSmall {
+	 	0% {
+		 left: -5%;
+		}
+		 100% {
+		 left: 105%;
+		}
+	}
+	@-webkit-keyframes cloudLarge {
+	 	0% {
+		 right: -5%;
+		}
+		 100% {
+		 right: 105%;
+		}
+	}
+	 @keyframes cloudLarge {
+	 	0% {
+		 right: -5%;
+		}
+		 100% {
+		 right: 105%;
+		}
+	}
+	.cloud2{
+		width: 18%;
+		top:3%;
+		right:5%;
+		-webkit-animation: cloudLarge 105s infinite;
+		  animation: cloudLarge 105s infinite;
+			animation-delay:1s;
+			-webkit-animation-delay:1s;
+	}
+	.cloud3{
+		width: 14%;
+		top:5%;
+		right:5%;
+		-webkit-animation: cloudLarge 165s infinite;
+		  animation: cloudLarge 165s infinite;
+			animation-delay:0s;
+			-webkit-animation-delay:0s;
+	}
 	
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
@@ -238,7 +298,7 @@
 				pageMove(towards.down);	
 			});
 	
-			bgm = new Audio5js({
+		/*	bgm = new Audio5js({
 		      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 		      ready: function () {
 		          this.load('http://frstatic.qiniudn.com/wechat/js/5.mp3');
@@ -264,7 +324,7 @@
 						$(this).addClass("playing");
 						//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
 					}
-			});
+			});*/
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
 	
@@ -276,8 +336,9 @@
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="page page-1-1 page-current">
 	<div class="wrap">
-		<!--<img src="http://frstatic.qiniudn.com/wechat/js/test/z1.jpg" width="100%" height="100%">-->
-		
+		<img class="st cloud1" src="http://frstatic.qiniudn.com/images/promo/zp/cloud1.png">
+		<img class="st cloud2" src="http://frstatic.qiniudn.com/images/promo/zp/cloud2.png">
+		<img class="st cloud3" src="http://frstatic.qiniudn.com/images/promo/zp/cloud3.png">
 	</div>
 </div>
 <div class="page page-2-1 hide">
