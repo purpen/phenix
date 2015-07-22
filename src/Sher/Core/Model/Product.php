@@ -17,6 +17,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
     protected $schema = array(
 		'_id'     => null,
+    # 只是记录导过来的stuff_id
+    'old_stuff_id' => null,
 		# taobao sku
 		'taobao_iid' => null,
 		# 产品名称
@@ -222,7 +224,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 是否在商店列表显示
 		'process_saled' => 0,
 		
-		# 投票申请是否审核
+		# 投票申请/产品灵感是否审核
 		'approved' => 0,
 		# 投票是否成功
 		'succeed' => 0,
@@ -237,9 +239,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
-
-    # 是否审核
-    'verified' => 1,
 
     # 精选
     'featured' => 0,
@@ -300,6 +299,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 $row['stage_label'] = '热售中';
             }else if ($row['stage'] == self::STAGE_EXCHANGE){
                 $row['stage_label'] = '积分兑换';
+            }else if ($row['stage'] == self::STAGE_IDEA){
+                $row['stage_label'] = '产品灵感';
             }else{
                 $row['stage_label'] = '未设置'; // 未知
             }

@@ -23,25 +23,33 @@ ini_set('memory_limit','512M');
 
 echo "cpoy stuff to product ...\n";
 
-$model = new Sher_Core_Model_Stuff();
+$stuff_model = new Sher_Core_Model_Stuff();
+$product_model = new Sher_Core_Model_Product();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
+$fail_total = 0;
 while(!$is_end){
   $fid = Doggy_Config::$vars['app.topic.idea_category_id'];
 	$query = array('fid'=>(int)$fid);
 	$options = array('page'=>$page,'size'=>$size);
-	$list = $model->find($query, $options);
+	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
 		echo "get stuff list is null,exit......\n";
 		break;
 	}
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
-    $data = array();
     $id = $list[$i]['_id'];
+    $has_product = $product_model->first(array('old_stuff_id'=>$id));
+    if(!empty($has_product)){
+      continue;
+    }
+    $data = array();
+
     $data['old_stuff_id'] = $id;
+    $data['user_id'] = $list[$i]['user_id'];
     $data['title'] = $list[$i]['title'];
     $data['category_id'] = $list[$i]['category_id'];
     $data['short_title'] = isset($list[$i]['short_title'])?$list[$i]['short_title']:null;
@@ -69,7 +77,7 @@ while(!$is_end){
     // 关联产品
     $data['fever_id'] = isset($list[$i]['fever_id'])?$list[$i]['fever_id']:0;
     // 是否审核
-    $data['verified'] = isset($list[$i]['verified'])?$list[$i]['verified']:1;
+    $data['approved'] = isset($list[$i]['verified'])?$list[$i]['verified']:1;
     // 品牌ID
     $data['cooperate_id'] = isset($list[$i]['cooperate_id'])?$list[$i]['cooperate_id']:null;
 
@@ -106,8 +114,16 @@ while(!$is_end){
 
     $data['stage'] = Sher_Core_Model_Product::STAGE_IDEA;
 
-		echo "set stuff[".$list[$i]['_id']."]..........\n";
-		$total++;
+    $ok = $product_model->create($data);
+    if($ok){
+
+ 		  echo "create product[".$product_model->id."].is OK!.........\n";
+		  $total++;   
+    }else{
+      echo "create product fail! id: $id \n";
+      $fail_total++;
+    }
+
 	}
 	if($max < $size){
 		echo "stuff list is end!!!!!!!!!,exit.\n";
@@ -118,6 +134,6 @@ while(!$is_end){
 }
 
 
-
-echo "stuff to product is OK! \n";
+echo "stuff to product is OK! count:$total \n";
+echo "stuff to product is Fail! count:$fail_total \n";
 
