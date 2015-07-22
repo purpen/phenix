@@ -48,10 +48,13 @@ while(!$is_end){
     }
     $data = array();
 
+    // 整理分类
+    $category_id = z_category($list[$i]['category_id']);
+
     $data['old_stuff_id'] = $id;
     $data['user_id'] = $list[$i]['user_id'];
     $data['title'] = $list[$i]['title'];
-    $data['category_id'] = $list[$i]['category_id'];
+    $data['category_id'] = $category_id;
     $data['short_title'] = isset($list[$i]['short_title'])?$list[$i]['short_title']:null;
     $data['content'] = isset($list[$i]['description'])?$list[$i]['description']:null;
     $data['tags'] = isset($list[$i]['tags'])?$list[$i]['tags']:array();
@@ -114,7 +117,8 @@ while(!$is_end){
 
     $data['stage'] = Sher_Core_Model_Product::STAGE_IDEA;
 
-    $ok = $product_model->create($data);
+    //$ok = $product_model->create($data);
+    $ok = true;
     if($ok){
 
  		  echo "create product[".$product_model->id."].is OK!.........\n";
@@ -137,3 +141,36 @@ while(!$is_end){
 echo "stuff to product is OK! count:$total \n";
 echo "stuff to product is Fail! count:$fail_total \n";
 
+
+// 整理分类
+function z_category($cate){
+  switch((int)$cate){
+  case 36:  //智能手环
+    $new_cate = 76;
+    break;
+  case 37:  //智能手表
+    $new_cate = 77;
+    break;
+  case 52:  //健康监测
+    $new_cate = 30;
+    break;
+  case 53:  //智能家具
+    $new_cate = 32;
+    break;
+  case 55:  //智能首饰
+    $new_cate = 30;
+    break;
+  case 56:  //智能母婴
+    $new_cate = 78;
+    break;
+  case 57:  //创意产品
+    $new_cate = 81;
+    break;
+  case 54:  //新奇特
+    $new_cate = 82;
+    break;
+  default:
+    $new_cate = 0;
+  }
+  return $new_cate;
+}
