@@ -69,6 +69,32 @@
 		text-align:center;
 		background-size: 100%;
 	}
+	@-webkit-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@-moz-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	.swipe { 
+		position: absolute; 
+		width: 28px; 
+		height: 16px; 
+		bottom: 45px; 
+		left: 50%; 
+		margin-left: -14px;
+		z-index:4;
+		animation: swipe 1.5s linear infinite;
+	  -webkit-animation: swipe 1.5s linear infinite; 
+	}
 	
 	
 	
@@ -918,6 +944,7 @@
 		<img class="st word2 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/word2.png">
 		<img class="st word3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/word3.png">
 		<img class="st bt1" src="http://frstatic.qiniudn.com/images/promo/zp/zp1_1.png">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 <div class="page page-2-1 hide">
@@ -929,6 +956,7 @@
 		<img class="st zword zpw5 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-5.png">
 		<img class="st zword zpw6 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-6.png">
 		<img class="st zpw7 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-7.png">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 
@@ -941,7 +969,7 @@
 		<img class="st zwd zpw5 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-5.png">
 		<img class="st zpw03 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-6.png">
 		<img class="st pt-page-moveCircle1" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-7.png">
-	
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 
@@ -955,6 +983,7 @@
 		<img class="st zwc2 zpw6 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-6.png">
 			<img class="st zwc3 fadeInflsh animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-7.png">
 		<img class="st pt-page-moveFromRight" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-7.png">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 <div class="page page-5-1 hide">
@@ -970,6 +999,7 @@
 		<img class="st zwf3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-9.png">
 		<img class="st zwf4 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-8.png">
 		<img class="st zwf5 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-7.png">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 
@@ -988,6 +1018,7 @@
 		<img class="st zwg3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-10.png">
 		
 		<img class="st zwg4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-11.png">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 
@@ -999,6 +1030,7 @@
 		<img class="st zwh zwh1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-4.png">
 		<img class="st zwh zwh2 zoomInLeft animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-5.png">
 		<img class="st zwh zwh2 zoomInRight animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-6.png">
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 
@@ -1015,7 +1047,7 @@
 		<img class="st zwi3 clicr3" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-8.png">
 		<img class="st zwi4 clicr4" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-9.png">
 		<img class="st zwi5 clicr5" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-10.png">
-
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	</div>
 </div>
 {% endblock %}
