@@ -81,13 +81,13 @@
 	.cloud1{
 		width: 15%;
 		top:10%;
-		left:-15%;
+		left:-8%;
 		-webkit-animation: cloudSmall 165s infinite;
 		  animation: cloudSmall 165s infinite;
 	}
 	@-webkit-keyframes cloudSmall {
 	 	0% {
-		 left: -15%;
+		 left: -8%;
 		}
 		 100% {
 		 left: 105%;
@@ -95,7 +95,7 @@
 	}
 	 @keyframes cloudSmall {
 	 	0% {
-		 left: -15%;
+		 left: -8%;
 		}
 		 100% {
 		 left: 105%;
@@ -132,8 +132,51 @@
 		right:-14%;
 		-webkit-animation: cloudLarge 165s infinite;
 		  animation: cloudLarge 165s infinite;
-			animation-delay:0s;
-			-webkit-animation-delay:0s;
+	}
+	.logo{
+		width:37.5%;
+		top:14%;
+		left:0;
+		margin:0 31.25%;
+		-webkit-animation-duration: 1.5s !important;
+		  animation-duration: 1.5s !important;
+			animation-delay:0.4s;
+			-webkit-animation-delay:0.4s;
+	}
+	.pages-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	@-webkit-keyframes scale-to-zero-with-center {
+	    0% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	   /* 30% {
+	        opacity: 0.3;
+	    }
+	    60% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(1);
+	        opacity: 1;
+	    }*/
+			20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+			70% 	{opacity:1;-webkit-transform:scale(1.2)}
+			/*70% 	{-webkit-transform:scale(.9)}*/
+			100% 	{opacity:1;-webkit-transform:scale(1)}
+
+	}
+	@-webkit-keyframes scale-to-zero-with-left {
+	    0% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	    50% {
+	        opacity: 0.3;
+	    }
+	    100% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+	        opacity: 1;
+	    }
 	}
 	
 </style>
@@ -339,6 +382,7 @@
 		<img class="st cloud1" src="http://frstatic.qiniudn.com/images/promo/zp/cloud1.png">
 		<img class="st cloud2" src="http://frstatic.qiniudn.com/images/promo/zp/cloud2.png">
 		<img class="st cloud3" src="http://frstatic.qiniudn.com/images/promo/zp/cloud3.png">
+		<img class="st logo pages-logo" src="http://frstatic.qiniudn.com/images/promo/zp/logo.png">
 	</div>
 </div>
 <div class="page page-2-1 hide">
