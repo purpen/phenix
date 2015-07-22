@@ -71,68 +71,65 @@
 
 {% block content %}
 <div class="ui responsive grid">
-	<div class="ui column width">
-		<div class="ui log-in signup">
-			<div class="ui top attached header logo">
+    <div class="four wide column"></div>
+    <div class="eight wide column width">
+		<div class="ui log-in signup segment">
+			<div class="ui header logo">
 				<a href="{{ app_url_domain }}" title="返回首页">
 					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
 				</a>
 			</div>
-			<div class="ui bottom attached segment">
-				<form action="{{ app_url_action_base }}/auth/do_register" class="ui  form" method="post" id="register-form">
-					<input type="hidden" name="t" value="{{ login_token }}" />
-          <input type="hidden" name="user_invite_code" value="{{ user_invite_code }}" />
-          <input type="hidden" name="evt" value="{{ evt }}" />
-					<div class="center aligned ui header">
-						注册太火鸟
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<a href="{{ weibo_auth_url }}" class="fluid ui weibo inverted button">
-								<i class="flat icon_weibo icon"></i> 用微博账号
-							</a>
-						</div>
-						<div class="field">
-							<a href="{{ app_url_qq_login }}" class="fluid ui qq inverted button">
-								<i class="flat icon_qq icon"></i> 用QQ账号
-							</a>
-						</div>
-					</div>
-					
-					<div class="inline field">
-						<input type="text" name="account" placeholder="手机号码" id="account" />
-					</div>
-					<div class="inline field">
-						<input type="text" name="captcha" placeholder="验证码" id="captcha" />
-            			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
-							<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
-						</a>
-					</div>
-					<div class="inline field">
-						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
-						<a href="javascript:void(0);" class="ui gray button" id="fetch-verify-code">获取验证码</a>
-					</div>
-					<div class="field">
-						<input type="password" name="password" id="password" placeholder="密码" />
-					</div>
-					<div class="field">
-						<input type="password" name="password_confirm" placeholder="确认密码" />
-					</div>
-					<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms">
-				          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
-				        </div>
-					</div>
-					
-					<div class="field">
-				    	<div class="fluid ui large active magenta submit button" >确认注册</div>
-					</div>
-				</form>
-			</div>
-			<div class="sign-up">
-				<label>已有账号？<a href="{{ app_url_login }}" title="立即登录" class="ui link">立即登录</a></label>
-			</div>
+			<form action="{{ app_url_action_base }}/auth/do_register" class="ui form" method="post" id="register-form">
+				<input type="hidden" name="t" value="{{ login_token }}" />
+                <input type="hidden" name="user_invite_code" value="{{ user_invite_code }}" />
+                <input type="hidden" name="evt" value="{{ evt }}" />
+				
+				<div class="inline field">
+					<input type="text" name="account" placeholder="手机号码" id="account" />
+				</div>
+				<div class="inline field">
+					<input type="text" name="captcha" placeholder="验证码" id="captcha" />
+        			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+						<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+					</a>
+				</div>
+				<div class="inline field">
+					<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+					<a href="javascript:void(0);" class="ui grey inverted active button" id="fetch-verify-code">获取验证码</a>
+				</div>
+				<div class="field">
+					<input type="password" name="password" id="password" placeholder="密码" />
+				</div>
+				<div class="field">
+					<input type="password" name="password_confirm" placeholder="确认密码" />
+				</div>
+				<div class="inline field">
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="terms" checked="checked" />
+			          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
+			        </div>
+				</div>
+				
+				<div class="field">
+			    	<div class="fluid ui large active magenta inverted submit button">确认注册</div>
+				</div>
+			</form>
+            
+            <div class="thirdlogin">
+                支持第三方登录：
+				<a href="{{ weibo_auth_url }}" class="ui red icon inverted button" title="新浪微博账号">
+					<i class="flat icon_weibo icon"></i>
+				</a>
+				<a href="{{ app_url_qq_login }}" class="ui blue icon inverted button" title="用QQ账号">
+					<i class="flat icon_qq icon"></i>
+				</a>
+				<a href="{{ app_url_qq_login }}" class="ui green icon inverted button" title="用微信账号">
+					<i class="flat icon_qq icon"></i>
+				</a>
+            </div>
+		</div>
+		<div class="sign-up">
+			<label>已有太火鸟账号？<a href="{{ app_url_login }}" title="立即登录">立即登录</a></label>
 		</div>
 	</div>
 </div>

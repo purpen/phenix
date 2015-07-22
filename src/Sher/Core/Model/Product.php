@@ -333,6 +333,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	    }else{
 	    	$row['is_try'] = false;
 	    }
+        
+        // 是否为新品
+        $row['newest'] = ($row['stage'] == 5) ? 1 : 0;
+        
+        // 是否为热门
+        $row['hot'] = ($row['sale_count'] > 100) ? 1 : 0;
 		
 	}
 	

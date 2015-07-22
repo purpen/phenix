@@ -19,14 +19,29 @@
 		{%endblock%}
         <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
+		{% if css_use_bundle %}
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
+			<!--[if lt IE 9]>
+				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.{{ css_bundle_version }}.css" type="text/css" />
+			<![endif]-->
+		{% else %}
+			<link rel="stylesheet" href="{{ app_url_domin }}/packaged/semantic.min.css" type="text/css" />
+            <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
+		{% endif %}
+        
 		<style type="text/css">
 			body {
-			    background: #f1f1f1;
+			    background: #f5f5f5;
 			    color: #5d6266;
 			    min-width: 320px;
 				margin: 0;
 				font-size: 14px;
-				font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+                font-family:"Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+                -webkit-tap-highlight-color:rgba(0,0,0,0);
+                -webkit-tap-highlight-color:transparent
+                -webkit-font-smoothing:antialiased;
 			}
 			.clearfix:after {content: "."; display: block;clear: both; visibility: hidden;line-height: 0; height: 0;}
 			.clearfix {display: inline-table; +display:inline-block;}/* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}
@@ -88,45 +103,31 @@
             }
 		</style>
 		
-		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
-			<!--[if lt IE 9]>
-				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.{{ css_bundle_version }}.css" type="text/css" />
-			<![endif]-->
-		{% else %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
-		{% endif %}
+		
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
-    <!--把jquery放到body之前-->
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
-    <!--百度统计-->
-    <script>
-      {% if baidu_talk_server %}
-        var server_code = "{{server_code}}";
-        var _hmt = _hmt || [];
-        (function() {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?" + server_code;
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
-        })();
-
-      {%endif%}
-        var _hmt = _hmt || [];
-        (function() {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?a6fa7c04b9ccd632817643f9ac3e41de";
-        var s = document.getElementsByTagName("script")[0]; 
-        s.parentNode.insertBefore(hm, s);
-        })();
-
-    </script>
-
+        <!--把jquery放到body之前-->
+		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery-2.min.js"></script>
+        <!--百度统计-->
+        <script type="text/javascript">
+          {% if baidu_talk_server %}
+            var server_code = "{{server_code}}";
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "//hm.baidu.com/hm.js?" + server_code;
+                var s = document.getElementsByTagName("script")[0]; 
+                s.parentNode.insertBefore(hm, s);
+            })();
+          {%endif%}
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "//hm.baidu.com/hm.js?a6fa7c04b9ccd632817643f9ac3e41de";
+                var s = document.getElementsByTagName("script")[0]; 
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
 	</head>
 	
 	<body>
@@ -157,8 +158,32 @@
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_domin }}/packaged/semantic.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.plugins.min.js"></script>
+        <!--
+		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.taconite.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.livequery.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.form.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.imgareaselect.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.fineuploader-3.5.0.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.countdown.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.address.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.easing.1.3.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/sly.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.slides.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.scrollUp.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.smint.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.scrollify.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.qrcode.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/lightbox.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/js/skrollr.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/picker.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/picker.date.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/maxlength.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.arbitrary-anchor.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.gritter.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/js/mustache.min.js"></script>-->
+        
 		{% endif %}
 		
 		<!--[if lt IE 9]>
@@ -180,7 +205,7 @@
 			{% if js_use_bundle %}
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
 			{% else %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
+				<script type="text/javascript" src="{{ app_url_packaged }}/js/frbird.min.js"></script>
 			{% endif %}
 		{% endblock %}
 		{% block private_js %}{% endblock %}
@@ -239,7 +264,7 @@
 		{% endif %}
 
     {% if baidu_talk_server %}
-    var server_code = "{{ server_code }}";
+        var server_code = "{{ server_code }}";
 			<script type="text/javascript">
 			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F"+ server_code +"' type='text/javascript'%3E%3C/script%3E"));

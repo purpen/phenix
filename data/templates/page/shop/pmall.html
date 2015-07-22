@@ -2,43 +2,7 @@
 {% block title %}积分商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    .pmall.masthead {
-        background-color: rgba(56, 67, 77, 0.9);
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        color: #fff;
-    }
-    .pmall.masthead > .masthead-cover {
-        background-color: rgba(0, 0, 0, 0);
-        height: 100%;
-    }
-    .pmall.masthead .container {
-        min-height: 400px;
-    }
-    .redemption .ui.items .item .content{
-    	height: 130px !important;
-    	cursor: auto;
-    }
-    .redemption .ui.items .item .content .i-stats {
-    	padding-top: 1rem !important;
-    }
-    .redemption .ui.items .item .content .advantage{
-    	margin-top:0.8em;
-    	min-height:0;
-    }
-    .redemption .ui.items .item .content .advantage + .advantage{
-    	margin-top:0.3em;
-    	margin-bottom: 0.5em;
-    }
-    .social.submitbox h2 + p {
-        line-height: 2rem;
-        margin-bottom: 1rem;
-    }
 
-    #shoplist .ui.magenta.progress{
-      height:0 !important;
-    }
 </style>
 {% endblock %}
 
@@ -78,24 +42,19 @@
 	</div>
 </div>
 
-<div class="pmall masthead" style="background-image:url('{{ app_url_packaged }}/images/point-banner.jpg');">
-    <div class="masthead-cover">
-    	<div class="ui responsive grid">
-    		<div class="center aligned column">
-                <div class="container"></div>
-    		</div>
-    	</div>
-    </div>
+<div class="category image" style="background-image:url('{{ app_url_packaged }}/images/point-banner.jpg');">
+	<h1><!--placeholder--></h1>
+    <div class="cover"></div>
 </div>
 
 <div class="shop list" id="shoplist">	
-	<!--   积分换购   -->
+	<!--  积分换购  -->
 	<div class="product redemption list">
 		<div class="ui responsive grid">
 			<div class="row">
 				{% product_list var:'list' stage:12 only_onsale:1 size:10 %}
 				<div class="column">
-					<div class="ui four items">
+					<div class="ui four products cards">
                         {% for d in list.rows %}
                         {% if d.max_bird_coin %}
 					  		{% include "block/exchange_item.html" %}
@@ -123,7 +82,7 @@
                     {% endif %}
                 </p>
 				<a href="{{ app_url_my }}/point" class="ui inverted magenta button">
-					<i class="basic chart icon"></i> 获取鸟币方法
+					<i class="chart icon"></i> 获取鸟币方法
 				</a>
 			</div>
 		</div>

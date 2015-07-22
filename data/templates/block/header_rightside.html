@@ -5,25 +5,16 @@
 	</div>
 </form>
 
-<div class="ui secondary user menu">
-    {% if visitor %}
-    <div class="ui top right pointing dropdown icon basket magenta button" data-url="javascript:void(0);">
-        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
-        <i class="flat speech40 icon"></i>
-        <!--ajax加载用户提醒-->
-        <div class="menu" id="user-notice">
-            <div class="item" id="basket-body-content">没有消息</div>
-        </div>
-    </div>
-	{% endif %}
-	
-	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
+<div class="right floated auth">
+    
+    <div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
 		{% else %}
 		<label class="floating circular ui magenta label hide"></label>
 		{% endif %}
-	  	<i class="flat shopping_cart icon"></i>
+        <i class="flat shopping_cart icon"></i>
+        
 	  	<div class="menu">
 			{% if items_count > 0 %}
 			<div class="item" id="basket-body-content">
@@ -91,10 +82,21 @@
 			</div>
 			{% endif %}
 	  	</div>
-		
 	</div>
-	
-	{% if visitor %}
+        
+    {% if visitor %}
+    <div class="ui icon top right pointing dropdown basket magenta button" data-url="javascript:void(0);">
+        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">
+            0
+        </label>
+        <i class="flat speech40 icon"></i>
+        <!--ajax加载用户提醒-->
+        <div class="menu" id="user-notice">
+            <div class="header">未读消息</div>
+            <div class="item" id="basket-body-content">没有消息</div>
+        </div>
+    </div>
+    
 	<div class="ui top right pointing dropdown icon user-setting button">
 		<a class="ui link" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
 	  		<img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" class="ui avatar image" alt="{{ visitor.nickname }}" /> {{ visitor.nickname }}<i class="angle down icon"></i>
@@ -125,12 +127,18 @@
 			</a>
 	  	</div>
 	</div>
-	{% else %}
-    <a href="{{ app_url_login }}" class="ui magenta login button">登录</a>
-    {% if user_invite_code %}
-      <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" class="ui magenta signup button">注册</a>
-    {%else%}
-      <a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
-    {%endif%}
-	{% endif %}
+    {% else %}
+        <a class="ui compact login button" href="{{ app_url_login }}">
+            登录
+        </a>
+        {% if user_invite_code %}
+        <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" class="ui inverted signup magenta button">
+            注册
+        </a>
+        {%else%}
+        <a href="{{ app_url_register }}" class="ui inverted magenta signup button">
+            注册
+        </a>
+        {%endif%}
+   	{% endif %}
 </div>
