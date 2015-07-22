@@ -471,10 +471,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
     if(!$this->visitor->can_edit){
  		  return $this->ajax_note('没有权限!', true);	   
     }
-    $state = isset($this->stash['stage'])?(int)$this->stash['stage']:0;
-    	$this->set_target_css_state('page_product');
+    $stage = isset($this->stash['stage'])?(int)$this->stash['stage']:0;
+    $this->set_target_css_state('page_product');
 		$pager_url = Doggy_Config::$vars['app.url.shop'].'/product_list?stage=%d&page=#p#';
-		switch($state){
+		switch($stage){
 		case 12:
 				$this->stash['process_exchange'] = 1;
 				break;
@@ -488,6 +488,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 				$this->stash['process_voted'] = 1;
 				break;
 		}
+		$this->stash['pager_url'] = sprintf($pager_url, $stage);
+    $this->stash['is_search'] = false;
   
 		return $this->to_html_page('page/shop/product_list.html');
   }
