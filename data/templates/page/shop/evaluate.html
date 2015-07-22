@@ -1,0 +1,126 @@
+{%extends 'layout/column.html'%}
+{% block title %}售后评价-{% endblock %}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.evaluate.form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[1400]',
+					prompt : '评论内容不超过1400字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            phenix.show_ok_note('操作成功!');
+						//phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	$('.ui.write.rating').rating({
+		onRate: function(value){
+			$(this).parents('.field').find('.comment-star').val(value);
+		}
+	});
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">产品管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_domain }}/shop/product_list" class="{% if !stage %}active{%endif%} item">
+			全部
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=1" class="{% if stage == 1 %}active{%endif%} item">
+			投票
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=5" class="{% if stage == 5 %}active{%endif%} item">
+			预售
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=9" class="{% if stage == 9 %}active{%endif%} item">
+			商店
+		</a>
+
+	</div>
+	
+	<table class="ui basic table">
+		<tbody>
+			<tr>
+				<td colspan="2">
+					<h4 class="ui header">售后快捷评价</h4>
+				</td>
+			</td>
+			<tr>
+				<td class="five product wide">
+					<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
+			      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
+					</a>
+		          	<p>
+						<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+						<br />
+						编号：{{ product._id }}
+					</p>
+				</td>
+				<td>
+					<form class="ui evaluate form" action="{{ app_url_shop }}/edit_ajax_evaluate" method="post" id="{{ product._id }}">
+						<input type="hidden" name="target_id" value="{{ product._id }}" />
+						<input type="hidden" name="type" value="4" />
+						<div class="field">
+							<input type="hidden" name="star" class="comment-star" />
+							<div class="rate">
+							  	综合评分:
+							  	<div class="ui star write rating">
+							    	<i class="icon"></i>
+							   		<i class="icon"></i>
+							    	<i class="icon"></i>
+							    	<i class="icon"></i>
+							    	<i class="icon"></i>
+							  	</div>
+							</div>
+						</div>
+						<div class="three fields">
+							<div class="field">
+								<label>用户ID：</label>
+								<input type="text" name="user_id" />
+								<div class="description">填写发表评价的用户ID</div>
+							</div>
+						</div>
+						<div class="field">
+							<label>评价说：</label>
+							<textarea name="content" class="comment-textarea" ></textarea>
+						</div>
+						<div class="right aligned column">
+							<input type="submit" class="ui small magenta button" value="提交评价" />
+						</div>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+{% endblock %}
