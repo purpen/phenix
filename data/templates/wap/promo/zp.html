@@ -75,9 +75,632 @@
 	.page-1-1{
 		background:url(http://frstatic.qiniudn.com/images/promo/zp/zp1.jpg) no-repeat center center /cover;
 	}
+	.st{
+		position:absolute;
+	}
+	.cloud1{
+		width: 15%;
+		top:10%;
+		left:-8%;
+		-webkit-animation: cloudSmall 105s infinite;
+		  animation: cloudSmall 105s infinite;
+	}
+	@-webkit-keyframes cloudSmall {
+	 	0% {
+		 left: -8%;
+		}
+		 100% {
+		 left: 105%;
+		}
+	}
+	 @keyframes cloudSmall {
+	 	0% {
+		 left: -8%;
+		}
+		 100% {
+		 left: 105%;
+		}
+	}
+	@-webkit-keyframes cloudLarge {
+	 	0% {
+		 right: -18%;
+		}
+		 100% {
+		 right: 105%;
+		}
+	}
+	 @keyframes cloudLarge {
+	 	0% {
+		 right: -18%;
+		}
+		 100% {
+		 right: 105%;
+		}
+	}
+	.cloud2{
+		width: 18%;
+		top:3%;
+		right:-18%;
+		-webkit-animation: cloudLarge 65s infinite;
+		  animation: cloudLarge 65s infinite;
+	}
+	.cloud3{
+		width: 14%;
+		top:10%;
+		right:-14%;
+		-webkit-animation: cloudLarge 145s infinite;
+		  animation: cloudLarge 145s infinite;
+	}
+	.logo{
+		width:37.5%;
+		top:14%;
+		left:0;
+		opacity:0;
+		margin:0 31.25%;
+		-webkit-animation-duration: 1.5s !important;
+		  animation-duration: 1.5s !important;
+			animation-delay:0.6s !important;
+			-webkit-animation-delay:0.6s !important;
+	}
+	.pages-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	.page-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	@-webkit-keyframes scale-to-zero-with-center {
+	    0% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	   /* 30% {
+	        opacity: 0.3;
+	    }
+	    60% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(1);
+	        opacity: 1;
+	    }*/
+			20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+			70% 	{opacity:1;-webkit-transform:scale(1.2)}
+			/*70% 	{-webkit-transform:scale(.9)}*/
+			100% 	{opacity:1;-webkit-transform:scale(1)}
+
+	}
+	@-webkit-keyframes scale-to-zero-with-left {
+	    0% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	    50% {
+	        opacity: 0.3;
+	    }
+	    100% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+	        opacity: 1;
+	    }
+	}
 	
+	.word1{
+		width:89%;
+		top:34%;
+		left:0;
+		opacity:0;
+		margin:0 5.5%;
+		animation-delay:2s !important;
+		-webkit-animation-delay:2s !important;
+	}
+	.word2{
+		width:46%;
+		top:46%;
+		left:0;
+		opacity:0;
+		margin:0 27%;
+		animation-delay:2.6s !important;
+		-webkit-animation-delay:2.6s !important;
+	}
+	.word3{
+		width:46%;
+		top:51%;
+		left:0;
+		opacity:0;
+		margin:0 27%;
+		animation-delay:3.2s !important;
+		-webkit-animation-delay:3.2s !important;
+	}
+	.bt1{
+		width:93%;
+		bottom:0;
+		right:100%;
+		-webkit-animation: btright 9s infinite;
+		  animation: btright 9s infinite;
+			animation-delay:3.2s !important;
+			-webkit-animation-delay:3.2s !important;
+	}
+	@-webkit-keyframes btright {
+	 	0% {
+		 right: -100%;
+		}
+		40%{
+			right:0;
+		}
+		60%{
+			right:0;
+		}
+		80%{
+			right: 100%;
+		}
+		 100% {
+		 right: 100%;
+		}
+	}
+	 @keyframes btright {
+	 	0% {
+		 right: -100%;
+		}
+		40%{
+			right:0;
+		}
+		60%{
+			right:0;
+		}
+		80%{
+			right: 100%;
+		}
+		 100% {
+		 right: 100%;
+		}
+	}
+	.page-2-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zpbj.jpg) no-repeat center bottom /cover;
+	}
+	.zword{
+		width:39%;
+		left:5%;
+	}
+	.zpw7{
+		width:67%;
+		left:5%;
+	}
+	.zpw1{
+		top:5%;
+		animation-delay:0.3s !important;
+		-webkit-animation-delay:0.3s !important;
+	}
+	.zpw2{
+		top:10%;
+		animation-delay:0.6s !important;
+		-webkit-animation-delay:0.6s !important;
+	}
+	.zpw3{
+		top:15%;
+		animation-delay:0.9s !important;
+		-webkit-animation-delay:0.9s !important;
+	}
+	.zpw4{
+		top:20%;
+		animation-delay:1.2s !important;
+		-webkit-animation-delay:1.2s !important;
+	}
+	.zpw5{
+		top:25%;
+		animation-delay:1.5s !important;
+		-webkit-animation-delay:1.5s !important;
+	}
+	.zpw6{
+		top:30%;
+		animation-delay:1.8s !important;
+		-webkit-animation-delay:1.8s !important;
+	}
+	.zpw7{
+		top:35%;
+		animation-delay:2.4s !important;
+		-webkit-animation-delay:2.4s !important;
+		opacity:0;
+	}
+	.page-3-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp3.jpg) no-repeat center bottom /cover;
+	}
+	.zwd{
+		width:56%;
+		left:5%;
+	}
+	.zpw03{
+		top:30%;
+		width:70%;
+		left:5%;
+		animation-delay:2s !important;
+		-webkit-animation-delay:2s !important;
+		opacity:0;
+	}
+	.pt-page-moveCircle1{
+		width:78%;
+		margin:0 11%;
+		bottom:0;
+		left:0;
+		-webkit-animation: moveCircle2 ease-in-out 1.2s both;
+			animation: moveCircle2 ease-in-out 1.2s both;
+		animation-delay:2s !important;
+		-webkit-animation-delay:2s !important;
+	}
+	@-webkit-keyframes moveCircle2{
+		0%{ -webkit-transform: translateY(100%);-webkit-opacity:0; }
+		100%{ -webkit-transform: translateY(0%);-webkit-opacity:1; }
+	}
+	@-webkit-keyframes moveCircle1 {
+		0% { -webkit-transform: translateY(100%);-webkit-opacity:0.1;}
+		5% { -webkit-transform: translateY(100%);-webkit-opacity:0.3;}
+		35% { -webkit-transform: translateY(-10%);-webkit-opacity:1;}
+		60% { -webkit-transform: translateY(13%);}
+		65% { -webkit-transform: translateY(13%);}
+		100% { -webkit-transform: translateY(0%);}
+	}
+	.pt-page-moveFromRight{
+		width:78%;
+		bottom:0;
+		right:-11%;
+		-webkit-animation-duration: 1.2s !important;
+		  animation-duration: 1.2s !important;
+		animation-delay: 2.4s !important;
+		-webkit-animation-delay: 2.4s !important;
+	}
+	.page-4-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp4.jpg) no-repeat center bottom /cover;
+	}
+	.zwc{
+		width:48%;
+		left:5%;
+	}
+	.zwc1{
+		width:70%;
+		left:5%;
+		top:25%;
+		opacity:0;
+		animation-delay:1.6s !important;
+		-webkit-animation-delay:1.6s !important;
+	}
+	.zwc2{
+		width:70%;
+		left:5%;
+		top:38%;
+		opacity:0;
+		animation-delay:2s !important;
+		-webkit-animation-delay:2s !important;
+	}
+	.zwc3{
+		width:42%;
+		left:5%;
+		top:65%;
+		animation-delay:3s !important;
+		-webkit-animation-delay:3s !important;
+		opacity:0;
+	}
+	.fadeInflsh{
+		-webkit-animation-name: fadeInflsh;
+		animation-name: fadeInflsh;
+		-webkit-animation-duration: 2.5s !important;
+		  animation-duration: 2.5s !important;
+		  -webkit-animation-fill-mode: both;
+		  animation-fill-mode: both;
+	}
+	@-webkit-keyframes fadeInflsh {
+		0% { -webkit-transform: translateY(100%);-webkit-opacity:0;}
+		60% { -webkit-transform: translateY(0);-webkit-opacity:1;}
+		70% { opacity:0;}
+		80% { opacity:1;}
+		90% { opacity:0;}
+		100% { opacity:1;}
+	}
+	.page-5-1{
+		background-color:#ff2d55;
+	}
+	.zwe{
+		top:5%;
+		left:5%;
+		width:46%;
+	}
+	.zwe2{
+		width:82%;
+		left:5%;
+		top:15%;
+		opacity:0;
+	}
+	.zwe3{
+		width:72%;
+		left:5%;
+		top:32%;
+	}
+	.zwe4{
+		width:100%;
+		left:0;
+		bottom:0;
+		opacity:0;
+		-webkit-animation-delay: 2.5s !important;
+		  animation-delay: 2.5s !important;
+		-webkit-animation: rotation360 30s linear infinite;
+		-moz-animation: rotation360 30s linear infinite;
+		-o-animation: rotation360 30s linear infinite;
+		-ms-animation: rotation360 30s linear infinite;
+		animation: rotation360 30s linear infinite;
+	}
+	@-webkit-keyframes rotation360 {
+	  0% {
+			-moz-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+	    -webkit-transform: rotate(0deg);
+	    -ms-transform: rotate(0deg);
+	    transform: rotate(0deg);
+			opacity:1;
+	  }
+		10%{
+			opacity:1;
+		}
+
+	  100% {
+			-moz-transform: rotate(-360deg);
+			-o-transform: rotate(-360deg);
+	    -webkit-transform: rotate(-360deg);
+	    -ms-transform: rotate(-360deg);
+	    transform: rotate(-360deg);
+			opacity:1;
+	  }
+	}
+	.zwf1{
+		width:18%;
+		top:60%;
+		left:10%;
+		opacity:0;
+		-webkit-animation-delay: 2.8s !important;
+		  animation-delay: 2.8s !important;
+	}
+	.zwf2{
+		width:18%;
+		top:85%;
+		left:10%;
+		opacity:0;
+		-webkit-animation-delay: 3s !important;
+		  animation-delay: 3s !important;
+	}
+	.zwf3{
+		width:18%;
+		top:54%;
+		right:10%;
+		opacity:0;
+		-webkit-animation-delay: 3.2s !important;
+		  animation-delay: 3.2s !important;
+	}
+	.zwf4{
+		width:18%;
+		top:70%;
+		right:50%;
+		margin-right:-9%;
+		opacity:0;
+		-webkit-animation-delay: 3.4s !important;
+		  animation-delay: 3.4s !important;
+	}
+	.zwf5{
+		width:18%;
+		top:80%;
+		right:18%;
+		opacity:0;
+		-webkit-animation-delay: 3.6s !important;
+		  animation-delay: 3.6s !important;
+	}
+	.page-6-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp6.jpg) no-repeat center bottom /cover;
+	}
+	.zwg{
+		width:75%;
+		left:5%;
+	}
+	.zwg1{
+		top:40%;
+		animation-delay:2.6s !important;
+		-webkit-animation-delay:2.6s !important;
+		opacity:0;
+	}
+	.zwg2{
+		top:47%;
+		animation-delay:3s !important;
+		-webkit-animation-delay:3s !important;
+		opacity:0;
+	}
+	.zwg3{
+		top:30%;
+		right:5%;
+		width:28%;
+		opacity:0;
+		-webkit-animation-delay: 3s !important;
+		  animation-delay: 3s !important;
+		-webkit-animation: opacity 1s linear infinite;
+		-moz-animation: opacity 1s linear infinite;
+		-o-animation: opacity 1s linear infinite;
+		-ms-animation: opacity 1s linear infinite;
+		animation: opacity 1s linear infinite;
+	}
+	@-webkit-keyframes opacity {
+		0% { opacity:0.3;right:5%}
+		100% { opacity:1;right:5.1%}
+	}
+	.zwg4{
+		width:100%;
+		bottom:0;
+		left:0;
+		-webkit-animation-delay: 3.2s !important;
+		  animation-delay: 3.2s !important;
+	}
+	.page-7-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp7.jpg) no-repeat center bottom /cover;
+	}
+	.zwh{
+		width:90%;
+		left:5%;
+	}
+	.zwh.zpw1{
+		animation-delay:0.6s !important;
+		-webkit-animation-delay:0.6s !important;
+	}
+	.zwh1{
+		animation-delay:1.4s !important;
+		-webkit-animation-delay:1.4s !important;
+		top:45%;
+		left:5%;
+	}
+	.zwh2{
+		animation-delay:1.8s !important;
+		-webkit-animation-delay:1.8s !important;
+		top:56%;
+		left:5%;
+		-webkit-animation-duration: 1.5s !important;
+		  animation-duration: 1.5s !important;
+	}
+	.zwh3{
+		animation-delay:1.8s !important;
+		-webkit-animation-delay:1.8s !important;
+		top:33%;
+		left:5%;
+		-webkit-animation-duration: 1.2s !important;
+		  animation-duration: 1.2s !important;
+	}
+	.zwh4{
+		animation-delay:2.8 !important;
+		-webkit-animation-delay:2.8s !important;
+		top:49%;
+		left:5%;
+		-webkit-animation-duration: 1.2s !important;
+		  animation-duration: 1.2s !important;
+	}
+	
+	.zwh5{
+		animation-delay:0.8 !important;
+		-webkit-animation-delay:0.8s !important;
+		top:17%;
+		left:5%;
+		-webkit-animation-duration: 1.2s !important;
+		  animation-duration: 1.2s !important;
+	}
+	.rollIn{
+		animation-delay:1.6s !important;
+		-webkit-animation-delay:1.6s !important;
+		-webkit-animation-duration: 1.5s !important;
+		  animation-duration: 1.5s !important;
+	}
+	.zwh.page-logo{
+		opacity:0;
+	}
+	.page-8-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp8.jpg) no-repeat center bottom /cover;
+	}
+	.zwh6{
+		animation-delay:3.8s !important;
+		-webkit-animation-delay:3.8s !important;
+		top:66%;
+		left:5%;
+	}
+	.zwi1{
+		top:73%;
+		left:3%;
+		width:18%;
+		animation-delay:4s !important;
+		-webkit-animation-delay:4s !important;
+	}
+	.zwi2{
+		top:73%;
+		left:22%;
+		width:18%;
+		animation-delay:4.8s !important;
+		-webkit-animation-delay:4.8s !important;
+	}
+	.zwi3{
+		top:73%;
+		left:41%;
+		width:18%;
+		animation-delay:5.8s !important;
+		-webkit-animation-delay:5.8s !important;
+	}
+	.zwi4{
+		top:73%;
+		left:60%;
+		width:18%;
+		animation-delay:6.8s !important;
+		-webkit-animation-delay:6.8s !important;
+	}
+	.zwi5{
+		top:73%;
+		left:79%;
+		width:18%;
+		animation-delay:7.8s !important;
+		-webkit-animation-delay:7.8s !important;
+	}
+	.clicr1{
+		-webkit-animation-name: clicr1;
+	  animation-name: clicr1;
+	  -webkit-animation-duration: 1s !important;
+	  animation-duration: 1s !important;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	}
+	@-webkit-keyframes clicr1 {
+		0% { -webkit-transform: rotate(180deg);left:100%;margin-top:-200px;opacity:0;}
+		50% { -webkit-transform: rotate(180deg);left:60%;margin-top:0px;opacity:1;}
+		100% { -webkit-transform: rotate(0deg);left:3%;}
+	}
+	.clicr2{
+		-webkit-animation-name: clicr2;
+	  animation-name: clicr2;
+	  -webkit-animation-duration: 1.5s !important;
+	  animation-duration: 1.5s !important;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	}
+	@-webkit-keyframes clicr2 {
+		0% { -webkit-transform: rotate(180deg);left:100%;margin-top:-200px;opacity:0;}
+		50% { -webkit-transform: rotate(180deg);left:50%;margin-top:0px;opacity:1;}
+		100% { -webkit-transform: rotate(0deg);left:22%;}
+	}
+	.clicr3{
+		-webkit-animation-name: clicr3;
+	  animation-name: clicr3;
+	  -webkit-animation-duration: 1.5s !important;
+	  animation-duration: 1.5s !important;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	}
+	@-webkit-keyframes clicr3 {
+		0% { -webkit-transform: rotate(360deg);left:100%;margin-top:-200px;opacity:0;}
+		50% { -webkit-transform: rotate(100deg);left:60%;margin-top:0px;opacity:1;}
+		100% { -webkit-transform: rotate(0deg);left:41%;}
+	}
+	.clicr4{
+		-webkit-animation-name: clicr4;
+	  animation-name: clicr4;
+	  -webkit-animation-duration: 1.5s !important;
+	  animation-duration: 1.5s !important;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	}
+	@-webkit-keyframes clicr4 {
+		0% { -webkit-transform: rotate(30deg);left:100%;margin-top:-200px;opacity:0;}
+		50% { -webkit-transform: rotate(30deg);left:70%;margin-top:0px;opacity:1;}
+		100% { -webkit-transform: rotate(0deg);left:60%;}
+	}
+	.clicr5{
+		-webkit-animation-name: clicr5;
+	  animation-name: clicr5;
+	  -webkit-animation-duration: 1.5s !important;
+	  animation-duration: 1.5s !important;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+	}
+	@-webkit-keyframes clicr5 {
+		0% { -webkit-transform: rotate(10deg);left:100%;margin-top:-200px;opacity:0;}
+		50% { -webkit-transform: rotate(10deg);left:80%;margin-top:0px;opacity:1;}
+		100% { -webkit-transform: rotate(0deg);left:79%;}
+	}
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
+	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 {% endblock %}
 
 {% block layout_js %}
@@ -238,7 +861,7 @@
 				pageMove(towards.down);	
 			});
 	
-			bgm = new Audio5js({
+		/*	bgm = new Audio5js({
 		      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 		      ready: function () {
 		          this.load('http://frstatic.qiniudn.com/wechat/js/5.mp3');
@@ -264,7 +887,7 @@
 						$(this).addClass("playing");
 						//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
 					}
-			});
+			});*/
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
 	
@@ -274,20 +897,116 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 page-current">
+<div class="page page-1-1 hide">
 	<div class="wrap">
-		<!--<img src="http://frstatic.qiniudn.com/wechat/js/test/z1.jpg" width="100%" height="100%">-->
-		
+		<img class="st cloud1" src="http://frstatic.qiniudn.com/images/promo/zp/cloud1.png">
+		<img class="st cloud2" src="http://frstatic.qiniudn.com/images/promo/zp/cloud2.png">
+		<img class="st cloud3" src="http://frstatic.qiniudn.com/images/promo/zp/cloud3.png">
+		<img class="st logo pages-logo" src="http://frstatic.qiniudn.com/images/promo/zp/logo.png">
+		<img class="st word1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/word1.png">
+		<img class="st word2 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/word2.png">
+		<img class="st word3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/word3.png">
+		<img class="st bt1" src="http://frstatic.qiniudn.com/images/promo/zp/zp1_1.png">
 	</div>
 </div>
 <div class="page page-2-1 hide">
 	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z2.jpg" width="100%" height="100%">
-		
+		<img class="st zword zpw1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-1.png">
+		<img class="st zword zpw2 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-2.png">
+		<img class="st zword zpw3 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-3.png">
+		<img class="st zword zpw4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-4.png">
+		<img class="st zword zpw5 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-5.png">
+		<img class="st zword zpw6 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-6.png">
+		<img class="st zpw7 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp2-7.png">
 	</div>
 </div>
 
+<div class="page page-3-1 hide">
+	<div class="wrap">
+		<img class="st zwd zpw1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-1.png">
+		<img class="st zwd zpw2 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-2.png">
+		<img class="st zwd zpw3 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-3.png">
+		<img class="st zwd zpw4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-4.png">
+		<img class="st zwd zpw5 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-5.png">
+		<img class="st zpw03 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-6.png">
+		<img class="st pt-page-moveCircle1" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-7.png">
+	
+	</div>
+</div>
 
+<div class="page page-4-1 hide">
+	<div class="wrap">
+		<img class="st zwc zpw1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-1.png">
+		<img class="st zwc zpw2 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-2.png">
+		<img class="st zwc zpw3 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-3.png">
+		<img class="st zwc zpw4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-4.png">
+		<img class="st zwc1 zpw5 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-5.png">
+		<img class="st zwc2 zpw6 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-6.png">
+			<img class="st zwc3 fadeInflsh animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp4-7.png">
+		<img class="st pt-page-moveFromRight" src="http://frstatic.qiniudn.com/images/promo/zp/zp3-7.png">
+	</div>
+</div>
+<div class="page page-5-1 hide">
+	<div class="wrap">
+		<img class="st zwe" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-1.png">
+		<img class="st zwe2 zpw2 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-2.png">
+		<img class="st zwe3 zpw4 fadeInRightBig animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-3.png">
+		
+		<img class="st zwe4" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-4.png">
+		
+		<img class="st zwf1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-5.png">
+		<img class="st zwf2 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-6.png">
+		<img class="st zwf3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-9.png">
+		<img class="st zwf4 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-8.png">
+		<img class="st zwf5 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp5-7.png">
+	</div>
+</div>
+
+<div class="page page-6-1 hide">
+	<div class="wrap">
+		<img class="st zwg zpw1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-1.png">
+		<img class="st zwg zpw2 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-2.png">
+		<img class="st zwg zpw3 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-3.png">
+		<img class="st zwg zpw4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-4.png">
+		<img class="st zwg zpw5 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-5.png">
+		<img class="st zwg zpw6 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-6.png">
+		<img class="st zwg zpw7 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-7.png">
+		
+		<img class="st zwg zwg1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-8.png">
+		<img class="st zwg zwg2 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-9.png">
+		<img class="st zwg3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-10.png">
+		
+		<img class="st zwg4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-11.png">
+	</div>
+</div>
+
+<div class="page page-7-1 hide">
+	<div class="wrap">
+		<img class="st zwh zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-1.png">
+		<img class="st zwh zpw3 fadeInRight animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-3.png">
+		<img class="st zwh zpw3 rollIn animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-2.png">
+		<img class="st zwh zwh1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-4.png">
+		<img class="st zwh zwh2 zoomInLeft animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-5.png">
+		<img class="st zwh zwh2 zoomInRight animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-6.png">
+	</div>
+</div>
+
+<div class="page page-8-1 page-current">
+	<div class="wrap">
+		<img class="st zwh zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-1.png">
+		<img class="st zwh zwh5 fadeInflsh animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-2.png">
+		<img class="st zwh zwh3 fadeInflsh animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-3.png">
+		<img class="st zwh zwh4 fadeInflsh animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-4.png">
+		<img class="st zwh zwh6 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-5.png">
+		
+		<img class="st zwi1 clicr1" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-6.png">
+		<img class="st zwi2 clicr2" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-7.png">
+		<img class="st zwi3 clicr3" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-8.png">
+		<img class="st zwi4 clicr4" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-9.png">
+		<img class="st zwi5 clicr5" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-10.png">
+
+	</div>
+</div>
 {% endblock %}
 
 
