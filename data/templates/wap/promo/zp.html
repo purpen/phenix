@@ -213,17 +213,19 @@
 		width:93%;
 		bottom:0;
 		right:100%;
-		-webkit-animation: btright 12s infinite;
-		  animation: btright 12s infinite;
+		-webkit-animation: btright 8s infinite;
+		  animation: btright 8s infinite;
+			animation-delay:0.5s !important;
+			-webkit-animation-delay:0.5s !important;
 	}
 	@-webkit-keyframes btright {
 	 	0% {
-		 right: -93%;
+		 right: -100%;
 		}
-		50%{
+		40%{
 			right:0;
 		}
-		70%{
+		60%{
 			right:0;
 		}
 		 100% {
@@ -232,12 +234,12 @@
 	}
 	 @keyframes btright {
 	 	0% {
-		 right: -93%;
+		 right: -100%;
 		}
-		50%{
+		40%{
 			right:0;
 		}
-		70%{
+		60%{
 			right:0;
 		}
 		 100% {
