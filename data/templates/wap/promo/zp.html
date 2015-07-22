@@ -265,6 +265,8 @@
 	}
 	.zpw1{
 		top:5%;
+		animation-delay:0.3s !important;
+		-webkit-animation-delay:0.3s !important;
 	}
 	.zpw2{
 		top:10%;
@@ -528,6 +530,37 @@
 		-webkit-animation-delay: 3.2s !important;
 		  animation-delay: 3.2s !important;
 	}
+	.page-7-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp7.jpg) no-repeat center bottom /cover;
+	}
+	.zwh{
+		width:90%;
+		left:5%;
+	}
+	.zwh.zpw1{
+		animation-delay:0.6s !important;
+		-webkit-animation-delay:0.6s !important;
+	}
+	.zwh1{
+		animation-delay:1.4s !important;
+		-webkit-animation-delay:1.4s !important;
+		top:45%;
+		left:5%;
+	}
+	.zwh2{
+		animation-delay:1.8s !important;
+		-webkit-animation-delay:1.8s !important;
+		top:56%;
+		left:5%;
+		-webkit-animation-duration: 1.5s !important;
+		  animation-duration: 1.5s !important;
+	}
+	.rollIn{
+		animation-delay:1.6s !important;
+		-webkit-animation-delay:1.6s !important;
+		-webkit-animation-duration: 1.5s !important;
+		  animation-duration: 1.5s !important;
+	}
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
 	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
@@ -727,7 +760,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 hide">
+<div class="page page-1-1 page-current">
 	<div class="wrap">
 		<img class="st cloud1" src="http://frstatic.qiniudn.com/images/promo/zp/cloud1.png">
 		<img class="st cloud2" src="http://frstatic.qiniudn.com/images/promo/zp/cloud2.png">
@@ -792,7 +825,7 @@
 	</div>
 </div>
 
-<div class="page page-6-1 page-current">
+<div class="page page-6-1 hide">
 	<div class="wrap">
 		<img class="st zwg zpw1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-1.png">
 		<img class="st zwg zpw2 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-2.png">
@@ -807,6 +840,17 @@
 		<img class="st zwg3 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-10.png">
 		
 		<img class="st zwg4 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp6-11.png">
+	</div>
+</div>
+
+<div class="page page-7-1 hide">
+	<div class="wrap">
+		<img class="st zwh zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-1.png">
+		<img class="st zwh zpw3 fadeInRight animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-3.png">
+		<img class="st zwh zpw3 rollIn animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-2.png">
+		<img class="st zwh zwh1 fadeInUp animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-4.png">
+		<img class="st zwh zwh2 zoomInLeft animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-5.png">
+		<img class="st zwh zwh2 zoomInRight animated" src="http://frstatic.qiniudn.com/images/promo/zp/zp7-6.png">
 	</div>
 </div>
 
