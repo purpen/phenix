@@ -3,8 +3,28 @@
 {% block js %}
 {% endblock %}
 
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+{% endblock %}
+
 {% block jquery %}
 	phenix.build_auth_page();
+
+  var obj = new WxLogin({
+      id:"login_container", 
+      appid: "{{ wx_params.app_id }}", 
+      scope: "snsapi_login", 
+      redirect_uri: "{{ wx_params.redirect_uri }}",
+      state: "{{ wx_params.state }}",
+      style: "white",
+      href: ""
+    });
+
+
+		$('.ui.green.circular.share.icon.button').bind('click', function(){
+			$('.ui.share.basic.modal').modal('show');
+		});
+
 {% endblock %}
 
 {% block content %}
@@ -20,7 +40,7 @@
     			</div>
 				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
-				
+                    
 					<div class="field">
 					  	<input type="text" name="account" placeholder="手机号码" />
 					</div>
@@ -39,7 +59,7 @@
 						<div class="fluid ui large active magenta inverted submit button">登录</div>
 					</div>
 				</form>
-                
+
                 <div class="thirdlogin">
                     支持第三方登录：
     				<a href="{{ weibo_auth_url }}" class="ui red icon inverted button" title="新浪微博账号">

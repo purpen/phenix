@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat','add_user');
+	protected $exclude_method_list = array('execute','flat','add_user','test_func');
 
 	/**
 	 * 默认入口
@@ -255,14 +255,10 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8
     //$a = Sher_Core_Util_View::fetch_invite_user_id('440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8');
     //$a = Sher_Core_Util_View::url_short('1');
-    $is = false;
-    while(!$is){
-      for($i=0;$i<10;$i++){
-        echo '111';
-      }
-      $is = true;
-    }
-    phpinfo();
+        $service = Sher_Core_Session_Service::instance();
+        $sid = $service->session->id;
+        echo $sid;
+    //phpinfo();
   }
 
   public function test_preg(){

@@ -1,0 +1,126 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1.6rem 0 0.6rem;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+}
+.ui.white.row {
+  margin-top: 1.5%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+}
+.ui.left.aligned.twelve.column{
+	text-align:left !important;
+	padding-top: 1em;
+}
+.ui.medium.image {
+  display: inline-block;
+  margin-right: 20px;
+	border-radius: 500px;
+	width: 150px;
+}
+.ui.left.aligned.twelve.column h3.ui.header .content {
+  display: inline-block;
+  vertical-align: middle;
+  width: 70%;
+}
+.ui.left.aligned.twelve.column h3.ui.header .content  .sub.header{
+	margin-top:0.45em;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
+.ui.left.aligned.twelve.column .content .sub.header p{
+	margin:5px 0;
+  line-height: 20px;
+}
+h4+.content .sub.header p{
+	margin-bottom:0.8rem !important;
+	line-height:24px !important;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="six wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="ten right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">合作伙伴</h3>
+			</div>
+		</div>
+		<div class="row ui center aligned white responsive grid">
+			<div class="ui left aligned twelve wide column">
+				<h4 class="ui header">实验室导师</h4>
+				<h3 class="ui dividing header" style="padding-bottom: 1rem;">
+					<img class="ui medium image" src="http://frstatic.qiniudn.com/images/img_qz.jpg" alt="尚志斌 ">
+					<div class="content">
+						全智 <br />南方科技大学电子与电气工程系 副教授
+						<div class="sub header">
+							<p>前美国高通公司研发部任高级系统工程师</p>
+							<p>前苹果公司资深射频系统工程师和架构师</p>
+						</div>
+					</div>
+				</h3>
+			</div>
+			<div class="ui left aligned twelve wide column" style="margin-top: -1em;">
+				<h4 class="ui header"></h4>
+				<div class="content">
+					<div class="sub header" style="color: rgba(0,0,0,.5);">
+						<p>全智，国家中组部“青年千人计划”专家，国际知名通信信号处理专家,现任南方科技大学电子与电气工程系任副教授。1999年获北京邮电大学通信工程学士学位。2009年以最高荣誉“杰出博士奖”从美国加州大学洛杉矶分校（UCLA）获电子工程博士学位。2007至2008年间在美国普林斯顿大学做访问学者。在国际通信和信号处理领域的权威学术期刊和会议发表论文20余篇，总引用超过2000多次；其中关于认知无线电的开创性研究成果因解决一类非凸优化的理论难题在国际上产生重大影响，被世界同行广泛跟进研究（单篇论文迄今被引用近800次），并荣获2012年度IEEE信号处理学会“最佳论文奖”，该奖项是国际信号处理学会的传统奖项，享有极高的学术声誉。全博士于2008至2012年间在美国高通公司研发部任高级系统工程师，主要研究面向未来物联网的低功耗远距离无线传输技术，其研究成果申请了30多项美国专利（已获授权7项），多项技术提案被IEEE 802.11标准委员会采纳成为下一代Wi-Fi通信标准。2012至2014年间在苹果公司硅谷总部担任资深射频系统工程师和架构师，主要负责iPhone和iPad的无线通信系统设计与高精度校准测试，其提出的高精度无线射频校准方法被应用到iPhone、iPad和MacBook的大规模量产中，每年为苹果公司节省至少上千万美元的生产成本。其研究领域包括统计信号处理、认知无线电、超远距离宽带无线通信系统、高精度无线射频系统校准、以及生物医学信号处理等。</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+
+

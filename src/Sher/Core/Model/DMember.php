@@ -121,9 +121,10 @@ class Sher_Core_Model_DMember extends Sher_Core_Model_Base  {
           //更新用户表为VIP会员类型
           $user_model = new Sher_Core_Model_User();
           if(in_array((int)$options['item_id'], array(2,3,4,5,6))){
-            $user_model->update_user_identify((int)$user_id, 'd3in_vip', 1);         
+            $user_model->update_user_identify((int)$user_id, 'd3in_vip', 1);
+            $user_model->update_user_identify((int)$user_id, 'd3in_tag', 1); 
           }
-          $user_model->update_user_identify((int)$user_id, 'd3in_tag', 1);  
+ 
         }
       
       }

@@ -74,7 +74,7 @@ class Sher_Core_Util_D3in extends Doggy_Object {
   /**
    * 预约时间数组
    */
-  public static function appoint_time_arr(){
+  public static function appoint_time_arr($id=0){
     $time_arr = array(
       array('id'=>9, 'title'=>'9:00-10:00'),
       array('id'=>10, 'title'=>'10:00-11:00'),
@@ -90,7 +90,16 @@ class Sher_Core_Util_D3in extends Doggy_Object {
       array('id'=>20, 'title'=>'20:00-21:00'),
     );
 
-    return $time_arr;
+    if(empty($id)){
+      return $time_arr;
+    }else{
+      foreach($time_arr as $v){
+        if($v['id']==(int)$id){
+          return $v['title'];
+        }
+      }
+    }
+
 
   }
 

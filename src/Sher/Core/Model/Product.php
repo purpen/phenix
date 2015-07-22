@@ -19,17 +19,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# taobao sku
 		'taobao_iid' => null,
 		# 产品名称
-	    'title'   => '',
-    # 短标题
-      'short_title' => '',
+		'title'   => '',
+		# 短标题
+		'short_title' => '',
 		# 优势/亮点
 		'advantage' => '',
 		# 简述
-        'summary' => '',
+		'summary' => '',
 		# 详情内容
 		'content' => '',
 		# 产品标签
-    	'tags'    => array(),
+		'tags'    => array(),
 		
 		# 产品视频链接
 		'video' => array(),
@@ -38,7 +38,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'view_url' => '',
 		
 		# 封面图
- 		'cover_id' => '',
+		'cover_id' => '',
 		'asset' => array(),
 		# 附件图片数
 		'asset_count' => 0,
@@ -47,7 +47,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'category_id' => 0,
 		
 		# 上传者
-	    'user_id' => null,
+		'user_id' => null,
 		# 设计者/团队
 		'designer_id' => 0,
 		
@@ -143,35 +143,35 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'snatched_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
-        # 抢购价
-        'snatched_price' => 0,
-        # 抢购数量
-        'snatched_count' => 0,
+		# 抢购价
+		'snatched_price' => 0,
+		# 抢购数量
+		'snatched_count' => 0,
 
-	    ## 试用
-	    'trial' =>  0,
+		## 试用
+		'trial' =>  0,
 
-        ## 积分设置
-        'exchanged' => 0,
-        # 所需最高鸟币数量
-        'max_bird_coin' => 0,
-        # 所需最低鸟币数
-        'min_bird_coin' => 0,
-        # 补价格
-        'exchange_price' => 0,
-        # 兑换数量
-        'exchange_count' => 0,
+		## 积分设置
+		'exchanged' => 0,
+		# 所需最高鸟币数量
+		'max_bird_coin' => 0,
+		# 所需最低鸟币数
+		'min_bird_coin' => 0,
+		# 补价格
+		'exchange_price' => 0,
+		# 兑换数量
+		'exchange_count' => 0,
 		
 		## 计数器
 		
 		# 浏览数
-    	'view_count'=>0,
+		'view_count'=>0,
 		# 收藏数
-        'favorite_count' => 0, 
+		'favorite_count' => 0, 
 		# 喜欢数
-        'love_count' => 0,
+		'love_count' => 0,
 		# 回应数 
-    	'comment_count' => 0,
+		'comment_count' => 0,
 		# 评价星数
 		'comment_star' => 0,
 		# 话题数
@@ -180,8 +180,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'vote_favor_count' => 0,
 		# 反对数
 		'vote_oppose_count' => 0,
-        # 相关灵感数
-        'stuff_count' => 0,
+		# 相关灵感数
+		'stuff_count' => 0,
 		
 		## 专家评分
 		
@@ -217,7 +217,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 投票是否成功
 		'succeed' => 0,
 		# 预售，销售产品是否发布
-    	'published' => 0,
+		'published' => 0,
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
@@ -227,23 +227,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 状态
 		'state' => 0,
-    	# 删除标识
-    	'deleted' => 0,
+		# 删除标识
+		'deleted' => 0,
 		# 随机数
 		'random' => 0,
-        # 最近一次编辑人ID
-        'last_editor_id' => 0,
+		# 最近一次编辑人ID
+		'last_editor_id' => 0,
     );
 	
 	protected $required_fields = array('user_id','title');
-	
 	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count');
-	
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'exchange_price');
-	
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count');
 	protected $retrieve_fields = array('content'=>0);
-	
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
 		'designer' => array('designer_id'  => 'Sher_Core_Model_User'),
@@ -339,7 +335,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         
         // 是否为热门
         $row['hot'] = ($row['sale_count'] > 100) ? 1 : 0;
-		
 	}
 	
 	/**

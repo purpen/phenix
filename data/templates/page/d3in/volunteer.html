@@ -4,7 +4,7 @@
 {% block page_css %}
 <style type="text/css">
 .lab.submenu>.ui.responsive.grid>.row{
-	padding:1rem 0;
+	padding:1.6rem 0 0.6rem;
 	border-bottom: 1px solid rgba(0,0,0,0.15);
 }
 .lab.submenu > .ui.responsive.grid > .row > .column{
@@ -24,7 +24,7 @@
 	background:rgba(0,0,0,0) !important;
 }
 .ui.white.grid.row{
-	padding: 1rem 5%;
+	padding: 1rem 5% !important;
 }
 
 p{
@@ -43,6 +43,9 @@ p.heigh{
 }
 .ui.modal .ui.checkbox + .ui.checkbox{
 	margin-left:2em;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
 }
 
 </style>
@@ -138,10 +141,10 @@ $('#volunteer-form').livequery(function(){
 <div class="lab submenu">
 	<div class="ui responsive grid" style="padding:0 11%;">
 		<div class="row">
-			<div class="eight wide column">
+			<div class="six wide column">
 				<h3>D3IN铟立方未来实验室</h3>
 			</div>
-			<div class="eight right aligned wide column">
+			<div class="ten right aligned wide column">
         {% include "block/d3in/sub_nav.html" %}
 			</div>
 		</div>

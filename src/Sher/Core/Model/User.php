@@ -150,9 +150,14 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     public static $TWEET_EVENTS = array('post','comment','like','love');
 	
     protected $schema = array(
+    # 用户名
 		'account'  => null,
 		'password' => null,
 		'nickname' => null,
+
+    # 唯一登录标识
+    'phone_account' => null,
+    'email_account' => null,
 		
 		'email'    => null,
 		
@@ -175,6 +180,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
 		# weixin open
 		'wx_open_id' => null,
+    'wx_access_token' => null,
+    # weixin unionid 
+    'wx_union_id' => null,
 		
         'last_login'    => 0,
 		'current_login' => 0,
@@ -280,7 +288,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号;
+        # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号或现有账户;
         'kind' => 0,
     );
 	
@@ -731,6 +739,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 */
 	public function update_qq_accesstoken($id, $accesstoken){
 		return $this->update_set((int)$id, array('qq_access_token' => $accesstoken));
+	}
+
+	/**
+	 * 更新WeiXin用户授权access token
+	 */
+	public function update_wx_accesstoken($id, $accesstoken){
+		return $this->update_set((int)$id, array('wx_access_token' => $accesstoken));
 	}
 	
 	/**

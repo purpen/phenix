@@ -18,6 +18,7 @@
 		<a class="{{ css_chief }} item" href="{{ app_url_admin }}/user?role=chief">编辑人员</a>
         <a class="{{ css_customer }} item" href="{{ app_url_admin }}/user?role=customer">客服人员</a>
         <a class="{{ css_editor }} item" href="{{ app_url_admin }}/user?role=editor">兼职编辑</a>
+        <a class="{{ css_small }} item" href="{{ app_url_admin }}/user?kind=9">小号</a>
 	  	<div class="right menu">
 	    	<div class="ui dropdown item">
 	      	  	筛选时间
@@ -40,7 +41,7 @@
 		</div>
 	</div>
 	
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality kind:kind %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>

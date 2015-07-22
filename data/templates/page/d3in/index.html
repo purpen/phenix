@@ -4,7 +4,7 @@
 {% block page_css %}
 <style type="text/css">
 .lab.submenu > .ui.responsive.grid > .row{
-	padding:1.2rem 0 .8rem;
+	padding:1.6rem 0 .6rem;
 	border-bottom: 1px solid rgba(255,255,255,0.85);
 }
 .lab.submenu > .ui.responsive.grid > .row > .column{
@@ -102,6 +102,7 @@
 }
 .d3in .ui.title{
 	padding:8rem 0;
+	margin: 0px !important;
 }
 .d3in .ui.title h1 span{
 	font-size: 35px;
@@ -159,6 +160,13 @@
     -webkit-animation-fill-mode: both; 
     animation-fill-mode: both; 
 }
+.three.wide > .image a > img{
+	border-radius:500px;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+	color:#f36 !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -184,16 +192,16 @@
 		<div class="lab submenu">
 			<div class="ui responsive grid" style="padding:0 11%;">
 				<div class="row">
-					<div class="eight wide column">
+					<div class="six wide column">
 						<h3>D3IN铟立方未来实验室</h3>
 					</div>
-					<div class="eight right aligned wide column">
+					<div class="ten right aligned wide column">
             {% include "block/d3in/sub_nav.html" %}
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="ui title responsive grid">
+		<div class="ui title grid">
 			<div class="row">
 				<div class="center aligned column">
 					<h1 class="ui header">D<span>3</span>IN铟立方未来实验室</h1>
@@ -236,19 +244,21 @@
 		<div class="ui responsive center aligned grid">
 			<div class="row">
 				<div class="five wide column">
-					<!--<img src="{{ app_url_packaged }}/images/d3in/" alt="">-->
+					<img src="{{ app_url_packaged }}/images/d3inn9.png" alt="D3in">
 					<h3 class="ui header">培训课／主题沙龙</h3>
 					<p>D3IN实验室定期举办的专业培训课程将覆盖研发设计，测试技能，工艺制程，生产管控等领域，以多维度方式满足D3IN实验室会员的需求。 同时开展各类主题沙龙分享会，D3IN实验室会员通过互动来分享各自的收获与感悟，共创互通。
 					</p>
 					
 				</div>
 				<div class="five wide column">
+					<img src="{{ app_url_packaged }}/images/d3inn10.png" alt="D3in">
 					<h3 class="ui header">平台资源</h3>
 					<p>凭借与各个合作伙伴的良好关系，从而拥有丰富的资源接口，涉及芯片方案，IC代理，制造生产，云端服务，语音识别，模组量化等企业/厂商。D3IN实验室将提供此平台，帮助并指导有需求的D3IN实验室会员解决其所遇到的硬件&软件资源接口不足的难题。</p>
 				</div>	
 				<div class="five wide column">
+					<img src="{{ app_url_packaged }}/images/d3inn11.png" alt="D3in">
 					<h3 class="ui header">专家大牛</h3>
-					<p>拥有来自南方科技大学无线射频教授(前苹果公司无线资深高级工程师)，世界领先测试仪器厂KeySight(原名安捷伦)的测试专家，产品模块化设计资深硬件大师(前Foxconn资深专理)，硬件管控资深大牛(前微软资深硬件方案设计师)，结构设计大师（前摩托罗拉结构设计师），EMC整改资深大牛（比亚迪充电事业部EMC培训导师）等将会在线常驻D3IN实验室。D3IN实验室会员可向专家大牛取经，从而提升产品整体的竞争力。</p>
+					<p>拥有来自南方科技大学无线射频教授，世界领先测试仪器厂KeySight的测试专家，产品模块化设计资深硬件大师，硬件管控资深大牛，结构设计大师，EMC整改资深大牛等将会在线常驻D3IN实验室。D3IN实验室会员可向专家大牛取经，从而提升产品整体的竞争力。</p>
 				</div>
 			</div>
 			
@@ -274,15 +284,16 @@
 				</div>
 			</div>
 			<div class="row">
+				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner1"><img alt="尚志斌" class="ui image" src="{{ app_url_packaged }}/images/img_szb.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								尚志斌
 							<div class="sub header">
-								台湾创意中心执行长
+								CTO 联合创始⼈
 							</div>
 						</div>
 					</h4>
@@ -290,13 +301,13 @@
 				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner2"><img alt="全智" class="ui image" src="http://frstatic.qiniudn.com/images/img_qz.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								全智
 							<div class="sub header">
-								台湾创意中心执行长
+								南方科技大学电子与电气工程系 副教授
 							</div>
 						</div>
 					</h4>
@@ -304,13 +315,13 @@
 				
 				<div class="three wide column">
 					<div class="image">
-						<img alt="陈文龙" class="ui image" src="http://frstatic.qiniudn.com/images/match/judges_7.png">
+						<a href="{{ app_url_d3in }}/partner3"><img alt="陈建敏" class="ui image" src="http://frstatic.qiniudn.com/images/img_cjm.jpg"></a>
 					</div>
 					<h4 class="ui header">
 						<div class="content">
-								陈文龙
+								陈建敏
 							<div class="sub header">
-								台湾创意中心执行长
+								大族激光   EMC整改培训讲师
 							</div>
 						</div>
 					</h4>
@@ -387,21 +398,21 @@
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">免费沙龙</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn1.jpg" width="80%" alt="D3in"></i>
 							<p>免费参加太火鸟定期举办的沙龙，分享会</p>
 						</div>
 					</div>
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">免费分享会</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn2.jpg" width="80%" alt="D3in"></i>
 							<p>免费参加外聘讲师做的training，分享会</p>
 						</div>
 					</div>
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">使用测试仪器</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn3.jpg" width="80%" alt="D3in"></i>
 							<p>提前预约，免费使用各类测试仪器</p>
 						</div>
 					</div>
@@ -413,21 +424,21 @@
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">单独储物空间</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn4.jpg" width="80%" alt="D3in"></i>
 							<p>免费提供1个单独储物空间</p>
 						</div>
 					</div>
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">开放工作区域</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn5.jpg" width="80%" alt="D3in"></i>
 							<p>无单独办公位置，提供开放工作区域</p>
 						</div>
 					</div>
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">产品咨询服务</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn6.jpg" width="80%" alt="D3in"></i>
 							<p>免费提供产品DFM review咨询服务</p>
 						</div>
 					</div>
@@ -439,14 +450,14 @@
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">技术支持</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn7.jpg" width="80%" alt="D3in"></i>
 							<p>免费提供产品trouble shooting技术支持</p>
 						</div>
 					</div>
 					<div class="ui center aligned block">
 						<div class="content">
 							<h4 class="ui header">产品测试指导</h4>
-							<i class="flat icon_about_01 icon"></i>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn8.jpg" width="80%" alt="D3in"></i>
 							<p>免费提供产品的测试指导</p>
 						</div>
 					</div>
@@ -477,6 +488,8 @@
 					<a href="javascript:void();" title="broadlink" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_broadlink.jpg" alt="broadlink"></a>
 					<a href="javascript:void();" title="shqk" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_shqk.jpg" alt="shqk"></a>
 					<a href="javascript:void();" title="honee" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_honee.jpg" alt="honee"></a>
+					<a href="javascript:void();" title="kii" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_kii.jpg" alt="kii"></a>
+					<a href="javascript:void();" title="longtooth" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_longtooth.jpg" alt="longtooth"></a>
 					
 					
 					

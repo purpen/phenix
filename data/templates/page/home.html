@@ -217,45 +217,48 @@
 					{% topic_list var:'list' type:1 page:1 size:6 %}
                     <div class="ui two homesocial blocks">
                         {% for topic in list.rows %}
-                        <div class="block">
-                            <div class="ui headline header">
-        						{% if topic.cover %}
-                                <a class="ui image" href="{{ topic.view_url }}" title="{{ topic.title }}">
-										{% if loop.odd %}
-        						    <img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区"/>										{% else %}
-												<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}"/>	
-										{% endif %}
-                                </a>
-                                {% else %}
-                        		<a class="ui small avatar image" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
-                              		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-                        		</a>
-        						{% endif %}
-                                <div class="content">
-    					      	  	<a class="ui line" href="{{ topic.view_url }}" title="{{ topic.title }}">
-                                        {{ topic.title|truncate 32 }}
-                                    </a>
-                                    <div class="sub header">
-                                        {{ topic.strip_description|truncate 100 }}
-                                    </div>
-                                    <div class="extra">
-    									<div class="ui horizontal list">
-    										<div class="item">
-                                                <a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>
-                                            </div>
-    										<div class="item">
-                                                <i class="unhide icon"></i> {{ topic.view_count }}
-                                            </div>
-    										<div class="item">
-                                                <i class="thumbs outline up icon"></i> {{ topic.love_count }}
-                                            </div>
-    										
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
+							<!-- 判断话题是否可以显示 -->
+							{% if topic.published %}
+							<div class="block">
+								<div class="ui headline header">
+									{% if topic.cover %}
+									<a class="ui image" href="{{ topic.view_url }}" title="{{ topic.title }}">
+											{% if loop.odd %}
+										<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区"/>										{% else %}
+													<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}"/>	
+											{% endif %}
+									</a>
+									{% else %}
+									<a class="ui small avatar image" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
+										<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+									</a>
+									{% endif %}
+									<div class="content">
+										<a class="ui line" href="{{ topic.view_url }}" title="{{ topic.title }}">
+											{{ topic.title|truncate 32 }}
+										</a>
+										<div class="sub header">
+											{{ topic.strip_description|truncate 100 }}
+										</div>
+										<div class="extra">
+											<div class="ui horizontal list">
+												<div class="item">
+													<a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>
+												</div>
+												<div class="item">
+													<i class="unhide icon"></i> {{ topic.view_count }}
+												</div>
+												<div class="item">
+													<i class="thumbs outline up icon"></i> {{ topic.love_count }}
+												</div>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						{% endfor %}
                     </div>
 				</div>
 			</div>

@@ -1,12 +1,12 @@
 <taconite>
 	<append select="#comments"><![CDATA[
-		{% comment_list var:'comments' page:page target_id:target_id type:type %}
+		{% comment_list var:'comments' page:page target_id:target_id type:type check_loved:1 current_user_id:current_user_id %}
 		{% for comment in comments.rows %}
 			{%include 'block/comment_item.html'%}
 		{% endfor %}
 	]]></append>
 	<eval>
-		{% if comments.total_page == next_page %}
+		{% if comments.total_page < next_page %}
 			$('#more-comments').addClass('disabled');
 		{% else %}
 			$('#more-comments').data('page', {{ next_page }});

@@ -34,6 +34,7 @@
 	</div>
 </div>
 
+<!-- 话题板块列表 -->
 <div class="social topics catemenu">
     <div class="category header" style="background-image: url('{{ app_url_packaged }}/images/topicbg/phone-car.jpg');">
         <div class="cover">
@@ -68,6 +69,7 @@
     </div>
 </div>
 
+<!-- 话题推荐位 -->
 {% topic_list var:'featurelist' type:1 size:4 %}
 <div class="social topstick">
 	<div class="ui responsive grid">
@@ -76,18 +78,21 @@
                 {% if featurelist.total_rows %}
 				<div class="ui socialstick stickcount four blocks">
                     {% for ft in featurelist.rows %}
-					<div class="block">
-						<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.thumbnails.medium.view_url }}');"{% endif %}>
-                            <a class="transparent" href="{{ ft.view_url }}" target="_blank">
-    							<div class="sub title">
-    								{{ ft.title }}
-            						<div class="extra count">
-            							<i class="unhide icon"></i> <span>{{ ft.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.comment_count }}</span>
-            						</div>
-    							</div>
-                            </a>
-						</div>
-					</div>
+						<!-- 判断话题是否可以显示 -->
+						{% if ft.published %}
+							<div class="block">
+								<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.thumbnails.medium.view_url }}');"{% endif %}>
+									<a class="transparent" href="{{ ft.view_url }}" target="_blank">
+										<div class="sub title">
+											{{ ft.title }}
+											<div class="extra count">
+												<i class="unhide icon"></i> <span>{{ ft.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.comment_count }}</span>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+						{% endif %}
 					{% endfor %}
 				</div>
                 {% endif %}
@@ -96,6 +101,7 @@
     </div>
 </div>
 
+<!-- 话题列表 -->
 <div class="social" id="topics">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -116,14 +122,20 @@
     						{% if dig_list %}
     							{% for topic in dig_list %}
     								{% if topic %}
-    								    {% include "block/topic_item.html" %}
+										<!-- 判断话题是否可以显示 -->
+										{% if topic.published %}
+											{% include "block/topic_item.html" %}
+										{% endif %}
     								{% endif %}
     							{% endfor %}
     						{% endif %}   
                             
 							{% for topic in list.rows %}
     							{% if !topic.top %}<!--过滤置顶帖子-->
-    								{% include "block/topic_item.html" %}
+									<!-- 判断话题是否可以显示 -->
+    								{% if topic.published %}
+										{% include "block/topic_item.html" %}
+									{% endif %}
     							{% endif %}
 							{% endfor %}
                             </tbody>
@@ -159,6 +171,7 @@
 	</div>
 </div>
 
+<!-- 发表话题 -->
 <div class="social submitbox">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -175,6 +188,7 @@
 	</div>
 </div>
 
+<!-- 底部导航 -->
 <div class="section breadcrumb">
 	<div class="ui responsive grid">
 		<div class="row">

@@ -14,6 +14,8 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
   const STATE_PAY = 1;
   // 状态结束
   const STATE_OVER = 2;
+  // 未到
+  const STATE_ABSEND = 3;
   // 状态成功
   const STATE_OK = 10;
 	
@@ -41,6 +43,9 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 
     // 是否删除
     'deleted' => 0,
+
+    // 类型
+    'kind' => 1,
 
     // 来源
     'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
@@ -165,21 +170,11 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 		$updated = array(
 			'state' => $state,
 		);
-		
-		// 取消预约
-		if($state == self::STATE_NO){
-      $appoint = $this->load($id);
-      if(!empty($appoint)){
-        $appoint_record_model = new Sher_Core_Model_DAppointRecord();
-        foreach($appoint['items'] as $k=>$v){
-          foreach($v['time_ids'] as $t){
-            //释放名额
-            $appoint_record_model->cancel_appointed((int)$v['item_id'], (int)$v['date_id'], (int)$t, $appoint['user_id']);         
-          }
-        }
-      }
 
-		}
+    // 取消预约
+    if($state == self::STATE_NO){
+    
+    }
 
     //预约成功
     if($state == self::STATE_OK){
@@ -187,6 +182,30 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     }
 
     $ok = $this->update_set($id, $updated);
+    if($ok){
+      // 取消预约
+      if($state == self::STATE_NO){
+        $appoint = $this->load($id);
+        if(!empty($appoint)){
+          $appoint_record_model = new Sher_Core_Model_DAppointRecord();
+          foreach($appoint['items'] as $k=>$v){
+            foreach($v['time_ids'] as $t){
+              //释放名额
+              $appoint_record_model->cancel_appointed((int)$v['item_id'], (int)$v['date_id'], (int)$t, $appoint['user_id']);         
+            }
+          }
+
+          // 关闭该订单
+          $order_model = new Sher_Core_Model_DOrder();
+          $order = $order_model->first(array('item_id'=>(string)$id, 'kind'=>Sher_Core_Model_DOrder::KIND_D3IN, 'state'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT));
+          if($order){
+            $order_model->close_order((int)$order['_id']);
+          }
+        }
+
+      }
+
+    }
     return $ok;
 	}
 	

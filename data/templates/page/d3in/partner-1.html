@@ -1,0 +1,140 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1.6rem 0 0.6rem;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+}
+.ui.white.row {
+  margin-top: 1.5%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+}
+.ui.left.aligned.twelve.column{
+	text-align:left !important;
+	padding-top: 1em;
+}
+.ui.medium.image {
+  display: inline-block;
+  margin-right: 20px;
+	border-radius: 500px;
+	width: 150px;
+}
+.ui.left.aligned.twelve.column h3.ui.header .content {
+  display: inline-block;
+  vertical-align: middle;
+  width: 70%;
+}
+.ui.left.aligned.twelve.column h3.ui.header .content  .sub.header{
+	margin-top:0.45em;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
+.ui.left.aligned.twelve.column .content .sub.header p{
+	margin:5px 0;
+  line-height: 20px;
+}
+h4+.content .sub.header p{
+	margin-bottom:0.8rem !important;
+	line-height:24px !important;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="six wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="ten right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">合作伙伴</h3>
+			</div>
+		</div>
+		<div class="row ui center aligned white responsive grid">
+			<div class="ui left aligned twelve wide column">
+				<h4 class="ui header">实验室导师</h4>
+				<h3 class="ui dividing header" style="padding-bottom: 1rem;">
+					<img class="ui medium image" src="http://frstatic.qiniudn.com/images/img_szb.jpg" alt="尚志斌 ">
+					<div class="content">
+						尚志斌 <br />CTO 联合创始人
+						<div class="sub header">
+							<p>上海师范⼤大学主修物理和计算机科学</p>
+							<p>⻓牙TM技术的发明者</p>
+							<p>参与多个重⼤大的电信网络建设项目:国家网、省⺴⽹网、城域⺴⽹网
+							和公安⺴⽹网、⽆无线城市⺴⽹网络</p>
+						</div>
+					</div>
+				</h3>
+			</div>
+			<div class="ui left aligned twelve wide column" style="margin-top: -1em;">
+				<h4 class="ui header">上海耀诚通信科技有限公司(N22)</h4>
+				<div class="content">
+					<div class="sub header" style="color: rgba(0,0,0,.5);">
+						<p>上海耀诚通信科技有限公司(N22)专注于技术⾰革新近10年。作为物联⺴⽹网通信技术的⾰革 新者和先驱,其所拥有的专利通信技术⻓长⽛牙TM(http://longtooth.io)已被认证和使⽤用。</p>
+						<p>⻓长⽛牙TM是⼀一款基于应⽤用层的通信协议,在联⺴⽹网的情况下可实现任意距离点对点的双向连 接和控制,能够实现设备、移动端、云端、平台、服务之间的互联互通。N22意图打造⻓长⽛牙 TM务联⺴⽹网平台,通过⻓长⽛牙平台的推⼲⼴广和优化,加快物联⺴⽹网应⽤用的开发和部署,从⽽而实现“让万 务互联没有障碍”远景。</p>
+						<p>N22⼤大事记:<br />
+						➢ 1997公司成⽴立<br />
+						➢ 2000 N22⺟母公司新加坡上市<br />
+						➢ 2004开始数据包深层分析(DPI)软件开发<br />
+						➢ 2005 MOB分离,专注通讯技术研究<br />
+						➢ 2006和Cisco创建的服务交换平台,可通过单点登录(SSO)连通所有包括电信服务、社区服务和现有系统<br />
+						➢ 2008建造出云服务交换技术,应⽤用于Cisco智慧校园、⼯工业园区、智慧⼤大楼中<br />
+						➢ 2010 Cisco⾸首个运⽤用N22云服务交换技术的教育云在四川绵⽵竹应⽤用<br />
+						➢ 2011演化为⻓长⽛牙TM技术,并应⽤用于移动互联⺴⽹网<br />
+						➢ 2014-2015⻓长⽛牙TM进⼊入物联⺴⽹网领域<br />
+						Cisco创新中⼼心使⽤用了⻓牙TM交换平台 和中国移动杭州研究院共同搭建“贯众互联”平台</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+
+

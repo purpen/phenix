@@ -50,12 +50,12 @@ class Sher_Admin_Action_DMember extends Sher_Admin_Action_Base implements DoggyX
 			$model = new Sher_Core_Model_DMember();
 			
 			foreach($ids as $id){
-				$d_member = $model->load($id);
+				$d_member = $model->load((int)$id);
 				
 				if (!empty($d_member)){
-					$model->remove($id);
+					$model->remove((int)$id);
 					// 删除关联对象
-					$model->mock_after_remove($id);
+					$model->mock_after_remove((int)$id);
 				}
 			}
 			

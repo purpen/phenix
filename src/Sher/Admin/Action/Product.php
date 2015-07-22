@@ -21,11 +21,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
      * @return string
      */
     public function get_list() {
-    	$this->set_target_css_state('page_product');
 		
+    	$this->set_target_css_state('page_product');
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product?stage=%d&page=#p#';
 		switch($this->stash['stage']){
-      case 12:
+		case 12:
 				$this->stash['process_exchange'] = 1;
 				break;
 			case 9:
@@ -66,7 +66,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		$redirect_url = Doggy_Config::$vars['app.url.sale'].'/edit?id='.$id;
-		
 		return $this->to_redirect($redirect_url);
 	}
 	
@@ -114,8 +113,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
 
-    //短标题
-    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+		//短标题
+		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		
 		// 投票时间
 		$data['voted_start_time'] = $this->stash['voted_start_time'];
@@ -134,11 +133,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			return $this->ajax_json('抢购商品，必须设置抢购开始时间！', true);
 		}
 		$data['appoint_count'] = (int)$this->stash['appoint_count'];
-    $data['snatched_price'] = $this->stash['snatched_price'];
-    $data['snatched_count'] = (int)$this->stash['snatched_count'];
+		$data['snatched_price'] = $this->stash['snatched_price'];
+		$data['snatched_count'] = (int)$this->stash['snatched_count'];
 
-    // 积分兑换
-    $data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;
+		// 积分兑换
+		$data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;
 		$data['max_bird_coin'] = (int)$this->stash['max_bird_coin'];
 		$data['min_bird_coin'] = (int)$this->stash['min_bird_coin'];
 		$data['exchange_price'] = isset($this->stash['exchange_price'])?(float)$this->stash['exchange_price']:0;
@@ -190,12 +189,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				return $this->ajax_json('产品当前阶段设置有误！', true);
 			}
 
-      //如果设置积分兑换,判断鸟币与兑换金额准确
-      if(!empty($data['exchanged'])){
-        if(Sher_Core_Util_Shopping::bird_coin_transf_money($data['max_bird_coin']) > $data['sale_price']){
-   			  return $this->ajax_json('积分兑换数据输入不准确！', true);       
-        }
-      }
+			//如果设置积分兑换,判断鸟币与兑换金额准确
+			if(!empty($data['exchanged'])){
+			  if(Sher_Core_Util_Shopping::bird_coin_transf_money($data['max_bird_coin']) > $data['sale_price']){
+					return $this->ajax_json('积分兑换数据输入不准确！', true);       
+			  }
+			}
 			
 			if(empty($id)){
 				$mode = 'create';
@@ -221,14 +220,14 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$this->update_batch_assets($data['asset'], $id);
 			}
 
-      //如果是发布状态,更新索引
-      $product = $model->load((int)$id);
-      if($product['published']==1){
-        // 更新全文索引
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
-        //更新百度推送
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
-      }
+		//如果是发布状态,更新索引
+		$product = $model->load((int)$id);
+		if($product['published']==1){
+		  // 更新全文索引
+		  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+		  //更新百度推送
+		  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
+		}
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());
@@ -451,7 +450,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		$this->stash['note'] = '发布上线成功！';
-		
 		return $this->to_taconite_page('ajax/published_ok.html');
 	}
 	
@@ -672,7 +670,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			$this->stash['comment'] = &$model->extend_load($comment_id);
 		}
 		
-		return $this->to_taconite_page('ajax/evaluate_ok.html');
+    return $this->ajax_json('操作成功!', false);
+		//return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}
 
 	/**

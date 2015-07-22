@@ -56,6 +56,8 @@
 				{% topic_list var:'list' category_id:idea_category_id sort:0 size:15 page:page %}
 				<div class="ui three cards">
 					{% for topic in list.rows %}
+						<!-- 判断话题是否可以显示 -->
+						{% if topic.published %}
 				  	<div class="card">
 				    	<div class="image">
 				      	  	<img src="{{ topic.cover.thumbnails.md.view_url }}" />
@@ -75,6 +77,7 @@
 							<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" class="ui avatar image" /> {{ topic.user.nickname }}
 				    	</div>
 				  	</div>
+						{% endif %}
 					{% endfor %}
 				</div>
 				

@@ -255,7 +255,7 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
             throw new Sher_Core_Model_Exception('Order id is Null');
         }
         if(!isset($status)){
-            throw new Sher_Core_Model_Exception('Order status is Null');
+            throw new Sher_Core_Model_Exception('Order state is Null');
         }
         
 		$updated = array(
@@ -273,25 +273,6 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
 			$updated['is_canceled'] = 1;
 			$updated['canceled_date'] = time();
 		}
-
-        // 申请退款中
-        if($status == Sher_Core_Util_Constant::ORDER_READY_REFUND){
-            $updated['is_refunding'] = 1;
-			$updated['refunding_date'] = time();
-            if(!empty($options) && !empty($options['refund_reason'])){
-                $updated['refund_reason'] = $options['refund_reason'];   
-            }
-        }
-
-        // 退款成功
-        if($status == Sher_Core_Util_Constant::ORDER_REFUND_DONE){
-            if(empty($options['refunded_price'])){
-                throw new Sher_Core_Model_Exception('refunded_price is Null'); 
-            }
-            $updated['refunded_price'] = (float)$options['refunded_price'];
-			$updated['is_refunded'] = 1;
-			$updated['refunded_date'] = time();
-        }
 
       //支付成功
       if($status == Sher_Core_Util_Constant::ORDER_PUBLISHED){
@@ -318,7 +299,7 @@ class Sher_Core_Model_DOrder extends Sher_Core_Model_Base  {
             $appoint_id = $order['item_id'];
             $appoint_model = new Sher_Core_Model_DAppoint();
             $appoint = $appoint_model->load($appoint_id);
-            if($appoint){
+            if($appoint && $appoint['state']==Sher_Core_Model_DAppoint::STATE_PAY){
               $appoint_model->finish_appoint($appoint_id);
             }
           }

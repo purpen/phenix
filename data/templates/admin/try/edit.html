@@ -1,5 +1,20 @@
 {%extends 'layout/admin.html'%}
 
+{% block page_css %}
+<style class="text/css">
+  #asset-o-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-o-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.65em 0.25em;
+  }
+  #asset-o-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
+</style>
+{% endblock %}
+
 {% block layout_js %}
 	{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
@@ -111,6 +126,37 @@
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
 		}
 	});
+
+	// 配图上传(品牌头像,二维码)
+	$('#phenix-o-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token_f }}','x:pid': '{{ pid_f }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type_f }},'x:parent_id': '{{ try._id }}','file_id': '{{ pid_f }}' },
+        	endpoint: '{{ app_url_upload_dotry }}?type=2'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="flat add icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type_f||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
 	
 	// 设置封面图
 	$('#asset-list .ajax-cover').livequery(function(){
@@ -136,6 +182,48 @@
 			$(this).addClass('active');
 			
 			$('#try_banner_id').val(id);
+			return false;
+		});
+	});
+
+	// 设置品牌头像
+	$('#asset-o-list .ajax-brand-avatar').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-o-list .ajax-brand-avatar.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#try_brand_avatar').val(id);
+			return false;
+		});
+	});
+
+	// 设置IOS
+	$('#asset-o-list .ajax-qr-ios').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-o-list .ajax-qr-ios.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#try_ios').val(id);
+			return false;
+		});
+	});
+
+	// 设置android
+	$('#asset-o-list .ajax-qr-android').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-o-list .ajax-qr-android.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#try_android').val(id);
 			return false;
 		});
 	});
@@ -200,6 +288,11 @@
 		  	<label>活动亮点：</label>
 			<input type="text" name="description"  value="{{ try.description }}" />
 		</div>
+
+		<div class="field">
+		  	<label>品牌介绍：</label>
+		  	<textarea name="brand_introduce" >{{ try.brand_introduce }}</textarea>
+		</div>
 		
 		<div class="field">
 			<label>封面图：</label>
@@ -227,6 +320,45 @@
 								</a>
 								<a href="javascript:void(0);" class="ui link {%if try.banner_id == asset._id %}active {%endif%}ajax-banner pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
 									<i class="sun icon"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="field">
+			<label>配图(从左至右:1.品牌头像[120*120],ios/android[160*160])：</label>
+			<input type="hidden" name="try_brand_avatar" id="try_brand_avatar" value="{{ try.imgs.brand_avatar }}" />
+			<input type="hidden" name="try_qr_ios" id="try_ios" value="{{ try.imgs.qr_ios }}" />
+			<input type="hidden" name="try_qr_android" id="try_android" value="{{ try.imgs.qr_android }}" />
+			
+		  	<div id="phenix-o-uploader"></div>
+			<div id="asset-o-list" class="ui four blocks">
+				{% if mode == 'edit' %}
+					{% asset_list var:'assets' parent_id:try._id size:20 asset_type:31 %}
+					{% for asset in assets.rows %}
+					<div class="thumb block" id="{{ asset._id }}">
+						<div class="image">
+							<img src="{{ asset.thumbnails.small.view_url }}" />
+							<input type="hidden" class="asset_id_list" name="asset_f[]" value="{{ asset._id }}" />
+						</div>
+						<div class="buttons">
+							<div class="ui large links">
+								<a href="{{ app_url_fever }}/delete_asset?id={{ try._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+									<i class="remove icon"></i>
+								</a>
+								
+								<a href="javascript:void(0);" class="ui link {%if try.imgs.brand_avatar == asset._id %}active {%endif%}ajax-brand-avatar pop" data-content="设置品牌头像" data-variation="inverted" data-value="{{ asset._id }}">
+									<i class="checkered flag icon"></i>
+								</a>
+								<a href="javascript:void(0);" class="ui link {%if try.imgs.qr_ios == asset._id %}active {%endif%}ajax-qr-ios pop" data-content="设置IOS码" data-variation="inverted" data-value="{{ asset._id }}">
+									<i class="checkered flag icon"></i>
+								</a>
+								<a href="javascript:void(0);" class="ui link {%if try.imgs.qr_android == asset._id %}active {%endif%}ajax-qr-android pop" data-content="设置android码" data-variation="inverted" data-value="{{ asset._id }}">
+									<i class="checkered flag icon"></i>
 								</a>
 							</div>
 						</div>

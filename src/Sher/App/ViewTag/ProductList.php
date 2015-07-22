@@ -4,8 +4,8 @@
  * @author purpen
  */
 class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
-    protected $argstring;
-	
+    
+	protected $argstring;
     public function __construct($argstring, $parser, $pos = 0) {
         $this->argstring = $argstring;
     }
@@ -15,7 +15,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
      * @see Doggy/Dt/Doggy_Dt_Node#render()
      */
     public function render($context, $stream) {
-        $page = 1;
+        
+		$page = 1;
         $size = 10;
 		
 		// 获取单个产品
@@ -37,11 +38,11 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_published = 0;
 		$only_onsale = 0;
 		$only_stick = 0;
-    $is_shop = 0;
-    $presaled = 0;
-    // 搜索类型
-    $s_type = 0;
-    $s_mark = null;
+		$is_shop = 0;
+		$presaled = 0;
+		// 搜索类型
+		$s_type = 0;
+		$s_mark = null;
 		// 是否成功案例
 		$only_okcase = 0;
 		
@@ -50,8 +51,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		$sort = 'latest';
 
-    // 投票状态显示
-    $vote_type = 0;
+		// 投票状态显示
+		$vote_type = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -111,10 +112,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 	    if ($is_shop) {
 	      $query['stage'] = array('$in'=>array(5, 9));
 	    }
-    //预售
-    if($presaled){
-      $query['stage'] = 5;
-    }
+		//预售
+		if($presaled){
+		  $query['stage'] = 5;
+		}
 		
 		if($process_saled){
 			$query['process_saled'] = 1;
@@ -145,15 +146,15 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		// 是否成功案例
 		if($only_okcase){
 			$query['okcase'] = 1;
-    }
+		}
 
-    // 投票状态显示
-    if($vote_type){
-      if((int)$vote_type==2){
-        //进行中的投票
-        $query['voted_finish_time'] = array('$gt'=>time());
-      }
-    }
+		// 投票状态显示
+		if($vote_type){
+		  if((int)$vote_type==2){
+			//进行中的投票
+			$query['voted_finish_time'] = array('$gt'=>time());
+		  }
+		}
 		
 	    // 搜索
 	    if($s_type){
@@ -173,7 +174,6 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		
 		$options['sort_field'] = $sort;
 
 		// 排序
@@ -193,12 +193,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		}
 		
         $result = $service->get_product_list($query, $options);
-		
         $context->set($var,$result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
         }
-        
     }
 }
 ?>

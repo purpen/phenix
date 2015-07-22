@@ -23,7 +23,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -37,6 +37,117 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		return $this->index();
 	}
 	
+	/**
+	 * 商店首页
+	 */
+	public function test(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.shop'];
+		if(empty($id)){
+			return $this->show_message_page('访问的产品不存在！', $redirect_url);
+		}
+		
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$id);
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
+		
+		if(empty($product) || $product['deleted']){
+			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
+		}
+
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
+		}
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
+    if(!empty($product['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $product['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
+		
+		// 增加pv++
+		$model->inc_counter('view_count', 1, $id);
+		
+		// 非销售状态的产品，跳转至对应的链接
+		if(!in_array($product['stage'], array(Sher_Core_Model_Product::STAGE_SHOP, Sher_Core_Model_Product::STAGE_EXCHANGE))){
+			return $this->to_redirect($product['view_url']);
+		}
+
+    //判断类型
+    if($product['stage']==Sher_Core_Model_Product::STAGE_SHOP){
+      $item_stage = $this->stash['item_stage'] = 'shop';
+    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+      $item_stage = $this->stash['item_stage'] = 'exchange';
+    }else{
+  	  return $this->show_message_page('产品类型错误！', $redirect_url);  
+    }
+
+    //验证积分兑换
+    if($item_stage=='exchange'){
+      if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
+    	  return $this->show_message_page('产品积分异常错误！', $redirect_url);        
+      }
+    }
+		
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
+		}
+
+        // 判断是否为秒杀产品 
+        $snatch_time = 0;
+        if($product['snatched']){
+            $is_snatch = true;
+            if(!$product['snatched_start']){
+                $snatch_time = $product['snatched_time'] - time();
+            }
+        }else{
+            $is_snatch = false;
+        }
+        $this->stash['is_snatch'] = $is_snatch;
+        $this->stash['snatch_time'] = $snatch_time;
+		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 获取skus及inventory
+		$inventory = new Sher_Core_Model_Inventory();
+    //积分兑换商品与销售商品共有sku
+    if($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+      $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
+    }else{
+      $sku_stage = $product['stage'];
+    }
+		$skus = $inventory->find(array(
+			'product_id' => $id,
+			'stage' => $sku_stage,
+		));
+		$this->stash['skus'] = $skus;
+		$this->stash['skus_count'] = count($skus);
+		
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+		
+		$this->stash['product'] = $product;
+		$this->stash['id'] = $id;
+		
+		// 验证关注关系
+		$ship = new Sher_Core_Model_Follow();
+		$is_ship = $ship->has_exist_ship($this->visitor->id, $product['designer_id']);
+		$this->stash['is_ship'] = $is_ship;
+        // 私信用户
+        $this->stash['user'] = $product['designer'];
+		return $this->to_html_page('page/shop/view.html');
+	}
 	/**
 	 * 商店首页
 	 */
@@ -136,6 +247,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 查看产品详情
 	 */
 	public function view() {
+		return $this->test();
 		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.shop'];
@@ -351,5 +463,21 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
             return $this->ajax_json('您的系统时间不准确,请刷新页面查看结果!', true);
         }
     }
+
+  /**
+   * 商品列表,给兼职编辑
+   */
+  public function product_list(){
+  
+		return $this->to_taconite_page('page/shop/product_list_p.html');
+  }
+
+  /**
+   * 加评论,给兼职编辑
+   */
+  public function edit_evaluate(){
+  
+		return $this->to_taconite_page('page/shop/edit_evaluate.html');
+  }
 	
 }

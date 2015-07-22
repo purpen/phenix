@@ -1,0 +1,237 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑投票-{% endblock %}
+
+{% block jquery %}
+
+	// 添加problem
+	var vote_i = 0;
+	$('.add-problem').click(function(){
+		var html = '';
+		html += '<li><div class="list-problem"><p><input style="width:80%;margin-right:2%;vertical-align: middle;" type="text" name="problem" value="" /><span class="ui small purple del-problem button">删除此问题</span></p>';
+		html += "<div class='field'><div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='1' style='z-index:100;width:100%;'/><label>单选</label></div>&nbsp;&nbsp;<div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='2' style='z-index:100;width:100%;'/><label>多项</label></div></div>";
+		html += '</div><div class="answer"><ol class="list-answer">';
+		html+='</ol><div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed green;"><div class="column"><div class="ui small green add-answer button">添加答案</div></div></div></div></li>';
+		
+		$('#process-box-edit').append(html);
+		vote_i++;
+	});
+
+	// 添加answer
+	$('.add-answer').livequery(function(){
+		$(this).click(function(){
+			var html = "";
+			html += '<li><input style="width:79%;margin-right:2%;vertical-align: middle;" type="text" name="answer" value="" /><span class="ui small blue del-answer button">删除此答案</span></li>';
+			$(this).parents('.answer').find('.list-answer').append(html);
+		});
+	});
+
+	//删除problem
+	$('.del-problem').livequery(function(){
+		$(this).click(function(){
+			$(this).parents('li').remove();
+		});
+	});
+	
+	//删除answer
+	$('.del-answer').livequery(function(){
+		$(this).click(function(){
+			$(this).parent('li').remove();
+		});
+	});
+	
+	// 表单验证
+	$('#active-form').form({
+		sub_title: {
+			identifier  : 'sub_title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		relevance_id: {
+			identifier  : 'relevance_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '关联项目ID不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					var msg = confirm("请检查是否点击“确认保存”按钮，如果没有请点击“取消”，如果已保存请点击“确定”按钮！");
+					if(!msg){
+						return false;
+					}
+				},
+				success: function(data){
+					// 点击后触发的事件
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+	// 数据保存事件->对象的方法处理
+	$('.save-problem').click(function(){
+		var arr =  {};
+		var result = '';
+		$('.list-problem').each(function(i){
+			var date = {};
+			date.pro_title = $(this).find('input[name=problem]').val();
+			date.pro_type = $(this).find('input:checked').val();
+			var answer = {}; 
+			$(this).parent('li').find('input[name=answer]').each(function(j){
+				answer[j] = $(this).val();
+			});
+			date.pro_answer = answer;
+			arr[i] = date;
+		});
+		result = JSON.stringify(arr);
+		$('input[name=problem_date]').val(result);
+		var pro_back = $('input[name=problem_date]').val();
+		
+		if(pro_back !== '{}'){
+			alert('保存成功！');
+		}else{
+			alert('数据为空！');
+		}
+	});
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	
+	<h3 class="ui header">投票管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/vote" class="item">
+			全部
+		</a>
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i>编辑投票
+			</div>
+			{% endif %}		
+			<a href="{{ app_url_admin_base }}/vote/add" class="item">
+				<i class="add icon"></i>新增投票
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/vote/save" class="ui form" method="post" id="active-form">
+		<!-- 隐藏表单 -->
+		<input type="hidden" name="id" value="{{ id }}" />
+		<input type="hidden" name="problem_date" value="" />
+		
+		<div class="ui segment from">
+			<h3 class="ui dividing header">填写投票信息</h3>
+			<div class="two fields">
+				<div class="field">
+					<label>投票标题</label>
+					<input type="text" name="sub_title" value="{{ vote.title }}" />
+				</div>
+				<div class="field">
+					<label>关联项目ID</label>
+					<input type="text" name="relevance_id" value="{{ vote.relate_id }}" />
+				</div>
+			</div>
+			
+			<!-- ajax追加开始 -->
+			{% if id %}
+				<div>
+					<ol id="process-box-edit" class="ui from list">
+						{% for votes in vote.problem %}
+						<input type="hidden" name="problem" value="{{ votes._id}}" />
+						<li>
+							<div class="list-problem">
+								<p>
+									<input style="width:80%;margin-right:2%;vertical-align: middle;" type="text" name="problem" value="{{ votes.title}}" />
+									<span class="ui small purple del-problem button">
+										删除此问题
+									</span></p>
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="{{ votes._id}}" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
+											<label>
+												单选
+											</label>
+										</div>
+										&nbsp;&nbsp;
+										<div class="ui radio checkbox">
+											<input type="radio" name="{{ votes._id}}" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
+											<label>
+												多项
+											</label>
+										</div>
+									</div>
+							
+							</div>
+							<div class="answer">
+								<ol class="list-answer">
+									{% for answer in votes.answer %}
+									<input type="hidden" name="problem" value="{{ answer._id}}" />
+									<li>
+										<input style="width:79%;margin-right:2%;vertical-align: middle;" type="text" name="answer" value="{{ answer.title}}" />
+										<span class="ui small blue del-answer button">删除此答案</span>
+									</li>
+									{% endfor %}
+								</ol>
+								<div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed green;">
+									<div class="column">
+										<div class="ui small green add-answer button">
+											添加答案
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</ol>
+				</div>
+			{% else %}
+				<div><ol id="process-box-edit" class="ui list"></ol></div>
+			{% endif %}
+			<!-- ajax追加结束 -->
+			
+			<div id="process-msg" style="margin-bottom: 20px;">
+				< 此处可以添加投票信息！ >
+			</div>
+			<div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed #f36;">
+				<div class="column">
+				  <div class="ui small magenta add-problem button">
+					添加问题
+				  </div>
+				  <div class="ui small green save-problem button">
+					确定保存
+				  </div>
+				</div>
+			</div>
+			
+			<div class="ui right aligned grid">
+				<div class="column">
+					<div class="ui gray cancel inverted button">
+						取消
+					</div>
+					<div class="ui magenta submit inverted button">
+						确认提交
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

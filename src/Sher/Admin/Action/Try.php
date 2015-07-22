@@ -59,11 +59,18 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		}
 		$this->stash['try'] = $data;
 		
+    //主图上传参数
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 		
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TRY;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TRY;
+
+    // 配图上传参数
+		$this->stash['token_f'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid_f'] = new MongoId();
+		
+		$this->stash['asset_type_f'] = Sher_Core_Model_Asset::TYPE_TRY_F;
 		
 		$this->editor_params();
 		
@@ -77,19 +84,46 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		// 验证数据
 		if(empty($this->stash['title']) || empty($this->stash['content'])){
 			return $this->ajax_note('获取数据错误,请重新提交', true);
-		}
-		
+    }
+
+    $imgs = array();
+    if(!empty($this->stash['try_brand_avatar'])){
+      $imgs['brand_avatar'] = $this->stash['try_brand_avatar'];
+    }
+    if(!empty($this->stash['try_qr_ios'])){
+      $imgs['qr_ios'] = $this->stash['try_qr_ios'];
+    }
+    if(!empty($this->stash['try_qr_android'])){
+      $imgs['qr_android'] = $this->stash['try_qr_android'];
+    }
+
+    $data = array();
+    $data['title'] = $this->stash['title'];
+    $data['short_title'] = $this->stash['short_title'];
+    $data['season'] = (int)$this->stash['season'];
+    $data['description'] = $this->stash['description'];
+    $data['brand_introduce'] = $this->stash['brand_introduce'];
+    $data['cover_id'] = $this->stash['cover_id'];
+    $data['banner_id'] = $this->stash['banner_id'];
+    $data['content'] = $this->stash['content'];
+    $data['step_stat'] = (int)$this->stash['step_stat'];
+    $data['start_time'] = $this->stash['start_time'];
+    $data['end_time'] = $this->stash['end_time'];
+    $data['imgs'] = $imgs;
+
 		$model = new Sher_Core_Model_Try();
+
 		if(empty($this->stash['_id'])){
 			// 发起人
-			$this->stash['user_id'] = (int)$this->visitor->id;
+			$data['user_id'] = (int)$this->visitor->id;
 			
-			$ok = $model->apply_and_save($this->stash);
+			$ok = $model->apply_and_save($data);
 			
 			$data = $model->get_data();
 			$id = $data['_id'];
-		}else{
-			$ok = $model->apply_and_update($this->stash);
+    }else{
+      $data['_id'] = (int)$this->stash['_id'];
+			$ok = $model->apply_and_update($data);
 			
 			$id = $this->stash['_id'];
 		}
@@ -101,6 +135,11 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		// 上传成功后，更新所属的附件
 		if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
 			$model->update_batch_assets($this->stash['asset'], (int)$id);
+		}
+
+		// 上传成功后，更新所属的附件
+		if(isset($this->stash['asset_f']) && !empty($this->stash['asset_f'])){
+			$model->update_batch_assets($this->stash['asset_f'], (int)$id);
 		}
 		
 		$next_url = Doggy_Config::$vars['app.url.admin_base'].'/try';

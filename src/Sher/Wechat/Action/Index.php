@@ -394,7 +394,5 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		
 		return $this->to_raw('Erorr: not match!');
     }
-	
-	
 }
 ?>

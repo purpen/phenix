@@ -76,11 +76,7 @@
                                     <div class="header">
                                 {{ i.item_name }}
                               </div>
-                                    <p class="attribute">时间：{{ i.date_id }} | 
-                                      {% for t in i.time_ids %}
-                                        {{ t }}&nbsp;
-                                      {%endfor%}
-                                    </p>
+                              <p class="attribute">时间：{{ i.date_name }} | {{ i.times_name }}</p>
 
                                 </div>
                           </td>

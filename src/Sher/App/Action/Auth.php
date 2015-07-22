@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd', 'check_account');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd', 'check_account', 'third_register');
 	
 	/**
 	 * 入口
@@ -56,6 +56,21 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
 		
 		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back'),
+      'state' => $state,
+    );
+    $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('page/login.html');
 	}
@@ -82,6 +97,21 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
 		
 		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+    $state = Sher_Core_Helper_Util::generate_mongo_id();
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_model->gen_random($sid, $state, 1);
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site/weixin/call_back'),
+      'state' => $state,
+    );
+    $this->stash['wx_params'] = $wx_params;
 		
 		return $this->to_html_page('page/signup.html');
 	}
@@ -259,7 +289,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
           if($this->stash['third_source']=='weibo'){
             $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
           }elseif($this->stash['third_source']=='qq'){
-             $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);    
+            $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);
+          }elseif($this->stash['third_source']=='weixin'){
+            $third_info = array('wx_open_id'=>$this->stash['uid'], 'wx_access_token'=>$this->stash['access_token'], 'wx_union_id'=>$this->stash['union_id']);
           }else{
             $third_info = array();
           }
@@ -308,10 +340,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			return $this->ajax_json('验证码不正确!', true);
     	}
 
-    //验证密码长度
-    if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
-      return $this->ajax_json('密码长度介于6-30字符内！', true);    
-    }
+		//验证密码长度
+		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
+		  return $this->ajax_json('密码长度介于6-30字符内！', true);    
+		}
 		
 		// 验证密码是否一致
 		$password_confirm = $this->stash['password_confirm'];
@@ -358,6 +390,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }elseif($this->stash['third_source']=='qq'){
           $user_info['qq_uid'] = $this->stash['uid'];
           $user_info['qq_access_token'] = $this->stash['access_token']; 
+        }elseif($this->stash['third_source']=='weixin'){
+          $user_info['wx_open_id'] = $this->stash['uid'];
+          $user_info['wx_access_token'] = $this->stash['access_token'];
+          $user_info['wx_union_id'] = $this->stash['union_id'];
         }else{
           //next_third
         }
@@ -367,7 +403,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				$user_info['sex'] = $this->stash['sex'];
 				$user_info['city'] = $this->stash['city'];
 				$user_info['from_site'] = (int)$this->stash['from_site'];
-      }
+			}
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -380,67 +416,64 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove($code['_id']);
 
-        //统计好友邀请
-        if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
-          //通过邀请码获取邀请者ID
-          $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+				//统计好友邀请
+				if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+				  //通过邀请码获取邀请者ID
+				  $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+		
+					//统计邀请记录
+					if($user_invite_id){
+					  $invite_mode = new Sher_Core_Model_InviteRecord();
+					  $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+					  //送邀请人红包(30元,满199可用)
+					  $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+					}
+				}
 
-          //统计邀请记录
-          if($user_invite_id){
-            $invite_mode = new Sher_Core_Model_InviteRecord();
-            $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包(30元,满199可用)
-            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
-          }
-        
-        }
+				//指定入口送抽奖码
+				if($this->stash['evt']=='match2_praise'){
+					$digged = new Sher_Core_Model_DigList();
+					$key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+					$result = $digged->load($key_id);
+					//统计奖品号
+					$items_arr = array();
+					if(!empty($result) && !empty($result['items'])){
+						foreach($result['items'] as $k=>$v){
+						  array_push($items_arr, $v['praise']);
+						}
+					}
+					$is_exist_random = false;
+				  
+					while(!$is_exist_random){
+						$match_random = rand(1000, 9999);
+						$is_exist_random = in_array($match_random, $items_arr)?false:true;
+					}
+		  
+					$match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
+					// 添加到统计列表
+					$digged->add_item_custom($key_id, $match_item);
+				}
 
-      //指定入口送抽奖码
-      if($this->stash['evt']=='match2_praise'){
-        $digged = new Sher_Core_Model_DigList();
-        $key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
-        $result = $digged->load($key_id);
-        //统计奖品号
-        $items_arr = array();
-        if(!empty($result) && !empty($result['items'])){
-          foreach($result['items'] as $k=>$v){
-            array_push($items_arr, $v['praise']);
-          }
-        }
-        $is_exist_random = false;
-        
-        while(!$is_exist_random){
-          $match_random = rand(1000, 9999);
-          $is_exist_random = in_array($match_random, $items_arr)?false:true;
-        }
-
-        $match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
-        // 添加到统计列表
-        $digged->add_item_custom($key_id, $match_item);
-
-      }
-
-        //周年庆活动送100红包
-        if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
-        }
-				
+				//周年庆活动送100红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+				  $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+				}
+					
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
-			
-        } catch (Sher_Core_Model_Exception $e) {
-            Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
-            return $this->ajax_json("注册失败:".$e->getMessage(), true);
-        }
+				
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
+			return $this->ajax_json("注册失败:".$e->getMessage(), true);
+		}
 		
-    $user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);
-    
+		$user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);
 
-    //如果是周年庆,跳转页面后提示送红包画面
-    if(Doggy_Config::$vars['app.anniversary2015.switch']){
-      $user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);;  
-    }
-		
+		//如果是周年庆,跳转页面后提示送红包画面
+		if(Doggy_Config::$vars['app.anniversary2015.switch']){
+		  $user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);;  
+		}
+				
 		return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_profile_url);
 	}
 	
@@ -633,6 +666,112 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
+
+  /**
+   * 第三方账户直接登录,生成默认用户,不绑定手机
+   */
+  public function third_register(){
+
+    $session_random = isset($this->stash['session_random'])?$this->stash['session_random']:null;
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    $session_random_model = new Sher_Core_Model_SessionRandom();
+    $session_random_id = $session_random_model->is_exist($sid, $session_random, 1);
+
+    // 验证是否非法链接来源
+    if(!$session_random_id){
+      return $this->ajax_note('拒绝访问,请重试！', true);
+    }else{
+      $session_random_model->remove($session_random_id);
+    }
+
+    $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
+    $uid = isset($this->stash['uid'])?$this->stash['uid']:null;
+		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
+    $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
+    $nickname = isset($this->stash['nickname'])?$this->stash['nickname']:null;
+    $sex = isset($this->stash['sex'])?(int)$this->stash['sex']:0;
+    $from_site = isset($this->stash['from_site'])?(int)$this->stash['from_site']:0;
+    $summary = isset($this->stash['summary'])?$this->stash['summary']:null;
+		$city = isset($this->stash['city'])?$this->stash['city']:null;
+    $login_token = $this->stash['login_token'];
+
+    if(empty($third_source) || empty($uid) || empty($access_token) || empty($nickname)){
+      return $this->ajax_note('缺少参数！', true);   
+    }
+
+    $user_model = new Sher_Core_Model_User();
+
+    //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    if (!preg_match($e, $nickname)) {
+      $nickname = Sher_Core_Helper_Util::generate_mongo_id();
+    }
+
+    // 检查用户名是否唯一
+    $exist = $user_model->_check_name($nickname);
+    if (!$exist) {
+      $nickname = '微信用户-'.$nickname;
+      $exist_r = $user_model->_check_name($nickname);
+      if(!$exist_r){
+        $nickname = $nickname.(string)rand(1000,9999);
+      }
+    }
+
+    $user_data = array(
+      'account' => (string)$uid,
+      'nickname' => $nickname,
+      'sex' => $sex,
+
+      'wx_open_id' => (string)$open_id,
+      'wx_access_token' => $access_token,
+      'wx_union_id' => $union_id,
+      'state' => Sher_Core_Model_User::STATE_OK,
+      'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
+      'kind' => 20,
+    );
+
+    //根据第三方来源,更新对应open_id 
+    if($third_source=='weibo'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
+      $user_data['sina_uid'] = (int)$uid;
+      $user_data['sina_access_token'] = $access_token;
+    }elseif($third_source=='qq'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
+      $user_data['qq_uid'] = $uid;
+      $user_data['qq_access_token'] = $access_token;
+    }elseif($third_source=='weixin'){
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
+      $user_data['wx_open_id'] = $uid;
+      $user_data['wx_access_token'] = $access_token;
+      $user_data['wx_union_id'] = $union_id; 
+    }else{
+      return $this->ajax_note('第三方来源不明确！', true);     
+    }
+
+    try{
+      $ok = $user_model->create($user_data);
+      if($ok){
+        $user = $user_model->get_data();
+        $user_id = $user['_id'];
+
+        // 实现自动登录
+        Sher_Core_Helper_Auth::create_user_session($user_id);
+        $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
+        return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_home_url);
+
+      }else{
+        return $this->ajax_note('创建用户失败！', true);   
+      }         
+    } catch (Sher_Core_Model_Exception $e) {
+      Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+      return $this->ajax_note("注册失败:".$e->getMessage(), true);   
+    }
+
+  }
 	
 }
-?>
+

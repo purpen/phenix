@@ -1,7 +1,7 @@
 <?php
 /**
  * 签到管理
- * @author tianshuai
+ * @author caowei@taihuoniao.com
  */
 class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
@@ -117,72 +117,5 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
-
-  /**
-   * 搜索
-   */
-  public function search(){
-    $this->stash['is_search'] = true;
-		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/stuff/search?s=%d&q=%s&sort=%d&page=#p#';
-
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort']);
-    return $this->to_html_page('admin/stuff/list.html');
-  
-  }
-
-	/**
-	 * 通过审核/撤销通过
-	 */
-	public function ajax_verified(){
-		$ids = $this->stash['id'];
-    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
-		if(empty($ids)){
-			return $this->ajax_notification('缺少Id参数！', true);
-		}
-		
-		$model = new Sher_Core_Model_Stuff();
-		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
-		
-		foreach($ids as $id){
-			$result = $model->mark_as_verified((int)$id, $evt);
-		}
-		
-		$this->stash['note'] = '操作成功！';
-		
-		return $this->to_taconite_page('ajax/published_ok.html');
-	}
-
-  /**
-   * 推荐／取消
-   */
-  public function ajax_stick(){
- 		$ids = $this->stash['id'];
-    $evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
-		if(empty($ids)){
-			return $this->ajax_notification('缺少Id参数！', true);
-		}
-		
-		$model = new Sher_Core_Model_Stuff();
-		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
-		
-		foreach($ids as $id){
-			$result = $model->mark_as_stick((int)$id, $evt);
-		}
-		
-		$this->stash['note'] = '操作成功！';
-		
-		return $this->to_taconite_page('ajax/published_ok.html');
-  
-  }
-
-  /**
-   * 点赞名单
-   */
-  public function get_love_list(){
-    
-    return $this->to_html_page('admin/stuff/love_list.html');
-  }
-
 }
 

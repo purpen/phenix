@@ -1,0 +1,141 @@
+{%extends 'layout/column.html'%}
+{% block title %}铟立方未来实验室 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lab.submenu>.ui.responsive.grid>.row{
+	padding:1.6rem 0 0.6rem;
+	border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+.lab.submenu > .ui.responsive.grid > .row > .column{
+	padding:0;
+}
+.lab.submenu h3{
+	margin:0;
+}
+.lab.submenu .right.wide.column a.ui.line.item{
+	margin-left: 1rem;
+	line-height: 23px;
+}
+a.line:hover, a.line.active {
+  border-bottom: 2px solid rgba(0,0,0,0);
+}
+.ui.white.row {
+  margin-top: 1.5%;
+	background:#fff;
+	padding:1rem 0;
+}
+.ui.white.row .column{
+	vertical-align: middle;
+}
+.ui.white.row h4.ui.header{
+	font-weight:400;
+}
+.ui.left.aligned.twelve.column{
+	text-align:left !important;
+	padding-top: 1em;
+}
+.ui.medium.image {
+  display: inline-block;
+  margin-right: 20px;
+	border-radius: 500px;
+	width: 150px;
+}
+.ui.left.aligned.twelve.column h3.ui.header .content {
+  display: inline-block;
+  vertical-align: middle;
+  width: 70%;
+}
+.ui.left.aligned.twelve.column h3.ui.header .content  .sub.header{
+	margin-top:0.45em;
+}
+.ui.header .content {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: .5em;
+	color:#5d6266;
+}
+.ui.header .content {
+  display: block;
+  vertical-align: top;
+}
+.ui.left.aligned.twelve.column .content .sub.header p{
+	margin:5px 0;
+  line-height: 20px;
+}
+h4+.content .sub.header p{
+	margin-bottom:0.8rem !important;
+	line-height:24px !important;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="lab submenu">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="six wide column">
+				<h3>D3IN铟立方未来实验室</h3>
+			</div>
+			<div class="ten right aligned wide column">
+        {% include "block/d3in/sub_nav.html" %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui responsive grid" style="padding:0 11%;">
+		<div class="row">
+			<div class="column" style="padding-left:0;">
+				<h3 class="ui header">合作伙伴</h3>
+			</div>
+		</div>
+		<div class="row ui center aligned white responsive grid">
+			<div class="ui left aligned twelve wide column">
+				<h4 class="ui header">实验室导师</h4>
+				<h3 class="ui dividing header" style="padding-bottom: 1rem;">
+					<img class="ui medium image" src="http://frstatic.qiniudn.com/images/img_cjm.jpg" alt="陈建敏 ">
+					<div class="content">
+						陈建敏 <br />大族激光   EMC整改培训讲师
+						<div class="sub header">
+							<p>远方集团   首席EMC整改培训讲师</p>
+							<p>比亚迪     电池事业部EMC培训讲师</p>
+						</div>
+					</div>
+				</h3>
+			</div>
+			<div class="ui left aligned twelve wide column" style="margin-top: -1em;">
+				<h4 class="ui header"></h4>
+				<div class="content">
+					<div class="sub header" style="color: rgba(0,0,0,.5);">
+						<p>专注于电磁兼容(EMC)测试与整改技术研究工作13年以上，在EMC测试与整改技术方面拥有长期丰富实践经验。</p>
+						<p>6年任职于CCIC商检局下属实验室-深圳市华通威EMC实验室整改部主管，除了负责各种电子产品的EMC整改外，还专注于各类医疗、民用、工业用产品相关的EMC标准、EMC测试、EMC诊断、EMC整改、EMC认证和培训工作；</p>
+						<p>自2010年加盟华检实验室，现为深圳市华检检测有限公司EMC技术总监，专注于各种电子产品、各类医疗、民用、工业用产品相关电磁兼容工程整改，咨询工作。</p>
+						<p>培训经历：<br/>
+							*作为特邀EMC专家为BYD的充电事业部提供EMC咨询及培训；<br/>
+							*作为资深EMC工程师为大族激光长期提供EMC整改培训；<br/>
+							*为深圳德豪润达提供EMC设计整改培训；<br/>
+							*作为特邀嘉宾在CCIC中检检测的EMC研讨会上作LED灯具EMC问题及分析培训；
+						</p>
+						<p>经典整改案例：<br/>
+						深圳希能量科技有限公司 医疗设备 EMC整改；<br/>
+						深圳迈瑞的监护仪的辐射整改；<br/>
+						科曼监护仪的辐射，传导，EFT ,CS,ESD；
+						</p>
+						<p>专长： <br/>
+						电磁兼容设计、电磁兼容测试、电磁兼容问题整改、产品防雷设计、静电防护等，对CISPR 11、CISPR13 、CISPR14-1、CISPR15、CISPR22、FCC 15、FCC 18、IEC61000-4系列等等大众EMC标准有着比较深入的研究，另外对于IEC 60601-1-2(YY0505)有着近十年的认证经验，对大众型医疗产品认证、整改有着自己一套经验。 </p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+
+

@@ -3,6 +3,7 @@
 * Sher session service
 */
 class Sher_Core_Session_Service extends DoggyX_Session_Service {
+    
     public function on_service_init() {
         $this->login_user = new Sher_Core_Model_User();
     }

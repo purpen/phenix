@@ -17,12 +17,12 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	const STICK_EDITOR = 1;
 	const STICK_HOME = 2;
 
-  #标题颜色
-  const T_COLOR_NULL = 0;
-  const T_COLOR_RED = 1;
-  const T_COLOR_BLUE = 2;
-  const T_COLOR_GREEN = 3;
-  const T_COLOR_YELLOW = 4;
+	#标题颜色
+	const T_COLOR_NULL = 0;
+	const T_COLOR_RED = 1;
+	const T_COLOR_BLUE = 2;
+	const T_COLOR_GREEN = 3;
+	const T_COLOR_YELLOW = 4;
 	
     protected $schema = array(
 	    'user_id' => null,
@@ -39,19 +39,19 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     	'active_id' => 0,
 		
 	    'title' => '',
-      'short_title' => '',
+		'short_title' => '',
         'description' => '',
     	'tags' => array(),
 
-      # 标题颜色
-      't_color' => 0,
+		# 标题颜色
+		't_color' => 0,
 		
  		'cover_id' => '',
 		'asset' => array(),
-    'file_asset' => array(),
+		'file_asset' => array(),
 		# 附件图片数
-    'asset_count' => 0,
-    'file_count' => 0,
+		'asset_count' => 0,
+		'file_count' => 0,
 		
 		# 视频链接
 		'video_url' => array(),
@@ -82,6 +82,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     	'published' => 1,
 		# 随机数
 		'random' => 0,
+		# 投票id
+		'vote_id' => 0,
 		
 		# 最后回复者及回复时间
 		'last_reply_time' => 0,
@@ -89,7 +91,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color');
+	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color','vote_id');
 	
 	protected $counter_fields = array('asset_count', 'file_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
 	
