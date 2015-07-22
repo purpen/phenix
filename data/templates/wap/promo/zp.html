@@ -73,7 +73,7 @@
 	
 	
 	.page-1-1{
-		background:url(http://frstatic.qiniudn.com/images/promo/zp/zp1.jpg) no-repeat center center /cover;
+		background:url(http://frstatic.qiniudn.com/images/promo/zp/zp1.jpg);
 	}
 	.st{
 		position:absolute;
@@ -697,6 +697,13 @@
 		0% { -webkit-transform: rotate(10deg);left:100%;margin-top:-200px;opacity:0;}
 		50% { -webkit-transform: rotate(10deg);left:80%;margin-top:0px;opacity:1;}
 		100% { -webkit-transform: rotate(0deg);left:79%;}
+	}
+	@-webkit-keyframes p1BgAnimation {
+		0% { background-position: 0px 0px; }
+		100% { background-position: 10000px 0px; }
+	}
+	.page-1-1 {
+		-webkit-animation: 'p1BgAnimation' 100s linear infinite;
 	}
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
