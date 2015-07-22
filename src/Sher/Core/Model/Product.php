@@ -31,6 +31,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'content' => '',
 		# 产品标签
 		'tags'    => array(),
+    'like_tags' => array(),
 		
 		# 产品视频链接
 		'video' => array(),
@@ -51,6 +52,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'user_id' => null,
 		# 设计者/团队
 		'designer_id' => 0,
+
+    # 品牌ID
+    'cooperate_id' => null,
+
+    # 关联产品ID
+    'fever_id' => 0,
 		
 		## 价格
 		
@@ -171,6 +178,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'favorite_count' => 0, 
 		# 喜欢数
 		'love_count' => 0,
+    # 虚拟喜欢数量
+    'invented_love_count' => 0,
 		# 回应数 
 		'comment_count' => 0,
 		# 评价星数
@@ -203,7 +212,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			'content' => 0,
 		),
 		
-		# 产品周期 (投票、预售、销售)
+		# 产品周期 (投票、预售、销售, 积分兑换, 智品库)
 		'stage' => self::STAGE_VOTE,
 		
 		# 是否在投票列表显示
@@ -219,9 +228,21 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'succeed' => 0,
 		# 预售，销售产品是否发布
 		'published' => 0,
+
+    # 最后赞用户列表
+    'last_love_users' => array(),
+
+    # 商品介绍(从智品库过来数据)
+    'product_info' => array(),
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+
+    # 是否审核
+    'verified' => 1,
+
+    # 精选
+    'featured' => 0,
 		
 		# 是否成功案例产品
 		'okcase' => 0,

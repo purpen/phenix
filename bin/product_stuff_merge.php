@@ -44,36 +44,39 @@ while(!$is_end){
     $data['old_stuff_id'] = $id;
     $data['title'] = $list[$i]['title'];
     $data['category_id'] = $list[$i]['category_id'];
-    $short_title = isset($list[$i]['short_title'])?$list[$i]['short_title']:null;
-    $description = isset($list[$i]['description'])?$list[$i]['description']:null;
-    $tags = isset($list[$i]['tags'])?$list[$i]['tags']:array();
-    $like_tags = isset($list[$i]['like_tags'])?$list[$i]['like_tags']:array();
-    $cover_id = isset($list[$i]['cover_id'])?$list[$i]['cover_id']:null;
+    $data['short_title'] = isset($list[$i]['short_title'])?$list[$i]['short_title']:null;
+    $data['content'] = isset($list[$i]['description'])?$list[$i]['description']:null;
+    $data['tags'] = isset($list[$i]['tags'])?$list[$i]['tags']:array();
+    $data['like_tags'] = isset($list[$i]['like_tags'])?$list[$i]['like_tags']:array();
+    $data['cover_id'] = isset($list[$i]['cover_id'])?$list[$i]['cover_id']:null;
 
-    $view_count = $list[$i]['view_count'];
-    $favorite_count = $list[$i]['favorite_count'];
-    $love_count = $list[$i]['love_count'];
-    $asset_count = $list[$i]['asset_count'];
+    $data['view_count'] = $list[$i]['view_count'];
+    $data['favorite_count'] = $list[$i]['favorite_count'];
+    $data['love_count'] = $list[$i]['love_count'];
+    $data['asset_count'] = $list[$i]['asset_count'];
     // 虚拟喜欢数
-    $invented_love_count = isset($list[$i]['invented_love_count'])?$list[$i]['invented_love_count']:0;
-    $comment_count = $list[$i]['comment_count'];
-    $last_love_users = isset($list[$i]['last_love_users'])?$list[$i]['last_love_users']:array();
-    $published = $list[$i]['published'];
+    $data['invented_love_count'] = isset($list[$i]['invented_love_count'])?$list[$i]['invented_love_count']:0;
+    $data['comment_count'] = $list[$i]['comment_count'];
+    // 最后赞用户列表
+    $data['last_love_users'] = isset($list[$i]['last_love_users'])?$list[$i]['last_love_users']:array();
+    $data['published'] = $list[$i]['published'];
     // 推荐 0 默认; 1 编辑推荐; 2 推荐到首页
-    $stick = isset($list[$i]['stick'])?$list[$i]['stick']:0;
+    $data['stick'] = isset($list[$i]['stick'])?$list[$i]['stick']:0;
     // 精选
-    $featured = isset($list[$i]['featured'])?$list[$i]['featured']:0;
-    $random = isset($list[$i]['random'])?$list[$i]['random']:0;
+    $data['featured'] = isset($list[$i]['featured'])?$list[$i]['featured']:0;
+    $data['random'] = isset($list[$i]['random'])?$list[$i]['random']:0;
 
     // 关联产品
-    $fever_id = isset($list[$i]['fever_id'])?$list[$i]['fever_id']:0;
+    $data['fever_id'] = isset($list[$i]['fever_id'])?$list[$i]['fever_id']:0;
     // 是否审核
-    $verified = isset($list[$i]['verified'])?$list[$i]['verified']:1;
+    $data['verified'] = isset($list[$i]['verified'])?$list[$i]['verified']:1;
     // 品牌ID
-    $cooperate_id = isset($list[$i]['cooperate_id'])?$list[$i]['cooperate_id']:null;
+    $data['cooperate_id'] = isset($list[$i]['cooperate_id'])?$list[$i]['cooperate_id']:null;
+
+    // 团队介绍
     $team_introduce = isset($list[$i]['team_introduce'])?$list[$i]['team_introduce']:null;
     // 品牌名称
-    $cooperate_id = isset($list[$i]['brand'])?$list[$i]['brand']:null;
+    $brand = isset($list[$i]['brand'])?$list[$i]['brand']:null;
     // 设计师
 		$designer = isset($list[$i]['designer'])?$list[$i]['designer']:null;
     // 所属国家
@@ -87,6 +90,21 @@ while(!$is_end){
     // 产品阶段
 		$processed = isset($list[$i]['processed'])?$list[$i]['processed']:0;
 
+    $product_info = array(
+      'team_introduce' => $team_introduce,
+      'brand' => $brand,
+      'designer' => $designer,
+      'country' => $country,
+      'market_time' => $market_time,
+      'official_price' => $official_price,
+      'buy_url' => $buy_url,
+      'processed' => $processed,
+    );
+    $data['product_info'] = $product_info;
+
+    $data['asset'] = array();
+
+    $data['stage'] = Sher_Core_Model_Product::STAGE_IDEA;
 
 		echo "set stuff[".$list[$i]['_id']."]..........\n";
 		$total++;
