@@ -30,11 +30,10 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	public function _init() {
 		$this->options = array(
 			'token' => Doggy_Config::$vars['app.wechat.ser_token'],
-			'appid' => Doggy_Config::$vars['app.wechat.ser_app_id'],
-			'appsecret' => Doggy_Config::$vars['app.wechat.ser_app_secret'],
+			'appid' => Doggy_Config::$vars['app.wechat.partner_appid'],
+			'appsecret' => Doggy_Config::$vars['app.wechat.partner_secret'],
 			'partnerid' => Doggy_Config::$vars['app.wechat.ser_partner_id'],
-			'partnerkey' => Doggy_Config::$vars['app.wechat.ser_partner_key'],
-			'paysignkey' => Doggy_Config::$vars['app.wechat.ser_paysignkey'] //商户签名密钥Key
+			'partnerkey' => Doggy_Config::$vars['app.wechat.partner_key']
 		);
     }
 	
