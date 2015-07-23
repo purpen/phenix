@@ -10,7 +10,9 @@ class Sher_Core_Model_SessionRandom extends Sher_Core_Model_Base  {
     'session_id' => null,
     'random' => null,
     'kind' => 1,
-		'state' => 1,
+    'state' => 1,
+    # 跳转地址
+    'redirect_url' => null,
   	);
 
   protected $required_fields = array('session_id', 'random');
@@ -36,7 +38,7 @@ class Sher_Core_Model_SessionRandom extends Sher_Core_Model_Base  {
   /**
    * 生成数据 
    */
-  public function gen_random($session_id, $random, $kind=1){
+  public function gen_random($session_id, $random, $kind=1, $redirect_url=null){
     if(empty($session_id) || empty($random)){
       return false;
     }
@@ -44,7 +46,7 @@ class Sher_Core_Model_SessionRandom extends Sher_Core_Model_Base  {
     if($is_exist){
       $ok = $this->update_set((string)$is_exist['_id'], array('random'=>$random));      
     }else{
-      $ok = $this->create(array('session_id'=>$session_id, 'random'=>$random, 'kind'=>(int)$kind));    
+      $ok = $this->create(array('session_id'=>$session_id, 'random'=>$random, 'kind'=>(int)$kind), 'redirect_url'=>$redirect_url);    
     }
     return $ok;
   }
@@ -58,7 +60,7 @@ class Sher_Core_Model_SessionRandom extends Sher_Core_Model_Base  {
     }
     $ok = $this->first(array('session_id'=>$session_id, 'random'=>$random, 'kind'=>(int)$kind));
     if($ok){
-      return (string)$ok['_id'];
+      return $ok;
     }else{
       return false;
     }
