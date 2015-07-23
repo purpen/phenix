@@ -7,12 +7,10 @@
 {% endblock %}
 
 {% block jquery %}
-	// 微信支付
-	var wechat_pay = function() {
-		if (typeof WeixinJSBridge == 'undefined') {
-			alert('WeixinJSBridge undefined');
-			return false;
-		}
+
+	//调用微信JS api 支付
+	function jsApiCall()
+	{
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
 		WeixinJSBridge.invoke('getBrandWCPayRequest', { 
 			"appId" : "{{ wxoptions.appId }}", 
@@ -39,9 +37,20 @@
 					alert('微信支付出现异常，请核对信息后重试！');
 				}
 		});
-	};
-		
-	wechat_pay();
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
 	
 {% endblock %}
 
@@ -51,7 +60,7 @@
 		<div class="row">
 			<div class="column">
 				<h5 class="ui dividing header">支付订单</h5>
-				<div class="ui green message">微信支付订单</div>
+				<div class="ui green message" onclick="callpay()" >微信支付订单</div>
 			</div>
 		</div>
 	</div>

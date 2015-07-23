@@ -198,7 +198,6 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$code = $this->stash['code'];
 		$user_id = $this->stash['user_id'];
 		
-		
 		if (!$user_id || empty($code)){
 			Doggy_Log_Helper::warn("Wechat oauth user_id,code fail!");
 			return $this->show_message_page('用户授权失败，请重试！');
@@ -520,6 +519,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	
 	/**
 	 * 微信支付请求实例
+	 * 
 	 */
 	public function payment(){
 		$rid = $this->stash['rid'];
@@ -619,7 +619,6 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function feedback(){
 		Doggy_Log_Helper::warn("Wechat feedback notice!");
-		
 		return $this->to_raw('success');
 	}
 	
