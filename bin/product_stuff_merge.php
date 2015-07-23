@@ -117,8 +117,7 @@ while(!$is_end){
 
     $data['stage'] = Sher_Core_Model_Product::STAGE_IDEA;
 
-    //$ok = $product_model->create($data);
-    $ok = true;
+    $ok = $product_model->create($data);
     if($ok){
 
  		  echo "create product[".$product_model->id."].is OK!.........\n";
