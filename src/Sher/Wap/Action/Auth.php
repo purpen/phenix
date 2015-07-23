@@ -60,7 +60,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $redirect_url = isset($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
+    $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
     $state = Sher_Core_Helper_Util::generate_mongo_id();
     $session_random_model = new Sher_Core_Model_SessionRandom();
     $session_random_model->gen_random($sid, $state, 1, $redirect_url);
