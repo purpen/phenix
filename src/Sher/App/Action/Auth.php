@@ -768,7 +768,28 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             'width' => 640,
             'height' => 640,
           );
-          $qkey = Sher_Core_Util_Image::crop_avatar_cloud($asset);
+
+		$accessKey = Doggy_Config::$vars['app.qiniu.key'];
+		$secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+		$bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+		// 新截图文件Key
+		$qkey = self::gen_path_cloud();
+
+		$client = \Qiniu\Qiniu::create(array(
+		    'access_key' => $accessKey,
+		    'secret_key' => $secretKey,
+		    'bucket'     => $bucket
+		));
+
+		// 存储新图片
+		$res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
+		if (empty($res['error'])){
+			echo $qkey;
+    }else{
+      echo 'fffff';
+    }
+exit;
+          //$qkey = Sher_Core_Util_Image::crop_avatar_cloud($asset);
           echo $qkey;exit;
 
         }
