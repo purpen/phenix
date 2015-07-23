@@ -23,6 +23,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 招聘
 	 */
 	public function zp(){
+		$this->stash['page_title_suffix'] = '年轻多金潜力股，求扑倒！';
 		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
