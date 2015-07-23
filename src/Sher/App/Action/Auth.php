@@ -762,44 +762,38 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
         // 如果存在头像,更新
         if(isset($this->stash['avatar_url']) && !empty($this->stash['avatar_url'])){
-          $asset = array(
-            'filepath' => $this->stash['avatar_url'],
-            'fileurl' => $this->stash['avatar_url'],
-            'width' => 640,
-            'height' => 640,
-          );
 
-		$accessKey = Doggy_Config::$vars['app.qiniu.key'];
-		$secretKey = Doggy_Config::$vars['app.qiniu.secret'];
-		$bucket = Doggy_Config::$vars['app.qiniu.bucket'];
-		// 新截图文件Key
-		$qkey = Sher_Core_Util_Image::gen_path_cloud();
+          $accessKey = Doggy_Config::$vars['app.qiniu.key'];
+          $secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+          $bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+          // 新截图文件Key
+          $qkey = Sher_Core_Util_Image::gen_path_cloud();
 
-		$client = \Qiniu\Qiniu::create(array(
-		    'access_key' => $accessKey,
-		    'secret_key' => $secretKey,
-		    'bucket'     => $bucket
-		));
+          $client = \Qiniu\Qiniu::create(array(
+              'access_key' => $accessKey,
+              'secret_key' => $secretKey,
+              'bucket'     => $bucket
+          ));
 
-		// 存储新图片
-		$res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
-		if (empty($res['error'])){
-			echo $qkey;
-    }else{
-      echo 'fffff';
-    }
+          // 存储新图片
+          $res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
+          if (empty($res['error'])){
+            $avatar_up = $qkey;
+          }else{
+            $avatar_up = false;
+          }
 
-    if($qkey){
-       // 更新用户头像
-      $user_model->update_avatar(array(
-        'big' => $qkey,
-        'medium' => $qkey,
-        'small' => $qkey,
-        'mini' => $qkey
-      ));   
-    }
+          if($avatar_up){
+             // 更新用户头像
+            $user_model->update_avatar(array(
+              'big' => $qkey,
+              'medium' => $qkey,
+              'small' => $qkey,
+              'mini' => $qkey
+            ));   
+          }
 
-        }
+        }// has avatar
 
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
