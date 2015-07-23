@@ -13,7 +13,7 @@
 		{% else %}
 		<label class="floating circular ui magenta label hide"></label>
 		{% endif %}
-        <i class="flat shopping_cart icon"></i>
+        <i class="in cart icon"></i>
         
 	  	<div class="menu">
 			{% if items_count > 0 %}
@@ -51,7 +51,7 @@
 							</td>
 							<td class="right aligned">
 								<a class="magenta ui close button" data-sku="{{ product.sku }}">
-									<i class="flat close icon"></i>
+									<i class="close icon"></i>
 								</a>
 							</td>
 						</tr>
@@ -89,7 +89,7 @@
         <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">
             0
         </label>
-        <i class="flat speech40 icon"></i>
+        <i class="alarm outline icon"></i>
         <!--ajax加载用户提醒-->
         <div class="menu" id="user-notice">
             <div class="header">未读消息</div>
@@ -103,27 +103,27 @@
 		</a>
 	  	<div class="menu">
 		    <a class="item" href="{{ app_url_my }}/account">
-		      	<i class="flat account_settings icon"></i> 个人中心
+		      	<i class="settings icon"></i> 个人中心
 			</a>
 		    <a class="item" href="{{ app_url_my }}/point">
-		      	<i class="flat order icon"></i> 会员等级
+		      	<i class="signal icon"></i> 会员等级
 			</a>
 		    <a class="item" href="{{ app_url_my }}/orders">
-		      	<i class="flat order icon"></i> 我的订单
+		      	<i class="shop icon"></i> 我的订单
 			</a>
 		    <a class="item" href="{{ app_url_action_base }}/helper/question">
-		      	<i class="flat help_infor icon"></i> 帮助中心
+		      	<i class="help icon"></i> 帮助中心
 			</a>
 		    <a class="item" href="{{ app_url_action_base }}/my/service">
 		      	<i class="smile icon"></i> 联系客服
 			</a>
 			{% if visitor.can_admin %}
 		    <a class="item" href="{{ app_url_admin_base }}">
-		      	<i class="flat admin_backstage icon"></i> 管理后台
+		      	<i class="dashboard icon"></i> 管理后台
 			</a>
 			{% endif %}
 		  	<a class="item" href="{{ app_url_logout }}">
-		    	<i class="flat exit icon"></i> 安全退出
+		    	<i class="sign out icon"></i> 安全退出
 			</a>
 	  	</div>
 	</div>
