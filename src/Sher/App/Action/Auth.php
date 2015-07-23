@@ -760,6 +760,19 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $user = $user_model->get_data();
         $user_id = $user['_id'];
 
+        // 如果存在头像,更新
+        if(isset($this->stash['avatar_url']) && !empty($this->stash['avatar_url'])){
+          $asset = array(
+            'filepath' => $this->stash['avatar_url'],
+            'fileurl' => $this->stash['avatar_url'],
+            'width' => 640,
+            'height' => 640,
+          );
+          $qkey = Sher_Core_Util_Image::crop_avatar_cloud($asset);
+          echo $qkey;exit;
+
+        }
+
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Sher_Core_Helper_Url::user_home_url($user_id);
