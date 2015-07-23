@@ -109,6 +109,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['step_stat'] = (int)$this->stash['step_stat'];
     $data['start_time'] = $this->stash['start_time'];
     $data['end_time'] = $this->stash['end_time'];
+    $data['try_count'] = (int)$this->stash['try_count'];
     $data['imgs'] = $imgs;
 
 		$model = new Sher_Core_Model_Try();
