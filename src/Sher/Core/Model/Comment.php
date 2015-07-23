@@ -28,6 +28,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'content' => '',
         'reply' => array(),
         'type' => self::TYPE_TOPIC,
+        // 子类型,1.商品下的灵感; 2.
+        'sub_type' => 1,
 		'love_count' => 0,
     );
 
@@ -57,6 +59,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 */
     protected function after_save() {
         $user_id = 0;
+        // 导入的数据,直接跳过
+        if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
+          return;
+        }
         // 如果是新的记录
         if($this->insert_mode) {
             $type = $this->data['type'];
@@ -96,8 +102,11 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                       $service = Sher_Core_Service_Point::instance();
                       // 好评+评论
                       $service->send_event('evt_buy_good_comment', $this->data['user_id']);
-                      // 鸟币
-                      $service->make_money_in($this->data['user_id'], 5, '好评赠送鸟币');
+                      // 鸟币 必须是销售的商品或兑换商品
+                      if(in_array($product['stage'], array(9, 12))){
+                        $service->make_money_in($this->data['user_id'], 5, '好评赠送鸟币');                     
+                      }
+
                     }
                     
                     break;
