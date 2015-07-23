@@ -62,6 +62,9 @@
 		<a href="{{ app_url_admin_base }}/product?stage=12" class="{% if stage == 12 %}active{%endif%} item">
 			积分兑换
 		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=15" class="{% if stage == 15 %}active{%endif%} item">
+			智品库
+		</a>
 	  	<div class="right menu">
 	    	<a href="{{ app_url_admin_base }}/product/update_onsale" class="item publish-onsale">
 				<i class="check icon"></i> 发布上线
@@ -172,6 +175,9 @@
 					{% if product.stage==12 %}
 					<span>积分兑换</span>
 					{% endif %}
+					{% if product.stage==15 %}
+					<span>灵感</span>
+					{% endif %}
 				</td>
 				<td>
 					{% if product.stage %}
@@ -238,9 +244,11 @@
 		          		<a href="{{ app_url_admin }}/product/deleted?id={{ product._id }}" class="ui confirm-request link item">
 						    删除
 					    </a>
+                {% if product.stage == 9 %}
 		          		<a href="{{ app_url_admin }}/product/sync_sold?id={{ product._id }}" class="ui link item">
 						    同步销售
 					    </a>
+              {%endif%}
 						{% if visitor.is_system %}
 							{% if product.stage == 5 %}
 			          		<a href="{{ app_url_admin }}/product/ajax_recount?id={{ product._id }}" class="ui ajax link item">

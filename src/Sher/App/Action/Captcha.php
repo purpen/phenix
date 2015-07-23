@@ -4,7 +4,7 @@
  */
 class Sher_App_Action_Captcha extends Sher_App_Action_Base {
 
-	protected $exclude_method_list = array('execute', 'view', 'check');
+	protected $exclude_method_list = array('execute', 'view', 'check', 'qr_code');
 
 	/**
 	 * 入口
@@ -37,6 +37,17 @@ class Sher_App_Action_Captcha extends Sher_App_Action_Base {
 			return $this->to_raw('0');
     	}
   	}
-	
+
+/**
+ * qr code
+ */
+  public function qr_code(){
+    Header("Content-type: image/PNG");
+    $url = $this->stash['url'];
+    $qr_model = new Sher_Core_Util_QR($url);
+    $qr = $qr_model->image(4);
+    return $qr;
+  }
+
 }
-?>
+

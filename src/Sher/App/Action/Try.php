@@ -90,6 +90,19 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	    if(isset($this->stash['referer'])){
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
 	    }
+
+    // 当前用户是否申请过
+    $is_applied = false;
+    if($this->visitor->id){
+      $apply_model = new Sher_Core_Model_Apply();
+      $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
+      if(!empty($has_one_apply)){
+        $is_applied = true;
+        $this->stash['apply'] = $has_one_apply;
+      }
+    }
+
+    $this->stash['is_applied'] = $is_applied;
 		
 		$this->stash['try'] = &$try;
 		
@@ -142,13 +155,14 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 				$this->stash['user_id'] = $user_id;
 				
 				$ok = $model->apply_and_save($this->stash);
+        $this->stash['apply_id'] = $model->id;
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
 			return $this->ajax_modal('提交失败，请重试！', true);
 		}
-		
-		return $this->ajax_modal('申请提交成功，等待审核.');
+		$this->stash['is_try'] = true;
+		return $this->to_taconite_page('ajax/attend_ok.html');
 	}
 	
 }

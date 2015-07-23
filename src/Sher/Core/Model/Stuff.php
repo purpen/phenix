@@ -59,9 +59,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'market_time' => '',
 		# 指导价格
 		'official_price' => 0,
-        # 购买地址
-        'buy_url' => '',
-		
+    # 购买地址
+    'buy_url' => '',
 		# 产品阶段
 		'processed' => self::PROCESS_SALE,
 		

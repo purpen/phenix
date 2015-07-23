@@ -28,6 +28,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'content' => '',
         'reply' => array(),
         'type' => self::TYPE_TOPIC,
+        // 子类型,1.商品下的灵感; 2.
+        'sub_type' => 1,
 		'love_count' => 0,
     );
 
@@ -57,6 +59,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 */
     protected function after_save() {
         $user_id = 0;
+        // 导入的数据,直接跳过
+        if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
+          return;
+        }
         // 如果是新的记录
         if($this->insert_mode) {
             $type = $this->data['type'];
@@ -87,13 +93,21 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $product = $model->find_by_id((int)$this->data['target_id']);
                     $user_id = $product['user_id'];
                     $model->update_last_reply((int)$this->data['target_id'], $this->data['user_id'], $this->data['star']);
-                    
-                    // 增加积分
-                    $service = Sher_Core_Service_Point::instance();
-                    // 好评+评论
-                    $service->send_event('evt_buy_good_comment', $this->data['user_id']);
-                    // 鸟币
-                    $service->make_money_in($this->data['user_id'], 5, '好评赠送鸟币');
+
+                    $user_comment_model = new Sher_Core_Model_User();
+                    $user_comment = $user_comment_model->find_by_id((int)$this->data['user_id']);
+                    // 如果是小号,不增加鸟币
+                    if($user_comment && $user_comment['kind'] != 9){
+                      // 增加积分
+                      $service = Sher_Core_Service_Point::instance();
+                      // 好评+评论
+                      $service->send_event('evt_buy_good_comment', $this->data['user_id']);
+                      // 鸟币 必须是销售的商品或兑换商品
+                      if(in_array($product['stage'], array(9, 12))){
+                        $service->make_money_in($this->data['user_id'], 5, '好评赠送鸟币');                     
+                      }
+
+                    }
                     
                     break;
                 case self::TYPE_TRY:

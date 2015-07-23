@@ -253,6 +253,19 @@
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ try.wap_view_url }}'});
+
+  {% if !try.is_end %}
+    {% if is_applied %}
+      // 生成拉票二维码
+      $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}'});
+
+      $('.lapiao-btn').click(function() {
+        $('.ui.lapiao.modal').modal('show');
+        return false;
+      });
+
+    {%endif%}
+  {%endif%}
 	// 分享
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
@@ -309,17 +322,25 @@
 						</div>
 					</h1>
 					{% if !try.is_end %}
-					<a href="javascript:void(0);" class="ui white applytry inverted button">
-						<i class="ticket icon"></i> 申请试用
-					</a>
+            {% if is_applied %}
+              <a href="javascript:void(0);" class="ui white lapiao-btn inverted button">
+                <i class="ticket icon"></i> 我要拉票
+              </a>
+            {%else%}
+              <a href="javascript:void(0);" class="ui white applytry inverted button">
+                <i class="ticket icon"></i> 申请试用
+              </a>
+            {%endif%}
 					{% else %}
 					<a href="javascript:void(0);" class="ui active white inverted button">
 						<i class="lock icon"></i> 已结束
 					</a>
 					{% endif %}
+          <!--
 					<a href="{{ try.product.view_url }}" class="ui white inverted button" target="_blank">
 						<i class="browser icon"></i> 产品详情
 					</a>
+          -->
 					<div class="ui white inverted pop share icon inverted button">
 						<i class="share icon"></i>
 						分享
@@ -722,6 +743,23 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="ui small lapiao modal">
+  	<i class="flat close icon"></i>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+					<div id="lapiao"></div>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	<div class="actions">
+    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
+  	</div>
 </div>
 {% include "block/apply_try.html" %}
 {% include "block/sharebox.html" %}

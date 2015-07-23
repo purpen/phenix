@@ -1,0 +1,156 @@
+{%extends 'layout/column.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">产品管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_domain }}/shop/product_list" class="{% if !stage %}active{%endif%} item">
+			全部
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=1" class="{% if stage == 1 %}active{%endif%} item">
+			投票
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=5" class="{% if stage == 5 %}active{%endif%} item">
+			预售
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=9" class="{% if stage == 9 %}active{%endif%} item">
+			商店
+		</a>
+		<a href="{{ app_url_domain }}/shop/product_list?stage=12" class="{% if stage == 12 %}active{%endif%} item">
+			积分兑换
+		</a>
+
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_shop }}/edit_search" method="get">
+      <input type="hidden" name="stage" value="{{ stage }}" />
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="s" value="{{ s }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="1">编号</div>
+          <div class="item" data-value="2">标题</div>
+          <div class="item" data-value="3">标签</div>
+        </div>
+      </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th class="five wide">产品名称</th>
+				<th>剩余/已售</th>
+				<th>历属</th>
+				<th>当前阶段</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+	      {% if is_search %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q size:30 %}
+	      {%else%}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage size:30 %}
+	      {%endif%}
+
+			{% for product in list.rows %}
+			<tr id="{{ product._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ product._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ product.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
+							{{ product.title|truncate, 32 }}
+						</a>
+					</div>
+		          	<p class="attribute">编号：{{ product._id }}</p>
+					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
+				</td>
+				<td>
+					{% if product.stage == 5 %}
+					<p><span class="ui black text">{{ product.presale_inventory|default 0 }}</span> / <span class="ui green text">{{ product.presale_count|default 0 }}</span></p>
+					{% else %}
+					<p><span class="ui black text">{{ product.inventory|default 0 }}</span> / <span class="ui green text">{{ product.sale_count|default 0 }}</span></p>
+					{% endif %}
+				</td>
+				<td class="center aligned">
+					{% if product.stage==1 %}
+					<span>投票<i class="angle right icon"></i></span>
+					{% endif %}
+					{% if product.stage==5 %}
+					<span>预售<i class="angle right icon"></i></span>
+					{% endif %}
+					{% if product.stage==9 %}
+					<span>商店</span>
+					{% endif %}
+		            {% if product.is_try %}
+		              <p class="ui magenta text">(试用新品)</p>
+		            {%endif%}
+		            {% if product.okcase %}
+		              <p class="ui magenta text">(案例产品)</p>
+		            {%endif%}
+					{% if product.stage==12 %}
+					<span>积分兑换</span>
+					{% endif %}
+				</td>
+				<td>
+					{% if product.stage %}
+					<label class="ui green small label">{{ product.stage_label }}</label>
+					{% else %}
+					<label class="ui gray small label">{{ product.stage_label }}</label>
+					{% endif %}
+				</td>
+				<td>
+
+				</td>
+				<td>
+
+					{% if product.process_saled %}
+					<p>
+						<a href="{{ app_url_shop }}/edit_evaluate?id={{ product._id }}" class="ui link">售后评价 »</a>
+					</p>
+					{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
