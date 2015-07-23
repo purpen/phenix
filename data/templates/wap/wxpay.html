@@ -21,7 +21,8 @@
 			"paySign" : "{{ wxoptions.paySign }}"
 			}, function(res){
 				// 返回 res.err_msg,取值
-				// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
+				// get_brand_wcpay_request:cancel 用户取消
+				// get_brand_wcpay_request:fail 发送失败
 				// get_brand_wcpay_request:ok 发送成功
 				WeixinJSBridge.log(res.err_msg);
 				alert(res.err_msg);
@@ -37,10 +38,12 @@
 					alert('微信支付出现异常，请核对信息后重试！');
 				}
 		});
+		alert('jsApiCall执行了！');
 	}
 
 	function callpay()
 	{
+		alert('clallpay执行了！');
 		if (typeof WeixinJSBridge == "undefined"){
 		    if( document.addEventListener ){
 		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
@@ -50,7 +53,10 @@
 		}else{
 		    jsApiCall();
 		}
+		alert('clallpay执行结束了！');
 	}
+	
+	callpay();
 	
 {% endblock %}
 
@@ -60,7 +66,7 @@
 		<div class="row">
 			<div class="column">
 				<h5 class="ui dividing header">支付订单</h5>
-				<div class="ui green message" onclick="callpay()" >微信支付订单</div>
+				<div class="ui green message" >微信支付订单</div>
 			</div>
 		</div>
 	</div>
