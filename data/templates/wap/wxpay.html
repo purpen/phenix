@@ -17,11 +17,11 @@
 			"timeStamp" : "{{ wxoptions.timeStamp }}",
 			"nonceStr" : "{{ wxoptions.nonceStr }}",
 			"package" : "{{ wxoptions.package }}",
-			"signType" : "SHA1",
+			"signType" : "MD5",
 			"paySign" : "{{ wxoptions.paySign }}"
 			}, function(res){
 				alert(res.err_msg);
-				alert("{{ wxoptions.appId }} {{ wxoptions.timeStamp }} {{ wxoptions.nonceStr }} {{ wxoptions.package }} {{ wxoptions.paySign }}");
+				alert("{{ wxoptions.appId }}->{{ wxoptions.timeStamp }}->{{ wxoptions.nonceStr }}->{{ wxoptions.package }}->{{ wxoptions.paySign }}");
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
 					var view_url = '{{ app_url_domain }}/wxpay/show?rid='+rid;
 					phenix.redirect(view_url);
