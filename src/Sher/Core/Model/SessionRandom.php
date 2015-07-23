@@ -46,7 +46,7 @@ class Sher_Core_Model_SessionRandom extends Sher_Core_Model_Base  {
     if($is_exist){
       $ok = $this->update_set((string)$is_exist['_id'], array('random'=>$random));      
     }else{
-      $ok = $this->create(array('session_id'=>$session_id, 'random'=>$random, 'kind'=>(int)$kind), 'redirect_url'=>$redirect_url);    
+      $ok = $this->create(array('session_id'=>$session_id, 'random'=>$random, 'kind'=>(int)$kind, 'redirect_url'=>$redirect_url));    
     }
     return $ok;
   }
