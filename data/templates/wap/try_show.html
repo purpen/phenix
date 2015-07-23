@@ -165,7 +165,7 @@
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      phenix.redirect("{{ app_url_wap }}/auth/login");
+    phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ try.wap_view_url }}");
       //$('.ui.sign-box.modal').modal('show');
 			return false;
 		}

@@ -77,7 +77,8 @@
       sex : "{{ sex }}",
       from_site : "{{ from_site }}",
       login_token : "{{ login_token }}",
-      session_random : "{{ session_random }}"
+      session_random : "{{ session_random }}",
+      redirect_url : "{{ redirect_url }}"
 
     };
     var url = "{{ app_url_domain }}/auth/third_register";
@@ -129,6 +130,7 @@
 			<input type="hidden" name="uid" value="{{ uid }}" />
 			<input type="hidden" name="access_token" value="{{ access_token }}" />
 			<input type="hidden" name="union_id" value="{{ union_id }}" />
+			<input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
 
 				<div class="ui active tab" data-tab="first">
 					<div class="field">
@@ -161,6 +163,7 @@
         <input type="hidden" name="city" value="{{ city }}" />
         <input type="hidden" name="summary" value="{{ summary }}" />
         <input type="hidden" name="from_site" value="{{ from_site }}" />
+			  <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
 				
 				<div class="ui tab" data-tab="two">
 					<div class="inline field">
