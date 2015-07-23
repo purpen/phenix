@@ -97,6 +97,8 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
     if(!$session_random){
       return $this->show_message_page('拒绝访问,请重试！', $error_redirect_url);
     }
+
+    $redirect_url = !empty($session_random['redirect_url'])?$session_random['redirect_url']:null;
   
     $app_id = Doggy_Config::$vars['app.wx.app_id'];
     $secret = Doggy_Config::$vars['app.wx.app_secret'];
@@ -164,6 +166,7 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 				  $this->stash['city'] = null;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $state;
+          $this->stash['redirect_url'] = $redirect_url;
 
           return $this->to_html_page('wap/auth/landing.html');
 
@@ -175,7 +178,10 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 
       // 实现自动登录
       Sher_Core_Helper_Auth::create_user_session($user_id);
-      return $this->to_redirect(Doggy_Config::$vars['app.url.wap']);
+      if(!$redirect_url){
+        $redirect_url = Doggy_Config::$vars['app.url.wap'];
+      }
+      return $this->to_redirect($redirect_url);
 
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);

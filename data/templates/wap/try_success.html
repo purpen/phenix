@@ -584,7 +584,7 @@ $('[data-countdown]').each(function() {
 $('.support-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      phenix.redirect("{{ app_url_wap }}/auth/login");
+    phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
       //$('.ui.sign-box.modal').modal('show');
 			return false;
 		}
