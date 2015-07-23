@@ -742,6 +742,7 @@
 	.zwk{
 		width:39%;
 		left:5%;
+		opacity:0;
 	}
 	.fly{
 		width:64%;
@@ -1270,8 +1271,8 @@
 	  animation-duration: 1s !important;
 	  -webkit-animation-fill-mode: both;
 	  animation-fill-mode: both;
-		animation-delay:5.7s !important;
-		-webkit-animation-delay:5.7 !important;
+		animation-delay:5.6s !important;
+		-webkit-animation-delay:5.6 !important;
 		opacity:0;
 	}
 	@-webkit-keyframes zwl15{
@@ -1307,8 +1308,8 @@
 	  animation-duration: 1s !important;
 	  -webkit-animation-fill-mode: both;
 	  animation-fill-mode: both;
-		animation-delay:6s !important;
-		-webkit-animation-delay:6s !important;
+		animation-delay:5.9s !important;
+		-webkit-animation-delay:5.9s !important;
 		opacity:0;
 	}
 	@-webkit-keyframes zwl16{
@@ -1344,8 +1345,8 @@
 	  animation-duration: 1s !important;
 	  -webkit-animation-fill-mode: both;
 	  animation-fill-mode: both;
-		animation-delay:6.3s !important;
-		-webkit-animation-delay:6.3s !important;
+		animation-delay:6.2s !important;
+		-webkit-animation-delay:6.2s !important;
 		opacity:0;
 	}
 	@-webkit-keyframes zwl17{
@@ -1373,6 +1374,10 @@
 					top:72%;
     }
 		
+	}
+	.page-11-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp11.jpg) center bottom /cover;
+		-webkit-animation: 'p1BgAnimation' 300s linear infinite;
 	}
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
@@ -1573,7 +1578,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 hide">
+<div class="page page-1-1 page-current">
 	<div class="wrap">
 		<img class="st cloud1" src="http://frstatic.qiniudn.com/images/promo/zp/cloud1.png">
 		<img class="st cloud2" src="http://frstatic.qiniudn.com/images/promo/zp/cloud2.png">
@@ -1696,7 +1701,7 @@
 	</div>
 </div>
 
-<div class="page page-10-1 page-current">
+<div class="page page-10-1 hide">
 	<div class="wrap">
 		<img class="st zwk zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-01.png">
 		<img class="st fly" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-1.png">
@@ -1717,6 +1722,13 @@
 		<img class="st zwl zwl15" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-15.jpg">
 		<img class="st zwl zwl16" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-16.jpg">
 		<img class="st zwl zwl17" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-17.jpg">
+	</div>
+</div>
+
+<div class="page page-11-1 hide">
+	<div class="wrap">
+		<img class="st zwh zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp11-1.png">
+	
 	</div>
 </div>
 {% endblock %}
