@@ -2,11 +2,10 @@
 {% block title%}关于我们-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+    
 </style>
 {% endblock %}
-{% block js %}
-{% endblock %}
+
 {% block jquery %}
 	var $frame = $('#frbird');
 	var $wrap = $frame.parent();
@@ -36,6 +35,7 @@
 	});
 	
 {% endblock %}
+
 {% block content %}
 <section class="about-banner">
 	<div class="ui center aligned grid">
@@ -96,53 +96,73 @@
 		</div>
 		<div class="row">
 			<div class="center aligned column">
-				<div class="ui three items">
-					<div class="magenta item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
-					      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" alt="LISA智能孕表—您的孕期贴身闺蜜" class="ui image" />
-							</a>
-						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
-							</h4>
-							<div class="name">
-								众筹金额：<span class="ui text">311,826</span> 元      支持人数：<span class="ui text">639</span> 个        达成率：<span class="ui text">3118％</span>    
-							</div>
-						</div>
+				<div class="ui four products cards">
+					<div class="magenta card">
+                        <div class="problock">
+                             <a title="婴萌智能配奶机" alt="婴萌智能配奶机" href="{{ app_url_action_base }}/guide/milk" style="background-image: url('{{ app_url_packaged }}/images/case-milk.jpg');" class="thumb"></a>
+                             <h2>
+                                <a href="{{ app_url_action_base }}/guide/milk" title="婴萌智能配奶机">
+                                    婴萌智能配奶机
+                                </a>
+                             </h2>
+                             <div class="excerpt">
+                                 <p>众筹金额：<span class="ui text">3,245,356</span> 元      支持人数：<span class="ui text">3794</span> 个      达成率：<span class="ui text">649％</span></p>
+                             </div>
+                             <div class="cats">
+                                 <span class="unit">￥</span>1288
+                             </div>
+                        </div>
+					</div>
+                    
+					<div class="magenta card">
+                        <div class="problock">
+                             <a title="摇一摇变55度的魔法水杯" alt="摇一摇变55度的魔法水杯" href="{{ app_url_action_base }}/guide/fifty" style="background-image: url('{{ app_url_packaged }}/images/case-fifty.jpg');" class="thumb"></a>
+                             <h2>
+                                <a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯">
+                                    摇一摇变55度的魔法水杯
+                                </a>
+                             </h2>
+                             <div class="excerpt">
+                                 <p>众筹金额：<span class="ui text">1,251,374</span> 元      支持人数：<span class="ui text">3094</span> 个        达成率：<span class="ui text">625％</span></p>
+                             </div>
+                             <div class="cats">
+                                 <span class="unit">￥</span>298
+                             </div>
+                        </div>
 					</div>
 				
-					<div class="magenta item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
-					      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" alt="全球首款革命性智能空气净化器" class="ui image" />
-							</a>
-						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
-							</h4>
-							<div class="name">
-								众筹金额：<span class="ui text">1215,983</span> 元      支持人数：<span class="ui text">243</span> 人        达成率：<span class="ui text">4053％</span>    
-							</div>
-						</div>
+					<div class="magenta card">
+                        <div class="problock">
+                             <a title="全球首款革命性智能空气净化器" alt="全球首款革命性智能空气净化器" href="{{ app_url_action_base }}/guide/dm" style="background-image: url('{{ app_url_packaged }}/images/case-dm.jpg');" class="thumb"></a>
+                             <h2>
+                                <a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
+                                    全球首款革命性智能空气净化器
+                                </a>
+                             </h2>
+                             <div class="excerpt">
+                                 <p>众筹金额：<span class="ui text">1215,983</span> 元      支持人数：<span class="ui text">243</span> 人        达成率：<span class="ui text">4053％</span></p>
+                             </div>
+                             <div class="cats">
+                                 <span class="unit">￥</span>6980
+                             </div>
+                        </div>
 					</div>
-				
-					<div class="magenta item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
-					      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" alt="Goccia－全球最小的智能可穿戴" class="ui image" />
-							</a>
-						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
-							</h4>
-							<div class="name">
-								众筹金额：<span class="ui text">300,000</span> 元      支持人数：<span class="ui text">610</span> 个      达成率：<span class="ui text">600％</span>
-							</div>
-						</div>
+                    
+					<div class="magenta card">
+                        <div class="problock">
+                             <a title="Goccia－全球最小的智能可穿戴" alt="Goccia－全球最小的智能可穿戴" href="{{ app_url_action_base }}/guide/goccia" style="background-image: url('{{ app_url_packaged }}/images/case-goccia.jpg');" class="thumb"></a>
+                             <h2>
+                                <a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
+                                    Goccia－全球最小的智能可穿戴
+                                </a>
+                             </h2>
+                             <div class="excerpt">
+                                 <p>众筹金额：<span class="ui text">300,000</span> 元      支持人数：<span class="ui text">610</span> 个      达成率：<span class="ui text">600％</span></p>
+                             </div>
+                             <div class="cats">
+                                 <span class="unit">￥</span>899
+                             </div>
+                        </div>
 					</div>
 				</div>
 			</div>

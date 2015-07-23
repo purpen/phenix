@@ -1,82 +1,87 @@
-<div class="eight wide computer only column">
-	<a href="{{ app_url_domain }}" title="首页" class="logo">
-		<img src="{{ app_url_packaged }}/images/frbird-logo.png" class="ui hide" alt="太火鸟" />太火鸟
-	</a>
-	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
-			<i class="flat home icon"></i>首页
-		</a>
-		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
-			<i class="flat shopping icon"></i>商店
-		</a>
-		<a href="{{ app_url_social }}" class="{{ css_page_social }} item">
-			<i class="flat discover icon"></i>发现
-		</a>
-		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
-			<i class="flat bulb11 icon"></i>孵化
-		</a>
-	</div>
-</div>
+<div class="ui responsive grid">
+    <div class="two column row">
+        <div class="computer only column">
+        	<a href="{{ app_url_domain }}" title="首页" class="logo">
+        		<img src="{{ app_url_packaged }}/images/frbird-logo.png" class="ui hide" alt="太火鸟" />太火鸟
+        	</a>
+            
+        	<div class="ui labeled icon text mainnav menu">
+        		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
+        			<i class="home icon"></i> 首页
+        		</a>
+        		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
+        			<i class="protect icon"></i> 产品
+        		</a>
+        		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
+        			<i class="comments outline icon"></i> 社区
+        		</a>
+        		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
+        			<i class="idea icon"></i> 孵化
+        		</a>
+        	</div>
+            
+        </div>
 
-<div class="eight wide computer only column">
-	{% include "block/header_rightside.html" %}
+        <div class="computer only column">
+        	{% include "block/header_rightside.html" %}
+        </div>
+        
+        <div class="tablet only column">
+        	<a href="{{ app_url_domain }}" title="首页" class="logo">
+        		太火鸟
+        	</a>
+        	<div class="ui labeled icon text magenta main-nav menu">
+        		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
+        			<i class="home icon"></i>首页
+        		</a>
+        		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
+        			<i class="protect icon"></i>产品
+        		</a>
+        		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
+        			<i class="comments outline icon"></i>社区
+        		</a>
+        		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
+        			<i class="idea icon"></i>孵化
+        		</a>
+        	</div>
+        	{% include "block/header_rightside.html" %}
+        </div>
+        
+        <div class="mobile only column">
+        	<a href="{{ app_url_domain }}" title="首页" class="logo">
+        		太火鸟
+        	</a>
+        	<div class="ui labeled icon text magenta main-nav menu">
+        		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
+        			<i class="home icon"></i>首页
+        		</a>
+        		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
+        			<i class="protect icon"></i>产品
+        		</a>
+        		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
+        			<i class="comments outline icon"></i>社区
+        		</a>
+        		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
+        			<i class="idea icon"></i>孵化
+        		</a>
+        	</div>
+        	{% include "block/header_rightside.html" %}
+        </div>
+        
+    </div>
 </div>
-
-<div class="sixteen wide tablet only column">
-	<a href="{{ app_url_domain }}" title="首页" class="logo">
-		太火鸟
-	</a>
-	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
-			<i class="flat home icon"></i>首页
-		</a>
-		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
-			<i class="flat shopping icon"></i>商店
-		</a>
-		<a href="{{ app_url_social }}" class="{{ css_page_social }} item">
-			<i class="flat discover icon"></i>发现
-		</a>
-		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
-			<i class="flat bulb11 icon"></i>孵化
-		</a>
-	</div>
-	{% include "block/header_rightside.html" %}
-</div>
-
-<div class="sixteen wide mobile only column">
-	<a href="{{ app_url_domain }}" title="首页" class="logo">
-		太火鸟
-	</a>
-	<div class="ui labeled icon text magenta main-nav menu">
-		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
-			<i class="flat home icon"></i>首页
-		</a>
-		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
-			<i class="flat shopping icon"></i>商店
-		</a>
-		<a href="{{ app_url_social }}" class="{{ css_page_social }} item">
-			<i class="flat discover icon"></i>发现
-		</a>
-		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
-			<i class="flat bulb11 icon"></i>孵化
-		</a>
-	</div>
-	{% include "block/header_rightside.html" %}
-</div>
-
 
 <!--[if lt IE 9]>
 <div id="menu"> 
-<ul> 
-<li><a href="{{ app_url_domain }}" title="首页"><img src="{{ app_url_packaged }}/images/logo-home.png" alt="太火鸟" /></a></li>
-<li><a href="{{ app_url_domain }}/home"><img src="{{ app_url_packaged }}/images/ie_1.png" alt="首页"></a></li> 
-<li><a href="{{ app_url_sale }}"><img src="{{ app_url_packaged }}/images/ie_2.png" alt="预售"></a></li> 
-<li><a href="{{ app_url_shop }}"><img src="{{ app_url_packaged }}/images/ie_3.png" alt="商店"></a></li>
-<li><a href="{{ app_url_fever }}"><img src="{{ app_url_packaged }}/images/ie_4.png" alt="投票"></a></li>
-<li><a href="{{ app_url_topic }}"><img src="{{ app_url_packaged }}/images/ie_5.png" alt="社区"></a></li>
-<li class="word"><a href="{{ app_url_register }}">注册</a></li>
-<li class="word"><a href="{{ app_url_login }}">登录</a></li>
-</ul> 
-</div> 
-
+    <ul> 
+        <li><a href="{{ app_url_domain }}" title="首页"><img src="{{ app_url_packaged }}/images/logo-home.png" alt="太火鸟" /></a></li>
+        <li><a href="{{ app_url_domain }}/home"><img src="{{ app_url_packaged }}/images/ie_1.png" alt="首页"></a></li> 
+        <li><a href="{{ app_url_sale }}"><img src="{{ app_url_packaged }}/images/ie_2.png" alt="预售"></a></li> 
+        <li><a href="{{ app_url_shop }}"><img src="{{ app_url_packaged }}/images/ie_3.png" alt="产品"></a></li>
+        <li><a href="{{ app_url_fever }}"><img src="{{ app_url_packaged }}/images/ie_4.png" alt="投票"></a></li>
+        <li><a href="{{ app_url_topic }}"><img src="{{ app_url_packaged }}/images/ie_5.png" alt="社区"></a></li>
+        <li class="word"><a href="{{ app_url_register }}">注册</a></li>
+        <li class="word"><a href="{{ app_url_login }}">登录</a></li>
+    </ul> 
+</div>
 <![endif]-->

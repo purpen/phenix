@@ -2,7 +2,12 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+.ui.topics.segment {
+    padding: 0;
+}
+.ui.topics.segment .ui.table {
+    border: none;
+}
 </style>
 {% endblock %}
 
@@ -66,7 +71,7 @@
 
 <!-- 话题推荐位 -->
 {% topic_list var:'featurelist' type:1 size:4 %}
-<div class="social topstick top bottom">
+<div class="social topstick">
 	<div class="ui responsive grid">
         <div class="row">
             <div class="column">
@@ -100,8 +105,8 @@
 <div class="social" id="topics">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="container column">
-                <div class="ui stacked segment">
+			<div class="twelve wide container column">
+                <div class="ui topics segment">
 					{% topic_list var:'list' is_top:1 time:time sort:sort page:1 size:15 %}
 					<div class="ui computer tablet only block">
     					<table class="ui basic topic table">
@@ -135,8 +140,6 @@
 							{% endfor %}
                             </tbody>
 						</table>
-                        
-                        
 					</div>
 				
 					<div class="ui mobile only block">
@@ -161,6 +164,9 @@
 				</div>
                 
 			</div>
+            <div class="four wide column">
+                
+            </div>
 		</div>
 	</div>
 </div>
