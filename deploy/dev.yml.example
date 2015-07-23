@@ -75,6 +75,15 @@ app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'
 app.alipay.cacert: '/opt/project/php/phenix/vendor/cacert.pem'
 app.alipay.pendir: '/opt/project/php/phenix/vendor'
 
+# 微信支付
+app.wechat.partner_appid: 'wx75a9ffb78f202fb3'
+app.wechat.partner_id: '1219487201'
+app.wechat.partner_key: '9E0530C588C8003395A929B0B94AC46B'
+app.wechat.partner_secret: 'f80ae853ef243f66284ad13781cb69de'
+
+app.wechat.sslcert_path: '/home/www/cert/apiclient_cert.pem'
+app.wechat.sslkey_path: '/home/www/cert/apiclient_key.pem'
+
 # 淘宝
 app.taobao.key: '21781655'
 app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
