@@ -10,6 +10,7 @@
         margin-left: 0;
         padding: 1rem 1rem 55px !important;
     }
+    
 </style>
 {% endblock %}
 {% block jquery %}
@@ -94,7 +95,6 @@
 			关注太火鸟
 		</div>
 	</div>
-	
 	<div id="fixedslide" class="frame">
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
 		<div class="ui slide">
@@ -165,9 +165,9 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					<div class="ui four items">
+					<div class="ui four cards">
 						{% for product in products %}
-					  		{% include "block/product_item.html" %}
+					  		{% include "block/product_card.html" %}
 					    {% endfor %}
 					</div>
 				</div>
@@ -264,34 +264,6 @@
 			</div>
 		</div>
 	</section>
-    
-	<section class="ui big vote block">
-		<div class="ui responsive grid">
-			<div class="two column middle aligned row">
-				<div class="twelve wide column">
-					<h2 class="block title">
-						创意投票 <small>没有你的支持，这世界将失去一个伟大的产品</small>
-					</h2>
-				</div>
-                <div class="right aligned four wide column">
-					<a href="{{ app_url_fever }}" class="ui inverted gray button">
-						查看全部
-					</a>
-                </div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<div class="ui four voteist cards">
-						{% product_list var:'list' process_voted:1 only_approved:1 only_onsale:1 size:8 %}
-						{% for product in list.rows %}
-							{% include "block/product_vote_item.html" %}
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-    
 
   	<section class="ui big together white background block">
     	<div class="ui responsive grid">

@@ -95,7 +95,7 @@ class Sher_App_Action_Sale extends Sher_App_Action_Base implements DoggyX_Action
         $this->stash['user'] = $product['designer'];
 		
 		
-		return $this->to_html_page('page/sale/show.html');
+		return $this->to_html_page('page/sale/view.html');
 	}
 		
 }

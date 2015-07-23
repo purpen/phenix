@@ -134,6 +134,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
 		'md'   => 'm.jpg',
+        'hm'   => 'hm.jpg',
         # 头像截图
         'ava'  => 'ava.jpg',
 	);
