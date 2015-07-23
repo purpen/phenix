@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- *  商品灵感asset导入--第2步
+ *  商品灵感喜欢收藏导入--第4步
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {

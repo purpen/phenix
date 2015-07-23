@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 /**
- *  商品智品库合并
+ *  商品智品库合并--第1步
+ *  原则: 不破坏原有数据,包括图片,喜欢收藏,评论等
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {

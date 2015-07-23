@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- *  商品灵感asset导入--第2步
+ *  商品灵感评论导入--第3步
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -25,13 +25,12 @@ echo "product idea asset export ...\n";
 
 $stuff_model = new Sher_Core_Model_Stuff();
 $product_model = new Sher_Core_Model_Product();
-$asset_model = new Sher_Core_Model_Asset();
+$comment_model = new Sher_Core_Model_Comment();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 $fail_total = 0;
-$asset_fail_total = 0;
 while(!$is_end){
 	$query = array('stage'=>Sher_Core_Model_Product::STAGE_IDEA);
 	$options = array('page'=>$page,'size'=>$size);
@@ -44,41 +43,26 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     $topic_id = $list[$i]['old_stuff_id'];
-    $cover_id = $list[$i]['cover_id'];
-    $new_asset = array();
 
-    $stuff_assets = $asset_model->find(array('parent_id'=>$topic_id, 'asset_type'=>Sher_Core_Model_Asset::TYPE_STUFF));
-    if(!empty($stuff_assets)){
-      foreach($stuff_assets as $k=>$v){
-        $old_cover_id = (string)$v['_id'];
+    $comments = $comment_model->find(array('target_id'=>(string)$topic_id, 'type'=>Sher_Core_Model_Comment::TYPE_STUFF));
+    if(!empty($comments)){
+      foreach($comments as $k=>$v){
         unset($v['_id']);
-        $v['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
-        $v['parent_id'] = $id;
+        $v['type'] = Sher_Core_Model_Comment::TYPE_PRODUCT;
+        $v['target_id'] = (string)$id;
+        $v['sub_type'] = 1;
         $v['product_idea'] = 1;
-        $ok = $asset_model->create($v);
+        $ok = $comment_model->create($v);
         if($ok){
-          $new_asset_id = (string)$asset_model->id;
-          if(empty($cover_id) || $cover_id==$old_cover_id){
-            $cover_id = $new_asset_id;
-          }
-          array_push($new_asset, $new_asset_id);
-          echo "update product asset success! product_id: $id asset_id: $new_asset_id \n";         
+          $comment_id = $comment_model->id;
+          echo "update product idea comment success! product_id: $id comment_id: $comment_id \n";
+          $total++;      
         }else{
-          echo "update product asset fail! product_id: $id \n";
-          $asset_fail_total++;         
+          echo "update product idea comment fail! product_id: $id \n";
+          $fail_total++;         
         }
       } //endfor
-    } // stuff_assets if
-
-    $ok = $product_model->update_set($id, array('cover_id'=>$cover_id, 'asset'=>$new_asset));
-    //$ok = true;
-    if($ok){
- 		  echo "product idea[".$id."]. gen asset is OK!.........\n";
-		  $total++;   
-    }else{
-      echo "product idea gen asset is fail! id: $id \n";
-      $fail_total++;
-    }
+    } // comments if
 
 	}
 	if($max < $size){
@@ -91,5 +75,4 @@ while(!$is_end){
 
 echo "product gen asset is OK! count:$total \n";
 echo "product gen asset is Fail! count:$fail_total \n";
-echo "asset gen is Fail! count:$asset_fail_total \n";
 
