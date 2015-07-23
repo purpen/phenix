@@ -20,14 +20,9 @@
 			"signType" : "SHA1",
 			"paySign" : "{{ wxoptions.paySign }}"
 			}, function(res){
-				// 返回 res.err_msg,取值
-				// get_brand_wcpay_request:cancel 用户取消
-				// get_brand_wcpay_request:fail 发送失败
-				// get_brand_wcpay_request:ok 发送成功
-				WeixinJSBridge.log(res.err_msg);
 				alert(res.err_msg);
-				// 支付成功
-				if (res.err_msg == 'get_brand_wcpay_request:ok'){
+				alert("{{ wxoptions.appId }} {{ wxoptions.timeStamp }} {{ wxoptions.nonceStr }} {{ wxoptions.package }} {{ wxoptions.paySign }}");
+				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
 					var view_url = '{{ app_url_domain }}/wxpay/show?rid='+rid;
 					phenix.redirect(view_url);
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
@@ -38,22 +33,20 @@
 					alert('微信支付出现异常，请核对信息后重试！');
 				}
 		});
-		alert('jsApiCall执行了！');
 	}
 
 	function callpay()
 	{
-		alert('clallpay执行了！');
 		if (typeof WeixinJSBridge == "undefined"){
 		    if( document.addEventListener ){
 		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
 		    }else if (document.attachEvent){
-		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+				document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
 		    }
 		}else{
 		    jsApiCall();
 		}
-		alert('clallpay执行结束了！');
 	}
 	
 	callpay();
