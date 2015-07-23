@@ -27,7 +27,7 @@
 				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.{{ css_bundle_version }}.css" type="text/css" />
 			<![endif]-->
 		{% else %}
-			<link rel="stylesheet" href="{{ app_url_domin }}/packaged/semantic.min.css" type="text/css" />
+			<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
@@ -46,31 +46,14 @@
 			}
 			.clearfix:after {content: "."; display: block;clear: both; visibility: hidden;line-height: 0; height: 0;}
 			.clearfix {display: inline-table; +display:inline-block;}/* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}
-			/*******************************
-			          Flat Icon
-			*******************************/
 			@font-face {
-			  font-family: 'FontFlatIcons';
-			  src: url('{{ app_url_qiniu_frstatic }}/fonts/flat.icons.eot');
+			  font-family: 'Icons';
+			  src: url({{ app_url_qiniu_frstatic }}/fonts/icons2.eot);
 			  src:
-			    url('{{ app_url_qiniu_frstatic }}/fonts/flat.icons.eot?#iefix') format('embedded-opentype'),
-			    url('{{ app_url_qiniu_frstatic }}/fonts/flat.icons.svg#flat.icons') format('svg'),
-			    url('{{ app_url_qiniu_frstatic }}/fonts/flat.icons.woff') format('woff'),
-			    url('{{ app_url_qiniu_frstatic }}/fonts/flat.icons.ttf') format('truetype');
-			  font-style: normal;
-			  font-weight: normal;
-			  font-variant: normal;
-			  text-decoration: inherit;
-			  text-transform: none;
-			}
-			@font-face {
-			  font-family: 'FontIcons';
-			  src: url({{ app_url_qiniu_frstatic }}/fonts/icons.eot);
-			  src:
-			    url({{ app_url_qiniu_frstatic }}/fonts/icons.eot?#iefix) format('embedded-opentype'),
-			    url({{ app_url_qiniu_frstatic }}/fonts/icons.svg#icons) format('svg'),
-			    url({{ app_url_qiniu_frstatic }}/fonts/icons.woff) format('woff'),
-			    url({{ app_url_qiniu_frstatic }}/fonts/icons.ttf) format('truetype');
+			    url({{ app_url_qiniu_frstatic }}/fonts/icons2.eot?#iefix) format('embedded-opentype'),
+			    url({{ app_url_qiniu_frstatic }}/fonts/icons2.svg#icons) format('svg'),
+			    url({{ app_url_qiniu_frstatic }}/fonts/icons2.woff) format('woff'),
+			    url({{ app_url_qiniu_frstatic }}/fonts/icons2.ttf) format('truetype');
 			  font-style: normal;
 			  font-weight: normal;
 			  font-variant: normal;
@@ -78,20 +61,6 @@
 			  text-transform: none;
 			}
 			
-			@font-face {
-			  font-family: 'FontBasicIcons';
-			  src: url({{ app_url_qiniu_frstatic }}/fonts/basic.icons.eot);
-			  src:
-			    url({{ app_url_qiniu_frstatic }}/fonts/basic.icons.eot?#iefix) format('embedded-opentype'),
-			    url({{ app_url_qiniu_frstatic }}/fonts/basic.icons.svg#basic.icons) format('svg'),
-			    url({{ app_url_qiniu_frstatic }}/fonts/basic.icons.woff) format('woff'),
-			    url({{ app_url_qiniu_frstatic }}/fonts/basic.icons.ttf) format('truetype');
-			  font-style: normal;
-			  font-weight: normal;
-			  font-variant: normal;
-			  text-decoration: inherit;
-			  text-transform: none;
-			}
 			@font-face {
 			  font-family: 'FontAwesome';
 			  src: url('{{ app_url_qiniu_frstatic }}/fonts/fontawesome-webfont2.eot');
@@ -159,7 +128,7 @@
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
-		<script type="text/javascript" src="{{ app_url_domin }}/packaged/semantic.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
         <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
         <!--
 		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.taconite.min.js"></script>
