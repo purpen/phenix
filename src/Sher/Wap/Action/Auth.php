@@ -774,13 +774,13 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $sid = $service->session->id;
 
     $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_id = $session_random_model->is_exist($sid, $session_random, 1);
+    $session_random = $session_random_model->is_exist($sid, $session_random, 1);
 
     // 验证是否非法链接来源
-    if(!$session_random_id){
+    if(!$session_random){
       return $this->ajax_note('拒绝访问,请重试！', true);
     }else{
-      $session_random_model->remove($session_random_id);
+      $session_random_model->remove($session_random);
     }
 
     $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
@@ -856,6 +856,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Doggy_Config::$vars['app.url.wap'];
+        $redirect_url = $this->auth_return_url($redirect_url);
+        $this->clear_auth_return_url();
         return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $redirect_url);
 
       }else{

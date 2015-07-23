@@ -181,6 +181,8 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
       if(!$redirect_url){
         $redirect_url = Doggy_Config::$vars['app.url.wap'];
       }
+      $redirect_url = $this->auth_return_url($redirect_url);
+      $this->clear_auth_return_url();
       return $this->to_redirect($redirect_url);
 
     }else{
