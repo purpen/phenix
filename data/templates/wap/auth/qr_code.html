@@ -14,11 +14,14 @@
 {% endblock %}
 
 {% block jquery %}
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ url }}'});
 {% endblock %}
 
 {% block content %}
 
-<div>
-  <img src="/app/site/captcha/qr_code?url=aaaaa" alt="太火鸟" />
+<div style="text-align:center">
+  <h5 style="color:red;">保存下方二维码至手机,打开微信扫一扫,点击在右上角相册中选取刚刚保存的二维码,即可登录</h5>
+  <div id="qrcode"></div>
 </div>
 {% endblock %}
