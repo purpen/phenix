@@ -97,7 +97,7 @@
 	{% if visitor %}
 	<div class="ui top right pointing dropdown icon user-setting button">
 		<a class="ui link" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
-      <img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" class="ui avatar image" alt="{{ visitor.nickname }}" /><p style="display: inline-block;vertical-align: middle;width: 100px;overflow: hidden;text-overflow: ellipsis;margin: 0;white-space: nowrap;"> {{ visitor.nickname }}</p><i class="angle down icon"></i>
+      <img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" class="ui avatar image" alt="{{ visitor.nickname }}" /><p style="display: inline-block;vertical-align: middle;max-width: 100px;padding-left: 10px;overflow: hidden;text-overflow: ellipsis;margin: 0;white-space: nowrap;"> {{ visitor.nickname }}</p><i class="angle down icon"></i>
 		</a>
 	  	<div class="menu">
 		    <a class="item" href="{{ app_url_my }}/account">
