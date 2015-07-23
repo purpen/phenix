@@ -28,6 +28,7 @@
 			<![endif]-->
 		{% else %}
 			<link rel="stylesheet" href="{{ app_url_domin }}/packaged/semantic.min.css" type="text/css" />
+            <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
         
@@ -107,7 +108,7 @@
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
         <!--把jquery放到body之前-->
-		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery-2.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
         <!--百度统计-->
         <script type="text/javascript">
           {% if baidu_talk_server %}
@@ -159,7 +160,7 @@
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
 		<script type="text/javascript" src="{{ app_url_domin }}/packaged/semantic.min.js"></script>
-        <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.plugins.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
         <!--
 		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.taconite.min.js"></script>
         <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.livequery.min.js"></script>
@@ -205,7 +206,7 @@
 			{% if js_use_bundle %}
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
 			{% else %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/js/frbird.min.js"></script>
+				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
 			{% endif %}
 		{% endblock %}
 		{% block private_js %}{% endblock %}
