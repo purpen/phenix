@@ -735,6 +735,109 @@
 		0% { background-position: 0px 0px; }
 		100% { background-position: -10000px 0px; }
 	}
+	.page-10-1{
+		background: url(http://frstatic.qiniudn.com/images/promo/zp/zp10.jpg) center bottom /cover;
+		-webkit-animation: 'p1BgAnimation1' 300s linear infinite;
+	}
+	.zwk{
+		width:39%;
+		left:5%;
+	}
+	.fly{
+		width:64%;
+		-webkit-animation-name: fly;
+	  animation-name: fly;
+	  -webkit-animation-duration: 5s !important;
+	  animation-duration: 5s !important;
+	  -webkit-animation-fill-mode: both;
+	  animation-fill-mode: both;
+		-webkit-animation-iteration-count:infinite;
+		animation-delay:3s !important;
+		-webkit-animation-delay:3s !important;
+		opacity:0;
+	}
+	@-webkit-keyframes fly{
+		0% { left:0%;top:30%; opacity:0}
+		40% { left:36%;top:0%; opacity:1}
+		45% { left:36%;top:0%;opacity:1}
+		50% { left:36%;top:0%;opacity:0}
+		55% { left:36%;top:0%;opacity:1}
+		60% { left:36%;top:0%;opacity:0}
+		65% { left:36%;top:0%;opacity:1}
+		100% {left:100%;top:0%;opacity:1}
+	}
+	.zwl{
+		width:20%;
+	}
+	.zwl1{
+		left:8.5%;
+		top:18%;
+	}
+	.zwl2{
+		left:29.5%;
+		top:18%;
+	}
+	.zwl3{
+		left:50.5%;
+		top:18%;
+	}
+	.zwl4{
+		left:71.5%;
+		top:18%;
+	}
+	.zwl5{
+		left:8.5%;
+		top:31.5%;
+	}
+	.zwl6{
+		left:29.5%;
+		top:31.5%;
+	}
+	.zwl7{
+		left:50.5%;
+		top:31.5%;
+	}
+	.zwl8{
+		left:71.5%;
+		top:31.5%;
+	}
+	.zwl9{
+		left:8.5%;
+		top:45%;
+	}
+	.zwl10{
+		left:8.5%;
+		top:58.5%;
+	}
+	.zwl11{
+		width:41%;
+		left:29.5%;
+		top:45%;
+	}
+	.zwl12{
+		left:71.5%;
+		top:45%;
+	}
+	.zwl13{
+		left:71.5%;
+		top:58.5%;
+	}
+	.zwl14{
+		left:8.5%;
+		top:72%;
+	}
+	.zwl15{
+		left:29.5%;
+		top:72%;
+	}
+	.zwl16{
+		left:50.5%;
+		top:72%;
+	}
+	.zwl17{
+		left:71.5%;
+		top:72%;
+	}
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
 	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
@@ -934,7 +1037,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 page-current">
+<div class="page page-1-1 hide">
 	<div class="wrap">
 		<img class="st cloud1" src="http://frstatic.qiniudn.com/images/promo/zp/cloud1.png">
 		<img class="st cloud2" src="http://frstatic.qiniudn.com/images/promo/zp/cloud2.png">
@@ -1048,6 +1151,36 @@
 		<img class="st zwi4 clicr4" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-9.png">
 		<img class="st zwi5 clicr5" src="http://frstatic.qiniudn.com/images/promo/zp/zp8-10.png">
 		<img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
+	</div>
+</div>
+
+<div class="page page-9-1 hide">
+	<div class="wrap">
+		
+	</div>
+</div>
+
+<div class="page page-10-1 page-current">
+	<div class="wrap">
+		<img class="st zwk zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-01.png">
+		<img class="st fly" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-1.png">
+		<img class="st zwl zwl1" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-2.jpg">
+		<img class="st zwl zwl2" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-3.jpg">
+		<img class="st zwl zwl3" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-4.jpg">
+		<img class="st zwl zwl4" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-5.jpg">
+		<img class="st zwl zwl5" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-6.jpg">
+		<img class="st zwl zwl6" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-7.jpg">
+		<img class="st zwl zwl7" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-8.jpg">
+		<img class="st zwl zwl8" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-9.jpg">
+		<img class="st zwl zwl9" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-10.jpg">
+		<img class="st zwl zwl10" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-11.jpg">
+		<img class="st zwl zwl11" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-18.jpg">
+		<img class="st zwl zwl12" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-12.jpg">
+		<img class="st zwl zwl13" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-13.jpg">
+		<img class="st zwl zwl14" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-14.jpg">
+		<img class="st zwl zwl15" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-15.jpg">
+		<img class="st zwl zwl16" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-16.jpg">
+		<img class="st zwl zwl17" src="http://frstatic.qiniudn.com/images/promo/zp/zp10-17.jpg">
 	</div>
 </div>
 {% endblock %}
