@@ -687,7 +687,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     if(!$session_random){
       return $this->ajax_note('拒绝访问,请重试！', true);
     }else{
-      $redirect_url = !empty($session_random['redirect_url'])?$session_random['redirect_url']:null;
       $session_random_model->remove((string)$session_random['_id']);
     }
 
@@ -763,7 +762,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
-        $redirect_url = !empty($redirect_url)?$redirect_url:Sher_Core_Helper_Url::user_home_url($user_id);
+        $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Sher_Core_Helper_Url::user_home_url($user_id);
         return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $redirect_url);
 
       }else{
