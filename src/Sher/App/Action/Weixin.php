@@ -205,6 +205,8 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
       if(!$redirect_url){
        $redirect_url = Sher_Core_Helper_Url::user_home_url($user_id);     
       }
+      $redirect_url = $this->auth_return_url($redirect_url);
+      $this->clear_auth_return_url();
       return $this->to_redirect($redirect_url);
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);

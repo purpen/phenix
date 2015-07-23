@@ -856,6 +856,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Doggy_Config::$vars['app.url.wap'];
+        $redirect_url = $this->auth_return_url($redirect_url);
+        $this->clear_auth_return_url();
         return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $redirect_url);
 
       }else{
