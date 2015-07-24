@@ -15,6 +15,8 @@
           <div class="metadata">
             <div class="date"><small>{{ comment.created_on }}</small></div>
           </div>
+
+{% if !comment.deleted %}
           <div class="laud">
 
             {% if comment.is_loved %}
@@ -29,19 +31,26 @@
             </a>          
             {%endif%}
           </div>
-          
+          {%endif%}
           <div class="text">
-            {{ comment.content|safe }}
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
           </div>
           {% if visitor.is_login %}
           <div class="actions">
-            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            {% if !comment.deleted %}
+            <a class="reply reply-btn" href="#comment-box" >回复</a>
+
             {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
             {%else%}
               {% if visitor.id==comment.user_id %}
-                <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+                <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
               {%endif%}
+            {%endif%}
             {%endif%}
           </div>
           <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
@@ -116,6 +125,7 @@
           <div class="metadata">
             <div class="date"><small>{{ comment.created_on }}</small></div>
           </div>
+{% if !comment.deleted %}
           <div class="laud">
 
             {% if comment.is_loved %}
@@ -130,19 +140,26 @@
             </a>          
             {%endif%}
           </div>
+          {%endif%}
           
           <div class="text">
-            {{ comment.content|safe }}
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
           </div>
           {% if visitor.is_login %}
           <div class="actions">
-            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            {% if !comment.deleted %}
+            <a class="reply showbox reply-btn" href="#comment-box">回复</a>
             {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
             {%else%}
               {% if visitor.id==comment.user_id %}
-                <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+                <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
               {%endif%}
+            {%endif%}
             {%endif%}
           </div>
           <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
