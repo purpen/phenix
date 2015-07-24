@@ -853,6 +853,41 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         $user = $user_model->get_data();
         $user_id = $user['_id'];
 
+        // 如果存在头像,更新
+        if(isset($this->stash['avatar_url']) && !empty($this->stash['avatar_url'])){
+
+          $accessKey = Doggy_Config::$vars['app.qiniu.key'];
+          $secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+          $bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+          // 新截图文件Key
+          $qkey = Sher_Core_Util_Image::gen_path_cloud();
+
+          $client = \Qiniu\Qiniu::create(array(
+              'access_key' => $accessKey,
+              'secret_key' => $secretKey,
+              'bucket'     => $bucket
+          ));
+
+          // 存储新图片
+          $res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
+          if (empty($res['error'])){
+            $avatar_up = $qkey;
+          }else{
+            $avatar_up = false;
+          }
+
+          if($avatar_up){
+             // 更新用户头像
+            $user_model->update_avatar(array(
+              'big' => $qkey,
+              'medium' => $qkey,
+              'small' => $qkey,
+              'mini' => $qkey
+            ));   
+          }
+
+        }// has avatar
+
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Doggy_Config::$vars['app.url.wap'];
@@ -888,8 +923,6 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       'state' => $state,
     );
     $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
-
-    $url = urlencode($url);
 
     $this->stash['url'] = $url;
 		return $this->to_html_page('wap/auth/qr_code.html');
