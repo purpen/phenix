@@ -1,6 +1,6 @@
 <taconite>
 	<replaceContent select="#comment-list"><![CDATA[
-    <div class="ui threaded minimal comments">
+    <div class="ui threaded comments">
 	  <h3 class="ui dividing header">全部回应</h3>
       {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
       {% for comment in comments.rows %}

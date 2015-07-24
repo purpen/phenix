@@ -26,10 +26,6 @@
   text-decoration: none;
   color: #5d6266;
   }
-  .ui.reply.form .right.aligned.column{
-  display:inline-block;
-  float:right;
-  }
 
   .img-tab{
     margin:5px;
@@ -42,7 +38,7 @@
 
 <div class="post comment">
   	<p>
-		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表回应
+		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论
 	</p>
   	<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
     	<input type="hidden" name="target_id" value="{{ comment_target_id }}" />
@@ -51,7 +47,7 @@
     	<input type="hidden" name="star" value="0" />
 		
     	<div class="field">
-        <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入回应内容...{%endif%}"></textarea>
+        <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
@@ -63,8 +59,8 @@
     	<div class="right aligned column">
 			<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>
 
-			<div class="ui active button magenta submit labeled icon">
-              	<i class="icon basic direction"></i> 添加回应
+			<div class="ui active button red submit labeled icon">
+              	<i class="edit icon"></i> 确认提交
             </div>
     	</div>
   	  	{% else %}
@@ -85,7 +81,7 @@
 
 
 <div class="ui comment-insert-img small modal transition">
-  	<i class="flat close icon"></i>
+  	<i class="remove circle outline close icon"></i>
 	<div class="header">
 	    插入图片
 	</div>
@@ -112,11 +108,11 @@
 
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui active grey deny inverted button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit img inverted button">
-					插入
+			    <div class="ui magenta active comment-submit img inverted button">
+					<i class="add circle icon"></i> 确认
 			    </div>
 			</div>
 		</form>
@@ -124,7 +120,7 @@
 </div>
 
 <div class="ui comment-insert-link small modal transition">
-  	<i class="flat close icon"></i>
+  	<i class="remove circle outline close icon"></i>
 	<div class="header">
 	    插入链接
 	</div>
@@ -144,11 +140,11 @@
 				</div>
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui active grey deny inverted button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit url inverted button">
-					插入
+			    <div class="ui magenta active comment-submit url inverted button">
+					<i class="add circle icon"></i> 确认
 			    </div>
 			</div>
 		</form>

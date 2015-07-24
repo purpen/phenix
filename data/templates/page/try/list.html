@@ -3,96 +3,7 @@
 
 {% block page_css %}
 <style class="text/css">
-    .try.masthead {
-		  height: 500px;
-			color: #fff;
-		}
-		.try.masthead .column {
-			padding-top: 120px;
-		}
-		.try.masthead > .masthead-cover {
-		    background-color: rgba(0, 0, 0, 0.15);
-		    height: 100%;
-		}
-		.try .ui.header .sub.header {
-			color: rgba(255, 255, 255, 0.9);
-			font-size: 1.5rem;
-		}
-		.try .ui.list .count span{
-			font-size:16px !important;
-		}
-		.try .presell{
-			padding: .5rem 0.25rem;
-		  min-width: 80px;
-			text-align: center;
-			border-radius: 0;
-		}
-		.presell.apply{
-			left:88px;
-			background:rgba(255,51,102,0.5);
-			padding:.5rem .8rem;
-		}
-		.presell.callback{
-			left:88px;
-			background:rgba(0,111,188,0.5);
-			padding:.5rem .8rem;
-		}
-		.presell.recoe{
-			left:88px;
-			background:rgba(0,188,156,0.5);
-			padding:.5rem .8rem;
-		}
-		.presell.end{
-			left:88px;
-			background:rgba(102,102,102,0.5);
-			padding:.5rem .8rem;
-		}
-		.trycm{
-			text-align:center;
-		}
-		.trycm .ui.icon.header{
-			font-weight:400;
-			font-size: 1.23em;
-			margin:0;
-		}
-		.trycm .ui.icon.header .sub.header{
-			font-size:1rem;
-			color:#5d6266;
-		}
-		.trycm .ui.icon.header:first-child{
-			float:left;
-		}
-		.trycm .ui.icon.header:nth-child(2){
-		}
-		.trycm .ui.icon.header:last-child{
-			float:right;
-		}
-		.tryapply .circle{
-			width:120px;
-			height:120px;
-			border-radius:50%;
-			background:#3cc9b4;
-			color:#fff;
-			font-size: 20px;
-			display: inline-block;
-			line-height: 120px;
-		}
-		.tryapply .litle.fu{
-			color:#3cc9b4;
-			font-size:60px;
-			display:inline-block;
-			height:100px;
-			vertical-align: middle;
-			line-height:85px;
-			margin:0 40px;
-			font-weight: 100;
-		}
-		.tryfirm img{
-			margin: 0 5px 5px 0;
-		  border: 1px solid #ccc;
-		  width: 150px;
-		}
-			
+    	
 </style>
 {% endblock %}
 
@@ -103,235 +14,213 @@
 			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
 		});
 	});
+    
+    //ajax加载签到数据
+    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
-
-						{% try_list var:'try_latest' page:1 state:1 size:1 %}
-            {% if try_latest.rows %}
-            {% for try in try_latest.rows %}
-
-<div class="try masthead" style="{% if try.banner_id %}background: url('{{ try.banner.fileurl }}') no-repeat scroll center center / cover rgba(45, 53, 56, 1);{% else %}background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);{% endif %}">
-	<div class="masthead-cover">
-		<div class="ui responsive grid">
-			<div class="column">
-				<h1 class="ui header">
-					<div class="content">
-						{{ try.short_title }}
-						<div class="sub header">
-							{{ try.description }}
-						</div>
-					</div>
-				</h1>
-				{% if !try.is_end %}
-				<a href="{{ try.view_url }}" title="{{ try.title }}" target="_blank" class="ui white applytry inverted button">
-					<i class="ticket icon"></i> 申请试用
-				</a>
-				{% else %}
-				<a href="javascript:void(0);" class="ui active white inverted button">
-					<i class="lock icon"></i> 已结束
-				</a>
-				{% endif %}
-				<a href="{{ try.view_url }}" class="ui white inverted button" target="_blank">
-					<i class="browser icon"></i> 产品详情
-				</a>
-
-				<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约{% if !try.is_end %}, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}, 结束时间：{{ try.end_time }}{% endif %}</div>
-			</div>
-		</div>
-	</div>
-</div>
-{%endfor%}
-{%else%}
-<div class="try masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/crowdfunding-product.jpg');">
-    <div class="masthead-cover">
-    	<div class="ui responsive grid">
-    		<div class="center aligned column white section-title">
-                <div class="container">
-        			<h2 class="block title">申请成为试用达人</h2>
-        			<p>每个全新的发明面世，都要经过千万次的试验、以及有好奇心的你。</p>
-        			<hr>
-        			<div class="buttons">
-        				<a href="http://www.taihuoniao.com/topic/view-100247-1.html" class="ui inverted gift button">
-        					<i class="certificate icon"></i> 试用规则
-        				</a>
-        			</div>
+<div class="mainwrap social" id="triespage">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+			<div class="ui three products tries cards">
+                
+                {% try_list var:'try_latest' page:1 state:1 step_stat:1 size:1 %}
+                
+                {% if try_latest.rows %}
+                    {% for try in try_latest.rows %}
+                    <div class="card special cat">
+                        <div class="problock">
+                            <a title="{{ try.short_title }}" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" class="thumb" target="_blank"></a>
+                            <h2>
+                                <a href="{{ try.view_url }}" title="{{ try.short_title }}" class="ui line" target="_blank">
+                    			    {{ try.short_title }}
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>{{ try.description }}</p>
+                            </div>
+                            <div class="cats">
+                                <span class="unit"></span>{{ try.apply_count }}
+                            </div>
+                            <span class="counter">
+                                <i class="heart icon"></i> 
+                            </span>
+                        </div>
+                        <div class="speblock">
+                            <div class="randomcats">
+                                <a class="catlink" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" target="_blank">
+                                    <h2>{{ try.short_title }}</h2>
+                                    <p>{{ try.description }}</p>
+                                    <span class="more">申请试用</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                {%else%}
+                <div class="card special cat">
+                    <div class="problock">
+                        <a title="新品试用" href="http://www.taihuoniao.com/topic/view-100247-1.html" style="background-image: url('{{ app_url_packaged }}/images/topicbg/crowdfunding-product.jpg');" class="thumb" target="_blank"></a>
+                        <h2>
+                            <a href="http://www.taihuoniao.com/topic/view-100247-1.html" title="新品试用" class="ui line" target="_blank">
+                			    申请成为试用达人
+                		    </a>
+                        </h2>
+                        <div class="excerpt">
+                            <p>每个全新的发明面世，都要经过千万次的试验、以及有好奇心的你。</p>
+                        </div>
+                        <div class="cats">
+                            <span class="unit"></span>
+                        </div>
+                        <span class="counter">
+                            <i class="heart icon"></i> 
+                        </span>
+                    </div>
+                    <div class="speblock">
+                        <div class="randomcats">
+                            <a class="catlink" href="http://www.taihuoniao.com/topic/view-100247-1.html" style="background-image: url('{{ app_url_packaged }}/images/topicbg/crowdfunding-product.jpg');" target="_blank">
+                                <h2>申请成为试用达人</h2>
+                                <p>每个全新的发明面世，都要经过千万次的试验、以及有好奇心的你。</p>
+                                <span class="more">试用规则</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-    		</div>
-    	</div>
-    </div>
-</div>
-{%endif%}
-<div class="ui try">
-	<div class="mainlist">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h3 class="ui header">
-						往期试用
-					</h3>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<div class="ui three cards">
-						{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 %}
-						{% for t in list.rows %}
-							<div class="card">
-								<div class="image">
-									<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
-										<img src="{{ t.cover.thumbnails.resp.view_url }}" >
-									</a>
-                  {% if t.season %}
-									<div class="presell">
-                    第 {{ t.season }} 期
-									</div>
-                  {%endif%}
-									{%if t.step_stat==1%}
-									<div class="presell apply">
-										申请中
-									</div>
-									{%endif%}
-									{%if t.step_stat==2%}
-									<div class="presell recoe">
-										名单审核中
-									</div>
-                  {%endif%}
-									{%if t.step_stat==3%}
-									<div class="presell callback">
-										报告回收中
-									</div>
-                  {%endif%}
-									{%if t.step_stat==5%}
-									<div class="presell end">
-										已结束
-									</div>
-									{%endif%}
-										
-								</div>
-								<div class="content">
-									<div class="header">
-										<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
-											{{ t.title|truncate, 24, '' }}
-										</a>
-                                    </div>
-                                    <div class="description">{{ t.description }}</div>
-									<!--<div class="i-stats">
-										<div class="trycm">
-											<div class="name">
-												产品数量：<span class="count">{{ t.try_count }}</span> 个 申请人数：<span class="count">{{ t.apply_count }}</span> 人
-											</div>
-											<div class="ui text result">
-												<i class="tasks icon"></i>试用名单公布时间：<span class="time">{{ t.end_time }}</span>
-											</div>
-										</div>
-									</div>-->
-									
-									<div class="i-stats">
-										<div class="trycm">
-											<div class="ui icon header">
-												{{ t.try_count }}
-												<div class="sub header">
-													产品数量
-												</div>
-											</div>
-											<div class="ui icon header">
-												{{ t.apply_count }} 
-												<div class="sub header">
-													申请人数
-												</div>
-											</div>
-											<div class="ui icon header">
-												{{ t.pass_count }} 
-												<div class="sub header">
-													试用报告
-												</div>
-											</div>
-									
-										</div>
-									</div>
-									
-								</div>
-							</div>
-						{% endfor %}
+                {%endif%}
+                
+				{% try_list var:'list' page:page state:1 %}
+				{% for t in list.rows %}
+					<div class="card">
+                        <div class="problock">
+                            <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" style="background-image: url({{ t.cover.thumbnails.resp.view_url }});" class="thumb" target="_blank"></a>
+                            <div class="ribbons">
+                                {% if t.season %}
+                                <span class="ribbon season">
+                                    第 {{ t.season }} 期
+                                </span>
+                                {%endif%}
+    							{%if t.step_stat == 1%}
+    							<span class="ribbon apply">
+    								申请中
+                                </span>
+    							{%endif%}
+    							{%if t.step_stat == 2%}
+    							<span class="ribbon recoe">
+    								名单审核中
+                                </span>
+                                {%endif%}
+    							{%if t.step_stat == 3%}
+    							<span class="ribbon callback">
+    								报告回收中
+                                </span>
+                                {%endif%}
+    							{%if t.step_stat == 5%}
+    							<span class="ribbon end">
+    								已结束
+                                </span>
+    							{%endif%}
+                            </div>
+                            <h2>
+                                <a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+                    			    {{ t.title }}
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
+                            </div>
+                            <div class="cats">
+                                <i class="tasks icon"></i> 试用报告：<span> {{ t.pass_count }}</span>
+                            </div>
+                        </div>
+                        
 					</div>
-				</div>
+				{% endfor %}
 			</div>
-		</div><!--end responsive grid-->
-	</div>
-</div>
+            
+        </div>
+    </div>
+    <div class="mainright">
+        <!--ajax签到-->
+        <div class="sellwrap usersign">
+            <div id="user-sign-box"></div>
+        </div>
 
-<div class="ui responsive tryapply grid">
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">
-				新品试用申请流程
-			</h3>
-			<p>太火鸟新品试用是专注于智能设备的免费试用平台，每1-2周提供一款智能或新奇设备供你免费体验，你的反馈将影响产品的设计，决定产品命运。点击“现在申请”马上参与！申请步骤如下：</p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="center aligned column">
-			<div class="circle">
-				提交申请
-			</div>
-			<div class="litle fu">></div>
-			<div class="circle">
-				进行审核
-			</div>
-			<div class="litle fu">></div>
-			<div class="circle">
-				等待收货
-			</div>
-			<div class="litle fu">></div>
-			<div class="circle">
-				提交报告
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">
-				合作厂商
-			</h3>
+        <div class="sellwrap">
+        	<div class="block title">
+        		社区版块
+            </div>
+                
+            <div class="ui two item labeled icon menu">
+                <a href="{{ app_url_try }}" class="{{ css_page_sub_try }} item">
+                    <i class="lab icon"></i> 新品试用
+                </a>
+                <a href="{{ app_url_active }}/list" class="{{ css_page_sub_active }} item">
+                    <i class="gamepad icon"></i> 活动
+                </a>
+            </div>
+    
+            <div class="fluid ui large vertical category menu">
+                {% category_list var:'category' only_open:1 domain:domain size:10 %}
+                {% for cat in category.rows %}
+                    {% if cat.pid %}
+                    <a class="item" href="{{ cat.view_url }}">
+                        {% if cat.total_count %}
+                        <div class="ui label">{{ cat.total_count }}</div>
+                        {% endif %}
+                        {{ cat.title }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="sellwrap tryapply">
+        	<div class="block title">
+        		申请试用流程
+            </div>
+            <p>太火鸟新品试用是专注于智能设备的免费试用平台，每1-2周提供一款智能或新奇设备供你免费体验，你的反馈将影响产品的设计，决定产品命运。</p>
+            <p>点击“现在申请”马上参与！申请步骤如下：</p>
+            <div class="steps">
+                <div class="circle">
+    				提交申请
+    			</div>
+                <div class="litle fu">
+                    <i class="angle down icon"></i>
+                </div>
+    			<div class="circle">
+    				进行审核
+    			</div>
+                <div class="litle fu">
+                    <i class="angle down icon"></i>
+                </div>
+    			<div class="circle">
+    				等待收货
+    			</div>
+                <div class="litle fu">
+                    <i class="angle down icon"></i>
+                </div>
+    			<div class="circle">
+    				提交报告
+    			</div>
+            </div>
+        </div>
+        
+        <div class="sellwrap">
+        	<div class="block title">
+        		合作厂商
+            </div>
 			<div class="tryfirm">
 				<img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技">
 				<img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园">
-				<img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技">
+                <img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国">
 				<img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC">
-				<img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国">
+                <img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技">
 			</div>
-		</div>
-	</div>
-
-</div>
-
-<div class="section breadcrumb">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domin }}">
-						<i class="home icon"></i> 首页
-					</a>
-                    <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						发现
-					</a>
-					<i class="angle right icon divider"></i>
-					<div class="active section">新品试用</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            
+        </div>
+        
+    </div>
 </div>
 {% endblock %}
