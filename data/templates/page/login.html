@@ -21,7 +21,8 @@
     });
 
 
-		$('.ui.green.circular.share.icon.button').bind('click', function(){
+		$('.ui.green.icon.button').bind('click', function(){
+		  alert(123)
 			$('.ui.share.basic.modal').modal('show');
 		});
 
@@ -63,13 +64,13 @@
                 <div class="thirdlogin">
                     支持第三方登录：
     				<a href="{{ weibo_auth_url }}" class="ui red icon inverted button" title="新浪微博账号">
-    					<i class="flat icon_weibo icon"></i>
+    					<i class="weibo icon"></i>
     				</a>
     				<a href="{{ app_url_qq_login }}" class="ui blue icon inverted button" title="用QQ账号">
-    					<i class="flat icon_qq icon"></i>
+    					<i class="qq icon"></i>
     				</a>
-    				<a href="{{ app_url_qq_login }}" class="ui green icon inverted button" title="用微信账号">
-    					<i class="flat icon_qq icon"></i>
+    				<a class="ui green icon inverted button" title="用微信账号">
+    					<i class="wechat icon"></i>
     				</a>
                 </div>
 

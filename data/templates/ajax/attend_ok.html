@@ -1,11 +1,33 @@
 <taconite>
+{% if is_try %}
+  <replace select=".ui.applytry">
+    <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
+      <i class="ticket icon"></i> 我要拉票
+    </a>
+  </replace>
+{%else%}
 	<replaceContent select=".attend-box">
     <a class="ui inverted active gray button" href="javascript:void(0);">
       <span>已报名</span>
     </a>
 	</replaceContent>
+
+{%endif%}
 	
 	<eval>
+{% if is_try %}
+  //关闭弹出层
+  //$('.ui.lapiao.modal').modal('hide');
+  // 生成拉票二维码
+  $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply_id }}'});
+
+  phenix.show_ok_note('报名成功,等待管理员审核!');
+
+  $('.lapiao-btn').click(function() {
+    $('.ui.lapiao.modal').modal('show');
+    return false;
+  });
+{%else%}
     var val = $('.attend-num').text();
     $('.attend-num').text(parseInt(val)+1);
     //重新加载报名列表
@@ -14,5 +36,6 @@
       //关闭弹出层
       $('.ui.user-info-box.modal').modal('hide');
     {%endif%}
+{%endif%}
 	</eval>
 </taconite>

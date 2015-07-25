@@ -97,7 +97,8 @@
       sex : "{{ sex }}",
       from_site : "{{ from_site }}",
       login_token : "{{ login_token }}",
-      session_random : "{{ session_random }}"
+      session_random : "{{ session_random }}",
+      redirect_url : "{{ redirect_url }}"
 
     };
     var url = "{{ app_url_wap }}/auth/third_register";
@@ -122,8 +123,7 @@
 			</div>
 			<div class="ui bottom attached segment">
 				<div class="center aligned ui header">
-
-						补充账号信息
+						绑定账号
 				</div>
         <!--<div style="color:red;">首次使用第三方账号登录需要先绑定太火鸟账号</div>-->
 				<div class="two fields">
@@ -150,6 +150,7 @@
 			<input type="hidden" name="uid" value="{{ uid }}" />
 			<input type="hidden" name="access_token" value="{{ access_token }}" />
 			<input type="hidden" name="union_id" value="{{ union_id }}" />
+			<input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
 
 				<div class="ui active tab" data-tab="first">
 					<div class="field">
@@ -182,6 +183,7 @@
         <input type="hidden" name="city" value="{{ city }}" />
         <input type="hidden" name="summary" value="{{ summary }}" />
         <input type="hidden" name="from_site" value="{{ from_site }}" />
+			  <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
 				
 				<div class="ui tab" data-tab="two">
 					<div class="inline field">

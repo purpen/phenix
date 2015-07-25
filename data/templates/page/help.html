@@ -5,6 +5,12 @@
 	.description{
 		position:relative;
 	}
+	.ui.three.cards > .card > .image > .content{
+	  padding: 1em 1em 0;
+	}
+	.description .extra{
+	  float:right;
+	}
 </style>
 {% endblock %}
 
@@ -51,11 +57,11 @@
 						提交你的创意
 					</h2>
 					<p>太火鸟致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。</p>
-					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_fever }}/submit?step=1" class="ui active magenta btn-4 btn-4c inverted button">
 						提交创意
 					</a>
 					{% if !visitor.is_login %}
-					<a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_login }}" class="ui magenta active btn-4 btn-4c icon-arrow-right inverted button">
 						现在加入
 					</a>
 					{% endif %}
@@ -69,13 +75,13 @@
 			<div class="column padded">
 				<div class="ui breadcrumb">
 				  	<a class="section">提交创意</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon"></i>
 				  	<a class="section">创意投票</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon"></i>
 				  	<a class="section">专家评分</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon"></i>
 				  	<a class="section">在线预售</a>
-				  	<i class="flat page_right icon divider"></i>
+				  	<i class="angle right icon"></i>
 					<a class="section">销售</a>
 				</div>
 			</div>
@@ -147,70 +153,70 @@
 				</div>
 			</div>
 			<div class="eight wide column">
-				<div class="ui three items">
-					<div class="item">
+				<div class="ui three cards">
+					<div class="card">
 						<div class="image">
 							<img src="{{ app_url_packaged }}/images/6.png" />
 						</div>
 						<div class="content">
 							<div class="description">
 								￥368
-								<div class="extra"><i class="flat like icon"></i></div>
+								<div class="extra"><i class="like active icon"></i></div>
 							</div>
 						</div>
 					</div>
-					<div class="item">
+					<div class="card">
 						<div class="image">
 							<img src="{{ app_url_packaged }}/images/7.png" />
 						</div>
 						<div class="content">
 							<div class="description">
 								￥368
-								<div class="extra"><i class="flat like icon"></i></div>
+								<div class="extra"><i class="like active icon"></i></div>
 							</div>
 						</div>
 					</div>
-					<div class="item">
+					<div class="card">
 						<div class="image">
 							<img src="{{ app_url_packaged }}/images/8.png" />
 						</div>
 						<div class="content">
 							<div class="description">
 								￥368
-								<div class="extra"><i class="flat like icon"></i></div>
+								<div class="extra"><i class="like active icon"></i></div>
 							</div>
 						</div>
 					</div>
-					<div class="item">
+					<div class="card">
 						<div class="image">
 							<img src="{{ app_url_packaged }}/images/9.png" />
 						</div>
 						<div class="content">
 							<div class="description">
 								￥368
-								<div class="extra"><i class="flat like icon"></i></div>
+								<div class="extra"><i class="like active icon"></i></div>
 							</div>
 						</div>
 					</div>
-					<div class="item">
+					<div class="card">
 						<div class="image">
 							<img src="{{ app_url_packaged }}/images/10.png" />
 						</div>
 						<div class="content">
 							<div class="description">
 								￥368
-								<div class="extra"><i class="flat like icon"></i></div>
+								<div class="extra"><i class="like active icon"></i></div>
 							</div>
 						</div>
 					</div>
-					<div class="item">
+					<div class="card">
 						<div class="image">
 							<img src="{{ app_url_packaged }}/images/12.png" />
 						</div>
 						<div class="content">
 							<div class="description">
 								￥368
-								<div class="extra"><i class="flat like icon"></i></div>
+								<div class="extra"><i class="like active icon"></i></div>
 							</div>
 						</div>
 					</div>

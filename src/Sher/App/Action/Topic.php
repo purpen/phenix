@@ -442,7 +442,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->_comment_param($comment_options);
 		
 		// 投票部分代码
-		if(isset($topic['vote_id'])){
+		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
 			$model_vote = new Sher_Core_Model_Vote();
 			$voteOne = $model_vote->find_by_id(array('relate_id' => (int)$id));
 			$vote_id = $voteOne['_id'];

@@ -133,11 +133,11 @@
                   <div class="mes-text">
                     <div class="fans-btn">
                       {% if f.type==1 %}
-                      <a href="{{ app_url_user }}/ajax_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                      <a href="{{ app_url_user }}/ajax_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ui small magenta inverted ajax button">
                         + 关注
                       </a>
                       {%else%}
-                      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ajax ui magenta btn-4 btn-4c btn">
+                      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.fans._id }}&follow_type=2" id="user_{{f.fans._id}}_ship" class="ui small magenta inverted ajax button">
                         取消关注
                       </a>
                       {%endif%}

@@ -76,9 +76,10 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
+    $redirect_url = !empty($session_random['redirect_url'])?$session_random['redirect_url']:null;
     $state = Sher_Core_Helper_Util::generate_mongo_id();
     $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1);
+    $session_random_model->gen_random($sid, $state, 1, $redirect_url);
 
     $url = sprintf("https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $app_id, $redirect_uri, $state);
 
@@ -122,6 +123,8 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     if(!$session_random){
       return $this->show_message_page('拒绝访问,请重试！', $error_redirect_url);
     }
+
+    $redirect_url = !empty($session_random['redirect_url'])?$session_random['redirect_url']:null;
   
     $app_id = Doggy_Config::$vars['app.wx.app_id'];
     $secret = Doggy_Config::$vars['app.wx.app_secret'];
@@ -158,8 +161,6 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           }
           $union_id = $result['data']['unionid'];
 
-          
-
           $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
@@ -189,6 +190,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 				  $this->stash['city'] = null;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $state;
+          $this->stash['redirect_url'] = $redirect_url;
 
           return $this->to_html_page('page/landing.html');
 
@@ -200,9 +202,10 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 
       // 实现自动登录
       Sher_Core_Helper_Auth::create_user_session($user_id);
-      $user_home_url = Sher_Core_Helper_Url::user_home_url($user_id);
-      return $this->to_redirect($user_home_url);
-
+      if(!$redirect_url){
+       $redirect_url = Sher_Core_Helper_Url::user_home_url($user_id);     
+      }
+      return $this->to_redirect($redirect_url);
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);
     }
