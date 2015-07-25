@@ -76,13 +76,32 @@ app.alipay.cacert: '/opt/project/php/phenix/vendor/cacert.pem'
 app.alipay.pendir: '/opt/project/php/phenix/vendor'
 
 # 微信支付
-app.wechat.partner_appid: 'wx75a9ffb78f202fb3'
-app.wechat.partner_id: '1219487201'
-app.wechat.partner_key: '9E0530C588C8003395A929B0B94AC46B'
-app.wechat.partner_secret: 'f80ae853ef243f66284ad13781cb69de'
 
-app.wechat.sslcert_path: '/home/www/cert/apiclient_cert.pem'
-app.wechat.sslkey_path: '/home/www/cert/apiclient_key.pem'
+  # APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
+  app.wechat.appid: 'wx75a9ffb78f202fb3'
+  
+  # MCHID：商户号（必须配置，开户邮件中可查看）
+  app.wechat.mchid: '1219487201'
+  
+  # KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
+  app.wechat.key: '9E0530C588C8003395A929B0B94AC46B'
+  
+  # APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）
+  app.wechat.secret: 'f80ae853ef243f66284ad13781cb69de'
+  
+  # 异步通知url
+  app.wechat.notify_url: ''
+  
+  # TODO：设置商户证书路径
+  app.wechat.sslcert_path: '/home/www/cert/apiclient_cert.pem'
+  app.wechat.sslkey_path: '/home/www/cert/apiclient_key.pem'
+  
+  # TODO：这里设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
+  app.wechat.proxy_host : "0.0.0.0"
+  app.wechat.proxy_post : 0
+  
+  # TODO：接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】
+  app.wechat.report_levenl : 1
 
 # 淘宝
 app.taobao.key: '21781655'

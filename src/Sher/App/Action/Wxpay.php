@@ -538,14 +538,20 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->show_message_page('订单[$rid]已付款！', false);
 		}
 		
+		// 支付完成通知回调接口，255 字节以内
+		$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/direct_native';
+		
 		$wechat = new Sher_Core_Util_Wechat($this->options);
 		
-		// 获取access token
+		// @(1) 获取access token
 		$access_token = $wechat->checkAuth();
 		
 		Doggy_Log_Helper::warn("Get access token [ $access_token ] is OK!");
 		
+		// @(2) 时间戳
 		$timestamp = time();
+		
+		// @(3) 随机字符串
 		$noncestr = $wechat->generateNonceStr();
 		
 		// 订单信息组成该字符串
@@ -554,9 +560,6 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
         $body = '太火鸟商城'.$out_trade_no.'订单';
 		// 订单总金额,单位为分
 		$total_fee = $order_info['pay_money'];
-		
-		// 支付完成通知回调接口，255 字节以内
-		$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/direct_native';
 		// 用户终端IP，IPV4字串，15字节内
 		$reqeust = new Doggy_Dispatcher_Request_Http();
 		$spbill_create_ip = $reqeust->getClientIp();
@@ -586,7 +589,6 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		);
 		
 		$this->stash['wxoptions'] = $wxoptions;
-		
 		return $this->to_html_page('wap/wxpay.html');
 	}
 	
