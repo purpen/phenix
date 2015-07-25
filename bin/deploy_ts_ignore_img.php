@@ -23,7 +23,7 @@ require $cfg_doggy_bootstrap;
 set_time_limit(0);
 
 $conf_dir = '/opt/qiniu';
-$from_src = '/opt/project/php/phenix-ui/build/packaged';
+$from_src = '/opt/project/php/phenix-ui/dist/packaged';
 $to_src = '/opt/project/php/phenix/data/web/packaged';
 
 $css_version = Doggy_Config::$vars['app.version.css_bundle_version'];
