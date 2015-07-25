@@ -525,7 +525,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		if (empty($rid)){
 			return $this->show_message_page('操作不当，订单号丢失！', true);
 		}
-		
+
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 		if (empty($order_info)){
@@ -541,54 +541,30 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		// 支付完成通知回调接口，255 字节以内
 		$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/direct_native';
 		
-		$wechat = new Sher_Core_Util_Wechat($this->options);
+		//①、获取用户openid
+		$tools = new Sher_App_Action_WxJsApiPay();
+		$openId = $tools->GetOpenid();
 		
-		// @(1) 获取access token
-		$access_token = $wechat->checkAuth();
+		//②、统一下单
+		$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
 		
-		Doggy_Log_Helper::warn("Get access token [ $access_token ] is OK!");
+		$input->SetBody("test");
+		$input->SetAttach("test");
+		$input->SetOut_trade_no(Doggy_Config::$vars['app.wechat.mchid'].date("YmdHis"));
+		$input->SetTotal_fee("1");
+		$input->SetTime_start(date("YmdHis"));
+		$input->SetTime_expire(date("YmdHis", time() + 600));
+		$input->SetGoods_tag("test");
+		$input->SetNotify_url($notify_url);
+		$input->SetTrade_type("JSAPI");
+		$input->SetOpenid($openId);
 		
-		// @(2) 时间戳
-		$timestamp = time();
+		$jsApiParameters = $tools->GetJsApiParameters($order); // 统一支付接口返回的数据
 		
-		// @(3) 随机字符串
-		$noncestr = $wechat->generateNonceStr();
+		$editAddress = $tools->GetEditAddressParameters(); // 获取共享收货地址js函数参数
 		
-		// 订单信息组成该字符串
-		$out_trade_no = $order_info['rid'];
-        // 订单内容，必填
-        $body = '太火鸟商城'.$out_trade_no.'订单';
-		// 订单总金额,单位为分
-		$total_fee = $order_info['pay_money'];
-		// 用户终端IP，IPV4字串，15字节内
-		$reqeust = new Doggy_Dispatcher_Request_Http();
-		$spbill_create_ip = $reqeust->getClientIp();
-		// 现金支付币种，默认1:人民币
-		$fee_type = 1;
-		// 银行通道类型,默认WX
-		$bank_type = "WX";
-		// 传入参数字符编码，默认UTF-8
-		$input_charset = "UTF-8";
-		// 交易起始时间
-		$time_start = "";
-		$time_expire = "";
-		// 物流费用,单位为分
-		$transport_fee = $order_info['freight'];
-		// 商品费用,单位为分
-		$product_fee = $order_info['total_money'];
-		
-		$package = $wechat->createPackage($out_trade_no, $body, $total_fee*100, $notify_url, $spbill_create_ip, $fee_type, $bank_type, $input_charset, $time_start, $time_expire, $transport_fee*100, $product_fee*100);
-		
-		// 微信支付参数
-		$wxoptions = array(
-			'appId' => $this->options['appid'],
-			'timeStamp' => $timestamp,
-			'nonceStr' => $noncestr,
-			'package' => $package,
-			'paySign' => $wechat->getPaySign($package, $timestamp, $noncestr),
-		);
-		
-		$this->stash['wxoptions'] = $wxoptions;
+		$this->stash['jsApiParameters'] = $jsApiParameters;
+		//$this->stash['editAddress'] = $editAddress;
 		return $this->to_html_page('wap/wxpay.html');
 	}
 	

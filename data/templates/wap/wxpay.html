@@ -12,14 +12,10 @@
 	function jsApiCall()
 	{
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
-		WeixinJSBridge.invoke('getBrandWCPayRequest', { 
-			"appId" : "{{ wxoptions.appId }}", // 公众号id 
-			"timeStamp" : "{{ wxoptions.timeStamp }}", // 时间戳 
-			"nonceStr" : "{{ wxoptions.nonceStr }}", // 随机字符串
-			"package" : "{{ wxoptions.package }}", // 订单详情扩展字符串
-			"signType" : "sha1",
-			"paySign" : "{{ wxoptions.paySign }}" // 签名 
-			}, function(res){
+		WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				{{jsApiParameters}},
+				function(res){
 				alert(res.err_msg);
 				alert("{{ wxoptions.appId }}->{{ wxoptions.timeStamp }}->{{ wxoptions.nonceStr }}->{{ wxoptions.package }}->{{ wxoptions.paySign }}");
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功

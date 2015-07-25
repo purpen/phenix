@@ -18,10 +18,6 @@
 	$input->SetTrade_type("JSAPI");
 	$input->SetOpenid($openId);
 	
-	$order = WxPayApi::unifiedOrder($input); // 统一下单处理类
-	echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
-	printf_info($order);
-	
 	$jsApiParameters = $tools->GetJsApiParameters($order); // 统一支付接口返回的数据
 	
 	$editAddress = $tools->GetEditAddressParameters(); // 获取共享收货地址js函数参数
