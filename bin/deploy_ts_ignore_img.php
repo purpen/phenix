@@ -45,7 +45,7 @@ function copy_files($from_src, $to_src){
 function inc_version($css_version, $js_version, $to_src){
 	echo "Start to inc version ... \n";
 	//未加版本号 css/calendar-theme.css,
-  $css_files = array('css/base.min.css','css/semantic-frbird.min.css','css/frbird.min.css','css/frmobile.min.css','css/ie8.min.css','css/ie7.min.css');
+  $css_files = array('css/base.min.css','css/semantic-frbird.min.css','css/frbird.min.css','css/frmobile.min.css','css/ie8.min.css','css/ie7.min.css','css/ie9.min');
   //未加版本号 javascript/calendar.js, javascript/jquery.flexslider.js
 	$js_files = array('javascript/base.min.js', 'javascript/jquery_bundle.min.js', 'javascript/frbird.min.js', 'javascript/froala_editor.min.js');
 	
@@ -53,18 +53,20 @@ function inc_version($css_version, $js_version, $to_src){
 		$file = $css_files[$i];
 		$new_file = preg_replace('/min/', 'min.'.$css_version, $file);
 		
-		system("mv $to_src/$file $to_src/$new_file");
-		
-		echo "css new file: $new_file \n";
+    if(file_exists($to_src."/".$file)){
+      system("mv $to_src/$file $to_src/$new_file");
+		  echo "css new file: $new_file \n";
+    }
 	}
 	
 	for($i=0;$i<count($js_files);$i++){
 		$file = $js_files[$i];
 		$new_file = preg_replace('/min/', 'min.'.$js_version, $file);
-		
-		system("mv $to_src/$file $to_src/$new_file");
-		
-		echo "js new file: $new_file \n";
+
+    if(file_exists($to_src."/".$file)){
+		  system("mv $to_src/$file $to_src/$new_file");
+		  echo "js new file: $new_file \n";
+    }
 	}
 	
 	echo "Inc version is ok! \n";
