@@ -19,16 +19,14 @@
 		{%endblock%}
         <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
+
+		<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.css" type="text/css" />
+    <![endif]-->
 		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
-			<!--[if lt IE 9]>
-				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.{{ css_bundle_version }}.css" type="text/css" />
-			<![endif]-->
+            <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
-			<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
-            <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
         
@@ -124,12 +122,13 @@
         {% endblock %}
         <!-- mustache templates end -->
 
+
+    <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
-		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
-        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
+        
         <!--
 		<script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.taconite.min.js"></script>
         <script type="text/javascript" src="{{ app_url_packaged }}/js/jquery.livequery.min.js"></script>

@@ -31,6 +31,11 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 子类型,1.商品下的灵感; 2.
         'sub_type' => 1,
 		'love_count' => 0,
+      // 回复ID
+      'reply_id' => null,
+      // 楼层
+      'floor' => 0,
+      'deleted' => 0,
     );
 
     protected $joins = array(
@@ -365,5 +370,16 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         
         return $c;
     }
+
+  /**
+   * 屏蔽删除
+   */
+  public function mark_remove($id){
+    $ok = false;
+    if($id){
+      $ok = $this->update_set($id, array('deleted'=>1));
+    }
+    return $ok;
+  }
 	
 }

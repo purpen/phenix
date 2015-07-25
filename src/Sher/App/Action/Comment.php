@@ -182,7 +182,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 删除回应
+	 * 删除回应 非物理删除,加上楼层,改为屏蔽
 	 */
 	public function delete(){
 		$comment_id = $this->stash['id'];
@@ -196,10 +196,14 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 			$comment = $model->find_by_id($comment_id);
 			// 非管理员只能删除自己的评论
 			if ($this->visitor->can_admin() || $comment['user_id'] == $this->visitor->id){
-				$model->remove($comment_id, true);
+        $ok = $model->mark_remove($comment_id);
+        if($ok){
+          // 更新对应对象的回应数 --注掉,因为是屏蔽评论,相关数量不做减少
+          //$model->mock_after_remove($comment);       
+        }else{
+          return $this->ajax_note('删除失败!');
+        }
 				
-				// 更新对应对象的回应数
-				$model->mock_after_remove($comment);
 			}
 			
 			$this->stash['ids'] = array($comment_id);
