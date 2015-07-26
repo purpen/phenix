@@ -3,7 +3,7 @@
 
 {% block page_css %}
 <style class="text/css">
-
+    
 </style>
 {% endblock %}
 
@@ -24,15 +24,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
+{% include "block/labs_menu.html" %}
 <div class="cooperate masthead">
 	<div class="masthead-cover">
     	<div class="ui responsive grid">

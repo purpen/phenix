@@ -193,6 +193,7 @@ a.line:hover, a.line.active {
 	})
 {% endblock %}
 {% block content %}
+{% include "block/labs_menu.html" %}
 <div id="laboratory">
 	<div class="d3in">
 		<div class="lab submenu">
@@ -202,7 +203,7 @@ a.line:hover, a.line.active {
 						<h3>D3IN铟立方未来实验室</h3>
 					</div>
 					<div class="ten wide right aligned column">
-            {% include "block/d3in/sub_nav.html" %}
+                        {% include "block/d3in/sub_nav.html" %}
 					</div>
 				</div>
 			</div>
