@@ -64,7 +64,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$editAddress = $tools->GetEditAddressParameters(); // 获取共享收货地址js函数参数
 		
 		$this->stash['jsApiParameters'] = $jsApiParameters;
-		//$this->stash['editAddress'] = $editAddress;
+		$this->stash['editAddress'] = $editAddress;
 		
 		return $this->to_html_page('wap/wxpay.html');
 	}
