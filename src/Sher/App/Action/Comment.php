@@ -64,11 +64,16 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
     $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
     if(!empty($is_reply)){
       $reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
+      $reply_user_id = isset($this->stash['reply_user_id'])?(int)$this->stash['reply_user_id']:0;
       if(empty($reply_id)){
         return $this->ajax_note('回复ID不存在!', true);
       }
+      if(empty($reply_user_id)){
+        return $this->ajax_note('回复用户ID不存在!', true);
+      }
       $row['is_reply'] = $is_reply;
       $row['reply_id'] = $reply_id;
+      $row['reply_user_id'] = $reply_user_id;
     }
 		
 		$model = new Sher_Core_Model_Comment();
