@@ -71,21 +71,13 @@
 		<div class="column">
 			<div class="ui one products cards">
 				{% for product in sale.rows %}
-					<!--{% if product.stage==9 %}
 			  			{% include "mm/product-item.html" %}
-					{% endif %}
-          {% if product.stage==5 %}
-						{% include "mm/product-presale-item.html" %}
-					{% endif %}
-					{% if product.stage==12 %}-->
-			  			{% include "mm/product-item.html" %}
-					<!--{% endif %}-->
 			    {% endfor %}
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="column">
+		<div class="ui center aligned column">
 			<div class="ui pagination">
 				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:1 %}
 				{% include 'block/pager.html' %}
