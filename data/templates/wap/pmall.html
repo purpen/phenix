@@ -38,7 +38,7 @@ a.line{
 	<div class="row">
 		{% product_list var:'list' stage:12 only_onsale:1 size:10 %}
 		<div class="column">
-			<div class="ui one items">
+			<div class="ui one products cards">
 				{% for d in list.rows %}
         {% if d.max_bird_coin %}
 {% include "block/exchange_item_wap.html" %}
