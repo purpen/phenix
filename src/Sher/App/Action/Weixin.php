@@ -162,6 +162,8 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           $union_id = $result['data']['unionid'];
 
           $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
+
+          $avatar_url = isset($result['data']['headimgurl'])?$result['data']['headimgurl']:null;
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
           $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
@@ -188,6 +190,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           $this->stash['from_site'] = Sher_Core_Util_Constant::FROM_WEIXIN;
           $this->stash['summary'] = null;
 				  $this->stash['city'] = null;
+          $this->stash['avatar_url'] = $avatar_url;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $state;
           $this->stash['redirect_url'] = $redirect_url;
@@ -205,6 +208,8 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
       if(!$redirect_url){
        $redirect_url = Sher_Core_Helper_Url::user_home_url($user_id);     
       }
+      $redirect_url = $this->auth_return_url($redirect_url);
+      $this->clear_auth_return_url();
       return $this->to_redirect($redirect_url);
     }else{
       return $this->show_message_page($result['msg'], $error_redirect_url);
