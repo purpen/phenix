@@ -49,7 +49,7 @@ class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
 		if(!is_array($this->values) 
 			|| count($this->values) <= 0)
 		{
-    		throw new WxPayException("数组数据异常！");
+    		throw new Sher_Core_Util_WxPay_WxPayException("数组数据异常！");
     	}
     	
     	$xml = "<xml>";
@@ -73,7 +73,7 @@ class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
 	public function FromXml($xml)
 	{	
 		if(!$xml){
-			throw new WxPayException("xml数据异常！");
+			throw new Sher_Core_Util_WxPay_WxPayException("xml数据异常！");
 		}
         //将XML转为array
         //禁止引用外部xml实体
@@ -109,7 +109,7 @@ class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
 		ksort($this->values);
 		$string = $this->ToUrlParams();
 		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=".WxPayConfig::KEY;
+		$string = $string . "&key=".Doggy_Config::$vars['app.wechat.key'];
 		//签名步骤三：MD5加密
 		$string = md5($string);
 		//签名步骤四：所有字符转为大写
