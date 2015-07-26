@@ -50,7 +50,7 @@
 				{% else %}
 			    <div class="default text">全部类别</div>
 				{% endif %}
-			    <i class="angle down icon"></i>
+			    <i class="dropdown icon"></i>
 			    <div class="menu">
             <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>
             <a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>
@@ -69,7 +69,7 @@
 <div class="ui responsive grid" id="mproducts">
 	<div class="row">
 		<div class="column">
-			<div class="ui one items">
+			<div class="ui one products cards">
 				{% for product in sale.rows %}
 					{% if product.stage==9 %}
 			  			{% include "mm/product-item.html" %}
