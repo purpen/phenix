@@ -16,15 +16,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
+{% include "block/labs_menu.html" %}
 
 <div class="ui tophead" style="background-image: url('{{ app_url_packaged }}/images/topicbg/hnck4400.jpg');">
 	<div class="masthead">

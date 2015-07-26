@@ -29,8 +29,13 @@
 	    box-shadow: 0 0 0 0px #fff inset!important;
 	}
 	.incubator.serve .ui.pd-10 {
-	  padding: 6% 15% 8%;
+	    padding: 6% 15% 8%;
 	}
+    
+    .labs.submenu {
+        padding: 0.875rem 0;
+        text-align: center;
+    }
 </style>
 {% endblock %}
 
@@ -98,6 +103,8 @@
 {% endblock %}
 
 {% block content %}
+{% include "block/labs_menu.html" %}
+
 <div class="egg-banner">
 <div class="incubator masthead">
 	<div class="ui responsive grid">
@@ -359,11 +366,11 @@
 		<div class="center aligned column white section-title">
 			<h2 class="block title">众筹合作</h2>
 			<hr>
-			<p>整合京东、淘宝、KICKSTARTER等国内外三大权威众筹平台</p>
+			<p>整合京东、淘宝、苏宁、KICKSTARTER、INDIEGOGO等国内外五大权威众筹平台</p>
 			<img src="{{ app_url_packaged }}/images/incubator/funds-site-01.jpg" />
 			<div class="highlight">
-				<p>不到一年时间，太火鸟共完成众筹项目<b>40</b>个，筹得资金超<b>2500万</b>元，</p>
-				<p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破<b>1200万</b>众筹金额产品。</p>
+				<p>不到一年时间，太火鸟共完成众筹项目近<b>50</b>个，筹得资金超<b>5000万</b>元，</p>
+				<p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破<b>1200万</b>众筹金额产品；<b>太火鸟孵化产品WeCoach Pro</b>-打造国内第一个可穿戴智能运动私教。</p>
 			</div>
 		</div>
 	</div>
