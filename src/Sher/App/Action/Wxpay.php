@@ -39,11 +39,11 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 	public function payment(){
 		
 		// 支付完成通知回调接口，255 字节以内
-		$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/direct_native';
+		$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'direct_native';
 		
 		//①、获取用户openid
 		$tools = new Sher_App_Action_WxJsApiPay();
-		$openId = $tools->GetOpenid($notify_url);
+		$openId = $tools->GetOpenid();
 		
 		//②、统一下单
 		$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
