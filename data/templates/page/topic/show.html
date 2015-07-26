@@ -1,4 +1,4 @@
-{%extends 'layout/sns.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -9,107 +9,6 @@
     margin-bottom:1em !important;
   }
   
-  .user.idcard {
-      position: absolute;
-      z-index: 999;
-      display: block;
-  }
-  .user.idcard .mess.item,
-  .user.idcard .mess.item:hover {
-      width: 240px !important;
-      cursor: auto !important;
-  }
-  .user.idcard > .ui.items > .mess.item > .image {
-      background-size: cover !important;
-      height: 125px;
-      border-radius: 0.2857rem 0.2857rem 0 0 !important;
-  }
-  .user.idcard > .ui.items > .mess.item > .image > .auth {
-      padding:0.75em 0.5em;
-      color:#fff;
-      font-size: 16px;
-      vertical-align: middle;
-  }
-  .user.idcard > .ui.items > .mess.item > .image > .auth > label {
-      display: inline-block;
-      width: 95px;
-  }
-  .user.idcard > .ui.items > .mess.item > .image > .auth > .action {
-      display: inline-block;
-      text-align: right;
-  }
-  .user.idcard > .ui.items > .mess.item > .image > .auth > .action > .ui.button {
-      padding: 0.5em 1.2em;
-      background: #fff;
-      color: #000;
-      display: inline-block;
-  }
-  .user.idcard > .ui.items > .mess img.ui.avatar.image {
-      border: 3px solid #fff;
-      border-radius: 50% !important;
-      bottom: -29px;
-      left: 91px;
-      margin-right: 0;
-      position: absolute;
-      width: 4em !important;
-  }
-  .user.idcard > .ui.items > .mess.item > .content {
-      padding: 40px 0.5em 0.75em !important;
-      text-align: center;
-      margin: 0 !important;
-      color: rgba(0, 0, 0, 0.6);
-  }
-  .user.idcard > .ui.items > .mess.item > .content > h2 {
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.6);
-  }
-  .user.idcard > .ui.items > .mess.item > .content > h2 > span {
-      padding: 5px;
-      border-radius: 3px;
-      background: #f36;
-      color: #fff;
-      font-size: 14px;
-      padding: 3px 8px;
-      margin-left: 5px;
-  }
-  .user.idcard > .ui.items > .mess.item > .content > p {
-      font-size: 14px;
-      margin-top: 1rem;
-  }
-  .user.idcard > .ui.items > .mess.item > .content .ui.header {
-      margin-bottom: 0.5rem;
-  }
-  
-  .user.idcard > .ui.items > .mess.item .divided.list > .item {
-      font-size: 14px;
-      padding: 0 0.5em !important;
-      margin: 0 !important;
-  }
-  .user.idcard > .ui.items > .mess.item .divided.list > .item > .content {
-      padding: 0 0.25em !important;
-      margin: 0 !important;
-      position: relative;
-      color: rgba(0, 0, 0, 0.6);
-  }
-  .user.idcard > .ui.items > .mess.item .divided.list > .item > .content > .header,
-  .user.idcard > .ui.items > .mess.item .divided.list > .item > .content > .description {
-      color: rgba(0, 0, 0, 0.6);
-  }
-  .user.idcard > .ui.items > .mess.item .divided.list > .item:hover {
-      -webkit-box-shadow: 0 0px 0px #C7C7C7 !important;
-      box-shadow: 0 0px 0px #C7C7C7 !important;
-      cursor:auto !important;
-  }
-  .user.idcard > .ui.items > .mess.item .divided.list > .item > .content a {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-  }
-  .user.idcard > .ui.items > .mess.item .divided.list > .item > .content:hover .header {
-      color: #f36;
-  }
 	.froala-element p, p.fr-tag {
 	  margin-top: 10px;
 	  margin-bottom: 15px;
@@ -155,8 +54,11 @@
 
 {% block jquery %}
 	phenix.hook_comment_page();
-  //ajax加载评论
-  fetch_comment(1, per_page);
+    //ajax加载评论
+    fetch_comment(1, per_page);
+    
+    //ajax加载签到数据
+    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
 
 	phenix.bind_share_list();
 	// 生成二维码
@@ -180,7 +82,9 @@
 					$('.ui.favorite.button')
 						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .find('i')
+                        .removeClass('empty');
 				}
 			}
 		}, 'json');
@@ -191,7 +95,9 @@
 					$('.ui.love.button')
 						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .find('i')
+                        .removeClass('empty');
 				}
 			}
 		}, 'json');
@@ -317,7 +223,7 @@
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active')
-						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+						.html('<i class="star icon"></i> <small>'+ result.data.favorite_count +'</small>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -352,7 +258,7 @@
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active')
-						.html('<i class="empty heart icon"></i> <small>'+ result.data.love_count +'</small>');
+						.html('<i class="heart icon"></i> <small>'+ result.data.love_count +'</small>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -473,14 +379,14 @@
       var comment_user_name = $(this).attr('comment_user_name');
       var user_home_url = "{{ app_url_user }}/"+comment_user_id+"";
 
-      $(':input[name=reply_comment_id]').val(comment_id);
+      $(':input[name=reply_id]').val(comment_id);
       $(':input[name=is_reply]').val(1);
       
       var html='';
       html += '<div>';
       html += '<span>回复 #</span>'+ floor +' ';
       html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
-      html += '<span class="">这里是原文内容...</span> ';
+      html += '<span class=""></span> ';
       html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';
       html += '</div>';
       comment_title_obj.html(html);
@@ -493,11 +399,11 @@
   $('.cancel-reply-btn').livequery(function(){
     $(this).click(function(){
       // 清空回复ID
-      $(':input[name=reply_comment_id]').val('');
+      $(':input[name=reply_id]').val('');
       $(':input[name=is_reply]').val(0);
       var recover_comment_user_href = $(this).attr('recover_comment_user_href');
       var recover_comment_user_name = $(this).attr('recover_comment_user_name');
-      var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表回应';
+      var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';
       $('#comment-box').find('.comment-title').html(html);   
     });
 
@@ -506,39 +412,337 @@
 {% endblock %}
 
 {% block content %}
-<div id="postpage">
-	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
-	{% if ad %}
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="advert bottom content">
-					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
-					</a>
+<div class="mainwrap social" id="postpage">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+
+    		{% if product %}
+			<div class="ui segment">
+				<h3 class="ui dividing header">
+					所属产品
+				</h3>
+				<div class="ui grid">
+					<div class="row">
+						<div class="two wide column">
+							<a href="{{ product.view_url }}" title="{{ product.title }}">
+					      		<img src="{{ product.cover.thumbnails.tiny.view_url }}" class="ui image" />
+							</a>
+						</div>
+						<div class="eight wide column">
+					      	<h4 class="ui header">
+							  	<div class="content">
+									<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+										{{ product.title }}
+									</a>
+									<div class="sub header">
+										<label>设计师：</label> {{ product.designer.nickname|default '太火鸟' }}
+									</div>
+							  	</div>
+							</h4>
+							<p class="summary">
+								{{ product.summary }}
+							</p>
+						</div>
+						{% if product.approved %}
+						{% if product.stage == 1%}
+						<div class="six wide column">
+							<div class="ui danger message">
+								<div class="ui header">
+									<div class="picicon">
+										<i class="thumbs up outline icon"></i>
+									</div>
+									<div class="content">
+										投票截止时间
+										<div class="sub header">
+												<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endif %}
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	{% endif %}
+    		{% endif %}
+            
+    		{% if active %}
+			<div class="ui segment">
+				<h3 class="ui dividing header">
+					所属活动
+				</h3>
+				<div class="ui grid">
+					<div class="row">
+						<div class="two wide column">
+							<a href="{{ active.view_url }}" title="{{ active.title }}">
+					      		<img src="{{ active.cover.thumbnails.tiny.view_url }}" class="ui image" />
+							</a>
+						</div>
+						<div class="eight wide column">
+					      	<h4 class="ui header">
+							  	<div class="content">
+									<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line">
+										{{ active.title }}
+									</a>
+									<div class="sub header">
+                                        <label>活动状态：</label> {{ active.step_str }}
+									</div>
+							  	</div>
+							</h4>
+							<p class="summary">
+								{{ active.summary }}
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+    		{% endif %}
+            
+			<div class="ui big topic segment">
+				<div class="ui header">
+					<a class="ui small avatar icard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
+			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+						{% if topic.user.kind==1 %}
+						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
+                        {%endif%}
+					</a>
+					<div class="content">
+						{{ topic.title }}
+						<div class="sub header attribute">
+							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
+							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
+							<span class="count">浏览数: {{ topic.view_count }}</span>
+						</div>
+					</div>
+					<a class="dot-irecommend" href="#comment">
+						<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
+						<span class="dot-irecommend-suffix"></span>
+					</a>
+				</div>
+	
+				{% if is_match_idea %}
+				<div class="post">
+					<div class="ui contest">
+						<a href="{{ app_url_domain }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
+					</div>
+				</div>
+				{% endif %}
+	
+				<div class="post froala-view froala-element clearfix">
+					{{ topic.description }}
+                    
+                    {% if topic.file_asset %}
+                        <hr style="width:100%;" />
+                        <h4 class="ui header">附件下载</h4>
+                        {% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
+                        {% for asset in assets.rows %}
+                        <div class="download">
+                            <span>{{ asset.filename }}</span> <a href="{{ asset.fileurl }}"><span>下载</span></a>
+                        </div>
+                        {%endfor%}
+                    {%endif%}
+				</div>
+                
+                <!-- 这里是投票部分代码 开始 -->
+                <input type="hidden" name="topic_id" value="{{ id }}" />
+  
+                {% if is_vote %}
+				<div class="post vote" style="margin: 20px 0 60px;">
+                    <h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
+                    <div class="ui divider"></div>
+                    {% for problem in vote.problem %}
+                    <input type="hidden" name="problem" value="{{ problem._id }}" />
+                    <input type="hidden" name="select_type" value="{{ problem.select_type }}" />
+    
+                    <div class="ui relaxed divided list">
+                        <div class="votep">
+                            <i class="large fa-question middle aligned icon"></i>
+                            <div class="ui from">
+                                <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
+                                <div class="" style="margin: 30px 0 20px;" id="{{ problem._id }}">
+                                    {% if problem.select_type == 1 %}
+                                        {% for answer in problem.answer %}
+                                        <div class="field" style="padding-left:60px;">
+                                            <div class="ui radio checkbox">
+                                                <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
+                                                <label>{{ answer.title }}</label>
+                                            </div>
+											<div style="display:block;margin:10px 0;">
+											    <!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
+												<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+												    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+												</div>
+																
+												<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
+												    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
+												</div>
+										    </div>
+	                                    </div>
+                                        {% endfor %}
+                                    {% else %} 
+              
+                                        {% for answer in problem.answer %}
+										    <div class="field" style="padding-left:60px;">
+                                                <div class="ui checkbox">
+                                                    <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
+                                                    <label>{{ answer.title }}</label>
+                                                </div>
+														
+												<div style="display:block;margin:10px 0;">
+												    <div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+													    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+													</div>			
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
+													    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
+													</div>
+												</div>
+		                                    </div>
+											<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="ui right floated aligned grid">
+                    <div class="row">
+                        <div class="column">
+                            <div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- 这里是投票部分代码 结束 -->
+                
+                <!--预留广告位-->
+            	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
+            	{% if ad %}
+            	<div class="ui responsive grid">
+            		<div class="row">
+            			<div class="column">
+            				<div class="advert bottom content">
+            					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+            			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
+            					</a>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
+            	{% endif %}
+                
+				{% if topic.tags %}
+				<div class="idea tags">
+					{% for tag in topic.tags %}
+					{% if tag %}
+					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
+						# {{ tag }}
+					</a>
+					{% endif %}
+					{% endfor %}
+				</div>
+				{% endif %}
+	
+				<div class="admin post actions clearfix">
+					<div class="ui icon magenta buttons">
+						<div class="ui pop favorite button" data-content="收藏" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+							<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
+						</div>
+						<div class="ui pop love button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+							<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
+						</div>
+					</div>
+		
+					<div class="ui icon green editable buttons">
+						{% if visitor.can_edit %}
+                            {% if visitor.is_admin %}
+								{% if topic.top == 1 %}
+								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
+									<i class="pin icon"></i>
+								</div>
+								{% else %}
+								<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
+									<i class="pin icon"></i>
+								</div>
+								{% endif %}
+                            {% endif %}
+                
+							{% if topic.top == 2 %}
+							<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
+								<i class="pointing down icon"></i>
+							</div>
+							{% else %}
+							<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
+								<i class="pointing up icon"></i>
+							</div>
+							{% endif %}
+							{% if topic.fine %}
+							<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+								<i class="star icon"></i>
+							</div>
+							{% else %}
+							<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
+								<i class="star empty icon"></i>
+							</div>
+							{% endif %}
+							{% if topic.stick %}
+							<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+								<i class="flag icon"></i>
+							</div>
+							{% else %}
+							<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
+								<i class="flag outline icon"></i>
+							</div>
+							{% endif %}
+						{% endif %}
+			
+						{% if editable %}
+						<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
+							<i class="edit icon"></i>
+						</div>
+						<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
+							<i class="remove icon"></i>
+						</div>
+						{% endif %}
+					</div>
+	
+					{%include 'block/share.html'%}
+				</div>
+            	<!--你可能相关话题-->
+                <div class="topic guess" id="topic_guess_list"><!--ajax fetch--></div>
+			</div>
+            
+            <div class="container">
+    			<div class="reply box">
+      			    <!--ajax comment-->
+    	  	        <div class="block title">
+                        全部评论
+                        <small>（{{ topic.comment_count }}）</small>
+                    </div>
+      		  	    <div id="comment-list">
+  		  	        
+                    
+      		  	    </div>
+      		  	    {% include "block/comment_box_site.html" %}
+                </div>
+            </div>
+            
+			
+        </div>    
+    </div>
+    <div class="mainright">
+        {% include "page/topic/rightbar.html" %}
+    </div>
+</div>
+            
+<div id="postpage">
+	
 	<div class="ui responsive grid">
 		<div class="middle aligned row">
 			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
-					</a>
-					<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						话题
-					</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ topic.category._id }}">{{ topic.category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ topic.title }}</div>
-				</div>
 			</div>
 			<div class="five wide right aligned column">
 				{% if visitor.is_login %}
@@ -553,322 +757,7 @@
 			</div>
 		</div>
 		
-		{% if product %}
-		<div class="nopad row">
-			<div class="column">
-				<div class="ui segment">
-					<h3 class="ui dividing header">
-						所属产品
-					</h3>
-					<div class="ui grid">
-						<div class="row">
-							<div class="two wide column">
-								<a href="{{ product.view_url }}" title="{{ product.title }}">
-						      		<img src="{{ product.cover.thumbnails.tiny.view_url }}" class="ui image" />
-								</a>
-							</div>
-							<div class="eight wide column">
-						      	<h4 class="ui header">
-								  	<div class="content">
-										<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
-											{{ product.title }}
-										</a>
-										<div class="sub header">
-											<label>设计师：</label> {{ product.designer.nickname|default '太火鸟' }}
-										</div>
-								  	</div>
-								</h4>
-								<p class="summary">
-									{{ product.summary }}
-								</p>
-							</div>
-							{% if product.approved %}
-							{% if product.stage == 1%}
-							<div class="six wide column">
-								<div class="ui danger message">
-									<div class="ui header">
-										<div class="picicon">
-											<i class="thumbs up outline icon"></i>
-										</div>
-										<div class="content">
-											投票截止时间
-											<div class="sub header">
-													<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-							{% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endif %}
-
-		{% if active %}
-		<div class="nopad row">
-			<div class="column">
-				<div class="ui segment">
-					<h3 class="ui dividing header">
-						所属活动
-					</h3>
-					<div class="ui grid">
-						<div class="row">
-							<div class="two wide column">
-								<a href="{{ active.view_url }}" title="{{ active.title }}">
-						      		<img src="{{ active.cover.thumbnails.tiny.view_url }}" class="ui image" />
-								</a>
-							</div>
-							<div class="eight wide column">
-						      	<h4 class="ui header">
-								  	<div class="content">
-										<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line">
-											{{ active.title }}
-										</a>
-										<div class="sub header">
-                                            <label>活动状态：</label> {{ active.step_str }}
-										</div>
-								  	</div>
-								</h4>
-								<p class="summary">
-									{{ active.summary }}
-								</p>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endif %}
-		
-		<div class="nopad row">
-			<div class="column">
-				<div class="ui big topic segment">
-					<div class="ui header">
-						<a class="ui small avatar icard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
-				      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-									{% if topic.user.kind==1 %}
-									<img src="{{ app_url_packaged }}/images/V.png" class="image-WV">
-                  {%endif%}
-						</a>
-						<div class="content">
-							{{ topic.title }}
-							<div class="sub header attribute">
-								<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
-								<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
-								<span class="count">浏览数: {{ topic.view_count }}</span>
-							</div>
-						</div>
-						<a class="dot-irecommend" href="#comment">
-							<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
-							<span class="dot-irecommend-suffix"></span>
-						</a>
-					</div>
-					
-					{% if is_match_idea %}
-					<div class="post">
-						<div class="ui contest">
-							<a href="{{ app_url_domain }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
-						</div>
-					</div>
-					{% endif %}
-					
-					<div class="post froala-view froala-element clearfix">
-						{{ topic.description }}
-
-
-            {% if topic.file_asset %}
-            <hr style="width:100%;" />
-            <h4 class="ui header">附件下载</h4>
-            {% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
-            {% for asset in assets.rows %}
-              <div>
-                <span>{{ asset.filename }}</span> <a href="{{ asset.fileurl }}"><span>下载</span></a>
-              </div>
-            {%endfor%}
-            {%endif%}
-					</div>
-                    
-<!--  这里是投票部分代码 开始 -->
-
-                  <input type="hidden" name="topic_id" value="{{ id }}" />
-                  
-                  {% if is_vote %}
-					<div class="post vote" style="margin: 20px 0 60px;">
-                        <h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
-                        <div class="ui divider"></div>
-                        {% for problem in vote.problem %}
-                        
-                        <input type="hidden" name="problem" value="{{ problem._id }}" />
-                        <input type="hidden" name="select_type" value="{{ problem.select_type }}" />
-                        
-                        <div class="ui relaxed divided list">
-                          <div class="votep">
-                            <i class="large fa-question middle aligned icon"></i>
-                            <div class="ui from">
-                              <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-                              <div class="" style="margin: 30px 0 20px;" id="{{ problem._id }}">
-                                {% if problem.select_type == 1 %}
-                                    {% for answer in problem.answer %}
-		                                 <div class="field" style="padding-left:60px;">
-                                      <div class="ui radio checkbox">
-                                          <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
-                                          <label>
-                                              {{ answer.title }}
-                                          </label>
-                                      </div>
-																			<div style="display:block;margin:10px 0;">
-																				<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
-																					<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-																						<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
-																					</div>
-																					
-																				<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
-																			{{ answer.nums }}票	（{{ answer.nums_rate }}%）
-																				</div>
-																			</div>
-			                              </div>
-                                    {% endfor %}
-                                {% else %} 
-                                  
-                                    {% for answer in problem.answer %}
-																		<div class="field" style="padding-left:60px;">
-                                      <div class="ui checkbox">
-                                          <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
-                                          <label>
-                                            {{ answer.title }}
-                                          </label>
-                                      </div>
-																			
-																			<div style="display:block;margin:10px 0;">
-																					<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-																						<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
-																					</div>
-																					
-																					<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
-																				{{ answer.nums }}票	（{{ answer.nums_rate }}%）
-																					</div>
-																				</div>
-				                              </div>
-																			<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
-                                    {% endfor %}
-                                {% endif %}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="ui right floated aligned grid">
-                        <div class="row">
-                            <div class="column">
-                                <div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
-                            </div>
-                        </div>
-                    </div>
-                  {% endif %}
-
-<!--  这里是投票部分代码 结束 -->
-
-					{% if topic.tags %}
-					<div class="idea tags">
-						{% for tag in topic.tags %}
-						{% if tag %}
-						<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
-							# {{ tag }}
-						</a>
-						{% endif %}
-						{% endfor %}
-					</div>
-					{% endif %}
-					
-					<div class="admin post actions clearfix">
-						<div class="ui icon magenta buttons">
-							<div class="ui pop favorite button" data-content="收藏" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-								<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
-							</div>
-							<div class="ui pop love button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-								<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
-							</div>
-						</div>
-						
-						<div class="ui icon black editable buttons">
-							{% if visitor.can_edit %}
-                                {% if visitor.is_admin %}
-    								{% if topic.top == 1 %}
-    								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
-    									<i class="pin icon"></i>
-    								</div>
-    								{% else %}
-    								<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
-    									<i class="pin icon"></i>
-    								</div>
-    								{% endif %}
-                                {% endif %}
-                                
-								{% if topic.top == 2 %}
-								<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
-									<i class="basic pin icon"></i>
-								</div>
-								{% else %}
-								<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
-									<i class="basic pin icon"></i>
-								</div>
-								{% endif %}
-								{% if topic.fine %}
-								<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-									<i class="star icon"></i>
-								</div>
-								{% else %}
-								<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-									<i class="star icon"></i>
-								</div>
-								{% endif %}
-								{% if topic.stick %}
-								<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-									<i class="flag icon"></i>
-								</div>
-								{% else %}
-								<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-									<i class="flag icon"></i>
-								</div>
-								{% endif %}
-							{% endif %}
-							
-							{% if editable %}
-							<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
-								<i class="edit icon"></i>
-							</div>
-							<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
-								<i class="remove icon"></i>
-							</div>
-							{% endif %}
-						</div>
-					
-						{%include 'block/share.html'%}
-					</div>
-                    
-                	<!--你可能相关话题-->
-                    <div class="topic guess" id="topic_guess_list"><!--ajax fetch--></div>
-				</div>
-				
-    			<div class="ui big reply segment">
-      			<!--ajax comment-->
-      		  	<div id="comment-list"></div>
-      		  	{% include "block/comment_box_site.html" %}
-    		</div>
-			
-		</div>
 	</div>
 </div>
 {% include "block/qrcode.html" %}
-{% endblock %}
-
-{% block templates %}
-<div id="user_card_box" class="user idcard"></div>
-{% mustache id:'user_card' tpl:'mustache/user_card.mustache' %}
 {% endblock %}

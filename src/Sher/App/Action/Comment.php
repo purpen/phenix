@@ -6,10 +6,10 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	
 	public $stash = array(
 		'id'=>'',
-    'rid'=>'',
+        'rid'=>'',
 		'user_id'=>'',
 		'target_id'=>'',
-    'target_user_id'=>0,
+        'target_user_id'=>0,
 		'page'=>1,
 		'next_page'=>1,
 	);
@@ -37,8 +37,8 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	public function ajax_fetch_list(){
 		$page = (int)$this->stash['page'];
 		$this->stash['next_page'] += $page;
-    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
-    $this->stash['current_user_id'] = $current_user_id;
+        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+        $this->stash['current_user_id'] = $current_user_id;
 
 		return $this->to_taconite_page('ajax/comment_list.html');
 	}
@@ -60,6 +60,16 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 			$this->stash['note'] = '获取数据错误,请重新提交';
       return $this->to_taconite_page('ajax/note.html');
 		}
+
+    $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
+    if(!empty($is_reply)){
+      $reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
+      if(empty($reply_id)){
+        return $this->ajax_note('回复ID不存在!', true);
+      }
+      $row['is_reply'] = $is_reply;
+      $row['reply_id'] = $reply_id;
+    }
 		
 		$model = new Sher_Core_Model_Comment();
     try{

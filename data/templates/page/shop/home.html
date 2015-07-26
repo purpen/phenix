@@ -1,38 +1,6 @@
 {%extends 'layout/column.html'%}
 {% block page_css %}
 <style type="text/css">
-.ui.compact.blocks{
-	margin-top:1.5%;
-	margin-bottom:1.5%;
-}
-.ui.compact.blocks > .block > .image > a{
-	position:absolute;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
-}
-/*.redemption .ui.items .item .content .header{
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}*/
-.redemption .ui.items .item .content{
-	height:115px !important;
-	cursor: auto;
-}
-.redemption .ui.items .item .content .i-stats{
-	padding-top: 10px !important;
-}
-.redemption .ui.items .item .content .advantage{
-	margin-top:0.8em;
-	min-height:0;
-}
-.redemption .ui.items .item .content .advantage + .advantage{
-	margin-top:0.3em;
-	margin-bottom: 0.5em;
-}
-
 .adstick.list {
     margin: 1.5rem 0;
 }
@@ -56,38 +24,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-				<div class="ui horizontal list">
-					<div class="item">
-						<a class="ui active link" href="{{ app_url_shop }}">商店</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
-					</div>
-					{% for cat in category.rows %}
-				  	<div class="item">
-						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					</div>
-					{% endfor %}
-				</div>
-                <div class="ui horizontal quick list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/pmall">积分兑换</a>
-					</div>
-                </div>
-
-			</div>
-		</div>
-	</div>
-</div>
-
 <div id="fixedslide" class="frame">
 	{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
 	<div class="ui slide">
@@ -114,12 +50,28 @@
 	</div>
 	<div class="pages"></div>
 	<a class="prev" href="#">
-		<i class="flat arrow_left icon"></i>
+		<i class="angle left icon"></i>
 	</a>
 	<a class="next" href="#">
-		<i class="flat arrow_right icon"></i>
+		<i class="angle right icon"></i>
 	</a>
 </div>
+
+<ul class="nav-categories">
+    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+	<li class="category">
+        <a href="{{ app_url_shop }}/c0">
+            <i class="desktop icon"></i> 全部
+        </a>
+    </a>
+	{% for cat in category.rows %}
+    <li class="category {{ cat.active}}">
+      	<a href="{{ cat.view_url }}">
+            <i class="{{ cat.name }} icon"></i> {{ cat.title }}
+        </a>
+    </li>
+	{% endfor %}
+</ul>
 
 <div class="adstick list">
 	<div class="ui adverts grid">

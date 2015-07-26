@@ -31,6 +31,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 子类型,1.商品下的灵感; 2.
         'sub_type' => 1,
 		'love_count' => 0,
+      // 是否是回复某人的评论
+      'is_reply' => 0,
       // 回复ID
       'reply_id' => null,
       // 楼层
@@ -43,7 +45,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'target_user' => array('target_user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
-    protected $int_fields = array('user_id','target_user_id','star','love_count');
+    protected $int_fields = array('user_id','target_user_id','star','love_count','floor','is_reply');
 	  protected $counter_fields = array('love_count');
 	
 	/**
@@ -58,6 +60,37 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		
 		return true;
     }
+
+	/**
+	 * 保存之前
+	 */
+	protected function before_save(&$data) {
+    if(empty($data['floor'])){
+      $type = $data['type'];
+      switch($type){
+        case 2:
+          $target_model = new Sher_Core_Model_Topic();
+          break;
+        case 3:
+          $target_model = new Sher_Core_Model_Try();
+          break;
+        case 4:
+          $target_model = new Sher_Core_Model_Product();
+          break;
+        case 6:
+          $target_model = new Sher_Core_Model_Stuff();
+          break;
+        default:
+          return;
+      }
+      $target = $target_model->load((int)$data['target_id']);
+      if($target){
+        $data['floor'] = $target['comment_count'] + 1;
+      }
+
+    }
+	  parent::before_save($data);
+  }
 	
 	/**
 	 * 关联事件
@@ -222,6 +255,12 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             for ($i=0; $i < count($row['reply']); $i++) {
                 $this->_extend_comment_reply($row['reply'][$i]);
             }
+        }
+
+        // 加载回复对象
+        if(isset($row['is_reply']) && !empty($row['is_reply'])){
+          $reply_comment_obj = $this->extend_load($row['reply_id']);
+          $row['reply_comment'] = $reply_comment_obj;
         }
     }
 	
