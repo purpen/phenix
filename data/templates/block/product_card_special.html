@@ -1,8 +1,8 @@
 <div class="card special" id="product-{{ product._id }}">
     <div class="problock">
-        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
         <h2>
-            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
 			    {{ product.title|truncate, 32, '' }}
 		    </a>
         </h2>
@@ -20,12 +20,12 @@
         <div class="ribbons">
             <span class="ribbon featured">精选</span>
         </div>
-        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb spethumb">
+        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb spethumb" target="_blank">
             <div class="shadow"></div>
         </a>
         <div class="specialright">
             <h2>
-                <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+                <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
     			    {{ product.title|truncate, 32, '' }}
     		    </a>
             </h2>

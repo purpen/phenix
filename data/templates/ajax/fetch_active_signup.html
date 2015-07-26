@@ -3,7 +3,7 @@
 		{% attend_list var:'list' target_id:target_id event:evt page:1 size:size %}
 		{% for attend in list.rows %}
       {% if attend.user %}
-        $('.avatar-list:eq({{ loop.counter0 }}) img').attr('src', '{{ attend.user.big_avatar_url }}');
+        $('.avatar-list:eq({{ loop.counter0 }}) img').attr('src', '{{ attend.user.big_avatar_url }}').addClass('beat');
       {% endif %}
     {%endfor%}
     ]]></eval>

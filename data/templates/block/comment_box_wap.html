@@ -53,7 +53,7 @@
 
 
 <div class="post comment">
-  <p class="comment-title"><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
+  <p class="comment-title"><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表评论</p>
   <form class="ui reply form" action="{{ app_url_wap }}/app/site/comment/do_save" method="post" id="comment-form">
     <input type="hidden" name="target_id" value="{{ comment_target_id }}" />
     <input type="hidden" name="target_user_id" value="{{ comment_target_user_id }}" />
