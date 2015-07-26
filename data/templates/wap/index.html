@@ -316,6 +316,7 @@
 </div>-->
 
 <!--商店商品-->
+{% if products %}
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
@@ -333,11 +334,12 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="column">
+		<div class="ui center aligned column">
 			<a href="{{ app_url_wap }}/shop" class="ui black button">更多精选商品</a>
 		</div>
 	</div>
 </div>
+{% endif %}
 
 
 {% endblock %}
