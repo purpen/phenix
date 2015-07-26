@@ -150,16 +150,15 @@
 				//sidebar menu
 				$('a.launch').on('click',function(e){
 					e.preventDefault();
-					$('.ui.sidebar.menu').addClass('active');
+					$('.ui.sidebar.menu').addClass('active visible');
 					$(document.body).addClass('left pushed');
 					$('#Hmask').css('display','');
 				});
 				$('#Hmask').click(function(){
-					$('.ui.sidebar.menu').removeClass('active');
+					$('.ui.sidebar.menu').removeClass('active visible');
 					$(document.body).removeClass('left pushed');
 			    $('#Hmask').css('display','none');
 				});
-				
 				
 				//ajax加载签到数据
 	      if (phenix.visitor.is_login){
