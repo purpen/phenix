@@ -54,6 +54,7 @@
 .ui.relaxed.list:not(.horizontal) .item {
   padding-top: 1.2em !important;
   padding-bottom: .8em !important;
+  min-height:64px !important;
 }
 .item .content .header{
 	white-space: nowrap;
@@ -98,48 +99,10 @@
 			{% endfor %}
 		</div>
 	</div>
-	<!--<section class="ui big block">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="ui breadcrumb">
-					  	<a class="section" href="{{ app_url_wap }}">
-					  		<i class="icon home"></i>首页
-					  	</a>
-					  	<div class="divider"> / </div>
-					  	<div class="active section">发现</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="column">
-					{% category_list var:'children' page:1 only_open:1 domain:2 pid:cid current:cid %}
-					<div class="ui fluid selection dropdown">
-						{% if child %}
-						<div class="default text">{{ child.title }}</div>
-						{% else %}
-					    <div class="default text">全部类别</div>
-						{% endif %}
-					    <i class="angle down icon"></i>
-					    <div class="menu">
-							{% for child in children.rows %}
-                {% if child.pid %}
-						  		<a class="ui {{ child.active }} item" href="{{ category_prefix_url }}{{ child._id }}">{{ child.title }}</a>
-                {%endif%}
-							{% endfor %}
-					    </div>
-					</div>
-				</div>
-			</div>
-			
-			
-		</div>
-	</section>-->
 	
 	{% topic_list var:'list' is_top:1 sort:6 page:1 size:20 %}
 	<div class="ui responsive grid" style="padding:0;margin:0">
-		<div class="row">
+		<div class="row" style="padding-top:0 !important;">
 			<div class="column" style="padding:0;">
 				<div class="ui topiclist segment">
 						

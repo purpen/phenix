@@ -18,19 +18,19 @@
 <header class="ui wap">
 	<div class="ui responsive two column grid">
 		<div class="middle aligned row">
-			<div class="six wide column" style="width:37.5%;">
-				<a class="launch item active ui small icon" style="padding: 15px 10px 15px 0;cursor: pointer;"><i class="fa-navicon icon" style="font-size: 1.4rem !important;"></i></a>
+			<div class="six wide column">
+				<a class="launch item active ui small icon" style="padding: 15px 10px 15px 0;cursor: pointer;"><i class="sidebar icon" style="font-size: 1.4rem !important;line-height: 27px;"></i></a>
 			</div>
-			<div class="four wide column" style="width:25%;">
+			<div class="four wide column">
 				<h4 class="ui header">
 					<a href="{{ app_url_wap }}" class="ui link">
 						<img src="{{ app_url_packaged }}/images/logo-home.png" alt="logo" class="ui tiny image" style="margin:0 auto;width:80%;" />
 					</a>
 				</h4>
 			</div>
-			<div class="six wide right aligned column" style="width:37.5%;">
+			<div class="six wide right aligned column">
 				<a class="ui small icon" href="{{ app_url_wap }}/shop/cart">
-					<i class="cart icon" style="margin-right: 8px;"></i>
+					<i class="cart icon" style="line-height: 27px;"></i>
 				</a>
 				{% if visitor %}
 				
@@ -39,7 +39,7 @@
 				</div>
 				{% else %}
 				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
-					<i class="user icon"></i>
+					<i class="user icon" style="line-height: 27px;"></i>
 				</a>
 				{% endif %}
 				
