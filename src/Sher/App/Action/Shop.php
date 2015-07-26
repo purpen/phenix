@@ -78,7 +78,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$model->inc_counter('view_count', 1, $id);
 		
 		// 非销售状态的产品，跳转至对应的链接
-		if(!in_array($product['stage'], array(Sher_Core_Model_Product::STAGE_SHOP, Sher_Core_Model_Product::STAGE_EXCHANGE))){
+		if(!in_array($product['stage'], array(Sher_Core_Model_Product::STAGE_SHOP, Sher_Core_Model_Product::STAGE_EXCHANGE, Sher_Core_Model_Product::STAGE_IDEA))){
 			return $this->to_redirect($product['view_url']);
 		}
 
@@ -87,6 +87,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
       $item_stage = $this->stash['item_stage'] = 'shop';
     }elseif($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
       $item_stage = $this->stash['item_stage'] = 'exchange';
+    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_IDEA){
+      $item_stage = $this->stash['item_stage'] = 'idea';
     }else{
   	  return $this->show_message_page('产品类型错误！', $redirect_url);  
     }
@@ -247,7 +249,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 查看产品详情
 	 */
 	public function view() {
-		return $this->test();
+		//return $this->test();
 		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.shop'];
