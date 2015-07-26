@@ -79,21 +79,32 @@
 <div class="cart page">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui center aligned column">
-				<div class="ui three steps">
-				  	<div class="ui active step">
-				      	<span class="number">1</span>
-						<span class="title">我的购物车</span>
-				  	</div>
-				  	<div class="ui step">
-				      	<span class="middle number">2</span>
-						<span class="title">填写核对订单信息</span>
-				  	</div>
-				  	<div class="ui step">
-				    	<span class="number">3</span>
-						<span class="title">支付订单</span>
-				  	</div>
-				</div>
+			<div class="center aligned column">
+                
+                <div class="ui steps">
+                    <div class="active step">
+                        <i class="cart icon"></i>
+                        <div class="content">
+                            <div class="title">我的购物车</div>
+                            <div class="description">确认购物车信息及更新数量</div>
+                        </div>
+                    </div>
+                    <div class="disabled step">
+                        <i class="truck icon"></i>
+                        <div class="content">
+                            <div class="title">核对订单</div>
+                            <div class="description">填写核对订单及发票信息</div>
+                        </div>
+                    </div>
+                    <div class="disabled step">
+                        <i class="payment icon"></i>
+                        <div class="content">
+                            <div class="title">结算支付</div>
+                            <div class="description">选择支付方式进行订单结算</div>
+                        </div>
+                    </div>
+                </div>
+                
 			</div>
 		</div>
 		<div class="row">
@@ -135,11 +146,11 @@
 								<td class="center aligned">
 									<div class="quantity">
 										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
-											<i class="flat reduce icon"></i>
+											<i class="minus icon"></i>
 										</button>
 										<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" />
 										<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
-											<i class="flat add icon"></i>
+											<i class="add icon"></i>
 										</button>
 									</div>
 								</td>
@@ -149,8 +160,8 @@
 									</div>
 								</td>
 								<td class="center aligned">
-									<button class="magenta ui close button" data-sku="{{ product.sku }}">
-										<i class="flat close icon"></i>
+									<button class="magenta ui close circular icon button" data-sku="{{ product.sku }}">
+										<i class="close icon"></i>
 									</button>
 								</td>
 							</tr>
@@ -161,7 +172,7 @@
 					<div class="ui bottom aligned grid">
 						<div class="row">
 							<div class="six wide column">
-								<a href="{{ app_url_shop }}" class="ui gray inverted button" data-content="继续挑选商品" data-variation="inverted">
+								<a href="{{ app_url_shop }}" class="ui grey large inverted button" data-content="继续挑选商品" data-variation="inverted">
 									<i class="search icon"></i> 继续购物
 								</a>
 							</div>
@@ -171,7 +182,7 @@
 										<b class="cart-items-count money">{{ items_count }}</b>件产品，总计：<b class="cart-total-money money">{{ total_money }}</b><span class="unit">元</span>
 									</p>
 								</div>
-								<a class="ui magenta inverted checkout button">
+								<a class="ui magenta large inverted checkout button">
                                     <i class="checkmark icon"></i> 去结算
                                 </a>
 							</div>

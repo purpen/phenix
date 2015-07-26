@@ -332,21 +332,32 @@
 <div id="checkout">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui center aligned column">
-				<div class="ui three steps">
-				  	<div class="ui active step">
-				      	<span class="number">1</span>
-						<span class="title">我的购物车</span>
-				  	</div>
-				  	<div class="ui active step">
-				      	<span class="middle number">2</span>
-						<span class="title">填写核对订单信息</span>
-				  	</div>
-				  	<div class="ui step">
-				    	<span class="number">3</span>
-						<span class="title">支付订单</span>
-				  	</div>
-				</div>
+			<div class="center aligned column">
+                
+                <div class="ui steps">
+                    <div class="step">
+                        <i class="cart icon"></i>
+                        <div class="content">
+                            <div class="title">我的购物车</div>
+                            <div class="description">确认购物车信息及更新数量</div>
+                        </div>
+                    </div>
+                    <div class="active step">
+                        <i class="truck icon"></i>
+                        <div class="content">
+                            <div class="title">核对订单</div>
+                            <div class="description">填写核对订单及发票信息</div>
+                        </div>
+                    </div>
+                    <div class="disabled step">
+                        <i class="payment icon"></i>
+                        <div class="content">
+                            <div class="title">结算支付</div>
+                            <div class="description">选择支付方式进行订单结算</div>
+                        </div>
+                    </div>
+                </div>
+                
 			</div>
 		</div>
 		<div class="row">
@@ -410,9 +421,7 @@
 						<div class="ui options">
 							{% for pm in payment_methods %}
 					   	 	<div class="ui {{ pm.active }} magenta alt option" data-value="{{ pm.id }}" data-name="payment_method">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
+					   	 		<i class="check circle outline icon"></i>
 					   	 		{{ pm.name }}
 					   	 	</div>
 							{% endfor %}
@@ -427,9 +436,7 @@
 						<div class="ui options">
 							{% for tm in transfer_methods %}
 					   	 	<div class="ui {{ tm.active }} magenta alt option" data-value="{{ tm.id }}" data-name="transfer">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
+					   	 		<i class="check circle outline icon"></i>
 					   	 		{{ tm.name }} {% if tm.freight %} ({{ tm.freight }}元){% endif %}
 					   	 	</div>
 							{% endfor %}
@@ -445,9 +452,7 @@
 						<div class="ui options">
 							{% for tt in transfer_times %}
 					   	 	<div class="ui {{ tt.active }} magenta alt option" data-value="{{ tt.id }}" data-name="transfer_time">
-					   	 		<div class="icon">
-					   				<i class="fa fa-check"></i>
-					   			</div>
+					   	 		<i class="check circle outline icon"></i>
 					   	 		{{ tt.title }}
 					   	 	</div>
 							{% endfor %}
@@ -571,7 +576,7 @@
 								{% if !preorder %}
 								<div class="bill">
 									<a href="javascript:void(0);" class="ui small magenta bonus inverted button pop" data-content="使用红包" data-variation="inverted" data-name="bonus">
-										<i class="fa-suitcase icon"></i> 使用红包
+										<i class="money icon"></i> 使用红包
 									</a>
 									<a href="javascript:void(0);" class="ui small magenta gift inverted button pop" data-content="使用礼品券" data-variation="inverted" data-name="gift">
 										<i class="gift icon"></i> 使用礼品券
@@ -593,7 +598,7 @@
                                             <h4>使用礼品券抵消部分金额</h4>
     										<div class="ui fluid action input">
                                                 <input placeholder="输入礼品券号..." name="gift" type="text" id="gift-code" />
-                                                <div class="ui active magenta button" id="submit-gift">确定</div>
+                                                <div class="ui active magenta inverted button" id="submit-gift">确定</div>
     										</div>
     									</div>
                                         {% if item_stage == 'exchange' %}
@@ -601,7 +606,7 @@
                                             <h4>{% if max_bird_coin == min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币抵扣范围 <span>[{{ min_bird_coin }}, {{ max_bird_coin }}]</span>, {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 个 <a href="{{ app_url_my }}/point" class="ui magenta link" target="_blank">[了解鸟币获取规则]</a></h4>
                                             <div class="ui fluid action input">
                                                 <input placeholder="输入鸟币数量..." name="bird_coin" type="text" id="bird-coin" />
-                                                <div class="ui active magenta button" id="submit-bird-coin">确定</div>
+                                                <div class="ui active magenta inverted button" id="submit-bird-coin">确定</div>
                                             </div>
                                             <p class="ui magenta text">
                                                 <small>*</small> 下单成功后鸟币将不能退还。
@@ -631,12 +636,12 @@
 						</div>
 						<div class="bottom aligned row">
 							<div class="six wide column">
-								<a href="{{ app_url_cart }}" class="ui gray inverted button">
+								<a href="{{ app_url_cart }}" class="ui large grey inverted button">
 									<i class="truck icon"></i> 返回购物车
 								</a>
 							</div>
 							<div class="right aligned ten wide column">
-								<div class="ui magenta checkout submit inverted button">
+								<div class="ui large magenta checkout submit inverted button">
                                     <i class="checkmark icon"></i> 立即下单
                                 </div>
 							</div>
@@ -648,7 +653,7 @@
 					<div class="ui big header">
 						<i class="cart icon"></i>
 						<div class="content">
-							<div class="sub header">还没有购物，请选择喜欢的产品 <a href="{{ app_url_shop }}" class="ui magenta link">继续购物</a></div>
+							<div class="sub header">还没有购物，请选择喜欢的产品 <a href="{{ app_url_shop }}" class="ui large magenta link">继续购物</a></div>
 						</div>
 					</div>
 				</div>

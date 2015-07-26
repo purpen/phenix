@@ -1,5 +1,5 @@
 <div class="ui small addbook modal" id="addbook-form-box">
-  	<i class="flat close icon"></i>
+  	<i class="remove circle outline close icon"></i>
 	<div class="ui header">
     	使用新地址
   	</div>
@@ -23,31 +23,35 @@
 					</div>
 				</div>
 				
-				<div class="field">
-					<label>地址</label>
-					<div class="ui selection province dropdown">
-						<input type="hidden" name="province" value="{{ addbook.province }}" />
+                <div class="two fields">
+                    <div class="field">
+    					<label>省市</label>
+    					<div class="fluid ui selection province dropdown">
+    						<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
-					    <div class="default text">省份/自治区</div>
-					    <i class="flat arrowbottom icon"></i>
-					    <div class="menu">
-							{% for province in provinces %}
-					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-							{% endfor %}
-					    </div>
-					</div>
-	
-					<div class="ui selection district dropdown" id="district-menu">
-						<input type="hidden" name="city" value="{{ addbook.city }}" />
-					    <div class="default text">地区区域</div>
-					    <i class="flat arrowbottom icon"></i>
-					    <div class="menu">
-							{% for district in districts %}
-					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-							{% endfor %}
-					    </div>
-					</div>
-				</div>
+    					    <div class="default text">省份/自治区</div>
+    					    <i class="angle down icon"></i>
+    					    <div class="menu">
+    							{% for province in provinces %}
+    					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+    							{% endfor %}
+    					    </div>
+    					</div>
+                    </div>
+    				<div class="field">
+                        <label>地区/县</label>
+    					<div class="fluid ui selection district dropdown" id="district-menu">
+    						<input type="hidden" name="city" value="{{ addbook.city }}" />
+    					    <div class="default text">地区区域</div>
+    					    <i class="angle down icon"></i>
+    					    <div class="menu">
+    							{% for district in districts %}
+    					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+    							{% endfor %}
+    					    </div>
+    					</div>
+    				</div>
+                </div>
 				
 				<div class="field">
 					<textarea name="address" class="small">{{ addbook.address }}</textarea>
@@ -68,7 +72,9 @@
 				</div>
 
 				<div class="field">
-					<div class="ui active magenta submit inverted button">确定</div>
+					<div class="ui active magenta submit inverted button">
+                        <i class="edit icon"></i> 确定提交
+                    </div>
 				</div>
 				
 			</div>				

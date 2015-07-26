@@ -26,21 +26,30 @@
 <div class="cart" id="checkout">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui center aligned column">
-				<div class="ui three steps">
-				  	<div class="ui active step">
-				      	<span class="number">1</span>
-						<span class="title">我的购物车</span>
-				  	</div>
-				  	<div class="ui active step">
-				      	<span class="middle number">2</span>
-						<span class="title">填写核对订单信息</span>
-				  	</div>
-				  	<div class="ui active step">
-				    	<span class="number">3</span>
-						<span class="title">支付订单</span>
-				  	</div>
-				</div>
+			<div class="center aligned column">
+                <div class="ui steps">
+                    <div class="step">
+                        <i class="cart icon"></i>
+                        <div class="content">
+                            <div class="title">我的购物车</div>
+                            <div class="description">确认购物车信息及更新数量</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <i class="truck icon"></i>
+                        <div class="content">
+                            <div class="title">核对订单</div>
+                            <div class="description">填写核对订单及发票信息</div>
+                        </div>
+                    </div>
+                    <div class="active step">
+                        <i class="payment icon"></i>
+                        <div class="content">
+                            <div class="title">结算支付</div>
+                            <div class="description">选择支付方式进行订单结算</div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 		<div class="row">
@@ -171,12 +180,12 @@
                     <div class="ui grid">
     					<div class="bottom aligned row">
     						<div class="six wide column">
-    							<a class="ui gray inverted button" href="{{ order.view_url }}" target="_blank">
+    							<a class="ui grey large inverted button" href="{{ order.view_url }}" target="_blank">
     								<i class="browser icon"></i> 查看订单
     							</a>
     						</div>
     						<div class="right aligned ten wide column">
-    							<input type="submit" class="ui magenta active checkout inverted button" value="现在支付" />
+    							<input type="submit" class="ui magenta large active checkout inverted button" value="现在支付" />
     						</div>
     					</div>
                     </div>
@@ -212,7 +221,7 @@
 </div>
 
 <div class="ui small paywait modal">
-  	<i class="flat close icon"></i>
+  	<i class="remove circle outline close icon"></i>
 	<div class="ui header">
     	正在支付...
   	</div>
