@@ -473,14 +473,14 @@
       var comment_user_name = $(this).attr('comment_user_name');
       var user_home_url = "{{ app_url_user }}/"+comment_user_id+"";
 
-      $(':input[name=reply_comment_id]').val(comment_id);
+      $(':input[name=reply_id]').val(comment_id);
       $(':input[name=is_reply]').val(1);
       
       var html='';
       html += '<div>';
       html += '<span>回复 #</span>'+ floor +' ';
       html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
-      html += '<span class="">这里是原文内容...</span> ';
+      html += '<span class=""></span> ';
       html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';
       html += '</div>';
       comment_title_obj.html(html);
@@ -493,7 +493,7 @@
   $('.cancel-reply-btn').livequery(function(){
     $(this).click(function(){
       // 清空回复ID
-      $(':input[name=reply_comment_id]').val('');
+      $(':input[name=reply_id]').val('');
       $(':input[name=is_reply]').val(0);
       var recover_comment_user_href = $(this).attr('recover_comment_user_href');
       var recover_comment_user_name = $(this).attr('recover_comment_user_name');

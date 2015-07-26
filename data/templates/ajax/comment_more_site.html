@@ -14,6 +14,7 @@
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date"><small>{{ comment.created_on }}</small></div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 
 {% if !comment.deleted %}
@@ -31,6 +32,10 @@
             </a>          
             {%endif%}
           </div>
+          {%endif%}
+          {% if comment.is_reply %}
+          <div>回复 #{{ comment.reply_comment.floor }} @<a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">{{ comment.reply_comment.user.nickname }}</a></div>
+
           {%endif%}
           <div class="text">
             {% if comment.deleted==1 %}
@@ -124,6 +129,7 @@
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date"><small>{{ comment.created_on }}</small></div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 {% if !comment.deleted %}
           <div class="laud">
@@ -140,6 +146,11 @@
             </a>          
             {%endif%}
           </div>
+          {%endif%}
+
+          {% if comment.is_reply %}
+          <div>回复 #{{ comment.reply_comment.floor }} @<a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">{{ comment.reply_comment.user.nickname }}</a></div>
+
           {%endif%}
           
           <div class="text">

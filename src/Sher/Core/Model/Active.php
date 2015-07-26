@@ -160,10 +160,6 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 			$data['end_time'] = strtotime($data['end_time']);
 		}
 
-		// 新建数据,补全默认值
-		if ($this->is_saved()){
-
-		}
 	  parent::before_save($data);
   }
 

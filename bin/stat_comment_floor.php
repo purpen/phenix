@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * 评论追加楼层任务
+ * 同步评论数量并且统计并写入评论楼层
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -22,56 +22,78 @@ set_time_limit(0);
 ini_set('memory_limit','512M');
 
 
-// 可传入条件
-function stat_comment($type=0, $target_id=null){
+stat_comment_floor(2, null, true);
+stat_comment_floor(3, null, true);
+stat_comment_floor(4, null, true);
+stat_comment_floor(6, null, true);
 
-  if(empty($type)){
-    $type_arr = array(1,2,3,4,5,6);
-  }else{
-    $type_arr = array((int)$type);
+
+// 可传入条件
+function stat_comment_floor($type=1, $target_id=null, $stat_floor=false){
+  switch($type){
+    case 2:
+      $target_model = new Sher_Core_Model_Topic();
+      break;
+    case 3:
+      $target_model = new Sher_Core_Model_Try();
+      break;
+    case 4:
+      $target_model = new Sher_Core_Model_Product();
+      break;
+    case 6:
+      $target_model = new Sher_Core_Model_Stuff();
+      break;
+    default:
+      return;
   }
 
-  foreach($type_arr as $v){
+  $model = new Sher_Core_Model_Comment();
 
-    $model = new Sher_Core_Model_Comment();
-    $page = 1;
-    $size = 200;
-    $is_end = false;
-    $total = 0;
-    while(!$is_end){
-      $query = array('fid'=>(int)$fid);
-      echo "category_id: $fid\n";
-      $options = array('field' => array('_id', 'love_count', 'invented_love_count'),'page'=>$page,'size'=>$size);
-      $list = $model->find($query, $options);
-      if(empty($list)){
-        echo "get stuff list is null,exit......\n";
-        break;
-      }
-      $max = count($list);
-      for ($i=0; $i < $max; $i++) {
-        $invented_love_count = $list[$i]['invented_love_count'] + $list[$i]['love_count'];
-        $model->update_set($list[$i]['_id'], array('love_count'=>$invented_love_count, 'invented_love_count'=>0));
-        echo "set stuff[".$list[$i]['_id']."]..........\n";
+  $page = 1;
+  $size = 200;
+  $is_end = false;
+  $total = 0;
+  while(!$is_end){
+    $query = array();
+    if($target_id){
+      $query['_id'] = $target_id;
+    }
+    $options = array('page'=>$page,'size'=>$size);
+    $list = $target_model->find($query, $options);
+    if(empty($list)){
+      echo "get taret type: $type list is null,exit......\n";
+      break;
+    }
+    $max = count($list);
+    for ($i=0; $i < $max; $i++) {
+      $id = (string)$list[$i]['_id'];
+      $comment_count = $model->count(array('target_id'=>$id, 'type'=>(int)$type));
+      if($comment_count>0){
+        $target_model->update_set((int)$id, array('comment_count'=>$comment_count));
+        //echo "target type:$type id: $id comment_count: $comment_count \n";
         $total++;
       }
-      if($max < $size){
-        echo "stuff list is end!!!!!!!!!,exit.\n";
-        break;
+      // 初始化楼层数
+      if($stat_floor && $comment_count>0){
+        $comment_list = $model->find(array('target_id'=>$id, 'type'=>(int)$type), array('sort'=>array('created_on'=>1)));
+        $j = 0;
+        foreach($comment_list as $k=>$v){
+          $j++;
+          $model->update_set((string)$v['_id'], array('floor'=>$j));
+        }
       }
-      $page++;
-      echo "page [$page] updated---------\n";
     }
-
-  } //end foreach type_arr
-
+    if($max < $size){
+      echo "target type: $type list is end!!!!!!!!!,exit.\n";
+      break;
+    }
+    $page++;
+    echo "page [$page] updated---------\n";
+  }
+  echo "set target_type: $type total: $total comment_count fields complate!!! ...\n";
 
 
 }
 echo "set comment floor fields ...\n";
 
-
-
-
-
-echo "fix order_index is OK! \n";
 
