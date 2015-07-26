@@ -102,7 +102,7 @@
 						<p class="snippet">
 							{{ ad.sub_title }}
 						</p>
-						<a class="ui inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+						<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
 					</div>
 					{% else %}
 					<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
@@ -146,7 +146,7 @@
 			<div class="two column middle aligned row">
 				<div class="twelve wide column">
 					<h2 class="block title">
-						<a href="{{ app_url_shop }}/c0" class="ui line">热门商品</a> <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
+						<a href="{{ app_url_shop }}/c0" class="ui line">新品</a> <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
 					</h2>
 				</div>
                 <div class="right aligned four wide column">
@@ -157,7 +157,7 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					<div class="ui four cards">
+					<div class="ui four products cards">
 						{% for product in products %}
 					  		{% include "block/product_card.html" %}
 					    {% endfor %}
@@ -172,14 +172,14 @@
 			<div class="two column middle aligned row">
 				<div class="twelve wide column">
 					<h2 class="block title">
-						<a href="{{ app_url_topic }}" class="ui line">孵化社区</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
+						<a href="{{ app_url_topic }}" class="ui line">社区</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
 					</h2>
 				</div>
 				<div class="right aligned four wide column">
 					<a href="{{ app_url_topic }}" class="ui inverted gray button">
 						进入社区
 					</a>
-        </div>
+                </div>
 			</div>
 			<div class="row">
 				<div class="column">
