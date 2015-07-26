@@ -1,6 +1,6 @@
 <div class="card" id="product-{{ product._id }}">
     <div class="problock">
-        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
         <div class="ribbons">
             {% if product.newest %}
             <span class="ribbon newest">NEW</span>
@@ -19,7 +19,7 @@
             {% endif %}
         </div>
         <h2>
-            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
 			    {{ product.title|truncate, 32, '' }}
 		    </a>
         </h2>

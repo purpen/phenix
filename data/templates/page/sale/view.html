@@ -193,26 +193,6 @@
 	});
 {% endblock %}
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{% category_list var:'category' only_open:1 domain:domain current:product.category._id show_all:0 %}
-				<div class="ui horizontal list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
-					</div>
-					{% for cat in category.rows %}
-				  	<div class="item">
-						<a class="ui {{ cat.active }} link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="shop viewtop" style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
 	<div class="masthead">
 		<div class="masthead-cover">

@@ -1,8 +1,8 @@
 <div class="card special cat" id="product-{{ product._id }}">
     <div class="problock">
-        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
         <h2>
-            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
 			    {{ product.title|truncate, 32, '' }}
 		    </a>
         </h2>
@@ -18,7 +18,7 @@
     </div>
     <div class="speblock">
         <div class="randomcats">
-            <a class="catlink" alt="" href="" style="background-image: url('http://cdn.thegadgetflow.com/wp-content/themes/thegadgetflow4/images/categories/random_large/bike_accessories.jpg');">
+            <a class="catlink" alt="" href="" style="background-image: url('http://cdn.thegadgetflow.com/wp-content/themes/thegadgetflow4/images/categories/random_large/bike_accessories.jpg');" target="_blank">
                 <h2>3D 打印设备</h2>
                 <p>A niche collection of 3D printers and 3D printed accessories</p>
                 <span class="more">Explore the Collection</span>

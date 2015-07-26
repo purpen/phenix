@@ -2,7 +2,6 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
 </style>
 {% endblock %}
 
@@ -22,28 +21,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui horizontal list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}">商店</a>
-					</div>
-				</div>
-                <div class="ui horizontal quick list">
-					<div class="item">
-						<a class="ui {{ css_saled }} link" href="{{ app_url_sale }}">新品预售</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/pmall">积分兑换</a>
-					</div>
-                </div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="category image {{ current_category.name }}" >
 	<h1>
         {% if css_saled %}
@@ -59,25 +36,44 @@
     <div class="cover"></div>
 </div>
 
-<div class="sortby">
-    <div class="ui fluid four item menu">
-        <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">
-            <i class="time icon"></i> 最新
+<ul class="nav-categories">
+    {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
+	<li class="category {% if !category_id %} active{% endif %}">
+        <a href="{{ app_url_shop }}/c0">
+            <i class="desktop icon"></i> 全部
         </a>
-        <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">
-            <i class="heart icon"></i> 热门
+    </a>
+	{% for cat in category.rows %}
+    <li class="category {{ cat.active}}">
+      	<a href="{{ cat.view_url }}">
+            <i class="{{ cat.name }} icon"></i> {{ cat.title }}
         </a>
-        <a class="{% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">
-            <i class="star icon"></i> 评分
-        </a>
-        <a class="item">
-            可购买
-        </a>
+    </li>
+	{% endfor %}
+</ul>
+
+<div class="sorts">
+    <div class="container">
+        <label><i class="sort content ascending icon"></i>排序：</label>
+        <div class="ui horizontal list">
+            <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">
+                最新
+            </a>
+            <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">
+                热门
+            </a>
+            <a class="{% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">
+                评分
+            </a>
+            <a href="" class="item">
+                可购买
+            </a>
+        </div>
     </div>
 </div>
 
 <div class="shop list" id="shoplist">
-	<div class="ui responsive grid">
+	<div class="ui responsive products grid">
 		<div class="row">
 			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_onsale:1 size:20 sort:sort_text %}
 			{% if list.rows %}
