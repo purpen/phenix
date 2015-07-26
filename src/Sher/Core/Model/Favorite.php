@@ -72,9 +72,15 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	/**
 	 * 关联事件
 	 */
-    protected function after_save() {
+  protected function after_save() {
 		$type = $this->data['type'];
 		$event = $this->data['event'];
+
+    // 导入的数据,直接跳过
+    if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
+      return;
+    }
+
 		//如果是新的记录
         if($this->insert_mode) {
             if($event == self::EVENT_FAVORITE){
