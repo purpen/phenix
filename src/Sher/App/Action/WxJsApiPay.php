@@ -38,12 +38,12 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 	 * 
 	 * @return 用户的openid
 	 */
-	public function GetOpenid()
+	public function GetOpenid($come_url)
 	{
 		//通过code获得openid
 		if (!isset($_GET['code'])){
 			//触发微信返回code码
-			$baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING']);
+			$baseUrl = urlencode($come_url);
 			$url = $this->__CreateOauthUrlForCode($baseUrl);
 			Header("Location: $url");
 			exit();
@@ -108,7 +108,7 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 			curl_setopt($ch,CURLOPT_PROXY, Doggy_Config::$vars['app.wechat.proxy_host']);
 			curl_setopt($ch,CURLOPT_PROXYPORT, Doggy_Config::$vars['app.wechat.proxy_post']);
 		}
-		//运行curl，结果以jason形式返回
+		//运行curl，结果以json形式返回
 		$res = curl_exec($ch);
 		curl_close($ch);
 		//取出openid

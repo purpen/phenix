@@ -196,7 +196,7 @@ app.wechat.key: '9E0530C588C8003395A929B0B94AC46B'
 app.wechat.secret: 'f80ae853ef243f66284ad13781cb69de'
   
 # 异步通知url
-app.wechat.notify_url: 'http://www.taihuoniao.com'
+app.wechat.notify_url: ''
   
 # TODO：设置商户证书路径
 app.wechat.sslcert_path: '/home/www/cert/apiclient_cert.pem'
