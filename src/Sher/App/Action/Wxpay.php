@@ -59,6 +59,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$input->SetTrade_type("JSAPI");
 		$input->SetOpenid($openId);
 		
+		$order = Sher_Core_Util_WxPay_WxPayApi::unifiedOrder($input); // 统一下单处理类
 		$jsApiParameters = $tools->GetJsApiParameters($order); // 统一支付接口返回的数据
 		$editAddress = $tools->GetEditAddressParameters(); // 获取共享收货地址js函数参数
 		

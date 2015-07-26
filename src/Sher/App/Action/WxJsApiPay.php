@@ -50,7 +50,7 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 		} else {
 			//获取code码，以获取openid
 		    $code = $_GET['code'];
-			$openid = $this->getOpenidFromMp($code);
+			$openid = $this->GetOpenidFromMp($code);
 			return $openid;
 		}
 	}
@@ -199,7 +199,7 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 	private function __CreateOauthUrlForOpenid($code)
 	{
 		$urlObj["appid"] = Doggy_Config::$vars['app.wechat.appid'];
-		$urlObj["secret"] = Doggy_Config::$vars['app.wechat.mchid'];
+		$urlObj["secret"] = Doggy_Config::$vars['app.wechat.secret'];
 		$urlObj["code"] = $code;
 		$urlObj["grant_type"] = "authorization_code";
 		$bizString = $this->ToUrlParams($urlObj);
