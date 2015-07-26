@@ -358,7 +358,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         // 私信用户
         $this->stash['user'] = $product['designer'];
 		
-		return $this->to_html_page('page/shop/show.html');
+		return $this->to_html_page('page/shop/view.html');
 	}
 	
 	/**
