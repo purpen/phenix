@@ -21,8 +21,10 @@
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
 		{% if css_use_bundle %}
+		  <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/mobile.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
+		  <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/mobile.min.css" type="text/css" />
 		{% endif %}
 		<style type="text/css">
