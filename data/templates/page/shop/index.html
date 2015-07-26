@@ -2,6 +2,7 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+    
 </style>
 {% endblock %}
 
@@ -55,18 +56,18 @@
 	{% endfor %}
 </ul>
 
-<div class="sorts">
+<div class="sorts cubes">
     <div class="container">
-        <label><i class="sort content ascending icon"></i>选项：</label>
+        <label><i class="cubes icon"></i>选项：</label>
         <div class="ui horizontal list">
           <a class="{% if type == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t0-s{{ sort }}-p{{ page }}">
                 全部
             </a>
-          <a class="{% if type == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t1-s{{ sort }}-p{{ page }}">
-                产品灵感
-            </a>
             <a class="{% if type == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t2-s{{ sort }}-p{{ page }}">
                 可购买
+            </a>
+            <a class="{% if type == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t1-s{{ sort }}-p{{ page }}">
+                产品灵感
             </a>
             <a class="{% if type == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t3-s{{ sort }}-p{{ page }}">
                 积分兑换
