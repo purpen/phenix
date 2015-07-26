@@ -33,6 +33,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$process_voted = 0;
 		$process_presaled = 0;
 		$process_saled = 0;
+
+    // 查询类型
+    $type = 0;
 		
 		$only_approved = 0;
 		$only_published = 0;
@@ -108,7 +111,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['stage'] = (int)$stage;
 		}
 
-	    //预售商品合并后
+	    //除了投票
 	    if ($is_shop) {
 	      $query['stage'] = array('$in'=>array(5, 9, 12, 15));
 	    }
@@ -155,6 +158,21 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['voted_finish_time'] = array('$gt'=>time());
 		  }
 		}
+
+    if($type){
+      switch((int)$type){
+        case 1:
+          $query['stage'] = 15;
+          break;
+        case 2:
+          $query['stage'] = array('$in'=>array(5,9));
+          break;
+        case 3:
+          $query['stage'] = 12;
+          break;
+        default:
+      }
+    }
 		
 	    // 搜索
 	    if($s_type){

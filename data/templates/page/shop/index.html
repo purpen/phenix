@@ -57,19 +57,36 @@
 
 <div class="sorts">
     <div class="container">
+        <label><i class="sort content ascending icon"></i>选项：</label>
+        <div class="ui horizontal list">
+          <a class="{% if type == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t0-s{{ sort }}-p{{ page }}">
+                全部
+            </a>
+          <a class="{% if type == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t1-s{{ sort }}-p{{ page }}">
+                产品灵感
+            </a>
+            <a class="{% if type == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t2-s{{ sort }}-p{{ page }}">
+                可购买
+            </a>
+            <a class="{% if type == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t3-s{{ sort }}-p{{ page }}">
+                积分兑换
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="sorts">
+    <div class="container">
         <label><i class="sort content ascending icon"></i>排序：</label>
         <div class="ui horizontal list">
-            <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">
+          <a class="{% if sort == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s0-p{{ page }}">
                 最新
             </a>
-            <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">
+            <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s2-p{{ page }}">
                 热门
             </a>
-            <a class="{% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">
+            <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s1-p{{ page }}">
                 评分
-            </a>
-            <a href="" class="item">
-                可购买
             </a>
         </div>
     </div>
@@ -78,7 +95,7 @@
 <div class="shop list" id="shoplist">
 	<div class="ui responsive products grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_onsale:1 size:20 sort:sort_text %}
+			{% product_list var:'list' page:page category_id:category_id is_shop:1 process_presaled:presaled type:type only_onsale:1 size:20 sort:sort %}
 			{% if list.rows %}
 			<div class="column">
 				<div class="ui four products cards">

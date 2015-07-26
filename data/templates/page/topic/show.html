@@ -364,50 +364,6 @@
         }, "json");
 	});
 	
-  //评论回复按钮
-  $('.reply-btn').livequery(function(){
-    $(this).click(function(){
-      // 定位到评论框
-      $('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
-      // 提示回复信息
-      var comment_title_obj = $('#comment-box').find('.comment-title');
-      var recover_comment_user_href = comment_title_obj.find('a').attr('href');
-      var recover_comment_user_name = comment_title_obj.find('a').text();
-      var comment_id = $(this).attr('comment_id');
-      var floor = $(this).attr('floor');
-      var comment_user_id = $(this).attr('comment_user_id');
-      var comment_user_name = $(this).attr('comment_user_name');
-      var user_home_url = "{{ app_url_user }}/"+comment_user_id+"";
-
-      $(':input[name=reply_id]').val(comment_id);
-      $(':input[name=is_reply]').val(1);
-      
-      var html='';
-      html += '<div>';
-      html += '<span>回复 #</span>'+ floor +' ';
-      html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
-      html += '<span class=""></span> ';
-      html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';
-      html += '</div>';
-      comment_title_obj.html(html);
-      
-
-    });
-  });
-
-  //取消回复评论
-  $('.cancel-reply-btn').livequery(function(){
-    $(this).click(function(){
-      // 清空回复ID
-      $(':input[name=reply_id]').val('');
-      $(':input[name=is_reply]').val(0);
-      var recover_comment_user_href = $(this).attr('recover_comment_user_href');
-      var recover_comment_user_name = $(this).attr('recover_comment_user_name');
-      var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';
-      $('#comment-box').find('.comment-title').html(html);   
-    });
-
-  });
 
 {% endblock %}
 

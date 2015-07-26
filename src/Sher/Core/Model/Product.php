@@ -570,6 +570,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			case self::STAGE_EXCHANGE:
 				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
 				break;
+			case self::STAGE_IDEA:
+				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
+				break;
 			default:
 				$view_url = Doggy_Config::$vars['app.url.fever'];
 				break;

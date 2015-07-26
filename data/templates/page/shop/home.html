@@ -110,7 +110,7 @@
 	<div class="ui newest products grid">
 		<div class="row">
 			<div class="column">
-                {% product_list var:'newest' page:1 is_shop:1 only_onsale:1 size:4 sort:'latest' %}
+                {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
                 {% if newest.rows %}
                 <div class="ui four products cards">
 					{% for product in newest.rows %}
