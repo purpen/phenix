@@ -23,9 +23,12 @@
 			<!--[if lt IE 9]>
 				<link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.{{ css_bundle_version }}.css" type="text/css" />
 			<![endif]-->
+
 		{% if css_use_bundle %}
+      <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/mobile.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
+      <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/mobile.min.css" type="text/css" />
 		{% endif %}
 
