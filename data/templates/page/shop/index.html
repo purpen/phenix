@@ -40,7 +40,10 @@
     {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
 	<li class="category {% if !category_id %} active{% endif %}">
         <a href="{{ app_url_shop }}/c0">
-            <i class="desktop icon"></i> 全部
+            <i class="huge icons">
+                <i class="big thin circle icon"></i>
+                <i class="sidebar icon"></i>
+            </i> 全部分类
         </a>
     </a>
 	{% for cat in category.rows %}

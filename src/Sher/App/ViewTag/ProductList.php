@@ -110,7 +110,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 
 	    //预售商品合并后
 	    if ($is_shop) {
-	      $query['stage'] = array('$in'=>array(5, 9));
+	      $query['stage'] = array('$in'=>array(5, 9, 12, 15));
 	    }
 		//预售
 		if($presaled){
