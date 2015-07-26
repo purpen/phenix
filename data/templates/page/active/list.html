@@ -6,133 +6,138 @@
 </style>
 {% endblock %}
 {% block layout_js %}{% endblock %}
-{% block jquery %}{% endblock %}
+{% block jquery %}
+    //ajax加载签到数据
+    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+{% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
-
-{% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
-{% if current_list.rows %}
-  {% for active in current_list.rows %}
-  <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
-    <div class="ui responsive grid">
-          <div class="row">
-          <div class="center aligned column white section-title">
-            <!--<h2 class="block title">{{ active.title }}</h2>
-            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
-            <hr>-->
-            <div class="buttons" style="margin-top: 195px;">
-                <a href="{{ active.view_url }}" class="ui white inverted button" target="_blank">
-                <i class="ticket icon"></i> 立即报名
-              </a>
-            </div>
-          </div>
-          </div>
-    </div>
-  </div>
-  {% else %}
-  <div class="activity masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/featured-image.jpg');">
-    <div class="ui responsive grid">
-          <div class="row">
-          <div class="center aligned column white section-title">
-            <h2 class="block title">硬件活动</h2>
-            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
-            <hr>
-          </div>
-          </div>
-    </div>
-  </div>
-  {%endfor%}
-{%else%}
-  {% active_list var:'current_list' kind:1 published:1 deleted:1 state:2 size:1 %}
-  {% for active in current_list.rows %}
-  <div class="activity masthead" style="background-image:url('{{ active.banner.fileurl }}');">
-    <div class="ui responsive grid">
-          <div class="row">
-          <div class="center aligned column white section-title">
-            <!--<h2 class="block title">{{ active.title }}</h2>
-            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</p>
-            <hr>-->
-            <div class="buttons" style="margin-top: 195px;">
-                <a href="{{ active.view_url }}" class="ui white inverted button" target="_blank">
-                <i class="ticket icon"></i> 查看详情
-              </a>
-            </div>
-          </div>
-          </div>
-    </div>
-  </div>
-  {% endfor %}
-{%endif%}
-
-<section class="ui big camp block">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
+<div class="mainwrap social" id="activepage">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+			<div class="ui three products activity cards">
+                
+                {% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
+                
+                {% if current_list.rows %}
+                    {% for active in current_list.rows %}
+                    <div class="card special cat">
+                        <div class="problock">
+                            <a title="{{ active.title }}" href="{{ active.view_url }}" style="background-image: url('{{ active.banner.fileurl }}');" class="thumb" target="_blank"></a>
+                            <h2>
+                                <a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
+                    			    {{ active.title }}
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>{{ active.sub_title }}</p>
+                            </div>
+                            <div class="cats">
+                                <span class="unit"></span>{{ active.max_number_count }}
+                            </div>
+                            <span class="counter">
+                                <i class="heart icon"></i> 
+                            </span>
+                        </div>
+                        <div class="speblock">
+                            <div class="randomcats">
+                                <a class="catlink" href="{{ active.view_url }}" style="background-image: url('{{ active.banner.fileurl }}');" target="_blank">
+                                    <h2>{{ active.title }}</h2>
+                                    <p>{{ active.sub_title }}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                {%else%}
+                <div class="card special cat">
+                    <div class="problock">
+                        <a title="硬件活动" href="javascript:void(0);" style="background-image: url('{{ app_url_packaged }}/images/topicbg/featured-image.jpg');" class="thumb" target="_blank"></a>
+                        <h2>
+                            <a href="javascript:void(0);" title="硬件活动" class="ui line" target="_blank">
+                			    硬件活动
+                		    </a>
+                        </h2>
+                        <div class="excerpt">
+                            <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快.</p>
+                        </div>
+                        <div class="cats">
+                            <span class="unit"></span>
+                        </div>
+                        <span class="counter">
+                            <i class="heart icon"></i> 
+                        </span>
+                    </div>
+                    <div class="speblock">
+                        <div class="randomcats">
+                            <a class="catlink" href="javascript:void(0);" style="background-image: url('{{ app_url_packaged }}/images/topicbg/featured-image.jpg');" target="_blank">
+                                <h2>硬件活动</h2>
+                                <p>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
                 
                 {% active_list var:'old_list' kind:1 ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
-				<div class="ui three activity cards">
-                    {% for active in old_list.rows %}
-					<div class="card">
-						<div class="image">
-                            <a href="{{ active.view_url }}" title="{{ active.title }}" target="_blank">
-                                <img src="{{ active.cover.thumbnails.md.view_url }}" >
-                            </a>
-							<div class="presell">
+                 
+                {% for active in old_list.rows %}
+				<div class="card">
+                    <div class="problock">
+                        <a title="{{ active.title }}" href="{{ active.view_url }}" style="background-image: url('{{ active.cover.thumbnails.md.view_url }}');" class="thumb" target="_blank"></a>
+                        <div class="ribbons">
+                            {% if active.season %}
+                            <span class="ribbon season">
                                 第 {{ active.season }} 期
-							</div>
-						</div>
-						<div class="content">
-                        	<div class="header">
-                        		<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">{{ active.title|truncate 26 '' }}－{{ active.conduct_city }}站 </a>
-                      	  	</div>
-                            <div class="description">
-                                <span class="people">
-                                    活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人
-                                </span>
-                            </div>
-                            <div class="i-stats">
-                                <div class="love">
-                                    <span class="address">
-                                        <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}
-                                    </span>
-                                    <span class="apply">
-                                        {% if active.step_stat == 2 %}
-                                            已结束
-                                        {% else %}
-                                        <a class="ui line" href="{{ active.view_url }}">
-                                            我要报名
-                                  	  	</a>
-                                        {% endif %}
-                                    </span>
-                                    
-                                </div>
-                            </div>
-						</div>
-					</div>
-                    {%endfor%}
+                            </span>
+                            {%endif%}
+                        </div>
+                        <h2>
+                            <a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
+                			    {{ active.title }}－{{ active.conduct_city }}站
+                		    </a>
+                        </h2>
+                        <div class="excerpt">
+                            <p>活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人</p>
+                        </div>
+                        <div class="cats">
+                            <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}
+                        </div>
+                        <span class="counter">
+                            <i class="heart icon"></i> 
+                             {% if active.step_stat == 2 %}
+                                 已结束
+                             {% else %}
+                             <a class="ui line" href="{{ active.view_url }}">
+                                 我要报名
+                       	  	</a>
+                             {% endif %}
+                        </span>
+                    </div>
+                    
 				</div>
-				
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-            	{% if old_list.total_rows %}
-            	<div class="ui pagination">
-            		{% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
-            		{%include 'block/pager.html'%}
-            	</div>
-            	{% endif %}
+                {%endfor%}
+                
+                
             </div>
+            
+        	{% if old_list.total_rows %}
+        	<div class="ui pagination">
+        		{% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        		{%include 'block/pager.html'%}
+        	</div>
+        	{% endif %}
         </div>
-	</div>
-</section>
+    </div>
+    <div class="mainright">
+        {% include "page/topic/rightbar.html" %}
+        
+        <div class="sellwrap">
+        	<div class="block title">
+        		合作媒体
+            </div>
+			
+        </div>
+    </div>
+</div>
 {% endblock %}

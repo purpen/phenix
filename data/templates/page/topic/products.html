@@ -1,0 +1,21 @@
+<!--精选产品-->
+<div class="sellwrap">
+	<div class="block title">
+		精选产品
+    </div>
+    <div class="brand products">
+        {% product_list var:'plist' page:1  only_onsale:1 size:4  %}
+        <div class="ui small images">
+            {% for product in plist.rows %}
+             <a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank" class="image">
+                 <img src="{{ product.cover.thumbnails.medium.view_url }}" />
+             </a>
+             {% endfor %}
+        </div>
+		<div class="more">
+			<a href="" class="ui link" target="_blank">
+                <i class="search icon"></i> 查看更多产品
+            </a>
+        </div>
+    </div>
+</div>
