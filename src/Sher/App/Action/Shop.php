@@ -294,6 +294,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
       $item_stage = $this->stash['item_stage'] = 'shop';
     }elseif($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
       $item_stage = $this->stash['item_stage'] = 'exchange';
+    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_IDEA){
+      $item_stage = $this->stash['item_stage'] = 'idea';
     }else{
   	  return $this->show_message_page('产品类型错误！', $redirect_url);  
     }
