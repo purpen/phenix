@@ -65,6 +65,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['jsApiParameters'] = $jsApiParameters;
 		//$this->stash['editAddress'] = $editAddress;
+		
 		return $this->to_html_page('wap/wxpay.html');
 	}
 

@@ -93,6 +93,7 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 	public function GetOpenidFromMp($code)
 	{
 		$url = $this->__CreateOauthUrlForOpenid($code);
+		
 		//初始化curl
 		$ch = curl_init();
 		//设置超时
@@ -111,6 +112,7 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 		//运行curl，结果以json形式返回
 		$res = curl_exec($ch);
 		curl_close($ch);
+		
 		//取出openid
 		$data = json_decode($res,true);
 		$this->data = $data;
