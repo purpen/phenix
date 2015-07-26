@@ -320,22 +320,22 @@
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
-			<h4 class="ui header" style="margin-top: 1rem !important;">热门商品</h4>
-			<div class="ui one items">
+			<h4 class="ui header" style="margin-top: 0rem !important;margin-left: 0.5em !important;">热门商品</h4>
+			<div class="ui one products cards">
           {% for product in products %}
-            {% if product.stage==5 %}
+            <!--{% if product.stage==5 %}
               {% include "mm/product-presale-item.html" %}
             {%endif%}
-            {% if product.stage==9 %}
+            {% if product.stage==9 %}-->
 			  		  {% include "mm/product-item.html" %}
-            {%endif%}
+            <!--{%endif%}-->
 			    {% endfor %}
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="column">
-			<a href="{{ app_url_wap }}/shop" class="fluid ui magenta inverted button">更多精选商品</a>
+		<div class="ui center aligned column">
+			<a href="{{ app_url_wap }}/shop" class="ui black button">更多精选商品</a>
 		</div>
 	</div>
 </div>

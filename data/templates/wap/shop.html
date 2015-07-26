@@ -24,13 +24,13 @@
 			  	<a class="section" href="{{ app_url_wap }}">
 					<i class="icon home"></i>首页
 				</a>
-				{% if !presaled %}
+				<!--{% if !presaled %}-->
 			  	<div class="divider"> / </div>
 			  	<div class="section">商品列表</div>
-				{% else %}
+				<!--{% else %}
 			  	<div class="divider"> / </div>
 				<div class="section">新品预售</div>
-				{% endif %}
+				{% endif %}-->
 
 			  <div class="divider"> / </div>
         {% if current %}
@@ -50,10 +50,10 @@
 				{% else %}
 			    <div class="default text">全部类别</div>
 				{% endif %}
-			    <i class="angle down icon"></i>
+			    <i class="dropdown icon"></i>
 			    <div class="menu">
             <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>
-            <a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>
+            <!--<a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>-->
 					{% for cat in category.rows %}
 				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
 					{% endfor %}
@@ -69,23 +69,15 @@
 <div class="ui responsive grid" id="mproducts">
 	<div class="row">
 		<div class="column">
-			<div class="ui one items">
+			<div class="ui one products cards">
 				{% for product in sale.rows %}
-					{% if product.stage==9 %}
 			  			{% include "mm/product-item.html" %}
-					{% endif %}
-          {% if product.stage==5 %}
-						{% include "mm/product-presale-item.html" %}
-					{% endif %}
-					{% if product.stage==12 %}
-			  			{% include "mm/product-item.html" %}
-					{% endif %}
 			    {% endfor %}
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="column">
+		<div class="ui center aligned column">
 			<div class="ui pagination">
 				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:1 %}
 				{% include 'block/pager.html' %}

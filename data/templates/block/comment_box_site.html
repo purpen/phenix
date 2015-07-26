@@ -37,7 +37,7 @@
 </style>
 
 <div id="comment-box" class="post comment">
-  	<p>
+  	<p class="comment-title">
 		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论
 	</p>
   	<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
@@ -45,6 +45,8 @@
     	<input type="hidden" name="target_user_id" value="{{ comment_target_user_id }}" />
     	<input type="hidden" name="type" value="{{ comment_type }}" />
     	<input type="hidden" name="star" value="0" />
+    	<input type="hidden" name="is_reply" value="0" />
+    	<input type="hidden" name="reply_id" value="" />
 		
     	<div class="field">
         <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
