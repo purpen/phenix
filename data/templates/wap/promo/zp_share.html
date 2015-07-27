@@ -39,13 +39,29 @@
 {% endblock %}
 {% block content %}
 <div class="page-content">
+  <!--  has ling  -->
+  {% if result.is_share %}
   <img class="imag" src="http://frstatic.qiniudn.com/images/promo/zp/30.png">
-  
-  <!--  login   -->
-  <a href="http://m.taihuoniao.com/shop">
+  <a href="{{ app_url_wap }}">
     <img class="btn" src="http://frstatic.qiniudn.com/images/promo/zp/gw.png">
   </a>
-  
+  {%endif%}
+
+  <!--  no ling   -->
+  {% if result.no_share %}
+  <img class="imag" src="http://frstatic.qiniudn.com/images/promo/zp/30.png">
+  <a href="{{ app_url_wap }}/auth/login">
+    <img class="btn" src="http://frstatic.qiniudn.com/images/promo/zp/gw.png">
+  </a>
+  {%endif%}
+
+  <!--  login   -->
+  {% if result.no_login %}
+  <img class="imag" src="http://frstatic.qiniudn.com/images/promo/zp/40.png">
+  <a href="{{ app_url_wap }}/auth/login">
+    <img class="btn" src="http://frstatic.qiniudn.com/images/promo/zp/dl.png">
+  </a>
+  {%endif%}
   <!-- 
   <a href="">
     <img class="btn" src="http://frstatic.qiniudn.com/images/promo/zp/dl.png">
