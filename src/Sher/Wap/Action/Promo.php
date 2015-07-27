@@ -587,7 +587,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
           $result['no_share'] = 1;
         }else{
           $result['is_success'] = 0;
-          $result['msg'] = '赠送失败!';
+          $result['msg'] = '!';
+          return $this->show_message_page('赠送失败!', Doggy_Config::$vars['app.url.wap']);
         }
       }
     }else{
@@ -625,9 +626,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       }
     }
     
-    // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
+    // 赠与红包 使用默认时间7天 $end_time = strtotime('2015-06-30 23:59')
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $code_ok;
   }
 	
 }
