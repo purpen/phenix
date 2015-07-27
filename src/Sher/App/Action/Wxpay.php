@@ -95,8 +95,7 @@
 		   $order_info = $model->find_by_rid($rid);
 		   
 		   $this->stash['order_info'] = $order_info;
-		   
-		   return $this->to_html_page("page/wechat/order_view.html");
+		   return $this->to_html_page("wap/order_view.html");
 	   }
 	
 		/**
