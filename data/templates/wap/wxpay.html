@@ -9,12 +9,8 @@
 {% block jquery %}
 
 	// 页面跳转
-	funciton url_jump(){
-		var url = {{ url_back }};
-		alert(url);
-		window.location.href = url;
-	}
-	url_jump();
+	var url = {{ url_back }};
+	alert(url);
 	
 	//调用微信JS api 支付
 	function jsApiCall()
