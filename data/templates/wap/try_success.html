@@ -55,7 +55,7 @@
   height: 92px;
   display: inline-block;
   margin: 0 auto;
-  border: 4px solid #fff;
+  border: 2px solid #fff;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
@@ -85,20 +85,15 @@
   text-align: center;
 }
 .say-con {
-  padding: 0 12px;
-  background: #fff;
+  padding: 0 0px;
+  background: #f5f5f5;
 }
 .say-con p {
   padding: 11px;
-  background: #f7f7f7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
+  background: #f5f5f5;
   position: relative;
   font-size: 15px;
-  color: #474747;
+  color: #5d6266;
   font-weight: bold;
   line-height: 22px;
 	margin:0;
@@ -153,7 +148,7 @@
   overflow: hidden;
 }
 .myCard .des .tit {
-  color: #474747;
+  color: #5d6266;
   height: 38px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -221,19 +216,6 @@
   flex: 1;
   display: block;
   text-align: center;
-}
-.try-user .show ul li a {
-  border: 1px solid #b8b7bb;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  -ms-border-radius: 100%;
-  -o-border-radius: 100%;
-  border-radius: 100%;
-  height: 80px;
-  width: 80px;
-  text-align: center;
-  display: inline-block;
-  color: #b8b7bb;
 }
 .try-user .show ul li a p {
   line-height: 30px;
@@ -441,10 +423,10 @@ ul a{
   color:#fff;
 }
 .ticket li:first-child .bar span,.ticket li:nth-child(2) .bar span,.ticket li:nth-child(3) .bar span{
-  background:#fff !important;
+  background:#fff;
 }
 .ticket li:nth-child(2){
-  background:#eaae00;
+  background:#eaae00 !important;
 }
 .ticket li:nth-child(3){
   background:#a7bd0d;
@@ -575,8 +557,7 @@ fetch_rank();
 {% endblock %}
 {% block content %}
 <div class="try-top">
-	<div class="blur-image-block">
-		<i style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%"></i>
+	<div class="blur-image-block" style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%">
 	</div>
 	<div class="top-content">
 		<div class="text-block" style="margin-top: 50px;"></div>
@@ -607,9 +588,9 @@ fetch_rank();
 			<div class="des">
 			  <p class="tit">{{ try.title }}</p>
         <p class="xinxi">
-          <span>免费试用</span>
-          <span>{{ try.try_count }} 个</span>
-          <span>{{ try.apply_count }} 人申请</span>
+          <span>免费试用&nbsp;/</span>
+          <span>{{ try.try_count }} 个&nbsp;/</span>
+          <span>{{ try.apply_count }} 人申请&nbsp;/</span>
          </p>
        </div>
 		</div>
