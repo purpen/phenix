@@ -73,7 +73,7 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 		}
 		$jsapi = new Sher_Core_Util_WxPay_WxPayData_WxPayJsApiPay();
 		$jsapi->SetAppid($UnifiedOrderResult["appid"]);
-		$timeStamp = time();
+		$timeStamp = (string)time();
 		$jsapi->SetTimeStamp($timeStamp);
 		$jsapi->SetNonceStr(Sher_Core_Util_WxPay_WxPayApi::getNonceStr());
 		$jsapi->SetPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
