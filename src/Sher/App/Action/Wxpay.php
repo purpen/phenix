@@ -82,6 +82,22 @@
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
+		
+		/**
+		* 支付成功后的跳转
+		*/
+	   public function show(){
+		   $rid = $this->stash['rid'];
+		   if (empty($rid)) {
+			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		   }
+		   $model = new Sher_Core_Model_Orders();
+		   $order_info = $model->find_by_rid($rid);
+		   
+		   $this->stash['order_info'] = $order_info;
+		   
+		   return $this->to_html_page("page/wechat/order_view.html");
+	   }
 	
 		/**
 		 * 微信支付回调URL
