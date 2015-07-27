@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share');
 
 	
 	/**
@@ -569,42 +569,33 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	/**
 	 * 判断用户是否重复分享
 	 */
-  public function check_share(){
+  public function zp_share(){
 
-    $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
-    $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
-    $type = isset($this->stash['type'])?(int)$this->stash['type']:1;
-
-    $result = array('no_share'=>0, 'no_login'=>0, 'is_share'=>0, 'success'=>1);
-    if(empty($target_id)){
-      $result['is_success'] = 0;
-      return $this->ajax_json('缺少请求参数!', true, $result);
-    }
+    $result = array('no_share'=>0, 'no_login'=>0, 'is_share'=>0, 'success'=>1, 'msg'=>'');
 
     if($this->visitor->id){
       $record_model = new Sher_Core_Model_SubjectRecord();
       // 是否分享过
-      $is_share = $record_model->check_appoint($this->visitor->id, $target_id, $event);
+      $is_share = $record_model->check_appoint($this->visitor->id, 4, 4);
       if($is_share){
         $result['is_share'] = 1;
-        return $this->ajax_json('已经分享过,立即购物!', false, $result);
       }else{
         // 送红包(30元,满99可用)
 				$ok = $this->give_bonus($this->visitor->id, 'ZP', array('count'=>5, 'xname'=>'ZP', 'bonus'=>'C', 'min_amounts'=>'A'));
         if($ok){
-          $record_model->add_appoint($this->visitor->id, $target_id, array('event'=>$event));
+          $record_model->add_appoint($this->visitor->id, 4, array('event'=>4));
           $result['no_share'] = 1;
-          return $this->ajax_json('赠送成功!', false, $result);  
         }else{
           $result['is_success'] = 0;
-          return $this->ajax_json('赠送失败!', true, $result);       
+          $result['msg'] = '!';
+          return $this->show_message_page('赠送失败!', Doggy_Config::$vars['app.url.wap']);
         }
       }
     }else{
       $result['no_login'] = 1;
-      return $this->ajax_json('未登录!', true, $result); 
     }
-
+    $this->stash['result'] = $result;
+    return $this->to_html_page('wap/promo/zp_share.html');
 	}
 
 
@@ -635,9 +626,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       }
     }
     
-    // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
+    // 赠与红包 使用默认时间7天 $end_time = strtotime('2015-06-30 23:59')
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $code_ok;
   }
 	
 }
