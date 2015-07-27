@@ -90,9 +90,9 @@
 		          <div class="ui two products cards">
 		            
 		              {% for item in result.rows %}
-		            <div class="card" id="product-{{ product._id }}">
+		            <div class="card" id="product-{{ item.product._id }}">
                     <div class="problock">
-                        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+                        <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" style="background-image: url({{ item.product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
                         <div class="ribbons">
                             {% if product.newest %}
                             <span class="ribbon newest">NEW</span>
@@ -111,18 +111,18 @@
                             {% endif %}
                         </div>
                         <h2>
-                            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
-                			    {{ product.title|truncate, 32, '' }}
+                            <a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui line">
+                			    {{ item.product.title|truncate, 32, '' }}
                 		    </a>
                         </h2>
                         <div class="excerpt">
-                            <p>{{ product.advantage }}</p>
+                            <p>{{ item.product.advantage }}</p>
                         </div>
                         <div class="cats">
-                            <span class="unit">￥</span>{{ product.sale_price }}
+                            <span class="unit">￥</span>{{ item.product.sale_price }}
                         </div>
                         <span class="counter">
-                            <i class="heart icon"></i> {{ product.love_count }}
+                            <i class="heart icon"></i> {{ item.product.love_count }}
                         </span>
                     </div>
                 </div>
