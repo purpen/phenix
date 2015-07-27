@@ -18,8 +18,7 @@
 				function(res){
 				//alert(res.err_msg);
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
-					window.location.href = '{{ app_url_domain }}/wxpay/show?rid=' + rid;
-					//phenix.redirect(view_url);
+					phenix.redirect({{ url_back }});
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
 				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
