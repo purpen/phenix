@@ -571,7 +571,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
   public function zp_share(){
 
-    $result = array('no_share'=>0, 'no_login'=>0, 'is_share'=>0, 'success'=>1, 'msg'=>'');
+    /*$result = array('no_share'=>0, 'no_login'=>0, 'is_share'=>0, 'success'=>1, 'msg'=>'');
 
     if($this->visitor->id){
       $record_model = new Sher_Core_Model_SubjectRecord();
@@ -593,7 +593,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     }else{
       $result['no_login'] = 1;
     }
-    $this->stash['result'] = $result;
+    $this->stash['result'] = $result;*/
     return $this->to_html_page('wap/promo/zp_share.html');
 	}
 
