@@ -24,23 +24,32 @@
 	#mchildmenu .next, #mchildmenu .prev {
 	  color: rgba(0,0,0,0.7);
 	  font-size: 20px;
+	  height:100%;
 	  position: absolute;
 	  text-decoration: none;
 	  width: 80px;
 	  -webkit-transition: all .3s ease-in-out 0s;
 	  transition: all .3s ease-in-out 0s;
 	}
-	#mchildmenu .prev {
+	#mchildmenu .prev{
 	  left: -50px;
 	  text-align: right;
-		height: 42px;
-		line-height: 42px;
+	}
+	#mchildmenu .prev i{
+	  top: 50%;
+    margin-top: -10px;
+    position: absolute;
+    left: 50px;
 	}
 	#mchildmenu .next {
 	  right: -50px;
 	  text-align: left;
-		height: 42px;
-		line-height: 42px;
+	}
+	#mchildmenu .next i{
+	  top: 50%;
+    margin-top: -10px;
+    position: absolute;
+    right: 50px;
 	}
 	.meslide+.meslide .ui.four.menu{
 	  border-left:0px solid rgba(0,0,0,0);
