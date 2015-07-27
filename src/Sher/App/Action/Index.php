@@ -73,8 +73,22 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
             }
         }
         $this->stash['products'] = $products;
-        //商品图片alt显示标签第一个
+        // 商品图片alt显示标签第一个
         $this->stash['product_alt_tag'] = 1;
+        
+        
+		// 获取置顶列表
+		$diglist = array();
+        
+		$digged = new Sher_Core_Model_DigList();
+		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
+		if (!empty($result) && !empty($result['items'])) {
+			$model = new Sher_Core_Model_Topic();
+			$diglist = $model->extend_load_all($result['items']);
+		}
+        $key_index = array_rand($diglist, 1);
+		$this->stash['tt'] = $diglist[$key_index];
+
         
         return $this->to_html_page('page/home.html');
     }
