@@ -1,6 +1,6 @@
 <taconite>
 	<replace select="#product_guess_wap_list"><![CDATA[
-		<!--{% if result.total_rows %}
+		{% if result.total_rows %}
 
 
 <div id="product_guess_wap_list">
@@ -79,9 +79,9 @@
 	</div>
 </div>
 
-		{% endif %}-->
+		{% endif %}
 		
-		{% if result.total_rows %}
+		<!--{% if result.total_rows %}
 		  <div id="product_guess_wap_list">
       	<div class="ui responsive grid">
       		<div class="row">
@@ -134,7 +134,7 @@
 		      </div>
 		    </div>
 		  </div>
-		{% endif %}
+		{% endif %}-->
 	]]></replace>
 
   <eval>
