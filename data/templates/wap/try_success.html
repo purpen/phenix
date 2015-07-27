@@ -421,7 +421,7 @@ ul a{
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 
-    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来为我拉票吧!';
+    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来支持我吧!';
     {% if try.cover %}
       var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
     {%else%}
@@ -487,10 +487,10 @@ ul a{
 
   //记录分享数/同时送积分
   function record_share_num(){
-
+    $('#mask').css('display','none');
   }
 
-  //拉票排行
+  //支持排行
   function fetch_rank(){
     var url = "{{ app_url_wap }}/try/ajax_fetch_rank";
     var apply_id = "{{ apply._id }}";
@@ -533,7 +533,7 @@ $('.support-btn').click(function(){
     $.post(url, {apply_id:apply_id, type:1 });
 });
 
-//获取拉票排行
+//获取支持排行
 fetch_rank();
 
 {% endblock %}
@@ -586,7 +586,7 @@ fetch_rank();
 
 {% if !try.is_end %}
   {% if is_current_user %}
-    <div class="barrer subbtn showdiv"><a class="play">立即拉票</a></div>
+    <div class="barrer subbtn showdiv"><a class="play">求支持</a></div>
   {%else%}
     <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
   {%endif%}
