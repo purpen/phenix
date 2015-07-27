@@ -8,6 +8,11 @@
 
 {% block jquery %}
 
+	// 页面跳转
+	funciton url_jump(){
+		window.location.href = {{ url_back }};
+	}
+
 	//调用微信JS api 支付
 	function jsApiCall()
 	{
@@ -18,7 +23,7 @@
 				function(res){
 				//alert(res.err_msg);
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
-					phenix.redirect({{ url_back }});
+					url_jump();
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
 				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
