@@ -91,7 +91,7 @@
 		              
 		            <div class="card" id="product-{{ product._id }}">
                     <div class="problock">
-                        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ item.product.cover.thumbnails.md.view_url }});" class="thumb" target="_blank"></a>
+                        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
                         <div class="ribbons">
                             {% if product.newest %}
                             <span class="ribbon newest">NEW</span>
@@ -103,14 +103,14 @@
                             <span class="ribbon stick">推荐</span>
                             {% endif %}
                             {% if product.snatched %}
-                            <span class="ribbon snatched">限时抢购</span>
+                            <span class="ribbon new">限时抢购</span>
                             {% endif %}
                             {% if product.stage == 5 %}
                             <span class="ribbon presale">正在预售</span>
                             {% endif %}
                         </div>
                         <h2>
-                            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
+                            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
                 			    {{ product.title|truncate, 32, '' }}
                 		    </a>
                         </h2>
