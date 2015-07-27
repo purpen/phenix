@@ -102,6 +102,7 @@
 		 * 微信支付回调URL
 		 */
 		public function direct_native(){
+			
 			Doggy_Log_Helper::warn("Wechat order notice!");
 			
 			$trade_mode  = $this->stash['trade_mode'];

@@ -19,6 +19,7 @@
 				//alert(res.err_msg);
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
 					var view_url = '{{ app_url_domain }}/wxpay/show?rid='+rid;
+					alert(view_url);
 					phenix.redirect(view_url);
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
