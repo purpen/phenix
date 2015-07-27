@@ -1,9 +1,9 @@
 <taconite>
 	<replaceContent select="#rank-box"><![CDATA[
-    <div class="tab">
-      <div class="tabTit">
+    <div class="table">
+      <div class="tabtop">
         <div class="show">
-          <ul class="tabLabel">
+          <ul class="tablab">
             <li class="on">
               <a href="javascript:;" class="ui line"><p class="tit">好友支持({{ apply.vote_count }})</p></a>
             </li>
@@ -13,16 +13,16 @@
           </ul>
         </div>
       </div>
-      <div class="tabCont">
-        <div class="tabCont1">
+      <div class="tabtext">
+        <div class="tabtext1">
           <div class="rank">
             {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
             <ul class="approveList">
     
               <!-- 支持者 -->
               {% for d in list.rows %}
-              <li class="approve" style="margin:10px 0;">
-                <div class="avt">
+              <li class="approve" style="margin:15px 5px;">
+                <div class="avtto">
                   <a href="javascript:;" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
                 </div>
               </li>
@@ -31,17 +31,17 @@
             </ul>
           </div>
         </div>
-        <div class="tabCont2 noDis">
-          <ul class="ticket">
+        <div class="tabtext2 dactive">
+          <ul class="topchek">
               {% for d in apply_top %}
             <li>
-              <div class="avt">
+              <div class="avtto">
                 <a href="javascript:void(0);" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
               </div>
-              <div class="progressBar">
-                <p class="ticketInfo"><span class="name"> {{ d.user.nickname }} 
+              <div class="progresss">
+                <p class="topchekInfo"><span class="name"> {{ d.user.nickname }} 
                 
-                </span> <span class="progressNum">{{ d.vote_count|default 0 }} 票</span></p>
+                </span> <span class="progressci">{{ d.vote_count|default 0 }} 票</span></p>
                 <p class="bar"><span style="width: {{ d.percent }}%; background: #f36;"></span></p>
               </div>
             </li>
@@ -55,7 +55,7 @@
 	]]></replaceContent>
 
 	<eval>
-        $('.tabLabel li').on('click', function(e){
+        $('.tablab li').on('click', function(e){
             handleTab(e);
         });
 
@@ -65,19 +65,19 @@
         });
 
         function handleTab(e) {
-            var oDiv = $('.tab');
+            var oDiv = $('.table');
             var target = e.currentTarget,
                 index = $(target).index(),
                 aBtn = $(target),
-                aDiv = $(target).parent().parent().parent().parent().find('.tabCont > div:eq('+index+')');
+                aDiv = $(target).parent().parent().parent().parent().find('.tabtext > div:eq('+index+')');
             if($('.selTeam').length){
                 $('.selTeam').removeClass('on');
-                $('.teamListSel .state').addClass('noDis');
+                $('.teamListSel .state').addClass('dactive');
             }
             $(target).parent().find('li').removeClass('on');
-            $(target).parent().parent().parent().parent().find('.tabCont > div').addClass('noDis');
+            $(target).parent().parent().parent().parent().find('.tabtext > div').addClass('dactive');
             aBtn.addClass('on');
-            aDiv.removeClass('noDis');
+            aDiv.removeClass('dactive');
         }
         //loadApprove();
 	</eval>
