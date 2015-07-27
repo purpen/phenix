@@ -23,7 +23,7 @@
 				function(res){
 				//alert(res.err_msg);
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
-					url_jump();
+					//url_jump();
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
 				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
@@ -58,7 +58,7 @@
 		<div class="row">
 			<div class="column">
 				<h5 class="ui dividing header">支付订单</h5>
-				<div class="ui green message" >微信支付订单</div>
+				<div class="ui green message" >微信支付订单{{ url_back }}</div>
 			</div>
 		</div>
 	</div>

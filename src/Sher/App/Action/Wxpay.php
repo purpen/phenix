@@ -80,7 +80,7 @@
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
 			$this->stash['url_back'] = Doggy_Config::$vars['app.url.domain'].'/wxpay/show?rid='.$rid;
-			
+			echo $this->stash['url_back'];
 			return $this->to_html_page('wap/wxpay.html');
 		}
 		
