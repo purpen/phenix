@@ -14,7 +14,7 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
   const STATE_PAY = 1;
   // 状态结束
   const STATE_OVER = 2;
-  // 未到
+  // 违约
   const STATE_ABSEND = 3;
   // 状态成功
   const STATE_OK = 10;
@@ -152,6 +152,13 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
 	public function over_appoint($id, $options=Array()){
         return $this->_handle_state($id, self::STATE_OVER, $options);
 	}
+
+	/**
+	 * 违约未到
+	 */
+	public function absend_appoint($id, $options=Array()){
+        return $this->_handle_state($id, self::STATE_ABSEND, $options);
+	}
 	
 	/**
 	 * 处理预约状态
@@ -185,29 +192,46 @@ class Sher_Core_Model_DAppoint extends Sher_Core_Model_Base  {
     if($ok){
       // 取消预约
       if($state == self::STATE_NO){
-        $appoint = $this->load($id);
-        if(!empty($appoint)){
-          $appoint_record_model = new Sher_Core_Model_DAppointRecord();
-          foreach($appoint['items'] as $k=>$v){
-            foreach($v['time_ids'] as $t){
-              //释放名额
-              $appoint_record_model->cancel_appointed((int)$v['item_id'], (int)$v['date_id'], (int)$t, $appoint['user_id']);         
-            }
-          }
+        //释放名额
+        $this->_release_appoint($id);
 
-          // 关闭该订单
-          $order_model = new Sher_Core_Model_DOrder();
-          $order = $order_model->first(array('item_id'=>(string)$id, 'kind'=>Sher_Core_Model_DOrder::KIND_D3IN, 'state'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT));
-          if($order){
-            $order_model->close_order((int)$order['_id']);
-          }
+        // 关闭该订单
+        $order_model = new Sher_Core_Model_DOrder();
+        $order = $order_model->first(array('item_id'=>(string)$id, 'kind'=>Sher_Core_Model_DOrder::KIND_D3IN, 'state'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT));
+        if($order){
+          $order_model->close_order((int)$order['_id']);
         }
 
       }
 
+      // 结束
+      if($state == self::STATE_OVER){
+        //释放名额
+        $this->_release_appoint($id);     
+      }
+
+      // 违约
+      if($state == self::STATE_ABSEND){
+        //释放名额
+        $this->_release_appoint($id);
+      }
+
     }
     return $ok;
-	}
+  }
+
+  protected function _release_appoint($id){
+    $appoint = $this->load($id);
+    if(!empty($appoint)){
+      $appoint_record_model = new Sher_Core_Model_DAppointRecord();
+      foreach($appoint['items'] as $k=>$v){
+        foreach($v['time_ids'] as $t){
+          //释放名额
+          $appoint_record_model->cancel_appointed((int)$v['item_id'], (int)$v['date_id'], (int)$t, $appoint['user_id']);         
+        }
+      }
+    }
+  }
 	
 }
 

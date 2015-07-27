@@ -566,12 +566,78 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   
   }
 
+	/**
+	 * 判断用户是否重复分享
+	 */
+  public function check_share(){
+
+    $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
+    $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
+    $type = isset($this->stash['type'])?(int)$this->stash['type']:1;
+
+    $result = array('no_share'=>0, 'no_login'=>0, 'is_share'=>0, 'success'=>1);
+    if(empty($target_id)){
+      $result['is_success'] = 0;
+      return $this->ajax_json('缺少请求参数!', true, $result);
+    }
+
+    if($this->visitor->id){
+      $record_model = new Sher_Core_Model_SubjectRecord();
+      // 是否分享过
+      $is_share = $record_model->check_appoint($this->visitor->id, $target_id, $event);
+      if($is_share){
+        $result['is_share'] = 1;
+        return $this->ajax_json('已经分享过,立即购物!', false, $result);
+      }else{
+        // 送红包(30元,满99可用)
+				$ok = $this->give_bonus($this->visitor->id, 'ZP', array('count'=>5, 'xname'=>'ZP', 'bonus'=>'C', 'min_amounts'=>'A'));
+        if($ok){
+          $record_model->add_appoint($this->visitor->id, $target_id, array('event'=>$event));
+          $result['no_share'] = 1;
+          return $this->ajax_json('赠送成功!', false, $result);  
+        }else{
+          $result['is_success'] = 0;
+          return $this->ajax_json('赠送失败!', true, $result);       
+        }
+      }
+    }else{
+      $result['no_login'] = 1;
+      return $this->ajax_json('未登录!', true, $result); 
+    }
+
+	}
+
 
   /**
    * test
    */
   public function test(){
     return $this->to_html_page('wap/test.html'); 
+  }
+
+  //红包赠于
+  protected function give_bonus($user_id, $xname, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
+    $end_time = 0;
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
 	
 }

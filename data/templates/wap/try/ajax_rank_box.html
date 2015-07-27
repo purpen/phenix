@@ -5,12 +5,12 @@
         <div class="show">
           <ul class="tabLabel">
             <li class="on">
-            <a href="javascript:;"><p>{{ apply.vote_count }}</p><em>名</em></a>
-              <p class="tit">好友支持</p>
+            <!--<a href="javascript:;"><p>{{ apply.vote_count }}</p><em>名</em></a>-->
+              <p class="tit">好友支持({{ apply.vote_count }})</p>
             </li>
             <li>
-            <a href="javascript:loadRank();"><p>{{ rank_no }}</p><em>位</em></a>
-              <p class="tit">总排名</p>
+            <!--<a href="javascript:loadRank();"><p>{{ rank_no }}</p><em>位</em></a>-->
+              <p class="tit">排名({{ rank_no }})</p>
             </li>
           </ul>
         </div>
@@ -19,7 +19,7 @@
         <div class="tabCont1">
           <div class="rank">
             {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
-            <!--<p class="tips" style="font-size: 12px;">小贴士：拉票数第一直接获得试用机会！</p>-->
+            <!--<p class="tips" style="font-size: 12px;">小贴士：支持数第一直接获得试用机会！</p>-->
             <ul class="approveList">
     
               <!-- 支持者 -->
@@ -43,12 +43,9 @@
               </div>
               <div class="progressBar">
                 <p class="ticketInfo"><span class="name"> {{ d.user.nickname }} 
-                  {%if loop.counter==1%}<i><img src="{{ app_url_packaged }}/images/082.png"></i>{%endif%}
-                  {%if loop.counter==2%}<i><img src="{{ app_url_packaged }}/images/083.png"></i>{%endif%}
-                  {%if loop.counter==3%}<i><img src="{{ app_url_packaged }}/images/084.png"></i>{%endif%}
                 
                 </span> <span class="progressNum">{{ d.vote_count|default 0 }} 票</span></p>
-                <p class="bar"><span style="width: {{ d.percent }}%; background: #fb5448;"></span></p>
+                <p class="bar"><span style="width: {{ d.percent }}%; background: #fff;"></span></p>
               </div>
             </li>
 

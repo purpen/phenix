@@ -28,6 +28,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'RE', # 注册送
         'IV', # 邀请送
         'D1', # 线下活动,注册抽奖(ces,大赛)
+        'ZP', # 招聘H5分享
 	);
 	
     protected $schema = array(
@@ -129,7 +130,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     if($expired_time){
       $expired_at = (int)$expired_time;
     }else{
-      $expired_at = time() + 30*24*60*60;
+      $expired_at = time() + 7*24*60*60;
     }
 		return $this->update_set($crt, array(
 			'user_id' => (int)$user_id,
