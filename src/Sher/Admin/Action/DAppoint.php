@@ -184,13 +184,20 @@ class Sher_Admin_Action_DAppoint extends Sher_Admin_Action_Base implements Doggy
 
     $arr = array();
 		foreach($ids as $id){
-			$result = $model->close_appoint($id);
+      if($state==0){
+			  $result = $model->close_appoint($id);
+      }elseif($state==2){
+        $result = $model->over_appoint($id);
+      }elseif($state==3){
+        $result = $model->absend_appoint($id);
+      }
       if($result){
         array_push($arr, $id);
       }
 		}
 
     $this->stash['result'] = $arr;
+    $this->stash['state'] = $state;
 		$this->stash['note'] = '操作成功！';
 		
 		return $this->to_taconite_page('admin/d_appoint/ajax_set_state.html');

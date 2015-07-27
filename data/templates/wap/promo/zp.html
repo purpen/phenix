@@ -1857,7 +1857,21 @@
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 4, count_name:'count', type: 4, kind:4 });
-    alert(123);
+		// 验证是否登录
+		if (!phenix.visitor.is_login){
+      
+			return false;
+    }
+    // 验证该用户是否分享过
+    /**
+    $.get("{{ app_url_wap }}/promo/check_share", {target_id:4, event:4, type:1}, function(result){
+      result = result = eval('('+ result +')');
+      if(result){
+        alert(result.data);
+      }
+    });
+    **/
+
   }
 
 	</script>

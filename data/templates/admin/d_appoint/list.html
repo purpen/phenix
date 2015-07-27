@@ -112,6 +112,9 @@
                         {% if d.state==2 %}
                           结束
                         {%endif%}
+                        {% if d.state==3 %}
+                          违约
+                        {%endif%}
                       </p>
                       {% if d.state == 1 %}
                       <p class="state-btn">
@@ -121,6 +124,8 @@
                       {% if d.state == 10 %}
                         <p class="state-btn">
                         <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=0" class="ui small gray confirm-request button">取消</a>
+                        <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=3" class="ui small gray confirm-request button">违约</a>
+                        <a href="{{ app_url_admin }}/d_appoint/ajax_set_state?id={{ d._id }}&state=2" class="ui small gray confirm-request button">结束</a>
                         </p>
                       {% endif %}
                     

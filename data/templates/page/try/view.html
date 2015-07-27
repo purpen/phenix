@@ -256,7 +256,7 @@
 
   {% if !try.is_end %}
     {% if is_applied %}
-      // 生成拉票二维码
+      // 生成支持二维码
       $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}'});
 
       $('.lapiao-btn').click(function() {
@@ -324,7 +324,7 @@
 					{% if !try.is_end %}
             {% if is_applied %}
               <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
-                <i class="ticket icon"></i> 我要拉票
+                <i class="ticket icon"></i> 求支持
               </a>
             {%else%}
               <a href="javascript:void(0);" class="ui white applytry inverted button" style="padding: .8em 2em!important;">
@@ -616,7 +616,9 @@
 						</div>
 						<div class="ui five wide column">
 							<div class="ui segment">
+{% if img_asset.qr_ios %}
 								<div class="ui grid">
+
 									<div class="row">
 										<div class="column">
 											<h3 class="ui dividing header">
@@ -637,8 +639,12 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="bar"></div>
+                    {% endif %}
+								
+
+                      {% if try.brand_introduce %}
 								<div class="product brand">
 									<div class="ui grid">
 										<div class="row">
@@ -658,6 +664,8 @@
 									</div>
 								</div>
 								<div class="bar"></div>
+
+                      {%endif%}
                   <h3 class="ui dividing header">厂商试用合作申请</h3>
                   <p>邮箱: bianluyao@taihuoniao.com</p>
 
