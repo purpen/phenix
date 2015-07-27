@@ -94,19 +94,19 @@
                     <div class="problock">
                         <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" style="background-image: url({{ item.product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
                         <div class="ribbons">
-                            {% if product.newest %}
+                            {% if item.product.newest %}
                             <span class="ribbon newest">NEW</span>
                             {% endif %}
-                            {% if product.hot %}
+                            {% if item.product.hot %}
                             <span class="ribbon hot">HOT</span>
                             {% endif %}
-                            {% if product.stick %}
+                            {% if item.product.stick %}
                             <span class="ribbon stick">推荐</span>
                             {% endif %}
-                            {% if product.snatched %}
+                            {% if item.product.snatched %}
                             <span class="ribbon new">限时抢购</span>
                             {% endif %}
-                            {% if product.stage == 5 %}
+                            {% if item.product.stage == 5 %}
                             <span class="ribbon presale">正在预售</span>
                             {% endif %}
                         </div>
