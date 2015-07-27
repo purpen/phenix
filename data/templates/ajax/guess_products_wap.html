@@ -88,7 +88,8 @@
       			<div class="column">
       				<h3 class="ui header">你可能喜欢的产品</h3>
 		          <div class="ui two products cards">
-		              
+		            
+		              {% for item in result.rows %}
 		            <div class="card" id="product-{{ product._id }}">
                     <div class="problock">
                         <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
@@ -125,7 +126,7 @@
                         </span>
                     </div>
                 </div>
-		
+		          {% endfor %}	
 		
 		  
 		          </div>
