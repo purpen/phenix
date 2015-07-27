@@ -64,21 +64,19 @@
 			
 			//②、统一下单
 			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
-			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
-			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
-			$input->SetTotal_fee($order_info['pay_money']); // 订单总金额,单位为分
-			$input->SetSpbill_create_ip($_SERVER["REMOTE_ADDR"]);
-			$input->SetNotify_url($notify_url); // 通知地址
-			$input->SetTrade_type("JSAPI"); // 交易类型
-			$input->SetOpenid($openId); // 用户openid
+			//$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
+			//$input->SetOut_trade_no($order_info['rid']); // 商户订单号
+			//$input->SetTotal_fee($order_info['pay_money']); // 订单总金额,单位为分
+			//$input->SetSpbill_create_ip($_SERVER["REMOTE_ADDR"]);
+			//$input->SetNotify_url($notify_url); // 通知地址
+			//$input->SetTrade_type("JSAPI"); // 交易类型
+			//$input->SetOpenid($openId); // 用户openid
 			
 			$input->SetBody("test");
-			$input->SetAttach("test");
-			$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
+			$input->SetOut_trade_no(Doggy_Config::$vars['app.wechat.mchid'].date("YmdHis"));
 			$input->SetTotal_fee("1");
 			$input->SetTime_start(date("YmdHis"));
 			$input->SetTime_expire(date("YmdHis", time() + 600));
-			$input->SetGoods_tag("test");
 			$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
 			$input->SetTrade_type("JSAPI");
 			$input->SetOpenid($openId);
