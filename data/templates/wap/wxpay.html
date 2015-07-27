@@ -19,7 +19,8 @@
 				//alert(res.err_msg);
 				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
 					var view_url = "{{ url_back }}";
-					alert(view_url);
+					window.location.href = view_url;
+					//alert(view_url);
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
 				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
