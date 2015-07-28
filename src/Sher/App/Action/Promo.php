@@ -8,13 +8,27 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	  *69 share
+	  */
+	public function share(){
+		$current_time = time();
+		$end_time = strtotime('2015-08-04 23:59');
+		if($current_time > $end_time){
+			return $this->to_redirect('http://www.taihuoniao.com/sale/1065451935.html');
+		}
+		else{
+			return $this->to_redirect('https://hi.taobao.com/market/hi/detail2014.php?&id=28708');
+		}
 	}
 	
 	/**
