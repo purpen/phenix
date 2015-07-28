@@ -11,7 +11,7 @@
 		
 		// 配置微信参数
 		public $options = array();
-		protected $exclude_method_list = array('execute');
+		protected $exclude_method_list = array('execute','native');
 		
 		/**
 		 * 初始化参数
@@ -57,7 +57,7 @@
 			
 			// 支付完成通知回调接口
 			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
-			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/wxpay/native';
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/native';
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
@@ -80,7 +80,7 @@
 			
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
-			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/wxpay/show?rid='.$rid;
+			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/show?rid='.$rid;
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
