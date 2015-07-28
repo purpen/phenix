@@ -14,6 +14,8 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
 	const EVENT_LOVE = 2;
   // 报名
   const EVENT_SIGN = 3;
+  // 分享
+  const EVENT_SHARE = 4;
 
   //状态
   // 通过
@@ -25,7 +27,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     // 号码
     'number' => 0,
     'user_id' => null,
-    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名
+    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名; 4.招聘H5分享记录
     'target_id' => null,
     // 3.蛋年: 领域, 感兴趣的/
     'option01' => 0,
@@ -88,7 +90,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
   public function add_appoint($user_id, $target_id, $info=array()) {		
 		$info['user_id']   = (int) $user_id;
     $info['target_id'] = $target_id;
-		$info['event'] = self::EVENT_APPOINTMENT;
+		$info['event'] = isset($info['event'])?(int)$info['event']:self::EVENT_APPOINTMENT;
     return $this->apply_and_save($info);
   }
 	

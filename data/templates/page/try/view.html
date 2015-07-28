@@ -211,6 +211,24 @@
 					}
 				]
 			},
+			wx: {
+				identifier  : 'wx',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '微信号不能为空'
+					}
+				]
+			},
+			qq: {
+				identifier  : 'qq',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'QQ号不能为空'
+					}
+				]
+			},
 			content: {
 				identifier  : 'content',
 				rules: [
@@ -237,7 +255,7 @@
 
   {% if !try.is_end %}
     {% if is_applied %}
-      // 生成拉票二维码
+      // 生成支持二维码
       $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}'});
 
       $('.lapiao-btn').click(function() {
@@ -285,7 +303,7 @@
 					{% if !try.is_end %}
             {% if is_applied %}
               <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
-                <i class="ticket icon"></i> 我要拉票
+                <i class="ticket icon"></i> 求支持
               </a>
             {%else%}
               <a href="javascript:void(0);" class="ui white applytry inverted button" style="padding: .8em 2em!important;">
@@ -432,6 +450,7 @@
     </div>
     <div class="mainright">
         
+{% if img_asset.qr_ios %}
         <div class="sellwrap">
             <div class="block title">
                 APP下载
@@ -449,7 +468,9 @@
 				<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>
             {%endif%}
         </div>
-        
+        {%endif%}
+
+{% if try.brand_introduce %}
         <div class="sellwrap">
 			<div class="block title">
 				品牌介绍
@@ -465,11 +486,13 @@
                 </div>
             </div>
         </div>
+        {%endif%}
         
         <div class="sellwrap">
 			<div class="block title">
 				厂商合作申请
             </div>
+<p>邮箱: bianluyao@taihuoniao.com</p>
         </div>
         
         <div class="sellwrap">
