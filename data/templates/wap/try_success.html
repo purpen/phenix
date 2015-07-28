@@ -293,7 +293,7 @@ fetch_rank();
             <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
             <div class="content">{{ apply.user.nickname }}
               <div class="sub header">
-                {{ user.ext_state.user_rank.title|default '鸟列兵' }}
+                {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
               </div>
             </div>
           </h3>
