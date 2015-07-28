@@ -1,0 +1,36 @@
+<taconite>
+  	<append select="#shoplist .item-box"><![CDATA[
+			{% product_list var:'list' page:page category_id:category_id is_shop:1 process_presaled:presaled type:type only_onsale:1 size:20 sort:sort %}
+			{% if list.rows %}
+			<div class="column">
+				<div class="ui four products cards item-box">
+					{% for product in list.rows %}
+				  		{% include "block/product_card.html" %}
+				    {% endfor %}
+				</div>
+
+        {% if list.rows %}
+        <div class="row">
+          <div class="ui center aligned four wide column" id="load-more-btn">
+            {% if page < list.total_page %}
+              <span><a href="javascript:void(0);" class="ui gray more button" total-page="{{ list.total_page }}" current-page="{{ page }}">查看更多</a></span>
+            {%endif%}
+          </div>
+        </div>
+        {% endif %}
+        </div>
+			{% else %}
+			<div class="center aligned column">
+				<div class="empty result">
+					<div class="ui danger message">
+						没有更多鸟，可选择其他产品~~
+					</div>
+				</div>
+			</div>
+			{% endif %}
+	]]></append>
+	
+	<eval>
+
+	</eval>
+</taconite>
