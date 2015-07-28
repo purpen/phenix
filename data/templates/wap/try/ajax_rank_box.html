@@ -1,7 +1,7 @@
 <taconite>
 	<replaceContent select="#rank-box"><![CDATA[
 	  
-	  <label class="ui fluid magenta label" style="text-align:center;padding: 10px 0;font-size:1em;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
+	  <label class="ui fluid label" style="text-align:center;padding: 10px 0;font-size:1em;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
       {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
       <div class="user-list">
         {% for d in list.rows %}
