@@ -310,8 +310,6 @@
 							</div>
 						</div>
                         
-                        {% if product_parms %}
-                          {% if !is_match %}
                             <h3 class="ui dividing header">产品参数</h3>
                         
     	   			      	<div class="five fields">
@@ -337,7 +335,6 @@
     	   	                	</div>
     	   	           	 	</div>
                         
-                            {% if visitor.can_edit %}
     						<div class="two fields">
     			              	<div class="field">
     				                <label for="processed">产品阶段</label>
@@ -360,9 +357,6 @@
     						  	    <input type="text" name="buy_url" value="{{ product.product_info.buy_url }}" placeholder="仅站内/京东/天猫链接" />
                                 </div>
     						</div>
-                            {% endif %}
-                            {% endif %}
-                        {% endif %}
 						
 						<div class="ui right floated aligned grid">
 							<div class="column">

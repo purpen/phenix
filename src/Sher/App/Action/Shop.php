@@ -625,7 +625,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$mode = 'create';
 		$data = array();
 		
-		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['content'] = $this->stash['content'];
 		$data['tags'] = $this->stash['tags'];
@@ -695,13 +694,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}else{
 				$mode = 'edit';
 
+		    $data['_id'] = $id;
 			  $ok = $model->apply_and_update($data);
 
         if($ok){
           
         }
 			}
-			
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
@@ -713,8 +712,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			
 			// 保存成功后，更新编辑器图片
-			Doggy_Log_Helper::debug("Upload file count[$file_count].");
 			if($file_count && !empty($this->stash['file_id'])){
+			  Doggy_Log_Helper::debug("Upload file count[$file_count].");
 				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}
 
@@ -731,7 +730,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 
    	$redirect_url = Sher_Core_Helper_Url::shop_view_url($id);       
-		
+
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
 
