@@ -57,7 +57,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
+			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'secrete_notify';
 			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/secrete_notify';
 			
 			// 获取用户openid
@@ -68,7 +68,6 @@
 			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
 			
 			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
-			//$input->SetOut_trade_no(Doggy_Config::$vars['app.wechat.mchid'].date("YmdHis")); // 商户订单号
 			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
 			$input->SetTotal_fee((float)$order_info['pay_money']*100); // 订单总金额,单位为分
 			$input->SetSpbill_create_ip($_SERVER["REMOTE_ADDR"]);
