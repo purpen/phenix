@@ -2,7 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+    .categorybox {
+        background-color: #fff;
+    }
 </style>
 {% endblock %}
 
@@ -72,61 +74,70 @@
     <div class="cover"></div>
 </div>
 
-<ul class="nav-categories">
-    {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
-	<li class="category {% if !category_id %} active{% endif %}">
-        <a href="{{ app_url_shop }}/c0">
-            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
+<div class="categorybox">
+    <ul class="nav-categories list">
+        {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
+    	<li class="category {% if !category_id %} active{% endif %}">
+            <a href="{{ app_url_shop }}/c0">
+                <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
+            </a>
         </a>
-    </a>
-	{% for cat in category.rows %}
-    <li class="category {{ cat.active}}">
-      	<a href="{{ cat.view_url }}">
-            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
-        </a>
-    </li>
-	{% endfor %}
-</ul>
-
-<div class="sorts cubes">
-    <div class="container">
-        <label><i class="cubes icon"></i>选项：</label>
-        <div class="ui horizontal list">
-          <a class="{% if type == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t0-s{{ sort }}-p{{ page }}">
-                全部
+    	{% for cat in category.rows %}
+        <li class="category {{ cat.active}}">
+          	<a href="{{ cat.view_url }}">
+                <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
             </a>
-            <a class="{% if type == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t2-s{{ sort }}-p{{ page }}">
-                可购买
-            </a>
-            <a class="{% if type == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t1-s{{ sort }}-p{{ page }}">
-                产品灵感
-            </a>
-            <a class="{% if type == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t3-s{{ sort }}-p{{ page }}">
-                积分兑换
-            </a>
-        </div>
-    </div>
+        </li>
+    	{% endfor %}
+    </ul>
 </div>
 
-<div class="sorts">
-    <div class="container">
-        <label><i class="sort content ascending icon"></i>排序：</label>
-        <div class="ui horizontal list">
-          <a class="{% if sort == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s0-p{{ page }}">
-                最新
-            </a>
-            <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s2-p{{ page }}">
-                热门
-            </a>
-            <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s1-p{{ page }}">
-                评分
-            </a>
+<div class="sorts cubes">
+	<div class="ui responsive grid">
+		<div class="row">
+            <div class="column">
+                  <div class="container">
+                      <label><i class="cubes icon"></i>选项：</label>
+                      <div class="ui horizontal list">
+                        <a class="{% if type == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t0-s{{ sort }}-p{{ page }}">
+                              全部
+                          </a>
+                          <a class="{% if type == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t2-s{{ sort }}-p{{ page }}">
+                              可购买
+                          </a>
+                          <a class="{% if type == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t1-s{{ sort }}-p{{ page }}">
+                              产品灵感
+                          </a>
+                          <a class="{% if type == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t3-s{{ sort }}-p{{ page }}">
+                              积分兑换
+                          </a>
+                      </div>
+                  </div>
+            </div>      
+        </div>
+		<div class="row sby">
+            <div class="column">
+                <div class="container">
+                    <label><i class="sort content ascending icon"></i>排序：</label>
+                    <div class="ui horizontal list">
+                      <a class="{% if sort == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s0-p{{ page }}">
+                            最新
+                        </a>
+                        <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s2-p{{ page }}">
+                            热门
+                        </a>
+                        <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s1-p{{ page }}">
+                            评分
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="shop list" id="shoplist">
-	<div class="ui wideping grid">
+	<div class="ui responsive grid">
 		<div class="row">
       
 			<div class="column">
