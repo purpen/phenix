@@ -2,14 +2,33 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.ui.topics.segment {
-    padding: 0;
-    margin-top: 1.5em;
-}
 .ui.topics.segment .ui.table {
     border: none;
 }
 
+#minslider.flexslider .slides {
+    height: 350px;
+}
+#minslider.flexslider .slides > li {
+    height: 350px;
+    border-radius: 4px;
+}
+#minslider.flexslider .slides > li > a {
+    height: 350px;
+}
+#minslider.flexslider .flex-direction-nav {
+    display:block;
+    height:auto;
+}
+#minslider.flexslider .flex-direction-nav a {
+    top: 50%;
+}
+#minslider.flexslider:hover .flex-direction-nav .flex-prev {
+    left: 30px;
+}
+#minslider.flexslider:hover .flex-direction-nav .flex-next {
+    right: 30px;
+}
 </style>
 {% endblock %}
 
@@ -30,6 +49,12 @@
 
       });
     });
+ 
+    $('#minslider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        slideshow: false,
+    });
     
 	// 加载更多动态
 	$('.ui.more.button').bind('click', function(){
@@ -47,36 +72,30 @@
 {% endblock %}
 
 {% block content %}
+<!-- 话题推荐位 -->
 <div class="mainwrap social" id="topics">
+    <div class="social topstick">
+        <div class="slidebox">
+            
+            {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+            <div id="minslider" class="flexslider flex-single">
+                <ul class="slides">                    
+	                {% for ad in adslide.rows %}
+                        <li style="background-image: url('{{ ad.cover.fileurl }}');">
+                            <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                                <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+                            </a>
+                        </li>
+					{% endfor %}
+                  </ul>
+            </div>
+            <div class="controls-dots"></div>
+            
+		</div>
+    </div>
+    
     <div class="mainleftwrap">
         <div class="mainleft">
-            
-            <!-- 话题推荐位 -->
-            {% topic_list var:'featurelist' type:1 size:3 %}
-            <div class="social topstick">
-                {% if featurelist.total_rows %}
-				<div class="ui socialstick stickcount three blocks">
-                    {% for ft in featurelist.rows %}
-						<!-- 判断话题是否可以显示 -->
-						{% if ft.published %}
-							<div class="block">
-								<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.thumbnails.medium.view_url }}');"{% endif %}>
-									<a class="transparent" href="{{ ft.view_url }}" target="_blank">
-										<div class="sub title">
-											{{ ft.title }}
-											<div class="extra count">
-												<i class="unhide icon"></i> <span>{{ ft.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.comment_count }}</span>
-											</div>
-										</div>
-									</a>
-								</div>
-							</div>
-						{% endif %}
-					{% endfor %}
-				</div>
-                {% endif %}
-            </div>
-            
             <!--精选话题-->
             <div class="ui topics segment">
 				{% topic_list var:'list' is_top:1 time:time sort:sort page:1 size:15 %}
@@ -101,7 +120,7 @@
 								{% endif %}
 							{% endfor %}
 						{% endif %}   
-                        
+            
 						{% for topic in list.rows %}
 							{% if !topic.top %}<!--过滤置顶帖子-->
 								<!-- 判断话题是否可以显示 -->
@@ -113,7 +132,7 @@
                         </tbody>
 					</table>
 				</div>
-			
+
 				<div class="ui mobile only block">
 					<table class="ui basic table">
 						{% for topic in list.rows %}
@@ -125,7 +144,7 @@
 						{% endfor %}
 					</table>
 				</div>
-                
+    
                 {% if list.total_page > 1 %}
                 <div class="auto loading">
                     <div class="ui gray more inverted button" data-page="{{ list.next_page }}">
@@ -134,7 +153,7 @@
                 </div>
                 {% endif %}
 			</div>
-            
+
             <!-- 发表话题 -->
             <div class="social submitbox">
             	<div class="ui responsive grid">
@@ -151,12 +170,14 @@
             		</div>
             	</div>
             </div>
-            
+
         </div>
-        
+
     </div>
     <div class="mainright">
         {% include "page/topic/rightbar.html" %}
+        {% include "page/topic/hotpeople.html" %}
+        {% include "page/topic/adwrap.html" %}
     </div>
 </div>
 {% endblock %}

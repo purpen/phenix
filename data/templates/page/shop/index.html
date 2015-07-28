@@ -41,16 +41,13 @@
     {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
 	<li class="category {% if !category_id %} active{% endif %}">
         <a href="{{ app_url_shop }}/c0">
-            <i class="huge icons">
-                <i class="big thin circle icon"></i>
-                <i class="sidebar icon"></i>
-            </i> 全部分类
+            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
         </a>
     </a>
 	{% for cat in category.rows %}
     <li class="category {{ cat.active}}">
       	<a href="{{ cat.view_url }}">
-            <i class="{{ cat.name }} icon"></i> {{ cat.title }}
+            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
         </a>
     </li>
 	{% endfor %}
@@ -94,7 +91,7 @@
 </div>
 
 <div class="shop list" id="shoplist">
-	<div class="ui responsive products grid">
+	<div class="ui wideping grid">
 		<div class="row">
 			{% product_list var:'list' page:page category_id:category_id is_shop:1 process_presaled:presaled type:type only_onsale:1 size:20 sort:sort %}
 			{% if list.rows %}
