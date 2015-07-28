@@ -581,6 +581,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    * ajax加载商品列表
    */
   public function ajax_load_list(){
+
+		return $this->to_taconite_page('page/shop/ajax_list.html');
   
   }
 	

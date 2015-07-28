@@ -17,6 +17,9 @@
             {% if product.stage == 5 %}
             <span class="ribbon presale">正在预售</span>
             {% endif %}
+            {% if product.stage == 12 %}
+            <span class="ribbon presale">积分兑换</span>
+            {% endif %}
         </div>
         <h2>
             <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">

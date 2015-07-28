@@ -8,12 +8,11 @@
 
 {% block layout_js %}
   <script type="text/javascript" >
-    function ajax_load_more(child_id, page, type){
+    function ajax_load_more(child_id, type, sort, page, size){
       var url = '{{ app_url_shop }}/ajax_load_list';
-      $.get(url, { category_id: child_id, page:page, type:type });
+      $.get(url, { category_id: child_id, sort:sort, page:page, type:type, size:size });
     }
   </script>
-
 
 {% endblock %}
 
@@ -31,8 +30,30 @@
 		});
 	});
 
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-150){
+      var stat = $('#product-more').attr('status');
+      var page = parseInt($('#product-more').attr('p')) + 1;
+      var cate_id = $('#product-more').attr('c');
+      var type = $('#product-more').attr('t');
+      var sort = $('#product-more').attr('s');
+
+
+      //防止频繁请求(在没加载完成时只允许请求一次)
+      if(stat==0){
+        $('#product-more').show();
+        $('#product-more').attr('status', 1);
+        ajax_load_more(cate_id, type, sort, page, 12);
+      }
+　　}
+  });
+
   // ajax加载商品列表
-  ajax_load_more('{{category_id}}', 1, 1);
+  ajax_load_more('{{category_id}}', '{{type}}', '{{sort}}', 1, 12);
 {% endblock %}
 
 {% block content %}
@@ -107,46 +128,16 @@
 <div class="shop list" id="shoplist">
 	<div class="ui wideping grid">
 		<div class="row">
-      <!--
-			{% product_list var:'list' page:page category_id:category_id is_shop:1 process_presaled:presaled type:type only_onsale:1 size:20 sort:sort %}
-			{% if list.rows %}
-			<div class="column">
-				<div class="ui four products cards">
-					{% for product in list.rows %}
-				  		{% include "block/product_card.html" %}
-				    {% endfor %}
-				</div>
-				{% if list.total_page > 1 %}
-				<div class="ui pagination grid">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-				{% endif %}
-			</div>
-			{% else %}
-			<div class="center aligned column">
-				<div class="empty result">
-					<div class="ui danger message">
-						没有更多鸟，可选择其他产品~~
-					</div>
-				</div>
-			</div>
-			{% endif %}
-      -->
       
 			<div class="column">
 				<div class="ui four products cards item-box">
           <!--ajax load list-->
-          <div style="text-align:center;margin:10px auto;">
-            <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
-          </div>
         </div>
       </div>
 
-      <div class="row" id="load-more-btn" style="display:none;">
-        <div class="ui center aligned four wide column">
-          <span><a href="javascript:void(0);" class="ui gray more button" total-page="" current-page="">查看更多</a></span>
-        </div>
+      <div id="product-more" c="{{ category_id }}" t="{{ type }}" s="{{ sort }}" p="{{ page }}" status="0" style="text-align:center;margin:10px auto;display:none;">
+        加载中...
+        <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
       </div>
 
 		</div>
