@@ -80,7 +80,7 @@
 			<div class="ui middle aligned grid">
 				<div class="row">
 					<div class="three wide column">
-						<h2 class="ui header">我的预约</h2>
+            <h2 class="ui header">我的预约</h2>
 					</div>
 					<div class="right aligned thirteen wide column">
 						<div class="ui horizontal bulleted list">
@@ -104,7 +104,7 @@
 					</div>
 				</div>
 			</div>
-			
+			 <span style="color:red;">*如需更改预约时间，请提前与管理员晓麦联系。微信：m1094199532</span>
 			{% d_appoint_list var:'list' user_id:user.id load_item:1 state:state page:page size:10 %}
 			
 			{% for d in list.rows %}
@@ -168,6 +168,9 @@
                         {%endif%}
                         {% if d.state==2 %}
                           结束
+                        {%endif%}
+                        {% if d.state==3 %}
+                          违约
                         {%endif%}
                       </p>
                   </div>

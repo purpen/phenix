@@ -12,7 +12,7 @@
   padding-bottom: 20px;
   background: #fff;
 }
-.blur-image-block {
+.backimage {
   height: 248px;
   overflow: hidden;
   position: absolute;
@@ -21,7 +21,7 @@
   z-index: 1;
   width: 100%;
 }
-.blur-image-block .blur-image {
+.backimage .backnei {
   margin: -4px;
   background-repeat: no-repeat;
   background-position: center top;
@@ -29,113 +29,62 @@
   height: 100%;
   display: block;
 }
-.blur-image {
-  filter: url(blur.svg#blur);
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  -ms-filter: blur(4px);
-  filter: blur(4px);
-  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=4, MakeShadow=false);
-}
-.top-content .text-block {
-  padding: 0 12px;
-  line-height: 20px;
-  color: #fff;
-}
-.top-content .text-block::before {
-  height: 145px;
-  display: inline-block;
-  vertical-align: middle;
-  content: "";
-}
-.top-content .round-bg {
-  background-image: url("{{ app_url_packaged }}/images/round_bg.png");
-  background-position: center top;
-  background-repeat: no-repeat;
-  height: 44px;
-  position: absolute;
-  top: 213px;
-  width: 100%;
-  background-size: 414px;
-}
-.top-content .avatar {
-  width: 92px;
-  height: 92px;
+.contaix .avatar {
+  width: 100px;
+  height: 100px;
   display: inline-block;
   margin: 0 auto;
-  border: 4px solid #fff;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border-radius: 50%;
+  border: 2px solid #fff;
+  -webkit-border-radius: 100rem;
+  -moz-border-radius: 100rem;
+  -ms-border-radius: 100rem;
+  -o-border-radius: 100rem;
+  border-radius: 100rem;
 }
-.top-content .avatar img {
-  width: 92px;
-  height: 92px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border-radius: 50%;
+.contaix .avatar img {
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 100rem;
+  -moz-border-radius: 100rem;
+  -ms-border-radius: 100rem;
+  -o-border-radius: 100rem;
+  border-radius: 100rem;
 }
-.top-content .avatar-name {
+.contaix .avatname {
   position: relative;
   z-index: 3;
   padding-top: 20px;
 }
-.top-content .avatar-name span {
+.contaix .avatname span {
   color: #474747;
 }
-.top-content {
+.contaix {
   position: relative;
   z-index: 5;
   text-align: center;
 }
-.say-con {
-  padding: 0 12px;
-  background: #fff;
+.descritret {
+  padding: 0 0px;
+  background: #f5f5f5;
 }
-.say-con p {
+.descritret p {
   padding: 11px;
-  background: #f7f7f7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
+  background: #f5f5f5;
   position: relative;
   font-size: 15px;
-  color: #474747;
+  color: #5d6266;
   font-weight: bold;
   line-height: 22px;
 	margin:0;
 }
-.say-con p::before {
-  content: '';
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #f7f7f7;
-  top: -7px;
-  left: 35%;
-  -webkit-transform: rotate(135deg);
-  -moz-transform: rotate(135deg);
-  -ms-transform: rotate(135deg);
-  -o-transform: rotate(135deg);
-  transform: rotate(135deg);
-}
-.myCard {
+.blockto {
   background: #fff;
-  padding: 24px 12px;
+  padding: 24px 0px;
 }
-.myCard a{
+.blockto a{
 	text-decoration: none;
 }
-.myCard .card {
+.blockto .card {
   display: -moz-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -151,13 +100,14 @@
   border-radius: 3px;
   overflow: hidden;
 }
-.myCard .pic {
+.blockto .photo {
   width: 80px;
   height: 80px;
   position: relative;
   float: left;
+  margin-left: 12px;
 }
-.myCard .pic img {
+.blockto .photo img {
   width: 100%;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -165,7 +115,7 @@
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-.myCard .des {
+.blockto .descrit {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -177,8 +127,8 @@
   padding: 14px 12px;
   overflow: hidden;
 }
-.myCard .des .tit {
-  color: #474747;
+.blockto .descrit .tit {
+  color: #5d6266;
   height: 38px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -187,38 +137,24 @@
   display: -webkit-box;
 	margin:0;
 }
-.myCard .des .xinxi {
+.blockto .descrit .infor {
   color: #f36;
   font-size: 12px;
 	margin:0;
 }
-.myCard .des .xinxi span {
+.blockto .descrit .infor span {
   position: relative;
-  padding-left: 8px;
+  padding-left: 3px;
 }
-.myCard .des .xinxi span::before {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #fe5341;
-  top: 6px;
-  left: 0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-}
-.try-user{
+.trypeo{
 	padding-bottom: 0px;
 	background: #f7f7f7;
 }
-.try-user .tabTit {
+.trypeo .tabtop {
   background: #fff;
   padding: 0 12px;
 }
-.try-user .show ul {
+.trypeo .show ul {
   display: -moz-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -227,7 +163,7 @@
   display: -ms-flex;
   display: flex;
 }
-.tab .tabLabel {
+.table .tablab {
   display: -moz-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -241,7 +177,7 @@
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-.try-user .show ul li {
+.trypeo .show ul li {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -251,7 +187,7 @@
   display: block;
   text-align: center;
 }
-.tab .tabLabel li {
+.table .tablab li {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -261,68 +197,55 @@
   display: block;
   text-align: center;
 }
-.try-user .show ul li a {
-  border: 1px solid #b8b7bb;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  -ms-border-radius: 100%;
-  -o-border-radius: 100%;
-  border-radius: 100%;
-  height: 80px;
-  width: 80px;
-  text-align: center;
-  display: inline-block;
-  color: #b8b7bb;
-}
-.try-user .show ul li a p {
+.trypeo .show ul li a p {
   line-height: 30px;
 	margin:0;
 }
-.try-user .show ul li a p {
-  padding-top: 20px;
-  font-size: 30px;
+.trypeo .show ul li a p {
+  font-size: 18px;
+  color: #5d6266;
 }
-.try-user .show ul li a em {
+.trypeo .show ul li a em {
   display: block;
   font-size: 12px;
 }
-.try-user .show ul li .tit {
+.trypeo .show ul li .tit {
   padding: 10px 0;
 }
-.tab .tabLabel li:last-child {
+.table .tablab li:last-child {
   border-right: 0 none;
 }
-.try-user .show ul .on {
+.trypeo .show ul .on {
   border-bottom: 2px solid #f36;
 }
-.noDis {
+.dactive {
   display: none;
 }
-.try-user .rank {
+.trypeo .rank {
   margin-bottom: 15px;
   padding: 10px 12px;
 }
-.try-user .rank .tips {
+.trypeo .rank .iipo {
   color: #a3a3a3;
   font-size: 10px;
   padding: 2px 0 12px 0;
 }
-.try-user .rank li {
+.trypeo .rank li {
 	display: inline-block;
   padding: 0;
 }
-.rank .avt {
+.rank .avtto {
   height: 32px;
 }
-.avt a {
+.avtto a {
   border: none!important;
 }
-.avt a {
+.avtto a {
   border-color: #fff !important;
 }
-.try-user .avt a {
-  width: 30px;
-  height: 30px;
+.trypeo .avtto a {
+  width: 50px;
+  height: 50px;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   -ms-border-radius: 30px;
@@ -331,11 +254,12 @@
   border: 1px solid #fff;
   display: inline-block;
   background-size: 100%;
+  margin-top: 7px;
 }
-.try-user .ticket {
+.trypeo .kert {
   color: #474747;
 }
-.try-user .ticket li {
+.trypeo .kert li {
   display: -moz-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -345,7 +269,7 @@
   display: flex;
   padding: 10px 12px;
 }
-.try-user .ticket li .progressBar {
+.trypeo .kert li .progresss {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -355,36 +279,36 @@
   display: block;
   padding: 0 20px;
 }
-.try-user .ticket li .progressBar .ticketInfo {
+.trypeo .kert li .progresss .raktk {
   overflow: hidden;
   line-height: 20px;
   height: 20px;
   margin: 0;
 }
-.try-user .ticket li .progressBar .ticketInfo .name i {
+.trypeo .kert li .progresss .raktk .name i {
   width: 17px;
   height: 17px;
   display: inline-block;
   margin-left: 10px;
 }
-.try-user .ticket li .progressBar .ticketInfo .name i img {
+.trypeo .kert li .progresss .raktk .name i img {
   width: 100%;
 }
-.try-user .ticket li .progressBar .ticketInfo .progressNum {
+.trypeo .kert li .progresss .raktk .progressci {
   float: right;
   line-height: 20px;
   height: 20px;
 }
-.try-user .ticket li .progressBar .bar {
-  background: #ebebeb;
-  height: 2px;
+.trypeo .kert li .progresss .bar {
+  background: #999;
+  height: 4px;
   margin-top: 25px;
 }
-.try-user .ticket li .progressBar .bar span {
+.trypeo .kert li .progresss .bar span {
   display: block;
-  height: 2px;
+  height: 4px;
 }
-.try-user .ticket li:nth-child(even) {
+.trypeo .kert li:nth-child(even) {
   background: #fff;
 }
 ul,li{
@@ -395,12 +319,12 @@ ul,li{
 ul a{
 	text-decoration: none;
 }
-.layer {
+.barrer {
   margin: 0;
   height: 72px;
   line-height: 72px;
 }
-.submitBtn {
+.subbtn {
   border: 0 none;
   padding: 0;
   display: -moz-box;
@@ -411,27 +335,27 @@ ul a{
   display: -ms-flex;
   display: flex;
 }
-.layer {
+.barrer {
   background: rgba(0,0,0,0.7);
   position: fixed;
   bottom: 0;
   width: 100%;
   z-index: 12;
 }
-.submitBtn .play {
-  background: #80c269;
+.subbtn .play {
+  background: #f36;
 }
-.layer a {
+.barrer a {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-.submitBtn a {
+.subbtn a {
   position: relative;
 }
-.layer a {
+.barrer a {
   height: 46px;
   line-height: 46px;
   -webkit-border-radius: 10px;
@@ -440,7 +364,7 @@ ul a{
   -o-border-radius: 10px;
   border-radius: 10px;
 }
-.submitBtn a {
+.subbtn a {
   text-align: center;
   height: 46px;
   line-height: 46px;
@@ -460,13 +384,13 @@ ul a{
   display: block;
   font-size: 20px;
 }
-.layer a {
+.barrer a {
   float: right;
   margin: 13px 15px 0 17px;
   color: #fff;
   text-decoration: none;
 }
-.shareLayer {
+.frideshare {
   background: rgba(0,0,0,0.5);
   position: fixed;
   bottom: 0;
@@ -474,6 +398,22 @@ ul a{
   height: 100%;
   z-index: 13;
 }
+/*.kert li:first-child{
+  background:#f26202;
+  color:#fff !important;
+}
+.kert li:first-child .bar span,.kert li:nth-child(2) .bar span,.kert li:nth-child(3) .bar span{
+  background:#fff !important;
+}
+.kert li:nth-child(2){
+  background:#eaae00 !important;
+  color:#fff !important;
+}
+.kert li:nth-child(3){
+  background:#a7bd0d;
+  color:#fff !important;
+}*/
+
 </style>
 {% endblock %}
 
@@ -481,14 +421,14 @@ ul a{
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 
-    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来为我拉票吧!';
+    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来支持我吧!';
     {% if try.cover %}
       var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
     {%else%}
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}';
-    var desc_str = '太火鸟-新品试用';
+    var descritc_str = '太火鸟-新品试用';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -503,7 +443,7 @@ ul a{
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
      wx.onMenuShareAppMessage({
       title: m_name,
-      desc: desc_str,
+      descritc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -514,7 +454,7 @@ ul a{
     // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareTimeline({
       title: m_name,
-      desc: desc_str,
+      descritc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -525,7 +465,7 @@ ul a{
     // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareQQ({
       title: m_name,
-      desc: desc_str,
+      descritc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -536,7 +476,7 @@ ul a{
     // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareWeibo({
       title: m_name,
-      desc: desc_str,
+      descritc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -547,10 +487,10 @@ ul a{
 
   //记录分享数/同时送积分
   function record_share_num(){
-
+    $('#mask').css('display','none');
   }
 
-  //拉票排行
+  //支持排行
   function fetch_rank(){
     var url = "{{ app_url_wap }}/try/ajax_fetch_rank";
     var apply_id = "{{ apply._id }}";
@@ -593,27 +533,25 @@ $('.support-btn').click(function(){
     $.post(url, {apply_id:apply_id, type:1 });
 });
 
-//获取拉票排行
+//获取支持排行
 fetch_rank();
 
 {% endblock %}
 {% block content %}
 <div class="try-top">
-	<div class="blur-image-block">
-		<i class="blur-image" style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%"></i>
+	<div class="backimage" style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%">
 	</div>
-	<div class="top-content">
-		<div class="text-block"></div>
-		<div class="round-bg"></div>
-		<div class="avatar avatar-92">
+	<div class="contaix">
+		<div style="margin-top: 50px;height:145px;"></div>
+		<div class="avatar">
 			<img src="{{ apply.user.big_avatar_url }}">
 		</div>	
-		<div class="avatar-name">
-      <span class="wish-name">{{ apply.user.nickname }}</span>
+		<div class="avatname">
+      <span class="name-watch">{{ apply.user.nickname }}</span>
 		</div>
 	</div>
 </div>
-<div class="say-con">
+<div class="descritret">
 	<p>
 		我正在申请{{ try.title }}免费试用机会，
 		{% if !try.is_end %}离投票结束还有
@@ -623,38 +561,38 @@ fetch_rank();
 		{% endif %}
 	</p>
 </div>
-<div class="myCard">
+<div class="blockto">
 	<a href="{{ try.view_url }}" title="{{ try.title }}" target="_blank">
 		<div class="card">
-			<div class="pic">
+			<div class="photo">
 				<img src="{{ try.cover.thumbnails.resp.view_url }}" alt="{{ try.title }}" width="80" height="80">
 			</div>
-			<div class="des">
+			<div class="descrit">
 			  <p class="tit">{{ try.title }}</p>
-        <p class="xinxi">
-          <span>免费试用</span>
-          <span>{{ try.try_count }} 个</span>
-          <span>{{ try.apply_count }} 人申请</span>
+        <p class="infor">
+          <span>免费试用&nbsp;/</span>
+          <span>{{ try.try_count }} 个&nbsp;/</span>
+          <span>{{ try.apply_count }} 人申请&nbsp;</span>
          </p>
        </div>
 		</div>
 	</a>
 </div>
 
-<div class="try-user" id="rank-box">
+<div class="trypeo" id="rank-box">
   <!--ajax fetch rank-->
 </div>
 
 
 {% if !try.is_end %}
   {% if is_current_user %}
-    <div class="layer submitBtn showdiv"><a class="play">立即拉票</a></div>
+    <div class="barrer subbtn showdiv"><a class="play">求支持</a></div>
   {%else%}
-    <div class="layer submitBtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+    <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
   {%endif%}
 {%endif%}
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);" align="center">
-  <div class="shareLayer">
+  <div class="frideshare">
 	<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%" >
   </div>
 </div>

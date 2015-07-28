@@ -1,9 +1,6 @@
 {%extends 'layout/column.html'%}
 {% block page_css %}
 <style type="text/css">
-.adstick.list {
-    margin: 1.5rem 0;
-}
 
 </style>
 {% endblock %}
@@ -39,7 +36,7 @@
 					<p class="snippet">
 						{{ ad.sub_title }}
 					</p>
-					<a class="ui large inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+					<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
 				</div>
 				{% else %}
 				<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
@@ -61,23 +58,20 @@
     {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
 	<li class="category">
         <a href="{{ app_url_shop }}/c0">
-            <i class="huge icons">
-                <i class="big thin circle icon"></i>
-                <i class="sidebar icon"></i>
-            </i> 全部分类
+            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
         </a>
     </a>
 	{% for cat in category.rows %}
     <li class="category {{ cat.active}}">
       	<a href="{{ cat.view_url }}">
-            <i class="{{ cat.name }} icon"></i> {{ cat.title }}
+            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
         </a>
     </li>
 	{% endfor %}
 </ul>
 
 <div class="adstick list">
-	<div class="ui adverts grid">
+	<div class="ui adverts wideping grid">
 		<div class="row">
 			<div class="column">
         		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
@@ -107,7 +101,7 @@
 </div>
 
 <div class="shop list" id="shoplist">
-	<div class="ui newest products grid">
+	<div class="ui newest wideping grid">
 		<div class="row">
 			<div class="column">
                 {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}

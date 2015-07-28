@@ -239,6 +239,24 @@
 					}
 				]
 			},
+			wx: {
+				identifier  : 'wx',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '微信号不能为空'
+					}
+				]
+			},
+			qq: {
+				identifier  : 'qq',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'QQ号不能为空'
+					}
+				]
+			},
 			content: {
 				identifier  : 'content',
 				rules: [
@@ -340,7 +358,7 @@
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
-								<div>免费试用</div> &nbsp;  <div>{{ try.try_count }} 个</div>&nbsp; <div>{{ try.apply_count }} 人申请</div>
+								<label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
 							</div>
 						</div>
 					</h4>
@@ -454,7 +472,7 @@
 		{% if !try.is_end %}
       {% if is_applied %}
       <a href="javascript:void(0);" class="ui magenta active inverted support-btn button">
-          <!--<i class="ticket icon"></i>--> 我要拉票
+          <!--<i class="ticket icon"></i>--> 求支持
         </a>
       {%else%}
         <a href="javascript:void(0);" class="ui magenta active applytry inverted button">

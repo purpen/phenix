@@ -81,12 +81,6 @@
 {% block content %}
 
 <div id="homepage">
-	<div class="response hide-on-mobile" data-650="transform: scale(0,0);opacity:0;" data-651="transform: scale(1,1);opacity:1;">
-		<img src="{{ app_url_packaged }}/images/dimension.jpg" width="100%" alt="太火鸟-中国最火爆的智能硬件孵化平台"/>
-		<div class="attention">
-			关注太火鸟
-		</div>
-	</div>
 	<div id="fixedslide" class="frame">
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
 		<div class="ui slide">
@@ -140,146 +134,109 @@
             {%endif%}
         </div>
     </section>
-        
+    
+    <!--推荐新品-->    
 	<section class="ui big shoplist block">
-		<div class="ui responsive grid">
-			<div class="two column middle aligned row">
-				<div class="twelve wide column">
-					<h2 class="block title">
-						<a href="{{ app_url_shop }}/c0" class="ui line">新品</a> <small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small>
-					</h2>
-				</div>
-                <div class="right aligned four wide column">
-					<a href="{{ app_url_shop }}/c0" class="ui inverted grey button">
-						查看更多
-					</a>
+    	<div class="ui newest wideping grid">
+    		<div class="row">
+    			<div class="column">
+                    {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
+                    {% if newest.rows %}
+                    <div class="ui four products cards">
+    					{% for product in newest.rows %}
+    				  		{% include "block/product_card.html" %}
+    				    {% endfor %}
+                    </div>
+    				{% endif %}
                 </div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<div class="ui four products cards">
-						{% for product in products %}
-					  		{% include "block/product_card.html" %}
-					    {% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
+            </div>
+        </div>
 	</section>
-	
-	<section class="ui small topic white background block">
-	    <div class="ui responsive sticktopic grid">
-			<div class="two column middle aligned row">
-				<div class="twelve wide column">
-					<h2 class="block title">
-						<a href="{{ app_url_topic }}" class="ui line">社区</a> <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快</small>
-					</h2>
-				</div>
-				<div class="right aligned four wide column">
-					<a href="{{ app_url_topic }}" class="ui inverted grey button">
-						进入社区
-					</a>
-                </div>
-			</div>
-			<div class="row">
-				<div class="column">
-                    {% ad_list var:'stkad' size:4 name:'home_page_topic' state:2 %}
-                    {% if stkad.total_rows %}
-                    <div class="ui socialstick stickcount four blocks">
-                        {% for skad in stkad.rows %}
-                        <div class="block">
-            				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
-                                <a class="transparent" href="{{ skad.view_url }}" target="_blank">
-            						{% if skad.cate_title %}
-            						<label class="ui cate label">{{ skad.cate_title }}</label>
-            						{% endif %}
-            						<div class="sub title">
-            							{{ skad.title }}
-                						<div class="extra count">
-                							<i class="unhide icon"></i> {{ skad.click_count }}
-                						</div>
-            						</div>
-                                </a>
-            				</div>
+    
+    <!--社区部分-->
+	<div class="ui wideping grid">
+		<div class="row">
+			<div class="center aligned column">
+                <!--社区头条-->
+				{% if tt %}
+                    <div class="ui four products cards">
+					<!-- 判断话题是否可以显示 -->
+					{% if tt.published %}
+                        <div class="card special cat">
+                            <div class="problock">
+                                <a title="{{ tt.title }}" href="{{ tt.view_url }}" style="background-image: url({{ tt.cover.fileurl }});" class="thumb" target="_blank"></a>
+                                <h2>
+                                    <a href="{{ tt.view_url }}" title="{{ tt.title }}" class="ui line" target="_blank">
+                        			    {{ tt.title|truncate, 32, '' }}
+                        		    </a>
+                                </h2>
+                                <div class="excerpt">
+                                    <p>{{ topic.strip_description|truncate, 90, '' }}</p>
+                                </div>
+                                <div class="cats">
+                                    <span class="unit">@</span>{{ topic.user.nickname }}
+                                </div>
+                                <span class="counter">
+                                    <i class="heart icon"></i> {{ topic.love_count }}
+                                </span>
+                            </div>
+                            <div class="speblock">
+                                <div class="randomcats">
+                                    <a class="catlink" href="{{ tt.view_url }}" target="_blank" style="background-image: url('{{ tt.cover.fileurl }}');">
+                                        <h2>{{ tt.title|truncate, 32, '' }}</h2>
+                                        <p>{{ topic.strip_description|truncate, 90, '' }}</p>
+                                        <span class="more">浏览更多</span>
+                                    </a>
+                                </div>
+                                <div class="ribbons">
+                                    <span class="ribbon stick">社区头条</span>
+                                </div>
+                            </div>
                         </div>
-                        {% endfor %}
+					{% endif %}
                     </div>
-                    {% endif %}
-                    
-					{% topic_list var:'list' type:1 page:1 size:6 %}
-                    <div class="ui two homesocial blocks">
-                        {% for topic in list.rows %}
-							<!-- 判断话题是否可以显示 -->
-							{% if topic.published %}
-							<div class="block">
-								<div class="ui headline header">
-									{% if topic.cover %}
-									<a class="ui image" href="{{ topic.view_url }}" title="{{ topic.title }}">
-											{% if loop.odd %}
-										<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区"/>										{% else %}
-													<img src="{{ topic.cover.thumbnails.mini.view_url }}" alt="{{ topic.title }}"/>	
-											{% endif %}
-									</a>
-									{% else %}
-									<a class="ui small avatar image" href="{{ topic.user.home_url }}" title="{{ topic.user.nickname }}">
-										<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-									</a>
-									{% endif %}
-									<div class="content">
-										<a class="ui line" href="{{ topic.view_url }}" title="{{ topic.title }}">
-											{{ topic.title|truncate 32 }}
-										</a>
-										<div class="sub header">
-											{{ topic.strip_description|truncate 100 }}
-										</div>
-										<div class="extra">
-											<div class="ui horizontal list">
-												<div class="item">
-													<a href="{{ topic.user.home_url }}" class="ui magenta link">@{{ topic.user.nickname }}</a>
-												</div>
-												<div class="item">
-													<i class="unhide icon"></i> {{ topic.view_count }}
-												</div>
-												<div class="item">
-													<i class="thumbs outline up icon"></i> {{ topic.love_count }}
-												</div>
-												
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-						{% endfor %}
+				{% endif %}
+                
+                <!--社区推荐-->
+        		{% ad_list var:'stkad' page:1 size:4 state:2 name:'home_page_topic' %}
+                {% if stkad.total_rows %}
+                <div class="ui socialstick stickcount four blocks">
+                    {% for skad in stkad.rows %}
+                    <div class="block">
+        				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
+                            <a class="transparent" href="{{ skad.view_url }}" target="_blank">
+        						<div class="sub title">
+        							{{ skad.title }}
+            						<div class="extra count">
+            							<i class="unhide icon"></i> {{ skad.click_count }}
+            						</div>
+        						</div>
+                            </a>
+        				</div>
                     </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!--社区话题-->
+                {% topic_list var:'topics' type:1 page:1 size:12 %}
+                <div class="ui four products topics cards">
+					{% for topic in topics.rows %}
+						<!-- 判断话题是否可以显示 -->
+						{% if topic.published %}
+                            {% include "block/topic_card.html" %}
+                        {% endif %}
+				    {% endfor %}
 				</div>
+                
+                <div class="resultbox">
+                    <a href="{{ app_url_topic }}" class="ui magenta inverted more button">
+                       <i class="search icon"></i> 查看更多话题 
+                    </a>
+                </div>
 			</div>
 		</div>
-	</section>
-
-  	<section class="ui big together white background block">
-    	<div class="ui responsive grid">
-      	  	<div class="row">
-                <div class="column">
-    				<h2 class="block title">
-    					合作伙伴
-    				</h2>
-                </div>
-      	  	</div>
-      	  	<div class="row">
-        		<div class="column">
-          			<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_technode.jpg" alt="动点科技"></a>
-          		  	<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="{{ app_url_packaged }}/images/logo_geekpark.jpg" alt="极客公园"></a>
-          		  	<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="{{ app_url_packaged }}/images/logo_leikeji.jpg" alt="雷科技"></a>
-          		  	<a href="http://www.shijue.me/" title="视觉中国" target="_blank"><img src="{{ app_url_packaged }}/images/logo_shijue.jpg" alt="视觉中国"></a>
-          		  	<a href="http://techcrunch.cn" title="TC" target="_blank"><img src="{{ app_url_packaged }}/images/logo_tech.jpg" alt="TC"></a>
-          		  	<a href="http://www.huodongxing.com/" title="活动行" target="_blank"><img src="{{ app_url_packaged }}/images/logo_huodongxing.jpg" alt="活动行"></a>
-					<a href="http://www.zhidx.com/" title="智东西" target="_blank"><img src="{{ app_url_packaged }}/images/logo_zhidongxi.jpg" alt="智东西"></a>
-					<a href="http://www.1243.com/" title="三分微视" target="_blank"><img src="{{ app_url_packaged }}/images/logo_sfws.jpg" alt="三分微视"></a>
-        		</div>
-      	  	</div>
-    	</div>
-  	</section>
+	</div>
 	
 </div>
 {% endblock %}

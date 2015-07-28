@@ -15,8 +15,7 @@
 <div class="mainwrap social" id="activitypage">
     <div class="mainleftwrap">
         <div class="mainleft">
-			<div class="ui three products activity cards">
-                
+			<div class="ui two products activity cards">
                 {% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
                 
                 {% if current_list.rows %}

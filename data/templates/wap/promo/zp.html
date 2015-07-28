@@ -36,10 +36,20 @@
 		position: fixed;
 		right: 5px;
 		top: 5px;
-		z-index: 100000;
+		z-index: 9;
 	}
 	#music-control.playing{
 		-webkit-animation: 2.3s spin linear infinite;
+		animation: 2.3s spin linear infinite;
+	}
+	@-webkit-keyframes spin {
+	    0% {
+	        -webkit-transform: rotateZ(0deg);
+	    }
+
+	    100% {
+	        -webkit-transform: rotateZ(360deg);
+	    }
 	}
 	#loading{
 	  background: #fff;
@@ -1781,6 +1791,24 @@
 		animation-delay: 2.5s !important;
 	  -webkit-animation-delay: 2.5s !important;
 	}
+	.icon{
+	  position: absolute;
+    left: 20px;
+    top: 5%;
+    width: 15%;
+    z-index: 9;
+    opacity:0;
+    animation-delay: 1.8s !important;
+	  -webkit-animation-delay: 1.8s !important;
+	}
+	.frideshare {
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 13;
+  }
 </style>
 	<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
 	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
@@ -1857,6 +1885,8 @@
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 4, count_name:'count', type: 4, kind:4 });
+    // 分享送红包
+    phenix.redirect("{{ app_url_wap }}/promo/zp_share");
   }
 
 	</script>
@@ -1971,6 +2001,12 @@
 						//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
 					}
 			});
+			$('img.icon').click(function(){
+          $('#mask').css('display','');
+      });
+      $('#mask').click(function(){
+          $('#mask').css('display','none');
+      });
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
 	
@@ -2209,12 +2245,20 @@
 
 <div class="page page-13-1 hide">
 	<div class="wrap">
+	  <img class="icon page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zpicon.gif">
 		<img class="st zwn1 zpw1 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp13-2.png">
 		<a href="http://m.taihuoniao.com/topic/view-103728-1.html"><img class="st zwn" src="http://frstatic.qiniudn.com/images/promo/zp/zp13-1.png"></a>
 		<img class="st zwn2 page-logo" src="http://frstatic.qiniudn.com/images/promo/zp/zp13-3.png">
 		<img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
 	</div>
 </div>	
+
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/promo/zp/fenxiang1.png" width="100%" >
+  </div>
+</div>
 {% endblock %}
 
 

@@ -148,10 +148,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			return $this->to_redirect($redirect_url);
 		}
 		
-		// 设置cookie
+		// 设置cookie 注册页面不设置返回地址,因为应该都是从登录页跳过来,已记录地址
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
         if (!empty($return_url)) {
-			@setcookie('auth_return_url', $return_url, 0, '/');
+			//@setcookie('auth_return_url', $return_url, 0, '/');
         }
 		
 	    $this->gen_login_token();
