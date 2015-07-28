@@ -153,14 +153,14 @@
 				//sidebar menu
 				$('a.launch').on('click',function(e){
 					e.preventDefault();
-					$('.ui.sidebar.menu').addClass('active visible');
-					$(document.body).addClass('left pushed');
-					$('#Hmask').css('display','');
+					$('.ui.sidebar.menu').addClass('overlay visible');
+					//$(document.body).addClass('left pushed');
+					$('#cover').css('display','');
 				});
-				$('#Hmask').click(function(){
-					$('.ui.sidebar.menu').removeClass('active visible');
-					$(document.body).removeClass('left pushed');
-			    $('#Hmask').css('display','none');
+				$('#cover').click(function(){
+					$('.ui.sidebar.menu').removeClass('overlay visible');
+					//$(document.body).removeClass('left pushed');
+			    $('#cover').css('display','none');
 				});
 				
 				//ajax加载签到数据
