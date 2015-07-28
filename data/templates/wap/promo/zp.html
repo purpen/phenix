@@ -1818,7 +1818,6 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
 	<script type="text/javascript" >
     var m_name = '年轻多金潜力股，求扑倒！';
     var img_url = 'http://frstatic.qiniudn.com/images/promo/zp/pin3.jpg';
@@ -1887,6 +1886,18 @@
     // 分享送红包
     phenix.redirect("{{ app_url_wap }}/promo/zp_share");
   }
+
+	</script>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+	<script type="text/javascript" >
+
+		//s=window.innerHeight/500;
+		//ss=250*(1-s);
+
+		//$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
 
 		var pageIndex = 1,
 			pageTotal = $('.page').length,
@@ -1998,16 +2009,9 @@
       $('#mask').click(function(){
           $('#mask').css('display','none');
       });
-
-    document.write('<style>#loading{display:none}</style>');
 	</script>
-{% endblock %}
-
-{% block layout_js %}
-	<script type="text/javascript" >
-  
-  </script>
-
+	<script>document.write('<style>#loading{display:none}</style>');</script> 
+	
 {% endblock %}
 
 {% block content %}
