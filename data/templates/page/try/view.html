@@ -783,7 +783,36 @@
 	</div>
 </div>
 
-<div class="ui small lapiao modal"></div>
+<div id="show-support-box">
+  {% if !try.is_end %}
+    {% if is_applied %}
+    <div class="ui small lapiao modal">
+        <i class="flat close icon"></i>
+        <div class="content">
+          <div class="ui grid">
+            <div class="ui ten wide column">
+              <h3 class="ui header">
+                <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+                <div class="content">{{ apply.user.nickname }}
+                  <div class="sub header">
+                    {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
+                  </div>
+                </div>
+              </h3>
+              
+              <h2 class="ui header">恭喜您申请成功</h2>
+              <p>分享到朋友圈，获取更多支持， 更有机会获取试用资格!</p>
+            </div>
+            <div class="ui six wide column">
+              <h2 class="ui header">扫码分享</h2>
+              <div id="lapiao"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {%endif%}
+  {%endif%}
+</div>
 {% include "block/apply_try.html" %}
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
