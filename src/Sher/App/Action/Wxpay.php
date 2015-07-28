@@ -57,7 +57,7 @@
 			
 			// 支付完成通知回调接口
 			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
-			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/native';
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/native?rid='.$rid;
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
@@ -90,10 +90,18 @@
 		 */
 		public function native(){
 			
+			// 返回微信支付结果通知信息
 			$notify = new Sher_App_Action_WxNotify();
 			$result = $notify->Handle(false);
-			
 			Doggy_Log_Helper::warn($result);
+			Doggy_Log_Helper::warn(json_encode($_GET));
+			Doggy_Log_Helper::warn(json_encode($_POST));
+/*			
+	{"appid":"wx75a9ffb78f202fb3","bank_type":"CFT","cash_fee":"1","fee_type":"CNY","is_subscribe":"Y","mch_id":"1219487201","nonce_str":"icw7nfq668sxcqw9plyrqwoophl2uvmn","openid":"oEjaBt4W3xwhr5WiwtFGSTcVDRPA","out_trade_no":"121948720120150728235704","result_code":"SUCCESS","return_code":"SUCCESS","sign":"FCE0C0D4ED894A50E2CFD63384BC5904","time_end":"20150728235720","total_fee":"1","trade_type":"JSAPI","transaction_id":"1008530916201507280498186563"}
+*/
+			
+			// 将返回的数据转为数组
+			$arr_back = json_decode($result,true);
 			
 			$trade_mode  = $this->stash['trade_mode'];
 			$trade_state = $this->stash['trade_state'];
