@@ -55,14 +55,14 @@
 				return $this->show_message_page('订单[$rid]已付款！', false);
 			}
 			
-			// 支付完成通知回调接口，255 字节以内
-			$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'direct_native';
+			// 支付完成通知回调接口
+			$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
 			
-			//①、获取用户openid
+			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
 			$openId = $tools->GetOpenid();
 			
-			//②、统一下单
+			// 统一下单
 			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
 			
 			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
@@ -85,26 +85,14 @@
 		}
 		
 		/**
-		* 支付成功后的跳转
-		*/
-	   public function show(){
-		   $rid = $this->stash['rid'];
-		   if (empty($rid)) {
-			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
-		   }
-		   $model = new Sher_Core_Model_Orders();
-		   $order_info = $model->find_by_rid($rid);
-		   
-		   $this->stash['order_info'] = $order_info;
-		   return $this->to_html_page("wap/order_view.html");
-	   }
-	
-		/**
 		 * 微信支付回调URL
 		 */
-		public function direct_native(){
+		public function native(){
 			
-			Doggy_Log_Helper::warn("Wechat order notice!");
+			$notify = new PayNotifyCallBack();
+			$result = $notify->Handle(false);
+			
+			Doggy_Log_Helper::warn($result);
 			
 			$trade_mode  = $this->stash['trade_mode'];
 			$trade_state = $this->stash['trade_state'];
@@ -154,36 +142,20 @@
 			
 			return $this->to_raw('success');
 		}
-			
-		/**
-		 * 警告通知URL
-		 */
-		public function warning(){
-			Doggy_Log_Helper::warn("Wechat warning notice!");
-			$postData = $this->stash['postData'];
-			if (!empty($postData)) {
-				$receive = (array)simplexml_load_string($postData, 'SimpleXMLElement', LIBXML_NOCDATA);
-				$new_data = array(
-					'error_type' => $receive['ErrorType'],
-					'description'  => $receive['Description'],
-					'alarm_content' => $receive['AlarmContent'],
-					'timestamp' => $receive['TimeStamp'],
-					'app_signature' => $receive['AppSignature'],
-					'sign_method' => $receive['SignMethod'],
-				);
-				$model = new Sher_Core_Model_Warnings();
-				$model->create($new_data);
-			}
-			
-			return $this->to_raw('success');
-		}
 		
 		/**
-		 * 维权通知URL
-		 */
-		public function feedback(){
-			Doggy_Log_Helper::warn("Wechat feedback notice!");
-			return $this->to_raw('success');
-		}
+		* 支付成功后的跳转
+		*/
+	   public function show(){
+		   $rid = $this->stash['rid'];
+		   if (empty($rid)) {
+			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		   }
+		   $model = new Sher_Core_Model_Orders();
+		   $order_info = $model->find_by_rid($rid);
+		   
+		   $this->stash['order_info'] = $order_info;
+		   return $this->to_html_page("wap/order_view.html");
+	   }
 	}
 ?>

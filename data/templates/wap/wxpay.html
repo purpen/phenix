@@ -45,7 +45,9 @@
 		}
 	}
 	
-	callpay();
+	$('#pay_yes').click(function(){
+		callpay();
+	});
 	
 {% endblock %}
 
@@ -54,8 +56,8 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<h5 class="ui dividing header">支付订单</h5>
-				<div class="ui green message" >微信支付订单</div>
+				<h5 class="ui dividing header">微信支付订单</h5>
+				<div class="ui green message" id="pay_yes">点击确认支付</div>
 			</div>
 		</div>
 	</div>
