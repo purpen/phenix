@@ -27,18 +27,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	public function execute(){
 		return $this->getlist();
 	}
-	
-	/**
-	  *
-	  */
-	public function tries(){
-		return $this->to_html_page('wap/tries.html');
-	}
-	
-	
 
 	/**
-	  *拉票
+	  *支持
 	 */
 	public function apply_success(){
     $apply_id = isset($this->stash['apply_id'])?$this->stash['apply_id']:null;
@@ -59,12 +50,17 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     }
     $apply_user_id = $apply['user_id'];
     $is_current_user = false;
+    $is_support = false;
     // 是否是当前用户
     if($this->visitor->id){
       if($apply_user_id==(int)$this->visitor->id){
         $is_current_user = true;
       }else{
-      
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_support = $attend_model->check_signup($this->visitor->id, $apply['_id'], Sher_Core_Model_Attend::EVENT_APPLY);
+        if($is_support){
+          $this->stash['is_support'] = true;
+        }
       }
     }
 
