@@ -585,5 +585,239 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		return $this->to_taconite_page('page/shop/ajax_list.html');
   
   }
+
+	/**
+	 * 提交入口
+	 */
+	public function idea_submit(){
+
+		$this->stash['mode'] = 'create';
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+		
+		return $this->to_html_page('page/shop/idea_submit.html');
+	}
+
+	/**
+	 * 保存产品信息
+	 */
+	public function idea_save(){
+		// 验证数据
+		if(empty($this->stash['title'])){
+			return $this->ajax_json('标题不能为空！', true);
+		}
+    if(empty($this->stash['category_id'])){
+        return $this->ajax_json('请选择一个类别！', true); 
+    }
+    if(empty($this->stash['cover_id'])){
+        return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+    }
+        
+		$id = (int)$this->stash['_id'];
+		
+		$mode = 'create';
+		$data = array();
+		
+		$data['_id'] = $id;
+		$data['title'] = $this->stash['title'];
+		$data['description'] = $this->stash['description'];
+		$data['tags'] = $this->stash['tags'];
+		$data['category_id'] = (int)$this->stash['category_id'];
+		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
+        $data['cover_id'] = $this->stash['cover_id'];
+    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+
+        // 所属
+        if(isset($this->stash['from_to'])){
+            $data['from_to'] = (int)$this->stash['from_to'];
+        }else{
+            $data['from_to'] = 0;
+        }
+        
+        // 团队介绍-蛋年
+        if(isset($this->stash['team_introduce'])){
+            $data['team_introduce'] = $this->stash['team_introduce'];
+        }
+
+        // 品牌
+        if(isset($this->stash['brand'])){
+            $data['brand'] = $this->stash['brand'];
+        }
+        // 设计师
+        if(isset($this->stash['designer'])){
+            $data['designer'] = $this->stash['designer'];
+        }
+        // 所属国家
+        if(isset($this->stash['country'])){
+            $data['country'] = $this->stash['country'];
+        }
+        // 上市时间
+        if(isset($this->stash['market_time'])){
+            $data['market_time'] = $this->stash['market_time'];
+        }
+        // 指导价格
+        if(isset($this->stash['official_price'])){
+            $data['official_price'] = $this->stash['official_price'];
+        }
+        // 产品阶段
+        if(isset($this->stash['processed'])){
+            $data['processed'] = (int)$this->stash['processed'];
+        }
+        // 购买地址
+        if(isset($this->stash['buy_url'])){
+            $data['buy_url'] = $this->stash['buy_url'];
+        }
+
+        // 所在省份
+        if(isset($this->stash['province_id'])){
+            $data['province_id'] = (int)$this->stash['province_id'];
+        }
+        // 所在大学
+        if(isset($this->stash['college_id'])){
+            $data['college_id'] = (int)$this->stash['college_id'];
+        }
+
+        // 如果是关联投票产品
+        if(isset($this->stash['fever_id'])){
+            $data['fever_id'] = (int)$this->stash['fever_id'];
+        }
+
+        // 蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
+        if(isset($this->visitor->quality) && (int)$this->visitor->quality == 1){
+            $data['verified'] = 1; 
+        }elseif(isset($this->stash['verified']) && (int)$this->stash['verified'] == 1){
+            $data['verified'] = 1;
+        }elseif(empty($this->stash['from_to'])){
+            $data['verified'] = 1;
+        }else{
+            $data['verified'] = 0;
+        }
+		
+		// 检测编辑器图片数
+		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
+		
+		// 检查是否有附件
+		if(isset($this->stash['asset'])){
+			$data['asset'] = $this->stash['asset'];
+		}else{
+			$data['asset'] = array();
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Stuff();
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = (int)$this->visitor->id;
+				
+				$ok = $model->apply_and_save($data);
+				
+				$stuff = $model->get_data();
+				$id = (int)$stuff['_id'];
+				
+				// 更新用户灵感数量
+				$this->visitor->inc_counter('stuff_count', $data['user_id']);
+			}else{
+				$mode = 'edit';
+
+            // 如果是大赛,用户更改了省份或大学,需要重新统计排行
+            if($data['from_to']==1){
+                $old_stuff = $model->find_by_id((int)$id);
+            }
+			$ok = $model->apply_and_update($data);
+
+        if($ok){
+          //如果是大赛,用户更改了省份或大学,需要重新统计排行
+          if($data['from_to']==1){
+            if(!empty($old_stuff)){
+              $old_province_id = isset($old_stuff['province_id'])?$old_stuff['province_id']:0;
+              $old_college_id = isset($old_stuff['college_id'])?$old_stuff['college_id']:0;
+
+              //如果有变更,更新排行统计
+              $num_mode = new Sher_Core_Model_SumRecord();
+              if(isset($data['province_id']) && $data['province_id'] != $old_province_id){
+                $num_mode->down_record($old_province_id, 'match2_count', 1);
+                if($old_stuff['love_count']){
+                  $num_mode->multi_down_record($old_province_id, 'match2_love_count', $old_stuff['love_count'], 1);
+                }
+                $num_mode->add_record($data['province_id'], 'match2_count', 1);
+                $num_mode->multi_add_record($data['province_id'], 'match2_love_count', $old_stuff['love_count'], 1);
+              }
+
+              if(isset($data['college_id']) && $data['college_id'] != $old_college_id){
+                $num_mode->down_record($old_college_id, 'match2_count', 2);
+                if($old_stuff['love_count']){
+                  $num_mode->multi_down_record($old_college_id, 'match2_love_count', $old_stuff['love_count'], 2);
+                }
+                $num_mode->add_record($data['college_id'], 'match2_count', 2); 
+                $num_mode->multi_add_record($data['college_id'], 'match2_love_count', $old_stuff['love_count'], 2);
+              }
+
+            }
+
+          }
+          
+        }
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+			$asset = new Sher_Core_Model_Asset();
+			// 上传成功后，更新所属的附件
+			if(isset($data['asset']) && !empty($data['asset'])){
+				$asset->update_batch_assets($data['asset'], (int)$id);
+			}
+			
+			// 保存成功后，更新编辑器图片
+			Doggy_Log_Helper::debug("Upload file count[$file_count].");
+			if($file_count && !empty($this->stash['file_id'])){
+				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
+			}
+
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 2); 
+      //更新百度推送
+      if($mode=='create'){
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 11); 
+      }
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
+			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+		}
+		
+        if($data['from_to'] == 1){
+            $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
+        }elseif($data['from_to'] == 2){
+            $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
+        }elseif($data['from_to'] == 3){
+            $redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd_view/'.$id.'.html';
+        }else{
+   		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
+        }
+		
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+	}
+
+	/**
+	 * 编辑器参数
+	 */
+	protected function _editor_params() {
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$new_pic_id = new MongoId();
+		$this->stash['editor_pid'] = (string)$new_pic_id;
+
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
+	}
 	
 }
