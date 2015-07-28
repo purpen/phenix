@@ -323,11 +323,11 @@ fetch_rank();
             </div>
           </div>
           <div class="cont">
-            <p>{% if !try.is_end %}hi亲爱的小伙伴~{{ try.title }}正在太火鸟社区免费试用中，我已申请，离支持结束还有
-        		<span data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的支持！互相加油几率更加倍哟~
+            <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！{{ try.title }}正在太火鸟免费试用中，我已申请，离支持结束还有
+        		<span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持几率更加倍哟~
         		{% else %}
         		支持已结束！
-        		{% endif %}<p>
+        		{% endif %}</p>
             <label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
           </div>
         </div>
