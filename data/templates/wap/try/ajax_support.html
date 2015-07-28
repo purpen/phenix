@@ -1,9 +1,15 @@
 <taconite>
+  {% if success %}
+    <replace select=".barrer.subbtn"><![CDATA[
+      <div class="barrer subbtn"><a href="{{ try_wap_view_url }}" class="play">我要试用</a></div>
+    ]]></replace>
+  {%endif%}
 	
 	<eval>
     {% if success %}
       fetch_rank();
       phenix.show_ok_note('支持成功!');
+      
     {%else%}
       phenix.show_error_note('操作失败!');
     {%endif%}

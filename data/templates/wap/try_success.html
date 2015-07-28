@@ -2,327 +2,90 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-#mfrbird{
-	margin-top:0;
-	margin-bottom:0;
+#mfrbird {
+  margin: 0em 0 1em;
 }
-.try-top{
-	position: relative;
-	overflow: hidden;
-  padding-bottom: 20px;
-  background: #fff;
+.tries{
+  background:url('http://frstatic.qiniudn.com/images/triesbj.jpg') no-repeat center center /cover;
+  padding: 4% 0;
 }
-.backimage {
-  height: 248px;
-  overflow: hidden;
+.tries .content{
+  color:#fff !important;
+}
+.tries .content .sub.header{
+  color:#fff !important;
+}
+.detext{
+  float:right;
+  height:100%;
+  vertical-align:middle;
+  display:inline-block;
+  padding: 3px 10px;
+  position:relative;
+  text-align:center;
+  color:#fff;
+}
+.detext p{
+  margin:5px 0;
+}
+.ui.detext.fans:before {
+  background:rgba(255,255,255,0.8);
+  height: 70%;
+  width: 1px;
   position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
+  content: '';
+  top: 15%;
+  right: 0;
 }
-.backimage .backnei {
-  margin: -4px;
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  height: 100%;
-  display: block;
+.trycon .ui.segment:first-child .image{
+  position:relative;
 }
-.contaix .avatar {
-  width: 100px;
-  height: 100px;
-  display: inline-block;
-  margin: 0 auto;
-  border: 2px solid #fff;
-  -webkit-border-radius: 100rem;
-  -moz-border-radius: 100rem;
-  -ms-border-radius: 100rem;
-  -o-border-radius: 100rem;
-  border-radius: 100rem;
+.trycon .ui.segment:first-child .image img{
+  border-top-left-radius: .3125em;
+  border-top-right-radius: .3125em;
 }
-.contaix .avatar img {
-  width: 100px;
-  height: 100px;
-  -webkit-border-radius: 100rem;
-  -moz-border-radius: 100rem;
-  -ms-border-radius: 100rem;
-  -o-border-radius: 100rem;
-  border-radius: 100rem;
+.trycon .ui.segment .image .potext{
+  position:absolute;
+  bottom:4px;
+  left:0;
+  width:100%;
+  height:auto;
+  background:rgba(0,0,0,0.3);
+  color:#fff;
 }
-.contaix .avatname {
-  position: relative;
-  z-index: 3;
-  padding-top: 20px;
-}
-.contaix .avatname span {
-  color: #474747;
-}
-.contaix {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-}
-.descritret {
-  padding: 0 0px;
-  background: #f5f5f5;
-}
-.descritret p {
-  padding: 11px;
-  background: #f5f5f5;
-  position: relative;
-  font-size: 15px;
-  color: #5d6266;
-  font-weight: bold;
-  line-height: 22px;
-	margin:0;
-}
-.blockto {
-  background: #fff;
-  padding: 24px 0px;
-}
-.blockto a{
-	text-decoration: none;
-}
-.blockto .card {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-  background: #f7f7f7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  overflow: hidden;
-}
-.blockto .photo {
-  width: 80px;
-  height: 80px;
-  position: relative;
-  float: left;
-  margin-left: 12px;
-}
-.blockto .photo img {
-  width: 100%;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-.blockto .descrit {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  position: relative;
-  padding: 14px 12px;
-  overflow: hidden;
-}
-.blockto .descrit .tit {
-  color: #5d6266;
-  height: 38px;
-  overflow: hidden;
+.trycon .ui.segment .image .potext p{
+  text-align: left;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-	margin:0;
-}
-.blockto .descrit .infor {
-  color: #f36;
-  font-size: 12px;
-	margin:0;
-}
-.blockto .descrit .infor span {
-  position: relative;
-  padding-left: 3px;
-}
-.trypeo{
-	padding-bottom: 0px;
-	background: #f7f7f7;
-}
-.trypeo .tabtop {
-  background: #fff;
-  padding: 0 12px;
-}
-.trypeo .show ul {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-}
-.table .tablab {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-}
-.trypeo .show ul li {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  text-align: center;
-}
-.table .tablab li {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  text-align: center;
-}
-.trypeo .show ul li a p {
-  line-height: 30px;
-	margin:0;
-}
-.trypeo .show ul li a p {
-  font-size: 18px;
-  color: #5d6266;
-}
-.trypeo .show ul li a em {
-  display: block;
-  font-size: 12px;
-}
-.trypeo .show ul li .tit {
-  padding: 10px 0;
-}
-.table .tablab li:last-child {
-  border-right: 0 none;
-}
-.trypeo .show ul .on {
-  border-bottom: 2px solid #f36;
-}
-.dactive {
-  display: none;
-}
-.trypeo .rank {
-  margin-bottom: 15px;
-  padding: 10px 12px;
-}
-.trypeo .rank .iipo {
-  color: #a3a3a3;
-  font-size: 10px;
-  padding: 2px 0 12px 0;
-}
-.trypeo .rank li {
-	display: inline-block;
-  padding: 0;
-}
-.rank .avtto {
-  height: 32px;
-}
-.avtto a {
-  border: none!important;
-}
-.avtto a {
-  border-color: #fff !important;
-}
-.trypeo .avtto a {
-  width: 50px;
-  height: 50px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  -ms-border-radius: 30px;
-  -o-border-radius: 30px;
-  border-radius: 30px;
-  border: 1px solid #fff;
-  display: inline-block;
-  background-size: 100%;
-  margin-top: 7px;
-}
-.trypeo .kert {
-  color: #474747;
-}
-.trypeo .kert li {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-  padding: 10px 12px;
-}
-.trypeo .kert li .progresss {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  padding: 0 20px;
-}
-.trypeo .kert li .progresss .raktk {
+  white-space: nowrap;
   overflow: hidden;
-  line-height: 20px;
-  height: 20px;
-  margin: 0;
+  margin: 10px;
 }
-.trypeo .kert li .progresss .raktk .name i {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  margin-left: 10px;
+.trycon .ui.segment{
+  box-shadow: 0 0px 0px 0 rgba(34,36,38,.15); 
+  border: 0px solid rgba(34,36,38,.15);
 }
-.trypeo .kert li .progresss .raktk .name i img {
-  width: 100%;
+.trycon .cont{
+  padding:0px 15px 15px;
 }
-.trypeo .kert li .progresss .raktk .progressci {
-  float: right;
-  line-height: 20px;
-  height: 20px;
+.user-list .ui.circular.image{
+  width:50px;
+  height:50px;
+  border:2px solid #f5f5f5;
+  display:inline-block;
+  margin: 3px;
 }
-.trypeo .kert li .progresss .bar {
-  background: #999;
-  height: 4px;
-  margin-top: 25px;
+.user-list{
+  padding:15px 0;
 }
-.trypeo .kert li .progresss .bar span {
-  display: block;
-  height: 4px;
-}
-.trypeo .kert li:nth-child(even) {
-  background: #fff;
-}
-ul,li{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-ul a{
-	text-decoration: none;
+.user-list img{
+  display:inline-block;
 }
 .barrer {
-  margin: 0;
-  height: 72px;
-  line-height: 72px;
+  background: rgba(0,0,0,0.7);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 12;
 }
 .subbtn {
   border: 0 none;
@@ -336,33 +99,26 @@ ul a{
   display: flex;
 }
 .barrer {
-  background: rgba(0,0,0,0.7);
+  margin: 0;
+  height: 72px;
+  line-height: 72px;
+}
+.frideshare {
+  background: rgba(0,0,0,0.5);
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 12;
+  height: 100%;
+  z-index: 13;
 }
 .subbtn .play {
   background: #f36;
 }
 .barrer a {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-}
-.subbtn a {
-  position: relative;
-}
-.barrer a {
-  height: 46px;
-  line-height: 46px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
+  float: right;
+  margin: 13px 15px 0 17px;
+  color: #fff;
+  text-decoration: none;
 }
 .subbtn a {
   text-align: center;
@@ -385,35 +141,31 @@ ul a{
   font-size: 20px;
 }
 .barrer a {
-  float: right;
-  margin: 13px 15px 0 17px;
-  color: #fff;
-  text-decoration: none;
+  height: 46px;
+  line-height: 46px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
 }
-.frideshare {
-  background: rgba(0,0,0,0.5);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 13;
+.subbtn a {
+  position: relative;
 }
-/*.kert li:first-child{
-  background:#f26202;
-  color:#fff !important;
+.barrer a {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
 }
-.kert li:first-child .bar span,.kert li:nth-child(2) .bar span,.kert li:nth-child(3) .bar span{
-  background:#fff !important;
+.tries .ui.ten.wide .header .content{
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 60%;
 }
-.kert li:nth-child(2){
-  background:#eaae00 !important;
-  color:#fff !important;
-}
-.kert li:nth-child(3){
-  background:#a7bd0d;
-  color:#fff !important;
-}*/
-
 </style>
 {% endblock %}
 
@@ -524,8 +276,7 @@ $('[data-countdown]').each(function() {
 $('.support-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-    phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
-      //$('.ui.sign-box.modal').modal('show');
+      phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
     var url = "{{ app_url_wap }}/try/ajax_support";
@@ -538,7 +289,74 @@ fetch_rank();
 
 {% endblock %}
 {% block content %}
-<div class="try-top">
+<div id="try-success">
+  <div class="tries">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui ten wide column">
+          <h3 class="ui header">
+            <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+            <div class="content">{{ apply.user.nickname }}
+              <div class="sub header">
+                {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
+              </div>
+            </div>
+          </h3>
+        </div>
+        <div class="ui six wide column">
+          <div class="ui detext report">
+            <p>{{ apply.user.follow_count|default 0 }}</p>
+            <p>关注</p>
+          </div>
+          <div class="ui detext fans">  
+            <p>{{ apply.user.fans_count|default 0 }}</p>
+            <p>粉丝</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui responsive grid trycon">
+    <div class="row">
+      <div class="column">
+        <div class="ui segment" style="padding:0;">
+          <div class="image">
+            <img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%">
+            <div class="potext">
+              <p>{{ try.title }}</p>
+            </div>
+          </div>
+          <div class="cont">
+            <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！{{ try.title }}正在太火鸟免费试用中，我已申请，离支持结束还有
+        		<span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持几率更加倍哟~
+        		{% else %}
+        		支持已结束！
+        		{% endif %}</p>
+            <label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
+          </div>
+        </div>
+        
+        <div class="ui segment">
+          
+          <div class="trypeo" id="rank-box">
+            <!--ajax fetch rank-->
+          </div>
+          
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!--<div class="try-top">
 	<div class="backimage" style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%">
 	</div>
 	<div class="contaix">
@@ -577,18 +395,22 @@ fetch_rank();
        </div>
 		</div>
 	</a>
-</div>
+</div>-->
 
-<div class="trypeo" id="rank-box">
+<!--<div class="trypeo" id="rank-box">-->
   <!--ajax fetch rank-->
-</div>
+<!--</div>-->
 
 
 {% if !try.is_end %}
   {% if is_current_user %}
     <div class="barrer subbtn showdiv"><a class="play">求支持</a></div>
   {%else%}
-    <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+    {% if is_support %}
+      <div class="barrer subbtn"><a href="{{ try.wap_view_url }}" class="play">我要试用</a></div>
+    {%else%}
+      <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+    {%endif%}
   {%endif%}
 {%endif%}
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);" align="center">
