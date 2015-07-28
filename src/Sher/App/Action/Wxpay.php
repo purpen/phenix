@@ -56,7 +56,8 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
+			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/wxpay/native';
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
@@ -89,10 +90,10 @@
 		 */
 		public function native(){
 			
+			Doggy_Log_Helper::warn($result);
+			
 			$notify = new PayNotifyCallBack();
 			$result = $notify->Handle(false);
-			
-			Doggy_Log_Helper::warn($result);
 			
 			$trade_mode  = $this->stash['trade_mode'];
 			$trade_state = $this->stash['trade_state'];
