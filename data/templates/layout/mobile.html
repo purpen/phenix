@@ -170,12 +170,10 @@
 				$('a.launch').on('click',function(e){
 					e.preventDefault();
 					$('.ui.sidebar.menu').addClass('overlay visible');
-					//$(document.body).addClass('left pushed');
 					$('#cover').css('display','');
 				});
 				$('#cover').click(function(){
 					$('.ui.sidebar.menu').removeClass('overlay visible');
-					//$(document.body).removeClass('left pushed');
 			    $('#cover').css('display','none');
 				});
 				
