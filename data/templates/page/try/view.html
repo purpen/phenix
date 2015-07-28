@@ -93,6 +93,16 @@
     .trypage.sortby .ui.item.menu {
         margin: 0;
     }
+    .trypage.sortby .ui.item.menu .item {
+        background-color: #fff;
+    }
+    .trypage.sortby .ui.item.menu .item.active {
+        background-color: rgba(34, 36, 38, 0.1);
+    }
+    .trypage.sortby .ui.item.menu .item:first-child,
+    .trypage.sortby .ui.item.menu .item:last-child {
+        border-radius: 0 !important;
+    }
     .trypage.sortby .block.title {
         line-height: 2.5;
         border-bottom: 1px solid rgba(34, 36, 38, 0.1);
@@ -315,18 +325,18 @@
 		试用流程及规则
     </div>
     <div class="ui fluid four item menu">
-        <a class="{%if try.step_stat==1%}active{%endif%} item">
+        <div class="{%if try.step_stat==1%}active{%endif%} item">
             <i class="time icon"></i> 申请
-        </a>
-        <a class="{%if try.step_stat==2%}active{%endif%} item">
+        </div>
+        <div class="{%if try.step_stat==2%}active{%endif%} item">
             <i class="heart icon"></i> 名单公布
-        </a>
-        <a class="{%if try.step_stat==3%}active{%endif%} item">
+        </div>
+        <div class="{%if try.step_stat==3%}active{%endif%} item">
             <i class="star icon"></i> 提交报告
-        </a>
-        <a class="{%if try.step_stat==5%}active{%endif%} item">
-            试用结束
-        </a>
+        </div>
+        <div class="{%if try.step_stat==5%}active{%endif%} item">
+            <i class="circle icon"></i> 试用结束
+        </div>
     </div>
 </div>
 

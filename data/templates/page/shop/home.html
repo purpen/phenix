@@ -71,7 +71,7 @@
 </ul>
 
 <div class="adstick list">
-	<div class="ui adverts wideping grid">
+	<div class="ui adverts responsive grid">
 		<div class="row">
 			<div class="column">
         		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
@@ -101,7 +101,7 @@
 </div>
 
 <div class="shop list" id="shoplist">
-	<div class="ui newest wideping grid">
+	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
                 {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
@@ -117,7 +117,7 @@
     </div>
     
     <!--推荐品牌-->
-	<div class="ui brands grid">
+	<div class="ui brands responsive grid">
 		<div class="row">
 			<div class="column">
         		{% ad_list var:'adslide2' page:1 size:6 state:2 name:'product_index_brands' %}
@@ -145,7 +145,7 @@
     </div>   
     
     <!--全球新品-->
-	<div class="ui newest products grid">
+	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
 				{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:12 sort:'stick:latest' %}

@@ -1,0 +1,250 @@
+{%extends 'layout/column.html'%}
+{% block title %}孵化平台-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+	.incubator.masthead {
+		padding: 150px 0px;
+        height: auto;
+		background-repeat:no-repeat;
+	}
+    
+	p.line{
+		line-height: 21px;
+	}
+	.incubator.serve{
+		background: #fff;
+		position: relative;
+	    padding: 3% 0;
+	}
+	.incubator.serve .section-title h2.title{
+		color:#444;
+	}
+	.incubator.serve .ui.inverted.button {
+		border: 1px solid #f36;
+		-webkit-box-shadow: 0 0 0 0px #fff inset!important;
+	    box-shadow: 0 0 0 0px #fff inset!important;
+	}
+	.incubator.serve .ui.inverted.button:hover{
+		border-color: #F36;
+		-webkit-box-shadow: 0 0 0 0px #fff inset!important;
+	    box-shadow: 0 0 0 0px #fff inset!important;
+	}
+	.incubator.serve .ui.pd-10 {
+	    padding: 6% 15% 8%;
+	}
+    
+    
+    .incubator.platform .block.title {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    .incubator.platform p {
+        margin-bottom: 0.35rem;
+    }
+    
+    .incubator.category {
+        
+    }
+    .incubator.category .row > .column {
+        opacity: 0.9;
+        transition: all 0.3s ease-out 0s;
+    }
+    .incubator.category .row > .column:hover {
+        opacity: 1.0;
+        transition: all 0.3s ease-out 0s;
+    }
+    .incubator.category .feaholder {
+        color: #fff;
+        display: block;
+        margin: 60px 0;
+        position: relative;
+        transition: all 0.3s ease-out 0s;
+    }
+    .incubator.category .feaholder:hover {
+        color: #f5f5f5;
+    }
+    .incubator.category .feaholder > i.icon {
+        font-size: 6em;
+    }
+    .incubator.category .feaholder h4 {
+        margin: 0 1.5em;
+        text-transform: uppercase;
+    }
+    .incubator.category .feaholder p {
+        font-size: 0.875em;
+        line-height: 1.846em;
+        margin: 40px auto 0;
+        max-width: 270px;
+        text-indent: 2em;
+        width: 80%;
+    }
+    
+    .incubator.ideas {
+        padding: 50px 0;
+    }
+    .incubator.ideas .banner.image img {
+        border-radius: 4px;
+    }
+    .incubator.ideas h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .incubator.ideas .container {
+        position: relative;
+        height: 100%;
+    }
+    .incubator.ideas .container h2 {
+        margin-bottom: 1rem;
+    }
+    .incubator.ideas .container h2 a {
+        color: #ff3366;
+    }
+    .incubator.ideas .sub.title {
+        margin-bottom: 1rem;
+    }
+    .incubator.ideas .join.button {
+        padding-left: 3rem;
+        padding-right: 3rem;
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0;
+        z-index: 2;
+    }
+    
+    .incubator.labs {
+        padding: 50px 0;
+        background-color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	
+{% endblock %}
+
+{% block content %}
+<div class="incubator masthead platform">
+    <div class="ui responsive grid">
+	    <div class="center aligned column">
+		    <h2 class="block title">孵化平台</h2>
+            <p>太火鸟一个带有互联网基因的创新智能硬件孵化平台</p>
+            <p>从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队</p>
+		</div>
+	</div>
+</div>
+
+<div class="incubator category">
+    <div class="ui four column padded grid">
+        <div class="center aligned row">
+            <div class="orange column">
+                <a class="feaholder" href="{{ app_url_fever }}" target="_blank">
+                    <i class="idea icon"></i>
+        			<h4>十万火计</h4>
+        		    <p>2015年太火鸟“反向定制”创意活动正式开启——我们给出命题，你来产出创意，非公开只求精，真正打造可孵化的项目！<br />
+
+这一次，我们我们有目的、有计划、有预谋，面向所有创新产品从业者、创意设计师、相关专业师生。
+“有形设计，无限创意”，形式已定，创意由你。</p>
+                </a>
+            </div>
+            <div class="blue column">
+                <a href="{{ app_url_d3in }}" class="feaholder" target="_blank">
+                    <i class="lab icon"></i>
+        			<h4>D3IN铟立方未来实验室</h4>
+        		    <p>一个开放专业的智能硬件交流分享平台，实验室拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，为创业者在早期资源欠缺或部分能力不足的阶段提供从研发，ID&MD设计，测试，DFM review，可靠度验证，认证，生产良率把控等全方位的交流空间及系统服务！</p>
+                </a>
+            </div>
+            
+            <div class="green column">
+                <a class="feaholder" href="{{ app_url_cooperate }}" target="_blank">
+                    <i class="cubes icon"></i>
+        			<h4>孵化资源</h4>
+        		    <p>太火鸟从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队。<br />
+  如果你拥有设计、技术、生产链、资金、营销、媒介等资源，可将其提交到太火鸟资源库，与我们一起携手帮助创业团队实现梦想、改变世界</p>
+                </a>
+            </div>
+            <div class="olive column">
+                <a class="feaholder" href="{{ app_url_incubator }}/index" target="_blank">
+                    <i class="food icon"></i>
+        			<h4>孵化服务</h4>
+        		    <p>太火鸟推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="incubator ideas">
+    <div class="ui responsive grid">
+        <div class="row">
+    	    <div class="center aligned column">
+    		    <h1 class="block title">创意定制</h1>
+                <p class="sub title">“有形设计，无限创意”，形式已定，创意由你。</p>
+    		</div>
+        </div>
+        <div class="two column row">
+    	    <div class="column">
+                <a href="#" class="ui banner image">
+		            <img src="{{ app_url_packaged }}/images/match_1.jpg" />
+                </a>
+    		</div>
+            <div class="column">
+                <div class="container">
+        		    <h2 class="block title">
+                        <a href="#" class="ui line">Apple Watch配件征集大赛 （第一期）</a>
+                    </h2>
+                    <p>这是场设计才华的博弈。</p>
+
+                    <p>游戏亦有规则，与思绪的畅游并行不悖。这一次，请在既定命题中挥洒创意。</p>
+                    <p>色彩，棱角，线条，质感……带入情境，随意排列，每一个组合都别具匠心。设计是形与意的象征，我们以明朗而坚定的方式，恣意畅快地描绘生活。</p>
+                    <p>征集时间：2015.08.10 -- 2015.09.10</p>
+                    <p>已投数量：<span>30</span> 个</p>
+                    
+                    <a href="#" class="ui large inverted magenta join button">
+                        <i class="write icon"></i> 立即参赛
+                    </a>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+<div class="incubator ideas labs">
+    <div class="ui responsive grid">
+        <div class="row">
+    	    <div class="center aligned column">
+    		    <h1 class="block title">实验室活动</h1>
+                <p class="sub title">专业培训课程将覆盖研发设计，测试技能，工艺制程，生产管控等领域，以多维度方式满足D3IN实验室会员的需求。</p>
+    		</div>
+        </div>
+        <div class="two column row">
+    	    <div class="column">
+                
+    		</div>
+            <div class="column">
+                <div class="container">
+                    
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+<div class="incubator ideas">
+    <div class="ui responsive grid">
+        <div class="row">
+    	    <div class="center aligned column">
+    		    <h1 class="block title">孵化服务</h1>
+                <p class="sub title">从创意构想到生产面市，太火鸟孵化服务触及产品过程各个阶段</p>
+    		</div>
+        </div>
+        <div class="row">
+    	    <div class="column">
+                
+    		</div>
+        </div>
+	</div>
+</div>
+{% endblock %}
