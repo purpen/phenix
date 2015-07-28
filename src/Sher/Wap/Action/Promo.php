@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','share');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share');
 
 	
 	/**
@@ -17,19 +17,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function execute(){
 		//return $this->coupon();
-	}
-	/**
-	  *69 share
-	  */
-	public function share(){
-		$current_time = time();
-		$end_time = strtotime('2015-08-04 23:59');
-		if($current_time > $end_time){
-			return $this->to_redirect('http://www.taihuoniao.com/sale/1065451935.html');
-		}
-		else{
-			return $this->to_redirect('https://hi.taobao.com/market/hi/detail2014.php?&id=28708');
-		}
 	}
 	
 	/**
