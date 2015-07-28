@@ -18,7 +18,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist','view','apply_success', 'ajax_fetch_rank');
+	protected $exclude_method_list = array('execute','getlist','view','apply_success', 'ajax_fetch_rank','tries');
 	
 	
 	/**
@@ -27,6 +27,15 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	public function execute(){
 		return $this->getlist();
 	}
+	
+	/**
+	  *
+	  */
+	public function tries(){
+		return $this->to_html_page('wap/tries.html');
+	}
+	
+	
 
 	/**
 	  *拉票
