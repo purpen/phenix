@@ -67,10 +67,12 @@
 
   phenix.show_ok_note('报名成功,等待管理员审核!');
 
-  //$('.lapiao-btn').click(function() {
+  $('.lapiao-btn').click(function() {
     $('.ui.lapiao.modal').modal('show');
-    //return false;
-  //});
+  });
+
+  $('.ui.lapiao.modal').modal('show');
+
 {%else%}
     var val = $('.attend-num').text();
     $('.attend-num').text(parseInt(val)+1);
