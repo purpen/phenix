@@ -1,6 +1,8 @@
 <taconite>
 {% if is_try %}
-  <replace select=".ui.applytry">
+<remove select=".ui.applytry.modal" />
+
+  <replace select=".ui.applytry.bttn">
     <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
       <i class="ticket icon"></i> 求支持
     </a>
@@ -61,11 +63,11 @@
 	<eval>
 {% if is_try %}
   //关闭弹出层
-  //$('.ui.lapiao.modal').modal('hide');
+  //$('.ui.applytry.modal').modal('hide');
   // 生成拉票二维码
   $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply_id }}'});
 
-  phenix.show_ok_note('报名成功,等待管理员审核!');
+  //phenix.show_ok_note('报名成功,等待管理员审核!');
 
   $('.lapiao-btn').click(function() {
     $('.ui.lapiao.modal').modal('show');

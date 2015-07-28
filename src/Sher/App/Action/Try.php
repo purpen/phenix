@@ -98,6 +98,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
       $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
       if(!empty($has_one_apply)){
         $is_applied = true;
+        $has_one_apply = $apply_model->extended_model_row($has_one_apply);
         $this->stash['apply'] = $has_one_apply;
       }
     }
