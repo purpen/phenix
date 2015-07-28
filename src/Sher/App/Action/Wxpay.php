@@ -58,7 +58,7 @@
 			
 			// 支付完成通知回调接口
 			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'native';
-			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/native?rid='.$rid;
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct_native';
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
@@ -68,8 +68,8 @@
 			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
 			
 			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
-			$input->SetOut_trade_no(Doggy_Config::$vars['app.wechat.mchid'].date("YmdHis")); // 商户订单号
-			//$input->SetOut_trade_no((string)$order_info['rid']); // 商户订单号
+			//$input->SetOut_trade_no(Doggy_Config::$vars['app.wechat.mchid'].date("YmdHis")); // 商户订单号
+			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
 			$input->SetTotal_fee((float)$order_info['pay_money']*100); // 订单总金额,单位为分
 			$input->SetSpbill_create_ip($_SERVER["REMOTE_ADDR"]);
 			$input->SetNotify_url($notify_url); // 通知地址
@@ -82,15 +82,15 @@
 			
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
-			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/show?rid='.$rid;
+			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct_notify?rid='.$rid;
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
 		
 		/**
-		 * 微信支付回调URL
+		 * 微信支付异步返回通知信息
 		 */
-		public function native(){
+		public function secrete_notify(){
 			
 			// 返回微信支付结果通知信息
 			$notify = new Sher_App_Action_WxNotify();
@@ -128,6 +128,21 @@
 		}
 		
 		/**
+		* 微信支付异步返回通知信息
+		*/
+	   public function direct_notify(){
+		   $rid = $this->stash['rid'];
+		   if (empty($rid)) {
+			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		   }
+		   $model = new Sher_Core_Model_Orders();
+		   $order_info = $model->find_by_rid($rid);
+		   
+		   $this->stash['order_info'] = $order_info;
+		   return $this->to_html_page("wap/order_view.html");
+	   }
+	   
+	   /**
 		 * 更新订单状态
 		 */
 		protected function update_alipay_order_process($out_trade_no, $trade_no, $sync=false){
@@ -164,20 +179,5 @@
 			   return $this->to_raw('success');
 		   }
 		}
-		
-		/**
-		* 支付成功后的跳转
-		*/
-	   public function show(){
-		   $rid = $this->stash['rid'];
-		   if (empty($rid)) {
-			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
-		   }
-		   $model = new Sher_Core_Model_Orders();
-		   $order_info = $model->find_by_rid($rid);
-		   
-		   $this->stash['order_info'] = $order_info;
-		   return $this->to_html_page("wap/order_view.html");
-	   }
 	}
 ?>
