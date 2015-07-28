@@ -1,6 +1,6 @@
 <taconite>
 	<replace select="#product_guess_wap_list"><![CDATA[
-		{% if result.total_rows %}
+		<!--{% if result.total_rows %}
 
 
 <div id="product_guess_wap_list">
@@ -79,6 +79,61 @@
 	</div>
 </div>
 
+		{% endif %}-->
+		
+		{% if result.total_rows %}
+		  <div id="product_guess_wap_list">
+      	<div class="ui responsive grid">
+      		<div class="row">
+      			<div class="column">
+      				<h3 class="ui header">你可能喜欢的产品</h3>
+		          <div class="ui two products cards">
+		            
+		              {% for item in result.rows %}
+		            <div class="card" id="product-{{ item.product._id }}">
+                    <div class="problock">
+                        <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" style="background-image: url({{ item.product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+                        <div class="ribbons">
+                            {% if item.product.newest %}
+                            <span class="ribbon newest">NEW</span>
+                            {% endif %}
+                            {% if item.product.hot %}
+                            <span class="ribbon hot">HOT</span>
+                            {% endif %}
+                            {% if item.product.stick %}
+                            <span class="ribbon stick">推荐</span>
+                            {% endif %}
+                            {% if item.product.snatched %}
+                            <span class="ribbon new">限时抢购</span>
+                            {% endif %}
+                            {% if item.product.stage == 5 %}
+                            <span class="ribbon presale">正在预售</span>
+                            {% endif %}
+                        </div>
+                        <h2>
+                            <a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui line">
+                			    {{ item.product.title|truncate, 32, '' }}
+                		    </a>
+                        </h2>
+                        <div class="excerpt">
+                            <p>{{ item.product.advantage }}</p>
+                        </div>
+                        <div class="cats">
+                            <span class="unit">￥</span>{{ item.product.sale_price }}
+                        </div>
+                        <span class="counter">
+                            <i class="heart icon"></i> {{ item.product.love_count }}
+                        </span>
+                    </div>
+                </div>
+		          {% endfor %}	
+		
+		  
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
 		{% endif %}
 	]]></replace>
 

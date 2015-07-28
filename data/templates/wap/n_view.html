@@ -38,6 +38,9 @@
   margin-top: 0px;
   margin-bottom: 0px;
 }
+.product.froala-element p img{
+  width:100%;
+}
 .ui.reply.segment,.service.segment{
 	margin-top:0;
 }
@@ -80,21 +83,21 @@ $('.service.column').click(function(){
 {% block content %}
 <div id="shopview">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui five center aligned wide column products active">
-					<a class="tab">
+		<div class="row" style="padding:0;">
+			<div class="ui five wide center aligned column products active">
+					<div class="tab">
 						产品详情
-					</a>
+					</div>
 			</div>
-			<div class="ui six center aligned wide column reply">
-					<a class="tab">
+			<div class="ui six wide center aligned column reply">
+					<div class="tab">
 						用户评价
-					</a>
+					</div>
 			</div>
-			<div class="five center aligned wide column service">
-					<a class="tab">
+			<div class="five wide center aligned column service">
+					<div class="tab">
 						售后服务
-					</a>
+					</div>
 			</div>
 		</div>
 	</div>

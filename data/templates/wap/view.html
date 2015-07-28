@@ -88,21 +88,15 @@ i.cart.icon,i.exchange.icon{
 	position: relative !important;
 	padding-top:0 !important;
 }
-#frslide .ui.active.green.icon.share.button{
+#frslide .ui.active.icon.share.btn{
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	z-index: 99;
-	background: rgba(0,0,0,0.2);
-	border-radius: 54%;
-	border: 0px solid #f36;
-	width: 40px;
-	height: 40px;
 	color: #fff;
 }
-#frslide .ui.active.green.icon.share.button .share.icon{
-	line-height: 1;
-	width:1em;
+#frslide .ui.active.icon.share.btn .share.icon{
+  background-color:rgba(0,0,0,0.2) !important;
 }
 .froala-element p:first-child{
 	margin-bottom:0 !important;
@@ -244,7 +238,7 @@ i.cart.icon,i.exchange.icon{
 	
 	phenix.bind_share_list();
 	// 分享
-	$('.ui.share.button').bind('click', function(){
+	$('.ui.share.btn').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 	
@@ -384,8 +378,8 @@ i.cart.icon,i.exchange.icon{
 		{% endfor %}
 	</div>
 	<div class="pages"></div>
-	<div class="ui active green icon share button">
-		<i class="share icon"></i>
+	<div class="ui active icon circular share btn">
+		<i class="circular inverted large share icon"></i>
 	</div>
 </div>
 
@@ -462,11 +456,11 @@ i.cart.icon,i.exchange.icon{
                                {%else%}
                                    {% if product.can_saled %}
                                        <div class="ui active magenta labeled icon nowbuy button">
-                                           <i class="cart icon"></i>立即购买
+                                           <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i>立即购买
                                        </div>
                                    {%else%}
                                        <div class="ui active gray inverted button">
-                                           <i class="cart icon"></i> 已售罄
+                                           <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i> 已售罄
                                        </div>
                                    {%endif%}
                                {%endif%}
@@ -626,11 +620,11 @@ i.cart.icon,i.exchange.icon{
                                {%else%}
                                    {% if product.can_saled %}
                                        <div class="ui active magenta labeled icon nowbuy button">
-                                           <i class="exchange icon"></i>立即兑换
+                                           <i class="exchange icon" style="vertical-align: middle;  line-height: 0.9em;"></i>立即兑换
                                        </div>
                                    {%else%}
                                        <div class="ui active gray inverted button">
-                                           <i class="cart icon"></i> 已售罄
+                                           <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i> 已售罄
                                        </div>
                                    {%endif%}
                                {%endif%}
