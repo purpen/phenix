@@ -90,10 +90,10 @@
 		 */
 		public function native(){
 			
-			Doggy_Log_Helper::warn($result);
-			
-			$notify = new PayNotifyCallBack();
+			$notify = new Sher_App_Action_WxNotify();
 			$result = $notify->Handle(false);
+			
+			Doggy_Log_Helper::warn($result);
 			
 			$trade_mode  = $this->stash['trade_mode'];
 			$trade_state = $this->stash['trade_state'];
