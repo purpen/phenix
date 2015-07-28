@@ -22,7 +22,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	  */
 	public function share(){
 		$current_time = time();
-		$end_time = strtotime('2015-07-04 23:59');
+		$end_time = strtotime('2015-08-04 23:59');
 		if($current_time > $end_time){
 			return $this->to_redirect('http://www.taihuoniao.com/sale/1065451935.html');
 		}
