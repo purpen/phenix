@@ -1,6 +1,17 @@
 <taconite>
 	<replaceContent select="#rank-box"><![CDATA[
-    <div class="table">
+	  
+	  <label class="ui fluid label" style="text-align:center;"><i class="flat users icon"></i>好友支持({{ apply.vote_count }})</label>
+      {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
+      <div class="user-list">
+        {% for d in list.rows %}
+        <img class="ui circular image" src="{{ d.user.mini_avatar_url }}">
+        {%endfor%}
+      
+      </div>
+	  
+	  
+    <!--<div class="table">
       <div class="tabtop">
         <div class="show">
           <ul class="tablab">
@@ -17,10 +28,10 @@
         <div class="tabtext1">
           <div class="rank">
             {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
-            <ul class="approveList">
+            <ul class="approveList">-->
     
               <!-- 支持者 -->
-              {% for d in list.rows %}
+             <!-- {% for d in list.rows %}
               <li class="approve" style="margin:15px 5px;">
                 <div class="avtto">
                   <a href="javascript:;" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
@@ -51,7 +62,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div>-->
 	]]></replaceContent>
 
 	<eval>
