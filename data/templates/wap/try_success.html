@@ -270,8 +270,7 @@ $('[data-countdown]').each(function() {
 $('.support-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-    phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
-      //$('.ui.sign-box.modal').modal('show');
+      phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
     var url = "{{ app_url_wap }}/try/ajax_support";
@@ -402,7 +401,7 @@ fetch_rank();
     <div class="barrer subbtn showdiv"><a class="play">求支持</a></div>
   {%else%}
     {% if is_support %}
-      <div class="barrer subbtn"><a href="{{ try.view_url }}" class="play">我要试用</a></div>
+      <div class="barrer subbtn"><a href="{{ try.wap_view_url }}" class="play">我要试用</a></div>
     {%else%}
       <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
     {%endif%}

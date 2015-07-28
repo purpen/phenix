@@ -56,8 +56,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
       if($apply_user_id==(int)$this->visitor->id){
         $is_current_user = true;
       }else{
+        // 是否已经支持过
         $attend_model = new Sher_Core_Model_Attend();
-        $is_support = $attend_model->check_signup($this->visitor->id, $apply['_id'], Sher_Core_Model_Attend::EVENT_APPLY);
+        $is_support = $attend_model->check_signup($this->visitor->id, (string)$apply['_id'], Sher_Core_Model_Attend::EVENT_APPLY);
         if($is_support){
           $this->stash['is_support'] = true;
         }
@@ -236,6 +237,8 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     if(empty($apply)){
    	  return $this->ajax_note('申请信息不存在！', true);     
     }
+    
+    $this->stash['try_wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.try.view'], $apply['target_id']);
 
     $attend_model = new Sher_Core_Model_Attend();
     $is_attend = $attend_model->check_signup($this->visitor->id, $apply_id, Sher_Core_Model_Attend::EVENT_APPLY);
