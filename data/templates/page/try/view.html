@@ -148,6 +148,16 @@
 	.ui.table td.nine.wide{
 		text-align:right;
 	}
+	.ui.lapiao{
+	    border:0px solid #fff !important;
+	}
+  .ui.lapiao > .content{
+	    background:url({{ app_url_packaged }}/images/trybox.jpg) no-repeat center center /cover;
+	}
+	#lapiao canvas{
+	  width:100% !important;
+	}
+	
 	
 </style>
 {% endblock %}
@@ -345,7 +355,7 @@
                 <i class="ticket icon"></i> 求支持
               </a>
             {%else%}
-              <a href="javascript:void(0);" class="ui white applytry inverted button" style="padding: .8em 2em!important;">
+              <a href="javascript:void(0);" class="ui white applytry bttn inverted button" style="padding: .8em 2em!important;">
                 <i class="ticket icon"></i> 申请试用
               </a>
             {%endif%}
@@ -773,21 +783,35 @@
 	</div>
 </div>
 
-<div class="ui small lapiao modal">
-  	<i class="flat close icon"></i>
-  	<div class="content">
-		<div class="ui center aligned grid">
-			<div class="row">
-				<div class="column">
-					<p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
-					<div id="lapiao"></div>
-				</div>
-			</div>
-		</div>
-  	</div>
-  	<div class="actions">
-    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
-  	</div>
+<div id="show-support-box">
+  {% if !try.is_end %}
+    {% if is_applied %}
+    <div class="ui small lapiao modal">
+        <i class="flat close icon"></i>
+        <div class="content">
+          <div class="ui grid">
+            <div class="ui ten wide column">
+              <h3 class="ui header">
+                <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+                <div class="content">{{ apply.user.nickname }}
+                  <div class="sub header">
+                    {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
+                  </div>
+                </div>
+              </h3>
+              
+              <h2 class="ui header">恭喜您申请成功</h2>
+              <p>分享到朋友圈，获取更多支持， 更有机会获取试用资格!</p>
+            </div>
+            <div class="ui six wide column">
+              <h2 class="ui header">扫码分享</h2>
+              <div id="lapiao"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {%endif%}
+  {%endif%}
 </div>
 {% include "block/apply_try.html" %}
 {% include "block/sharebox.html" %}
