@@ -58,7 +58,7 @@
 			
 			// 支付完成通知回调接口
 			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'secrete';
-			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/secrete?rid='.$rid;
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
@@ -88,7 +88,7 @@
 		/**
 		 * 微信支付异步返回通知信息
 		 */
-		public function secrete(){
+		public function notify(){
 			
 			Doggy_Log_Helper::warn("访问异步通知地址成功！");
 			
