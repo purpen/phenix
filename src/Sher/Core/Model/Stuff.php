@@ -39,7 +39,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'fid' => 0,
 		
 	    'title' => '',
-      'short_title' => '',
+        'short_title' => '',
         'description' => '',
     	'tags' => array(),
         'like_tags' => array(),
@@ -59,8 +59,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'market_time' => '',
 		# 指导价格
 		'official_price' => 0,
-    # 购买地址
-    'buy_url' => '',
+        # 购买地址
+        'buy_url' => '',
 		# 产品阶段
 		'processed' => self::PROCESS_SALE,
 		
@@ -90,6 +90,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'from_to' => 0,
 
         # 用于大赛
+        'contest_id'  => 0,
+        
         # 省份
         'province_id' => 0,
         # 城市
@@ -545,4 +547,3 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     }
 
 }
-?>

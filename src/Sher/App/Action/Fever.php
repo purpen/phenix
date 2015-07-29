@@ -31,15 +31,8 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区-创意投票
 	 */
 	public function execute(){
-		return $this->contest();
+		return $this->get_list();
 	}
-	
-    /**
-     * 定制主题列表
-     */
-    public function contest(){
-        return $this->to_html_page('page/fever/contest.html');
-    }
     
 	/**
 	 * 投票列表(正在投票, 即将结束)

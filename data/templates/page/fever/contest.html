@@ -29,6 +29,7 @@
         border-radius: 4px;
         width: 100%;
     }
+    
 </style>
 {% endblock %}
 
@@ -70,25 +71,21 @@
 			<div class="column">
                 
                 <!--比赛列表-->
-                <div class="contest">
-                    <a href="#" class="banner image">
-    		            <img src="{{ app_url_packaged }}/images/match_1.jpg" />
-                    </a>
-                    <h3>
-                        <a href="" class="ui link">Apple Watch配件征集大赛 （第一期）</a>
-                    </h3>
-                    <p>征集时间：2015.08.10 -- 2015.09.10</p>
-                </div>
+                {% contest_list var:"list" page:page state:2 %}
                 
-                <div class="contest">
-                    <a href="#" class="banner image">
-    		            <img src="{{ app_url_packaged }}/images/topicbg/hnck4400.jpg" />
-                    </a>
-                    <h3>
-                        <a href="" class="ui link">Apple Watch配件征集大赛 （第一期）</a>
-                    </h3>
-                    <p>征集时间：2015.08.10 -- 2015.09.10</p>
-                </div>
+                {% if list.rows %}
+                    {% for contest in list.rows %}
+                    <div class="contest">
+                        <a href="{{ contest.view_url }}" class="banner image" target="_blank">
+        		            <img src="{{ contest.cover.fileurl }}" alt="{{ contest.title }}" />
+                        </a>
+                        <h3>
+                            <a href="{{ contest.view_url }}" class="ui link" target="_blank">{{ contest.title }}</a>
+                        </h3>
+                        <p>征集时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
                 
             </div>
         </div>

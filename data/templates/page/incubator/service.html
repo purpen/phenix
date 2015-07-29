@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}孵化平台-{% endblock %}
+{% block title %}{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -34,15 +34,6 @@
 	    padding: 6% 15% 8%;
 	}
     
-    
-    .incubator.platform .block.title {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-    }
-    .incubator.platform p {
-        margin-bottom: 0.35rem;
-    }
-    
     .incubator.category {
         
     }
@@ -57,7 +48,7 @@
     .incubator.category .feaholder {
         color: #fff;
         display: block;
-        margin: 60px 0;
+        margin: 60px 0 80px;
         position: relative;
         transition: all 0.3s ease-out 0s;
     }
@@ -78,6 +69,12 @@
         max-width: 270px;
         text-indent: 2em;
         width: 80%;
+    }
+    .incubator.category .ui.inverted.button {
+        bottom: 2rem;
+        left: 35%;
+        position: absolute;
+        z-index: 99;
     }
     
     .incubator.ideas {
@@ -127,7 +124,7 @@
 <div class="incubator masthead platform">
     <div class="ui responsive grid">
 	    <div class="center aligned column">
-		    <h2 class="block title">孵化平台</h2>
+		    <h2 class="block title">孵化</h2>
             <p>太火鸟一个带有互联网基因的创新智能硬件孵化平台</p>
             <p>从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队</p>
 		</div>
@@ -138,7 +135,7 @@
     <div class="ui four column padded grid">
         <div class="center aligned row">
             <div class="orange column">
-                <a class="feaholder" href="{{ app_url_fever }}" target="_blank">
+                <a class="feaholder" href="{{ app_url_contest }}" target="_blank">
                     <i class="idea icon"></i>
         			<h4>十万火计</h4>
         		    <p>2015年太火鸟“反向定制”创意活动正式开启——我们给出命题，你来产出创意，非公开只求精，真正打造可孵化的项目！<br />
@@ -146,12 +143,18 @@
 这一次，我们我们有目的、有计划、有预谋，面向所有创新产品从业者、创意设计师、相关专业师生。
 “有形设计，无限创意”，形式已定，创意由你。</p>
                 </a>
+                <a href="{{ app_url_contest }}" class="ui inverted button" target="_blank">
+                    <i class="edit icon"></i>创意提交
+                </a>
             </div>
             <div class="blue column">
                 <a href="{{ app_url_d3in }}" class="feaholder" target="_blank">
                     <i class="lab icon"></i>
         			<h4>D3IN铟立方未来实验室</h4>
         		    <p>一个开放专业的智能硬件交流分享平台，实验室拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，为创业者在早期资源欠缺或部分能力不足的阶段提供从研发，ID&MD设计，测试，DFM review，可靠度验证，认证，生产良率把控等全方位的交流空间及系统服务！</p>
+                </a>
+                <a href="{{ app_url_d3in }}" class="ui inverted button" target="_blank">
+                    <i class="time icon"></i>预约申请
                 </a>
             </div>
             
@@ -162,12 +165,18 @@
         		    <p>太火鸟从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队。<br />
   如果你拥有设计、技术、生产链、资金、营销、媒介等资源，可将其提交到太火鸟资源库，与我们一起携手帮助创业团队实现梦想、改变世界</p>
                 </a>
+                <a href="{{ app_url_cooperate }}" class="ui inverted button" target="_blank">
+                    <i class="send icon"></i>提交申请
+                </a>
             </div>
             <div class="olive column">
                 <a class="feaholder" href="{{ app_url_incubator }}/index" target="_blank">
                     <i class="food icon"></i>
         			<h4>孵化服务</h4>
         		    <p>太火鸟推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
+                </a>
+                <a href="{{ app_url_incubator }}" class="ui inverted button" target="_blank">
+                    <i class="share alternate icon"></i>合作申请
                 </a>
             </div>
         </div>
@@ -231,8 +240,97 @@
 	</div>
 </div>
 
-
 <div class="incubator ideas">
+    <div class="ui responsive grid">
+        <div class="row">
+    	    <div class="center aligned column">
+    		    <h1 class="block title">火眼行动</h1>
+    		</div>
+        </div>
+        <div class="two column row">
+            <div class="column">
+                     <p>太火鸟科技是中国最火爆的智能硬件孵化平台，从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队。</p>
+                  <p>如果你拥有设计、技术、生产链、资金、营销、媒介等资源，可将其提交到太火鸟资源库，与我们一起携手帮助创业团队实现梦想、改变世界！</p>
+                  
+                  <div class="ui four column padded grid">
+                      <div class="center aligned row">
+                          <div class="column">
+                              <div class="ui segment">
+                                  <h1>100</h1> 
+                                  <p>设计公司</p>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <div class="ui segment">
+                                  <h1>30</h1> 
+                                  <p>软件公司</p>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <div class="ui segment">
+                                  <h1>20</h1> 
+                                  <p>院校基地</p>
+                              </div>
+                          </div>
+                          <div class="column">
+                              <div class="ui segment">
+                                  <h1>42</h1> 
+                                  <p>其他资源</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div> 
+    		</div>
+            <div class="column">
+                {% cooperate_list var:'cooperate' page:1 size:2 %}
+				<div class="ui one cooperate cards">
+					{% for b in cooperate.rows %}
+				  	<div class="card">
+                        <div class="container">
+                            <div class="ui small star rating">
+                                {% for s in b.rank_stars %}
+        					  	<i class="icon {{ s }}"></i>
+                                {% endfor %}
+							</div>
+                            <div class="ui list">
+                                <div class="item">
+                                    <div class="logo">
+                                        {% if b.marks.labs %}
+                                        <div class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
+                                            <i class="lab icon"></i>
+                                        </div>
+                                        {% endif %}
+                                        <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
+                                    </div>
+                                    <div class="content">
+                                        <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
+                                        <div class="description">
+                                            <small>{{ b.type_label.name }} <span>{{ b.city }}</span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary">
+                                {{ b.strip_summary|truncate 200  }} <a href="{{ b.home_url }}" target="_blank" class="ui magenta line">更多</a>
+                            </div>
+                            <div class="expertise">
+                                {% tag_list var:'keywords' keywords:b.keywords %}
+                                {% for t in keywords %}
+                                <label class="ui {{ t.color }} label">{{ t.name }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+				  	</div>
+					{% endfor %}
+				</div>
+                
+            </div>
+        </div>
+	</div>
+</div>
+
+
+<div class="incubator ideas labs">
     <div class="ui responsive grid">
         <div class="row">
     	    <div class="center aligned column">
