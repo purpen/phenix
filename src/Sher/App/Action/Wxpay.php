@@ -12,7 +12,7 @@
 		
 		// 配置微信参数
 		public $options = array();
-		protected $exclude_method_list = array('execute','native');
+		protected $exclude_method_list = array('execute','notify');
 		
 		/**
 		 * 初始化参数
@@ -100,6 +100,12 @@
 /*			
 	{"appid":"wx75a9ffb78f202fb3","bank_type":"CFT","cash_fee":"1","fee_type":"CNY","is_subscribe":"Y","mch_id":"1219487201","nonce_str":"icw7nfq668sxcqw9plyrqwoophl2uvmn","openid":"oEjaBt4W3xwhr5WiwtFGSTcVDRPA","out_trade_no":"121948720120150728235704","result_code":"SUCCESS","return_code":"SUCCESS","sign":"FCE0C0D4ED894A50E2CFD63384BC5904","time_end":"20150728235720","total_fee":"1","trade_type":"JSAPI","transaction_id":"1008530916201507280498186563"}
 */
+			
+			// 把返回的值变成数组
+			$arr_back = json_decode($result,true);
+			
+			Doggy_Log_Helper::warn(json_encode($arr_back));
+			
 			/*
 			if($verify_result) { // 验证成功
 				// 商户订单号
