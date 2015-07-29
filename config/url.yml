@@ -120,6 +120,11 @@ app.url.birdegg: '{$app.url.domain}/birdegg'
 app.url.cooperate: '{$app.url.action_base}/cooperate'
 app.url.cooperate.view: '{$app.url.cooperate}/view?id=%d'
 
+# 大赛地址
+app.url.contest: '{$app.url.action_base}/contest'
+app.url.contest.show: '{$app.url.contest}/show?id=%d'
+
+
 # 孵化
 app.url.incubator: '{$app.url.domain}/incubator'
 
@@ -147,6 +152,7 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
 app.url.upload.stuff: '{$app.url.upload}/stuff'
 app.url.upload.cooperate: '{$app.url.upload}/cooperate'
+app.url.upload.contest: '{$app.url.upload}/contest'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'

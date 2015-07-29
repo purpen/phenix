@@ -127,6 +127,7 @@ app.url.upload.avatar: '{$app.url.upload}'
 app.url.upload.dotry: '{$app.url.upload}'
 app.url.upload.advertise: '{$app.url.upload}/advertise'
 app.url.upload.stuff: '{$app.url.upload}'
+app.url.upload.contest: '{$app.url.upload}'
 
 # 银联支付
 app.quickpay.key: '898111153990242'
