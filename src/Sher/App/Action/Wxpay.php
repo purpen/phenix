@@ -58,7 +58,7 @@
 			
 			// 支付完成通知回调接口
 			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'secrete';
-			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/secrete';
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/secrete?rid='.$rid;
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
