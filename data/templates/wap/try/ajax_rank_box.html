@@ -6,7 +6,7 @@
       {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
       <div class="user-list">
         {% for d in list.rows %}
-        <img class="ui circular image" src="{{ d.user.mini_avatar_url }}">
+        <img class="ui image" src="{{ d.user.mini_avatar_url }}">
         {%endfor%}
       </div>
     {%else%}
