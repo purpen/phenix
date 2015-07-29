@@ -124,6 +124,21 @@
 				}
 			}
 		}, 'json');
+
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_shop }}/idea_edit?id='+id);
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			if(confirm('确认执行删除操作吗?')){
+				$.post('{{ app_url_shop }}/deleted', {id:id });
+			}
+		});
+
 	{% endif %}
 	
 	// 收藏
@@ -391,6 +406,39 @@
 				<div class="product overview">
 					<div class="product content froala-element">
 						{{ product.content }}
+					</div>
+
+					<div class="ui icon green editable buttons">
+
+							{% if product.featured %}
+							<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+								<i class="star icon"></i>
+							</div>
+							{% else %}
+							<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+								<i class="star empty icon"></i>
+							</div>
+							{% endif %}
+							{% if product.stick %}
+							<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+								<i class="flag icon"></i>
+							</div>
+							{% else %}
+							<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+								<i class="flag outline icon"></i>
+							</div>
+							{% endif %}
+			
+						{% if editable %}
+              {% if product.stage==15 %}
+                <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+                  <i class="edit icon"></i>
+                </div>
+                <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+                  <i class="remove icon"></i>
+                </div>
+              {%endif%}
+						{% endif %}
 					</div>
                 
 					<div class="ui center aligned zanl">

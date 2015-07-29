@@ -291,6 +291,15 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->to_redirect($product['view_url']);
 		}
 
+		// 当前用户是否有管理权限
+    $editable = false;
+		if ($this->visitor->id){
+			if ($this->visitor->id == $product['user_id'] || $this->visitor->can_edit){
+				$editable = true;
+			}
+		}
+    $this->stash['editable'] = $editable;
+
     //判断类型
     if($product['stage']==Sher_Core_Model_Product::STAGE_SHOP){
       $item_stage = $this->stash['item_stage'] = 'shop';
@@ -779,6 +788,47 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
    	$redirect_url = Sher_Core_Helper_Url::shop_view_url($id);       
 
 		return $this->ajax_json('保存成功.', false, $redirect_url);
+	}
+
+	/**
+	 * 删除商品灵感
+	 */
+	public function deleted(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$product = $model->load((int)$id);
+			
+			// 仅编辑权限或本人具有删除权限
+			if ($this->visitor->can_edit() || $product['user_id'] == $this->visitor->id){
+				$model->remove((int)$id);
+				
+				// 删除关联对象
+				$model->mock_after_remove($id);
+				
+				// 更新所属分类: 主题数、回复数
+				$category = new Sher_Core_Model_Category();
+				
+				$category->dec_counter('total_count', $product['category_id']);
+				$category->dec_counter('total_count', $product['fid']);
+				
+				// 更新用户主题数量
+				$this->visitor->dec_counter('product_count', $product['user_id']);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		// 删除成功后返回URL
+		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
+		$this->stash['ids'] = array($id);
+		
+		return $this->to_taconite_page('ajax/delete.html');
 	}
 
 	/**
