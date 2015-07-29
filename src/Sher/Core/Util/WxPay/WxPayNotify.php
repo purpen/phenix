@@ -15,8 +15,6 @@ class Sher_Core_Util_WxPay_WxPayNotify
 	final public function Handle($needSign = true)
 	{
 		
-		Doggy_Log_Helper::warn("访问回调入口成功！");
-		
 		$msg = "OK";
 		//当返回false的时候，表示notify中调用NotifyCallBack回调失败获取签名校验失败，此时直接回复失败
 		$result = Sher_Core_Util_WxPay_WxPayApi::notify(array($this, 'NotifyCallBack'), $msg);

@@ -79,7 +79,7 @@
 			
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
-			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct?rid='.$rid;
+			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct';
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
@@ -114,7 +114,7 @@
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
 			
-			if($arr_back) { // 验证成功
+			if($result) { // 验证成功
 				// 商户订单号
 				$out_trade_no = $arr_back['out_trade_no'];
 				// 支付宝交易号
@@ -152,7 +152,7 @@
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
 			
-			if($arr_back) { // 验证成功
+			if($result) { // 验证成功
 				
 				// 商户订单号
 				$out_trade_no = $arr_back['out_trade_no'];
@@ -160,9 +160,12 @@
 				$trade_no = $arr_back['transaction_id'];
 				// 交易状态
 				$trade_status = $arr_back['result_code'];
+				Doggy_Log_Helper::warn("商户订单号: ".$out_trade_no);
+				Doggy_Log_Helper::warn("支付宝交易号: ".$trade_no);
+				Doggy_Log_Helper::warn("交易状态: ".$trade_status);
 				
 				// 跳转订单详情
-				$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+				$order_view_url = 'http://'.$_SERVER['HTTP_HOST'].'/my/order_view?rid='.$out_trade_no;
 				Doggy_Log_Helper::warn("跳转地址: ".$order_view_url);
 				
 				if($trade_status == 'SUCCESS') {

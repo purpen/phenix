@@ -11,13 +11,9 @@ class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 	public function Queryorder($transaction_id)
 	{
 		
-		Doggy_Log_Helper::warn("访问微信订单查询方法成功！");
-		
 		$input = new Sher_Core_Util_WxPay_WxPayData_WxPayOrderQuery();
 		$input->SetTransaction_id($transaction_id);
 		$result = Sher_Core_Util_WxPay_WxPayApi::orderQuery($input);
-		
-        Doggy_Log_Helper::warn("query:" . json_encode($result));
 		
 		if(array_key_exists("return_code", $result)
 			&& array_key_exists("result_code", $result)
@@ -32,8 +28,6 @@ class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 	// 重写回调处理函数
 	public function NotifyProcess($data, &$msg)
 	{
-		
-		Doggy_Log_Helper::warn("访问重写回调处理函数成功！");
 
         Doggy_Log_Helper::warn("call back:" . json_encode($data));
 		
