@@ -594,14 +594,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
      * 标记为推荐
      */
     public function mark_as_stick($id) {
-        return $this->update_set($id, array('stick' => 1));
+        return $this->update_set((int)$id, array('stick' => 1));
     }
 	
     /**
      * 取消推荐
      */
 	public function mark_cancel_stick($id) {
-		return $this->update_set($id, array('stick' => 0));
+		return $this->update_set((int)$id, array('stick' => 0));
+	}
+
+    /**
+     * 标记为精选
+     */
+    public function mark_as_featured($id) {
+        return $this->update_set((int)$id, array('featured' => 1));
+    }
+	
+    /**
+     * 取消精选
+     */
+	public function mark_cancel_featured($id) {
+		return $this->update_set((int)$id, array('featured' => 0));
 	}
 	
 	/**

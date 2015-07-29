@@ -791,6 +791,102 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	}
 
 	/**
+	 * 推荐
+	 */
+	public function ajax_stick(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+			$model = new Sher_Core_Model_Product();
+			$model->mark_as_stick((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+	
+	/**
+	 * 取消推荐
+	 */
+	public function ajax_cancel_stick(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+            
+			$model = new Sher_Core_Model_Product();
+			$model->mark_cancel_stick((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+    
+	/**
+	 * 精选
+	 */
+	public function mark_as_featured(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+			$model = new Sher_Core_Model_Product();
+			$ok = $model->mark_as_featured((int)$id);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+    
+	/**
+	 * 取消精华
+	 */
+	public function mark_cancel_featured(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+			$model = new Sher_Core_Model_Product();
+			$model->mark_cancel_featured((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+
+	/**
 	 * 删除商品灵感
 	 */
 	public function deleted(){

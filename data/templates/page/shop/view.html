@@ -139,6 +139,62 @@
 			}
 		});
 
+		// 精选标记
+		$('.ui.fine.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_shop }}/mark_as_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消精华')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_shop }}/mark_cancel_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '标记精华')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+	
+		// 编辑推荐
+		$('.ui.stick.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_shop }}/ajax_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消推荐')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_shop }}/ajax_cancel_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '编辑推荐')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+
 	{% endif %}
 	
 	// 收藏
@@ -408,8 +464,20 @@
 						{{ product.content }}
 					</div>
 
-					<div class="ui icon green editable buttons">
+				{% if product.tags %}
+				<div class="idea tags">
+					{% for tag in product.tags %}
+					{% if tag %}
+					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
+						# {{ tag }}
+					</a>
+					{% endif %}
+					{% endfor %}
+				</div>
+				{% endif %}
 
+					<div class="ui icon green editable buttons">
+            {% if visitor.can_edit %}
 							{% if product.featured %}
 							<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
 								<i class="star icon"></i>
@@ -428,6 +496,7 @@
 								<i class="flag outline icon"></i>
 							</div>
 							{% endif %}
+            {%endif%}
 			
 						{% if editable %}
               {% if product.stage==15 %}
