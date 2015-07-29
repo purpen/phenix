@@ -50,7 +50,7 @@
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ try._id }}', 'file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' },
 		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
+		maxImageSize: 1024 * 1024 * 5, // 5M
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		file_count++;
 		// 重置参数
@@ -64,7 +64,7 @@
         this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
 		if (error.code == 5){
-			error.message = '图片太大，请选择小于3M！';
+			error.message = '图片太大，请选择小于5M！';
 		}
 		phenix.show_error_note(error.message, 5000);
     });
