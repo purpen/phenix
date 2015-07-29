@@ -232,6 +232,13 @@
 						<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
+						{% if mode == 'edit' %}
+              <input type="hidden" name="published" value="{{ product.published }}" />
+              <input type="hidden" name="approved" value="{{ product.approved }}" />
+            {%else%}
+              <input type="hidden" name="published" value="1" />
+              <input type="hidden" name="approved" value="1" />
+            {%endif%}
 						
 						<div class="ui field">
 							<label>所属类别</label>

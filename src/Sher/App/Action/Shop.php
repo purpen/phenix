@@ -344,9 +344,17 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);
-		
-		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $product['_id'],
+		  'comment_target_user_id' => $product['user_id'],
+		  'comment_type'  =>  4,
+		  'comment_pager' =>  Sher_Core_Helper_Url::sale_view_url($id, '#p#'),
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
 		
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
@@ -412,7 +420,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * ajax获取评论
 	 */
 	public function ajax_fetch_comment(){
-        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
@@ -420,6 +428,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         
 		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
 	}
+
 
   	/**
    	 * 产品合作入口
@@ -587,6 +596,43 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
   }
 
 	/**
+	 * 编辑产品灵感
+	 */
+	public function idea_edit(){
+		if(empty($this->stash['id'])){
+			return $this->show_message_page('缺少请求参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$this->stash['id']);
+		
+        if(empty($product)){
+            return $this->show_message_page('编辑的产品不存在或被删除！', true);
+        }
+		// 仅管理员或本人具有删除权限
+		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('你没有权限编辑的该主题！', true);
+		}
+        
+		$product = $model->extended_model_row($product);
+		
+		$this->stash['mode'] = 'edit';
+		$this->stash['product'] = $product;
+		
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+		
+		return $this->to_html_page('page/shop/idea_submit.html');
+	}
+
+	/**
 	 * 提交入口
 	 */
 	public function idea_submit(){
@@ -664,12 +710,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
     // 关联产品
     $data['fever_id'] = isset($this->stash['fever_id'])?(int)$this->stash['fever_id']:0;
+    $data['published'] = isset($this->stash['published'])?(int)$this->stash['published']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
 
     // 产品类型
-    $data['stage'] = Sher_Core_Model_Product::STAGE_IDEA;
+    $data['stage'] = 15;
 		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
@@ -746,5 +793,24 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
 	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+    // 评论的链接URL
+    $this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+    // 是否显示图文并茂
+    $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 	
 }
