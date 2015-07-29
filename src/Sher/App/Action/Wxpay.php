@@ -57,8 +57,8 @@
 			}
 			
 			// 支付完成通知回调接口
-			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'secrete_notify';
-			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/secrete_notify';
+			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'secrete';
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/secrete';
 			
 			// 获取用户openid
 			$tools = new Sher_App_Action_WxJsApiPay();
@@ -80,7 +80,7 @@
 			
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
-			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct_notify?rid='.$rid;
+			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct?rid='.$rid;
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
@@ -88,7 +88,7 @@
 		/**
 		 * 微信支付异步返回通知信息
 		 */
-		public function secrete_notify(){
+		public function secrete(){
 			
 			Doggy_Log_Helper::warn("访问异步通知地址成功！");
 			
@@ -131,7 +131,7 @@
 		/**
 		* 微信支付异步返回通知信息
 		*/
-	   public function direct_notify(){
+	   public function direct(){
 		   $rid = $this->stash['rid'];
 		   if (empty($rid)) {
 			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
