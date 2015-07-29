@@ -45,6 +45,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 			$inputObj->SetNotify_url(Doggy_Config::$vars['app.wechat.notify_url']);//异步通知url
 		}
 		
+		Doggy_Log_Helper::warn($inputObj->GetNotify_url());
+		
 		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
 		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
 		$inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
