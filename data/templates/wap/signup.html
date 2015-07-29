@@ -74,6 +74,12 @@
 			phenix.show_error_note('请正确填写手机号码！');
 		}
 	});
+
+  $('.ui.no-weixin').click(function(){
+    phenix.show_error_note('请使用微信客户端登录!');
+    return false;
+    phenix.redirect("{{ app_url_wap }}/auth/qr_code");
+  });
 {% endblock %}
 
 {% block content %}
@@ -110,7 +116,7 @@
 								<i class="flat icon_weixin icon"></i>
 							</a>
               {%else%}
-              <a href="{{ app_url_wap }}/auth/qr_code" class="ui green circular share icon button">
+              <a href="{{ app_url_wap }}/auth/qr_code" class="ui no-weixin green circular share icon button">
 								<i class="flat icon_weixin icon"></i>
 							</a>
               {%endif%}
