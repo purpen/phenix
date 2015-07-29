@@ -1,6 +1,11 @@
 {%extends 'layout/admin.html'%}
 {% block title %}编辑产品-{% endblock %}
 {% block page_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
   <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar.min.css" title="Aqua" />
 <style type="text/css">
 	.ui.ok.button {
