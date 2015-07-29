@@ -15,6 +15,18 @@
 		protected $exclude_method_list = array('execute','notify','direct');
 		
 		/**
+		 * 初始化参数
+		 */
+		public function _init() {
+			$this->options = array(
+				'appid' => Doggy_Config::$vars['app.wechat.appid'],
+				'mchid' => Doggy_Config::$vars['app.wechat.mchid'],
+				'key' => Doggy_Config::$vars['app.wechat.key'],
+				'secret' => Doggy_Config::$vars['app.wechat.secret']
+			);
+		}
+		
+		/**
 		 * 默认入口
 		 */
 		public function execute(){
@@ -44,7 +56,7 @@
 				return $this->show_message_page('订单[$rid]已付款！', false);
 			}
 			
-			// 支付完成异步通知地址
+			// 支付完成通知回调接口
 			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
 			
 			// 获取用户openid
@@ -117,6 +129,7 @@
 			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
+			var_dump($arr_back);
 			
 			// 商户订单号
 			$out_trade_no = $arr_back['out_trade_no'];
@@ -146,11 +159,9 @@
 		   
 		   $model = new Sher_Core_Model_Orders();
 		   $order_info = $model->find_by_rid($out_trade_no);
-		   
 		   if (empty($order_info)){
 			   return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
 		   }
-		   
 		   $status = $order_info['status'];
 		   $is_presaled = $order_info['is_presaled'];
 		   $order_id = (string)$order_info['_id'];
