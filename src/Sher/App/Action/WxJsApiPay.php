@@ -81,8 +81,6 @@ class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 		$jsapi->SetPaySign($jsapi->MakeSign());
 		$parameters = json_encode($jsapi->GetValues());
 		
-		Doggy_Log_Helper::warn($parameters);
-		
 		return $parameters;
 	}
 	
