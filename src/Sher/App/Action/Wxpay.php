@@ -12,7 +12,7 @@
 		
 		// 配置微信参数
 		public $options = array();
-		protected $exclude_method_list = array('execute','notify');
+		protected $exclude_method_list = array('execute','notify','direct');
 		
 		/**
 		 * 初始化参数
@@ -57,7 +57,6 @@
 			}
 			
 			// 支付完成通知回调接口
-			//$notify_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'secrete';
 			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
 			
 			// 获取用户openid
@@ -97,62 +96,98 @@
 			$result = $notify->Handle(false);
 			
 			Doggy_Log_Helper::warn("成功返回微信支付通知信息: ".$result);
-/*			
-	{"appid":"wx75a9ffb78f202fb3","bank_type":"CFT","cash_fee":"1","fee_type":"CNY","is_subscribe":"Y","mch_id":"1219487201","nonce_str":"icw7nfq668sxcqw9plyrqwoophl2uvmn","openid":"oEjaBt4W3xwhr5WiwtFGSTcVDRPA","out_trade_no":"121948720120150728235704","result_code":"SUCCESS","return_code":"SUCCESS","sign":"FCE0C0D4ED894A50E2CFD63384BC5904","time_end":"20150728235720","total_fee":"1","trade_type":"JSAPI","transaction_id":"1008530916201507280498186563"}
+/**
+ *	$result的值
+	{"appid":"wx75a9ffb78f202fb3",
+	"bank_type":"CFT",
+	"cash_fee":"1",
+	"fee_type":"CNY",
+	"is_subscribe":"Y",
+	"mch_id":"1219487201",
+	"nonce_str":"icw7nfq668sxcqw9plyrqwoophl2uvmn",
+	"openid":"oEjaBt4W3xwhr5WiwtFGSTcVDRPA",
+	"out_trade_no":"121948720120150728235704",
+	"result_code":"SUCCESS",
+	"return_code":"SUCCESS",
+	"sign":"FCE0C0D4ED894A50E2CFD63384BC5904",
+	"time_end":"20150728235720",
+	"total_fee":"1",
+	"trade_type":"JSAPI",
+	"transaction_id":"1008530916201507280498186563"}
 */
-			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
 			
-			Doggy_Log_Helper::warn(json_encode($arr_back));
-			
-			/*
-			if($verify_result) { // 验证成功
+			if($arr_back) { // 验证成功
 				// 商户订单号
-				$out_trade_no = $_GET['out_trade_no'];
+				$out_trade_no = $arr_back['out_trade_no'];
 				// 支付宝交易号
-				$trade_no = $_GET['trade_no'];
+				$trade_no = $arr_back['transaction_id'];
 				// 交易状态
-				$trade_status = $_GET['trade_status'];
+				$trade_status = 0;
+				if($arr_back['result_code'] == 'SUCCESS'){
+					$trade_status = 1;
+				}
 				
-				// 跳转订单详情
-				$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+				Doggy_Log_Helper::warn("Weixin notify trade_status: ".$arr_back['result_code']);
 				
-				Doggy_Log_Helper::warn("Alipay direct notify trade_status: ".$_GET['trade_status']);
-				
-				if($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
-					// 判断该笔订单是否在商户网站中已经做过处理
-					// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-					// 如果有做过处理，不执行商户的业务程序
-					return $this->update_alipay_order_process($out_trade_no, $trade_no);
+				if($trade_status == 'SUCCESS') {
+					if($this->update_order_process($out_trade_no, $trade_no)){
+						return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+					}
 				}else{
 					return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
 				}
 			}else{
 				// 验证失败
 				return $this->show_message_page('验证失败!', true);
-			}*/
+			}
 		}
 		
 		/**
-		* 微信支付异步返回通知信息
+		* 微信支付同步返回通知信息
 		*/
 	   public function direct(){
-		   $rid = $this->stash['rid'];
-		   if (empty($rid)) {
-			   return $this->show_message_page('操作不当，请查看购物帮助！', true);
-		   }
-		   $model = new Sher_Core_Model_Orders();
-		   $order_info = $model->find_by_rid($rid);
-		   
-		   $this->stash['order_info'] = $order_info;
-		   return $this->to_html_page("wap/order_view.html");
+			
+			// 返回微信支付结果通知信息
+			$notify = new Sher_App_Action_WxNotify();
+			$result = $notify->Handle(false);
+			
+			// 把返回的值变成数组
+			$arr_back = json_decode($result,true);
+			
+			if($arr_back) { // 验证成功
+				
+				// 商户订单号
+				$out_trade_no = $arr_back['out_trade_no'];
+				// 支付宝交易号
+				$trade_no = $arr_back['transaction_id'];
+				// 交易状态
+				$trade_status = $arr_back['result_code'];
+				
+				Doggy_Log_Helper::warn("weixin direct notify trade_status: ".$trade_status);
+				
+				// 跳转订单详情
+				$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+				
+				if($trade_status == 'SUCCESS') {
+					if($this->update_order_process($out_trade_no, $trade_no)){
+						return $this->to_redirect($order_view_url);
+					}
+				}else{
+					return $this->show_message_page('订单交易状态:'.$trade_status, true);
+				}
+			}else{
+				// 验证失败
+				return $this->show_message_page('验证失败!', true);
+			}
 	   }
 	   
 	   /**
 		 * 更新订单状态
 		 */
-		protected function update_alipay_order_process($out_trade_no, $trade_no, $sync=false){
+		protected function update_order_process($out_trade_no, $trade_no){
+		   
 		   $model = new Sher_Core_Model_Orders();
 		   $order_info = $model->find_by_rid($out_trade_no);
 		   if (empty($order_info)){
@@ -162,28 +197,14 @@
 		   $is_presaled = $order_info['is_presaled'];
 		   $order_id = (string)$order_info['_id'];
 		   
-		   // 跳转订单详情
-		   $order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
-		   
-		   Doggy_Log_Helper::warn("Alipay order[$out_trade_no] status[$status] updated!");
+		   Doggy_Log_Helper::warn("Weixin order[$out_trade_no] status[$status] updated!");
 		   
 		   // 验证订单是否已经付款
 		   if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			   // 更新支付状态,付款成功并配货中
-			   $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
-			   
-			   if (!$sync){
-				   return $this->show_message_page('订单状态已更新!', $order_view_url);
-			   } else {
-				   // 已支付状态
-				   return $this->to_raw('success');
-			   }
-		   }
-		   
-		   if (!$sync){
-			   return $this->to_redirect($order_view_url);
-		   } else {
-			   return $this->to_raw('success');
+				// 更新支付状态,付款成功并配货中
+				return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+		   }else{
+				return true;
 		   }
 		}
 	}
