@@ -321,7 +321,7 @@ fetch_rank();
       <div class="column">
         <div class="ui segment" style="padding:0;">
           <div class="image">
-            <img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%">
+            <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
             <div class="potext">
               <p>{{ try.title }}</p>
             </div>
@@ -349,56 +349,6 @@ fetch_rank();
     </div>
   </div>
 </div>
-
-
-
-
-
-
-<!--<div class="try-top">
-	<div class="backimage" style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%">
-	</div>
-	<div class="contaix">
-		<div style="margin-top: 50px;height:145px;"></div>
-		<div class="avatar">
-			<img src="{{ apply.user.big_avatar_url }}">
-		</div>	
-		<div class="avatname">
-      <span class="name-watch">{{ apply.user.nickname }}</span>
-		</div>
-	</div>
-</div>
-<div class="descritret">
-	<p>
-		我正在申请{{ try.title }}免费试用机会，
-		{% if !try.is_end %}离投票结束还有
-		<span data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，投我一票吧！
-		{% else %}
-		投票已结束！
-		{% endif %}
-	</p>
-</div>
-<div class="blockto">
-	<a href="{{ try.view_url }}" title="{{ try.title }}" target="_blank">
-		<div class="card">
-			<div class="photo">
-				<img src="{{ try.cover.thumbnails.resp.view_url }}" alt="{{ try.title }}" width="80" height="80">
-			</div>
-			<div class="descrit">
-			  <p class="tit">{{ try.title }}</p>
-        <p class="infor">
-          <span>免费试用&nbsp;/</span>
-          <span>{{ try.try_count }} 个&nbsp;/</span>
-          <span>{{ try.apply_count }} 人申请&nbsp;</span>
-         </p>
-       </div>
-		</div>
-	</a>
-</div>-->
-
-<!--<div class="trypeo" id="rank-box">-->
-  <!--ajax fetch rank-->
-<!--</div>-->
 
 
 {% if !try.is_end %}
