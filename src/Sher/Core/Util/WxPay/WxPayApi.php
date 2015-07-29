@@ -406,8 +406,6 @@ class Sher_Core_Util_WxPay_WxPayApi
  	 */
 	public static function notify($callback, &$msg)
 	{
-		
-		Doggy_Log_Helper::warn("访问支付结果通用通知成功！");
 
 		//获取通知的数据
 		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];

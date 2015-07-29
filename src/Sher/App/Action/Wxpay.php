@@ -92,38 +92,21 @@
 			// 返回微信支付结果通知信息
 			$notify = new Sher_App_Action_WxNotify();
 			$result = $notify->Handle(false);
-/**
- *	$result的值
-	{"appid":"wx75a9ffb78f202fb3",
-	"bank_type":"CFT",
-	"cash_fee":"1",
-	"fee_type":"CNY",
-	"is_subscribe":"Y",
-	"mch_id":"1219487201",
-	"nonce_str":"icw7nfq668sxcqw9plyrqwoophl2uvmn",
-	"openid":"oEjaBt4W3xwhr5WiwtFGSTcVDRPA",
-	"out_trade_no":"121948720120150728235704",
-	"result_code":"SUCCESS",
-	"return_code":"SUCCESS",
-	"sign":"FCE0C0D4ED894A50E2CFD63384BC5904",
-	"time_end":"20150728235720",
-	"total_fee":"1",
-	"trade_type":"JSAPI",
-	"transaction_id":"1008530916201507280498186563"}
-*/
+			Doggy_Log_Helper::warn("notify_result: ".$result);
+			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
+
 			// 商户订单号
 			$out_trade_no = $arr_back['out_trade_no'];
 			// 支付宝交易号
 			$trade_no = $arr_back['transaction_id'];
 			// 交易状态
-			$trade_status = 0;
-			if($arr_back['result_code'] == 'SUCCESS'){
-				$trade_status = 1;
-			}
+			$trade_status = $arr_back['result_code'];
 			
-			Doggy_Log_Helper::warn("订单号: ".$out_trade_no);
+			Doggy_Log_Helper::warn("商户订单号: ".$out_trade_no);
+			Doggy_Log_Helper::warn("支付宝交易号: ".$trade_no);
+			Doggy_Log_Helper::warn("交易状态: ".$trade_status);
 			
 			if($trade_status == 'SUCCESS') {
 				if($this->update_order_process($out_trade_no, $trade_no)){
@@ -142,19 +125,19 @@
 			// 返回微信支付结果通知信息
 			$notify = new Sher_App_Action_WxNotify();
 			$result = $notify->Handle(false);
+			Doggy_Log_Helper::warn("direct_result: ".$result);
 			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
-				
+			var_dump($arr_back);
+			
 			// 商户订单号
 			$out_trade_no = $arr_back['out_trade_no'];
 			// 支付宝交易号
 			$trade_no = $arr_back['transaction_id'];
 			// 交易状态
 			$trade_status = $arr_back['result_code'];
-			Doggy_Log_Helper::warn("商户订单号: ".$out_trade_no);
-			Doggy_Log_Helper::warn("支付宝交易号: ".$trade_no);
-			Doggy_Log_Helper::warn("交易状态: ".$trade_status);
+			
 			
 			// 跳转订单详情
 			$order_view_url = 'http://'.$_SERVER['HTTP_HOST'].'/my/order_view?rid='.$out_trade_no;

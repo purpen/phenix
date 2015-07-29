@@ -28,8 +28,6 @@ class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 	// 重写回调处理函数
 	public function NotifyProcess($data, &$msg)
 	{
-
-        Doggy_Log_Helper::warn("call back:" . json_encode($data));
 		
 		$notfiyOutput = array();
 		if(!array_key_exists("transaction_id", $data)){
