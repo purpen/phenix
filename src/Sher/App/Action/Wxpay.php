@@ -113,30 +113,24 @@
 */
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
+			// 商户订单号
+			$out_trade_no = $arr_back['out_trade_no'];
+			// 支付宝交易号
+			$trade_no = $arr_back['transaction_id'];
+			// 交易状态
+			$trade_status = 0;
+			if($arr_back['result_code'] == 'SUCCESS'){
+				$trade_status = 1;
+			}
 			
-			if($result) { // 验证成功
-				// 商户订单号
-				$out_trade_no = $arr_back['out_trade_no'];
-				// 支付宝交易号
-				$trade_no = $arr_back['transaction_id'];
-				// 交易状态
-				$trade_status = 0;
-				if($arr_back['result_code'] == 'SUCCESS'){
-					$trade_status = 1;
-				}
-				
-				Doggy_Log_Helper::warn("订单号: ".$out_trade_no);
-				
-				if($trade_status == 'SUCCESS') {
-					if($this->update_order_process($out_trade_no, $trade_no)){
-						return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-					}
-				}else{
-					return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
+			Doggy_Log_Helper::warn("订单号: ".$out_trade_no);
+			
+			if($trade_status == 'SUCCESS') {
+				if($this->update_order_process($out_trade_no, $trade_no)){
+					return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
 				}
 			}else{
-				// 验证失败
-				return $this->show_message_page('验证失败!', true);
+				return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
 			}
 		}
 		
@@ -151,33 +145,27 @@
 			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
+				
+			// 商户订单号
+			$out_trade_no = $arr_back['out_trade_no'];
+			// 支付宝交易号
+			$trade_no = $arr_back['transaction_id'];
+			// 交易状态
+			$trade_status = $arr_back['result_code'];
+			Doggy_Log_Helper::warn("商户订单号: ".$out_trade_no);
+			Doggy_Log_Helper::warn("支付宝交易号: ".$trade_no);
+			Doggy_Log_Helper::warn("交易状态: ".$trade_status);
 			
-			if($result) { // 验证成功
-				
-				// 商户订单号
-				$out_trade_no = $arr_back['out_trade_no'];
-				// 支付宝交易号
-				$trade_no = $arr_back['transaction_id'];
-				// 交易状态
-				$trade_status = $arr_back['result_code'];
-				Doggy_Log_Helper::warn("商户订单号: ".$out_trade_no);
-				Doggy_Log_Helper::warn("支付宝交易号: ".$trade_no);
-				Doggy_Log_Helper::warn("交易状态: ".$trade_status);
-				
-				// 跳转订单详情
-				$order_view_url = 'http://'.$_SERVER['HTTP_HOST'].'/my/order_view?rid='.$out_trade_no;
-				Doggy_Log_Helper::warn("跳转地址: ".$order_view_url);
-				
-				if($trade_status == 'SUCCESS') {
-					if($this->update_order_process($out_trade_no, $trade_no)){
-						return $this->to_redirect($order_view_url);
-					}
-				}else{
-					return $this->show_message_page('订单交易状态:'.$trade_status, true);
+			// 跳转订单详情
+			$order_view_url = 'http://'.$_SERVER['HTTP_HOST'].'/my/order_view?rid='.$out_trade_no;
+			Doggy_Log_Helper::warn("跳转地址: ".$order_view_url);
+			
+			if($trade_status == 'SUCCESS') {
+				if($this->update_order_process($out_trade_no, $trade_no)){
+					return $this->to_redirect($order_view_url);
 				}
 			}else{
-				// 验证失败
-				return $this->show_message_page('验证失败!', true);
+				return $this->show_message_page('订单交易状态:'.$trade_status, true);
 			}
 	   }
 	   
