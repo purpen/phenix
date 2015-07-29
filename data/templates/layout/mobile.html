@@ -31,6 +31,9 @@
 		{% endif %}
 
 		<style type="text/css">
+		  .ui.responsive.grid{
+		    min-width:320px;
+		  }
 			#wap-user-sign-box .add{
 				color:rgba(0,0,0,0);
 				position: absolute;
@@ -53,6 +56,22 @@
 				-moz-transition: color 2s ease, top 4s ease;
 				-o-transition: color 2s ease, top 4s ease;
 			}
+			.ui.sidebar {
+          width: 16rem !important;
+          margin-left: auto!important;
+      }
+      .ui.vertical.inverted.menu .item:before {
+        background: -webkit-linear-gradient(left,rgba(255,255,255,.03) 0,rgba(255,255,255,.1) 50%,rgba(255,255,255,.03) 100%);
+        background: -webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.03)),color-stop(50%,rgba(255,255,255,.1)),to(rgba(255,255,255,.03)));
+        background: linear-gradient(to right,rgba(255,255,255,.03) 0,rgba(255,255,255,.1) 50%,rgba(255,255,255,.03) 100%);
+      }
+      .ui.vertical.inverted.menu .item:last-child:before{
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+      }
 		  body {
 			    background: #f5f5f5;
 			    color: #5d6266;
@@ -150,14 +169,12 @@
 				//sidebar menu
 				$('a.launch').on('click',function(e){
 					e.preventDefault();
-					$('.ui.sidebar.menu').addClass('active visible');
-					$(document.body).addClass('left pushed');
-					$('#Hmask').css('display','');
+					$('.ui.sidebar.menu').addClass('overlay visible');
+					$('#cover').css('display','');
 				});
-				$('#Hmask').click(function(){
-					$('.ui.sidebar.menu').removeClass('active visible');
-					$(document.body).removeClass('left pushed');
-			    $('#Hmask').css('display','none');
+				$('#cover').click(function(){
+					$('.ui.sidebar.menu').removeClass('overlay visible');
+			    $('#cover').css('display','none');
 				});
 				
 				//ajax加载签到数据
