@@ -529,6 +529,12 @@
 						<label>积分兑换 <small>只可用于鸟币或鸟币+差价兑换</small></label>
 					</div>
 				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="15" {% if product.stage == 15 %}checked="checked"{% endif %} /> 
+						<label>产品灵感 <small>非购买商品</small></label>
+					</div>
+				</div>
 			</div>
 			
 			<h3 class="ui dividing stage header">产品历属设置</h3>
@@ -544,6 +550,10 @@
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_saled" {% if product.process_saled %}checked="checked"{% endif %} />
 		          	<label>商店 <small class="ui magenta text">（预售产品，结束后才能选择）</small></label>
+		        </div>
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="process_idea" {% if product.process_idea %}checked="checked"{% endif %} />
+		          	<label>灵感 <small class="ui magenta text">（非购买商品）</small></label>
 		        </div>
 			</div>
 		</div>
