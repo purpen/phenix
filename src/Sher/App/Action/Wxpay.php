@@ -89,13 +89,9 @@
 		 */
 		public function notify(){
 			
-			Doggy_Log_Helper::warn("访问异步通知地址成功！");
-			
 			// 返回微信支付结果通知信息
 			$notify = new Sher_App_Action_WxNotify();
 			$result = $notify->Handle(false);
-			
-			Doggy_Log_Helper::warn("成功返回微信支付通知信息: ".$result);
 /**
  *	$result的值
 	{"appid":"wx75a9ffb78f202fb3",
@@ -129,7 +125,7 @@
 					$trade_status = 1;
 				}
 				
-				Doggy_Log_Helper::warn("Weixin notify trade_status: ".$arr_back['result_code']);
+				Doggy_Log_Helper::warn("订单号: ".$out_trade_no);
 				
 				if($trade_status == 'SUCCESS') {
 					if($this->update_order_process($out_trade_no, $trade_no)){
@@ -165,10 +161,9 @@
 				// 交易状态
 				$trade_status = $arr_back['result_code'];
 				
-				Doggy_Log_Helper::warn("weixin direct notify trade_status: ".$trade_status);
-				
 				// 跳转订单详情
 				$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+				Doggy_Log_Helper::warn("跳转地址: ".$order_view_url);
 				
 				if($trade_status == 'SUCCESS') {
 					if($this->update_order_process($out_trade_no, $trade_no)){
