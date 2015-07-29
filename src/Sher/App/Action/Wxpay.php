@@ -98,7 +98,7 @@
 /*			
 	{"appid":"wx75a9ffb78f202fb3","bank_type":"CFT","cash_fee":"1","fee_type":"CNY","is_subscribe":"Y","mch_id":"1219487201","nonce_str":"icw7nfq668sxcqw9plyrqwoophl2uvmn","openid":"oEjaBt4W3xwhr5WiwtFGSTcVDRPA","out_trade_no":"121948720120150728235704","result_code":"SUCCESS","return_code":"SUCCESS","sign":"FCE0C0D4ED894A50E2CFD63384BC5904","time_end":"20150728235720","total_fee":"1","trade_type":"JSAPI","transaction_id":"1008530916201507280498186563"}
 */
-			die;
+/*
 			if($verify_result) { // 验证成功
 				// 商户订单号
 				$out_trade_no = $_GET['out_trade_no'];
@@ -123,7 +123,7 @@
 			}else{
 				// 验证失败
 				return $this->show_message_page('验证失败!', true);
-			}
+			}*/
 		}
 		
 		/**
