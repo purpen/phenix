@@ -179,7 +179,7 @@
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}';
-    var descritc_str = '太火鸟-新品试用';
+    var descritc_str = '跪求支持!!!';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -194,7 +194,7 @@
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
      wx.onMenuShareAppMessage({
       title: m_name,
-      descritc: descritc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -205,7 +205,7 @@
     // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareTimeline({
       title: m_name,
-      descritc: descritc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -216,7 +216,7 @@
     // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareQQ({
       title: m_name,
-      descritc: descritc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -227,7 +227,7 @@
     // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareWeibo({
       title: m_name,
-      descritc: descritc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -275,8 +275,7 @@ $('[data-countdown]').each(function() {
 $('.support-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-    phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
-      //$('.ui.sign-box.modal').modal('show');
+      phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
     var url = "{{ app_url_wap }}/try/ajax_support";
@@ -407,7 +406,7 @@ fetch_rank();
     <div class="barrer subbtn showdiv"><a class="play">求支持</a></div>
   {%else%}
     {% if is_support %}
-      <div class="barrer subbtn"><a href="{{ try.view_url }}" class="play">我要试用</a></div>
+      <div class="barrer subbtn"><a href="{{ try.wap_view_url }}" class="play">我要试用</a></div>
     {%else%}
       <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
     {%endif%}

@@ -98,6 +98,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
       $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
       if(!empty($has_one_apply)){
         $is_applied = true;
+        $has_one_apply = $apply_model->extended_model_row($has_one_apply);
         $this->stash['apply'] = $has_one_apply;
       }
     }
@@ -155,7 +156,14 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 				$this->stash['user_id'] = $user_id;
 				
 				$ok = $model->apply_and_save($this->stash);
-        $this->stash['apply_id'] = $model->id;
+        if($ok){
+          $this->stash['apply_id'] = $model->id;
+          $apply = $model->extend_load((string)$model->id);       
+        }else{
+          $apply = null;
+        }
+        $this->stash['apply'] = $apply;
+
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
