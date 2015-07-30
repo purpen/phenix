@@ -166,12 +166,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     $this->_comment_param($comment_options);
 
     // 69电臀标识
-    if($try['_id']==52019){
-      $is_liu = true;
+    if((int)$try['_id']==52019){
+      $is_69 = true;
     }else{
-      $is_liu = false;
+      $is_69 = false;
     }
-    $this->stash['is_liu'] = $is_liu;
+    $this->stash['is_69'] = $is_69;
 		
 		return $this->to_html_page($tpl);
 	}
