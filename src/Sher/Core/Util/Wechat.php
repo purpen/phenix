@@ -104,7 +104,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		$this->appsecret = isset($options['appsecret'])?$options['appsecret']:'';
 		$this->partnerid = isset($options['partnerid'])?$options['partnerid']:'';
 		$this->partnerkey = isset($options['partnerkey'])?$options['partnerkey']:'';
-		$this->paysignkey = isset($options['paysignkey'])?$options['paysignkey']:'';
 		$this->debug = isset($options['debug'])?$options['debug']:false;
 		$this->_logcallback = isset($options['logcallback'])?$options['logcallback']:false;
 	}

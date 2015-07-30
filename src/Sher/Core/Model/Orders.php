@@ -38,10 +38,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'coin_money'  => 0,
 		# 礼品码金额
 		'gift_money'  => 0,
-    # 鸟币数量
-    'bird_coin_count' => 0,
-    # 鸟币金额
-    'bird_coin_money' => 0,
+		# 鸟币数量
+		'bird_coin_count' => 0,
+		# 鸟币金额
+		'bird_coin_money' => 0,
 		
 		# 物流费用
 		'freight'  => 0,
