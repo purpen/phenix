@@ -92,7 +92,12 @@
 			// 返回微信支付结果通知信息
 			$notify = new Sher_App_Action_WxNotify();
 			$result = $notify->Handle(false);
-			Doggy_Log_Helper::warn("notify_result: ".$result);
+			if(!$result){
+				return $this->show_message_page('异步获取通知信息失败！');
+			}
+			$notifyInfo = $notify->arr_notify;
+			
+			Doggy_Log_Helper::warn("获取通知信息: ".$notifyInfo);
 			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
