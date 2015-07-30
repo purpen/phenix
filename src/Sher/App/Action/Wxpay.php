@@ -97,7 +97,7 @@
 			}
 			$notifyInfo = $notify->arr_notify;
 			
-			Doggy_Log_Helper::warn("获取通知信息: ".$notifyInfo);
+			Doggy_Log_Helper::warn("获取通知信息: ".json_encode($notifyInfo));
 			
 			// 把返回的值变成数组
 			$arr_back = json_decode($result,true);
