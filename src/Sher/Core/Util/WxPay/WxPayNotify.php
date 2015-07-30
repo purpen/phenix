@@ -5,7 +5,7 @@
  * @author widyhu
  *
  */
-class Sher_Core_Util_WxPay_WxPayNotify
+class Sher_Core_Util_WxPay_WxPayNotify extends Sher_Core_Util_WxPay_WxPayData_WxPayNotifyReply
 {
 	/**
 	 * 
