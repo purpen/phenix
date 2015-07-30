@@ -186,7 +186,7 @@
 {% block layout_js %}
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
-    {% if is_69 %}
+    {% if is_liu %}
     var m_name = '急需支持! 我正在申请太火鸟价值4969元宇宙独家首发免费试用,就差你的一票了~';
     {%else%}
     var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来支持我吧!';
@@ -346,7 +346,7 @@ fetch_rank();
             </div>
           </div>
           <div class="cont">
-            {% if is_69 %}
+            {% if is_liu %}
               <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！这款太火鸟【宇宙独家首发】的超级神秘新品正在免费试用中，我已申请，离支持结束还有
               <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持投票中签机率更加倍哟~
             {%else%}
