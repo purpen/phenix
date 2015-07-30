@@ -7,30 +7,20 @@
 {% endblock %}
 
 {% block jquery %}
-	// 微信支付
-	var wechat_pay = function() {
-		if (typeof WeixinJSBridge == 'undefined') {
-			alert('WeixinJSBridge undefined');
-			return false;
-		}
+	
+	//调用微信JS api 支付
+	function jsApiCall()
+	{
 		// 传入公众号名称,时间戳,随机串,Package 扩展字段,签名方式和 PaySign 签名
-		WeixinJSBridge.invoke('getBrandWCPayRequest', { 
-			"appId" : "{{ wxoptions.appId }}", 
-			"timeStamp" : "{{ wxoptions.timeStamp }}",
-			"nonceStr" : "{{ wxoptions.nonceStr }}",
-			"package" : "{{ wxoptions.package }}",
-			"signType" : "SHA1",
-			"paySign" : "{{ wxoptions.paySign }}"
-			}, function(res){
-				// 返回 res.err_msg,取值
-				// get_brand_wcpay_request:cancel 用户取消 // get_brand_wcpay_request:fail 发送失败
-				// get_brand_wcpay_request:ok 发送成功
-				WeixinJSBridge.log(res.err_msg);
-				alert(res.err_msg);
-				// 支付成功
-				if (res.err_msg == 'get_brand_wcpay_request:ok'){
-					var view_url = '{{ app_url_domain }}/wxpay/show?rid='+rid;
-					phenix.redirect(view_url);
+		WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				{{jsApiParameters}},
+				function(res){
+				//alert(res.err_msg);
+				if (res.err_msg == 'get_brand_wcpay_request:ok'){ // 支付成功
+					var view_url = "{{ url_back }}";
+					window.location.href = view_url;
+					//alert(view_url);
 				} else if (res.err_msg == 'get_brand_wcpay_request:fail') { // 支付失败
 					alert('支付失败！');
 				} else if (res.err_msg == 'get_brand_wcpay_request:cancel') { // 支付失败
@@ -39,9 +29,25 @@
 					alert('微信支付出现异常，请核对信息后重试！');
 				}
 		});
-	};
-		
-	wechat_pay();
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+				document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+	
+	$('#pay_yes').click(function(){
+		callpay();
+	});
 	
 {% endblock %}
 
@@ -50,8 +56,8 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<h5 class="ui dividing header">支付订单</h5>
-				<div class="ui green message">微信支付订单</div>
+				<h5 class="ui dividing header">微信支付订单</h5>
+				<div class="ui green message" id="pay_yes">点击确认支付</div>
 			</div>
 		</div>
 	</div>

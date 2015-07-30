@@ -38,10 +38,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'coin_money'  => 0,
 		# 礼品码金额
 		'gift_money'  => 0,
-    # 鸟币数量
-    'bird_coin_count' => 0,
-    # 鸟币金额
-    'bird_coin_money' => 0,
+		# 鸟币数量
+		'bird_coin_count' => 0,
+		# 鸟币金额
+		'bird_coin_money' => 0,
 		
 		# 物流费用
 		'freight'  => 0,
@@ -172,6 +172,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if (isset($row['from_site'])){
 			$row['from_site_label'] = $this->get_from_label($row['from_site']);
 		}
+
+    // 支付方式
+    if (isset($row['trade_site']) && !empty($row['trade_site'])){
+      $row['trade_site_name'] = $this->get_trade_site_label($row['trade_site']);
+    }
 		// 优惠金额
 		if (!isset($row['gift_money'])){
 			$row['gift_money'] = 0;
@@ -196,6 +201,30 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				break;
 			case Sher_Core_Util_Constant::FROM_IAPP:
 				$label = '手机应用';
+				break;
+			default:
+				$label = '其他';
+				break;
+		}
+		return $label;
+	}
+
+	/**
+	 * 获取支付方式
+	 */
+	protected function get_trade_site_label($site){
+		switch($site){
+			case Sher_Core_Util_Constant::TRADE_ALIPAY:
+				$label = '支付宝';
+				break;
+			case Sher_Core_Util_Constant::TRADE_QUICKPAY:
+				$label = '在线支付';
+				break;
+			case Sher_Core_Util_Constant::TRADE_WEIXIN:
+				$label = '微信';
+				break;
+			case Sher_Core_Util_Constant::TRADE_TENPAY:
+				$label = '未定义';
 				break;
 			default:
 				$label = '其他';
