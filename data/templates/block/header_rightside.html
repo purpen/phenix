@@ -85,18 +85,6 @@
 	</div>
         
     {% if visitor %}
-    <div class="ui icon top right pointing dropdown basket magenta button" data-url="javascript:void(0);">
-        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">
-            0
-        </label>
-        <i class="alarm outline icon"></i>
-        <!--ajax加载用户提醒-->
-        <div class="menu" id="user-notice">
-            <div class="header">未读消息</div>
-            <div class="item" id="basket-body-content">没有消息</div>
-        </div>
-    </div>
-    
 	<div class="ui top right pointing dropdown icon user-setting button">
 		<a class="ui link" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
       <img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" class="ui avatar image" alt="{{ visitor.nickname }}" /><p style="display: inline-block;vertical-align: middle;max-width: 100px;padding-left: 10px;overflow: hidden;text-overflow: ellipsis;margin: 0;white-space: nowrap;"> {{ visitor.nickname }}</p><i class="angle down icon"></i>
@@ -127,6 +115,17 @@
 			</a>
 	  	</div>
 	</div>
+    <div class="ui icon top right pointing dropdown basket magenta button" data-url="javascript:void(0);">
+        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">
+            0
+        </label>
+        <i class="alarm outline icon"></i>
+        <!--ajax加载用户提醒-->
+        <div class="menu" id="user-notice">
+            <div class="header">未读消息</div>
+            <div class="item" id="basket-body-content">没有消息</div>
+        </div>
+    </div>
     {% else %}
         <a class="ui compact login button" href="{{ app_url_login }}">
             登录

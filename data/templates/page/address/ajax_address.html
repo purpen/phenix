@@ -26,9 +26,10 @@
 							</div>
 						</div>
 				
+						<div class="two fields">
 						<div class="field">
-							<label>地址</label>
-							<div class="ui selection province dropdown">
+    					<label>省市</label>
+							<div class="fluid ui selection province dropdown">
 								<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
 							    <div class="default text">省份/自治区</div>
@@ -39,8 +40,11 @@
 									{% endfor %}
 							    </div>
 							</div>
+            </div>
 	
-							<div class="ui selection district dropdown" id="district-menu">
+						<div class="field">
+                        <label>地区/县</label>
+							<div class="fluid ui selection district dropdown" id="district-menu">
 								<input type="hidden" name="city" value="{{ addbook.city }}" />
 							    <div class="default text">地区区域</div>
 							    <i class="flat arrowbottom icon"></i>
@@ -51,6 +55,7 @@
 							    </div>
 							</div>
 						</div>
+          </div>
 				
 						<div class="field">
 							<textarea name="address" class="small">{{ addbook.address }}</textarea>

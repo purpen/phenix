@@ -53,6 +53,8 @@ while(!$is_end){
     $category_id = z_category($list[$i]['category_id']);
 
     $data['old_stuff_id'] = $id;
+    // 标识是导过来的数据
+    $data['product_idea'] = 1;
     $data['user_id'] = $list[$i]['user_id'];
     $data['title'] = $list[$i]['title'];
     $data['category_id'] = $category_id;

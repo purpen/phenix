@@ -223,6 +223,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'process_presaled' => 0,
 		# 是否在商店列表显示
 		'process_saled' => 0,
+    # 产品灵感
+    'process_idea' => 0,
 		
 		# 投票申请/产品灵感是否审核
 		'approved' => 0,
@@ -302,10 +304,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             }else if ($row['stage'] == self::STAGE_IDEA){
                 $row['stage_label'] = '产品灵感';
             }else{
-                $row['stage_label'] = '未设置'; // 未知
+                $row['stage_label'] = '未设置1'; // 未知
             }
         }else{
-            $row['stage_label'] = '未设置'; // 未知  
+            $row['stage_label'] = '未设置2'; // 未知  
         }
 		
 		// HTML 实体转换为字符
@@ -592,14 +594,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
      * 标记为推荐
      */
     public function mark_as_stick($id) {
-        return $this->update_set($id, array('stick' => 1));
+        return $this->update_set((int)$id, array('stick' => 1));
     }
 	
     /**
      * 取消推荐
      */
 	public function mark_cancel_stick($id) {
-		return $this->update_set($id, array('stick' => 0));
+		return $this->update_set((int)$id, array('stick' => 0));
+	}
+
+    /**
+     * 标记为精选
+     */
+    public function mark_as_featured($id) {
+        return $this->update_set((int)$id, array('featured' => 1));
+    }
+	
+    /**
+     * 取消精选
+     */
+	public function mark_cancel_featured($id) {
+		return $this->update_set((int)$id, array('featured' => 0));
 	}
 	
 	/**

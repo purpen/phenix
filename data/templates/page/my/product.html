@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}我的创意-{% endblock %}
+{% block title %}我的产品-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -39,7 +39,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">我的创意</div>
+					<div class="active section">我的产品</div>
 				</div>
 			</div>
 		</div>
@@ -52,17 +52,20 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我的创意</h2>
+      <h2 class="ui header">
+        我的产品
+        {% if visitor.can_edit %}<span><a href="{{ app_url_shop }}/idea_submit" class="ui link" style="font-size:12px; font-weight:normal;">上传产品灵感</a></span>{%endif%}
+      </h2>
 			<div>
 				<div class="ui grid">
 					<div class="row">
 						<div class="column">
-							{% product_list var:'list' stage:1 page:page user_id:user_id size:15 %}
+							{% product_list var:'list' is_idea:1 page:page user_id:user_id size:15 %}
 							<div class="ui center-list">
 								<div class="ui three cards">
 									{% for d in list.rows %}
-                                        {% include 'block/center/product-item.html' %}
-                                    {%endfor%}
+                    {% include 'block/center/product-item.html' %}
+                  {%endfor%}
 								</div>
 							</div>
 		         		    {% if list.rows %}

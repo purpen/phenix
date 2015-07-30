@@ -23,7 +23,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate', 'ajax_load_list');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -291,6 +291,15 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->to_redirect($product['view_url']);
 		}
 
+		// 当前用户是否有管理权限
+    $editable = false;
+		if ($this->visitor->id){
+			if ($this->visitor->id == $product['user_id'] || $this->visitor->can_edit){
+				$editable = true;
+			}
+		}
+    $this->stash['editable'] = $editable;
+
     //判断类型
     if($product['stage']==Sher_Core_Model_Product::STAGE_SHOP){
       $item_stage = $this->stash['item_stage'] = 'shop';
@@ -344,9 +353,17 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);
-		
-		// 评论的链接URL
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $product['_id'],
+		  'comment_target_user_id' => $product['user_id'],
+		  'comment_type'  =>  4,
+		  'comment_pager' =>  Sher_Core_Helper_Url::sale_view_url($id, '#p#'),
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
 		
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
@@ -412,7 +429,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * ajax获取评论
 	 */
 	public function ajax_fetch_comment(){
-        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
@@ -420,6 +437,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         
 		return $this->to_taconite_page('ajax/fetch_shop_comment.html');
 	}
+
 
   	/**
    	 * 产品合作入口
@@ -575,6 +593,370 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q']);
     return $this->to_html_page('page/shop/product_list.html');
   
+  }
+
+  /**
+   * ajax加载商品列表
+   */
+  public function ajax_load_list(){
+
+		return $this->to_taconite_page('page/shop/ajax_list.html');
+  
+  }
+
+	/**
+	 * 编辑产品灵感
+	 */
+	public function idea_edit(){
+		if(empty($this->stash['id'])){
+			return $this->show_message_page('缺少请求参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$this->stash['id']);
+		
+        if(empty($product)){
+            return $this->show_message_page('编辑的产品不存在或被删除！', true);
+        }
+		// 仅管理员或本人具有删除权限
+		if (!$this->visitor->can_edit() && !($product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('你没有权限编辑的该主题！', true);
+		}
+        
+		$product = $model->extended_model_row($product);
+		
+		$this->stash['mode'] = 'edit';
+		$this->stash['product'] = $product;
+		
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+		
+		return $this->to_html_page('page/shop/idea_submit.html');
+	}
+
+	/**
+	 * 提交入口
+	 */
+	public function idea_submit(){
+
+		$this->stash['mode'] = 'create';
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+		
+		return $this->to_html_page('page/shop/idea_submit.html');
+	}
+
+	/**
+	 * 保存产品信息
+	 */
+	public function idea_save(){
+		// 验证数据
+		if(empty($this->stash['title'])){
+			return $this->ajax_json('标题不能为空！', true);
+		}
+    if(empty($this->stash['category_id'])){
+        return $this->ajax_json('请选择一个类别！', true); 
+    }
+    if(empty($this->stash['cover_id'])){
+        return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+    }
+        
+		$id = (int)$this->stash['_id'];
+		
+		$mode = 'create';
+		$data = array();
+		
+		$data['title'] = $this->stash['title'];
+		$data['content'] = $this->stash['content'];
+		$data['tags'] = $this->stash['tags'];
+		$data['category_id'] = (int)$this->stash['category_id'];
+		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
+    $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
+    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+        
+    // 团队介绍
+    $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
+    // 品牌名称
+    $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
+    // 设计师
+		$designer = isset($this->stash['designer'])?$this->stash['designer']:null;
+    // 所属国家
+		$country = isset($this->stash['country'])?$this->stash['country']:null;
+    // 上市时间
+		$market_time = isset($this->stash['market_time'])?$this->stash['market_time']:null;
+    // 指导价格
+		$official_price = isset($this->stash['official_price'])?$this->stash['official_price']:null;
+    // 购买地址
+		$buy_url = isset($this->stash['buy_url'])?$this->stash['buy_url']:null;
+    // 产品阶段
+		$processed = isset($this->stash['processed'])?$this->stash['processed']:0;
+
+    $product_info = array(
+      'team_introduce' => $team_introduce,
+      'brand' => $brand,
+      'designer' => $designer,
+      'country' => $country,
+      'market_time' => $market_time,
+      'official_price' => $official_price,
+      'buy_url' => $buy_url,
+      'processed' => $processed,
+    );
+    $data['product_info'] = $product_info;
+
+    // 关联产品
+    $data['fever_id'] = isset($this->stash['fever_id'])?(int)$this->stash['fever_id']:0;
+    $data['published'] = isset($this->stash['published'])?(int)$this->stash['published']:0;
+		
+		// 检测编辑器图片数
+		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
+
+    // 产品类型
+    $data['stage'] = 15;
+		
+		// 检查是否有附件
+		if(isset($this->stash['asset'])){
+			$data['asset'] = $this->stash['asset'];
+		}else{
+			$data['asset'] = array();
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = (int)$this->visitor->id;
+				
+				$ok = $model->apply_and_save($data);
+				
+				$product = $model->get_data();
+				$id = (int)$product['_id'];
+				
+				// 更新用户灵感数量
+				$this->visitor->inc_counter('product_count', $data['user_id']);
+			}else{
+				$mode = 'edit';
+
+		    $data['_id'] = $id;
+			  $ok = $model->apply_and_update($data);
+
+        if($ok){
+          
+        }
+			}
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+			$asset = new Sher_Core_Model_Asset();
+			// 上传成功后，更新所属的附件
+			if(isset($data['asset']) && !empty($data['asset'])){
+				$asset->update_batch_assets($data['asset'], (int)$id);
+			}
+			
+			// 保存成功后，更新编辑器图片
+			if($file_count && !empty($this->stash['file_id'])){
+			  Doggy_Log_Helper::debug("Upload file count[$file_count].");
+				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
+			}
+
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+      //更新百度推送
+      if($mode=='create'){
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12); 
+      }
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
+			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+		}
+
+   	$redirect_url = Sher_Core_Helper_Url::shop_view_url($id);       
+
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+	}
+
+	/**
+	 * 推荐
+	 */
+	public function ajax_stick(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+			$model = new Sher_Core_Model_Product();
+			$model->mark_as_stick((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+	
+	/**
+	 * 取消推荐
+	 */
+	public function ajax_cancel_stick(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+            
+			$model = new Sher_Core_Model_Product();
+			$model->mark_cancel_stick((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+    
+	/**
+	 * 精选
+	 */
+	public function mark_as_featured(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+			$model = new Sher_Core_Model_Product();
+			$ok = $model->mark_as_featured((int)$id);
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+    
+	/**
+	 * 取消精华
+	 */
+	public function mark_cancel_featured(){
+		$id = $this->stash['id'];
+		if(empty($this->stash['id'])){
+			return $this->ajax_json('主题不存在！', true);
+		}
+		
+		try{
+            // 验证是否具有权限
+            if(!$this->visitor->can_edit()){
+                return $this->ajax_json('抱歉，你没有权限操作此项！', true);
+            }
+			$model = new Sher_Core_Model_Product();
+			$model->mark_cancel_featured((int)$id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+		
+		return $this->ajax_json('操作成功');
+	}
+
+	/**
+	 * 删除商品灵感
+	 */
+	public function deleted(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('产品不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Product();
+			$product = $model->load((int)$id);
+			
+			// 仅编辑权限或本人具有删除权限
+			if ($this->visitor->can_edit() || $product['user_id'] == $this->visitor->id){
+				$model->remove((int)$id);
+				
+				// 删除关联对象
+				$model->mock_after_remove($id);
+				
+				// 更新所属分类: 主题数、回复数
+				$category = new Sher_Core_Model_Category();
+				
+				$category->dec_counter('total_count', $product['category_id']);
+				$category->dec_counter('total_count', $product['fid']);
+				
+				// 更新用户主题数量
+				$this->visitor->dec_counter('product_count', $product['user_id']);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		// 删除成功后返回URL
+		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.shop'];
+		$this->stash['ids'] = array($id);
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
+	/**
+	 * 编辑器参数
+	 */
+	protected function _editor_params() {
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$new_pic_id = new MongoId();
+		$this->stash['editor_pid'] = (string)$new_pic_id;
+
+		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
+	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+    // 评论的链接URL
+    $this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+    // 是否显示图文并茂
+    $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
 	
 }

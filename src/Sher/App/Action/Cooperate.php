@@ -18,7 +18,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 	protected $exclude_method_list = array('execute', 'index');
 	
 	public function _init() {
-		$this->set_target_css_state('page_social');
+		$this->set_target_css_state('page_incubator');
         $this->set_target_css_state('page_cooperate');
     }
     

@@ -24,7 +24,6 @@
 {% endblock %}
 
 {% block content %}
-{% include "block/labs_menu.html" %}
 <div class="cooperate masthead">
 	<div class="masthead-cover">
     	<div class="ui responsive grid">
@@ -159,7 +158,7 @@
                                     <div class="content">
                                         <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
                                         <div class="description">
-                                            <small>{{ b.type_label.name }} <b>{{ b.city }}</b></small>
+                                            <small>{{ b.type_label.name }} <span>{{ b.city }}</span></small>
                                         </div>
                                     </div>
                                 </div>

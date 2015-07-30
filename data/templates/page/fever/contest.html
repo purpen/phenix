@@ -1,0 +1,95 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .introduction .block.title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .introduction p {
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+    .ideaspage {
+        margin-bottom: 2rem;
+    }
+    .ideaspage .contest {
+        margin-bottom: 2rem;
+    }
+    .ideaspage .banner.image {
+        display: block;
+        max-height: 400px;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    .ideaspage .banner.image img {
+        border-radius: 4px;
+        width: 100%;
+    }
+    
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('<div class="item"><div class="number">%D</div><div class="unit">天</div></div><div class="item"><div class="number">%H</div><div class="unit">时</div></div> <div class="item"><div class="number">%M</div><div class="unit">分</div></div><div class="green item"><div class="number">%S</div><div class="unit">秒</div></div>'));
+		});
+	});
+{% endblock %}
+
+{% block content %}
+<div class="ideaspage">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<div class="introduction">
+        			<h2 class="block title">创意定制</h2>
+                        
+                    <p>这是场设计才华的博弈。</p>
+
+                    <p>游戏亦有规则，与思绪的畅游并行不悖。这一次，请在既定命题中挥洒创意。</p>
+
+                    <p>2015年太火鸟“反向定制”创意活动正式开启——我们给出命题，你来产出创意，非公开只求精，真正打造可孵化的项目！</p>
+
+                    <p>这一次，我们我们有目的、有计划、有预谋，面向所有创新产品从业者、创意设计师、相关专业师生。
+                    “有形设计，无限创意”，形式已定，创意由你。</p>
+
+                    <p>色彩，棱角，线条，质感……带入情境，随意排列，每一个组合都别具匠心。设计是形与意的象征，我们以明朗而坚定的方式，恣意畅快地描绘生活。</p>
+
+                    <p>太火鸟“反向定制”设计征稿活动，从今天起，有目标、立行动、不再犹豫！</p>
+				</div>
+            </div>
+        </div>
+    </div>
+    <div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+                
+                <!--比赛列表-->
+                {% contest_list var:"list" page:page state:2 %}
+                
+                {% if list.rows %}
+                    {% for contest in list.rows %}
+                    <div class="contest">
+                        <a href="{{ contest.view_url }}" class="banner image" target="_blank">
+        		            <img src="{{ contest.cover.fileurl }}" alt="{{ contest.title }}" />
+                        </a>
+                        <h3>
+                            <a href="{{ contest.view_url }}" class="ui link" target="_blank">{{ contest.title }}</a>
+                        </h3>
+                        <p>征集时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

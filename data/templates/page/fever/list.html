@@ -16,8 +16,6 @@
 {% endblock %}
 
 {% block content %}
-{% include "block/labs_menu.html" %}
-
 <div class="ui tophead" style="background-image: url('{{ app_url_packaged }}/images/topicbg/hnck4400.jpg');">
 	<div class="masthead">
 		<div class="masthead-cover">
@@ -91,10 +89,10 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui three voteist cards">
+				<div class="ui four voteist product cards">
 					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 vote_type:type sort:sort size:12 %}
 					{% for product in list.rows %}
-						{% include "block/product_vote_item.html" %}
+						{% include "block/product_card.html" %}
 					{% endfor %}
 				</div>
 				
