@@ -60,7 +60,7 @@
 			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
 			
 			// 获取用户openid
-			$tools = new Sher_App_Action_WxJsApiPay();
+			$tools = new Sher_Core_Util_WxPay_WxJsApiPay();
 			$openId = $tools->GetOpenid();
 			
 			// 统一下单
@@ -90,7 +90,7 @@
 		public function notify(){
 			
 			// 返回微信支付结果通知信息
-			$notify = new Sher_App_Action_WxNotify();
+			$notify = new Sher_Core_Util_WxPay_WxNotify();
 			$result = $notify->Handle(false);
 			if(!$result){
 				return $this->show_message_page('异步获取通知信息失败！');

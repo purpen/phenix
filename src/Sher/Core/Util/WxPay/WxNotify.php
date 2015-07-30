@@ -5,7 +5,7 @@
  * @ caowei@taihuoniao.com
  */
 
-class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
+class Sher_Core_Util_WxPay_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 {
 	
 	// 定义输出微信传回来的通知信息
