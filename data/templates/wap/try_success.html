@@ -193,7 +193,11 @@
     {%endif%}
 
     {% if try.cover %}
-      var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
+      {% if is_69 %}
+        var img_url = '{{ app_url_packaged }}/images/tushare.jpg';
+      {%else%}
+        var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
+      {%endif%}
     {%else%}
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
@@ -340,7 +344,11 @@ fetch_rank();
       <div class="column">
         <div class="ui segment" style="padding:0;">
           <div class="image">
-            <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
+            {% if is_69 %}
+              <a href="{{ try.wap_view_url }}"><img src="{{ app_url_packaged }}/images/tushare.jpg" width="100%"></a>
+            {%else%}
+              <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
+            {%endif%}
             <div class="potext">
               <p>
                 {% if is_69 %}
@@ -354,10 +362,11 @@ fetch_rank();
           <div class="cont">
             {% if is_69 %}
               <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！这款太火鸟【宇宙独家首发】的超级神秘新品正在免费试用中，我已申请，离支持结束还有
-              <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持投票中签机率更加倍哟~ {% else %}支持已结束！{% endif %}
+              <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持中签机率更加倍哟~ {% else %}支持已结束！{% endif %}
+              </p>
             {%else%}
               <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！{{ try.title }}正在太火鸟免费试用中，我已申请，离支持结束还有
-              <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持投票中签机率更加倍哟~ {% else %}支持已结束！{% endif %}
+              <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持中签机率更加倍哟~ {% else %}支持已结束！{% endif %}
 
         		</p>
             {%endif%}
