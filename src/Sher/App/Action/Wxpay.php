@@ -95,19 +95,18 @@
 			if(!$result){
 				return $this->show_message_page('异步获取通知信息失败！');
 			}
-			$notifyInfo = $notify->arr_notify;
+			
+			// 获取通知信息
+			$notifyInfo = $notify->arr_notify; 
 			
 			Doggy_Log_Helper::warn("获取通知信息: ".json_encode($notifyInfo));
-			
-			// 把返回的值变成数组
-			$arr_back = json_decode($result,true);
 
 			// 商户订单号
-			$out_trade_no = $arr_back['out_trade_no'];
+			$out_trade_no = $notifyInfo['out_trade_no'];
 			// 支付宝交易号
-			$trade_no = $arr_back['transaction_id'];
+			$trade_no = $notifyInfo['transaction_id'];
 			// 交易状态
-			$trade_status = $arr_back['result_code'];
+			$trade_status = $notifyInfo['result_code'];
 			
 			if($trade_status == 'SUCCESS') {
 				if($this->update_order_process($out_trade_no, $trade_no)){
