@@ -1,84 +1,17 @@
 <taconite>
 	<replaceContent select="#rank-box"><![CDATA[
-    <div class="table">
-      <div class="tabtop">
-        <div class="show">
-          <ul class="tablab">
-            <li class="on">
-              <a href="javascript:;" class="ui line"><p class="tit">好友支持({{ apply.vote_count }})</p></a>
-            </li>
-            <li>
-              <a class="ui line" href="javascript:loadRank();"><p class="tit">排名({{ rank_no }})</p></a>
-            </li>
-          </ul>
+	  
+    {% if apply.vote_count > 0 %}
+	  <label class="ui fluid label" style="text-align:center;padding: 10px 0;font-size:1em;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
+      {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
+      <div class="user-list">
+        {% for d in list.rows %}
+        <div class="userid" style="background-image:url({{ d.user.mini_avatar_url }});">
         </div>
+        {%endfor%}
       </div>
-      <div class="tabtext">
-        <div class="tabtext1">
-          <div class="rank">
-            {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
-            <ul class="approveList">
-    
-              <!-- 支持者 -->
-              {% for d in list.rows %}
-              <li class="approve" style="margin:15px 5px;">
-                <div class="avtto">
-                  <a href="javascript:;" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
-                </div>
-              </li>
-              {%endfor%}
-              
-            </ul>
-          </div>
-        </div>
-        <div class="tabtext2 dactive">
-          <ul class="kert">
-              {% for d in apply_top %}
-            <li>
-              <div class="avtto">
-                <a href="javascript:void(0);" style="background-image: url({{ d.user.mini_avatar_url }})"></a>
-              </div>
-              <div class="progresss">
-                <p class="raktk"><span class="name"> {{ d.user.nickname }} 
-                
-                </span> <span class="progressci">{{ d.vote_count|default 0 }} 票</span></p>
-                <p class="bar"><span style="width: {{ d.percent }}%; background: #f36;"></span></p>
-              </div>
-            </li>
-
-            {%endfor%}
-
-          </ul>
-        </div>
-      </div>
-    </div>
+    {%else%}
+        <p style="text-algin:center;">赶快叫好友来支持你吧！</p>
+    {%endif%}
 	]]></replaceContent>
-
-	<eval>
-        $('.tablab li').on('click', function(e){
-            handleTab(e);
-        });
-
-        $('.InviteBtn a').on('click', function(e) {
-            e.preventDefault();
-            $('.bgLayer').addClass('cover');
-        });
-
-        function handleTab(e) {
-            var oDiv = $('.table');
-            var target = e.currentTarget,
-                index = $(target).index(),
-                aBtn = $(target),
-                aDiv = $(target).parent().parent().parent().parent().find('.tabtext > div:eq('+index+')');
-            if($('.selTeam').length){
-                $('.selTeam').removeClass('on');
-                $('.teamListSel .state').addClass('dactive');
-            }
-            $(target).parent().find('li').removeClass('on');
-            $(target).parent().parent().parent().parent().find('.tabtext > div').addClass('dactive');
-            aBtn.addClass('on');
-            aDiv.removeClass('dactive');
-        }
-        //loadApprove();
-	</eval>
 </taconite>

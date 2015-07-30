@@ -44,10 +44,10 @@
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
+		maxImageSize: 1024 * 1024 * 5, // 5M
 		imageErrorCallback: function (error) {
 			if (error.code == 5){
-				error.message = '图片太大，请选择小于3M！';
+				error.message = '图片太大，请选择小于5M！';
 			}
 			phenix.show_error_note(error.message, 5000);
 		},
@@ -271,7 +271,7 @@
 						</div>
 						
 						<div class="field">
-							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<label>产品图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						

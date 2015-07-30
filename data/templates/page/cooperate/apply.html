@@ -74,7 +74,7 @@
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ cooperate._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
+		maxImageSize: 1024 * 1024 * 5, // 5M
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		// 记录插入图片数
@@ -93,7 +93,7 @@
         this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
 		if (error.code == 5){
-			error.message = '图片太大，请选择小于3M！';
+			error.message = '图片太大，请选择小于5M！';
 		}
 		phenix.show_error_note(error.message, 5000);
     });
@@ -450,7 +450,7 @@
                     </div>
 					
 					<div class="field">
-						<label>头图背景 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个背景图)</small></label>
+						<label>头图背景 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个背景图)</small></label>
                         <input type="hidden" name="banner_id" id="cooperate_banner_id" value="{{ cooperate.banner_id }}" />
 						<div id="phenix-uploader"></div>
 					    
