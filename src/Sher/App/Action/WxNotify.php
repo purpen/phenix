@@ -7,6 +7,10 @@
 
 class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 {
+	
+	// 定义输出微信传回来的通知信息
+	public $arr_notify = array();
+	
 	// 传入微信订单号查询订单是否付款成功
 	public function Queryorder($transaction_id)
 	{
@@ -29,7 +33,6 @@ class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 	public function NotifyProcess($data, &$msg)
 	{
 		
-		$notfiyOutput = array();
 		if(!array_key_exists("transaction_id", $data)){
 			$msg = "输入参数不正确";
 			return false;
@@ -40,6 +43,10 @@ class Sher_App_Action_WxNotify extends Sher_Core_Util_WxPay_WxPayNotify
 			$msg = "订单查询失败";
 			return false;
 		}
+		
+		// 将返回通知信息赋给传出变量
+		$this->arr_notify = $data;
+		
 		return true;
 	}
 }

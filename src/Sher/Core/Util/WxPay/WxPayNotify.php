@@ -22,13 +22,14 @@ class Sher_Core_Util_WxPay_WxPayNotify extends Sher_Core_Util_WxPay_WxPayData_Wx
 			$this->SetReturn_code("FAIL");
 			$this->SetReturn_msg($msg);
 			$this->ReplyNotify(false);
-			return;
+			return false;
 		} else {
 			//该分支在成功回调到NotifyCallBack方法，处理完成之后流程
 			$this->SetReturn_code("SUCCESS");
 			$this->SetReturn_msg("OK");
 		}
 		$this->ReplyNotify($needSign);
+		return true;
 	}
 	
 	/**
