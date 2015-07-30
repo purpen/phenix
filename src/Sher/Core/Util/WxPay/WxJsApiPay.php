@@ -11,7 +11,7 @@
  * @author widy
  *
  */
-class Sher_App_Action_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
+class Sher_Core_Util_WxPay_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 {
 	/**
 	 * 
