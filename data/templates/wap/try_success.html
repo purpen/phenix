@@ -342,7 +342,13 @@ fetch_rank();
           <div class="image">
             <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
             <div class="potext">
-              <p>{{ try.title }}</p>
+              <p>
+                {% if is_69 %}
+                  【宇宙独家首发】超级神秘新品
+                {%else%}
+                  {{ try.title }}
+                {%endif%}
+              </p>
             </div>
           </div>
           <div class="cont">
