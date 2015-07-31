@@ -97,11 +97,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 绑定账户
    */
   public function bind_phone() {
-
+		$this->set_target_css_state('user_bind');
     //判断是否为手机号
     $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
     $this->stash['is_bind'] = $is_bind;
-  
     return $this->to_html_page("page/my/bind_phone.html");
   }
 
@@ -143,7 +142,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     try {
       $user_model = new Sher_Core_Model_User();
       $user_id = (int)$this->visitor->id;
-      $user = $user_model->find_by_id($user_id);
+
+      // 验证账户是否存在
+      $exist_account = $user_model->check_account($this->stash['account']);
+      if(!$exist_account){
+        return $this->ajax_json('账户已存在,请更换!', true);
+      }
 			
 			$user_info = array(
         'account' => $this->stash['account'],
@@ -151,9 +155,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         'is_bind' => 1,
       );
 			
-			$profile = $user->get_profile();
-			$profile['phone'] = $this->stash['account'];
-			$user_info['profile'] = $profile;
+      // 如果个人资料手机号为空,则补充
+      if(empty($this->visitor->profile['phone'])){
+ 			  $user_info['profile']['phone'] = $user_info['account'];     
+      }
 			
       $ok = $user_model->update_set($user_id, $user_info);
 			if($ok){
@@ -161,7 +166,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove((string)$code['_id']);
-			}
+
+		    $redirect_to = Sher_Core_Helper_Url::user_home_url($user_id);
+		    return $this->ajax_json("绑定成功！", false, $redirect_to);
+      }else{
+        return $this->ajax_json('绑定失败!', true);
+      }
 				
 		} catch (Sher_Core_Model_Exception $e) {
 			Doggy_Log_Helper::error('Failed to bind phone:'.$e->getMessage());

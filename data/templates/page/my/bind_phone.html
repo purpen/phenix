@@ -63,7 +63,34 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(this).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            phenix.show_ok_note(data.message);
+            var new_phone = $('#account').val();
+
+            var html = '';
+            html += '<div class="two fields">';
+            html += '<div class="field">';
+            html += '<label>已绑定的手机号</label>';
+            html += '<input type="text" disabled="disabled" name="account" value="'+ new_phone +'" />';
+            html += '</div>';
+            html += '<div class="field"></div>';
+            html += '</div>';
+            $('#result-box').html(html);
+						//phenix.redirect(data.redirect_url, 2000);
+					}
+				}
+			});
 		}
 	});
 
@@ -165,8 +192,8 @@
 					<input name="_id" type="hidden" value="{{ user_id }}" />
 					
           <h3 class="ui dividing header">账号绑定 <span style="font-size:12px;font-weight:normal;color:#666666;">可以通过该账号登录和找回密码</span></h3>
-
-          {% if is_bind %}
+          <div id="result-box">
+          {% if !is_bind %}
 					<div class="two fields">
 						<div class="field">
 							<label>手机号</label>
@@ -204,12 +231,11 @@
 					<div class="two fields">
 						<div class="field">
 							<label>确认密码</label>
-							<input type="password" name="repeat_password" />
+							<input type="password" name="password_confirm" />
 						</div>
 					</div>
 					<input type="submit" class="ui inverted magenta button" value="确认绑定" />
           {%else%}
-            <div>
               <div class="two fields">
                 <div class="field">
                   <label>已绑定的手机号</label>
@@ -217,8 +243,8 @@
                 </div>
                 <div class="field"></div>
               </div>
-            </div>
           {%endif%}
+        </div>
 					
 				</form>
 			</div>

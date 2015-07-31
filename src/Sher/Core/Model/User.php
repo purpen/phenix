@@ -357,6 +357,20 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
         return true;
     }
+
+	/**
+	 * 检测账户是否唯一
+	 */
+	public function check_account($account, $type=1) {
+		if(empty($account)){
+			return false;
+		}
+		$row = $this->first(array('account' => (string)$account));
+		if(!empty($row)){
+			return false;
+		}
+		return true;
+	}
 	
 	/**
 	 * 检测账户是否唯一
