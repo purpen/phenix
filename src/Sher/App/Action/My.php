@@ -105,6 +105,146 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->to_html_page("page/my/bind_phone.html");
   }
 
+  /**
+   * 保存绑定账户
+   */
+  public function do_bind_phone() {
+    session_start();
+		
+	  if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+		
+		Doggy_Log_Helper::warn('Register session:'.$_SESSION['m_captcha']);
+		
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);
+    }
+
+		//验证密码长度
+		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
+		  return $this->ajax_json('密码长度介于6-30字符内！', true);    
+		}
+		
+		// 验证密码是否一致
+		$password_confirm = $this->stash['password_confirm'];
+		if(empty($password_confirm) || $this->stash['password_confirm'] != $this->stash['password']){
+			return $this->ajax_json('两次输入密码不一致！', true);
+		}
+		
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('短信验证码有误，请重新获取！', true);
+		}
+		
+    try {
+			$user = new Sher_Core_Model_User();
+			
+			$user_info = array(
+        'account' => $this->stash['account'],
+				'password' => sha1($this->stash['password']),
+        'is_bind' => 1,
+      );
+			
+			$profile = $user->get_profile();
+			$profile['phone'] = $this->stash['account'];
+			$user_info['profile'] = $profile;
+
+      //第三方绑定
+      if(isset($this->stash['third_source'])){
+        if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+          return $this->ajax_json('绑定信息有误,请重试!', true);
+        }
+
+        if($this->stash['third_source']=='weibo'){
+          $user_info['sina_uid'] = (int)$this->stash['uid'];
+          $user_info['sina_access_token'] = $this->stash['access_token'];      
+        }elseif($this->stash['third_source']=='qq'){
+          $user_info['qq_uid'] = $this->stash['uid'];
+          $user_info['qq_access_token'] = $this->stash['access_token']; 
+        }elseif($this->stash['third_source']=='weixin'){
+          $user_info['wx_open_id'] = $this->stash['uid'];
+          $user_info['wx_access_token'] = $this->stash['access_token'];
+          $user_info['wx_union_id'] = $this->stash['union_id'];
+        }else{
+          //next_third
+        }
+
+				$user_info['nickname'] = $this->stash['nickname'];
+				$user_info['summary'] = $this->stash['summary'];
+				$user_info['sex'] = $this->stash['sex'];
+				$user_info['city'] = $this->stash['city'];
+				$user_info['from_site'] = (int)$this->stash['from_site'];
+			}
+			
+            $ok = $user->create($user_info);
+			if($ok){
+				$user_id = $user->id;
+				
+				// 设置邀请码已使用
+				// $this->mark_invitation_used($user_id);
+				
+				// 删除验证码
+				$verify = new Sher_Core_Model_Verify();
+				$verify->remove($code['_id']);
+
+				//统计好友邀请
+				if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+				  //通过邀请码获取邀请者ID
+				  $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
+		
+					//统计邀请记录
+					if($user_invite_id){
+					  $invite_mode = new Sher_Core_Model_InviteRecord();
+					  $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+					  //送邀请人红包(30元,满199可用)
+					  $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+					}
+				}
+
+				//指定入口送抽奖码
+				if($this->stash['evt']=='match2_praise'){
+					$digged = new Sher_Core_Model_DigList();
+					$key_id = Sher_Core_Util_Constant::DIG_MATCH_PRAISE_STAT;
+					$result = $digged->load($key_id);
+					//统计奖品号
+					$items_arr = array();
+					if(!empty($result) && !empty($result['items'])){
+						foreach($result['items'] as $k=>$v){
+						  array_push($items_arr, $v['praise']);
+						}
+					}
+					$is_exist_random = false;
+				  
+					while(!$is_exist_random){
+						$match_random = rand(1000, 9999);
+						$is_exist_random = in_array($match_random, $items_arr)?false:true;
+					}
+		  
+					$match_item = array('user'=>$user_id, 'account'=>$user_info['account'], 'praise'=>$match_random, 'evt'=>0);
+					// 添加到统计列表
+					$digged->add_item_custom($key_id, $match_item);
+				}
+
+				//周年庆活动送100红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+				  $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+				}
+					
+				Sher_Core_Helper_Auth::create_user_session($user_id);
+			}
+				
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::error('Failed to create_passport:'.$e->getMessage());
+			return $this->ajax_json("注册失败:".$e->getMessage(), true);
+		}
+  
+  
+  }
+
 	/**
 	 * 上传照片
 	 */

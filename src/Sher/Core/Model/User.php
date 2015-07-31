@@ -290,6 +290,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
         # 标记: 1.官方认证V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号或现有账户;
         'kind' => 0,
+
+        # 是否绑定手机(未兼容老数据)
+        'is_bind' => 0,
     );
 	
 	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count','counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1);

@@ -405,6 +405,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				$user_info['sex'] = $this->stash['sex'];
 				$user_info['city'] = $this->stash['city'];
 				$user_info['from_site'] = (int)$this->stash['from_site'];
+        $user_info['is_bind'] = 1;
 			}
 			
             $ok = $user->create($user_info);

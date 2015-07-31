@@ -325,6 +325,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$user_info['sex'] = $this->stash['sex'];
 				$user_info['city'] = $this->stash['city'];
 				$user_info['from_site'] = (int)$this->stash['from_site'];
+        $user_info['is_bind'] = 1;
       }
 			
             $ok = $user->create($user_info);
@@ -517,13 +518,13 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$user = new Sher_Core_Model_User();
 			
 			$user_info = array(
-                'account' => $this->stash['account'],
+        'account' => $this->stash['account'],
 				'nickname' => $this->stash['account'],
         'password' => sha1($pwd),
         //ajax快捷注册标记
         'kind'  => 7,
-                'state' => Sher_Core_Model_User::STATE_OK
-            );
+        'state' => Sher_Core_Model_User::STATE_OK,
+      );
 			
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
