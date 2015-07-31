@@ -40,6 +40,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function account(){
 		$this->stash['profile'] = $this->visitor->profile;
+
+    //判断是否为手机号
+    $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
+    $this->stash['is_bind'] = $is_bind;
 		$this->set_target_css_state('user_setting');
 		$this->set_target_css_state('user_account');
 		return $this->to_html_page("page/my/account.html");
@@ -88,6 +92,18 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 		return $this->to_html_page("page/my/profile.html");
 	}
+
+  /**
+   * 绑定账户
+   */
+  public function bind_phone() {
+
+    //判断是否为手机号
+    $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
+    $this->stash['is_bind'] = $is_bind;
+  
+    return $this->to_html_page("page/my/bind_phone.html");
+  }
 
 	/**
 	 * 上传照片

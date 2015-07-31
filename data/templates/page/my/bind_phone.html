@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}设置账户信息-{% endblock %}
+{% block title %}账号绑定-{% endblock %}
 {% block page_css %}
 <style class="text/css">
     .account .avatar {
@@ -11,15 +11,18 @@
 {% endblock %}
 {% block jquery %}
     /* 个人资料表单验证 */
-	$('#profile-form').form({
-		nickname: {
-			identifier  : 'nickname',
+	$('#bind-form').form({
+		account: {
+			identifier  : 'account',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '请添写昵称'
+					prompt : '请填写有效的手机号码'
+				},
+				{
+					type   : 'length[11]',
+					prompt : '无效手机号码!'
 				}
-
 			]
 		}
 	}, {
@@ -44,7 +47,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">设置账户信息</div>
+					<div class="active section">账号绑定</div>
 				</div>
 			</div>
 		</div>
@@ -62,42 +65,51 @@
 				<form action="{{app_url_my}}/save_account" method="post" class="ui fluid form" id="profile-form">
 					<input name="_id" type="hidden" value="{{ user_id }}" />
 					
-					<h3 class="ui dividing header">用户名(昵称)</h3>
-					<div class="three fields">
-						<div class="field">
-							<input type="text" name="nickname" value="{{ user.true_nickname }}" />
-						</div>
-					</div>
-					
-					<h3 class="ui dividing header">修改密码</h3>
-
+					<h3 class="ui dividing header">账号绑定</h3>
 
           {% if is_bind %}
 					<div class="two fields">
 						<div class="field">
-							<label>当前密码</label>
-							<input type="password" name="current_password" />
+							<label>手机号</label>
+							<input type="text" name="account" />
+						</div>
+						<div class="field"></div>
+					</div>
+
+					<div class="two fields">
+            <div class="inline field">
+							<label>短信验证码</label>
+              <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+              <a href="javascript:void(0);" class="ui grey inverted active button" id="fetch-verify-code">获取验证码</a>
+            </div>
+						<div class="field"></div>
+          </div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>密码</label>
+							<input type="password" name="password" />
 						</div>
 						<div class="field"></div>
 					</div>
 					<div class="two fields">
 						<div class="field">
-							<label>修改密码</label>
-							<input type="password" name="password" />
-						</div>
-						<div class="field">
 							<label>确认密码</label>
 							<input type="password" name="repeat_password" />
 						</div>
 					</div>
-
+					<input type="submit" class="ui inverted magenta button" value="确认绑定" />
           {%else%}
             <div>
-              您的账户还未绑定手机号,请先 <a href="{{ app_url_my }}/bind_phone" class="ui link">绑定手机号</a>
+              <div class="two fields">
+                <div class="field">
+                  <label>已绑定的手机号</label>
+                  <input type="text" disabled="disabled" name="account" />
+                </div>
+                <div class="field"></div>
+              </div>
             </div>
           {%endif%}
-					
-					<input type="submit" class="ui inverted magenta button" value="确认修改" />
 					
 				</form>
 			</div>
