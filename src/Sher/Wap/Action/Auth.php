@@ -352,7 +352,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -457,7 +457,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -536,7 +536,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 		Sher_Core_Helper_Auth::create_user_session($user_id);
 		
         // export some attributes to browse client.
@@ -617,7 +617,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     }
     
     // 删除验证码
-    $verify->remove($code['_id']);
+    $verify->remove((string)$code['_id']);
 		
 		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login');
 	}

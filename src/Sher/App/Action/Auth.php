@@ -185,7 +185,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			}
 			
 			// 删除验证码
-			$verify->remove($code['_id']);
+			$verify->remove((string)$code['_id']);
 			
         } catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to reset passwd:'.$e->getMessage());
@@ -417,7 +417,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 
 				//统计好友邀请
 				if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
