@@ -28,8 +28,8 @@
 
 {% block jquery %}
 	// 显示地址框
-	$('.ui.addbook.button').click(function(){
-		$('.ui.addbook.modal').modal('show');
+	$('.ui.addbook.add.button').click(function(){
+		$('.ui.addbook.add.modal').modal('show');
 	});
 
 	// 关闭地址框
@@ -110,6 +110,7 @@
 	
 	// 编辑
 	$('.ui.edit.button').bind('click', function(){
+	  $('.ui.addbook.edit.modal').modal('show');
 		var id = $(this).data('id');
 		$.post('{{ app_url_wap }}/app/site/address/edit_address', {id: id, plat:'mobile'});
 		return false;
@@ -185,7 +186,7 @@
 </div>
 
 <!--弹出地址框-->
-<div class="ui small addbook modal" id="addbook-form-box">
+<div class="ui small addbook add modal" id="addbook-form-box">
   	<i class="flat close icon"></i>
 	<div class="ui header">
     	使用新地址
