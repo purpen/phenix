@@ -82,7 +82,14 @@
 			</div>
 			<div class="center aligned three wide column">
 				<div id="order-{{ order.rid }}-label" class="status-label">
-					{{ order.status_label }}
+          <p>
+					状态: {{ order.status_label }}
+          </p>
+          {% if order.status== 10%}
+          <p>
+            支付方式: {{ order.trade_site_name }}
+          </p>
+          {%endif%}
 				</div>
                 {% if my %}
                   {% if order.status == 1 %}

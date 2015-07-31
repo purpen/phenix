@@ -24,6 +24,7 @@ echo "begin export match user info...\n";
 $stuff_model = new Sher_Core_Model_Stuff();
 $user_model = new Sher_Core_Model_User();
 $category_model = new Sher_Core_Model_Category();
+$asset_model = new Sher_Core_Model_Asset();
 $page = 1;
 $size = 500;
 $is_end = false;
@@ -33,7 +34,7 @@ $fp = fopen('/home/tianxiaoyi/qsyd_match.csv', 'a');
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('昵称', '姓名', '电话', '职位', '地址', '作品链接', '作品类别');
+$head = array('昵称', '姓名', '电话', '作品链接', '作品类别', '原图链接');
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
 $fid = Doggy_Config::$vars['app.contest.qsyd_category_id'];
@@ -54,12 +55,20 @@ while(!$is_end){
     $category = $category_model->load($stuff['category_id']);
     $cate_name = isset($category['title'])?$category['title']:'--';
     if($user){
+      $assets = $asset_model->find(array('asset_type'=>70, 'parent_id'=>$stuff['_id']));
+      $img_url = array();
+      foreach($assets as $v){
+        $file_url = Sher_Core_Helper_Url::asset_qiniu_view_url($v['filepath']);
+        array_push($img_url, $file_url);
+      }
+      $img_urls = implode('|', $img_url);
+
       $realname = isset($user['profile']['realname'])?$user['profile']['realname']:'--';
       $phone = isset($user['profile']['phone'])?$user['profile']['phone']:'--';
       $job = isset($user['profile']['job'])?$user['profile']['job']:'--';
       $address = isset($user['profile']['address'])?$user['profile']['address']:'--';
 
-      $row = array($user['nickname'], $realname, $phone, $job, $address, $view_url, $cate_name);
+      $row = array($user['nickname'], $realname, $phone, $view_url, $cate_name, $img_urls);
       fputcsv($fp, $row);
 
 		  $total++;
