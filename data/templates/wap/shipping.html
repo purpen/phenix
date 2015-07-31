@@ -29,7 +29,7 @@
 {% block jquery %}
 	// 显示地址框
 	$('.ui.addbook.add.button').click(function(){
-		$('.ui.addbook.modal').modal('show');
+		$('#addbook-form-box-add').modal('show');
 	});
 	
 	$('.ui.addbook.edit.button').click(function(){
@@ -188,7 +188,7 @@
 </div>
 
 <!--弹出地址框-->
-<div class="ui small addbook add modal" id="addbook-form-box">
+<div class="ui small addbook modal" id="addbook-form-box-add">
   	<i class="flat close icon"></i>
 	<div class="ui header">
     	使用新地址
