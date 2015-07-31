@@ -37,9 +37,9 @@
 				{% else %}
 					{% if topic.cover %}
 					  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
-          {%else%}
+                    {%else%}
 					  {% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
-          {%endif%}
+                    {%endif%}
 					<!--展示图片-->
 					<div class="ui mini images">
 						{% if topic.cover %}
