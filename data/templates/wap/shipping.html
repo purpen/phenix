@@ -2,7 +2,21 @@
 {% block title%}收货地址管理-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+  @media only screen and (max-width: 767px){
+    .ui.small.modal {
+      width: 92%;
+      margin: 0 0 0 -47.5%;
+    }
+  }
+  .ui.modal>.container{
+    background-color: #F4F4F4;
+  }
+  .ui.modal>.container .content {
+    padding: 1em;
+  }
+  .ui.form .field>.selection.dropdown{
+    width:49%;
+  }
 </style>
 {% endblock %}
 
@@ -196,7 +210,7 @@
 						<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
 					    <div class="default text">省份/自治区</div>
-					    <i class="flat arrowbottom icon"></i>
+					    <i class="angle dropdown icon"></i>
 					    <div class="menu">
 							{% for province in provinces %}
 					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
@@ -204,10 +218,10 @@
 					    </div>
 					</div>
 	
-					<div class="ui selection district dropdown" id="district-menu">
+					<div class="ui selection district dropdown" id="district-menu" style="float:right;">
 						<input type="hidden" name="city" value="{{ addbook.city }}" />
 					    <div class="default text">地区区域</div>
-					    <i class="flat arrowbottom icon"></i>
+					    <i class="angle dropdown icon"></i>
 					    <div class="menu">
 							{% for district in districts %}
 					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
@@ -235,8 +249,8 @@
 				</div>
 
 				<div class="field">
-					<div class="ui active magenta submit inverted button">确定</div>
-			        <div class="ui gray close-btn inverted button">取消</div>
+					<div class="ui active magenta submit button">确定</div>
+			        <div class="ui gray close-btn black button">取消</div>
 				</div>
 				
 			</div>				
