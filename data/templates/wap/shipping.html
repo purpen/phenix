@@ -31,7 +31,10 @@
 	$('.ui.addbook.add.button').click(function(){
 		$('.ui.addbook.add.modal').modal('show');
 	});
-
+	
+	$('.ui.addbook.edit.button').click(function(){
+	  $('.ui.addbook.edit.modal').modal('show');
+	});
 	// 关闭地址框
 	$('.ui.close-btn.button').click(function(){
 		$('.ui.addbook.modal').modal('hide');
@@ -110,7 +113,6 @@
 	
 	// 编辑
 	$('.ui.edit.button').bind('click', function(){
-	  $('.ui.addbook.edit.modal').modal('show');
 		var id = $(this).data('id');
 		$.post('{{ app_url_wap }}/app/site/address/edit_address', {id: id, plat:'mobile'});
 		return false;
