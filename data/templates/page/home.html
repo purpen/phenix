@@ -124,7 +124,7 @@
                         {% for ad in adslide2.rows %}
                         <div class="block">
                             <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
-                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank" target="_blank"></a>
+                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
                             </div>
                         </div>
                         {%endfor%}
@@ -136,7 +136,7 @@
     </section>
     
     <!--推荐新品-->    
-	<section class="ui big shoplist block">
+	<section class="ui shoplist block">
     	<div class="ui newest responsive grid">
     		<div class="row">
     			<div class="column">
@@ -156,87 +156,148 @@
     <!--社区部分-->
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="center aligned column">
-                <!--社区头条-->
-				{% if tt %}
-                    <div class="ui four products cards">
-					<!-- 判断话题是否可以显示 -->
-					{% if tt.published %}
-                        <div class="card special cat">
+			<div class="column">                
+                <!--社区试用 活动-->
+                <div class="ui two products cards">
+                    {% try_list var:'try_latest' page:1 state:1 size:1 %}
+                    {% if try_latest.rows %}
+                        {% for try in try_latest.rows %}
+                        <div class="card special">
                             <div class="problock">
-                                <a title="{{ tt.title }}" href="{{ tt.view_url }}" style="background-image: url({{ tt.cover.fileurl }});" class="thumb" target="_blank"></a>
+                                <a title="{{ try.short_title }}" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" class="thumb" target="_blank"></a>
                                 <h2>
-                                    <a href="{{ tt.view_url }}" title="{{ tt.title }}" class="ui line" target="_blank">
-                        			    {{ tt.title|truncate, 32, '' }}
+                                    <a href="{{ try.view_url }}" title="{{ try.short_title }}" class="ui line" target="_blank">
+                        			    {{ try.short_title }}
                         		    </a>
                                 </h2>
                                 <div class="excerpt">
-                                    <p>{{ topic.strip_description|truncate, 90, '' }}</p>
+                                    <p>{{ try.description }}</p>
                                 </div>
                                 <div class="cats">
-                                    <span class="unit">@</span>{{ topic.user.nickname }}
+                                    <span class="unit"></span>{{ try.apply_count }}
                                 </div>
                                 <span class="counter">
-                                    <i class="heart icon"></i> {{ topic.love_count }}
+                                    <i class="heart icon"></i> 
                                 </span>
                             </div>
                             <div class="speblock">
                                 <div class="randomcats">
-                                    <a class="catlink" href="{{ tt.view_url }}" target="_blank" style="background-image: url('{{ tt.cover.fileurl }}');">
-                                        <h2>{{ tt.title|truncate, 32, '' }}</h2>
-                                        <p>{{ topic.strip_description|truncate, 90, '' }}</p>
-                                        <span class="more">浏览更多</span>
+                                    <a class="catlink" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" target="_blank">
+                                        <h2>{{ try.short_title }}</h2>
+                                        <p>{{ try.description }}</p>
                                     </a>
-                                </div>
-                                <div class="ribbons">
-                                    <span class="ribbon stick">社区头条</span>
                                 </div>
                             </div>
                         </div>
-					{% endif %}
-                    </div>
-				{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    
+                    {% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
+            
+                    {% if current_list.rows %}
+                        {% for active in current_list.rows %}
+                        <div class="card special">
+                            <div class="problock">
+                                <a title="{{ active.title }}" href="{{ active.view_url }}" style="background-image: url('{{ active.banner.fileurl }}');" class="thumb" target="_blank"></a>
+                                <h2>
+                                    <a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
+                        			    {{ active.title }}
+                        		    </a>
+                                </h2>
+                                <div class="excerpt">
+                                    <p>{{ active.sub_title }}</p>
+                                </div>
+                                <div class="cats">
+                                    <span class="unit"></span>{{ active.max_number_count }}
+                                </div>
+                                <span class="counter">
+                                    <i class="heart icon"></i> 
+                                </span>
+                            </div>
+                            <div class="speblock">
+                                <div class="randomcats">
+                                    <a class="catlink" href="{{ active.view_url }}" style="background-image: url('{{ active.banner.fileurl }}');" target="_blank">
+                                        <h2>{{ active.title }}</h2>
+                                        <p>{{ active.sub_title }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 
-                <!--社区推荐-->
-        		{% ad_list var:'stkad' page:1 size:4 state:2 name:'home_page_topic' %}
-                {% if stkad.total_rows %}
+                <!--推荐话题-->
+                {% topic_list var:'topics' type:1 page:1 size:4 %}
                 <div class="ui socialstick stickcount four blocks">
-                    {% for skad in stkad.rows %}
+            		{% for topic in topics.rows %}
                     <div class="block">
-        				<div class="image" {% if skad.cover %}style="background-image: url('{{ skad.cover.fileurl }}');"{% endif %}>
-                            <a class="transparent" href="{{ skad.view_url }}" target="_blank">
-        						<div class="sub title">
-        							{{ skad.title }}
+            			<div class="image" {% if topic.cover %}style="background-image: url('{{ topic.cover.thumbnails.hm.view_url }}');"{% endif %}>
+                            <a class="transparent" href="{{ topic.view_url }}" target="_blank">
+            					<div class="sub title">
+            						<h3>{{ topic.title }}</h3>
             						<div class="extra count">
-            							<i class="unhide icon"></i> {{ skad.click_count }}
+            							<i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
             						</div>
-        						</div>
+            					</div>
                             </a>
-        				</div>
+            			</div>
                     </div>
                     {% endfor %}
                 </div>
-                {% endif %}
                 
-                <!--社区话题-->
-                {% topic_list var:'topics' type:1 page:1 size:12 %}
+                <!--精选话题-->
                 <div class="ui four products topics cards">
-					{% for topic in topics.rows %}
-						<!-- 判断话题是否可以显示 -->
-						{% if topic.published %}
-                            {% include "block/topic_card.html" %}
-                        {% endif %}
-				    {% endfor %}
-				</div>
-                
-                <div class="resultbox">
-                    <a href="{{ app_url_topic }}" class="ui magenta inverted more button">
-                       <i class="search icon"></i> 查看更多话题 
-                    </a>
+                    <div class="card">
+                        {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}
+                        {% for ad in ads.rows %}
+                        <a title="{{ ad.title }}" href="{{ ad.view_url }}" style="background-image: url({{ ad.cover.fileurl }});" class="thumb adv" target="_blank"></a>
+                        {% endfor %}
+                    </div>
+                    <div class="card group">
+                        {% topic_list var:'topics' type:1 page:1 size:6 %}
+                        <div class="problock">
+        					{% for topic in topics.rows %}
+        						<!-- 判断话题是否可以显示 -->
+        						{% if topic.published %}
+                                    <div class="topicbox">
+                						{% if topic.cover %}
+                                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+                						    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+                                        </a>
+                						{% endif %}
+                                        <h2>
+                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                                			    {{ topic.title|truncate, 32, '' }}
+                                		    </a>
+                                        </h2>
+                    					<p class="description">
+                    						{{ topic.strip_description|truncate 90 }}
+                    					</p>
+                        
+                        				<p class="author">
+                                            <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                        				</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        
+                            <div class="resultbox">
+                                <a href="{{ app_url_topic }}" class="ui magenta inverted more button">
+                                   <i class="search icon"></i> 查看更多话题 
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
-			</div>
-		</div>
-	</div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+    
 	
 </div>
 {% endblock %}
