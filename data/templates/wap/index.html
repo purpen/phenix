@@ -200,12 +200,32 @@
   {% if quickly_signup=='1' %}
     alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
   {%endif%}
-	
+  
+	$('#slider').flexslider({
+      animation: "slide",
+      controlNav: false,
+      animationLoop: false,
+      slideshow: false,
+      sync: "#carousel"
+  });
 {% endblock %}
 
 {% block content %}
 {% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
-<div id="frslide" class="frame">
+<div id="slider" class="flexslider flex-single">
+  <ul class="slides">
+    {% for ad in ad.rows %}
+      <li style="background-image: url('{{ ad.cover.fileurl }}');">
+        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+<!--<div id="frslide" class="frame">
 	<div class="ui slide">
 		{% for ad in ad.rows %}
 		<div class="item">
@@ -216,7 +236,7 @@
 		{% endfor %}
 	</div>
 	<div class="pages"></div>
-</div>
+</div>-->
 
 <div id="mchildmenu" class="frame">
 	<div class="ui slide">
