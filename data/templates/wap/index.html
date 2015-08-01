@@ -103,14 +103,14 @@
 	#slider{
 	  height:210px;
 	}
-	.flexslider {
+	#slider .flexslider {
     margin: 0;
     padding: 0;
     background: #fff;
     position: relative;
     zoom: 1;
   }
-  .flexslider .flex-viewport {
+  #slider .flexslider .flex-viewport {
     max-height: 2000px;
     -webkit-transition: all 1s ease 0s;
     -moz-transition: all 1s ease 0s;
@@ -118,7 +118,7 @@
     -ms-transition: all 1s ease 0s;
     transition: all 1s ease 0s;
   }
-  .flexslider .slides::after {
+  #slider .flexslider .slides::after {
     clear: both;
     content: " ";
     display: block;
@@ -126,47 +126,47 @@
     line-height: 0;
     visibility: hidden;
   }
-  .flexslider .slides {
+  #slider .flexslider .slides {
     height: 210px;
     zoom: 1;
   }
-  .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
+  #slider .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .flexslider .slides>li {
+  #slider .flexslider .slides>li {
     background-position: 50% 50%;
     background-size: cover;
     display: none;
     height: 210px;
     -webkit-backface-visibility: hidden;
   }
-  .flexslider.flex-single .slides>li>a {
+  #slider .flexslider.flex-single .slides>li>a {
     display: block;
     height: 210px;
   }
-  .flexslider .slides>li img {
+  #slider .flexslider .slides>li img {
     width: 100%;
     display: block;
     height: auto;
   }
-  .flex-direction-nav {
+  #slider .flex-direction-nav {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .flex-control-nav{
+  #slider .flex-control-nav{
     bottom: 1em;
     margin: 0 auto;
     position: absolute;
     width: 100%;
     text-align: center;
   }
-  .flex-control-nav li{
+  #slider .flex-control-nav li{
     display:inline-block;
   }
-  .flex-control-nav li a{
+  #slider .flex-control-nav li a{
     background-color: rgba(255,255,255,.35);
     border-radius: 2em;
     display: inline-block;
@@ -175,49 +175,48 @@
     text-indent: -999em;
     width: .65em;
   }
-  .flex-control-nav li a.flex-active,.flex-control-nav li a:hover{
+  #slider .flex-control-nav li a.flex-active,#slider .flex-control-nav li a:hover{
     background-color: rgba(255,255,255,.75);
+  }
+  
+  
+  
+  #mchildmenu .flexslider {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    position: relative;
+    zoom: 1;
+  }
+  #mchildmenu .flexslider .flex-viewport {
+    max-height: 2000px;
+    -webkit-transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+  }
+  #mchildmenu .flexslider .slides::after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+  }
+  #mchildmenu .flexslider .slides {
+    height: 73px;
+    zoom: 1;
+  }
+  #mchildmenu .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	var s=e('#frslide').width();
-	e("#frslide > .ui.slide > .item").width(s);
-	
-	var $frame = $('#frslide');
-	// Call Sly on frame
-	$frame.sly({
-		horizontal: 1,
-		itemNav: 'basic',
-		smart: 1,
-		activateMiddle: 1,
-		activateOn: 'click',
-		mouseDragging: 1,
-		touchDragging: 1,
-		releaseSwing: 1,
-		startAt: 0,
-		pagesBar: $frame.find('.pages'),
-		pageItem: 'pages',
-		activatePageOn: 'click',
-		pageBuilder: function (index) {
-			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
-		},
-		speed: 300,
-		elasticBounds: 1,
-		easing: 'easeOutExpo',
-		dragHandle: 1,
-		dynamicHandle: 1,
-		clickBar: 1,
-	});
-	
-	$(window).resize(function() {
-		var s=$('#frslide').width();
-		e("#frslide > .ui.slide > .item").width(s);
-		
-		$frame.sly('reload');
-	});
-	
 	var s=e('#mchildmenu').width();
 	e("#mchildmenu > .ui.slide > .meslide").width(s);
 	
@@ -288,6 +287,14 @@
       slideshowSpeed: 5000,
       animationDuration: 300,
   });
+  $('#mchildmenu').flexslider({
+      animation: "slide",
+      animationLoop: false,
+      itemWidth: 210,
+      itemMargin: 5,
+      minItems: 2,
+      maxItems: 4
+  });
 {% endblock %}
 
 {% block content %}
@@ -303,8 +310,6 @@
     {% endfor %}
   </ul>
 </div>
-
-
 <!--<div id="frslide" class="frame">
 	<div class="ui slide">
 		{% for ad in ad.rows %}
@@ -318,7 +323,53 @@
 	<div class="pages"></div>
 </div>-->
 
-<div id="mchildmenu" class="frame">
+<div id="mchildmenu" class="flexslider flex-single">
+  <ul class="slides">
+    <li>
+      <a class="item" href="{{ app_url_wap }}/shop">
+	    	全部商品
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/topic">
+	    	社区话题
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/try">
+	    	新品试用
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/active">
+	    	活动
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/incubator">
+	    	孵化
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/contest/dream2">
+	    	十万火计
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/birdegg">
+	    	蛋年
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/active">
+	    	活动
+	  	</a>
+    </li>
+  </ul>
+</div>
+
+
+<!--<div id="mchildmenu" class="frame">
 	<div class="ui slide">
 		<div class="meslide">
 			<div class="ui fluid four item labeled main icon magenta menu">
@@ -363,7 +414,7 @@
 	<a class="next" href="#">
 		<i class="flat fp-controlArrow angle right icon"></i>
 	</a>
-</div>
+</div>-->
 
 <!--商店商品-->
 {% if products %}
