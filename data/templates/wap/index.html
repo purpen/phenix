@@ -178,9 +178,6 @@
   .flex-control-nav li a.flex-active,.flex-control-nav li a:hover{
     background-color: rgba(255,255,255,.75);
   }
-  .flex-direction-nav{
-    display:none;
-  }
 </style>
 {% endblock %}
 
@@ -284,9 +281,12 @@
   
 	$('#slider').flexslider({
       animation: "slide",
+      directionNav: false, 
       controlNav: true,
       animationLoop: true,
-      slideshow: false,
+      slideshow: true,
+      slideshowSpeed: 5000,
+      animationDuration: 300,
   });
 {% endblock %}
 
