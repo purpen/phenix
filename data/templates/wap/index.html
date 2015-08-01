@@ -178,47 +178,47 @@
   #slider .flex-control-nav li a.flex-active,#slider .flex-control-nav li a:hover{
     background-color: rgba(255,255,255,.75);
   }
+  
+  
+  #mchildmenu{
+	  height:73px;
+	}
+	#mchildmenu.flexslider {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    position: relative;
+    zoom: 1;
+  }
+  #mchildmenu.flexslider .flex-viewport {
+    max-height: 2000px;
+    -webkit-transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+  }
+  #mchildmenu.flexslider .slides::after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+  }
+  #mchildmenu.flexslider .slides {
+    height: 73px;
+    zoom: 1;
+  }
+  #mchildmenu .flex-control-nav,#mchildmenu .flex-direction-nav,#mchildmenu .slides, .slides>li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	var s=e('#mchildmenu').width();
-	e("#mchildmenu > .ui.slide > .meslide").width(s);
-	
-	var $frame = $('#mchildmenu');
-	// Call Sly on frame
-	$frame.sly({
-		horizontal: 1,
-		itemNav: 'basic',
-		smart: 1,
-		activateMiddle: 1,
-		activateOn: 'click',
-		mouseDragging: 1,
-		touchDragging: 1,
-		releaseSwing: 1,
-		startAt: 0,
-		prev: "#mchildmenu .prev",
-		next: "#mchildmenu .next",
-		pagesBar: $frame.find('.pages'),
-		pageItem: 'pages',
-		activatePageOn: 'click',
-		pageBuilder: function (index) {
-			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
-		},
-		speed: 300,
-		elasticBounds: 1,
-		easing: 'easeOutExpo',
-		dragHandle: 1,
-		dynamicHandle: 1,
-		clickBar: 1,
-	});
-	
-	$(window).resize(function() {
-		var s=$('#mchildmenu').width();
-		e("#mchildmenu > .ui.slide > .meslide").width(s);
-		
-		$frame.sly('reload');
-	});
 	
 	$('#pc-site').click(function(){
 		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');
@@ -252,6 +252,16 @@
       slideshowSpeed: 5000,
       animationDuration: 300,
   });
+  $('#mchildmenu').flexslider({
+      animation: "slide",
+      animationLoop: false,
+      itemWidth: 210,
+      itemMargin: 5,
+      minItems: 2,
+      maxItems: 4,
+      directionNav: false, 
+      controlNav: false,
+    });
 {% endblock %}
 
 {% block content %}
@@ -268,7 +278,6 @@
   </ul>
 </div>
 
-
 <!--<div id="frslide" class="frame">
 	<div class="ui slide">
 		{% for ad in ad.rows %}
@@ -282,7 +291,55 @@
 	<div class="pages"></div>
 </div>-->
 
-<div id="mchildmenu" class="frame">
+<div id="mchildmenu" class="flexslider flex-single">
+  <ul class="slides">
+    <li>
+      <a class="item" href="{{ app_url_wap }}/shop">
+	    	全部商品
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/topic">
+	    	社区话题
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/try">
+	    	新品试用
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/active">
+	    	活动
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/incubator">
+	    	孵化
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/contest/dream2">
+	    	十万火计
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/birdegg">
+	    	蛋年
+	  	</a>
+    </li>
+    <li>
+      <a class="item" href="{{ app_url_wap }}/clients">
+	    	客户端
+	  	</a>
+    </li>
+    
+  
+  </div>
+</div>
+
+
+<!--<div id="mchildmenu" class="frame">
 	<div class="ui slide">
 		<div class="meslide">
 			<div class="ui fluid four item labeled main icon magenta menu">
@@ -327,7 +384,7 @@
 	<a class="next" href="#">
 		<i class="flat fp-controlArrow angle right icon"></i>
 	</a>
-</div>
+</div>-->
 
 <!--商店商品-->
 {% if products %}
