@@ -100,6 +100,58 @@
 	.ui.menu .item{
 	  line-height: 1.6;
 	}
+	#slider{
+	  height:300px !important;
+	}
+	.flexslider {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    position: relative;
+    zoom: 1;
+  }
+  .flexslider .flex-viewport {
+    max-height: 2000px;
+    -webkit-transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+  }
+  .flexslider .slides::after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+  }
+  .flexslider .slides {
+    height: 300px;
+    zoom: 1;
+  }
+  .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .flexslider .slides>li {
+    background-position: 50% 50%;
+    background-size: cover;
+    display: none;
+    height: 300px;
+    -webkit-backface-visibility: hidden;
+    visibility: hidden;
+  }
+  .flexslider.flex-single .slides>li>a {
+    display: block;
+    height: 300px;
+  }
+  .flexslider .slides>li img {
+    width: 100%;
+    display: block;
+    height: auto;
+  }
 </style>
 {% endblock %}
 
