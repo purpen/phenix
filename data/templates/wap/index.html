@@ -103,14 +103,14 @@
 	#slider{
 	  height:210px;
 	}
-	#slider .flexslider {
+	.flexslider {
     margin: 0;
     padding: 0;
     background: #fff;
     position: relative;
     zoom: 1;
   }
-  #slider .flexslider .flex-viewport {
+  .flexslider .flex-viewport {
     max-height: 2000px;
     -webkit-transition: all 1s ease 0s;
     -moz-transition: all 1s ease 0s;
@@ -118,7 +118,7 @@
     -ms-transition: all 1s ease 0s;
     transition: all 1s ease 0s;
   }
-  #slider .flexslider .slides::after {
+  .flexslider .slides::after {
     clear: both;
     content: " ";
     display: block;
@@ -126,47 +126,47 @@
     line-height: 0;
     visibility: hidden;
   }
-  #slider .flexslider .slides {
+  .flexslider .slides {
     height: 210px;
     zoom: 1;
   }
-  #slider .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
+  .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  #slider .flexslider .slides>li {
+  .flexslider .slides>li {
     background-position: 50% 50%;
     background-size: cover;
     display: none;
     height: 210px;
     -webkit-backface-visibility: hidden;
   }
-  #slider .flexslider.flex-single .slides>li>a {
+  .flexslider.flex-single .slides>li>a {
     display: block;
     height: 210px;
   }
-  #slider .flexslider .slides>li img {
+  .flexslider .slides>li img {
     width: 100%;
     display: block;
     height: auto;
   }
-  #slider .flex-direction-nav {
+  .flex-direction-nav {
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  #slider .flex-control-nav{
+  .flex-control-nav{
     bottom: 1em;
     margin: 0 auto;
     position: absolute;
     width: 100%;
     text-align: center;
   }
-  #slider .flex-control-nav li{
+  .flex-control-nav li{
     display:inline-block;
   }
-  #slider .flex-control-nav li a{
+  .flex-control-nav li a{
     background-color: rgba(255,255,255,.35);
     border-radius: 2em;
     display: inline-block;
@@ -175,7 +175,7 @@
     text-indent: -999em;
     width: .65em;
   }
-  #slider .flex-control-nav li a.flex-active,#slider .flex-control-nav li a:hover{
+  .flex-control-nav li a.flex-active,.flex-control-nav li a:hover{
     background-color: rgba(255,255,255,.75);
   }
 </style>
@@ -267,6 +267,8 @@
     {% endfor %}
   </ul>
 </div>
+
+
 <!--<div id="frslide" class="frame">
 	<div class="ui slide">
 		{% for ad in ad.rows %}
@@ -279,53 +281,6 @@
 	</div>
 	<div class="pages"></div>
 </div>-->
-
-<!--<div id="mchildmenu" class="flexslider flex-single">
-  <ul class="slides">
-    <li>
-      <a class="item" href="{{ app_url_wap }}/shop">
-	    	全部商品
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/topic">
-	    	社区话题
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/try">
-	    	新品试用
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/active">
-	    	活动
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/incubator">
-	    	孵化
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/contest/dream2">
-	    	十万火计
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/birdegg">
-	    	蛋年
-	  	</a>
-    </li>
-    <li>
-      <a class="item" href="{{ app_url_wap }}/active">
-	    	活动
-	  	</a>
-    </li>
-  
-  </ul>
-</div>-->
-
 
 <div id="mchildmenu" class="frame">
 	<div class="ui slide">
