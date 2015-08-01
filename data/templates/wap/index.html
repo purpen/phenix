@@ -211,11 +211,18 @@
     height: auto;
     zoom: 1;
   }
-  #mchildmenu .flex-control-nav,#mchildmenu .flex-direction-nav,#mchildmenu .slides, .slides>li {
+  #mchildmenu .flex-control-nav,#mchildmenu .flex-direction-nav,#mchildmenu .slides {
     margin: 0;
     padding: 0;
     list-style: none;
     text-align:center;
+  }
+  #mchildmenu .slides>li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align:center;
+    position:relative;
   }
   #mchildmenu .slides li:before{
     position: absolute;
@@ -292,7 +299,7 @@
       directionNav: false, 
       controlNav: false,
       animationDuration: 300,
-      directionNav: true, 
+      //directionNav: true, 
     });
 {% endblock %}
 
@@ -345,7 +352,7 @@
 	    	活动
 	  	</a>
     </li>
-    <li class="none" style="display:inline-block;">
+    <li style="display:inline-block;">
       <a class="item" href="{{ app_url_wap }}/incubator">
 	    	孵化
 	  	</a>
