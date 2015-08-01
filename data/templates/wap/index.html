@@ -1,7 +1,6 @@
 {%extends 'layout/mobile.html'%}
 {% block title%}太火鸟商城-{% endblock %}
 {% block page_css %}
-<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
 	#mfrbird {
 	    margin: 0em 0 3em !important;
@@ -101,61 +100,45 @@
 	.ui.menu .item{
 	  line-height: 1.6;
 	}
-	
-	.swiper-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-transition-property: -webkit-transform;
-    -moz-transition-property: -moz-transform;
-    -o-transition-property: -o-transform;
-    -ms-transition-property: -ms-transform;
-    transition-property: transform;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-  }
-  .swiper-slide {
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-flex-shrink: 0;
-    -ms-flex: 0 0 auto;
-    flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  .swiper-slide img {
-    width: auto;
-    height: auto;
-    width: 100%;
-    height: 100%;
-    -ms-transform: translate(-50%, -50%);
-    -webkit-transform: translate(-100%, -100%);
-    -moz-transform: translate(-50%, -50%);
-    transform: translate(-100%, -100%);
-    position: absolute;
-    left: 0%;
-    top: 0%;
-  }
 </style>
 {% endblock %}
-{% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
-{% endblock %}
+
 {% block jquery %}
+	var s=e('#frslide').width();
+	e("#frslide > .ui.slide > .item").width(s);
+	
+	var $frame = $('#frslide');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'pages',
+		activatePageOn: 'click',
+		pageBuilder: function (index) {
+			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
+		},
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+	
+	$(window).resize(function() {
+		var s=$('#frslide').width();
+		e("#frslide > .ui.slide > .item").width(s);
+		
+		$frame.sly('reload');
+	});
 	
 	var s=e('#mchildmenu').width();
 	e("#mchildmenu > .ui.slide > .meslide").width(s);
@@ -218,31 +201,12 @@
     alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
   {%endif%}
 	
-	window.onload = function() {
-		var mySwiper2 = new Swiper('#frslide',{
-		  freeMode : true,
-		  pagination: '.swiper-pagination',
-		  slidesPerView : 'auto',
-	  });
-	}
 {% endblock %}
 
 {% block content %}
 {% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
 <div id="frslide" class="frame">
-  <div class="swiper-wrapper">
-    {% for ad in ad.rows %}
-      <div class="swiper-slide" >
-        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
-  	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
-  			</a>
-  		</div>
-  	{% endfor %}	
-  	
-  	<div class="swiper-pagination"></div>
-  </div>
-  
-	<!--><div class="ui slide">
+	<div class="ui slide">
 		{% for ad in ad.rows %}
 		<div class="item">
 			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
@@ -251,7 +215,7 @@
 		</div>
 		{% endfor %}
 	</div>
-	<div class="pages"></div>-->
+	<div class="pages"></div>
 </div>
 
 <div id="mchildmenu" class="frame">
