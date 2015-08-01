@@ -101,7 +101,7 @@
 	  line-height: 1.6;
 	}
 	#slider{
-	  height:auto;
+	  height:210px;
 	}
 	.flexslider {
     margin: 0;
@@ -127,7 +127,7 @@
     visibility: hidden;
   }
   .flexslider .slides {
-    height: auto;
+    height: 210px;
     zoom: 1;
   }
   .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
@@ -139,12 +139,12 @@
     background-position: 50% 50%;
     background-size: cover;
     display: none;
-    height: auto;
+    height: 210px;
     -webkit-backface-visibility: hidden;
   }
   .flexslider.flex-single .slides>li>a {
     display: block;
-    height: auto;
+    height: 210px;
   }
   .flexslider .slides>li img {
     width: 100%;
@@ -295,9 +295,9 @@
 <div id="slider" class="flexslider flex-single">
   <ul class="slides">
     {% for ad in ad.rows %}
-      <li>
+      <li style="background-image: url('{{ ad.cover.fileurl }}');">
         <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
-            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"/>
+            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
         </a>
       </li>
     {% endfor %}
