@@ -151,6 +151,33 @@
     display: block;
     height: auto;
   }
+  .flex-direction-nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .flex-control-nav{
+    bottom: 1em;
+    margin: 0 auto;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+  }
+  .flex-control-nav li a{
+    background-color: rgba(255,255,255,.35);
+    border-radius: 2em;
+    display: inline-block;
+    height: .65em;
+    margin-right: .65em;
+    text-indent: -999em;
+    width: .65em;
+  }
+  .flex-control-nav li a.flex-active,.flex-control-nav li a:hover{
+    background-color: rgba(255,255,255,.75);
+  }
+  .flex-direction-nav{
+    display:none;
+  }
 </style>
 {% endblock %}
 
