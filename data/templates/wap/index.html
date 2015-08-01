@@ -201,12 +201,31 @@
     alert('您的默认密码为当前手机号后6位,为了您的账户安全,请尽快去个人中心修改密码!');
   {%endif%}
 	
+	window.onload = function() {
+		var mySwiper2 = new Swiper('#frslide',{
+		  freeMode : true,
+		  pagination: '.swiper-pagination',
+		  slidesPerView : 'auto',
+	  });
+	}
 {% endblock %}
 
 {% block content %}
 {% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
 <div id="frslide" class="frame">
-	<div class="ui slide">
+  <div class="swiper-wrapper">
+    {% for ad in ad.rows %}
+      <div class="swiper-slide" >
+        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
+  	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
+  			</a>
+  		</div>
+  	{% endfor %}	
+  	
+  	<div class="swiper-pagination"></div>
+  </div>
+  
+	<!--><div class="ui slide">
 		{% for ad in ad.rows %}
 		<div class="item">
 			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
@@ -215,7 +234,7 @@
 		</div>
 		{% endfor %}
 	</div>
-	<div class="pages"></div>
+	<div class="pages"></div>-->
 </div>
 
 <div id="mchildmenu" class="frame">
