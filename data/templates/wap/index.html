@@ -102,6 +102,7 @@
 	}
 	#slider{
 	  height:210px;
+	  margin-bottom: 0.5rem;
 	}
 	#slider.flexslider {
     margin: 0;
@@ -181,7 +182,7 @@
   
   
   #mchildmenu{
-	  height:73px;
+	  height:auto;
 	}
 	#mchildmenu.flexslider {
     margin: 0;
@@ -207,7 +208,7 @@
     visibility: hidden;
   }
   #mchildmenu.flexslider .slides {
-    height: 73px;
+    height: auto;
     zoom: 1;
   }
   #mchildmenu .flex-control-nav,#mchildmenu .flex-direction-nav,#mchildmenu .slides, .slides>li {
@@ -215,6 +216,33 @@
     padding: 0;
     list-style: none;
     text-align:center;
+  }
+  #mchildmenu .slides li:before{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.05)),color-stop(50%,rgba(0,0,0,.1)),to(rgba(0,0,0,.05)));
+    background-image: -webkit-linear-gradient(rgba(0,0,0,.05) 0,rgba(0,0,0,.1) 50%,rgba(0,0,0,.05) 100%);
+    background-image: linear-gradient(rgba(0,0,0,.05) 0,rgba(0,0,0,.1) 50%,rgba(0,0,0,.05) 100%);
+  }
+  #mchildmenu .slides li.none:before{
+    content: none;
+  }
+  #mchildmenu .slides li .item{
+    position: relative;
+    display: inline-block;
+    padding: .83em 0;
+    border-top: 0 solid rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 100%;
   }
 </style>
 {% endblock %}
@@ -263,6 +291,8 @@
       //maxItems: 5,
       directionNav: false, 
       controlNav: false,
+      animationDuration: 300,
+      directionNav: true, 
     });
 {% endblock %}
 
@@ -295,7 +325,7 @@
 
 <div id="mchildmenu" class="flexslider flex-single">
   <ul class="slides">
-    <li style="display:inline-block;">
+    <li class="none" style="display:inline-block;">
       <a class="item" href="{{ app_url_wap }}/shop">
 	    	全部商品
 	  	</a>
@@ -315,7 +345,7 @@
 	    	活动
 	  	</a>
     </li>
-    <li style="display:inline-block;">
+    <li class="none" style="display:inline-block;">
       <a class="item" href="{{ app_url_wap }}/incubator">
 	    	孵化
 	  	</a>
