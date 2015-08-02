@@ -147,7 +147,7 @@
     
                 {% if list.total_page > 1 %}
                 <div class="auto loading">
-                    <div class="ui gray more inverted button" data-page="{{ list.next_page }}">
+                    <div class="ui grey more inverted button" data-page="{{ list.next_page }}">
                         <i class="chevron circle down icon"></i> 查看下一页
                     </div>
                 </div>
@@ -161,6 +161,7 @@
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/hotpeople.html" %}
         {% include "page/topic/adwrap.html" %}
+        {% include "page/topic/stick_list.html" %}
     </div>
 </div>
 {% endblock %}

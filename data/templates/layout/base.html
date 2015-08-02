@@ -22,10 +22,11 @@
         <!--[if lt IE 9]>
           <link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.css" type="text/css" />
         <![endif]-->
-            <link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.0731.min.css" type="text/css" />
 		{% if css_use_bundle %}
+            <link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
+            <link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
         
@@ -122,7 +123,7 @@
         <!-- mustache templates end -->
 
 
-    <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>

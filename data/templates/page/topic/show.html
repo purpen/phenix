@@ -467,7 +467,7 @@
 					<div class="content">
 						{{ topic.title }}
 						<div class="sub header attribute">
-							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
+							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
 							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
 							<span class="count">浏览数: {{ topic.view_count }}</span>
 						</div>
@@ -594,7 +594,7 @@
 				<div class="idea tags">
 					{% for tag in topic.tags %}
 					{% if tag %}
-					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
+					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
 						# {{ tag }}
 					</a>
 					{% endif %}
